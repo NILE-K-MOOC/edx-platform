@@ -498,7 +498,21 @@ urlpatterns += (
         'instructor.views.instructor_dashboard.instructor_dashboard_2',
         name='instructor_dashboard',
     ),
+    url(
+        r'^courses/{}/instructor/copykiller$'.format(
+            settings.COURSE_ID_PATTERN
+        ),
+        'instructor.views.instructor_dashboard.copykiller',
+        name="copykiller",
+    ),
 
+    url(
+        r'^courses/{}/instructor/copykiller_csv'.format(
+            settings.COURSE_ID_PATTERN
+        ),
+        'instructor.views.instructor_dashboard.copykiller_csv',
+        name="copykiller_csv"
+    ),
 
     url(
         r'^courses/{}/set_course_mode_price$'.format(

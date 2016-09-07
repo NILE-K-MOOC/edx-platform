@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Instructor Dashboard Views
 """
@@ -8,6 +9,7 @@ from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 import uuid
 import pytz
+import sys
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -44,12 +46,19 @@ from certificates.models import (
     CertificateStatuses,
     CertificateGenerationHistory,
 )
-from certificates import api as certs_api
 from util.date_utils import get_default_time_display
 
 from class_dashboard.dashboard_data import get_section_display_name, get_array_section_has_problem
 from .tools import get_units_with_due_date, title_or_url, bulk_email_is_enabled_for_course
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
+
+from pymongo import MongoClient
+import MySQLdb as mdb
+from certificates import api as certs_api
+from django.http import HttpResponse
+import csv
+import json as simplejson
+
 
 log = logging.getLogger(__name__)
 
@@ -193,7 +202,11 @@ def instructor_dashboard_2(request, course_id):
         'certificate_white_list': certificate_white_list,
         'generate_certificate_exceptions_url': generate_certificate_exceptions_url,
         'generate_bulk_certificate_exceptions_url': generate_bulk_certificate_exceptions_url,
-        'certificate_exception_view_url': certificate_exception_view_url
+        'certificate_exception_view_url': certificate_exception_view_url,
+        'is_assessment': check_assessment(course.wiki_slug),
+        'is_assessment_ing' : check_assessment_ing(course_key.course),
+        'is_assessment_done' : check_assessment_done(course_key.course)
+
     }
     if settings.FEATURES['ENABLE_INSTRUCTOR_LEGACY_DASHBOARD']:
         context['old_dashboard_url'] = reverse('instructor_dashboard_legacy', kwargs={'course_id': unicode(course_key)})
@@ -655,3 +668,274 @@ def _section_metrics(course, access):
         'post_metrics_data_csv_url': reverse('post_metrics_data_csv'),
     }
     return section_data
+
+def check_assessment(active_versions_key):
+    client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+    db = client.edxapp
+
+    cursor = db.modulestore.active_versions.find({'search_targets.wiki_slug':active_versions_key})
+    for document in cursor:
+        assessmentId = document.get('versions').get('published-branch')
+    cursor.close()
+
+    cursor = db.modulestore.structures.find({'_id':assessmentId})
+    for document in cursor:
+        blocks = document.get('blocks')
+    cursor.close()
+    client.close()
+    is_assessment = False
+    for block in blocks:
+        if block.get('block_type') == 'openassessment':
+            is_assessment = True
+
+    return is_assessment
+
+
+def check_assessment_ing(course_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    cur = con.cursor()
+    query = "select class_id from vw_copykiller where class_id = '"+course_id+"'"
+    cur.execute(query)
+    cur_rowcount = cur.rowcount
+    cur.close()
+    con.close()
+    if cur_rowcount > 0:
+        return True
+    else:
+        return False
+
+
+def check_assessment_done(course_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    cur = con.cursor()
+
+    query = "select count(uri) from vw_copykiller where class_id ='"+course_id+"'"
+    cur.execute(query)
+    result = cur.fetchone()
+    if result[0] == 0:
+        return False
+
+    query2 = "select "
+    query2 += "    if(count(uri) = ("+query+"), 'True', 'False') complete "
+    query2 += "from tb_copykiller_copyratio "
+    query2 += "where "
+    query2 += "    uri in (select uri from vw_copykiller where class_id ='"+course_id+"') "
+    query2 += "and "
+    query2 += "    complete_status in ('Y','F') and check_type='internet'"
+    # query2 += "    complete_date is not null and check_type='internet'"
+    cur.execute(query2)
+    result = cur.fetchone()
+    cur.close()
+    con.close()
+
+    if result[0] == 'True':
+        return True
+    else:
+        return False
+
+def get_copykiller_result(request, course_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    cur = con.cursor()
+    query = "select "
+    query += "v.student_id, "
+    query += "v.report_id assessment_no, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=0&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='total'),'\")') total, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=1&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='year'),'\")') year, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=2&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='term'),'\")') term, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=3&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='class'),'\")') class, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=4&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='report'),'\")') report, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=100&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='internet'),'\")') internet "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=0&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='total'),'\")') total, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=1&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='year'),'\")') year, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=2&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='term'),'\")') term, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=3&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='class'),'\")') class, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=4&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='report'),'\")') report, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=100&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='internet' and r.complete_status = 'Y'),'\")') internet "
+    query += "from "
+    query += "vw_copykiller v "
+    query += "where "
+    query += "v.uri in (select uri from tb_copykiller_copyratio) "
+    query += "and concat(class_id, '+', term_id) = '"+course_id[course_id.index('+')+1:]+"'"
+    query += "order by assessment_no, student_id "
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    con.close()
+    result_list = list()
+    for row in rows:
+        result_list.append(row[0:])
+    return result_list
+
+def return_course(course_id):
+    try:
+        course_key = CourseKey.from_string(course_id)
+    except InvalidKeyError:
+        log.error(u"Unable to find course with course key %s while loading the Instructor Dashboard.", course_id)
+        return HttpResponseServerError()
+
+    course = get_course_by_id(course_key, depth=0)
+
+    return course
+
+
+def get_assessment_info(course):
+    client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+    db = client.edxapp
+    cursor = db.modulestore.active_versions.find({'search_targets.wiki_slug':course.wiki_slug})
+    for document in cursor:
+        published_branch = document.get('versions').get('published-branch')
+    cursor.close()
+    cursor = db.modulestore.structures.find({'_id':published_branch})
+    for document in cursor:
+        blocks = document.get('blocks')
+        for block in blocks:
+            fields = block.get('fields')
+
+            # print '-------------------------------------------------'
+            # print (block.get('block_type') == 'openassessment')
+            # print fields.has_key('submission_start')
+            # print fields.has_key('submission_due')
+            # print '-------------------------------------------------'
+
+            if (block.get('block_type') == 'openassessment') and fields.has_key('submission_start') and fields.has_key('submission_due'):
+
+                if fields.has_key('display_name'):
+                    display_name = fields['display_name']
+                else:
+                    display_name = 'No Name'
+
+                if fields['submission_start']:
+                    arr_submission_start = fields['submission_start'].split('+')[0].replace('-', '').replace(':', '').replace('T', '')
+                else:
+                    arr_submission_start = ''
+
+                if fields['submission_due']:
+                    arr_submission_due = fields['submission_due'].split('+')[0].replace('-', '').replace(':', '').replace('T', '')
+                else:
+                    arr_submission_due = ''
+
+                accessment_info = {'display_name': display_name, 'submission_start': arr_submission_start, 'submission_due': arr_submission_due}
+
+    cursor.close()
+    client.close()
+
+    return accessment_info
+
+
+def create_temp_answer(course_id):
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    query = "delete from tb_tmp_answer where course_id = '"+course_id+"'"
+    cur = con.cursor()
+    cur.execute(query)
+
+    query1 = "select uuid, raw_answer from submissions_submission "
+    arr_course_id = course_id.split('+')
+    query3 = "delete from vw_copykiller where class_id='"+arr_course_id[1]+"'"
+    with con:
+        cur.execute("set names utf8")
+        cur.execute(query1)
+        for (uuid, raw_answer) in cur:
+            answer = raw_answer.replace('{"parts": [{"text": "', '').replace('"}]}','')
+            answer = answer.decode('unicode_escape')
+            answer = answer.replace("\'", "\\\'")
+            answer = answer.encode('utf-8')
+            answer = answer.decode('utf-8')
+            query2 = "insert into tb_tmp_answer (course_id, uuid, raw_answer) "
+            query2 += "select '"+course_id+"', '"+uuid+"', '"+answer+"' "
+            query2 = str(query2)
+            cur.execute(query2)
+        cur.execute(query3)
+    cur.close()
+    con.close()
+
+def copykiller(request, course_id):
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    course = return_course(course_id)
+    assessment_info = get_assessment_info(course)
+    create_temp_answer(course_id)
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    query = "insert into vw_copykiller"
+    query += "( uri, year_id, year_name, term_id, term_name, class_id, class_name, report_id, report_name,"
+    query += "student_id, student_name, student_number, start_date, end_date, submit_date, title, content ) "
+    query += "select "
+    query += "submission_uuid, "
+    query += "year(curdate()) year_id, concat(year(curdate()), '년') year_name, "
+    query += "'" + str(course.id.run) + "' term_id, '" + str(course.id.run) + "' term_name, "
+    query += "'" + str(course.id.course) + "' class_id, '"+ str(course.display_name) +"' class_name, "
+    query += "item_id report_id, '"+str(assessment_info['display_name'])+"' report_name, "
+    query += "(select user.username from auth_user user where user.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_id, "
+    query += "(select profile.name from auth_userprofile profile where profile.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_name, "
+    query += "(select user.id from auth_user user where user.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_number, "
+    query += "'"+str(assessment_info['submission_start'])+"' start_date, "
+    query += "'"+str(assessment_info['submission_due'])+"' end_date, "
+    query += "completed_at submit_date, "
+    query += "'"+str(assessment_info['display_name'])+"' title, "
+    query += "(select answer.raw_answer from tb_tmp_answer answer where answer.uuid=submission_uuid) content "
+    query += "from "
+    query += "assessment_peerworkflow "
+    query += "where "
+    query += "completed_at is not null and item_id not like '%DEMOk%' and course_id = '"+str(course_id)+"'"
+    query1 = "delete from tb_tmp_answer"
+
+    print 'query =', query
+    print 'query1 = ', query1
+
+    with con:
+        cur = con.cursor()
+        cur.execute("set names utf8")
+        cur.execute(query)
+        cur.execute(query1)
+    cur.close()
+    con.close()
+
+    response_data = {}
+    response_data['result'] = 'success'
+    # return HttpResponse(simplejson.dumps(response_data), mimetype='application/javascript')
+    return HttpResponse(simplejson.dumps(response_data))
+
+
+def get_copykiller_result(request, course_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    cur = con.cursor()
+    query = "select "
+    query += "v.student_id, "
+    query += "v.report_id assessment_no, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=0&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='total'),'\")') total, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=1&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='year'),'\")') year, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=2&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='term'),'\")') term, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=3&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='class'),'\")') class, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=4&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='report'),'\")') report, "
+    #query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=100&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='internet'),'\")') internet "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=0&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='total'),'\")') total, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=1&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='year'),'\")') year, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=2&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='term'),'\")') term, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=3&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='class'),'\")') class, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=4&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='report'),'\")') report, "
+    query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=100&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='internet' and r.complete_status = 'Y'),'\")') internet "
+    query += "from "
+    query += "vw_copykiller v "
+    query += "where "
+    query += "v.uri in (select uri from tb_copykiller_copyratio) "
+    query += "and concat(class_id, '+', term_id) = '"+course_id[course_id.index('+')+1:]+"'"
+    query += "order by assessment_no, student_id "
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    con.close()
+    result_list = list()
+    for row in rows:
+        result_list.append(row[0:])
+    return result_list
+
+def copykiller_csv(request, course_id):
+    result_list = get_copykiller_result(request, course_id)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="'+course_id+'.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['student id', 'assessment no', 'total', 'year', 'term', 'class', 'report', 'internet'])
+    for value in result_list:
+        writer.writerow(value)
+    return response
