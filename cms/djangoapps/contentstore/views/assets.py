@@ -327,6 +327,34 @@ def _upload_asset(request, course_key):
 
     return JsonResponse(response_payload)
 
+def save_cdn(request, course_key):
+    '''
+    kmooc MME
+    메소드 추가
+    '''
+    content = request.REQUEST
+    content.name=request.REQUEST['file_name']
+    content.cdn_url=request.REQUEST['cdn_url']
+    content.content_type=request.REQUEST['file_type']
+    content.thumbnail_location=request.REQUEST['thumbnail_url']
+    content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
+    contentstore().save_cdn(content)
+
+    readback = contentstore().find_cdn(content.location)
+    locked = False;
+    response_payload = {
+        'asset': _get_asset_json(
+            content.name,
+            content.content_type,
+            readback.last_modified_at,
+            content.location,
+            content.thumbnail_location,
+            locked
+        ),
+        'msg': _('Upload completed'),
+        'result': 'success'
+    }
+    return JsonResponse(response_payload)
 
 @require_http_methods(("DELETE", "POST", "PUT"))
 @login_required
