@@ -443,3 +443,19 @@ def _get_asset_json(display_name, content_type, date, location, thumbnail_locati
         # Needed for Backbone delete/update.
         'id': unicode(location)
     }
+
+def _get_cdn_json(display_name, content_type, date, location, thumbnail_location, locked, cdn_url):
+    '''
+    kmooc MME
+    '''
+    return {
+        'display_name': display_name,
+        'content_type': content_type,
+        'date_added': get_default_time_display(date),
+        'url': cdn_url,
+        'external_url': cdn_url,
+        'portable_url': StaticContent.get_static_path_from_location(location),
+        'thumbnail': thumbnail_location,
+        # 'locked': locked,
+        'id': unicode(location)
+    }
