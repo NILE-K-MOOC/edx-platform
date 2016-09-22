@@ -164,14 +164,33 @@ def _assets_json(request, course_key):
                 'thumbnail', thumbnail_location[4])
 
         asset_locked = asset.get('locked', False)
-        asset_json.append(_get_asset_json(
-            asset['displayname'],
-            asset['contentType'],
-            asset['uploadDate'],
-            asset_location,
-            thumbnail_location,
-            asset_locked
-        ))
+        '''
+        kmooc MME로 전면 수정함.
+        '''
+        url_split = request.META.get('HTTP_REFERER').split("/")
+        if url_split[3] == 'cdn':
+            thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
+            thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[
+                                                                                                 thumbnail_location.rfind(
+                                                                                                     '/'):]
+            asset_json.append(_get_cdn_json(
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
+                asset_location,
+                thumbnail_location,
+                asset_locked,
+                asset['cdn_url']
+            ))
+        else:
+            asset_json.append(_get_asset_json(
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
+                asset_location,
+                thumbnail_location,
+                asset_locked
+            ))
 
     return JsonResponse({
         'start': start,
