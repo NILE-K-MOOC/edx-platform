@@ -242,6 +242,12 @@ class MongoContentStore(ContentStore):
             course_key, start=start, maxresults=maxresults, get_thumbnails=False, sort=sort, filter_params=filter_params
         )
 
+
+    def get_all_cdn_content_for_course(self, course_key, start=0, maxresults=-1, sort=None, filter_params=None):
+        return self._get_all_cdn_content_for_course(
+            course_key, start=start, maxresults=maxresults, get_thumbnails=False, sort=sort, filter_params=filter_params
+        )
+
     def remove_redundant_content_for_courses(self):
         """
         Finds and removes all redundant files (Mac OS metadata files with filename ".DS_Store"
