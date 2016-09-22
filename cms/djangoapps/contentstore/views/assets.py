@@ -376,6 +376,9 @@ def _update_asset(request, course_key, asset_key):
     elif request.method in ('PUT', 'POST'):
         if 'file' in request.FILES:
             return _upload_asset(request, course_key)
+        elif 'cdn_url' in request.REQUEST:
+            ''' kmooc MME'''
+            return save_cdn(request, course_key)
         else:
             # Update existing asset
             try:
