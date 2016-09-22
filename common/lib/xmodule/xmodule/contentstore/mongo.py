@@ -170,6 +170,21 @@ class MongoContentStore(ContentStore):
             else:
                 return None
 
+    def find_cdn(self, location, throw_on_not_found=True, as_stream=False):
+        ''' kmooc MME '''
+        content_id, __ = self.asset_db_key(location)
+
+        try:
+            with self.fs.get(content_id) as fp:
+                return StaticContent(
+                    content_id, fp.displayname, fp.content_type, fp.read(), last_modified_at=fp.uploadDate,
+                )
+        except NoFile:
+            if throw_on_not_found:
+                raise NotFoundError(content_id)
+            else:
+                return None
+
     def export(self, location, output_directory):
         content = self.find(location)
 
