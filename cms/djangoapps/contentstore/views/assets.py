@@ -212,10 +212,20 @@ def _get_assets_for_page(request, course_key, options):
     sort = options['sort']
     filter_params = options['filter_params'] if options['filter_params'] else None
     start = current_page * page_size
+    '''
+    kmooc MME
+    메소드 수정함.
+    '''
+    url_split = request.META.get('HTTP_REFERER').split("/")
 
-    return contentstore().get_all_content_for_course(
-        course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
-    )
+    if (url_split[3] == 'cdn'):
+        return contentstore().get_all_cdn_content_for_course(
+            course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
+        )
+    else:
+        return contentstore().get_all_content_for_course(
+            course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
+        )
 
 
 def get_file_size(upload_file):
