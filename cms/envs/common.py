@@ -1141,7 +1141,7 @@ DEPRECATED_BLOCK_TYPES = [
 # those advanced components in Studio. Existing problems will work fine
 # and one can edit them in Studio.
 # DEPRECATED. Please use /admin/xblock_django/xblockdisableconfig instead.
-DEPRECATED_ADVANCED_COMPONENT_TYPES = []
+DEPRECATED_ADVANCED_COMPONENT_TYPES = ["testxblock"]
 
 # XBlocks can be disabled from rendering in LMS Courseware by adding them to
 # /admin/xblock_django/xblockdisableconfig/.
