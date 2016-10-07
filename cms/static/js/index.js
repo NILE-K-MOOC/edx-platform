@@ -52,11 +52,16 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             var number = $newCourseForm.find('.new-course-number').val();
             var run = $newCourseForm.find('.new-course-run').val();
 
+            var classfy = $newCourseForm.find(".new-course-classfy").val();
+
+            console.log(classfy);
+
             var course_info = {
                 org: org,
                 number: number,
                 display_name: display_name,
-                run: run
+                run: run,
+                classfy: classfy
             };
 
             analytics.track('Created a Course', course_info);
@@ -65,6 +70,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 $('#course_creation_error').html('<p>' + errorMessage + '</p>');
                 $('.new-course-save').addClass('is-disabled').attr('aria-disabled', true);
             });
+
         };
 
         var makeCancelHandler = function (addType) {

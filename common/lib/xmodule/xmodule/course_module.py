@@ -259,6 +259,14 @@ class CourseFields(object):
         display_name=_("Course Display Name"),
         scope=Scope.settings
     )
+
+    classfy = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
     course_edit_method = String(
         display_name=_("Course Editor"),
         help=_('Enter the method by which this course is edited ("XML" or "Studio").'),

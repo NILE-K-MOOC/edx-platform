@@ -740,6 +740,10 @@ def _create_or_rerun_course(request):
         if display_name is not None:
             fields['display_name'] = display_name
 
+        ##kmooc
+        classfy = request.json.get('classfy')
+        fields['classfy'] = classfy
+
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
         # # TODO get rid of defining wiki slug in this org/course/run specific way and reconcile
@@ -807,6 +811,8 @@ def create_new_course_in_store(store, user, org, number, run, fields):
         'language': getattr(settings, 'DEFAULT_COURSE_LANGUAGE', 'en'),
         'cert_html_view_enabled': True,
     })
+
+    # raise Exception(str(fields))
 
     with modulestore().default_store(store):
         # Creating the course raises DuplicateCourseError if an existing course with this org/name is found
