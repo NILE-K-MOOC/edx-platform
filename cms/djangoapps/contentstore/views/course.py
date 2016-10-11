@@ -289,6 +289,7 @@ def course_rerun_handler(request, course_key_string):
         html: return html page with form to rerun a course for the given course id
     """
     # Only global staff (PMs) are able to rerun courses during the soft launch
+
     if not GlobalStaff().has_user(request.user):
         raise PermissionDenied()
     course_key = CourseKey.from_string(course_key_string)
