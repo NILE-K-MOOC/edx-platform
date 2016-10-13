@@ -25,7 +25,12 @@ define([
         },
 
         facetName: function (key) {
-            return this.meanings[key] && this.meanings[key].name || key;
+            if(key == 'classfy'){
+                return "전공별";
+            }else {
+                return this.meanings[key] && this.meanings[key].name || key;
+            }
+
         },
 
         termName: function (facetKey, termKey) {
@@ -37,12 +42,31 @@ define([
         renderOptions: function (options) {
             return HtmlUtils.joinHtml.apply(this, _.map(options, function(option) {
                 var data = _.clone(option.attributes);
-                data.name = this.termName(data.facet, data.term);
+
+                // console.log(data.facet, data.term);
+                if(data.facet == 'classfy'){
+                    switch (data.term){
+                        case 'law':
+                            data.name = this.termName(data.facet, "법률");break;
+                        default:
+                            data.name = this.termName(data.facet, data.term);
+                    }
+                }
+                else{
+                    data.name = this.termName(data.facet, data.term);
+                }
                 return this.facetOptionTpl(data);
             }, this));
         },
 
         renderFacet: function (facetKey, options) {
+
+            // console.log('aaaaa', options);
+            // console.log('aaaaa', this.facetName(facetKey), typeof this.facetName(facetKey));
+            // if( this.facetName(facetKey) == "Section"){
+            //
+            //     console.log('aaaaa', options[0].attr("term"));
+            // }
             return this.facetTpl({
                 name: facetKey,
                 displayName: this.facetName(facetKey),
