@@ -22,6 +22,10 @@ from util.json_request import JsonResponse
 import branding.api as branding_api
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
+import sys
+import json
+import MySQLdb as mdb
+
 log = logging.getLogger(__name__)
 
 
@@ -88,6 +92,63 @@ def index(request):
     #  we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
     return student.views.index(request, user=request.user)
+
+
+def index_en(request):
+    print 'index_en called'
+    request.session['_language'] = 'en'
+    return HttpResponse("<script>document.location.href='/';</script>")
+
+
+def index_ko(request):
+    print 'index_ko called'
+    request.session['_language'] = 'ko_kr'
+    return HttpResponse("<script>document.location.href='/';</script>")
+
+
+def notice(request):
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    query = """
+         SELECT title,
+               link,
+               concat(substring(sdate, 1, 4),
+                      '/',
+                      substring(sdate, 5, 2),
+                      '/',
+                      substring(sdate, 7, 2))
+                  sdate,
+               concat(substring(edate, 1, 4),
+                      '/',
+                      substring(edate, 5, 2),
+                      '/',
+                      substring(edate, 7, 2))
+                  edate
+          FROM tb_notice
+         WHERE     useyn = 'Y'
+               AND date_format(now(), '%Y%m%d%H%i') BETWEEN concat(sdate, stime)
+                                                        AND concat(edate, etime)
+        ORDER BY sdate, stime;
+    """
+    print 'notice query', query
+
+    result = []
+    with con:
+        cur = con.cursor();
+        cur.execute("set names utf8")
+        cur.execute(query)
+        rows = cur.fetchall()
+        columns = [desc[0] for desc in cur.description]
+
+        for row in rows:
+            row = dict(zip(columns, row))
+            result.append(row)
+
+    cur.close()
+    con.close()
+
+    return HttpResponse(json.dumps(result))
 
 
 @ensure_csrf_cookie

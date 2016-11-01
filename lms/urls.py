@@ -266,6 +266,7 @@ COURSE_URLS = patterns(
         name='registration_code_details',
     ),
 )
+
 urlpatterns += (
     # jump_to URLs for direct access to a location in the course
     url(
@@ -522,13 +523,54 @@ urlpatterns += (
         name='instructor_dashboard',
     ),
 
+    # add LJH start.
+    url(r'^en$', 'branding.views.index_en', name="root"),   # en index
+    url(r'^ko$', 'branding.views.index_ko', name="root"),   # ko index
+    url(r'^notice/?$', 'branding.views.notice', name="notice"),
+
+    url(r'^redirectTo/(?P<redirectTo>.*?)$', 'student_account.views.redirectTo', name="redirectTo"),
+    url(r'^registration_gubn$', 'student_account.views.registration_gubn', name="registration_gubn"),
+    url(r'^agree$', 'student_account.views.agree', name="agree"),
+    url(r'^agree_done$', 'student_account.views.agree_done', name="agree_done"),
+    url(r'^parent_agree$', 'student_account.views.parent_agree', name="parent_agree"),
+    url(r'^parent_agree_done$', 'student_account.views.parent_agree_done', name="parent_agree_done"),
+
     url(r'^courses/{}/instructor/copykiller$'.format(settings.COURSE_ID_PATTERN),
             'instructor.views.instructor_dashboard.copykiller', name="copykiller"),
 
     url(r'^courses/{}/instructor/copykiller_csv'.format(settings.COURSE_ID_PATTERN),
         'instructor.views.instructor_dashboard.copykiller_csv', name="copykiller_csv"),
 
+    url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
 
+    url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
+    url(r'^cert_check/?$', 'courseware.views.views.cert_check', name="cert_check"),
+    url(r'^cert_check_id/?$', 'courseware.views.views.cert_check_id', name="cert_check_id"),
+
+    # url(r'^school/haewoondaex?$', 'courseware.views.haewoondaex', name="school"),
+    url(r'^school/(?P<univ_id>.*?)$', 'courseware.views.views.haewoondaex', name="school"),
+
+    # add custom pages
+    url(r'^ckplus/?$', 'courseware.views.views.ckplus', name="ckplus"),
+
+    # faqs
+    url(r'^faqs/?$', 'courseware.views.views.faqs', name="faqs"),
+
+    # agreement
+    url(r'^agreement/?$', 'courseware.views.views.agreement', name="agreement"),
+
+    # Privacy Policy
+    url(r'^Privacy-Policy/?$', 'courseware.views.views.privacy', name="privacy"),
+    url(r'^Privacy-Policy_old1/?$', 'courseware.views.views.privacy_old1', name="privacy_old1"),
+
+    # Copyright-Policy
+    url(r'^Copyright-Policy/?$', 'courseware.views.views.copyright', name="copyright"),
+
+    # browser info
+    url(r'^otherbrowser/?$', 'courseware.views.views.otherbrowser', name="copyright"),
+
+
+    # add LJH end.
 
     url(
         r'^courses/{}/set_course_mode_price$'.format(

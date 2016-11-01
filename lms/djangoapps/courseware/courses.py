@@ -390,6 +390,114 @@ def get_courses(user, org=None, filter_=None):
     return courses
 
 
+def get_courses_by_org(user, org_id, domain=None):
+    '''
+    Returns a list of courses available, sorted by course.number
+    '''
+    courses = branding.get_visible_courses_by_org(org_id)
+
+    courses1 = list()
+    courses2 = list()
+
+    for c in courses:
+        # print 'course.keys1:', c.__dict__.keys()
+        # print 'c.has_ended()', c.has_ended()
+        # print 'c.number', c.number
+        # print 'c.start', c.start
+        # print 'c.id', c.id
+
+
+        if c.start is not None and c.end is not None and c.start > c.end:
+            continue
+
+        if str(c.id).find('2015') > 0:
+            continue
+
+        # if c.enrollment_end is not None and c.has_ended() and c.enrollment_end < datetime.now(UTC()):
+        #     continue
+
+        if not c.has_ended():
+            courses1.append(c)
+        else:
+            courses2.append(c)
+
+    # courses1 = sorted(courses1, key=lambda course: course.number)
+    # courses2 = sorted(courses2, key=lambda course: course.number)
+    courses1 = sorted(courses1, key=lambda course: course.start, reverse=True)
+    courses2 = sorted(courses2, key=lambda course: course.start, reverse=True)
+
+    courses = courses1 + courses2
+
+    permission_name = configuration_helpers.get_value(
+        'COURSE_CATALOG_VISIBILITY_PERMISSION',
+        settings.COURSE_CATALOG_VISIBILITY_PERMISSION
+    )
+
+    courses = [c for c in courses if has_access(user, permission_name, c)]
+
+    # courses = sorted(courses, key=lambda course: course.number)
+
+    return courses
+
+def get_courses_by_kocw(user, domain=None):
+    '''
+    Returns a list of courses available, sorted by course.number
+    '''
+    courses_temp = branding.get_visible_courses()
+    courses = list()
+    courses1 = list()
+    courses2 = list()
+    # for c in courses_temp:
+    #     print 'wiki_slug ##############################', c.wiki_slug
+    #     if c.enrollment_start is not None and datetime.now(UTC()) >= c.enrollment_start and c.wiki_slug is not None and 'KOCW' in c.wiki_slug:
+    #         courses.append(c)
+
+    for c in courses_temp:
+        # print 'id ##############################', c.id, type(c.id)
+
+        if c.start is not None and c.end is not None and c.start > c.end:
+            continue
+
+        if str(c.id).find('2015') > 0:
+            continue
+
+        # if c.enrollment_end is not None and c.has_ended() and c.enrollment_end < datetime.now(UTC()):
+        #     continue
+
+        if c.enrollment_start is not None and datetime.now(UTC()) >= c.enrollment_start and c.id is not None and 'KOCW' in str(c.id):
+            courses.append(c)
+
+    for c in courses:
+        # print 'course.keys1:', c.__dict__.keys()
+        # print 'c.has_ended()', c.has_ended()
+        # print 'c.number', c.number
+        # print 'c.start', c.start
+
+        if not c.has_ended():
+            courses1.append(c)
+        else:
+            courses2.append(c)
+
+    # courses1 = sorted(courses1, key=lambda course: course.number)
+    # courses2 = sorted(courses2, key=lambda course: course.number)
+
+    courses1 = sorted(courses1, key=lambda course: course.start, reverse=True)
+    courses2 = sorted(courses2, key=lambda course: course.start, reverse=True)
+
+    courses = courses1 + courses2
+
+    permission_name = configuration_helpers.get_value(
+        'COURSE_CATALOG_VISIBILITY_PERMISSION',
+        settings.COURSE_CATALOG_VISIBILITY_PERMISSION
+    )
+
+    courses = [c for c in courses if has_access(user, permission_name, c)]
+
+    # courses = sorted(courses, key=lambda course: course.number)
+
+    return courses
+
+
 def get_permission_for_course_about():
     """
     Returns the CourseOverview object for the course after checking for access.

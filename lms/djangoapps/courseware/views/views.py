@@ -59,7 +59,9 @@ from courseware.courses import (
     get_course_with_access,
     sort_by_announcement,
     sort_by_start_date,
-    UserNotEnrolled
+    UserNotEnrolled,
+    get_courses_by_org,
+    get_courses_by_kocw,
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache, ScoresClient
@@ -94,6 +96,9 @@ from xmodule.x_module import STUDENT_VIEW
 from lms.djangoapps.ccx.custom_exception import CCXLocatorValidationException
 from ..entrance_exams import user_must_complete_entrance_exam
 from ..module_render import get_module_for_descriptor, get_module, get_module_by_usage_id
+import MySQLdb as mdb
+import sys
+import json
 
 
 log = logging.getLogger("edx.courseware")
@@ -150,6 +155,88 @@ def courses(request):
         "courseware/courses.html",
         {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
     )
+
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def haewoondaex(request, univ_id):
+
+    # print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> univ_id:',univ_id
+    if 'KOCWk' == univ_id:
+        courses_list = get_courses_by_kocw(request.user, request.META.get('HTTP_HOST'))
+    else:
+        courses_list = get_courses_by_org(request.user, univ_id, request.META.get('HTTP_HOST'))
+
+    course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
+
+    return render_to_response(
+        "courseware/univ_intro_"+univ_id+".html",
+        {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def openapi(request):
+    return render_to_response("openapi.html")
+
+"""
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def openapi2(request):
+    return render_to_response("openapi2.html")
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def openapi3(request):
+    return render_to_response("openapi3.html")
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def openapi4(request):
+    return render_to_response("openapi4.html")
+"""
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def cert_check(request):
+    return render_to_response("cert_check.html")
+
+def cert_check_id(request):
+    uuid = request.POST['uuid']
+
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    query = """
+         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '"""+uuid+"""';
+    """
+    print 'cert_check uuid, query', uuid, query
+
+    result = []
+    with con:
+        cur = con.cursor();
+        cur.execute("set names utf8")
+        cur.execute(query)
+        rows = cur.fetchall()
+        columns = [desc[0] for desc in cur.description]
+
+        for row in rows:
+            row = dict(zip(columns, row))
+            result.append(row)
+
+    cur.close()
+    con.close()
+
+    return HttpResponse(json.dumps(result))
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def schools(request):
+    return render_to_response("courseware/schools.html")
+
+
 
 
 def get_current_child(xmodule, min_depth=None, requested_child=None):
@@ -1412,3 +1499,59 @@ def financial_assistance_form(request):
             }
         ],
     })
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def faqs(request):
+    return render_to_response(
+        "courseware/faqs.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def agreement(request):
+    return render_to_response(
+        "courseware/agreement.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy(request):
+    return render_to_response(
+        "courseware/privacy.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old1(request):
+    return render_to_response(
+        "courseware/privacy_old1.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def copyright(request):
+    return render_to_response(
+        "courseware/copyright.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def otherbrowser(request):
+    return render_to_response(
+        "otherBrowser.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def ckplus(request):
+    return render_to_response(
+        "courseware/ckplus.html"
+    )
