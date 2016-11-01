@@ -111,8 +111,7 @@ def notice(request):
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
     query = """
-         SELECT title,
-               link,
+         SELECT title, link,
                concat(substring(sdate, 1, 4),
                       '/',
                       substring(sdate, 5, 2),
