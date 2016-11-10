@@ -537,27 +537,6 @@ def get_user_orders(user):
 
 @login_required
 @require_http_methods(['GET'])
-def account_settings(request):
-    """Render the current user's account settings page.
-
-    Args:
-        request (HttpRequest)
-
-    Returns:
-        HttpResponse: 200 if the page was sent successfully
-        HttpResponse: 302 if not logged in (redirect to login page)
-        HttpResponse: 405 if using an unsupported HTTP method
-
-    Example usage:
-
-        GET /account/settings
-
-    """
-    return render_to_response('student_account/account_settings.html', account_settings_context(request))
-
-
-@login_required
-@require_http_methods(['GET'])
 def finish_auth(request):  # pylint: disable=unused-argument
     """ Following logistration (1st or 3rd party), handle any special query string params.
 
@@ -668,3 +647,101 @@ def account_settings_context(request):
         } for state in auth_states]
 
     return context
+
+
+@login_required
+@require_http_methods(['GET'])
+def account_settings_confirm(request):
+    """Render the current user's account settings page.
+
+    Args:
+        request (HttpRequest)
+
+    Returns:
+        HttpResponse: 200 if the page was sent successfully
+        HttpResponse: 302 if not logged in (redirect to login page)
+        HttpResponse: 405 if using an unsupported HTTP method
+
+    Example usage:
+
+        GET /account/settings
+
+    """
+
+    context = {
+        'correct' : None
+    }
+
+    return render_to_response('student_account/account_settings_confirm.html', context)
+
+
+@login_required
+@require_http_methods(['POST'])
+def account_settings_confirm_check(request):
+    """Render the current user's account settings page.
+
+    Args:
+        request (HttpRequest)
+
+    Returns:
+        HttpResponse: 200 if the page was sent successfully
+        HttpResponse: 302 if not logged in (redirect to login page)
+        HttpResponse: 405 if using an unsupported HTTP method
+
+    Example usage:
+
+        GET /account/settings
+
+    """
+    print '********************'
+    print request.user.is_authenticated()
+    print '********************'
+    print request.user
+    print '********************'
+
+    user = authenticate(username=request.user, password=request.POST['passwd'], request=request)
+
+    if user is None:
+        request.session['passwdcheck'] = 'N'
+        return JsonResponse({
+            "success": False,
+        })
+    else:
+        request.session['passwdcheck'] = 'Y'
+        return JsonResponse({
+            "success": True,
+        })
+
+
+@login_required
+@require_http_methods(['GET'])
+def account_settings(request):
+
+    """Render the current user's account settings page.
+
+    Args:
+        request (HttpRequest)
+
+    Returns:
+        HttpResponse: 200 if the page was sent successfully
+        HttpResponse: 302 if not logged in (redirect to login page)
+        HttpResponse: 405 if using an unsupported HTTP method
+
+    Example usage:
+
+        GET /account/settings
+
+    """
+
+    if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
+        return render_to_response('student_account/account_settings.html', account_settings_context(request))
+    elif 'passwdcheck' in request.session and request.session['passwdcheck'] == 'N':
+        context = {
+            'correct' : False
+        }
+        return render_to_response('student_account/account_settings_confirm.html', context)
+    else:
+        context = {
+            'correct' : None
+        }
+        return render_to_response('student_account/account_settings_confirm.html', context)
