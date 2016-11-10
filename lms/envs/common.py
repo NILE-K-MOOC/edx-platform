@@ -347,7 +347,7 @@ FEATURES = {
     'ENABLE_LTI_PROVIDER': False,
 
     # Show Language selector.
-    'SHOW_LANGUAGE_SELECTOR': False,
+    'SHOW_LANGUAGE_SELECTOR': True,
 
     # Write new CSM history to the extended table.
     # This will eventually default to True and may be

@@ -196,7 +196,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
-
     # Insert additional context for use in the template
     context.update(extra_context)
 

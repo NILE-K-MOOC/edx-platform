@@ -59,10 +59,12 @@ def index(request):
         # courses in his/her dashboard. Otherwise UX is a bit cryptic.
         # In this case, we want to have the user stay on a course catalog
         # page to make it easier to browse for courses (and register)
+
         if configuration_helpers.get_value(
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
-            return redirect(reverse('dashboard'))
+            pass
+            # return redirect(reverse('dashboard'))
 
     if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
         from external_auth.views import ssl_login
