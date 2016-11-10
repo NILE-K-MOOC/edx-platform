@@ -34,6 +34,7 @@ define([
 
             var options = this.facetOptions;
             _(facets).each(function (obj, key) {
+                if(key == 'org'){}
                 _(obj.terms).each(function (count, term) {
                     options.add({
                         facet: key,

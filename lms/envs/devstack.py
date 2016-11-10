@@ -188,10 +188,12 @@ COURSE_DISCOVERY_MEANINGS = {
     }
 }
 
-COURSE_DISCOVERY_FILTERS = FEATURES["COURSE_DISCOVERY_FILTERS"]
+# COURSE_DISCOVERY_FILTERS = FEATURES["COURSE_DISCOVERY_FILTERS"]
 
 FEATURES['ENABLE_COURSE_DISCOVERY'] = True
-FEATURES['COURSE_DISCOVERY_FILTERS'] = ["org", "language", "modes", 'classfy']
+# FEATURES['COURSE_DISCOVERY_FILTERS'] = ["org", "language", "modes", 'classfy', 'start','end','range']
+COURSE_DISCOVERY_FILTERS = FEATURES['COURSE_DISCOVERY_FILTERS']
+
 # Setting for overriding default filtering facets for Course discovery
 # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
 FEATURES['COURSES_ARE_BROWSEABLE'] = True

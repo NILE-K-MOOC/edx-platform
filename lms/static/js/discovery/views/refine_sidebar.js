@@ -67,6 +67,9 @@ define([
             //
             //     console.log('aaaaa', options[0].attr("term"));
             // }
+            if(facetKey == 'org'){
+
+            }
             return this.facetTpl({
                 name: facetKey,
                 displayName: this.facetName(facetKey),

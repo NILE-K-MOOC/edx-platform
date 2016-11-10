@@ -54,7 +54,6 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
 
             var classfy = $newCourseForm.find(".new-course-classfy").val();
 
-            console.log(classfy);
 
             var course_info = {
                 org: org,

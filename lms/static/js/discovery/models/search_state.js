@@ -57,7 +57,23 @@ define([
                 type: 'POST',
                 data: data
             });
+
             return this.jqhxr;
+        },
+
+        getTermParameter: function (sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
         },
 
         buildQuery: function (pageIndex) {
@@ -66,9 +82,31 @@ define([
                 page_size: this.pageSize,
                 page_index: pageIndex
             };
+
             _.extend(data, this.terms);
+
+            /* classfy 검사 */
+            var get_term = this.getTermParameter('term');
+            if(get_term){
+                _.extend(data, {"classfy": get_term});
+            }
+
+            /**
+             * 강의 종류 검색
+             * range=e : 종료된 강의
+             * range=i : 진행중 강의
+             * range=t : 진행예정 강의
+             */
+            var range = this.getTermParameter('range');
+            if(range){
+
+                _.extend(data, {'range': range});
+            }
+
             return data;
         },
+
+
 
         reset: function () {
             this.discovery.reset();
