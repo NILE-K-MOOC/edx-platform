@@ -1,0 +1,39 @@
+<%def name="online_help_token()"><% return "course" %></%def>
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+%>
+<%page args="course" expression_filter="h"/>
+<article class="course ${course.status}" id="${course.id}" role="region" aria-label="${course.display_name_with_default}">
+    <a href="">
+        <header class="course-image">
+            <div class="cover-image">
+                <span class="univ-logo"><img src="/static/images/univ/logo02_CBNUk.png" alt=""></span>
+                <img src="${course.course_image_url}" alt="${course.display_name_with_default} ${course.display_number_with_default}">
+                <div class="learn-more" aria-hidden="true">${_("LEARN MORE")}</div>
+            </div>
+        </header>
+        <div class="course-info" aria-hidden="true">
+            <h2 class="course-name">
+                <span class="course-status over">${_(course.status)}</span>
+                <span class="course-title">${course.display_name}</span>
+                <span class="course-summary">${course.short_description}</span>
+            </h2>
+            <div class="course-date" aria-hidden="true"><strong><span>${_("study_date")}</span> :</strong> <time>2016년 00월 00일 / 60일</time></div>
+            <div class="course-date" aria-hidden="true"><strong><span>${_("univ_name")}</span> :</strong> <time>${course.display_org_with_default}</time></div>
+            <!-- <span class="course-status-txt">종료강좌</span> -->
+        </div>
+        <div class="sr">
+            <ul>
+                <li>${course.display_org_with_default}</li>
+                <li>${course.display_number_with_default}</li>
+                <li>${_("Starts")}: <time itemprop="startDate" datetime="${course.start_datetime_text()}">${course.start_datetime_text()}</time></li>
+            </ul>
+        </div>
+    </a>
+</article>
+
+
+
+

@@ -160,18 +160,19 @@ def courses(request):
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
-def haewoondaex(request, univ_id):
+def haewoondaex(request, org):
 
-    # print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> univ_id:',univ_id
-    if 'KOCWk' == univ_id:
+    print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> org:', org
+
+    if 'KOCWk' == org:
         courses_list = get_courses_by_kocw(request.user, request.META.get('HTTP_HOST'))
     else:
-        courses_list = get_courses_by_org(request.user, univ_id, request.META.get('HTTP_HOST'))
+        courses_list = get_courses_by_org(request.user, org, request.META.get('HTTP_HOST'))
 
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
     return render_to_response(
-        "courseware/univ_intro_"+univ_id+".html",
+        "courseware/univ_intro_"+org+".html",
         {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
     )
 
@@ -201,7 +202,7 @@ def openapi4(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def cert_check(request):
-    return render_to_response("cert_check.html")
+    return render_to_response("courseware/cert_check.html")
 
 def cert_check_id(request):
     uuid = request.POST['uuid']

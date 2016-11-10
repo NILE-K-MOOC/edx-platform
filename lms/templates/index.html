@@ -10,48 +10,411 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
-      <header>
-        <div class="outer-wrapper">
-          <div class="title">
-            <div class="heading-group">
-              % if homepage_overlay_html:
-                ${homepage_overlay_html | n, decode.utf8}
-              % else:
-                  ## Translators: 'Open edX' is a registered trademark, please keep this untranslated. See http://open.edx.org for more information.
-                  <h1>${Text(_(u"Welcome to the Open edX{registered_trademark} platform!")).format(registered_trademark=HTML("<sup style='font-size: 65%'>&reg;</sup>"))}</h1>
-                  ## Translators: 'Open edX' is a registered trademark, please keep this untranslated. See http://open.edx.org for more information.
-                  <p>${_("It works! This is the default homepage for this Open edX instance.")}</p>
-              % endif
+        <!-- [s] main top -->
+        <header>
+            <div class="outer-wrapper">
+                <div class="title">
+                    <div class="heading-group">
+                        <h1><img src="/static/images/main/main_slogan.png" alt=""></h1>
+                    </div>
+                </div>
             </div>
-            % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
-              <div class="course-search">
-                <form method="get" action="/courses">
-                  <label><span class="sr">${_("Search for a course")}</span>
-                    <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
-                  </label>
-                  <button class="search-button" type="submit">
-                    <span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>
-                  </button>
-                </form>
-              </div>
-            % endif
+        </header>
+        <!-- [e] main top -->
 
-          </div>
+        <!-- [s] university list -->
+        <section class="university-container" id="main-contents01">
+            <section class="university-list-contents">
+                <ul class="university-listing">
+                    <li class="university-listing-item"><a href=""><img src="/static/images/main/univ_kh.gif" alt="경희대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/main/univ_kr.gif" alt="고려대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/main/univ_ps.gif" alt="부산대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/main/univ_seoul.gif" alt="서울대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/main/univ_sk.gif" alt="성균관대학교"></a></li>
+                    <li class="university-listing-item" data-hidden="m"><a href=""><img src="/static/images/main/univ_kh.gif" alt="경희대학교"></a></li>
+                    <li class="university-listing-item" data-hidden="true"><a href=""><img src="/static/images/main/univ_kr.gif" alt="고려대학교"></a></li>
+                    <li class="university-listing-item" data-hidden="true"><a href=""><img src="/static/images/main/univ_ps.gif" alt="부산대학교"></a></li>
+                    <li class="university-listing-item" data-hidden="true"><a href=""><img src="/static/images/main/univ_seoul.gif" alt="서울대학교"></a></li>
+                    <li class="university-listing-item" data-hidden="true"><a href=""><img src="/static/images/main/univ_sk.gif" alt="성균관대학교"></a></li>
+                </ul>
+                <a href="#" class="univ-more">전체보기</a>
+            </section>
+        </section>
+        <!-- [e] university list -->
 
-          % if show_homepage_promo_video:
-            <a href="#video-modal" class="media" rel="leanModal">
-              <div class="hero">
-                <div class="play-intro"></div>
-              </div>
-            </a>
-          % endif
-        </div>
+        <!-- [s] major course list -->
+        <section class="major-course-container" id="main-contents02">
+            <h2 class="main-title">전공별 강좌보기</h2>
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_01.png" alt="인문">
+                                <p>인문</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_02.png" alt="사회">
+                                <p>사회</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_03.png" alt="교육">
+                                <p>교육</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_04.png" alt="공학">
+                                <p>공학</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_05.png" alt="자연">
+                                <p>자연</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_06.png" alt="의약">
+                                <p>의약</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_07.png" alt="예체능">
+                                <p>예체능</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                        <div class="major-course-item">
+                            <a href="">
+                                <img src="/static/images/main/course_08.png" alt="전체보기">
+                                <p>전체보기</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- [e] major course list -->
 
-      </header>
-      <%include file="${courses_list}" />
+        <!-- [s] my course -->
+        <section class="my-course-container" id="main-contents03">
+            <h2 class="main-title">나에게 맞는 강좌찾기 </h2>
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
+                        <div class="my-course-item">
+                            <h3>
+                                <img src="/static/images/main/my_course_01.png" alt="학습기간">
+                                <p>학습기간</p>
+                            </h3>
+                            <div class="btns">
+                                <a href="">진행중</a>
+                                <a href="">개강예정</a>
+                                <a href="">종료</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
+                        <div class="my-course-item middle">
+                            <h3>
+                                <img src="/static/images/main/my_course_02.png" alt="개강상태">
+                                <p>개강상태</p>
+                            </h3>
+                            <div class="btns">
+                                <a href="">단기 (1주~6주)</a>
+                                <a href="">중기 (7주~12주)</a>
+                                <a href="">장기 (13주 이상)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
+                        <div class="my-course-item">
+                            <h3>
+                                <img src="/static/images/main/my_course_03.png" alt="추천분야">
+                                <p>추천분야</p>
+                            </h3>
+                            <div class="btns">
+                                <a href="">한국학</a>
+                                <a href="">이 ·공계</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- [e] my course -->
+
+        <!-- [s] pouplar course list -->
+        <!--
+        <section class="courses-container" id="main-contents04">
+            <h2 class="main-title">인기강좌</h2>
+            <p><span class="fPoint">개인에게 맞는 강좌를 학습</span>할 수 있습니다. 예정된 강좌부터 지난 강좌까지 그리고 나에게 필요한<br>학습기간별 강좌를 바로 한번에 확인하세요.</p>
+            <div class="grid-container grid-manual popular">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <div class="popular-description">
+                            <h3>[ 고려대학교 ]</h3>
+                            <dl>
+                                <dt><p>영화 스토리텔링의 이해</p><span>류철균 교수</span></dt>
+                                <dd>이 수업에서는 먼저 코페르니쿠스, 갈릴레이, 뉴턴 등에 의해 일어난 과학혁명이 인류의 세계관에 어떤 영향을 미쳤는지 배웁니다. <br><br>
+                                또한 이에 대비하여 상대성이론과 양자역학으로 대변되는 현대물리학혁명이 고전물리학을 어떻게 변혁시켰는지 배웁니다.</dd>
+                                <dd><time>개강일 : 2016년 06월 27일</time></dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <div class="popular-thumb">
+                            <img src="/static/images/main/popular_thumb.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="highlighted-courses">
+                <section class="courses">
+                    <ul class="courses-listing">
+                        <li class="courses-listing-item">
+                            <article class="course ready" id="" role="region" aria-label="">
+                                <a href="">
+                                    <header class="course-image">
+                                        <div class="cover-image">
+                                            <span class="univ-logo"><img src="/static/images/univ/logo02_CBNUk.png" alt=""></span>
+                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
+                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
+                                        </div>
+                                    </header>
+                                    <div class="course-info">
+                                        <h2 class="course-name">
+                                            <span class="course-status">SUBJECT TITLE</span>
+                                            <span class="course-title">강의의 제목을 입력하세요</span>
+                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
+                                        </h2>
+                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
+                                    </div>
+                                    <div class="sr">
+                                        <ul>
+                                            <li>edX</li>
+                                            <li>DemoX</li>
+                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </article>
+                        </li>
+                        <li class="courses-listing-item">
+                            <article class="course ready" id="" role="region" aria-label="">
+                                <a href="">
+                                    <header class="course-image">
+                                        <div class="cover-image">
+                                            <span class="univ-logo"><img src="/static/images/univ/logo02_CBNUk.png" alt=""></span>
+                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
+                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
+                                        </div>
+                                    </header>
+                                    <div class="course-info">
+                                        <h2 class="course-name">
+                                            <span class="course-status">SUBJECT TITLE</span>
+                                            <span class="course-title">강의의 제목을 입력하세요</span>
+                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
+                                        </h2>
+                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
+                                    </div>
+                                    <div class="sr">
+                                        <ul>
+                                            <li>edX</li>
+                                            <li>DemoX</li>
+                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </article>
+                        </li>
+                        <li class="courses-listing-item">
+                            <article class="course ing" id="" role="region" aria-label="">
+                                <a href="">
+                                    <header class="course-image">
+                                        <div class="cover-image">
+                                            <span class="univ-logo"><img src="/static/images/univ/logo02_PNUk.png" alt=""></span>
+                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
+                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
+                                        </div>
+                                    </header>
+                                    <div class="course-info">
+                                        <h2 class="course-name">
+                                            <span class="course-status">SUBJECT TITLE</span>
+                                            <span class="course-title">강의의 제목을 입력하세요</span>
+                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
+                                        </h2>
+                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
+                                    </div>
+                                    <div class="sr">
+                                        <ul>
+                                            <li>edX</li>
+                                            <li>DemoX</li>
+                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </article>
+                        </li>
+                        <li class="courses-listing-item">
+                            <article class="course end" id="" role="region" aria-label="">
+                                <a href="">
+                                    <header class="course-image">
+                                        <div class="cover-image">
+                                            <span class="univ-logo"><img src="/static/images/univ/logo02_YeungnamUnivK.png" alt=""></span>
+                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
+                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
+                                        </div>
+                                    </header>
+                                    <div class="course-info">
+                                        <h2 class="course-name">
+                                            <span class="course-status">SUBJECT TITLE</span>
+                                            <span class="course-title">강의의 제목을 입력하세요</span>
+                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
+                                        </h2>
+                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
+                                    </div>
+                                    <div class="sr">
+                                        <ul>
+                                            <li>edX</li>
+                                            <li>DemoX</li>
+                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </article>
+                        </li>
+                    </ul>
+                </section>
+
+            </section>
+        </section>
+        -->
+        <!-- [e] pouplar course list -->
+
+        <!-- [s] course list -->
+        <section class="courses-container full" id="main-contents05">
+            <h2 class="main-title">수강신청 가능 강좌찾기</h2>
+            <%include file="${courses_list}" />
+        </section>
+        <!-- [e] course list -->
+
+        <!-- [s] community list -->
+        <section class="community-container" id="main-contents06">
+            <h2 class="main-title">커뮤니티</h2>
+            <div class="community-container-wrap">
+                <!-- community 01 -->
+                <a href="#community01" class="on">공지사항</a>
+
+                <div class="grid-container grid-manual community" id="community01">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="">
+                                    <h3>
+                                        <strong class="category">[입찰공고]</strong>
+                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                    </h3>
+                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
+                                    <time>2016-10-19</time>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-list-more">
+                        <a href="">더보기</a>
+                    </div>
+
+                </div>
+                <!--// community 01 -->
+                <!-- community 02 -->
+                <a href="#community02">블로그</a>
+                <div class="grid-container grid-manual community" id="community02">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="">
+                                    <h3>
+                                        <strong class="category">[입찰공고]</strong>
+                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                    </h3>
+                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
+                                    <time>2016-10-19</time>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--// community 02 -->
+                <!-- community 03 -->
+                <a href="#community03">자료실</a>
+                <div class="grid-container grid-manual community" id="community03">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="">
+                                    <h3>
+                                        <strong class="category">[입찰공고]</strong>
+                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                    </h3>
+                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
+                                    <time>2016-10-19</time>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--// community 03 -->
+                <!-- community 04 -->
+                <a href="#community04">Q&amp;A</a>
+                <div class="grid-container grid-manual community" id="community04">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="">
+                                    <h3>
+                                        <strong class="category">[입찰공고]</strong>
+                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                    </h3>
+                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
+                                    <time>2016-10-19</time>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--// community 04 -->
+
+
+            </div>
+        </section>
+        <!-- [e] community list -->
 
     </section>
 </main>
+
 
 % if show_homepage_promo_video:
   <section id="video-modal" class="modal home-page-video-modal video-modal">
@@ -71,10 +434,3 @@ from openedx.core.djangolib.markup import HTML, Text
    </script>
 </%block>
 
-% if show_signup_immediately is not UNDEFINED:
-  ## NOTE: This won't work in production, because anonymous views are cached, so it will
-  ## show either with or without this extra js for 3 minutes at a time.
-<script type="text/javascript">
-  $(window).load(function() {$('#signup_action').trigger("click");});
-</script>
-% endif

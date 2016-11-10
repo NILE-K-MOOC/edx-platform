@@ -10,7 +10,8 @@ define([
     'use strict';
 
     function formatDate(date) {
-        return dateUTC(date).toString('MMM dd, yyyy');
+        return dateUTC(date).toString('yyyy/MM/dd');
+        //return gettext(dateUTC(date).toString('yyyy/MM/dd'));
     }
 
     // Return a date object using UTC time instead of local time

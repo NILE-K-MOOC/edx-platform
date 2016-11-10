@@ -542,13 +542,11 @@ urlpatterns += (
         'instructor.views.instructor_dashboard.copykiller_csv', name="copykiller_csv"),
 
     url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
-
-    url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
     url(r'^cert_check/?$', 'courseware.views.views.cert_check', name="cert_check"),
     url(r'^cert_check_id/?$', 'courseware.views.views.cert_check_id', name="cert_check_id"),
 
     # url(r'^school/haewoondaex?$', 'courseware.views.haewoondaex', name="school"),
-    url(r'^school/(?P<univ_id>.*?)$', 'courseware.views.views.haewoondaex', name="school"),
+    url(r'^school/(?P<org>.*?)$', 'courseware.views.views.haewoondaex', name="school"),
 
     # add custom pages
     url(r'^ckplus/?$', 'courseware.views.views.ckplus', name="ckplus"),

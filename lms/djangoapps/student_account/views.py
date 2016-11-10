@@ -184,6 +184,41 @@ def parent_agree_done(request):
 @ensure_csrf_cookie
 @xframe_allow_whitelisted
 def login_and_registration_form(request, initial_mode="login"):
+
+    # add kocw logic
+    division = None
+
+    if initial_mode == "login":
+        pass
+
+    elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
+        division = request.session['division']
+        del request.session['division']
+        del request.session['agreeYN']
+        del request.session['auth']
+
+    elif 'division' in request.session and 'agreeYN' in request.session:
+        division = request.session['division']
+
+        if request.session['division'] == 'N':
+            return render_to_response('student_account/registration_gubn.html')
+
+        del request.session['division']
+        del request.session['agreeYN']
+    else:
+        return render_to_response('student_account/registration_gubn.html')
+
+    print 'division = ', division
+
+    """Render the combined login/registration form, defaulting to login
+
+    This relies on the JS to asynchronously load the actual form from
+    the user_api.
+
+    Keyword Args:
+        initial_mode (string): Either "login" or "register".
+    """
+
     """Render the combined login/registration form, defaulting to login
 
     This relies on the JS to asynchronously load the actual form from

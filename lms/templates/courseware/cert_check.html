@@ -1,0 +1,80 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Contact")}</%block>
+
+<%block name="js_extra">
+    <script>
+        $(document).ready(function(){
+            $("#check").attr("href", "javascript:cert_check_id();");
+
+            $("#uuid").focus();
+            $("#uuid").keydown(function(e){
+                if(e.which == 13)
+                    cert_check_id();
+
+            });
+        });
+
+        function cert_check_id(){
+            $("#correct, #incorrect").hide();
+
+            var uuid = $("#uuid").val();
+            if(uuid == "" || uuid == null){
+                alert("이수증 인증번호를 입력하세요.");
+                $("#uuid").focus();
+                return;
+            }
+
+            $.post("/cert_check_id",
+                    {uuid: uuid},
+                    function(data){
+
+                        console.log('cert_check: '+ data);
+
+                        if(data[0]){
+                            $("#correct").show();
+                            console.log(data[0].certUrl);
+                            $("#showCert").attr("href",data[0].certUrl);
+                        }else if(!data){
+                            console.log("cert_check :: !data");
+                        }else{
+                            $("#incorrect").show();
+                        }
+            },"json");
+        }
+
+    </script>
+</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container">
+        <!-- [s] -->
+        <h2>이수증 검증</h2>
+    
+        <section class="certification-box">
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
+                        <div class="certification-form">
+                            <p>K-MOOC에서 발급받은 이수증의 유효성을 확인하실 수 있습니다.</p>
+                            <p>이수증 상단의 인증번호를 입력하세요. </p>
+                            <form action="javascript:cert_check_id();">
+                                <input id="uuid" type="text" placeholder="이수증 상단의 인증번호를 입력하세요">
+                                <input type="submit" value="검증하기">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
+                        <div class="certification-img">
+                            <img src="/static/images/contents/certification.gif" alt="이수증 샘플">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- [e]  -->
+    </section>
+</main>

@@ -37,6 +37,7 @@ import branding
 from opaque_keys.edx.keys import UsageKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from django.utils.timezone import UTC
 
 
 log = logging.getLogger(__name__)
@@ -373,6 +374,17 @@ def get_course_syllabus_section(course, section_key):
     raise KeyError("Invalid about key " + str(section_key))
 
 
+# def add_course_status(courses):
+#
+#     print 'add_course_status start'
+#     print 'len(courses):', len(courses)
+#
+#     for c in courses:
+#         print c.id, c.name, c.start, c.end, c.enrollment_start, c.enrollment_end
+#
+#     print 'add_course_status end'
+
+
 def get_courses(user, org=None, filter_=None):
     """
     Returns a list of courses available, sorted by course.number and optionally
@@ -390,11 +402,16 @@ def get_courses(user, org=None, filter_=None):
     return courses
 
 
-def get_courses_by_org(user, org_id, domain=None):
+def get_courses_by_org(user, org=None, filter_=None):
     '''
     Returns a list of courses available, sorted by course.number
     '''
-    courses = branding.get_visible_courses_by_org(org_id)
+
+    print user, org, filter
+
+    courses = branding.get_visible_courses(org=org, filter_=filter_)
+
+    print 'len ::::::::::', len(courses)
 
     courses1 = list()
     courses2 = list()

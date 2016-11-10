@@ -9,68 +9,74 @@
 <%namespace name='static' file='static_content.html'/>
 
 <div class="wrapper wrapper-footer">
-  <footer id="footer-openedx" class="grid-container"
-    ## When rendering the footer through the branding API,
-    ## the direction may not be set on the parent element,
-    ## so we set it here.
-    % if bidi:
-      dir=${bidi}
-    % endif
-  >
-    <div class="colophon">
-      <nav class="nav-colophon" aria-label="${_('About')}">
-        <ol>
-            % for item_num, link in enumerate(footer['navigation_links'], start=1):
-            <li class="nav-colophon-0${item_num}">
-              <a id="${link['name']}" href="${link['url']}">${link['title']}</a>
-            </li>
-            % endfor
-        </ol>
-      </nav>
+<footer id="footer-openedx" class="grid-container"
+## When rendering the footer through the branding API,
+## the direction may not be set on the parent element,
+## so we set it here.
+% if bidi:
+dir=${bidi}
+% endif
+>
 
-      <div class="wrapper-logo">
-        <p>
-          <a href="/">
-            ## The default logo is a placeholder.
-            ## You can either replace this link entirely or update
-            ## the FOOTER_ORGANIZATION_IMAGE in Django settings.
-            ## If you customize FOOTER_ORGANIZATION_IMAGE, then the image
-            ## can be included in the footer on other sites
-            ## (e.g. a blog or marketing front-end) to provide a consistent
-            ## user experience.  See the branding app for details.
-            <img alt="organization logo" src="${footer['logo_image']}">
-          </a>
-        </p>
-      </div>
+<script type="text/javascript">
+    function fPopup(type){
+        var w = 500;
+        var h = 700;
+        var url, name;
 
-      ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-      <p class="copyright">${footer['copyright']}</p>
+        if(type == 'e'){
+            url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=e&code=2015-N015';
+            name = 'e';
+        }else{
+            url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=i&code=2015-N008';
+            name = 'i';
+        }
+        var x = (screen.availWidth  / 2) - (w/2);
+        var y = (screen.availHeight / 2) - (h/2);
+        window.open(url, name, "toolbar=no,resizable=yes,scrollbars=yes,status=no,location=no,left="+ x + ",top=" + y + ",width=" + w + ",height="+ h);
+    }
+</script>
 
-      <nav class="nav-legal" aria-label="${_('Legal')}">
+<div class="colophon">
+    <div class="wrapper-logo">
+    <p>
+        <a href="/"><img alt="organization logo" src="/static/images/common/logo_footer.png"></a></p>
+    </div>
+
+        <div class="footer-util">
+            <nav class="nav-colophon">
+            <ol>
+                <li class="nav-colophon-01"><a href="/faqs">${_("FAQ")}</a></li>
+                <li class="nav-colophon-02"><a href="/contact">${_("Contact Us")}</a></li>
+                <li class="nav-colophon-03"><a href="http://blog.naver.com/kmooc_kr" target="_blank">${_("Blog")}</a></li>
+                <!-- <li class="nav-colophon-04"><a href="">오픈API</a></li> -->
+                <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
+            </ol>
+            </nav>
+        <p class="copyright">Copyright(c)2015. National Institute For Lifelong Education. All right reserved</p>
+
+        <nav class="nav-legal">
         <ul>
-          % for item_num, link in enumerate(footer['legal_links'], start=1):
-            <li class="nav-legal-0${item_num}">
-              <a href="${link['url']}">${link['title']}</a>
-            </li>
-          % endfor
+            <li class="nav-legal-01"><a href="/agreement">${_("Terms of Use")}</a></li>
+            <li class="nav-legal-02"><a href="/Privacy-Policy">${_("Privacy Statement")}</a></li>
+            <li class="nav-legal-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
         </ul>
-      </nav>
+        </nav>
+        </div>
     </div>
 
-    ## Please leave this link and use one of the logos provided
-    ## The OpenEdX link may be hidden when this view is served
-    ## through an API to partner sites (such as marketing sites or blogs),
-    ## which are not technically powered by OpenEdX.
-    % if not hide_openedx_link:
     <div class="footer-about-openedx">
-      <p>
-        <a href="${footer['openedx_link']['url']}">
-          <img src="${footer['openedx_link']['image']}" alt="${footer['openedx_link']['title']}" width="140" />
-        </a>
-      </p>
+        <div>
+            <a href="https://www.youtube.com/channel/UCaXoWllLNJ4t5d39nmJKyJw" target="_blank"><img src="/static/images/common/footer_icon01.png" alt="youtube" /></a>
+            <a href="http://mme.kmoocs.kr/vod/pop-up.htm" target="_blank"><img src="/static/images/common/footer_icon02.png" alt="facebook" /></a>
+        </div>
+        <div>
+            <a href="http://wa.or.kr/waMark/status.asp" target="_blank"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크" /></a>
+            <a href="javascript:fPopup('e');"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크" /></a>
+            <a href="javascript:fPopup('i');"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크" /></a>
+        </div>
     </div>
-    % endif
-  </footer>
+</footer>
 </div>
 % if include_dependencies:
   <%static:js group='base_vendor'/>

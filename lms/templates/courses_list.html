@@ -2,7 +2,7 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
-<section class="courses-container">
+<!-- <section class="courses-container"> -->
   <section class="highlighted-courses">
 
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
@@ -24,5 +24,9 @@
     % endif
     % endif
 
+    <div class="btn-list-more">
+        <a href="">더보기</a>
+    </div>
+
   </section>
-</section>
+<!-- </section> -->

@@ -1,0 +1,48 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("SookmyungK")}</%block>
+
+<section class="container full home">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"></div>
+
+    <section class="container univ">
+        <h2>${_("SookmyungK")}</h2>
+        <div class="univ-info">
+            <div class="sns-box">
+                 <a target="_blank" href="https://www.youtube.com/channel/UCCTK876rgNAUE8PKRryZhhQ"><img src="/static/images/common/footer_icon01.png" alt="youtube" class="univSns"/></a>
+                 <a target="_blank" href="https://www.facebook.com/SookmyungUniversity"><img src="/static/images/common/footer_icon02.png" alt="facebook" class="univSns"/></a>
+            </div>
+            <p>대한제국 황실에서 세운 최초 &lt;민족여성사학&gt; 숙명여자대학교는 1906년 대한제국 말 순수 민족 자본으로 세워진 우리나라 최초의 민족여성사학입니다.<br/><br/>
+                        ‘여성교육을 통한 구국’이라는 창학 이념 하에 쉼 없이 달려온 숙명은 오늘날 10만 동문과 1만 3천여 명의 재학생을 자랑하는 명실상부 대한민국 대표 여자대학으로 성장하며 100년이 넘는 역사를 이어오고 있습니다.</p>
+        </div>
+        <div class="univ-info">
+            <p>The First National Private Women’s School, Founded by Korean Empire Sookmyung Women’s University is Korea’s rst national private women’s school.<br/><br/>
+                        It was founded in 1906 during the latter stages of the Korean empire. We have worked tirelessly to meet our motto ‘save the nation through women’s education’ and today, we boast over 100,000 alumni and 13,000 students and have grown to become Korea’s leading women’s university while honoring its 100 year old history and tradition.</p>
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ 현재 수강할 수 있는 강좌가 없습니다.</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

@@ -1191,6 +1191,8 @@ class CourseDescriptor(CourseFields, SequenceDescriptor, LicenseMixin):
         return self.location.course_key
 
     def start_datetime_text(self, format_string="SHORT_DATE", time_zone=utc):
+        print 'called here 100'
+
         """
         Returns the desired text corresponding the course's start date and time in specified time zone, defaulted
         to UTC. Prefers .advertised_start, then falls back to .start

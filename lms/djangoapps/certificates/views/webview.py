@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # pylint: disable=bad-continuation
 """
 Certificate HTML webview.
@@ -102,6 +103,12 @@ def _update_certificate_context(context, user_certificate, platform_name):
         year=user_certificate.modified_date.year
     )
 
+    context['certificate_date_issued2'] = ('{year}년 {month}월 {day}일 ').format(
+        year=user_certificate.modified_date.year,
+        month=user_certificate.modified_date.month,
+        day=user_certificate.modified_date.day
+    )
+
     # Translators:  This text represents the verification of the certificate
     context['document_meta_description'] = _('This is a valid {platform_name} certificate for {user_name}, '
                                              'who participated in {partner_short_name} {course_number}').format(
@@ -146,6 +153,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     """
     context['platform_name'] = platform_name
     context['course_id'] = course_id
+    context['course_id2'] = course_id.split('+')[1]
 
     # Update the view context with the default ConfigurationModel settings
     context.update(configuration.get('default', {}))
@@ -590,4 +598,5 @@ def render_html_view(request, user_id, course_id):
     _track_certificate_events(request, context, course, user, user_certificate)
 
     # FINALLY, render appropriate certificate
+
     return _render_certificate_template(request, context, course, user_certificate)

@@ -1,0 +1,62 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("SejonguniversityK")}</%block>
+
+<section class="container full home">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"></div>
+
+    <section class="container univ">
+        <h2>${_("SejonguniversityK")}</h2>
+        <div class="univ-info">
+            <div class="sns-box">
+                 <a target="_blank" href="https://www.youtube.com/user/channelsejongUCC"><img src="/static/images/common/footer_icon01.png" alt="youtube" class="univSns"/></a>
+                 <a target="_blank" href="https://www.facebook.com/sejongpr"><img src="/static/images/common/footer_icon02.png" alt="facebook" class="univSns"/></a>
+            </div>
+            <p>1940년 개교한 세종대학교는 일제강점기와 격동의 근대사에 굴하지 않고 나라와 민족을 위한 인재를 꾸준히 양성하여 유구한 역사와 전통을 지닌 명문 사학으로 자리매김하였습니다.<br/><br/>
+
+                    세종대학교가 글로벌 중심 대학기 되기 위해서는 하드웨어, 소프트웨어, 휴먼웨어가 골고루 갖춰줘야 합니다. 즉, 풍부한 교육시설과 창의적인 교육프로그램, 우수한 교수진이 충족되었을 때 우리는 더 크게 발전할 수 있습니다. 그리고 날마다 새로운 변화와 더 나은 내일을 위한 과감한 혁신으로 남들보다 먼저 나아가야 합니다.<br/><br/>
+
+                    우리 대학은 대한민국의 어느 대학 보다 잠재적 연구 역량이 크고, 학문에 대한 열정과 탐구심이 가득한 대학입니다. 이제 우리는 한국을 넘어 세계로 갑니다. 세계라는 단단한 벽을 넘기 위해서는 우리 모두 한마음이 되어야 합니다. 훗날 세종의 이름이 세상 속에서 더 크게 빛날 때까지 우리의 도전은 계속될 것입니다. </p>
+        </div>
+        <div class="univ-info">
+            <p>Established in 1940, Sejong University has become a prestigious private university with a
+                    long history and tradition by continuously nurturing human capital for Korea and its people
+                    without succumbing to the turbulence of modern history or the Japanese occupation.<br/><br/>
+
+                    Together, infrastructure and human capital must be fully equipped for Sejong University to
+                    be a global player. The university will only continue to grow with excellent facilities, creative
+                    education programs and world-class faculty. We must take the lead with bold innovation for
+                    the future, looking toward a better tomorrow.<br/><br/>
+
+                    Sejong University holds greater research capability than many of its domestic counterparts.
+                    The institution is filled with enthusiasm for academic research, and now is the time to reach
+                    outside our borders. To expand our scope in this globalized world, we must maintain our
+                    momentum until the name Sejong is more widely recognized in the world.</p>
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ 현재 수강할 수 있는 강좌가 없습니다.</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

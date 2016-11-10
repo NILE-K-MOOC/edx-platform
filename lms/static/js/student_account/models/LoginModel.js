@@ -19,6 +19,8 @@
             initialize: function (attributes, options) {
                 this.ajaxType = options.method;
                 this.urlRoot = options.url;
+
+                console.log('this.urlRoot: ' + this.urlRoot);
             },
 
             sync: function (method, model) {

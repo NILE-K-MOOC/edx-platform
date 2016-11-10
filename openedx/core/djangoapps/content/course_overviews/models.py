@@ -485,6 +485,10 @@ class CourseOverview(TimeStampedModel):
                 filtering by organization.
             filter_ (dict): Optional parameter that allows custom filtering.
         """
+
+        print 'org >>>', org
+        print 'filter_ >>>', filter_
+
         # Note: If a newly created course is not returned in this QueryList,
         # make sure the "publish" signal was emitted when the course was
         # created. For tests using CourseFactory, use emit_signals=True.
@@ -496,8 +500,8 @@ class CourseOverview(TimeStampedModel):
             # Case-insensitive exact matching allows us to deal with this kind of dirty data.
             course_overviews = course_overviews.filter(org__iexact=org)
 
-        if filter_:
-            course_overviews = course_overviews.filter(**filter_)
+        # if filter_:
+        #     course_overviews = course_overviews.filter(**filter_)
 
         return course_overviews
 

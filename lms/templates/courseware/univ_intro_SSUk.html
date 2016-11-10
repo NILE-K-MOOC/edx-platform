@@ -1,0 +1,53 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("SSUk")}</%block>
+
+<section class="container full home">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"></div>
+
+    <section class="container univ">
+        <h2>${_("SSUk")}</h2>
+        <div class="univ-info">
+            <div class="sns-box">
+                <!--
+                 <a target="_blank" href="#"><img src="/static/images/common/footer_icon01.png" alt="youtube" class="univSns"/></a>
+                 <a target="_blank" href="#"><img src="/static/images/common/footer_icon02.png" alt="facebook" class="univSns"/></a>
+                 -->
+            </div>
+            <p>성신여자대학교는 ‘정성되고 믿음직한 여성 지도자 양성’을 건학이념으로 국가와 사회에 공헌하는 창의적인 성신 문화인 육성에 주력하고 있습니다.<br/><br/>
+                        우리대학은 성신의 특성화된 교육브랜드인 ‘문화와 건강복지분야’를 지속적으로 고도화시키는 한편, Sungshin Vision 2025 꿈• 행복• 감동을 이루는 성신이라는 새로운 대학비전을 통해 ‘미래지식서비스와 소프트산업을 선도하는 융합인재 양성’ ‘학생 구성원과 함께하는 대학서비스 혁신’ ‘산업과 사회에 공헌하는 성신여자대학교의 교육브랜드 가치 창조’를 실현하기 위해 최선을 다하고 있습니다.<br/><br/>
+                        성신여자대학교는 K-MOOC을 통해 예술문화와 건강복지 학문분야를 선도하고, 누구나 학습할 수 있는 문화를 창출하고자 합니다.</p>
+        </div>
+        <div class="univ-info">
+            <p>Sungshin Women's University, with the motto of "Sincere, Intelligent, and Independent Women" has vowed to educate 'creative Sungshin people' who can contribute to their mother country and local community.<br/><br/>
+                        Sungshin Women's University is continued to focus its education specifically specialized in "culture" and "health and welfare". With "Sungshin Vision 2025: Dream, Happiness, and Bright Sungshin", Sungshin Women's University strives hard to realize the following three goals: 1) Nurturing a talneted people leading future ICT service and software industry, 2) Innovating school service embracing students' need, 3) Creating added value of Sungshin University contributing to the industries and local communities.<br/><br/>
+                        Sungshin Women's University would like to become a leading university in art and cultural studies, health and welfare studies in K-MOOC program, and further to create a culture that anyone can study anything at anywhere.
+                    </p>
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ 현재 수강할 수 있는 강좌가 없습니다.</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>
