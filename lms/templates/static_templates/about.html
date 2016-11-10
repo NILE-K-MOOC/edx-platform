@@ -3,98 +3,301 @@
 <%inherit file="../main.html" />
 
 <%block name="pagetitle">${_("About")}</%block>
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $(".kmooc-tab a").each(function(index){
+            $(this).click(function(){
+                //alert(index + ":" + $(this).hasClass('on'));
+                if(index == 0){
+                    $("#kmooc01").show();
+                    $("#kmooc02").hide();
+                    $(".kmooc-tab a").removeClass("on");
+                    $(this).addClass("on");
+                }else{
+                    $("#kmooc01").hide();
+                    $("#kmooc02").show();
+                    $(".kmooc-tab a").removeClass("on");
+                    $(this).addClass("on");
+                }
+            });
+        });
+    });
+  </script>
+</%block>
+<section class="container kmooc">
 
-<main id="main" aria-label="Content" tabindex="-1">
-    <section class="container">
-        <!-- [s] board list -->
-        <section class="board-search-box">
-            <select>
-                <option>- 전체 -</option>
-            </select>
-            <input type="text">
-            <input type="submit" value="검색">
-        </section>
-        <section class="board-list">
-            <ul>
-                <li class="thead">
-                    <span class="no">번호</span>
-                    <span class="title">제목</span>
-                    <span class="date">날짜</span>
-                    <span class="visit">조회수</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-                <li class="tbody">
-                    <span class="no">00</span>
-                    <span class="title"><a href="">해당게시판의 제목을 입력해 주시면 해당 부분에 내용이 표시됩니다. </a></span>
-                    <span class="date">0000.00.00</span>
-                    <span class="visit">00</span>
-                </li>
-            </ul>
-
-            <div class="paging">
-                <a href="" class="first">first</a>
-                <a href="" class="prev">prev</a>
-                <a href="" class="current">1</a>
-                <a href="">1</a>
-                <a href="">1</a>
-                <a href="">1</a>
-                <a href="" class="next">next</a>
-                <a href="" class="last">last</a>
+    <nav class="kmooc-tab">
+        <a href="#" class="on">소개</a>
+        <a href="#">추진체계</a>
+    </nav>
+    <!-- 소개 -->
+    <section class="kmooc-box" id="kmooc01">
+        <div class="kmooc-block">
+            <h3>한국형 무크(K-MOOC)</h3>
+            <div class="grid-container grid-manual kmooc">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <img src="/static/images/contents/kmooc01.jpg" alt="">
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <dl>
+                            <dt>MOOC<span>(Massive Open Online Course)란</span></dt>
+                            <dd>수강인원에 제한 없이(Massive), 모든 사람이 수강 가능하며(Open), 웹 기반으로(Online) 미리 정의된 학습목표를 위해 구성된 강좌(Course)를 말합니다. 무크(MOOC)는 학습자가 수동적으로 듣기만 하던 기존의 온라인 학습동영상과 달리 교수자와 학습자, 학습자와 학습자간 질의응답, 토론, 퀴즈, 과제 제출 등 양방향 학습이 가능한 새로운 교육 환경을 제공합니다. <br>
+                            아울러, 학습자는 세계를 넘나들며 배경지식이 다른 학습자간 지식 공유를 통해 대학의 울타리를 넘어 새로운 학습경험을 하게 될 것입니다.</dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
-        </section>
-        <!-- [e] board list -->
+            <div class="grid-container grid-manual kmooc">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <dl>
+                            <dt>2015년 10월 <span>한국형 무크(K-MOOC)는 </span></dt>
+                            <dd>울대, KAIST 등 10개 국내 유수대학의 총 27개 강좌를 시작으로, ‘16년에는 140개 강좌 서비스하고 있으며 ’18년까지 총 500개 이상의 강좌 운영을 목표로 매년 강좌 수를 확대해 나갈 계획입니다.<br><br>
+                            앞선 ICT 인프라 환경과 e-Learning 기술력을 바탕으로 우리나라의 고등교육 정보화 수준은 이미 세계 일류 수준을 보유하고 있습니다. 앞으로 한국형 무크(K-MOOC)가 글로벌(Global) 명품 브랜드로 거듭나기 위해 최선을 다하겠습니다. </dd>
+                        </dl>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <img src="/static/images/contents/kmooc02.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>비전</h3>
+            <div class="vision-kmooc">
+                <dl>
+                    <dt>열린 고등교육 체제를 통한 <span class="fPoint">대학교육 혁신</span></dt>
+                    <dd>한국형 무크(K-MOOC)는 “열린 고등교육 체제를 통한 대학교육 혁신”을 비전으로 모든 강의를 무료로 제공함으로써, <br>
+                    대학 간 교육 역량 격차에 따른 제약을 완화하여 고등 교육의 실질적인 기회 균형을 실현하고자 하며,<br>
+                    궁극적으로 고등교육에 대한 평생학습 기반을 마련, 국가 인적자원개발에 기여할 것입니다.</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>추진경과</h3>
+            <div class="history-kmooc">
+                <div class="history-kmooc-block">
+                    <h4>2015’s</h4>
+                    <dl>
+                        <dt>02</dt>
+                        <dd>K-MOOC 시범운영을 위한 기본계획 수립 및 발표</dd>
+                        <dt>04</dt>
+                        <dd>K-MOOC 시범운영사업 공고 및 참여대학 선정(국내 10개 대학, 27개 강좌)</dd>
+                        <dt>06~12</dt>
+                        <dd>K-MOOC 서비스 운영을 위한 플랫폼 및 인프라 구축<br>
+                        ※ 초기 서비스 안정성, 콘텐츠의 국제적 호환성, 개발 기간 등을 고려하여 오픈소스 소프트웨어(Open edX)를 활용한 플랫폼 구축</dd>
+                        <dt>10</dt>
+                        <dd>한국형 온라인 공개강좌 ‘K-MOOC(www.kmooc.kr)’ 시범 개통</dd>
+                    </dl>
+                </div>
+                <div class="history-kmooc-block">
+                    <h4>2016’s</h4>
+                    <dl>
+                        <dt>02</dt>
+                        <dd>16년 K-MOOC 운영계획 수립</dd>
+                        <dt>04~10</dt>
+                        <dd>16년 무크대학 추가선정(10개교) 및 강좌 개발(국내 10개 대학)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>활용</h3>
+            <div class="using-kmooc">
+                <h4>모든이들이 수강가능한 온라인 강좌 <strong class="fPoint">K-MOOC</strong></h4>
+                <div class="grid-container grid-manual">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>대학(원)생</h5>
+                                <p><img src="/static/images/contents/kmooc_using01.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · 사전 수업준비 및 심화(보충)학습<br>
+                                · 전과 학생의 선수학급<br>
+                                · 타 전공 및 관심 분야 학습
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>교수</h5>
+                                <p><img src="/static/images/contents/kmooc_using02.jpg" alt=""></p>
+                                <p class="info-txt">· 수업중 콘텐츠 황용<br>
+                                · 플립드러닝을 통한 수업활동 다양화<br>
+                                · 교수학습법 개선 및 우수교수법 적용 및 사례 확산
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>대학</h5>
+                                <p><img src="/static/images/contents/kmooc_using03.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · 대학 내 미개설 과목에 대한 학습 기회 제공<br>
+                                · 콘텐츠 활용 및 공동 개발을 통한 과목 개설<br>
+                                · 학습데이터 분석을 통한 교수학습 전략개발
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>일반학습자</h5>
+                                <p><img src="/static/images/contents/kmooc_using04.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · 개인 역량 강화를 통한 취업 활용<br>
+                                · 형생학습계좌제를 통한 학습이력 관리<br>
+                                · 각종 자격, 험등 대비를 위한 기초학습
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>기업재직자</h5>
+                                <p><img src="/static/images/contents/kmooc_using05.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · 직장 내 재직자 훈련에 활용<br>
+                                · 최식 지식정보 트랜드 학습<br>
+                                · 직업 업무 능력 개발
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>퇴직자/평생학습자</h5>
+                                <p><img src="/static/images/contents/kmooc_using06.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · 창업 아이템 발굴 및 정보 활용<br>
+                                · 개인 취미 활동 등 자기개발 지원
+                                </p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-</main>
+    <!--// 소개 -->
+
+    <!-- 추진체계 -->
+    <section class="kmooc-box" id="kmooc02" style="display:none">
+        <blockquote>
+            <div>
+                <p>참여대학의 자율성과 다양성 존중</p>
+                관계기관과 대학간의 협력관계 추진
+            </div>
+        </blockquote>
+        <div class="kmooc-block">
+            <div class="grid-container grid-manual kmooc border">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <img src="/static/images/contents/kmooc03.jpg" alt="">
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <p>한국형 무크(K-MOOC)는 교육부와 사업 주관기관인 국가평생교육진흥원 외에 한국교육학술정보원, 한국대학교육협의회, 한국교육방송공사(EBS) 등 관계기관과 참여대학간 긴밀한 협력을 통해 추진하고 있습니다.</p>
+                        <p>플랫폼(http://kmooc.kr)에 강좌를 제공하고 강좌를 운영하는 참여대학은 2016년 서울대, KAIST 등 총 20개 대학이며, 매년 개설강좌 수와 참여기관을 확대해 나갈 계획입니다. </p>
+                        <p>사업 전 과정에서 참여대학의 자율성과 다양성이 최대한 존중되고 발휘될 수 있도록 추진할 계획입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>추진로드맵</h3>
+            <div class="kmooc-roadmap">
+                <h4><img src="/static/images/contents/kmooc.jpg" alt=""> 추진로드맵 <span>(2015.10 서비스 개통)</span></h4>
+                <div class="kmooc-roadmap-block">
+                    <div class="grid-container grid-manual kmooc">
+                        <div class="row">
+                            <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                                <img src="/static/images/contents/kmooc04.jpg" alt="">
+                            </div>
+                            <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                                <p>사실은 그냥 앉아서 큰 돈 안들이고 세계 최고의 강의도 들 을 수 있고, (중략) 아직 MOOC이 우리나라에서는 실천은 되지만 확산이 안되고 있기 때문에 여러 방면에서 촬용도를 높일 필요가 있습니다.</p>
+                                <time>(2014. 12 국민경제자문회의)</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kmooc-roadmap-step">
+                        <h5><strong>미래를 향해 성장하는 K-MOOC</strong></h5>
+                        <ol>
+                            <li>
+                                <div>
+                                    <strong>01</strong>
+                                    <p>2015년 ~2017년<br>도입 및 정착</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <strong>02</strong>
+                                    <p>2018년 ~ 2020년<br>글로벌화 및 <br>부가가치 창출</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <strong>03</strong>
+                                    <p>2021년 이후~<br>열린 고등교육<br>체제구축</p>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <table>
+                        <colgroup>
+                            <col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>개발강좌 수 <span>(누적)</span></th>
+                                <td><strong class="color01">27<br><span>▲</span></strong></td>
+                                <td><strong class="color02">100<br><span>▲</span></strong></td>
+                                <td><strong class="color03">200<br><span>▲</span></strong></td>
+                                <td><strong class="color04">300<br><span>▲</span></strong></td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">전략</th>
+                                <td class="td-type0102" colspan="2">플랫폼 구축 및 시범운영 (한국형 운영모델 개발)</td>
+                                <td class="td-type03">한국형 모델 장착</td>
+                                <td class="td-type04">한국형 모델 확산</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">추진방향</th>
+                                <td class="td-type01">브랜드구축 - 인식확산</td>
+                                <td class="td-type02">서비스 표준개발</td>
+                                <td class="td-type03">서비스 활성화</td>
+                                <td class="td-type04">글로벌화 (개방,자율참여)</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">콘텐츠 개발</th>
+                                <td class="td-type0102" colspan="2">콘텐츠 다양화</td>
+                                <td class="td-type03">콘텐츠 표준화</td>
+                                <td class="td-type04">콘텐츠 국제화</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type02">구분</th>
+                                <td class="td-type01">2015년</td>
+                                <td class="td-type02">2016년</td>
+                                <td class="td-type03">2017년</td>
+                                <td class="td-type04">2018년 ~</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kmooc-roadmap-img">
+                <p>※ 공급자 : 16년 참여대학 추가  /  추진기관 : </p>
+                <div class="roadmap-img">
+                    <img src="/static/images/contents/kmooc_roadmap.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--// 추진체계 -->
+
+</section>

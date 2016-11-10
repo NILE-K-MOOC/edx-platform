@@ -8,7 +8,6 @@
 <%block name="js_extra">
     <script>
         function agree_gubn(){
-
             var gubn = "Y";
 
             if($("input[name=agree1]:checked").val() != "Y"){
@@ -25,7 +24,6 @@
                 return;
             }
 
-            console.log('ajax start........');
             $.post("/agree_done",
                     {"agreeYN": gubn, "csrfmiddlewaretoken": $("#csrfmiddlewaretoken").val()},
                     function(data){
@@ -43,22 +41,14 @@
 
 <%block name="header_extras"></%block>
 
-<section class="container rule">
-<!-- wrap Start -->
-<!-- wrap_cont -->
-<h2>가입약관</h2>
-    <div>
-        <form id="form" name="form" method="post" action="/agree_done">
-            <input type="hidden" id="agreeYN" name="agreeYN" />
-            <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="${csrf_token}" />
-            <input type="hidden" name="mode" value="01" />
-          <div class="content">
-            <p class="icon">회원가입을 위해 아래의 K-MOOC의 홈페이지 이용약관과 개인정보 처리방침에 대한 내용을 확인하시고, 동의하셔야 합니다.
-            </p>
-              <br/>
-            <h5>이용약관</h5>
-            <textarea name="agree_tex01" class="agree_box" readonly="" title="">
 
+<section class="container">
+
+				<!-- [s] 약관 -->
+				<h2>가입약관</h2>
+				<section class="agree-frm-box">
+					<h3>이용약관</h3>
+					<textarea readonly="readonly">
 제1장 총칙
 
 제1조 (목적)
@@ -182,19 +172,17 @@
 제18조 (관할법원)
     '서비스' 이용과 관련하여 소송이 제기될 경우 'NILE'의 소재지를 관할하는 법원 또는 대한민국의 민사소송법에 따른 법원을 관할법원으로 합니다.
     본 약관의 해석과 적용 및 본 약관과 관련한 분쟁의 해결에는 대한민국법이 적용됩니다.
-        </textarea>
+        			</textarea>
+					<div class="agree-chk">
+						<input type="radio" name="agree1" value="Y"> <label>동의함</label>
+						<input type="radio" name="agree1" value="N" checked> <label>동의하지 않음</label>
+					</div>
+				</section>
 
-        <div class="agree">
-            <span><input type="radio" name="agree1" id="agree-1-1" value="Y"><label for="agree-1-1">&nbsp;동의함</label></span>
-            &nbsp;&nbsp;
-            <span><input type="radio" name="agree1" id="agree-1-2" value="N" checked><label for="agree-1-2">&nbsp;동의하지 않음</label></span>
-        </div>
-       </div>
-    <div>
-      <div class="content">
-           <h5>K-MOOC 개인정보처리방침</h5>
-        <textarea name="agree_tex02" class="agree_box" readonly="readonly" title="개인정보보호법 제15조, 제24조에 의한 수집·이용에 동의">
-우리원은 고객님의 개인정보를 아래와 같이 처리함을 알려드립니다.
+
+				<section class="agree-frm-box">
+					<h3>K-MOOC 개인정보처리방침</h3>
+					<textarea readonly="readonly">우리원은 고객님의 개인정보를 아래와 같이 처리함을 알려드립니다.
 
 국가평생교육진흥원(이하 “진흥원”이라 한다)에서 운영하는 K-MOOC 홈페이지 (http://www.kmooc.kr, 이하 ‘당 홈페이지’라 한다)는 '개인정보 보호법'에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있습니다.
 
@@ -357,24 +345,23 @@
 제12조 (개인정보 처리방침 변경)
     이 개인정보 처리방침은 시행일로부터 적용되며, 법령 및 방침에 따른 변경내용의 추가, 삭제 및 정정이 있는 경우에는 가능한 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다.
     시행일자 : 2015.10.14
-                </textarea>
 
-                <div class="agree">
-                    <span><input type="radio" name="agree2" id="agree-2-1" value="Y"><label for="agree-2-1">&nbsp;동의함</label></span>
+        			</textarea>
+					<div class="agree-chk">
+						<input type="radio" name="agree2" value="Y"> <label>동의함</label>
+						<input type="radio" name="agree2" value="N" checked> <label>동의하지 않음</label>
+					</div>
+				</section>
 
-                    &nbsp;&nbsp;
-                    <span><input type="radio" name="agree2" id="agree-2-2" value="N" checked><label for="agree-2-2">&nbsp;동의하지 않음</label></span>
-                </div>
-            </div>
-            <div class="btn">
-                <span class="pr15"><a href="#" onclick="agree_gubn();"><img src="/static/images/btn_ok.gif" alt="확인" /></a></span>
-                <a href="/"><img src="/static/images/btn_cencle.gif" alt="취소"/></a>
-            </div>
-        </div>
-        </form>
-        <!-- //wrap_cont -->
-    </div>
-    <!-- //content -->
-<!-- wrap End -->
+
+    <form id="form" name="form" method="post" action="javascript:agree_gubn();">
+        <input type="hidden" id="agreeYN" name="agreeYN" />
+        <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="${csrf_token}" />
+        <input type="hidden" name="mode" value="01" />
+				<div class="button-box">
+					<input type="submit" value="확인">
+					<input type="button" value="취소">
+				</div>
+    </form>
+				<!-- [e] 약관 -->
 </section>
-

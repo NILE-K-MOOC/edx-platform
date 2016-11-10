@@ -17,8 +17,11 @@
 
 <%block name="header_extras"></%block>
 
-
 <section class="container join-type">
+    <form id="form" name="form" method="post" action="/agree">
+    <input type="hidden" id="division" name="division" />
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}" />
+    </form>
     <!-- [s] 가입유형 선택 -->
     <h2>가입유형 선택</h2>
     <h3>회원가입<span>JOIN US</span></h3>

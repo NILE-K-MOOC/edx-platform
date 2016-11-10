@@ -208,7 +208,7 @@ def login_and_registration_form(request, initial_mode="login"):
     else:
         return render_to_response('student_account/registration_gubn.html')
 
-    print 'division = ', division
+    # print 'division = ', division
 
     """Render the combined login/registration form, defaulting to login
 
@@ -267,15 +267,15 @@ def login_and_registration_form(request, initial_mode="login"):
         except (KeyError, ValueError, IndexError):
             pass
 
-    print '=========================================================='
-    if "" == redirect_to or redirect_to is None or "/dashboard" == redirect_to or 'redirectTo' in redirect_to:
-        print 'redirect_to1:', redirect_to
-        print 'equal'
-    else:
-        print 'not equal'
-        redirect_to = "/redirectTo" + redirect_to
-        print "redirect_to2:", redirect_to
-    print '=========================================================='
+    # print '=========================================================='
+    # if "" == redirect_to or redirect_to is None or "/dashboard" == redirect_to or 'redirectTo' in redirect_to:
+    #     print 'redirect_to1:', redirect_to
+    #     print 'equal'
+    # else:
+    #     print 'not equal'
+    #     redirect_to = "/redirectTo" + redirect_to
+    #     print "redirect_to2:", redirect_to
+    # print '=========================================================='
 
     # Otherwise, render the combined login/registration page
     context = {
@@ -299,6 +299,7 @@ def login_and_registration_form(request, initial_mode="login"):
         'allow_iframing': True,
         'disable_courseware_js': True,
         'disable_footer': True,
+        'division': division,
     }
 
     return render_to_response('student_account/login_and_register.html', context)

@@ -21,6 +21,37 @@
             // traces though.
             newrelic.addPageAction('xfinished');
         }
+
+        function agreementPop(){
+            var pop = window.open("/agreement","agreement","width=1260,height=768,left=50,top=50,scrollbars=yes,realzable=yes");
+            if(pop)
+                pop.focus();
+        }
+
+        function privacyPop(){
+            var pop = window.open("/Privacy-Policy","privacy","width=1260,height=768,left=55,top=55,scrollbars=yes,realzable=yes");
+            if(pop)
+                pop.focus();
+        }
+
+        $(document).ready(function(){
+            var d = new Date();
+            var year = d.getFullYear();
+
+            %if division == 'Y':
+                $("#register-year_of_birth").find("option").each(function(){
+                    if($(this).val() != "" && eval(year - $(this).val()) < 14)
+                        $(this).remove();
+                });
+
+            %else:
+                $("#register-year_of_birth").find("option").each(function(){
+                    if($(this).val() != "" && eval(year - $(this).val()) > 14)
+                        $(this).remove();
+                });
+            %endif
+        });
+
     </%static:require_module>
 </%block>
 

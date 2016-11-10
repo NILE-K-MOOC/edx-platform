@@ -1,7 +1,10 @@
-<%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
 <%inherit file="../main.html" />
+
 <%block name="pagetitle">아이핀인증</%block>
+
 <%block name="js_extra">
     <script>
         function registrationForm(gubn){
@@ -38,29 +41,30 @@
     </script>
 </%block>
 
-<main id="main" aria-label="Content" tabindex="-1">
+<%block name="header_extras"></%block>
+
+
+
+<section class="container rule">
     <form id="form_ipin" name="form_ipin" method="post">
     <input type="hidden" id="isAuth" name="isAuth" value="N">
     <input type="hidden" name="m" value="pubmain">
     <input type="hidden" name="enc_data" value="${sEncData}">
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}" />
-    </form>
-    <section class="container join-type">
-        <!-- [s] 오픈 API -->
+
         <h2>아이핀 인증</h2>
-        <p class="join-type-txt small">어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다.<br>
-        “아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요.</p>
-        <section class="ipin-box">
-            <div class="ipin-block">
-                <img src="/static/images/contents/ipin.png" alt="">
-                <dl>
-                    <dt>아이핀 인증</dt>
-                    <dd>아이핀 인증으로 보호자의 <br>동의절차를 진행</dd>
-                </dl>
-                <a href="javascript:fnPopup();">인증하기</a>
+
+        <dl>
+            <dt><p class="icon">어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다.</p></dt>
+            <dt><p class="icon">“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요.</p></dt>
+            <br/><br/><br/>
+            <div>
+            <p class="btn_ipin"><a href="#" onclick="fnPopup();"><img src="/static/images/btn_ipin.gif" alt="아이핀 인증" /></a></p>
+            <p class="btn_back"><a href="#" onclick="nextStep();"><img src="/static/images/btn_back.gif" alt="다음 단계 이동 >" /></a></p>
             </div>
-            <a href="javascript:nextStep();">다음 단계 이동</a>
-        </section>
-        <!-- [e] 오픈 API -->
-    </section>
-</main>
+        </dl>
+    </form>
+</section>
+<br/><br/><br/><br/>
+
+

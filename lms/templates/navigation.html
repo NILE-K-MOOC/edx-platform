@@ -54,7 +54,7 @@ site_status_msg = get_site_status_msg(course_id)
             <ul class="right list-inline">
 
                 <li class="left item">
-                    <a href="">HOME</a>
+                    <a href="/">HOME</a>
                 </li>
 
                 % if user.is_authenticated():
@@ -71,9 +71,11 @@ site_status_msg = get_site_status_msg(course_id)
                 </li>
                 % endif
 
+                <!--
                 <li class="left item">
                     <a href="">${_("SITEMAP")}</a>
                 </li>
+                -->
 
                 <li class="left language">
                     <a href="/en">ENG</a><a href="/ko" class="on">KOR</a>
@@ -86,10 +88,8 @@ site_status_msg = get_site_status_msg(course_id)
             <button class="m-gnb" onclick="$('#gnb').show();">
                 <span>Menu</span>
             </button>
-            <a href="${marketing_link('ROOT')}">
-                <%block name="navigation_logo">
+            <a href="/">
                 <img src="/static/images/common/logo_top.png" alt="KMOOC"/>
-                </%block>
             </a>
         </h1>
 

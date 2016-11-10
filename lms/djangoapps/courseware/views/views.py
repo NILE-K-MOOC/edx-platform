@@ -202,7 +202,7 @@ def openapi4(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def cert_check(request):
-    return render_to_response("courseware/cert_check.html")
+    return render_to_response("cert_check.html")
 
 def cert_check_id(request):
     uuid = request.POST['uuid']
