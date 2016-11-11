@@ -1,0 +1,31 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+## <script src="${static.url('js/script/faq_script.js')}" charset="utf-8"></script>
+<script src="${static.url('js/script/faq.js')}" charset="utf-8"></script>
+
+<section class="container">
+				<!-- [s] board write -->
+    <h2>자주하는 질문</h2>
+    <dl class="faq-list">
+        ## 					<dt><a href="#">K-MOOC사용법 안내 동영상 보기</a></dt>
+        ## 					<dd>
+        ## 						<div>
+        ## 						회원가입 및 강좌수강에 관한 안내는 K-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
+        ## 						K-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 help_kmooc@nile.or.kr 로 문의 주시면 답변드리겠습니다.
+        ## 						</div>
+        ## 					</dd>
+    </dl>
+    <div style="float: right">
+        <input type="button" value="문의하기" id="question"/>
+    </div>
+    <!-- [e] board write -->
+			</section>
+<br/><br/><br/><br/><br/><br/><br/>
+
+
+

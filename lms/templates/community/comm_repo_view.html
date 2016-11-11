@@ -1,0 +1,39 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<script src="${static.url('js/script/mod_repo.js')}" charset="utf-8"></script>
+
+<section class="container">
+    <!-- [s] board view -->
+    <section class="board-view">
+        <ul>
+            <li id="board_id" style="display: none;">${id}</li>
+            <li class="title">
+                <h3 id="title"></h3>
+                <time id="reg_date"></time>
+            </li>
+            <li class="contents" id="context">
+            </li>
+            <li class="contents" id="file">
+
+            </li>
+        </ul>
+
+        <div class="board-btns">
+            <div class="left">
+##                 <input type="button" value="이전글" class="btn-gray">
+##                 <input type="button" value="다음글" class="btn-gray">
+            </div>
+                <input type="button" value="목록" class="btn-gray">
+        </div>
+    </section>
+    <!-- [e] board list -->
+</section>
+
+
+
+

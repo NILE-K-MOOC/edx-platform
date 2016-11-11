@@ -1,0 +1,39 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<script src="${static.url('js/script/k_news.js')}" charset="utf-8"></script>
+
+<section class="container">
+				<!-- [s] board list -->
+				<section class="board-search-box">
+					<select id="search_con">
+						<option id="search_total">- 전체 -</option>
+                        <option id="search_title">- 제목 -</option>
+					</select>
+					<input type="text" id="search_search">
+					<input type="button" id="search" value="검색">
+				</section>
+				<section class="board-list">
+					<ul>
+						<li class="thead">
+							<span class="no">번호</span>
+							<span class="title">제목</span>
+							<span class="date">날짜</span>
+						</li>
+						<li class="tbody">
+						</li>
+					</ul>
+
+					<div class="paging">
+					</div>
+				</section>
+				<!-- [e] board list -->
+			</section>
+<br/><br/><br/><br/><br/><br/><br/>
+
+
+
