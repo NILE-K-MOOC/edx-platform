@@ -115,6 +115,17 @@ urlpatterns = (
 
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
+
+    #community url
+    url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),
+    url(r'^comm_notice_view/(?P<board_id>.*?)/$', 'community.views.comm_notice_view', name='comm_notice_view'),
+    url(r'^comm_repository$', 'community.views.comm_repository', name='comm_repository'),
+    url(r'^comm_repo_view/(?P<board_id>.*?)/$', 'community.views.comm_repo_view', name='comm_repo_view'),
+    url(r'^comm_faq$', 'community.views.comm_faq', name='comm_faq'),
+    url(r'^comm_k_news$', 'community.views.comm_k_news', name='comm_k_news'),
+    url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
+
+
 )
 
 urlpatterns += (
@@ -128,6 +139,11 @@ if settings.FEATURES["ENABLE_COMBINED_LOGIN_REGISTRATION"]:
             {'initial_mode': 'login'}, name="signin_user"),
         url(r'^register$', 'student_account.views.login_and_registration_form',
             {'initial_mode': 'register'}, name="register_user"),
+        url(r'^registration_gubn$', 'student_account.views.registration_gubn', name="registration_gubn"),
+        url(r'^agree$', 'student_account.views.agree', name="agree"),
+        url(r'^agree_done$', 'student_account.views.agree_done', name="agree_done"),
+        url(r'^parent_agree$', 'student_account.views.parent_agree', name="parent_agree"),
+        url(r'^parent_agree_done$', 'student_account.views.parent_agree_done', name="parent_agree_done"),
     )
 else:
     # Serve the old views
