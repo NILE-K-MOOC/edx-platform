@@ -143,7 +143,14 @@ site_status_msg = get_site_status_msg(course_id)
         })
                 .mouseleave(function(){
                     $(this).find("div").hide();
-
         });
+
+
+        $(".language a").click(function(){
+            var href = $(this).attr("href");
+            href = href + "?next="+document.location.pathname;
+            $(this).attr("href", href);
+        });
+
     });
 </script>

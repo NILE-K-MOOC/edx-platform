@@ -21,14 +21,11 @@
                  <a target="_blank" href="https://www.facebook.com/inhanuri"><img src="/static/images/common/footer_icon02.png" alt="facebook" class="univSns"/></a>
                  -->
             </div>
-            <p>포항공과대학교는 우리나라와 인류사회 발전에 절실히 필요한 과학과 기술의 심오한 이론과 광범위한 응용방법을 깊이있게 연구하고, 소수의 영재를 모아 질 높은 교육을 실시함으로써 지식과 지성을 겸비한 국제적 수준의 고급인재를 양성함과 아울러, 산•학•연 협동의 구체적인 실현을 통하여 연구결과를 산업체에 전파함으로써 사회와 인류에 봉사할 목적으로 설립되었습니다.</p>
-                    <p>이러한 목적에 따라 포항공과대학은 세계적인 대학들과 긴밀히 협력하여 기초과학과 공학 각 분야의 첨단연구에 중점을 두는 한편 소재산업 관련연구에서는 세계적인 중심지로 발전하고자 합니다.</p>
-                    <p>또한 성실하고 창의적이며 진취적 기상을 지닌 지성인을 양성하기 위하여 전문교육뿐만 아니라 전인교육을 강조하며, 인류 복지향상을 위하여 산학협동의 폭을 세계의 전 산업체로 확대함으로써 세계 속의 대학으로 발전하고자 합니다.</p>
-        </div>
-        <div class="univ-info">
-            <p>Pohang University of Science and Technology was founded with the purpose of contributing to the nation and humanity by conducting in-depth science and engineering research on the profound theories and wide range of applications essential to the advancement of Korea and the world, training a select pool of talented students to become future global leaders with both knowledge and honorable character through high-quality education, and translating research outcomes into real-world applications realized through close collaboration with industry, academia, and research institutions.</p>
-                    <p>In order to fulfill this purpose, Pohang University of Science and Technology not only focuses on advanced research in diverse fields of basic science and engineering by cooperating closely with world-leading universities, but also strives to develop itself as a global hub for research related to the materials sector.</p>
-                    <p>Pohang University of Science and Technology strives to become a world-class university by emphasizing well-rounded as well as specialized education to produce intellectuals with integrity, creativity, and challenging spirit, and by expanding the scope of industry-academia collaboration to improve human welfare.</p>
+            ${_(
+                "<p>Pohang University of Science and Technology was founded with the purpose of contributing to the nation and humanity by conducting in-depth science and engineering research on the profound theories and wide range of applications essential to the advancement of Korea and the world, training a select pool of talented students to become future global leaders with both knowledge and honorable character through high-quality education, and translating research outcomes into real-world applications realized through close collaboration with industry, academia, and research institutions.</p>"
+                "<p>In order to fulfill this purpose, Pohang University of Science and Technology not only focuses on advanced research in diverse fields of basic science and engineering by cooperating closely with world-leading universities, but also strives to develop itself as a global hub for research related to the materials sector.</p>"
+                "<p>Pohang University of Science and Technology strives to become a world-class university by emphasizing well-rounded as well as specialized education to produce intellectuals with integrity, creativity, and challenging spirit, and by expanding the scope of industry-academia collaboration to improve human welfare.</p>"
+            )}
         </div>
 
         <section class="courses-container">
@@ -41,7 +38,7 @@
                     </li>
                     %endfor
                 %else:
-                    <div class="noCourse">※ 현재 수강할 수 있는 강좌가 없습니다.</div>
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
                 %endif
                 </ul>
             </section>
