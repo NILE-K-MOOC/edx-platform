@@ -80,7 +80,7 @@ site_status_msg = get_site_status_msg(course_id)
                 -->
 
                 <li class="left language">
-                    <a href="/en">ENG</a><a href="/ko" class="on">KOR</a>
+                    <a href="/en" class="${'on' if LANGUAGE_CODE == 'en' else ''}">ENG</a><a href="/ko" class="${'on' if LANGUAGE_CODE == 'ko-kr' else ''}">KOR</a>
                 </li>
 
             </ul>
@@ -90,7 +90,7 @@ site_status_msg = get_site_status_msg(course_id)
             <button class="m-gnb" onclick="$('#gnb').show();">
                 <span>Menu</span>
             </button>
-            <a href="${marketing_link('ROOT')}">
+            <a href="/">
                 <%block name="navigation_logo">
                 <img src="/static/images/common/logo_top.png" alt="KMOOC"/>
                 </%block>
