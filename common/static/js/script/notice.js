@@ -20,7 +20,7 @@ $(document).ready(function(){
         for(var i=0; i<data.length; i++){
             value_list = data[i].toString().split(',');
             //alert(value_list.length);
-            html += "<li>";
+            html += "<li class='tbody'>";
             for(var j=0; j<value_list.length; j++){
                 //console.log(value_list[j]);
                 if(j==0){
@@ -38,7 +38,7 @@ $(document).ready(function(){
             }
             html += "</li>"
         }
-        $('.tbody').html(html);
+        $('#tbody').html(html);
         html2 += "<a href='#' class='first' id='first'>first</a>";
         html2 += "<a href='#' class='prev' id='prev'>prev</a>";
         for(var t=0;t<total_page; t++){
@@ -76,7 +76,7 @@ $(document).ready(function(){
                 html = "";
                 for(var i=0; i<data.length; i++){
                     value_list = data[i].toString().split(',');
-                    html += "<li>";
+                    html += "<li class='tbody'>";
                     //j=4는 board_id
                     for(var j=0; j<value_list.length; j++){
                         //console.log(value_list[j]);
@@ -95,7 +95,7 @@ $(document).ready(function(){
                     }
                     html += "</li>"
                 }
-                $('.tbody').html(html);
+                $('#tbody').html(html);
             });
         }
         else if(click_el == 'last'){
@@ -113,7 +113,7 @@ $(document).ready(function(){
                 html = "";
                 for(var i=0; i<data.length; i++){
                     value_list = data[i].toString().split(',');
-                    html += "<li>";
+                    html += "<li class='tbody'>";
                     for(var j=0; j<value_list.length; j++){
                         //console.log(value_list[j]);
                         if(j==0){
@@ -131,7 +131,7 @@ $(document).ready(function(){
                     }
                     html += "</li>"
                 }
-                $('.tbody').html(html);
+                $('#tbody').html(html);
             });
         }
         else if(click_el == 'prev'){
@@ -151,7 +151,7 @@ $(document).ready(function(){
                     html = "";
                     for(var i=0; i<data.length; i++){
                         value_list = data[i].toString().split(',');
-                        html += "<li>";
+                        html += "<li class='tbody'>";
                         for(var j=0; j<value_list.length; j++){
                             //console.log(value_list[j]);
                             if(j==0){
@@ -169,7 +169,7 @@ $(document).ready(function(){
                         }
                         html += "</li>"
                     }
-                    $('.tbody').html(html);
+                    $('#tbody').html(html);
                 });
             }
             else{
@@ -190,7 +190,7 @@ $(document).ready(function(){
                 html = "";
                 for(var i=0; i<data.length; i++){
                     value_list = data[i].toString().split(',');
-                    html += "<li>";
+                    html += "<li class='tbody'>";
                     for(var j=0; j<value_list.length; j++){
                         //console.log(value_list[j]);
                         if(j==0){
@@ -208,7 +208,7 @@ $(document).ready(function(){
                     }
                     html += "</li>"
                 }
-                $('.tbody').html(html);
+                $('#tbody').html(html);
             });
         }
         else if(click_el == 'next'){
@@ -229,7 +229,7 @@ $(document).ready(function(){
                     html = "";
                     for(var i=0; i<data.length; i++){
                         value_list = data[i].toString().split(',');
-                        html += "<li>";
+                        html += "<li class='tbody'>";
                         for(var j=0; j<value_list.length; j++){
                             //console.log(value_list[j]);
                             if(j==0){
@@ -247,7 +247,7 @@ $(document).ready(function(){
                         }
                         html += "</li>"
                     }
-                    $('.tbody').html(html);
+                    $('#tbody').html(html);
                 });
             }
             else{
@@ -279,7 +279,7 @@ $(document).on('click', '#search', function(){
             html = "";
                 for(var i=0; i<data.length; i++){
                     value_list = data[i].toString().split(',');
-                    html += "<li>";
+                    html += "<li class='tbody'>";
                     for(var j=0; j<value_list.length; j++){
                         //console.log(value_list[j]);
                         if(j==0){
@@ -297,7 +297,7 @@ $(document).on('click', '#search', function(){
                     }
                     html += "</li>"
                 }
-                $('.tbody').html(html);
+                $('#tbody').html(html);
                 html2 += "<a href='#' class='first' id='first'>first</a>";
                 html2 += "<a href='#' class='prev' id='prev'>prev</a>";
                 for(var t=0;t<total_page; t++){
@@ -324,7 +324,7 @@ $(document).on('click', '#search', function(){
             for(var i=0; i<data.length; i++){
                 value_list = data[i].toString().split(',');
                 //alert(value_list.length);
-                html += "<li>";
+                html += "<li class='tbody'>";
                 for(var j=0; j<value_list.length; j++){
                     //console.log(value_list[j]);
                     if(j==0){
@@ -342,7 +342,7 @@ $(document).on('click', '#search', function(){
                 }
                 html += "</li>"
             }
-            $('.tbody').html(html);
+            $('#tbody').html(html);
             html2 += "<a href='#' class='first' id='first'>first</a>";
             html2 += "<a href='#' class='prev' id='prev'>prev</a>";
             for(var t=0;t<total_page; t++){
