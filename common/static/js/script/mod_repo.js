@@ -35,7 +35,7 @@ $(document).on('click', '#list', function(){
     location.href='/comm_repository'
 });
 
-$(document).on('click', '#file > li', function(){
+$(document).on('click', '#file > li > a', function(){
     var file_name = $(this).text();
     var board_id = $('#board_id').text();
 

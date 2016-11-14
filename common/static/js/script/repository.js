@@ -267,7 +267,7 @@ $(document).on('click', '#search', function(){
     //alert(search_con);
     if(search_search != '' && search_search != null){
         $.ajax({
-            url : '/comm_notice',
+            url : '/comm_repository',
             data : {
                 method : 'search_list',
                 cur_page : '1',
@@ -314,9 +314,9 @@ $(document).on('click', '#search', function(){
         });
     }else{
         $.ajax({
-        url : '/comm_notice',
+        url : '/comm_repository',
             data : {
-                method : 'notice_list'
+                method : 'data_list'
             }
         }).done(function(data){
             //console.log(data);

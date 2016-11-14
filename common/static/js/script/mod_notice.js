@@ -8,7 +8,7 @@ $(document).ready(function(){
                 method : 'view'
             }
     }).done(function(data){
-        console.log(data);
+        //console.log(data);
         value_list = data.toString().split(',');
         for(var i=0; i<value_list.length; i++){
             if(i==0){
@@ -22,7 +22,7 @@ $(document).ready(function(){
             }
             else{
                 //$('#file').html(value_list[i]);
-                html += "<a href='#' id='download' >"+value_list[i]+"</a>";
+                html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
                 $('#file').html(html);
             }
         }
@@ -31,10 +31,10 @@ $(document).ready(function(){
 });
 
 $(document).on('click', '#list', function(){
-    location.href='/comm_k_news'
+    location.href='/comm_notice'
 });
 
-$(document).on('click', '#file > li', function(){
+$(document).on('click', '#file > li > a', function(){
     var file_name = $(this).text();
     var board_id = $('#board_id').text();
 
@@ -45,6 +45,7 @@ $(document).on('click', '#file > li', function(){
                 file_name : file_name
             }
     }).done(function(data){
+        //console.log(data);
         $("#download").prop("href", data);
         location.href=$("#download").attr('href');
     });
