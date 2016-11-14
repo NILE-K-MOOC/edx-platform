@@ -22,6 +22,9 @@
             assets_url = reverse('contentstore.views.assets_handler', kwargs={'course_key_string': unicode(course_key)})
             textbooks_url = reverse('contentstore.views.textbooks_list_handler', kwargs={'course_key_string': unicode(course_key)})
             videos_url = reverse('contentstore.views.videos_handler', kwargs={'course_key_string': unicode(course_key)})
+##          MME연동 추가
+            cdn_url = reverse('contentstore.views.assets_handler', kwargs={'course_key_string': unicode(course_key)})
+            cdn_url = cdn_url.replace('assets', 'cdn')
             import_url = reverse('contentstore.views.import_handler', kwargs={'course_key_string': unicode(course_key)})
             course_info_url = reverse('contentstore.views.course_info_handler', kwargs={'course_key_string': unicode(course_key)})
             export_url = reverse('contentstore.views.export_handler', kwargs={'course_key_string': unicode(course_key)})
@@ -59,6 +62,7 @@
                   <li class="nav-item nav-course-courseware-pages">
                     <a href="${tabs_url}">${_("Pages")}</a>
                   </li>
+                    <li class="nav-item nav-course-courseware-uploads-cdn"><a href="${cdn_url}">${_("CDN Uploads")}</a></li>
                   <li class="nav-item nav-course-courseware-uploads">
                     <a href="${assets_url}">${_("Files & Uploads")}</a>
                   </li>
