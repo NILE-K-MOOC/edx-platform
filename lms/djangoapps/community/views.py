@@ -62,13 +62,14 @@ import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 import urllib2
 
-con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+
+@ensure_csrf_cookie
+def comm_notice(request) :
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                               settings.DATABASES.get('default').get('USER'),
                               settings.DATABASES.get('default').get('PASSWORD'),
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
-@ensure_csrf_cookie
-def comm_notice(request) :
     noti_list = []
     page = 1
     if request.is_ajax():
@@ -165,6 +166,11 @@ def comm_notice(request) :
 
 @ensure_csrf_cookie
 def comm_notice_view(request, board_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
     value_list = []
     if request.is_ajax():
         data={}
@@ -208,6 +214,11 @@ def comm_notice_view(request, board_id):
 
 @ensure_csrf_cookie
 def comm_faq(request) :
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
     if request.is_ajax() :
         if request.GET['method']  == 'faq_list' :
             faq_list = []
@@ -230,6 +241,11 @@ def comm_faq(request) :
 
 @ensure_csrf_cookie
 def comm_repository(request):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
     data_list = []
     page = 1
     if request.is_ajax():
@@ -322,6 +338,11 @@ def comm_repository(request):
 
 @ensure_csrf_cookie
 def comm_repo_view(request, board_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
     value_list = []
     if request.is_ajax():
         data={}
@@ -360,6 +381,11 @@ def comm_repo_view(request, board_id):
 
 @ensure_csrf_cookie
 def comm_k_news(request) :
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
     k_news_list = []
     page = 1
     if request.is_ajax():
@@ -451,6 +477,11 @@ def comm_k_news(request) :
     return render_to_response('community/comm_k_news.html')
 
 def comm_k_news_view(request, board_id):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
     if request.is_ajax():
         data={}
         if request.GET['method'] == 'view' :
