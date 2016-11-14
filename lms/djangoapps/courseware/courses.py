@@ -411,7 +411,7 @@ def get_courses_by_org(user, org=None, filter_=None):
 
     courses = branding.get_visible_courses(org=org, filter_=filter_)
 
-    print 'len ::::::::::', len(courses)
+    # print 'len ::::::::::', len(courses)
 
     courses1 = list()
     courses2 = list()
