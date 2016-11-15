@@ -519,12 +519,12 @@ def comm_k_news_view(request, board_id):
 class SMTPException(Exception):
     """Base class for all exceptions raised by this module."""
 def test(request):
-    email_list = [];
+    email_list = []
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                              settings.DATABASES.get('default').get('USER'),
-                              settings.DATABASES.get('default').get('PASSWORD'),
-                              settings.DATABASES.get('default').get('NAME'),
-                              charset='utf8')
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
     cur = con.cursor()
     query = """
         SELECT email, dormant_mail_cd from auth_user
@@ -542,19 +542,37 @@ def test(request):
         'email_from_address',
         settings.DEFAULT_FROM_EMAIL
     )
+
+    print 'email_list == ',email_list
+
+    # cur = con.cursor()
+    # query = """
+    #         UPDATE edxapp.auth_user
+    #            SET dormant_mail_cd = '0'
+    #          WHERE email = 'minseok9106@naver.com';
+    #         """
+    # print 'query == ',query
+    # cur.execute(query)
+    # cur.execute('commit')
+    # cur.close()
+
     cur = con.cursor()
-    query1 = ""
     for e in email_list:
         try:
             send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
-            query1 += "update auth_user set dormant_mail_cd = '0' where email = '"+e+"';"
-            query1 += "insert into drmt_auth_user_process(email,success) values('"+e+"', '1');"
+            query1 = "update auth_user set dormant_mail_cd = '0' where email = '"+e+"' "
+            cur.execute(query1)
+            cur.execute('commit')
+            query1 = "insert into drmt_auth_user_process(email,success) values('"+e+"', '1')"
+            cur.execute(query1)
+            cur.execute('commit')
         except SMTPException:
             print 'fail sending email'
+            cur = con.cursor()
             query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
+            cur.execute(query1)
+            cur.execute('commit')
 
-        print 'query1 == ',query1
-        cur.execute(query1)
-        cur.close()
 
+    cur.close()
     return render_to_response('community/test.html')
