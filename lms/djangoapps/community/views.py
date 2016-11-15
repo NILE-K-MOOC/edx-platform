@@ -61,6 +61,10 @@ from util.json_request import JsonResponse
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 @ensure_csrf_cookie
