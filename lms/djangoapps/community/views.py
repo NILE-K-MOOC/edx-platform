@@ -60,7 +60,7 @@ from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
-import urllib2
+from django.core.mail import send_mail
 
 
 @ensure_csrf_cookie
@@ -116,7 +116,6 @@ def comm_notice(request) :
                 value_list.append(notice[4])
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
-
         elif request.GET['method'] == 'search_list' :
             cur = con.cursor()
             if 'cur_page' in request.GET :
@@ -513,4 +512,45 @@ def comm_k_news_view(request, board_id):
     }
     return render_to_response('community/comm_k_news_view.html',context)
 
+class SMTPException(Exception):
+    """Base class for all exceptions raised by this module."""
+def test(request):
+    email_list = [];
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
+    cur = con.cursor()
+    query = """
+        SELECT email, dormant_mail_cd from auth_user
+    """
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
 
+    for u in row:
+        user = u
+        if user[1] == '15' or user[1] == '30':
+            email_list.append(user[0])
+    # 이메일 전송
+    from_address = configuration_helpers.get_value(
+        'email_from_address',
+        settings.DEFAULT_FROM_EMAIL
+    )
+    cur = con.cursor()
+    query1 = ""
+    for e in email_list:
+        try:
+            send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
+            query1 += "update auth_user set dormant_mail_cd = '0' where email = '"+e+"';"
+            query1 += "insert into drmt_auth_user_process(email,success) values('"+e+"', '1');"
+        except SMTPException:
+            print 'fail sending email'
+            query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
+
+        print 'query1 == ',query1
+        cur.execute(query1)
+        cur.close()
+
+    return render_to_response('community/test.html')
