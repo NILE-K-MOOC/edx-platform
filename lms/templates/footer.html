@@ -51,6 +51,9 @@ dir=${bidi}
                 <li class="nav-colophon-03"><a href="http://blog.naver.com/kmooc_kr" target="_blank">${_("Blog")}</a></li>
                 <!-- <li class="nav-colophon-04"><a href="">오픈API</a></li> -->
                 <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
+                % if LANGUAGE_CODE == 'en':
+                <li class="nav-colophon-02"><a href="/contact">${_("Ask a question")}</a></li>
+                % endif
             </ol>
             </nav>
         <p class="copyright">Copyright(c)2015. National Institute For Lifelong Education. All right reserved</p>

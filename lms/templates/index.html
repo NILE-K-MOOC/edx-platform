@@ -320,6 +320,8 @@ from openedx.core.djangolib.markup import HTML, Text
         </section>
         <!-- [e] course list -->
 
+
+        % if LANGUAGE_CODE == 'ko-kr':
         <!-- [s] community list -->
         <section class="community-container" id="main-contents06">
             <h2 class="main-title">커뮤니티</h2>
@@ -411,6 +413,7 @@ from openedx.core.djangolib.markup import HTML, Text
             </div>
         </section>
         <!-- [e] community list -->
+        % endif
 
     </section>
 </main>

@@ -101,7 +101,9 @@ site_status_msg = get_site_status_msg(course_id)
             <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             <li class="item nav-global-02"><a href="/schools">${_("Participating Institutions")}</a></li>
             <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
+            % if LANGUAGE_CODE == 'ko-kr':
             <li class="item nav-global-04" data-hidden="m"><a href="/comm_notice">${_("Community")}</a>
+            % endif
                 <div style="position: absolute; display: none;">
                     <ul>
                         <li id="menu1"><a href="/comm_notice">공지사항</a></li>
