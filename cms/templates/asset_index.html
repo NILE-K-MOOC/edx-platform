@@ -14,7 +14,7 @@
     path_info_split = path_info.split('/')
 %>
 % if path_info_split[1] == 'assets':
-    ${_("Files &amp; Uploads")}
+    ${_("Files & Uploads")}
 % else:
     CDN 업로드
 % endif
@@ -40,17 +40,17 @@
     path_info_split = path_info.split('/')
 %>
 % if path_info_split[1] == 'assets':
-% for template_name in ["asset-library", "asset"]:
-<script type="text/template" id="${template_name}-tpl">
-    <%static:include path="js/${template_name}.underscore" />
-</script>
-% endfor
+    % for template_name in ["asset-library", "asset"]:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="js/${template_name}.underscore" />
+        </script>
+    % endfor
 % else:
-% for template_name in ["asset-library", "asset"]:
-<script type="text/template" id="${template_name}-tpl">
-    <%static:include path="js/cdn.underscore" />
-</script>
-% endfor
+    % for template_name in ["asset-library", "asset"]:
+         <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="js/cdn.underscore" />
+        </script>
+    % endfor
 % endif
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 </%block>
@@ -67,7 +67,8 @@
 </%block>
 
 <%block name="content">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/2.1.2/plupload.full.min.js"></script>
+##     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/2.1.2/plupload.full.min.js"></script>
+    <script type="text/javascript" src="http://mme2.npcomms.kr/assets/js/plupload.full.min.js"></script>
 
 <div class="wrapper-mast wrapper">
     <header class="mast has-actions has-subtitle">
@@ -87,9 +88,13 @@
     </header>
 </div>
 <script type="text/javascript">
-var pathname = $(location).attr('pathname');
-arrPathname = pathname.split('/');
-if (arrPathname[1] == 'cdn') $('#update_type').text('CDN 업로드');
+    var pathname = $(location).attr('pathname');
+    arrPathname = pathname.split('/');
+    if (arrPathname[1] == 'cdn'){
+        $('#update_type').text(gettext('CDN Upload'));
+    }
+
+
 </script>
 <div class="wrapper-content wrapper">
     <section class="content">
@@ -177,10 +182,16 @@ if (arrPathname[1] == 'cdn') $('#update_type').text('CDN 업로드');
 
 
 <script type="text/javascript">
-var file_name = "";
-var cdn_url = "";
-var content_type = "";
-var thumbnail_url = "";
+    var mme_host = 'http://mme2.npcomms.kr'
+
+
+    var file_name = "";
+    var playtime = "";
+    var cdn_url = "";
+    var thumbnail_url = "";
+    var uuid = "";
+    var state = "S";
+    var content_type = "";
 
     if ($("#zfp-thumbnail-selector").length > 0) {
         var cdn_upload = new plupload.Uploader({
@@ -190,7 +201,7 @@ var thumbnail_url = "";
             //chunk_size : '64kb',
             chunk_size: '2048kb',
             // MME General settings
-            url: "http://mme2.npcomms.kr/upload_mov",
+            url: mme_host + "/upload_mov",
             file_data_name: "uploadFile",
             max_file_count: 0,
             max_retries: 3,
@@ -199,6 +210,11 @@ var thumbnail_url = "";
                 mime_types: [
                     {title: "Image files", extensions: "mov,mp4,avi,mpeg,wmv,mkv"}
                 ]
+            },
+            multipart_params: {
+                //추가 파라미터
+                'vprofile': '720',
+                'aprofile': 'stereoSQ'
             },
             flash_swf_url: 'js/Moxie.swf',
             silverlight_xap_url: 'js/Moxie.xap',
@@ -245,11 +261,11 @@ var thumbnail_url = "";
                         up.refresh();
                         var result = $.parseJSON(info.response);
 
-                        var uuid = result.data.uuid;
+##                         var uuid = result.data.uuid;
                         var file_ext = result.data.insert_data.file_ext;
                         var file_size = result.data.insert_data.fsize;
                         var upload_path = result.data.insert_data.up_path;
-                        var playtime = result.data.playtime;
+##                         var playtime = result.data.playtime;
 
 
 
@@ -262,48 +278,22 @@ var thumbnail_url = "";
 //                        $(".embeddable").after($(".input-group"));
 //                        $(".embeddable-xml-input").val(cdn_url);
 
-                        ajaxPutEdX();
+                        file_name = file.name;
+                        file_type = file.type;
+                        cdn_url = result.data.insert_data.cdn_url;
+                        thumbnail_url = result.data.insert_data.thumb_info + '_0.png';
+                        playtime = result.data.insert_data.playtime;
+                        uuid = result.data.uuid;
 
-                        /*
-                        //영상 엔코딩 요청 상태 체크
-                        $.ajax({
-                            url: 'http://mme.kmoocs.kr/mov_upload',
-                            dataType: 'json',
-                            data: 'uuid=' + result.data.up_path + '&is_re=y',
-                            type: 'get',
-                            success: function (res) {
-                                if (res.status == 200) {
-                                    var movie_status = 'http://mme.kmoocs.kr' + res.data.movie_status;
-                                    var thumb_status = 'http://mme.kmoocs.kr' + res.data.thumb_status;
-                                    cdn_url = 'http://vod.kmoocs.kr' + res.data.mov_url;
-                                    ajaxPutEdX();
-//                                    mov_st(movie_status);
-                                } else if (res.status == 700) {
-                                    console.log('중복엔코딩 요청입니다.');
-                                } else {
-                                    alert('엔코딩 요청이 완료되지 않았습니다.');
-                                }
-                            },
-                            error: function (e) {
-                                console.log(e);
-                            },
-                            complete: function () {
-                                //영상 상태체크
-                                //썸네일 체크
-                                //구간썸네일 체크
-                                $(".choose-file-button").text("Load Another File");
+                        ajaxPutEdX();
+                        $(".choose-file-button").text("Load Another File");
                                 $(".input-group").show();
-                            }
-                        });
-                        */
                     } else {
                         up.refresh();
                     }
                     console.log('FileUploaded:', file, info);
-                    file_name = file.name;
-                    file_type = file.type;
-                    console.log('filname', file.name);
-                    console.log('filetype', file.type);
+
+
                     $("#zfp-thumbnail-progress").hide();
                 }
             }
@@ -313,51 +303,7 @@ var thumbnail_url = "";
         cdn_upload.init();
     };
 
-    var mov_st = function (url) {
-        $.ajax({
-            method: 'GET',
-            url: url,
-            dataType: 'jsonp',
-            async: false,
-            success: function (res) {
-//                console.log(res);
-                if (res.message == 'PENDING' && res.status == '200') {
-                    mov_st(url);
-                }
-                else if (res.message == 'SUCCESS' && res.status == '200' &&
-                     res.data.msg == 'Transcoding Finish') {
-                }
-                else if (res.message == 'PENDING' && res.status == '210') {
-                    mov_st(url);
-                }
-            },
-            error: function () {
-            }
-        });
-    };
 
-    var getThumb = function (text, url) {
-        var path = '';
-        $.ajax({
-            method: 'GET',
-            url: url,
-            dataType: 'jsonp',
-            success: function (res) {
-                if (res.message !== 'SUCCESS') {
-                    getThumb(text, url);
-                } else {
-                    console.log("res:", res);
-                    $.each(res.data.thumb, function (index, value) {
-                        path = value.path.replace('/data/convert/mme', 'http://vod.kmoocs.kr/doc')
-                        thumbnail_url = path;
-                        console.log("path:",path);
-                    });
-                }
-            },
-            error: function () {
-            }
-        });
-    };
 
     var sleep = function (delay) {
         var start = new Date().getTime();
@@ -373,7 +319,7 @@ var trCdnFile = ""
 + "    </div>"
 + "</td>"
 + "<td class=\"name-col\">"
-+ "    <span class=\"title\"><a data-tooltip=\"Open/download this file\" href=\"{{url}}\" class=\"filename\">{{display_name}}</a></span>"
++ "    <span class=\"title\"><a data-tooltip=\"Open/download this file\" href=\"{{url}}\" class=\"filename\" target=\"_blank\">{{display_name}}</a></span>"
 + "    <div class=\"embeddable-xml\"></div>"
 + "</td>"
 + "<td class=\"type-col\">"
@@ -387,7 +333,7 @@ var trCdnFile = ""
 + "        <li class=\"embed-url\">"
 + "            <label>"
 + "                <span class=\"label\">Status:</span>"
-+ "                <input type=\"text\" class=\"embeddable-xml-input\" value=\"{{encoding_status}}\" readonly=\"\">"
++ "                <input type=\"text\" class=\"embeddable-xml-input trans-status-{{uuid}}\" value=\"{{state}}\" readonly=\"\">"
 + "            </label>"
 + "        </li>"
 + "        <li class=\"external-url\">"
@@ -401,7 +347,8 @@ var trCdnFile = ""
 + "<td class=\"actions-col\">"
 + "    <ul class=\"actions-list\">"
 + "        <li class=\"action-item action-delete\">"
-+ "            <a href=\"javascript:ajaxDeleteEdX('{{id}}', '{{mme_path}}');\" style=\"display:inline\" data-tooltip=\"Delete this asset\" class=\"remove-asset-button action-button\" ><i class=\"icon fa fa-times-circle\" aria-hidden=\"true\"></i> <span class=\"sr\">Delete this asset</span></a>"
+//+ "            <a href=\"javascript:ajaxDeleteEdX();\" style=\"display:inline\" data-tooltip=\"Delete this asset\" class=\"remove-asset-button action-button\" ><i class=\"icon fa fa-times-circle\" aria-hidden=\"true\"></i> <span class=\"sr\">Delete this asset</span></a>"
++ '<a href="#" data-tooltip="Delete this asset" class="remove-asset-button action-button"><i class="icon fa fa-times-circle" aria-hidden="true"></i> <span class="sr">Delete this asset</span></a>'
 + "        </li>"
 + "    </ul>"
 + "</td>"
@@ -413,7 +360,7 @@ var trCdnFile = ""
             headers: {'X-CSRFToken': '${ csrf_token }'},
         });
         $.ajax({
-            url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url,
+            url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime,
             success: function (res) {
                 if (res.result == 'success') {
                     ajaxGetEdX();
@@ -425,7 +372,45 @@ var trCdnFile = ""
         });
     }
 
-    var ajaxDeleteEdX = function(id, mme_path) {
+    var ajaxStateEdx = function(file_name, cdn_url, file_type, thumbnail_url, uuid, state, playtime){
+        $.ajaxSetup({
+            type: 'PUT',
+            headers: {'X-CSRFToken': '${ csrf_token }'},
+        });
+        $.ajax({
+            url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime,
+            success: function (res) {
+                if (res.result == 'success') {
+                    console.info('state update', uuid, state);
+                    //ajaxGetEdX();
+                }
+            },
+            error: function () {
+                console.log('ajaxStateEdX error');
+            }
+        });
+    }
+
+    var ajaxStateEdx11 = function(file_name, state){
+        $.ajaxSetup({
+            type: 'PUT',
+            headers: {'X-CSRFToken': '${ csrf_token }'},
+        });
+        $.ajax({
+            url: '${asset_callback_url}?file_name='+file_name+'&state='+state,
+            success: function (res) {
+                if (res.result == 'success') {
+                    ajaxGetEdX();
+                }
+            },
+            error: function () {
+                console.log('ajaxStateEdX error');
+            }
+        });
+    }
+
+    var ajaxDeleteEdX = function(id, uuid) {
+
         $.ajaxSetup({
             type : 'DELETE'
         });
@@ -439,17 +424,37 @@ var trCdnFile = ""
                 type : 'GET'
             });
             $.ajax({
-                url: 'http://mme.kmoocs.kr/mov_delete?uuid='+mme_path+'&origin=1',
+                url: mme_host+'/mov_delete?uuid='+uuid+'&origin=1',
                 error: function () {
                     console.log('mov_delete error');
-                }
+                },
+                success: function (res) {
+                    console.log('mov_delete success');
+                  }
             });
             console.log("ajaxDeleteEdX done");
             ajaxGetEdX();
         });
     }
 
+    var underscoreDeleteEdX = function(object){
+        console.log(object);
+
+        var id = $(object)[0].model.attributes.id;
+        var uuid = $(object)[0].model.attributes.uuid;
+        $.ajax({
+            url: mme_host+'/mov_delete?uuid='+uuid+'&origin=1',
+            error: function () {
+                console.log('mov_delete error');
+            },
+            success: function (res) {
+                console.log('mov_delete success');
+              }
+        });
+    }
+
     var ajaxGetEdX = function() {
+
         $.ajaxSetup({
             type: 'GET'
         });
@@ -457,6 +462,9 @@ var trCdnFile = ""
             url: '${asset_callback_url}',
             error: function () {
                 console.log('ajaxGetEdX error');
+            },
+            success: function(){
+                console.log('success');
             }
         }).done(function(data){
             if (data.totalCount > 0) {
@@ -466,21 +474,29 @@ var trCdnFile = ""
                 var arrAssets = data.assets;
                 var asset = null;
                 $.each(arrAssets, function( key, value ) {
+                    console.info(key, value);
+
                     asset = value;
                     var arrUrl = asset.external_url.split('/');
                     var thumbnail = asset.thumbnail;
                     var display_name = asset.display_name;
                     var external_url = asset.external_url;
-                    var content_type = asset.content_type;
                     var date_added = asset.date_added;
+                    var playtime = asset.playtime;
+                    var uuid = asset.uuid;
+                    var state = asset.state;
+                    var content_type = asset.content_type;
+
                     var asset_id = encodeURIComponent(asset.id);
                     sleep(1000);
+
                     $.ajax({
                         method: 'GET',
-                        url: 'http://mme.kmoocs.kr/movie_status?uuid='+arrUrl[arrUrl.length-1].replace('.mp4', ''),
+                        url: mme_host+'/upload_mov?uuid='+uuid+'&playtime='+playtime,
                         dataType: 'jsonp',
                         async: false,
                         success: function (res) {
+
                             var encMsg = null;
                            if (res.status == '200' && res.data.msg == 'Transcoding Processing') {
                                encMsg = '동영상 인코딩 진행중 '+res.data.data.percent+'%';
@@ -492,16 +508,73 @@ var trCdnFile = ""
                            }
                            else if (res.status == '210' && res.data.msg == 'Transcoding Processing') {
                                encMsg = '동영상 인코딩 진행중 '+res.data.data.percent+'%';
+                           }else{
+                               sleep(1000);
+                               var transcoding_status = setInterval(function(){
+
+                                    $.ajax({
+                                        url: mme_host + '/upload_mov',
+                                        cache: false, dataType: "json", async: true,
+                                        data: {'uuid': uuid, 'playtime': playtime},
+                                        success: function(res){
+                                            var message = res.message;
+                                            var state_msg = "";
+                                            if(message == 'FAILURE'){
+                                                state_msg = "인코딩 실패";
+                                                $(".trans-status-"+uuid).val(state_msg);
+                                                clearInterval(transcoding_status);
+                                                return;
+                                            }else if(message == 'PENDING'){
+                                                if(res.data.status == 'fail'){
+                                                    state_msg = "인코딩 실패";
+                                                    $(".trans-status-"+uuid).val(state_msg);
+                                                    ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'F', playtime);
+                                                    clearInterval(transcoding_status);
+                                                    return;
+                                                }else if(res.data.status == 'ok'){
+                                                    var status = res.data.data.status;
+                                                    var percent = res.data.data.percent;
+                                                    state_msg = '동영상 인코딩 진행중 '+percent+'%';
+                                                    $(".trans-status-"+uuid).val(state_msg);
+
+                                                }else if(res.data.status == 'complete'){
+                                                    state_msg = '동영상 인코딩 완료';
+                                                    $(".trans-status-"+uuid).val(state_msg);
+                                                    ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'E', playtime);
+                                                    clearInterval(transcoding_status);
+                                                    return;
+                                                }
+                                            }else if(message == 'NOTFOUND'){
+                                                state_msg = "인코딩 대기[대기번호: "+uuid+"]";
+                                                $(".trans-status-"+uuid).val(state_msg);
+                                                ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'Q', playtime);
+                                                clearInterval(transcoding_status);
+                                                return;
+                                            }else if(message == 'SUCCESS'){
+                                                state_msg = '동영상 인코딩 완료';
+                                                $(".trans-status-"+uuid).val(state_msg);
+                                                ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'E', playtime);
+                                                clearInterval(transcoding_status);
+                                                return;
+                                            }
+                                        }
+                                    });
+
+                                }, 2000);
+
                            }
+                            console.info(asset_id, 'kkkkkkk');
                             $('#asset-table-body').append(trCdnFile
                                     .replace('{{thumbnail}}', thumbnail)
                                     .replace('{{display_name}}', display_name)
                                     .replace(/{{url}}/g, external_url)
                                     .replace('{{content_type}}', content_type)
                                     .replace('{{date_added}}', date_added)
-                                    .replace('{{encoding_status}}', encMsg)
+                                    .replace('{{state}}', encMsg)
                                     .replace('{{id}}', asset_id)
-                                    .replace('{{mme_path}}', external_url.replace('http://vod.kmoocs.kr/vod/', ''))
+                                    .replace('{{mme_path}}', external_url)
+                                    .replace('{{uuid}}', uuid)
+                                    .replace('{{uuid}}', uuid)
 
                             );
                         },
@@ -512,11 +585,14 @@ var trCdnFile = ""
                                     .replace(/{{url}}/g, external_url)
                                     .replace('{{content_type}}', content_type)
                                     .replace('{{date_added}}', date_added)
-                                    .replace('{{encoding_status}}', "동영상 인코딩 에러")
+                                    .replace('{{state}}', "동영상 인코딩 에러")
                                     .replace('{{id}}', asset_id)
-                                    .replace('{{mme_path}}', external_url.replace('http://vod.kmoocs.kr/vod/', ''))
+                                    .replace('{{mme_path}}', external_url)
+                                    .replace('{{uuid}}', uuid)
+                                    .replace('{{uuid}}', uuid)
                             );
                         }
+
                     });
 
                 });
@@ -531,6 +607,85 @@ var trCdnFile = ""
     $(".close-button").click(function(){
         $('#uploadProgress').text('');
     });
+
+    var test = function () {
+        alert('aaa');
+      }
+
+    var trans_state = function (object) {
+        //console.info($(object));
+
+        var file_name = $(object)[0].model.attributes.display_name;
+        var content_type = $(object)[0].model.attributes.content_type;
+        var thumbnail = $(object)[0].model.attributes.thumbnail;
+        var date_add = $(object)[0].model.attributes.date_added
+        var url = $(object)[0].model.attributes.url;
+        var id = $(object)[0].model.attributes.id;
+        var playtime= $(object)[0].model.attributes.playtime;
+        var state = $(object)[0].model.attributes.state;
+        var uuid = $(object)[0].model.attributes.uuid;
+        var cdn_url = $(object)[0].model.attributes.external_url;
+
+        //console.info(file_name, content_type, thumbnail, date_add, url, id, state, playtime, uuid);
+
+        var cnt = 0;
+        var transcoding_status = setInterval(function(){
+
+            var state_msg = "";
+            cnt++;
+            console.info('status', cnt);
+            $.ajax({
+                url: mme_host + '/upload_mov',
+                cache: false, dataType: "json", async: true,
+                data: {'uuid': uuid, 'playtime': playtime},
+                success: function(res){
+                    var message = res.message;
+                    var state_msg = "";
+                    if(message == 'FAILURE'){
+                        state_msg = "인코딩 실패";
+                        $("#"+uuid).val(state_msg);
+                        clearInterval(transcoding_status);
+                        return;
+                    }else if(message == 'PENDING'){
+                        if(res.data.status == 'fail'){
+                            state_msg = "인코딩 실패";
+                            $("#"+uuid).val(state_msg);
+                            ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'F', playtime);
+                            clearInterval(transcoding_status);
+                            return;
+                        }else if(res.data.status == 'ok'){
+                            var status = res.data.data.status;
+                            var percent = res.data.data.percent;
+                            state_msg = '동영상 인코딩 진행중 '+percent+'%';
+                            $("#"+uuid).val(state_msg);
+
+                        }else if(res.data.status == 'complete'){
+                            state_msg = '동영상 인코딩 완료';
+                            $("#"+uuid).val(state_msg);
+                            ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'E', playtime);
+                            clearInterval(transcoding_status);
+                            return;
+                        }
+                    }else if(message == 'NOTFOUND'){
+                        state_msg = "인코딩 대기[대기번호: "+uuid+"]";
+                        $("#"+uuid).val(state_msg);
+                        ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'Q', playtime);
+                        clearInterval(transcoding_status);
+                        return;
+                    }else if(message == 'SUCCESS'){
+                        state_msg = '동영상 인코딩 완료';
+                        $("#"+uuid).val(state_msg);
+                        ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'E', playtime);
+                        clearInterval(transcoding_status);
+                        return;
+                    }
+                }
+            });
+
+        }, 2000);
+    }
+
+
 
 </script>
 </%block>

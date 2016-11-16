@@ -30,6 +30,8 @@ from pymongo import ASCENDING, DESCENDING
 from student.auth import has_course_author_access
 from xmodule.modulestore.exceptions import ItemNotFoundError
 
+import urllib2
+import json
 __all__ = ['assets_handler']
 
 # pylint: disable=unused-argument
@@ -172,15 +174,31 @@ def _assets_json(request, course_key):
         if url_split[3] == 'cdn':
             thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
             thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[thumbnail_location.rfind('/'):]
+
+            if 'uuid' in asset:
+                uuid = asset['uuid']
+            else: uuid = ''
+            if 'playtime' in asset:
+                playtime = asset['playtime']
+            else:
+                playtime = ''
+            if 'state' in asset:
+                state = asset['state']
+            else:
+                state = ''
+            if 'thumbnail_url' in asset:
+                thumbnail_url = asset['thumbnail_url']
+            else:
+                thumbnail_url = ''
             asset_json.append(_get_cdn_json(
                 asset['displayname'],
                 asset['contentType'],
                 asset['uploadDate'],
                 asset_location,
-                thumbnail_location,
-                asset_locked,
-                asset['cdn_url']
+                thumbnail_url,
+                asset['cdn_url'], asset['uuid'], asset['playtime'], asset['state']
             ))
+
         else:
             asset_json.append(_get_asset_json(
                 asset['displayname'],
@@ -218,6 +236,7 @@ def _get_assets_for_page(request, course_key, options):
     url_split = request.META.get('HTTP_REFERER').split("/")
 
     if (url_split[3] == 'cdn'):
+
         return contentstore().get_all_cdn_content_for_course(
             course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
         )
@@ -336,7 +355,17 @@ def save_cdn(request, course_key):
     content.cdn_url=request.REQUEST['cdn_url']
     content.content_type=request.REQUEST['file_type']
     content.thumbnail_location=request.REQUEST['thumbnail_url']
+    content.thumbnail_url=request.REQUEST['thumbnail_url']
     content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
+    try:
+        content.uuid = request.REQUEST['uuid']
+        content.playtime = request.REQUEST['playtime']
+        content.state = request.REQUEST['state']
+    except:
+        content.uuid = ''
+        content.playtime = ''
+        content.state = ''
+
     contentstore().save_cdn(content)
 
     readback = contentstore().find_cdn(content.location)
@@ -373,6 +402,7 @@ def _update_asset(request, course_key, asset_key):
             return JsonResponse(status=404)
 
     elif request.method in ('PUT', 'POST'):
+
         if 'file' in request.FILES:
             return _upload_asset(request, course_key)
         elif 'cdn_url' in request.REQUEST:
@@ -443,18 +473,28 @@ def _get_asset_json(display_name, content_type, date, location, thumbnail_locati
         'id': unicode(location)
     }
 
-def _get_cdn_json(display_name, content_type, date, location, thumbnail_location, locked, cdn_url):
+def _get_cdn_json(display_name, content_type, date, location, thumbnail_location, cdn_url='', uuid='', playtime='', state=''):
     '''
     kmooc MME
     '''
+    asset_url = StaticContent.serialize_asset_key_with_slash(location)
+    localtime = date.strftime("%Y-%m-%d")
+
+    # external_url = settings.LMS_BASE + asset_url
     return {
         'display_name': display_name,
         'content_type': content_type,
-        'date_added': get_default_time_display(date),
-        'url': cdn_url,
+        # 'date_added': get_default_time_display(date),
+        'date_added': localtime,
+        # 'url': uuid+'/'+playtime,
+        'url': asset_url,
         'external_url': cdn_url,
-        'portable_url': StaticContent.get_static_path_from_location(location),
+        # 'portable_url': StaticContent.get_static_path_from_location(location),
+        'portable_url': state,
         'thumbnail': thumbnail_location,
+        'uuid': uuid,
+        'playtime': playtime,
+        'state': state,
         # 'locked': locked,
         'id': unicode(location)
     }

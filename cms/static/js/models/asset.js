@@ -11,6 +11,9 @@ define(["backbone"], function(Backbone) {
       url: "",
       external_url: "",
       portable_url: "",
+      uuid: "",
+      playtime: "",
+      state: "",
       locked: false
     },
     get_extension: function(){
