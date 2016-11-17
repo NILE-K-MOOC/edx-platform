@@ -545,17 +545,6 @@ def test(request):
 
     print 'email_list == ',email_list
 
-    # cur = con.cursor()
-    # query = """
-    #         UPDATE edxapp.auth_user
-    #            SET dormant_mail_cd = '0'
-    #          WHERE email = 'minseok9106@naver.com';
-    #         """
-    # print 'query == ',query
-    # cur.execute(query)
-    # cur.execute('commit')
-    # cur.close()
-
     cur = con.cursor()
     for e in email_list:
         try:

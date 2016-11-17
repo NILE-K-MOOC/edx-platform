@@ -58,9 +58,35 @@ from datetime import date
 from student.views import register_user
 from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
+import schedule
+import time
+import threading
+from crontab import CronTab
 
-AUDIT_LOG = logging.getLogger("audit")
-log = logging.getLogger(__name__)
+# def job():
+#     print("I'm working...")
+#
+# def run_threaded(job_func):
+#     job_thread = threading.Thread(target=job_func)
+#     job_thread.start()
+#
+# schedule.every(1).seconds.do(run_threaded, job)
+# # schedule.every(1).minutes.do(job)
+# # schedule.every().hour.do(job)
+# # schedule.every().day.at("10:30").do(job)
+# while 1:
+#
+#     schedule.run_continuously()
+#     time.sleep(1)
+
+
+# users_cron = CronTab(user='edxapp')
+# job  = users_cron.new(command='echo "hello"')
+# job.minutes.every(1)
+# job.enable()
+#
+# AUDIT_LOG = logging.getLogger("audit")
+# log = logging.getLogger(__name__)
 
 @require_http_methods(['GET'])
 @ensure_csrf_cookie

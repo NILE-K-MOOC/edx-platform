@@ -15,7 +15,8 @@ $(document).ready(function(){
                 $('#title').html(value_list[i]);
             }
             else if(i==1){
-                $('#context').html(value_list[i]);
+                $('#context').html(value_list[i].replace(/\&\^\&/g, ','));
+                //$('#detail_question_question').html(value_list[8].replace(/\&\^\&/g, ','));
             }
             else if(i==2){
                 $('#reg_date').html(value_list[i]);
