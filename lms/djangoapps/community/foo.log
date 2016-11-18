@@ -1,0 +1,23 @@
+2016-11-18 05:18:15,964-test_sh01-INFO-Scheduler started
+2016-11-18 05:18:15,964-test_sh01-DEBUG-Looking for jobs to run
+2016-11-18 05:18:15,964-test_sh01-INFO-Added job "ScheduleJob.job_function (trigger: interval[0:00:01], next run at: 2016-11-18 05:18:16.964286)" to job store "default"
+2016-11-18 05:18:15,965-test_sh01-DEBUG-Next wakeup is due at 2016-11-18 05:18:16.964286 (in 0.999294 seconds)
+2016-11-18 05:18:15,965-test_sh01-DEBUG-Looking for jobs to run
+2016-11-18 05:18:15,966-test_sh01-DEBUG-Next wakeup is due at 2016-11-18 05:18:16.964286 (in 0.997838 seconds)
+2016-11-18 05:18:16,965-test_sh01-DEBUG-Looking for jobs to run
+2016-11-18 05:18:16,967-test_sh01-INFO-Running job "ScheduleJob.job_function (trigger: interval[0:00:01], next run at: 2016-11-18 05:18:17.964286)" (scheduled at 2016-11-18 05:18:16.964286)
+2016-11-18 05:18:16,967-test_sh01-DEBUG-Next wakeup is due at 2016-11-18 05:18:17.964286 (in 0.997591 seconds)
+2016-11-17 23:18:16,977-test_sh01-ERROR-Job "ScheduleJob.job_function (trigger: interval[0:00:01], next run at: 2016-11-18 05:18:17.964286)" raised an exception
+Traceback (most recent call last):
+  File "/edx/app/edxapp/venvs/edxapp/local/lib/python2.7/site-packages/apscheduler/scheduler.py", line 512, in _run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "test1.py", line 59, in job_function
+    charset='utf8')
+  File "/edx/app/edxapp/venvs/edxapp/local/lib/python2.7/site-packages/MySQLdb/__init__.py", line 81, in Connect
+    return Connection(*args, **kwargs)
+  File "/edx/app/edxapp/venvs/edxapp/local/lib/python2.7/site-packages/MySQLdb/connections.py", line 193, in __init__
+    super(Connection, self).__init__(*args, **kwargs2)
+TypeError: connect() argument 1 must be string, not None
+2016-11-17 23:18:17,973-test_sh01-DEBUG-Looking for jobs to run
+2016-11-17 23:18:17,974-test_sh01-DEBUG-Next wakeup is due at 2016-11-18 05:18:17.964286 (in 21599.990269 seconds)
+2016-11-17 23:18:20,976-test_sh01-INFO-Scheduler has been shut down

@@ -58,6 +58,15 @@ from datetime import date
 from student.views import register_user
 from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
+import time
+import thread
+
+import logging
+import logging.handlers
+from datetime import datetime
+import apscheduler.scheduler
+from apscheduler.scheduler import Scheduler
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
@@ -220,17 +229,23 @@ def comm_faq(request) :
     if request.is_ajax() :
         if request.GET['method']  == 'faq_list' :
             faq_list = []
+            head_title = request.GET['head_title']
             cur = con.cursor()
-            query = "select subject, content from tb_board where section = 'F'"
+            query = "select subject, content, head_title from tb_board where section = 'F' and head_title = '"+head_title+"'"
+            if 'search' in request.GET :
+                search = request.GET['search']
+                query += " and subject like '%"+search+"%'"
             cur.execute(query)
             row = cur.fetchall()
             # print str(row)
+            # print query
 
             for f in row:
                 value_list = []
                 faq = f
                 value_list.append(faq[0])
                 value_list.append(faq[1])
+                value_list.append(faq[2])
                 faq_list.append(value_list)
             data = json.dumps(list(faq_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -565,3 +580,4 @@ def test(request):
 
     cur.close()
     return render_to_response('community/test.html')
+
