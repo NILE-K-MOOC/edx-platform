@@ -880,7 +880,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 	.board-search-box input[type="text"] {width:100%;}
 	.board-search-box select {position:absolute;left:0;top:0;width:75px;}
 	.board-comment-write dt {width:25%;}
-
+	
 	.univ-list li {margin-top:10px;}
 	.univ-list li > a img {max-height:45px;width:auto;}
 	.open-api-block ol {margin-left:-7%;}
