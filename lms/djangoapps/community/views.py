@@ -58,9 +58,22 @@ from datetime import date
 from student.views import register_user
 from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
+import time
+import thread
+
+import logging
+import logging.handlers
+from datetime import datetime
+import apscheduler.scheduler
+from apscheduler.scheduler import Scheduler
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
-import urllib2
+from django.core.mail import send_mail
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 @ensure_csrf_cookie
@@ -76,11 +89,6 @@ def comm_notice(request) :
         data={}
         if request.GET['method'] == 'notice_list' :
             cur = con.cursor()
-            # con.query("set character_set_connection=utf8;")
-            # con.query("set character_set_server=utf8;")
-            # con.query("set character_set_client=utf8;")
-            # con.query("set character_set_results=utf8;")
-            # con.query("set character_set_database=utf8;")
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
@@ -121,7 +129,6 @@ def comm_notice(request) :
                 value_list.append(notice[4])
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
-
         elif request.GET['method'] == 'search_list' :
             cur = con.cursor()
             if 'cur_page' in request.GET :
@@ -134,16 +141,16 @@ def comm_notice(request) :
                     %s total_page,
                     board_id
                 from tb_board
-                where section='N' and use_yn = 'Y'
+                where use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
                 search = request.GET['search_search']
                 print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' "
+                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='N' "
                 else :
-                    query += "and content like '%"+search+"%' "
+                    query += "and subject like '%"+search+"%' and section='N' "
 
             query += "order by reg_date desc "
             cur.execute(query)
@@ -222,17 +229,23 @@ def comm_faq(request) :
     if request.is_ajax() :
         if request.GET['method']  == 'faq_list' :
             faq_list = []
+            head_title = request.GET['head_title']
             cur = con.cursor()
-            query = "select subject, content from tb_board where section = 'F'"
+            query = "select subject, content, head_title from tb_board where section = 'F' and head_title = '"+head_title+"'"
+            if 'search' in request.GET :
+                search = request.GET['search']
+                query += " and subject like '%"+search+"%'"
             cur.execute(query)
             row = cur.fetchall()
             # print str(row)
+            # print query
 
             for f in row:
                 value_list = []
                 faq = f
                 value_list.append(faq[0])
                 value_list.append(faq[1])
+                value_list.append(faq[2])
                 faq_list.append(value_list)
             data = json.dumps(list(faq_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -295,6 +308,7 @@ def comm_repository(request):
 
         elif request.GET['method'] == 'search_list' :
             cur = con.cursor()
+            page = ''
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
@@ -305,19 +319,17 @@ def comm_repository(request):
                     %s total_page,
                     board_id
                 from tb_board
-                where section='R' and use_yn = 'Y'
+                where use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
                 search = request.GET['search_search']
-                print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' "
+                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='R' "
                 else :
-                    query += "and content like '%"+search+"%' "
+                    query += "and subject like '%"+search+"%' and section='R' "
 
             query += "order by reg_date desc "
-            print query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -445,16 +457,16 @@ def comm_k_news(request) :
                     %s total_page,
                     board_id
                 from tb_board
-                where section='K' and use_yn = 'Y'
+                where use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
                 search = request.GET['search_search']
                 print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' "
+                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='K' "
                 else :
-                    query += "and content like '%"+search+"%' "
+                    query += "and subject like '%"+search+"%' and section='K' "
 
             query += "order by reg_date desc "
             print query
@@ -482,6 +494,7 @@ def comm_k_news_view(request, board_id):
                               settings.DATABASES.get('default').get('PASSWORD'),
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
+    value_list = []
     if request.is_ajax():
         data={}
         if request.GET['method'] == 'view' :
@@ -490,7 +503,26 @@ def comm_k_news_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            data = json.dumps(list(row), cls=DjangoJSONEncoder, ensure_ascii=False)
+            # 파일 이름 구하기
+            cur = con.cursor()
+            query = "select attatch_file_name from tb_board_attach where board_id = "+board_id
+            cur.execute(query)
+            files = cur.fetchall()
+            cur.close()
+            print 'files == ',files
+
+            value_list.append(row[0][0])
+            value_list.append(row[0][1])
+            value_list.append(row[0][2])
+            if files:
+                value_list.append(files[0])
+
+
+            data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+        elif request.GET['method'] == 'file_download':
+            file_name = request.GET['file_name']
+            print 'file_name == ', file_name
+            data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
 
         return HttpResponse(data, 'application/json')
 
@@ -499,4 +531,53 @@ def comm_k_news_view(request, board_id):
     }
     return render_to_response('community/comm_k_news_view.html',context)
 
+class SMTPException(Exception):
+    """Base class for all exceptions raised by this module."""
+def test(request):
+    email_list = []
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    cur = con.cursor()
+    query = """
+        SELECT email, dormant_mail_cd from auth_user
+    """
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
+
+    for u in row:
+        user = u
+        if user[1] == '15' or user[1] == '30':
+            email_list.append(user[0])
+    # 이메일 전송
+    from_address = configuration_helpers.get_value(
+        'email_from_address',
+        settings.DEFAULT_FROM_EMAIL
+    )
+
+    print 'email_list == ',email_list
+
+    cur = con.cursor()
+    for e in email_list:
+        try:
+            send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
+            query1 = "update auth_user set dormant_mail_cd = '0' where email = '"+e+"' "
+            cur.execute(query1)
+            cur.execute('commit')
+            query1 = "insert into drmt_auth_user_process(email,success) values('"+e+"', '1')"
+            cur.execute(query1)
+            cur.execute('commit')
+        except SMTPException:
+            print 'fail sending email'
+            cur = con.cursor()
+            query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
+            cur.execute(query1)
+            cur.execute('commit')
+
+
+    cur.close()
+    return render_to_response('community/test.html')
 

@@ -124,6 +124,7 @@ urlpatterns = (
     url(r'^comm_faq$', 'community.views.comm_faq', name='comm_faq'),
     url(r'^comm_k_news$', 'community.views.comm_k_news', name='comm_k_news'),
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
+    url(r'^test$', 'community.views.test', name='test')
 
 
 )

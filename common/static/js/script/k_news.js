@@ -323,7 +323,7 @@ $(document).on('click', '#search', function(){
             html = "";
             for(var i=0; i<data.length; i++){
                 value_list = data[i].toString().split(',');
-                //alert(value_list.length);
+
                 html += "<li class='tbody'>";
                 for(var j=0; j<value_list.length; j++){
                     //console.log(value_list[j]);

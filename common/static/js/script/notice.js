@@ -257,6 +257,7 @@ $(document).ready(function(){
     });
 });
 
+//검색처리
 $(document).on('click', '#search', function(){
     var search_con = $('#search_con option:selected').attr('id');
     var search_search = $('#search_search').val();
