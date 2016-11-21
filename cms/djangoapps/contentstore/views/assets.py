@@ -357,6 +357,8 @@ def save_cdn(request, course_key):
     content.thumbnail_location=request.REQUEST['thumbnail_url']
     content.thumbnail_url=request.REQUEST['thumbnail_url']
     content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
+    print content
+
     try:
         content.uuid = request.REQUEST['uuid']
         content.playtime = request.REQUEST['playtime']
@@ -481,13 +483,16 @@ def _get_cdn_json(display_name, content_type, date, location, thumbnail_location
     localtime = date.strftime("%Y-%m-%d")
 
     # external_url = settings.LMS_BASE + asset_url
+    j_data = json.dumps({'file_name': display_name, 'content_type': content_type, 'date': get_default_time_display(date), 'location': asset_url, 'thumbanil': thumbnail_location, 'cdn_url': cdn_url, 'uuid': uuid, 'state': state})
+
+
     return {
         'display_name': display_name,
         'content_type': content_type,
         # 'date_added': get_default_time_display(date),
         'date_added': localtime,
         # 'url': uuid+'/'+playtime,
-        'url': asset_url,
+        'url': j_data,
         'external_url': cdn_url,
         # 'portable_url': StaticContent.get_static_path_from_location(location),
         'portable_url': state,

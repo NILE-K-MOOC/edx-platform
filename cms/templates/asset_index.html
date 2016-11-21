@@ -43,13 +43,16 @@
     % for template_name in ["asset-library", "asset"]:
         <script type="text/template" id="${template_name}-tpl">
             <%static:include path="js/${template_name}.underscore" />
+
         </script>
+
     % endfor
 % else:
     % for template_name in ["asset-library", "asset"]:
          <script type="text/template" id="${template_name}-tpl">
             <%static:include path="js/cdn.underscore" />
         </script>
+
     % endfor
 % endif
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -355,12 +358,14 @@ var trCdnFile = ""
 + "</tr>";
 
     var ajaxPutEdX = function() {
+        var get_params = '?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime;
         $.ajaxSetup({
             type: 'PUT',
             headers: {'X-CSRFToken': '${ csrf_token }'},
         });
         $.ajax({
-            url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime,
+            //url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime,
+            url: '${asset_callback_url}'+get_params,
             success: function (res) {
                 if (res.result == 'success') {
                     ajaxGetEdX();
@@ -374,11 +379,19 @@ var trCdnFile = ""
 
     var ajaxStateEdx = function(file_name, cdn_url, file_type, thumbnail_url, uuid, state, playtime){
         $.ajaxSetup({
-            type: 'PUT',
-            headers: {'X-CSRFToken': '${ csrf_token }'},
+            type: 'POST',
+            headers: {'X-CSRFToken': '${ csrf_token }', "X-HTTP-Method-Override": "PUT"},
+            contentType : 'application/json',
+            processData : false
         });
+
+        var get_params = '?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime;
+
+        //todo assets와 mongo에 update 만들어야 함
         $.ajax({
-            url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime,
+            url: '${asset_callback_url}'+get_params,
+            //url: '${asset_callback_url}',
+            dataType: 'json',
             success: function (res) {
                 if (res.result == 'success') {
                     console.info('state update', uuid, state);
@@ -386,7 +399,7 @@ var trCdnFile = ""
                 }
             },
             error: function () {
-                console.log('ajaxStateEdX error');
+                console.log('ajaxStateEdX error', data);
             }
         });
     }
@@ -612,28 +625,28 @@ var trCdnFile = ""
         alert('aaa');
       }
 
+
+
     var trans_state = function (object) {
-        //console.info($(object));
 
-        var file_name = $(object)[0].model.attributes.display_name;
-        var content_type = $(object)[0].model.attributes.content_type;
-        var thumbnail = $(object)[0].model.attributes.thumbnail;
-        var date_add = $(object)[0].model.attributes.date_added
-        var url = $(object)[0].model.attributes.url;
-        var id = $(object)[0].model.attributes.id;
-        var playtime= $(object)[0].model.attributes.playtime;
-        var state = $(object)[0].model.attributes.state;
-        var uuid = $(object)[0].model.attributes.uuid;
-        var cdn_url = $(object)[0].model.attributes.external_url;
+        try{
+            var file_name = $(object)[0].model.attributes.display_name;
+            var content_type = $(object)[0].model.attributes.content_type;
+            var thumbnail = $(object)[0].model.attributes.thumbnail;
+            var date_add = $(object)[0].model.attributes.date_added
+            var url = $(object)[0].model.attributes.url;
+            var id = $(object)[0].model.attributes.id;
+            var playtime= $(object)[0].model.attributes.playtime;
+            var state = $(object)[0].model.attributes.state;
+            var uuid = $(object)[0].model.attributes.uuid;
+            var cdn_url = $(object)[0].model.attributes.external_url;
 
-        //console.info(file_name, content_type, thumbnail, date_add, url, id, state, playtime, uuid);
-
-        var cnt = 0;
-        var transcoding_status = setInterval(function(){
+            var cnt = 0;
+            var transcoding_status = setInterval(function(){
 
             var state_msg = "";
             cnt++;
-            console.info('status', cnt);
+            //console.info('status', cnt);
             $.ajax({
                 url: mme_host + '/upload_mov',
                 cache: false, dataType: "json", async: true,
@@ -669,7 +682,7 @@ var trCdnFile = ""
                     }else if(message == 'NOTFOUND'){
                         state_msg = "인코딩 대기[대기번호: "+uuid+"]";
                         $("#"+uuid).val(state_msg);
-                        ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'Q', playtime);
+                        ajaxStateEdx( file_name, cdn_url, content_type, thumbnail, uuid, 'Q', playtime);
                         clearInterval(transcoding_status);
                         return;
                     }else if(message == 'SUCCESS'){
@@ -683,10 +696,22 @@ var trCdnFile = ""
             });
 
         }, 2000);
+        }catch (e){
+            console.log($(this));
+            console.log($(this)[0]);
+            _.each($(object), function (v, k, obj) {
+                console.info(k, v);
+              })
+            //throw 500;
+            console.log('is throw?');
+            return;
+        }
+
     }
 
 
 
+ajaxGetEdX();
 </script>
 </%block>
 

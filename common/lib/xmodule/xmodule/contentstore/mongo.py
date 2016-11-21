@@ -100,6 +100,14 @@ class MongoContentStore(ContentStore):
 
         return content
 
+    def update_cdn_state(self, content_id, state):
+        # content_id, content_son = self.asset_db_key(content.location)
+        result = self.fs_files.update({'_id': content_id}, {"state": state})
+        if not result.get('updatedExisting', True):
+            raise NotFoundError(content_id)
+
+        print ("mongodb update ok")
+
     def save(self, content):
         content_id, content_son = self.asset_db_key(content.location)
 
