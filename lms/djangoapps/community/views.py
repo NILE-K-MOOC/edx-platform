@@ -64,8 +64,6 @@ import thread
 import logging
 import logging.handlers
 from datetime import datetime
-import apscheduler.scheduler
-from apscheduler.scheduler import Scheduler
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
