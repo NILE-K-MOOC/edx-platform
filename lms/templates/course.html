@@ -20,8 +20,14 @@ from django.core.urlresolvers import reverse
                 <span class="course-title">${course.display_name}</span>
                 <span class="course-summary">${course.short_description}</span>
             </h2>
-            <div class="course-date" aria-hidden="true"><strong><span>${_("study_date")}</span> :</strong> <time>${course.start.strftime("%B %d, %Y")}</time></div>
-            <div class="course-date" aria-hidden="true"><strong><span>${_("univ_name")}</span> :</strong> <time>${_(course.display_org_with_default)}</time></div>
+            <div class="course-date" aria-hidden="true">
+                <!-- <strong><span>${_("study_date")}</span> :</strong> -->
+                <time>${course.start.strftime("%B %d, %Y")}</time></span> ~ </strong><time>${course.end.strftime("%B %d, %Y")}</time>
+            </div>
+            <div class="course-date" aria-hidden="true">
+                <!-- <strong><span>${_("univ_name")}</span> :</strong> -->
+                <time>${_(course.display_org_with_default)}</time>
+            </div>
             <!-- <span class="course-status-txt">종료강좌</span> -->
         </div>
         <div class="sr">

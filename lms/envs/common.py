@@ -1723,6 +1723,9 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 # Celery's task autodiscovery won't find tasks nested in a tasks package.
 # Tasks are only registered when the module they are defined in is imported.
+
+
+
 CELERY_IMPORTS = (
     'openedx.core.djangoapps.programs.tasks.v1.tasks',
 )
@@ -1736,7 +1739,7 @@ CELERY_MESSAGE_COMPRESSION = 'gzip'
 
 # Results configuration
 
-CELERY_IGNORE_RESULT = False
+CELERY_IGNORE_RESULT = True
 CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
 
 # Events configuration
@@ -1773,7 +1776,7 @@ CELERY_QUEUES = {
 }
 
 # let logging work as configured:
-CELERYD_HIJACK_ROOT_LOGGER = False
+CELERYD_HIJACK_ROOT_LOGGER = True
 
 ################################ Bulk Email ###################################
 

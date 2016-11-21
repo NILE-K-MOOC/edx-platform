@@ -301,3 +301,10 @@ def export_ora2_data(entry_id, xmodule_instance_args):
     action_name = ugettext_noop('generated')
     task_fn = partial(upload_ora2_data, xmodule_instance_args)
     return run_main_task(entry_id, task_fn, action_name)
+
+
+@task(base=BaseInstructorTask)  # pylint: disable=not-callable
+def test99(entry_id, xmodule_instance_args):
+    print '111111 THIS IS CRON WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    print '222222 THIS IS CRON WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    print '333333 THIS IS CRON WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'

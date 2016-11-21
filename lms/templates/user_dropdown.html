@@ -17,7 +17,7 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
             username = user.username
             profile_image_url = get_profile_image_urls_for_user(user)['medium']
             %>
-            <img class="menu-image" src="${profile_image_url}" alt="">
+            <!-- <img class="menu-image" src="${profile_image_url}" alt=""> -->
             ${username}
         </a>
         <button type="button" class="menu-button button-more has-dropdown js-dropdown-button default-icon" aria-haspopup="true" aria-expanded="false" aria-controls="${_("Usermenu")}">
@@ -36,24 +36,20 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
         </ul>
     </div>
 % else:
-    <ol class="user">
-        <li class="primary">
-            <a href="${reverse('dashboard')}" class="user-link">
-                <span class="sr">${_("Dashboard for:")}</span>
-                <%
+        <li class="left item user">
+            <%
                 username = user.username
                 profile_image_url = get_profile_image_urls_for_user(user)['medium']
-                %>
-                <img class="user-image-frame" src="${profile_image_url}" alt="${_('Profile image for {username}').format(username=username)}">
-                <div class="label-username">${username}</div>
-            </a>
-        </li>
-        <li class="primary">
-            <button class="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr">${_("More options dropdown")}</span><span class="fa fa-sort-desc" aria-hidden="true"></span></button>
-            <ul class="dropdown-menu" aria-label="More Options" role="menu">
-                ${navigation_dropdown_menu_links()}
-                <li class="item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></li>
+            %>
+            <a href="#" onclick="$(this).parent().toggleClass('on');$(this).next().toggle();return false;">${username}</a>
+            <ul class="dropdown-menu">
+                <li><a href="${reverse('dashboard')}">${_("Dashboard for:")}</a></li>
+                <li><a href="">계정설정</a></li>
+                <li><a href="">내 프로필</a></li>
+                <li><a href="${reverse('logout')}">${_("Sign Out")}</a></li>
+                <li><a href="">게시판 알림</a></li>
             </ul>
         </li>
-    </ol>
+
+
 % endif
