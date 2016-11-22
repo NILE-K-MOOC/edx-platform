@@ -255,9 +255,16 @@ def comm_faqrequest(request) :
     if request.is_ajax() :
         data = json.dumps('fail')
         if request.GET['method'] == 'request' :
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             email = request.GET['email']
             request_con = request.GET['request_con']
             option = request.GET['option']
+            save_email=''
+
             # 이메일 전송
             print 'emial ==',email
             # print 'request_con ==',request_con
@@ -268,8 +275,17 @@ def comm_faqrequest(request) :
             )
             if option == 'school' or option == 'course' :
                 send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                save_email = 'kmooc@nile.or.kr'
             else :
                 send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
+                save_email = 'help_kmooc@nile.or.kr'
+            #문의내용 저장
+
+            cur = con.cursor()
+            query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
+            cur.execute(query)
+            cur.execute('commit')
+            cur.close()
             data = json.dumps('success')
         return HttpResponse(data, 'application/json')
 
