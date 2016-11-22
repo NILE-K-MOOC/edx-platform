@@ -146,7 +146,7 @@ def comm_notice(request) :
                 search = request.GET['search_search']
                 print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='N' "
+                    query += "and (subject like '%"+search+"%' or content like '%"+search+"%') and section='N' "
                 else :
                     query += "and subject like '%"+search+"%' and section='N' "
 
@@ -199,7 +199,7 @@ def comm_notice_view(request, board_id):
             value_list.append(row[0][2])
             value_list.append(row[0][3])
             if files:
-                value_list.append(files[0])
+                value_list.append(files)
             # print 'value_list == ',value_list
 
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
@@ -366,11 +366,12 @@ def comm_repository(request):
                 title = request.GET['search_con']
                 search = request.GET['search_search']
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='R' "
+                    query += "and (subject like '%"+search+"%' or content like '%"+search+"%') and section='R' "
                 else :
                     query += "and subject like '%"+search+"%' and section='R' "
 
             query += "order by reg_date desc "
+            print query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -505,7 +506,7 @@ def comm_k_news(request) :
                 search = request.GET['search_search']
                 print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='K' "
+                    query += "and (subject like '%"+search+"%' or content like '%"+search+"%') and section='K' "
                 else :
                     query += "and subject like '%"+search+"%' and section='K' "
 

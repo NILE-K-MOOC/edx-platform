@@ -256,8 +256,15 @@ $(document).ready(function(){
         }
     });
 });
-
-$(document).on('click', '#search', function(){
+function onKeyDown()
+{
+     if(event.keyCode == 13)
+     {
+		 search();
+     }
+}
+$(document).on('click', '#search', search);
+function search(){
     var search_con = $('#search_con option:selected').attr('id');
     var search_search = $('#search_search').val();
     var html = "";
@@ -358,9 +365,7 @@ $(document).on('click', '#search', function(){
             $('.paging').html(html2);
         });
     }
-
-});
-
+}
 
 
 
