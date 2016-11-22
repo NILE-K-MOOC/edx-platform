@@ -29,7 +29,7 @@ def get_visible_courses(org=None, filter_=None):
         filter_ (dict): Optional parameter that allows custom filtering by
             fields on the course.
     """
-    print '::::: get_visible_courses called', org, filter
+    # print '::::: get_visible_courses called', org, filter
 
     current_site_org = configuration_helpers.get_value('course_org_filter')
 
@@ -51,7 +51,10 @@ def get_visible_courses(org=None, filter_=None):
     # Add Course Status
     for c in courses:
         # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
-        if datetime.now(UTC2()) < c.start:
+
+        if c.start is None or c.start == '' or c.end is None or c.end == '':
+            c.status = ''
+        elif datetime.now(UTC2()) < c.start:
             c.status = 'ready'
         elif c.start <= datetime.now(UTC2()) <= c.end:
             c.status = 'ing'

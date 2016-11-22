@@ -6,7 +6,7 @@
 <%block name="pagetitle">가입약관</%block>
 
 <%block name="js_extra">
-    <script>
+<script xmlns="http://www.w3.org/1999/html">
         function agree_gubn(){
             var gubn = "Y";
 
@@ -174,8 +174,8 @@
     본 약관의 해석과 적용 및 본 약관과 관련한 분쟁의 해결에는 대한민국법이 적용됩니다.
         			</textarea>
 					<div class="agree-chk">
-						<input type="radio" name="agree1" value="Y"> <label>동의함</label>
-						<input type="radio" name="agree1" value="N" checked> <label>동의하지 않음</label>
+						<input type="radio" name="agree1" value="Y" id="radio1_y"> <label for="radio1_y">동의함</label>
+						<input type="radio" name="agree1" value="N" id="radio1_n" checked> <label for="radio1_n">동의하지 않음</label>
 					</div>
 				</section>
 
@@ -348,8 +348,8 @@
 
         			</textarea>
 					<div class="agree-chk">
-						<input type="radio" name="agree2" value="Y"> <label>동의함</label>
-						<input type="radio" name="agree2" value="N" checked> <label>동의하지 않음</label>
+						<input type="radio" name="agree2" value="Y" id="radio2_y"> <label for="radio2_y">동의함</label>
+						<input type="radio" name="agree2" value="N"  id="radio2_n" checked> <label for="radio2_n">동의하지 않음</label>
 					</div>
 				</section>
 

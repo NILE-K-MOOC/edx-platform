@@ -99,6 +99,8 @@ from ..module_render import get_module_for_descriptor, get_module, get_module_by
 import MySQLdb as mdb
 import sys
 import json
+from django.core.mail import send_mail
+
 
 
 log = logging.getLogger("edx.courseware")
@@ -162,7 +164,7 @@ def courses(request):
 @cache_if_anonymous()
 def haewoondaex(request, org):
 
-    print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> org:', org
+    # print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> org:', org
 
     if 'KOCWk' == org:
         courses_list = get_courses_by_kocw(request.user, request.META.get('HTTP_HOST'))
@@ -1556,3 +1558,13 @@ def ckplus(request):
     return render_to_response(
         "courseware/ckplus.html"
     )
+
+# @ensure_csrf_cookie
+# @cache_if_anonymous()
+# @task(base=BaseInstructorTask)
+# def test(request):
+#     print ':::::::::::::: call test function in courseware.views.py ::::::::::::::'
+#     e = 'redukyo50@gmail.com'
+#     from_address = 'redukyo@naver.com'
+#     send_mail('test_title', 'test_content', from_address, e, fail_silently=False)
+#     print '::::::::::::: Ended test function in courseware.views.py ::::::::::::::'

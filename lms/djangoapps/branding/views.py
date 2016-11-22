@@ -97,15 +97,15 @@ def index(request):
 
 
 def index_en(request):
-    print 'index_en called'
     request.session['_language'] = 'en'
-    return HttpResponse("<script>document.location.href='/';</script>")
+    redirect_to = request.GET.get('next', '/')
+    return redirect(redirect_to)
 
 
 def index_ko(request):
-    print 'index_ko called'
     request.session['_language'] = 'ko_kr'
-    return HttpResponse("<script>document.location.href='/';</script>")
+    redirect_to = request.GET.get('next', '/')
+    return redirect(redirect_to)
 
 
 def notice(request):
