@@ -274,7 +274,8 @@ def comm_faqrequest(request) :
                 settings.DEFAULT_FROM_EMAIL
             )
             if option == 'school' or option == 'course' :
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                #send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['minseok9106@gmail.com'])
                 save_email = 'kmooc@nile.or.kr'
             else :
                 send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
