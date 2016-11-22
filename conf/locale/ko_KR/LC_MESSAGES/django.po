@@ -12471,10 +12471,6 @@ msgid "Add {course_name} to Cart <span>({price} USD)</span>"
 msgstr "장바구니에 {course_name}<span>({price} USD)</span>추가하기 "
 
 #: lms/templates/courseware/course_about.html
-msgid "Enroll in {course_name}"
-msgstr ""
-
-#: lms/templates/courseware/course_about.html
 msgid "View About Page in studio"
 msgstr "스튜디오에서 About Page 보기"
 
@@ -27890,6 +27886,9 @@ msgstr "개강예정"
 msgid "end"
 msgstr "종료강좌"
 
+msgid "none"
+msgstr "미정"
+
 # univ intro text
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 msgid ""
@@ -28120,36 +28119,3 @@ msgstr "현재 수강할 수 있는 강좌가 없습니다."
 
 msgid "Notices"
 msgstr "공지사항"
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""

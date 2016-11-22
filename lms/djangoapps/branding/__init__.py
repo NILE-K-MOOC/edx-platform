@@ -53,7 +53,7 @@ def get_visible_courses(org=None, filter_=None):
         # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
 
         if c.start is None or c.start == '' or c.end is None or c.end == '':
-            c.status = ''
+            c.status = 'none'
         elif datetime.now(UTC2()) < c.start:
             c.status = 'ready'
         elif c.start <= datetime.now(UTC2()) <= c.end:
@@ -61,11 +61,11 @@ def get_visible_courses(org=None, filter_=None):
         elif c.end < datetime.now(UTC2()):
             c.status = 'end'
         else:
-            c.status = ''
+            c.status = 'none'
 
-        # print '--------------------------------------'
-        # print c.status
-        # print '--------------------------------------'
+        print '--------------------------------------'
+        print c.status
+        print '--------------------------------------'
 
     # Filtering can stop here.
     if current_site_org:

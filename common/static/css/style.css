@@ -54,10 +54,10 @@
 
 
 .wrapper-footer footer#footer-openedx .colophon {
-	width:59.95745%;
+	width:57%;
 }
 .wrapper-footer footer#footer-openedx .footer-about-openedx {
-	width:37.91489%;
+	width:40%;
 	position:relative;
 }
 
@@ -116,7 +116,8 @@
 .courses-container .courses .course.ready .course-info .course-status {background:#f4c300;}
 .courses-container .courses .course.ing .course-info .course-status {background:#008800;color:#fff;}
 .courses-container .courses .course.end .course-info .course-status {background:#126f9a;color:#fff;}
-.courses-container .courses .course .course-info .course-title {color:#000;font-size:0.875em;font-weight:700;height:1.5em;line-height:1.5em;padding:0 10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:"Nanum Gothic";margin-bottom:0;display:block;}
+.courses-container .courses .course.none .course-info .course-status {background:#eeeeee;color:#666;}
+.courses-container .courses .course .course-info .course-title {color:#000;font-size:0.875em;font-weight:700;height:4.5em;line-height:1.5em;padding:0 10px;overflow:hidden;/*white-space:nowrap;*/text-overflow:ellipsis;font-family:"Nanum Gothic";margin-bottom:0;display:block;}
 .courses-container .courses .course .course-info .course-summary {color:#999999;font-size:0.875em;font-weight:700;line-height:1.5em;padding:0 10px;display:block;font-family:"Nanum Gothic";}
 .courses-container .courses .course .course-info .course-date {padding:0 10px;font-size:0.75rem;}
 .courses-container .courses .course .course-info .course-date strong > span {display:inline-block;width:65px;}
@@ -457,7 +458,7 @@ a, span, p {color:inherit;}
 .courses-container.full {background:#fff;}
 .courses-container .highlighted-courses {max-width:75rem;margin:0 auto;}
 .courses-container > p {font-size:0.875rem;text-align:center;}
-.courses-container .courses .course .course-image .cover-image .univ-logo {position:absolute;right:0;bottom:10px;background:#fff;opacity:0.6;text-align:center;min-width:50px;}
+.courses-container .courses .course .course-image .cover-image .univ-logo {position:absolute;right:0;bottom:3px;background:#fff;opacity:0.6;text-align:center;min-width:50px;}
 .courses-container .courses .course .course-image .cover-image .univ-logo img {height:50px;width:auto;}
 .container.univ .courses-container {background:url(/static/images/css/univ_btm.png) center top no-repeat #fff;}
 
