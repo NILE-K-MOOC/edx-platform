@@ -185,6 +185,18 @@ COURSE_DISCOVERY_MEANINGS = {
         'terms':{
             'classfy': 'classfy'
         }
+    },
+    'middle_classfy': {
+        'name': 'Section',
+        'terms': {
+            'middle_classfy': 'middle_classfy'
+        }
+    },
+    'linguistics': {
+        'name': 'Section',
+        'terms': {
+            'linguistics': 'linguistics'
+        }
     }
 }
 

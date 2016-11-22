@@ -85,10 +85,21 @@ define([
 
             _.extend(data, this.terms);
 
-            /* classfy 검사 */
+            /* 대분류 검사 */
             var get_term = this.getTermParameter('term');
             if(get_term){
                 _.extend(data, {"classfy": get_term});
+            }
+            /* 중분류 검사 */
+            var get_mterm = this.getTermParameter('mterm')
+            if(get_mterm){
+                _.extend(data, {"middle_classfy": get_mterm});
+            }
+
+            /* 언어학 부분ㄹ 검사 */
+            var linguistics = this.getTermParameter('linguistics');
+            if(linguistics){
+                _.extend(data, {"linguistics": linguistics});
             }
 
             /**
