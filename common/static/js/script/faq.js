@@ -18,19 +18,10 @@ $(document).ready(function(){
 		html="";
 		head_html="";
         for(var i=0; i<data.length; i++){
-            value_list = data[i].toString().split(',');
-			//console.log(value_list[2]);
-			//if(i == 0){
-			//	head_html += "<a href='#' class='on'>"+value_list[2]+"</a>";
-			//}
-			//head_html += "<a href='#'>"+value_list[2]+"</a>";
-
-			html += "<dt><a href='#' >"+value_list[0]+"</a></dt>";
-            for(var j=1; j<value_list.length; j++){
-				html += "<dd>";
-				html += "<div>"+value_list[1]+"</div>";
-				html += "</dd>";
-            }
+			html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
+			html += "<dd>";
+			html += "<div>"+data[i][1]+"</div>";
+			html += "</dd>";
         }
 		//console.log(head_html);
 		//$('.faq-tab').html(head_html);
@@ -203,6 +194,7 @@ function search(){
 	var value_list = [];
 	var head_title = $('.on').text().substring(3);
 	var search = $('#search').val();
+
 	if(search == '' || search == null){
 		$(".faq-tab a").removeClass("on");
 		$('#school').addClass("on");
@@ -211,8 +203,8 @@ function search(){
 			url : 'comm_faq',
 			data : {
 				method : 'faq_list',
-				//head_title : '학교 관련'
-				head_title : head_title
+				head_title : '학교 관련'
+				//head_title : head_title
 			}
 		}).done(function(data){
 			html="";
