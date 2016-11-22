@@ -744,6 +744,10 @@ def _create_or_rerun_course(request):
         ##kmooc
         classfy = request.json.get('classfy')
         fields['classfy'] = classfy
+        middle_classfy = request.json.get('middle_classfy')
+        fields['middle_classfy'] = middle_classfy
+        linguistics = request.json.get('linguistics')
+        fields['linguistics'] = linguistics
 
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
