@@ -183,7 +183,7 @@ def comm_notice_view(request, board_id):
         data={}
         if request.GET['method'] == 'view' :
             cur = con.cursor()
-            query = "select subject, content, SUBSTRING(reg_date,1,10) from tb_board where section = 'N' and board_id ="+board_id
+            query = "select subject, content, SUBSTRING(reg_date,1,10), SUBSTRING(mod_date,1,10) from tb_board where section = 'N' and board_id ="+board_id
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -199,6 +199,7 @@ def comm_notice_view(request, board_id):
             value_list.append(row[0][0])
             value_list.append(row[0][1])
             value_list.append(row[0][2])
+            value_list.append(row[0][3])
             if files:
                 value_list.append(files[0])
             # print 'value_list == ',value_list
@@ -251,6 +252,32 @@ def comm_faq(request) :
 
         return HttpResponse(data, 'application/json')
     return render_to_response('community/comm_faq.html')
+
+def comm_faqrequest(request) :
+    if request.is_ajax() :
+        data = json.dumps('fail')
+        if request.GET['method'] == 'request' :
+            email = request.GET['email']
+            request_con = request.GET['request_con']
+            option = request.GET['option']
+            # 이메일 전송
+            print 'emial ==',email
+            # print 'request_con ==',request_con
+            # print 'option ==',option
+            from_address = configuration_helpers.get_value(
+                'email_from_address',
+                settings.DEFAULT_FROM_EMAIL
+            )
+            if option == 'school' or option == 'course' :
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+            else :
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
+            data = json.dumps('success')
+        return HttpResponse(data, 'application/json')
+
+
+
+    return render_to_response('community/comm_faqrequest.html')
 
 @ensure_csrf_cookie
 def comm_repository(request):

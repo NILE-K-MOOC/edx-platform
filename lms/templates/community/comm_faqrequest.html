@@ -1,0 +1,53 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+<script src="${static.url('js/script/faq_request.js')}" charset="utf-8"></script>
+
+<section class="container">
+    <!-- [s] board write -->
+    <section class="board-view">
+
+        <div class="board-write">
+            <dl>
+                <dt><label>이메일</label></dt>
+                <dd>
+                    <div style="padding: 10px;">
+                        문의하기는 K-MOOC운영자에게 메일로 전송이 됩니다.<br>
+                        답변을 원하시는 경우 본인의 메일 주소를 정확히 입력해주 주시기 바랍니다.<br>
+                    </div>
+
+                    <select id="search_con">
+                        <option id="null">문의 내용을 선택하세요.</option>
+                        <option id="school">학교 관련</option>
+                        <option id="course">강의 관련</option>
+                        <option id="site">사이트 관련</option>
+                        <option id="etc">기타 관련</option>
+                    </select>
+                    <input type="text" class="w50p" id="email">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label>내용</label>
+                </dt>
+                <dd>
+                    <textarea id="request_con"></textarea>
+                </dd>
+            </dl>
+
+            <div class="comment-submit">
+                <input type="button" value="이메일 발송" id="request">
+                <input type="button" value="취소" class="btn-gray" id="cancel">
+            </div>
+        </div>
+    </section>
+    <!-- [e] board write -->
+</section>
+
+
+
+
+
