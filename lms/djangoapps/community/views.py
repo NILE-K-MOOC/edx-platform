@@ -199,7 +199,7 @@ def comm_notice_view(request, board_id):
             value_list.append(row[0][2])
             value_list.append(row[0][3])
             if files:
-                value_list.append(files[0])
+                value_list.append(files)
             # print 'value_list == ',value_list
 
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
@@ -274,7 +274,8 @@ def comm_faqrequest(request) :
                 settings.DEFAULT_FROM_EMAIL
             )
             if option == 'school' or option == 'course' :
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                #send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['minseok9106@gmail.com'])
                 save_email = 'kmooc@nile.or.kr'
             else :
                 send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])

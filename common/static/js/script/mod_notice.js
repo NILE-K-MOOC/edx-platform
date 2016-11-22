@@ -9,7 +9,7 @@ $(document).ready(function(){
                 method : 'view'
             }
     }).done(function(data){
-        //console.log(data);
+        console.log(data);
         $('#title').html(data[0]);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일 : '+data[2]);
