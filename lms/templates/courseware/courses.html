@@ -67,6 +67,15 @@
         % if course_discovery_enabled:
         <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
           <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+            <section class="course-facets-list">
+                <h3 class="header-facet">강좌별 분류</h3>
+                <select class="course-facets-select">
+                    <option value="">전체강좌</option>
+                    <option value="i">개강 강좌</option>
+                    <option value="t">개강예정 강좌</option>
+                    <option value="e">종료 강좌</option>
+                </select>
+            </section>
           <section class="search-facets-lists">
           </section>
         </aside>
@@ -75,3 +84,40 @@
       </section>
     </section>
 </main>
+
+% if course_discovery_enabled:
+    <script type="text/javascript">
+        $(function () {
+
+            var p_range = getTermParameter("range");
+            if(p_range != undefined){
+                if(p_range == 'i'|| p_range == 'e' || p_range == 't'){
+					$(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
+				}
+            }
+            $(".course-facets-select").change(function () {
+                var url = '/courses'
+                var list_val = $(this).val();
+                if (list_val){
+                    url = url + '?range=' + list_val;
+                }
+                location.href = url;
+              });
+          });
+
+        var getTermParameter = function (sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        }
+    </script>
+% endif
