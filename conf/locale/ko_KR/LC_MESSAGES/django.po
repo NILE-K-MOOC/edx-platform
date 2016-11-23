@@ -28141,3 +28141,67 @@ msgstr "개인정보 보호를 위해 회원님의 비밀번호를 확인합니�
 
 msgid "Please be careful your password."
 msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주세요."
+#-------------------------------------------------------
+
+# Main
+msgid "Course by subject"
+msgstr "전공별 강좌 보기"
+
+msgid "Humanities"
+msgstr "인문"
+
+msgid "Social Sciences"
+msgstr "사회"
+
+msgid "Education"
+msgstr "교육"
+
+msgid "Engineering"
+msgstr "공학"
+
+msgid "Natural Sciences"
+msgstr "자연"
+
+msgid "Medical Sciences"
+msgstr "의약"
+
+msgid "Arts & Physical"
+msgstr "예체능"
+
+msgid "Korean Studies"
+msgstr "한국학"
+
+msgid "Find course for me"
+msgstr "나에게 맞는 강좌 찾기"
+
+msgid "Opening Status"
+msgstr "개강상태"
+
+msgid "Finish"
+msgstr "종료 강좌"
+
+msgid "Period of studing"
+msgstr "학습기간"
+
+msgid "Short (1~6 weeks)"
+msgstr "단기 (1주~6주)"
+
+msgid "Middle (7~12 weeks)"
+msgstr "중기 (7주~12주)"
+
+msgid "Long (over 13 weeks)"
+msgstr "장기 (13주 이상)"
+
+msgid "Korean"
+msgstr "한국어"
+
+msgid "English"
+msgstr "영어"
+
+msgid "Chiness"
+msgstr "중국어"
+#---------------------------------------------------
+
+# footer.html
+msgid "2557, NAMBUSUNHWAN-RO, SEOCHO-GU, SEOUL, KOREA. "
+msgstr "(06734)서울특별시 서초구 남부순환로 2557 (서초동)"
