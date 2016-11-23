@@ -28122,3 +28122,22 @@ msgstr "공지사항"
 
 msgid "Plagiarism testing"
 msgstr "표절검사"
+
+# account_settings_confirm.html
+msgid "Please enter a password"
+msgstr "비밀번호를 입력해 주세요"
+
+msgid "The password is incorrect."
+msgstr "비밀번호가 맞지 않습니다."
+
+msgid "Access path is abnormal."
+msgstr "접근경로가 비정상적입니다."
+
+msgid "Confirm your password"
+msgstr "비밀번호 확인"
+
+msgid "We check password for your privacy."
+msgstr "개인정보 보호를 위해 회원님의 비밀번호를 확인합니다."
+
+msgid "Please be careful your password."
+msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주세요."

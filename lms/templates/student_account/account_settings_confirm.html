@@ -28,7 +28,7 @@
         function password_check(){
             var passwd = $("#password").val();
             if(passwd == "" || passwd == null){
-                alert("비밀번호를 입력하세요.");
+                alert("${_('Please enter a password')}");
                 $("#password").focus();
                 return;
             }
@@ -40,9 +40,9 @@
                         if(data){
                             document.location.href = "/account/settings";
                         }else if(!data){
-                            alert("비밀번호가 맞지 않습니다.");
+                            alert("${_('The password is incorrect.')}");
                         }else{
-                            alert("접근경로가 비정상적 입니다.\n메인페이지로 이동합니다.");
+                            alert("${_('Access path is abnormal.')}");
                             document.location.href = "/";
                         }
             },"text");
@@ -54,11 +54,11 @@
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container rule">
 
-        <h2>비밀번호 확인</h2>
+        <h2>${_("Confirm your password")}</h2>
 
         <dl>
-            <dt>개인정보 보호를 위해 회원님의 비밀번호를 확인합니다.<br></dt>
-            <dt>항상 비밀번호는 타인에게 노출되지 않도록 주의해주세요.<br></dt>
+            <dt>${_("We check password for your privacy.")}<br></dt>
+            <dt>${_("Please be careful your password.")}<br></dt>
 
 
             <br/><br/>
@@ -72,17 +72,18 @@
 
             <dd>
                 <ol>
-                    <li id="incorrect" style="display:none;"><img style="width:12px" src="/static/images/incorrect-icon.png">&nbsp;<b>비밀번호가 맞지 않습니다.</b></li>
-                    <li id="enterpwd" style="display:none;"><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>비밀번호를 입력하세요.</b></li>
+                    <li id="incorrect" style="display:none;"><img style="width:12px" src="/static/images/incorrect-icon.png">&nbsp;<b>${_("The password is incorrect.")}</b></li>
+                    <li id="enterpwd" style="display:none;"><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Please enter a password")}</b></li>
                 </ol>
             </dd>
             <br/>
-            <a href="#" id="check"><input type="button" id="button" value="확인"/></a>
+            <a href="#" id="check"><input type="button" id="button" value="${_('Confirmation')}"/></a>
         </dl>
 
         <br/><br/><br/><br/><br/><br/><br/>
 
     </section>
 </main>
+
 
 
