@@ -128,6 +128,11 @@
 .courses-container .courses .course .course-info h2 {margin-bottom:0;}
 .courses-container .courses .courses-listing .courses-listing-item {margin-bottom:10px;}
 
+.courses-container .courses .course.ready .course-info .course-status {background:#f4c300;}
+.courses-container .courses .course.ing .course-info .course-status {background:#008800;color:#fff;}
+.courses-container .courses .course.end .course-info .course-status {background:#126f9a;color:#fff;}
+.courses-container .courses .course.none .course-info .course-status {background:#eeeeee;color:#666;}
+
 .courses-container .courses .course .course-image .cover-image img {width:auto;height:100%;}
 
 .content-wrapper .container {max-width:1200px;border:0;min-width:320px;padding:30px 0;}
