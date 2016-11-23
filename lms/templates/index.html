@@ -91,14 +91,14 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] major course list -->
         <section class="major-course-container" id="main-contents02">
-            <h2 class="main-title">전공별 강좌 보기</h2>
+            <h2 class="main-title">${_("Course by subject")}</h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_01.png" alt="인문">
-                                <p>인문</p>
+                                <p>${_("Humanities")}</p>
                             </a>
                         </div>
                     </div>
@@ -106,7 +106,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_02.png" alt="사회">
-                                <p>사회</p>
+                                <p>${_("Social Sciences")}</p>
                             </a>
                         </div>
                     </div>
@@ -114,7 +114,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_03.png" alt="교육">
-                                <p>교육</p>
+                                <p>${_("Education")}</p>
                             </a>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_04.png" alt="공학">
-                                <p>공학</p>
+                                <p>${_("Engineering")}</p>
                             </a>
                         </div>
                     </div>
@@ -130,7 +130,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_05.png" alt="자연">
-                                <p>자연</p>
+                                <p>${_("Natural Sciences")}</p>
                             </a>
                         </div>
                     </div>
@@ -138,7 +138,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_06.png" alt="의약">
-                                <p>의약</p>
+                                <p>${_("Medical Sciences")}</p>
                             </a>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_07.png" alt="예체능">
-                                <p>예체능</p>
+                                <p>${_("Arts & Physical")}</p>
                             </a>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="major-course-item">
                             <a href="">
                                 <img src="/static/images/main/course_08.png" alt="한국학">
-                                <p>한국학</p>
+                                <p>${_("Korean Studies")}</p>
                             </a>
                         </div>
                     </div>
@@ -165,19 +165,19 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title">나에게 맞는 강좌 찾기 </h2>
+            <h2 class="main-title">${_("Find course for me")} </h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
                         <div class="my-course-item">
                             <h3>
                                 <img src="/static/images/main/my_course_01.png" alt="개강상태">
-                                <p>개강상태</p>
+                                <p>${_("Opening Status")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="">진행중</a>
-                                <a href="">개강예정</a>
-                                <a href="">종료</a>
+                                <a href="">${_("Current")}</a>
+                                <a href="">${_("Starting Soon")}</a>
+                                <a href="">${_("Finish")}</a>
                             </div>
                         </div>
                     </div>
@@ -185,12 +185,12 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="my-course-item middle">
                             <h3>
                                 <img src="/static/images/main/my_course_02.png" alt="학습기간">
-                                <p>학습기간</p>
+                                <p>${_("Period of studing")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="">단기 (1주~6주)</a>
-                                <a href="">중기 (7주~12주)</a>
-                                <a href="">장기 (13주 이상)</a>
+                                <a href="">${_("Short (1~6 weeks)")}</a>
+                                <a href="">${_("Middle (7~12 weeks)")}</a>
+                                <a href="">${_("Long (over 13 weeks)")}</a>
                             </div>
                         </div>
                     </div>
@@ -198,12 +198,12 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="my-course-item">
                             <h3>
                                 <img src="/static/images/main/my_course_03.png" alt="강좌언어">
-                                <p>강좌언어</p>
+                                <p>${_("Language")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="">한국어</a>
-                                <a href="">영어</a>
-                                <a href="">중국어</a>
+                                <a href="">${_("Korean")}</a>
+                                <a href="">${_("English")}</a>
+                                <a href="">${_("Chiness")}</a>
                             </div>
                         </div>
                     </div>
@@ -574,7 +574,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 </div>
                 <!--// community 01 -->
                 <!-- community 02 -->
-                <a href="#community02">블로그</a>
+                <a href="#community02">K-MOOC 뉴스</a>
                 <div class="grid-container grid-manual community" id="community02">
                     <div class="row">
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -612,7 +612,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 </div>
                 <!--// community 03 -->
                 <!-- community 04 -->
-                <a href="#community04">Q&amp;A</a>
+                <a href="#community04">FAQ</a>
                 <div class="grid-container grid-manual community" id="community04">
                     <div class="row">
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -665,7 +665,9 @@ from openedx.core.djangolib.markup import HTML, Text
         <li><a href="#" class="smooth-move" data-hashbang="main-contents05">수강신청 가능강좌</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents02">전공별 강좌</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents03">나에게 맞는강좌</a></li>
+        % if LANGUAGE_CODE == 'ko-kr':
         <li><a href="#" class="smooth-move" data-hashbang="main-contents06">커뮤니티</a></li>
+        % endif
     </ul>
 </nav>
 
