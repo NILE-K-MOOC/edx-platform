@@ -23,6 +23,12 @@ def go_to_uploads(_step):
     world.css_click(menu_css)
     world.css_click(uploads_css)
 
+@step(u'I go to the files and uploads_cdn page$')
+def go_to_uploads(_step):
+    menu_css = 'li.nav-course-courseware'
+    uploads_css = 'li.nav-course-courseware-uploads_cdn a'
+    world.css_click(menu_css)
+    world.css_click(uploads_css)
 
 @step(u'I upload the( test)? file "([^"]*)"$')
 def upload_file(_step, is_test_file, file_name, button_text=None):

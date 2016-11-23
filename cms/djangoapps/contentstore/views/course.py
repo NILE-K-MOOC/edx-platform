@@ -289,6 +289,7 @@ def course_rerun_handler(request, course_key_string):
         html: return html page with form to rerun a course for the given course id
     """
     # Only global staff (PMs) are able to rerun courses during the soft launch
+
     if not GlobalStaff().has_user(request.user):
         raise PermissionDenied()
     course_key = CourseKey.from_string(course_key_string)
@@ -740,6 +741,14 @@ def _create_or_rerun_course(request):
         if display_name is not None:
             fields['display_name'] = display_name
 
+        ##kmooc
+        classfy = request.json.get('classfy')
+        fields['classfy'] = classfy
+        middle_classfy = request.json.get('middle_classfy')
+        fields['middle_classfy'] = middle_classfy
+        linguistics = request.json.get('linguistics')
+        fields['linguistics'] = linguistics
+
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
         # # TODO get rid of defining wiki slug in this org/course/run specific way and reconcile
@@ -807,6 +816,8 @@ def create_new_course_in_store(store, user, org, number, run, fields):
         'language': getattr(settings, 'DEFAULT_COURSE_LANGUAGE', 'en'),
         'cert_html_view_enabled': True,
     })
+
+    # raise Exception(str(fields))
 
     with modulestore().default_store(store):
         # Creating the course raises DuplicateCourseError if an existing course with this org/name is found
