@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import logging
 from functools import partial
 import math
@@ -29,6 +30,8 @@ from pymongo import ASCENDING, DESCENDING
 from student.auth import has_course_author_access
 from xmodule.modulestore.exceptions import ItemNotFoundError
 
+import urllib2
+import json
 __all__ = ['assets_handler']
 
 # pylint: disable=unused-argument
@@ -164,14 +167,47 @@ def _assets_json(request, course_key):
                 'thumbnail', thumbnail_location[4])
 
         asset_locked = asset.get('locked', False)
-        asset_json.append(_get_asset_json(
-            asset['displayname'],
-            asset['contentType'],
-            asset['uploadDate'],
-            asset_location,
-            thumbnail_location,
-            asset_locked
-        ))
+        '''
+        kmooc MME로 전면 수정함.
+        '''
+        url_split = request.META.get('HTTP_REFERER').split("/")
+        if url_split[3] == 'cdn':
+            thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
+            thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[thumbnail_location.rfind('/'):]
+
+            if 'uuid' in asset:
+                uuid = asset['uuid']
+            else: uuid = ''
+            if 'playtime' in asset:
+                playtime = asset['playtime']
+            else:
+                playtime = ''
+            if 'state' in asset:
+                state = asset['state']
+            else:
+                state = ''
+            if 'thumbnail_url' in asset:
+                thumbnail_url = asset['thumbnail_url']
+            else:
+                thumbnail_url = ''
+            asset_json.append(_get_cdn_json(
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
+                asset_location,
+                thumbnail_url,
+                asset['cdn_url'], asset['uuid'], asset['playtime'], asset['state']
+            ))
+
+        else:
+            asset_json.append(_get_asset_json(
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
+                asset_location,
+                thumbnail_location,
+                asset_locked
+            ))
 
     return JsonResponse({
         'start': start,
@@ -193,10 +229,21 @@ def _get_assets_for_page(request, course_key, options):
     sort = options['sort']
     filter_params = options['filter_params'] if options['filter_params'] else None
     start = current_page * page_size
+    '''
+    kmooc MME
+    메소드 수정함.
+    '''
+    url_split = request.META.get('HTTP_REFERER').split("/")
 
-    return contentstore().get_all_content_for_course(
-        course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
-    )
+    if (url_split[3] == 'cdn'):
+
+        return contentstore().get_all_cdn_content_for_course(
+            course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
+        )
+    else:
+        return contentstore().get_all_content_for_course(
+            course_key, start=start, maxresults=page_size, sort=sort, filter_params=filter_params
+        )
 
 
 def get_file_size(upload_file):
@@ -298,6 +345,46 @@ def _upload_asset(request, course_key):
 
     return JsonResponse(response_payload)
 
+def save_cdn(request, course_key):
+    '''
+    kmooc MME
+    메소드 추가
+    '''
+    content = request.REQUEST
+    content.name=request.REQUEST['file_name']
+    content.cdn_url=request.REQUEST['cdn_url']
+    content.content_type=request.REQUEST['file_type']
+    content.thumbnail_location=request.REQUEST['thumbnail_url']
+    content.thumbnail_url=request.REQUEST['thumbnail_url']
+    content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
+    print content
+
+    try:
+        content.uuid = request.REQUEST['uuid']
+        content.playtime = request.REQUEST['playtime']
+        content.state = request.REQUEST['state']
+    except:
+        content.uuid = ''
+        content.playtime = ''
+        content.state = ''
+
+    contentstore().save_cdn(content)
+
+    readback = contentstore().find_cdn(content.location)
+    locked = False;
+    response_payload = {
+        'asset': _get_asset_json(
+            content.name,
+            content.content_type,
+            readback.last_modified_at,
+            content.location,
+            content.thumbnail_location,
+            locked
+        ),
+        'msg': _('Upload completed'),
+        'result': 'success'
+    }
+    return JsonResponse(response_payload)
 
 @require_http_methods(("DELETE", "POST", "PUT"))
 @login_required
@@ -317,8 +404,12 @@ def _update_asset(request, course_key, asset_key):
             return JsonResponse(status=404)
 
     elif request.method in ('PUT', 'POST'):
+
         if 'file' in request.FILES:
             return _upload_asset(request, course_key)
+        elif 'cdn_url' in request.REQUEST:
+            ''' kmooc MME'''
+            return save_cdn(request, course_key)
         else:
             # Update existing asset
             try:
@@ -381,5 +472,34 @@ def _get_asset_json(display_name, content_type, date, location, thumbnail_locati
         'thumbnail': StaticContent.serialize_asset_key_with_slash(thumbnail_location) if thumbnail_location else None,
         'locked': locked,
         # Needed for Backbone delete/update.
+        'id': unicode(location)
+    }
+
+def _get_cdn_json(display_name, content_type, date, location, thumbnail_location, cdn_url='', uuid='', playtime='', state=''):
+    '''
+    kmooc MME
+    '''
+    asset_url = StaticContent.serialize_asset_key_with_slash(location)
+    localtime = date.strftime("%Y-%m-%d")
+
+    # external_url = settings.LMS_BASE + asset_url
+    j_data = json.dumps({'file_name': display_name, 'content_type': content_type, 'date': get_default_time_display(date), 'location': asset_url, 'thumbanil': thumbnail_location, 'cdn_url': cdn_url, 'uuid': uuid, 'state': state})
+
+
+    return {
+        'display_name': display_name,
+        'content_type': content_type,
+        # 'date_added': get_default_time_display(date),
+        'date_added': localtime,
+        # 'url': uuid+'/'+playtime,
+        'url': j_data,
+        'external_url': cdn_url,
+        # 'portable_url': StaticContent.get_static_path_from_location(location),
+        'portable_url': state,
+        'thumbnail': thumbnail_location,
+        'uuid': uuid,
+        'playtime': playtime,
+        'state': state,
+        # 'locked': locked,
         'id': unicode(location)
     }
