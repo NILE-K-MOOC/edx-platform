@@ -123,9 +123,6 @@ $(document).ready(function(){
 				$('.faq-list').html(html);
 			});
 		}
-
-
-
 	});
 
 
@@ -167,6 +164,10 @@ $(document).ready(function(){
 function resize() {
 	window_W = $(window).width();
 }
+
+$(document).on('click', '#question', function(){
+	location.href='/comm_faqrequest'
+});
 
 
 
