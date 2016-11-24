@@ -41,44 +41,44 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <ul class="list-input">
     <li class="field text is-not-editable" id="field-course-organization">
-      <label for="course-organization">${_("Organization:")}</label>
+      <span for="course-organization">${_("Organization:")}</span>
       <b>${ section_data['course_id'].org}</b>
     </li>
 
     <li class="field text is-not-editable" id="field-course-number">
-      <label for="course-number">${_("Course Number:")}</label>
+      <span for="course-number">${_("Course Number:")}</span>
       <b>${ section_data['course_id'].course}</b>
     </li>
 
     <li class="field text is-not-editable" id="field-course-name">
-      <label for="course-name">${_("Course Name:")}</label>
+      <span for="course-name">${_("Course Name:")}</span>
       <b>${ section_data['course_id'].run}</b>
     </li>
 
     <li class="field text is-not-editable" id="field-course-display-name">
-      <label for="course-display-name">${_("Course Display Name:")}</label>
+      <span for="course-display-name">${_("Course Display Name:")}</span>
       <b>${ section_data['course_display_name']}</b>
     </li>
 
     <li class="field text is-not-editable" id="field-course-start-date">
-      <label for="course-start-date">${_("Course Start Date:")}</label>
+      <span for="course-start-date">${_("Course Start Date:")}</span>
       <b>${ section_data['start_date'] }</b>
     </li>
 
     <li class="field text is-not-editable" id="field-course-end-date">
-      <label for="course-end-date">${_("Course End Date:")}</label>
+      <span for="course-end-date">${_("Course End Date:")}</span>
       <b>${ section_data['end_date'] }</b>
     </li>
 
     <li class="field text is-not-editable" id="field-course-started">
-      <label for="start-date">${_("Has the course started?")}</label>
+      <span for="start-date">${_("Has the course started?")}</span>
 
       <b>${_("Yes") if section_data['has_started'] else _("No")}</b>
 
     </li>
 
     <li class="field text is-not-editable" id="field-course-ended">
-      <label for="start-date">${_("Has the course ended?")}</label>
+      <span for="start-date">${_("Has the course ended?")}</span>
       %if section_data['has_ended']:
       <b>${_("Yes")}</b>
       %else:
@@ -87,12 +87,12 @@ from openedx.core.djangolib.markup import HTML, Text
     </li>
 
     <li class="field text is-not-editable" id="field-course-num-sections">
-      <label for="course-num-sections">${_("Number of sections:")}</label>
+      <span for="course-num-sections">${_("Number of sections:")}</span>
       <b>${ section_data['num_sections'] }</b>
     </li>
 
     <li class="field text is-not-editable" id="field-grade-cutoffs">
-      <label for="start-date">${_("Grade Cutoffs:")}</label>
+      <span for="start-date">${_("Grade Cutoffs:")}</span>
       <b>${ section_data['grade_cutoffs'] }</b>
     </li>
   </ul>

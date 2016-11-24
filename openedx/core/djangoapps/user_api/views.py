@@ -466,6 +466,12 @@ class RegistrationView(APIView):
         # Translators: This label appears above a field on the registration form
         # meant to hold the user's password.
         password_label = _(u"Password")
+        password_instructions = _(
+            # Translators: These instructions appear on the registration form, immediately
+            # below a field meant to hold the user's public username.
+            u"The name that will identify you in your courses - "
+            u"{bold_start}(cannot be changed later){bold_end}"
+        ).format(bold_start=u'<strong>', bold_end=u'</strong>')
 
         form_desc.add_field(
             "password",

@@ -884,7 +884,7 @@ msgstr "표시될 이름"
 #: common/djangoapps/course_modes/models.py
 #: lms/templates/courseware/course_about.html
 msgid "Price"
-msgstr "가격"
+msgstr "수강 비용"
 
 #: common/djangoapps/course_modes/models.py
 #: lms/djangoapps/support/static/support/templates/enrollment.underscore
@@ -8989,7 +8989,7 @@ msgstr "홍길동"
 #: themes/stanford-style/lms/templates/register-form.html
 #: lms/templates/register.html
 msgid "Your legal name, used for any certificates you earn."
-msgstr ""
+msgstr "앞으로 받게 될 이수증에 필요합니다. 영문이름 병기를 원하시면 영문이름을 추가하세요."
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid ""
@@ -9893,7 +9893,7 @@ msgstr "설정 저장"
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 #: themes/edx.org/lms/templates/dashboard.html
 msgid "Unenroll"
-msgstr "등록 취소"
+msgstr "수강 취소"
 
 #: lms/templates/edit_unit_link.html
 msgid "View Unit in Studio"
@@ -9979,7 +9979,7 @@ msgstr "법률적"
 
 #: lms/templates/forgot_password_modal.html
 msgid "Password Reset"
-msgstr "비밀번호 재설정"
+msgstr "새 비밀번호 설정을 위한 메일 발송하기"
 
 #: lms/templates/forgot_password_modal.html
 msgid ""
@@ -12469,10 +12469,6 @@ msgstr "등록마감"
 #: lms/templates/courseware/course_about.html
 msgid "Add {course_name} to Cart <span>({price} USD)</span>"
 msgstr "장바구니에 {course_name}<span>({price} USD)</span>추가하기 "
-
-#: lms/templates/courseware/course_about.html
-msgid "Enroll in {course_name}"
-msgstr ""
 
 #: lms/templates/courseware/course_about.html
 msgid "View About Page in studio"
@@ -15990,7 +15986,7 @@ msgstr "혹은 {link_start}홈 페이지{link_end}로 되돌아 갈 수 있습�
 
 #: lms/templates/registration/password_reset_complete.html
 msgid "Your Password Reset is Complete"
-msgstr "비밀번호 재설정이 완료되었습니다."
+msgstr "비밀번호 변경이 완료되었습니다."
 
 #: lms/templates/registration/password_reset_complete.html
 msgid "Password Reset Complete"
@@ -27890,6 +27886,9 @@ msgstr "개강예정"
 msgid "end"
 msgstr "종료강좌"
 
+msgid "none"
+msgstr "미정"
+
 # univ intro text
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 msgid ""
@@ -28121,35 +28120,88 @@ msgstr "현재 수강할 수 있는 강좌가 없습니다."
 msgid "Notices"
 msgstr "공지사항"
 
-msgid ""
-msgstr ""
+msgid "Plagiarism testing"
+msgstr "표절검사"
 
-msgid ""
-msgstr ""
+# account_settings_confirm.html
+msgid "Please enter a password"
+msgstr "비밀번호를 입력해 주세요"
 
-msgid ""
-msgstr ""
+msgid "The password is incorrect."
+msgstr "비밀번호가 맞지 않습니다."
 
-msgid ""
-msgstr ""
+msgid "Access path is abnormal."
+msgstr "접근경로가 비정상적입니다."
 
-msgid ""
-msgstr ""
+msgid "Confirm your password"
+msgstr "비밀번호 확인"
 
-msgid ""
-msgstr ""
+msgid "We check password for your privacy."
+msgstr "개인정보 보호를 위해 회원님의 비밀번호를 확인합니다."
 
-msgid ""
-msgstr ""
+msgid "Please be careful your password."
+msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주세요."
+#-------------------------------------------------------
 
-msgid ""
-msgstr ""
+# Main
+msgid "Course by subject"
+msgstr "전공별 강좌 보기"
 
-msgid ""
-msgstr ""
+msgid "Humanities"
+msgstr "인문"
 
-msgid ""
-msgstr ""
+msgid "Social Sciences"
+msgstr "사회"
 
-msgid ""
-msgstr ""
+msgid "Education"
+msgstr "교육"
+
+msgid "Engineering"
+msgstr "공학"
+
+msgid "Natural Sciences"
+msgstr "자연"
+
+msgid "Medical Sciences"
+msgstr "의약"
+
+msgid "Arts & Physical"
+msgstr "예체능"
+
+msgid "Korean Studies"
+msgstr "한국학"
+
+msgid "Find course for me"
+msgstr "나에게 맞는 강좌 찾기"
+
+msgid "Opening Status"
+msgstr "개강상태"
+
+msgid "Finish"
+msgstr "종료 강좌"
+
+msgid "Period of studing"
+msgstr "학습기간"
+
+msgid "Short (1~6 weeks)"
+msgstr "단기 (1주~6주)"
+
+msgid "Middle (7~12 weeks)"
+msgstr "중기 (7주~12주)"
+
+msgid "Long (over 13 weeks)"
+msgstr "장기 (13주 이상)"
+
+msgid "Korean"
+msgstr "한국어"
+
+msgid "English"
+msgstr "영어"
+
+msgid "Chiness"
+msgstr "중국어"
+#---------------------------------------------------
+
+# footer.html
+msgid "2557, NAMBUSUNHWAN-RO, SEOCHO-GU, SEOUL, KOREA. "
+msgstr "(06734)서울특별시 서초구 남부순환로 2557 (서초동)"
