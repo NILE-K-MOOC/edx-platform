@@ -92,11 +92,13 @@ class MongoContentStore(ContentStore):
                               cdn_url=content.cdn_url,
                               content_type=content.content_type,
                               thumbnail_location=None,
-                              uuid=unicode(content.uuid), state=unicode(content.state), playtime=unicode(content.playtime),
+                              uuid=unicode(content['uuid']), state=unicode(content.state), playtime=unicode(content['playtime']),
                               thumbnail_url=unicode(content.thumbnail_url),
                               locked=getattr(content, 'locked', False)
                               ) as fp:
-            print("mongodb insert ok")
+            print  content['uuid']
+            print content.uuid
+            print("mongodb insert ok: %s, %s" % (unicode(content.uuid), unicode(content.playtime)))
 
         return content
 
@@ -187,9 +189,32 @@ class MongoContentStore(ContentStore):
 
         try:
             with self.fs.get(content_id) as fp:
+
                 return StaticContent(
                     content_id, fp.displayname, fp.content_type, fp.read(), last_modified_at=fp.uploadDate,
                 )
+        except NoFile:
+            if throw_on_not_found:
+                raise NotFoundError(content_id)
+            else:
+                return None
+    def find_cdn_uuid(self, location, throw_on_not_found=True, as_stream=False):
+        '''
+        KMOOC UUID find
+        Args:
+            location:
+            throw_on_not_found:
+            as_stream:
+
+        Returns:
+
+        '''
+        content_id, __ = self.asset_db_key(location)
+        try:
+            with self.fs.get(content_id) as fp:
+                return {'uuid': fp.uuid, 'playtime':fp.playtime, 'cdn_url': fp.cdn_url}
+
+
         except NoFile:
             if throw_on_not_found:
                 raise NotFoundError(content_id)
