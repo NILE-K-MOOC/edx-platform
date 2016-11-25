@@ -110,6 +110,7 @@ from opaque_keys import InvalidKeyError
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
+
 log = logging.getLogger(__name__)
 
 
@@ -1263,6 +1264,7 @@ def get_students_features(request, course_id, csv=False):  # pylint: disable=red
 
     if not csv:
         student_data = instructor_analytics.basic.enrolled_students_features(course_key, query_features)
+        print 'student_data == ',student_data
         response_payload = {
             'course_id': unicode(course_key),
             'students': student_data,
@@ -2310,6 +2312,7 @@ def list_report_downloads(_request, course_id):
 
     response_payload = {
         'downloads': [
+            # dict(name=name, url=url, link=HTML('<a href="{}">{}</a>').format(HTML(url).encode('utf-8'), Text(name)))
             dict(name=name, url=url, link=HTML('<a href="{}">{}</a>').format(HTML(url), Text(name)))
             for name, url in report_store.links_for(course_id)
         ]

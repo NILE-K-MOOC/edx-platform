@@ -12,6 +12,7 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from django.core.management.base import BaseCommand
 
 
+
 class Command(BaseCommand):
     help = "Compute grades for all students in a course, and store result in DB.\n"
     help += "Usage: compute_grades course_id_or_dir \n"

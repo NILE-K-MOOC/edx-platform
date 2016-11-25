@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from instructor_task.views import get_task_completion_info
 
+
 log = logging.getLogger(__name__)
 
 

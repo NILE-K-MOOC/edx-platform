@@ -44,6 +44,10 @@ from instructor_task.api_helper import (
 )
 from bulk_email.models import CourseEmail
 from util import milestones_helpers
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 class SpecificStudentIdMissingError(Exception):
@@ -77,7 +81,7 @@ def get_instructor_task_history(course_id, usage_key=None, student=None, task_ty
         instructor_tasks = instructor_tasks.filter(task_key=task_key)
     if task_type is not None:
         instructor_tasks = instructor_tasks.filter(task_type=task_type)
-
+    print '***************'
     return instructor_tasks.order_by('-id')
 
 
@@ -342,6 +346,7 @@ def submit_calculate_students_features_csv(request, course_key, features):
 
     Raises AlreadyRunningError if said CSV is already being updated.
     """
+    print '********************** submit_calculate_students_features_csv'
     task_type = 'profile_info_csv'
     task_class = calculate_students_features_csv
     task_input = features

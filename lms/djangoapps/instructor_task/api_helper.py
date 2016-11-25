@@ -274,10 +274,11 @@ def encode_problem_and_student_input(usage_key, student=None):  # pylint: disabl
         usage_key (Location): The usage_key identifying the problem.
         student (User): the student affected
     """
-
+    print '********************** encode_problem_and_student_input'
     assert isinstance(usage_key, UsageKey)
     if student is not None:
         task_input = {'problem_url': usage_key.to_deprecated_string(), 'student': student.username}
+        print 'student.username == ',student.username
         task_key_stub = "{student}_{problem}".format(student=student.id, problem=usage_key.to_deprecated_string())
     else:
         task_input = {'problem_url': usage_key.to_deprecated_string()}
@@ -297,9 +298,11 @@ def encode_entrance_exam_and_student_input(usage_key, student=None):  # pylint: 
         usage_key (Location): The usage_key identifying the entrance exam.
         student (User): the student affected
     """
+    print '********************** encode_entrance_exam_and_student_input'
     assert isinstance(usage_key, UsageKey)
     if student is not None:
         task_input = {'entrance_exam_url': unicode(usage_key), 'student': student.username}
+        print 'student.username == ',student.username
         task_key_stub = "{student}_{entranceexam}".format(student=student.id, entranceexam=unicode(usage_key))
     else:
         task_input = {'entrance_exam_url': unicode(usage_key)}

@@ -23,6 +23,8 @@ The distribution in a course for gender might look like:
 
 from django.db.models import Count
 from student.models import CourseEnrollment, UserProfile
+import sys
+
 
 # choices with a restricted domain, e.g. level_of_education
 _EASY_CHOICE_FEATURES = ('gender', 'level_of_education')

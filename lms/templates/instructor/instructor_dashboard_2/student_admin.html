@@ -8,9 +8,10 @@
 	${_("Click here to view the gradebook for enrolled students. This feature is only visible to courses with a small number of total enrolled students.")}
       </p>
       <br>
-      <p>
-	<a href="${ section_data['spoc_gradebook_url'] }" class="gradebook-link"> ${_("View Gradebook")} </a>
-      </p>
+##       <p>
+## 	<a href="${ section_data['spoc_gradebook_url'] }" class="gradebook-link"> ${_("View Gradebook")} </a>
+   <a href="${ section_data['spoc_gradebook_url'] }" class="gradebook-link"><input type="button" value="${_("View Gradebook")}"></a>
+##       </p>
     <hr>
   %endif
 </div>
@@ -26,11 +27,11 @@
   <br>
 
   <div class="progress-link-wrapper">
-  <p>
+##   <p>
     ${_("Click this link to view the student's progress page:")}
 
-    <a href="" class="progress-link" data-endpoint="${ section_data['get_student_progress_url_url'] }"> ${_("Student Progress Page")} </a>
-  </p>
+    <a href="" class="progress-link" data-endpoint="${ section_data['get_student_progress_url_url'] }"><input type="button" value="${_("Student Progress Page")}"></a>
+##   </p>
   </div>
 
   <hr>

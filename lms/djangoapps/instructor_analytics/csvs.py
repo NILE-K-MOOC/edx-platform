@@ -6,7 +6,9 @@ Format and create csv responses
 
 import csv
 from django.http import HttpResponse
-
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 def create_csv_response(filename, header, datarows):
     """

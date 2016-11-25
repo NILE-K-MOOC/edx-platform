@@ -14,6 +14,7 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from django.views.decorators.cache import cache_control
 import logging
 
+
 log = logging.getLogger(__name__)
 
 
