@@ -6,10 +6,19 @@ $(document).ready(function(){
 });
 
 $(document).on('click', '#request', function(){
+    var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    var flag = '';
     var email = $('#email').val();
     var option = $('#search_con option:selected').attr('id');
     var request_con = $('#request_con').val();
-    if(option != 'null'){
+
+    if(email.match(regExp) != null){
+        flag = true;
+    }else{
+        flag = false;
+    }
+
+    if(option != 'null' && flag == true){
         $.ajax({
             url : 'comm_faqrequest',
             data : {
@@ -26,6 +35,9 @@ $(document).on('click', '#request', function(){
                 alert('문의하기가 정상적으로 되지않았습니다. 잠시 후에 시도해주세요.');
             }
         });
+    }
+    else if(flag == false){
+        alert('이메일을 정확히 입력해주세요.');
     }
     else{
         alert('내용을 선택하세요.');
