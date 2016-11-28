@@ -95,7 +95,8 @@ def comm_notice(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='N') as total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where section='N' and use_yn = 'Y'
             """ % (page)
@@ -125,6 +126,7 @@ def comm_notice(request) :
                 value_list.append(notice[2])
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
+                value_list.append(notice[5])
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
         elif request.GET['method'] == 'search_list' :
@@ -137,7 +139,8 @@ def comm_notice(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
@@ -163,6 +166,7 @@ def comm_notice(request) :
                 value_list.append(notice[2])
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
+                value_list.append(notice[5])
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 

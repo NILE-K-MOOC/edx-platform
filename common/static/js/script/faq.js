@@ -3,6 +3,7 @@
  */
 var window_W = 0;
 $(document).ready(function(){
+
     window_W = $(window).width();
 	$(window).resize(resize);
 	var html = "";
