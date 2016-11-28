@@ -385,7 +385,7 @@ $(document).ready(function(){
 //
 //});
 
-$(document).on('click', '#search_btn',search);
+$(document).on('click', '#search',search);
 function search(){
     var search_con = $('#search_con option:selected').attr('id');
     var search_search = $('#search_search').val();
