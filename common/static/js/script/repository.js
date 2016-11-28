@@ -27,7 +27,11 @@ $(document).ready(function(){
                     html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                 }
                 else if(j==1){
-                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                    if(value_list[5] == 1){
+                        html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                    }else{
+                        html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                    }
                 }
                 else if(j==2){
                     html += "<span class='date'>"+value_list[j]+"</span>";
@@ -84,7 +88,11 @@ $(document).ready(function(){
                             html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                         }
                         else if(j==1){
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            if(value_list[5] == 1){
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                            }else{
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            }
                         }
                         else if(j==2){
                             html += "<span class='date'>"+value_list[j]+"</span>";
@@ -120,7 +128,11 @@ $(document).ready(function(){
                             html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                         }
                         else if(j==1){
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            if(value_list[5] == 1){
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                            }else{
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            }
                         }
                         else if(j==2){
                             html += "<span class='date'>"+value_list[j]+"</span>";
@@ -158,7 +170,11 @@ $(document).ready(function(){
                                 html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                             }
                             else if(j==1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                if(value_list[5] == 1){
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                }else{
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                }
                             }
                             else if(j==2){
                                 html += "<span class='date'>"+value_list[j]+"</span>";
@@ -197,7 +213,11 @@ $(document).ready(function(){
                             html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                         }
                         else if(j==1){
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            if(value_list[5] == 1){
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                            }else{
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            }
                         }
                         else if(j==2){
                             html += "<span class='date'>"+value_list[j]+"</span>";
@@ -236,7 +256,11 @@ $(document).ready(function(){
                                 html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                             }
                             else if(j==1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                if(value_list[5] == 1){
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                }else{
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                }
                             }
                             else if(j==2){
                                 html += "<span class='date'>"+value_list[j]+"</span>";
@@ -293,7 +317,11 @@ function search(){
                             html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                         }
                         else if(j==1){
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            if(value_list[5] == 1){
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                            }else{
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            }
                         }
                         else if(j==2){
                             html += "<span class='date'>"+value_list[j]+"</span>";
@@ -338,7 +366,11 @@ function search(){
                         html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                     }
                     else if(j==1){
-                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                        if(value_list[5] == 1){
+                            html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                        }else{
+                            html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                        }
                     }
                     else if(j==2){
                         html += "<span class='date'>"+value_list[j]+"</span>";

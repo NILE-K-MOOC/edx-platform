@@ -319,7 +319,8 @@ def comm_repository(request):
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='R') as total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where section='R' and use_yn = 'Y'
             """ % (page)
@@ -349,6 +350,7 @@ def comm_repository(request):
                 value_list.append(data[2])
                 value_list.append(int(data[3]))
                 value_list.append(data[4])
+                value_list.append(data[5])
                 data_list.append(value_list)
             adata = json.dumps(list(data_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -363,7 +365,8 @@ def comm_repository(request):
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
@@ -376,7 +379,6 @@ def comm_repository(request):
                     query += "and subject like '%"+search+"%' and section='R' "
 
             query += "order by reg_date desc "
-            print query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -389,6 +391,7 @@ def comm_repository(request):
                 value_list.append(data[2])
                 value_list.append(int(data[3]))
                 value_list.append(data[4])
+                value_list.append(data[5])
                 data_list.append(value_list)
             adata = json.dumps(list(data_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -459,7 +462,8 @@ def comm_k_news(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='K') as total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where section='K' and use_yn = 'Y'
             """ % (page)
@@ -489,6 +493,7 @@ def comm_k_news(request) :
                 value_list.append(k_news[2])
                 value_list.append(int(k_news[3]))
                 value_list.append(k_news[4])
+                value_list.append(k_news[5])
                 k_news_list.append(value_list)
             data = json.dumps(list(k_news_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -502,7 +507,8 @@ def comm_k_news(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
@@ -516,7 +522,6 @@ def comm_k_news(request) :
                     query += "and subject like '%"+search+"%' and section='K' "
 
             query += "order by reg_date desc "
-            print query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -529,6 +534,7 @@ def comm_k_news(request) :
                 value_list.append(k_news[2])
                 value_list.append(int(k_news[3]))
                 value_list.append(k_news[4])
+                value_list.append(k_news[5])
                 k_news_list.append(value_list)
             data = json.dumps(list(k_news_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
