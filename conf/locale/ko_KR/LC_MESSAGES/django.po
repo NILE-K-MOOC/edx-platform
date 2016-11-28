@@ -16722,6 +16722,9 @@ msgstr "{course_name} 인증"
 msgid "Enroll In {course_name}"
 msgstr "{course_name} 수강신청"
 
+msgid "Enroll in {course_name}"
+msgstr "{course_name} 수강신청"
+
 #: lms/templates/verify_student/pay_and_verify.html
 msgid "Have questions?"
 msgstr "질문이 있습니까?"
@@ -27878,13 +27881,13 @@ msgid "univ_name"
 msgstr "대학명"
 
 msgid "ing"
-msgstr "진행강좌"
+msgstr "진행중"
 
 msgid "ready"
 msgstr "개강예정"
 
 msgid "end"
-msgstr "종료강좌"
+msgstr "종료"
 
 msgid "none"
 msgstr "미정"

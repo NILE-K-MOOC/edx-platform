@@ -798,7 +798,12 @@
     "cbnuk": "\uc804\ubd81\ub300\ud559\uad50",
     "postechk": "\ud3ec\ud56d\uacf5\uacfc\ub300\ud559\uad50",
     "kaistk": "\ud55c\uad6d\uacfc\ud559\uae30\uc220\uc6d0",
-    "hyuk": "\ud55c\uc591\ub300\ud559\uad50"
+    "hyuk": "\ud55c\uc591\ub300\ud559\uad50",
+
+    "ready": "\uac1c\uac15\uc608\uc815",
+    "ing": "\uc9c4\ud589\uc911",
+    "end": "\uc885\ub8cc",
+    "none": "\ubbf8\uc815"
 
   };
 
