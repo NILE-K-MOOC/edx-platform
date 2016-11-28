@@ -142,9 +142,15 @@ from django.core.urlresolvers import reverse
           </label>
           <br>
           %if (is_assessment & is_assessment_ing != True) | is_assessment_done:
-          <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" onclick="run_copykiller();">
+              <div id="copy_killer">
+                  <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" onclick="run_copykiller();">
+                  <input id="loading" type="button" value="ddd" style="display: none" disabled>
+                  <input type="button" id="cvs" name="list-anon-ids" value="CSV 파일 다운로드" style="display: none" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
+              </div>
           %elif is_assessment :
-          <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" disabled>
+              <div>
+                  <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" disabled>
+              </div>
           %endif
           <hr>
         </div>
@@ -153,17 +159,21 @@ from django.core.urlresolvers import reverse
         <script type="text/javascript">
             function run_copykiller() {
                 console.log("/courses/${course.id}/instructor/copykiller");
-
+                $('#loading').css('display', 'inline');
+                $('#cvs').css('display', 'none');
                 $.ajax({
                     url: "/courses/${course.id}/instructor/copykiller",
                 }).done(function(data) {
                     console.log('run_copykiller data: ' + data.result);
-
                     if (data.result == 'success') {
                         $(".molly-guard").prop('disabled', true);
                         $("#copykiller_status").val('표절검사가 진행중입니다.');
                     }
                 });
+                %if is_assessment_done == True:
+                    $('#loading').css('display', 'none');
+                    $('#cvs').css('display', 'inine');
+                %endif
             }
         </script>
         %endif

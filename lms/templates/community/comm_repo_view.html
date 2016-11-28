@@ -8,6 +8,7 @@
 <script src="${static.url('js/script/mod_repo.js')}" charset="utf-8"></script>
 
 <section class="container">
+    <h2>자료실</h2>
     <!-- [s] board view -->
     <section class="board-view">
         <ul>
@@ -18,8 +19,9 @@
             </li>
             <li class="contents" id="context">
             </li>
-            <li class="contents" id="file">
-
+            <li class="file-list">
+                <h5>파일명:</h5>
+                <time id="file"></time>
             </li>
         </ul>
 
@@ -28,7 +30,7 @@
 ##                 <input type="button" value="이전글" class="btn-gray">
 ##                 <input type="button" value="다음글" class="btn-gray">
             </div>
-                <input type="button" value="목록" class="btn-gray">
+                <input type="button" value="목록" class="btn-gray" id="list">
         </div>
     </section>
     <!-- [e] board list -->

@@ -8,13 +8,15 @@
 <script src="${static.url('js/script/mod_notice.js')}" charset="utf-8"></script>
 
 <section class="container">
+    <h2>공지사항</h2>
     <!-- [s] board view -->
     <section class="board-view">
         <ul>
             <li id="board_id" style="display: none;">${id}</li>
             <li class="title">
                 <h3 id="title"></h3>
-                <time id="reg_date"></time>
+                <time id="reg_date" style="bottom: 20px;"></time>
+                <time id="mod_date" style="bottom: 5px;"></time>
             </li>
             <li class="contents" id="context">
                 <div id="context1"></div>
@@ -33,7 +35,7 @@
 ##                 <input type="button" value="이전글" class="btn-gray">
 ##                 <input type="button" value="다음글" class="btn-gray">
             </div>
-                <input type="button" value="목록" class="btn-gray">
+                <input type="button" value="목록" class="btn-gray" id="list">
         </div>
     </section>
     <!-- [e] board list -->
