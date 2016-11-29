@@ -60,7 +60,10 @@ from openedx.core.djangoapps.theming import helpers as theming_helpers
         banner.showMessage(${redirect_message | n, dump_js_escaped_json})
     </%static:require_module>
   % endif
+
 </%block>
+
+
 
 <div class="dashboard-notifications" tabindex="-1">
     %if message:

@@ -172,6 +172,9 @@ def comm_notice(request) :
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
         return HttpResponse(list(data), 'application/json')
+
+
+
     return render_to_response('community/comm_notice.html')
 
 @ensure_csrf_cookie
