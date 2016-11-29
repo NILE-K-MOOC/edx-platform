@@ -14336,11 +14336,11 @@ msgstr "강좌 기본 정보"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Name:"
-msgstr "강좌 이름"
+msgstr "강좌 이름:"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Display Name:"
-msgstr "강좌 이름:"
+msgstr "표시될 강좌 이름:"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course End Date:"
