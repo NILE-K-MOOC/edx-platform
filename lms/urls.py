@@ -122,6 +122,7 @@ urlpatterns = (
     url(r'^comm_repository$', 'community.views.comm_repository', name='comm_repository'),
     url(r'^comm_repo_view/(?P<board_id>.*?)/$', 'community.views.comm_repo_view', name='comm_repo_view'),
     url(r'^comm_faq$', 'community.views.comm_faq', name='comm_faq'),
+    url(r'^comm_faqrequest$', 'community.views.comm_faqrequest', name='comm_faqrequest'),
     url(r'^comm_k_news$', 'community.views.comm_k_news', name='comm_k_news'),
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^test$', 'community.views.test', name='test')
