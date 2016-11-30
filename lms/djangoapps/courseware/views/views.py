@@ -163,8 +163,6 @@ def courses(request):
 @cache_if_anonymous()
 def haewoondaex(request, org):
 
-    # print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> org:', org
-
     if 'KOCWk' == org:
         courses_list = get_courses_by_kocw(request.user, request.META.get('HTTP_HOST'))
     else:
@@ -769,6 +767,7 @@ def progress(request, course_id, student_id=None):
 
 
 def _progress(request, course_key, student_id):
+
     """
     Unwrapped version of "progress".
 
@@ -842,6 +841,8 @@ def _progress(request, course_key, student_id):
         is_active and CourseMode.is_eligible_for_certificate(enrollment_mode)
         and certs_api.cert_generation_enabled(course_key)
     )
+
+
 
     context = {
         'course': course,

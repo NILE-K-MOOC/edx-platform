@@ -127,6 +127,15 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 import MySQLdb as mdb
 import re
+from courseware import grades
+from courseware.courses import (
+    get_courses,
+    get_course_with_access,
+    sort_by_announcement,
+    sort_by_start_date,
+)
+from django.views.decorators.cache import cache_control
+from util.views import ensure_valid_course_key
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -138,6 +147,7 @@ REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
 REGISTER_USER = Signal(providing_args=["user", "profile"])
 
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
+# pylint: disable=logging-format-interpolation
 # pylint: disable=logging-format-interpolation
 
 
@@ -161,7 +171,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
     """
-    print 'student'
     if extra_context is None:
         extra_context = {}
 
@@ -198,7 +207,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
-    # print 'mysql ready'
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
@@ -589,8 +597,10 @@ def is_course_blocked(request, redeemed_registration_codes, course_key):
 
     return blocked
 
-
+@transaction.non_atomic_requests
 @login_required
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@ensure_valid_course_key
 @ensure_csrf_cookie
 def dashboard(request):
     user = request.user
@@ -755,7 +765,21 @@ def dashboard(request):
     else:
         redirect_message = ''
 
+    percents = {}
+
+    # add course progress
+    for dashboard_index, enrollment in enumerate(course_enrollments):
+        course_id = str(enrollment.course_id)
+        if not enrollment.course_overview.has_started():
+            percents[course_id] = None
+            continue
+
+        course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
+        grade_summary = grades.grade(user, course, course_structure=None)
+        percents[course_id] = str(int(float(grade_summary['percent']) * 100))
+
     context = {
+        'percents': percents,
         'enrollment_message': enrollment_message,
         'redirect_message': redirect_message,
         'course_enrollments': course_enrollments,

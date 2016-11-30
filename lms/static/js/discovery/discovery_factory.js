@@ -20,9 +20,32 @@
                 });
 
                 dispatcher.listenTo(form, 'search', function (query) {
+
+
+
+                    var term = search.getTermParameter('term');
+                    var mterm = search.getTermParameter('mterm');
+                    var linguistics = search.getTermParameter('linguistics');
+                    var language = search.getTermParameter('language');
+
                     filters.reset();
                     form.showLoadingIndicator();
-                    search.performSearch(query, filters.getTerms());
+
+                    if(term){
+                        filters.add({type: 'classfy', query: term, name: term});
+                        search.refineSearch(filters.getTerms());
+                    }else if(mterm){
+                        filters.add({type: 'middle_classfy', query: mterm, name: mterm});
+                        search.refineSearch(filters.getTerms());
+                    }else if(linguistics){
+                        filters.add({type: 'linguistics', query: linguistics, name: 'Koreanology'});
+                        search.refineSearch(filters.getTerms());
+                    }else if(language) {
+                        filters.add({type: 'language', query: language, name: language == 'ko' ? 'Korean' : 'English'});
+                        search.refineSearch(filters.getTerms());
+                    }else{
+                        search.performSearch(query, filters.getTerms());
+                    }
                 });
 
                 dispatcher.listenTo(refineSidebar, 'selectOption', function (type, query, name) {
@@ -39,6 +62,8 @@
                 dispatcher.listenTo(filterBar, 'clearFilter', removeFilter);
 
                 dispatcher.listenTo(filterBar, 'clearAll', function () {
+                    if(isRedirect(''))
+                        return;
                     form.doSearch('');
                 });
 
@@ -77,7 +102,29 @@
                 // kick off search on page refresh
                 form.doSearch(searchQuery);
 
+                function isRedirect(type){
+                    var sPageURL = document.location.href,
+                    checkIdx1 = sPageURL.indexOf('term'),
+                    checkIdx2 = sPageURL.indexOf('mterm'),
+                    checkIdx3 = sPageURL.indexOf('linguistics'),
+                    checkIdx4 = sPageURL.indexOf('language')
+                    ;
+
+                    if(
+                        (type == "" || type == "classfy" || type == "middle_classfy" || type == "linguistics" || type == "language") &&
+                        (checkIdx1 > 0 || checkIdx2 > 0 || checkIdx3 > 0 || checkIdx4 > 0)
+                    ){
+                        document.location.href = '/courses';
+                        return true;
+                    }
+                    return false;
+                }
+
+
                 function removeFilter(type) {
+                    if(isRedirect(type))
+                        return;
+
                     form.showLoadingIndicator();
                     filters.remove(type);
                     if (type === 'search_query') {
