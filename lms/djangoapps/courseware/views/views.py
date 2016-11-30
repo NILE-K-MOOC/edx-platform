@@ -100,7 +100,6 @@ import MySQLdb as mdb
 import sys
 import json
 from django.core.mail import send_mail
-import datetime
 
 
 log = logging.getLogger("edx.courseware")
@@ -710,7 +709,7 @@ def course_about(request, course_id):
         overview = CourseOverview.get_from_id(course.id)
 
         # D-day
-        today = datetime.datetime.now()
+        today = datetime.now()
         course_start = course.start
         today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
         course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()

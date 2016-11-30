@@ -127,7 +127,6 @@ urlpatterns = (
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
     url(r'^test$', 'community.views.test', name='test'),
-    url(r'^model_test$', 'community.views.model_test', name='model_test')
 
 
 )

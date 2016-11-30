@@ -148,7 +148,8 @@ def comm_notice(request) :
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
                     board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag,
+                    head_title
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
@@ -176,6 +177,10 @@ def comm_notice(request) :
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
                 value_list.append(notice[5])
+                if notice[6] == None or notice[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+notice[6]+'] ')
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -213,13 +218,14 @@ def comm_notice_view(request, board_id):
             value_list.append(row[0][1])
             value_list.append(row[0][2])
             value_list.append(row[0][3])
-            if files:
-                value_list.append(files)
-
             if row[0][4] == None or row[0][4] == '':
                 value_list.append('')
             else:
                 value_list.append('['+row[0][4]+'] ')
+
+            if files:
+                value_list.append(files)
+
             # print 'value_list == ',value_list
 
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
@@ -303,7 +309,27 @@ def comm_faqrequest(request) :
             #문의내용 저장
 
             cur = con.cursor()
-            query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
+            # query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
+            query = """
+                    INSERT INTO faq_request(student_email,
+                                response_email,
+                                question,
+                                head_title)
+                            VALUES (
+                                      '"""+email+"""',
+                                      '"""+save_email+"""',
+                                      '"""+request_con+"""',
+                                      (CASE '"""+option+"""'
+                                          WHEN 'regist' THEN '회원가입 관련'
+                                          WHEN 'login' THEN '로그인 및 계정 관련'
+                                          WHEN 'site' THEN 'K-MOOC 사이트 이용 관련'
+                                          WHEN 'course' THEN '강좌 수강 관련'
+                                          WHEN 'tech' THEN '기술적인 문제 관련'
+                                          WHEN 'etc' THEN '기타'
+                                          ELSE ''
+                                       END));
+            """
+            # print 'query == ',query
             cur.execute(query)
             cur.execute('commit')
             cur.close()
@@ -698,10 +724,3 @@ def comm_list_json(request) :
 
     return HttpResponse(data, 'application/json')
 
-def model_test(request,org=None,filter_=None):
-    courses = CourseOverview.get_all_courses(
-            org='edX',
-            filter_=datetime.datetime.now(),
-        )
-    print 'courses == ',courses
-    return render_to_response('community/model_test.html')

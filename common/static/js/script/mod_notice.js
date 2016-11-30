@@ -9,22 +9,20 @@ $(document).ready(function(){
                 method : 'view'
             }
     }).done(function(data){
-        console.log(data);
-        var title = data[5]+data[0];
+        console.log(data[8]);
+        var title = data[4]+data[0];
         $('#title').html(title);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일 : '+data[2]);
         $('#mod_date').html('수정일 : '+data[3]);
 
-        if(data[4] != '' && data[4] != null){
-            value_list = data[4].toString().split(',');
+        if(data[5] != '' && data[5] != null){
+            value_list = data[5].toString().split(',');
             for(var i=0; i<value_list.length; i++){
                 html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
             }
+            $('#file').html(html);
         }
-        $('#file').html(html);
-
-
     });
 
 });
