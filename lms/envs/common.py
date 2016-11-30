@@ -320,7 +320,7 @@ FEATURES = {
     'ENABLE_COURSE_DISCOVERY': False,
 
     # Setting for overriding default filtering facets for Course discovery
-    'COURSE_DISCOVERY_FILTERS': ["org", "language", "modes", 'classfy', 'middle_classfy', 'linguistics', 'range'],
+    'COURSE_DISCOVERY_FILTERS': ["org", "language", "modes", 'classfy', 'middle_classfy', 'linguistics', 'range', 'course_period'],
 
     # Software secure fake page feature flag
     'ENABLE_SOFTWARE_SECURE_FAKE': False,

@@ -91,13 +91,13 @@ from openedx.core.djangolib.markup import HTML, Text
                   <span class="tip tip-error is-hiding" id="tip-error-new-course-org"></span>
                 </li>
 
-                <li class="field select required" id="field-category">
+                <li class="field select required" id="field-classfy">
                     <label for="new-course-">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy" required>
                         <option value="">강좌 대분류 선택</option>
                     </select>
-                    <span class="tip" id="tip-new-course-category">${_("Selected The Course Category")}</span>
-                    <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
+                    <span class="tip" id="tip-new-course-classfy">${_("Selected The Course Category")}</span>
+                    <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
                 </li>
 
                   <li class="field select required" id="field-category">
@@ -110,15 +110,29 @@ from openedx.core.djangolib.markup import HTML, Text
                 </li>
 
                   <li class="field select required" id="field-category">
+                    <label for="new-course-">${_("Period of Studing")}</label>
+                    <select class="new-course-period" id="new-course-period" name="new-course-period" required>
+                        <option value="">강의 기간 선택</option>
+                        <option value="S">단기(1~6 weeks)</option>
+                        <option value="M">중기(7~12 weeks)</option>
+                        <option value="L">장기(over 13 weeks)</option>
+                   </select>
+                    <span class="tip" id="tip-new-course-period">${_("Selected Period of Studing")}</span>
+                    <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
+                </li>
+
+                <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Linguistics")}</label>
                     <select class="new-course-linguistics" id="new-course-linguistics" name="new-course-linguistics" required>
                         <option value="">한국학여부 선택</option>
                         <option value="Y">한국학</option>
                         <option value="N">그외</option>
                     </select>
-                    <span class="tip" id="tip-new-course-category">${_("Selected Linguistics Section")}</span>
-                    <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
+                    <span class="tip" id="tip-new-course-linguistics">${_("Selected Linguistics Section")}</span>
+                    <span class="tip tip-error is-hiding" id="tip-error-new-course-linguistics"></span>
                 </li>
+
+
 
 
                 <li class="field text required" id="field-course-number">

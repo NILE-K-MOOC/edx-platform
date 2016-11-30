@@ -602,6 +602,7 @@ class CourseAboutSearchIndexer(object):
             'classfy': course.classfy,
             'middle_classfy': course.middle_classfy,
             'linguistics': course.linguistics,
+            'course_period': course.course_period,
         }
 
         # load data for all of the 'about' modules for this course into a dictionary
