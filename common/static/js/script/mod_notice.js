@@ -10,13 +10,16 @@ $(document).ready(function(){
             }
     }).done(function(data){
         console.log(data);
-        value_list = data[4].toString().split(',');
         $('#title').html(data[0]);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일 : '+data[2]);
         $('#mod_date').html('수정일 : '+data[3]);
-        for(var i=0; i<value_list.length; i++){
-            html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
+
+        if(data[4] != '' && data[4] != null){
+            value_list = data[4].toString().split(',');
+            for(var i=0; i<value_list.length; i++){
+                html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
+            }
         }
         $('#file').html(html);
 

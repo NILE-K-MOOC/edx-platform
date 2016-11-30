@@ -95,7 +95,8 @@ def comm_notice(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='N') as total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where section='N' and use_yn = 'Y'
             """ % (page)
@@ -125,6 +126,7 @@ def comm_notice(request) :
                 value_list.append(notice[2])
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
+                value_list.append(notice[5])
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
         elif request.GET['method'] == 'search_list' :
@@ -137,20 +139,22 @@ def comm_notice(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
                 search = request.GET['search_search']
-                print 'title == ',title
+                # print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='N' "
+                    query += "and (subject like '%"+search+"%' or content like '%"+search+"%') and section='N' "
                 else :
                     query += "and subject like '%"+search+"%' and section='N' "
 
             query += "order by reg_date desc "
+            print 'query == ', query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -163,6 +167,7 @@ def comm_notice(request) :
                 value_list.append(notice[2])
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
+                value_list.append(notice[5])
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -191,22 +196,21 @@ def comm_notice_view(request, board_id):
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            print 'files == ',str(files)
-
+            # print 'files == ',str(files)
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
             value_list.append(row[0][2])
             value_list.append(row[0][3])
             if files:
-                value_list.append(files[0])
+                value_list.append(files)
             # print 'value_list == ',value_list
 
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
         elif request.GET['method'] == 'file_download':
             file_name = request.GET['file_name']
-            print 'file_name == ', file_name
+            # print 'file_name == ', file_name
             data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
 
 
@@ -255,9 +259,16 @@ def comm_faqrequest(request) :
     if request.is_ajax() :
         data = json.dumps('fail')
         if request.GET['method'] == 'request' :
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             email = request.GET['email']
             request_con = request.GET['request_con']
             option = request.GET['option']
+            save_email=''
+
             # 이메일 전송
             print 'emial ==',email
             # print 'request_con ==',request_con
@@ -267,9 +278,19 @@ def comm_faqrequest(request) :
                 settings.DEFAULT_FROM_EMAIL
             )
             if option == 'school' or option == 'course' :
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['minseok9106@gmail.com'])
+                save_email = 'kmooc@nile.or.kr'
             else :
                 send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
+                save_email = 'help_kmooc@nile.or.kr'
+            #문의내용 저장
+
+            cur = con.cursor()
+            query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
+            cur.execute(query)
+            cur.execute('commit')
+            cur.close()
             data = json.dumps('success')
         return HttpResponse(data, 'application/json')
 
@@ -298,7 +319,8 @@ def comm_repository(request):
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='R') as total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where section='R' and use_yn = 'Y'
             """ % (page)
@@ -328,6 +350,7 @@ def comm_repository(request):
                 value_list.append(data[2])
                 value_list.append(int(data[3]))
                 value_list.append(data[4])
+                value_list.append(data[5])
                 data_list.append(value_list)
             adata = json.dumps(list(data_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -342,7 +365,8 @@ def comm_repository(request):
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
@@ -350,7 +374,7 @@ def comm_repository(request):
                 title = request.GET['search_con']
                 search = request.GET['search_search']
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='R' "
+                    query += "and (subject like '%"+search+"%' or content like '%"+search+"%') and section='R' "
                 else :
                     query += "and subject like '%"+search+"%' and section='R' "
 
@@ -367,6 +391,7 @@ def comm_repository(request):
                 value_list.append(data[2])
                 value_list.append(int(data[3]))
                 value_list.append(data[4])
+                value_list.append(data[5])
                 data_list.append(value_list)
             adata = json.dumps(list(data_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -395,7 +420,7 @@ def comm_repo_view(request, board_id):
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            print 'files == ',files
+            # print 'files == ',files
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -407,7 +432,7 @@ def comm_repo_view(request, board_id):
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
         elif request.GET['method'] == 'file_download':
             file_name = request.GET['file_name']
-            print 'file_name == ', file_name
+            # print 'file_name == ', file_name
             data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
         return HttpResponse(data, 'application/json')
 
@@ -437,7 +462,8 @@ def comm_k_news(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='K') as total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where section='K' and use_yn = 'Y'
             """ % (page)
@@ -467,6 +493,7 @@ def comm_k_news(request) :
                 value_list.append(k_news[2])
                 value_list.append(int(k_news[3]))
                 value_list.append(k_news[4])
+                value_list.append(k_news[5])
                 k_news_list.append(value_list)
             data = json.dumps(list(k_news_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -480,21 +507,21 @@ def comm_k_news(request) :
                     subject,
                     substring(reg_date,1,10) reg_datee,
                     %s total_page,
-                    board_id
+                    board_id,
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
                 from tb_board
                 where use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
                 search = request.GET['search_search']
-                print 'title == ',title
+                # print 'title == ',title
                 if title == 'search_total':
-                    query += "and subject like '%"+search+"%' or content like '%"+search+"%' and section='K' "
+                    query += "and (subject like '%"+search+"%' or content like '%"+search+"%') and section='K' "
                 else :
                     query += "and subject like '%"+search+"%' and section='K' "
 
             query += "order by reg_date desc "
-            print query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -507,6 +534,7 @@ def comm_k_news(request) :
                 value_list.append(k_news[2])
                 value_list.append(int(k_news[3]))
                 value_list.append(k_news[4])
+                value_list.append(k_news[5])
                 k_news_list.append(value_list)
             data = json.dumps(list(k_news_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -534,7 +562,7 @@ def comm_k_news_view(request, board_id):
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            print 'files == ',files
+            # print 'files == ',files
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -546,7 +574,7 @@ def comm_k_news_view(request, board_id):
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
         elif request.GET['method'] == 'file_download':
             file_name = request.GET['file_name']
-            print 'file_name == ', file_name
+            # print 'file_name == ', file_name
             data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
 
         return HttpResponse(data, 'application/json')
