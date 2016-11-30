@@ -70,7 +70,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
 import sys
 import re
-
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+import datetime
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -686,3 +687,10 @@ def comm_list_json(request) :
 
     return HttpResponse(data, 'application/json')
 
+def model_test(request,org=None,filter_=None):
+    courses = CourseOverview.get_all_courses(
+            org='edX',
+            filter_=datetime.datetime.now(),
+        )
+    print 'courses == ',courses
+    return render_to_response('community/model_test.html')
