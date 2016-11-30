@@ -8,6 +8,7 @@ $(document).ready(function(){
     var value_list = [];
     var html = "";
     var html2 = "";
+    //var date_list = [];
     $.ajax({
         url : '/comm_notice',
         data : {
@@ -15,20 +16,21 @@ $(document).ready(function(){
         }
     }).done(function(data){
         html = "";
+        //alert(data[9][6]);
         for(var i=0; i<data.length; i++){
             value_list = data[i].toString().split(',');
             //alert(value_list.length);
             html += "<li class='tbody'>";
             for(var j=0; j<value_list.length; j++){
-                date_list = value_list[2].toString().split('-');
+                //date_list = value_list[2].toString().split('-');
                 if(j==0){
                     html += "<span class='no'>"+(value_list[j]-i)+"</span>";
                 }
                 else if(j==1){
                     if(value_list[5] == 1){
-                        html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                        html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                     }else{
-                        html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                        html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                     }
                 }
                 else if(j==2){
@@ -88,9 +90,9 @@ $(document).ready(function(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                             }
                         }
                         else if(j==2){
@@ -128,9 +130,9 @@ $(document).ready(function(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                             }
                         }
                         else if(j==2){
@@ -170,9 +172,9 @@ $(document).ready(function(){
                             }
                             else if(j==1){
                                 if(value_list[5] == 1){
-                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                                 }else{
-                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                                 }
                             }
                             else if(j==2){
@@ -213,10 +215,10 @@ $(document).ready(function(){
                         }
                         else if(j==1){
                            if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
-                            }else{
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                            }
+                               html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                           }else{
+                               html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
+                           }
                         }
                         else if(j==2){
                             html += "<span class='date'>"+value_list[j]+"</span>";
@@ -256,9 +258,9 @@ $(document).ready(function(){
                             }
                             else if(j==1){
                                 if(value_list[5] == 1){
-                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                                 }else{
-                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                    html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                                 }
                             }
                             else if(j==2){
@@ -319,9 +321,9 @@ function search(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
-                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                             }
                         }
                         else if(j==2){
@@ -368,9 +370,9 @@ function search(){
                     }
                     else if(j==1){
                         if(value_list[5] == 1){
-                            html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[j]+"</a></span>";
+                            html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
                         }else{
-                            html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
+                            html += "<span class='title'><a href='/comm_notice_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"</a></span>";
                         }
                     }
                     else if(j==2){

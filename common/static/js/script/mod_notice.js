@@ -10,7 +10,8 @@ $(document).ready(function(){
             }
     }).done(function(data){
         console.log(data);
-        $('#title').html(data[0]);
+        var title = data[5]+data[0];
+        $('#title').html(title);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일 : '+data[2]);
         $('#mod_date').html('수정일 : '+data[3]);

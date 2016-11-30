@@ -111,14 +111,31 @@ from openedx.core.lib.courses import course_image_url
   <header class="course-profile">
     <div class="intro-inner-wrapper">
       <div class="table">
-      <section class="intro">
-        <div class="heading-group">
-          <h1>
-            ${course.display_name_with_default_escaped}
-            <a href="#">${course.display_org_with_default | h}</a>
-          </h1>
+##     강좌 이미지 부분
+    % if get_course_about_section(request, course, "video"):
+      <a href="#video-modal" class="media" rel="leanModal">
+        <div class="hero">
+          <img src="${course_image_urls['large']}" alt="" />
+          <div class="play-intro"></div>
         </div>
-
+      </a>
+    %else:
+      <div class="media">
+        <div class="hero">
+          <img src="${course_image_urls['large']}" alt="" />
+        </div>
+      </div>
+    % endif
+##     강좌 이미지 부분 끝
+          <section class="intro">
+        <div class="heading-group">
+            <div class="row">
+              <h1>
+                ${course.display_name_with_default_escaped}
+                <a href="#">${course.display_org_with_default | h}</a>
+              </h1>
+            </div>
+        </div>
         <div class="main-cta">
         %if user.is_authenticated() and registered:
           %if show_courseware_link:
@@ -182,22 +199,8 @@ from openedx.core.lib.courses import course_image_url
           <div id="register_error"></div>
         %endif
         </div>
-
       </section>
-      % if get_course_about_section(request, course, "video"):
-      <a href="#video-modal" class="media" rel="leanModal">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
-          <div class="play-intro"></div>
-        </div>
-      </a>
-      %else:
-      <div class="media">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
-        </div>
-      </div>
-      % endif
+
     </div>
       </div>
   </header>
@@ -223,7 +226,7 @@ from openedx.core.lib.courses import course_image_url
         <ol class="important-dates">
           <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default | h}</span></li>
           % if not course.start_date_is_still_default:
-            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Start")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}</span></li>
+            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Start")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()} ${day['day']}</span></li>
           % endif
             ## We plan to ditch end_date (which is not stored in course metadata),
             ## but for backwards compatibility, show about/end_date blob if it exists.
