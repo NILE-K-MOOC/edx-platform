@@ -133,6 +133,7 @@ class SearchIndexerBase(object):
         Returns:
         Number of items that have been added to the index
         """
+
         error_list = []
         searcher = SearchEngine.get_search_engine(cls.INDEX_NAME)
         if not searcher:
@@ -162,6 +163,8 @@ class SearchIndexerBase(object):
             Gets the version agnostic item location
             """
             return item.location.version_agnostic().replace(branch=None)
+
+
 
         def prepare_item_index(item, skip_index=False, groups_usage_info=None):
             """
@@ -222,6 +225,7 @@ class SearchIndexerBase(object):
                                 groups_usage_info=groups_usage_info
                             )
                         )
+
                 if None in children_groups_usage:
                     item_content_groups = None
 
@@ -246,14 +250,15 @@ class SearchIndexerBase(object):
                 log.warning('Could not index item: %s - %r', item.location, err)
                 error_list.append(_('Could not index item: {}').format(item.location))
 
+
         try:
             with modulestore.branch_setting(ModuleStoreEnum.RevisionOption.published_only):
                 structure = cls._fetch_top_level(modulestore, structure_key)
                 groups_usage_info = cls.fetch_group_usage(modulestore, structure)
 
+
                 # First perform any additional indexing from the structure object
                 cls.supplemental_index_information(modulestore, structure)
-
                 # Now index the content
                 for item in structure.get_children():
                     prepare_item_index(item, groups_usage_info=groups_usage_info)
@@ -270,7 +275,6 @@ class SearchIndexerBase(object):
 
         if error_list:
             raise SearchIndexingError('Error(s) present during indexing', error_list)
-
         return indexed_count["count"]
 
     @classmethod
@@ -581,6 +585,10 @@ class CourseAboutSearchIndexer(object):
 
         course - course object from which to take properties, locate about information
         """
+
+
+
+
         searcher = SearchEngine.get_search_engine(cls.INDEX_NAME)
         if not searcher:
             return
@@ -591,6 +599,9 @@ class CourseAboutSearchIndexer(object):
             'course': course_id,
             'content': {},
             'image_url': course_image_url(course),
+            'classfy': course.classfy,
+            'middle_classfy': course.middle_classfy,
+            'linguistics': course.linguistics,
         }
 
         # load data for all of the 'about' modules for this course into a dictionary

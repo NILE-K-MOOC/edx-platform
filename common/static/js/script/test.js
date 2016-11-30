@@ -3,9 +3,10 @@
  */
 
 $(document).ready(function(){
-    $.ajax({
-        url : '/test'
-    }).done(function(data){
-
-    })
+    alert('d');
+    //$.ajax({
+    //    url : '/test'
+    //}).done(function(data){
+    //
+    //})
 });

@@ -21,11 +21,24 @@ define([
             this.meanings = options.meanings || {};
             this.$container = this.$el.find('.search-facets-lists');
             this.facetTpl = HtmlUtils.template($('#facet-tpl').html());
+            
             this.facetOptionTpl = HtmlUtils.template($('#facet_option-tpl').html());
         },
 
         facetName: function (key) {
-            return this.meanings[key] && this.meanings[key].name || key;
+            if(key == 'classfy'){
+                return gettext("Classified by");
+            }
+            else if(key == 'middle_classfy'){
+                return gettext("Sub classified by");
+            }
+            else if(key == 'linguistics'){
+                return gettext("Linguistics by");
+            }
+            else {
+                return this.meanings[key] && this.meanings[key].name || key;
+            }
+
         },
 
         termName: function (facetKey, termKey) {
@@ -37,12 +50,59 @@ define([
         renderOptions: function (options) {
             return HtmlUtils.joinHtml.apply(this, _.map(options, function(option) {
                 var data = _.clone(option.attributes);
-                data.name = this.termName(data.facet, data.term);
+
+                if(data.facet == 'classfy'){
+                    switch (data.term){
+                        case 'hum':
+                            data.name = this.termName(data.facet, gettext("Humanities"));break;
+                        case 'social':
+                            data.name = this.termName(data.facet, gettext("Social Sciences"));break;
+                        case 'edu':
+                            data.name = this.termName(data.facet, gettext("Education"));break;
+                        case 'eng':
+                            data.name = this.termName(data.facet, gettext("Engineering"));break;
+                        case 'nat':
+                            data.name = this.termName(data.facet, gettext("Natural Sciences"));break;
+                        case 'med':
+                            data.name = this.termName(data.facet, gettext("Medical Sciences & Pharmacy"));break;
+                        case 'art':
+                            data.name = this.termName(data.facet, gettext("Arts & Physical Education"));break;
+                        default:
+                            data.name = this.termName(data.facet, data.term);
+                    }
+                }else if(data.facet == 'middle_classfy'){
+
+                    var middle_text = {
+                        "lang": "Linguistics & Literature","husc":"Humanities",
+                        "busn":"Business Administration & Economics", "law":"Law", "scsc": "Social Sciences",
+                        "enor":"General Education", "ekid":"Early Childhood Education", "espc":"Special Education", "elmt":"Elementary Education", "emdd":"Secondary Education",
+                        "cons":"Architecture", "civi":"Civil Construction & Urban Engineering", "traf":"Transportation", "mach":"Mechanical & Metallurgical Engineering", "elec":"Electricity & Electronics", "deta":"Precision & Energy", "matr":"Materials", "comp":"Computers & Communication", "indu":"Industrial Engineering", "cami":"Chemical Engineering", "other":"Others",
+                        "agri":"Agriculture & Fisheries", "bio":"Biology, Chemistry & Environmental Science", "life": "Living Science", "math": "Mathematics, Physics, Astronomy & Geography",
+                        "metr":"Medical Science", "nurs":"Nursing", "phar": "Pharmacy", "heal": "Therapeutics & Public Health",
+                        "dsgn":"Design", "appl":"Applied Arts", "danc": "Dancing & Physical Education", "form": "FineArts & Formative Arts", "play": "Drama & Cinema", "musc": "Music"
+
+                    };
+                    if(middle_text[data.term]){
+                        data.name = this.termName(data.facet, gettext(middle_text[data.term]));
+                    }else{
+                        data.name = this.termName(data.facet, data.term);
+                    }
+                }else if(data.facet == 'linguistics'){
+                    if(data.term == 'Y'){
+                        data.name = this.termName(data.facet, gettext("Koreanology"));
+                    }else{
+                        data.name = this.termName(data.facet, data.term);
+                    }
+                }
+                else{
+                    data.name = this.termName(data.facet, data.term);
+                }
                 return this.facetOptionTpl(data);
             }, this));
         },
 
         renderFacet: function (facetKey, options) {
+
             return this.facetTpl({
                 name: facetKey,
                 displayName: this.facetName(facetKey),
@@ -53,6 +113,13 @@ define([
 
         render: function () {
             var grouped = this.collection.groupBy('facet');
+
+            var dict = {"org": [], "classfy": [], "middle_classfy": [], "linguistics": [], "language": [], "modes": []};
+
+
+
+
+
             var htmlSnippet = HtmlUtils.joinHtml.apply(
                 this, _.map(grouped, function(options, facetKey) {
                     if (options.length > 0) {
@@ -60,10 +127,10 @@ define([
                     }
                 }, this)
             );
+
             HtmlUtils.setHtml(this.$container, htmlSnippet);
             return this;
         },
-
         collapse: function (event) {
             var $el = $(event.currentTarget),
                 $more = $el.siblings('.show-more'),

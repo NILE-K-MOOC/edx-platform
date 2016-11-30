@@ -38,8 +38,33 @@ define([
 
         render: function () {
             var data = _.clone(this.model.attributes);
+
             data.start = formatDate(new Date(data.start));
             data.enrollment_start = formatDate(new Date(data.enrollment_start));
+
+            if (data.end)
+                data.end = formatDate(new Date(data.end));
+            else
+                data.end = null;
+
+            console.log(data);
+
+            var nDate = formatDate(new Date());
+            var sDate = formatDate(new Date(data.start));
+            var eDate = formatDate(new Date(data.end));
+
+            if (sDate == null || eDate == null) {
+                data.status = 'none';
+            } else if (nDate < sDate) {
+                data.status = 'ready';
+            } else if (nDate < eDate) {
+                data.status = 'ing';
+            } else if (eDate < nDate){
+                data.status = 'end';
+            }else{
+                data.status = 'none';
+            }
+
             this.$el.html(this.tpl(data));
             return this;
         }

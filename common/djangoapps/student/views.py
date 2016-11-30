@@ -125,7 +125,8 @@ from openedx.core.djangoapps.programs.utils import get_programs_for_dashboard, g
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
-
+import MySQLdb as mdb
+import re
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -160,6 +161,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
     """
+    print 'student'
     if extra_context is None:
         extra_context = {}
 
@@ -195,6 +197,48 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
+
+    # print 'mysql ready'
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    total_list = []
+    cur = con.cursor()
+    query = """
+            (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'N' ORDER BY reg_date DESC LIMIT 4)
+        union all
+        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'K' ORDER BY reg_date DESC LIMIT 4)
+        union all
+        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'R' ORDER BY reg_date DESC LIMIT 4)
+        union all
+        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'F' ORDER BY reg_date DESC LIMIT 4)
+    """
+    index_list = []
+    cur.execute(query)
+    row = cur.fetchall()
+    for i in row :
+        value_list = []
+        value_list.append(i[0])
+        value_list.append(i[1])
+        value_list.append(i[2])
+        s= i[3]
+        text = re.sub('<[^>]*>', '', s)
+        value_list.append(text)
+        value_list.append(i[4])
+        value_list.append(i[5])
+        index_list.append(value_list)
+
+    context['index_list'] = index_list
 
     # Insert additional context for use in the template
     context.update(extra_context)

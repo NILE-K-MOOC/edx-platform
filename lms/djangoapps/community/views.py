@@ -69,6 +69,7 @@ import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
 import sys
+import re
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -636,4 +637,52 @@ def test(request):
 
     cur.close()
     return render_to_response('community/test.html')
+
+
+def comm_list_json(request) :
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    if request.is_ajax :
+        total_list = []
+        data = json.dumps('ready')
+        cur = con.cursor()
+        query = """
+           SELECT DISTINCT
+                     board_id,
+                     CASE
+                        WHEN section = 'N' THEN '[공지사항]'
+                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                        WHEN section = 'R' THEN '[자료실]'
+                        ELSE ''
+                     END
+                        head_title,
+                     subject,
+                     content,
+                     substr(reg_date, 1, 11),
+                     section
+                FROM tb_board
+            GROUP BY section
+               LIMIT 4;
+        """
+        cur.execute(query)
+        row = cur.fetchall()
+
+        for t in row :
+            value_list = []
+            value_list.append(t[0])
+            value_list.append(t[1])
+            value_list.append(t[2])
+            s= t[3]
+            text = re.sub('<[^>]*>', '', s)
+            value_list.append(text)
+            value_list.append(t[4])
+            value_list.append(t[5])
+            total_list.append(value_list)
+        data = json.dumps(list(total_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+
+    return HttpResponse(data, 'application/json')
 

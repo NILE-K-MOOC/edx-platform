@@ -53,7 +53,7 @@ def index(request):
     '''
     Redirects to main page -- info page if user authenticated, or marketing if not
     '''
-
+    print 'index'
     if request.user.is_authenticated():
         # Only redirect to dashboard if user has
         # courses in his/her dashboard. Otherwise UX is a bit cryptic.
@@ -93,6 +93,8 @@ def index(request):
 
     #  we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
+
+
     return student.views.index(request, user=request.user)
 
 

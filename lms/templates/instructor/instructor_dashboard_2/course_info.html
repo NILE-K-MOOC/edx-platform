@@ -137,6 +137,66 @@ from openedx.core.djangolib.markup import HTML, Text
            </td>
        </tr>
    </table>
+
+
+##   <ul class="list-input">
+##     <li class="field text is-not-editable" id="field-course-organization">
+##       <span for="course-organization">${_("Organization:")}</span>
+##       <b>${ section_data['course_id'].org}</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-number">
+##       <span for="course-number">${_("Course Number:")}</span>
+##       <b>${ section_data['course_id'].course}</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-name">
+##       <span for="course-name">${_("Course Name:")}</span>
+##       <b>${ section_data['course_id'].run}</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-display-name">
+##       <span for="course-display-name">${_("Course Display Name:")}</span>
+##       <b>${ section_data['course_display_name']}</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-start-date">
+##       <span for="course-start-date">${_("Course Start Date:")}</span>
+##       <b>${ section_data['start_date'] }</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-end-date">
+##       <span for="course-end-date">${_("Course End Date:")}</span>
+##       <b>${ section_data['end_date'] }</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-started">
+##       <span for="start-date">${_("Has the course started?")}</span>
+##
+##       <b>${_("Yes") if section_data['has_started'] else _("No")}</b>
+##
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-ended">
+##       <span for="start-date">${_("Has the course ended?")}</span>
+##       %if section_data['has_ended']:
+##       <b>${_("Yes")}</b>
+##       %else:
+##       <b>${_("No")}</b>
+##       %endif
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-course-num-sections">
+##       <span for="course-num-sections">${_("Number of sections:")}</span>
+##       <b>${ section_data['num_sections'] }</b>
+##     </li>
+##
+##     <li class="field text is-not-editable" id="field-grade-cutoffs">
+##       <span for="start-date">${_("Grade Cutoffs:")}</span>
+##       <b>${ section_data['grade_cutoffs'] }</b>
+##     </li>
+##   </ul>
+
   %if settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD', ''):
       <p>
         ## Translators: git is a version-control system; see http://git-scm.com/about

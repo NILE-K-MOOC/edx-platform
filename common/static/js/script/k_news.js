@@ -70,7 +70,7 @@ $(document).ready(function(){
             $('#'+click_el+'').addClass('current');
 
             $.ajax({
-                url : '/comm_notice',
+                url : '/comm_k_news',
                 data : {
                     method : 'k_news_list',
                     cur_page : click_el

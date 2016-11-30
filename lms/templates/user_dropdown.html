@@ -12,7 +12,7 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
 % if uses_pattern_library:
     <div class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu">
         <a href="${reverse('dashboard')}" class="menu-title">
-            <span class="sr-only">${_("Dashboard for:")}</span>
+            <span class="sr-only">${_("Dashboard")}</span>
             <%
             username = user.username
             profile_image_url = get_profile_image_urls_for_user(user)['medium']
@@ -43,11 +43,11 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
             %>
             <a href="#" onclick="$(this).parent().toggleClass('on');$(this).next().toggle();return false;">${username}</a>
             <ul class="dropdown-menu">
-                <li><a href="${reverse('dashboard')}">${_("Dashboard for:")}</a></li>
-                <li><a href="">계정설정</a></li>
-                <li><a href="">내 프로필</a></li>
+                <li><a href="${reverse('dashboard')}">${_("Dashboard")}</a></li>
+                <li><a href="${reverse('account_settings')}">${_("Account")}</a></li>
+                <li><a href="${reverse('learner_profile', kwargs={'username': user.username})}">${_("Profile")}</a></li>
                 <li><a href="${reverse('logout')}">${_("Sign Out")}</a></li>
-                <li><a href="">게시판 알림</a></li>
+                <!--<li><a href="">게시판 알림</a></li>-->
             </ul>
         </li>
 
