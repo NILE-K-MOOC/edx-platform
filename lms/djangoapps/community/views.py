@@ -98,7 +98,8 @@ def comm_notice(request) :
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='N') as total_page,
                     board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag,
+                    head_title
                 from tb_board
                 where section='N' and use_yn = 'Y'
             """ % (page)
@@ -129,6 +130,11 @@ def comm_notice(request) :
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
                 value_list.append(notice[5])
+                if notice[6] == None or notice[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+notice[6]+'] ')
+
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
         elif request.GET['method'] == 'search_list' :
@@ -191,7 +197,7 @@ def comm_notice_view(request, board_id):
         data={}
         if request.GET['method'] == 'view' :
             cur = con.cursor()
-            query = "select subject, content, SUBSTRING(reg_date,1,10), SUBSTRING(mod_date,1,10) from tb_board where section = 'N' and board_id ="+board_id
+            query = "select subject, content, SUBSTRING(reg_date,1,10), SUBSTRING(mod_date,1,10), head_title from tb_board where section = 'N' and board_id ="+board_id
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -209,6 +215,11 @@ def comm_notice_view(request, board_id):
             value_list.append(row[0][3])
             if files:
                 value_list.append(files)
+
+            if row[0][4] == None or row[0][4] == '':
+                value_list.append('')
+            else:
+                value_list.append('['+row[0][4]+'] ')
             # print 'value_list == ',value_list
 
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
