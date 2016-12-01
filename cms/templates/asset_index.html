@@ -29,7 +29,7 @@
     is-signedin course uploads view-uploads
 % else:
 ##     drop menu에서 설정된 클래스 선
-    is-signedin course uploads-cdn view-uploads-cdn
+    is-signedin course uploads view-uploads
 % endif
 </%def>
 <%block name="bodyclass">${upload_body_class()}</%block>
@@ -70,8 +70,8 @@
 </%block>
 
 <%block name="content">
-##     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/2.1.2/plupload.full.min.js"></script>
-    <script type="text/javascript" src="http://mme2.npcomms.kr/assets/js/plupload.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/2.1.2/plupload.full.min.js"></script>
+##     <script type="text/javascript" src="http://mme2.npcomms.kr/assets/js/plupload.full.min.js"></script>
 
 <div class="wrapper-mast wrapper">
     <header class="mast has-actions has-subtitle">
