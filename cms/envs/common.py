@@ -275,11 +275,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',  # this is required for admin
                 'django.template.context_processors.csrf',
                 'dealer.contrib.django.staff.context_processor',  # access git revision
-                'contentstore.context_processors.doc_url',
+                'contentstore.context_processors.doc_url'
 
-                'django.template.context_processors.debug',
-                'django.template.context_processors.media',
-                'django.template.context_processors.tz'
+                # 'django.template.context_processors.debug',
+                # 'django.template.context_processors.media',
+                # 'django.template.context_processors.tz'
 
 
             ),
@@ -290,7 +290,7 @@ TEMPLATES = [
 ]
 
 #### admin Bootstrap
-BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
+# BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
 
 DEFAULT_TEMPLATE_ENGINE = TEMPLATES[0]
 
@@ -859,7 +859,7 @@ INSTALLED_APPS = (
     'django_comment_common',
 
     # bootstrap admin theme
-    'bootstrap_admin',
+    # 'bootstrap_admin',
     # for course creator table
     'django.contrib.admin',
 
