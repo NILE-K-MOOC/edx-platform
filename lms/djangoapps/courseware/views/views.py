@@ -613,7 +613,6 @@ def course_about(request, course_id):
 
     Assumes the course_id is in a valid format.
     """
-
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
     if hasattr(course_key, 'ccx'):
@@ -710,6 +709,19 @@ def course_about(request, course_id):
         # Overview
         overview = CourseOverview.get_from_id(course.id)
 
+        # D-day
+        today = datetime.datetime.now()
+        course_start = course.start
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
+        d_day = (course_start_val-today_val)
+        # print d_day.days
+        if d_day.days > 0:
+            day = {'day' : '/ D-'+str(d_day)[0:3]}
+        else:
+            day = {'day' : ''}
+        #######################################################################
+
         context = {
             'course': course,
             'course_details': course_details,
@@ -738,6 +750,7 @@ def course_about(request, course_id):
             'cart_link': reverse('shoppingcart.views.show_cart'),
             'pre_requisite_courses': pre_requisite_courses,
             'course_image_urls': overview.image_urls,
+            'day' : day
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
@@ -757,6 +770,7 @@ def progress(request, course_id, student_id=None):
 
 
 def _progress(request, course_key, student_id):
+
     """
     Unwrapped version of "progress".
 
@@ -830,6 +844,8 @@ def _progress(request, course_key, student_id):
         is_active and CourseMode.is_eligible_for_certificate(enrollment_mode)
         and certs_api.cert_generation_enabled(course_key)
     )
+
+
 
     context = {
         'course': course,

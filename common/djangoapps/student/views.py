@@ -125,7 +125,17 @@ from openedx.core.djangoapps.programs.utils import get_programs_for_dashboard, g
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
-
+import MySQLdb as mdb
+import re
+from courseware import grades
+from courseware.courses import (
+    get_courses,
+    get_course_with_access,
+    sort_by_announcement,
+    sort_by_start_date,
+)
+from django.views.decorators.cache import cache_control
+from util.views import ensure_valid_course_key
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -137,6 +147,7 @@ REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
 REGISTER_USER = Signal(providing_args=["user", "profile"])
 
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
+# pylint: disable=logging-format-interpolation
 # pylint: disable=logging-format-interpolation
 
 
@@ -195,6 +206,47 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    total_list = []
+    cur = con.cursor()
+    query = """
+            (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'N' ORDER BY reg_date DESC LIMIT 4)
+        union all
+        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'K' ORDER BY reg_date DESC LIMIT 4)
+        union all
+        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'R' ORDER BY reg_date DESC LIMIT 4)
+        union all
+        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
+        subject, content, reg_date, section
+        FROM tb_board WHERE section = 'F' ORDER BY reg_date DESC LIMIT 4)
+    """
+    index_list = []
+    cur.execute(query)
+    row = cur.fetchall()
+    for i in row :
+        value_list = []
+        value_list.append(i[0])
+        value_list.append(i[1])
+        value_list.append(i[2])
+        s= i[3]
+        text = re.sub('<[^>]*>', '', s)
+        value_list.append(text)
+        value_list.append(i[4])
+        value_list.append(i[5])
+        index_list.append(value_list)
+
+    context['index_list'] = index_list
 
     # Insert additional context for use in the template
     context.update(extra_context)
@@ -545,8 +597,10 @@ def is_course_blocked(request, redeemed_registration_codes, course_key):
 
     return blocked
 
-
+@transaction.non_atomic_requests
 @login_required
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@ensure_valid_course_key
 @ensure_csrf_cookie
 def dashboard(request):
     user = request.user
@@ -711,7 +765,21 @@ def dashboard(request):
     else:
         redirect_message = ''
 
+    percents = {}
+
+    # add course progress
+    for dashboard_index, enrollment in enumerate(course_enrollments):
+        course_id = str(enrollment.course_id)
+        if not enrollment.course_overview.has_started():
+            percents[course_id] = None
+            continue
+
+        course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
+        grade_summary = grades.grade(user, course, course_structure=None)
+        percents[course_id] = str(int(float(grade_summary['percent']) * 100))
+
     context = {
+        'percents': percents,
         'enrollment_message': enrollment_message,
         'redirect_message': redirect_message,
         'course_enrollments': course_enrollments,

@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
+
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
         <!-- [s] main top -->
@@ -96,7 +98,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=hum">
                                 <img src="/static/images/main/course_01.png" alt="인문">
                                 <p>${_("Humanities")}</p>
                             </a>
@@ -104,7 +106,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=social">
                                 <img src="/static/images/main/course_02.png" alt="사회">
                                 <p>${_("Social Sciences")}</p>
                             </a>
@@ -112,7 +114,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=edu">
                                 <img src="/static/images/main/course_03.png" alt="교육">
                                 <p>${_("Education")}</p>
                             </a>
@@ -120,7 +122,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=eng">
                                 <img src="/static/images/main/course_04.png" alt="공학">
                                 <p>${_("Engineering")}</p>
                             </a>
@@ -128,7 +130,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=nat">
                                 <img src="/static/images/main/course_05.png" alt="자연">
                                 <p>${_("Natural Sciences")}</p>
                             </a>
@@ -136,7 +138,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=med">
                                 <img src="/static/images/main/course_06.png" alt="의약">
                                 <p>${_("Medical Sciences")}</p>
                             </a>
@@ -144,7 +146,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?term=art">
                                 <img src="/static/images/main/course_07.png" alt="예체능">
                                 <p>${_("Arts & Physical")}</p>
                             </a>
@@ -152,7 +154,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="">
+                            <a href="/courses?linguistics=Y">
                                 <img src="/static/images/main/course_08.png" alt="한국학">
                                 <p>${_("Korean Studies")}</p>
                             </a>
@@ -175,9 +177,9 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <p>${_("Opening Status")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="">${_("Current")}</a>
-                                <a href="">${_("Starting Soon")}</a>
-                                <a href="">${_("Finish")}</a>
+                                <a href="/courses?range=i">${_("Current")}</a>
+                                <a href="/courses?range=t">${_("Starting Soon")}</a>
+                                <a href="/courses?range=e">${_("Finish")}</a>
                             </div>
                         </div>
                     </div>
@@ -201,8 +203,8 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <p>${_("Language")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="">${_("Korean")}</a>
-                                <a href="">${_("English")}</a>
+                                <a href="/courses?language=ko">${_("Korean")}</a>
+                                <a href="/courses?language=en">${_("English")}</a>
                                 <a href="">${_("Chiness")}</a>
                             </div>
                         </div>
@@ -370,103 +372,19 @@ from openedx.core.djangolib.markup import HTML, Text
                 <!-- community 00 -->
                 <a href="#community00" class="on">전체</a>
                 <div class="grid-container grid-manual community" id="community00">
-                    <div class="row">
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[공지사항]</strong>
-                                        <p>[공고] 학점은행제 정보공시 모니터링단 모집</p>
-                                    </h3>
-                                    <p class="summary">국가평생교육진흥원 공고 제 2016 30호 학원은 행제 정보공지 모니터링단 모집교육부와 국가평생교육진흥원 에서는 학점은행제 교육훈련기관의 정보공시의무 시행16.9.28에 따라 교육훈련기관이보유하고 있는 학습자료들이 솝쉽게 확인할 수...   </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[공지사항]</strong>
-                                        <p>[공고] 학점은행제 정보공시 모니터링단 모집</p>
-                                    </h3>
-                                    <p class="summary">국가평생교육진흥원 공고 제 2016 30호 학원은 행제 정보공지 모니터링단 모집교육부와 국가평생교육진흥원 에서는 학점은행제 교육훈련기관의 정보공시의무 시행16.9.28에 따라 교육훈련기관이보유하고 있는 학습자료들이 솝쉽게 확인할 수...   </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
+                    <div class="row" id="total">
+##                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+##                             <div class="community-item">
+##                                 <a href="">
+##                                     <h3>
+##                                         <strong class="category">[입찰공고]</strong>
+##                                         <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+##                                     </h3>
+##                                     <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
+##                                     <time>2016-10-19</time>
+##                                 </a>
+##                             </div>
+##                         </div>
                     </div>
                 </div>
                 <!--// community 00 -->
@@ -474,102 +392,22 @@ from openedx.core.djangolib.markup import HTML, Text
                 <a href="#community01">공지사항</a>
                 <div class="grid-container grid-manual community" id="community01">
                     <div class="row">
+                        % for list in index_list :
+                        % if list[5] == 'N':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
-                                <a href="">
+                                <a href="/comm_notice_view/${list[0]}/">
                                     <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                        <strong class="category">${list[1]}</strong>
+                                        ${list[2]}
                                     </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
+                                    <p class="summary">${list[3]}</p>
+                                    <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[공지사항]</strong>
-                                        <p>[공고] 학점은행제 정보공시 모니터링단 모집</p>
-                                    </h3>
-                                    <p class="summary">국가평생교육진흥원 공고 제 2016 30호 학원은 행제 정보공지 모니터링단 모집교육부와 국가평생교육진흥원 에서는 학점은행제 교육훈련기관의 정보공시의무 시행16.9.28에 따라 교육훈련기관이보유하고 있는 학습자료들이 솝쉽게 확인할 수...   </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[공지사항]</strong>
-                                        <p>[공고] 학점은행제 정보공시 모니터링단 모집</p>
-                                    </h3>
-                                    <p class="summary">국가평생교육진흥원 공고 제 2016 30호 학원은 행제 정보공지 모니터링단 모집교육부와 국가평생교육진흥원 에서는 학점은행제 교육훈련기관의 정보공시의무 시행16.9.28에 따라 교육훈련기관이보유하고 있는 학습자료들이 솝쉽게 확인할 수...   </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="">
-                                    <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-                                    </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
-                                </a>
-                            </div>
-                        </div>
+                        % endif
+                    % endfor
                     </div>
                 </div>
                 <!--// community 01 -->
@@ -577,18 +415,22 @@ from openedx.core.djangolib.markup import HTML, Text
                 <a href="#community02">K-MOOC 뉴스</a>
                 <div class="grid-container grid-manual community" id="community02">
                     <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'K':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
-                                <a href="">
+                                <a href="/comm_k_news_view/${list[0]}/">
                                     <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
+                                    <p class="summary">${list[3]}</p>
+                                    <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
+                        % endif
+                    % endfor
                     </div>
                 </div>
                 <!--// community 02 -->
@@ -596,18 +438,22 @@ from openedx.core.djangolib.markup import HTML, Text
                 <a href="#community03">자료실</a>
                 <div class="grid-container grid-manual community" id="community03">
                     <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'R':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
-                                <a href="">
+                                <a href="/comm_repo_view/${list[0]}/">
                                     <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
+                                    <p class="summary">${list[3]}</p>
+                                    <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
+                        % endif
+                    % endfor
                     </div>
                 </div>
                 <!--// community 03 -->
@@ -615,25 +461,32 @@ from openedx.core.djangolib.markup import HTML, Text
                 <a href="#community04">FAQ</a>
                 <div class="grid-container grid-manual community" id="community04">
                     <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'F':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
-                                <a href="">
+                                <a href="/comm_faq">
                                     <h3>
-                                        <strong class="category">[입찰공고]</strong>
-                                        <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+                                        <stvrong class="category">${list[1]}</stvrong>
+                                        <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-                                    <time>2016-10-19</time>
+                                    <p class="summary">${list[3]}</p>
+                                    <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
+                        % endif
+                    % endfor
                     </div>
                 </div>
                 <!--// community 04 -->
+
             </div>
         </section>
         <!-- [e] community list -->
         % endif
+
+<a href="/model_test" >test</a>
 
     </section>
 </main>

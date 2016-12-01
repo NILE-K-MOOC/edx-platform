@@ -29,7 +29,7 @@ def get_visible_courses(org=None, filter_=None):
         filter_ (dict): Optional parameter that allows custom filtering by
             fields on the course.
     """
-    # print '::::: get_visible_courses called', org, filter
+    print '::::: get_visible_courses called', org, filter
 
     current_site_org = configuration_helpers.get_value('course_org_filter')
 

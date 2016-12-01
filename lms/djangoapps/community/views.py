@@ -69,7 +69,9 @@ import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
 import sys
-
+import re
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+import datetime
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -96,7 +98,8 @@ def comm_notice(request) :
                     substring(reg_date,1,10) reg_datee,
                     (select ceil(count(board_id)/10) from tb_board where section='N') as total_page,
                     board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
+                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag,
+                    head_title
                 from tb_board
                 where section='N' and use_yn = 'Y'
             """ % (page)
@@ -127,6 +130,11 @@ def comm_notice(request) :
                 value_list.append(int(notice[3]))
                 value_list.append(notice[4])
                 value_list.append(notice[5])
+                if notice[6] == None or notice[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+notice[6]+'] ')
+
                 noti_list.append(value_list)
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
         elif request.GET['method'] == 'search_list' :
@@ -172,6 +180,9 @@ def comm_notice(request) :
             data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
         return HttpResponse(list(data), 'application/json')
+
+
+
     return render_to_response('community/comm_notice.html')
 
 @ensure_csrf_cookie
@@ -186,7 +197,7 @@ def comm_notice_view(request, board_id):
         data={}
         if request.GET['method'] == 'view' :
             cur = con.cursor()
-            query = "select subject, content, SUBSTRING(reg_date,1,10), SUBSTRING(mod_date,1,10) from tb_board where section = 'N' and board_id ="+board_id
+            query = "select subject, content, SUBSTRING(reg_date,1,10), SUBSTRING(mod_date,1,10), head_title from tb_board where section = 'N' and board_id ="+board_id
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -204,6 +215,11 @@ def comm_notice_view(request, board_id):
             value_list.append(row[0][3])
             if files:
                 value_list.append(files)
+
+            if row[0][4] == None or row[0][4] == '':
+                value_list.append('')
+            else:
+                value_list.append('['+row[0][4]+'] ')
             # print 'value_list == ',value_list
 
             data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
@@ -634,3 +650,58 @@ def test(request):
     cur.close()
     return render_to_response('community/test.html')
 
+
+def comm_list_json(request) :
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    if request.is_ajax :
+        total_list = []
+        data = json.dumps('ready')
+        cur = con.cursor()
+        query = """
+           SELECT DISTINCT
+                     board_id,
+                     CASE
+                        WHEN section = 'N' THEN '[공지사항]'
+                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                        WHEN section = 'R' THEN '[자료실]'
+                        ELSE ''
+                     END
+                        head_title,
+                     subject,
+                     content,
+                     substr(reg_date, 1, 11),
+                     section
+                FROM tb_board
+            GROUP BY section
+               LIMIT 4;
+        """
+        cur.execute(query)
+        row = cur.fetchall()
+
+        for t in row :
+            value_list = []
+            value_list.append(t[0])
+            value_list.append(t[1])
+            value_list.append(t[2])
+            s= t[3]
+            text = re.sub('<[^>]*>', '', s)
+            value_list.append(text)
+            value_list.append(t[4])
+            value_list.append(t[5])
+            total_list.append(value_list)
+        data = json.dumps(list(total_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+
+    return HttpResponse(data, 'application/json')
+
+def model_test(request,org=None,filter_=None):
+    courses = CourseOverview.get_all_courses(
+            org='edX',
+            filter_=datetime.datetime.now(),
+        )
+    print 'courses == ',courses
+    return render_to_response('community/model_test.html')
