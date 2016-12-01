@@ -197,6 +197,12 @@ COURSE_DISCOVERY_MEANINGS = {
         'terms': {
             'linguistics': 'linguistics'
         }
+    },
+    'course_period': {
+        'name': 'Period of Studing',
+        'terms': {
+            'course_period': 'course_period'
+        }
     }
 }
 

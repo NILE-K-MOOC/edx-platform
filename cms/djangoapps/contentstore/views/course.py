@@ -748,6 +748,9 @@ def _create_or_rerun_course(request):
         fields['middle_classfy'] = middle_classfy
         linguistics = request.json.get('linguistics')
         fields['linguistics'] = linguistics
+        course_period = request.json.get('course_period')
+        fields['course_period'] = course_period
+
 
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.

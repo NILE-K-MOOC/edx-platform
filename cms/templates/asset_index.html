@@ -185,7 +185,7 @@
 
 
 <script type="text/javascript">
-    var mme_host = 'http://mme2.npcomms.kr'
+    var mme_host = 'http://mme2.npcomms.kr';
 
 
     var file_name = "";
@@ -264,11 +264,13 @@
                         up.refresh();
                         var result = $.parseJSON(info.response);
 
-##                         var uuid = result.data.uuid;
+                        console.log(result);
+
+                        uuid = result.data.uuid;
                         var file_ext = result.data.insert_data.file_ext;
                         var file_size = result.data.insert_data.fsize;
                         var upload_path = result.data.insert_data.up_path;
-##                         var playtime = result.data.playtime;
+                        playtime = result.data.playtime;
 
 
 
@@ -281,12 +283,13 @@
 //                        $(".embeddable").after($(".input-group"));
 //                        $(".embeddable-xml-input").val(cdn_url);
 
+                        console.log('upload', uuid, playtime, result);
                         file_name = file.name;
                         file_type = file.type;
                         cdn_url = result.data.insert_data.cdn_url;
                         thumbnail_url = result.data.insert_data.thumb_info + '_0.png';
-                        playtime = result.data.insert_data.playtime;
-                        uuid = result.data.uuid;
+                        if(!playtime) playtime = result.data.insert_data.playtime;
+                        if(!uuid) uuid = result.data.uuid;
 
                         ajaxPutEdX();
                         $(".choose-file-button").text("Load Another File");
@@ -351,13 +354,14 @@ var trCdnFile = ""
 + "    <ul class=\"actions-list\">"
 + "        <li class=\"action-item action-delete\">"
 //+ "            <a href=\"javascript:ajaxDeleteEdX();\" style=\"display:inline\" data-tooltip=\"Delete this asset\" class=\"remove-asset-button action-button\" ><i class=\"icon fa fa-times-circle\" aria-hidden=\"true\"></i> <span class=\"sr\">Delete this asset</span></a>"
-+ '<a href="#" data-tooltip="Delete this asset" class="remove-asset-button action-button"><i class="icon fa fa-times-circle" aria-hidden="true"></i> <span class="sr">Delete this asset</span></a>'
++ '<a href="#" onclick="ajaxDeleteEdX(\'{{id}}\')" data-tooltip="Delete this asset" class="remove-asset-button action-button"><i class="icon fa fa-times-circle" aria-hidden="true"></i> <span class="sr">Delete this asset</span></a>'
 + "        </li>"
 + "    </ul>"
 + "</td>"
 + "</tr>";
 
     var ajaxPutEdX = function() {
+
         var get_params = '?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime;
         $.ajaxSetup({
             type: 'PUT',
@@ -404,67 +408,27 @@ var trCdnFile = ""
         });
     }
 
-    var ajaxStateEdx11 = function(file_name, state){
-        $.ajaxSetup({
-            type: 'PUT',
-            headers: {'X-CSRFToken': '${ csrf_token }'},
-        });
-        $.ajax({
-            url: '${asset_callback_url}?file_name='+file_name+'&state='+state,
-            success: function (res) {
-                if (res.result == 'success') {
-                    ajaxGetEdX();
-                }
-            },
-            error: function () {
-                console.log('ajaxStateEdX error');
-            }
-        });
-    }
+    var ajaxDeleteEdX = function(id) {
 
-    var ajaxDeleteEdX = function(id, uuid) {
-
-        $.ajaxSetup({
-            type : 'DELETE'
-        });
-        $.ajax({
-            url: '${asset_callback_url}'+id,
-            error: function () {
-                console.log('ajaxDeleteEdX error');
-            }
-        }).done(function(data){
+        if(confirm(gettext('Delete this asset'))){
             $.ajaxSetup({
-                type : 'GET'
+                type : 'DELETE'
             });
             $.ajax({
-                url: mme_host+'/mov_delete?uuid='+uuid+'&origin=1',
+                url: '${asset_callback_url}'+id,
                 error: function () {
-                    console.log('mov_delete error');
-                },
-                success: function (res) {
-                    console.log('mov_delete success');
-                  }
+                    console.log('ajaxDeleteEdX error');
+                }
+            }).done(function(data){
+                $.ajaxSetup({
+                    type : 'GET'
+                });
+                ajaxGetEdX();
             });
-            console.log("ajaxDeleteEdX done");
-            ajaxGetEdX();
-        });
+        }
+
     }
 
-    var underscoreDeleteEdX = function(object){
-        console.log(object);
-
-        var id = $(object)[0].model.attributes.id;
-        var uuid = $(object)[0].model.attributes.uuid;
-        $.ajax({
-            url: mme_host+'/mov_delete?uuid='+uuid+'&origin=1',
-            error: function () {
-                console.log('mov_delete error');
-            },
-            success: function (res) {
-                console.log('mov_delete success');
-              }
-        });
-    }
 
     var ajaxGetEdX = function() {
 
@@ -576,7 +540,6 @@ var trCdnFile = ""
                                 }, 2000);
 
                            }
-                            console.info(asset_id, 'kkkkkkk');
                             $('#asset-table-body').append(trCdnFile
                                     .replace('{{thumbnail}}', thumbnail)
                                     .replace('{{display_name}}', display_name)
@@ -711,7 +674,7 @@ var trCdnFile = ""
 
 
 
-ajaxGetEdX();
+//ajaxGetEdX();
 </script>
 </%block>
 

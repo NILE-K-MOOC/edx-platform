@@ -96,10 +96,16 @@ define([
                 _.extend(data, {"middle_classfy": get_mterm});
             }
 
-            /* 언어학 부분ㄹ 검사 */
+            /* 언어학 부분 검사 */
             var linguistics = this.getTermParameter('linguistics');
             if(linguistics){
                 _.extend(data, {"linguistics": linguistics});
+            }
+
+            /* 강의기간 분류류 */
+           var course_period = this.getTermParameter('course_period');
+            if(course_period){
+                _.extend(data, {"course_period": course_period});
             }
 
             /**

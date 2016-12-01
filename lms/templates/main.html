@@ -27,6 +27,17 @@ from pipeline_mako import render_require_js_path_overrides
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/mathjax-extend.css" type="text/css" media="all">
+    <style>
+    @font-face
+	{
+		font-family:"xt";
+		src:url("/static/fonts/a.eot");
+		src:url("/static/fonts/a.eot?iefix") format("embedded-opentype"),url("/static/fonts/a.woff") format("woff"),url("/static/fonts/a.ttf") format("truetype"),url("/static/fonts/a.svg#a") format("svg");
+		font-weight:normal;
+		font-style:normal
+	}
+    </style>
 
 ## Define a couple of helper functions to make life easier when
 ## embedding theme conditionals into templates. All inheriting

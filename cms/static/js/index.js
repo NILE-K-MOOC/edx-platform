@@ -55,6 +55,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             var classfy = $newCourseForm.find(".new-course-classfy").val();
             var middle_classfy = $newCourseForm.find(".new-course-middle-classfy").val();
             var linguistics = $newCourseForm.find(".new-course-linguistics").val();
+            var course_period = $newCourseForm.find(".new-course-period").val();
 
 
             var course_info = {
@@ -64,7 +65,8 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 run: run,
                 classfy: classfy,
                 middle_classfy: middle_classfy,
-                linguistics: linguistics
+                linguistics: linguistics,
+                course_period: course_period
             };
 
             analytics.track('Created a Course', course_info);

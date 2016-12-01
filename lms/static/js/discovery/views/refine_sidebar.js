@@ -35,6 +35,9 @@ define([
             else if(key == 'linguistics'){
                 return gettext("Linguistics by");
             }
+            else if(key == 'course_period'){
+                return gettext("Period of Studing");
+            }
             else {
                 return this.meanings[key] && this.meanings[key].name || key;
             }
@@ -70,7 +73,17 @@ define([
                         default:
                             data.name = this.termName(data.facet, data.term);
                     }
-                }else if(data.facet == 'middle_classfy'){
+                }else if(data.facet == 'course_period'){
+                    switch (data.term){
+                        case 'S':
+                            data.name = this.termName(data.facet, gettext("Short(1~6 weeks)"));break;
+                        case 'M':
+                            data.name = this.termName(data.facet, gettext("Middle(7~12 weeks)"));break;
+                        case 'L':
+                            data.name = this.termName(data.facet, gettext("Long(over 13 weeks)"));break;
+                    }
+                }
+                else if(data.facet == 'middle_classfy'){
 
                     var middle_text = {
                         "lang": "Linguistics & Literature","husc":"Humanities",
@@ -91,7 +104,7 @@ define([
                     if(data.term == 'Y'){
                         data.name = this.termName(data.facet, gettext("Koreanology"));
                     }else{
-                        data.name = this.termName(data.facet, data.term);
+                        data.name = this.termName(data.facet, gettext("Others"));
                     }
                 }
                 else{
@@ -114,7 +127,7 @@ define([
         render: function () {
             var grouped = this.collection.groupBy('facet');
 
-            var dict = {"org": [], "classfy": [], "middle_classfy": [], "linguistics": [], "language": [], "modes": []};
+            var dict = {"org": [], "classfy": [], "middle_classfy": [], "linguistics": [],"course_period": [], "language": [], "modes": []};
 
 
 
