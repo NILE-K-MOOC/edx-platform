@@ -102,7 +102,6 @@ import json
 from django.core.mail import send_mail
 
 
-
 log = logging.getLogger("edx.courseware")
 
 
@@ -163,8 +162,6 @@ def courses(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def haewoondaex(request, org):
-
-    # print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> org:', org
 
     if 'KOCWk' == org:
         courses_list = get_courses_by_kocw(request.user, request.META.get('HTTP_HOST'))
@@ -710,7 +707,7 @@ def course_about(request, course_id):
         overview = CourseOverview.get_from_id(course.id)
 
         # D-day
-        today = datetime.datetime.now()
+        today = datetime.now()
         course_start = course.start
         today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
         course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()

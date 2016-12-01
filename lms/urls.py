@@ -127,7 +127,6 @@ urlpatterns = (
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
     url(r'^test$', 'community.views.test', name='test'),
-    url(r'^model_test$', 'community.views.model_test', name='model_test')
 
 
 )
@@ -561,6 +560,7 @@ urlpatterns += (
     url(r'^courses/{}/instructor/copykiller_csv'.format(settings.COURSE_ID_PATTERN),
         'instructor.views.instructor_dashboard.copykiller_csv', name="copykiller_csv"),
 
+    url(r'^openapi/?$', 'courseware.views.views.openapi', name="openapi"),
     url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
     url(r'^cert_check/?$', 'courseware.views.views.cert_check', name="cert_check"),
     url(r'^cert_check_id/?$', 'courseware.views.views.cert_check_id', name="cert_check_id"),

@@ -8,11 +8,12 @@ $(document).ready(function(){
 	var html = "";
 	var head_html = "";
     var value_list = [];
+
     $.ajax({
         url : 'comm_faq',
         data : {
             method : 'faq_list',
-			head_title : '학교 관련'
+			head_title : 'regist'
         }
     }).done(function(data){
 		html="";
@@ -37,7 +38,11 @@ $(document).ready(function(){
 		var html = "";
 		var head_html = "";
 		var value_list = [];
-		var head_title = $(this).text();
+		var head_title = $(this).attr('id');
+		if(head_title == 'login_'){
+			head_title = 'login'
+		}
+		//alert(head_title);
 		$.ajax({
 			url : 'comm_faq',
 			data : {
@@ -47,24 +52,22 @@ $(document).ready(function(){
 		}).done(function(data){
 			html="";
 			head_html="";
-			console.log(data.length);
+			//console.log(data.length);
+			//console.log(data);
 			if(data != '' && data.length >3){
 				for(var i=0; i<data.length; i++){
-					value_list = data[i].toString().split(',');
-					html += "<dt><a href='#' >"+value_list[0]+"</a></dt>";
-					for(var j=1; j<value_list.length; j++){
-						html += "<dd>";
-						html += "<div>"+value_list[1]+"</div>";
-						html += "</dd>";
-					}
+					html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
+					html += "<dd>";
+					html += "<div>"+data[i][1]+"</div>";
+					html += "</dd>";
 				}
 				$('dl').css('height', '');
 			}else if(data != '' && data.length <3){
 				for(var j=0; j<data.length; j++){
 					value_list = data[j].toString().split(',');
-					html += "<dt><a href='#' >"+value_list[0]+"</a></dt>";
+					html += "<dt><a href='#' >"+data[j][0]+"</a></dt>";
 					html += "<dd>";
-					html += "<div>"+value_list[1]+"</div>";
+					html += "<div>"+data[j][1]+"</div>";
 					html += "</dd>";
 				}
 				$('dl').css('height', '265px');
@@ -192,18 +195,19 @@ function search() {
 	var html = "";
 	var head_html = "";
 	var value_list = [];
-	var head_title = $('.on').text().substring(3);
+	var head_title = $('section').find('nav').find('.on').attr('id');
+
 	var search = $('#search').val();
 
 	if (search == '' || search == null) {
 		$(".faq-tab a").removeClass("on");
-		$('#school').addClass("on");
+		$('#regist').addClass("on");
 
 		$.ajax({
 			url: 'comm_faq',
 			data: {
 				method: 'faq_list',
-				head_title: '학교 관련'
+				head_title: 'regist'
 				//head_title : head_title
 			}
 		}).done(function (data) {
@@ -211,12 +215,10 @@ function search() {
 			head_html = "";
 			for (var i = 0; i < data.length; i++) {
 				value_list = data[i].toString().split(',');
-				html += "<dt><a href='#' >" + value_list[0] + "</a></dt>";
-				for (var j = 1; j < value_list.length; j++) {
-					html += "<dd>";
-					html += "<div>" + value_list[1] + "</div>";
-					html += "</dd>";
-				}
+				html += "<dt><a href='#' >" + data[i][0] + "</a></dt>";
+				html += "<dd>";
+				html += "<div>" + data[i][1] + "</div>";
+				html += "</dd>";
 			}
 			$('.faq-list').html(html);
 		});
@@ -232,13 +234,10 @@ function search() {
 			html = "";
 			head_html = "";
 			for (var i = 0; i < data.length; i++) {
-				value_list = data[i].toString().split(',');
-				html += "<dt><a href='#' >" + value_list[0] + "</a></dt>";
-				for (var j = 1; j < value_list.length; j++) {
-					html += "<dd>";
-					html += "<div>" + value_list[1] + "</div>";
-					html += "</dd>";
-				}
+				html += "<dt><a href='#' >" + data[i][0] + "</a></dt>";
+				html += "<dd>";
+				html += "<div>" + data[i][1] + "</div>";
+				html += "</dd>";
 			}
 			$('.faq-list').html(html);
 		});

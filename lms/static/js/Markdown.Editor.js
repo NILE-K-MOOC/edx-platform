@@ -2,6 +2,55 @@
 
 (function () {
 
+    var list = [{
+      type: '분수',
+      group: 0,
+                  children: [{value: "\\frac{a}{b}"},{value: "{a}/{b}"}]
+    },{
+      type: '첨자',
+      group: 1,
+                  children: [{value: "{a}^{b}"},{value: "{a}_{b}"},{value: "{a}^{b}_{c}"}]
+    },{
+      type: '삼각함수',
+      group: 2,
+                  children: [{value: "\\sin{a}"},{value: "\\cos{a}"},{value: "\\tan{a}"},{value: "\\sec{a}"},{value: "\\csc{a}"},{value: "\\cot{a}"},{value: "\\arcsin{a}"},{value: "\\arccos{a}"},{value: "\\arctan{a}"}]
+    },{
+      type: '로그',
+      group: 3,
+                  children: [{value: "\\sqrt{x}"},{value: "\\sqrt[3]{x}"},{value: "\\sqrt[n]{x}"},{value: "\\log{b}"},{value: "\\log_{a}{b}"},{value: "\\lg{b}"}]
+    },{
+      type: '합계 등',
+      group: 4,
+                  children: [{value: "\\sum_{k=1}^{N} k"},{value: "\\prod_{k=1}^{N} k"},{value: "\\coprod_{k=1}^{N} k"},{value: "\\bigcap_{i=1}^{n} A_i"},{value: "\\bigcup_{i=1}^{n} A_i"}]
+    },{
+      type: '미적분',
+      group: 5,
+                  children: [{value: "\\partial x"},{value: "\\partial^2 x"},{value: "dx"},{value: "\\dot x"},{value: "\\ddot y"},{value: "\\frac{dy}{dx}"},{value: "\\int_{A}^{B} "},{value: "\\iint_{A}^{B} "},{value: "\\iiint_{A}^{B} "},{value: "\\iiiint_{A}^{B} "},{value: "\\oint_{C} "}]
+    },{
+      type: '극한',
+      group: 6,
+                  children: [{value: "\\lim_{n \\to \\infty}{a_n}"},{value: "\\max_{i=0}^{n}{a_i}"},{value: "\\min_{i=0}^{n}{a_i}"}]
+    },{
+      type: '부호',
+      group: 7,
+                  children: [{value: "+"},{value: "-"},{value: "\\times "},{value: "\\div "},{value: "\\pm "},{value: "\\mp "},{value: "\\oplus "},{value: "\\otimes "},{value: "\\cdot "},{value: "\\land "},{value: "\\vee "},{value: "\\bar{q}"},{value: "\\to "},{value: "\\neg "},{value: "\\And "},{value: "\\sim "},{value: "\\approx "},{value: "\\simeq "},{value: "\\cong "},{value: "\\dot= "},{value: "\\le "},{value: "\\ll "},{value: "\\gg "},{value: "\\ge "},{value: "\\equiv "},{value: "\\not\\equiv "},{value: "\\ne "},{value: "\\propto "},{value: "\\geqq "},{value: "\\geqslant "},{value: "\\eqslantgtr "},{value: "\\gtrsim "},{value: "\\gtrapprox "},{value: "\\forall"},{value: "\\exists"},{value: "\\emptyset"},{value: "\\in"},{value: "\\ni"},{value: "\\notin"},{value: "\\subset"},{value: "\\subseteq"},{value: "\\supseteq"},{value: "\\supset"},{value: "\\cap"},{value: "\\cup"},{value: "\\angle"},{value: "^\\circ"},{value: "\\infty"}]
+    },{
+      type: '매트릭스',
+      group: 8,
+                  children: [{value: "\\begin{vmatrix} x & y \\\\ z & v \\end{vmatrix}"},{value: "\\begin{vmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{vmatrix}"},{value: "\\begin{bmatrix}x & y \\\\ z & v \\end{bmatrix}"},{value: "\\begin{bmatrix} a & b &c \\\\ d & e & f \\\\ g & h & i \\end{bmatrix}"}]
+    },{
+      type: '그리스문자',
+      group: 9,
+                  children: [{value: "\\alpha "},{value: "\\beta "},{value: "\\gamma "},{value: "\\delta "},{value: "\\epsilon "},{value: "\\zeta "},{value: "\\eta "},{value: "\\theta "},{value: "\\iota "},{value: "\\kappa "},{value: "\\varkappa "},{value: "\\lambda "},{value: "\\mu "},{value: "\\nu "},{value: "\\xi "},{value: "\\omicron "},{value: "\\pi "},{value: "\\rho "},{value: "\\sigma "},{value: "\\tau "},{value: "\\upsilon "},{value: "\\phi "},{value: "\\chi "},{value: "\\psi "},{value: "\\omega "},
+      {value: "\\Gamma "},{value: "\\Delta "},{value: "\\Theta "},{value: "\\Lambda "},{value: "\\Xi "},{value: "\\Pi "},{value: "\\Sigma "},{value: "\\Upsilon "},{value: "\\Phi "},{value: "\\Psi "},{value: "\\Omega "}]
+//			  {value: "\\varAlpha "},{value: "\\Beta "},{value: "\\Gamma "},{value: "\\Delta "},{value: "\\Epsilon "},{value: "\\Zeta "},{value: "\\Eta "},{value: "\\Theta "},{value: "\\Iota "},{value: "\\Kappa "},{value: "\\Varkappa "},{value: "\\Lambda "},{value: "\\Mu "},{value: "\\Nu "},{value: "\\Xi "},{value: "\\Omicron "},{value: "\\Pi "},{value: "\\Rho "},{value: "\\Sigma "},{value: "\\Tau "},{value: "\\Upsilon "},{value: "\\Phi "},{value: "\\Chi "},{value: "\\Psi "},{value: "\\Omega "}]
+    },{
+      type: '벡터 등',
+      group: 10,
+      children:[{value: "\\dot{x}"},{value: "\\ddot{x}"},{value: "\\dddot{x}"},{value: "\\bar{x}"},{value: "\\vec{x}"},{value: "\\overleftarrow{a b}"},{value: "\\overrightarrow{a b}"}]
+    }
+    ];
+
     var util = {},
         position = {},
         ui = {},
@@ -1270,6 +1319,9 @@
                     case "b":
                         doClick(buttons.bold);
                         break;
+                    case "e":
+                        doClick(buttons.equation);
+                        break;
                     case "i":
                         doClick(buttons.italic);
                         break;
@@ -1471,6 +1523,91 @@
             return function () { method.apply(commandManager, arguments); }
         }
 
+        window.UpdateMath = function(str) {
+	    $('#MathOutput').html('\\('+str+'\\)');
+	    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+	}
+
+	function inputEquation(i,j) {
+	    var str = list[i].children[j].value;
+	    var obj = document.getElementById("myText");
+	    var startPos = obj.selectionStart;
+	    var endPos = obj.selectionEnd;
+	    var tmpStr = obj.value;
+	    obj.value = tmpStr.substring(0,startPos)+str+tmpStr.substring(endPos);
+	    obj.selectionStart = obj.selectionEnd = startPos+str.length;
+	    UpdateMath(obj.value);
+	    obj.focus();
+	}
+
+	function changeList(typeNum) {
+	    var i = 0;
+	    while (document.getElementById('type_'+i) != undefined) {
+		document.getElementById('type_'+i).className ="btn_type";
+		i++;
+	    }
+	    document.getElementById('type_'+typeNum).className ="btn_type active";
+//	    while ($('#type_'+i) != undefined) {
+//		$('#type_'+i).removeClass('active');
+//		i++;
+//	    }
+//	    $('#type_'+typeNum).addClass('active');
+//	    var el = document.getElementById("equationList");
+//	    el.innerHTML ="";
+	    var el = $('#equationList');
+	    el.html('');
+	    for (var i in list) {
+		if (list[i].group === typeNum) {
+		    var equationList = list[i].children;
+		    for (var j in equationList) {
+//			var newButton = document.createElement("span");
+//			newButton.id = 'equation_'+i;
+//			newButton.setAttribute("onclick", "inputEquation("+i+","+j+");");
+//			newButton.setAttribute("class", "equation_span");
+//			var newDiv = document.createElement("span");
+//			newDiv.innerHTML = "$"+equationList[j].value+"$";
+//			newButton.appendChild(newDiv);
+//			el.appendChild(newButton);
+
+			var newButton = $('<span></span>');
+			newButton.attr('id','equation_'+j);
+			newButton.click({'i':i,'j':j},function(event){inputEquation(event.data.i,event.data.j);});
+			newButton.addClass('equation_span');
+			var newSpan = $('<span></span');
+			newSpan.html('\\('+equationList[j].value+'\\)');
+//			newSpan.html(i+" "+j);
+			newButton.append(newSpan);
+			el.append(newButton);
+		    }
+		}
+	    }
+	    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+	}
+
+	function newTypeList(name,type) {
+//	    var tl = document.getElementById("typeList");
+//	    var newItem = document.createElement("li");
+//	    var newButton = document.createElement("div");
+//	    newButton.id = "type_"+type;
+//	    newButton.type = "button";
+//	    newButton.innerHTML = name;
+//	    newButton.setAttribute("onmouseover", "changeList("+type+");");
+//	    newButton.setAttribute("class", "btn_type");
+//	    newItem.appendChild(newButton);
+//	    newItem.innerHTML = name;
+//	    tl.appendChild(newItem);
+	    var tl = $('#typeList');
+	    var newItem = $('<li></li>');
+	    var newButton = $('<div></div>');
+	    newButton.attr('id','type_'+type);
+	    newButton.attr('type','button');
+	    newButton.html(name);
+	    newButton.mouseover(function(){changeList(type);});
+	    newButton.addClass('btn_type');
+	    newItem.append(newButton);
+	    tl.append(newItem);
+	}
+
         function makeSpritedButtonRow() {
 
             var buttonBar = panels.buttonBar;
@@ -1542,6 +1679,57 @@
 
             buttons.redo = makeButton("wmd-redo-button", redoTitle, "-220px", null);
             buttons.redo.execute = function (manager) { if (manager) manager.redo(); };
+
+                        //makeSpacer(4); no sass for spacer4
+            //buttons.equation = makeButton("wmd-equation-button", gettext("Equation (Ctrl+E)"), "-260px", bindCommand(function (chunk, postProcessing){
+            buttons.equation = makeButton("wmd-equation-button", gettext("수식편집기 (Ctrl+E)"), "-260px", bindCommand(function (chunk, postProcessing){
+//		var strRtn = window.showModalDialog("/static/js/vendor/ljneditor/test.html","","dialogHeight:500px;dialogWidth:800px;");
+//		alert(strRtn);
+//                if (strRtn != undefined  && strRtn !='') this.doEquation(chunk, postProcessing, strRtn);
+		$("body").append("<div id=\"divBackground\" class=\"wmd-prompt-background\" style=\"position: fixed; z-index: 1000; opacity: 0.5; top: 0px; left: 0px; height: 100%; width: 100%\"></div>");
+		$("body").append("<div id='divEquation' role='dialog' class='wmd-prompt-dialog' style='position: fixed; width: 800px; z-index: 1001; top: 50%; left: 40%; display: block; margin-top: -143.5px; margin-left: -221px;'>"
+		+"<div id='typeList' class='LJN_nav'></div>"
+		+"<div id='equationList' class='LJN_equation'></div>"
+		+"<div class='LJN_panel'>"
+		    +"<textarea id='myText' class='LJN_input' onkeyup='UpdateMath(this.value)' autofocus></textarea>"
+		    +"<div class = 'preview_container'><div class='preview_label'>미리보기</div>"
+		    +"<div id='MathOutput' class='LJN_preview'></div>"
+		+"</div>"
+	    +"</div><button id='btn_submit' class='btn_submit'>수식등록</button><button id='btn_cancel' class='btn_cancel'>취소</button></div>");
+		for (var i in list) {
+		    newTypeList(list[i].type,list[i].group);
+		}
+		changeList(0);
+	        //var strRtn = document.getElementById("myText").value;
+		//this.doEquation(chunk, postProcessing, strRtn);
+		$("#btn_submit").click({'pthis':this,'chunk':chunk,'postProcessing':postProcessing},function(event){
+		    var strRtn = document.getElementById("myText").value;
+		    event.data.pthis.doEquation(event.data.chunk, event.data.postProcessing, strRtn);
+		    inputBox.value = event.data.chunk.before+event.data.chunk.after;
+                    previewManager.refresh();
+		    $("#divEquation").remove();
+		    $("#divBackground").remove();
+		});
+		$("#btn_cancel").click(function(){
+		    $("#divEquation").remove();
+		    $("#divBackground").remove();
+		});
+//		alert('test');
+
+	    }));
+//	    buttons.equation.removeChild(buttons.equation.lastChild);
+//            var buttonImage = document.createElement("span");
+//	    buttonImage.src = "/static/images/equation/e0.png";
+//	    buttons.equation.appendChild(buttonImage);
+
+
+
+            var tmpText = document.createElement("input");
+	    tmpText.id = "equation-text"
+	    tmpText.type = "hidden";
+	    tmpText.value = "test";
+	    buttonRow.appendChild(tmpText);
+
 
             if (helpOptions) {
                 var helpButton = document.createElement("span");
@@ -2280,5 +2468,15 @@
         chunk.skipLines(2, 1, true);
     }
 
+// chunk: The selected region that will be enclosed with $
+    // insertText: Equation
+    commandProto.doEquation = function (chunk, postProcessing, insertText) {
+
+        // Get rid of whitespace and fixup newlines.
+        chunk.trimWhitespace();
+	chunk.selection = "";
+        chunk.before = chunk.before+ " $" + insertText + "$ ";
+        return;
+    };
 
 })();

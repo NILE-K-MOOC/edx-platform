@@ -30,7 +30,7 @@ from pymongo import ASCENDING, DESCENDING
 from student.auth import has_course_author_access
 from xmodule.modulestore.exceptions import ItemNotFoundError
 
-import urllib2
+import urllib2, urlparse, urllib
 import json
 __all__ = ['assets_handler']
 
@@ -357,18 +357,21 @@ def save_cdn(request, course_key):
     content.thumbnail_location=request.REQUEST['thumbnail_url']
     content.thumbnail_url=request.REQUEST['thumbnail_url']
     content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
-    print content
+    # print content
 
     try:
         content.uuid = request.REQUEST['uuid']
         content.playtime = request.REQUEST['playtime']
         content.state = request.REQUEST['state']
+        content.mme = request.REQUEST['mme']
     except:
         content.uuid = ''
         content.playtime = ''
         content.state = ''
+        content.mme = ''
 
     contentstore().save_cdn(content)
+
 
     readback = contentstore().find_cdn(content.location)
     locked = False;
@@ -396,9 +399,50 @@ def _update_asset(request, course_key, asset_key):
 
     asset_path_encoding: the odd /c4x/org/course/category/name repr of the asset (used by Backbone as the id)
     """
+    # print request
     if request.method == 'DELETE':
         try:
+
+            """
+            todo 아래의 코드는 uuid를 찾지 못함. find_cdn 과 같은 메소드를 만들고 uuid값을 가져와 처리해야 한다
+             ** 우선 몽고(아래코드)를 처리하고 곧바로 mme데이터를 삭제하자.
+             ** 그리고 신규 파일 업로드 후 삭제 버튼 이벤트가 잘 처리 안된다. 그러므로 이벤트를 두군데에 처리해야 한다.
+             1. asset_index.html : javascript로 그냥 처리함.
+             2. assets.py : uuid를 조회하여 처리함
+             asset-v1:e1+e1+e1+type@cdn+block@robot_arms.mp4
+             asset-v1:e1+e1+e1+type@cdn+block@robot_arms.mp4
+            """
+
+
+
+            # try:
+            ''' MME 콘텐츠 삭제'''
+            content = contentstore().find_cdn_uuid(asset_key)
+
+            uuid = content['uuid']
+            playtime = content['playtime']
+            cdn_url = content['cdn_url']
+            cdn_parse = urlparse.urlparse(cdn_url)
+
+            print content
+            print uuid
+            mme_url = "http://%s" % cdn_parse.netloc
+
+            if uuid is None or uuid == '':
+                uuid = cdn_url.split("/")[-1].replace(".mp4", "")
+
+            print "mme delete"
+
+            mme_delete(mme_url, uuid)
+            # except Exception, e:
+            #     print "MME Delete Exception: %s" % e
+
+            print "mme delete finish"
+
+            print "mongo delete"
             delete_asset(course_key, asset_key)
+            print "mongo delete finish"
+
             return JsonResponse()
         except AssetNotFoundException:
             return JsonResponse(status=404)
@@ -503,3 +547,28 @@ def _get_cdn_json(display_name, content_type, date, location, thumbnail_location
         # 'locked': locked,
         'id': unicode(location)
     }
+
+def mme_delete(mme, uuid):
+    '''
+    MME 에 저장된 영상 삭제
+    '''
+    try:
+
+        content_delete_host = "%s/mov_delete?uuid=%s" % (mme, uuid)
+        print content_delete_host
+        header = {'User-Agent': 'MME/2.0', 'Content-Type': 'application/json'}
+        req = urllib2.Request(content_delete_host)
+        res = urllib2.urlopen(req).read()
+        print 'MME CDN DELETE: %s' % content_delete_host
+        print res
+        return True
+    except urllib2.HTTPError, e:
+        print "HTTPError: %s" % e
+        return False
+    except urllib2.URLError, e:
+        print "URLError: %s" % e
+        return False
+    except Exception, e:
+        print "Exception: %s" %e
+        return False
+

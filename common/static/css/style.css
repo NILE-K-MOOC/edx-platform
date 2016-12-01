@@ -635,6 +635,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 .certification-form input[type="text"] {width:100%;height:46px;}
 .certification-form form {text-align:center;padding-top:20px;}
 .certification-form input[type="submit"] {background:#2c2c2c;border-color:#2c2c2c;font-size:1.125em;font-weight:700;margin:25px 0;padding:10px 0;text-align:center;min-width:260px;}
+.certification-form input[type="button"] {background:#2c2c2c;border-color:#2c2c2c;font-size:1.125em;font-weight:700;margin:25px 0;padding:10px 0;text-align:center;min-width:260px;}
 .certification-img img {max-width:100%;}
 
 .univ-list-top {position:relative;background:url(/static/images/contents/univ_top.jpg) center center no-repeat;background-size:cover;height:270px;}
@@ -710,7 +711,8 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 
 .api-download {padding-left:13px;margin-top:10px;}
 .api-download img {vertical-align:bottom;margin-right:10px;}
-.api-download > a, .api-download > a:hover {font-weight:700;color:#f03421;padding-right:27px;background:url(/static/images/css/icon_down.png) right center no-repeat;display:inline-block;margin:10px 0 5px 0;}
+/*.api-download > a, .api-download > a:hover {font-weight:700;color:#f03421;padding-right:27px;background:url(/static/images/css/icon_down.png) right center no-repeat;display:inline-block;margin:10px 0 5px 0;}*/
+.api-download > .down{font-weight:700;color:#f03421;padding-right:27px;background:url(/static/images/css/icon_down.png) right center no-repeat;display:inline-block;margin:10px 0 5px 0;}
 
 .kmooc-tab {border-bottom:solid 3px #03b3e4;}
 .kmooc-tab:after {content:"";display:block;clear:both;}

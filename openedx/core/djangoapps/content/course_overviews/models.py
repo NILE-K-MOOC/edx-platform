@@ -501,12 +501,9 @@ class CourseOverview(TimeStampedModel):
             course_overviews = course_overviews.filter(org__iexact=org)
             print 'course_overviews == ',course_overviews
 
-        if filter_:
+        # if filter_:
             # course_overviews = course_overviews.filter(**filter_)
-            print 'datetime.datetime.now() == ',datetime.datetime.now()
-            print 'filter==', filter_
-            course_overviews = course_overviews.filter(start__lte=filter_)
-            print 'course_overviews2 == ',course_overviews
+
 
 
 

@@ -1,0 +1,80 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="main.html" />
+
+<%block name="pagetitle">오픈 API</%block>
+
+<section class="container">
+    <!-- [s]  -->
+    <h2>오픈 API</h2>
+    <section class="open-api-box">
+        <p>K-MOOC를 위한 안드로이드, 아이폰 등의 <span class="fPoint">스마트 폰 기반의 앱개발</span>을 희망하시는 개인, 기관, 기업은  정해진 절차에 따라 앱을 개발하실 수 있도록 기술문서를 공개합니다.</p>
+
+        <section class="open-api-block">
+            <h3>절차</h3>
+            <ol>
+                <li>
+                    <img src="/static/images/contents/circle01.gif" alt="">
+                    <p>K-MOOC회원가입</p>
+                </li>
+                <li>
+                    <img src="/static/images/contents/circle02.gif" alt="">
+                    <p>신청서 제출</p>
+                </li>
+                <li>
+                    <img src="/static/images/contents/circle03.gif" alt="">
+                    <p>오픈 API 문서 다운로드</p>
+                </li>
+                <li>
+                    <img src="/static/images/contents/circle04.gif" alt="">
+                    <p>키발급</p>
+                </li>
+                <li>
+                    <img src="/static/images/contents/circle05.gif" alt="">
+                    <p>개발 및 서비스</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="open-api-block">
+            <h3>이용약관 확인 및 신청</h3>
+            <ul>
+                <li>신청서를 다운로드 해서 이용약관 동의 및 신청서를 작성하신 후 <a href="mailto:help_kmooc@nile.or.kr" class="fPoint">help_kmooc@nile.or.kr</a>로 송부합니다</li>
+                <li>제목에 [오픈 API]를 기재하여 보내주세요.</li>
+            </ul>
+            <div class="api-download">
+                <a href="/static/common/Open_API_FORM.hwp"><img src="/static/images/contents/file_hwp.gif" alt="hwp"></a>
+                <a href="/static/common/Open_API_FORM.doc"><img src="/static/images/contents/file_doc.gif" alt="doc"></a>
+                <span class="down">신청서 다운로드</span>
+            </div>
+        </section>
+
+        <section class="open-api-block">
+            <h3>오픈 API문서</h3>
+            <ul>
+                <li>오픈 API 문서는 다음의 링크에서 다운로드 받으실 수 있습니다.</li>
+            </ul>
+            <div class="api-download">
+                <a target="_blank" href="/static/common/K-MOOC_MOBILE_API_MANUAL.pdf"><img src="/static/images/contents/file_pdf.gif" alt="pdf"></a>
+                <span class="down">오픈API 다운로드</span>
+            </div>
+        </section>
+
+        <section class="open-api-block">
+            <h3>키발급</h3>
+            <ul>
+                <li>키발급은 승인 후 신청서에 기재된 주소로 발금해 드립니다. </li>
+            </ul>
+        </section>
+
+        <section class="open-api-block">
+            <h3>문의사항</h3>
+            <ul>
+                <li>기술지원 이나 기타 문의 사항은 <a href="mailto:help_kmooc@nile.or.kr" class="fPoint">help_kmooc@nile.or.kr</a>로 문의주세요. </li>
+                <li>제목에 [오픈 API]를 기재하여 보내주세요.</li>
+            </ul>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

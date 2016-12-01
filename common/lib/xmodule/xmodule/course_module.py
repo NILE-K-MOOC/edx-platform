@@ -281,6 +281,13 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
+    course_period = String(
+        help=_("Select Period of Studing"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
     course_edit_method = String(
         display_name=_("Course Editor"),
         help=_('Enter the method by which this course is edited ("XML" or "Studio").'),
