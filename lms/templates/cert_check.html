@@ -1,0 +1,105 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+<%block name="js_extra">
+    <script>
+        $(document).ready(function(){
+            $("#check").attr("href", "javascript:cert_check_id();");
+
+            $("#uuid").focus();
+            $("#uuid").keydown(function(e){
+                if(e.which == 13)
+                    cert_check_id();
+
+            });
+        });
+
+        function cert_check_id(){
+            $("#correct, #incorrect").hide();
+
+            var uuid = $("#uuid").val();
+            if(uuid == "" || uuid == null){
+                alert("이수증 인증번호를 입력하세요.");
+                $("#uuid").focus();
+                return;
+            }
+
+            $("#collect, #incollect").hide();
+            $.post("/cert_check_id",
+                    {uuid: uuid},
+                    function(data){
+                        if(data[0]){
+                            $("#correct").show();
+                            $("#showCert").attr("href",data[0].certUrl);
+                        }else if(!data){
+                            console.log("cert_check !data");
+                        }else{
+                            $("#incorrect").show();
+                        }
+            },"json");
+        }
+
+    </script>
+</%block>
+
+<%block name="pagetitle">이수증 검증</%block>
+<section class="container rule">
+    <section class="container">
+        <!-- [s] -->
+        <h2>이수증 검증</h2>
+
+        <section class="certification-box">
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
+                        <div class="certification-form">
+                            <p>K-MOOC에서 발급받은 이수증의 유효성을 확인하실 수 있습니다.</p>
+                            <p>이수증 상단의 인증번호를 입력하세요. </p>
+
+                            <input type="text" id="uuid" placeholder="이수증 상단의 인증번호를 입력하세요">
+                            <a href="#" id="check"><input type="button" value="검증하기"></a>
+
+                            <div id="check_result">
+                                <div id="correct" style="display: none;">
+                                    <span class="icon fa fa-check" aria-hidden="true"></span>
+                                    &nbsp;<b>유효한 K-MOOC이수증 인증번호 입니다.</b>
+                                    <a href="#" id="showCert" target="_blank" style="background: #f58026;
+                                                                    font-size: 12px;
+                                                                    font-weight: bold;
+                                                                    color: white;
+                                                                    border-radius: 3px;
+                                                                    padding: 1px 10px;
+                                                                    margin: 5px;
+                                                                    vertical-align: middle;">보기</a>
+                                </div>
+
+                                <div id="incorrect" style="display: none;">
+                                    <span class="icon fa fa-close" aria-hidden="true"></span>
+                                    &nbsp;<b>유효한 K-MOOC이수증 인증번호가 아닙니다.</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
+                        <div class="certification-img">
+                            <img src="/static/images/contents/certification.gif" alt="이수증 샘플">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <!-- [e]  -->
+    </section>
+</section>

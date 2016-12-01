@@ -560,6 +560,7 @@ urlpatterns += (
     url(r'^courses/{}/instructor/copykiller_csv'.format(settings.COURSE_ID_PATTERN),
         'instructor.views.instructor_dashboard.copykiller_csv', name="copykiller_csv"),
 
+    url(r'^openapi/?$', 'courseware.views.views.openapi', name="openapi"),
     url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
     url(r'^cert_check/?$', 'courseware.views.views.cert_check', name="cert_check"),
     url(r'^cert_check_id/?$', 'courseware.views.views.cert_check_id', name="cert_check_id"),
