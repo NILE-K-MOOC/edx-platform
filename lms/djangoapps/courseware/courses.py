@@ -401,7 +401,6 @@ def get_courses(user, org=None, filter_=None):
 
     return courses
 
-
 def get_courses_by_org(user, org=None, filter_=None):
     '''
     Returns a list of courses available, sorted by course.number
@@ -453,6 +452,61 @@ def get_courses_by_org(user, org=None, filter_=None):
     courses = [c for c in courses if has_access(user, permission_name, c)]
 
     # courses = sorted(courses, key=lambda course: course.number)
+
+    return courses
+
+def get_courses_by_org2(user, org=None, filter_=None):
+    '''
+    Returns a list of courses available, sorted by course.number
+    '''
+
+    print user, org, filter
+
+    courses_temp = branding.get_visible_courses(org=org, filter_=filter_)
+
+    courses = list()
+    courses1 = list()
+    courses2 = list()
+
+    for c in courses_temp:
+        cid = str(c.id)
+
+        print 'get_courses_by_org2.step1: ',cid
+
+        if c.start is not None and c.end is not None and c.start > c.end:
+            continue
+
+        if cid.find('2015') > 0:
+            continue
+
+        if org == 'KOCWk' and (c.enrollment_start is not None and datetime.now(UTC()) >= c.enrollment_start and c.id is not None and 'KOCW' in cid):
+            courses.append(c)
+        elif org == 'ACEk' and ('ACE' in cid or 'FA.HGU01' in cid):
+            courses.append(c)
+        elif org == 'CKk' and 'CK' in cid:
+            courses.append(c)
+        elif org == 'COREk' and ('SKKU_COS2021.01K' in cid or 'SKKU_COS2022.01K' in cid or 'SKKU_NTST100.01K' in cid or 'HYUKMOOC2016-4k' in cid or 'HYUKMOOC2016-5k' in cid):
+            courses.append(c)
+
+    for c in courses:
+        print 'get_courses_by_org2.step2: ', c.id
+
+        if not c.has_ended():
+            courses1.append(c)
+        else:
+            courses2.append(c)
+
+    courses1 = sorted(courses1, key=lambda course: course.start, reverse=True)
+    courses2 = sorted(courses2, key=lambda course: course.start, reverse=True)
+
+    courses = courses1 + courses2
+
+    permission_name = configuration_helpers.get_value(
+        'COURSE_CATALOG_VISIBILITY_PERMISSION',
+        settings.COURSE_CATALOG_VISIBILITY_PERMISSION
+    )
+
+    courses = [c for c in courses if has_access(user, permission_name, c)]
 
     return courses
 
