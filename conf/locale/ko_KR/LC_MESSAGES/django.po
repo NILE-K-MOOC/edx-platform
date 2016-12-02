@@ -28208,3 +28208,12 @@ msgstr "중국어"
 # footer.html
 msgid "2557, NAMBUSUNHWAN-RO, SEOCHO-GU, SEOUL, KOREA. "
 msgstr "(06734)서울특별시 서초구 남부순환로 2557 (서초동)"
+
+msgid "ACEk"
+msgstr "학부교육 선도대학 육성사업"
+
+msgid "CKk"
+msgstr "대학 특성화 사업"
+
+msgid "COREk"
+msgstr "대학 인문역량 강화사업"

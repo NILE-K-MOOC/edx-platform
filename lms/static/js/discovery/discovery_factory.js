@@ -27,6 +27,7 @@
                     var mterm = search.getTermParameter('mterm');
                     var linguistics = search.getTermParameter('linguistics');
                     var language = search.getTermParameter('language');
+                    var course_period = search.getTermParameter('course_period');
 
                     filters.reset();
                     form.showLoadingIndicator();
@@ -42,6 +43,10 @@
                         search.refineSearch(filters.getTerms());
                     }else if(language) {
                         filters.add({type: 'language', query: language, name: language == 'ko' ? 'Korean' : 'English'});
+                        search.refineSearch(filters.getTerms());
+                    }else if(course_period) {
+                        filters.add({type: 'course_period', query: course_period, name: course_period  == "S" ? "Short (1~6 weeks)" : course_period  == "M" ? "Middle (7~12 weeks)" : course_period  == "L" ? "Long (over 13 weeks)" : ""});
+
                         search.refineSearch(filters.getTerms());
                     }else{
                         search.performSearch(query, filters.getTerms());
@@ -107,12 +112,13 @@
                     checkIdx1 = sPageURL.indexOf('term'),
                     checkIdx2 = sPageURL.indexOf('mterm'),
                     checkIdx3 = sPageURL.indexOf('linguistics'),
-                    checkIdx4 = sPageURL.indexOf('language')
+                    checkIdx4 = sPageURL.indexOf('language'),
+                    checkIdx5 = sPageURL.indexOf('course_period')
                     ;
 
                     if(
-                        (type == "" || type == "classfy" || type == "middle_classfy" || type == "linguistics" || type == "language") &&
-                        (checkIdx1 > 0 || checkIdx2 > 0 || checkIdx3 > 0 || checkIdx4 > 0)
+                        (type == "" || type == "classfy" || type == "middle_classfy" || type == "linguistics" || type == "language" || type == "course_period") &&
+                        (checkIdx1 > 0 || checkIdx2 > 0 || checkIdx3 > 0 || checkIdx4 > 0 || checkIdx5 > 0)
                     ){
                         document.location.href = '/courses';
                         return true;
