@@ -135,6 +135,10 @@ from openedx.core.lib.courses import course_image_url
                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
             </div>
+            <br>
+            <div>
+                ${short_description['short_description']}
+            </div>
         </div>
         <div class="main-cta">
         %if user.is_authenticated() and registered:

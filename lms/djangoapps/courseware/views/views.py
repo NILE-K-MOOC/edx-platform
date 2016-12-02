@@ -714,11 +714,16 @@ def course_about(request, course_id):
         today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
         course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
         d_day = (course_start_val-today_val)
-        # print d_day.days
         if d_day.days > 0:
             day = {'day' : '/ D-'+str(d_day)[0:3]}
         else:
             day = {'day' : ''}
+
+        # short description
+        short_description = { 'short_description' : course_details.short_description}
+
+
+
         #######################################################################
 
         context = {
@@ -749,7 +754,8 @@ def course_about(request, course_id):
             'cart_link': reverse('shoppingcart.views.show_cart'),
             'pre_requisite_courses': pre_requisite_courses,
             'course_image_urls': overview.image_urls,
-            'day' : day
+            'day' : day,
+            'short_description' : short_description
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
