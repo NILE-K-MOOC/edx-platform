@@ -651,7 +651,8 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 .univ-list li > a img {max-height:60px;width:auto;}
 
 .univ-list-infotop {text-align:center;margin-bottom:10px;}
-.univ-list-infotop img {max-width:100%;}
+/*.univ-list-infotop img {max-width:100%;}*/
+.univ-list-infotop img {width:100%;}
 .container.univ > h2 {border:0;font-size:2.813rem;}
 .univ-info {line-height:1.8em;margin-bottom:100px;position:relative;}
 .univ-info .sns-box {position:absolute;right:0;top:-90px;}
