@@ -6,11 +6,20 @@ $(document).ready(function(){
     $.ajax({
         url : 'comm_list_json'
     }).done(function(data){
+        console.log(data);
         for(var i=0; i<data.length; i++){
-            //console.log(data[i])
+            console.log(data[i][5])
             html +="<div class='col col-12 sm-col-6 md-col-4  lg-col-3'>";
             html +="<div class='community-item'>";
-            html +="<a href=''>";
+            if(data[i][5] == 'F'){
+                html +="<a href='/comm_faq'>";
+            }else if(data[i][5] == 'K'){
+                html +="<a href='/comm_k_news_view/"+data[i][0]+"/'>";
+            }else if(data[i][5] == 'N'){
+                html +="<a href='/comm_notice_view/"+data[i][0]+"/'>";
+            }else if(data[i][5] == 'R'){
+                html +="<a href='/comm_repo_view/"+data[i][0]+"/'>";
+            }
             html +="<h3><strong class='category'>"+data[i][1]+"</strong>";
             html +="<p>"+data[i][2]+"</p></h3>";
             html +="<p class='summary'>"+data[i][3]+"</p>";
