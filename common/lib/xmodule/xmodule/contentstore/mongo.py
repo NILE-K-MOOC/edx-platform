@@ -85,6 +85,18 @@ class MongoContentStore(ContentStore):
         content_id, content_son = self.asset_db_key(content.location)
         self.delete(content_id)
 
+        try:
+            uuid = unicode(content['uuid'])
+        except:
+            # pass
+            uuid = unicode(content.uuid)
+
+        try:
+            playtime = unicode(content['playtime'])
+        except:
+            # pass
+            playtime = unicode(content.playtime)
+
         with self.fs.new_file(_id=content_id,
                               filename=unicode(content.location),
                               displayname=content.name,
@@ -92,23 +104,22 @@ class MongoContentStore(ContentStore):
                               cdn_url=content.cdn_url,
                               content_type=content.content_type,
                               thumbnail_location=None,
-                              uuid=unicode(content['uuid']), state=unicode(content.state), playtime=unicode(content['playtime']),
+                              uuid=uuid, state=unicode(content.state), playtime=playtime,
                               thumbnail_url=unicode(content.thumbnail_url),
                               locked=getattr(content, 'locked', False)
                               ) as fp:
-            print  content['uuid']
-            print content.uuid
-            print("mongodb insert ok: %s, %s" % (unicode(content.uuid), unicode(content.playtime)))
+
+            print("mongodb insert ok: %s, %s, %s" % (uuid, playtime, content.location))
 
         return content
 
-    def update_cdn_state(self, content_id, state):
-        # content_id, content_son = self.asset_db_key(content.location)
-        result = self.fs_files.update({'_id': content_id}, {"state": state})
-        if not result.get('updatedExisting', True):
-            raise NotFoundError(content_id)
-
-        print ("mongodb update ok")
+    # def update_cdn_state(self, location, state):
+    #     content_id, content_son = self.asset_db_key(location)
+    #     result = self.fs.({'_id': content_id}, {"state": state})
+    #     if not result.get('updatedExisting', True):
+    #         raise NotFoundError(content_id)
+    #
+    #     print ("mongodb update ok")
 
     def save(self, content):
         content_id, content_son = self.asset_db_key(content.location)

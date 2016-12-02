@@ -190,13 +190,56 @@ def _assets_json(request, course_key):
                 thumbnail_url = asset['thumbnail_url']
             else:
                 thumbnail_url = ''
+
+            '''
+            상태변환 처리
+            '''
+            if state not in ('E', 'F'):
+
+                cdn_parse = urlparse.urlparse(asset['cdn_url'])
+
+                # print content
+                # print uuid
+                mme_url = "http://%s" % cdn_parse.netloc
+
+                try:
+                    trans_state = status_check(mme_url, asset['uuid'], asset['playtime'])
+                except:
+                    trans_state = 'I'
+
+                if trans_state == 'E' or trans_state == 'F':
+                    ''' 데이터 갱신함.'''
+                    # print '++++++++++++'
+                    # print asset
+
+                    content = request.REQUEST
+
+                    content.name = asset['displayname']
+                    content.cdn_url = asset['cdn_url']
+                    content.content_type = asset['contentType']
+                    content.thumbnail_location = asset['thumbnail_url']
+                    content.thumbnail_url = asset['thumbnail_url']
+                    content.location = StaticContent.compute_cdn_location(course_key, asset['displayname'])
+                    # content.location = asset['filename']
+                    content.uuid = asset['uuid']
+                    content.playtime = asset['playtime']
+                    content.state = trans_state
+                    content.mme = 'mme'
+
+
+                    state_update = contentstore().save_cdn(
+                        content
+                    )
+            else:
+                trans_state = asset['state'] # 완료와 실패 이외의 상태는 등록시 설정된 값으로 구성된다.
+
             asset_json.append(_get_cdn_json(
                 asset['displayname'],
                 asset['contentType'],
                 asset['uploadDate'],
                 asset_location,
                 thumbnail_url,
-                asset['cdn_url'], asset['uuid'], asset['playtime'], asset['state']
+                asset['cdn_url'], asset['uuid'], asset['playtime'], trans_state
             ))
 
         else:
@@ -370,6 +413,9 @@ def save_cdn(request, course_key):
         content.state = ''
         content.mme = ''
 
+    # print "@@@@@@@@@@@@@@@@@@@"
+    # print content.name
+
     contentstore().save_cdn(content)
 
 
@@ -424,24 +470,24 @@ def _update_asset(request, course_key, asset_key):
             cdn_url = content['cdn_url']
             cdn_parse = urlparse.urlparse(cdn_url)
 
-            print content
-            print uuid
+            # print content
+            # print uuid
             mme_url = "http://%s" % cdn_parse.netloc
 
             if uuid is None or uuid == '':
                 uuid = cdn_url.split("/")[-1].replace(".mp4", "")
 
-            print "mme delete"
+            # print "mme delete"
 
             mme_delete(mme_url, uuid)
             # except Exception, e:
             #     print "MME Delete Exception: %s" % e
 
-            print "mme delete finish"
+            # print "mme delete finish"
 
-            print "mongo delete"
+            # print "mongo delete"
             delete_asset(course_key, asset_key)
-            print "mongo delete finish"
+            # print "mongo delete finish"
 
             return JsonResponse()
         except AssetNotFoundException:
@@ -527,16 +573,14 @@ def _get_cdn_json(display_name, content_type, date, location, thumbnail_location
     localtime = date.strftime("%Y-%m-%d")
 
     # external_url = settings.LMS_BASE + asset_url
-    j_data = json.dumps({'file_name': display_name, 'content_type': content_type, 'date': get_default_time_display(date), 'location': asset_url, 'thumbanil': thumbnail_location, 'cdn_url': cdn_url, 'uuid': uuid, 'state': state})
-
 
     return {
         'display_name': display_name,
         'content_type': content_type,
         # 'date_added': get_default_time_display(date),
         'date_added': localtime,
-        # 'url': uuid+'/'+playtime,
-        'url': j_data,
+        'url': uuid,
+        # 'url': uuid,
         'external_url': cdn_url,
         # 'portable_url': StaticContent.get_static_path_from_location(location),
         'portable_url': state,
@@ -555,12 +599,12 @@ def mme_delete(mme, uuid):
     try:
 
         content_delete_host = "%s/mov_delete?uuid=%s" % (mme, uuid)
-        print content_delete_host
+        # print content_delete_host
         header = {'User-Agent': 'MME/2.0', 'Content-Type': 'application/json'}
         req = urllib2.Request(content_delete_host)
-        res = urllib2.urlopen(req).read()
-        print 'MME CDN DELETE: %s' % content_delete_host
-        print res
+        res = urllib2.urlopen(req, timeout=2).read()
+        # print 'MME CDN DELETE: %s' % content_delete_host
+        # print res
         return True
     except urllib2.HTTPError, e:
         print "HTTPError: %s" % e
@@ -572,3 +616,17 @@ def mme_delete(mme, uuid):
         print "Exception: %s" %e
         return False
 
+def status_check(mme_url, uuid, playtime):
+
+    url = "%s/upload_mov?uuid=%s&playtime=%s" % (mme_url, uuid, playtime)
+    req = urllib2.Request(url)
+    res = urllib2.urlopen(req).read()
+
+
+    j_data = json.loads(res)
+    if j_data['data']['status'] == 'complete':
+        state = 'E'
+    elif j_data['data']['status'] == 'fail':
+        state = 'F'
+
+    return state
