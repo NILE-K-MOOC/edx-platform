@@ -136,43 +136,6 @@ $(document).ready(function(){
 	//		});
 	//	}
 	//});
-
-
-
-
-	window_W = $(window).width();
-
-
-	$(document).on('click', '.faq-list dt > a', function(){
-		$(".faq-list dt").removeClass("on");
-		$(this).parent().addClass("on");
-		return false;
-	});
-
-	$(document).on('click', '.univ-more', function(){
-		$(this).toggleClass('on');
-		if(window_W>768) {
-			$(".university-listing [data-hidden]").toggle();
-		} else {
-			$(".university-listing [data-hidden=true]").toggle();
-		}
-		return false;
-	});
-
-	$(document).on('click', '.community-container-wrap > a', function(){
-		$(".community-container-wrap > a").removeClass("on");
-		$(this).addClass("on");
-		return false;
-	});
-
-	$(document).on('click', '.kmooc-tab a', function(){
-		$(".kmooc-tab a").removeClass("on");
-		$(this).addClass("on");
-		$(".kmooc-box").hide();
-		$($(this).attr("href")).show();
-		return false;
-	});
-
 });
 
 function resize() {
@@ -196,8 +159,11 @@ function search() {
 	var head_html = "";
 	var value_list = [];
 	var head_title = $('section').find('nav').find('.on').attr('id');
-
 	var search = $('#search').val();
+
+	if(head_title == 'login_'){
+		head_title = 'login'
+	}
 
 	if (search == '' || search == null) {
 		$(".faq-tab a").removeClass("on");

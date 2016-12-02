@@ -723,4 +723,3 @@ def comm_list_json(request) :
         data = json.dumps(list(total_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
     return HttpResponse(data, 'application/json')
-
