@@ -63,9 +63,7 @@ def get_visible_courses(org=None, filter_=None):
         else:
             c.status = 'none'
 
-        print '--------------------------------------'
-        print c.status
-        print '--------------------------------------'
+        print 'c.status = ', c.id, c.status
 
     # Filtering can stop here.
     if current_site_org:

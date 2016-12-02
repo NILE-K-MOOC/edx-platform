@@ -28217,3 +28217,17 @@ msgstr "대학 특성화 사업"
 
 msgid "COREk"
 msgstr "대학 인문역량 강화사업"
+
+msgid "Course Status"
+msgstr "강좌 상태"
+
+msgid "All"
+msgstr "전체"
+
+msgid "all"
+msgstr "전체"
+
+msgid "Available courses"
+msgstr "수강신청 가능 강좌찾기"
+
+
