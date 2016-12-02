@@ -806,7 +806,7 @@
     "none": "\ubbf8\uc815",
     "Clear All": "\ubaa8\ub450 \uc9c0\uc6b0\uae30",
     "Linguistics & Literature": "\uc5b8\uc5b4\u318d\ubb38\ud559",
-    "Humanities": "\uc778\ubb38\uacfc\ud559",
+    "Human Sciences": "\uc778\ubb38\uacfc\ud559",
     "Business Administration & Economics": "\uacbd\uc601\u318d\uacbd\uc81c",
     "Law": "\ubc95\ub960",
     "Social Sciences": "\uc0ac\ud68c\uacfc\ud559",
@@ -842,7 +842,7 @@
     "Music": "\uc74c\uc545",
 
     "Humanities ": "\uc778\ubb38\uacc4\uc5f4",
-    "Social Sciences": "\uc0ac\ud68c\uacc4\uc5f4",
+    "Social Studies": "\uc0ac\ud68c\uacc4\uc5f4",
     "Education": "\uacf5\ud559\uacc4\uc5f4",
     "Engineering": "\uacf5\ud559\uacc4\uc5f4",
     "Natural Sciences": "\uc790\uc5f0\uacc4\uc5f4",
@@ -861,6 +861,7 @@
     "Middle(7~12 weeks)": "\uc911\uae30(7~12 \uc8fc)",
     "Long(over 13 weeks)": "\uc7a5\uae30(13~ \uc8fc)",
     "all": "\uc804\uccb4",
+    "Course Status": "\uac15\uc88c \uc0c1\ud0dc",
     "": "\uc5c6\uc74c"
 
 
