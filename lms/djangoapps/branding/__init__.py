@@ -46,7 +46,7 @@ def get_visible_courses(org=None, filter_=None):
         target_org = org or current_site_org
         courses = CourseOverview.get_all_courses(org=target_org, filter_=filter_)
 
-    courses = sorted(courses, key=lambda course: course.number)
+    # courses = sorted(courses, key=lambda course: course.number)
 
     # Add Course Status
     for c in courses:
@@ -63,7 +63,7 @@ def get_visible_courses(org=None, filter_=None):
         else:
             c.status = 'none'
 
-        print 'c.status = ', c.id, c.status
+        # print 'c.status = ', c.id, c.status
 
     # Filtering can stop here.
     if current_site_org:

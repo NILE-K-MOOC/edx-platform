@@ -174,15 +174,30 @@ def index(request, extra_context=None, user=AnonymousUser()):
     if extra_context is None:
         extra_context = {}
 
-    courses = get_courses(user)
+    # courses = get_courses(user)
 
-    if configuration_helpers.get_value(
-            "ENABLE_COURSE_SORTING_BY_START_DATE",
-            settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
-    ):
-        courses = sort_by_start_date(courses)
-    else:
-        courses = sort_by_announcement(courses)
+    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+
+    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
+    courses1 = get_courses(user, filter_ = f1)
+
+    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
+    courses2 = get_courses(user, filter_ = f2)
+
+    print 'get course test ------------------------------------------------------- e'
+
+    # if configuration_helpers.get_value(
+    #         "ENABLE_COURSE_SORTING_BY_START_DATE",
+    #         settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
+    # ):
+    #     courses = sort_by_start_date(courses)
+    # else:
+    #     courses = sort_by_announcement(courses)
+
+    if courses1 and len(courses1) > 4:
+        courses1 = courses1[:4]
+    courses = courses1 + courses2
+    courses = courses[:8]
 
     context = {'courses': courses}
 
