@@ -19,9 +19,12 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="outer-wrapper">
                         <div class="title">
                             <div class="heading-group">
-                                <h1>BEYOND TODAY, LIVE THE FUTURE</h1>
-                                <p>오늘이 아닌 미래를 학습합니다</p>
-                                <!-- <h1><img src="/static/images/main/main_slogan.png" alt=""></h1> -->
+                                % if LANGUAGE_CODE == 'ko-kr':
+                                <h1>오늘의 필요를 위한 학습</h1>
+                                <p>Just-in-time Learning for Today</p>
+                                % else:
+                                <h1>Just-in-time Learning for Today</h1>
+                                % endif
                             </div>
                         </div>
                     </div>
@@ -30,9 +33,12 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="outer-wrapper animation-title-appear">
                         <div class="title">
                             <div class="heading-group">
-                                <h1>내 손안에 펼쳐지는 열린 대학</h1>
-                                <p>미래를 향한 열린 교육</p>
-                                <!-- <h1><img src="/static/images/main/main_slogan2.png" alt=""></h1> -->
+                                % if LANGUAGE_CODE == 'ko-kr':
+                                <h1>누구에게나 열린 평생교육</h1>
+                                <p>A Lifelong Open Education for Everyone</p>
+                                % else:
+                                <h1>Just-in-time Learning for Today</h1>
+                                % endif
                             </div>
                         </div>
                     </div>
@@ -41,9 +47,12 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="outer-wrapper">
                         <div class="title">
                             <div class="heading-group">
+                                % if LANGUAGE_CODE == 'ko-kr':
                                 <h1>미래를 여는 최고의 강좌</h1>
-                                <p>K-MOOC Start Today! Learn Forever</p>
-                                <!-- <h1><img src="/static/images/main/main_slogan3.png" alt=""></h1> -->
+                                <p>K-MOOC, Top Quality Courses for Your Future</p>
+                                % else:
+                                <h1>K-MOOC, Top Quality Courses for Your Future</h1>
+                                % endif
                             </div>
                         </div>
                     </div>
@@ -374,7 +383,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <h2 class="main-title"></h2>
             <div class="community-container-wrap">
                 <!-- community 00 -->
-                <a href="#community00" class="on">전체</a>
+                <a href="#community00" class="all on" style="background: #646464;">전체</a>
                 <div class="grid-container grid-manual community" id="community00">
                     <div class="row" id="total">
 ##                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -519,7 +528,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("Participating Institutions")}</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Courses")}</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Course by subject")}</a></li>
-        <!--<li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("")}나에게 맞는강좌</a></li>-->
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Find course for me ")}</a></li>
         % if LANGUAGE_CODE == 'ko-kr':
         <li><a href="#" class="smooth-move" data-hashbang="main-contents06">커뮤니티</a></li>
         % endif

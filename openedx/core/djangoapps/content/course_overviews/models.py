@@ -491,17 +491,30 @@ class CourseOverview(TimeStampedModel):
         # Note: If a newly created course is not returned in this QueryList,
         # make sure the "publish" signal was emitted when the course was
         # created. For tests using CourseFactory, use emit_signals=True.
-        course_overviews = CourseOverview.objects.all()
-
         if org:
-            # In rare cases, courses belonging to the same org may be accidentally assigned
-            # an org code with a different casing (e.g., Harvardx as opposed to HarvardX).
-            # Case-insensitive exact matching allows us to deal with this kind of dirty data.
-            course_overviews = course_overviews.filter(org__iexact=org)
-            print 'course_overviews == ',course_overviews
+            if filter_:
+                print 'get_all_courses type 1 '
+                course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+            else:
+                print 'get_all_courses type 2 '
+                course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+        else:
+            if filter_:
+                print 'get_all_courses type 3 '
+                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+            else:
+                print 'get_all_courses type 4 '
+                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
 
-        if filter_:
-            course_overviews = course_overviews.filter(**filter_)
+        # if org:
+        #     # In rare cases, courses belonging to the same org may be accidentally assigned
+        #     # an org code with a different casing (e.g., Harvardx as opposed to HarvardX).
+        #     # Case-insensitive exact matching allows us to deal with this kind of dirty data.
+        #     course_overviews = course_overviews.filter(org__iexact=org)
+        #     print 'course_overviews == ',course_overviews
+        #
+        # if filter_:
+        #     course_overviews = course_overviews.filter(**filter_)
 
         return course_overviews
 
