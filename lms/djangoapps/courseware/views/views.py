@@ -61,7 +61,7 @@ from courseware.courses import (
     sort_by_start_date,
     UserNotEnrolled,
     get_courses_by_org,
-    get_courses_by_kocw,
+    get_courses_by_org2,
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache, ScoresClient
@@ -163,10 +163,10 @@ def courses(request):
 @cache_if_anonymous()
 def haewoondaex(request, org):
 
-    if 'KOCWk' == org:
-        courses_list = get_courses_by_kocw(request.user, request.META.get('HTTP_HOST'))
+    if 'KOCWk' == org or 'ACEk' == org or 'CKk' == org or 'COREk' == org:
+        courses_list = get_courses_by_org2(request.user, org)
     else:
-        courses_list = get_courses_by_org(request.user, org, request.META.get('HTTP_HOST'))
+        courses_list = get_courses_by_org(request.user, org)
 
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
