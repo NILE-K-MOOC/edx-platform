@@ -9,11 +9,12 @@ $(document).ready(function(){
             }
     }).done(function(data){
         //console.log(data);
-        $('#title').html(data[0]);
+        var title = data[3]+data[0]
+        $('#title').html(title);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('수정 날짜 : '+data[2]);
-        if(data[3] != '' && data[3] != null){
-            value_list = data[3].toString().split(',');
+        if(data[4] != '' && data[4] != null){
+            value_list = data[4].toString().split(',');
             for(var i=0; i<value_list.length; i++){
                 html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
             }

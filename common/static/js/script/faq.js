@@ -13,7 +13,7 @@ $(document).ready(function(){
         url : 'comm_faq',
         data : {
             method : 'faq_list',
-			head_title : 'regist'
+			head_title : 'regist_f'
         }
     }).done(function(data){
 		html="";
@@ -39,9 +39,6 @@ $(document).ready(function(){
 		var head_html = "";
 		var value_list = [];
 		var head_title = $(this).attr('id');
-		if(head_title == 'login_'){
-			head_title = 'login'
-		}
 		//alert(head_title);
 		$.ajax({
 			url : 'comm_faq',
@@ -161,19 +158,16 @@ function search() {
 	var head_title = $('section').find('nav').find('.on').attr('id');
 	var search = $('#search').val();
 
-	if(head_title == 'login_'){
-		head_title = 'login'
-	}
 
 	if (search == '' || search == null) {
 		$(".faq-tab a").removeClass("on");
-		$('#regist').addClass("on");
+		$('#regist_f').addClass("on");
 
 		$.ajax({
 			url: 'comm_faq',
 			data: {
 				method: 'faq_list',
-				head_title: 'regist'
+				head_title: 'regist_f'
 				//head_title : head_title
 			}
 		}).done(function (data) {
