@@ -197,6 +197,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
     if courses1 and len(courses1) > 4:
         courses1 = courses1[:4]
     courses = courses1 + courses2
+    courses = [c for c in courses if not c.has_ended()]
+    log.info(u'len(courses) ::: %s', len(courses))
+
     courses = courses[:8]
 
     context = {'courses': courses}

@@ -136,7 +136,7 @@ msgstr "최종 학력(Highest level of education completed)"
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Tell us why you're interested in {platform_name}"
 msgstr ""
-"{platform_name}에 관심을 갖게 된 이유(Tell us why you're interested in "
+"가입목적(Tell us why you're interested in "
 "{platform_name})"
 
 #: lms/djangoapps/instructor_task/tasks_helper.py lms/templates/register.html
@@ -25605,10 +25605,10 @@ msgstr "서버 오류. 잠시 후에 다시 시도하세요."
 
 #: lms/djangoapps/instructor/views/api.py
 msgid ""
-"The enrolled learner profile report is being created. To view the status of "
+"The enrolled learner profile report is being created. To view the status of"
 "the report, see Pending Instructor Tasks below."
 msgstr ""
-"수강등록한 학습자의 프로필 보고서가 생성중입니다. 보고서 생성 상태를 확인하기 위해 아래의 Pending Instructor Tasks "
+"수강등록한 학습자의 프로필 보고서가 생성중입니다. 보고서 생성 상태를 확인하기 위해 아래의 Pending Instructor Tasks"
 "를 살펴 보세요."
 
 #: lms/djangoapps/instructor/views/api.py
