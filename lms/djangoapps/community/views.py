@@ -92,16 +92,33 @@ def comm_notice(request) :
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
-                select
-                    (select count(board_id)-(%s-1)*10 from tb_board where section ='N') no,
-                    subject,
-                    substring(reg_date,1,10) reg_datee,
-                    (select ceil(count(board_id)/10) from tb_board where section='N') as total_page,
-                    board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag,
-                    head_title
-                from tb_board
-                where section='N' and use_yn = 'Y'
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'N')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           (SELECT ceil(count(board_id) / 10)
+                              FROM tb_board
+                             WHERE section = 'N')
+                              AS total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'noti_n' THEN '공지'
+                              WHEN head_title = 'advert_n' THEN '공고'
+                              WHEN head_title = 'guide_n' THEN '안내'
+                              WHEN head_title = 'event_n' THEN '이벤트'
+                              WHEN head_title = 'etc_n' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'N' AND use_yn = 'Y'
             """ % (page)
             if 'cur_page' in request.GET :
                 cur_page = request.GET['cur_page']
@@ -142,16 +159,30 @@ def comm_notice(request) :
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
-                select
-                    (select count(board_id)-(%s-1)*10 from tb_board where section ='N') no,
-                    subject,
-                    substring(reg_date,1,10) reg_datee,
-                    %s total_page,
-                    board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag,
-                    head_title
-                from tb_board
-                where use_yn = 'Y'
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'N')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           %s                          total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'noti_n' THEN '공지'
+                              WHEN head_title = 'advert_n' THEN '공고'
+                              WHEN head_title = 'guide_n' THEN '안내'
+                              WHEN head_title = 'event_n' THEN '이벤트'
+                              WHEN head_title = 'etc_n' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
@@ -163,7 +194,7 @@ def comm_notice(request) :
                     query += "and subject like '%"+search+"%' and section='N' "
 
             query += "order by reg_date desc "
-            print 'query == ', query
+            # print 'query == ', query
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -356,15 +387,32 @@ def comm_repository(request):
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
-                select
-                    (select count(board_id)-(%s-1)*10 from tb_board where section ='R') no,
-                    subject,
-                    substring(reg_date,1,10) reg_datee,
-                    (select ceil(count(board_id)/10) from tb_board where section='R') as total_page,
-                    board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
-                from tb_board
-                where section='R' and use_yn = 'Y'
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'R')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           (SELECT ceil(count(board_id) / 10)
+                              FROM tb_board
+                             WHERE section = 'R')
+                              AS total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'publi_r' THEN '홍보'
+                              WHEN head_title = 'course_r' THEN '강좌안내'
+                              WHEN head_title = 'event_r' THEN '행사'
+                              WHEN head_title = 'etc_r' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'R' AND use_yn = 'Y'
             """ % (page)
             if 'cur_page' in request.GET :
                 cur_page = request.GET['cur_page']
@@ -393,6 +441,10 @@ def comm_repository(request):
                 value_list.append(int(data[3]))
                 value_list.append(data[4])
                 value_list.append(data[5])
+                if data[6] == None or data[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+data[6]+'] ')
                 data_list.append(value_list)
             adata = json.dumps(list(data_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -402,15 +454,29 @@ def comm_repository(request):
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
-                select
-                    (select count(board_id)-(%s-1)*10 from tb_board where section ='R') no,
-                    subject,
-                    substring(reg_date,1,10) reg_datee,
-                    %s total_page,
-                    board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
-                from tb_board
-                where use_yn = 'Y'
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'R')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           %s                          total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'publi_r' THEN '홍보'
+                              WHEN head_title = 'course_r' THEN '강좌안내'
+                              WHEN head_title = 'event_r' THEN '행사'
+                              WHEN head_title = 'etc_r' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
@@ -434,6 +500,10 @@ def comm_repository(request):
                 value_list.append(int(data[3]))
                 value_list.append(data[4])
                 value_list.append(data[5])
+                if data[6] == None or data[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+data[6]+'] ')
                 data_list.append(value_list)
             adata = json.dumps(list(data_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -452,7 +522,20 @@ def comm_repo_view(request, board_id):
         data={}
         if request.GET['method'] == 'view' :
             cur = con.cursor()
-            query = "select subject, content, SUBSTRING(reg_date,1,10) from tb_board where section = 'R' and board_id ="+board_id
+            query = """
+                    SELECT subject,
+                           content,
+                           SUBSTRING(reg_date, 1, 10),
+                           CASE
+                              WHEN head_title = 'publi_r' THEN '홍보'
+                              WHEN head_title = 'course_r' THEN '강좌안내'
+                              WHEN head_title = 'event_r' THEN '행사'
+                              WHEN head_title = 'etc_r' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'R' AND board_id = """+board_id
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -467,6 +550,11 @@ def comm_repo_view(request, board_id):
             value_list.append(row[0][0])
             value_list.append(row[0][1])
             value_list.append(row[0][2])
+            if row[0][3] == None or row[0][3] == '':
+                value_list.append('')
+            else:
+                value_list.append('['+row[0][3]+'] ')
+
             if files:
                 value_list.append(files[0])
 
@@ -499,15 +587,34 @@ def comm_k_news(request) :
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
-                select
-                    (select count(board_id)-(%s-1)*10 from tb_board where section ='K') no,
-                    subject,
-                    substring(reg_date,1,10) reg_datee,
-                    (select ceil(count(board_id)/10) from tb_board where section='K') as total_page,
-                    board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
-                from tb_board
-                where section='K' and use_yn = 'Y'
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'K')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           (SELECT ceil(count(board_id) / 10)
+                              FROM tb_board
+                             WHERE section = 'K')
+                              AS total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'k_news_k' THEN 'K-MOOC소식'
+                              WHEN head_title = 'report_k' THEN '보도자료'
+                              WHEN head_title = 'u_news_k' THEN '대학뉴스'
+                              WHEN head_title = 'support_k' THEN '서포터즈이야기'
+                              WHEN head_title = 'n_new_k' THEN 'NILE소식'
+                              WHEN head_title = 'etc_k' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'K' AND use_yn = 'Y'
             """ % (page)
             if 'cur_page' in request.GET :
                 cur_page = request.GET['cur_page']
@@ -536,6 +643,11 @@ def comm_k_news(request) :
                 value_list.append(int(k_news[3]))
                 value_list.append(k_news[4])
                 value_list.append(k_news[5])
+                if k_news[6] == None or k_news[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+k_news[6]+'] ')
+
                 k_news_list.append(value_list)
             data = json.dumps(list(k_news_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -544,15 +656,31 @@ def comm_k_news(request) :
             if 'cur_page' in request.GET :
                 page = request.GET['cur_page']
             query = """
-                select
-                    (select count(board_id)-(%s-1)*10 from tb_board where section ='K') no,
-                    subject,
-                    substring(reg_date,1,10) reg_datee,
-                    %s total_page,
-                    board_id,
-                    case when reg_date between now() - interval 7 day and now() then '1' else '0' end flag
-                from tb_board
-                where use_yn = 'Y'
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'K')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           %s                          total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'k_news_k' THEN 'K-MOOC소식'
+                              WHEN head_title = 'report_k' THEN '보도자료'
+                              WHEN head_title = 'u_news_k' THEN '대학뉴스'
+                              WHEN head_title = 'support_k' THEN '서포터즈이야기'
+                              WHEN head_title = 'n_new_k' THEN 'NILE소식'
+                              WHEN head_title = 'etc_k' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET :
                 title = request.GET['search_con']
@@ -577,6 +705,10 @@ def comm_k_news(request) :
                 value_list.append(int(k_news[3]))
                 value_list.append(k_news[4])
                 value_list.append(k_news[5])
+                if k_news[6] == None or k_news[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('['+k_news[6]+'] ')
                 k_news_list.append(value_list)
             data = json.dumps(list(k_news_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
@@ -594,7 +726,22 @@ def comm_k_news_view(request, board_id):
         data={}
         if request.GET['method'] == 'view' :
             cur = con.cursor()
-            query = "select subject, content, SUBSTRING(reg_date,1,10) from tb_board where section = 'K' and board_id ="+board_id
+            query = """
+                    SELECT subject,
+                           content,
+                           SUBSTRING(reg_date, 1, 10),
+                           CASE
+                              WHEN head_title = 'k_news_k' THEN 'K-MOOC소식'
+                              WHEN head_title = 'report_k' THEN '보도자료'
+                              WHEN head_title = 'u_news_k' THEN '대학뉴스'
+                              WHEN head_title = 'support_k' THEN '서포터즈이야기'
+                              WHEN head_title = 'n_new_k' THEN 'NILE소식'
+                              WHEN head_title = 'etc_k' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'K' AND board_id = """+board_id
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
@@ -609,6 +756,11 @@ def comm_k_news_view(request, board_id):
             value_list.append(row[0][0])
             value_list.append(row[0][1])
             value_list.append(row[0][2])
+            if row[0][3] == None or row[0][3] == '':
+                value_list.append('')
+            else:
+                value_list.append('['+row[0][3]+'] ')
+
             if files:
                 value_list.append(files[0])
 

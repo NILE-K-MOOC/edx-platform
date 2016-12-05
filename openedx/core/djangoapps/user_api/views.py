@@ -793,7 +793,8 @@ class RegistrationView(APIView):
             label=label,
             field_type="checkbox",
             default=False,
-            required=required,
+            # required=required,
+            required=False,
             error_messages={
                 "required": error_msg
             }

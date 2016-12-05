@@ -2308,6 +2308,19 @@ def list_report_downloads(_request, course_id):
     course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
     report_store = ReportStore.from_config(config_name='GRADES_DOWNLOAD')
 
+    for name, url in report_store.links_for(course_id):
+        log.info(u'report replace url is [ %s ]', settings.MEDIA_ROOT + url.replace('/media', ''))
+        with open(settings.MEDIA_ROOT + url.replace('/media', ''), 'r') as r:
+            s = r.read()
+            if not s.startswith(u'\ufeff'):
+                log.info(u'::::: re encoding :::::')
+                with open(settings.MEDIA_ROOT + url.replace('/media', ''), 'w') as f:
+                    u = s.decode('utf-8')
+                    s = u.encode('utf-8-sig')
+                    f.write(s)
+            else:
+                log.info(u'::::: not encoding :::::')
+
     response_payload = {
         'downloads': [
             dict(name=name, url=url, link=HTML('<a href="{}">{}</a>').format(HTML(url), Text(name)))

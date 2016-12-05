@@ -673,6 +673,8 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 .contact-contents .contact-block:nth-child(2) dt {background:url(/static/images/css/bg_contact02.jpg) center center no-repeat;background-size:cover;}
 .contact-contents .contact-txt {text-align:center;line-height:1.8em;}
 
+
+.gray{background: #eeeeee;}
 .rule-box {line-height:1.7em;font-size:0.875rem;}
 .rule-box .table-box {border-top:solid 2px #21dafc;}
 .rule-box table {width:100%;}
@@ -691,6 +693,9 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 .rule-box ul.dash {margin:5px 0;list-style:none;}
 .rule-box ul.dash li {padding-left:10px;position:relative;}
 .rule-box ul.dash li:before {content:"-";position:absolute;left:0;top:0;}
+.rule-box ul.none {margin:5px 0;list-style:none;}
+.rule-box ul.none li {padding-left:10px;position:relative;}
+.rule-box ul.none li:before {content:"";position:absolute;left:0;top:0;}
 .rule-box .license img {float:left;margin-top:7px;}
 .rule-box .license h5, .rule-box .license p {padding-left:100px;}
 .rule-box ol + .table-box {margin-top:1em;}
