@@ -93,8 +93,15 @@ from openedx.core.djangolib.markup import HTML, Text
 
                 <li class="field select required" id="field-classfy">
                     <label for="new-course-">${_("Classification")}</label>
-                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy" required>
+                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy()">
                         <option value="">강좌 대분류 선택</option>
+                        <option value="hum">인문계열</option>
+                        <option value="social">사회계열</option>
+                        <option value="edu">교육계열</option>
+                        <option value="eng">공학계열</option>
+                        <option value="nat">자연계열</option>
+                        <option value="med">의약계열</option>
+                        <option value="art">예체능계</option>
                     </select>
                     <span class="tip" id="tip-new-course-classfy">${_("Selected The Course Category")}</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
@@ -102,7 +109,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
                   <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Middle class")}</label>
-                    <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" required>
+                    <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy">
                         <option value="">강좌 중분류 선택</option>
                     </select>
                     <span class="tip" id="tip-new-course-category">${_("Selected The Course Category")}</span>
@@ -111,7 +118,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
                   <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Period of Studing")}</label>
-                    <select class="new-course-period" id="new-course-period" name="new-course-period" required>
+                    <select class="new-course-period" id="new-course-period" name="new-course-period">
                         <option value="">강의 기간 선택</option>
                         <option value="S">단기(1~6 weeks)</option>
                         <option value="M">중기(7~12 weeks)</option>
@@ -123,7 +130,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
                 <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Linguistics")}</label>
-                    <select class="new-course-linguistics" id="new-course-linguistics" name="new-course-linguistics" required>
+                    <select class="new-course-linguistics" id="new-course-linguistics" name="new-course-linguistics">
                         <option value="">한국학여부 선택</option>
                         <option value="Y">한국학</option>
                         <option value="N">그외</option>
@@ -172,113 +179,121 @@ from openedx.core.djangolib.markup import HTML, Text
         </form>
       </div>
       <script type="text/javascript">
-          require(["https://code.jquery.com/jquery-1.11.1.min.js"], function(){
-              var jQuery = $;
-              var get_bcate = function(data){
-              var data = bcate;
-              $.each(data, function(key, row){
-                    //console.log(row.category.gettext, row.category.code, row);
-                    $("#new-course-classfy").append( new Option(row.category.gettext, row.category.code));
+          var bcate = [
+                {'category':
+                        {'code': 'hum', 'gettext': '인문계열'}
 
-                  });
-              }
+                },
+                {'category':
+                        {'code': 'social', 'gettext': '사회계열'}
+                },
+                {'category':
+                        {'code': 'edu', 'gettext': '교육계열'}
+                },
+                {'category':
+                        {'code': 'eng', 'gettext': '공학계열'}
+                },
+                {'category':
+                        {'code': 'nat', 'gettext': '자연계열'}
+                },
+                {'category':
+                        {'code': 'med', 'gettext': '의약계열'}
+                },
+                {'category':
+                        {'code': 'art', 'gettext': '예체능계'}
+                },
+        ];
 
-                var bcate = [
-                    {'category':
-                            {'code': 'hum', 'gettext': '인문계열'}
+        var mcate = {
+                'hum':[
+                                {'gettext': '언어ㆍ문학', 'code': 'lang'},
+                                {'gettext': '인문과학', 'code': 'husc'}
+                        ],
+                'social':[
+                                {'gettext': '경영ㆍ경제', 'code': 'busn'},
+                                {'gettext': '법률', 'code': 'law'},
+                                {'gettext': '사회과학', 'code': 'scsc'}
+                        ],
+                'edu':[
+                                {'gettext': '교육일반', 'code': 'enor'},
+                                {'gettext': '유아교육', 'code': 'ekid'},
+                                {'gettext': '특수교육', 'code': 'espc'},
+                                {'gettext': '초등교육', 'code': 'elmt'},
+                                {'gettext': '중등교육', 'code': 'emdd'}
+                        ],
+                'eng':[
+                                {'gettext': '건축', 'code': 'cons'},
+                                {'gettext': '토목ㆍ도시', 'code': 'civi'},
+                                {'gettext': '교통ㆍ운송', 'code': 'traf'},
+                                {'gettext': '기계ㆍ금속', 'code': 'mach'},
+                                {'gettext': '전기ㆍ전자', 'code': 'elec'},
+                                {'gettext': '정밀ㆍ에너지', 'code': 'deta'},
+                                {'gettext': '소재ㆍ재료', 'code': 'matr'},
+                                {'gettext': '컴퓨터ㆍ통신', 'code': 'comp'},
+                                {'gettext': '산업', 'code': 'indu'},
+                                {'gettext': '화공', 'code': 'cami'},
+                                {'gettext': '기타', 'code': 'other'}
+                        ],
+                'nat':[
+                                {'gettext': '농림ㆍ수산', 'code': 'agri'},
+                                {'gettext': '생물ㆍ화학ㆍ환경', 'code': 'bio'},
+                                {'gettext': '생활과학', 'code': 'life'},
+                                {'gettext': '수학ㆍ물리ㆍ천문ㆍ지리', 'code': 'math'}
+                        ],
+                'med':[
+                                {'gettext': '의료', 'code': 'metr'},
+                                {'gettext': '간호', 'code': 'nurs'},
+                                {'gettext': '약학', 'code': 'phar'},
+                                {'gettext': '치료ㆍ보건', 'code': 'heal'}
+                        ],
+                'art':[
+                                {'gettext': '디자인', 'code': 'dsgn'},
+                                {'gettext': '응용예술','code': 'appl'},
+                                {'gettext': '무용ㆍ체육','code': 'danc'},
+                                {'gettext': '미술ㆍ조형', 'code': 'form'},
+                                {'gettext': '연극ㆍ영화', 'code': 'play'},
+                                {'gettext': '음악', 'code': 'musc'},
+                        ]
+        };
 
-                    },
-                    {'category':
-                            {'code': 'social', 'gettext': '사회계열'}
-                    },
-                    {'category':
-                            {'code': 'edu', 'gettext': '교육계열'}
-                    },
-                    {'category':
-                            {'code': 'eng', 'gettext': '공학계열'}
-                    },
-                    {'category':
-                            {'code': 'nat', 'gettext': '자연계열'}
-                    },
-                    {'category':
-                            {'code': 'med', 'gettext': '의약계열'}
-                    },
-                    {'category':
-                            {'code': 'art', 'gettext': '예체능계'}
-                    },
-                ];
+        var middle_classfy = function(){
 
-                var mcate = {
-                        'hum':[
-                                        {'gettext': '언어ㆍ문학', 'code': 'lang'},
-                                        {'gettext': '인문과학', 'code': 'husc'}
-                                ],
-                        'social':[
-                                        {'gettext': '경영ㆍ경제', 'code': 'busn'},
-                                        {'gettext': '법률', 'code': 'law'},
-                                        {'gettext': '사회과학', 'code': 'scsc'}
-                                ],
-                        'edu':[
-                                        {'gettext': '교육일반', 'code': 'enor'},
-                                        {'gettext': '유아교육', 'code': 'ekid'},
-                                        {'gettext': '특수교육', 'code': 'espc'},
-                                        {'gettext': '초등교육', 'code': 'elmt'},
-                                        {'gettext': '중등교육', 'code': 'emdd'}
-                                ],
-                        'eng':[
-                                        {'gettext': '건축', 'code': 'cons'},
-                                        {'gettext': '토목ㆍ도시', 'code': 'civi'},
-                                        {'gettext': '교통ㆍ운송', 'code': 'traf'},
-                                        {'gettext': '기계ㆍ금속', 'code': 'mach'},
-                                        {'gettext': '전기ㆍ전자', 'code': 'elec'},
-                                        {'gettext': '정밀ㆍ에너지', 'code': 'deta'},
-                                        {'gettext': '소재ㆍ재료', 'code': 'matr'},
-                                        {'gettext': '컴퓨터ㆍ통신', 'code': 'comp'},
-                                        {'gettext': '산업', 'code': 'indu'},
-                                        {'gettext': '화공', 'code': 'cami'},
-                                        {'gettext': '기타', 'code': 'other'}
-                                ],
-                        'nat':[
-                                        {'gettext': '농림ㆍ수산', 'code': 'agri'},
-                                        {'gettext': '생물ㆍ화학ㆍ환경', 'code': 'bio'},
-                                        {'gettext': '생활과학', 'code': 'life'},
-                                        {'gettext': '수학ㆍ물리ㆍ천문ㆍ지리', 'code': 'math'}
-                                ],
-                        'med':[
-                                        {'gettext': '의료', 'code': 'metr'},
-                                        {'gettext': '간호', 'code': 'nurs'},
-                                        {'gettext': '약학', 'code': 'phar'},
-                                        {'gettext': '치료ㆍ보건', 'code': 'heal'}
-                                ],
-                        'art':[
-                                        {'gettext': '디자인', 'code': 'dsgn'},
-                                        {'gettext': '응용예술','code': 'appl'},
-                                        {'gettext': '무용ㆍ체육','code': 'danc'},
-                                        {'gettext': '미술ㆍ조형', 'code': 'form'},
-                                        {'gettext': '연극ㆍ영화', 'code': 'play'},
-                                        {'gettext': '음악', 'code': 'musc'},
-                                ]
-                };
+            var bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
+
+            var key = 0;
+
+            var middle_classfy_id = document.getElementById("new-course-middle-classfy");
+            removeOptions(middle_classfy_id);
+
+            input_middle_classfy(middle_classfy_id, bcate_val)
 
 
-                $(function(){
-                        //대분류 선택
-                        $(".button.new-button.new-course-button").click( function(){
-                                get_bcate();
-                        });
+        }
 
-                        //중분류 처리
-                        $("#new-course-classfy").change(function(){
-                                var category = $(this).val();
-                                var $mcate = $("#new-course-middle-classfy");
-                                $mcate.find('option').remove().end().append(new Option("강좌 중분류 선택", ""));
-                                $.each(mcate[category], function(key, row){
-                                        $mcate.append(new Option(row.gettext, row.code));
-                                });
-                        })
-                });
-              return jQuery.noConflict(true);
-          })
+        var input_middle_classfy = function(selectbox, m_info){
+
+            var option = document.createElement("option");
+            option.text = "강좌 중분류 선택";
+            option.value = null;
+
+            selectbox.appendChild(option);
+
+            for(key in mcate[m_info]){
+                var row = mcate[m_info][key];
+                var option = document.createElement("option");
+                option.text = row.gettext;
+                option.value = row.gettext;
+                selectbox.appendChild(option);
+
+            }
+        }
+
+        var removeOptions = function(selectbox){
+            var i;
+            for(i=selectbox.options.length-1;i>=0;i--){
+                selectbox.remove(i);
+            }
+        }
       </script>
       % endif
 
