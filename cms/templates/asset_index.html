@@ -29,7 +29,7 @@
     is-signedin course uploads view-uploads
 % else:
 ##     drop menu에서 설정된 클래스 선
-    is-signedin course uploads-cdn view-uploads-cdn
+    is-signedin course uploads view-uploads
 % endif
 </%def>
 <%block name="bodyclass">${upload_body_class()}</%block>
@@ -70,8 +70,8 @@
 </%block>
 
 <%block name="content">
-##     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/2.1.2/plupload.full.min.js"></script>
-    <script type="text/javascript" src="http://mme2.npcomms.kr/assets/js/plupload.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plupload/2.1.2/plupload.full.min.js"></script>
+##     <script type="text/javascript" src="http://mme2.npcomms.kr/assets/js/plupload.full.min.js"></script>
 
 <div class="wrapper-mast wrapper">
     <header class="mast has-actions has-subtitle">
@@ -185,7 +185,18 @@
 
 
 <script type="text/javascript">
-    var mme_host = 'http://mme2.npcomms.kr';
+
+
+    var mme_hostname = window.location.hostname.replace(/^[^.]*/, 'mme');
+
+##     var mme_host = 'http://mme2.npcomms.kr';
+    if(mme_hostname == 'mme.npcomms.kr'){
+        var mme_host = 'http://mme2.npcomms.kr';
+    }else{
+        var mme_host = 'http://'+mme_hostname;
+    }
+
+##     console.log(mme_host);
 
 
     var file_name = "";
@@ -283,7 +294,7 @@
 //                        $(".embeddable").after($(".input-group"));
 //                        $(".embeddable-xml-input").val(cdn_url);
 
-                        console.log('upload', uuid, playtime, result);
+                        //console.log('upload', uuid, playtime, result);
                         file_name = file.name;
                         file_type = file.type;
                         cdn_url = result.data.insert_data.cdn_url;
@@ -382,30 +393,37 @@ var trCdnFile = ""
     }
 
     var ajaxStateEdx = function(file_name, cdn_url, file_type, thumbnail_url, uuid, state, playtime){
-        $.ajaxSetup({
-            type: 'POST',
-            headers: {'X-CSRFToken': '${ csrf_token }', "X-HTTP-Method-Override": "PUT"},
-            contentType : 'application/json',
-            processData : false
-        });
+        return;
+        try{
+            $.ajaxSetup({
+                type: 'POST',
+                headers: {'X-CSRFToken': '${ csrf_token }', "X-HTTP-Method-Override": "PUT"},
+                contentType : 'application/json',
+                processData : false
+            });
 
-        var get_params = '?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime;
+            var get_params = '?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime;
 
-        //todo assets와 mongo에 update 만들어야 함
-        $.ajax({
-            url: '${asset_callback_url}'+get_params,
-            //url: '${asset_callback_url}',
-            dataType: 'json',
-            success: function (res) {
-                if (res.result == 'success') {
-                    console.info('state update', uuid, state);
-                    //ajaxGetEdX();
+            //todo assets와 mongo에 update 만들어야 함
+            $.ajax({
+                url: '${asset_callback_url}'+get_params,
+                //url: '${asset_callback_url}',
+                dataType: 'json',
+                success: function (res) {
+                    if (res.result == 'success') {
+                        console.info('state update', uuid, state);
+                        //ajaxGetEdX();
+                    }
+                },
+                error: function () {
+                    console.log('ajaxStateEdX error', data);
                 }
-            },
-            error: function () {
-                console.log('ajaxStateEdX error', data);
-            }
-        });
+            });
+            return;
+        }catch (e){
+            console.log('Exception');
+        }
+
     }
 
     var ajaxDeleteEdX = function(id) {
@@ -451,7 +469,7 @@ var trCdnFile = ""
                 var arrAssets = data.assets;
                 var asset = null;
                 $.each(arrAssets, function( key, value ) {
-                    console.info(key, value);
+                    //console.info(key, value);
 
                     asset = value;
                     var arrUrl = asset.external_url.split('/');
@@ -487,11 +505,15 @@ var trCdnFile = ""
                                encMsg = '동영상 인코딩 진행중 '+res.data.data.percent+'%';
                            }else{
                                sleep(1000);
-                               var transcoding_status = setInterval(function(){
+
+                               if(uuid !='' || uuid != undefined){
+                                   var transcoding_status = setInterval(function(){
+
+
 
                                     $.ajax({
                                         url: mme_host + '/upload_mov',
-                                        cache: false, dataType: "json", async: true,
+                                        cache: false, dataType: "json", async: false,
                                         data: {'uuid': uuid, 'playtime': playtime},
                                         success: function(res){
                                             var message = res.message;
@@ -505,8 +527,9 @@ var trCdnFile = ""
                                                 if(res.data.status == 'fail'){
                                                     state_msg = "인코딩 실패";
                                                     $(".trans-status-"+uuid).val(state_msg);
-                                                    ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'F', playtime);
+
                                                     clearInterval(transcoding_status);
+                                                    ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'F', playtime);
                                                     return;
                                                 }else if(res.data.status == 'ok'){
                                                     var status = res.data.data.status;
@@ -517,27 +540,36 @@ var trCdnFile = ""
                                                 }else if(res.data.status == 'complete'){
                                                     state_msg = '동영상 인코딩 완료';
                                                     $(".trans-status-"+uuid).val(state_msg);
-                                                    ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'E', playtime);
+
                                                     clearInterval(transcoding_status);
+                                                    ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'E', playtime);
                                                     return;
                                                 }
                                             }else if(message == 'NOTFOUND'){
                                                 state_msg = "인코딩 대기[대기번호: "+uuid+"]";
                                                 $(".trans-status-"+uuid).val(state_msg);
-                                                ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'Q', playtime);
+
                                                 clearInterval(transcoding_status);
+                                                ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'Q', playtime);
                                                 return;
                                             }else if(message == 'SUCCESS'){
                                                 state_msg = '동영상 인코딩 완료';
                                                 $(".trans-status-"+uuid).val(state_msg);
-                                                ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'E', playtime);
+
                                                 clearInterval(transcoding_status);
+                                                ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, 'E', playtime);
                                                 return;
                                             }
+                                        }
+                                        ,error: function(){
+                                            clearInterval($(this));
+                                            return;
                                         }
                                     });
 
                                 }, 2000);
+                               }
+
 
                            }
                             $('#asset-table-body').append(trCdnFile
@@ -590,83 +622,75 @@ var trCdnFile = ""
 
 
 
-    var trans_state = function (object) {
+    var trans_state = function (uuid) {
 
         try{
-            var file_name = $(object)[0].model.attributes.display_name;
-            var content_type = $(object)[0].model.attributes.content_type;
-            var thumbnail = $(object)[0].model.attributes.thumbnail;
-            var date_add = $(object)[0].model.attributes.date_added
-            var url = $(object)[0].model.attributes.url;
-            var id = $(object)[0].model.attributes.id;
-            var playtime= $(object)[0].model.attributes.playtime;
-            var state = $(object)[0].model.attributes.state;
-            var uuid = $(object)[0].model.attributes.uuid;
-            var cdn_url = $(object)[0].model.attributes.external_url;
 
-            var cnt = 0;
-            var transcoding_status = setInterval(function(){
 
-            var state_msg = "";
-            cnt++;
-            //console.info('status', cnt);
-            $.ajax({
-                url: mme_host + '/upload_mov',
-                cache: false, dataType: "json", async: true,
-                data: {'uuid': uuid, 'playtime': playtime},
-                success: function(res){
-                    var message = res.message;
+            if(uuid != '' || uuid == undefined){
+                var transcoding_status = setInterval(function(){
+
                     var state_msg = "";
-                    if(message == 'FAILURE'){
-                        state_msg = "인코딩 실패";
-                        $("#"+uuid).val(state_msg);
-                        clearInterval(transcoding_status);
-                        return;
-                    }else if(message == 'PENDING'){
-                        if(res.data.status == 'fail'){
-                            state_msg = "인코딩 실패";
-                            $("#"+uuid).val(state_msg);
-                            ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'F', playtime);
-                            clearInterval(transcoding_status);
-                            return;
-                        }else if(res.data.status == 'ok'){
-                            var status = res.data.data.status;
-                            var percent = res.data.data.percent;
-                            state_msg = '동영상 인코딩 진행중 '+percent+'%';
-                            $("#"+uuid).val(state_msg);
 
-                        }else if(res.data.status == 'complete'){
-                            state_msg = '동영상 인코딩 완료';
-                            $("#"+uuid).val(state_msg);
-                            ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'E', playtime);
+
+                    //console.info('status', cnt);
+                    $.ajax({
+                        url: mme_host + '/upload_mov',
+                        cache: false, dataType: "json", async: true,
+                        data: {'uuid': uuid, 'playtime': ""},
+                        success: function(res){
+                            var message = res.message;
+                            var state_msg = "";
+                            if(message == 'FAILURE'){
+                                state_msg = "인코딩 실패";
+                                $("#"+uuid).val(state_msg);
+                                clearInterval(transcoding_status);
+                                return;
+                            }else if(message == 'PENDING'){
+                                if(res.data.status == 'fail'){
+                                    state_msg = "인코딩 실패";
+                                    $("#"+uuid).val(state_msg);
+                                    clearInterval(transcoding_status);
+                                    return;
+                                }else if(res.data.status == 'ok'){
+                                    var status = res.data.data.status;
+                                    var percent = res.data.data.percent;
+                                    state_msg = '동영상 인코딩 진행중 '+percent+'%';
+                                    $("#"+uuid).val(state_msg);
+
+                                }else if(res.data.status == 'complete'){
+                                    state_msg = '동영상 인코딩 완료';
+                                    $("#"+uuid).val(state_msg);
+                                    clearInterval(transcoding_status);
+                                    return;
+                                }
+                            }else if(message == 'NOTFOUND'){
+                                state_msg = "인코딩 대기[대기번호: "+uuid+"]";
+                                $("#"+uuid).val(state_msg);
+                                clearInterval(transcoding_status);
+                                return;
+                            }else if(message == 'SUCCESS'){
+                                state_msg = '동영상 인코딩 완료';
+                                $("#"+uuid).val(state_msg);
+                                clearInterval(transcoding_status);
+                                return;
+                            }
+                        }
+                        ,error: function(){
                             clearInterval(transcoding_status);
                             return;
                         }
-                    }else if(message == 'NOTFOUND'){
-                        state_msg = "인코딩 대기[대기번호: "+uuid+"]";
-                        $("#"+uuid).val(state_msg);
-                        ajaxStateEdx( file_name, cdn_url, content_type, thumbnail, uuid, 'Q', playtime);
-                        clearInterval(transcoding_status);
-                        return;
-                    }else if(message == 'SUCCESS'){
-                        state_msg = '동영상 인코딩 완료';
-                        $("#"+uuid).val(state_msg);
-                        ajaxStateEdx(file_name, cdn_url, content_type, thumbnail, uuid, 'E', playtime);
-                        clearInterval(transcoding_status);
-                        return;
-                    }
-                }
-            });
+                    });
 
-        }, 2000);
+                }, 2000);
+            }
+
+
         }catch (e){
             console.log($(this));
-            console.log($(this)[0]);
-            _.each($(object), function (v, k, obj) {
-                console.info(k, v);
-              })
-            //throw 500;
+            console.log($(this).data("info"));
             console.log('is throw?');
+            clearInterval(transcoding_status);
             return;
         }
 
