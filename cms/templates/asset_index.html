@@ -185,7 +185,18 @@
 
 
 <script type="text/javascript">
-    var mme_host = 'http://mme2.npcomms.kr';
+
+
+    var mme_hostname = window.location.hostname.replace(/^[^.]*/, 'mme');
+
+##     var mme_host = 'http://mme2.npcomms.kr';
+    if(mme_hostname == 'mme.npcomms.kr'){
+        var mme_host = 'http://mme2.npcomms.kr';
+    }else{
+        var mme_host = 'http://'+mme_hostname;
+    }
+
+##     console.log(mme_host);
 
 
     var file_name = "";
