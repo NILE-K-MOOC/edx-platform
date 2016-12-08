@@ -134,18 +134,22 @@ from django.core.urlresolvers import reverse
           <div class="request-response-error"></div>
           <br>
           <label>
-          표절검사는 상호패점 문항 중 학습자들의 서술형 답안에 대해 수행할 수 있습니다.
+          표절검사는 상호평가 문항 중 학습자들의 서술형 답안 또는 SGA 첨부 파일에 대해 수행할 수 있습니다.
           </label>
           <br>
           <label>
           1일 1회 자동 스케줄러에 의해 수행되므로, 수행 요청 후 최대 1일 이내에 결과가 산출됩니다.
           </label>
           <br>
+            <!--
+            is_assessment : ${ is_assessment}<br/>
+            is_assessment_ing : ${ is_assessment_ing}<br/>
+            is_assessment_done : ${ is_assessment_done}<br/>
+            -->
+
           %if (is_assessment & is_assessment_ing != True) | is_assessment_done:
               <div id="copy_killer">
                   <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" onclick="run_copykiller();">
-                  <input id="loading" type="button" value="ddd" style="display: none" disabled>
-                  <input type="button" id="cvs" name="list-anon-ids" value="CSV 파일 다운로드" style="display: none" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
               </div>
           %elif is_assessment :
               <div>
