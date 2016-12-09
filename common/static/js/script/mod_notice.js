@@ -13,7 +13,7 @@ $(document).ready(function(){
         var title = data[4]+data[0];
         $('#title').html(title);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
-        $('#reg_date').html('작성일 : '+data[2]);
+        $('#reg_date').html('작성일[등록일] : '+data[2]);
         $('#mod_date').html('수정일 : '+data[3]);
 
         if(data[5] != '' && data[5] != null){
