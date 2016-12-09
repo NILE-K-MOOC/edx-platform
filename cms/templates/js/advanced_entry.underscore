@@ -1,3 +1,4 @@
+<% if( key !='classfy' && key != 'middle_classfy' && key != 'linguistics' && key != 'course_period'){ %>
 <li class="field-group course-advanced-policy-list-item <%= deprecated ? 'is-deprecated' : '' %>">
 	<div class="field is-not-editable text key" id="<%= key %>">
 		<h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
@@ -12,3 +13,4 @@
       <span class="status"><%= gettext("Deprecated") %></span>
   <% } %>
 </li>
+<% } %>
