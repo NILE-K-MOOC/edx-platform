@@ -1003,3 +1003,8 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
 .social-sharing_custom{padding: 15px 5px 5px 10px;}
 .social-sharing_custom a{font-size:1.3em; margin: 0 5px;}
+
+
+/* 강좌 공유 버튼 관련 CSS*/
+.course-material .course-tabs{float:left;}
+.discussion > .course-material > .tabs{float:none; !important;}
