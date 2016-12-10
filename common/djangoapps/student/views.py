@@ -1214,6 +1214,20 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         password = request.POST['password']
         try:
             user = User.objects.get(email=email)
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+            cur = con.cursor()
+            query = "SELECT email, dormant_mail_cd, dormant_yn FROM auth_user where email= '"+email+"'"
+            cur.execute(query)
+            row = cur.fetchone()
+
+            if row[2] != None and row[2] == 'Y':
+                print 'drmt_login'
+                return render_to_response("drmt_login.html")
+
         except User.DoesNotExist:
             if settings.FEATURES['SQUELCH_PII_IN_LOGS']:
                 AUDIT_LOG.warning(u"Login failed - Unknown user email")
@@ -1344,7 +1358,6 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         redirect_url = None  # The AJAX method calling should know the default destination upon success
         if third_party_auth_successful:
             redirect_url = pipeline.get_complete_url(backend_name)
-
         response = JsonResponse({
             "success": True,
             "redirect_url": redirect_url,
