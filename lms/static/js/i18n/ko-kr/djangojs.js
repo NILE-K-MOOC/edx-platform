@@ -804,6 +804,7 @@
     "ing": "\uc9c4\ud589\uc911",
     "end": "\uc885\ub8cc",
     "none": "\ubbf8\uc815",
+
     "Clear All": "\ubaa8\ub450 \uc9c0\uc6b0\uae30",
     "Linguistics & Literature": "\uc5b8\uc5b4\u318d\ubb38\ud559",
     "Human Sciences": "\uc778\ubb38\uacfc\ud559",
@@ -862,11 +863,13 @@
     "Long(over 13 weeks)": "\uc7a5\uae30(13~ \uc8fc)",
     "all": "\uc804\uccb4",
     "Course Status": "\uac15\uc88c \uc0c1\ud0dc",
+
+
+
+    "Reset Your Password": "\uc0c8 \ube44\ubc00\ubc88\ud638 \uc124\uc815\uc744 \uc704\ud55c \uc774\uba54\uc77c \ubc1c\uc1a1\ud558\uae30",
+
+
     "": "\uc5c6\uc74c"
-
-
-
-
   };
 
   django.gettext = function (msgid) {
