@@ -437,6 +437,13 @@ def login_and_registration_form(request, initial_mode="login"):
     # print '=========================================================='
 
     # Otherwise, render the combined login/registration page
+
+    provider_info = _third_party_auth_context(request, redirect_to)
+
+    # third_part_auth 인증후 회원가입화면으로 이동
+    if provider_info['currentProvider'] and initial_mode == 'login':
+        initial_mode = 'register'
+
     context = {
         'data': {
             'login_redirect_url': redirect_to,
