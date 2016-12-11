@@ -642,9 +642,6 @@ def dashboard(request):
     # enrollments, because it could have been a data push snafu.
     course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
 
-    # sort the enrollment pairs by the enrollment date
-    course_enrollments.sort(key=lambda x: x.created, reverse=True)
-
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
     __, unexpired_course_modes = CourseMode.all_and_unexpired_modes_for_courses(enrolled_course_ids)
@@ -720,6 +717,43 @@ def dashboard(request):
         enrollment.course_id: cert_info(request.user, enrollment.course_overview, enrollment.mode)
         for enrollment in course_enrollments
     }
+
+
+    print datetime.datetime.now(UTC), 'check !!!!!!!!!!!!!!!! e------------------------------------------'
+
+
+    # sort the enrollment pairs by the enrollment date
+    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
+    print 'cert_statuses'
+    print cert_statuses
+
+    course_type1 = []
+    course_type2 = []
+    course_type3 = []
+    course_type4 = []
+
+    for c in course_enrollments:
+        if c.course.start > datetime.datetime.now(UTC):
+            course_type1.append(c)
+        elif c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
+            course_type2.append(c)
+        elif c.course.end < datetime.datetime.now(UTC):
+            course_type3.append(c)
+        else:
+            course_type4.append(c)
+
+    course_type1.sort(key=lambda x: x.created, reverse=True)
+    course_type2.sort(key=lambda x: x.created, reverse=True)
+    course_type3.sort(key=lambda x: x.created, reverse=True)
+    course_type4.sort(key=lambda x: x.created, reverse=True)
+
+    course_enrollments = course_type1 + course_type2 + course_type3 + course_type4
+    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
+
+    # print '==================================course list s'
+    # for c in course_enrollments:
+    #     print c.course.id
+    # print '==================================course list e'
 
     # only show email settings for Mongo course and when bulk email is turned on
     show_email_settings_for = frozenset(
