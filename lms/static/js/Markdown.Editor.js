@@ -979,6 +979,74 @@
         var previewSetter;
 
         var previewSet = function (text) {
+
+            // 파일 다운로드 기능 추가
+            if(text){
+                //console.log('start1 ---------------------------');
+                //console.log(text);
+                //console.log('start1 ---------------------------');
+
+                text = text.replace(/<p>/gi, "").replace(/<\/p>/gi, "<br\/>");
+
+                //console.log('start2 ---------------------------');
+                //console.log(text);
+                //console.log('start2 ---------------------------');
+
+                var tmp_text = "";
+                var text_arr = text.split("<img");
+
+                for(var i=0; i<text_arr.length;i++){
+                    var tmp_str = "";
+
+                    if(i==0){
+                        tmp_str = text_arr[0];
+                        continue;
+                    }else{
+                        tmp_str = "<img " + text_arr[i];
+                    }
+                    //console.log("work str = " + tmp_str);
+
+
+                    var src = tmp_str.substring(tmp_str.indexOf("\"/media") + 1, tmp_str.indexOf("\" alt"));
+                    var ext = src.substring(src.indexOf(".") + 1);
+
+                    var body = tmp_str;
+
+                    if(ext == "pdf")
+                        body = body.replace(src, "/static/images/icon/pdf.png");
+                    else if(ext == "hwp")
+                        body = body.replace(src, "/static/images/icon/hwp.png");
+                    else if(ext == "ppt")
+                        body = body.replace(src, "/static/images/icon/ppt.png");
+                    else if(ext == "pptx")
+                        body = body.replace(src, "/static/images/icon/pptx.png");
+                    else if(ext == "doc")
+                        body = body.replace(src, "/static/images/icon/doc.png");
+                    else if(ext == "docx")
+                        body = body.replace(src, "/static/images/icon/docx.png");
+                    else if(ext == "xls")
+                        body = body.replace(src, "/static/images/icon/xls.png");
+                    else if(ext == "xlsx")
+                        body = body.replace(src, "/static/images/icon/xlsx.png");
+
+                    //console.log("src: " + src);
+
+                    tmp_str = "<a target=\"_blank\" href=\"" + src + "\">" + body + "</a>";
+
+                    //console.log("tmp_str = " + tmp_str);
+
+                    tmp_text += tmp_str;
+
+                }
+
+                text = tmp_text;
+
+
+                //console.log('end ---------------------------');
+                //console.log(text);
+                //console.log('end ---------------------------');
+            }
+
             if (previewSetter)
                 return previewSetter(text);
 
