@@ -757,7 +757,11 @@
       "\ubcf8 \ud559\uc2b5 \uc9d1\ub2e8\uc5d0 {numUsersAdded}\uba85\uc758 \ud559\uc2b5\uc790\uac00 \ucd94\uac00\ub418\uc5c8\uc2b5\ub2c8\ub2e4."
     ], 
     "{platform_name} learners can see my:": "{platform_name} \ud559\uc2b5\uc790\uac00 \ub098\uc5d0 \ub300\ud574 \ubcfc \uc218 \uc788\ub294 \uac83\uc740 :", 
-    "\u2026": "\u2026"
+    "\u2026": "\u2026",
+    "Total Number": "\ucd1d \uacfc\uc81c \uc218",
+    "The number of subsections in the course that contain problems of this assignment type.": "\ud574\ub2f9 \uacfc\uc81c \uc720\ud615\uc5d0 \ud574\ub2f9\ud558\ub294 \uc18c\uc8fc\uc81c \uc218",
+    "Add {role} Access": "\uad50\uc218\uc790 \uad8c\ud55c \ubd80\uc5ec"
+
   };
 
   django.gettext = function (msgid) {
