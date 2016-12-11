@@ -734,12 +734,16 @@ def dashboard(request):
 
     for c in course_enrollments:
         if c.course.start > datetime.datetime.now(UTC):
+            c.status = 'ready'
             course_type1.append(c)
         elif c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
+            c.status = 'ing'
             course_type2.append(c)
         elif c.course.end < datetime.datetime.now(UTC):
+            c.status = 'end'
             course_type3.append(c)
         else:
+            c.status = 'none'
             course_type4.append(c)
 
     course_type1.sort(key=lambda x: x.created, reverse=True)
@@ -829,6 +833,8 @@ def dashboard(request):
         course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
         grade_summary = grades.grade(user, course, course_structure=None)
         percents[course_id] = str(int(float(grade_summary['percent']) * 100))
+
+
 
     context = {
         'percents': percents,
