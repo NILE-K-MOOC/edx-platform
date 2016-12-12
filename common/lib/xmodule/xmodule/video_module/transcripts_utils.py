@@ -638,6 +638,11 @@ class VideoTranscriptsMixin(object):
         else:
             data = Transcript.asset(self.location, None, None, other_lang[lang]).data
             filename = u'{}.{}'.format(os.path.splitext(other_lang[lang])[0], transcript_format)
+
+            # byte order mark string decode
+            if not isinstance(data, unicode):
+                data = data.decode('utf-8-sig').encode('utf-8')
+
             content = Transcript.convert(data, 'srt', transcript_format)
 
         if not content:
