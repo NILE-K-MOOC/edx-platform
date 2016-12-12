@@ -52,18 +52,18 @@ from openedx.core.djangolib.markup import HTML, Text
 <section class="container rule">
     <section class="container">
         <!-- [s] -->
-        <h2>이수증 검증</h2>
+        <h2>${_("Certificate verification")}</h2>
 
         <section class="certification-box">
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
                         <div class="certification-form">
-                            <p>K-MOOC에서 발급받은 이수증의 유효성을 확인하실 수 있습니다.</p>
-                            <p>이수증 상단의 인증번호를 입력하세요. </p>
+                            <p>${_("You can check the validity of the certifiate issued by K-MOOC")}</p>
+                            <p>${_("Please enter your authotification number at the top of your certificate")}</p>
 
                             <input type="text" id="uuid" placeholder="이수증 상단의 인증번호를 입력하세요">
-                            <a href="#" id="check"><input type="button" value="검증하기"></a>
+                            <a href="#" id="check"><input type="button" value="${_('Verificating')}"></a>
 
                             <div id="check_result">
                                 <div id="correct" style="display: none;">

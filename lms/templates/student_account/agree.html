@@ -3,7 +3,7 @@
 
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">가입약관</%block>
+<%block name="pagetitle">${_("Terms and conditions for subscription")}</%block>
 
 <%block name="js_extra">
 <script xmlns="http://www.w3.org/1999/html">
@@ -12,14 +12,14 @@
 
             if($("input[name=agree1]:checked").val() != "Y"){
                 $(this).focus();
-                alert("이용약관을 동의하여야 회원가입이 가능합니다.");
+                alert('${_("In order to become a member, you have to agree to the terms and conditions for use.")}');
                 gubn = "N";
                 return;
             }
 
             if($("input[name=agree2]:checked").val() != "Y"){
                 $(this).focus();
-                alert("개인정보처리방침을 동의하여야 회원가입이 가능합니다.");
+                alert('${_("If you agree to the personal information processing policy, membership is possible.")}');
                 gubn = "N";
                 return;
             }
@@ -45,9 +45,9 @@
 <section class="container">
 
 				<!-- [s] 약관 -->
-				<h2>가입약관</h2>
+				<h2>${_("Terms and conditions for subscription")}</h2>
 				<section class="agree-frm-box">
-					<h3>이용약관</h3>
+					<h3>${_("Terms and conditions for use")}</h3>
 					<textarea readonly="readonly">
 제1장 총칙
 
@@ -167,14 +167,14 @@
 
         			</textarea>
 					<div class="agree-chk">
-						<input type="radio" name="agree1" value="Y" id="radio1_y"> <label for="radio1_y">동의함</label>
-						<input type="radio" name="agree1" value="N" id="radio1_n" checked> <label for="radio1_n">동의하지 않음</label>
+						<input type="radio" name="agree1" value="Y" id="radio1_y"> <label for="radio1_y">${_("Agree")}</label>
+						<input type="radio" name="agree1" value="N" id="radio1_n" checked> <label for="radio1_n">${_("Do not agree")}</label>
 					</div>
 				</section>
 
 
 				<section class="agree-frm-box">
-					<h3>개인정보의 수집 및 이용 동의</h3>
+					<h3>${_("Privacy policy (or Personal information processing policy) ")}</h3>
 					<textarea readonly="readonly">
 
 1. 개인정보의 수집 및 이용 목적
@@ -213,8 +213,8 @@ K-MOOC 홈페이지는 서비스 제공을 위해 필요한 최소한의 범위 
 
         			</textarea>
 					<div class="agree-chk">
-						<input type="radio" name="agree2" value="Y" id="radio2_y"> <label for="radio2_y">동의함</label>
-						<input type="radio" name="agree2" value="N"  id="radio2_n" checked> <label for="radio2_n">동의하지 않음</label>
+						<input type="radio" name="agree2" value="Y" id="radio2_y"> <label for="radio2_y">${_("Agree")}</label>
+						<input type="radio" name="agree2" value="N"  id="radio2_n" checked> <label for="radio2_n">${_("Do not agree")}</label>
 					</div>
 				</section>
 
@@ -244,8 +244,8 @@ K-MOOC 홈페이지 회원 가입에 있어서 회원의 정보 확인 요청 �
 
         			</textarea>
 					<div class="agree-chk">
-						<input type="radio" name="agree3" value="Y" id="radio3_y"> <label for="radio3_y">동의함</label>
-						<input type="radio" name="agree3" value="N"  id="radio3_n" checked> <label for="radio3_n">동의하지 않음</label>
+						<input type="radio" name="agree3" value="Y" id="radio3_y"> <label for="radio3_y">${_("Agree")}</label>
+						<input type="radio" name="agree3" value="N"  id="radio3_n" checked> <label for="radio3_n">${_("Do not agree")}</label>
 					</div>
 				</section>
 

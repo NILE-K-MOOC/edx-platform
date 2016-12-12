@@ -484,7 +484,7 @@ msgstr "저작권 보호 정책"
 msgid "About Us"
 msgstr "K-MOOC란?"
 
-msgid "Participating Institutions"
+msgid "University list"
 msgstr "대학목록"
 
 #: cms/templates/index.html lms/templates/navigation.html
@@ -606,13 +606,13 @@ msgid "HYUk"
 msgstr "한양대학교"
 
 #: lms/templates/course.html
-msgid "Starting Soon"
+msgid "Scheduled to open a course"
 msgstr "개강 예정"
 
 msgid "Current (Join Now)"
 msgstr "진행 강좌 (수강 가능)"
 
-msgid "Current"
+msgid "Ongoing"
 msgstr "진행 강좌"
 
 msgid "Current (Registration closed)"
@@ -13376,7 +13376,7 @@ msgid "Filter:"
 msgstr "필터:"
 
 #: lms/templates/discussion/_thread_list_template.html
-msgid "Show all"
+msgid "Viewing all"
 msgstr "전체 보기"
 
 #: lms/templates/discussion/_thread_list_template.html
@@ -28147,7 +28147,7 @@ msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주�
 #-------------------------------------------------------
 
 # Main
-msgid "Course by subject"
+msgid "Viewing courses by major"
 msgstr "전공별 강좌 보기"
 
 msgid "Humanities"
@@ -28174,19 +28174,19 @@ msgstr "예체능"
 msgid "Korean Studies"
 msgstr "한국학"
 
-msgid "Find course for me"
+msgid "Finding courses that suit you"
 msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Find course for me "
 msgstr "나에게 맞는 강좌"
 
-msgid "Opening Status"
+msgid "Opening course status"
 msgstr "개강상태"
 
-msgid "Finish"
+msgid "End"
 msgstr "종료 강좌"
 
-msgid "Period of studing"
+msgid "Study period"
 msgstr "학습기간"
 
 msgid "Short (1~6 weeks)"
@@ -28230,5 +28230,201 @@ msgstr "전체"
 msgid "all"
 msgstr "전체"
 
-msgid "Available courses"
+msgid "Finding courses available for classes"
 msgstr "수강신청 가능 강좌찾기"
+
+msgid "Related sites"
+msgstr "관련사이트"
+
+msgid "Since we sent an email to user.email to activate your account, please log back in to your site via your account activation email.. Click 'OK' button to log out automatically."
+msgstr "${user.email}로 계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. \n\n'확인'버튼 클릭 후 자동으로 로그아웃 됩니다."
+
+# templates/student_account/remove_account.html
+
+msgid "Withdrawal after consent"
+msgstr "동의 후 탈퇴하기"
+
+msgid "I have read and agree to all the instructions."
+msgstr "안내 사항을 모두 확인하였으며, 이에 동의합니다."
+
+msgid "You can not delete postings that remain in the bulletin board service after withdrawal.."
+msgstr "게시판형 서비스에 남아있는 게시글은 탈퇴 후 삭제할 수 없습니다."
+
+msgid "Bulletin board "
+msgstr "게시판"
+
+msgid "Question answer opinion"
+msgstr "질문 답변 의견"
+
+msgid "Posts"
+msgstr "게시글"
+
+msgid "Postings registered on the bulletin board service remain after the withdrawal."
+msgstr "탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다."
+
+msgid "Please confirm the deleted information and backup the necessary data in advance."
+msgstr "삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요."
+
+msgid "Personal service use information such as member information, e-mail addresse, and profiles will be deleted, and the deleted data will not be recovered."
+msgstr "회원정보 및 메일주소, 프로파일 등 개인형 서비스 이용기록은 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다."
+
+msgid "Withdrawal guidance"
+msgstr "탈퇴안내"
+
+msgid "Please make sure to check the instructions before submitting your membership withdrawal"
+msgstr "회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요."
+
+msgid "If you wirthdraw your membership, you can not reuse or recover the ID in use"
+msgstr "사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다."
+
+msgid "Please be careful that you and others can not reuse or recover your ID if you withdraw your membership."
+msgstr "탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다."
+
+msgid "After your withdrawal of membership, the membership information and personal service use history will be deleted."
+msgstr "탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다."
+
+# templates/student_account/registration_gubn.html
+
+msgid "Choose your subscription type."
+msgstr "가입유형 선택"
+
+msgid "Please be sure to select the case that applies to you, as there is a difference in the registration process depending on the membership classification."
+msgstr "회원구분에 따라 가입절차에 차이가 있으니 반드시 본인에 해당하는 경우를 선택해 주시기 바랍니다."
+
+msgid "General member"
+msgstr "일반회원"
+
+msgid "General member over 14 years old"
+msgstr "만 14세 이상의 일반회원"
+
+msgid "Children member"
+msgstr "어린이 회원"
+
+msgid "General member below 14 years old"
+msgstr "만 14세 이하의 어린이 회원"
+
+# templates/student_account/parent_agree_done.html
+
+msgid "IPIN certification is succeeded."
+msgstr "아이핀 인증에 성공하였습니다."
+
+msgid "Minors can not be egal representatives."
+msgstr "미성년자는 법정대리인이 될 수 없습니다."
+
+msgid "IPIN authentication failed."
+msgstr "아이핀 인증에 실패하였습니다."
+
+# templates/student_account/agree.html
+
+msgid "IPIN certification."
+msgstr "아이핀 인증"
+
+msgid "IPIN certification is not completed."
+msgstr "아이핀 인증이 완료되지 않았습니다."
+
+msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join. Please click the ‘IPIN Certification’ button and proceed with the consent of the guardian (legal representative)."
+msgstr "어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다.“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
+
+msgid "Proceed with the consent process of guardian by IPIN certification."
+msgstr "아이핀 인증으로 보호자의 동의절차를 진행"
+
+msgid "Certificating"
+msgstr "인증하기"
+
+msgid "Movement to the next stage"
+msgstr "다음 단계 이동"
+
+# templates/student_account/agree.html
+
+msgid "Terms and conditions for subscription"
+msgstr "가입약관"
+
+msgid "In order to become a member, you have to agree to the terms and conditions for use."
+msgstr "이용약관을 동의하여야 회원가입이 가능합니다."
+
+msgid "If you agree to the personal information processing policy, membership is possible."
+msgstr "개인정보처리방침을 동의하여야 회원가입이 가능합니다."
+
+msgid "Terms and conditions for use"
+msgstr "이용약관"
+
+msgid "Agree"
+msgstr "동의함"
+
+msgid "Do not agree"
+msgstr "동의하지 않음"
+
+msgid "Privacy policy (or Personal information processing policy) "
+msgstr "개인정보의 수집 및 이용 동의"
+
+
+# templates/instructor/instructor_dashboard_2/instructor_dashboard_2.html
+
+msgid "Plagiarism test implementation"
+msgstr "표절검사 수행"
+
+msgid "The plagiarism test can be performed on the learners' narrative answers among the mutual losing questions."
+msgstr "표절검사는 상호패점 문항 중 학습자들의 서술형 답안에 대해 수행할 수 있습니다."
+
+msgid "Since it is performed by the automatic scheduler once a day, the result is calculated within maximum one day after the execution request."
+msgstr "1일 1회 자동 스케줄러에 의해 수행되므로, 수행 요청 후 최대 1일 이내에 결과가 산출됩니다."
+
+msgid "Performing a plagiarism test"
+msgstr "표절검사 수행하기"
+
+msgid "Plagiarism test is in progress."
+msgstr "표절검사가 진행중입니다."
+
+msgid "Test progress status"
+msgstr "검사 진행상태"
+
+msgid "Plagiarism test is completed."
+msgstr "표절검사가 완료되었습니다."
+
+msgid "There is currently no work in progress."
+msgstr "현재 진행중인 작업이 없습니다."
+
+msgid "Plagiarism test result"
+msgstr "표절 검사 결과"
+
+msgid "Outputs the final plagiarism test result as a CSV file."
+msgstr "최종 표절검사 결과를 CSV 파일로 출력합니다."
+
+msgid "CSV file download"
+msgstr "csv 파일 다운로드"
+
+# templates/courseware/schools.html
+
+msgid "Introduction of participating universities and shortcut to homepage"
+msgstr "참여대학 소개 및 홈페이지 바로가기"
+
+msgid "Introducing participating universities with K-MOOC."
+msgstr "K-MOOC과 함께하는 참여대학을 소개합니다."
+
+msgid "K-MOOC promotes the autonomy and diversity of participating universities to be respected and exercised as much as possible during the entire business process, and creates close cooperation between related institutions and participating universities."
+msgstr "K-MOOC은 사업 전 과정에서 참여대학의 자율성과 다양성이 최대한 존중되고 발휘될 수 있도록 추진합니다.또한 관계 기관과 참여대학간의 긴밀한 협력을 만들어 나갑니다."
+
+# templates/courseware/cert_check.html
+
+msgid "Certificate verification"
+msgstr "이수증 검증"
+
+msgid "You can check the validity of the certifiate issued by K-MOOC"
+msgstr "K-MOOC에서 발급받은 이수증의 유효성을 확인하실 수 있습니다."
+
+msgid "Please enter your authotification number at the top of your certificate"
+msgstr "이수증 상단의 인증번호를 입력하세요."
+
+msgid "Verificating"
+msgstr "검증하기"
+
+# templates/certificates/_accomplishment-rendering_kmooc.html
+
+msgid "Certificatiion ID"
+msgstr "인증번호 CERTIFICATE ID"
+
+msgid "This certificate will be awarded by faithfully completing the above course"
+msgstr "위 과정을 성실히 이수하여 이 증서를 수여합니다."
+
+msgid "Completion date"
+msgstr "이수일자"
