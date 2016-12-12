@@ -282,7 +282,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 var row = mcate[m_info][key];
                 var option = document.createElement("option");
                 option.text = row.gettext;
-                option.value = row.gettext;
+                option.value = row.code;
                 selectbox.appendChild(option);
 
             }
