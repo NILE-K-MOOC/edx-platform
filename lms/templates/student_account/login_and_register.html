@@ -35,7 +35,8 @@
         }
 
         $(document).ready(function(){
-            var d = new Date();
+##             alert('alalalal');
+            var d = new Date();\
             var year = d.getFullYear();
 
             %if division == 'Y':
@@ -62,6 +63,11 @@
         </script>
 % endfor
 </%block>
+<script>
+    $(document).ready(function(){
+##         alert('alalalal');
+    })
+</script>
 
 <div class="section-bkg-wrapper">
     <main id="main" aria-label="Content" tabindex="-1">

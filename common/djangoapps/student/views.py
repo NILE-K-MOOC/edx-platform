@@ -642,9 +642,6 @@ def dashboard(request):
     # enrollments, because it could have been a data push snafu.
     course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
 
-    # sort the enrollment pairs by the enrollment date
-    course_enrollments.sort(key=lambda x: x.created, reverse=True)
-
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
     __, unexpired_course_modes = CourseMode.all_and_unexpired_modes_for_courses(enrolled_course_ids)
@@ -721,6 +718,47 @@ def dashboard(request):
         for enrollment in course_enrollments
     }
 
+
+    print datetime.datetime.now(UTC), 'check !!!!!!!!!!!!!!!! e------------------------------------------'
+
+
+    # sort the enrollment pairs by the enrollment date
+    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
+    print 'cert_statuses'
+    print cert_statuses
+
+    course_type1 = []
+    course_type2 = []
+    course_type3 = []
+    course_type4 = []
+
+    for c in course_enrollments:
+        if c.course.start > datetime.datetime.now(UTC):
+            c.status = 'ready'
+            course_type1.append(c)
+        elif c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
+            c.status = 'ing'
+            course_type2.append(c)
+        elif c.course.end < datetime.datetime.now(UTC):
+            c.status = 'end'
+            course_type3.append(c)
+        else:
+            c.status = 'none'
+            course_type4.append(c)
+
+    course_type1.sort(key=lambda x: x.created, reverse=True)
+    course_type2.sort(key=lambda x: x.created, reverse=True)
+    course_type3.sort(key=lambda x: x.created, reverse=True)
+    course_type4.sort(key=lambda x: x.created, reverse=True)
+
+    course_enrollments = course_type1 + course_type2 + course_type3 + course_type4
+    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
+
+    # print '==================================course list s'
+    # for c in course_enrollments:
+    #     print c.course.id
+    # print '==================================course list e'
+
     # only show email settings for Mongo course and when bulk email is turned on
     show_email_settings_for = frozenset(
         enrollment.course_id for enrollment in course_enrollments if (
@@ -795,6 +833,8 @@ def dashboard(request):
         course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
         grade_summary = grades.grade(user, course, course_structure=None)
         percents[course_id] = str(int(float(grade_summary['percent']) * 100))
+
+
 
     context = {
         'percents': percents,
@@ -962,7 +1002,6 @@ def _credit_statuses(user, course_enrollments):
             so the user should contact the support team.
 
     Example:
-    >>> _credit_statuses(user, course_enrollments)
     {
         CourseKey.from_string("edX/DemoX/Demo_Course"): {
             "course_key": "edX/DemoX/Demo_Course",
@@ -1256,6 +1295,20 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         password = request.POST['password']
         try:
             user = User.objects.get(email=email)
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+            cur = con.cursor()
+            query = "SELECT email, dormant_mail_cd, dormant_yn FROM auth_user where email= '"+email+"'"
+            cur.execute(query)
+            row = cur.fetchone()
+
+            if row[2] != None and row[2] == 'Y':
+                print 'drmt_login'
+                return render_to_response("drmt_login.html")
+
         except User.DoesNotExist:
             if settings.FEATURES['SQUELCH_PII_IN_LOGS']:
                 AUDIT_LOG.warning(u"Login failed - Unknown user email")
@@ -1386,7 +1439,6 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         redirect_url = None  # The AJAX method calling should know the default destination upon success
         if third_party_auth_successful:
             redirect_url = pipeline.get_complete_url(backend_name)
-
         response = JsonResponse({
             "success": True,
             "redirect_url": redirect_url,

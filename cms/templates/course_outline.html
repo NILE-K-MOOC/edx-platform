@@ -120,6 +120,13 @@ from openedx.core.djangolib.markup import HTML, Text
         <nav class="nav-actions" aria-label="${_('Page Actions')}">
             <h3 class="sr">${_("Page Actions")}</h3>
             <ul>
+                <li class="nav-item" style="border: 0px none;">
+                    <a href="http://www.riss.kr/search/Search.do?detailSearch=false&searchGubun=true&oldQuery=&query=${context_course.display_name_with_default}&x=0&y=0" target="_blank" class="button" title="RISS search" style="background: #f1740e; border-color: #f1740e;">
+                        <i class="icon-arrow-right"></i>${_('RISS')}
+                    </a>
+                </li>
+
+
                 <li class="nav-item">
                     <a href="#" class="button button-new" data-category="chapter" data-parent="${context_course.location}" data-default-name="${_('Section')}" title="${_('Click to add a new section')}">
                         <span class="icon fa fa-plus" aria-hidden="true"></span>${_('New Section')}

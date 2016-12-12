@@ -87,9 +87,19 @@
                             name: 'password',
                             label: 'Password',
                             defaultValue: '',
-                            type: 'password',
+                            type: 'password1',
                             required: true,
                             instructions: 'Enter your password.',
+                            restrictions: {}
+                        },
+                        {
+                            placeholder: '',
+                            name: 'password1',
+                            label: 'Password1',
+                            defaultValue: '',
+                            type: 'password',
+                            required: true,
+                            instructions: 'Enter your password.111',
                             restrictions: {}
                         },
                         {

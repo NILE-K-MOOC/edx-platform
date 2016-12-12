@@ -3467,7 +3467,7 @@ msgstr "모든 유형"
 #: common/lib/xmodule/xmodule/library_content_module.py
 #: cms/templates/widgets/header.html
 msgid "Library"
-msgstr "콘텐츠 보관함"
+msgstr "학습활동 저장소"
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "Select the library from which you want to draw content."
@@ -3475,7 +3475,7 @@ msgstr "강좌의 콘텐츠를 넣어둘 보관함을 선택하세요.  "
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "Library Version"
-msgstr "콘텐츠 보관함 버전 "
+msgstr "학습활동 저장소 버전 "
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "Determines how content is drawn from the library"
@@ -3501,7 +3501,7 @@ msgstr "문제 유형 "
 msgid ""
 "Choose a problem type to fetch from the library. If \"Any Type\" is selected"
 " no filtering is applied."
-msgstr "콘텐츠 보관함에서 가져올 문제 유형을 선택하세요. \"모든 유형\"을 선택할 경우, 필터링이 적용되지 않습니다."
+msgstr "학습활동 저장소에서 가져올 문제 유형을 선택하세요. \"모든 유형\"을 선택할 경우, 필터링이 적용되지 않습니다."
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 #: common/lib/xmodule/xmodule/lti_module.py
@@ -3534,7 +3534,7 @@ msgstr "보관함 목록 편집"
 msgid ""
 "This course does not support content libraries. Contact your system "
 "administrator for more information."
-msgstr "이 강좌는 콘텐츠 보관함을 지원하지 않습니다. 자세한 사항은 시스템 관리자에게 문의하세요."
+msgstr "이 강좌는 학습활동 저장소을 지원하지 않습니다. 자세한 사항은 시스템 관리자에게 문의하세요."
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "A library has not yet been selected."
@@ -3546,7 +3546,7 @@ msgstr "보관함을 선택합니다."
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "There are no matching problem types in the specified libraries."
-msgstr "해당 콘텐츠 보관함에 적절한 문제 유형이 없습니다."
+msgstr "해당 학습활동 저장소에 적절한 문제 유형이 없습니다."
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "Select another problem type."
@@ -3568,15 +3568,15 @@ msgstr "보관함 설정 변경"
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "Invalid Library"
-msgstr "유효하지 않은 콘텐츠 보관함"
+msgstr "유효하지 않은 학습활동 저장소"
 
 #: common/lib/xmodule/xmodule/library_content_module.py
 msgid "No Library Selected"
-msgstr "콘텐츠 보관함이 선택되지 않았습니다."
+msgstr "학습활동 저장소가 선택되지 않았습니다."
 
 #: common/lib/xmodule/xmodule/library_root_xblock.py
 msgid "Enter the name of the library as it should appear in Studio."
-msgstr "스튜디오에서 표시될 콘텐츠 보관함의 이름을 입력해주세요."
+msgstr "스튜디오에서 표시될 학습활동 저장소의 이름을 입력해주세요."
 
 #: common/lib/xmodule/xmodule/library_root_xblock.py
 msgid "Library Display Name"
@@ -9308,7 +9308,7 @@ msgstr "{section_or_subsection} \"{display_name}\""
 
 #: cms/djangoapps/contentstore/views/library.py
 msgid "Unable to create library - missing required field '{field}'"
-msgstr "콘텐츠 보관함을 만들 수 없습니다 - 빠진 {field} 항목이 필요합니다. "
+msgstr "학습활동 저장소를 만들 수 없습니다 - 빠진 {field} 항목이 필요합니다. "
 
 #: cms/djangoapps/contentstore/views/library.py
 msgid ""
@@ -9316,7 +9316,7 @@ msgid ""
 "\n"
 "{err}"
 msgstr ""
-"'{name}' 콘텐츠 보관함을 만들지 못하였습니다.\n"
+"'{name}' 학습활동 저장소를 만들지 못하였습니다.\n"
 "\n"
 "{err}"
 
@@ -17757,7 +17757,7 @@ msgstr "대시보드로 돌아가기"
 
 #: cms/templates/export.html
 msgid "Library Export"
-msgstr "콘텐츠 보관함 내보내기"
+msgstr "학습활동 저장소 내보내기"
 
 #: cms/templates/export.html
 msgid "Course Export"
@@ -17771,7 +17771,7 @@ msgstr "도구"
 
 #: cms/templates/export.html
 msgid "About Exporting Libraries"
-msgstr "콘텐츠 보관함 내보내기에 대한 소개"
+msgstr "학습활동 저장소 내보내기에 대한 소개"
 
 #: cms/templates/export.html
 msgid ""
@@ -17780,7 +17780,7 @@ msgid ""
 "Zip) that contains the library structure and content. You can also re-import"
 " libraries that you've exported."
 msgstr ""
-"콘텐츠 보관함 내보내기 후, {studio_name} 외부에서 수정할 수 있습니다. 내보낸 파일은 .tar.gz 파일(즉, GNU "
+"학습활동 저장소 내보내기 후, {studio_name} 외부에서 수정할 수 있습니다. 내보낸 파일은 .tar.gz 파일(즉, GNU "
 "Zip으로 압축된 파일인 .tar file)이며, 구조와 콘텐츠를 포함합니다. 이후 해당 파일을 다시 가져오기할 수 있습니다.    "
 
 #: cms/templates/export.html
@@ -17811,7 +17811,7 @@ msgstr ""
 
 #: cms/templates/export.html
 msgid "Export My Library Content"
-msgstr "내 콘텐츠 보관함 내보내기"
+msgstr "내 학습활동 저장소 내보내기"
 
 #: cms/templates/export.html
 msgid "Export My Course Content"
@@ -17872,7 +17872,7 @@ msgstr "게시판 데이터"
 
 #: cms/templates/export.html
 msgid "Why export a library?"
-msgstr "콘텐츠 보관함을 왜 내보낼까요?"
+msgstr "학습활동 저장소를 왜 내보낼까요?"
 
 #: cms/templates/export.html
 msgid ""
@@ -17881,7 +17881,7 @@ msgid ""
 " may want to create a copy of your library that you can later import into "
 "another library instance and customize."
 msgstr ""
-"콘텐츠 보관함의 XML을 {studio_name}밖에서 직접 수정하고 싶을 수도 있습니다. 또는 다른 콘텐츠 보관함으로 가져오기한 후 "
+"학습활동 저장소의 XML을 {studio_name}밖에서 직접 수정하고 싶을 수도 있습니다. 또는 다른 학습활동 저장소로 가져오기한 후 "
 "수정할 수 있도록 백업 카피를 만들고 싶을 수도 있습니다."
 
 #: cms/templates/export.html
@@ -17899,7 +17899,7 @@ msgstr ""
 
 #: cms/templates/export.html
 msgid "Learn more about exporting a library"
-msgstr "콘텐츠 보관함 내보내기에 대해 자세히 알아보기"
+msgstr "학습활동 저장소 내보내기에 대해 자세히 알아보기"
 
 #: cms/templates/export.html
 msgid "Why export a course?"
@@ -17912,7 +17912,7 @@ msgid ""
 "may want to create a copy of your course that you can later import into "
 "another course instance and customize."
 msgstr ""
-"콘텐츠 보관함의 XML을 {studio_name} 외부에서 직접 수정하고 싶을 수도 있습니다. 또는 다른 콘텐츠 보관함으로 가져오기한 후"
+"학습활동 저장소의 XML을 {studio_name} 외부에서 직접 수정하고 싶을 수도 있습니다. 또는 다른 학습활동 저장소로 가져오기한 후"
 " 수정할 수 있도록 백업 카피를 만들고 싶을 수도 있습니다."
 
 #: cms/templates/export.html
@@ -18276,7 +18276,7 @@ msgstr "학습자들이 이 구성요소에 접근할 수 없을 것입니다. �
 
 #: cms/templates/import.html
 msgid "Library Import"
-msgstr "콘텐츠 보관함 가져오기"
+msgstr "학습활동 저장소 가져오기"
 
 #: cms/templates/import.html
 msgid "Course Import"
@@ -18290,8 +18290,8 @@ msgid ""
 "recommend that you export the current library, so that you have a backup "
 "copy of it."
 msgstr ""
-"콘텐츠 보관함을 가져옵니다. 가져온 콘텐츠로 기존의 콘텐츠를 대체하게 됩니다. {em_start} 콘텐츠 보관함 가져오기의 실행취소는 "
-"불가능합니다.{em_end} 이를 실행하기 전에, 현재 콘텐츠 보관함을 먼저 내보낸 후, 백업 파일을 만드는 것을 권합니다."
+"학습활동 저장소를 가져옵니다. 가져온 콘텐츠로 기존의 콘텐츠를 대체하게 됩니다. {em_start} 학습활동 저장소 가져오기의 실행취소는 "
+"불가능합니다.{em_end} 이를 실행하기 전에, 현재 학습활동 저장소를 먼저 내보낸 후, 백업 파일을 만드는 것을 권합니다."
 
 #: cms/templates/import.html
 msgid ""
@@ -18299,7 +18299,7 @@ msgid ""
 "compressed with GNU Zip). This .tar.gz file must contain a library.xml file."
 " It may also contain other files."
 msgstr ""
-"가져온 콘텐츠 보관함은 .tar.gz 파일이어야 합니다 (즉, GNU Zip으로 압축한 .tar 파일이어야 합니다.) .tar.gz "
+"가져온 학습활동 저장소는 .tar.gz 파일이어야 합니다 (즉, GNU Zip으로 압축한 .tar 파일이어야 합니다.) .tar.gz "
 "파일은 .xml 파일을 포함해야 합니다. 그 외 다른 파일 또한 포함할 가능성이 있습니다. "
 
 #: cms/templates/import.html
@@ -18310,7 +18310,7 @@ msgid ""
 "your library until the import operation has completed."
 msgstr ""
 "가져오기는 총 5단계로 이루어집니다. 처음 두 단계에는, 이 페이지에 있어야 합니다. Unpacking 단계가 완료된 후 이 페이지를 "
-"나가도 됩니다. 그러나, 가져오기 작업이 완료되기 전까지는 콘텐츠 보관함 변경을 안 하시는 것이 좋습니다.  "
+"나가도 됩니다. 그러나, 가져오기 작업이 완료되기 전까지는 학습활동 저장소 변경을 안 하시는 것이 좋습니다.  "
 
 #: cms/templates/import.html
 msgid ""
@@ -18320,8 +18320,8 @@ msgid ""
 "recommend that you export the current course, so that you have a backup copy"
 " of it."
 msgstr ""
-"콘텐츠 보관함을 가져옵니다. 가져온 보관함의 콘텐츠는 기존의 콘텐츠를 대체합니다. {em_start} 콘텐츠 보관함 가져오기의 실행취소는"
-" 불가능합니다.{em_end} 이를 실행하기 전에, 현재 콘텐츠 보관함을 먼저 내보낸 후, 백업 파일을 만드는 것을 권합니다."
+"학습활동 저장소를 가져옵니다. 가져온 보관함의 콘텐츠는 기존의 콘텐츠를 대체합니다. {em_start} 학습활동 저장소 가져오기의 실행취소는"
+" 불가능합니다.{em_end} 이를 실행하기 전에, 현재 학습활동 저장소를 먼저 내보낸 후, 백업 파일을 만드는 것을 권합니다."
 
 #: cms/templates/import.html
 msgid ""
@@ -18340,7 +18340,7 @@ msgid ""
 "your course until the import operation has completed."
 msgstr ""
 "가져오기는 총 5단계로 이루어집니다. 처음 두 단계에는, 이 페이지에 있어야 합니다. Unpacking 단계가 완료된 후 이 페이지를 "
-"나가도 됩니다. 그러나, 가져오기 작업이 완료되기 전까지는 콘텐츠 보관함 변경을 안 하시는 것이 좋습니다.  "
+"나가도 됩니다. 그러나, 가져오기 작업이 완료되기 전까지는 학습활동 저장소 변경을 안 하시는 것이 좋습니다.  "
 
 #: cms/templates/import.html
 msgid "Select a .tar.gz File to Replace Your Library Content"
@@ -18360,7 +18360,7 @@ msgstr "선택된 파일:"
 
 #: cms/templates/import.html
 msgid "Replace my library with the selected file"
-msgstr "내 콘텐츠 보관함을 선택된 파일로 대체하기"
+msgstr "내 학습활동 저장소를 선택된 파일로 대체하기"
 
 #: cms/templates/import.html
 msgid "Replace my course with the selected file"
@@ -18368,7 +18368,7 @@ msgstr "내 강좌를 선택된 파일로 대체하기"
 
 #: cms/templates/import.html
 msgid "Library Import Status"
-msgstr "콘텐츠 보관함 가져오기 상태"
+msgstr "학습활동 저장소 가져오기 상태"
 
 #: cms/templates/import.html
 msgid "Course Import Status"
@@ -18401,7 +18401,7 @@ msgstr "의미, 구문, 요청한 데이터 확인"
 
 #: cms/templates/import.html
 msgid "Updating Library"
-msgstr "콘텐츠 보관함 업데이트하기"
+msgstr "학습활동 저장소 업데이트하기"
 
 #: cms/templates/import.html
 msgid "Updating Course"
@@ -18411,7 +18411,7 @@ msgstr "강좌 정보"
 msgid ""
 "Integrating your imported content into this library. This process might take"
 " longer with larger libraries."
-msgstr "가져온 콘텐츠를 이 강좌에 통합합니다. 크기가 큰 콘텐츠 보관함일 경우 작업 처리 시간이 오래 걸릴 수 있습니다. "
+msgstr "가져온 콘텐츠를 이 강좌에 통합합니다. 크기가 큰 학습활동 저장소일 경우 작업 처리 시간이 오래 걸릴 수 있습니다. "
 
 #: cms/templates/import.html
 msgid ""
@@ -18425,7 +18425,7 @@ msgstr "성공"
 
 #: cms/templates/import.html
 msgid "Your imported content has now been integrated into this library"
-msgstr "가져온 콘텐츠가 이 콘텐츠 보관함에 통합되었습니다."
+msgstr "가져온 콘텐츠가 이 학습활동 저장소에 통합되었습니다."
 
 #: cms/templates/import.html
 msgid "Your imported content has now been integrated into this course"
@@ -18433,7 +18433,7 @@ msgstr "강좌의 삽입된 컨텐츠들이 통합되었습니다."
 
 #: cms/templates/import.html
 msgid "View Updated Library"
-msgstr "업데이트된 콘텐츠 보관함 보기"
+msgstr "업데이트된 학습활동 저장소 보기"
 
 #: cms/templates/import.html
 msgid "View Updated Outline"
@@ -18441,7 +18441,7 @@ msgstr "업데이트된 개요 보기"
 
 #: cms/templates/import.html
 msgid "Why import a library?"
-msgstr "왜 콘텐츠 보관함을 가져오나요?"
+msgstr "왜 학습활동 저장소를 가져오나요?"
 
 #: cms/templates/import.html
 msgid ""
@@ -18463,12 +18463,12 @@ msgid ""
 "updated content. You must manually refresh the randomized content blocks to "
 "bring them up to date with the latest library content."
 msgstr ""
-"1개 이상의 강좌에서 무작위 콘텐츠 블록에 의해 참조된 콘텐츠 보관함을 변경하거나 가져오려면, 강좌가 '업데이트된 콘텐츠 자동 사용' "
+"1개 이상의 강좌에서 무작위 콘텐츠 블록에 의해 참조된 학습활동 저장소을 변경하거나 가져오려면, 강좌가 '업데이트된 콘텐츠 자동 사용' "
 "기능을 사용하면 안 됩니다. 이에 무작위 콘텐츠 블록을 최신 콘텐츠로 수동으로 업데이트해야 합니다."
 
 #: cms/templates/import.html
 msgid "Learn more about importing a library"
-msgstr "콘텐츠 보관함 가져오기에 대해 자세히 알아보기"
+msgstr "학습활동 저장소 가져오기에 대해 자세히 알아보기"
 
 #: cms/templates/import.html
 msgid "Why import a course?"
@@ -18529,7 +18529,7 @@ msgstr "강좌를 만들기 위해 운영팀에게 이메일"
 
 #: cms/templates/index.html
 msgid "New Library"
-msgstr "새 콘텐츠 보관함"
+msgstr "새 학습활동 저장소"
 
 #: cms/templates/index.html
 msgid "New Program"
@@ -18589,15 +18589,15 @@ msgstr "만들기"
 
 #: cms/templates/index.html
 msgid "Create a New Library"
-msgstr "새 콘텐츠 보관함 만들기"
+msgstr "새 학습활동 저장소 만들기"
 
 #: cms/templates/index.html
 msgid "Required Information to Create a New Library"
-msgstr "새 콘텐츠 보관함을 만들기 위해 필요한 정보"
+msgstr "새 학습활동 저장소를 만들기 위해 필요한 정보"
 
 #: cms/templates/index.html
 msgid "Library Name"
-msgstr "콘텐츠 보관함명"
+msgstr "학습활동 저장소명"
 
 #: cms/templates/index.html
 msgid "e.g. Computer Science Problems"
@@ -18605,11 +18605,11 @@ msgstr "ex 컴퓨터 개론 문제"
 
 #: cms/templates/index.html
 msgid "The public display name for your library."
-msgstr "콘텐츠 보관함 이름"
+msgstr "학습활동 저장소 이름"
 
 #: cms/templates/index.html
 msgid "The public organization name for your library."
-msgstr "이 콘텐츠 보관함을 사용할 기관 이름입니다."
+msgstr "이 학습활동 저장소를 사용할 기관 이름입니다."
 
 #: cms/templates/index.html
 msgid "This cannot be changed."
@@ -18617,7 +18617,7 @@ msgstr "변경할 수 없습니다."
 
 #: cms/templates/index.html
 msgid "Library Code"
-msgstr "콘텐츠 보관함 코드"
+msgstr "학습활동 저장소 코드"
 
 #: cms/templates/index.html
 msgid "e.g. CSPROB"
@@ -18674,7 +18674,7 @@ msgstr ""
 
 #: cms/templates/index.html
 msgid "Libraries"
-msgstr "콘텐츠 보관함"
+msgstr "학습활동 저장소"
 
 #: cms/templates/index.html
 msgid "Re-run Course"
@@ -18769,24 +18769,24 @@ msgstr "(읽기)"
 
 #: cms/templates/index.html
 msgid "Were you expecting to see a particular library here?"
-msgstr "특정 콘텐츠 보관함을 여기서 보고 싶으신가요?"
+msgstr "특정 학습활동 저장소를 여기서 보고 싶으신가요?"
 
 #: cms/templates/index.html
 msgid ""
 "The library creator must give you access to the library. Contact the library"
 " creator or administrator for the library you are helping to author."
-msgstr "콘텐츠 보관함 생성자에게 접근 권한을 받아야 합니다. 생성자 또는 관리자에게 문의하세요."
+msgstr "학습활동 저장소 생성자에게 접근 권한을 받아야 합니다. 생성자 또는 관리자에게 문의하세요."
 
 #: cms/templates/index.html
 msgid "Create Your First Library"
-msgstr "첫 번째 콘텐츠 보관함 만들기"
+msgstr "첫 번째 학습활동 저장소 만들기"
 
 #: cms/templates/index.html
 msgid ""
 "Libraries hold a pool of components that can be re-used across multiple "
 "courses. Create your first library with the click of a button!"
 msgstr ""
-"콘텐츠 보관함은 다양한 강좌에서 다시 사용할 수 있는 구성요소를 가지고 있습니다. 버튼 클릭 한 번으로 첫 콘텐츠 보관함을 만들어보세요!"
+"학습활동 저장소는 다양한 강좌에서 다시 사용할 수 있는 구성요소를 가지고 있습니다. 버튼 클릭 한 번으로 첫 학습활동 저장소를 만들어보세요!"
 
 #: cms/templates/index.html
 msgid "You haven't created any programs yet."
@@ -18873,7 +18873,7 @@ msgstr ""
 
 #: cms/templates/library.html
 msgid "Content Library"
-msgstr "콘텐츠 보관함"
+msgstr "학습활동 저장소"
 
 #: cms/templates/library.html
 msgid "Add Component"
@@ -18887,7 +18887,7 @@ msgstr "콘텐츠 추가하기"
 msgid ""
 "Add components to your library for use in courses, using Add New Component "
 "at the bottom of this page."
-msgstr "강좌에서 사용하기 위해 귀하의 콘텐츠 보관함에 구성요소를 추가합니다. 상단의 새 구성요소 추가하기'를 클릭하세요."
+msgstr "강좌에서 사용하기 위해 귀하의 학습활동 저장소에 구성요소를 추가합니다. 상단의 새 구성요소 추가하기'를 클릭하세요."
 
 #: cms/templates/library.html
 msgid ""
@@ -18913,11 +18913,11 @@ msgid ""
 msgstr ""
 "보관함의 콘텐츠를 강좌에서 활용할 수 있습니다. 이를 위해 {em_start}콘텐츠{em_end} 정책 키를, 강좌의 '고급 설정'에 "
 "있는 '고급 모듈 목록'에 추가합니다. 그후 '무작위 콘텐츠 블록'을 귀하의 강좌 내용에 추가하면 됩니다. 각 '무작위 콘텐츠 블록' 의"
-" 설정에서, 콘텐츠 보관함을 소스 보관함로 선택하고, 각 학습자에게 보일 문제의 갯수를 지정하세요. "
+" 설정에서, 학습활동 저장소를 소스 보관함로 선택하고, 각 학습자에게 보일 문제의 갯수를 지정하세요. "
 
 #: cms/templates/library.html
 msgid "Learn more about content libraries"
-msgstr "콘텐츠 보관함에 대해 자세히 알아보기"
+msgstr "학습활동 저장소에 대해 자세히 알아보기"
 
 #: cms/templates/login.html cms/templates/widgets/header.html
 #: themes/red-theme/cms/templates/login.html
@@ -19017,7 +19017,7 @@ msgstr ""
 
 #: cms/templates/manage_users_lib.html
 msgid "Library User Access"
-msgstr "콘텐츠 보관함 이용자 접근"
+msgstr "학습활동 저장소 이용자 접근"
 
 #: cms/templates/manage_users_lib.html cms/templates/widgets/header.html
 msgid "User Access"
@@ -19025,7 +19025,7 @@ msgstr "사용자 접근"
 
 #: cms/templates/manage_users_lib.html
 msgid "Grant Access to This Library"
-msgstr "콘텐츠 보관함 접근 권한 부여"
+msgstr "학습활동 저장소 접근 권한 부여"
 
 #: cms/templates/manage_users_lib.html
 msgid "Provide the email address of the user you want to add"
@@ -19033,7 +19033,7 @@ msgstr "추가하고 싶은 강좌 운영팀의 이메일 주소를 입력하세
 
 #: cms/templates/manage_users_lib.html
 msgid "Add More Users to This Library"
-msgstr "이 콘텐츠 보관함에 이용자 추가하기"
+msgstr "이 학습활동 저장소에 이용자 추가하기"
 
 #: cms/templates/manage_users_lib.html
 msgid ""
@@ -19048,25 +19048,25 @@ msgstr "신규 사용자 추가하기"
 
 #: cms/templates/manage_users_lib.html
 msgid "Library Access Roles"
-msgstr "콘텐츠 보관함 접근 역할"
+msgstr "학습활동 저장소 접근 역할"
 
 #: cms/templates/manage_users_lib.html
 msgid "There are three access roles for libraries: User, Staff, and Admin."
-msgstr "콘텐츠 보관함에 이용자, 운영팀, 교수자가 접근할 수 있습니다."
+msgstr "학습활동 저장소에 이용자, 운영팀, 교수자가 접근할 수 있습니다."
 
 #: cms/templates/manage_users_lib.html
 msgid ""
 "Library Users can view library content and can reference or use library "
 "components in their courses, but they cannot edit the contents of a library."
 msgstr ""
-"콘텐츠 보관함 사용자는 콘텐츠를 볼 수 있고 참조할 수 있으며, 구성요소를 자신의 강좌에서 사용할 수도 있습니다. 하지만 콘텐츠를 수정할"
+"학습활동 저장소 사용자는 콘텐츠를 볼 수 있고 참조할 수 있으며, 구성요소를 자신의 강좌에서 사용할 수도 있습니다. 하지만 콘텐츠를 수정할"
 " 수는 없습니다.  "
 
 #: cms/templates/manage_users_lib.html
 msgid ""
 "Library Staff are content co-authors. They have full editing privileges on "
 "the contents of a library."
-msgstr "콘텐츠 보관함 관리자는 공동 개설자입니다. 보관함의 전체 콘텐츠에 대해 수정 권한을 가집니다."
+msgstr "학습활동 저장소 관리자는 공동 개설자입니다. 보관함의 전체 콘텐츠에 대해 수정 권한을 가집니다."
 
 #: cms/templates/manage_users_lib.html
 msgid ""
@@ -19074,7 +19074,7 @@ msgid ""
 "other team members. There must be at least one user with the Admin role in a"
 " library."
 msgstr ""
-"교수자는 콘텐츠 보관함의 전체 수정 권한을 가지며, 다른 강좌 운영팀 구성원을 추가하고 삭제할 수 있습니다. 이를 위해 보관함에 교수자가"
+"교수자는 학습활동 저장소의 전체 수정 권한을 가지며, 다른 강좌 운영팀 구성원을 추가하고 삭제할 수 있습니다. 이를 위해 보관함에 교수자가"
 " 최소 1명 이상 있어야 합니다.  "
 
 #: cms/templates/program_authoring.html cms/templates/widgets/header.html
@@ -20088,7 +20088,7 @@ msgstr "내보내기"
 
 #: cms/templates/widgets/header.html
 msgid "Current Library:"
-msgstr "현재 콘텐츠 보관함:"
+msgstr "현재 학습활동 저장소:"
 
 #: cms/templates/widgets/header.html
 msgid "Account Navigation"
@@ -26020,7 +26020,7 @@ msgstr "강좌 제공 기관별로 자유롭게 번호를 지정할 수 있습�
 
 #: cms/templates/index.html
 msgid "The unique code that identifies this library."
-msgstr "이 콘텐츠 보관함을 식별하기 위한 고유 코드입니다."
+msgstr "이 학습활동 저장소를 식별하기 위한 고유 코드입니다."
 
 #: cms/templates/index.html
 msgid ""
@@ -28235,5 +28235,3 @@ msgstr "전체"
 
 msgid "Available courses"
 msgstr "수강신청 가능 강좌찾기"
-
-

@@ -93,9 +93,17 @@ from student.helpers import (
     </div>
       <div class="wrapper-course-details">
         <h3 class="course-title">
-            % if percent:
-            <div style="float: right;">${percent}%</div>
-            % endif
+
+            <div style="float: right;">
+                % if enrollment.status:
+                    ${_(enrollment.status)}
+                % endif
+                % if percent:
+                    <br/>
+                    ${percent}%
+                % endif
+            </div>
+
 
           % if show_courseware_link:
             % if not is_course_blocked:
