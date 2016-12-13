@@ -51,18 +51,18 @@
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container">
         <!-- [s] -->
-        <h2>이수증 검증</h2>
+        <h2>${_("Completion date")}</h2>
     
         <section class="certification-box">
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
                         <div class="certification-form">
-                            <p>K-MOOC에서 발급받은 이수증의 유효성을 확인하실 수 있습니다.</p>
-                            <p>이수증 상단의 인증번호를 입력하세요. </p>
+                            <p>${_("You can check the validity of the certifiate issued by K-MOOC")}</p>
+                            <p>${_("Please enter your authotification number at the top of your certificate")}</p>
                             <form action="javascript:cert_check_id();">
                                 <input id="uuid" type="text" placeholder="이수증 상단의 인증번호를 입력하세요">
-                                <input type="submit" value="검증하기">
+                                <input type="submit" value="${_('Verificating')}">
                             </form>
                         </div>
                     </div>

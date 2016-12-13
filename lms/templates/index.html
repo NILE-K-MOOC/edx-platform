@@ -78,7 +78,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_HYUk.png" alt="한양대학교"></a></li>
                     <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_KOCWk.png" alt="KOCW"></a></li>
                 </ul>
-                <a href="/schools" class="univ-more">전체보기</a>
+                <a href="/schools" class="univ-more">${_("Viewing all")}</a>
             </section>
         </section>
         <!-- [e] university list -->
@@ -173,7 +173,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
                         <div class="my-course-item">
                             <h3>
-                                <img src="/static/images/main/my_course_01.png" alt="개강상태">
+                                <img src="/static/images/main/my_course_01.png" alt="${_('Opening course status')}">
                                 <p>${_("Opening Status")}</p>
                             </h3>
                             <div class="btns">
@@ -512,10 +512,10 @@ from openedx.core.djangolib.markup import HTML, Text
 <!-- sidebar -->
 <nav class="main-sticky-box">
     <ul class="main-sticky">
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents01">대학목록</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents05">수강신청 가능강좌</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">전공별 강좌</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">나에게 맞는강좌</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("University list")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Finding courses available for classes")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Viewing courses by major")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Finding courses that suit you")}</a></li>
         % if LANGUAGE_CODE == 'ko-kr':
         <li><a href="#" class="smooth-move" data-hashbang="main-contents06">커뮤니티</a></li>
         % endif

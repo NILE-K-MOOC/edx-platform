@@ -461,6 +461,9 @@ msgstr "주석 파일 업로드"
 msgid "FAQ"
 msgstr "자주하는 질문"
 
+msgid "Related sites"
+msgstr "관련사이트"
+
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
 #: themes/stanford-style/lms/templates/static_templates/about.html
@@ -28209,5 +28212,351 @@ msgstr "중국어"
 msgid "2557, NAMBUSUNHWAN-RO, SEOCHO-GU, SEOUL, KOREA. "
 msgstr "(06734)서울특별시 서초구 남부순환로 2557 (서초동)"
 
-msgid "linkTitle"
-msgstr "새 비밀번호 설정을 위한 이메일 발송하기"
+
+
+# templates/student_account/registration_gubn.html
+
+msgid "Choose your subscription type."
+msgstr "가입유형 선택"
+
+msgid "Please be sure to select the case that applies to you, as there is a difference in the registration process depending on the membership classification."
+msgstr "회원구분에 따라 가입절차에 차이가 있으니 반드시 본인에 해당하는 경우를 선택해 주시기 바랍니다."
+
+msgid "General member"
+msgstr "일반회원"
+
+msgid "General member over 14 years old"
+msgstr "만 14세 이상의 일반회원"
+
+msgid "Children member"
+msgstr "어린이 회원"
+
+msgid "General member below 14 years old"
+msgstr "만 14세 이하의 어린이 회원"
+
+# templates/student_account/parent_agree_done.html
+
+msgid "IPIN certification is succeeded."
+msgstr "아이핀 인증에 성공하였습니다."
+
+msgid "Minors can not be egal representatives."
+msgstr "미성년자는 법정대리인이 될 수 없습니다."
+
+msgid "IPIN authentication failed."
+msgstr "아이핀 인증에 실패하였습니다."
+
+# templates/student_account/agree.html
+
+msgid "IPIN certification."
+msgstr "아이핀 인증"
+
+msgid "IPIN certification is not completed."
+msgstr "아이핀 인증이 완료되지 않았습니다."
+
+msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join. Please click the ‘IPIN Certification’ button and proceed with the consent of the guardian (legal representative)."
+msgstr "어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다.“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
+
+msgid "Proceed with the consent process of guardian by IPIN certification."
+msgstr "아이핀 인증으로 보호자의 동의절차를 진행"
+
+msgid "Certificating"
+msgstr "인증하기"
+
+msgid "Movement to the next stage"
+msgstr "다음 단계 이동"
+
+# templates/student_account/agree.html
+
+msgid "Terms and conditions for subscription"
+msgstr "가입약관"
+
+msgid "In order to become a member, you have to agree to the terms and conditions for use."
+msgstr "이용약관을 동의하여야 회원가입이 가능합니다."
+
+msgid "If you agree to the personal information processing policy, membership is possible."
+msgstr "개인정보처리방침을 동의하여야 회원가입이 가능합니다."
+
+msgid "Terms and conditions for use"
+msgstr "이용약관"
+
+msgid "Agree"
+msgstr "동의함"
+
+msgid "Do not agree"
+msgstr "동의하지 않음"
+
+msgid "Privacy policy (or Personal information processing policy) "
+msgstr "개인정보의 수집 및 이용 동의"
+
+
+# templates/instructor/instructor_dashboard_2/instructor_dashboard_2.html
+
+msgid "Plagiarism test implementation"
+msgstr "표절검사 수행"
+
+msgid "The plagiarism test can be performed on the learners' narrative answers among the mutual losing questions."
+msgstr "표절검사는 상호패점 문항 중 학습자들의 서술형 답안에 대해 수행할 수 있습니다."
+
+msgid "Since it is performed by the automatic scheduler once a day, the result is calculated within maximum one day after the execution request."
+msgstr "1일 1회 자동 스케줄러에 의해 수행되므로, 수행 요청 후 최대 1일 이내에 결과가 산출됩니다."
+
+msgid "Performing a plagiarism test"
+msgstr "표절검사 수행하기"
+
+msgid "Plagiarism test is in progress."
+msgstr "표절검사가 진행중입니다."
+
+msgid "Test progress status"
+msgstr "검사 진행상태"
+
+msgid "Plagiarism test is completed."
+msgstr "표절검사가 완료되었습니다."
+
+msgid "There is currently no work in progress."
+msgstr "현재 진행중인 작업이 없습니다."
+
+msgid "Plagiarism test result"
+msgstr "표절 검사 결과"
+
+msgid "Outputs the final plagiarism test result as a CSV file."
+msgstr "최종 표절검사 결과를 CSV 파일로 출력합니다."
+
+msgid "CSV file download"
+msgstr "csv 파일 다운로드"
+
+# templates/courseware/schools.html
+
+msgid "Introduction of participating universities and shortcut to homepage"
+msgstr "참여대학 소개 및 홈페이지 바로가기"
+
+msgid "Introducing participating universities with K-MOOC."
+msgstr "K-MOOC과 함께하는 참여대학을 소개합니다."
+
+msgid "K-MOOC promotes the autonomy and diversity of participating universities to be respected and exercised as much as possible during the entire business process, and creates close cooperation between related institutions and participating universities."
+msgstr "K-MOOC은 사업 전 과정에서 참여대학의 자율성과 다양성이 최대한 존중되고 발휘될 수 있도록 추진합니다.또한 관계 기관과 참여대학간의 긴밀한 협력을 만들어 나갑니다."
+
+# templates/courseware/cert_check.html
+
+msgid "Certificate verification"
+msgstr "이수증 검증"
+
+msgid "You can check the validity of the certifiate issued by K-MOOC"
+msgstr "K-MOOC에서 발급받은 이수증의 유효성을 확인하실 수 있습니다."
+
+msgid "Please enter your authotification number at the top of your certificate"
+msgstr "이수증 상단의 인증번호를 입력하세요."
+
+msgid "Verificating"
+msgstr "검증하기"
+
+# templates/certificates/_accomplishment-rendering_kmooc.html
+
+msgid "Certificatiion ID"
+msgstr "인증번호 CERTIFICATE ID"
+
+msgid "This certificate will be awarded by faithfully completing the above course"
+msgstr "위 과정을 성실히 이수하여 이 증서를 수여합니다."
+
+msgid "Completion date"
+msgstr "이수일자"
+
+# templates/student_account/remove_account.html
+
+msgid "Withdrawal guidance"
+msgstr "탈퇴안내"
+
+msgid "Please make sure to check the instructions before submitting your membership withdrawal"
+msgstr "회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요."
+
+msgid "If you wirthdraw your membership, you can not reuse or recover the ID in use"
+msgstr "사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다."
+
+msgid "Please be careful that you and others can not reuse or recover your ID if you withdraw your membership."
+msgstr "탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다."
+
+msgid "After your withdrawal of membership, the membership information and personal service use history will be deleted."
+msgstr "Personal service use information such as member information, e-mail addresse, and profiles will be deleted, and the deleted data will not be recovered."
+
+msgid "Please confirm the deleted information and backup the necessary data in advance."
+msgstr "삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요."
+
+msgid "Postings registered on the bulletin board service remain after the withdrawal."
+msgstr "탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다."
+
+msgid "Bulletin board"
+msgstr "게시판"
+
+msgid "Question answer opinion"
+msgstr "질문 답변 의견"
+
+msgid "Posts"
+msgstr "게시글"
+
+msgid "After withdrawal, you can not subscribe to the current ID again and ID and data can not be recovered."
+msgstr "탈퇴 후에는 현재 아이디로 다시 가입할 수 없으며 아이디와 데이터는 복구할 수 없습니다."
+
+msgid "I have read and agree to all the instructions."
+msgstr "안내 사항을 모두 확인하였으며, 이에 동의합니다."
+
+msgid "Withdrawal after consent"
+msgstr "동의 후 탈퇴하기"
+
+msgid "Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click 'OK' button to log out automatically."
+msgstr "${user.email}로 계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. \n\n'확인'버튼 클릭 후 자동으로 로그아웃 됩니다."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# edx-platform/lms/templates/courseware/privacy.html
+
+msgid "K-MOOC Homepage Personal Information Processing Policy (Plan)"
+msgstr "K-MOOC 개인정보처리방침"
+
+msgid ""
+"The K-MOOC homepage (http://www.kmooc.kr, hereinafter referred to as the 'homepage') is a system run by the National Institute for Lifelong Education (hereinafter referred to as 'NILE'), a member institution of the Ministry of Education. All the personal information are collected, possessed and processed based on related laws and regulations."
+"The 'Personal Information Protection Act' provides general rules for the handling of such personal information, and on the homepage, personal information collected, possessed and processed in accordance with the provisions of this Act shall be used for proper execution of public works and protection of users' interests. We will treat it legally and properly.<br><br>"
+"In addition, the homepage respects the interests of users in handling personal information such as requests for viewing, correction, deletion, and suspension of personal information held by relevant laws and regulations, Users may file an administrative appeal as required by the Administrative Appeals Act with regard to the infringement of rights and interests in these laws and regulations.<br><br>"
+"This home has the following processing policy to protect the personal information protection and rights of the users in accordance with the 'Personal Information Protection Act' and to smoothly handle user's complaints related to personal information. When revising the personal information processing policy, we will notify you through the notice (or individual notice) on the homepage.<br><br>"
+"○ This policy will be made public on the homepage after establishing it in accordance with Article 30 (Establishment and Disclosure of Personal Information Processing Policy) of the 「Personal Information Protection Act」.<br><br>"
+msgstr ""
+"K-MOOC 홈페이지(http://www.kmooc.kr, 이하 ‘당 홈페이지’라 한다)는 교육부 출연기관인 국가평생교육진흥원(이하 ‘진흥원’이라 한다)에서 운영하고 있는 시스템으로 모든 개인정보는 관련 법령에 근거하여 수집ㆍ보유 및 처리되고 있습니다.<br><br>"
+"「개인정보 보호법」 은 이러한 개인정보의 취급에 대한 일반적인 규범을 제시하고 있으며, 당 홈페이지에서는 이러한 법령의 규정에 따라 수집ㆍ보유 및 처리하는 개인정보를 공공업무의 적절한 수행과 이용자의 권익을 보호하기 위해 적법하고 적정하게 취급할 것입니다.<br><br>"
+"또한, 당 홈페이지는 관련 법령에서 규정한 바에 따라 보유하고 있는 개인정보에 대한 열람, 정정, 삭제, 처리정지 요구 등 개인정보를 처리 시 이용자의 권익을 존중하며, 이용자는 이러한 법령상 권익의 침해 등에 대하여 행정심판법에서 정하는 바에 따라 행정심판을 청구할 수 있습니다.<br><br>"
+"당 홈페이지는 「개인정보 보호법」에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있으며, 개인정보 처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다. <br><br>"
+"개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.<br><br>"
+"○ 본 방침은 「개인정보 보호법」 제30조(개인정보 처리방침의 수립 및 공개)에 의거 수립 후 당 홈페이지를 통하여 공개됩니다.<br><br>"
+
+msgid "Article 1 (Purpose of Personal Information Processing)"
+msgstr "제1조(개인정보의 처리 목적)"
+
+msgid "Article 2 (Retention Period of Personal Information Processing)"
+msgstr "제2조(개인정보의 처리 보유 기간)"
+
+msgid "Article 3 (Providing Third Parties with Personal Information)"
+msgstr "제3조(개인정보의 제3자 제공)"
+
+msgid "Article 4 (Consignment of Personal Information Processing)"
+msgstr "제4조(개인정보처리의 위탁)"
+
+msgid "Article 5 (Rights, Duties and Execution Methods of Information Subjects)"
+msgstr "제5조(정보주체의 권리∙의무 및 행사방법)"
+
+msgid "Article 6 (Personal Information Collection Items)"
+msgstr "제6조(개인정보 수집 항목)"
+
+msgid "Article 7 (Matters Concerning the Installation, Operation and Rejection of Devices that Automatically Collect Personal Information)"
+msgstr "제7조(개인정보를 자동으로 수집하는 장치의 설치․운영 및 그 거부에 관한 사항)"
+
+msgid "Article 8 (Destruction of Personal Information)"
+msgstr "제8조(개인정보 파기)"
+
+msgid "Article 9 (Measures to Ensure the Safety of Personal Information)"
+msgstr "제9조(개인정보의 안전성 확보 조치)"
+
+msgid "Article 10 (Responsible Chief Officer for Personal Information Protection)"
+msgstr "제10조(개인정보 보호책임자)"
+
+msgid "Article 11 (Request to View Personal Information)"
+msgstr "제11조(개인정보 열람청구)"
+
+msgid "Article 12 (Remedies for Rights and Interests Infringement)"
+msgstr "제12조(권익침해 구제방법)"
+
+msgid "Article 13 (Changes in Personal Information Processing Policy)"
+msgstr "제13조(개인정보 처리방침의 변경)"
+
+msgid "① The homepage handles personal information for the following purposes. The personal information being processed is not used for any purpose other than the following purposes, and if the purpose of use is changed, we will implement necessary measures such as receiving extra consent in accordance with Article 18 of the 「Personal Information Protection Act」."
+msgstr "① 당 홈페이지는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다."
+
+msgid "1. Homepage membership sign up and management"
+msgstr "1. 홈페이지 회원 가입 및 관리"
+
+msgid "We process personal information for the following purposes: confirmation of the intention of membership sign up; confirmation of identity by providing membership service; maintenance and management of membership status; prevention of illegal use of service; confirmation of consent of a legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices/notification. "
+msgstr "회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 확인, 회원자격 유지ㆍ관리, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 수집 시 법정대리인의 동의 여부 확인, 분쟁 조정을 위한 기록 보존, 각종 고지ㆍ통지 등을 목적으로 개인정보를 처리합니다."
+
+msgid "2. Civil petition processing"
+msgstr "2. 민원사무 처리"
+
+msgid "We process personal information for the purpose of confirming the identity of the complainant, confirming the complaint, contacting and notifying for the investigation, reporting the processing result, and improving and providing the service."
+msgstr "민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보, 서비스 개선 및 제공 등의 목적으로 개인정보를 처리합니다."
+
+msgid "② The purposes of processing personal information files registered and disclosed in accordance with Article 32 of the 「Personal Information Protection Act」 of the homepage are as follows."
+msgstr "② 당 홈페이지가 「개인정보 보호법」 제32조에 따라 등록ㆍ공개하는 개인정보파일의 처리목적은 다음과 같습니다."
+
+msgid "File Name"
+msgstr "파일명"
+
+msgid "Operating Basis"
+msgstr "운영 근거"
+
+msgid "Purpose of Processing"
+msgstr "처리 목적"
+
+msgid "Personal Information Items"
+msgstr "개인정보 항목"
+
+msgid "Holding Period"
+msgstr "보유 기간"
+
+msgid "K-MOOC homepage member information"
+msgstr "K-MOOC 홈페이지 회원정보"
+
+msgid "Agreement of Information subject"
+msgstr "정보주체 동의"
+
+msgid "Homepage membership sign up and management, civil petition processing"
+msgstr "홈페이지 회원가입 및 관리, 민원사무 처리"
+
+msgid "- Required items : Email, actual name, ID, password, country, sex, the year of birth"
+msgstr "- 필수항목 : 이메일, 실명, 아이디, 비밀번호, 국가, 성별, 출생연도"
+
+msgid "- Optional items : residence, the highest level of education, purpose of joining"
+msgstr "- 선택항목 : 거주지, 최종학력, 가입목적"
+
+msgid "Until membership withdrawal"
+msgstr "회원 탈퇴시 까지"
+
+# templates/index.html
+
+msgid "Viewing all"
+msgstr "전체보기"
+
+msgid "University list"
+msgstr "대학목록"
+
+msgid "Finding courses available for classes"
+msgstr "수강신청 가능강좌 찾기"
+
+msgid "Viewing courses by major"
+msgstr "전공별 강좌 보기"
+
+msgid "Finding courses that suit you"
+msgstr "나에게 맞는 강좌 찾기"
+
+msgid "Opening course status"
+msgstr "개강상태"
