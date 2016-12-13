@@ -733,13 +733,13 @@ def dashboard(request):
     course_type4 = []
 
     for c in course_enrollments:
-        if c.course.start > datetime.datetime.now(UTC):
+        if c.course.start and c.course.start > datetime.datetime.now(UTC):
             c.status = 'ready'
             course_type1.append(c)
-        elif c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
             c.status = 'ing'
             course_type2.append(c)
-        elif c.course.end < datetime.datetime.now(UTC):
+        elif c.course.end and c.course.end < datetime.datetime.now(UTC):
             c.status = 'end'
             course_type3.append(c)
         else:
