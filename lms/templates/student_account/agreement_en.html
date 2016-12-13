@@ -1,0 +1,215 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+
+<%block name="header_extras">
+</%block>
+
+<%block name="js_extra">
+</%block>
+
+<%block name="pagetitle">이용약관 | K-MOOC</%block>
+<%
+  platform_name = microsite.get_value('platform_name', settings.PLATFORM_NAME)
+  course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+  if self.stanford_theme_enabled():
+    course_index_overlay_text = _("Explore free courses from {university_name}.").format(university_name="Stanford University")
+    logo_file = static.url('themes/stanford/images/seal.png')
+    logo_alt_text = "Stanford Seal Logo"
+
+  else:
+    course_index_overlay_text = microsite.get_value('course_index_overlay_text', _("Explore courses from {platform_name}.").format(platform_name=platform_name))
+
+    if settings.FEATURES.get('IS_EDX_DOMAIN', False):
+      # For some reason, `static.url('images/edx-theme/edx-logo-bw.png')` breaks template rendering.
+      default_image_url = settings.STATIC_URL + 'images/edx-theme/edx-logo-bw.png'
+    else:
+      default_image_url = settings.STATIC_URL + 'images/default-theme/logo-large.png'
+
+    logo_file = microsite.get_value(
+      'course_index_overlay_logo_file', default_image_url
+    )
+
+    logo_alt_text = _("{platform_name} Logo").format(platform_name=platform_name)
+%>
+
+<section class="container rule">
+	
+			<h2>Acception of Terms and Conditions</h2>
+
+			<h3>Chapter 1 General Rule</h3>
+			<dl>
+				<dt>Article 1 (Purpose)</dt>
+				<dd>The purpose of these Terms and Conditions shall be that the customer (hereinafter referred to as "Member") using all member information services (hereinafter referred to as "Service") provided by the K-MOOC (hereinafter referred to as the "Site") operated by the National Institute for Lifelong Education (hereinafter referred to as NILE) and the 'Site' specify the terms and procedures and other necessary matters regarding the use of the 'Services'.</dd>
+				<dt>Article 2 (Effect and Change of Terms)</dt>
+				<dd>
+					<ol>
+						<li>1. This Agreement will be effective when the Member clicks the "Agree" button in response to the question "Do you agree with the Terms?" </li>
+						<li>2. The 'Site' may change these Terms and Conditions, and the modified Terms will be announced to 'Member's for 7 days prior to the effective date and will be effective on the applicable date'</li>
+						<li>3. If 'Member' does not agree to the modified terms, 'Member' may stop using the 'Service' and withdraw. If 'Member' continues to use the 'Services' after the terms have been changed, the 'Member' shall be deemed to have agreed to the terms of this Agreement.</li>
+					</ol>
+				</dd>
+				<dt>Article 3 (Regulations other than the Terms and Conditions)</dt>
+				<dd>When any matters not specified in these Terms and Conditions are specified in relevant laws and regulations, they shall be governed by the relevant laws and regulations.</dd>
+			</dl>
+
+			<h3>Chapter 2 Membership sign-up and Service Usage</h3>
+			<dl>
+				<dt>Article 4 (Usage Contract)</dt>
+				<dd>Use of the 'Service' is permitted only if the 'homepage' is permitted and the 'Member' agrees to the Terms and Conditions.</dd>
+				<dt>Article 5 (Application for Use)</dt>
+				<dd>
+					<ol>
+						<li>1. In order to use this service, you must record your information on the form prescribed by 'this site'.</li>
+						<li>2. The user information shown on the subscription form is considered actual data. Users who do not enter real information will not be legally protected.</li>
+					</ol>
+				</dd>
+				<dt>Article 6 (Approval of Use Application)</dt>
+				<dd>
+					<ol>
+						<li>1. The 'Site' approves the use of 'Service's when 'Member' makes a complete application by writing all matters correctly. However, the following cases are an exception.
+							<ol>
+								<li>① If the application is made using someone else's name</li>
+								<li>② If you have filed a false application for the membership application form</li>
+								<li>③ If you applied for the purpose of hindering social well-being, order or morals </li>
+								<li>④ If you interfere with another person's use of the site services or take actions such as stealing the information</li>
+								<li>⑤  If you do the acts prohibited by laws and regulations and the terms from using the site</li>
+								<li>⑥ If you do not have enough membership requirements set by the site</li>
+							</ol>
+						</li>
+						<li>2. The information that the member enters is shown below. In addition to the information below, the 'Site' may require the 'Member' to enter additional information.<br>
+							- Required items: Email, real name, ID, password, country, gender, year of birth<br>
+							- Optional items: Place of residence, the highest level of education, purpose of enrollment
+						</li>
+					</ol>
+				</dd>
+				<dt>Article 7 (Change of Contract Items and Information Retention/Use Period)</dt>
+				<dd>
+					<ol>
+						<li>1. The 'Member', if changes are made to the information entered when applying for 'Service', must correct it online.</li>
+						<li>2. From the moment you register as a 'member', the 'site' can hold and use the information of 'member'.</li>
+                        <li>3. From the moment the 'Member' leaves the site, the information of the 'Member' will not be available on the site. However, in order to protect personal information, the 'Site' may retain the information of the 'Member' for 20 days from the moment when membership is withdrawn.</li>
+					</ol>
+				</dd>
+				<dt>Article 8 (Collection of Personal Information by Cookies)</dt>
+				<dd>
+					<ol>
+						<li>1. The 'Site' sends cookies to the user's personal computer to provide specialized services for each user.</li>
+                        <li>2. In order for the user to be able to use it conveniently with one login, he or she must accept cookies.</li>
+                        <li>3. Cookies are used to identify the characteristics of users who visit the 'site'.</li>
+                        <li>4. Users can selectively accept cookies by adjusting options in the web browser. If you refuse to accept cookies, you will not be able to use the services that require log-in.</li>
+					</ol>
+				</dd>
+			</dl>
+
+			<h3>Chapter 3 Cancellation of Contract</h3>
+			<dl>
+				<dt>Article 9 (Cancellation of Contract)</dt>
+				<dd>
+					<ol>
+						<li>1. 'Member' may initiate complaints about the processing of member information through online.</li>
+    				    <li>2. When a 'member' wishes to terminate the service use contract, he or she may request the termination of the contract by e-mail with his or her name, ID, date of birth, or you must apply for withdrawal in 'membership withdrawal' menu of member information correction.</li>
+					</ol>
+				</dd>
+				<dt>Article 10 (Disqualification)</dt>
+				<dd>In the event of the following reasons, the 'Site' may cancel the use contract without any prior notice or terminate the service use by determining a period.
+					<ol>
+						<li>1. If you missed the 'Basic Information' in Article 6 (2)</li>
+                        <li>2. If you register with false contents when you apply for membership</li>
+                        <li>3. If you have stolen someone's ID and password</li>
+                        <li>4. If you infringe the intellectual property rights of the site, other members or third parties</li>
+                        <li>5. If you do the act of harming social well-being and order, public morals</li>
+                        <li>6. In the event of an act that damages or causes disadvantage to others' honor</li>
+                        <li>7. In case of being registered as a credit failure of PC communication and Internet service pursuant to the "Act on the Use and Protection of Credit Information"</li>
+					</ol>
+				</dd>
+			</dl>
+
+			<h3>Chapter 4 Responsibility</h3>
+			<dl>
+				<dt>Article 11 (The Obligations of the 'Site')</dt>
+				<dd>
+					<ol>
+						<li>1. In order to facilitate the use of the sites affiliated with the 'Site', the 'Site' may share the information of the 'Member' with the affiliated sites, and for the purpose of sharing, the 'Site' can send cookies to the computer of 'Member'.</li>
+    				    <li>2. The 'Site' does not disclose or distribute the personal information of 'Member' which is known by 'Service' provision to a third party without the consent of the user. However, the following exceptions apply.
+							<ol>
+								<li>① If there are special regulations in laws such as Act on Financial Real Name Transaction and Confidentiality, Use and Protection of Credit Information, Basic Law of Telecommunications, Telecommunications Business Act, Local Tax Act, Consumer Protection Act, Bank of Korea Act and Criminal Procedure Act</li>
+								<li>② When necessary for statistical writing / academic research or market research, if it is provided in an unidentifiable form for a specific individual</li>
+                                <li>③ The 'Site' may use all or part of the information of 'Member' as statistical data related to the business'</li>
+                                <li>④ The 'Site' strives to ensure that the 'Service' operates consistently and reliably. If the 'Service' is interrupted for any unavoidable reason, we will do our best to repair and recover it without delay. However, in case of natural disasters, emergencies, periodic system inspections and the necessity of 'NILE', we may stop or suspend the service temporarily.</li>
+							</ol>
+						</li>
+					</ol>
+				</dd>
+				<dt>Article 12 (Consent on the Use of 'Member' Information)</dt>
+				<dd>
+					<ol>
+						<li>1. NILE operates various websites in addition to this site. NILE collects member's information for the purpose of providing services of the main site and various subsites operated by NILE, and can use the collected information of members.</li>
+                        <li>2. The 'Site' may be affiliated with various education related associations and business operators for the quality of their services and may share their membership information. In such case, the 'Site' shall disclose the partnership, purpose, and contents to the Terms in this Article and shall be provided to the Affiliates after the consent of 'Member' is obtained.'</li>
+                        <li>3. The consent of the 'Member' under the provisions of this Article shall be effected by clicking the button for subscribing to the information service provided in the Terms and Conditions and the entry screen of member enrollment information.</li>
+					</ol>
+				</dd>
+				<dt>Article 13 (Obligations of Member)</dt>
+				<dd>
+					<ol>
+						<li>1. 'Member's are responsible for the management of their ID and password.</li>
+                        <li>2. 'Member' shall not assign, give, loan his or her ID to another person  or allow others to use it.</li>
+                        <li>3. If your ID is used improperly, the 'Member' must notify it to NILE.</li>
+                        <li>4. "Member" can not use the data registered in the post to conduct sales activities.</li>
+                        <li>5. 'Member' must receive a notice mail from the "Site".</li>
+					</ol>
+				</dd>
+				<dt>Article 14 (Member Posts)</dt>
+				<dd>
+					<ol>
+						<li>1. Posts include all writings made by members on the various boards of the 'Site'.</li>
+						<li>2. Any loss or problem arising out of the information posted by members and Q&A is solely the responsibility of the member, and the 'site' is not responsible for it unless it is the intention of the 'site'.</li>
+						<li>3. In the event of any claims, lawsuits, or any other disputes against the 'site' arising out of any third party due to the member' s posting, the member shall bear the cost of the settlement and process the dispute for the site, In the event that the 'Site' compensates the third party or damages occur to the 'Site', the member shall compensate the 'Site'.</li>
+						<li>4. The 'Site' shall delete member's post without prior notice in the event that the post of the 'Member' fall under any of the following: However, the 'site' does not have any obligation to inspect or censor the post.
+							<ol>
+								<li>① If you defame a third party by slander</li>
+                                <li>② In case of contents that hinder public order or good morals</li>
+                                <li>③ In case of infringement of copyright of the 'Site' or copyright of third party etc.</li>
+                                <li>④ When the posting period stipulated in the 'Site is exceed</li>
+                                <li>⑤ In case of a commercial post, a money-making advertisement, a good luck letter, etc.</li>
+                                <li>⑥ In case of not meeting the purpose of site opening</li>
+                                <li>⑦ When other applicable laws and regulations are violated</li>
+							</ol>
+						</li>
+    				<li>5. The 'Site' can process, sell, publish, etc. using the posts registered by 'Member's.'</li>
+					</ol>
+				</dd>
+			</dl>
+
+			<h3>Chapter 5 Information Provision</h3>
+			<dl>
+				<dt>Article 15 (Information Provision)</dt>
+				<dd>
+					The 'Site' may transmit the necessary information or advertisement to 'Member' by e-mail or letter mail. If 'Member' dose not want this, the 'Member' can refuse the information from the subscription application menu and the member information modification menu. However, we may send a notice mail of the 'Site' of Article 13 (5) to the member who has refused to receive the information.
+				<dd>
+			</dl>
+
+			<h3>Chapter 6 Exemption from Responsibility and Indemnification</h3>
+			<dl>
+				<dt>Article 16 (Responsibility)</dt>
+				<dd>
+					<ol>
+						<li>1. The 'Site' shall not be liable for any damages incurred to the 'Member' in connection with the use of the 'Service' unless there is intent or gross negligence of the 'Site'.</li>
+    				    <li>2. The 'Site' does not endorse or warrant the appropriateness, accuracy, timeliness, credibility of information, products, services, software, graphics, voice and video related to the use of the 'Service'.</li>
+					</ol>
+				<dd>
+				<dt>Article 17 (Exemption from Responsibility)</dt>
+				<dd>'NILE' will not be held responsible for any problems occurred to 'Member if disruption of service is due to natural disasters or unavoidable circumstances.</dd>
+				<dt>Article 18 (Competent Court)</dt>
+				<dd>The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.<br>
+					The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.</dd>
+			</dl>
+</section>
+
+
+

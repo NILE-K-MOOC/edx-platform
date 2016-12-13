@@ -28428,3 +28428,137 @@ msgstr "위 과정을 성실히 이수하여 이 증서를 수여합니다."
 
 msgid "Completion date"
 msgstr "이수일자"
+
+# edx-platform/lms/templates/courseware/privacy.html
+
+msgid "K-MOOC Homepage Personal Information Processing Policy (Plan)"
+msgstr "K-MOOC 개인정보처리방침"
+
+msgid ""
+"The K-MOOC homepage (http://www.kmooc.kr, hereinafter referred to as the 'homepage') is a system run by the National Institute for Lifelong Education (hereinafter referred to as 'NILE'), a member institution of the Ministry of Education. All the personal information are collected, possessed and processed based on related laws and regulations."
+"The 'Personal Information Protection Act' provides general rules for the handling of such personal information, and on the homepage, personal information collected, possessed and processed in accordance with the provisions of this Act shall be used for proper execution of public works and protection of users' interests. We will treat it legally and properly.<br><br>"
+"In addition, the homepage respects the interests of users in handling personal information such as requests for viewing, correction, deletion, and suspension of personal information held by relevant laws and regulations, Users may file an administrative appeal as required by the Administrative Appeals Act with regard to the infringement of rights and interests in these laws and regulations.<br><br>"
+"This home has the following processing policy to protect the personal information protection and rights of the users in accordance with the 'Personal Information Protection Act' and to smoothly handle user's complaints related to personal information. When revising the personal information processing policy, we will notify you through the notice (or individual notice) on the homepage.<br><br>"
+"○ This policy will be made public on the homepage after establishing it in accordance with Article 30 (Establishment and Disclosure of Personal Information Processing Policy) of the 「Personal Information Protection Act」.<br><br>"
+msgstr ""
+"K-MOOC 홈페이지(http://www.kmooc.kr, 이하 ‘당 홈페이지’라 한다)는 교육부 출연기관인 국가평생교육진흥원(이하 ‘진흥원’이라 한다)에서 운영하고 있는 시스템으로 모든 개인정보는 관련 법령에 근거하여 수집ㆍ보유 및 처리되고 있습니다.<br><br>"
+"「개인정보 보호법」 은 이러한 개인정보의 취급에 대한 일반적인 규범을 제시하고 있으며, 당 홈페이지에서는 이러한 법령의 규정에 따라 수집ㆍ보유 및 처리하는 개인정보를 공공업무의 적절한 수행과 이용자의 권익을 보호하기 위해 적법하고 적정하게 취급할 것입니다.<br><br>"
+"또한, 당 홈페이지는 관련 법령에서 규정한 바에 따라 보유하고 있는 개인정보에 대한 열람, 정정, 삭제, 처리정지 요구 등 개인정보를 처리 시 이용자의 권익을 존중하며, 이용자는 이러한 법령상 권익의 침해 등에 대하여 행정심판법에서 정하는 바에 따라 행정심판을 청구할 수 있습니다.<br><br>"
+"당 홈페이지는 「개인정보 보호법」에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있으며, 개인정보 처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다. <br><br>"
+"개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.<br><br>"
+"○ 본 방침은 「개인정보 보호법」 제30조(개인정보 처리방침의 수립 및 공개)에 의거 수립 후 당 홈페이지를 통하여 공개됩니다.<br><br>"
+
+msgid "Article 1 (Purpose of Personal Information Processing)"
+msgstr "제1조(개인정보의 처리 목적)"
+
+msgid "Article 2 (Retention Period of Personal Information Processing)"
+msgstr "제2조(개인정보의 처리 보유 기간)"
+
+msgid "Article 3 (Providing Third Parties with Personal Information)"
+msgstr "제3조(개인정보의 제3자 제공)"
+
+msgid "Article 4 (Consignment of Personal Information Processing)"
+msgstr "제4조(개인정보처리의 위탁)"
+
+msgid "Article 5 (Rights, Duties and Execution Methods of Information Subjects)"
+msgstr "제5조(정보주체의 권리∙의무 및 행사방법)"
+
+msgid "Article 6 (Personal Information Collection Items)"
+msgstr "제6조(개인정보 수집 항목)"
+
+msgid "Article 7 (Matters Concerning the Installation, Operation and Rejection of Devices that Automatically Collect Personal Information)"
+msgstr "제7조(개인정보를 자동으로 수집하는 장치의 설치․운영 및 그 거부에 관한 사항)"
+
+msgid "Article 8 (Destruction of Personal Information)"
+msgstr "제8조(개인정보 파기)"
+
+msgid "Article 9 (Measures to Ensure the Safety of Personal Information)"
+msgstr "제9조(개인정보의 안전성 확보 조치)"
+
+msgid "Article 10 (Responsible Chief Officer for Personal Information Protection)"
+msgstr "제10조(개인정보 보호책임자)"
+
+msgid "Article 11 (Request to View Personal Information)"
+msgstr "제11조(개인정보 열람청구)"
+
+msgid "Article 12 (Remedies for Rights and Interests Infringement)"
+msgstr "제12조(권익침해 구제방법)"
+
+msgid "Article 13 (Changes in Personal Information Processing Policy)"
+msgstr "제13조(개인정보 처리방침의 변경)"
+
+msgid "① The homepage handles personal information for the following purposes. The personal information being processed is not used for any purpose other than the following purposes, and if the purpose of use is changed, we will implement necessary measures such as receiving extra consent in accordance with Article 18 of the 「Personal Information Protection Act」."
+msgstr "① 당 홈페이지는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다."
+
+msgid "1. Homepage membership sign up and management"
+msgstr "1. 홈페이지 회원 가입 및 관리"
+
+msgid "We process personal information for the following purposes: confirmation of the intention of membership sign up; confirmation of identity by providing membership service; maintenance and management of membership status; prevention of illegal use of service; confirmation of consent of a legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices/notification. "
+msgstr "회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 확인, 회원자격 유지ㆍ관리, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 수집 시 법정대리인의 동의 여부 확인, 분쟁 조정을 위한 기록 보존, 각종 고지ㆍ통지 등을 목적으로 개인정보를 처리합니다."
+
+msgid "2. Civil petition processing"
+msgstr "2. 민원사무 처리"
+
+msgid "We process personal information for the purpose of confirming the identity of the complainant, confirming the complaint, contacting and notifying for the investigation, reporting the processing result, and improving and providing the service."
+msgstr "민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보, 서비스 개선 및 제공 등의 목적으로 개인정보를 처리합니다."
+
+msgid "② The purposes of processing personal information files registered and disclosed in accordance with Article 32 of the 「Personal Information Protection Act」 of the homepage are as follows."
+msgstr "② 당 홈페이지가 「개인정보 보호법」 제32조에 따라 등록ㆍ공개하는 개인정보파일의 처리목적은 다음과 같습니다."
+
+msgid "File Name"
+msgstr "파일명"
+
+msgid "Operating Basis"
+msgstr "운영 근거"
+
+msgid "Purpose of Processing"
+msgstr "처리 목적"
+
+msgid "Personal Information Items"
+msgstr "개인정보 항목"
+
+msgid "Holding Period"
+msgstr "보유 기간"
+
+msgid "K-MOOC homepage member information"
+msgstr "K-MOOC 홈페이지 회원정보"
+
+msgid "Agreement of Information subject"
+msgstr "정보주체 동의"
+
+msgid "Homepage membership sign up and management, civil petition processing"
+msgstr "홈페이지 회원가입 및 관리, 민원사무 처리"
+
+msgid "- Required items : Email, actual name, ID, password, country, sex, the year of birth"
+msgstr "- 필수항목 : 이메일, 실명, 아이디, 비밀번호, 국가, 성별, 출생연도"
+
+msgid "- Optional items : residence, the highest level of education, purpose of joining"
+msgstr "- 선택항목 : 거주지, 최종학력, 가입목적"
+
+msgid "Until membership withdrawal"
+msgstr "회원 탈퇴시 까지"
+
+msgid ""
+msgstr "※ 좀 더 상세한 개인정보파일 등록사항 공개는 행정자치부 개인정보보호 종합지원포털(www.privacy.go.kr) → 개인정보 민원 → 개인정보 열람 등 요구 → 개인정보파일 목록 검색 메뉴를 활용해 주시기 바랍니다."
+
+msgid ""
+msgstr "① 당 홈페이지는 법령에 따른 개인정보 보유ㆍ이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받는 개인정보 보유ㆍ이용기간 내에서 개인정보를 처리ㆍ보유합니다."
+
+msgid ""
+msgstr "② 각각의 개인정보 처리 및 보유 기간은 본 방침 제1조 ②항을 참조바랍니다. 다만, 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지, 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지 개인정보를 처리ㆍ보유합니다."
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+
+msgid ""
+msgstr ""
+

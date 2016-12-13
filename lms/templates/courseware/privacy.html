@@ -1,5 +1,10 @@
-<%page expression_filter="h"/>
-<%! from django.utils.translation import ugettext as _ %>
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+## <%page expression_filter="h"/>
+## <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
 
 <%block name="pagetitle">${_("Contact")}</%block>
@@ -8,15 +13,18 @@
 
     <section class="container rule">
         <!-- [s]  -->
-        <h2>K-MOOC 개인정보처리방침</h2>
+        <h2>${_("K-MOOC Homepage Personal Information Processing Policy (Plan)")}</h2>
         <section class="rule-box">
-            <p>K-MOOC 홈페이지(http://www.kmooc.kr, 이하 ‘당 홈페이지’라 한다)는 교육부 출연기관인 국가평생교육진흥원(이하 ‘진흥원’이라 한다)에서 운영하고 있는 시스템으로 모든 개인정보는 관련 법령에 근거하여 수집ㆍ보유 및 처리되고 있습니다.<br><br>
-                「개인정보 보호법」 은 이러한 개인정보의 취급에 대한 일반적인 규범을 제시하고 있으며, 당 홈페이지에서는 이러한 법령의 규정에 따라 수집ㆍ보유 및 처리하는 개인정보를 공공업무의 적절한 수행과 이용자의 권익을 보호하기 위해 적법하고 적정하게 취급할 것입니다.<br><br>
-                또한, 당 홈페이지는 관련 법령에서 규정한 바에 따라 보유하고 있는 개인정보에 대한 열람, 정정, 삭제, 처리정지 요구 등 개인정보를 처리 시 이용자의 권익을 존중하며, 이용자는 이러한 법령상 권익의 침해 등에 대하여 행정심판법에서 정하는 바에 따라 행정심판을 청구할 수 있습니다.<br><br>
-                당 홈페이지는 「개인정보 보호법」에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있으며, 개인정보 처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다. <br><br>
-                개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.<br><br>
-                ○ 본 방침은 「개인정보 보호법」 제30조(개인정보 처리방침의 수립 및 공개)에 의거 수립 후 당 홈페이지를 통하여 공개됩니다.<br><br></p>
-            <p>개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.</p>
+            <p>
+                ${_(
+                       "The K-MOOC homepage (http://www.kmooc.kr, hereinafter referred to as the 'homepage') is a system run by the National Institute for Lifelong Education (hereinafter referred to as 'NILE'), a member institution of the Ministry of Education. All the personal information are collected, possessed and processed based on related laws and regulations."
+"The 'Personal Information Protection Act' provides general rules for the handling of such personal information, and on the homepage, personal information collected, possessed and processed in accordance with the provisions of this Act shall be used for proper execution of public works and protection of users' interests. We will treat it legally and properly.<br><br>"
+"In addition, the homepage respects the interests of users in handling personal information such as requests for viewing, correction, deletion, and suspension of personal information held by relevant laws and regulations, Users may file an administrative appeal as required by the Administrative Appeals Act with regard to the infringement of rights and interests in these laws and regulations.<br><br>"
+"This home has the following processing policy to protect the personal information protection and rights of the users in accordance with the 'Personal Information Protection Act' and to smoothly handle user's complaints related to personal information. When revising the personal information processing policy, we will notify you through the notice (or individual notice) on the homepage.<br><br>"
+"○ This policy will be made public on the homepage after establishing it in accordance with Article 30 (Establishment and Disclosure of Personal Information Processing Policy) of the 「Personal Information Protection Act」.<br><br>"
+            )}
+            </p>
+##             <p>개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.</p>
 
             <div class="table-box">
                 <table>
@@ -36,46 +44,46 @@
                     <tbody>
                         <tr>
                             <td>
-                                <a href="#no1">제1조(개인정보의 처리 목적)</a><br/>
-                                <a href="#no2">제2조(개인정보의 처리 보유 기간)</a><br/>
-                                <a href="#no3">제3조(개인정보의 제3자 제공)</a><br/>
-                                <a href="#no4">제4조(개인정보처리의 위탁)</a><br/>
-                                <a href="#no5">제5조(정보주체의 권리∙의무 및 행사방법)</a><br/>
-                                <a href="#no6">제6조(개인정보 수집 항목)</a><br/>
+                                <a href="#no1">${_("Article 1 (Purpose of Personal Information Processing)")}</a><br/>
+                                <a href="#no2">${_("Article 2 (Retention Period of Personal Information Processing)")}</a><br/>
+                                <a href="#no3">${_("Article 3 (Providing Third Parties with Personal Information)")}</a><br/>
+                                <a href="#no4">${_("Article 4 (Consignment of Personal Information Processing)")}</a><br/>
+                                <a href="#no5">${_("Article 5 (Rights, Duties and Execution Methods of Information Subjects)")}</a><br/>
+                                <a href="#no6">${_("Article 6 (Personal Information Collection Items)")}</a><br/>
                             </td>
                             <td>
-                                <a href="#no7">제7조(개인정보를 자동으로 수집하는 장치의 설치․운영 및 그 거부에 관한 사항)</a><br/>
-                                <a href="#no8">제8조(개인정보 파기)</a><br/>
-                                <a href="#no9">제9조(개인정보의 안전성 확보 조치)</a><br/>
-                                <a href="#no10">제10조(개인정보 보호책임자)</a><br/>
-                                <a href="#no11">제11조(개인정보 열람청구)</a><br/>
-                                <a href="#no12">제12조(권익침해 구제방법)</a><br/>
-                                <a href="#no13">제13조(개인정보 처리방침의 변경)</a><br/>
+                                <a href="#no7">${_("Article 7 (Matters Concerning the Installation, Operation and Rejection of Devices that Automatically Collect Personal Information)")}</a><br/>
+                                <a href="#no8">${_("Article 8 (Destruction of Personal Information)")}</a><br/>
+                                <a href="#no9">${_("Article 9 (Measures to Ensure the Safety of Personal Information)")}</a><br/>
+                                <a href="#no10">${_("Article 10 (Responsible Chief Officer for Personal Information Protection)")}</a><br/>
+                                <a href="#no11">${_("Article 11 (Request to View Personal Information)")}</a><br/>
+                                <a href="#no12">${_("Article 12 (Remedies for Rights and Interests Infringement)")}</a><br/>
+                                <a href="#no13">${_("Article 13 (Changes in Personal Information Processing Policy)")}</a><br/>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <h3 id="no1">제1조 (개인정보의 처리 목적)</h3>
+            <h3 id="no1">${_("Article 1 (Purpose of Personal Information Processing)")}</h3>
             <ol>
-                <li>① 당 홈페이지는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.
+                <li>${_("① The homepage handles personal information for the following purposes. The personal information being processed is not used for any purpose other than the following purposes, and if the purpose of use is changed, we will implement necessary measures such as receiving extra consent in accordance with Article 18 of the 「Personal Information Protection Act」.")}
                     <ol>
                         <li>
-                            1. 홈페이지 회원 가입 및 관리<br>
-                            회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 확인, 회원자격 유지ㆍ관리, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 수집 시 법정대리인의 동의 여부 확인, 분쟁 조정을 위한 기록 보존, 각종 고지ㆍ통지 등을 목적으로 개인정보를 처리합니다.
+                            ${_("1. Homepage membership sign up and management")}
+                            ${_("We process personal information for the following purposes: confirmation of the intention of membership sign up; confirmation of identity by providing membership service; maintenance and management of membership status; prevention of illegal use of service; confirmation of consent of a legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices/notification. ")}
                         </li>
                         <li>
-                            2. 민원사무 처리<br>
-                            민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보, 서비스 개선 및 제공 등의 목적으로 개인정보를 처리합니다.
+                            ${_("2. Civil petition processing")}<br>
+                            ${_("We process personal information for the purpose of confirming the identity of the complainant, confirming the complaint, contacting and notifying for the investigation, reporting the processing result, and improving and providing the service.")}
                         </li>
                     </ol>
                 </li>
-                <li>② 당 홈페이지가 「개인정보 보호법」 제32조에 따라 등록ㆍ공개하는 개인정보파일의 처리목적은 다음과 같습니다.</li>
+                <li>${_("② The purposes of processing personal information files registered and disclosed in accordance with Article 32 of the 「Personal Information Protection Act」 of the homepage are as follows.")}</li>
             </ol>
             <div class="table-box">
                 <table>
-                    <caption>개인정보 파일의 처리</caption>
+##                     <caption>개인정보 파일의 처리</caption>
                     <colgroup>
                         <col width="20%"/>
                         <col width="13%"/>
@@ -85,23 +93,23 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th scope="col">파일명</th>
-                            <th scope="col">운영 근거</th>
-                            <th scope="col">처리 목적</th>
-                            <th scope="col">개인정보 항목</th>
-                            <th scope="col">보유 기간</th>
+                            <th scope="col">${_("File Name")}</th>
+                            <th scope="col">${_("Operating Basis")}</th>
+                            <th scope="col">${_("Purpose of Processing")}</th>
+                            <th scope="col">${_("Personal Information Items")}</th>
+                            <th scope="col">${_("Holding Period")}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="ac">K-MOOC 홈페이지 회원정보</td>
-                            <td class="ac">정보주체 동의</td>
-                            <td class="ac">홈페이지 회원가입 및 관리, 민원사무 처리</td>
+                            <td class="ac">${_("K-MOOC homepage member information")}</td>
+                            <td class="ac">${_("Agreement of Information subject")}</td>
+                            <td class="ac">${_("Homepage membership sign up and management, civil petition processing")}</td>
                             <td>
-                                - 필수항목 : 이메일, 실명, 아이디, 비밀번호, 국가, 성별, 출생연도<br/>
-                                - 선택항목 : 거주지, 최종학력, 가입목적
+                                ${_("- Required items : Email, actual name, ID, password, country, sex, the year of birth")}<br/>
+                                ${_("- Optional items : residence, the highest level of education, purpose of joining")}
                             </td>
-                            <td class="ac">회원 탈퇴시 까지</td>
+                            <td class="ac">${_("Until membership withdrawal")}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -109,15 +117,15 @@
             <p>※ 좀 더 상세한 개인정보파일 등록사항 공개는 행정자치부 개인정보보호 종합지원포털(www.privacy.go.kr) → 개인정보 민원 → 개인정보 열람 등 요구 → 개인정보파일 목록 검색 메뉴를 활용해 주시기 바랍니다.</p>
 
 
-            <h3 id="no2">제2조 (개인정보의 처리 보유 기간)</h3>
+            <h3 id="no2">${_("Article 2 (Retention Period of Personal Information Processing)")}</h3>
             <p>① 당 홈페이지는 법령에 따른 개인정보 보유ㆍ이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받는 개인정보 보유ㆍ이용기간 내에서 개인정보를 처리ㆍ보유합니다.</p>
             <p>② 각각의 개인정보 처리 및 보유 기간은 본 방침 제1조 ②항을 참조바랍니다. 다만, 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지, 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지 개인정보를 처리ㆍ보유합니다.</p>
 
 
-            <h3 id="no3">제3조 (개인정보의 제3자 제공)</h3>
+            <h3 id="no3">${_("Article 3 (Providing Third Parties with Personal Information)")}</h3>
             <p>당 홈페이지는 원칙적으로 이용자의 개인정보를 제1조(개인정보의 처리 목적)에서 명시한 범위 내에서 처리하며, 이용자의 사전 동의 없이는 본래의 범위를 초과하여 처리하거나 제3자에게 제공하지 않습니다. 단, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.</p>
 
-            <h3 id="no4">제4조 (개인정보처리의 위탁)</h3>
+            <h3 id="no4">${_("Article 4 (Consignment of Personal Information Processing)")}</h3>
             <ol>
                 <li>① 당 홈페이지는 법령에 따른 개인정보 보유ㆍ이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받는 개인정보 보유ㆍ이용기간 내에서 개인정보를 처리ㆍ보유합니다.
                     <a href="/static/data/Consignment of Personal Information Processing.pdf" target="_blank">[ 개인정보 처리업무 위탁 현황 보기 ]</a>
@@ -126,7 +134,7 @@
                 <li>③ 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리방침을 통하여 공개하도록 하겠습니다.</li>
             </ol>
 
-            <h3 id="no5">제5조 (정보주체의 권리ㆍ의무 및 행사방법)</h3>
+            <h3 id="no5">${_("Article 5 (Rights, Duties and Execution Methods of Information Subjects)")}</h3>
             <ol>
                 <li>① 정보주체는 당 홈페이지에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.
                     <ul class="dash">
@@ -161,7 +169,7 @@
             </ol>
 
 
-            <h3 id="no6">제6조 (개인정보 수집 항목)</h3>
+            <h3 id="no6">${_("Article 6 (Personal Information Collection Items)")}</h3>
             <ol>
                 <li>당 홈페이지에서 처리하고 있는 개인정보 항목은 본 방침 제1조 ②항을 참조바랍니다. 인터넷 서비스 이용과정에서 아래의 개인정보 항목이 자동으로 생성되어 수집될 수 있습니다.
                     <ul class="dash">
@@ -171,7 +179,7 @@
             </ol>
 
 
-            <h3 id="no7">제7조 (개인정보를 자동으로 수집하는 장치의 설치·운영 및 그 거부에 관한 사항)</h3>
+            <h3 id="no7">${_("Article 7 (Matters Concerning the Installation, Operation and Rejection of Devices that Automatically Collect Personal Information)")}</h3>
             <p>① 당 홈페이지에서는 쿠키(cookie)를 설치/운용할 경우도 있습니다. 쿠키란 웹 서버가 웹 브라우저에 보내어 저장했다가 서버의 부가적인 요청이 있을 때 다시 서버로 보내주는 문자열 정보를 말합니다. 진흥원에서는 쿠키를 통해 수집하는 정보는 팝업정보에 한하며, 그 외의 다른 정보는 수집하지 않습니다.</p>
             <p>② 정보주체께서는 웹브라우저의 보안 정책을 통해 쿠키에 의한 정보수집의 허용ㆍ거부 여부를 결정하실 수 있습니다. 웹브라우저의 [도구]메뉴에서 [인터넷옵션]→[보안]→[사용자 정의 수준]을 선택하여 쿠키에 의한 정보 수집 수준을 정할 수 있습니다. 단, 쿠키 설치를 거부하였을 경우 서비스 이용에 불편이 있거나, 서비스 제공에 어려움이 있을 수 있습니다.</p>
 
@@ -196,7 +204,7 @@
                 </li>
             </ol>
 
-            <h3 id="no9">제9조 (개인정보의 안전성 확보 조치)</h3>
+            <h3 id="no9">${_("Article 9 (Measures to Ensure the Safety of Personal Information)")}</h3>
             <ol>
                 <li>당 홈페이지는 「개인정보 보호법」제29조에 따라 다음과 같이 안전성 확보에 필요한 기술적/관리적 및 물리적 조치를 하고 있습니다.</li>
                 <li>
@@ -211,7 +219,7 @@
 
 
 
-            <h3 id="no10">제10조 (개인정보 보호책임자)</h3>
+            <h3 id="no10">${_("Article 10 (Responsible Chief Officer for Personal Information Protection)")}</h3>
             <p>① 당 홈페이지는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
             <div class="table-box">
                 <table>
@@ -257,7 +265,7 @@
             <p>② 당 홈페이지가 「개인정보 보호법」 제32조에 따라 등록ㆍ공개하는 개인정보파일의 처리목적은 다음과 같습니다.</p>
 
 
-            <h3 id="no11">제11조 (개인정보 열람청구)</h3>
+            <h3 id="no11">${_("Article 11 (Request to View Personal Information)")}</h3>
             <ol>
                 <li>① 정보주체는 「개인정보 보호법」 제35조에 따른 개인정보의 열람 청구는 '개인정보 보호 담당부서'에서 할 수 있습니다. 당 홈페이지에서는 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.</li>
                 <li>② 정보주체께서는 제1항의 열람청구 접수ㆍ처리부서 이외에, 행정자치부의 ‘개인정보보호 종합지원포털’ 웹사이트(www.privacy.go.kr)를 통하여서도 개인정보 열람청구를 하실 수 있습니다.
@@ -267,7 +275,7 @@
                 </li>
             </ol>
 
-            <h3 id="no12">제12조 (권익침해 구제방법)</h3>
+            <h3 id="no12">${_("Article 12 (Remedies for Rights and Interests Infringement)")}</h3>
             <ol>
                 <li>정보주체는 아래의 기관에 대해 개인정보 침해에 대한 피해구제, 상담 등을 문의하실 수 있습니다.</li>
                 <li>&lt;아래의 기관은 진흥원과는 별개의 기관으로서, 당 홈페이지의 자체적인 개인정보 불만처리, 피해구제 결과에 만족하지 못하시거나 보다 자세한 도움이 필요하시면 문의하여 주시기 바랍니다.&gt;
@@ -296,7 +304,7 @@
                 </li>
             </ol>
 
-            <h3 id="no13">제13조 (개인정보 처리방침의 변경)</h3>
+            <h3 id="no13">${_("Article 13 (Changes in Personal Information Processing Policy)")}</h3>
             <ol>
                 <li>1. 본 방침은 2016년 11월 28일부터 시행됩니다.</li>
                 <li>2.이전의 개인정보 처리방침은 아래에서 확인하실 수 있습니다.
