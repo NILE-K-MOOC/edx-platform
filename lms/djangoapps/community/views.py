@@ -233,7 +233,23 @@ def comm_notice_view(request, board_id):
         data={}
         if request.GET['method'] == 'view' :
             cur = con.cursor()
-            query = "select subject, content, SUBSTRING(reg_date,1,10), SUBSTRING(mod_date,1,10), head_title from tb_board where section = 'N' and board_id ="+board_id
+            query = """
+                    SELECT subject,
+                           content,
+                           SUBSTRING(reg_date, 1, 10),
+                           SUBSTRING(mod_date, 1, 10),
+                           CASE
+                              WHEN head_title = 'noti_n' THEN '공지'
+                              WHEN head_title = 'advert_n' THEN '공고'
+                              WHEN head_title = 'guide_n' THEN '안내'
+                              WHEN head_title = 'event_n' THEN '이벤트'
+                              WHEN head_title = 'etc_n' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'N' AND board_id =
+            """+board_id
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
