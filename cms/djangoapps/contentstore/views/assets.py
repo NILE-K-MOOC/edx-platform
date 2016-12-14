@@ -30,6 +30,8 @@ from pymongo import ASCENDING, DESCENDING
 from student.auth import has_course_author_access
 from xmodule.modulestore.exceptions import ItemNotFoundError
 
+from django.views.decorators.csrf import csrf_exempt
+
 import urllib2, urlparse, urllib
 import json
 __all__ = ['assets_handler']
@@ -38,7 +40,7 @@ __all__ = ['assets_handler']
 
 
 @login_required
-@ensure_csrf_cookie
+@csrf_exempt
 def assets_handler(request, course_key_string=None, asset_key_string=None):
     """
     The restful handler for assets.
@@ -177,19 +179,19 @@ def _assets_json(request, course_key):
 
             if 'uuid' in asset:
                 uuid = asset['uuid']
-            else: uuid = ''
+            else: asset['uuid'] = ''
             if 'playtime' in asset:
                 playtime = asset['playtime']
             else:
-                playtime = ''
+                asset['playtime'] = ''
             if 'state' in asset:
                 state = asset['state']
             else:
-                state = ''
+                asset['state'] = ''
             if 'thumbnail_url' in asset:
                 thumbnail_url = asset['thumbnail_url']
             else:
-                thumbnail_url = ''
+                asset['thumbnail_url'] = ''
 
             '''
             상태변환 처리
@@ -231,18 +233,17 @@ def _assets_json(request, course_key):
                         content
                     )
 
-                    asset_json.append(_get_cdn_json(
-                        asset['displayname'],
-                        asset['contentType'],
-                        asset['uploadDate'],
-                        asset_location,
-                        thumbnail_url,
-                        asset['cdn_url'], asset['uuid'], asset['playtime'], trans_state
-                    ))
             else:
                 trans_state = asset['state'] # 완료와 실패 이외의 상태는 등록시 설정된 값으로 구성된다.
 
-
+            asset_json.append(_get_cdn_json(
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
+                asset_location,
+                thumbnail_url,
+                asset['cdn_url'], asset['uuid'], asset['playtime'], trans_state
+            ))
 
         else:
             asset_json.append(_get_asset_json(
