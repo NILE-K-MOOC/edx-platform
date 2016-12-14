@@ -230,17 +230,19 @@ def _assets_json(request, course_key):
                     state_update = contentstore().save_cdn(
                         content
                     )
+
+                    asset_json.append(_get_cdn_json(
+                        asset['displayname'],
+                        asset['contentType'],
+                        asset['uploadDate'],
+                        asset_location,
+                        thumbnail_url,
+                        asset['cdn_url'], asset['uuid'], asset['playtime'], trans_state
+                    ))
             else:
                 trans_state = asset['state'] # 완료와 실패 이외의 상태는 등록시 설정된 값으로 구성된다.
 
-            asset_json.append(_get_cdn_json(
-                asset['displayname'],
-                asset['contentType'],
-                asset['uploadDate'],
-                asset_location,
-                thumbnail_url,
-                asset['cdn_url'], asset['uuid'], asset['playtime'], trans_state
-            ))
+
 
         else:
             asset_json.append(_get_asset_json(
