@@ -24,7 +24,7 @@
     </form>
     <!-- [s] 가입유형 선택 -->
     <h2>${_("Choose your subscription type.")}</h2>
-    <h3>회원가입<span>JOIN US</span></h3>
+    <h3>${_("Join Us")}</h3>
     <p class="join-type-txt">${_("Please be sure to select the case that applies to you, as there is a difference in the registration process depending on the membership classification.")}</p>
     <section class="join-type-box">
         <div class="join-type-block">
@@ -33,15 +33,15 @@
                 <dt>${_("General member")}</dt>
                 <dd>${_("General member over 14 years old")}</dd>
             </dl>
-            <a href="#" onclick="member_division('Y');">가입하기</a>
+            <a href="#" onclick="member_division('Y');">${_("Join")}</a>
         </div>
         <div class="join-type-block">
             <img src="/static/images/contents/join_type02.png" alt="">
             <dl>
-                <dt>${_("어린이 회원")}</dt>
+                <dt>${_("Children member")}</dt>
                 <dd>${_("General member below 14 years old")}</dd>
             </dl>
-            <a href="#" onclick="member_division('N');">가입하기</a>
+            <a href="#" onclick="member_division('N');">${_("Join")}</a>
         </div>
     </section>
     <!-- [e] 가입유형 선택 -->

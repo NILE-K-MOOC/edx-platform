@@ -222,12 +222,12 @@ def registration_gubn(request):
 
 @ensure_csrf_cookie
 def agree(request):
-    print 'request.method = ', request.method
-    print "request.POST['division'] = ", request.POST['division']
+    # print 'request.method = ', request.method
+    # print "request.POST['division'] = ", request.POST['division']
 
     if request.method == 'POST' and request.POST['division']:
         request.session['division'] = request.POST['division']
-        print "STEP1 : request.session['division'] = ", request.session['division']
+        # print "STEP1 : request.session['division'] = ", request.session['division']
 
         context = {
             'division': request.session['division'],
