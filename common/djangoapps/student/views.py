@@ -125,7 +125,6 @@ from openedx.core.djangoapps.programs.utils import get_programs_for_dashboard, g
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
-import MySQLdb as mdb
 import re
 from courseware import grades
 from courseware.courses import (
@@ -136,6 +135,8 @@ from courseware.courses import (
 )
 from django.views.decorators.cache import cache_control
 from util.views import ensure_valid_course_key
+from pymongo import MongoClient
+import MySQLdb as mdb
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -475,6 +476,80 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             return default_info
         else:
             status_dict['grade'] = cert_status['grade']
+
+
+    # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
+    try:
+
+        if status == 'ready':
+            arr = str(course_overview.id)[10:].split('+')
+
+            org = arr[0]
+            course = arr[1]
+            run = arr[2]
+
+            # print 'org, course, run :::', org, course, run
+
+            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            db = client.edxapp
+
+            cursor = db.modulestore.active_versions.find({'org':org, 'course':course, 'run':run})
+
+            pb = ''
+            for document in cursor:
+                pb = document.get('versions').get('published-branch')
+            cursor.close()
+
+            if pb:
+                cursor = db.modulestore.structures.find({'_id':pb})
+                for document in cursor:
+                    blocks = document.get('blocks')
+                cursor.close()
+                client.close()
+
+                check_cnt = 0
+                for block in blocks:
+                    if block.get('block_type') == 'poll' or block.get('block_type') == 'survey':
+                        check_cnt += 1
+
+                if check_cnt > 0:
+                    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+                    cur = con.cursor()
+                    query = """
+                        SELECT sum(if(instr(state, 'submissions_count') > 0, 1, 0)) cnt
+                          FROM courseware_studentmodule
+                         WHERE student_id = '{0}' and course_id = '{1}' AND module_type IN ('survey', 'poll');
+                    """.format(str(user.id), str(course_overview.id))
+
+                    print 'query :', query
+
+
+                    cur.execute(query)
+                    # cur_rowcount = cur.rowcount
+                    row = cur.fetchone()
+                    cur.close()
+                    con.close()
+
+                    # print 'check_cnt', check_cnt
+                    # print 'row', row
+                    # print 'row[\'cnt\']', row[0]
+
+                    if row is None or row[0] is None:
+                        print 'row is None'
+                        status_dict['survey'] = 'incomplete'
+                    else:
+                        print 'row to checking'
+                        if int(check_cnt) == int(row[0]):
+                            # status_dict['survey'] = 'complete'
+                            status_dict['survey'] = 'complete'
+                        else:
+                            status_dict['survey'] = 'incomplete'
+
+                            # print 'status_dict ---------------'
+                            # print status_dict
+                            # print '---------------------------'
+    except Exception as e:
+        log.error(e)
 
     return status_dict
 
