@@ -1533,8 +1533,6 @@ def faqs(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def agreement(request):
-    print request.session['_language']
-
     if request.session['_language'] == 'en' :
         return render_to_response(
             "courseware/agreement_en.html"
@@ -1547,9 +1545,16 @@ def agreement(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def privacy(request):
-    return render_to_response(
-        "courseware/privacy.html"
-    )
+    if request.session['_language'] == 'en' :
+        return render_to_response(
+            "courseware/privacy_en.html"
+        )
+    else :
+        return render_to_response(
+            "courseware/privacy.html"
+        )
+
+
 
 
 @ensure_csrf_cookie
