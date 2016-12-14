@@ -805,9 +805,10 @@
     "end": "\uc885\ub8cc",
     "none": "\ubbf8\uc815",
 
-    "Reset Your Password": "\uc0c8 \ube44\ubc00\ubc88\ud638 \uc124\uc815\uc744 \uc704\ud55c \uc774\uba54\uc77c \ubc1c\uc1a1\ud558\uae30"
-
-
+    "Reset Your Password": "\uc0c8 \ube44\ubc00\ubc88\ud638 \uc124\uc815\uc744 \uc704\ud55c \uc774\uba54\uc77c \ubc1c\uc1a1\ud558\uae30",
+    
+    
+  
   };
 
   django.gettext = function (msgid) {

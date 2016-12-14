@@ -939,3 +939,4 @@ def comm_list_json(request) :
 #
 #     cur.close()
 #     print 'done'
+
