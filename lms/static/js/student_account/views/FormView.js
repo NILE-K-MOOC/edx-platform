@@ -226,22 +226,8 @@
             },
 
             submitForm: function( event ) {
-                var pass1 = $("#register-password").val();
-                var pass2 = $("#register-password2").val();
-
-
-                /*
-                if(pass1 != pass2){
-                    $("#register-password").val("");
-                    $("#register-password2").val("");
-                }
-                */
-
-
 
                 var data = this.getFormData();
-
-
                 if (!_.isUndefined(event)) {
                     event.preventDefault();
                 }
@@ -250,6 +236,9 @@
 
                 if ( !_.compact(this.errors).length ) {
                     data = this.setExtraData( data );
+
+                    console.log('data ===' + data);
+
                     this.model.set( data );
                     this.model.save();
                     this.toggleErrorMsg( false );
