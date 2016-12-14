@@ -19,12 +19,9 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="outer-wrapper">
                         <div class="title">
                             <div class="heading-group">
-                                % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>오늘의 필요를 위한 학습</h1>
-                                <p>Just-in-time Learning for Today</p>
-                                % else:
-                                <h1>Just-in-time Learning for Today</h1>
-                                % endif
+                                <h1>BEYOND TODAY, LIVE THE FUTURE</h1>
+                                <p>오늘이 아닌 미래를 학습합니다</p>
+                                <!-- <h1><img src="/static/images/main/main_slogan.png" alt=""></h1> -->
                             </div>
                         </div>
                     </div>
@@ -33,12 +30,9 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="outer-wrapper animation-title-appear">
                         <div class="title">
                             <div class="heading-group">
-                                % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>누구에게나 열린 평생교육</h1>
-                                <p>A Lifelong Open Education for Everyone</p>
-                                % else:
-                                <h1>Just-in-time Learning for Today</h1>
-                                % endif
+                                <h1>내 손안에 펼쳐지는 열린 대학</h1>
+                                <p>미래를 향한 열린 교육</p>
+                                <!-- <h1><img src="/static/images/main/main_slogan2.png" alt=""></h1> -->
                             </div>
                         </div>
                     </div>
@@ -47,12 +41,9 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="outer-wrapper">
                         <div class="title">
                             <div class="heading-group">
-                                % if LANGUAGE_CODE == 'ko-kr':
                                 <h1>미래를 여는 최고의 강좌</h1>
-                                <p>K-MOOC, Top Quality Courses for Your Future</p>
-                                % else:
-                                <h1>K-MOOC, Top Quality Courses for Your Future</h1>
-                                % endif
+                                <p>K-MOOC Start Today! Learn Forever</p>
+                                <!-- <h1><img src="/static/images/main/main_slogan3.png" alt=""></h1> -->
                             </div>
                         </div>
                     </div>
@@ -65,40 +56,36 @@ from openedx.core.djangolib.markup import HTML, Text
         <section class="university-container" id="main-contents01">
             <section class="university-list-contents">
                 <ul class="university-listing">
-                    <li class="university-listing-item"><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/KHUk"><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/KoreaUnivK"><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/DGUk"><img src="/static/images/univ/logo01_DGUk.png" alt="대구대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/PNUk"><img src="/static/images/univ/logo01_PNUk.png" alt="부산대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/SMUCk"><img src="/static/images/univ/logo01_SMUCk.png" alt="상명대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/SNUk"><img src="/static/images/univ/logo01_SNUk.png" alt="서울대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/SKKUk"><img src="/static/images/univ/logo01_SKKUk.png" alt="성균관대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/SSUk"><img src="/static/images/univ/logo01_SSUk.png" alt="성신여자대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/SejonguniversityK"><img src="/static/images/univ/logo01_SejonguniversityK.png" alt="세종대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/SookmyungK"><img src="/static/images/univ/logo01_SookmyungK.png" alt="숙명여자대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/YSUk"><img src="/static/images/univ/logo01_YSUk.png" alt="연세대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/YeungnamUnivK"><img src="/static/images/univ/logo01_YeungnamUnivK.png" alt="영남대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/UOUk"><img src="/static/images/univ/logo01_UOUk.png" alt="울산대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/EwhaK"><img src="/static/images/univ/logo01_EwhaK.png" alt="이화여자대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/INHAuniversityK"><img src="/static/images/univ/logo01_INHAuniversityK.png" alt="인하대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/CBNUk"><img src="/static/images/univ/logo01_CBNUk.png" alt="전북대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/POSTECHk"><img src="/static/images/univ/logo01_POSTECHk.png" alt="포항공과대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/KAISTk"><img src="/static/images/univ/logo01_KAISTk.png" alt="한국과학기술원"></a></li>
-                    <li class="university-listing-item"><a href="/school/HYUk"><img src="/static/images/univ/logo01_HYUk.png" alt="한양대학교"></a></li>
-                    <li class="university-listing-item"><a href="/school/KOCWk"><img src="/static/images/univ/logo01_KOCWk.png" alt="KOCW"></a></li>
-                    <li class="university-listing-item"><a href="/school/ACEk"><img src="/static/images/univ/logo01_ACEk.png" alt="ACE"></a></li>
-                    <li class="university-listing-item"><a href="/school/CKk"><img src="/static/images/univ/logo01_CKk.png" alt="CK"></a></li>
-                    <li class="university-listing-item"><a href="/school/COREk"><img src="/static/images/univ/logo01_COREk.png" alt="CORE"></a></li>
-
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_PNUk.png" alt="부산대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_SNUk.png" alt="서울대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_SKKUk.png" alt="성균관대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_DGUk.png" alt="대구대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_SMUCk.png" alt="상명대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_SSUk.png" alt="성신여자대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_SejonguniversityK.png" alt="세종대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_SookmyungK.png" alt="숙명여자대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_YSUk.png" alt="연세대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_YeungnamUnivK.png" alt="영남대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_UOUk.png" alt="울산대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_EwhaK.png" alt="이화여자대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_INHAuniversityK.png" alt="인하대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_CBNUk.png" alt="전북대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_POSTECHk.png" alt="포항공과대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_KAISTk.png" alt="한국과학기술원"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_HYUk.png" alt="한양대학교"></a></li>
+                    <li class="university-listing-item"><a href=""><img src="/static/images/univ/logo01_KOCWk.png" alt="KOCW"></a></li>
                 </ul>
-                <a href="/schools" class="univ-more">전체보기</a>
+                <a href="/schools" class="univ-more">${_("Viewing all")}</a>
             </section>
         </section>
         <!-- [e] university list -->
 
         <!-- [s] course list -->
         <section class="courses-container full" id="main-contents05">
-            <h2 class="main-title">${_("Available courses")}</h2>
+            <h2 class="main-title">수강신청 가능 강좌찾기 </h2>
             <%include file="${courses_list}" />
         </section>
         <!-- [e] course list -->
@@ -111,7 +98,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=hum">
+                            <a href="">
                                 <img src="/static/images/main/course_01.png" alt="인문">
                                 <p>${_("Humanities")}</p>
                             </a>
@@ -119,7 +106,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=social">
+                            <a href="">
                                 <img src="/static/images/main/course_02.png" alt="사회">
                                 <p>${_("Social Sciences")}</p>
                             </a>
@@ -127,7 +114,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=edu">
+                            <a href="">
                                 <img src="/static/images/main/course_03.png" alt="교육">
                                 <p>${_("Education")}</p>
                             </a>
@@ -135,7 +122,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=eng">
+                            <a href="">
                                 <img src="/static/images/main/course_04.png" alt="공학">
                                 <p>${_("Engineering")}</p>
                             </a>
@@ -143,7 +130,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=nat">
+                            <a href="">
                                 <img src="/static/images/main/course_05.png" alt="자연">
                                 <p>${_("Natural Sciences")}</p>
                             </a>
@@ -151,7 +138,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=med">
+                            <a href="">
                                 <img src="/static/images/main/course_06.png" alt="의약">
                                 <p>${_("Medical Sciences")}</p>
                             </a>
@@ -159,7 +146,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?term=art">
+                            <a href="">
                                 <img src="/static/images/main/course_07.png" alt="예체능">
                                 <p>${_("Arts & Physical")}</p>
                             </a>
@@ -167,7 +154,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                         <div class="major-course-item">
-                            <a href="/courses?linguistics=Y">
+                            <a href="">
                                 <img src="/static/images/main/course_08.png" alt="한국학">
                                 <p>${_("Korean Studies")}</p>
                             </a>
@@ -186,13 +173,13 @@ from openedx.core.djangolib.markup import HTML, Text
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
                         <div class="my-course-item">
                             <h3>
-                                <img src="/static/images/main/my_course_01.png" alt="개강상태">
+                                <img src="/static/images/main/my_course_01.png" alt="${_('Opening course status')}">
                                 <p>${_("Opening Status")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="/courses?range=i">${_("Current")}</a>
-                                <a href="/courses?range=t">${_("Starting Soon")}</a>
-                                <a href="/courses?range=e">${_("Finish")}</a>
+                                <a href="">${_("Current")}</a>
+                                <a href="">${_("Starting Soon")}</a>
+                                <a href="">${_("Finish")}</a>
                             </div>
                         </div>
                     </div>
@@ -203,9 +190,9 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <p>${_("Period of studing")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="/courses?course_period=S">${_("Short (1~6 weeks)")}</a>
-                                <a href="/courses?course_period=M">${_("Middle (7~12 weeks)")}</a>
-                                <a href="/courses?course_period=L">${_("Long (over 13 weeks)")}</a>
+                                <a href="">${_("Short (1~6 weeks)")}</a>
+                                <a href="">${_("Middle (7~12 weeks)")}</a>
+                                <a href="">${_("Long (over 13 weeks)")}</a>
                             </div>
                         </div>
                     </div>
@@ -216,8 +203,8 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <p>${_("Language")}</p>
                             </h3>
                             <div class="btns">
-                                <a href="/courses?language=ko">${_("Korean")}</a>
-                                <a href="/courses?language=en">${_("English")}</a>
+                                <a href="">${_("Korean")}</a>
+                                <a href="">${_("English")}</a>
                                 <a href="">${_("Chiness")}</a>
                             </div>
                         </div>
@@ -383,7 +370,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <h2 class="main-title"></h2>
             <div class="community-container-wrap">
                 <!-- community 00 -->
-                <a href="#community00" class="all on" style="background: #646464;">전체</a>
+                <a href="#community00" class="on">전체</a>
                 <div class="grid-container grid-manual community" id="community00">
                     <div class="row" id="total">
 ##                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -426,6 +413,26 @@ from openedx.core.djangolib.markup import HTML, Text
                 <!--// community 01 -->
                 <!-- community 02 -->
                 <a href="#community02">K-MOOC 뉴스</a>
+##                 <div class="grid-container grid-manual community" id="community02">
+##                     <div class="row">
+##                     % for list in index_list :
+##                         % if list[5] == 'K':
+##                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+##                             <div class="community-item">
+##                                 <a href="/comm_k_news_view/${list[0]}/">
+##                                     <h3>
+##                                         <strong class="category">${list[1]}</strong>
+##                                         <p>${list[2]}</p>
+##                                     </h3>
+##                                     <p class="summary">${list[3]}</p>
+##                                     <time>${list[4]}</time>
+##                                 </a>
+##                             </div>
+##                         </div>
+##                         % endif
+##                     % endfor
+##                     </div>
+##                 </div>
                 <div class="grid-container grid-manual community" id="community02">
                     <div class="row">
                     % for list in index_list :
@@ -433,11 +440,8 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
                                 <a href="/comm_k_news_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <p class="summary">${list[3]}</p>
+                                    <img src="${list[3]}" width="266.7px" height="160px">
+                                    <p class="summary">${list[1]} ${list[2]}</p>
                                     <time>${list[4]}</time>
                                 </a>
                             </div>
@@ -525,10 +529,10 @@ from openedx.core.djangolib.markup import HTML, Text
 <!-- sidebar -->
 <nav class="main-sticky-box">
     <ul class="main-sticky">
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("Participating Institutions")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Courses")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Course by subject")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Find course for me ")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("University list")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Finding courses available for classes")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Viewing courses by major")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Finding courses that suit you")}</a></li>
         % if LANGUAGE_CODE == 'ko-kr':
         <li><a href="#" class="smooth-move" data-hashbang="main-contents06">커뮤니티</a></li>
         % endif

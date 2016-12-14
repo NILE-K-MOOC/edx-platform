@@ -23,23 +23,23 @@
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}" />
     </form>
     <!-- [s] 가입유형 선택 -->
-    <h2>가입유형 선택</h2>
+    <h2>${_("Choose your subscription type.")}</h2>
     <h3>회원가입<span>JOIN US</span></h3>
-    <p class="join-type-txt">회원구분에 따라 가입절차에 차이가 있으니 반드시 본인에 해당하는 경우를 선택해 주시기 바랍니다.</p>
+    <p class="join-type-txt">${_("Please be sure to select the case that applies to you, as there is a difference in the registration process depending on the membership classification.")}</p>
     <section class="join-type-box">
         <div class="join-type-block">
             <img src="/static/images/contents/join_type01.png" alt="">
             <dl>
-                <dt>일반회원</dt>
-                <dd>만 14세 이상의 일반회원</dd>
+                <dt>${_("General member")}</dt>
+                <dd>${_("General member over 14 years old")}</dd>
             </dl>
             <a href="#" onclick="member_division('Y');">가입하기</a>
         </div>
         <div class="join-type-block">
             <img src="/static/images/contents/join_type02.png" alt="">
             <dl>
-                <dt>어린이 회원</dt>
-                <dd>만 14세 이하의 어린이 회원</dd>
+                <dt>${_("어린이 회원")}</dt>
+                <dd>${_("General member below 14 years old")}</dd>
             </dl>
             <a href="#" onclick="member_division('N');">가입하기</a>
         </div>

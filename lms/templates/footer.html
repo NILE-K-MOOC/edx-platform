@@ -56,7 +56,7 @@ dir=${bidi}
                 <li class="nav-colophon-01"><a href="/agreement">${_("Terms of Use")}</a></li>
                 <li class="nav-colophon-02"><a href="/Privacy-Policy">${_("Privacy Statement")}</a></li>
                 <li class="nav-colophon-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
-                <!--<li class="nav-colophon-04"><a href="/openapi">${_("OPEN API")}</a></li>-->
+                <li class="nav-colophon-04"><a href="/openapi">${_("OPEN API")}</a></li>
                 <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
 
                 % if LANGUAGE_CODE == 'en':
@@ -80,21 +80,10 @@ dir=${bidi}
 
     <div class="footer-about-openedx">
         <div class="associate-site-lnk">
-            <select onchange="open_popup(this.value);">
-                <option value="">관련사이트</option>
-                <option value="http://www.moe.go.kr/main.do">교육부</option>
-                <option value="http://www.nile.or.kr/">국가평생학습진흥원</option>
-                <option value="www.all.go.kr">평생학습계좌제</option>
-                <option value="http://www.lifelongedu.go.kr">늘배움</option>
+            <select>
+                <option>${_("Related sites")}</option>
             </select>
         </div>
-        <script>
-            function open_popup(value){
-                if(value == "")
-                    return;
-                document.location.href = value;
-            }
-        </script>
         <div class="associate-icon">
             <div>
                 <a href="http://blog.naver.com/kmooc_kr" target="_blank"><img src="/static/images/common/footer_icon06.png" alt="blog" /></a>

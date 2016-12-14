@@ -234,21 +234,79 @@ def index(request, extra_context=None, user=AnonymousUser()):
     total_list = []
     cur = con.cursor()
     query = """
-            (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
-        subject, content, reg_date, section
-        FROM tb_board WHERE section = 'N' ORDER BY reg_date DESC LIMIT 4)
+            (  SELECT board_id,
+                     CASE
+                        WHEN section = 'N' THEN '[공지사항]'
+                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                        WHEN section = 'R' THEN '[자료실]'
+                        ELSE ''
+                     END
+                        head_title,
+                     subject,
+                     content,
+                     reg_date,
+                     section
+                FROM tb_board
+               WHERE section = 'N'
+            ORDER BY reg_date DESC
+               LIMIT 4)
         union all
-        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
-        subject, content, reg_date, section
-        FROM tb_board WHERE section = 'K' ORDER BY reg_date DESC LIMIT 4)
+            (  SELECT board_id,
+                     CASE
+                        WHEN section = 'N' THEN '[공지사항]'
+                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                        WHEN section = 'R' THEN '[자료실]'
+                        ELSE ''
+                     END
+                        head_title,
+                     subject,
+                     substr(substr(content, instr(content, '"') + 1),
+                            1,
+                            instr(substr(content, instr(content, '"') + 1), '"') - 1),
+                     reg_date,
+                     section
+                FROM tb_board
+               WHERE section = 'K'
+            ORDER BY reg_date DESC
+                LIMIT 4)
         union all
-        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
-        subject, content, reg_date, section
-        FROM tb_board WHERE section = 'R' ORDER BY reg_date DESC LIMIT 4)
+            (  SELECT board_id,
+                     CASE
+                        WHEN section = 'N' THEN '[공지사항]'
+                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                        WHEN section = 'R' THEN '[자료실]'
+                        ELSE ''
+                     END
+                        head_title,
+                     subject,
+                     content,
+                     reg_date,
+                     section
+                FROM tb_board
+               WHERE section = 'R'
+            ORDER BY reg_date DESC
+               LIMIT 4)
         union all
-        (SELECT board_id, CASE WHEN section = 'N' THEN '[공지사항]' WHEN section = 'F' THEN '[FAQ]' WHEN section = 'K' THEN '[K-MOOC 뉴스]' WHEN section = 'R' THEN '[자료실]' ELSE '' END head_title,
-        subject, content, reg_date, section
-        FROM tb_board WHERE section = 'F' ORDER BY reg_date DESC LIMIT 4)
+            (  SELECT board_id,
+                     CASE
+                        WHEN section = 'N' THEN '[공지사항]'
+                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                        WHEN section = 'R' THEN '[자료실]'
+                        ELSE ''
+                     END
+                        head_title,
+                     subject,
+                     content,
+                     reg_date,
+                     section
+                FROM tb_board
+               WHERE section = 'F'
+            ORDER BY reg_date DESC
+               LIMIT 4)
     """
     index_list = []
     cur.execute(query)

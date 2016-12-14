@@ -1,7 +1,7 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
-<%block name="pagetitle">아이핀인증</%block>
+<%block name="pagetitle">${_("IPIN certification.")}</%block>
 <%block name="js_extra">
     <script>
         function registrationForm(gubn){
@@ -31,7 +31,7 @@
             if($("#isAuth").val()=="Y")
                 document.location.href="/register";
             else
-                alert("아이핀 인증이 완료되지 않았습니다.");
+                alert("${_('IPIN certification is not completed.')}");
         }
 
 
@@ -47,19 +47,21 @@
     </form>
     <section class="container join-type">
         <!-- [s] 오픈 API -->
-        <h2>아이핀 인증</h2>
-        <p class="join-type-txt small">어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다.<br>
-        “아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요.</p>
+        <h2>${_("IPIN certification.")}</h2>
+        <p class="join-type-txt small">
+            ${_("Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join.")}<br>
+            ${_("Please click the 'IPIN Certification' button and proceed with the consent of the guardian (legal representative).")}
+        </p>
         <section class="ipin-box">
             <div class="ipin-block">
                 <img src="/static/images/contents/ipin.png" alt="">
                 <dl>
-                    <dt>아이핀 인증</dt>
-                    <dd>아이핀 인증으로 보호자의 <br>동의절차를 진행</dd>
+                    <dt>${_("IPIN certification.")}</dt>
+                    <dd>${_("Proceed with the consent process of guardian by IPIN certification.")}</dd>
                 </dl>
-                <a href="javascript:fnPopup();">인증하기</a>
+                <a href="javascript:fnPopup();">${_("Certificating")}</a>
             </div>
-            <a href="javascript:nextStep();">다음 단계 이동</a>
+            <a href="javascript:nextStep();">${_("Movement to the next stage")}</a>
         </section>
         <!-- [e] 오픈 API -->
     </section>

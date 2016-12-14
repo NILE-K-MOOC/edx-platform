@@ -69,7 +69,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <script>
             setTimeout(function(){
-                alert("${user.email}로 계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. \n\n'확인'버튼 클릭 후 자동으로 로그아웃 됩니다.");
+                alert("${_("Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click 'OK' button to log out automatically.")}");
                 document.location.href="/logout";
             }, 500);
         </script>

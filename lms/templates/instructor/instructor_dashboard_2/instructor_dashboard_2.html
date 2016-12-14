@@ -130,30 +130,26 @@ from django.core.urlresolvers import reverse
         </div>
 
         <div class="student-specific-container action-type-container">
-          <h2>표절검사 수행</h2>
+          <h2>${_("Plagiarism test implementation")}</h2>
           <div class="request-response-error"></div>
           <br>
           <label>
-          표절검사는 상호평가 문항 중 학습자들의 서술형 답안 또는 SGA 첨부 파일에 대해 수행할 수 있습니다.
+          ${_("The plagiarism test can be performed on the learners' narrative answers among the mutual losing questions.")}
           </label>
           <br>
           <label>
-          1일 1회 자동 스케줄러에 의해 수행되므로, 수행 요청 후 최대 1일 이내에 결과가 산출됩니다.
+          ${_("Since it is performed by the automatic scheduler once a day, the result is calculated within maximum one day after the execution request.")}
           </label>
           <br>
-            <!--
-            is_assessment : ${ is_assessment}<br/>
-            is_assessment_ing : ${ is_assessment_ing}<br/>
-            is_assessment_done : ${ is_assessment_done}<br/>
-            -->
-
           %if (is_assessment & is_assessment_ing != True) | is_assessment_done:
               <div id="copy_killer">
-                  <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" onclick="run_copykiller();">
+                  <input type="button" class="molly-guard" name="reset-attempts-all" value="${_('Performing a plagiarism test')}" onclick="run_copykiller();">
+                  <input id="loading" type="button" value="ddd" style="display: none" disabled>
+                  <input type="button" id="cvs" name="list-anon-ids" value="CSV 파일 다운로드" style="display: none" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
               </div>
           %elif is_assessment :
               <div>
-                  <input type="button" class="molly-guard" name="reset-attempts-all" value="표절검사 수행하기" disabled>
+                  <input type="button" class="molly-guard" name="reset-attempts-all" value="${_('Performing a plagiarism test')}" disabled>
               </div>
           %endif
           <hr>
@@ -171,7 +167,7 @@ from django.core.urlresolvers import reverse
                     console.log('run_copykiller data: ' + data.result);
                     if (data.result == 'success') {
                         $(".molly-guard").prop('disabled', true);
-                        $("#copykiller_status").val('표절검사가 진행중입니다.');
+                        $("#copykiller_status").val('${_("Plagiarism test is in progress.")}');
                     }
                 });
                 %if is_assessment_done == True:
@@ -183,32 +179,32 @@ from django.core.urlresolvers import reverse
         %endif
 
         <div class="student-grade-container action-type-container">
-          <h2>검사 진행상태</h2>
+          <h2>${_("Test progress status")}</h2>
           <div class="request-response-error"></div>
           <label>
             %if is_assessment_ing != False and is_assessment_done != True:
-          <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="표절검사가 진행중입니다." disabled>
+          <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="${_('Plagiarism test is in progress.')}" disabled>
             %elif is_assessment_done == True:
-          <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="표절검사가 완료되었습니다." disabled>
+          <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="${_('Plagiarism test is completed.')}" disabled>
             %else:
-          <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="현재 진행중인 작업이 없습니다." disabled>
+          <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="${_('There is currently no work in progress.')}" disabled>
             %endif
           </label>
           <hr>
         </div>
 
           <div class="course-specific-container action-type-container">
-            <h2>표절 검사 결과</h2>
+            <h2>${_("Plagiarism test result")}</h2>
             <div class="request-response-error"></div>
             <label>
-              최종 표절검사 결과를 CSV 파일로 출력합니다.
+              ${_("Outputs the final plagiarism test result as a CSV file.")}
             </label>
             <br>
             <label>
               %if is_assessment_done:
-              <input type="button" name="list-anon-ids" value="CSV 파일 다운로드" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
+              <input type="button" name="list-anon-ids" value="${_('CSV file download')}" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
               %else:
-              <input type="button" name="list-anon-ids" value="CSV 파일 다운로드" disabled>
+              <input type="button" name="list-anon-ids" value="${_('CSV file download')}" disabled>
               %endif
             </label>
           </div>
