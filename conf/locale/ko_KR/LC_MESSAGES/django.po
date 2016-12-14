@@ -14373,11 +14373,11 @@ msgstr "강좌 기본 정보"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Name:"
-msgstr "강좌 이름"
+msgstr "강좌 이름:"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Display Name:"
-msgstr "강좌 이름:"
+msgstr "표시될 강좌 이름:"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course End Date:"
@@ -28200,6 +28200,9 @@ msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주�
 #-------------------------------------------------------
 
 # Main
+msgid "Availability"
+msgstr "수강신청 강좌 찾기"
+
 msgid "Course by subject"
 msgstr "전공별 강좌 보기"
 
