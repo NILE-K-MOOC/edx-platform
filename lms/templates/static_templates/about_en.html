@@ -1,0 +1,313 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("About")}</%block>
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $(".kmooc-tab a").each(function(index){
+            $(this).click(function(){
+                //alert(index + ":" + $(this).hasClass('on'));
+                if(index == 0){
+                    $("#kmooc01").show();
+                    $("#kmooc02").hide();
+                    $(".kmooc-tab a").removeClass("on");
+                    $(this).addClass("on");
+                }else{
+                    $("#kmooc01").hide();
+                    $("#kmooc02").show();
+                    $(".kmooc-tab a").removeClass("on");
+                    $(this).addClass("on");
+                }
+            });
+        });
+    });
+  </script>
+</%block>
+<section class="container kmooc">
+
+    <nav class="kmooc-tab">
+        <a href="#" class="on">Introduce</a>
+        <a href="#">Propulsion system</a>
+    </nav>
+    <!-- 소개 -->
+    <section class="kmooc-box" id="kmooc01">
+        <div class="kmooc-block">
+            <h3>K-MOOC</h3>
+            <div class="grid-container grid-manual kmooc">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <img src="/static/images/contents/kmooc01.jpg" alt="">
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <dl>
+                            <dt>MOOC<span>(Massive Open Online Course)</span></dt>
+                            <dd>is a web-based course that is set up for a predefined learning goal, and it enables thousands of learners to participate. MOOC offers new educational environments that enable for learners to make interactive learning such as discussion, quiz, Q & A between professors and learners and among learners as compared to a standard web-based course. <br>
+                            In addition, learners will share knowledges among different learners with different backgrounds, which will lead to a new learning experience beyond the fence of the university.</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container grid-manual kmooc">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <dl>
+                            <dt>In October, 2015 <span>K-MOOC </span></dt>
+                            <dd>launched its course with 27 courses from 10 domestic leading universities such as Seoul National University and KAIST, and provided 140 courses in '16, and more than 500 courses up to ‘18 expanding the number of lectures every year<br><br>
+                            Based on the advanced ICT infrastructure environment and e-learning technology, Korea has already achieved the world's highest level of IT education in the world. In the future, we will do our best to become K-MOOC as a global luxury brand. </dd>
+                        </dl>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <img src="/static/images/contents/kmooc02.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>Vision</h3>
+            <div class="vision-kmooc">
+                <dl>
+                    <dt>a balance of practical opportunities in higher education <br/><span class="fPoint">innovation of university education through an open higher education system</span></dt>
+                    <dd>K-MOOC aims to realize a balance of practical opportunities in higher education by offering all lectures free <br>
+                    with the vision of "innovation of university education through an open higher education system" Ultimately,<br>
+                    it will establish a lifelong learning foundation for higher education and contribute to national human resources development.</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>Propulsion progress</h3>
+            <div class="history-kmooc">
+                <div class="history-kmooc-block">
+                    <h4>2015’s</h4>
+                    <dl>
+                        <dt>02</dt>
+                        <dd>Established and announced of standard plan for the pilot operation of K-MOOC</dd>
+                        <dt>04</dt>
+                        <dd>Announced K-MOOC pilot project and selected participating universities (10 domestic universities, 27 courses)</dd>
+                        <dt>06~12</dt>
+                        <dd>Built platform and infrastructure for operating K-MOOC service<br>
+                        ※ Established platform using open source software (Open edX) considering initial service stability, international compatibility of contents, and its development period</dd>
+                        <dt>10</dt>
+                        <dd>K-MOOC (www.kmooc.kr) 'Opened'</dd>
+                    </dl>
+                </div>
+                <div class="history-kmooc-block">
+                    <h4>2016’s</h4>
+                    <dl>
+                        <dt>02</dt>
+                        <dd>Established the plan for operating K-MOOC in '16</dd>
+                        <dt>04~10</dt>
+                        <dd>Additional selected MOOC University (10 schools) and lecture development (10 domestic universities)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>Use</h3>
+            <div class="using-kmooc">
+                <h4>모든이들이 수강가능한 온라인 강좌 <strong class="fPoint">K-MOOC</strong></h4>
+                <div class="grid-container grid-manual">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>College (postgraduate) student</h5>
+                                <p><img src="/static/images/contents/kmooc_using01.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · Pre-class preparation and additional learning<br>
+                                · Pre-study of major changed students<br>
+                                · Learning other majors and interested areas
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>Professor </h5>
+                                <p><img src="/static/images/contents/kmooc_using02.jpg" alt=""></p>
+                                <p class="info-txt">· Use the contents during online course<br>
+                                · Various activities through Flipped Learning<br>
+                                · Improvement of teaching-learning methods and application of excellent teaching methods
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>University </h5>
+                                <p><img src="/static/images/contents/kmooc_using03.jpg" alt=""></p>
+                                <p class="info-txt" style="font-size: 12px">
+                                · Provide learning opportunities for courses that are not yet open to the University<br>
+                                · Opening a course through content utilization and co-development<br>
+                                · Develop teaching-learning strategies through learning data analysis
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>Common learners</h5>
+                                <p><img src="/static/images/contents/kmooc_using04.jpg" alt=""></p>
+                                <p class="info-txt" style="font-size: 12px">
+                                · Utilization of employment by strengthening individual competency<br>
+                                · Learning history management through lifelong learning account system<br>
+                                · Basic learning for various qualifications, exam preparation, etc.
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>Company/employee</h5>
+                                <p><img src="/static/images/contents/kmooc_using05.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · Utilization of in-work employee training<br>
+                                · Learn the latest knowledge trends<br>
+                                · Occupational skills development
+                                </p>
+                            </article>
+                        </div>
+                        <div class="col col-12 sm-col-6 md-col-6  lg-col-4">
+                            <article>
+                                <h5>retiree/lifelong learner</h5>
+                                <p><img src="/static/images/contents/kmooc_using06.jpg" alt=""></p>
+                                <p class="info-txt">
+                                · Discover entrepreneurial items and utilize information<br>
+                                · Personal development support such as personal hobby activity
+                                </p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--// 소개 -->
+
+    <!-- 추진체계 -->
+    <section class="kmooc-box" id="kmooc02" style="display:none">
+        <blockquote>
+            <div>
+                <p>참여대학의 자율성과 다양성 존중</p>
+                관계기관과 대학간의 협력관계 추진
+            </div>
+        </blockquote>
+        <div class="kmooc-block">
+            <div class="grid-container grid-manual kmooc border">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <img src="/static/images/contents/kmooc03.jpg" alt="">
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                        <p>In addition to the Ministry of Education and the National Institute for Lifelong Education, K-MOOC is working closely with related institutions such as the Korea Education and Research Information Service, the Korea University Education Council, and the Korea Education and Broadcasting Corporation (EBS).</p>
+                        <p>The participating universities that provide courses on the platform (http://kmooc.kr) and run courses are 20 universities including Seoul National University and KAIST in 2016, and K-MOOC plans to expand the number of lectures and participating institutions every year. </p>
+                        <p>We plan to promote the autonomy and diversity of the participating universities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kmooc-block">
+            <h3>Promotion Roadmap</h3>
+            <div class="kmooc-roadmap">
+                <h4><img src="/static/images/contents/kmooc.jpg" alt=""> K-MOOC Promotion Roadmap <span>(Open in Oct. 2015)</span></h4>
+                <div class="kmooc-roadmap-block">
+                    <div class="grid-container grid-manual kmooc">
+                        <div class="row">
+                            <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                                <img src="/static/images/contents/kmooc04.jpg" alt="">
+                            </div>
+                            <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
+                                <p>In fact, you can just sit down and listen to the best lectures in the world for free,  (syncopation) MOOC is practiced in Korea, not spreading though, so it is necessary to increase its utilization in various ways.</p>
+                                <time>(National Economic Advisory Council in Dec. 2014)</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kmooc-roadmap-step">
+                        <h5><strong>미래를 향해 성장하는 K-MOOC</strong></h5>
+                        <ol>
+                            <li>
+                                <div>
+                                    <strong>01</strong>
+                                    <p style="font-size: 20px">in 2015~2017<br>K-MOOC Introduction and settlement</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <strong>02</strong>
+                                    <p style="font-size: 20px">in 2018~2020<br>K-MOOC Globalization and<br>value creation</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <strong>03</strong>
+                                    <p style="font-size: 20px">after 2021~<br>Established open<br>higher education system</p>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <table>
+                        <colgroup>
+                            <col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%">
+                        </colgroup>
+                        <tbody>
+                            <!--
+                            <tr>
+                                <th>개발강좌 수 <span>(누적)</span></th>
+                                <td><strong class="color01">27<br><span>▲</span></strong></td>
+                                <td><strong class="color02">100<br><span>▲</span></strong></td>
+                                <td><strong class="color03">200<br><span>▲</span></strong></td>
+                                <td><strong class="color04">300<br><span>▲</span></strong></td>
+                            </tr>
+                            -->
+
+                            <tr>
+                                <th class="th-type02">division</th>
+                                <td class="td-type01">2015</td>
+                                <td class="td-type02">2016</td>
+                                <td class="td-type03">2017</td>
+                                <td class="td-type04">2018 ~</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">strategy</th>
+                                <td class="td-type0102" colspan="2">Platform construction and pilot operation (Korean model development)</td>
+                                <td class="td-type03">Korean model equipment</td>
+                                <td class="td-type04">Korean model spread</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">propulsion direction</th>
+                                <td class="td-type01">Brand building- awareness diffusion</td>
+                                <td class="td-type02">service standard development</td>
+                                <td class="td-type03">service activation</td>
+                                <td class="td-type04">globalization(openness, autonomous participation)</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">the number of developed courses <span>(cumulative)</span></th>
+                                <td class="td-type01">27</td>
+                                <td class="td-type02">100</td>
+                                <td class="td-type03">200</td>
+                                <td class="td-type04 color05">500</td>
+                            </tr>
+                            <tr>
+                                <th class="th-type01">contents development</th>
+                                <td class="td-type0102" colspan="2">diversified contents</td>
+                                <td class="td-type03">contents standardization</td>
+                                <td class="td-type04">contents internationalization</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kmooc-roadmap-img">
+                <p>※ Provider: Add participating universities in 16  /  Promotion agency:</p>
+                <div class="roadmap-img">
+                    <img src="/static/images/contents/kmooc_roadmap.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--// 추진체계 -->
+
+</section>
