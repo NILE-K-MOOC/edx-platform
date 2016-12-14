@@ -33,6 +33,11 @@
             submitButton: '',
 
             initialize: function( data ) {
+
+                console.log('initialize1');
+
+                console.log(data);
+
                 this.model = data.model;
                 this.preRender( data );
 
@@ -221,7 +226,21 @@
             },
 
             submitForm: function( event ) {
+                var pass1 = $("#register-password").val();
+                var pass2 = $("#register-password2").val();
+
+
+                /*
+                if(pass1 != pass2){
+                    $("#register-password").val("");
+                    $("#register-password2").val("");
+                }
+                */
+
+
+
                 var data = this.getFormData();
+
 
                 if (!_.isUndefined(event)) {
                     event.preventDefault();

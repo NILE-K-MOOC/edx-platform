@@ -9,6 +9,7 @@
                 name: '',
                 username: '',
                 password: '',
+                password2: '',
                 level_of_education: '',
                 gender: '',
                 year_of_birth: '',

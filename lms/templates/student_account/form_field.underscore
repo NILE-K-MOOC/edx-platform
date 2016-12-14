@@ -56,13 +56,14 @@
             <% if ( placeholder ) { %> placeholder="<%= placeholder %>"<% } %>
             value="<%- defaultValue %>"
         />
-
-        <input id="<%= form %>-<%= name %>2"
+        <% if( form === 'register' ) {%>
+        <input title="<%=form %>" id="<%= form %>-<%= name %>2"
            type="<%= type %>"
            name="<%= name %>2"
            class="input-block"
            placeholder="<%- gettext('Password check') %>"
         />
+        <%}%>
 
     <% } else { %>
         <input id="<%= form %>-<%= name %>"
