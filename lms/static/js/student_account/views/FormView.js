@@ -221,7 +221,25 @@
             },
 
             submitForm: function( event ) {
+
+                var pass1 = $("#register-password").val();
+                var pass2 = $("#register-password2").val();
+
+
+                if(pass1 != pass2){
+                    alert('비밀번호가 일치하지 않습니다.');
+
+                }
+
+
+
+
                 var data = this.getFormData();
+
+
+                console.log('data check1111: ');
+                console.log(data);
+                console.log('data check1111: ');
 
                 if (!_.isUndefined(event)) {
                     event.preventDefault();
@@ -231,6 +249,9 @@
 
                 if ( !_.compact(this.errors).length ) {
                     data = this.setExtraData( data );
+
+                    console.log('data ===' + data);
+
                     this.model.set( data );
                     this.model.save();
                     this.toggleErrorMsg( false );
