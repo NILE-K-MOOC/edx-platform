@@ -43,12 +43,11 @@
 
 
 <section class="container">
-${request.session['_language']}
 				<!-- [s] 약관 -->
 				<h2>${_("Terms and conditions for subscription")}</h2>
 				<section class="agree-frm-box">
 					<h3>${_("Terms and conditions for use")}</h3>
-                    %if request.session['_language'] == 'ko-kr':
+                    %if request.session['_language'] == 'ko_kr':
 					<textarea readonly="readonly">
 제1장 총칙
 
