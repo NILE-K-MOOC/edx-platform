@@ -1682,6 +1682,24 @@
     "YSUk": "\uc5f0\uc138\ub300\ud559\uad50",
     "Zoom In": "\ud655\ub300",
     "Zoom Out": "\ucd95\uc18c",
+    // 2016-12-14 river add.
+    "Individual Exceptions": "\uac1c\ubcc4 \uc608\uc678 \uc0ac\ud56d",
+    "Enter the username or email address of each learner that you want to add as an exception.": "\uc608\uc678 \uc0ac\ud56d\uc744 \uc801\uc6a9\ud560 \ud559\uc2b5\uc790\uc758 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c\uc744 \uc785\ub825\ud558\uc138\uc694\u002e",
+    "Student email or username": "\ud559\uc2b5\uc790 \uc774\uba54\uc77c \ubc0f \uc0ac\uc6a9\uc790 \uc774\ub984",
+    "Free text notes": "\uba54\ubaa8\uc7a5",
+    "Add to Exception List": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ud558\uae30",
+    "Bulk Exceptions": "\ub2e8\uccb4 \uc608\uc678 \uc0ac\ud56d",
+    "User Email": "\uc0ac\uc6a9\uc790 \uc774\uba54\uc77c",
+    "Upload a comma separated values (.csv) file that contains the usernames or email addresses of learners who have been given exceptions. Include the username or email address in the first comma separated field. You can include an optional note describing the reason for the exception in the second comma separated field.":"\uc608\uc678 \uc0ac\ud56d\uc774 \uc801\uc6a9\ub418\ub294 \ud559\uc2b5\uc790\uc758 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c \uc815\ubcf4\ub97c \ub2f4\uace0 \uc788\ub294 \u0043\u0053\u0056 \ud30c\uc77c \u0028\u002e\u0063\u0073\u0076\u0029 \uc744 \uc5c5\ub85c\ub4dc\ud558\uc138\uc694\u002e \uccab \uc27c\ud45c \ubd80\ubd84\uc5d0 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c\uc744 \uc785\ub825\ud558\uc138\uc694\u002e \ube44\uace0\ub780\uc744 \ucd94\uac00\ud574 \ub450\ubc88\uc9f8 \uc27c\ud45c \ubd80\ubd84\uc5d0 \uc608\uc678 \uc0ac\ud56d \uc801\uc6a9 \uc774\uc720\uc5d0 \ub300\ud574 \uc11c\uc220\ud560 \uc218\ub3c4 \uc788\uc2b5\ub2c8\ub2e4\u002e",
+    "Generate Exception Certificates": "\uc608\uc678 \uc774\uc218\uc99d \uc0dd\uc131\ud558\uae30",
+    "Exception Granted": "\uc608\uc678 \ud5c8\uc6a9",
+    "Certificate Generated": "\uc774\uc218\uc99d \uc0dd\uc131",
+    "Action": "\uc561\uc158",
+    "Remove from List": "\uc0ad\uc81c",
+    "To invalidate a certificate for a particular learner, add the username or email address below.": "\ud2b9\uc815 \ud559\uc2b5\uc790\uc758 \uc774\uc218\uc99d\uc744 \ube44\ud65c\uc131\ud654 \ud558\ub824\uba74 \uc544\ub798\uc5d0 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c\uc744 \uc785\ub825\ud558\uc138\uc694\u002e",
+    "Add notes about this learner": "\ud559\uc2b5\uc790\uc5d0 \ub300\ud55c \ucc38\uace0\uc0ac\ud56d \ucd94\uac00\ud558\uae30",
+    "Invalidate Certificate": "\uc774\uc218\uc99d \ube44\ud65c\uc131\ud654\ud558\uae30",
+    "No results": "\uacb0\uacfc \uc5c6\uc74c",
 
 
 
