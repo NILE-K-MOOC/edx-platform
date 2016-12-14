@@ -599,7 +599,7 @@ class EnrollStaffView(View):
                 course_id
             )
             return redirect(_next)
-
+        print 'post about'
         # In any other case redirect to the course about page.
         return redirect(reverse('about_course', args=[unicode(course_key)]))
 
@@ -1553,9 +1553,6 @@ def privacy(request):
         return render_to_response(
             "courseware/privacy.html"
         )
-
-
-
 
 @ensure_csrf_cookie
 @cache_if_anonymous()

@@ -268,6 +268,40 @@ msgstr "강좌 운영팀 및 교수자"
 msgid "All (students, staff and instructors)"
 msgstr "전체 (학습자, 강좌 운영팀 및 교수자)"
 
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid ""
+"We recommend sending learners no more than one email message per week. "
+"Before you send your email, review the text carefully and send it to "
+"yourself first, so that you can preview the formatting and make sure "
+"embedded images and links work correctly."
+msgstr ""
+"학습자에게 매주 1통 이상의 이메일을 보내는 것을 권장하지 않습니다. 이메일을 보내기 전에 입력한 텍스트를 유심히 살펴보고 먼저 자신에게"
+" 보낸 뒤 형식과 이미지, 링크가 제대로 작동하는지 확인하세요."
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid ""
+"When you select Send Email, your email message is added to the queue for "
+"sending, and cannot be cancelled."
+msgstr "이메일 발송을 선택하면 발송 대기열에 이메일이 추가되며 취소할 수 없습니다."
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "To see the content of previously sent emails, click this button:"
+msgstr "보낸 이메일 내용 확인을 위해 다음 버튼을 클릭하세요:"
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "Show Sent Email History"
+msgstr "이메일 발송 내역 확인"
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "To read a sent email message, click its subject."
+msgstr "보낸 이메일을 읽기 위해 제목을 클릭하세요."
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid ""
+"To see the status for all email tasks submitted for this course, click this "
+"button:"
+msgstr "강좌와 관련된 모든 이메일 작업 상태를 확인하기 위해 다음 버튼을 클릭하세요:"
+
 #: lms/djangoapps/instructor_analytics/distributions.py
 msgid "No Data"
 msgstr "데이터 없음"
@@ -4724,7 +4758,7 @@ msgstr "생성되었습니다."
 
 #: lms/djangoapps/certificates/models.py
 msgid "All learners"
-msgstr ""
+msgstr "모든 학습"
 
 #: lms/djangoapps/certificates/models.py
 msgid "For exceptions"
@@ -15462,12 +15496,28 @@ msgid "All (students, staff, and admins)"
 msgstr "전체 (학생, 운영팀 및 교수자)"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "(Learners not explicitly assigned to a cohort)"
+msgstr "(학습집단에 명시적으로 포함되지 않은 학습자)"
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Subject: "
 msgstr "제목:"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "(Max 128 characters)"
 msgstr "(최대 128 문자)"
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "(Maximum 128 characters)"
+msgstr "(최대 128 문)"
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "Cohort: "
+msgstr "학습집단:"
+
+#: lms/templates/instructor/instructor_dashboard_2/send_email.html
+msgid "Staff and Administrators"
+msgstr "운영팀과 교수자"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Message:"
