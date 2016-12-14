@@ -1701,6 +1701,8 @@
     "Invalidate Certificate": "\uc774\uc218\uc99d \ube44\ud65c\uc131\ud654\ud558\uae30",
     "No results": "\uacb0\uacfc \uc5c6\uc74c",
     "Password not equal.": "\ube44\ubc00\ubc88\ud638\uac00 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4\u002e",
+    "Password check": "\ube44\ubc00\ubc88\ud638 \ud655\uc778",
+
 
 
 

@@ -28651,3 +28651,18 @@ msgstr "공유의 힘을 이용한 교육내용/방법의 수월성 확보"
 msgid "Expanding life-long learning opportunities through the enhancement of general public accessibility"
 msgstr "대학 강의의 일반 국민 접근성 제고를 통한 평생학습 기회 확대"
 
+msgid "Ministry of Education"
+msgstr "교육부"
+
+msgid "NILE"
+msgstr "국가평생교육진흥원"
+
+msgid "Accounts for Lifelong Learning"
+msgstr "평생학습계좌"
+
+msgid "Life long Education"
+msgstr "늘배움"
+
+
+
+
