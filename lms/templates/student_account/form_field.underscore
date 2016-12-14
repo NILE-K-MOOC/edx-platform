@@ -39,8 +39,9 @@
             <% if ( instructions ) { %> <span class="tip tip-input" id="<%= form %>-<%= name %>-desc"><%= instructions %></span><% } %>
 
     <% } else if ( type === 'password' ) { %>
+
         <input id="<%= form %>-<%= name %>"
-           type="text"
+           type="<%= type %>"
            name="<%= name %>"
            class="input-block <% if ( type === 'checkbox' ) { %>checkbox<% } %>"
             <% if ( type !== 'password' ) { %> aria-describedby="<%= form %>-<%= name %>-desc" <% } %>
@@ -55,13 +56,13 @@
             <% if ( placeholder ) { %> placeholder="<%= placeholder %>"<% } %>
             value="<%- defaultValue %>"
         />
-        <% if ( type === 'checkbox' ) { %>
-            <label for="<%= form %>-<%= name %>">
-                <%= label %>
-                <% if ( required && requiredStr ) { %> <%= requiredStr %><% } %>
-            </label>
-        <% } %>
-        <% if ( instructions ) { %> <span class="tip tip-input" id="<%= form %>-<%= name %>-desc"><%= instructions %></span><% } %>
+
+        <input id="<%= form %>-<%= name %>2"
+           type="<%= type %>"
+           name="<%= name %>2"
+           class="input-block"
+           placeholder="<%- gettext('Password check') %>"
+        />
 
     <% } else { %>
         <input id="<%= form %>-<%= name %>"
