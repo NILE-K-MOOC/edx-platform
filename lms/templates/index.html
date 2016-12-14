@@ -399,7 +399,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <a href="/comm_notice_view/${list[0]}/">
                                     <h3>
                                         <strong class="category">${list[1]}</strong>
-                                        ${list[2]}
+                                        <p>${list[2]}</p>
                                     </h3>
                                     <p class="summary">${list[3]}</p>
                                     <time>${list[4]}</time>
@@ -475,7 +475,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 </div>
                 <!--// community 03 -->
                 <!-- community 04 -->
-                <a href="#community04">FAQ</a>
+                <a href="#community04">Q&A</a>
                 <div class="grid-container grid-manual community" id="community04">
                     <div class="row">
                     % for list in index_list :
