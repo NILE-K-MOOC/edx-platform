@@ -27,7 +27,8 @@
                         email: gettext("The email address you've provided isn't formatted correctly."),
                         min: gettext("%(field)s must have at least %(count)d characters."),
                         max: gettext("%(field)s can only contain up to %(count)d characters."),
-                        required: gettext("Please enter your %(field)s.")
+                        required: gettext("Please enter your %(field)s."),
+                        password: gettext("Password not equal.")
                     },
 
                     field: function( el ) {
@@ -36,6 +37,7 @@
                             min = true,
                             max = true,
                             email = true,
+                            password = true,
                             response = {},
                             isBlank = _fn.validate.isBlank( $el );
 
@@ -46,14 +48,16 @@
                                 min = _fn.validate.str.minlength( $el );
                                 max = _fn.validate.str.maxlength( $el );
                                 email = _fn.validate.email.valid( $el );
+                                //password = _fn.validate.password.valid( $el);
                             }
                         } else if ( !isBlank ) {
                             min = _fn.validate.str.minlength( $el );
                             max = _fn.validate.str.maxlength( $el );
                             email = _fn.validate.email.valid( $el );
+                            password = _fn.validate.password.valid( $el );
                         }
 
-                        response.isValid = required && min && max && email;
+                        response.isValid = required && min && max && email && password;
 
                         if ( !response.isValid ) {
                             _fn.validate.removeDefault( $el );
@@ -62,7 +66,8 @@
                                 required: required,
                                 min: min,
                                 max: max,
-                                email: email
+                                email: email,
+                                password: password
                             });
                         }
 
@@ -119,6 +124,17 @@
 
                         format: function( str ) {
                             return _fn.validate.email.regex.test( str );
+                        }
+                    },
+
+                    password: {
+                        valid: function(){
+                            if($("#register-password").val() === $("#register-password2").val()){
+                                return true;
+                            }else{
+                                $("#register-password").addClass("error");
+                                return false;
+                            }
                         }
                     },
 
