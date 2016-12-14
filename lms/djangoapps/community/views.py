@@ -860,7 +860,7 @@ def comm_list_json(request) :
                      board_id,
                      CASE
                         WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'F' THEN '[Q&A]'
                         WHEN section = 'K' THEN '[K-MOOC 뉴스]'
                         WHEN section = 'R' THEN '[자료실]'
                         ELSE ''
@@ -939,4 +939,3 @@ def comm_list_json(request) :
 #
 #     cur.close()
 #     print 'done'
-

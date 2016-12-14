@@ -28338,7 +28338,7 @@ msgstr "동의함"
 msgid "Do not agree"
 msgstr "동의하지 않음"
 
-msgid "Privacy policy (or Personal information processing policy) "
+msgid "Privacy policy (or Personal information processing policy)"
 msgstr "개인정보의 수집 및 이용 동의"
 
 
@@ -28613,3 +28613,30 @@ msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Opening course status"
 msgstr "개강상태"
+
+msgid "Join Us"
+msgstr "회원가입"
+
+msgid "Join"
+msgstr "가입하기"
+
+# /lms/templates/courseware/univ_intro_KOCWk.html
+
+msgid "KOCW (Korea Open CourseWare) is"
+msgstr "KOCW (Korea Open CourseWare)는"
+
+msgid "the common use service of national higher education teaching and learning materials, which share lecture materials in conjunction with the domestic Universities and overseas OER(Open Educational Resources) councils."
+msgstr "국내 대학 및 해외 교육자료 공개(OER: Open Educational Resources) 운동 협의체와 연계하여 강의자료 정보를 공유하는 국가 대표 고등교육 교수학습자료 공동활용 서비스 입니다."
+
+msgid "KOCW service has the following objectives."
+msgstr "KOCW 서비스는 다음과 같은 목표를 가지고 서비스를 제공하고 있습니다."
+
+msgid "Improving the quality of higher education through the common use of e-learning contents"
+msgstr "이러닝 콘텐츠 공동활용을 통한 대학교육의 질 제고"
+
+msgid "Securing educational excellence with the power of sharing materials"
+msgstr "공유의 힘을 이용한 교육내용/방법의 수월성 확보"
+
+msgid "Expanding life-long learning opportunities through the enhancement of general public accessibility"
+msgstr "대학 강의의 일반 국민 접근성 제고를 통한 평생학습 기회 확대"
+

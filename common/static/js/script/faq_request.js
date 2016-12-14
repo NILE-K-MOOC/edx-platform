@@ -12,12 +12,17 @@ $(document).on('click', '#request', function(){
     var option = $('#search_con option:selected').attr('id');
     var request_con = $('#request_con').val();
 
+
     if(email.match(regExp) != null){
         flag = true;
     }else{
         flag = false;
     }
 
+    if(option == 'login_'){
+        option = 'login'
+    }
+    console.log(option);
     if(option != 'null' && flag == true){
         $.ajax({
             url : 'comm_faqrequest',

@@ -237,7 +237,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
             (  SELECT board_id,
                      CASE
                         WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'F' THEN '[Q&A]'
                         WHEN section = 'K' THEN '[K-MOOC 뉴스]'
                         WHEN section = 'R' THEN '[자료실]'
                         ELSE ''
@@ -255,7 +255,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
             (  SELECT board_id,
                      CASE
                         WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'F' THEN '[Q&A]'
                         WHEN section = 'K' THEN '[K-MOOC 뉴스]'
                         WHEN section = 'R' THEN '[자료실]'
                         ELSE ''
@@ -275,7 +275,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
             (  SELECT board_id,
                      CASE
                         WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'F' THEN '[Q&A]'
                         WHEN section = 'K' THEN '[K-MOOC 뉴스]'
                         WHEN section = 'R' THEN '[자료실]'
                         ELSE ''
@@ -293,7 +293,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
             (  SELECT board_id,
                      CASE
                         WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[FAQ]'
+                        WHEN section = 'F' THEN '[Q&A]'
                         WHEN section = 'K' THEN '[K-MOOC 뉴스]'
                         WHEN section = 'R' THEN '[자료실]'
                         ELSE ''

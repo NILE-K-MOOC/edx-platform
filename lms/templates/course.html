@@ -18,15 +18,15 @@ from django.core.urlresolvers import reverse
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
                 <span class="course-status over">${_(course.status)}</span>
-                <span class="course-title">${course.display_name}</span>
+                <span class="course-title" style="height: 3.4em; !important;">${course.display_name}</span>
             </h2>
-            <div class="course-date" aria-hidden="true" style="position: absolute; bottom: 25px;">
+            <div class="course-date" aria-hidden="true" style="position: absolute;">
                 <time>${course.start.strftime("%Y-%m-%d")}</time></span>
                 % if course.end:
                 ~ </strong><time>${course.end.strftime("%Y-%m-%d")}</time>
                 % endif
             </div>
-            <div class="course-date" aria-hidden="true" style="position: absolute; bottom: 5px;">
+            <div class="course-date" aria-hidden="true" style="position: absolute; bottom: 25px;">
                 <time>${_(course.display_org_with_default)}</time>
             </div>
         </div>
