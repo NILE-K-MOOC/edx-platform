@@ -34,7 +34,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import urllib2, urlparse, urllib
 import json
-__all__ = ['assets_handler']
+__all__ = ['assets_handler', 'assets_callback']
 
 # pylint: disable=unused-argument
 
@@ -633,3 +633,34 @@ def status_check(mme_url, uuid, playtime):
         state = 'F'
 
     return state
+
+@csrf_exempt
+def assets_callback(request, course_key_string=None, asset_key_string=None):
+
+    try:
+        course_key = CourseKey.from_string(course_key_string)
+        asset_key = AssetKey.from_string(asset_key_string) if asset_key_string else None
+
+        content = request.REQUEST
+        content.name = request.REQUEST['file_name']
+        content.cdn_url = request.REQUEST['cdn_url']
+        content.content_type = request.REQUEST['file_type']
+        content.thumbnail_location = request.REQUEST['thumbnail_url']
+        content.thumbnail_url = request.REQUEST['thumbnail_url']
+        content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
+        content.uuid = request.REQUEST['uuid']
+        content.playtime = request.REQUEST['playtime']
+        content.state = request.REQUEST['state']
+        content.mme = 'mme'
+
+        # mongo = contentstore().find_cdn_uuid(content.location)
+        # print mongo
+        contentstore().save_cdn(content)
+
+        return JsonResponse({'status': 'ok'})
+    except Exception as e:
+
+        return JsonResponse({
+            'status': 'fail',
+            'msg': e
+        })
