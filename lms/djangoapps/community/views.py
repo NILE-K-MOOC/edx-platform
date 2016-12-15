@@ -888,7 +888,7 @@ def comm_list_json(request) :
                                 ON (    a.section = b.section
                                     AND a.reg_date = b.reg_date
                                     AND a.board_id = b.board_id)) c
-            ORDER BY c.odby;
+            ORDER BY c.odby
         """
         cur.execute(query)
         row = cur.fetchall()
