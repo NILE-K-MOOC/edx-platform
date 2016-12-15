@@ -46,7 +46,7 @@
 				<!-- [s] 약관 -->
 				<h2>${_("Terms and conditions for subscription")}</h2>
 				<section class="agree-frm-box">
-					<h3>${_("Terms and conditions for use")}</h3>
+					<h3>${_("Terms and conditions for use")} ${_("(Essential)")}</h3>
                     %if request.session['_language'] == 'ko_kr':
 					<textarea readonly="readonly">
 제1장 총칙
@@ -303,7 +303,7 @@ Article 18 (Competent Court)
 
 
 				<section class="agree-frm-box">
-					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")}</h3>
+					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")} ${_("(Essential)")}</h3>
                     %if request.session['_language'] == 'ko_kr':
 					<textarea readonly="readonly">우리원은 고객님의 개인정보를 아래와 같이 처리함을 알려드립니다.
 
@@ -516,7 +516,7 @@ The user has the right to refuse consent to the personal information collected o
 
 
 				<section class="agree-frm-box">
-					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")}</h3>
+					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")} ${_("(option)")}</h3>
                     %if request.session['_language'] == 'ko_kr':
 					<textarea readonly="readonly">
 1. 선택적 개인정보의 수집목적
