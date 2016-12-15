@@ -318,7 +318,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(i[2])
         s= i[3]
         text = re.sub('<[^>]*>', '', s)
-        value_list.append(text)
+        value_list.append(text[0:200])
         value_list.append(i[4])
         value_list.append(i[5])
         index_list.append(value_list)
