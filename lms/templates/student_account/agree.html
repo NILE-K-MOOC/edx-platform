@@ -304,6 +304,7 @@ Article 18 (Competent Court)
 
 				<section class="agree-frm-box">
 					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")}</h3>
+                    %if request.session['_language'] == 'ko_kr':
 					<textarea readonly="readonly">우리원은 고객님의 개인정보를 아래와 같이 처리함을 알려드립니다.
 
 국가평생교육진흥원(이하 “진흥원”이라 한다)에서 운영하는 K-MOOC 홈페이지 (http://www.kmooc.kr, 이하 ‘당 홈페이지’라 한다)는 '개인정보 보호법'에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있습니다.
@@ -469,6 +470,43 @@ Article 18 (Competent Court)
     시행일자 : 2015.10.14
 
         			</textarea>
+                        %else :
+                    <textarea readonly="readonly">
+                        1. Purpose of Collection and Use of Personal Information
+
+The K-MOOC homepage collects personal information for the following purposes. The collected personal information will not be used for any purpose other than the following purposes and will be subject to prior consent if the purpose of use is changed.
+
+  A. Homepage membership sign-up and management
+     We process personal information for the purpose of the followings: Confirmation of membership; confirmation of identity in accordance with membership service provision; maintenance and management of membership status; prevention of unauthorized use of service; confirmation of consent of legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices and notifications etc.
+  B. Civil complaints processing
+    We process personal information for purposes such as identification of complainants, confirmation of complaints, communication and notification for factual investigation, notification of processing results, improvement and provision of services.
+
+2. Items of personal information collected
+
+The K-MOOC homepage collects the following personal information to the minimum extent necessary for service delivery. "Optional Items" of personal information we collect are additional information we collect to better serve our members. If the member does not want it, we do not collect the additional information and there is no restriction on the use of the service due to this.
+
+  A. When signing up for membership
+- Personal information file name: K-MOOC homepage member information - Required items: Email, actual name, ID, password, country, gender, year of birth
+- Optional items : Residence, the highest level of education, purpose of enrollment
+※ To disclose the personal information file registration information of K-MOOC homepage, please use the search menu of personal information file list. The comprehensive support portal of the Ministry of Government Administration and Home Affairs (www.privacy.go.kr) → Personal Information Civil Complaint → Request to view personal information  → the search menu of personal information file list
+
+  B. During the course of using the service, the following information can be automatically
+      generated and collected.
+- IP address, cookie, service usage history, visit history, etc.
+The information collected and stored automatically will be used for statistical analysis to improve and complement the homepage to provide lecture management and better services.
+
+3. Processing and Retention Period of Personal Information
+
+In principle, the member's personal information will be destroyed without delay when the purpose of processing personal information is achieved or the service is abolished.
+
+  A. Personal information file name: K-MOOC homepage member information
+- Retention period : Until membership is canceled
+
+4. The fact that you have the right to refuse consent and the disadvantage of denying consent
+
+The user has the right to refuse consent to the personal information collected on the K-MOOC homepage. If you refuse to accept the required items, membership will be restricted.
+                    </textarea>
+                        %endif
 					<div class="agree-chk">
 						<input type="radio" name="agree2" value="Y" id="radio2_y"> <label for="radio2_y">${_("Agree")}</label>
 						<input type="radio" name="agree2" value="N"  id="radio2_n" checked> <label for="radio2_n">${_("Do not agree")}</label>
@@ -479,6 +517,7 @@ Article 18 (Competent Court)
 
 				<section class="agree-frm-box">
 					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")}</h3>
+                    %if request.session['_language'] == 'ko_kr':
 					<textarea readonly="readonly">
 1. 선택적 개인정보의 수집목적
 
@@ -500,6 +539,27 @@ K-MOOC 홈페이지 회원 가입에 있어서 회원의 정보 확인 요청 �
 
 
         			</textarea>
+                        %else:
+                        <textarea readonly="readonly">
+                            1. Purpose of collecting optional personal information
+
+In K-MOOC homepage member enrollment, providing related services such as providing convenience and lecture guidance when a member requests the confirmation of information.
+
+2. Collection items
+
+Common : Residence, the highest level of education, purpose of enrollment
+3. Retention and use period
+
+In principle, the member's personal information will be destroyed without delay when the purpose of processing personal information is achieved or the service is abolished.
+
+  A. Personal information file name : K-MOOC homepage member information
+    - Retention period : Until membership is canceled
+
+4. Veto and disadvantage
+
+The customer who requests usages can refuse to agree with the purpose of the optional personal information and use. When a customer does not enter the optional information, there is no restriction on the use of the basic service. However, if you need additional information on the optional information, we can not provide the service. In addition, we do not collect sensitive personal information (race, ideology and creed, political tendencies, criminal records, medical information, etc.) that may be of concern to basic human rights violations.
+                        </textarea>
+                        %endif
 					<div class="agree-chk">
 						<input type="radio" name="agree3" value="Y" id="radio3_y"> <label for="radio3_y">${_("Agree")}</label>
 						<input type="radio" name="agree3" value="N"  id="radio3_n" checked> <label for="radio3_n">${_("Do not agree")}</label>
