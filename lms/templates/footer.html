@@ -55,8 +55,12 @@ dir=${bidi}
                 <!--<li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>-->
                 <li class="nav-colophon-01"><a href="/agreement">${_("Terms of Use")}</a></li>
                 <li class="nav-colophon-02"><a href="/Privacy-Policy">${_("Privacy Statement")}</a></li>
+
+                % if LANGUAGE_CODE == 'ko-kr':
                 <li class="nav-colophon-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
-                <li class="nav-colophon-04"><a href="/openapi">${_("OPEN API")}</a></li>
+                % endif
+
+                <!--<li class="nav-colophon-04"><a href="/openapi">${_("OPEN API")}</a></li>-->
                 <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
 
                 % if LANGUAGE_CODE == 'en':
@@ -80,9 +84,19 @@ dir=${bidi}
 
     <div class="footer-about-openedx">
         <div class="associate-site-lnk">
-            <select>
+            <select onchange="moveLocation(this.value);">
                 <option>${_("Related sites")}</option>
+                <option value="http://www.moe.go.kr/">${_("Ministry of Education")}</option>
+                <option value="http://www.nile.or.kr/">${_("NILE")}</option>
+                <option value="http://www.all.go.kr">${_("Accounts for Lifelong Learning")}</option>
+                <option value="http://www.lifelongedu.go.kr/">${_("Life long Education")}</option>
             </select>
+            <script>
+                function moveLocation(url){
+                    document.location.href = url;
+                    //window.open(url, "", "");
+                }
+            </script>
         </div>
         <div class="associate-icon">
             <div>

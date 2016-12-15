@@ -74,6 +74,7 @@ define(["jquery", "underscore", "gettext", "js/views/pages/base_page", "js/views
                 });
                 this.outlineView.render();
                 this.outlineView.setViewState(this.initialState || {});
+                $(".button-toggle-expand-collapse").click();
                 return $.Deferred().resolve().promise();
             },
 

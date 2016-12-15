@@ -12641,8 +12641,9 @@ msgid "List of Courses"
 msgstr "강좌 목록"
 
 #: lms/templates/courseware/courses.html
+#: river
 msgid "Refine Your Search"
-msgstr "검색 수정하기"
+msgstr "검색 범위 설정"
 
 #: lms/templates/courseware/courseware-chromeless.html
 #: lms/templates/courseware/courseware.html
@@ -14312,36 +14313,37 @@ msgstr "보류중이 과제"
 msgid "The status for any active tasks appears in a table below."
 msgstr "활성 작업의 상태는 아래 표에 나타납니다."
 
+#: river
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Regenerate Certificates"
-msgstr ""
+msgstr "이수증 재생성"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid ""
 "To regenerate certificates for your course, choose the learners who will "
-"receive regenerated certificates and click <br/> Regenerate Certificates."
-msgstr ""
+"receive regenerated certificates and click Regenerate Certificates."
+msgstr "강좌 이수증을 재생성하기 위해 재생성된 이수증을 받을 학습자를 선택하고 이수증 재생성하기를 클릭하세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid ""
 "Regenerate for learners who have already received certificates. ({count})"
-msgstr ""
+msgstr "이미 이수증을 받은 학습자를 위해 재생성합니다. ({count})"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Regenerate for learners who have not received certificates. ({count})"
-msgstr ""
+msgstr "이수증을 받지 않은 학습자를 위해 재생성합니다. ({count})"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Regenerate for learners in an error state. ({count})"
-msgstr ""
+msgstr "오류가 발생한 학습자를 위해 재생성합니다. ({count})"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Certificate Generation History"
-msgstr ""
+msgstr "이수증 생성 내역"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "SET CERTIFICATE EXCEPTIONS"
-msgstr ""
+msgstr "이수증 예외조건 설정하기"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid ""
@@ -14350,10 +14352,13 @@ msgid ""
 "you add learners to the exception list, click Generate Exception "
 "Certificates below."
 msgstr ""
+"이수증 자격조건을 갖추지 못했지만 강좌 운영팀이 예외로 인정한 학습자가 이수증을 받을 수 있도록 이수증 생성 예외조건을 설정해야 합니다."
+" 학습자를 예외 목록에 추가한 뒤 아래 예외 이수증 생성하기를 클릭하세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Invalidate Certificates"
-msgstr ""
+msgstr "유효하지 않은 이수증"
+#:  -----------------------------   river end
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Enrollment Information"
@@ -15509,7 +15514,7 @@ msgstr "(최대 128 문자)"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "(Maximum 128 characters)"
-msgstr "(최대 128 문)"
+msgstr "(최대 128 문자)"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Cohort: "
@@ -21957,8 +21962,9 @@ msgstr "살펴보기"
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+#: river
 msgid "Add to Exception List"
-msgstr ""
+msgstr "추가 제외자 목록"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-invalidation.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-invalidation.underscore
@@ -25992,10 +25998,11 @@ msgstr ""
 " 기술 지원팀  {email}으로 이메일 보내주세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
+#: river
 msgid ""
 "To regenerate certificates for your course, chose the learners who will "
 "receive regenerated certificates and click <br/> Regenerate Certificates."
-msgstr ""
+msgstr "강좌 이수증을 재생성하기 위해 재생성된 이수증을 받을 학습자를 선택하고 이수증 재생성하기를 클릭하세요."
 
 #: lms/templates/verify_student/face_upload.html
 msgid "Edit Your Full Name"
@@ -27933,6 +27940,10 @@ msgstr "개강일"
 msgid "univ_name"
 msgstr "대학명"
 
+#: river
+msgid "All"
+msgstr "전체"
+
 msgid "ing"
 msgstr "진행중"
 
@@ -28639,4 +28650,19 @@ msgstr "공유의 힘을 이용한 교육내용/방법의 수월성 확보"
 
 msgid "Expanding life-long learning opportunities through the enhancement of general public accessibility"
 msgstr "대학 강의의 일반 국민 접근성 제고를 통한 평생학습 기회 확대"
+
+msgid "Ministry of Education"
+msgstr "교육부"
+
+msgid "NILE"
+msgstr "국가평생교육진흥원"
+
+msgid "Accounts for Lifelong Learning"
+msgstr "평생학습계좌"
+
+msgid "Life long Education"
+msgstr "늘배움"
+
+
+
 

@@ -508,7 +508,7 @@ a, span, p {color:inherit;}
 
 .main-sticky-box {position:fixed;right:10px;top:55%;z-index:51;}
 .main-sticky-box li {margin-top:10px;}
-.main-sticky-box a {display:block;text-align:center;font-size:0.875rem;line-height:37px;background:#fff;border:solid 1px #f2f2f2;color:#333;width:130px;}
+.main-sticky-box a {display:block;text-align:center;font-size:0.875rem;line-height:37px;background:#fff;border:solid 1px #f2f2f2;color:#333;width:150px;}
 .main-sticky-box a:hover {background:#00c2e5;border-color:#00c2e5;color:#fff;width:130px;}
 
 .board-search-box {text-align:right;margin-bottom:10px;margin-top:50px;position:relative;}

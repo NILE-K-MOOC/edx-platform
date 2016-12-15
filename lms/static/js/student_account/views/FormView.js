@@ -33,6 +33,11 @@
             submitButton: '',
 
             initialize: function( data ) {
+
+                console.log('initialize1');
+
+                console.log(data);
+
                 this.model = data.model;
                 this.preRender( data );
 
@@ -221,8 +226,8 @@
             },
 
             submitForm: function( event ) {
-                var data = this.getFormData();
 
+                var data = this.getFormData();
                 if (!_.isUndefined(event)) {
                     event.preventDefault();
                 }
@@ -231,6 +236,9 @@
 
                 if ( !_.compact(this.errors).length ) {
                     data = this.setExtraData( data );
+
+                    console.log('data ===' + data);
+
                     this.model.set( data );
                     this.model.save();
                     this.toggleErrorMsg( false );
