@@ -107,7 +107,7 @@
 .courses-container .courses .course.ready {border-color:#f4c300;}
 .courses-container .courses .course.ing {border-color:#008800;}
 .courses-container .courses .course.end {border-color:#126f9a;}
-.courses-container .courses .course .course-image .cover-image {height:126px;}
+.courses-container .courses .course .course-image .cover-image {height:150px;}
 .courses-container .courses .course .course-image .cover-image::before {height:126px;}
 .courses-container .courses .course .course-image .cover-image .learn-more {top:35px;}
 .courses-container .courses .course .course-info {height:145px;position:relative;}
@@ -133,7 +133,8 @@
 .courses-container .courses .course.end .course-info .course-status {background:#126f9a;color:#fff;}
 .courses-container .courses .course.none .course-info .course-status {background:#eeeeee;color:#666;}
 
-.courses-container .courses .course .course-image .cover-image img {width:auto;height:100%;}
+/*.courses-container .courses .course .course-image .cover-image img {height:100%;width: auto;}*/
+.courses-container .courses .course .course-image .cover-image img {height:175px;}
 
 .content-wrapper .container {max-width:1200px;border:0;min-width:320px;padding:30px 0;}
 .content-wrapper .container.full {max-width:100%;}
@@ -438,7 +439,7 @@ a, span, p {color:inherit;}
 	.university-listing li > a {height:55px;padding:10px 7px 0 7px;}
 }
 
-.major-course-container {padding:4.688rem 0;background:#f6f8f9;}
+.major-course-container {padding:4.688rem 0;background:#f6f8f9;height: 670px;}
 .major-course-container .grid-manual .row {margin:0 -0.83333% 0 -0.83333%;}
 .major-course-container .grid-manual .lg-col-3 {padding:0 0.83333%;}
 .major-course-item {border:solid 1px #d0ced0;background:#fff;text-align:center;margin-top:6%;}
@@ -447,7 +448,7 @@ a, span, p {color:inherit;}
 .major-course-item a:hover {text-decoration:none;}
 .major-course-item a p {color:#333;padding-top:10px;font-size:1.563rem;margin:0;}
 
-.my-course-container {background:#fff;padding:4.688rem 0;}
+.my-course-container {background:#fff;padding:4.688rem 0; height: 630px;}
 .my-course-container .grid-manual .row {margin:0;}
 .my-course-container .grid-manual .lg-col-4 {padding:0;}
 .my-course-item {background:#b4e5ff;text-align:center;padding:30px 0 40px 0;}
@@ -486,7 +487,7 @@ a, span, p {color:inherit;}
 	.btn-list-more {top:-60px;}
 }
 
-.community-container {background:#f6f8f9;padding:4.688rem 0;}
+.community-container {background:#f6f8f9;padding:4.688rem 0; height: 700px;}
 .community-container-wrap {max-width:75rem;margin:0 auto;position:relative;padding-top:45px;}
 .community-container-wrap > a {position:absolute;top:0;width:20%;line-height:40px;text-align:center;color:#fff;background:#9aa1a4;border-left:solid 1px #eef1f2;box-sizing:border-box;;}
 .community-container-wrap > a:nth-of-type(1) {left:0;border-left:0;}
@@ -497,7 +498,7 @@ a, span, p {color:inherit;}
 .community-container-wrap > a.on {background:#b3ddeb;color:#fff;}
 .community-container-wrap > a.all.on::after {border-color:#646464 transparent transparent transparent !important;}
 .community-container-wrap > a.on::after {content:"";width:0; height:0; border-style:solid; border-width:20px;border-color:#b3ddeb transparent transparent transparent;position:absolute;left:50%;bottom:-30px;margin-left:-15px;z-index:1;}
-.grid-container.community {display:none;background:#fff;padding:0 30px 40px 30px;}
+.grid-container.community {display:none;background:#fff;padding:0 0px 40px 30px;}
 .community-container-wrap > a.on + .grid-container.community {display:block;}
 .community-item {height:340px;margin-top:40px;}
 .community-item h3 {height:160px;background:#5a6f8e;padding:30px 20px 0 20px;box-sizing:border-box;color:#fff;}
@@ -758,7 +759,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 
 .using-kmooc .grid-manual .lg-col-4, .using-kmooc .grid-manual .sm-col-6, .using-kmooc .grid-manual .col-12,  .using-kmooc .grid-manual .md-col-4 {padding:0;}
 .using-kmooc .grid-manual .row {margin:0;border-right:solid 1px #d1d1d1;}
-.using-kmooc .grid-manual .row article {padding:12px;border-left:solid 1px #d1d1d1;border-bottom:solid 1px #d1d1d1;}
+.using-kmooc .grid-manual .row article {padding:12px;border-left:solid 1px #d1d1d1;border-bottom:solid 1px #d1d1d1;height: 400px;}
 .using-kmooc .grid-manual .row article p.info-txt {line-height:1.5em;margin:0;height:90px;}
 
 .kmooc-box blockquote {text-align:center;font-size:2.375em;font-weight:700;text-align:Center;line-height:1.2em;margin-left:0;margin-right:0;}
