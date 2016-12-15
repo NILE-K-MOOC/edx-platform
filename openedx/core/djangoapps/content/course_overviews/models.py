@@ -477,8 +477,8 @@ class CourseOverview(TimeStampedModel):
 
     @classmethod
     def get_all_courses(cls, org=None, filter_=None):
-        print 'get_all_courses.org ::: ', org
-        print 'get_all_courses.filter ::: ', filter_
+        # print 'get_all_courses.org ::: ', org
+        # print 'get_all_courses.filter ::: ', filter_
 
         """
         Returns all CourseOverview objects in the database.
@@ -493,17 +493,17 @@ class CourseOverview(TimeStampedModel):
         # created. For tests using CourseFactory, use emit_signals=True.
         if org:
             if filter_:
-                print 'get_all_courses type 1 '
+                # print 'get_all_courses type 1 '
                 course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
             else:
-                print 'get_all_courses type 2 '
+                # print 'get_all_courses type 2 '
                 course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
         else:
             if filter_:
-                print 'get_all_courses type 3 '
+                # print 'get_all_courses type 3 '
                 course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
             else:
-                print 'get_all_courses type 4 '
+                # print 'get_all_courses type 4 '
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
 
         # if org:

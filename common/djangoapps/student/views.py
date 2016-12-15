@@ -185,7 +185,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
     courses2 = get_courses(user, filter_ = f2)
 
-    print 'get course test ------------------------------------------------------- e'
+    # print 'get course test ------------------------------------------------------- e'
 
     # if configuration_helpers.get_value(
     #         "ENABLE_COURSE_SORTING_BY_START_DATE",
