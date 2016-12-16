@@ -87,7 +87,7 @@ define(["jquery", "underscore", "gettext", "common/js/components/utils/view_util
                     );
                 },
                 messageBody;
-            xblockType = xblockType || 'component';
+            xblockType = xblockType || gettext('Component');
             messageBody = interpolate(
                     gettext('Deleting this %(xblock_type)s is permanent and cannot be undone.'),
                     { xblock_type: xblockType },
