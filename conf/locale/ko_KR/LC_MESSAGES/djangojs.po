@@ -9271,6 +9271,8 @@ msgid ""
 "exactly as it appears on your government-issued photo ID, including any non-"
 "Roman characters."
 msgstr ""
+"신분 확인을 위해 사용된 이름은 인증서에도 사용됩니다. 다른 사용자는 절대 실명을 볼 수 없습니다. 로마자가 아닌 부분을 포함해 정부 "
+"인증 신분증 상의 이름을 정확히 입력해야 합니다."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Email Address"
