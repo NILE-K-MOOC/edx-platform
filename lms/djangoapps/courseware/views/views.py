@@ -719,6 +719,9 @@ def course_about(request, course_id):
 
         # short description
         short_description = { 'short_description' : course_details.short_description}
+        classfy = { 'classfy' : course_details.classfy }
+
+
 
 
 
@@ -753,7 +756,8 @@ def course_about(request, course_id):
             'pre_requisite_courses': pre_requisite_courses,
             'course_image_urls': overview.image_urls,
             'day' : day,
-            'short_description' : short_description
+            'short_description' : short_description,
+            'classfy' : classfy
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

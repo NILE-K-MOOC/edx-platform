@@ -54,10 +54,10 @@
 
 
 .wrapper-footer footer#footer-openedx .colophon {
-	width:57%;
+	width:59.95745%;
 }
 .wrapper-footer footer#footer-openedx .footer-about-openedx {
-	width:40%;
+	width:37.91489%;
 	position:relative;
 }
 
@@ -87,8 +87,14 @@
 }
 .home > header .outer-wrapper {
     width: 100%;height:100%;box-sizing:border-box;
-    padding:190px 0 240px 0;	 /** 20161215 **/
+/**    padding:250px 0 240px 0;	**/
+	padding:200px 0 0 0; /** 20161215 **/
 }
+
+/** 20161216 Ãß°¡**/
+.home > header .outer-wrapper.animation-title-appear .title {text-align:left;}
+.home > header .outer-wrapper.animation-title-appear .title > .heading-group {text-align:left;margin:0;}
+.home > header .outer-wrapper.animation-title-appear .title > .heading-group > p {margin-left:20px;}
 
 .home > header .title {
     box-shadow: 0 4px 5px 0 rgba(0,0,0,0);
@@ -649,7 +655,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 .univ-list-top-txt {display:table;width:100%;height:100%;text-align:Center;color:#fff;}
 .univ-list-top-txt > div  {display:table-cell;vertical-align:middle;}
 .univ-list-top-txt h2 {color:#fff;font-weight:400;border:0;padding-bottom:0;line-height:1em;}
-.univ-list-top-txt h2 > span {font-size:1.125rem;}
+.univ-list-top-txt h2 > span {font-size:1.125rem;font-family:"Nanum Gothic";}
 .univ-list-top-txt p {line-height:1.8em;}
 
 .univ-list {list-style:none;margin:0 0 0 -1.5%;padding-top:10px;}
