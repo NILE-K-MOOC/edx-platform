@@ -7,6 +7,7 @@ $(document).ready(function(){
         url : 'comm_list_json'
     }).done(function(data){
         console.log(data);
+        console.log(data[0]);
         for(var i=0; i<data.length; i++){
             html +="<div class='col col-12 sm-col-6 md-col-4  lg-col-3'>";
             html +="<div class='community-item'>";
@@ -21,7 +22,7 @@ $(document).ready(function(){
             }
             html +="<h3><strong class='category'>"+data[i][1]+"</strong>";
             html +="<p>"+data[i][2]+"</p></h3>";
-            html +="<p class='summary'>"+data[i][3].substr(0,200)+"</p>";
+            html +="<p class='summary' style='height: 150px; margin-bottom: 0px;'>"+data[i][3].substr(0,200)+"</p>";
             html +="<time>"+data[i][4]+"</time>";
             html +="</a>";
             html +="</div>";
