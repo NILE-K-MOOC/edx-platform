@@ -30,15 +30,17 @@ from pymongo import ASCENDING, DESCENDING
 from student.auth import has_course_author_access
 from xmodule.modulestore.exceptions import ItemNotFoundError
 
+from django.views.decorators.csrf import csrf_exempt
+
 import urllib2, urlparse, urllib
 import json
-__all__ = ['assets_handler']
+__all__ = ['assets_handler', 'assets_callback']
 
 # pylint: disable=unused-argument
 
 
 @login_required
-@ensure_csrf_cookie
+@csrf_exempt
 def assets_handler(request, course_key_string=None, asset_key_string=None):
     """
     The restful handler for assets.
@@ -177,19 +179,19 @@ def _assets_json(request, course_key):
 
             if 'uuid' in asset:
                 uuid = asset['uuid']
-            else: uuid = ''
+            else: asset['uuid'] = ''
             if 'playtime' in asset:
                 playtime = asset['playtime']
             else:
-                playtime = ''
+                asset['playtime'] = ''
             if 'state' in asset:
                 state = asset['state']
             else:
-                state = ''
+                asset['state'] = ''
             if 'thumbnail_url' in asset:
                 thumbnail_url = asset['thumbnail_url']
             else:
-                thumbnail_url = ''
+                asset['thumbnail_url'] = ''
 
             '''
             상태변환 처리
@@ -230,6 +232,7 @@ def _assets_json(request, course_key):
                     state_update = contentstore().save_cdn(
                         content
                     )
+
             else:
                 trans_state = asset['state'] # 완료와 실패 이외의 상태는 등록시 설정된 값으로 구성된다.
 
@@ -630,3 +633,34 @@ def status_check(mme_url, uuid, playtime):
         state = 'F'
 
     return state
+
+@csrf_exempt
+def assets_callback(request, course_key_string=None, asset_key_string=None):
+
+    try:
+        course_key = CourseKey.from_string(course_key_string)
+        asset_key = AssetKey.from_string(asset_key_string) if asset_key_string else None
+
+        content = request.REQUEST
+        content.name = request.REQUEST['file_name']
+        content.cdn_url = request.REQUEST['cdn_url']
+        content.content_type = request.REQUEST['file_type']
+        content.thumbnail_location = request.REQUEST['thumbnail_url']
+        content.thumbnail_url = request.REQUEST['thumbnail_url']
+        content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
+        content.uuid = request.REQUEST['uuid']
+        content.playtime = request.REQUEST['playtime']
+        content.state = request.REQUEST['state']
+        content.mme = 'mme'
+
+        # mongo = contentstore().find_cdn_uuid(content.location)
+        # print mongo
+        contentstore().save_cdn(content)
+
+        return JsonResponse({'status': 'ok'})
+    except Exception as e:
+
+        return JsonResponse({
+            'status': 'fail',
+            'msg': e
+        })

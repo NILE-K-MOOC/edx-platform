@@ -19,7 +19,7 @@ var CourseDetails = Backbone.Model.extend({
         short_description: "",
         overview: "",
         intro_video: null,
-        effort: null,	// an int or null,
+        effort: 0,	// an int or null,
         license: null,
         course_image_name: '', // the filename
         course_image_asset_path: '', // the full URL (/c4x/org/course/num/asset/filename)
@@ -35,6 +35,11 @@ var CourseDetails = Backbone.Model.extend({
     },
 
     validate: function(newattrs) {
+
+        console.log('---------------------------------------');
+        console.log(isNaN(newattrs.effort));
+        console.log('---------------------------------------');
+
         // Returns either nothing (no return call) so that validate works or an object of {field: errorstring} pairs
         // A bit funny in that the video key validation is asynchronous; so, it won't stop the validation.
         var errors = {};
@@ -57,12 +62,15 @@ var CourseDetails = Backbone.Model.extend({
             errors.enrollment_end = gettext("The course must have an assigned enrollment end date.");
         }
 
-        if (newattrs.end_date && newattrs.enrollment_end && newattrs.end_date && newattrs.enrollment_end && (newattrs.effort === null || newattrs.effort == "")) {
+        if (newattrs.end_date && newattrs.enrollment_end && newattrs.end_date && newattrs.enrollment_end && (newattrs.effort == null || newattrs.effort == "")) {
             errors.effort = gettext("The course must have an assigned effort time.");
             $("#course-effort").focus();
         }
 
-
+        if (newattrs.effort == null || newattrs.effort == "" || isNaN(newattrs.effort)) {
+            errors.effort = gettext("Effort time must be number.");
+            $("#course-effort").focus();
+        }
 
         if (newattrs.start_date && newattrs.end_date && newattrs.start_date >= newattrs.end_date) {
             errors.end_date = gettext("The course end date must be later than the course start date.");

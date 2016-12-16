@@ -178,6 +178,19 @@
                 <label>URL:</label>
                 <input type="text" class="embeddable-xml-input" value=''>
             </div>
+
+            <div class="error" style="display: none;">
+                <h3>
+                    <span class="icon fa fa-info-circle" aria-hidden="true"></span>
+                    <span id="error-msg"></span></h3>
+                <p id="refresh-btn" style="display:none;">
+                    <button type="button btn-large" class="btn-brand" onclick="ref()">
+                    <span class="icon fa fa-refresh" aria-hidden="true"></span>
+                    새로고침
+                    </button>
+                </p>
+            </div>
+
         </div>
     </div>
 </div>
@@ -187,17 +200,14 @@
 <script type="text/javascript">
 
 
+
     var mme_hostname = window.location.hostname.replace(/^[^.]*/, 'mme');
 
-##     var mme_host = 'http://mme2.npcomms.kr';
-    if(mme_hostname == 'mme.npcomms.kr'){
-        var mme_host = 'http://mme2.npcomms.kr';
-    }else{
-        var mme_host = 'http://'+mme_hostname;
-    }
+    var mme_host = 'http://'+mme_hostname;
 
-##     console.log(mme_host);
+    console.log(mme_hostname);
 
+##     var mme_host = "http://mme.kmooc.kr";
 
     var file_name = "";
     var playtime = "";
@@ -206,6 +216,15 @@
     var uuid = "";
     var state = "S";
     var content_type = "";
+
+    var path = document.location.pathname;
+    var directory = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+    var sp_dir = directory.split("cdn/");
+    try{
+        var cousrse_id = sp_dir[1];
+    }catch (e){
+        var course_id = '';
+    }
 
     if ($("#zfp-thumbnail-selector").length > 0) {
         var cdn_upload = new plupload.Uploader({
@@ -228,7 +247,8 @@
             multipart_params: {
                 //추가 파라미터
                 'vprofile': '720',
-                'aprofile': 'stereoSQ'
+                'aprofile': 'stereoSQ',
+                'course_id': course_id
             },
             flash_swf_url: 'js/Moxie.swf',
             silverlight_xap_url: 'js/Moxie.xap',
@@ -239,6 +259,7 @@
                     }
                     var token_key = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
                     this.settings.multipart_params.token_key = token_key; /* unique 값 설정 */
+                    console.log('init', token_key);
                 },
 
                 FilesAdded: function (up, files) {
@@ -246,6 +267,11 @@
                     $(".progress-bar").show();
                     $(".progress-fill").width("0%");
                     $(".progress-fill").text("uploading:0%");
+
+                    //업로드 박스 메세지 처리
+                    $(".error").hide();
+                    $("#error-msg").html("");
+                    $("#refresh-btn").show();
 
                     plupload.each(files, function (file) {
                         $("#zfp-thumbnail-selected").val(file.name);
@@ -262,8 +288,11 @@
                 },
 
                 Error: function (up, err) {
-                    $(".progress-bar").hide();
-                    console.log('Error:', err);
+                    $(".error").fadeIn();
+                    $("#error-msg").html("파일 업로드가 원활하지 않습니다.<br>새로고침 후 영상 콘텐츠를 재업로드 해주세요.");
+                    $(".choose-file-button").text("Load Another File");
+                    $(".input-group").show();
+                    $("#refresh-btn").show();
                 },
 
                 StateChanged: function (up) {
@@ -302,11 +331,27 @@
                         if(!playtime) playtime = result.data.insert_data.playtime;
                         if(!uuid) uuid = result.data.uuid;
 
-                        ajaxPutEdX();
-                        $(".choose-file-button").text("Load Another File");
+                        try{
+                            $(".error").fadeIn();
+                            $("#error-msg").html("동영상 콘텐츠 등록이 완료되었습니다.<br>계속하여 영상 콘텐츠를 업로드 해주세요.");
+                            ajaxPutEdX();
+                        }catch (e){
+                            $(".error").fadeIn();
+                            $("#error-msg").html("KMOOC 강좌 콘텐츠 등록을 실패하였습니다.<br>영상 콘텐츠를 재업로드 해주세요.");
+                            $("#refresh-btn").show();
+                        }
+                        $(".choose-file-button").html("Load Another File");
                                 $(".input-group").show();
+                        up.refresh();
                     } else {
                         up.refresh();
+                        //error message 출력 후 추가 버튼 확성화
+                        $(".error").fadeIn();
+                        $("#error-msg").html("파일 업로드가 원활하지 않습니다.<br>영상 콘텐츠를 재업로드 해주세요.");
+                        $(".choose-file-button").text("Load Another File");
+                        $(".input-group").show();
+                        $("#refresh-btn").show();
+
                     }
                     console.log('FileUploaded:', file, info);
 
@@ -350,7 +395,7 @@ var trCdnFile = ""
 + "        <li class=\"embed-url\">"
 + "            <label>"
 + "                <span class=\"label\">Status:</span>"
-+ "                <input type=\"text\" class=\"embeddable-xml-input trans-status-{{uuid}}\" value=\"{{state}}\" readonly=\"\">"
++ "                <input type=\"text\" class=\"embeddable-xml-input trans-status-{{uuid}}\" id=\"{{uuid}}\" value=\"{{state}}\" readonly=\"\">"
 + "            </label>"
 + "        </li>"
 + "        <li class=\"external-url\">"
@@ -493,9 +538,11 @@ var trCdnFile = ""
                         success: function (res) {
 
                             var encMsg = null;
+                            console.log('state', res.status, res.data.msg);
                            if (res.status == '200' && res.data.msg == 'Transcoding Processing') {
                                encMsg = '동영상 인코딩 진행중 '+res.data.data.percent+'%';
                                trCdnFile = trCdnFile.replace("display:inline", "display:none");
+                               trans_state(uuid);
                            }
                            else if (res.status == '200' && res.data.msg == 'Transcoding Finish') {
                                encMsg = '동영상 인코딩 완료';
@@ -504,9 +551,12 @@ var trCdnFile = ""
                            else if (res.status == '210' && res.data.msg == 'Transcoding Processing') {
                                encMsg = '동영상 인코딩 진행중 '+res.data.data.percent+'%';
                            }else{
-                               sleep(1000);
+                               sleep(300);
+
 
                                if(uuid !='' || uuid != undefined){
+
+
                                    var transcoding_status = setInterval(function(){
 
 
@@ -609,6 +659,7 @@ var trCdnFile = ""
                 $(".no-asset-content").css("display", "block");
             }
             console.log("ajaxGetEdX done");
+            $("#refresh-btn").show(1000);
         });
     }
 
@@ -616,8 +667,8 @@ var trCdnFile = ""
         $('#uploadProgress').text('');
     });
 
-    var test = function () {
-        alert('aaa');
+    var ref = function () {
+        location.reload();
       }
 
 

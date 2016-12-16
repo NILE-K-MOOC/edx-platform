@@ -856,23 +856,39 @@ def comm_list_json(request) :
         data = json.dumps('ready')
         cur = con.cursor()
         query = """
-           SELECT DISTINCT
-                     board_id,
-                     CASE
-                        WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[Q&A]'
-                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
-                        WHEN section = 'R' THEN '[자료실]'
-                        ELSE ''
-                     END
-                        head_title,
-                     subject,
-                     content,
-                     substr(reg_date, 1, 11),
-                     section
-                FROM tb_board
-            GROUP BY section
-               LIMIT 4;
+               SELECT c.*
+                FROM (SELECT a.board_id,
+                             CASE
+                                WHEN a.section = 'N' THEN '[공지사항]'
+                                WHEN a.section = 'F' THEN '[Q&A]'
+                                WHEN a.section = 'K' THEN '[K-MOOC 뉴스]'
+                                WHEN a.section = 'R' THEN '[자료실]'
+                                ELSE ''
+                             END
+                                head_title,
+                             a.subject,
+                             a.content,
+                             substr(a.reg_date, 1, 11) reg_date,
+                             a.section,
+                             CASE
+                                WHEN a.section = 'N' THEN 1
+                                WHEN a.section = 'F' THEN 4
+                                WHEN a.section = 'K' THEN 2
+                                WHEN a.section = 'R' THEN 3
+                                ELSE ''
+                             END
+                                odby
+                        FROM tb_board a
+                             INNER JOIN
+                             (  SELECT section,
+                                       max(reg_date) reg_date,
+                                       max(board_id) board_id
+                                  FROM tb_board
+                              GROUP BY section) b
+                                ON (    a.section = b.section
+                                    AND a.reg_date = b.reg_date
+                                    AND a.board_id = b.board_id)) c
+            ORDER BY c.odby
         """
         cur.execute(query)
         row = cur.fetchall()

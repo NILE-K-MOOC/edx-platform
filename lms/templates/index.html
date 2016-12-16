@@ -98,7 +98,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] course list -->
         <section class="courses-container full" id="main-contents05">
-            <h2 class="main-title">${_("Available courses")}</h2>
+##             <h2 class="main-title">${_("Available courses")}</h2>
             <%include file="${courses_list}" />
         </section>
         <!-- [e] course list -->
@@ -386,18 +386,6 @@ from openedx.core.djangolib.markup import HTML, Text
                 <a href="#community00" class="on">전체</a>
                 <div class="grid-container grid-manual community" id="community00">
                     <div class="row" id="total">
-##                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-##                             <div class="community-item">
-##                                 <a href="">
-##                                     <h3>
-##                                         <strong class="category">[입찰공고]</strong>
-##                                         <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
-##                                     </h3>
-##                                     <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
-##                                     <time>2016-10-19</time>
-##                                 </a>
-##                             </div>
-##                         </div>
                     </div>
                 </div>
                 <!--// community 00 -->
@@ -414,13 +402,16 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary">${list[3]}</p>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}</p>
                                     <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
                         % endif
                     % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_faq" style="margin-top: 20px;">더보기</a>
                     </div>
                 </div>
                 <!--// community 01 -->
@@ -453,14 +444,19 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
                                 <a href="/comm_k_news_view/${list[0]}/">
-                                    <img src="${list[3]}" width="266.7px" height="160px">
-                                    <p class="summary">${list[1]} ${list[2]}</p>
+##                                     <img src="${list[3]}" width="287.11px" height="160px">
+                                <h3 style="background-image: url(${list[3]}); background-size: contain;">
+                                </h3>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[1]} ${list[2]}</p>
                                     <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
                         % endif
                     % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_faq" style="margin-top: 20px;">더보기</a>
                     </div>
                 </div>
                 <!--// community 02 -->
@@ -477,13 +473,16 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary">${list[3]}</p>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}</p>
                                     <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
                         % endif
                     % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_faq" style="margin-top: 20px;">더보기</a>
                     </div>
                 </div>
                 <!--// community 03 -->
@@ -500,13 +499,16 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary">${list[3]}</p>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}</p>
                                     <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
                         % endif
                     % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_faq" style="margin-top: 20px;">더보기</a>
                     </div>
                 </div>
                 <!--// community 04 -->

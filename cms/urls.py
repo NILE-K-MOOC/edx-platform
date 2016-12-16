@@ -99,6 +99,7 @@ urlpatterns += patterns(
     url(r'^orphan/{}$'.format(settings.COURSE_KEY_PATTERN), 'orphan_handler'),
     #MME
     url(r'^cdn/{}/{}?$'.format(settings.COURSE_KEY_PATTERN, settings.ASSET_KEY_PATTERN), 'assets_handler'),
+    url(r'^cdn_call/{}/{}?$'.format(settings.COURSE_KEY_PATTERN, settings.ASSET_KEY_PATTERN), 'assets_callback'),
 
     url(r'^assets/{}/{}?$'.format(settings.COURSE_KEY_PATTERN, settings.ASSET_KEY_PATTERN), 'assets_handler'),
     url(r'^import/{}$'.format(COURSELIKE_KEY_PATTERN), 'import_handler'),
