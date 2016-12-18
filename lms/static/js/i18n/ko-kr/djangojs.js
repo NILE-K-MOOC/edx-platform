@@ -1334,7 +1334,7 @@
     "The language that team members primarily use to communicate with each other.": "\ud300 \uad6c\uc131\uc6d0 \ub300\ubd80\ubd84\uc758 \uc0ac\uc6a9 \uc5b8\uc5b4",
     "The language used throughout this site. This site is currently available in a limited number of languages.": "K-MOOC\uc5d0\uc11c \uc0ac\uc6a9\ud560 \uc5b8\uc5b4\ub97c \uc120\ud0dd\ud558\uc138\uc694. ",
     "The minimum grade for course credit is not set.": "\uac15\uc88c credit \uc704\ud55c \ucd5c\uc18c \uc131\uc801\uc774 \uc124\uc815\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.",
-    "The name of this signatory as it should appear on certificates. Maximum 40 characters.": "\uac15\uc88c \uc774\uc218\uc99d\uc5d0 \ub098\ud0c0\ub098\ub294 \uc11c\uba85\uc778\uc758 \uc774\ub984\uc73c\ub85c \ucd5c\ub300 40\uc790\uc785\ub2c8\ub2e4. ",
+    "The name of this signatory as it should appear on certificates.": "\uac15\uc88c \uc774\uc218\uc99d\uc5d0 \ub098\ud0c0\ub098\ub294 \uc11c\uba85\uc778\uc758 \uc774\ub984\uc73c\ub85c \ucd5c\ub300 40\uc790\uc785\ub2c8\ub2e4. ",
     "The name that appears on your certificates. Other learners never see your full name.": "\uc774\uc218\uc99d\uc5d0 \ub098\ud0c0\ub098\ub294 \uc774\ub984\uc785\ub2c8\ub2e4. \ub2e4\ub978 \ud559\uc2b5\uc790\ub4e4\uc740 \ub2f9\uc2e0\uc758 \uc774\ub984\uc744 \ubcfc \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ",
     "The name that identifies you throughout {platform_name}. You cannot change your username.": "{platform_name}\uc5d0\uc11c \uc4f0\uac8c \ub418\ub294 \uc774\ub984\uc785\ub2c8\ub2e4. \ubcc0\uacbd\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ",
     "The page \"%(route)s\" could not be found.": "\"%(route)s\" \ud398\uc774\uc9c0\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
@@ -1730,9 +1730,13 @@
     "Username or email address": "\uc0ac\uc6a9\uc790 \uc774\ub984 \ud639\uc740 \uc774\uba54\uc77c",
     "Generate certificates for all users on the Exception list who do not yet have a certificate": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \uc544\uc9c1 \uc778\uc99d\uc11c\uac00\uc5c6\ub294 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc758 \uc778\uc99d\uc11c \uc0dd\uc131",
     "Generate a Certificate for all users on the Exception list": "\uc608\uc678 \ubaa9\ub85d\uc758 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc5d0 \ub300\ud55c \uc778\uc99d\uc11c \uc0dd\uc131",
-
-
-
+    "Set up your certificate": "\uc774\uc218\uc99d \ub9cc\ub4e4\uae30",
+    "It is strongly recommended that you include four or fewer signatories. If you include additional signatories, preview the certificate in Print View to ensure the certificate will print correctly on one page.": "\uc11c\uba85\uc778\uc744 \u0034\uba85 \uc774\ud558\ub85c \uc124\uc815\ud558\ub294 \uac83\uc744 \uad8c\uc7a5\ud569\ub2c8\ub2e4\u002e \ub9cc\uc57d \uc11c\uba85\uc778 \uc22b\uc790\uac00 \ub354 \ub9ce\ub2e4\uba74 \ubc18\ub4dc\uc2dc \uc778\uc1c4 \ud654\uba74 \ubcf4\uae30\uc5d0\uc11c \uc774\uc218\uc99d\uc774 \ud55c \ud398\uc774\uc9c0\ub85c \ub098\uc624\ub294\uc9c0 \ud655\uc778\ud558\uc138\uc694\u002e",
+    "Titles more than 100 characters may prevent students from printing their certificate on a single page.": "\uc81c\ubaa9\uc774 \u0031\u0030\u0030\uc790 \uc774\uc0c1\uc774 \ub418\uba74 \uc774\uc218\uc99d\uc774 \ud55c \ud398\uc774\uc9c0 \uc548\uc5d0 \ub4e4\uc5b4\uac00\uc9c0 \uc54a\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
+    "The organization that this signatory belongs to, as it should appear on certificates.": "\uc774 \uc11c\uba85\uc778\uc774 \uc18c\uc18d\ub41c \ub2e8\uccb4\ub85c\uc11c \uc774\uc218\uc99d\uc5d0 \ub098\ud0c0\ub0a9\ub2c8\ub2e4\u002e",
+    "Image must be in PNG format": "\uc774\ubbf8\uc9c0\ub294 \ubc18\ub4dc\uc2dc \u0050\u004e\u0047 \ud615\uc2dd\uc774\uc5b4\uc57c \ud569\ub2c8\ub2e4",
+    "(Add signatories for a certificate)": "\u0028\uc774\uc218\uc99d\uc5d0 \uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30\u0029",
+    "Add Additional Signatory": "\uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30",
 
 
 

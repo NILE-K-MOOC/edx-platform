@@ -62,7 +62,7 @@ from openedx.core.djangolib.markup import HTML, Text
                             <p>${_("You can check the validity of the certifiate issued by K-MOOC")}</p>
                             <p>${_("Please enter your authotification number at the top of your certificate")}</p>
 
-                            <input type="text" id="uuid" placeholder="이수증 상단의 인증번호를 입력하세요">
+                            <input type="text" id="uuid" placeholder='${_("Please enter your authotification number at the top of your certificate")}'>
                             <a href="#" id="check"><input type="button" value="${_('Verificating')}"></a>
 
                             <div id="check_result">
