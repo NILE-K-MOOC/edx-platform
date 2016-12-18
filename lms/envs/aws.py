@@ -631,6 +631,10 @@ X_FRAME_OPTIONS = ENV_TOKENS.get('X_FRAME_OPTIONS', X_FRAME_OPTIONS)
 if FEATURES.get('ENABLE_THIRD_PARTY_AUTH'):
     AUTHENTICATION_BACKENDS = (
         ENV_TOKENS.get('THIRD_PARTY_AUTH_BACKENDS', [
+            'third_party_auth.naver.NaverOAuth2',
+            'third_party_auth.lifelongedu.LifelongeduOAuth2',
+            'third_party_auth.allprovider.LifelongeduOAuth2',
+            'social.backends.google.kakao',
             'social.backends.google.GoogleOAuth2',
             'social.backends.linkedin.LinkedinOAuth2',
             'social.backends.facebook.FacebookOAuth2',
