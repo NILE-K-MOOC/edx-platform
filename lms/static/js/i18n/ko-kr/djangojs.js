@@ -1727,8 +1727,9 @@
     "Questions raise issues that need answers. Discussions share ideas and start conversations.": "\uc9c8\ubb38\uc744 \ud558\uba74 \ub2f5\uc774 \ud544\uc694\ud55c \uc0ac\uc548\uc774 \ub098\uc635\ub2c8\ub2e4\u002e \uac8c\uc2dc\ud310\uc744 \ud1b5\ud574 \uc758\uacac\uc744 \uad50\ud658\ud558\uace0 \uc18c\ud1b5\ud558\uc138\uc694\u002e",
     "Topic Area:": "\uc8fc\uc81c \ubd84\uc57c\u003a",
     "Add a clear and descriptive title to encourage participation.": "\ucc38\uc5ec \uc720\ub3c4\ub97c \uc704\ud574 \uba85\ud655\ud55c \uc81c\ubaa9\uc744 \ucd94\uac00\ud558\uc138\uc694\u002e",
-
-
+    "Username or email address": "\uc0ac\uc6a9\uc790 \uc774\ub984 \ud639\uc740 \uc774\uba54\uc77c",
+    "Generate certificates for all users on the Exception list who do not yet have a certificate": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \uc544\uc9c1 \uc778\uc99d\uc11c\uac00\uc5c6\ub294 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc758 \uc778\uc99d\uc11c \uc0dd\uc131",
+    "Generate a Certificate for all users on the Exception list": "\uc608\uc678 \ubaa9\ub85d\uc758 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc5d0 \ub300\ud55c \uc778\uc99d\uc11c \uc0dd\uc131",
 
 
 

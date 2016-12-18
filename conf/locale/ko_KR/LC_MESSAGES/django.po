@@ -4655,6 +4655,12 @@ msgstr ""
 msgid "There can be only one default image."
 msgstr "단일 기본 이미지만 있을 수 있습니다. "
 
+#. Translators: This string represents task was executed for all learners.
+#: lms/djangoapps/certificates/models.py
+msgid "All learners"
+msgstr "모든 학습자"
+
+
 #: lms/djangoapps/badges/models.py
 msgid ""
 "On each line, put the number of completed courses to award a badge for, a "
@@ -4810,10 +4816,6 @@ msgstr "재생성 되었습니다"
 #: lms/djangoapps/instructor_task/tasks.py
 msgid "generated"
 msgstr "생성되었습니다."
-
-#: lms/djangoapps/certificates/models.py
-msgid "All learners"
-msgstr "모든 학습"
 
 #: lms/djangoapps/certificates/models.py
 msgid "For exceptions"
@@ -14437,8 +14439,8 @@ msgstr "강좌 이수증을 생성하려면 활성화된 웹 이수증 설정이
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid ""
 "When you are ready to generate certificates for your course, click Generate "
-"Certificates. You do not need to do this<br/>if you have set the certificate"
-" mode to on-demand generation."
+"Certificates. You do not need to do this if you have set the certificate "
+"mode to on-demand generation."
 msgstr ""
 "강좌에서 이수증을 생성할 준비가 끝났으면 이수증 생성을 클릭하세요. 만약 필요시 생성 모드로 이수증 설정을 했다면 이 과정을 밟을 필요는"
 " 없습니다."
@@ -15645,8 +15647,8 @@ msgid "Staff and admins"
 msgstr "운영팀과 관리자"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
-msgid "All (students, staff, and admins)"
-msgstr "전체 (학생, 운영팀 및 교수자)"
+msgid "All Learners"
+msgstr "모든 학습자"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "(Learners not explicitly assigned to a cohort)"
@@ -21686,7 +21688,7 @@ msgstr ""
 #: test_root/staticfiles/support/templates/enrollment.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-invalidation.underscore
 msgid "Username or email address"
-msgstr ""
+msgstr "사용자 이름 혹은 이메일"
 
 #: lms/djangoapps/support/static/support/templates/enrollment.underscore
 #: test_root/staticfiles/support/templates/enrollment.underscore
