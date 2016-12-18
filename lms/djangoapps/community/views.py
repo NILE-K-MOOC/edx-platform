@@ -303,7 +303,7 @@ def comm_faq(request) :
             faq_list = []
             head_title = request.GET['head_title']
             cur = con.cursor()
-            query = "select subject, content, head_title from tb_board where section = 'F' and head_title = '"+head_title+"'"
+            query = "select subject, content, head_title from tb_board where section = 'F' and use_yn = 'Y' and head_title = '"+head_title+"'"
             if 'search' in request.GET :
                 search = request.GET['search']
                 query += " and subject like '%"+search+"%'"
