@@ -489,6 +489,10 @@ msgstr "파일 선택"
 msgid "Upload annotated file"
 msgstr "주석 파일 업로드"
 
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+msgid "Add a Post"
+msgstr "글 추가"
+
 #: themes/kmooc/templates/temem-footer.html
 #: lms/templates/static_templates/faq.html
 #: themes/red-theme/lms/templates/footer.html
