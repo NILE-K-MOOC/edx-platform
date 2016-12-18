@@ -282,8 +282,8 @@ from openedx.core.lib.courses import course_image_url
           % if get_course_about_section(request, course, "prerequisites"):
             <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
           % endif
-            <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">대학명</p><span class="important-dates-item-text prerequisites">${course.display_org_with_default | h}</span></li>
-            <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">분야</p><span class="important-dates-item-text prerequisites">${_("${classfy['classfy']}")} ${classfy['classfy']}</span></li>
+            <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">대학명</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
+            <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">분야</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
         </ol>
     </div>
 
