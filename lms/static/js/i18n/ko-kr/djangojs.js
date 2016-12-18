@@ -1716,6 +1716,23 @@
     "ORDER NUMBER": "\uc8fc\ubb38\ubc88\ud638",
     "Order History": "\uc8fc\ubb38\ub0b4\uc5ed",
     "Account Information": "\uacc4\uc815 \uc815\ubcf4",
+    "Discussion Home": "\ud1a0\ub860 \ud648",
+    "Use the Discussion Topics menu to find specific topics.": "\ud1a0\ub860 \uc8fc\uc81c \uba54\ub274\ub97c \uc0ac\uc6a9\ud558\uc5ec \ud2b9\uc815 \uc8fc\uc81c\ub97c \ucc3e\uc73c\uc2ed\uc2dc\uc624\u002e",
+    "Filter and sort topics": "\uc8fc\uc81c \uc815\ub82c",
+    "Engage with posts": "\ud1a0\uc758 \ucc38\uc5ec\ud558\uae30",
+    "Vote for good posts and responses": "\uc88b\uc740 \uae00\uacfc \ub2f5\ubcc0\uc5d0 \ud22c\ud45c\ud558\uae30",
+    "Report abuse, topics, and responses": "\ud5c8\uc704 \ubcf4\uace0\u002c \uc8fc\uc81c \ubc0f \ub2f5\ubcc0",
+    "Follow or unfollow posts": "\uae00 \ud314\ub85c\uc6b0\u002c \uc5b8\ud314\ub85c\uc6b0 \ud558\uae30",
+    "Add a Post": "\uae00 \ucd94\uac00",
+    "Questions raise issues that need answers. Discussions share ideas and start conversations.": "\uc9c8\ubb38\uc744 \ud558\uba74 \ub2f5\uc774 \ud544\uc694\ud55c \uc0ac\uc548\uc774 \ub098\uc635\ub2c8\ub2e4\u002e \uac8c\uc2dc\ud310\uc744 \ud1b5\ud574 \uc758\uacac\uc744 \uad50\ud658\ud558\uace0 \uc18c\ud1b5\ud558\uc138\uc694\u002e",
+    "Topic Area:": "\uc8fc\uc81c \ubd84\uc57c\u003a",
+    "Add a clear and descriptive title to encourage participation.": "\ucc38\uc5ec \uc720\ub3c4\ub97c \uc704\ud574 \uba85\ud655\ud55c \uc81c\ubaa9\uc744 \ucd94\uac00\ud558\uc138\uc694\u002e",
+    "Username or email address": "\uc0ac\uc6a9\uc790 \uc774\ub984 \ud639\uc740 \uc774\uba54\uc77c",
+    "Generate certificates for all users on the Exception list who do not yet have a certificate": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \uc544\uc9c1 \uc778\uc99d\uc11c\uac00\uc5c6\ub294 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc758 \uc778\uc99d\uc11c \uc0dd\uc131",
+    "Generate a Certificate for all users on the Exception list": "\uc608\uc678 \ubaa9\ub85d\uc758 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc5d0 \ub300\ud55c \uc778\uc99d\uc11c \uc0dd\uc131",
+
+
+
 
 
 
