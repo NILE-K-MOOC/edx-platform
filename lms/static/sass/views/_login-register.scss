@@ -3,6 +3,12 @@
 @import '../base/grid-settings';
 @import "neat/neat"; // lib - Neat
 
+
+$sm-btn-google-plus: #dd4b39;
+$sm-btn-naver: #56c82c;
+$sm-btn-kakao: #ffeb01;
+$sm-btn-lifelongedu: #00759e;
+
 .login-register {
     @include box-sizing(border-box);
     @include outer-container;
@@ -432,15 +438,14 @@
             &:hover,
             &:focus {
                 background-color: $facebook-blue;
-                border: 1px solid #263A62;
-                color: $white;
+                border: 1px solid #bbbbbb;
+                color: white;
             }
 
             &:hover {
-                box-shadow: 0 2px 1px 0 #30487C;
+                box-shadow: 0 2px 1px 0 #c8c8c8;
             }
         }
-
         &.button-oa2-linkedin-oauth2 {
             color: $linkedin-blue;
 
@@ -451,12 +456,87 @@
             &:hover,
             &:focus {
                 background-color: $linkedin-blue;
-                border: 1px solid #06527D;
-                color: $white;
+                border: 1px solid #bbbbbb;
+                color: white;
             }
 
             &:hover {
                 box-shadow: 0 2px 1px 0 #005D8E;
+            }
+        }
+        &.button-oa2-google-plus {
+            color: $sm-btn-google-plus;
+
+            .icon {
+                background: $sm-btn-google-plus;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: $sm-btn-google-plus;
+                border: 1px solid #bbbbbb;
+                color: white;
+            }
+
+            &:hover {
+                box-shadow: 0 2px 1px 0 #c8c8c8;
+            }
+        }
+
+        &.button-oa2-naver {
+            color: $sm-btn-naver;
+
+            .icon {
+                background: $sm-btn-naver;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: $sm-btn-naver;
+                border: 1px solid #bbbbbb;
+                color: white;
+            }
+
+            &:hover {
+                box-shadow: 0 2px 1px 0 #c8c8c8;
+            }
+        }
+
+        &.button-oa2-kakao {
+            color: #3b1e1e;
+
+            .icon {
+                background: #3b1e1e;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: $sm-btn-kakao;
+                border: 1px solid #bbbbbb;
+                color: #3b1e1e;
+            }
+
+            &:hover {
+                box-shadow: 0 2px 1px 0 #c8c8c8;
+            }
+        }
+
+        &.button-oa2-lifelongedu {
+            color: $sm-btn-lifelongedu;
+
+            .icon {
+                background: $sm-btn-lifelongedu;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: $sm-btn-lifelongedu;
+                border: 1px solid #bbbbbb;
+                color: white;
+            }
+
+            &:hover {
+                box-shadow: 0 2px 1px 0 #c8c8c8;
             }
         }
 
