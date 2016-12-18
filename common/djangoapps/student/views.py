@@ -545,8 +545,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             org = arr[0]
             course = arr[1]
             run = arr[2]
-
-            # print 'org, course, run :::', org, course, run
+            checklist = list()
 
             client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
@@ -576,8 +575,11 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                     query = """
                         SELECT sum(if(instr(state, 'submissions_count') > 0, 1, 0)) cnt
                           FROM courseware_studentmodule
-                         WHERE student_id = '{0}' and course_id = '{1}' AND module_type IN ('survey', 'poll');
-                    """.format(str(user.id), str(course_overview.id))
+                         WHERE student_id = '{0}'
+                           AND course_id = '{1}'
+                           AND module_type = 'survey'
+                           AND SUBSTRING_INDEX(module_id, '@', -1) in ({2});
+                    """.format(str(user.id), str(course_overview.id), ','.join(checklist))
 
                     print 'query :', query
 
@@ -587,10 +589,6 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                     row = cur.fetchone()
                     cur.close()
                     con.close()
-
-                    # print 'check_cnt', check_cnt
-                    # print 'row', row
-                    # print 'row[\'cnt\']', row[0]
 
                     if row is None or row[0] is None:
                         print 'row is None'
@@ -603,9 +601,6 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                         else:
                             status_dict['survey'] = 'incomplete'
 
-                            # print 'status_dict ---------------'
-                            # print status_dict
-                            # print '---------------------------'
     except Exception as e:
         log.error(e)
 
