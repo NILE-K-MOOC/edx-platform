@@ -185,9 +185,12 @@ else
             // attacklab: Restore tildes
             text = text.replace(/~T/g, "~");
 
-            text = pluginHooks.postConversion(text);
+            //text = pluginHooks.postConversion(text);
 
             g_html_blocks = g_titles = g_urls = null;
+
+            //console.log("text ::::: " + text);
+            //text = "test";
 
             return text;
         };
@@ -305,7 +308,7 @@ else
             text = text.replace(/^(<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math)\b[^\r]*?.*<\/\2>[ \t]*(?=\n+)\n)/gm, hashElement);
 
             // Special case just for <hr />. It was easier to make a special case than
-            // to make the other regex more complicated.  
+            // to make the other regex more complicated.
 
             /*
             text = text.replace(/
@@ -425,9 +428,9 @@ else
             // Must come after _DoAnchors(), because you can use < and >
             // delimiters in inline links like [this](<url>).
             text = _DoAutoLinks(text);
-            
+
             text = text.replace(/~P/g, "://"); // put in place to prevent autolinking; reset now
-            
+
             text = _EncodeAmpsAndAngles(text);
             text = _DoItalicsAndBold(text);
 
@@ -443,7 +446,7 @@ else
             // don't conflict with their use in Markdown for code, italics and strong.
             //
 
-            // Build a regex to find HTML tags and comments.  See Friedl's 
+            // Build a regex to find HTML tags and comments.  See Friedl's
             // "Mastering Regular Expressions", 2nd Ed., pp. 200-201.
 
             // SE: changed the comment part of the regex
@@ -517,7 +520,7 @@ else
                             |
                             [^()\s]
                         )*?
-                    )>?                
+                    )>?
                     [ \t]*
                     (                       // $5
                         (['"])              // quote char = $6
@@ -655,7 +658,7 @@ else
 
             return text;
         }
-        
+
         function attributeEncode(text) {
             // unconditionally replace angle brackets here -- what ends up in an attribute (e.g. alt or title)
             // never makes sense to have verbatim HTML in it (and the sanitizer would totally break it)
@@ -688,10 +691,19 @@ else
                     return whole_match;
                 }
             }
-            
+
             alt_text = escapeCharacters(attributeEncode(alt_text), "*_[]()");
             url = escapeCharacters(url, "*_");
+            var link = url;
+
+            var ext = url.substring(url.indexOf(".") + 1);
+
+            if(ext == "pdf" || ext == "hwp" || ext == "ppt" || ext == "pptx" || ext == "doc" || ext == "docx" || ext == "xls" || ext == "xlsx")
+                url = "/static/images/icon/"+ext+".png";
+
+            //console.log('url: ' + url + ", ext:" + ext);
             var result = "<img src=\"" + url + "\" alt=\"" + alt_text + "\"";
+
 
             // attacklab: Markdown.pl adds empty title attributes to images.
             // Replicate this bug.
@@ -704,6 +716,10 @@ else
 
             result += " />";
 
+            if(ext == "pdf" || ext == "hwp" || ext == "ppt" || ext == "pptx" || ext == "doc" || ext == "docx" || ext == "xls" || ext == "xlsx")
+                result = "<a href=\""+link+"\" target=\"_blank\">" + result + "</a>";
+            //console.log("result = " + result);
+
             return result;
         }
 
@@ -712,7 +728,7 @@ else
             // Setext-style headers:
             //  Header 1
             //  ========
-            //  
+            //
             //  Header 2
             //  --------
             //
@@ -871,7 +887,7 @@ else
             //
             // We changed this to behave identical to MarkdownSharp. This is the constructed RegEx,
             // with {MARKER} being one of \d+[.] or [*+-], depending on list_type:
-        
+
             /*
             list_str = list_str.replace(/
                 (^[ \t]*)                       // leading whitespace = $1
@@ -919,7 +935,7 @@ else
         function _DoCodeBlocks(text) {
             //
             //  Process Markdown `<pre><code>` blocks.
-            //  
+            //
 
             /*
             text = text.replace(/
@@ -967,26 +983,26 @@ else
         function _DoCodeSpans(text) {
             //
             // * Backtick quotes are used for <code></code> spans.
-            // 
+            //
             // * You can use multiple backticks as the delimiters if you want to
             //   include literal backticks in the code span. So, this input:
-            //     
+            //
             //      Just type ``foo `bar` baz`` at the prompt.
-            //     
+            //
             //   Will translate to:
-            //     
+            //
             //      <p>Just type <code>foo `bar` baz</code> at the prompt.</p>
-            //     
+            //
             //   There's no arbitrary limit to the number of backticks you
             //   can use as delimters. If you need three consecutive backticks
             //   in your code, use four for delimiters, etc.
             //
             // * You can use spaces to get literal backticks at the edges:
-            //     
+            //
             //      ... type `` `bar` `` ...
-            //     
+            //
             //   Turns to:
-            //     
+            //
             //      ... type <code>`bar`</code> ...
             //
 
@@ -1119,7 +1135,7 @@ else
 
             var grafs = text.split(/\n{2,}/g);
             var grafsOut = [];
-            
+
             var markerRe = /~K(\d+)K/;
 
             //
