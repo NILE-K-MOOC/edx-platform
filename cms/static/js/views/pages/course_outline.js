@@ -74,7 +74,18 @@ define(["jquery", "underscore", "gettext", "js/views/pages/base_page", "js/views
                 });
                 this.outlineView.render();
                 this.outlineView.setViewState(this.initialState || {});
+
+                console.log('this.initialState --->');
+                console.log(this.initialState);
+
+                //if(this.initialState == null)
+                //    $(".button-toggle-expand-collapse").click();
+                //else
+                //    console.log('this.initialState is not null');
+
+                //navigagion 클릭시 오류
                 $(".button-toggle-expand-collapse").click();
+
                 return $.Deferred().resolve().promise();
             },
 
