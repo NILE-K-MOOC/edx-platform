@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
 Courseware views functions
 """
@@ -719,7 +720,46 @@ def course_about(request, course_id):
 
         # short description
         short_description = { 'short_description' : course_details.short_description}
+        # classfy name
+        ClassDict = {
+            # add classfy
+            "edu" : "Education",
+            "hum" : "Humanities",
+            "social" : "Social Sciences",
+            "eng" : "Engineering",
+            "nat" : "Natural Sciences",
+            "med" : "Medical Sciences",
+            "art" : "Arts & Physical"
+        }
+        classfy_name = ClassDict[course_details.classfy]
 
+        # univ name
+        UnivDic = {
+            # add univ
+            "testUniv" : "Test University",
+            "KYUNGNAMUNIVk" : "KYUNGNAM UNIVERSITY",
+            "KHUk" : "KYUNGHEE UNIVERSITY",
+            "KoreaUnivK" : "KOREA UNIVERSITY",
+            "DGUk" : "DAEGU UNIVERSITY",
+            "PNUk" : "PUSAN NATIONAL UNIVERSITY",
+            "SMUCk" : "SANGMYUNG UNIVERSITY",
+            "SNUk" : "SEOUL NATIONAL UNIVERSITY",
+            "SKKUk" : "SUNGKYUNKWAN UNIVERSITY",
+            "SSUk" : "SUNGSHIN UNIVERSITY",
+            "SejonguniversityK" : "SEJONG UNIVERSITY",
+            "SookmyungK" : "SOOKMYUNG WOMEN'S UNIVERSITY",
+            "YSUk" : "YONSEI UNIVERSITY",
+            "YeungnamUnivK" : "YOUNGNAM UNIVERSITY",
+            "UOUk" : "UNIVERSITY OF ULSAN",
+            "EwhaK" : "EWHA WOMANS UNIVERSITY",
+            "INHAuniversityK" : "INHA UNIVERSITY",
+            "CBNUk" : "CHONBUK NATIONAL UNIVERSITY",
+            "POSTECHk" : "POSTECH",
+            "KAISTk" : "KAIST",
+            "HYUk" : "HANYANG UNIVERSITY",
+            "KOCW" : "KOCW",
+        }
+        univ_name = UnivDic[course_details.org]
 
 
         #######################################################################
@@ -753,7 +793,10 @@ def course_about(request, course_id):
             'pre_requisite_courses': pre_requisite_courses,
             'course_image_urls': overview.image_urls,
             'day' : day,
-            'short_description' : short_description
+            'short_description' : short_description,
+            # 'classfy' : classfy,
+            'classfy_name' : classfy_name,
+            'univ_name' : univ_name
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

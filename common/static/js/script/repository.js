@@ -27,7 +27,7 @@ $(document).ready(function(){
                 }
                 else if(j==1){
                     if(value_list[5] == 1){
-                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                     }else{
                         html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                     }
@@ -88,7 +88,7 @@ $(document).ready(function(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
                                 html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                             }
@@ -128,7 +128,7 @@ $(document).ready(function(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
                                 html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                             }
@@ -170,7 +170,7 @@ $(document).ready(function(){
                             }
                             else if(j==1){
                                 if(value_list[5] == 1){
-                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                                 }else{
                                     html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                                 }
@@ -213,7 +213,7 @@ $(document).ready(function(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
                                 html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                             }
@@ -256,7 +256,7 @@ $(document).ready(function(){
                             }
                             else if(j==1){
                                 if(value_list[5] == 1){
-                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                                 }else{
                                     html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                                 }
@@ -317,7 +317,7 @@ function search(){
                         }
                         else if(j==1){
                             if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                             }else{
                                 html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                             }
@@ -366,7 +366,7 @@ function search(){
                     }
                     else if(j==1){
                         if(value_list[5] == 1){
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' alt='' width='25' height='25'>"+value_list[6]+value_list[j]+"</a></span>";
+                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'><img src='/static/images/new.jpeg' height='15px;'>"+value_list[6]+value_list[j]+"</a></span>";
                         }else{
                             html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
                         }
