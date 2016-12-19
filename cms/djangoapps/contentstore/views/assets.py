@@ -642,22 +642,33 @@ def assets_callback(request, course_key_string=None, asset_key_string=None):
         asset_key = AssetKey.from_string(asset_key_string) if asset_key_string else None
 
         content = request.REQUEST
-        content.name = request.REQUEST['file_name']
-        content.cdn_url = request.REQUEST['cdn_url']
-        content.content_type = request.REQUEST['file_type']
-        content.thumbnail_location = request.REQUEST['thumbnail_url']
-        content.thumbnail_url = request.REQUEST['thumbnail_url']
-        content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name'])
-        content.uuid = request.REQUEST['uuid']
-        content.playtime = request.REQUEST['playtime']
-        content.state = request.REQUEST['state']
+        content_keys = request.REQUEST.keys()
+
+        content.name = request.REQUEST['file_name'] if 'file_name' in content_keys else ''
+        content.cdn_url = request.REQUEST['cdn_url'] if 'cdn_url' in content_keys else ''
+        content.content_type = request.REQUEST['file_type'] if 'file_type' in content_keys else ''
+        content.thumbnail_location = request.REQUEST['thumbnail_url'] if 'thumbnail_url' in content_keys else ''
+        content.thumbnail_url = request.REQUEST['thumbnail_url'] if 'thumbnail_url' in content_keys else ''
+        content.location = StaticContent.compute_cdn_location(course_key, request.REQUEST['file_name']) if 'file_name' in content_keys else ''
+        content.uuid = request.REQUEST['uuid'] if 'uuid' in content_keys else ''
+        content.playtime = request.REQUEST['playtime'] if 'playtime' in content_keys else ''
+        content.state = request.REQUEST['state'] if 'state' in content_keys else 'F'
         content.mme = 'mme'
 
-        # mongo = contentstore().find_cdn_uuid(content.location)
-        # print mongo
-        contentstore().save_cdn(content)
+        if content.name and content.cdn_url and content.content_type and content.thumbnail_url \
+            and content.uuid and content.playtime and content.state:
 
-        return JsonResponse({'status': 'ok'})
+
+            mongo = contentstore().find_cdn_uuid(content.location)
+            if mongo['uuid'] == content.uuid:
+            # print mongo
+                contentstore().save_cdn(content)
+
+                return JsonResponse({'status': 'ok'})
+            else:
+                return JsonResponse({'status': 'fail', 'msg': 'uuid not found'})
+        else:
+            return JsonResponse({'state': 'fail', 'msg': 'params'})
     except Exception as e:
 
         return JsonResponse({
