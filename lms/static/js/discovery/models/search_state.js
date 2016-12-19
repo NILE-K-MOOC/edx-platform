@@ -34,6 +34,12 @@ define([
 
         refineSearch: function (terms) {
             this.reset();
+
+
+            console.log('-----------------------------------------');
+            console.log(terms);
+            console.log('-----------------------------------------');
+
             this.terms = terms;
             this.sendQuery(this.buildQuery(0));
         },
