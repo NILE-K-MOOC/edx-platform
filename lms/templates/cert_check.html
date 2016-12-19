@@ -48,7 +48,7 @@ from openedx.core.djangolib.markup import HTML, Text
     </script>
 </%block>
 
-<%block name="pagetitle">이수증 검증</%block>
+<%block name="pagetitle">${_("Certificate Id Check")}</%block>
 <section class="container rule">
     <section class="container">
         <!-- [s] -->
@@ -68,7 +68,7 @@ from openedx.core.djangolib.markup import HTML, Text
                             <div id="check_result">
                                 <div id="correct" style="display: none;">
                                     <span class="icon fa fa-check" aria-hidden="true"></span>
-                                    &nbsp;<b>유효한 K-MOOC이수증 인증번호 입니다.</b>
+                                    &nbsp;<b>${_("This is valid edX certification number.")}</b>
                                     <a href="#" id="showCert" target="_blank" style="background: #f58026;
                                                                     font-size: 12px;
                                                                     font-weight: bold;
@@ -76,19 +76,19 @@ from openedx.core.djangolib.markup import HTML, Text
                                                                     border-radius: 3px;
                                                                     padding: 1px 10px;
                                                                     margin: 5px;
-                                                                    vertical-align: middle;">보기</a>
+                                                                    vertical-align: middle;">${_("View")}</a>
                                 </div>
 
                                 <div id="incorrect" style="display: none;">
                                     <span class="icon fa fa-close" aria-hidden="true"></span>
-                                    &nbsp;<b>유효한 K-MOOC이수증 인증번호가 아닙니다.</b>
+                                    &nbsp;<b>${_("This is not valid edX certification number.")}</b>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
                         <div class="certification-img">
-                            <img src="/static/images/contents/certification.gif" alt="이수증 샘플">
+                            <img src="/static/images/contents/certification.gif" alt='${_("Certificate Sample")}'>
                         </div>
                     </div>
                 </div>

@@ -1892,7 +1892,7 @@ msgstr "적용할 수 없는 공백으로 나열된 XBlock의 목록"
 #: common/djangoapps/xblock_django/models.py
 msgid ""
 "Space-separated list of XBlock types whose creation to disable in Studio."
-msgstr ""
+msgstr "Studio에서 비활성화 할 XBlock 유형의 공백으로 구분 된 목록"
 
 #: common/lib/capa/capa/capa_problem.py
 msgid "Cannot rescore problems with possible file submissions"
@@ -4122,7 +4122,7 @@ msgstr "마감일 이후 시험결과 숨기기"
 msgid ""
 "This setting overrides the default behavior of showing exam results after "
 "the due date has passed. Currently only supported for timed exams."
-msgstr ""
+msgstr "이 설정은 기한이 지났을 때 시험 결과를 표시하는 기본 동작을 무시합니다. 현재 시간 제한 시험에만 지원됩니다."
 
 #: common/lib/xmodule/xmodule/seq_module.py
 msgid "Is Practice Exam"
@@ -4701,8 +4701,8 @@ msgid ""
 "the edX and Open EdX logos are registered trademarks or trademarks of edX "
 "Inc."
 msgstr ""
-"© {org_name}. All rights reserved except where noted. EdX, Open edX and the "
-"edX and Open EdX logos are registered trademarks or trademarks of edX Inc. "
+"© {org_name}. 명시된 경우를 제외하고는 판권을 소유(All Rights Reserved) 합니다."
+" K-MOOC, Open K-MOOC 및 이들의 로고는 K-MOOC 기관에서 등록된 상표입니다. "
 
 #: lms/djangoapps/branding/api.py cms/templates/widgets/footer.html
 #: themes/red-theme/lms/templates/footer.html
@@ -4801,8 +4801,8 @@ msgid ""
 "You cannot create a CCX from a course using a deprecated id. Please create a"
 " rerun of this course in the studio to allow this action."
 msgstr ""
-"You cannot create a CCX from a course using a deprecated id. Please create a"
-" rerun of this course in the studio to allow this action."
+"더 이상 사용되지 않는 ID를 사용하여 강좌에서 CCX를 만들 수 없습니다."
+" 이 작업을 행하기 위해서는 스튜디오에서 이 과정을 다시 실행하십시오."
 
 #: lms/djangoapps/certificates/models.py wiki/admin.py wiki/models/article.py
 msgid "created"
@@ -10013,7 +10013,7 @@ msgstr "XSeries Program 이수증"
 
 #: lms/templates/dashboard.html themes/edx.org/lms/templates/dashboard.html
 msgid "You have received a certificate for the following XSeries programs:"
-msgstr ""
+msgstr "다음 XSeries 프로그램에 대한 이수증을 받았습니다."
 
 #: lms/templates/dashboard.html themes/edx.org/lms/templates/dashboard.html
 msgid "Email Settings for {course_number}"
@@ -10270,7 +10270,7 @@ msgstr "문제 기술"
 msgid ""
 "Details of the problem you are encountering{asterisk}{begin_span}Include "
 "error messages, steps which lead to the issue, etc.{end_span}"
-msgstr ""
+msgstr "발생한 문제의 세부 정보들은 {asterisk} {begin_span} 오류 메시지, 문제를 일으키는 단계 등을 포함하고 있습니다. {end_span}"
 
 #: lms/templates/help_modal.html
 msgid "suggestion"
@@ -14656,7 +14656,7 @@ msgstr "설문 결과 보고 생성하기"
 msgid ""
 "To generate a CSV file that lists all student answers to a given problem, "
 "enter the location of the problem (from its Staff Debug Info)."
-msgstr "특정 문제에 대한 모든 학습자 답변이 담긴 CSV 파일을 생성하기 위해 문제 위치(오류 제거 도움말 참조)를 입력하세요."
+msgstr "주어진 문제에 대한 모든 학생의 답이 있는 CSV 파일을 생성하려면 (Staff Debug Info에서) 해당 문제의 위치를 입력하십시오."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Problem location: "
@@ -16169,6 +16169,20 @@ msgstr ""
 "{platform_name} 에 회원가입이 완료되었습니다. 강좌를 수강하기 위해서는 계정을 활성화해야 합니다. {email} 로 계정 활성화를 위한"
 " 메일을 보냈으니 확인해 주시기 바랍니다. "
 
+#: lms/templates/registration/activate_account_notice.html
+msgid "You're almost there!"
+msgstr "거의 완료 되었습니다."
+
+#: lms/templates/registration/activate_account_notice.html
+msgid ""
+"There's just one more step: Before you enroll in a course, you need to "
+"activate your account. We've sent an email message to "
+"{email_start}{email}{email_end} with instructions for activating your "
+"account. If you don't receive this message, check your spam folder."
+msgstr ""
+"한가지 단계가 남았습니다: 강좌 수강 등록 전에 계정을 활성화해야 합니다. {email_start}{email}{email_end} 에 "
+"계정 활성화 안내문을 담은 이메일을 보냈습니다. 이메일이 도착하지 않았다면 스팸메일 폴더를 확인해보세요."
+
 #: lms/templates/registration/activation_complete.html
 msgid "Activation Complete!"
 msgstr "활성화 완료!"
@@ -17396,6 +17410,8 @@ msgid ""
 "selects {em_start}Activate{em_end}. Course team members without the Admin "
 "role cannot edit or delete an activated certificate."
 msgstr ""
+"인증서 발급을 시작하려면 관리자 역할을 가진 강좌운영팀이 {em_start} 활성화를 {em_end} 선택합니다."
+" 관리자 역할이 없는 강좌운영팀은 활성화된 이수증을 편집하거나 삭제할 수 없습니다."
 
 #: cms/templates/certificates.html
 msgid ""
@@ -21122,7 +21138,7 @@ msgstr "토론 찿기"
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/discussion-home.underscore
 msgid "Use the Discussion Topics menu to find specific topics."
-msgstr ""
+msgstr "토론 주제 메뉴를 사용하여 특정 주제를 찾으십시오."
 
 #: common/static/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
@@ -28995,3 +29011,68 @@ msgstr "의약"
 
 msgid "art"
 msgstr "예체능"
+
+msgid "major"
+msgstr "분야"
+
+
+#: comm_faqrequest.html
+msgid "The inquiry will be sent to the edX staff members by e-mail."
+msgstr "문의하기는 K-MOOC운영자에게 메일로 전송이 됩니다."
+
+msgid "If you would like an answer, please enter your e-mail address correctly."
+msgstr "답변을 원하시는 경우 본인의 메일 주소를 정확히 입력해주 주시기 바랍니다."
+
+msgid "Please choose your inquiry."
+msgstr "문의 내용을 선택하세요."
+
+msgid "About membership"
+msgstr "회원가입 관련"
+
+msgid "About sign-in and account"
+msgstr "로그인 및 계정 관련"
+
+msgid "Use of K-MOOC"
+msgstr "K-MOOC 사이트 이용 관련"
+
+msgid "About course registration"
+msgstr "강좌 수강 관련"
+
+msgid "About technical problems"
+msgstr "기술적인 문제 관련"
+
+msgid "Send email"
+msgstr "이메일 발송"
+
+msgid "Memo"
+msgstr "내용"
+
+msgid "This is valid edX certification number."
+msgstr "유효한 K-MOOC이수증 인증번호 입니다."
+
+msgid "This is not valid edX certification number."
+msgstr "유효한 K-MOOC이수증 인증번호가 아닙니다."
+
+msgid "Certificate Sample"
+msgstr "이수증 샘플"
+
+msgid "Enter your verification number your certificate"
+msgstr "이수증 번호를 입력하세요"
+
+#: cms/templetes/index.html
+msgid ""
+"The Content Archive is used to randomize homework problems (manual links required) "
+"to show specific problems to learners, or to re-use learning activities "
+"that have been created once in many courses"
+msgstr ""
+"콘텐츠보관함은 여러 문제 중 랜덤으로 특정 문제를 학습자에게 보여주는 랜덤숙제 기능(매뉴얼 링크 필요)이나"
+" 한 번 만든 학습활동을 여러 강좌에서 재사용하기 위해 사용합니다"
+
+msgid ""
+"※ Therefore, anyone can create a content archive seperately from the right to create a course, "
+"and if you want to share it with other members, you have to specify permissions for each content archive."
+msgstr ""
+"※ 따라서 콘텐츠보관함은 강좌 생성권한과는 별도로 누구나 만들 수 있으며, 이를 다른 구성원과 "
+"공유하고자 한다면 콘텐츠보관함 별로 권한을 지정해주어야 합니다."
+
+

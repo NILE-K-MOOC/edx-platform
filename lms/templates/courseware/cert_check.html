@@ -22,7 +22,7 @@
 
             var uuid = $("#uuid").val();
             if(uuid == "" || uuid == null){
-                alert("이수증 인증번호를 입력하세요.");
+                alert('${_("Enter your verification number your certificate")}');
                 $("#uuid").focus();
                 return;
             }
@@ -68,7 +68,7 @@
                     </div>
                     <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
                         <div class="certification-img">
-                            <img src="/static/images/contents/certification.gif" alt="이수증 샘플">
+                            <img src="/static/images/contents/certification.gif" alt='${_("Certificate Sample")}'>
                         </div>
                     </div>
                 </div>

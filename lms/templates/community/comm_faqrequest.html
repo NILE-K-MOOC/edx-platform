@@ -12,28 +12,28 @@
 
         <div class="board-write">
             <dl>
-                <dt><label>이메일</label></dt>
+                <dt><label>${_("Email")}</label></dt>
                 <dd>
                     <div style="padding: 10px;">
-                        문의하기는 K-MOOC운영자에게 메일로 전송이 됩니다.<br>
-                        답변을 원하시는 경우 본인의 메일 주소를 정확히 입력해주 주시기 바랍니다.<br>
+                        ${_("The inquiry will be sent to the edX staff members by e-mail.")}<br>
+                        ${_("If you would like an answer, please enter your e-mail address correctly.")}<br>
                     </div>
 
                     <select id="search_con">
-                        <option id="null">문의 내용을 선택하세요.</option>
-                        <option id="regist">회원가입 관련</option>
-                        <option id="login_">로그인 및 계정 관련</option>
-                        <option id="site">K-MOOC 사이트 이용 관련</option>
-                        <option id="course">강좌 수강 관련</option>
-                        <option id="tech">기술적인 문제 관련</option>
-                        <option id="etc">기타</option>
+                        <option id="null">${_("Please choose your inquiry.")}</option>
+                        <option id="regist">${_("About membership")}</option>
+                        <option id="login_">${_("About sign-in and account")}</option>
+                        <option id="site">${_("Use of K-MOOC")}</option>
+                        <option id="course">${_("About course registration")}</option>
+                        <option id="tech">${_("About technical problems")}</option>
+                        <option id="etc">${_("etc")}</option>
                     </select>
                     <input type="text" class="w50p" id="email">
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    <label>내용</label>
+                    <label>${_("Memo")}</label>
                 </dt>
                 <dd>
                     <textarea id="request_con"></textarea>
@@ -41,8 +41,8 @@
             </dl>
 
             <div class="comment-submit">
-                <input type="button" value="이메일 발송" id="request">
-                <input type="button" value="취소" class="btn-gray" id="cancel">
+                <input type="button" value=${_("Send email")} id="request">
+                <input type="button" value=${_("Cancel")} class="btn-gray" id="cancel">
             </div>
         </div>
     </section>
