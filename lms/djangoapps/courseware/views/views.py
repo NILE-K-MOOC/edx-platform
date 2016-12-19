@@ -732,10 +732,10 @@ def course_about(request, course_id):
             "med" : "Medical Sciences",
             "art" : "Arts & Physical"
         }
-        if course_details.classfy != 'all':
-            classfy_name = ClassDict[course_details.classfy]
-        else:
+        if course_details.classfy == None or course_details.classfy == 'all':
             classfy_name = 'Etc'
+        else:
+            classfy_name = ClassDict[course_details.classfy]
 
         # univ name
         UnivDic = {
@@ -763,7 +763,8 @@ def course_about(request, course_id):
             "HYUk" : "HANYANG UNIVERSITY",
             "KOCW" : "KOCW",
         }
-        univ_name = UnivDic[course_details.org]
+
+
 
 
 
