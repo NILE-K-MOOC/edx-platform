@@ -720,6 +720,7 @@ def course_about(request, course_id):
 
         # short description
         short_description = { 'short_description' : course_details.short_description}
+
         # classfy name
         ClassDict = {
             # add classfy
@@ -731,7 +732,10 @@ def course_about(request, course_id):
             "med" : "Medical Sciences",
             "art" : "Arts & Physical"
         }
-        classfy_name = ClassDict[course_details.classfy]
+        if course_details.classfy != 'all':
+            classfy_name = ClassDict[course_details.classfy]
+        else:
+            classfy_name = 'Etc'
 
         # univ name
         UnivDic = {
@@ -760,6 +764,7 @@ def course_about(request, course_id):
             "KOCW" : "KOCW",
         }
         univ_name = UnivDic[course_details.org]
+
 
 
         #######################################################################

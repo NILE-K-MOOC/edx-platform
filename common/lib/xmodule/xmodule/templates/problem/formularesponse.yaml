@@ -52,5 +52,5 @@ data: |
     <responseparam type="tolerance" default="0.00001"/>
     <formulaequationinput size="40"  label="Enter the equation"/>
   </formularesponse>
-  <a href="http://kmooc.readthedocs.io/ko/latest/exercises_tools/math_expression_input.html?highlight=%EC%88%98%EC%8B%9D">수식입력 메뉴얼 참조 링크</a>
+  <a href="http://kmooc.readthedocs.io/ko/latest/exercises_tools/math_expression_input.html?highlight=%EC%88%98%EC%8B%9D" target="_blank">수식입력 메뉴얼 참조 링크</a>
   </problem>
