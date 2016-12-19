@@ -35,11 +35,6 @@ var CourseDetails = Backbone.Model.extend({
     },
 
     validate: function(newattrs) {
-
-        console.log('---------------------------------------');
-        console.log(isNaN(newattrs.effort));
-        console.log('---------------------------------------');
-
         // Returns either nothing (no return call) so that validate works or an object of {field: errorstring} pairs
         // A bit funny in that the video key validation is asynchronous; so, it won't stop the validation.
         var errors = {};
@@ -62,14 +57,30 @@ var CourseDetails = Backbone.Model.extend({
             errors.enrollment_end = gettext("The course must have an assigned enrollment end date.");
         }
 
-        if (newattrs.end_date && newattrs.enrollment_end && newattrs.end_date && newattrs.enrollment_end && (newattrs.effort == null || newattrs.effort == "")) {
+        if (newattrs.end_date != null &&
+            newattrs.enrollment_end != null &&
+            newattrs.end_date != null &&
+            newattrs.enrollment_end != null &&
+            (newattrs.effort == null || newattrs.effort == "")) {
             errors.effort = gettext("The course must have an assigned effort time.");
-            $("#course-effort").focus();
+
+            //var scrollBottom = $(window).scrollTop() + $(window).height();
+            //$("html, body").animate({ scrollTop: scrollBottom }, 1000, function(){
+            //    $("#course-effort").focus();
+            //});
         }
 
-        if (newattrs.effort == null || newattrs.effort == "" || isNaN(newattrs.effort)) {
+        if (newattrs.end_date != null &&
+            newattrs.enrollment_end != null &&
+            newattrs.end_date != null &&
+            newattrs.enrollment_end != null &&
+            newattrs.effort == null || newattrs.effort == "" || isNaN(newattrs.effort)) {
             errors.effort = gettext("Effort time must be number.");
-            $("#course-effort").focus();
+
+            //var scrollBottom = $(window).scrollTop() + $(window).height();
+            //$("html, body").animate({ scrollTop: scrollBottom }, 1000, function(){
+            //    $("#course-effort").focus();
+            //});
         }
 
         if (newattrs.start_date && newattrs.end_date && newattrs.start_date >= newattrs.end_date) {
