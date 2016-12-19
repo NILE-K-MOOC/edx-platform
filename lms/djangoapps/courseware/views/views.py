@@ -732,10 +732,17 @@ def course_about(request, course_id):
             "med" : "Medical Sciences",
             "art" : "Arts & Physical"
         }
-        if course_details.classfy != 'all':
-            classfy_name = ClassDict[course_details.classfy]
-        else:
-            classfy_name = 'Etc'
+
+        # if course_details.classfy != 'all':
+        #     classfy_name = ClassDict[course_details.classfy]
+        # else:
+        #     classfy_name = 'Etc'
+
+
+        global classfy_name
+        if course_details.classfy is None or course_details.classfy == '':
+             classfy_name = 'Etc'
+        classfy_name = ClassDict[course_details.classfy] if hasattr(ClassDict, course_details.classfy) else course_details.classfy
 
         # univ name
         UnivDic = {
@@ -763,9 +770,8 @@ def course_about(request, course_id):
             "HYUk" : "HANYANG UNIVERSITY",
             "KOCW" : "KOCW",
         }
-        univ_name = UnivDic[course_details.org]
 
-
+        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
 
         #######################################################################
 
