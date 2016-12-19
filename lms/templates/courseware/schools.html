@@ -10,16 +10,21 @@
         <div class="univ-list-top">
             <div class="univ-list-top-txt">
                 <div>
-                    <h2>
-                        <span>${_("Introduction of participating universities and shortcut to homepage")}</span>
+                    <span style="font-weight: 700; font-size: 40px;">
                         <p>${_("Introducing participating universities with K-MOOC.")}</p>
+                    </span>
+                    <!--<h2>
+                         <span>${_("Introduction of participating universities and shortcut to homepage")}</span>
+
                     </h2>
-                    <p>${_("K-MOOC promotes the autonomy and diversity of participating universities to be respected and exercised as much as possible during the entire business process, and creates close cooperation between related institutions and participating universities.")}</p>
+
+                    <!--<p>${_("K-MOOC promotes the autonomy and diversity of participating universities to be respected and exercised as much as possible during the entire business process, and creates close cooperation between related institutions and participating universities.")}</p>-->
                 </div>
             </div>
         </div>
 
         <ul class="univ-list">
+          %if request.session['_language'] == 'ko_kr':
             <li><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
             <li><a href="/school/KHUk"><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
             <li><a href="/school/KoreaUnivK"><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
@@ -44,6 +49,32 @@
             <li><a href="/school/ACEk"><img src="/static/images/univ/logo01_ACEk.png" alt="ACE"></a></li>
             <li><a href="/school/CKk"><img src="/static/images/univ/logo01_CKk.png" alt="CK"></a></li>
             <li><a href="/school/COREk"><img src="/static/images/univ/logo01_COREk.png" alt="CORE"></a></li>
+          % else:
+            <li><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ_e/logo01_KYUNGNAMUNIVk_e.png" alt="KYUNGNAM UNIVERSITY"></a></li>
+            <li><a href="/school/KHUk"><img src="/static/images/univ_e/logo01_KHUk_e.png" alt="KYUNGHEE UNIVERSITY"></a></li>
+            <li><a href="/school/KoreaUnivK"><img src="/static/images/univ_e/logo01_KoreaUnivK_e.png" alt="KOREA UNIVERSITY"></a></li>
+            <li><a href="/school/DGUk"><img src="/static/images/univ_e/logo01_DGUk_e.png" alt="DAEGU UNIVERSITY"></a></li>
+            <li><a href="/school/PNUk"><img src="/static/images/univ_e/logo01_PNUk_e.png" alt="PUSAN NATIONAL UNIVERSITY"></a></li>
+            <li><a href="/school/SMUCk"><img src="/static/images/univ_e/logo01_SMUCk_e.png" alt="SANGMYUNG UNIVERSITY"></a></li>
+            <li><a href="/school/SNUk"><img src="/static/images/univ_e/logo01_SNUk_e.png" alt="SEOUL NATIONAL UNIVERSITY"></a></li>
+            <li><a href="/school/SKKUk"><img src="/static/images/univ_e/logo01_SKKUk_e.png" alt="SUNGKYUNKWAN UNIVERSITY"></a></li>
+            <li><a href="/school/SSUk"><img src="/static/images/univ_e/logo01_SSUk_e.png" alt="SUNGSHIN UNIVERSITY"></a></li>
+            <li><a href="/school/SejonguniversityK"><img src="/static/images/univ_e/logo01_SejonguniversityK_e.png" alt="SEJONG UNIVERSITY"></a></li>
+            <li><a href="/school/SookmyungK"><img src="/static/images/univ_e/logo01_SookmyungK_e.png" alt="SOOKMYUNG WOMEN'S UNIVERSITY"></a></li>
+            <li><a href="/school/YSUk"><img src="/static/images/univ_e/logo01_YSUk_e.png" alt="YONSEI UNIVERSITY"></a></li>
+            <li><a href="/school/YeungnamUnivK"><img src="/static/images/univ_e/logo01_YeungnamUnivK_e.png" alt="YOUNGNAM UNIVERSITY"></a></li>
+            <li><a href="/school/UOUk"><img src="/static/images/univ_e/logo01_UOUk_e.png" alt="UNIVERSITY OF ULSAN"></a></li>
+            <li><a href="/school/EwhaK"><img src="/static/images/univ_e/logo01_EwhaK_e.png" alt="EWHA WOMANS UNIVERSITY"></a></li>
+            <li><a href="/school/INHAuniversityK"><img src="/static/images/univ_e/logo01_INHAuniversityK_e.png" alt="INHA UNIVERSITY"></a></li>
+            <li><a href="/school/CBNUk"><img src="/static/images/univ_e/logo01_CBNUk_e.png" alt="CHONBUK NATIONAL UNIVERSITY"></a></li>
+            <li><a href="/school/POSTECHk"><img src="/static/images/univ_e/logo01_POSTECHk_e.png" alt="POSTECH"></a></li>
+            <li><a href="/school/KAISTk"><img src="/static/images/univ_e/logo01_KAISTk_e.png" alt="KAIST"></a></li>
+            <li><a href="/school/HYUk"><img src="/static/images/univ_e/logo01_HYUk_e.png" alt="HANYANG UNIVERSITY"></a></li>
+            <li><a href="/school/KOCWk"><img src="/static/images/univ_e/logo01_KOCWk_e.png" alt="KOCW"></a></li>
+            <li><a href="/school/ACEk"><img src="/static/images/univ_e/logo01_ACEk_e.png" alt="ACE"></a></li>
+            <li><a href="/school/CKk"><img src="/static/images/univ_e/logo01_CKk_e.png" alt="CK"></a></li>
+            <li><a href="/school/COREk"><img src="/static/images/univ_e/logo01_COREk_e.png" alt="CORE"></a></li>
+          % endif
         </ul>
 
         <!-- [e]  -->

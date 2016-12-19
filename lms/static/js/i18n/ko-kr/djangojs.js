@@ -1747,6 +1747,7 @@
     "nat": "\uc790\uc5f0",
     "med": "\uc758\uc57d",
     "art": "\uc608\uccb4\ub2a5",
+    "org": "\uae30\uad00",
 
 
 

@@ -70,7 +70,7 @@ from microsite_configuration import microsite
 
         <script>
             setTimeout(function(){
-                alert("${_('Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click \'OK\' button to log out automatically.')}");
+                alert('${_("Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click \"OK\" button to log out automatically.")}');
                 document.location.href="/logout";
             }, 500);
         </script>

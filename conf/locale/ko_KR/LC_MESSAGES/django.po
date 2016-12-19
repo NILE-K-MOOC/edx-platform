@@ -28222,7 +28222,7 @@ msgstr ""
 "경남대학교 총 장  박 재 규</p>"
 
 msgid ""
-"<p>Chonbuk National University(CBNU) was the first national university established in the Honam‧Chungchedong region and has led regional and national development as a global prestigious university"
+"<p>Chonbuk National University(CBNU) was the first national university established in the Honam,Chungchedong region and has led regional and national development as a global prestigious university"
 "Chonbuk National University will open an era of maturity moving beyond growth.<br/><br/>"
 "By fostering talented individuals equipped with CBNU's unique color, and building an ever-growing research ecosystem, we will prepare for a great leap of the new millennium.<br/><br/>"
 "We will help our students enlarge their thinking, and discover new academic resources, thus they will be our priceless masterpiece proudly representing CBNU<br/><br/>"
@@ -28710,10 +28710,8 @@ msgstr "안내 사항을 모두 확인하였으며, 이에 동의합니다."
 msgid "Withdrawal after consent"
 msgstr "동의 후 탈퇴하기"
 
-msgid "Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click 'OK' button to log out automatically."
-msgstr "${user.email}로 계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. '확인'버튼 클릭 후 자동으로 로그아웃 됩니다."
-
-
+msgid "Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click \"OK\" button to log out automatically."
+msgstr "${user.email}로 계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. \"확인\"버튼 클릭 후 자동으로 로그아웃 됩니다."
 
 # edx-platform/lms/templates/courseware/privacy.html
 
@@ -28877,7 +28875,7 @@ msgid "NILE"
 msgstr "국가평생교육진흥원"
 
 msgid "Accounts for Lifelong Learning"
-msgstr "평생학습계좌"
+msgstr "평생학습계좌제"
 
 msgid "Life long Education"
 msgstr "늘배움"
@@ -29074,5 +29072,17 @@ msgid ""
 msgstr ""
 "※ 따라서 콘텐츠보관함은 강좌 생성권한과는 별도로 누구나 만들 수 있으며, 이를 다른 구성원과 "
 "공유하고자 한다면 콘텐츠보관함 별로 권한을 지정해주어야 합니다."
+
+msgid "Classification"
+msgstr "학습기간"
+
+msgid "Period of Studing"
+msgstr "학습기간"
+
+msgid "Linguistics"
+msgstr "한국학여부"
+
+msgid "Effort time must be number"
+msgstr "주간 학습 권장 시간은 숫자이여야 합니다."
 
 
