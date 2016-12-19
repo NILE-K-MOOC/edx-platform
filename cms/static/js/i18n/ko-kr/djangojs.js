@@ -733,7 +733,7 @@
     "How to use %(platform_name)s discussions": "\u004b\u002d\u004d\u004f\u004f\u0043 \uac8c\uc2dc\ud310 \uc0ac\uc6a9",
     "HTML source code": "HTML \uc18c\uc2a4\ucf54\ub4dc",
     "Human Sciences": "\uc778\ubb38\uacfc\ud559",
-    "Humanities ": "\uc778\ubb38\uacc4\uc5f4",
+    "Humanities": "\uc778\ubb38\uacc4\uc5f4",
     "Hyperlink (Ctrl+L)": "\ud558\uc774\ud37c\ub9c1\ud06c (Ctrl+L)",
     "HYUk": "\ud55c\uc591\ub300\ud559\uad50",
     "ID": "\uc544\uc774\ub514",
@@ -1731,6 +1731,7 @@
     "(Add signatories for a certificate)": "\u0028\uc774\uc218\uc99d\uc5d0 \uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30\u0029",
     "Add Additional Signatory": "\uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30",
     "Course Title": "\uac15\uc88c \uc81c\ubaa9",
+
 
 
 

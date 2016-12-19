@@ -28976,22 +28976,22 @@ msgstr "(선택)"
 
 #: 분야
 msgid "hum"
-msgstr "인문계열"
+msgstr "인문"
 
 msgid "social"
-msgstr "사회계열"
+msgstr "사회"
 
 msgid "edu"
-msgstr "교육계열"
+msgstr "교육"
 
 msgid "eng"
-msgstr "공학계열"
+msgstr "공학"
 
 msgid "nat"
-msgstr "자연계열"
+msgstr "자연"
 
 msgid "med"
-msgstr "의약계열"
+msgstr "의약"
 
 msgid "art"
-msgstr "예체능계"
+msgstr "예체능"
