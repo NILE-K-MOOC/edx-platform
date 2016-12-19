@@ -499,7 +499,7 @@ a, span, p {color:inherit;}
 
 .community-container {background:#f6f8f9;padding:4.688rem 0; height: 700px;}
 .community-container-wrap {max-width:75rem;margin:0 auto;position:relative;padding-top:45px;}
-.community-container-wrap > a {position:absolute;top:0;width:20%;line-height:40px;text-align:center;color:#fff;background:#9aa1a4;border-left:solid 1px #eef1f2;box-sizing:border-box;;}
+.community-container-wrap > a {position:absolute;top:0;width:20%;line-height:40px;text-align:center;color:#fff;background:#9aa1a4;border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 17px;font-weight: 700;}
 .community-container-wrap > a:nth-of-type(1) {left:0;border-left:0;}
 .community-container-wrap > a:nth-of-type(2) {left:20%;}
 .community-container-wrap > a:nth-of-type(3) {left:40%;}
@@ -515,7 +515,7 @@ a, span, p {color:inherit;}
 .community-item h3 strong {display:block;margin-bottom:10px;}
 .community-item h3 > p {font-size:0.875em;line-height:1.5em;height:4.5em;overflow:hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;}
 .community-item p.summary {font-size:0.750em;line-height:1.7em;color:#444;}
-.community-item time {font-size:0.750em;color:#8a8a8a;text-align:right;font-weight:700;display:block;}
+.community-item time {font-size:0.750em;color:#8a8a8a;text-align:right;font-weight:700;display:block; padding-bottom: 10px;}
 
 .main-sticky-box {position:fixed;right:10px;top:55%;z-index:51;}
 .main-sticky-box li {margin-top:10px;}
@@ -827,7 +827,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 
 .faq-tab {border-bottom:solid 2px #03b3e4;margin-bottom:20px;display:table;width:100%;table-layout:fixed;}
 /*.faq-tab > a {display:table-cell;padding:15px;font-weight:700;color:#03b3e4;background:#eeecec;font-size:1.125rem;text-align:center;border-left:solid 2px #fff;vertical-align:middle;line-height:1.1em;}*/
-.faq-tab > a {display:table-cell;padding:15px;font-weight:500;color:#03b3e4;background:#eeecec;text-align:center;border-left:solid 2px #fff;vertical-align:middle;line-height:1.1em;}
+.faq-tab > a {display:table-cell;padding:15px;font-weight:500;color:#03b3e4;background:#eeecec;text-align:center;border-left:solid 2px #fff;vertical-align:middle;line-height:1.1em;font-weight: 700; font-size: 17px;}
 .faq-tab > a:first-child {border-left:0;}
 .faq-tab > a.on {background:#03b3e4;color:#fff;}
 
