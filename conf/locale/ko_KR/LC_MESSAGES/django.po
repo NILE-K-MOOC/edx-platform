@@ -10124,7 +10124,7 @@ msgstr "새 비밀번호 설정을 위한 메일 발송하기"
 msgid ""
 "Please enter your e-mail address below, and we will e-mail instructions for "
 "setting a new password."
-msgstr "아래에 이메일 주소를 입력 해주십시오, 새로운 비밀번호를 설정하기 위한 안내를 이메일로 보내드립니다."
+msgstr "아래에 이메일 주소를 입력 해주십시오. 새로운 비밀번호를 설정하기 위한 이메일을 보내드립니다."
 
 #: lms/templates/forgot_password_modal.html lms/templates/login.html
 #: lms/templates/register-form.html lms/templates/register-shib.html
@@ -22756,7 +22756,7 @@ msgstr "비밀번호 도움"
 msgid ""
 "Please enter your email address below and we will send you instructions for "
 "setting a new password."
-msgstr "아래에 이메일 주소를 입력 해주십시오, 새로운 비밀번호를 설정하기 위한 안내를 이메일로 보내드립니다."
+msgstr "아래에 이메일 주소를 입력 해주십시오. 새로운 비밀번호를 설정하기 위한 이메일을 보내드립니다."
 
 #: lms/templates/student_account/password_reset.underscore
 #: test_root/staticfiles/templates/student_account/password_reset.underscore
@@ -28487,7 +28487,7 @@ msgid "Korean Studies"
 msgstr "한국학"
 
 msgid "Find course for me"
-msgstr "나에게 맞는 강좌 찾기"
+msgstr "<나에게 맞는 강좌 찾기>"
 
 msgid "Opening Status"
 msgstr "개강상태"
@@ -28710,8 +28710,8 @@ msgstr "안내 사항을 모두 확인하였으며, 이에 동의합니다."
 msgid "Withdrawal after consent"
 msgstr "동의 후 탈퇴하기"
 
-msgid "Since we sent an email to ${user.email} to activate your account, please log back in to your site via your account activation email.. Click \"OK\" button to log out automatically."
-msgstr "${user.email}로 계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. \"확인\"버튼 클릭 후 자동으로 로그아웃 됩니다."
+msgid "Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically."
+msgstr "계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. 확인 버튼 클릭 후 자동으로 로그아웃 됩니다."
 
 # edx-platform/lms/templates/courseware/privacy.html
 
@@ -28828,16 +28828,16 @@ msgid "Viewing all"
 msgstr "전체보기"
 
 msgid "University list"
-msgstr "대학목록"
+msgstr "참여대학"
 
-msgid "Finding courses available for classes"
-msgstr "수강신청 가능강좌 찾기"
+msgid "Available for classes"
+msgstr "수강신청 가능강좌"
 
-msgid "Viewing courses by major"
-msgstr "전공별 강좌 보기"
+msgid "Courses by major"
+msgstr "전공별 강좌"
 
-msgid "Finding courses that suit you"
-msgstr "나에게 맞는 강좌 찾기"
+msgid "Courses that suit you"
+msgstr "나에게 맞는 강좌"
 
 msgid "Opening course status"
 msgstr "개강상태"
@@ -28877,7 +28877,7 @@ msgstr "국가평생교육진흥원"
 msgid "Accounts for Lifelong Learning"
 msgstr "평생학습계좌제"
 
-msgid "Life long Education"
+msgid "Lifelong Education"
 msgstr "늘배움"
 
 msgid "ACE : Advancement of College Education"
