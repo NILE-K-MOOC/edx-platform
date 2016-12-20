@@ -3,8 +3,6 @@
 import logging
 import json
 import urlparse
-from datetime import datetime
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -60,10 +58,15 @@ from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
 
 # import schedule
-# import time
 # import threading
 # from crontab import CronTab
 
+from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_names, set_has_profile_image
+from openedx.core.djangoapps.profile_images.images import remove_profile_images
+from openedx.core.djangoapps.user_api.preferences.api import update_user_preferences
+from django.contrib.auth.models import User
+import datetime
+from django.contrib.auth import logout
 
 # def job():
 #     print("I'm working...")
@@ -911,3 +914,29 @@ def account_settings(request):
             'correct' : None
         }
         return render_to_response('student_account/account_settings_confirm.html', context)
+
+@login_required
+def remove_account_view(request):
+    return render_to_response('student_account/remove_account.html')
+
+@login_required
+def remove_account(request):
+
+    if request.user.is_authenticated():
+        set_has_profile_image(request.user.username, False)
+        profile_image_names = get_profile_image_names(request.user.username)
+        remove_profile_images(profile_image_names)
+        account_privacy_setting = {u'account_privacy': u'private'}
+        update_user_preferences(request.user, account_privacy_setting, request.user.username)
+        find_user = User.objects.get(id=request.user.id)
+        find_user.is_active = False
+        ts = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
+        find_user.email = 'delete_'+request.user.email+ts
+        find_user.save()
+        logout(request)
+
+    return redirect('/')
+
+
+
+

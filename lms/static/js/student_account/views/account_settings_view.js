@@ -29,6 +29,7 @@
             },
 
             render: function () {
+
                 HtmlUtils.setHtml(this.$el, HtmlUtils.template(accountSettingsTemplate)({
                     accountSettingsTabs: this.accountSettingsTabs
                 }));
@@ -72,7 +73,20 @@
                             $(sectionEl).append(field.view.render().el);
                         }
                     });
+
+                    if($("#u-field-link-password") && index == 0){
+                        var html = "";
+                        html += "<div class='u-field u-field-button u-field-password'>";
+                        html += "    <div class='u-field-value field'>";
+                        html += "        <span class='u-field-title field-label'>회원탈퇴</span>";
+                        html += "        <a href='/remove_account_view'><button class='u-field-link u-field-link-title-password ' id='secession-btn' aria-describedby='u-field-message-help-password'>회원탈퇴하기</button></a>";
+                        html += "    </div>";
+                        html += "</div>";
+
+                        $(sectionEl).append(html);
+                    }
                 });
+
                 return this;
             },
 

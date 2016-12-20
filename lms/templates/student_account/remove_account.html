@@ -1,79 +1,137 @@
-<%!
-  import json
-  from django.utils.translation import ugettext as _
-  from microsite_configuration import microsite
-%>
+<%page expression_filter="h"/>
 <%inherit file="../main.html" />
-
 <%namespace name='static' file='../static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
-<%block name="header_extras">
-</%block>
-
+from openedx.core.djangolib.markup import HTML, Text
+%>
 <%block name="js_extra">
     <script>
         $(document).ready(function(){
-            $("#checkbox").click(function(){
-                if($(this).is(":checked")) {
-                    $("#removelink").attr("href", "/remove_account");
-                    $("#button").attr("disabled", false);
-
-                }else {
-                    $("#removelink").attr("href", "#");
-                    $("#button").attr("disabled", true);
+            $("#agreeBox").click(function(){
+                if($("#agreeBox").is(":checked")){
+                    $("#password").slideDown(200);
+                }else{
+                    $("#password").slideUp(300);
                 }
             });
+
         });
+
+
+        function password_check(){
+            var passwd = $("#password").val();
+            if(passwd == "" || passwd == null){
+                if($("#password").is(":visible")){
+                    alert("비밀번호를 입력하세요.");
+                }else{
+                    alert("안내사항을 동의하세요.");
+                }
+
+                $("#password").focus();
+                return;
+            }
+            $.post("/account/settings_confirm_check",
+                    {passwd: passwd},
+                    function(data){
+                        if(data.success){
+                            document.location.href = "/remove_account";
+                        }else if(!data.success){
+                            alert("비밀번호가 맞지 않습니다.");
+                        }else{
+                            alert("접근경로가 비정상적 입니다.\n메인페이지로 이동합니다.");
+                            document.location.href = "/";
+                        }
+            },"json");
+        }
 
     </script>
 </%block>
 
-<%block name="pagetitle">${_("Withdrawal guidance")} | K-MOOC</%block>
+<%block name="pagetitle">${_("Certificate Id Check")}</%block>
 <section class="container rule">
+    <section class="container">
+        <!-- [s] -->
+        <h2>탈퇴안내</h2>
 
-    <h2>탈퇴안내</h2>
+        <section class="certification-box">
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-4 lg-col-4" style="width: 100%;">
+                        <div class="certification-form">
+                            <p>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
+                            <ul style="margin-left:0.5em; list-style-type:none;">
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</b></li>
+                                <li>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</li>
+                            </ul>
 
-    <dl>
-        <dt>${_("Please make sure to check the instructions before submitting your membership withdrawal")}<br><br></dt>
-        <dd>
-            <ol>
-                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("If you wirthdraw your membership, you can not reuse or recover the ID in use")}</b></li>
-                    <ol>
-                        <li style="margin-left: 16px;">${_("Please be careful that you and others can not reuse or recover your ID if you withdraw your membership.")}<br><br></li>
-                    </ol>
+                            <ul style="margin-left:0.5em; list-style-type:none;">
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다.</b></li>
+                                <li>회원정보 및 메일주소, 프로파일 등 개인형 서비스 이용기록은 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.</br>
+                                    삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요.
+                                </li>
+                            </ul>
 
-            </ol>
+                            <ul style="margin-left:0.5em; list-style-type:none;">
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</b></li>
+                                <li>- 게시판</li>
+                                <li>- 질문 답변 의견</li>
+                                <li>- 위키</li>
+                                <li>- 게시글</li>
+                            </ul>
 
-            <ol>
-                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("After your withdrawal of membership, the membership information and personal service use history will be deleted.")}</b></li>
-                    <ol>
-                        <li style="margin-left: 16px;">${_("Personal service use information such as member information, e-mail addresse, and profiles will be deleted, and the deleted data will not be recovered.")}</li>
-                        <li style="margin-left: 16px;">${_("Please confirm the deleted information and backup the necessary data in advance.")}<br><br></li>
-                    </ol>
+                            <ul style="margin-left:0.5em; list-style-type:none;">
+                                <li>탈퇴 후에는 현재 아이디로 다시 가입할 수 없으며 아이디와 데이터는 복구할 수 없습니다.</li>
+                                <li>게시판형 서비스에 남아있는 게시글은 탈퇴 후 삭제할 수 없습니다.</li>
+                            </ul>
 
-            </ol>
+                            <p><input type="checkbox" id="agreeBox" />&nbsp;&nbsp;안내 사항을 모두 확인하였으며, 이에 동의합니다.</p>
 
-            <ol>
-                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Postings registered on the bulletin board service remain after the withdrawal.")}</b></li>
-                    <ol>
-                        <li style="margin-left: 16px;">- ${_("Bulletin board")}</li>
-                        <li style="margin-left: 16px;">- ${_("Question answer opinion")}</li>
-                        <li style="margin-left: 16px;">- ${_("Wiki")}</li>
-                        <li style="margin-left: 16px;">- ${_("Posts")}<br><br></li>
-                    </ol>
+                            <p><input type="password" id="password" name="password" value="" style="display: none;"/></p>
+                            <a href="javascript:password_check();" id="check"><input type="button" value="${_('Verificating')}" ></a>
 
-            </ol>
 
-        </dd>
+                            <!--
+                            <div id="check_result">
+                                <div id="correct" style="display: none;">
+                                    <span class="icon fa fa-check" aria-hidden="true"></span>
+                                    &nbsp;<b>${_("This is valid edX certification number.")}</b>
+                                    <a href="#" id="showCert" target="_blank" style="background: #f58026;
+                                                                    font-size: 12px;
+                                                                    font-weight: bold;
+                                                                    color: white;
+                                                                    border-radius: 3px;
+                                                                    padding: 1px 10px;
+                                                                    margin: 5px;
+                                                                    vertical-align: middle;">${_("View")}</a>
+                                </div>
 
-        <dd>${_("After withdrawal, you can not subscribe to the current ID again and ID and data can not be recovered.")}<br>
-            ${_("You can not delete postings that remain in the bulletin board service after withdrawal..")}
-        </dd>
+                                <div id="incorrect" style="display: none;">
+                                    <span class="icon fa fa-close" aria-hidden="true"></span>
+                                    &nbsp;<b>${_("This is not valid edX certification number.")}</b>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
+                        <div class="certification-img">
+                            <!--
+                            <img src="/static/images/contents/certification.gif" alt='${_("Certificate Sample")}'>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <dt><input type="checkbox" id="checkbox" style="vertical-align: middle;">
-            ${_("I have read and agree to all the instructions.")}
-        </dt>
-        <br>
-        <a href="#" id="removelink"><input type="button" id="button" value="${_('Withdrawal after consent')}" disabled="true"/></a>
-    </dl>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <!-- [e]  -->
+    </section>
 </section>
