@@ -1731,6 +1731,7 @@
     "(Add signatories for a certificate)": "\u0028\uc774\uc218\uc99d\uc5d0 \uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30\u0029",
     "Add Additional Signatory": "\uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30",
     "Course Title": "\uac15\uc88c \uc81c\ubaa9",
+    "No validation is performed on policy keys or value pairs. If you are having difficulties, check your formatting.": "\uaddc\uc815 \ud0a4\ub098 \uc785\ub825\ud55c \uac12\uc5d0 \ub300\ud55c \ud655\uc778\uc808\ucc28\ub294 \ub530\ub85c \uc5c6\uc2b5\ub2c8\ub2e4\u002e \uc624\ub958\uac00 \uacc4\uc18d \ubc1c\uc0dd\ud55c\ub2e4\uba74 \ud615\uc2dd\uc744 \ub2e4\uc2dc \ud655\uc778\ud558\uc138\uc694\u002e",
 
 
 
