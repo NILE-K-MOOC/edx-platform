@@ -29085,4 +29085,5 @@ msgstr "한국학여부"
 msgid "Effort time must be number"
 msgstr "주간 학습 권장 시간은 숫자이여야 합니다."
 
-
+msgid "View certificates.(Not finished Poll)"
+msgstr "이수증 보기(설문 미완료)"
