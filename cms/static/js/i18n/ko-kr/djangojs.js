@@ -814,7 +814,7 @@
     "License Type": "\ub77c\uc774\uc13c\uc2a4 \uc720\ud615",
     "Limited Profile": "\uc81c\ud55c\uc801 \ud504\ub85c\ud544",
     "Linguistics & Literature": "\uc5b8\uc5b4\u318d\ubb38\ud559",
-    "Linguistics by": "\uc5b8\uc5b4\ud559",
+    "Linguistics by": "\ud55c\uad6d\ud559 \uc5ec\ubd80",
     "Link types should be unique.": "\ub9c1\ud06c \uc720\ud615\uc740 \uc720\uc77c\ud574\uc57c \ud569\ub2c8\ub2e4.",
     "Link": "\uc5f0\uacb0\ud558\uae30",
     "Linking": "\uc5f0\uacb0\ud558\uae30",

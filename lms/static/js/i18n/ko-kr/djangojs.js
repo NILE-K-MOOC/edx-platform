@@ -1011,7 +1011,7 @@
     "Please enter an integer greater than 0.": "0\ubcf4\ub2e4 \ud070 \uc815\uc218\ub97c \uc785\ub825\ud574\uc8fc\uc2dc\uae30 \ubc14\ub78d\ub2c8\ub2e4.",
     "Please enter non-negative integer.": "\uc74c\uc774 \uc544\ub2cc \uc815\uc218\ub97c \uc785\ub825\ud558\uc138\uc694.",
     "Please enter your %(field)s." : "%(field)s \ud56d\ubaa9\uc744 \uc785\ub825\ud574 \uc8fc\uc2ed\uc2dc\uc694\u002e",
-    "Please enter your email address below and we will send you instructions for setting a new password.": "\uc544\ub798\uc5d0 \uc774\uba54\uc77c \uc8fc\uc18c\ub97c \uc785\ub825 \ud574\uc8fc\uc2ed\uc2dc\uc624, \uc0c8\ub85c\uc6b4 \ube44\ubc00\ubc88\ud638\ub97c \uc124\uc815\ud558\uae30 \uc704\ud55c \uc548\ub0b4\ub97c \uc774\uba54\uc77c\ub85c \ubcf4\ub0b4\ub4dc\ub9bd\ub2c8\ub2e4.",
+    "Please enter your email address below and we will send you instructions for setting a new password.": "\uc544\ub798\uc5d0 \uc774\uba54\uc77c \uc8fc\uc18c\ub97c \uc785\ub825 \ud574\uc8fc\uc2ed\uc2dc\uc624\u002c \uc0c8\ub85c\uc6b4 \ube44\ubc00\ubc88\ud638\ub97c \uc124\uc815\ud558\uae30 \uc704\ud55c \uc548\ub0b4\ub97c \uc774\uba54\uc77c\ub85c \ubcf4\ub0b4\ub4dc\ub9bd\ub2c8\ub2e4\u002e",
     "Please follow the instructions here to upload a file elsewhere and link to it: {maxFileSizeRedirectUrl}": "\ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc\ud558\uace0 \ub9c1\ud06c\ud558\uae30 \uc704\ud574 \ub2e4\uc74c \uc548\ub0b4\ub97c \ub530\ub77c \ud558\uc138\uc694: {maxFileSizeRedirectUrl}",
     "Please note that validation of your policy key and value pairs is not currently in place yet. If you are having difficulties, please review your policy pairs.": "\uace0\uae09 \uc124\uc815\uc758 \uc785\ub825\uac12\uc758 \uc720\ud6a8\uc131 \uac80\uc99d\uc774 \uc644\ub8cc \ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \ubb38\uc81c\uac00 \uc788\uc744 \uacbd\uc6b0 \uc124\uc815 \uac12\uc744 \ub2e4\uc2dc \uc0b4\ud3b4\ubcf4\uc2ed\uc2dc\uc624.",
     "Please Note": "\ucc38\uace0\ud558\uc138\uc694.",
@@ -1115,7 +1115,7 @@
     "Return and add email address": "\ub3cc\uc544\uac00\uc11c \uc774\uba54\uc77c \uc8fc\uc18c\uc5d0 \ucd94\uac00\ud569\ub2c8\ub2e4.",
     "Return to Export": "\ub0b4\ubcf4\ub0b4\uae30\ub85c \ub3cc\uc544\uac00\uae30",
     "Return to team listing": "\ud300 \ub9ac\uc2a4\ud2b8\ub85c \ub3cc\uc544\uac11\ub2c8\ub2e4.",
-    "Return to Your Dashboard": "\ub300\uc2dc\ubcf4\ub4dc\ub85c \ub3cc\uc544 \uac00\uae30",
+    "Return to Your Dashboard": "\ub0b4 \uac15\uc758\uc2e4",
     "Review your info": "\uc785\ub825 \uc815\ubcf4\ub97c \ud655\uc778\ud558\uc138\uc694.",
     "Review Your Photos": "\uc0ac\uc9c4\uc744 \uc0b4\ud3b4\ubcf4\uc138\uc694",
     "Revoke access": "\uc811\uadfc \uad8c\ud55c \ucde8\uc18c",
@@ -1747,10 +1747,9 @@
     "nat": "\uc790\uc5f0",
     "med": "\uc758\uc57d",
     "art": "\uc608\uccb4\ub2a5",
-    "org": "\uae30\uad00",
-
-
-
+    "org": "\ub300\ud559",
+    "Link your {accountName} account to your {platformName} account and use {accountName} to sign in to {platformName}.": "{accountName} \uacc4\uc815\uc744 {platformName} \uacc4\uc815\uc5d0 \uc5f0\ub3d9\ud574 {accountName} \uc744 \uc0ac\uc6a9\ud574 {platformName} \uc5d0 \ub85c\uadf8\uc778\ud558\uc138\uc694\u002e",
+    "Link Your Account": "\uacc4\uc815 \uc5f0\ub3d9",
 
 
 
