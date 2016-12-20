@@ -7,12 +7,12 @@ $(document).ready(function(){
         url : 'comm_list_json'
     }).done(function(data){
         console.log(data);
-        console.log(data[0]);
+        //console.log(data[0]);
         for(var i=0; i<data.length; i++){
             html +="<div class='col col-12 sm-col-6 md-col-4  lg-col-3'>";
             html +="<div class='community-item'>";
             if(data[i][5] == 'F'){
-                html +="<a href='/comm_faq'>";
+                html +="<a href='/comm_faq/"+data[i][6]+"/'>";
             }else if(data[i][5] == 'K'){
                 html +="<a href='/comm_k_news_view/"+data[i][0]+"/'>";
             }else if(data[i][5] == 'N'){

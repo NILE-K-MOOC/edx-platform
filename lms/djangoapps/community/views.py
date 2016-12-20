@@ -292,7 +292,8 @@ def comm_notice_view(request, board_id):
 
 
 @ensure_csrf_cookie
-def comm_faq(request) :
+def comm_faq(request, head_title) :
+
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                               settings.DATABASES.get('default').get('USER'),
                               settings.DATABASES.get('default').get('PASSWORD'),
@@ -322,7 +323,11 @@ def comm_faq(request) :
             data = json.dumps(list(faq_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
         return HttpResponse(data, 'application/json')
-    return render_to_response('community/comm_faq.html')
+    # print 'head_title ==', head_title
+    context = {
+        'head_title' : head_title
+    }
+    return render_to_response('community/comm_faq.html', context)
 
 def comm_faqrequest(request) :
     if request.is_ajax() :
@@ -877,7 +882,8 @@ def comm_list_json(request) :
                                 WHEN a.section = 'R' THEN 3
                                 ELSE ''
                              END
-                                odby
+                                odby,
+                             head_title s
                         FROM tb_board a
                              INNER JOIN
                              (  SELECT section,
@@ -904,6 +910,7 @@ def comm_list_json(request) :
             value_list.append(text)
             value_list.append(t[4])
             value_list.append(t[5])
+            value_list.append(t[7])
             total_list.append(value_list)
         data = json.dumps(list(total_list), cls=DjangoJSONEncoder, ensure_ascii=False)
 
