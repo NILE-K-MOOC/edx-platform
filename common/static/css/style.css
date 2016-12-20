@@ -1040,3 +1040,32 @@ a:hover {
 a:active {
     text-decoration: none !important;
 }
+
+
+.oauth2-kakao{
+	background-color: #3b1e1e !important;
+	background-image: url('/static/images/icon/kakao.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}
+
+.oauth2-naver{
+	background-color: #56c82c !important;
+	background-image: url('/static/images/icon/naver.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}
+
+.oauth2-all{
+	background-color: #00759e !important;
+	background-image: url('/static/images/icon/all.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}
+
+.oauth2-life{
+	background-color: #00759e !important;
+	background-image: url('/static/images/icon/life.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}

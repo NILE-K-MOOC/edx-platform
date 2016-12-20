@@ -74,7 +74,7 @@
                         }
                     });
 
-                    if($("#u-field-link-password") && index == 0){
+                    if(view.$('.account-settings-section-body').size() == 2 && index == 0){
                         var html = "";
                         html += "<div class='u-field u-field-button u-field-password'>";
                         html += "    <div class='u-field-value field'>";
