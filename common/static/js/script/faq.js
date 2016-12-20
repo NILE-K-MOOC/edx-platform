@@ -39,7 +39,7 @@ $(document).ready(function(){
 		var head_html = "";
 		var value_list = [];
 		var head_title = $(this).attr('id');
-		//alert(head_title);
+
 		$.ajax({
 			url : 'comm_faq',
 			data : {
@@ -59,7 +59,7 @@ $(document).ready(function(){
 					html += "</dd>";
 				}
 				$('dl').css('height', '');
-			}else if(data != '' && data.length <3){
+			}else if(data != '' && data.length <= 3){
 				for(var j=0; j<data.length; j++){
 					value_list = data[j].toString().split(',');
 					html += "<dt><a href='#' >"+data[j][0]+"</a></dt>";
@@ -69,6 +69,7 @@ $(document).ready(function(){
 				}
 				$('dl').css('height', '265px');
 			}else{
+				alert('dd');
 				html += "<div style='text-align: center'>" +
 						"<h3>저장된 데이터가 없습니다.</h3>" +
 						"</div>";

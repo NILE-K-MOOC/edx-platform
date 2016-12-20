@@ -900,6 +900,7 @@ def comm_list_json(request) :
             value_list.append(t[2])
             s= t[3]
             text = re.sub('<[^>]*>', '', s)
+            text = re.sub('&nbsp;', '', text)
             value_list.append(text)
             value_list.append(t[4])
             value_list.append(t[5])
