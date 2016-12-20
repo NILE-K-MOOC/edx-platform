@@ -106,7 +106,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] major course list -->
         <section class="major-course-container" id="main-contents02">
-            <h2 class="main-title">${_("Course by subject")}</h2>
+            <h2 class="main-title" style="margin-bottom: 20px;"><${_("Course by subject")}></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -180,7 +180,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title">${_("Find course for me")} </h2>
+            <h2 class="main-title"><${_("Find course for me")}> </h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
@@ -449,7 +449,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <h3 style="background-image: url(${list[3]}); background-size: contain;  ">
                                 </h3>
                                     <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]} ${list[2]}</p>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
 ##                                     <time>${list[4]}</time>
                                 </a>
                             </div>
@@ -496,7 +496,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         % if list[5] == 'F':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
-                                <a href="/comm_faq">
+                                <a href="/comm_faq/${list[6]}/">
                                     <h3>
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
@@ -510,7 +510,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     % endfor
                     </div>
                     <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_faq" style="margin-top: 20px;">더보기</a>
+                        <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;">더보기</a>
                     </div>
                 </div>
                 <!--// community 04 -->
@@ -542,14 +542,14 @@ from openedx.core.djangolib.markup import HTML, Text
    </script>
 </%block>
 
-
+## 사이드 탭
 <!-- sidebar -->
 <nav class="main-sticky-box">
     <ul class="main-sticky">
         <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("University list")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Finding courses available for classes")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Viewing courses by major")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Finding courses that suit you")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Available Courses")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Courses by major")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Courses that suit you")}</a></li>
         % if LANGUAGE_CODE == 'ko-kr':
         <li><a href="#" class="smooth-move" data-hashbang="main-contents06">커뮤니티</a></li>
         % endif

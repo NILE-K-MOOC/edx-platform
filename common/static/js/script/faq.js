@@ -8,27 +8,52 @@ $(document).ready(function(){
 	var html = "";
 	var head_html = "";
     var value_list = [];
+	var value = $('#head_title').text();
+	//alert(value);
+	if(value != '' && value != '1'){
+		$(".faq-tab a").removeClass("on");
+		$('#'+value).addClass("on");
+		$.ajax({
+			url : 'comm_faq',
+			data : {
+				method : 'faq_list',
+				head_title : value
+			}
+		}).done(function(data){
+			html="";
+			head_html="";
+			for(var i=0; i<data.length; i++){
+				html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
+				html += "<dd>";
+				html += "<div>"+data[i][1]+"</div>";
+				html += "</dd>";
+			}
+			//console.log(head_html);
+			//$('.faq-tab').html(head_html);
+			$('.faq-list').html(html);
+		});
+	}else{
+		$.ajax({
+			url : 'comm_faq',
+			data : {
+				method : 'faq_list',
+				head_title : 'regist_f'
+			}
+		}).done(function(data){
+			html="";
+			head_html="";
+			for(var i=0; i<data.length; i++){
+				html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
+				html += "<dd>";
+				html += "<div>"+data[i][1]+"</div>";
+				html += "</dd>";
+			}
+			//console.log(head_html);
+			//$('.faq-tab').html(head_html);
+			$('.faq-list').html(html);
+		});
+	}
 
-    $.ajax({
-        url : 'comm_faq',
-        data : {
-            method : 'faq_list',
-			head_title : 'regist_f'
-        }
-    }).done(function(data){
-		html="";
-		head_html="";
-        for(var i=0; i<data.length; i++){
-			html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
-			html += "<dd>";
-			html += "<div>"+data[i][1]+"</div>";
-			html += "</dd>";
-        }
-		//console.log(head_html);
-		//$('.faq-tab').html(head_html);
-		$('.faq-list').html(html);
-
-    });
 
 	$(document).on('click', '.faq-tab a', function(){
 		//alert($(this).text());
@@ -69,7 +94,7 @@ $(document).ready(function(){
 				}
 				$('dl').css('height', '265px');
 			}else{
-				alert('dd');
+				//alert('dd');
 				html += "<div style='text-align: center'>" +
 						"<h3>저장된 데이터가 없습니다.</h3>" +
 						"</div>";
@@ -78,62 +103,6 @@ $(document).ready(function(){
 			$('.faq-list').html(html);
 		});
 	});
-
-	//$(document).on('click', '#search_btn', function(){
-	//	var html = "";
-	//	var head_html = "";
-	//	var value_list = [];
-	//	var head_title = $('.on').text().substring(3);
-	//	var search = $('#search').val();
-	//	if(search == '' || search == null){
-	//		$(".faq-tab a").removeClass("on");
-	//		$('#school').addClass("on");
-    //
-	//		$.ajax({
-	//			url : 'comm_faq',
-	//			data : {
-	//				method : 'faq_list',
-	//				head_title : '학교 관련'
-	//				//head_title : head_title
-	//			}
-	//		}).done(function(data){
-	//			html="";
-	//			head_html="";
-	//			for(var i=0; i<data.length; i++){
-	//				value_list = data[i].toString().split(',');
-	//				html += "<dt><a href='#' >"+value_list[0]+"</a></dt>";
-	//				for(var j=1; j<value_list.length; j++){
-	//					html += "<dd>";
-	//					html += "<div>"+value_list[1]+"</div>";
-	//					html += "</dd>";
-	//				}
-	//			}
-	//			$('.faq-list').html(html);
-	//		});
-	//	}else{
-	//		$.ajax({
-	//			url : 'comm_faq',
-	//			data : {
-	//				method : 'faq_list',
-	//				search : search,
-	//				head_title : head_title
-	//			}
-	//		}).done(function(data){
-	//			html="";
-	//			head_html="";
-	//			for(var i=0; i<data.length; i++){
-	//				value_list = data[i].toString().split(',');
-	//				html += "<dt><a href='#' >"+value_list[0]+"</a></dt>";
-	//				for(var j=1; j<value_list.length; j++){
-	//					html += "<dd>";
-	//					html += "<div>"+value_list[1]+"</div>";
-	//					html += "</dd>";
-	//				}
-	//			}
-	//			$('.faq-list').html(html);
-	//		});
-	//	}
-	//});
 });
 
 function resize() {
@@ -239,10 +208,6 @@ $(document).on('click', '.kmooc-tab a', function(){
 	return false;
 });
 
-
-function resize() {
-	window_W = $(window).width();
-}
 
 
 

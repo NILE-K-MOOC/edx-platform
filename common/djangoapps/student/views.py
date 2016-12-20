@@ -235,38 +235,43 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur = con.cursor()
     query = """
             (  SELECT board_id,
-                     CASE
-                        WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[Q&A]'
-                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
-                        WHEN section = 'R' THEN '[자료실]'
-                        ELSE ''
-                     END
-                        head_title,
+                 CASE
+                     WHEN head_title = 'noti_n' THEN '[공지]'
+                     WHEN head_title = 'advert_n' THEN '[공고]'
+                     WHEN head_title = 'guide_n' THEN '[안내]'
+                     WHEN head_title = 'event_n' THEN '[이벤트]'
+                     WHEN head_title = 'etc_n' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
                      subject,
                      content,
-                     reg_date,
-                     section
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
                 FROM tb_board
                WHERE section = 'N'
             ORDER BY reg_date DESC
                LIMIT 4)
         union all
             (  SELECT board_id,
-                     CASE
-                        WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[Q&A]'
-                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
-                        WHEN section = 'R' THEN '[자료실]'
-                        ELSE ''
-                     END
-                        head_title,
+                 CASE
+                     WHEN head_title = 'k_news_k' THEN '[K-MOOC소식]'
+                     WHEN head_title = 'report_k' THEN '[보도자료]'
+                     WHEN head_title = 'u_news_k' THEN '[대학뉴스]'
+                     WHEN head_title = 'support_k' THEN '[서포터즈이야기]'
+                     WHEN head_title = 'n_new_k' THEN '[NILE소식]'
+                     WHEN head_title = 'etc_k' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
                      subject,
                      substr(substr(content, instr(content, '"') + 1),
                             1,
                             instr(substr(content, instr(content, '"') + 1), '"') - 1),
-                     reg_date,
-                     section
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
                 FROM tb_board
                WHERE section = 'K'
             ORDER BY reg_date DESC
@@ -274,35 +279,39 @@ def index(request, extra_context=None, user=AnonymousUser()):
         union all
             (  SELECT board_id,
                      CASE
-                        WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[Q&A]'
-                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
-                        WHEN section = 'R' THEN '[자료실]'
-                        ELSE ''
+                         WHEN head_title = 'publi_r' THEN '[홍보]'
+                         WHEN head_title = 'course_r' THEN '[강좌안내]'
+                         WHEN head_title = 'event_r' THEN '[행사]'
+                         WHEN head_title = 'etc_r' THEN '[기타]'
+                         ELSE ''
                      END
-                        head_title,
+                         head_title,
                      subject,
                      content,
-                     reg_date,
-                     section
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
                 FROM tb_board
                WHERE section = 'R'
             ORDER BY reg_date DESC
                LIMIT 4)
         union all
             (  SELECT board_id,
-                     CASE
-                        WHEN section = 'N' THEN '[공지사항]'
-                        WHEN section = 'F' THEN '[Q&A]'
-                        WHEN section = 'K' THEN '[K-MOOC 뉴스]'
-                        WHEN section = 'R' THEN '[자료실]'
-                        ELSE ''
-                     END
-                        head_title,
+                 CASE
+                      WHEN head_title = 'regist_f' THEN '[회원가입 관련]'
+                      WHEN head_title = 'login_f' THEN '[로그인 및 계정 관련]'
+                      WHEN head_title = 'site_f' THEN '[K-MOOC 사이트 이용 관련]'
+                      WHEN head_title = 'course_f' THEN '[강좌 수강 관련]'
+                      WHEN head_title = 'tech_f' THEN '[기술적인 문제 관련]'
+                      WHEN head_title = 'etc_f' THEN '[기타]'
+                      ELSE ''
+                 END
+                      head_title,
                      subject,
                      content,
-                     reg_date,
-                     section
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     head_title
                 FROM tb_board
                WHERE section = 'F'
             ORDER BY reg_date DESC
@@ -322,6 +331,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(text[0:200])
         value_list.append(i[4])
         value_list.append(i[5])
+        value_list.append(i[6])
         index_list.append(value_list)
 
     context['index_list'] = index_list
