@@ -21,8 +21,6 @@
 
                 dispatcher.listenTo(form, 'search', function (query) {
 
-
-
                     var term = search.getTermParameter('term');
                     var mterm = search.getTermParameter('mterm');
                     var linguistics = search.getTermParameter('linguistics');
@@ -33,20 +31,19 @@
                     form.showLoadingIndicator();
 
                     if(term){
-                        filters.add({type: 'classfy', query: term, name: term});
+                        filters.add({type: 'classfy', query: term, name: gettext(term)});
                         search.refineSearch(filters.getTerms());
                     }else if(mterm){
-                        filters.add({type: 'middle_classfy', query: mterm, name: mterm});
+                        filters.add({type: 'middle_classfy', query: mterm, name:  gettext(mterm)});
                         search.refineSearch(filters.getTerms());
                     }else if(linguistics){
-                        filters.add({type: 'linguistics', query: linguistics, name: 'Koreanology'});
+                        filters.add({type: 'linguistics', query: linguistics, name: gettext('Koreanology')});
                         search.refineSearch(filters.getTerms());
                     }else if(language) {
-                        filters.add({type: 'language', query: language, name: language == 'ko' ? 'Korean' : 'English'});
+                        filters.add({type: 'language', query: language, name: gettext(language == 'ko' ? 'Korean' : 'English')});
                         search.refineSearch(filters.getTerms());
                     }else if(course_period) {
-                        filters.add({type: 'course_period', query: course_period, name: course_period  == "S" ? "Short (1~6 weeks)" : course_period  == "M" ? "Middle (7~12 weeks)" : course_period  == "L" ? "Long (over 13 weeks)" : ""});
-
+                        filters.add({type: 'course_period', query: course_period, name: gettext(course_period  == "S" ? "Short(1~6 weeks)" : course_period  == "M" ? "Middle(7~12 weeks)" : course_period  == "L" ? "Long(over 13 weeks)" : "")});
                         search.refineSearch(filters.getTerms());
                     }else{
                         search.performSearch(query, filters.getTerms());
