@@ -10,10 +10,10 @@
         <div class="univ-list-top">
             <div class="univ-list-top-txt">
                 <div>
-                    <span style="font-weight: 700; font-size: 40px;">
+                    <!--<span style="font-weight: 700; font-size: 40px;">
                         <p>${_("Introducing participating universities with K-MOOC.")}</p>
                     </span>
-                    <!--<h2>
+                    <h2>
                          <span>${_("Introduction of participating universities and shortcut to homepage")}</span>
 
                     </h2>
@@ -24,7 +24,7 @@
         </div>
 
         <ul class="univ-list">
-          %if request.session['_language'] == 'ko_kr':
+          % if LANGUAGE_CODE == 'ko-kr':
             <li><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
             <li><a href="/school/KHUk"><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
             <li><a href="/school/KoreaUnivK"><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
