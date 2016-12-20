@@ -125,16 +125,102 @@ define([
         },
 
         render: function () {
+            //collection sort setting
+
+            var i = 0;
+
+            this.collection.comparator = function(model) {
+                //facet = 분류, term = 세부항목
+                switch(model.get('facet')){
+                    case 'classfy': model.set('odby1',1); break;
+                    case 'middle_classfy': model.set('odby1',2); break;
+                    case 'course_period': model.set('odby1',3); break;
+                    case 'language': model.set('odby1',4); break;
+                    default: model.set('odby1',7);
+                }
+
+                switch(model.get('term')){
+                    //classfy
+                    case 'hum': model.set('odby2',1); break;
+                    case 'social': model.set('odby2',2); break;
+                    case 'edu': model.set('odby2',3); break;
+                    case 'eng': model.set('odby2',4); break;
+                    case 'nat': model.set('odby2',5); break;
+                    case 'med': model.set('odby2',6); break;
+                    case 'art': model.set('odby2',7); break;
+
+                    //middle_classfy
+                    case 'lang': model.set('odby2',1); break;
+                    case 'husc': model.set('odby2',2); break;
+                    case 'busn': model.set('odby2',3); break;
+                    case 'law' : model.set('odby2',4); break;
+                    case 'scsc': model.set('odby2',5); break;
+                    case 'enor': model.set('odby2',6); break;
+                    case 'ekid': model.set('odby2',7); break;
+                    case 'espc': model.set('odby2',8); break;
+                    case 'elmt': model.set('odby2',9); break;
+                    case 'emdd': model.set('odby2',10); break;
+                    case 'cons': model.set('odby2',11); break;
+                    case 'civi': model.set('odby2',12); break;
+                    case 'traf': model.set('odby2',13); break;
+                    case 'mach': model.set('odby2',14); break;
+                    case 'elec': model.set('odby2',15); break;
+                    case 'deta': model.set('odby2',16); break;
+                    case 'matr': model.set('odby2',17); break;
+                    case 'comp': model.set('odby2',18); break;
+                    case 'indu': model.set('odby2',19); break;
+                    case 'cami': model.set('odby2',20); break;
+                    case 'other': model.set('odby2',21); break;
+                    case 'agri': model.set('odby2',22); break;
+                    case 'bio': model.set('odby2',23); break;
+                    case 'life': model.set('odby2',24); break;
+                    case 'math': model.set('odby2',25); break;
+                    case 'metr': model.set('odby2',26); break;
+                    case 'nurs': model.set('odby2',27); break;
+                    case 'phar': model.set('odby2',28); break;
+                    case 'heal': model.set('odby2',29); break;
+                    case 'dsgn': model.set('odby2',30); break;
+                    case 'appl': model.set('odby2',31); break;
+                    case 'danc': model.set('odby2',32); break;
+                    case 'form': model.set('odby2',33); break;
+                    case 'play': model.set('odby2',34); break;
+                    case 'musc': model.set('odby2',35); break;
+
+                    //course_period
+                    case 'S': model.set('odby2',1); break;
+                    case 'M': model.set('odby2',2); break;
+                    case 'L': model.set('odby2',3); break;
+                    //language
+                    case 'ko': model.set('odby2',1); break;
+                    case 'en': model.set('odby2',2); break;
+                    case 'zh': model.set('odby2',3); break;
+
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+                    case '': model.set('odby2',4); break;
+
+                    default: model.set('odby2',99);
+                }
+                return [model.get('odby1'), model.get('odby2')];
+            }
+
+            this.collection.sort();
+
             var grouped = this.collection.groupBy('facet');
-
             var dict = {"org": [], "classfy": [], "middle_classfy": [], "linguistics": [],"course_period": [], "language": [], "modes": []};
-
-
-
-
-
             var htmlSnippet = HtmlUtils.joinHtml.apply(
                 this, _.map(grouped, function(options, facetKey) {
+                    if(facetKey == 'modes'){
+                        return;
+                    }
+
                     if (options.length > 0) {
                         return this.renderFacet(facetKey, options);
                     }
