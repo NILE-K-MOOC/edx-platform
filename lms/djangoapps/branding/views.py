@@ -100,14 +100,14 @@ def index(request):
 
 def index_en(request):
     request.session['_language'] = 'en'
-    redirect_to = request.GET.get('next', '/')
-    return redirect(redirect_to)
+    # redirect_to = request.GET.get('next', '/')
+    return redirect('/')
 
 
 def index_ko(request):
     request.session['_language'] = 'ko_kr'
-    redirect_to = request.GET.get('next', '/')
-    return redirect(redirect_to)
+    # redirect_to = request.GET.get('next', '/')
+    return redirect('/')
 
 
 def notice(request):
