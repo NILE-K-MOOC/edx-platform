@@ -73,7 +73,7 @@ else:
         % else:
         <a class="btn" href="/courses/${course_overview.id}/courseware"
            title="${_('courseware')}">
-           설문 미완료..</a>
+           ${_("View certificates.(Not finished Poll)")</a>
         % endif
         </li>
       % elif cert_status['show_download_url'] and enrollment.mode in CourseMode.NON_VERIFIED_MODES:

@@ -567,8 +567,25 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
                 check_cnt = 0
                 for block in blocks:
-                    if block.get('block_type') == 'poll' or block.get('block_type') == 'survey':
-                        check_cnt += 1
+                    if block.get('block_type') == 'vertical':
+                        global visible_to_staff_only
+
+                        if 'visible_to_staff_only' in block.get('fields'):
+                            visible_to_staff_only = block.get('fields')['visible_to_staff_only']
+                        else:
+                            visible_to_staff_only = False
+
+                        if visible_to_staff_only is True:
+                            continue
+
+                        childrens = block.get('fields')['children']
+                        for children in childrens:
+                            if children[0] == 'survey' or children[0] == 'poll':
+                                check_cnt += 1
+                                checklist.append("'"+children[1]+"'")
+
+                    if check_cnt > 0:
+                        break
 
                 if check_cnt > 0:
                     con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
@@ -578,26 +595,25 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                           FROM courseware_studentmodule
                          WHERE student_id = '{0}'
                            AND course_id = '{1}'
-                           AND module_type = 'survey'
+                           AND module_type in ('survey', 'poll')
                            AND SUBSTRING_INDEX(module_id, '@', -1) in ({2});
                     """.format(str(user.id), str(course_overview.id), ','.join(checklist))
 
                     print 'query :', query
 
-
                     cur.execute(query)
-                    # cur_rowcount = cur.rowcount
                     row = cur.fetchone()
                     cur.close()
                     con.close()
 
+
+
                     if row is None or row[0] is None:
-                        print 'row is None'
                         status_dict['survey'] = 'incomplete'
                     else:
-                        print 'row to checking'
+                        print 'survey_check:', int(check_cnt), ':', int(row[0])
+
                         if int(check_cnt) == int(row[0]):
-                            # status_dict['survey'] = 'complete'
                             status_dict['survey'] = 'complete'
                         else:
                             status_dict['survey'] = 'incomplete'
