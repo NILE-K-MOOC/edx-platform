@@ -733,7 +733,7 @@
     "How to use %(platform_name)s discussions": "\u004b\u002d\u004d\u004f\u004f\u0043 \uac8c\uc2dc\ud310 \uc0ac\uc6a9",
     "HTML source code": "HTML \uc18c\uc2a4\ucf54\ub4dc",
     "Human Sciences": "\uc778\ubb38\uacfc\ud559",
-    "Humanities ": "\uc778\ubb38",
+    "Humanities": "\uc778\ubb38",
     "Hyperlink (Ctrl+L)": "\ud558\uc774\ud37c\ub9c1\ud06c (Ctrl+L)",
     "HYUk": "\ud55c\uc591\ub300\ud559\uad50",
     "ID": "\uc544\uc774\ub514",
