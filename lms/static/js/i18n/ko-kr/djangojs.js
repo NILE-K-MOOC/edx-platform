@@ -814,7 +814,7 @@
     "License Type": "\ub77c\uc774\uc13c\uc2a4 \uc720\ud615",
     "Limited Profile": "\uc81c\ud55c\uc801 \ud504\ub85c\ud544",
     "Linguistics & Literature": "\uc5b8\uc5b4\u318d\ubb38\ud559",
-    "Linguistics by": "\uc5b8\uc5b4\ud559",
+    "Linguistics by": "\ud55c\uad6d\ud559 \uc5ec\ubd80",
     "Link types should be unique.": "\ub9c1\ud06c \uc720\ud615\uc740 \uc720\uc77c\ud574\uc57c \ud569\ub2c8\ub2e4.",
     "Link": "\uc5f0\uacb0\ud558\uae30",
     "Linking": "\uc5f0\uacb0\ud558\uae30",
@@ -1751,7 +1751,8 @@
     "Link your {accountName} account to your {platformName} account and use {accountName} to sign in to {platformName}.": "{accountName} \uacc4\uc815\uc744 {platformName} \uacc4\uc815\uc5d0 \uc5f0\ub3d9\ud574 {accountName} \uc744 \uc0ac\uc6a9\ud574 {platformName} \uc5d0 \ub85c\uadf8\uc778\ud558\uc138\uc694\u002e",
     "Link Your Account": "\uacc4\uc815 \uc5f0\ub3d9",
     "No validation is performed on policy keys or value pairs. If you are having difficulties, check your formatting.": "\uaddc\uc815 \ud0a4\ub098 \uc785\ub825\ud55c \uac12\uc5d0 \ub300\ud55c \ud655\uc778\uc808\ucc28\ub294 \ub530\ub85c \uc5c6\uc2b5\ub2c8\ub2e4\u002e \uc624\ub958\uac00 \uacc4\uc18d \ubc1c\uc0dd\ud55c\ub2e4\uba74 \ud615\uc2dd\uc744 \ub2e4\uc2dc \ud655\uc778\ud558\uc138\uc694\u002e",
-
+    "You can use your {accountName} account to sign in to your {platformName} account.": "{accountName} \uacc4\uc815\uc744 \uc0ac\uc6a9\ud574 {platformName} \uacc4\uc815\uc5d0 \ub85c\uadf8\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
+    "Unlink your {accountName} account": "{accountName} \uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
 
 
 
