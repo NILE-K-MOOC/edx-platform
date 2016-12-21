@@ -351,9 +351,9 @@ def comm_faqrequest(request) :
                 'email_from_address',
                 settings.DEFAULT_FROM_EMAIL
             )
-            if option == 'school' or option == 'course' :
+            if option == 'kmooc_f':
                 #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['minseok9106@gmail.com'])
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
                 save_email = 'kmooc@nile.or.kr'
             else :
                 send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
@@ -372,12 +372,13 @@ def comm_faqrequest(request) :
                                       '"""+save_email+"""',
                                       '"""+request_con+"""',
                                       (CASE '"""+option+"""'
-                                          WHEN 'regist' THEN '회원가입 관련'
-                                          WHEN 'login' THEN '로그인 및 계정 관련'
-                                          WHEN 'site' THEN 'K-MOOC 사이트 이용 관련'
-                                          WHEN 'course' THEN '강좌 수강 관련'
-                                          WHEN 'tech' THEN '기술적인 문제 관련'
-                                          WHEN 'etc' THEN '기타'
+                                          WHEN head_title = 'kmooc_f' THEN 'K-MOOC'
+                                          WHEN head_title = 'regist_f ' THEN '회원가입'
+                                          WHEN head_title = 'login_f ' THEN '로그인/계정'
+                                          WHEN head_title = 'enroll_f ' THEN '수강신청/취소'
+                                          WHEN head_title = 'course_f ' THEN '강좌수강'
+                                          WHEN head_title = 'certi_f  ' THEN '성적/이수증'
+                                          WHEN head_title = 'tech_f ' THEN '기술적문제'
                                           ELSE ''
                                        END));
             """
@@ -862,39 +863,37 @@ def comm_list_json(request) :
         cur = con.cursor()
         query = """
                SELECT c.*
-                FROM (SELECT a.board_id,
-                             CASE
-                                WHEN a.section = 'N' THEN '[공지사항]'
-                                WHEN a.section = 'F' THEN '[Q&A]'
-                                WHEN a.section = 'K' THEN '[K-MOOC 뉴스]'
-                                WHEN a.section = 'R' THEN '[자료실]'
-                                ELSE ''
-                             END
-                                head_title,
-                             a.subject,
-                             a.content,
-                             substr(a.reg_date, 1, 11) reg_date,
-                             a.section,
-                             CASE
-                                WHEN a.section = 'N' THEN 1
-                                WHEN a.section = 'F' THEN 4
-                                WHEN a.section = 'K' THEN 2
-                                WHEN a.section = 'R' THEN 3
-                                ELSE ''
-                             END
-                                odby,
-                             head_title s
-                        FROM tb_board a
-                             INNER JOIN
-                             (  SELECT section,
-                                       max(reg_date) reg_date,
-                                       max(board_id) board_id
-                                  FROM tb_board
-                              GROUP BY section) b
-                                ON (    a.section = b.section
-                                    AND a.reg_date = b.reg_date
-                                    AND a.board_id = b.board_id)) c
-            ORDER BY c.odby
+                    FROM (SELECT a.board_id,
+                                 CASE
+                                    WHEN a.section = 'N' THEN '[공지사항]'
+                                    WHEN a.section = 'F' THEN '[Q&A]'
+                                    WHEN a.section = 'K' THEN '[K-MOOC 뉴스]'
+                                    WHEN a.section = 'R' THEN '[자료실]'
+                                    ELSE ''
+                                 END
+                                    head_title,
+                                 a.subject,
+                                 a.content,
+                                 substr(a.mod_date, 1, 11) mod_date,
+                                 a.section,
+                                 CASE
+                                    WHEN a.section = 'N' THEN 1
+                                    WHEN a.section = 'F' THEN 4
+                                    WHEN a.section = 'K' THEN 2
+                                    WHEN a.section = 'R' THEN 3
+                                    ELSE ''
+                                 END
+                                    odby,
+                                 head_title s
+                            FROM tb_board a
+                                 INNER JOIN
+                                 (  SELECT section,
+                                           max(mod_date) mod_date
+                                      FROM tb_board
+                                  GROUP BY section) b
+                                    ON (    a.section = b.section
+                                        AND a.mod_date = b.mod_date)) c
+                ORDER BY c.odby;
         """
         cur.execute(query)
         row = cur.fetchall()

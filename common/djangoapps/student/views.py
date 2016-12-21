@@ -278,14 +278,14 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 LIMIT 4)
         union all
             (  SELECT board_id,
-                     CASE
-                         WHEN head_title = 'publi_r' THEN '[홍보]'
-                         WHEN head_title = 'course_r' THEN '[강좌안내]'
-                         WHEN head_title = 'event_r' THEN '[행사]'
-                         WHEN head_title = 'etc_r' THEN '[기타]'
-                         ELSE ''
-                     END
-                         head_title,
+                 CASE
+                     WHEN head_title = 'publi_r' THEN '[홍보자료]'
+                     WHEN head_title = 'data_r' THEN '[자료집]'
+                     WHEN head_title = 'repo_r' THEN '[보고서]'
+                     WHEN head_title = 'etc_r' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
                      subject,
                      content,
                      SUBSTRING(reg_date, 1, 11),
@@ -298,14 +298,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
         union all
             (  SELECT board_id,
                  CASE
-                      WHEN head_title = 'regist_f' THEN '[회원가입 관련]'
-                      WHEN head_title = 'login_f' THEN '[로그인 및 계정 관련]'
-                      WHEN head_title = 'site_f' THEN '[K-MOOC 사이트 이용 관련]'
-                      WHEN head_title = 'course_f' THEN '[강좌 수강 관련]'
-                      WHEN head_title = 'tech_f' THEN '[기술적인 문제 관련]'
-                      WHEN head_title = 'etc_f' THEN '[기타]'
+                      WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+                      WHEN head_title = 'regist_f ' THEN '[회원가입]'
+                      WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+                      WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+                      WHEN head_title = 'course_f ' THEN '[강좌수강]'
+                      WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+                      WHEN head_title = 'tech_f ' THEN '[기술적문제]'
                       ELSE ''
-                 END
+                   END
                       head_title,
                      subject,
                      content,
@@ -333,6 +334,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(i[5])
         value_list.append(i[6])
         index_list.append(value_list)
+        print value_list[1]
 
     context['index_list'] = index_list
 
