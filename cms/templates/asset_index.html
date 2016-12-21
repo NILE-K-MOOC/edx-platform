@@ -182,7 +182,12 @@
             <div class="error" style="display: none;">
                 <h3>
                     <span class="icon fa fa-info-circle" aria-hidden="true"></span>
-                    <span id="error-msg"></span></h3>
+                    <span id="error-msg"></span>
+                </h3>
+                <p id="content-box" style="display:none;">
+                    <span class="icon fa fa-exclamation-triangle" aria-hidden="true"></span> 콘텐츠 정보를 관리자에게 문의해 주세요.<hr>
+                    <span id="content-info"></span>
+                </p>
                 <p id="refresh-btn" style="display:none;">
                     <button type="button btn-large" class="btn-brand" onclick="ref()">
                     <span class="icon fa fa-refresh" aria-hidden="true"></span>
@@ -432,6 +437,11 @@ var trCdnFile = ""
                 }
             },
             error: function () {
+                var quest_info = 'file_name: ' + file_name + ', cdn_url: ' + cdn_url + ', file_type: ' + file_type
+                + ', thumbnail_url: ' + thumbnail_url + ', uuid: ' + uuid +', playtime: ' + playtime;
+                $("#content-info").text(quest_info);
+                $("#content-box").show();
+
                 console.log('ajaxPutEdX error');
             }
         });
