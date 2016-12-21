@@ -100,11 +100,19 @@ site_status_msg = get_site_status_msg(course_id)
         </h1>
 
         <ol class="right nav-global list-inline" id="gnb">
+            % if user.is_authenticated():
+            <li class="item nav-global-01" data-hidden="w"><a href="/logout">${_("Sign Out")}</a></li>
+            % else:
+            <li class="item nav-global-01" data-hidden="w"><a href="/login">${_("Log In")}</a></li>
+            <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}">${_("Register")}</a></li>
+            % endif
+
+
             <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             <li class="item nav-global-02"><a href="/schools">${_("University list")}</a></li>
             <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
-            % if LANGUAGE_CODE == 'ko-kr':
-            <li class="item nav-global-04" data-hidden="m"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
+            % if LANGUAGE_CODE != 'en':
+            <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
             % endif
                 <ul class="dropdown-menu">
                     <li id="menu1"><a href="/comm_notice">공지사항</a></li>
