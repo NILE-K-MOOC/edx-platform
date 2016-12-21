@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Views related to operations on course objects
 """
@@ -99,6 +100,7 @@ from xmodule.modulestore import EdxJSONEncoder
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
+import MySQLdb as mdb
 
 
 log = logging.getLogger(__name__)
@@ -718,6 +720,7 @@ def _create_or_rerun_course(request):
     Returns the destination course_key and overriding fields for the new course.
     Raises DuplicateCourseError and InvalidKeyError
     """
+
     if not auth.user_has_role(request.user, CourseCreatorRole()):
         raise PermissionDenied()
 
@@ -802,6 +805,41 @@ def _create_new_course(request, org, number, run, fields):
     store_for_new_course = modulestore().default_modulestore.get_modulestore_type()
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
+
+
+    try:
+        print 'new_course.id ====> ', new_course.id
+        # 이수증 생성을 위한 course_mode 등록
+
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+        cur = con.cursor()
+        query = """
+            INSERT INTO course_modes_coursemode(course_id,
+                                                mode_slug,
+                                                mode_display_name,
+                                                min_price,
+                                                currency,
+                                                suggested_prices,
+                                                expiration_datetime_is_explicit)
+                 VALUES ('{0}',
+                         'honor',
+                         '{0}',
+                         0,
+                         'usd',
+                         '',
+                         FALSE);
+        """.format(new_course.id)
+        print '_create_new_course.query :', query
+
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        con.rollback()
+        print e
+    finally:
+        cur.close()
+        con.close()
+
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
         'course_key': unicode(new_course.id),
