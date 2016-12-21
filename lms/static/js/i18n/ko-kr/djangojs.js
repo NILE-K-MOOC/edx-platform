@@ -1753,7 +1753,7 @@
     "No validation is performed on policy keys or value pairs. If you are having difficulties, check your formatting.": "\uaddc\uc815 \ud0a4\ub098 \uc785\ub825\ud55c \uac12\uc5d0 \ub300\ud55c \ud655\uc778\uc808\ucc28\ub294 \ub530\ub85c \uc5c6\uc2b5\ub2c8\ub2e4\u002e \uc624\ub958\uac00 \uacc4\uc18d \ubc1c\uc0dd\ud55c\ub2e4\uba74 \ud615\uc2dd\uc744 \ub2e4\uc2dc \ud655\uc778\ud558\uc138\uc694\u002e",
     "You can use your {accountName} account to sign in to your {platformName} account.": "{accountName} \uacc4\uc815\uc744 \uc0ac\uc6a9\ud574 {platformName} \uacc4\uc815\uc5d0 \ub85c\uadf8\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
     "Unlink your {accountName} account": "{accountName} \uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
-
+    "Unlink This Account": "\uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
 
 
 
