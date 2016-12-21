@@ -8785,7 +8785,7 @@ msgstr "시작 일시 입력"
 #: lms/static/js/certificates/models/certificate_exception.js
 #: lms/static/js/certificates/models/certificate_invalidation.js
 msgid "Student username/email field is required and can not be empty. "
-msgstr ""
+msgstr "학습자 사용자이름/이메일 필드는 필수 입력 사항입니다."
 
 #: lms/static/js/certificates/views/certificate_bulk_whitelist.js
 msgid "Uploaded file issues. Click on \"+\" to view."
