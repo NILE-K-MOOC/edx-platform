@@ -453,7 +453,7 @@ a, span, p {color:inherit;}
 /** 20161220 **/
 .major-course-container {padding:35px;background:#f6f8f9;min-height: 550px;}
 .major-course-container .grid-manual .row {margin:0 -0.83333% 0 -0.83333%;}
-.major-course-container .grid-manual .lg-col-3 {padding:0 0.83333%;}
+.major-course-container .grid-manual .lg-col-3 {padding:0 0.83333%; max-height:168px;}
 .major-course-item {border:solid 1px #d0ced0;background:#fff;text-align:center;margin-top:6%;}
 .major-course-item a {padding:10px 0;display:block;}
 .major-course-item a>img {width:105px;}
