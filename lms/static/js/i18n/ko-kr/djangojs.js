@@ -405,7 +405,7 @@
     "Copy": " \ubcf5\uc0ac",
     "Correct failed component": "\uc2e4\ud328\ud55c \uad6c\uc131\uc694\uc18c \uc218\uc815\ud558\uae30",
     "correct": "\uc815\ub2f5\uc744 \uc785\ub825\ud558\uc138\uc694.",
-    "Could not find a user with username or email address '<%= identifier %>'.": "\uc544\uc774\ub514\ub098 \uc774\uba54\uc77c \uc8fc\uc18c '<%= identifier %>'  \ub85c \uc774\uc6a9\uc790\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ",
+    "Could not find a user with username or email address.": "\uc544\uc774\ub514\ub098 \uc774\uba54\uc77c \uc8fc\uc18c '<%= identifier %>'  \ub85c \uc774\uc6a9\uc790\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ",
     "Could not find the specified string.": "\ud2b9\uc815 \ubb38\uc790\uc5f4\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "Could not find users associated with the following identifiers:": "\ub2e4\uc74c \uc2dd\ubcc4\uc790\uc640 \uc5f0\uad00\ub41c \uc0ac\uc6a9\uc790\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "Could not parse certificate JSON. %(message)s": "certificate JSON\uc744 \ud30c\uc2f1\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. %(message)s",
@@ -620,7 +620,7 @@
     "Error: Import failed.": "\uc624\ub958: \uac00\uc838\uc624\uae30 \uc2e4\ud328.",
     "Error: Replacing failed.": "\uc624\ub958: \ubc14\uafb8\uae30 \uc2e4\ud328.",
     "Error: Uploading failed.": "\uc624\ub958: \uc5c5\ub85c\ub529 \uc2e4\ud328",
-    "Error: User '<%= username %>' has not yet activated their account. Users must create and activate their accounts before they can be assigned a role.": "\uc624\ub958: \uc774\uc6a9\uc790  '<%= username %>' \ub294  \uacc4\uc815\uc744 \ud65c\uc131\ud654\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \uc5ed\ud560\uc744 \ubd80\uc5ec\ud558\uae30 \uc804\uc5d0 \uacc4\uc815\uc744 \uc0dd\uc131 \ud6c4 \ud65c\uc131\ud654\ud574\uc57c \ud569\ub2c8\ub2e4. ",
+    "Error: User has not yet activated their account. Users must create and activate their accounts before they can be assigned a role.": "\uc624\ub958: \uc774\uc6a9\uc790  \ub294  \uacc4\uc815\uc744 \ud65c\uc131\ud654\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \uc5ed\ud560\uc744 \ubd80\uc5ec\ud558\uae30 \uc804\uc5d0 \uacc4\uc815\uc744 \uc0dd\uc131 \ud6c4 \ud65c\uc131\ud654\ud574\uc57c \ud569\ub2c8\ub2e4. ",
     "Error: You cannot remove yourself from the Instructor group!": "\uc624\ub958: \uc790\uc2e0\uc744 \uad50\uc218\uc790 \uadf8\ub8f9\uc5d0\uc11c \uc81c\uac70\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ",
     "Error:": "\uc624\ub958:",
     "Errors": "\uc624\ub958",
@@ -1754,6 +1754,16 @@
     "You can use your {accountName} account to sign in to your {platformName} account.": "{accountName} \uacc4\uc815\uc744 \uc0ac\uc6a9\ud574 {platformName} \uacc4\uc815\uc5d0 \ub85c\uadf8\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
     "Unlink your {accountName} account": "{accountName} \uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
     "Unlink This Account": "\uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
+    "Your message must have at least one target.": "\uba54\uc138\uc9c0\uc5d0 \ubc18\ub4dc\uc2dc \uc218\uc2e0\uc790\uac00 \ud55c \uba85 \uc774\uc0c1 \uc788\uc5b4\uc57c \ud569\ub2c8\ub2e4\u002e",
+    "You are sending an email message with the subject {subject} to the following recipients.": "\ub2e4\uc74c \uc218\uc2e0\uc790\uc5d0\uac8c {subject} \uc81c\ubaa9\uc758 \uc774\uba54\uc77c\uc744 \ubcf4\ub0b4\uace0 \uc788\uc2b5\ub2c8\ub2e4\u002e",
+    "Is this OK?": "\ub2e4\uc74c\uc774 \ub9de\uc2b5\ub2c8\uae4c\u003f",
+    "Yourself": "\ubcf8\uc778",
+    "Staff Graded Assignment": "\uc6b4\uc601\ud300 \ud3c9\uac00 \ubb38\ud56d",
+    "Start regenerating certificates for students in this course?": "\uc774 \uac15\uc88c \ud559\uc2b5\uc790\uc758 \uc778\uc99d\uc11c \uc7ac\uc0dd\uc131\uc744 \uc2dc\uc791\ud558\uaca0\uc2b5\ub2c8\uae4c\u003f",
+    "Student username/email field is required and can not be empty. Kindly fill in username/email and then press \"Add to Exception List\" button.": "\ud559\uc2b5\uc790 \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \ud544\ub4dc\ub294 \ud544\uc218 \uc785\ub825 \uc0ac\ud56d\uc785\ub2c8\ub2e4\u002e \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \uc785\ub825 \ud6c4 \u0022\uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ud558\uae30\u0022 \ub97c \ud074\ub9ad\ud574\uc8fc\uc138\uc694",
+    "Student username/email field is required and can not be empty. Kindly fill in username/email and then press \"Invalidate Certificate\" button.": "\ud559\uc2b5\uc790 \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c\uc740 \ud544\uc218 \uc785\ub825 \uc0ac\ud56d\uc785\ub2c8\ub2e4\u002e \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \uc785\ub825 \ub4a4 \u0022\uc774\uc218\uc99d \ube44\ud65c\uc131\ud654 \ud558\uae30\u0022 \ub97c \ud074\ub9ad\ud558\uc138\uc694",
+
+
 
 
 
