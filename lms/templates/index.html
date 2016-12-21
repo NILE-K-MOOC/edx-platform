@@ -64,7 +64,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <!-- [s] university list -->
         <section class="university-container" id="main-contents01">
             <section class="university-list-contents">
-                <ul class="university-listing">
+
+                <ul class="university-listing" style="display: none;">
                     <li class="university-listing-item"><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KHUk"><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KoreaUnivK"><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
@@ -218,7 +219,9 @@ from openedx.core.djangolib.markup import HTML, Text
                             <div class="btns">
                                 <a href="/courses?language=ko">${_("Korean")}</a>
                                 <a href="/courses?language=en">${_("English")}</a>
+                                <!--
                                 <a href="">${_("Chiness")}</a>
+                                -->
                             </div>
                         </div>
                     </div>
@@ -534,11 +537,15 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <%block name="js_extra">
    <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
+        $(window).load(function() {
+            if(getParameterByName('next')) {
+                $('#login').trigger("click");
+            }
+
+
+
+
+        });
    </script>
 </%block>
 
