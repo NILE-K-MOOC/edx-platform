@@ -94,7 +94,7 @@ def comm_notice(request) :
             query = """
                     SELECT (SELECT count(board_id) - (%s - 1) * 10
                               FROM tb_board
-                             WHERE section = 'N')
+                             WHERE section = 'N' AND use_yn = 'Y')
                               no,
                            subject,
                            substring(reg_date, 1, 10) reg_datee,
@@ -161,7 +161,7 @@ def comm_notice(request) :
             query = """
                     SELECT (SELECT count(board_id) - (%s - 1) * 10
                               FROM tb_board
-                             WHERE section = 'N')
+                             WHERE section = 'N' AND use_yn = 'Y')
                               no,
                            subject,
                            substring(reg_date, 1, 10) reg_datee,
@@ -410,7 +410,7 @@ def comm_repository(request):
             query = """
                     SELECT (SELECT count(board_id) - (%s - 1) * 10
                               FROM tb_board
-                             WHERE section = 'R')
+                             WHERE section = 'R' AND use_yn = 'Y')
                               no,
                            subject,
                            substring(reg_date, 1, 10) reg_datee,
@@ -477,7 +477,7 @@ def comm_repository(request):
             query = """
                     SELECT (SELECT count(board_id) - (%s - 1) * 10
                               FROM tb_board
-                             WHERE section = 'R')
+                             WHERE section = 'R' AND use_yn = 'Y')
                               no,
                            subject,
                            substring(reg_date, 1, 10) reg_datee,
@@ -610,7 +610,7 @@ def comm_k_news(request) :
             query = """
                     SELECT (SELECT count(board_id) - (%s - 1) * 10
                               FROM tb_board
-                             WHERE section = 'K')
+                             WHERE section = 'K' AND use_yn = 'Y')
                               no,
                            subject,
                            substring(reg_date, 1, 10) reg_datee,
@@ -679,7 +679,7 @@ def comm_k_news(request) :
             query = """
                     SELECT (SELECT count(board_id) - (%s - 1) * 10
                               FROM tb_board
-                             WHERE section = 'K')
+                             WHERE section = 'K' AND use_yn = 'Y')
                               no,
                            subject,
                            substring(reg_date, 1, 10) reg_datee,
