@@ -29022,7 +29022,7 @@ msgid "If you would like an answer, please enter your e-mail address correctly."
 msgstr "답변을 원하시는 경우 본인의 메일 주소를 정확히 입력해주 주시기 바랍니다."
 
 msgid "Please choose your inquiry."
-msgstr "문의 내용을 선택하세요."
+msgstr "문의 내용 종류 선택"
 
 msgid "About membership"
 msgstr "회원가입 관련"

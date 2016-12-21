@@ -544,7 +544,7 @@
     "Editing: %(title)s": "\uc218\uc815\uc911: %(title)s",
     "Editor": "\ud3b8\uc9d1\uae30",
     "Education Completed": "\ucd5c\uc885 \ud559\ub825",
-    "Education": "\uacf5\ud559",
+    "Education": "\uad50\uc721",
     "EdX doesn\\'t have a timed transcript for this video. Please upload an .srt file.": "\ub3d9\uc601\uc0c1\uc758 \uc790\ub9c9 \ud30c\uc77c\uc774 \uc5c6\uc2b5\ub2c8\ub2e4. .srt \uc790\ub9c9 \ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc \ud558\uc138\uc694.",
     "EdX doesn't have a timed transcript for this video in Studio, but we found a transcript on YouTube. You can import the YouTube transcript or upload your own .srt transcript file.": "EdX\ub294 \uc2a4\ud29c\ub514\uc624\uc5d0\uc11c \ub3d9\uc601\uc0c1\uc758 \uc2dc\uac04\uc5d0 \ub9de\ucdb0\uc9c4 \uc790\ub9c9\uc744 \uac16\uace0 \uc788\uc9c0 \uc54a\uc9c0\ub9cc, \uc720\ud29c\ube0c\uc5d0\uc11c \uc790\ub9c9\uc744 \ubc1c\uacac\ud588\uc2b5\ub2c8\ub2e4.  YouTube \uc790\ub9c9\uc744 \uac00\uc838\uc624\uac70\ub098 .srt \uc790\ub9c9\ud30c\uc77c\ub85c \uc5c5\ub85c\ub4dc\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "EdX has a timed transcript for this video. If you want to edit this transcript, you can download, edit, and re-upload the existing transcript. If you want to replace this transcript, upload a new .srt transcript file.": "\ub3d9\uc601\uc0c1 \uc790\ub9c9\uc774 \uc788\uc2b5\ub2c8\ub2e4. \uc790\ub9c9\uc744 \uc218\uc815\ud558\ub824\uba74, \ub2e4\uc6b4\ub85c\ub4dc\ud558\uc5ec \uc218\uc815\ud558\uace0 \ub2e4\uc2dc \uc5c5\ub85c\ub4dc\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc790\ub9c9\uc744 \uad50\uccb4\ud560 \uacbd\uc6b0 \uc0c8 .srt\ub85c \uc5c5\ub85c\ub4dc\ud569\ub2c8\ub2e4.",
