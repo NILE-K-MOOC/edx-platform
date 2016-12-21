@@ -75,16 +75,23 @@ define(["jquery", "underscore", "gettext", "js/views/pages/base_page", "js/views
                 this.outlineView.render();
                 this.outlineView.setViewState(this.initialState || {});
 
-                console.log('this.initialState --->');
                 console.log(this.initialState);
-
-                //if(this.initialState == null)
-                //    $(".button-toggle-expand-collapse").click();
-                //else
-                //    console.log('this.initialState is not null');
-
-                //navigagion 클릭시 오류
                 $(".button-toggle-expand-collapse").click();
+                if(this.initialState){
+                    if(this.initialState.locator_to_show){
+                        if($("li").find("[data-locator='"+this.initialState.locator_to_show+"']").parent().parent().parent().find("span.fa-caret-down:eq(0)")){
+                            $("li").find("[data-locator='"+this.initialState.locator_to_show+"']").parent().parent().parent().find("span.fa-caret-down:eq(0)").click()
+                        }
+                        else if($("li").find("[data-locator='"+this.initialState.locator_to_show+"']").parent().parent().find("span.fa-caret-down:eq(0)")){
+                            $("li").find("[data-locator='"+this.initialState.locator_to_show+"']").parent().parent().find("span.fa-caret-down:eq(0)").click()
+                        }
+                        else{
+                            console.log("not exitsts");
+                        }
+                    }
+                }
+                //강좌개요 모든 주제 접기
+                //$(".button-toggle-expand-collapse").click();
 
                 return $.Deferred().resolve().promise();
             },
