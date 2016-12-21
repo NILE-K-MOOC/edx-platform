@@ -15,30 +15,18 @@ $(document).ready(function(){
             method : 'data_list'
         }
     }).done(function(data){
+        console.log(data);
         html = "";
-        for(var i=0; i<data.length; i++){
-            value_list = data[i].toString().split(',');
-            //alert(value_list.length);
+        for(var i = 0; i < data.length; i++){
             html += "<li class='tbody'>";
-            for(var j=0; j<value_list.length; j++){
-                //console.log(value_list[j]);
-                if(j==0){
-                    html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                }
-                else if(j==1){
-                    if(value_list[5] == 1){
-                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                    }else{
-                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                    }
-                }
-                else if(j==2){
-                    html += "<span class='date'>"+value_list[j]+"</span>";
-                }
-                else {
-                    total_page = value_list[3]
-                }
+            html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+            if(data[i][5] == 1){
+                html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+            }else{
+                html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
             }
+            html += "<span class='date'>"+data[i][2]+"</span>";
+            total_page = data[i][3];
             html += "</li>"
         }
         $('#tbody').html(html);
@@ -77,29 +65,16 @@ $(document).ready(function(){
             }).done(function(data){
                 //console.log(data);
                 html = "";
-                for(var i=0; i<data.length; i++){
-                    value_list = data[i].toString().split(',');
+                for(var i = 0; i < data.length; i++){
                     html += "<li class='tbody'>";
-                    //j=4는 board_id
-                    for(var j=0; j<value_list.length; j++){
-                        //console.log(value_list[j]);
-                        if(j==0){
-                            html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                        }
-                        else if(j==1){
-                            if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+"  <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                            }else{
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                            }
-                        }
-                        else if(j==2){
-                            html += "<span class='date'>"+value_list[j]+"</span>";
-                        }
-                        else {
-                            total_page = value_list[3]
-                        }
+                    html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                    if(data[i][5] == 1){
+                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                    }else{
+                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
+                    html += "<span class='date'>"+data[i][2]+"</span>";
+                    total_page = data[i][3];
                     html += "</li>"
                 }
                 $('#tbody').html(html);
@@ -118,28 +93,16 @@ $(document).ready(function(){
             }).done(function(data){
                 //console.log(data);
                 html = "";
-                for(var i=0; i<data.length; i++){
-                    value_list = data[i].toString().split(',');
+                for(var i = 0; i < data.length; i++){
                     html += "<li class='tbody'>";
-                    for(var j=0; j<value_list.length; j++){
-                        //console.log(value_list[j]);
-                        if(j==0){
-                            html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                        }
-                        else if(j==1){
-                            if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                            }else{
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                            }
-                        }
-                        else if(j==2){
-                            html += "<span class='date'>"+value_list[j]+"</span>";
-                        }
-                        else {
-                            total_page = value_list[3]
-                        }
+                    html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                    if(data[i][5] == 1){
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                    }else{
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
+                    html += "<span class='date'>"+data[i][2]+"</span>";
+                    total_page = data[i][3];
                     html += "</li>"
                 }
                 $('#tbody').html(html);
@@ -160,28 +123,16 @@ $(document).ready(function(){
                 }).done(function(data){
                     //console.log(data);
                     html = "";
-                    for(var i=0; i<data.length; i++){
-                        value_list = data[i].toString().split(',');
+                    for(var i = 0; i < data.length; i++){
                         html += "<li class='tbody'>";
-                        for(var j=0; j<value_list.length; j++){
-                            //console.log(value_list[j]);
-                            if(j==0){
-                                html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                            }
-                            else if(j==1){
-                                if(value_list[5] == 1){
-                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                                }else{
-                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                                }
-                            }
-                            else if(j==2){
-                                html += "<span class='date'>"+value_list[j]+"</span>";
-                            }
-                            else {
-                                total_page = value_list[3]
-                            }
+                        html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                        if(data[i][5] == 1){
+                            html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                        }else{
+                            html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                         }
+                        html += "<span class='date'>"+data[i][2]+"</span>";
+                        total_page = data[i][3];
                         html += "</li>"
                     }
                     $('#tbody').html(html);
@@ -203,28 +154,16 @@ $(document).ready(function(){
             }).done(function(data){
                 //console.log(data);
                 html = "";
-                for(var i=0; i<data.length; i++){
-                    value_list = data[i].toString().split(',');
+                for(var i = 0; i < data.length; i++){
                     html += "<li class='tbody'>";
-                    for(var j=0; j<value_list.length; j++){
-                        //console.log(value_list[j]);
-                        if(j==0){
-                            html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                        }
-                        else if(j==1){
-                            if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                            }else{
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                            }
-                        }
-                        else if(j==2){
-                            html += "<span class='date'>"+value_list[j]+"</span>";
-                        }
-                        else {
-                            total_page = value_list[3]
-                        }
+                    html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                    if(data[i][5] == 1){
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                    }else{
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
+                    html += "<span class='date'>"+data[i][2]+"</span>";
+                    total_page = data[i][3];
                     html += "</li>"
                 }
                 $('#tbody').html(html);
@@ -246,28 +185,16 @@ $(document).ready(function(){
                 }).done(function(data){
                     //console.log(data);
                     html = "";
-                    for(var i=0; i<data.length; i++){
-                        value_list = data[i].toString().split(',');
+                    for(var i = 0; i < data.length; i++){
                         html += "<li class='tbody'>";
-                        for(var j=0; j<value_list.length; j++){
-                            //console.log(value_list[j]);
-                            if(j==0){
-                                html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                            }
-                            else if(j==1){
-                                if(value_list[5] == 1){
-                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                                }else{
-                                    html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                                }
-                            }
-                            else if(j==2){
-                                html += "<span class='date'>"+value_list[j]+"</span>";
-                            }
-                            else {
-                                total_page = value_list[3]
-                            }
+                        html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                        if(data[i][5] == 1){
+                            html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                        }else{
+                            html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                         }
+                        html += "<span class='date'>"+data[i][2]+"</span>";
+                        total_page = data[i][3];
                         html += "</li>"
                     }
                     $('#tbody').html(html);
@@ -307,28 +234,16 @@ function search(){
         }).done(function(data){
             //console.log(data);
             html = "";
-                for(var i=0; i<data.length; i++){
-                    value_list = data[i].toString().split(',');
+                for(var i = 0; i < data.length; i++){
                     html += "<li class='tbody'>";
-                    for(var j=0; j<value_list.length; j++){
-                        //console.log(value_list[j]);
-                        if(j==0){
-                            html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                        }
-                        else if(j==1){
-                            if(value_list[5] == 1){
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                            }else{
-                                html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                            }
-                        }
-                        else if(j==2){
-                            html += "<span class='date'>"+value_list[j]+"</span>";
-                        }
-                        else {
-                            total_page = value_list[3]
-                        }
+                    html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                    if(data[i][5] == 1){
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                    }else{
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
+                    html += "<span class='date'>"+data[i][2]+"</span>";
+                    total_page = data[i][3];
                     html += "</li>"
                 }
                 $('#tbody').html(html);
@@ -355,29 +270,16 @@ function search(){
         }).done(function(data){
             //console.log(data);
             html = "";
-            for(var i=0; i<data.length; i++){
-                value_list = data[i].toString().split(',');
-                //alert(value_list.length);
+            for(var i = 0; i < data.length; i++){
                 html += "<li class='tbody'>";
-                for(var j=0; j<value_list.length; j++){
-                    //console.log(value_list[j]);
-                    if(j==0){
-                        html += "<span class='no'>"+(value_list[j]-i)+"</span>";
-                    }
-                    else if(j==1){
-                        if(value_list[5] == 1){
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[6]+value_list[j]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
-                        }else{
-                            html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+value_list[j]+"</a></span>";
-                        }
-                    }
-                    else if(j==2){
-                        html += "<span class='date'>"+value_list[j]+"</span>";
-                    }
-                    else {
-                        total_page = value_list[3]
-                    }
+                html += "<span class='no'>"+(data[i][0]-i)+"</span>";
+                if(data[i][5] == 1){
+                    html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                }else{
+                    html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                 }
+                html += "<span class='date'>"+data[i][2]+"</span>";
+                total_page = data[i][3];
                 html += "</li>"
             }
             $('#tbody').html(html);
