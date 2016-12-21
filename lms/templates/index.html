@@ -64,7 +64,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <!-- [s] university list -->
         <section class="university-container" id="main-contents01">
             <section class="university-list-contents">
-                <ul class="university-listing">
+
+                <ul class="university-listing" style="display: none;">
                     <li class="university-listing-item"><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KHUk"><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KoreaUnivK"><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
@@ -98,7 +99,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] course list -->
         <section class="courses-container full" id="main-contents05">
-##             <h2 class="main-title">${_("Available courses")}</h2>
+            <!-- <h2 class="main-title">${_("Available courses")}</h2> -->
             <%include file="${courses_list}" />
         </section>
         <!-- [e] course list -->
@@ -180,7 +181,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title"><${_("Find course for me")}> </h2>
+            <h2 class="main-title">${_("Find course for me")} </h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
@@ -218,7 +219,9 @@ from openedx.core.djangolib.markup import HTML, Text
                             <div class="btns">
                                 <a href="/courses?language=ko">${_("Korean")}</a>
                                 <a href="/courses?language=en">${_("English")}</a>
+                                <!--
                                 <a href="">${_("Chiness")}</a>
+                                -->
                             </div>
                         </div>
                     </div>
@@ -226,155 +229,6 @@ from openedx.core.djangolib.markup import HTML, Text
             </div>
         </section>
         <!-- [e] my course -->
-
-        <!-- [s] pouplar course list -->
-        <!--
-        <section class="courses-container" id="main-contents04">
-            <h2 class="main-title">인기강좌</h2>
-            <p><span class="fPoint">개인에게 맞는 강좌를 학습</span>할 수 있습니다. 예정된 강좌부터 지난 강좌까지 그리고 나에게 필요한<br>학습기간별 강좌를 바로 한번에 확인하세요.</p>
-            <div class="grid-container grid-manual popular">
-                <div class="row">
-                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
-                        <div class="popular-description">
-                            <h3>[ 고려대학교 ]</h3>
-                            <dl>
-                                <dt><p>영화 스토리텔링의 이해</p><span>류철균 교수</span></dt>
-                                <dd>이 수업에서는 먼저 코페르니쿠스, 갈릴레이, 뉴턴 등에 의해 일어난 과학혁명이 인류의 세계관에 어떤 영향을 미쳤는지 배웁니다. <br><br>
-                                또한 이에 대비하여 상대성이론과 양자역학으로 대변되는 현대물리학혁명이 고전물리학을 어떻게 변혁시켰는지 배웁니다.</dd>
-                                <dd><time>개강일 : 2016년 06월 27일</time></dd>
-                            </dl>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
-                        <div class="popular-thumb">
-                            <img src="/static/images/main/popular_thumb.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <section class="highlighted-courses">
-                <section class="courses">
-                    <ul class="courses-listing">
-                        <li class="courses-listing-item">
-                            <article class="course ready" id="" role="region" aria-label="">
-                                <a href="">
-                                    <header class="course-image">
-                                        <div class="cover-image">
-                                            <span class="univ-logo"><img src="/static/images/univ/logo02_CBNUk.png" alt=""></span>
-                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
-                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
-                                        </div>
-                                    </header>
-                                    <div class="course-info">
-                                        <h2 class="course-name">
-                                            <span class="course-status">SUBJECT TITLE</span>
-                                            <span class="course-title">강의의 제목을 입력하세요</span>
-                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
-                                        </h2>
-                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
-                                    </div>
-                                    <div class="sr">
-                                        <ul>
-                                            <li>edX</li>
-                                            <li>DemoX</li>
-                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
-                                        </ul>
-                                    </div>
-                                </a>
-                            </article>
-                        </li>
-                        <li class="courses-listing-item">
-                            <article class="course ready" id="" role="region" aria-label="">
-                                <a href="">
-                                    <header class="course-image">
-                                        <div class="cover-image">
-                                            <span class="univ-logo"><img src="/static/images/univ/logo02_CBNUk.png" alt=""></span>
-                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
-                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
-                                        </div>
-                                    </header>
-                                    <div class="course-info">
-                                        <h2 class="course-name">
-                                            <span class="course-status">SUBJECT TITLE</span>
-                                            <span class="course-title">강의의 제목을 입력하세요</span>
-                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
-                                        </h2>
-                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
-                                    </div>
-                                    <div class="sr">
-                                        <ul>
-                                            <li>edX</li>
-                                            <li>DemoX</li>
-                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
-                                        </ul>
-                                    </div>
-                                </a>
-                            </article>
-                        </li>
-                        <li class="courses-listing-item">
-                            <article class="course ing" id="" role="region" aria-label="">
-                                <a href="">
-                                    <header class="course-image">
-                                        <div class="cover-image">
-                                            <span class="univ-logo"><img src="/static/images/univ/logo02_PNUk.png" alt=""></span>
-                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
-                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
-                                        </div>
-                                    </header>
-                                    <div class="course-info">
-                                        <h2 class="course-name">
-                                            <span class="course-status">SUBJECT TITLE</span>
-                                            <span class="course-title">강의의 제목을 입력하세요</span>
-                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
-                                        </h2>
-                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
-                                    </div>
-                                    <div class="sr">
-                                        <ul>
-                                            <li>edX</li>
-                                            <li>DemoX</li>
-                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
-                                        </ul>
-                                    </div>
-                                </a>
-                            </article>
-                        </li>
-                        <li class="courses-listing-item">
-                            <article class="course end" id="" role="region" aria-label="">
-                                <a href="">
-                                    <header class="course-image">
-                                        <div class="cover-image">
-                                            <span class="univ-logo"><img src="/static/images/univ/logo02_YeungnamUnivK.png" alt=""></span>
-                                            <img src="/static/images/main/course.jpg" alt="edX Demonstration Course DemoX">
-                                            <div class="learn-more" aria-hidden="true">LEARN MORE</div>
-                                        </div>
-                                    </header>
-                                    <div class="course-info">
-                                        <h2 class="course-name">
-                                            <span class="course-status">SUBJECT TITLE</span>
-                                            <span class="course-title">강의의 제목을 입력하세요</span>
-                                            <span class="course-summary">강의의 각종 설명 또는 주요 키워드 등을 입력바랍니다. </span>
-                                        </h2>
-                                        <div class="course-date" aria-hidden="true"><strong><span>Study Date</span> :</strong><br><time>2016년 00월 00일 ~ 2016년 00월 00일</time></div>
-                                    </div>
-                                    <div class="sr">
-                                        <ul>
-                                            <li>edX</li>
-                                            <li>DemoX</li>
-                                            <li>Starts: <time itemprop="startDate" datetime="Feb 05, 2013">Feb 05, 2013</time></li>
-                                        </ul>
-                                    </div>
-                                </a>
-                            </article>
-                        </li>
-                    </ul>
-                </section>
-
-            </section>
-        </section>
-        -->
-        <!-- [e] pouplar course list -->
 
 
         % if LANGUAGE_CODE == 'ko-kr':
@@ -404,7 +258,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                     </h3>
                                     <time>${list[4]}</time>
                                     <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-##                                     <time>${list[4]}</time>
+                                   <!-- <time>${list[4]}</time> -->
                                 </a>
                             </div>
                         </div>
@@ -418,26 +272,26 @@ from openedx.core.djangolib.markup import HTML, Text
                 <!--// community 01 -->
                 <!-- community 02 -->
                 <a href="#community02">K-MOOC 뉴스</a>
-##                 <div class="grid-container grid-manual community" id="community02">
-##                     <div class="row">
-##                     % for list in index_list :
-##                         % if list[5] == 'K':
-##                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-##                             <div class="community-item">
-##                                 <a href="/comm_k_news_view/${list[0]}/">
-##                                     <h3>
-##                                         <strong class="category">${list[1]}</strong>
-##                                         <p>${list[2]}</p>
-##                                     </h3>
-##                                     <p class="summary">${list[3]}</p>
-##                                     <time>${list[4]}</time>
-##                                 </a>
-##                             </div>
-##                         </div>
-##                         % endif
-##                     % endfor
-##                     </div>
-##                 </div>
+                <!-- <div class="grid-container grid-manual community" id="community02">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'K':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="/comm_k_news_view/${list[0]}/">
+                                    <h3>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <p class="summary">${list[3]}</p>
+                                    <time>${list[4]}</time>
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                </div> -->
                 <div class="grid-container grid-manual community" id="community02">
                     <div class="row">
                     % for list in index_list :
@@ -445,12 +299,10 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
                                 <a href="/comm_k_news_view/${list[0]}/">
-##                                     <img src="${list[3]}" width="287.11px" height="160px">
                                 <h3 style="background-image: url(${list[3]}); background-size: contain;  ">
                                 </h3>
                                     <time>${list[4]}</time>
                                     <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
-##                                     <time>${list[4]}</time>
                                 </a>
                             </div>
                         </div>
@@ -475,8 +327,8 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
                                     <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
                                 </a>
                             </div>
                         </div>
@@ -501,8 +353,9 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
                                     <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
+
                                 </a>
                             </div>
                         </div>
@@ -534,11 +387,15 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <%block name="js_extra">
    <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
+        $(window).load(function() {
+            if(getParameterByName('next')) {
+                $('#login').trigger("click");
+            }
+
+
+
+
+        });
    </script>
 </%block>
 

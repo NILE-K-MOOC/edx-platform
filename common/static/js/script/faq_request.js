@@ -45,7 +45,7 @@ $(document).on('click', '#request', function(){
         alert('이메일을 정확히 입력해주세요.');
     }
     else{
-        alert('내용을 선택하세요.');
+        alert('문의 내용의 종류를 선택해주세요.');
     }
 
 
@@ -53,5 +53,5 @@ $(document).on('click', '#request', function(){
 
 
 $(document).on('click', '#cancel', function(){
-    location.href='/comm_faq'
+    location.href='/comm_faq/1/'
 });

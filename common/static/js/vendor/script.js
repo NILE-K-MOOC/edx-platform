@@ -40,6 +40,23 @@ $(document).ready(function() {
 var univ_bx;
 $(window).load(function() {
 	console.log("script.js :: window.load !");
+
+	//univ list random
+	var idx = 0;
+	var newHtml = "";
+	var univArr = new Array();
+	$(".university-listing-item").each(function(index){
+		univArr.push("<li class='university-listing-item'>" + $(this).html() + "</li>");
+	});
+
+	$.each(univArr, function(){
+		idx = Math.floor(Math.random()*univArr.length);
+		newHtml += univArr[idx];
+		univArr.splice(idx, 1);
+	});
+
+	$(".university-listing").html(newHtml).show();
+
 	if($(".slider-back").length>0) {
 		$(".header-slider").bxSlider({
 			pager : false,

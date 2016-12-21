@@ -37,7 +37,7 @@ $(document).ready(function(){
 			url : 'comm_faq',
 			data : {
 				method : 'faq_list',
-				head_title : 'regist_f'
+				head_title : 'kmooc_f'
 			}
 		}).done(function(data){
 			html="";
@@ -131,13 +131,13 @@ function search() {
 
 	if (search == '' || search == null) {
 		$(".faq-tab a").removeClass("on");
-		$('#regist_f').addClass("on");
+		$('#kmooc_f').addClass("on");
 
 		$.ajax({
 			url: 'comm_faq',
 			data: {
 				method: 'faq_list',
-				head_title: 'regist_f'
+				head_title: 'kmooc_f'
 				//head_title : head_title
 			}
 		}).done(function (data) {

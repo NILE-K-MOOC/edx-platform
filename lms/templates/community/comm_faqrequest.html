@@ -8,6 +8,8 @@
 
 <section class="container">
     <!-- [s] board write -->
+    <h2>이메일로 문의하기</h2>
+    ${_("The inquiry will be sent to the edX staff members by e-mail.")}
     <section class="board-view">
 
         <div class="board-write">
@@ -15,8 +17,7 @@
                 <dt><label>${_("Email")}</label></dt>
                 <dd>
                     <div style="padding: 10px;">
-                        ${_("The inquiry will be sent to the edX staff members by e-mail.")}<br>
-                        ${_("If you would like an answer, please enter your e-mail address correctly.")}<br>
+                        <!-- ${_("If you would like an answer, please enter your e-mail address correctly.")}<br> -->
                     </div>
 
                     <select id="search_con">
@@ -28,7 +29,7 @@
                         <option id="tech">${_("About technical problems")}</option>
                         <option id="etc">${_("etc")}</option>
                     </select>
-                    <input type="text" class="w50p" id="email">
+                    <input type="text" class="w50p" id="email" placeholder="응답 받을 본인의 이메일을 입력해 주세요.">
                 </dd>
             </dl>
             <dl>
