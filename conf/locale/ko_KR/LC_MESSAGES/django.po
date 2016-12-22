@@ -150,9 +150,9 @@ msgstr "출생연도(Year of birth)"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
-"<b>Note</b>: To keep student data secure, you cannot save or email these "
+"{strong_start}Note{strong_end}: To keep student data secure, you cannot save or email these "
 "links for direct access. Copies of links expire within 5 minutes."
-msgstr "<b>주의</b>: 학습자 데이터의 보안을 위해, 바로 접근할 수 있는 링크를 저장하거나 이메일로 보내지 말아 주세요."
+msgstr "{strong_start}주의{strong_end}: 학습자 데이터의 보안을 위해, 바로 접근할 수 있는 링크를 저장하거나 이메일로 보내지 말아 주세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid ""
@@ -404,8 +404,8 @@ msgid "Text Input with Hints and Feedback"
 msgstr "힌트가 있는 텍스트 입력"
 
 #: openassessment/templates/openassessmentblock/response/oa_response.html
-msgid "Your response to the question above:"
-msgstr "위의 질문에 대한 답변:"
+msgid "Enter your response to the question above."
+msgstr "위의 질문에 대한 답변."
 
 msgid "Your peer's response to the question above:"
 msgstr "위의 질문에 대한 동료 학습자의 답변:"
@@ -644,6 +644,9 @@ msgstr "한국과학기술원"
 
 msgid "HYUk"
 msgstr "한양대학교"
+
+msgid "CAUk"
+msgstr "중앙대학교"
 
 #: lms/templates/course.html
 msgid "Starting Soon"
@@ -2453,13 +2456,15 @@ msgstr "Matlab API Key"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
-"Enter the API key provided by MathWorks for accessing the MATLAB Hosted "
-"Service. This key is granted for exclusive use by this course for the "
-"specified duration. Please do not share the API key with other courses and "
-"notify MathWorks immediately if you believe the key is exposed or "
-"compromised. To obtain a key for your course, or to report an issue, please "
-"contact moocsupport@mathworks.com"
+"Enter the API key provided by MathWorks for accessing the MATLAB Hosted Service. "
+"This key is granted for exclusive use by this course for the specified duration. "
+"Please do not share the API key with other courses and notify MathWorks immediately "
+"if you believe the key is exposed or compromised. To obtain a key for your course, "
+"or to report an issue, please contact moocsupport@mathworks.com"
 msgstr ""
+"MATLAB의 호스팅 서비스에 접근하기 위해 MathWorks가 제공하는 API 키를 입력합니다. 이 키는 지정된 기간 동안 이 강좌의 "
+"독점 사용을 위해 부여됩니다. 다른 강좌와 API 키를 공유하지 마십시오. 키가 노출 또는 침해되었다면, 즉시 MathWorks에 "
+"알려주세요. 강좌를 위한 키를 얻거나 문제를 보고하려면  moocsupport@mathworks.com에 문의하세요."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Check"
@@ -3975,12 +3980,11 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 msgid ""
-"Enter the API key provided by MathWorks for accessing the MATLAB Hosted "
-"Service. This key is granted for exclusive use in this course for the "
-"specified duration. Do not share the API key with other courses. Notify "
-"MathWorks immediately if you believe the key is exposed or compromised. To "
-"obtain a key for your course, or to report an issue, please contact "
-"moocsupport@mathworks.com"
+"Enter the API key provided by MathWorks for accessing the MATLAB Hosted Service. "
+"This key is granted for exclusive use in this course for the specified duration. "
+"Do not share the API key with other courses. Notify MathWorks immediately "
+"if you believe the key is exposed or compromised. To obtain a key for your course, "
+"or to report an issue, please contact moocsupport@mathworks.com"
 msgstr ""
 "MATLAB의 호스팅 서비스에 접근하기 위해 MathWorks가 제공하는 API 키를 입력합니다. 이 키는 지정된 기간 동안 이 강좌의 "
 "독점 사용을 위해 부여됩니다. 다른 강좌와 API 키를 공유하지 마십시오. 키가 노출 또는 침해되었다면, 즉시 MathWorks에 "
@@ -5472,6 +5476,16 @@ msgid ""
 "financial information) for edX marketing purposes."
 msgstr "edX가 이 신청서에 기록된 정보 (금융 정보 제외)를 마케팅 용도에 사용하는 것을 허용합니다."
 
+#: lms/djangoapps/courseware/views/views.py
+msgid "Your enrollment: Audit track"
+msgstr "수강 등록 상태: 청강"
+
+#: lms/djangoapps/courseware/views/views.py
+msgid ""
+"You are enrolled in the audit track for this course. The audit track does "
+"not include a certificate."
+msgstr "이 강좌의 청강 과정에 등록하였습니다. 청강 과정에는 이수증이 없습니다."
+
 #: lms/djangoapps/dashboard/git_import.py
 msgid ""
 "Path {0} doesn't exist, please create it, or configure a different path with"
@@ -6221,10 +6235,10 @@ msgstr "(user={user}) 는 이수증 화이트 리스트에 존재하지 않습�
 
 #: lms/djangoapps/instructor/views/api.py
 msgid ""
-"Student username/email field is required and can not be empty. Kindly fill "
-"in username/email and then press \"Add to Exception List\" button."
+"Student username/email field is required and can not be empty. "
+"Kindly fill in username/email and then press \"Add to Exception List\" button."
 msgstr ""
-"학습자 사용자이름/이메일 필드는 필수 입력 사항입니다. 사용자이름/이메일 입력 후 \"Add to Exception List\" 를 "
+"학습자 사용자이름/이메일 필드는 필수 입력 사항입니다. 사용자이름/이메일 입력 후 \"예외 목록에 추가하기\" 를 "
 "클릭해주세요."
 
 #: lms/djangoapps/instructor/views/api.py
@@ -19444,7 +19458,7 @@ msgstr "일정 설정"
 
 #: cms/templates/settings.html cms/templates/widgets/header.html
 msgid "Schedule & Details"
-msgstr "강좌 일정 및 기본 정보 설정"
+msgstr "강좌 기본 설정"
 
 #: cms/templates/settings.html
 msgid "Basic Information"
@@ -28459,7 +28473,7 @@ msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주�
 msgid "Availability"
 msgstr "수강신청 강좌 찾기"
 
-msgid "Course by subject"
+msgid "Courses by subject"
 msgstr "전공별 강좌 보기"
 
 msgid "Humanities"
@@ -28830,7 +28844,7 @@ msgstr "전체보기"
 msgid "University list"
 msgstr "참여대학"
 
-msgid "Available for classes"
+msgid "Available Courses"
 msgstr "수강신청 가능강좌"
 
 msgid "Courses by major"
