@@ -174,24 +174,35 @@ def _assets_json(request, course_key):
         '''
         url_split = request.META.get('HTTP_REFERER').split("/")
         if url_split[3] == 'cdn':
-            thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
-            thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[thumbnail_location.rfind('/'):]
+            try:
+                thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
+                thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[thumbnail_location.rfind('/'):]
+            except Exception as e:
+                thumbnail_url = ''
 
             if 'uuid' in asset:
                 uuid = asset['uuid']
-            else: asset['uuid'] = ''
+            else:
+                asset['uuid'] = ''
+                uuid = ''
+
             if 'playtime' in asset:
                 playtime = asset['playtime']
             else:
                 asset['playtime'] = ''
+                playtime = ''
+
             if 'state' in asset:
                 state = asset['state']
             else:
                 asset['state'] = ''
+                state = ''
+
             if 'thumbnail_url' in asset:
                 thumbnail_url = asset['thumbnail_url']
             else:
                 asset['thumbnail_url'] = ''
+                thumbnail_url
 
             '''
             상태변환 처리
