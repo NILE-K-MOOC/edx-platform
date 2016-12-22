@@ -20,7 +20,7 @@
                         <!-- ${_("If you would like an answer, please enter your e-mail address correctly.")}<br> -->
                     </div>
 
-                    <select id="search_con">
+                    <select id="search_con" style="height: 35px; min-width: 100px!important; ">
                         <option id="null">${_("Please choose your inquiry.")}</option>
                         <option id="regist">${_("About membership")}</option>
                         <option id="login_">${_("About sign-in and account")}</option>
@@ -29,7 +29,18 @@
                         <option id="tech">${_("About technical problems")}</option>
                         <option id="etc">${_("etc")}</option>
                     </select>
-                    <input type="text" class="w50p" id="email" placeholder="응답 받을 본인의 이메일을 입력해 주세요.">
+##                     <input type="text" class="w50p" id="email" placeholder="응답 받을 본인의 이메일을 입력해 주세요.">
+                    <input type="text"  id="email" placeholder="응답 받을 본인의 이메일을 입력해 주세요.">@
+                    <select id="sel_email" style="height: 35px; min-width: 200px !important;">
+                        <option id="null">선택하세요.</option>
+                        <option id="email">naver.com</option>
+                        <option id="email">nate.com</option>
+                        <option id="email">gmail.com</option>
+                        <option id="email">daum.net</option>
+                        <option id="email">hanmail.com</option>
+                        <!--<option id="email"></option>
+                        <option id="email"></option>-->
+                    </select>
                 </dd>
             </dl>
             <dl>

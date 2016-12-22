@@ -20,10 +20,12 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="title">
                             <div class="heading-group">
                                 % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>오늘의 필요를 위한 학습</h1>
-                                <p>Just-in-time Learning for Today</p>
+                                <h1>미래를 여는 최고의 강좌</h1>
+                                <p>K-MOOC, Top Quality Courses</p><br/>
+                                    <p>for Your Future</p>
                                 % else:
-                                <h1>Just-in-time Learning for Today</h1>
+                                <h1>K-MOOC, Top Quality Courses </h1><br/>
+                                    <h1>for Your Future</h1>
                                 % endif
                             </div>
                         </div>
@@ -37,7 +39,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <h1>누구에게나 열린 평생교육</h1>
                                 <p>A Lifelong Open Education for Everyone</p>
                                 % else:
-                                <h1>Just-in-time Learning for Today</h1>
+                                <h1>A Lifelong Open Education for Everyone</h1>
                                 % endif
                             </div>
                         </div>
@@ -48,10 +50,10 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="title">
                             <div class="heading-group">
                                 % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>미래를 여는 최고의 강좌</h1>
-                                <p>K-MOOC, Top Quality Courses for Your Future</p>
+                                <h1>오늘의 필요를 위한 학습</h1>
+                                <p>Just-in-time Learning for Today</p>
                                 % else:
-                                <h1>K-MOOC, Top Quality Courses for Your Future</h1>
+                                <h1>Just-in-time Learning for Today</h1>
                                 % endif
                             </div>
                         </div>
@@ -107,7 +109,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] major course list -->
         <section class="major-course-container" id="main-contents02">
-            <h2 class="main-title" style="margin-bottom: 20px;"><${_("Course by subject")}></h2>
+            <h2 class="main-title" style="margin-bottom: 20px;">< ${_("Course by subject")} ></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -181,7 +183,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title">${_("Find course for me")} </h2>
+            <h2 class="main-title">< ${_("Find course for me")} ></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">

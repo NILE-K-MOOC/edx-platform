@@ -351,17 +351,17 @@ def comm_faqrequest(request) :
                 'email_from_address',
                 settings.DEFAULT_FROM_EMAIL
             )
-            if option == 'kmooc_f':
-                #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
-                save_email = 'kmooc@nile.or.kr'
-            else :
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
-                save_email = 'help_kmooc@nile.or.kr'
+            # if option == 'kmooc_f':
+            #     #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
+            #     send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+            #     save_email = 'kmooc@nile.or.kr'
+            # else :
+            #     send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
+            #     save_email = 'help_kmooc@nile.or.kr'
             #문의내용 저장
 
-            cur = con.cursor()
             # query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
+            cur = con.cursor()
             query = """
                     INSERT INTO faq_request(student_email,
                                 response_email,
@@ -383,8 +383,8 @@ def comm_faqrequest(request) :
                                        END));
             """
             # print 'query == ',query
-            cur.execute(query)
-            cur.execute('commit')
+            # cur.execute(query)
+            # cur.execute('commit')
             cur.close()
             data = json.dumps('success')
         return HttpResponse(data, 'application/json')
