@@ -222,7 +222,8 @@ def _assets_json(request, course_key):
 
                 # print content
                 # print uuid
-                mme_url = "http://%s" % cdn_parse.netloc
+                try: mme_url = "http://%s" % cdn_parse.netloc
+                except: mme_url = "http://mme.kmooc.kr"
 
                 try:
                     trans_state = status_check(mme_url, asset['uuid'], asset['playtime'])
