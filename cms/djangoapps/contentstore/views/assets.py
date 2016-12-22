@@ -184,19 +184,27 @@ def _assets_json(request, course_key):
 
             if 'uuid' in asset:
                 uuid = asset['uuid']
-            else: asset['uuid'] = ''
+            else:
+                asset['uuid'] = ''
+                uuid = ''
+
             if 'playtime' in asset:
                 playtime = asset['playtime']
             else:
                 asset['playtime'] = ''
+                playtime = ''
+
             if 'state' in asset:
                 state = asset['state']
             else:
                 asset['state'] = ''
+                state = ''
+
             if 'thumbnail_url' in asset:
                 thumbnail_url = asset['thumbnail_url']
             else:
                 asset['thumbnail_url'] = ''
+                thumbnail_url
 
             '''
             상태변환 처리
