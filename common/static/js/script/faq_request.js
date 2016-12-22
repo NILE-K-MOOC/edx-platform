@@ -36,7 +36,7 @@ $(document).on('click', '#request', function(){
             }
         }).done(function(data){
             if(data == 'success'){
-                alert('문의가 성공적으로 전송되었습니다.');
+                alert('문의 내용을 담은 이메일이  K-MOOC운영팀으로 발송되었습니다. 답변에는 보통 업무일 기준 1~2일이 소요되니 양해부탁드립니다.');
                 location.href='/comm_faq/1/'
             }else{
                 alert('문의하기가 정상적으로 되지않았습니다. 잠시 후에 시도해주세요.');

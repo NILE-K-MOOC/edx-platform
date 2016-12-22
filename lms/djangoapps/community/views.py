@@ -351,14 +351,14 @@ def comm_faqrequest(request) :
                 'email_from_address',
                 settings.DEFAULT_FROM_EMAIL
             )
-            # if option == 'kmooc_f':
-            #     #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-            #     send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
-            #     save_email = 'kmooc@nile.or.kr'
-            # else :
-            #     send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
-            #     save_email = 'help_kmooc@nile.or.kr'
-            #문의내용 저장
+            if option == 'kmooc_f':
+                #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                save_email = 'kmooc@nile.or.kr'
+            else :
+                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
+                save_email = 'help_kmooc@nile.or.kr'
+            # 문의내용 저장
 
             # query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
             cur = con.cursor()
