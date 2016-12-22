@@ -28470,7 +28470,7 @@ msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주�
 msgid "Availability"
 msgstr "수강신청 강좌 찾기"
 
-msgid "Course by subject"
+msgid "Courses by subject"
 msgstr "전공별 강좌 보기"
 
 msgid "Humanities"
@@ -28841,7 +28841,7 @@ msgstr "전체보기"
 msgid "University list"
 msgstr "참여대학"
 
-msgid "Available for classes"
+msgid "Available Courses"
 msgstr "수강신청 가능강좌"
 
 msgid "Courses by major"
