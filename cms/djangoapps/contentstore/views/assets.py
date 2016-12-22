@@ -204,14 +204,21 @@ def _assets_json(request, course_key):
                 thumbnail_url = asset['thumbnail_url']
             else:
                 asset['thumbnail_url'] = ''
-                thumbnail_url
+                thumbnail_url = ''
 
+            if 'cdn_url' in asset:
+                cdn_url = asset['cdn_url']
+            else:
+                cdn_url = ''
             '''
             상태변환 처리
             '''
             if state not in ('E', 'F'):
 
-                cdn_parse = urlparse.urlparse(asset['cdn_url'])
+                if cdn_url:
+                    cdn_parse = urlparse.urlparse(asset['cdn_url'])
+                else:
+                    cdn_parse = "mme.kmooc.kr"
 
                 # print content
                 # print uuid
@@ -230,7 +237,7 @@ def _assets_json(request, course_key):
                     content = request.REQUEST
 
                     content.name = asset['displayname']
-                    content.cdn_url = asset['cdn_url']
+                    content.cdn_url = cdn_url
                     content.content_type = asset['contentType']
                     content.thumbnail_location = asset['thumbnail_url']
                     content.thumbnail_url = asset['thumbnail_url']
@@ -255,7 +262,7 @@ def _assets_json(request, course_key):
                 asset['uploadDate'],
                 asset_location,
                 thumbnail_url,
-                asset['cdn_url'], asset['uuid'], asset['playtime'], trans_state
+                cdn_url, uuid, playtime, trans_state
             ))
 
         else:
