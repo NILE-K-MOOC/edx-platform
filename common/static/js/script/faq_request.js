@@ -8,9 +8,10 @@ $(document).ready(function(){
 $(document).on('click', '#request', function(){
     var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     var flag = '';
-    var email = $('#email').val();
+    var email = $('#email').val()+'@'+$('#sel_email option:selected').val();
     var option = $('#search_con option:selected').attr('id');
     var request_con = $('#request_con').val();
+
 
 
     if(email.match(regExp) != null){
@@ -22,8 +23,9 @@ $(document).on('click', '#request', function(){
     if(option == 'login_'){
         option = 'login'
     }
-    console.log(option);
+
     if(option != 'null' && flag == true){
+        $('#request').attr('disabled', 'true');
         $.ajax({
             url : 'comm_faqrequest',
             data : {
@@ -35,7 +37,7 @@ $(document).on('click', '#request', function(){
         }).done(function(data){
             if(data == 'success'){
                 alert('문의가 성공적으로 전송되었습니다.');
-                location.href='/comm_faq'
+                location.href='/comm_faq/1/'
             }else{
                 alert('문의하기가 정상적으로 되지않았습니다. 잠시 후에 시도해주세요.');
             }
