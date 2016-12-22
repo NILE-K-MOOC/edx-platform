@@ -645,6 +645,9 @@ msgstr "한국과학기술원"
 msgid "HYUk"
 msgstr "한양대학교"
 
+msgid "CAUk"
+msgstr "중앙대학교"
+
 #: lms/templates/course.html
 msgid "Starting Soon"
 msgstr "개강 예정"
