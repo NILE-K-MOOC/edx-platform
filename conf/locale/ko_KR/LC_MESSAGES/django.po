@@ -28501,7 +28501,7 @@ msgid "Korean Studies"
 msgstr "한국학"
 
 msgid "Find course for me"
-msgstr "<나에게 맞는 강좌 찾기>"
+msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Opening Status"
 msgstr "개강상태"

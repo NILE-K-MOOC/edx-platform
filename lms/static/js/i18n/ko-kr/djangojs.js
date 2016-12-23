@@ -1776,6 +1776,9 @@
     "KonYangK": "\uac74\uc591\ub300\ud559\uad50",
     "DKUK": "\ub2e8\uad6d\ub300\ud559\uad50",
     "CUKk": "\uac00\ud1a8\ub9ad\ub300\ud559\uad50",
+    "English": "\uc601\uc5b4",
+    "Korean": "\ud55c\uad6d\uc5b4",
+    "Chinese": "\uc911\uad6d\uc5b4",
 
     "": "\uc5c6\uc74c"
   };

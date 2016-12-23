@@ -1736,7 +1736,9 @@
     "<%= user %> has been successfully added to the exception list. Click Generate Exception Certificate below to send the certificate.": "\u003c\u0025\u003d \u0075\u0073\u0065\u0072 \u0025\u003e \uac00 \uc131\uacf5\uc801\uc73c\ub85c \uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e \uc544\ub798 \uc608\uc678 \uc778\uc99d\uc11c \uc0dd\uc131\uc744 \ud074\ub9ad\ud574 \uc778\uc99d\uc11c\ub97c \ubcf4\ub0b4\uc138\uc694\u002e",
     "Staff Graded Assignment": "\uc6b4\uc601\ud300 \ud3c9\uac00 \ubb38\ud56d",
     "The number of subsections in the course that contain problems of this assignment type.": "\ud574\ub2f9 \uacfc\uc81c \uc720\ud615\uc5d0 \ud574\ub2f9\ud558\ub294 \uc18c\uc8fc\uc81c \uc218",
-
+    "English": "\uc601\uc5b4",
+    "Korean": "\ud55c\uad6d\uc5b4",
+    "Chinese": "\uc911\uad6d\uc5b4",
 
     "": "\uc5c6\uc74c"
 
