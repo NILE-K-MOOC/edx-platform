@@ -1779,6 +1779,7 @@
     "English": "\uc601\uc5b4",
     "Korean": "\ud55c\uad6d\uc5b4",
     "Chinese": "\uc911\uad6d\uc5b4",
+    "language": "\uc5b8\uc5b4",
 
     "": "\uc5c6\uc74c"
   };
