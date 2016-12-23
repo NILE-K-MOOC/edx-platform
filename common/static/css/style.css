@@ -1073,3 +1073,19 @@ a:active {
 	background-repeat: no-repeat !important;
 	background-size: contain !important;
 }
+
+
+.layerPopupArea{position: absolute; z-index: 999; top: 100px; left: 100px;}
+.layerPupup{
+    z-index: 10010;
+	display: none;
+	border: 0px solid #fff;
+	opacity: 1;
+	background: #ffffff;
+	font-size: 13px;
+    line-height: 25px;
+	padding: 5px;
+	box-shadow: 0 2px 5px 3px #444444;
+	margin: 3px;
+	float: left;
+}

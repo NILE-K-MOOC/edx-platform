@@ -2330,7 +2330,8 @@ REGISTRATION_EXTRA_FIELDS = {
 REGISTRATION_EMAIL_PATTERNS_ALLOWED = None
 
 ########################## CERTIFICATE NAME ########################
-CERT_NAME_SHORT = "Certificate"
+# CERT_NAME_SHORT = "Certificate"
+CERT_NAME_SHORT = "이수증"
 CERT_NAME_LONG = "Certificate of Achievement"
 
 #################### OpenBadges Settings #######################

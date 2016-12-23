@@ -2,7 +2,11 @@
     <a href="/courses/<%- course %>/about">
         <header class="course-image">
             <div class="cover-image">
-                <span class="univ-logo"><img src="/static/images/univ/logo02_<%- org %>.png" alt=""  onerror="this.src='/static/images/no_images.png'"></span>
+                <span class="univ-logo">
+                    <!--
+                    <img src="/static/images/univ/logo02_<%- org %>.png" alt=""  onerror="this.src='/static/images/no_images.png'">
+                    -->
+                </span>
                 <img src="<%- image_url %>" alt="<%- content.display_name %> <%- content.number %>"  onerror="this.src='/static/images/no_images_large.png'"/>
                 <div class="learn-more" aria-hidden="true"><%- gettext("LEARN MORE") %></div>
             </div>
