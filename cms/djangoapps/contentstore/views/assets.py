@@ -412,7 +412,16 @@ def save_cdn(request, course_key):
     '''
     content = request.REQUEST
     content.name=request.REQUEST['file_name']
-    content.cdn_url=request.REQUEST['cdn_url']
+
+    try:
+        req_cdn_url = request.REQUEST['cdn_url'].replace("mme.", "vod.")
+        content.cdn_url= req_cdn_url
+    except:
+        try:
+            content.cdn_url = request.REQUEST['cdn_url']
+        except:
+            content.cdn_url = '-'
+
     content.content_type=request.REQUEST['file_type']
     content.thumbnail_location=request.REQUEST['thumbnail_url']
     content.thumbnail_url=request.REQUEST['thumbnail_url']
