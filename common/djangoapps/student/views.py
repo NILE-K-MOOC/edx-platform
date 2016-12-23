@@ -1003,15 +1003,18 @@ def dashboard(request):
     percents = {}
 
     # add course progress
+
     for dashboard_index, enrollment in enumerate(course_enrollments):
         course_id = str(enrollment.course_id)
         if not enrollment.course_overview.has_started():
             percents[course_id] = None
             continue
 
-        course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
-        grade_summary = grades.grade(user, course, course_structure=None)
-        percents[course_id] = str(int(float(grade_summary['percent']) * 100))
+        percents[course_id] = None
+
+        # course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
+        # grade_summary = grades.grade(user, course, course_structure=None)
+        # percents[course_id] = str(int(float(grade_summary['percent']) * 100))
 
 
 
