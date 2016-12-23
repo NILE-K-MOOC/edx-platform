@@ -318,6 +318,28 @@ def index(request, extra_context=None, user=AnonymousUser()):
             ORDER BY reg_date DESC
                LIMIT 4)
     """
+
+    # (  SELECT board_id,
+    #              CASE
+    #                   WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+    #                   WHEN head_title = 'regist_f ' THEN '[회원가입]'
+    #                   WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+    #                   WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+    #                   WHEN head_title = 'course_f ' THEN '[강좌수강]'
+    #                   WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+    #                   WHEN head_title = 'tech_f ' THEN '[기술적문제]'
+    #                   ELSE ''
+    #                END
+    #                   head_title,
+    #                  subject,
+    #                  content,
+    #                  SUBSTRING(reg_date, 1, 11),
+    #                  section,
+    #                  head_title
+    #             FROM tb_board
+    #            WHERE section = 'F'
+    #         ORDER BY mod_date DESC
+    #            LIMIT 4)
     index_list = []
     cur.execute(query)
     row = cur.fetchall()
