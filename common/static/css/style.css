@@ -92,9 +92,9 @@
 }
 
 /** 20161216 Ãß°¡**/
-.home > header .outer-wrapper.animation-title-appear .title {text-align:left;}
-.home > header .outer-wrapper.animation-title-appear .title > .heading-group {text-align:left;margin:0;}
-.home > header .outer-wrapper.animation-title-appear .title > .heading-group > p {margin-left:20px;}
+/*.home > header .outer-wrapper.animation-title-appear .title {text-align:left;}*/
+/*.home > header .outer-wrapper.animation-title-appear .title > .heading-group {text-align:left;margin:0;}*/
+/*.home > header .outer-wrapper.animation-title-appear .title > .heading-group > p {margin-left:20px;}*/
 
 .home > header .title {
     box-shadow: 0 4px 5px 0 rgba(0,0,0,0);
@@ -1072,4 +1072,7 @@ a:active {
 	background-image: url('/static/images/icon/life.png') !important;
 	background-repeat: no-repeat !important;
 	background-size: contain !important;
+}
+.find-courses .wrapper-search-context .search-status-label{
+	font-family: "Nanum Gothic" !important;
 }
