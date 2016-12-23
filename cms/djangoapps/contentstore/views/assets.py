@@ -174,59 +174,52 @@ def _assets_json(request, course_key):
         '''
         url_split = request.META.get('HTTP_REFERER').split("/")
         if url_split[3] == 'cdn':
-	    global thumbnail_location
-	    try:
+            # try:
+            #     thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
+            #     thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[thumbnail_location.rfind('/'):]
+            # except Exception as e:
+            #     pass
 
-                thumbnail_location = asset['cdn_url'][:asset['cdn_url'].rfind('.')] + "_0.png"
-                thumbnail_location = thumbnail_location[:thumbnail_location.rfind('/')] + "/thumb" + thumbnail_location[thumbnail_location.rfind('/'):]
-	    except Exception as e:
-		thumbnail_location = ''
+            uuid = asset.get('uuid', '')
+            playtime = asset.get('playtime', '')
+            state = asset.get('state', '')
+            cdn_url = asset.get('cdn_url', '')
 
-            if 'uuid' in asset:
-                uuid = asset['uuid']
+            displayname = asset.get('displayname', '')
+            contentType = asset.get('contentType', 'video/mp4')
+
+            uploadDate = asset.get('uploadDate', '')
+
+            get_thumbnail_url = asset.get('thumbnail_url', None)
+            if get_thumbnail_url is None:
+                if cdn_url:
+                    thumbnail_location = cdn_url[:cdn_url.rfind('.')] + '_0.png'
+                    thumbnail_url = thumbnail_location
+                else:
+                    thumbnail_url = ''
             else:
-                asset['uuid'] = ''
-                uuid = ''
+                thumbnail_url = get_thumbnail_url
 
-            if 'playtime' in asset:
-                playtime = asset['playtime']
-            else:
-                asset['playtime'] = ''
-                playtime = ''
-
-            if 'state' in asset:
-                state = asset['state']
-            else:
-                asset['state'] = ''
-                state = ''
-
-            if 'thumbnail_url' in asset:
-                thumbnail_url = asset['thumbnail_url']
-            else:
-                asset['thumbnail_url'] = ''
-                thumbnail_url = ''
-
-            if 'cdn_url' in asset:
-                cdn_url = asset['cdn_url']
-            else:
-                cdn_url = ''
             '''
             상태변환 처리
             '''
             if state not in ('E', 'F'):
 
-                if cdn_url:
-                    cdn_parse = urlparse.urlparse(asset['cdn_url'])
-                else:
-                    cdn_parse = "mme.kmooc.kr"
+                try:
+                    cdn_parse = urlparse.urlparse(cdn_url)
+                    mme_url = "http://%s" % cdn_parse.netloc
+                except Exception as e:
+                    logging.log("urlparse Error: %s" % e)
+                    cdn_parse = ''
+                    mme_url = "-"
+
 
                 # print content
                 # print uuid
-                try: mme_url = "http://%s" % cdn_parse.netloc
-                except: mme_url = "http://mme.kmooc.kr"
+
 
                 try:
-                    trans_state = status_check(mme_url, asset['uuid'], asset['playtime'])
+                    trans_state = status_check(mme_url, uuid, playtime)
                 except:
                     trans_state = 'I'
 
@@ -237,15 +230,15 @@ def _assets_json(request, course_key):
 
                     content = request.REQUEST
 
-                    content.name = asset['displayname']
+                    content.name = displayname
                     content.cdn_url = cdn_url
-                    content.content_type = asset['contentType']
-                    content.thumbnail_location = asset['thumbnail_url']
-                    content.thumbnail_url = asset['thumbnail_url']
-                    content.location = StaticContent.compute_cdn_location(course_key, asset['displayname'])
+                    content.content_type = contentType
+                    content.thumbnail_location = thumbnail_url
+                    content.thumbnail_url = thumbnail_url
+                    content.location = StaticContent.compute_cdn_location(course_key, displayname)
                     # content.location = asset['filename']
-                    content.uuid = asset['uuid']
-                    content.playtime = asset['playtime']
+                    content.uuid = uuid
+                    content.playtime = playtime
                     content.state = trans_state
                     content.mme = 'mme'
 
@@ -255,12 +248,12 @@ def _assets_json(request, course_key):
                     )
 
             else:
-                trans_state = asset['state'] # 완료와 실패 이외의 상태는 등록시 설정된 값으로 구성된다.
+                trans_state = state # 완료와 실패 이외의 상태는 등록시 설정된 값으로 구성된다.
 
             asset_json.append(_get_cdn_json(
-                asset['displayname'],
-                asset['contentType'],
-                asset['uploadDate'],
+                displayname,
+                contentType,
+                uploadDate,
                 asset_location,
                 thumbnail_url,
                 cdn_url, uuid, playtime, trans_state
@@ -268,9 +261,9 @@ def _assets_json(request, course_key):
 
         else:
             asset_json.append(_get_asset_json(
-                asset['displayname'],
-                asset['contentType'],
-                asset['uploadDate'],
+                displayname,
+                contentType,
+                uploadDate,
                 asset_location,
                 thumbnail_location,
                 asset_locked
@@ -419,7 +412,16 @@ def save_cdn(request, course_key):
     '''
     content = request.REQUEST
     content.name=request.REQUEST['file_name']
-    content.cdn_url=request.REQUEST['cdn_url']
+
+    try:
+        req_cdn_url = request.REQUEST['cdn_url'].replace("mme.", "vod.")
+        content.cdn_url= req_cdn_url
+    except:
+        try:
+            content.cdn_url = request.REQUEST['cdn_url']
+        except:
+            content.cdn_url = '-'
+
     content.content_type=request.REQUEST['file_type']
     content.thumbnail_location=request.REQUEST['thumbnail_url']
     content.thumbnail_url=request.REQUEST['thumbnail_url']
