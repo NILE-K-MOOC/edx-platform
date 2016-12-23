@@ -56,6 +56,10 @@ from openedx.core.djangolib.markup import HTML, Text
 </div>
 
 <script language="Javascript">
+function popClose(id){
+    $("#" + id).hide();
+}
+
 function setCookie1( name, value, expiredays ) {
     var todayDate = new Date();
     todayDate.setDate( todayDate.getDate() + expiredays );
