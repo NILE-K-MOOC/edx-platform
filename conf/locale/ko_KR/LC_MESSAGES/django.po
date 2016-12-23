@@ -28501,7 +28501,7 @@ msgid "Korean Studies"
 msgstr "한국학"
 
 msgid "Find course for me"
-msgstr "<나에게 맞는 강좌 찾기>"
+msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Opening Status"
 msgstr "개강상태"
@@ -29029,7 +29029,7 @@ msgstr "분야"
 
 
 #: comm_faqrequest.html
-msgid "The inquiry will be sent to the edX staff members by e-mail."
+msgid "The inquiry will be sent to the K-MOOC staff members by e-mail."
 msgstr "문의하기는 K-MOOC운영자에게 메일로 전송이 됩니다."
 
 msgid "If you would like an answer, please enter your e-mail address correctly."
@@ -29101,3 +29101,12 @@ msgstr "주간 학습 권장 시간은 숫자이여야 합니다."
 
 msgid "View certificates.(Not finished Poll)"
 msgstr "이수증 보기(설문 미완료)"
+
+msgid "Email to respond"
+msgstr "응답 받을 이메일"
+
+msgid "Please select an email"
+msgstr "이메일을 선택하세요"
+
+msgid "Contact us by email"
+msgstr "이메일로 문의하기"
