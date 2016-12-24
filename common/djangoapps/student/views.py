@@ -335,7 +335,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(i[5])
         value_list.append(i[6])
         index_list.append(value_list)
-        print value_list[1]
+
 
     context['index_list'] = index_list
 
