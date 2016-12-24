@@ -25,9 +25,9 @@ from openedx.core.djangolib.markup import HTML, Text
             var passwd = $("#password").val();
             if(passwd == "" || passwd == null){
                 if($("#password").is(":visible")){
-                    alert("비밀번호를 입력하세요.");
+                    alert('${_("Please enter a password")}');
                 }else{
-                    alert("안내사항을 동의하세요.");
+                    alert('${_("You have to agree to the instructions.")}');
                 }
 
                 $("#password").focus();
@@ -39,9 +39,9 @@ from openedx.core.djangolib.markup import HTML, Text
                         if(data.success){
                             document.location.href = "/remove_account";
                         }else if(!data.success){
-                            alert("비밀번호가 맞지 않습니다.");
+                            alert('${_("The password is incorrect.")}');
                         }else{
-                            alert("접근경로가 비정상적 입니다.\n메인페이지로 이동합니다.");
+                            alert('${_("Access path is abnormal.")}\n${_("Move the home")}');
                             document.location.href = "/";
                         }
             },"json");
@@ -54,43 +54,43 @@ from openedx.core.djangolib.markup import HTML, Text
 <section class="container rule">
     <section class="container">
         <!-- [s] -->
-        <h2>탈퇴안내</h2>
+        <h2>${_("Withdrawal guidance")}</h2>
 
         <section class="certification-box">
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-12 md-col-4 lg-col-4" style="width: 100%;">
                         <div class="certification-form">
-                            <p>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
+                            <p>${_("Please make sure to check the instructions before submitting your membership withdrawal")}</p>
                             <ul style="margin-left:0.5em; list-style-type:none;">
-                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</b></li>
-                                <li>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</li>
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("If you wirthdraw your membership, you can not reuse or recover the ID in use")}</b></li>
+                                <li>${_("Please be careful that you and others can not reuse or recover your ID if you withdraw your membership.")}</li>
                             </ul>
 
                             <ul style="margin-left:0.5em; list-style-type:none;">
-                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다.</b></li>
-                                <li>회원정보 및 메일주소, 프로파일 등 개인형 서비스 이용기록은 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.</br>
-                                    삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요.
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("After your withdrawal of membership, the membership information and personal service use history will be deleted.")}</b></li>
+                                <li>${_("Personal service use information such as member information, e-mail addresse, and profiles will be deleted, and the deleted data will not be recovered.")}</br>
+                                    ${_("Please confirm the deleted information and backup the necessary data in advance.")}
                                 </li>
                             </ul>
 
                             <ul style="margin-left:0.5em; list-style-type:none;">
-                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</b></li>
-                                <li>- 게시판</li>
-                                <li>- 질문 답변 의견</li>
-                                <li>- 위키</li>
-                                <li>- 게시글</li>
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Postings registered on the bulletin board service remain after the withdrawal.")}</b></li>
+                                <li>- ${_("Bulletin board")}</li>
+                                <li>- ${_("Question answer opinion")}</li>
+                                <li>- ${_("Wiki")}</li>
+                                <li>- ${_("Posts")}</li>
                             </ul>
 
                             <ul style="margin-left:0.5em; list-style-type:none;">
-                                <li>탈퇴 후에는 현재 아이디로 다시 가입할 수 없으며 아이디와 데이터는 복구할 수 없습니다.</li>
-                                <li>게시판형 서비스에 남아있는 게시글은 탈퇴 후 삭제할 수 없습니다.</li>
+                                <li>${_("After withdrawal, you can not subscribe to the current ID again and ID and data can not be recovered.")}</li>
+                                <li>${_("Postings registered on the bulletin board service can not be deleted after the withdrawal.")}</li>
                             </ul>
 
-                            <p><input type="checkbox" id="agreeBox" />&nbsp;&nbsp;안내 사항을 모두 확인하였으며, 이에 동의합니다.</p>
+                            <p><input type="checkbox" id="agreeBox" />&nbsp;&nbsp;${_("I have read and agree to all the instructions.")}</p>
 
-                            <p><input type="password" id="password" name="password" value="" style="display: none;"/></p>
-                            <a href="javascript:password_check();" id="check"><input type="button" value="${_('Verificating')}" ></a>
+                            <p><input type="password" id="password" name="password" placeholder="${_('Input your password')}" value="" style="display: none;"/></p>
+                            <a href="javascript:password_check();" id="check"><input type="button" value="${_('Withdrawal')}" ></a>
 
 
                             <!--

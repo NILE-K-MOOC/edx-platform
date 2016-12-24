@@ -17,6 +17,31 @@ msgstr ""
 "신청하신 {platform_name} 계정을 활성화하세요. 아래의 링크를 클릭하거나 주소 창에 복사하여 붙여넣기 하시면 됩니다."
 
 #: lms/templates/emails/activation_email.txt
+msgid "Thank you for creating an account with {platform_name}!"
+msgstr "{platform_name} 계정 생성 감사드립니다!"
+
+#: lms/templates/emails/activation_email.txt
+msgid ""
+"There's just one more step before you can enroll in a course: you need to "
+"activate your {platform_name} account. To activate your account, click the "
+"following link. If that doesn't work, copy and paste the link into your "
+"browser's address bar."
+msgstr ""
+"수강 등록전에 해야할 일이 한가지 더 있습니다: {platform_name} 계정을 활성화 해야 합니다. 계정 활성화를 위해 다음 링크를"
+" 클릭하세요. 만약 오류가 발생한다면 브라우저 창에 직접 붙여넣기 해보세요."
+
+#: lms/templates/emails/activation_email.txt
+msgid ""
+"If you didn't create an account, you don't need to do anything; you won't "
+"receive any more email from us. If you need assistance, please do not reply "
+"to this email message. Check the help section of the {platform_name} "
+"website."
+msgstr ""
+"계정을 생성하지 않았다면 아무것도 할 필요가 없습니다. 더이상 이메일이 발송되지 않을 것입니다. 도움이 필요하다면 이 이메일에 답장하지 "
+"마십시오. {platform_name} 웹사이트의 도움말 페이지를 확인하세요."
+
+
+#: lms/templates/emails/activation_email.txt
 msgid ""
 "If you didn't request this, you don't need to do anything; you won't receive"
 " any more email from us. Please do not reply to this e-mail; if you require "
@@ -18816,7 +18841,7 @@ msgstr "강좌 만들기에 필요한 정보"
 msgid ""
 "The public display name for your course. This cannot be changed, but you can"
 " set a different display name in Advanced Settings later."
-msgstr "나중에 변경할 수 없습니다. "
+msgstr "강좌의 게시된 강좌명입니다. 이것은 바꿀 수는 없지만 나중에 고급설정에서 다른 강좌명으로 셋팅할 수 있습니다. "
 
 #: cms/templates/index.html
 msgid ""
@@ -19588,7 +19613,7 @@ msgstr "등록 종료일"
 
 #: cms/templates/settings.html
 msgid "Last day students can enroll."
-msgstr "수강 등록 마지막 날."
+msgstr "수강 등록 마지막 날"
 
 #: cms/templates/settings.html
 msgid "Contact your edX Partner Manager to update these settings."
@@ -28459,6 +28484,9 @@ msgstr "비밀번호가 맞지 않습니다."
 msgid "Access path is abnormal."
 msgstr "접근경로가 비정상적입니다."
 
+msgid "Move the home"
+msgstr "메인페이지로 이동합니다."
+
 msgid "Confirm your password"
 msgstr "비밀번호 확인"
 
@@ -28500,7 +28528,7 @@ msgstr "예체능"
 msgid "Korean Studies"
 msgstr "한국학"
 
-msgid "Find course for me"
+msgid "Find courses for me"
 msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Opening Status"
@@ -28576,8 +28604,11 @@ msgstr "아이핀 인증"
 msgid "IPIN certification is not completed."
 msgstr "아이핀 인증이 완료되지 않았습니다."
 
-msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join. Please click the ‘IPIN Certification’ button and proceed with the consent of the guardian (legal representative)."
-msgstr "어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다.“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
+msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join."
+msgstr "어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다."
+
+msgid "Please click the 'IPIN Certification' button and proceed with the consent of the guardian (legal representative)."
+msgstr "“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
 
 msgid "Proceed with the consent process of guardian by IPIN certification."
 msgstr "아이핀 인증으로 보호자의 동의절차를 진행"
@@ -28698,7 +28729,10 @@ msgid "Please be careful that you and others can not reuse or recover your ID if
 msgstr "탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다."
 
 msgid "After your withdrawal of membership, the membership information and personal service use history will be deleted."
-msgstr "Personal service use information such as member information, e-mail addresse, and profiles will be deleted, and the deleted data will not be recovered."
+msgstr "탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다."
+
+msgid "Personal service use information such as member information, e-mail addresse, and profiles will be deleted, and the deleted data will not be recovered."
+msgstr "회원정보 및 메일주소, 프로파일 등 개인형 서비스 이용기록은 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다."
 
 msgid "Please confirm the deleted information and backup the necessary data in advance."
 msgstr "삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요."
@@ -28718,14 +28752,26 @@ msgstr "게시글"
 msgid "After withdrawal, you can not subscribe to the current ID again and ID and data can not be recovered."
 msgstr "탈퇴 후에는 현재 아이디로 다시 가입할 수 없으며 아이디와 데이터는 복구할 수 없습니다."
 
+msgid "Postings registered on the bulletin board service can not be deleted after the withdrawal."
+msgstr "게시판형 서비스에 남아있는 게시글은 탈퇴 후 삭제할 수 없습니다."
+
 msgid "I have read and agree to all the instructions."
 msgstr "안내 사항을 모두 확인하였으며, 이에 동의합니다."
 
 msgid "Withdrawal after consent"
 msgstr "동의 후 탈퇴하기"
 
+msgid "Withdrawal"
+msgstr "탈퇴하기"
+
 msgid "Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically."
 msgstr "계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. 확인 버튼 클릭 후 자동으로 로그아웃 됩니다."
+
+msgid "You have to agree to the instructions."
+msgstr "안내 사항을 동의하세요"
+
+msgid "Input your password"
+msgstr "비밀번호 입력"
 
 # edx-platform/lms/templates/courseware/privacy.html
 
@@ -29115,3 +29161,11 @@ msgid ""
 "Before you sign in, you need to activate your account. We have sent you an "
 "email message with instructions for activating your account."
 msgstr "로그인 전에 계정을 활성화해야 합니다. 계정 활성화에 대한 설명이 있는 이메일을 보냈습니다."
+
+msgid "About enrollment/cancel"
+msgstr "수강신청/취소 관련"
+
+msgid "About grade/certificates"
+msgstr "성적/이수증 관련"
+
+
