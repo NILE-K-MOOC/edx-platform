@@ -8,6 +8,123 @@ from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+
+<div id="layerPopupArea" class="layerPopupArea" style="">
+
+    <!--popup K-mooc(1)-->
+    <div id="popupWrap_1" class="layerPupup">
+
+        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
+            K-MOOC 시스템 업그레이드 작업으로 인해
+            <br/>
+            홈페이지 이용이 일시적으로 원활하지 않을 수 있습니다.
+            <br/>
+            사이트 이용에 불편을 드리게 되어 대단히 죄송합니다.
+            <br/>
+            조속히 개선될 수 있도록 최선을 다하겠습니다.
+            <br/>
+            감사합니다.
+            <br/>
+        </p>
+
+        <!-- close area -->
+        <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
+            <label onclick="closeWin1();">
+                <input id="chkbox_1" name="chkbox_1" type="checkbox" style="vertical-align: middle;">
+                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
+            </label>
+
+            <span><a href="javascript:popClose('popupWrap_1');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
+        </div>
+    </div>
+
+    <!--popup K-mooc(2)-->
+    <div id="popupWrap_2" class="layerPupup">
+        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
+             <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@kmooc_update_banner.jpg" alt="">
+        </p>
+
+        <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
+            <label onclick="closeWin2();">
+                <input id="chkbox_2" name="chkbox_2" type="checkbox" style="vertical-align: middle;">
+                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
+            </label>
+
+            <span><a href="javascript:popClose('popupWrap_2');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
+        </div>
+    </div>
+</div>
+
+<script language="Javascript">
+function popClose(id){
+    $("#" + id).hide();
+}
+
+function setCookie1( name, value, expiredays ) {
+    var todayDate = new Date();
+    todayDate.setDate( todayDate.getDate() + expiredays );
+    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+function closeWin1() {
+    if ($("#chkbox_1").is(":checked")){
+        setCookie1( "popupdiv1", "done" , 1 );
+    }
+    document.all['popupWrap_1'].style.display = "none";
+}
+
+function closeWin2() {
+    if ($("#chkbox_2").is(":checked")){
+        setCookie1( "popupdiv2", "done" , 1 );
+    }
+    document.all['popupWrap_2'].style.display = "none";
+}
+
+cookiedata = document.cookie;
+
+popupDate = new Date();
+
+console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv1=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
+
+if (
+        (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
+        (popupDate.getFullYear() == 2016 && popupDate.getMonth() <= 12 - 1 && popupDate.getDate() <= 27)
+        )
+   )
+    {
+
+    %if LANG == 'en':
+        document.all['popupWrap_1'].style.display = "none";
+    %else:
+        document.all['popupWrap_1'].style.display = "block";
+    %endif
+
+    //console.log(popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate());
+
+} else {
+    document.all['popupWrap_1'].style.display = "none";
+}
+
+if (
+        (cookiedata.indexOf("popupdiv2=done") < 0 ) && (
+        (popupDate.getFullYear() == 2016 && popupDate.getMonth() <= 12 - 1 && popupDate.getDate() <= 21)
+        )
+   )
+    {
+
+    %if LANG == 'en':
+        document.all['popupWrap_2'].style.display = "none";
+    %else:
+        document.all['popupWrap_2'].style.display = "block";
+    %endif
+
+} else {
+    document.all['popupWrap_2'].style.display = "none";
+}
+
+</script>
+
+
 <script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -20,10 +137,12 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="title">
                             <div class="heading-group">
                                 % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>오늘의 필요를 위한 학습</h1>
-                                <p>Just-in-time Learning for Today</p>
+                                <h1>미래를 여는 최고의 강좌</h1>
+                                <p>K-MOOC, Top Quality Courses</p><br/>
+                                    <p>for Your Future</p>
                                 % else:
-                                <h1>Just-in-time Learning for Today</h1>
+                                <h1>K-MOOC, Top Quality Courses </h1><br/>
+                                    <h1>for Your Future</h1>
                                 % endif
                             </div>
                         </div>
@@ -37,7 +156,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <h1>누구에게나 열린 평생교육</h1>
                                 <p>A Lifelong Open Education for Everyone</p>
                                 % else:
-                                <h1>Just-in-time Learning for Today</h1>
+                                <h1>A Lifelong Open Education for Everyone</h1>
                                 % endif
                             </div>
                         </div>
@@ -48,10 +167,10 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="title">
                             <div class="heading-group">
                                 % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>미래를 여는 최고의 강좌</h1>
-                                <p>K-MOOC, Top Quality Courses for Your Future</p>
+                                <h1>오늘의 필요를 위한 학습</h1>
+                                <p>Just-in-time Learning for Today</p>
                                 % else:
-                                <h1>K-MOOC, Top Quality Courses for Your Future</h1>
+                                <h1>Just-in-time Learning for Today</h1>
                                 % endif
                             </div>
                         </div>
@@ -107,7 +226,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] major course list -->
         <section class="major-course-container" id="main-contents02">
-            <h2 class="main-title" style="margin-bottom: 20px;"><${_("Course by subject")}></h2>
+            <h2 class="main-title" style="margin-bottom: 20px;">< ${_("Courses by subject")} ></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -181,7 +300,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title">${_("Find course for me")} </h2>
+            <h2 class="main-title">< ${_("Find course for me")} ></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
@@ -299,12 +418,10 @@ from openedx.core.djangolib.markup import HTML, Text
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
                                 <a href="/comm_k_news_view/${list[0]}/">
-                                     <!-- <img src="${list[3]}" width="287.11px" height="160px"> -->
                                 <h3 style="background-image: url(${list[3]}); background-size: contain;  ">
                                 </h3>
                                     <time>${list[4]}</time>
                                     <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
-                                    <!-- <time>${list[4]}</time> -->
                                 </a>
                             </div>
                         </div>
@@ -329,8 +446,8 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
                                     <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
                                 </a>
                             </div>
                         </div>
@@ -355,8 +472,9 @@ from openedx.core.djangolib.markup import HTML, Text
                                         <strong class="category">${list[1]}</strong>
                                         <p>${list[2]}</p>
                                     </h3>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
                                     <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
+
                                 </a>
                             </div>
                         </div>

@@ -645,6 +645,9 @@ msgstr "한국과학기술원"
 msgid "HYUk"
 msgstr "한양대학교"
 
+msgid "CAUk"
+msgstr "중앙대학교"
+
 #: lms/templates/course.html
 msgid "Starting Soon"
 msgstr "개강 예정"
@@ -21864,7 +21867,7 @@ msgstr "팀 구성원 대부분의 사용 언어"
 #: lms/djangoapps/teams/static/teams/templates/team-profile.underscore
 #: test_root/staticfiles/teams/templates/team-profile.underscore
 msgid "language"
-msgstr ""
+msgstr "언어"
 
 #: lms/djangoapps/teams/static/teams/templates/team-profile.underscore
 #: test_root/staticfiles/teams/templates/team-profile.underscore
@@ -28470,7 +28473,7 @@ msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주�
 msgid "Availability"
 msgstr "수강신청 강좌 찾기"
 
-msgid "Course by subject"
+msgid "Courses by subject"
 msgstr "전공별 강좌 보기"
 
 msgid "Humanities"
@@ -28498,7 +28501,7 @@ msgid "Korean Studies"
 msgstr "한국학"
 
 msgid "Find course for me"
-msgstr "<나에게 맞는 강좌 찾기>"
+msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Opening Status"
 msgstr "개강상태"
@@ -28839,9 +28842,9 @@ msgid "Viewing all"
 msgstr "전체보기"
 
 msgid "University list"
-msgstr "참여대학"
+msgstr "대학목록"
 
-msgid "Available for classes"
+msgid "Available Courses"
 msgstr "수강신청 가능강좌"
 
 msgid "Courses by major"
@@ -29026,7 +29029,7 @@ msgstr "분야"
 
 
 #: comm_faqrequest.html
-msgid "The inquiry will be sent to the edX staff members by e-mail."
+msgid "The inquiry will be sent to the K-MOOC staff members by e-mail."
 msgstr "문의하기는 K-MOOC운영자에게 메일로 전송이 됩니다."
 
 msgid "If you would like an answer, please enter your e-mail address correctly."
@@ -29098,3 +29101,17 @@ msgstr "주간 학습 권장 시간은 숫자이여야 합니다."
 
 msgid "View certificates.(Not finished Poll)"
 msgstr "이수증 보기(설문 미완료)"
+
+msgid "Email to respond"
+msgstr "응답 받을 이메일"
+
+msgid "Please select an email"
+msgstr "이메일을 선택하세요"
+
+msgid "Contact us by email"
+msgstr "이메일로 문의하기"
+
+msgid ""
+"Before you sign in, you need to activate your account. We have sent you an "
+"email message with instructions for activating your account."
+msgstr "로그인 전에 계정을 활성화해야 합니다. 계정 활성화에 대한 설명이 있는 이메일을 보냈습니다."

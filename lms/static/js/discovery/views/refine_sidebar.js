@@ -120,7 +120,7 @@ define([
                 name: facetKey,
                 displayName: this.facetName(facetKey),
                 optionsHtml: this.renderOptions(options),
-                listIsHuge: (options.length > 9)
+                listIsHuge: (options.length > 50)
             });
         },
 
