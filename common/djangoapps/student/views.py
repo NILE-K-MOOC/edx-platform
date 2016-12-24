@@ -176,7 +176,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         extra_context = {}
 
     # courses = get_courses(user)
-
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
     f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
@@ -195,13 +194,22 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # else:
     #     courses = sort_by_announcement(courses)
 
-    if courses1 and len(courses1) > 4:
-        courses1 = courses1[:4]
+    # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
+    user = request.user
+    if user and user.is_staff:
+        pass
+    else:
+        if courses1 and len(courses1) > 4:
+            courses1 = courses1[:4]
+
     courses = courses1 + courses2
     courses = [c for c in courses if not c.has_ended()]
     log.info(u'len(courses) ::: %s', len(courses))
 
-    courses = courses[:8]
+    if user and user.is_staff:
+        pass
+    else:
+        courses = courses[:8]
 
     context = {'courses': courses}
 
