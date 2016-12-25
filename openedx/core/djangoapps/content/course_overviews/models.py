@@ -26,6 +26,7 @@ from xmodule.course_module import CourseDescriptor, DEFAULT_START_DATE
 from xmodule.error_module import ErrorDescriptor
 from xmodule.modulestore.django import modulestore
 from xmodule_django.models import CourseKeyField, UsageKeyField
+from django.db.models import Q
 import datetime
 log = logging.getLogger(__name__)
 
@@ -492,19 +493,33 @@ class CourseOverview(TimeStampedModel):
         # make sure the "publish" signal was emitted when the course was
         # created. For tests using CourseFactory, use emit_signals=True.
         if org:
-            if filter_:
-                # print 'get_all_courses type 1 '
-                course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+            print 'org:', org
+
+
+            if org == 'ACEk' or  org == 'COREk' or  org == 'CKk' or  org == 'KOCWk':
+                org = org.replace('k', '')
+                if filter_:
+                    course_overviews = CourseOverview.objects.all().filter(id__icontains=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                else:
+                    course_overviews = CourseOverview.objects.all().filter(id__icontains=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+            elif org == 'SNUk' or  org == 'POSTECHk' or  org == 'KAISTk':
+                if filter_:
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                else:
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
             else:
-                # print 'get_all_courses type 2 '
-                course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                if filter_:
+                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                else:
+                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
         else:
             if filter_:
-                # print 'get_all_courses type 3 '
                 course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
             else:
-                # print 'get_all_courses type 4 '
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+
+        if course_overviews:
+            print 'len(course_overviews):', len(course_overviews)
 
         # if org:
         #     # In rare cases, courses belonging to the same org may be accidentally assigned
