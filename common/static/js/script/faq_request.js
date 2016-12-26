@@ -20,9 +20,6 @@ $(document).on('click', '#request', function(){
         flag = false;
     }
 
-    if(option == 'login_'){
-        option = 'login'
-    }
 
     if(option != 'null' && flag == true){
         $('#request').attr('disabled', 'true');

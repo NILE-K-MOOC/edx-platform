@@ -175,13 +175,20 @@ def index(request, extra_context=None, user=AnonymousUser()):
     if extra_context is None:
         extra_context = {}
 
+    user = request.user
+
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
-    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
+    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+
+    if user.is_staff:
+        f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
     courses1 = get_courses(user, filter_ = f1)
 
-    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
+    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+    if user.is_staff:
+        f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
     courses2 = get_courses(user, filter_ = f2)
 
     # print 'get course test ------------------------------------------------------- e'
@@ -195,7 +202,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     #     courses = sort_by_announcement(courses)
 
     # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
-    user = request.user
+
     if user and user.is_staff:
         pass
     else:
@@ -210,6 +217,12 @@ def index(request, extra_context=None, user=AnonymousUser()):
         pass
     else:
         courses = courses[:8]
+
+    # print 'courses check s ---------------------------------------------------'
+    # for c in courses:
+    #     print c.id
+    # print 'courses check e ---------------------------------------------------'
+
 
     context = {'courses': courses}
 
@@ -343,7 +356,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(i[5])
         value_list.append(i[6])
         index_list.append(value_list)
-        print value_list[1]
+
 
     context['index_list'] = index_list
 

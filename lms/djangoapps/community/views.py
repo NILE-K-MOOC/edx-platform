@@ -342,25 +342,35 @@ def comm_faqrequest(request) :
             request_con = request.GET['request_con']
             option = request.GET['option']
             save_email=''
-
+            # print 'option == ', option
+            head_dict = {
+                'kmooc_f':'[K-MOOC]',
+                'regist_f':'[회원가입]',
+                'login_f':'[로그인/계정]',
+                'enroll_f':'[수강신청/취소]',
+                'course_f':'[강좌수강]',
+                'certi_f':'[성적/이수증]',
+                'tech_f':'[기술적문제]'
+            }
+            email_title = head_dict[option]+' '+email+'님의 문의 내용입니다.'
             # 이메일 전송
-            print 'emial ==',email
+            # print 'emial ==',email
             # print 'request_con ==',request_con
             # print 'option ==',option
             from_address = configuration_helpers.get_value(
                 'email_from_address',
                 settings.DEFAULT_FROM_EMAIL
             )
+
             if option == 'kmooc_f':
                 #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
                 save_email = 'kmooc@nile.or.kr'
             else :
-                send_mail(email+'님의 문의 내용입니다.', request_con, from_address, ['help_kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['help_kmooc@nile.or.kr'])
                 save_email = 'help_kmooc@nile.or.kr'
             # 문의내용 저장
 
-            # query = "insert into faq_request(student_email, response_email, question, head_title) VALUES('"+email+"', '"+save_email+"', '"+request_con+"', '"+option+"')"
             cur = con.cursor()
             query = """
                     INSERT INTO faq_request(student_email,
@@ -371,20 +381,20 @@ def comm_faqrequest(request) :
                                       '"""+email+"""',
                                       '"""+save_email+"""',
                                       '"""+request_con+"""',
-                                      (CASE '"""+option+"""'
-                                          WHEN head_title = 'kmooc_f' THEN 'K-MOOC'
-                                          WHEN head_title = 'regist_f ' THEN '회원가입'
-                                          WHEN head_title = 'login_f ' THEN '로그인/계정'
-                                          WHEN head_title = 'enroll_f ' THEN '수강신청/취소'
-                                          WHEN head_title = 'course_f ' THEN '강좌수강'
-                                          WHEN head_title = 'certi_f  ' THEN '성적/이수증'
-                                          WHEN head_title = 'tech_f ' THEN '기술적문제'
+                                      (CASE
+                                          WHEN '"""+option+"""' = 'kmooc_f' THEN 'K-MOOC'
+                                          WHEN '"""+option+"""' = 'regist_f ' THEN '회원가입'
+                                          WHEN '"""+option+"""' = 'login_f ' THEN '로그인/계정'
+                                          WHEN '"""+option+"""' = 'enroll_f ' THEN '수강신청/취소'
+                                          WHEN '"""+option+"""' = 'course_f ' THEN '강좌수강'
+                                          WHEN '"""+option+"""' = 'certi_f  ' THEN '성적/이수증'
+                                          WHEN '"""+option+"""' = 'tech_f ' THEN '기술적문제'
                                           ELSE ''
                                        END));
             """
-            # print 'query == ',query
-            # cur.execute(query)
-            # cur.execute('commit')
+            print 'query == ',query
+            cur.execute(query)
+            cur.execute('commit')
             cur.close()
             data = json.dumps('success')
         return HttpResponse(data, 'application/json')
