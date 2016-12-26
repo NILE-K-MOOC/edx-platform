@@ -1769,6 +1769,8 @@
     "SMUk": "\uc0c1\uba85\ub300\ud559\uad50",
     "BUFSk": "\ubd80\uc0b0\uc678\uad6d\uc5b4\ub300\ud559\uad50",
     "DonggukK": "\ub3d9\uad6d\ub300\ud559\uad50",
+    "DSUk": "\ub3d9\uc2e0\ub300\ud559\uad50",
+    "MokwonK": "\ubaa9\uc6d0\ub300\ud559\uad50",
     "KNUk": "\uacbd\ubd81\ub300\ud559\uad50",
     "HallymK": "\ud55c\ub9bc\ub300\ud559\uad50",
     "UOSk": "\uc11c\uc6b8\uc2dc\ub9bd\ub300\ud559\uad50",
@@ -1776,10 +1778,16 @@
     "KonYangK": "\uac74\uc591\ub300\ud559\uad50",
     "DKUK": "\ub2e8\uad6d\ub300\ud559\uad50",
     "CUKk": "\uac00\ud1a8\ub9ad\ub300\ud559\uad50",
+    "GachonUnivK": "\uac00\ucc9c\ub300\ud559\uad50",
+    "KONGJUk": "\uacf5\uc8fc\ub300\ud559\uad50",
+    "HGUk": "\ud55c\ub3d9\ub300\ud559\uad50",
     "English": "\uc601\uc5b4",
     "Korean": "\ud55c\uad6d\uc5b4",
     "Chinese": "\uc911\uad6d\uc5b4",
     "language": "\uc5b8\uc5b4",
+    "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
+    "Add a Response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a Response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
 
     "": "\uc5c6\uc74c"
   };
