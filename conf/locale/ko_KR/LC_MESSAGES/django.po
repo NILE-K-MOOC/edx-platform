@@ -28767,8 +28767,9 @@ msgstr "동의 후 탈퇴하기"
 msgid "Withdrawal"
 msgstr "탈퇴하기"
 
+#msgstr "계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. 확인 버튼 클릭 후 자동으로 로그아웃 됩니다."
 msgid "Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically."
-msgstr "계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. 확인 버튼 클릭 후 자동으로 로그아웃 됩니다."
+msgstr "회원가입을 축하합니다! 수강신청을 위해서는 가입하신 메일주소로 발송된 메일을 확인하셔야 합니다. (확인 버튼을 누르시면 자동으로 로그아웃 됩니다)"
 
 msgid "You have to agree to the instructions."
 msgstr "안내 사항을 동의하세요"
