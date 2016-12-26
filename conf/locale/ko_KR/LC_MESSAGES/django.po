@@ -626,7 +626,10 @@ msgid "PNUk"
 msgstr "부산대학교"
 
 msgid "SMUCk"
-msgstr "상명대학교"
+msgstr "상명대학교(천안)"
+
+msgid "SMUk"
+msgstr "상명대학교(서울)"
 
 msgid "SNUk"
 msgstr "서울대학교"
@@ -29168,4 +29171,5 @@ msgstr "수강신청/취소 관련"
 msgid "About grade/certificates"
 msgstr "성적/이수증 관련"
 
-
+msgid "You need to register to enrollment."
+msgstr "수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다"
