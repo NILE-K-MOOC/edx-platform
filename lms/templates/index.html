@@ -510,10 +510,6 @@ if (
             if(getParameterByName('next')) {
                 $('#login').trigger("click");
             }
-
-
-
-
         });
    </script>
 </%block>
@@ -535,9 +531,25 @@ if (
 <script type="text/javascript">
 $(function(){
 	$(".smooth-move").on("click", function(event){
+        event.preventDefault();
+        /*
         var hashbang = $("#"+$(this).data("hashbang")).offset();
-        console.log(hashbang.top);
-        $('html body').animate({scrollTop: hashbang.top-110}, 'slow');
+        $('html body').animate({scrollTop: hashbang.top-110}, 'slow');*/
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        console.log('ua',ua );
+        console.log('msie', msie);
+
+
+        if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)){
+            document.documentElement.scrollTop = $(window).scrollTop();;
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+
+            $('html, body').animate({scrollTop: hashbang.top-110}, 'slow');
+        }else{
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+            $('html body').animate({scrollTop: hashbang.top-110}, 'slow');
+        }
 	})
 })
 </script>
