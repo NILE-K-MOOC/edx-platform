@@ -772,6 +772,8 @@ def course_about(request, course_id):
         }
 
         univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
+        
+        # print 'course_details.enrollment_start ==', course_details.enrollment_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
 
         #######################################################################
 
