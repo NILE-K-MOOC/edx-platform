@@ -881,15 +881,16 @@ class RegistrationView(APIView):
                             )
 
                     # Hide the password field
-                    form_desc.override_field_properties(
-                        "password",
-                        default="",
-                        field_type="hidden",
-                        required=False,
-                        label="",
-                        instructions="",
-                        restrictions={}
-                    )
+
+                    # form_desc.override_field_properties(
+                    #     "password",
+                    #     default="",
+                    #     field_type="hidden",
+                    #     required=False,
+                    #     label="",
+                    #     instructions="",
+                    #     restrictions={}
+                    # )
 
 
 class PasswordResetView(APIView):

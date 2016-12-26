@@ -47,7 +47,7 @@ define([
             else
                 data.end = null;
 
-            console.log(data);
+            //console.log(data);
 
             var nDate = formatDate(new Date());
             var sDate = formatDate(new Date(data.start));

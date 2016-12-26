@@ -347,24 +347,26 @@ def parent_agree_done(request):
 @xframe_allow_whitelisted
 def login_and_registration_form(request, initial_mode="login"):
 
+    # Determine the URL to redirect to following login/registration/third_party_auth
+    redirect_to = get_next_url_for_login_page(request)
+    provider_info = _third_party_auth_context(request, redirect_to)
+
+    # print 'currentProvider:', provider_info['currentProvider']
     # add kocw logic
     division = None
 
-    if initial_mode == "login":
+    # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
+    if initial_mode == "login" or provider_info['currentProvider']:
         pass
-
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
         division = request.session['division']
         del request.session['division']
         del request.session['agreeYN']
         del request.session['auth']
-
     elif 'division' in request.session and 'agreeYN' in request.session:
         division = request.session['division']
-
         if request.session['division'] == 'N':
             return render_to_response('student_account/registration_gubn.html')
-
         del request.session['division']
         del request.session['agreeYN']
     else:
@@ -390,8 +392,7 @@ def login_and_registration_form(request, initial_mode="login"):
         initial_mode (string): Either "login" or "register".
 
     """
-    # Determine the URL to redirect to following login/registration/third_party_auth
-    redirect_to = get_next_url_for_login_page(request)
+
 
     # If we're already logged in, redirect to the dashboard
     if request.user.is_authenticated():
@@ -429,29 +430,11 @@ def login_and_registration_form(request, initial_mode="login"):
         except (KeyError, ValueError, IndexError):
             pass
 
-    # print '=========================================================='
-    # if "" == redirect_to or redirect_to is None or "/dashboard" == redirect_to or 'redirectTo' in redirect_to:
-    #     print 'redirect_to1:', redirect_to
-    #     print 'equal'
-    # else:
-    #     print 'not equal'
-    #     redirect_to = "/redirectTo" + redirect_to
-    #     print "redirect_to2:", redirect_to
-    # print '=========================================================='
-
-    # Otherwise, render the combined login/registration page
-
-    provider_info = _third_party_auth_context(request, redirect_to)
-
-    # third_part_auth 인증후 회원가입화면으로 이동
-    # if provider_info['currentProvider'] and initial_mode == 'login':
-    #     initial_mode = 'register'
-
     context = {
         'data': {
             'login_redirect_url': redirect_to,
             'initial_mode': initial_mode,
-            'third_party_auth': _third_party_auth_context(request, redirect_to),
+            'third_party_auth': provider_info,
             'third_party_auth_hint': third_party_auth_hint or '',
             'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),
 

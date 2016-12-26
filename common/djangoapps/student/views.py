@@ -175,14 +175,20 @@ def index(request, extra_context=None, user=AnonymousUser()):
     if extra_context is None:
         extra_context = {}
 
-    # courses = get_courses(user)
+    user = request.user
 
+    # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
-    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
+    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+
+    if user.is_staff:
+        f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
     courses1 = get_courses(user, filter_ = f1)
 
-    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
+    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+    if user.is_staff:
+        f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
     courses2 = get_courses(user, filter_ = f2)
 
     # print 'get course test ------------------------------------------------------- e'
@@ -195,13 +201,28 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # else:
     #     courses = sort_by_announcement(courses)
 
-    if courses1 and len(courses1) > 4:
-        courses1 = courses1[:4]
+    # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
+
+    if user and user.is_staff:
+        pass
+    else:
+        if courses1 and len(courses1) > 4:
+            courses1 = courses1[:4]
+
     courses = courses1 + courses2
     courses = [c for c in courses if not c.has_ended()]
     log.info(u'len(courses) ::: %s', len(courses))
 
-    courses = courses[:8]
+    if user and user.is_staff:
+        pass
+    else:
+        courses = courses[:8]
+
+    # print 'courses check s ---------------------------------------------------'
+    # for c in courses:
+    #     print c.id
+    # print 'courses check e ---------------------------------------------------'
+
 
     context = {'courses': courses}
 
