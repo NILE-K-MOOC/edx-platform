@@ -180,15 +180,12 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
-    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
-
-    if user.is_staff:
-        f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now()}
+    f1 = {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()} if not user.is_staff else None
+    log.info(f1)
     courses1 = get_courses(user, filter_ = f1)
 
-    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
-    if user.is_staff:
-        f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now()}
+    f2 = {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()} if not user.is_staff else None
+    log.info(f2)
     courses2 = get_courses(user, filter_ = f2)
 
     # print 'get course test ------------------------------------------------------- e'
@@ -202,6 +199,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     #     courses = sort_by_announcement(courses)
 
     # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
+
+    print 'user.is_staff:', user.is_staff
 
     if user and user.is_staff:
         pass
