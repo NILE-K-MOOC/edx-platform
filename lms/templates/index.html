@@ -535,9 +535,9 @@ if (
 <script type="text/javascript">
 $(function(){
 	$(".smooth-move").on("click", function(event){
-		event.preventDefault();
-		var hashbang = $("#"+$(this).data("hashbang")).offset();
-		$('html body').animate({scrollTop: hashbang.top-50}, 'slow');
+        var hashbang = $("#"+$(this).data("hashbang")).offset();
+        console.log(hashbang.top);
+        $('html body').animate({scrollTop: hashbang.top-110}, 'slow');
 	})
 })
 </script>
