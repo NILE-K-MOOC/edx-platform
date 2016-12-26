@@ -676,6 +676,54 @@ msgstr "한양대학교"
 msgid "CAUk"
 msgstr "중앙대학교"
 
+msgid "GachonUnivK"
+msgstr "가천대학교"
+
+msgid "DonggukK"
+msgstr "동국대학교"
+
+msgid "DSUk"
+msgstr "동신대학교"
+
+msgid "MokwonK"
+msgstr "목원대학교"
+
+msgid "KonYangK"
+msgstr "건양대학교"
+
+msgid "UOSk"
+msgstr "서울시립대"
+
+msgid "CNUk"
+msgstr "충남대학"
+
+msgid "HallymK"
+msgstr "한림대학교"
+
+msgid "KONGJUk"
+msgstr "공주대학교"
+
+msgid "KUMOHk"
+msgstr "금오공과대학교"
+
+msgid "DKUK"
+msgstr "단국대학교"
+
+msgid "BUFSk"
+msgstr "부산외국어대학교"
+
+msgid "SYUk"
+msgstr "삼육대학교"
+
+msgid "KNUk"
+msgstr "경북대학교"
+
+msgid "CUKk"
+msgstr "가톨릭대학교"
+
+msgid "JEJUk"
+msgstr "제주대학교"
+
 #: lms/templates/course.html
 msgid "Starting Soon"
 msgstr "개강 예정"
@@ -21580,7 +21628,7 @@ msgstr "이 %(post_type)s글은 %(time_ago)s에 %(author)s님이 게시하였습
 #: test_root/staticfiles/common/templates/discussion/thread-show.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-show.underscore
 msgid "Related to: %(courseware_title_linked)s"
-msgstr ""
+msgstr "관련 사항: %(courseware_title_linked)s"
 
 #: common/static/common/templates/discussion/thread-show.underscore
 #: test_root/staticfiles/common/templates/discussion/thread-show.underscore
@@ -21610,7 +21658,7 @@ msgstr "질문"
 #: test_root/staticfiles/common/templates/discussion/thread.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread.underscore
 msgid "Add a Response"
-msgstr ""
+msgstr "답변 추가하기"
 
 #: common/static/common/templates/discussion/thread.underscore
 #: test_root/staticfiles/common/templates/discussion/thread.underscore
@@ -29042,6 +29090,8 @@ msgstr "한국과학기술원"
 
 msgid "HANYANG UNIVERSITY"
 msgstr "한양대학교"
+
+
 
 msgid "KOCW"
 msgstr "KOCW"
