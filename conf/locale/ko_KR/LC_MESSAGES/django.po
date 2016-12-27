@@ -28553,7 +28553,7 @@ msgstr "항상 비밀번호는 타인에게 노출되지 않도록 주의해주�
 msgid "Availability"
 msgstr "수강신청 강좌 찾기"
 
-msgid "Courses by subject"
+msgid "Courses by Subject"
 msgstr "전공별 강좌 보기"
 
 msgid "Humanities"
@@ -28580,7 +28580,7 @@ msgstr "예체능"
 msgid "Korean Studies"
 msgstr "한국학"
 
-msgid "Find courses for me"
+msgid "Find Courses for me"
 msgstr "나에게 맞는 강좌 찾기"
 
 msgid "Opening Status"
@@ -28938,7 +28938,7 @@ msgstr "회원 탈퇴시 까지"
 msgid "Viewing all"
 msgstr "전체보기"
 
-msgid "University list"
+msgid "University List"
 msgstr "대학목록"
 
 msgid "Available Courses"
@@ -29213,7 +29213,7 @@ msgstr "이메일로 문의하기"
 msgid ""
 "Before you sign in, you need to activate your account. We have sent you an "
 "email message with instructions for activating your account."
-msgstr "로그인 전에 계정을 활성화해야 합니다. 계정 활성화에 대한 설명이 있는 이메일을 보냈습니다."
+msgstr "로그인 전에 계정을 활성화해야 합니다. 계정 활성화를 위한 이메일 가입하신 이메일 주소로 보냈으니 확인 부탁드립니다."
 
 msgid "About enrollment/cancel"
 msgstr "수강신청/취소 관련"
