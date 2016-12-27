@@ -130,6 +130,9 @@ define([
             var i = 0;
 
             this.collection.comparator = function(model) {
+
+                console.log(i++ + ":" + model.get('facet'));
+
                 //facet = 분류, term = 세부항목
                 switch(model.get('facet')){
                     case 'classfy': model.set('odby1',1); break;
@@ -194,24 +197,14 @@ define([
                     case 'ko': model.set('odby2',1); break;
                     case 'en': model.set('odby2',2); break;
                     case 'zh': model.set('odby2',3); break;
-
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-                    case '': model.set('odby2',4); break;
-
                     default: model.set('odby2',99);
                 }
                 return [model.get('odby1'), model.get('odby2')];
             }
 
             this.collection.sort();
+
+
 
             var grouped = this.collection.groupBy('facet');
             var dict = {"org": [], "classfy": [], "middle_classfy": [], "linguistics": [],"course_period": [], "language": [], "modes": []};
@@ -222,6 +215,7 @@ define([
                     }
 
                     if (options.length > 0) {
+                        console.log('options.length:' + options.length);
                         return this.renderFacet(facetKey, options);
                     }
                 }, this)
@@ -258,9 +252,7 @@ define([
                 $target.data('text')
             );
         }
-
     });
-
 });
 
 })(define || RequireJS.define);
