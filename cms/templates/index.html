@@ -1,7 +1,7 @@
 <%page expression_filter="h"/>
 <%!
 from django.utils.translation import ugettext as _
-
+from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
@@ -240,23 +240,26 @@ if (
                         <option value="eng">공학계열</option>
                         <option value="nat">자연계열</option>
                         <option value="med">의약계열</option>
-                        <option value="art">예체능계</option>
+                        <option value="art">예체능계열</option>
                     </select>
+
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy">
                         <option value="">강좌 중분류 선택</option>
                     </select>
+                    <span class="tip" id="tip-new-course-name">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
                 </li>
 
                   <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Period of Studing")}</label>
                     <select class="new-course-period" id="new-course-period" name="new-course-period">
-                        <option value="">강의 기간 선택</option>
+                        <option value="">학습기간 선택</option>
                         <option value="S">단기(1~6 weeks)</option>
                         <option value="M">중기(7~12 weeks)</option>
                         <option value="L">장기(over 13 weeks)</option>
                    </select>
+                    <span class="tip" id="tip-new-course-name">강좌의 주차를 기준으로 학습기간(단기/중기/장기)을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
                 </li>
 
@@ -267,6 +270,7 @@ if (
                         <option value="Y">한국학</option>
                         <option value="N">그외</option>
                     </select>
+                    <span class="tip" id="tip-new-course-name">'한국' 관련 강좌의 경우 한국학을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-linguistics"></span>
                 </li>
 
@@ -276,7 +280,8 @@ if (
                   ## seen when filling out the form to create a new course. The number here is
                   ## short for "Computer Science 101". It can contain letters but cannot contain spaces.
                   <input class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
-                  <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization. {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                  <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                      br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
                       strong_end=HTML('</strong>'),
                   )}</span>
@@ -288,7 +293,8 @@ if (
                   ## Translators: This is an example for the "run" used to identify different
                   ## instances of a course, seen when filling out the form to create a new course.
                   <input class="new-course-run" id="new-course-run" type="text" name="new-course-run" required placeholder="${_('e.g. 2014_T1')}" aria-describedby="tip-new-course-run tip-error-new-course-run" />
-                  <span class="tip" id="tip-new-course-run">${Text(_("The term in which your course will run. {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                  <span class="tip" id="tip-new-course-run">${Text(_("The term in which your course will run.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                      br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
                       strong_end=HTML('</strong>'),
                   )}</span>
@@ -474,7 +480,8 @@ if (
                   ## for "Computer Science Problems". The example number may contain letters
                   ## but must not contain spaces.
                   <input class="new-library-number" id="new-library-number" type="text" name="new-library-number" required placeholder="${_('e.g. CSPROB')}" aria-describedby="tip-new-library-number tip-error-new-library-number" />
-                  <span class="tip" id="tip-new-library-number">${Text(_("The unique code that identifies this library. {strong_start}Note: This is part of your library URL, so no spaces or special characters are allowed.{strong_end} This cannot be changed.")).format(
+                  <span class="tip" id="tip-new-library-number">${Text(_("The unique code that identifies this library.{br} {strong_start}Note: This is part of your library URL, so no spaces or special characters are allowed.{strong_end} This cannot be changed.")).format(
+                      br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
                       strong_end=HTML('</strong>'),
                   )}</span>
