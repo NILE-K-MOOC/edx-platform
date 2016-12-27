@@ -17695,7 +17695,7 @@ msgstr "강좌 이름을 입력합니다. (화면에 표시될 이름입니다.)
 #: test_root/staticfiles/templates/signatory-details.underscore
 #: lms/envs/devstack.py
 msgid "Organization"
-msgstr "기관"
+msgstr "기관 번호"
 
 #: cms/templates/course-create-rerun.html cms/templates/index.html
 msgid "e.g. UniversityX or OrganizationX"
@@ -18896,31 +18896,32 @@ msgstr "강좌의 게시된 강좌명입니다. 이것은 바꿀 수는 없지�
 
 #: cms/templates/index.html
 msgid ""
-"The name of the organization sponsoring the course. {strong_start}Note: The "
+"The name of the organization sponsoring the course.{br} {strong_start}Note: The "
 "organization name is part of the course URL.{strong_end} This cannot be "
 "changed, but you can set a different display name in Advanced Settings "
 "later."
 msgstr ""
-"강좌를 지원하는 기관의 이름입니다. {strong_start}Note: 이 기관은 강좌 URL의 일부입니다.{strong_end} 이것을"
-" 변경할 수는 없지만 추후 고급 설정에서 다른 표시명을 설정할 수 있습니다. "
+"강좌를 개발하고 운영하는 기관의 고유번호 입니다.{br}"
+"{strong_start}Note: 이 기관은 강좌 URL의 일부입니다.{strong_end} 이것을"
+" 변경할 수는 없지만 추후 고급 설정에서 다른 표시명을 설정할 수 있습니다."
 
 #: cms/templates/index.html
 msgid ""
-"The unique number that identifies your course within your organization. "
+"The unique number that identifies your course within your organization.{br}"
 "{strong_start}Note: This is part of your course URL, so no spaces or special"
 " characters are allowed and it cannot be changed.{strong_end}"
 msgstr ""
-"기관 내 강좌를 나타내는 특별한 숫자입니다. {strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 "
-"사용할 수 없으며 변경할 수 없습니다.{strong_end}"
+"강좌의 학기 혹은 회차를 의미하며, '연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입)'로 구성. (예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
+"{strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 변경할 수 없습니다.{strong_end}"
 
 #: cms/templates/index.html
 msgid ""
-"The term in which your course will run. {strong_start}Note: This is part of "
+"The term in which your course will run.{br} {strong_start}Note: This is part of "
 "your course URL, so no spaces or special characters are allowed and it "
 "cannot be changed.{strong_end}"
 msgstr ""
-"강좌가 표시될 기간입니다. {strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 "
-"변경할 수 없습니다.{strong_end}"
+"강좌의 학기 혹은 회차를 의미하며, '연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입)'로 구성. (예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
+"{strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 변경할 수 없습니다.{strong_end}"
 
 #: cms/templates/index.html cms/templates/js/certificate-editor.underscore
 #: cms/templates/js/content-group-editor.underscore
@@ -19895,7 +19896,7 @@ msgstr "주간 학습 권장 시간"
 
 #: cms/templates/settings.html
 msgid "Time spent on all course work"
-msgstr "주별 학습에 투자하길 권장하는 시간"
+msgstr "매주 해당 강좌의 학습에 필요한 권장 학습시간을 시간 또는 30분 단위로 선택하여 주시기 바랍니다."
 
 #: cms/templates/settings.html
 msgid "Prerequisite Course"
@@ -29186,7 +29187,7 @@ msgstr ""
 "공유하고자 한다면 콘텐츠보관함 별로 권한을 지정해주어야 합니다."
 
 msgid "Classification"
-msgstr "학습기간"
+msgstr "강좌 전공"
 
 msgid "Period of Studing"
 msgstr "학습기간"
