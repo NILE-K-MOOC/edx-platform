@@ -60,6 +60,44 @@ DISCUSSION_SETTINGS = {
     'MAX_COMMENT_DEPTH': 2,
 }
 
+LANGUAGE_MAP = {'terms': {lang: display for lang, display in ALL_LANGUAGES}, 'name': 'Language'}
+COURSE_DISCOVERY_MEANINGS = {
+    'org': {
+        'name': 'Organization',
+    },
+    'modes': {
+        'name': 'Course Type',
+        'terms': {
+            'honor': 'Honor',
+            'verified': 'Verified',
+        },
+    },
+    'language': LANGUAGE_MAP,
+    'classfy': {
+        'name': 'Section',
+        'terms':{
+            'classfy': 'classfy'
+        }
+    },
+    'middle_classfy': {
+        'name': 'Section',
+        'terms': {
+            'middle_classfy': 'middle_classfy'
+        }
+    },
+    'linguistics': {
+        'name': 'Section',
+        'terms': {
+            'linguistics': 'linguistics'
+        }
+    },
+    'course_period': {
+        'name': 'Period of Studing',
+        'terms': {
+            'course_period': 'course_period'
+        }
+    }
+}
 
 # Features
 FEATURES = {
