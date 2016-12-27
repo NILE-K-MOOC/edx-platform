@@ -12,9 +12,9 @@ from openedx.core.djangolib.markup import HTML, Text
         $(document).ready(function(){
             $("#agreeBox").click(function(){
                 if($("#agreeBox").is(":checked")){
-                    $("#password").slideDown(200);
+                    $("#intro").slideDown(200);
                 }else{
-                    $("#password").slideUp(300);
+                    $("#intro").slideUp(300);
                 }
             });
 
@@ -89,7 +89,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
                             <p><input type="checkbox" id="agreeBox" />&nbsp;&nbsp;${_("I have read and agree to all the instructions.")}</p>
 
-                            <p><input type="password" id="password" name="password" placeholder="${_('Input your password')}" value="" style="display: none;"/></p>
+                            <p id="intro" style="display: none;">
+                                <input type="password" id="password" name="password" placeholder="${_('Input your password')}" value="" /><br/>
+                                <span > - 비밀번호를 입력해주세요.</span>
+                            </p>
                             <a href="javascript:password_check();" id="check"><input type="button" value="${_('Withdrawal')}" ></a>
 
 
