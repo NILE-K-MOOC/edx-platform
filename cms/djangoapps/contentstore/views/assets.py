@@ -170,6 +170,12 @@ def _assets_json(request, course_key):
                 'thumbnail', thumbnail_location[4])
 
         asset_locked = asset.get('locked', False)
+
+        displayname = asset.get('displayname', '')
+        contentType = asset.get('contentType', 'video/mp4')
+
+        uploadDate = asset.get('uploadDate', '')
+
         '''
         kmooc MME로 전면 수정함.
         '''
@@ -186,10 +192,7 @@ def _assets_json(request, course_key):
             state = asset.get('state', '')
             cdn_url = asset.get('cdn_url', '')
 
-            displayname = asset.get('displayname', '')
-            contentType = asset.get('contentType', 'video/mp4')
 
-            uploadDate = asset.get('uploadDate', '')
 
             get_thumbnail_url = asset.get('thumbnail_url', None)
             if get_thumbnail_url is None:
@@ -265,9 +268,9 @@ def _assets_json(request, course_key):
 
         else:
             asset_json.append(_get_asset_json(
-                displayname,
-                contentType,
-                uploadDate,
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
                 asset_location,
                 thumbnail_location,
                 asset_locked
