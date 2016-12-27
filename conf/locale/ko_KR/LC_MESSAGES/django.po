@@ -18907,11 +18907,11 @@ msgstr ""
 
 #: cms/templates/index.html
 msgid ""
-"The unique number that identifies your course within your organization.{br}"
+"The unique number that identifies your course within your organization.{br} "
 "{strong_start}Note: This is part of your course URL, so no spaces or special"
 " characters are allowed and it cannot be changed.{strong_end}"
 msgstr ""
-"강좌의 학기 혹은 회차를 의미하며, '연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입)'로 구성. (예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
+"강좌를 구분하는 고유번호로, 기관번호와 함께 기관 내 몇번째 강좌인지 숫자로 구성 권고함. ('기관번호_숫자'의 형태. 예: KMOOC_01){br}"
 "{strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 변경할 수 없습니다.{strong_end}"
 
 #: cms/templates/index.html
