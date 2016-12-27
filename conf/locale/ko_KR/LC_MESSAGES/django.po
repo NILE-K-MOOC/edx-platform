@@ -28634,7 +28634,7 @@ msgid "Children member"
 msgstr "어린이 회원"
 
 msgid "General member below 14 years old"
-msgstr "만 14세 이하의 어린이 회원"
+msgstr "만 14세 미만의 어린이 회원"
 
 # templates/student_account/parent_agree_done.html
 
