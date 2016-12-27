@@ -261,9 +261,9 @@ def _assets_json(request, course_key):
 
         else:
             asset_json.append(_get_asset_json(
-                displayname,
-                contentType,
-                uploadDate,
+                asset['displayname'],
+                asset['contentType'],
+                asset['uploadDate'],
                 asset_location,
                 thumbnail_location,
                 asset_locked

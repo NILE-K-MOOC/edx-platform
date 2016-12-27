@@ -1739,6 +1739,8 @@
     "English": "\uc601\uc5b4",
     "Korean": "\ud55c\uad6d\uc5b4",
     "Chinese": "\uc911\uad6d\uc5b4",
+    "Add a Response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a Response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
 
     "": "\uc5c6\uc74c"
 
