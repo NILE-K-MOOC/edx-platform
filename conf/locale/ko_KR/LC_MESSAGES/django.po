@@ -161,7 +161,7 @@ msgstr "최종 학력(Highest level of education completed)"
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Tell us why you're interested in {platform_name}"
 msgstr ""
-"{platform_name} 가입목적"
+"{platform_name} 가입목적 (Purpose of becoming a member)"
 
 #: lms/djangoapps/instructor_task/tasks_helper.py lms/templates/register.html
 #: lms/templates/register-form.html
@@ -12696,7 +12696,7 @@ msgstr ""
 
 #: lms/templates/courseware/course_about.html
 msgid "You are enrolled in this course"
-msgstr "강좌에 수강 등록되어 있습니다"
+msgstr "이미 수강신청한 강좌입니다."
 
 #: lms/templates/courseware/course_about.html
 #: lms/templates/dashboard/_dashboard_course_listing.html
@@ -17695,7 +17695,7 @@ msgstr "강좌 이름을 입력합니다. (화면에 표시될 이름입니다.)
 #: test_root/staticfiles/templates/signatory-details.underscore
 #: lms/envs/devstack.py
 msgid "Organization"
-msgstr "기관"
+msgstr "기관 번호"
 
 #: cms/templates/course-create-rerun.html cms/templates/index.html
 msgid "e.g. UniversityX or OrganizationX"
@@ -18896,31 +18896,32 @@ msgstr "강좌의 게시된 강좌명입니다. 이것은 바꿀 수는 없지�
 
 #: cms/templates/index.html
 msgid ""
-"The name of the organization sponsoring the course. {strong_start}Note: The "
+"The name of the organization sponsoring the course.{br} {strong_start}Note: The "
 "organization name is part of the course URL.{strong_end} This cannot be "
 "changed, but you can set a different display name in Advanced Settings "
 "later."
 msgstr ""
-"강좌를 지원하는 기관의 이름입니다. {strong_start}Note: 이 기관은 강좌 URL의 일부입니다.{strong_end} 이것을"
-" 변경할 수는 없지만 추후 고급 설정에서 다른 표시명을 설정할 수 있습니다. "
+"강좌를 개발하고 운영하는 기관의 고유번호 입니다.{br}"
+"{strong_start}Note: 이 기관은 강좌 URL의 일부입니다.{strong_end} 이것을"
+" 변경할 수는 없지만 추후 고급 설정에서 다른 표시명을 설정할 수 있습니다."
 
 #: cms/templates/index.html
 msgid ""
-"The unique number that identifies your course within your organization. "
+"The unique number that identifies your course within your organization.{br}"
 "{strong_start}Note: This is part of your course URL, so no spaces or special"
 " characters are allowed and it cannot be changed.{strong_end}"
 msgstr ""
-"기관 내 강좌를 나타내는 특별한 숫자입니다. {strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 "
-"사용할 수 없으며 변경할 수 없습니다.{strong_end}"
+"강좌의 학기 혹은 회차를 의미하며, '연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입)'로 구성. (예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
+"{strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 변경할 수 없습니다.{strong_end}"
 
 #: cms/templates/index.html
 msgid ""
-"The term in which your course will run. {strong_start}Note: This is part of "
+"The term in which your course will run.{br} {strong_start}Note: This is part of "
 "your course URL, so no spaces or special characters are allowed and it "
 "cannot be changed.{strong_end}"
 msgstr ""
-"강좌가 표시될 기간입니다. {strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 "
-"변경할 수 없습니다.{strong_end}"
+"강좌의 학기 혹은 회차를 의미하며, '연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입)'로 구성. (예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
+"{strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 변경할 수 없습니다.{strong_end}"
 
 #: cms/templates/index.html cms/templates/js/certificate-editor.underscore
 #: cms/templates/js/content-group-editor.underscore
@@ -19895,7 +19896,7 @@ msgstr "주간 학습 권장 시간"
 
 #: cms/templates/settings.html
 msgid "Time spent on all course work"
-msgstr "주별 학습에 투자하길 권장하는 시간"
+msgstr "매주 해당 강좌의 학습에 필요한 권장 학습시간을 시간 또는 30분 단위로 선택하여 주시기 바랍니다."
 
 #: cms/templates/settings.html
 msgid "Prerequisite Course"
@@ -28628,13 +28629,13 @@ msgid "General member"
 msgstr "일반회원"
 
 msgid "General member over 14 years old"
-msgstr "만 14세 이상의 일반회원"
+msgstr "만 14세 이상"
 
 msgid "Children member"
 msgstr "어린이 회원"
 
 msgid "General member below 14 years old"
-msgstr "만 14세 이하의 어린이 회원"
+msgstr "만 14세 미만"
 
 # templates/student_account/parent_agree_done.html
 
@@ -28679,10 +28680,10 @@ msgid "In order to become a member, you have to agree to the terms and condition
 msgstr "이용약관을 동의하여야 회원가입이 가능합니다."
 
 msgid "If you agree to the personal information processing policy, membership is possible."
-msgstr "개인정보처리방침을 동의하여야 회원가입이 가능합니다."
+msgstr "개인정보 수집 및 이용 동의를 동의하여야 회원가입이 가능합니다."
 
 msgid "Terms and conditions for use"
-msgstr "이용약관"
+msgstr "이용약관 동의"
 
 msgid "Agree"
 msgstr "동의함"
@@ -28691,7 +28692,7 @@ msgid "Do not agree"
 msgstr "동의하지 않음"
 
 msgid "Privacy policy (or Personal information processing policy)"
-msgstr "개인정보의 수집 및 이용 동의"
+msgstr "개인정보 수집 및 이용 동의"
 
 
 # templates/instructor/instructor_dashboard_2/instructor_dashboard_2.html
@@ -28834,14 +28835,12 @@ msgid ""
 "The K-MOOC homepage (http://www.kmooc.kr, hereinafter referred to as the 'homepage') is a system run by the National Institute for Lifelong Education (hereinafter referred to as 'NILE'), a member institution of the Ministry of Education. All the personal information are collected, possessed and processed based on related laws and regulations."
 "The 'Personal Information Protection Act' provides general rules for the handling of such personal information, and on the homepage, personal information collected, possessed and processed in accordance with the provisions of this Act shall be used for proper execution of public works and protection of users' interests. We will treat it legally and properly.<br><br>"
 "In addition, the homepage respects the interests of users in handling personal information such as requests for viewing, correction, deletion, and suspension of personal information held by relevant laws and regulations, Users may file an administrative appeal as required by the Administrative Appeals Act with regard to the infringement of rights and interests in these laws and regulations.<br><br>"
-"This home has the following processing policy to protect the personal information protection and rights of the users in accordance with the 'Personal Information Protection Act' and to smoothly handle user's complaints related to personal information. When revising the personal information processing policy, we will notify you through the notice (or individual notice) on the homepage.<br><br>"
 "○ This policy will be made public on the homepage after establishing it in accordance with Article 30 (Establishment and Disclosure of Personal Information Processing Policy) of the 「Personal Information Protection Act」.<br><br>"
 msgstr ""
 "K-MOOC 홈페이지(http://www.kmooc.kr, 이하 ‘당 홈페이지’라 한다)는 교육부 출연기관인 국가평생교육진흥원(이하 ‘진흥원’이라 한다)에서 운영하고 있는 시스템으로 모든 개인정보는 관련 법령에 근거하여 수집ㆍ보유 및 처리되고 있습니다.<br><br>"
 "「개인정보 보호법」 은 이러한 개인정보의 취급에 대한 일반적인 규범을 제시하고 있으며, 당 홈페이지에서는 이러한 법령의 규정에 따라 수집ㆍ보유 및 처리하는 개인정보를 공공업무의 적절한 수행과 이용자의 권익을 보호하기 위해 적법하고 적정하게 취급할 것입니다.<br><br>"
 "또한, 당 홈페이지는 관련 법령에서 규정한 바에 따라 보유하고 있는 개인정보에 대한 열람, 정정, 삭제, 처리정지 요구 등 개인정보를 처리 시 이용자의 권익을 존중하며, 이용자는 이러한 법령상 권익의 침해 등에 대하여 행정심판법에서 정하는 바에 따라 행정심판을 청구할 수 있습니다.<br><br>"
 "당 홈페이지는 「개인정보 보호법」에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있으며, 개인정보 처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다. <br><br>"
-"개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.<br><br>"
 "○ 본 방침은 「개인정보 보호법」 제30조(개인정보 처리방침의 수립 및 공개)에 의거 수립 후 당 홈페이지를 통하여 공개됩니다.<br><br>"
 
 msgid "Article 1 (Purpose of Personal Information Processing)"
@@ -29188,7 +29187,7 @@ msgstr ""
 "공유하고자 한다면 콘텐츠보관함 별로 권한을 지정해주어야 합니다."
 
 msgid "Classification"
-msgstr "학습기간"
+msgstr "강좌 전공"
 
 msgid "Period of Studing"
 msgstr "학습기간"
