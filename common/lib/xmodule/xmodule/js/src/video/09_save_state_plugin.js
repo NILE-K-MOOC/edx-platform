@@ -133,7 +133,7 @@
                                         };
                                         // console.log("NEDX---------------", nedx_data);
                                         $.ajax({
-                                                url: "http://mme.nedx.kr/mov_handle",
+                                                url: "http://mme.kmooc.kr/mov_handle",
                                                 type: 'GET',
                                                 // async: true,
                                                 dataType: 'jsonp',

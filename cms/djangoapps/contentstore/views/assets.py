@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+import os
 import logging
 from functools import partial
 import math
@@ -193,8 +194,11 @@ def _assets_json(request, course_key):
             get_thumbnail_url = asset.get('thumbnail_url', None)
             if get_thumbnail_url is None:
                 if cdn_url:
-                    thumbnail_location = cdn_url[:cdn_url.rfind('.')] + '_0.png'
-                    thumbnail_url = thumbnail_location
+                    cdn_sp = cdn_url[:cdn_url.rfind('.')]
+                    cdn_name = os.path.basename(cdn_sp)
+                    thumbnail_url = os.path.join(cdn_sp.replace(cdn_name,''), 'thumb', cdn_name + '_0.png')
+                    # thumbnail_location = cdn_url[:cdn_url.rfind('.')] + '_0.png'
+                    # thumbnail_url = thumbnail_location
                 else:
                     thumbnail_url = ''
             else:
