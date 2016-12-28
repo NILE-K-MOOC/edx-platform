@@ -14,6 +14,11 @@ define([
         //return gettext(dateUTC(date).toString('yyyy/MM/dd'));
     }
 
+    function formatDateFull(date) {
+        return dateUTC(date).toString('yyyyMMddHHmmss');
+        //return gettext(dateUTC(date).toString('yyyy/MM/dd'));
+    }
+
     // Return a date object using UTC time instead of local time
     function dateUTC(date) {
         return new Date(
@@ -49,9 +54,13 @@ define([
 
             //console.log(data);
 
-            var nDate = formatDate(new Date());
-            var sDate = formatDate(new Date(data.start));
-            var eDate = formatDate(new Date(data.end));
+            //var nDate = formatDate(new Date());
+            //var sDate = formatDate(new Date(data.start));
+            //var eDate = formatDate(new Date(data.end));
+
+            var nDate = formatDateFull(new Date());
+            var sDate = formatDateFull(new Date(data.start));
+            var eDate = formatDateFull(new Date(data.end));
 
             if (sDate == null || eDate == null) {
                 data.status = 'none';

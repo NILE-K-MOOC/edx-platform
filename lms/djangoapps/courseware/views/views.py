@@ -163,12 +163,12 @@ def courses(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def haewoondaex(request, org):
+    # if 'KOCWk' == org or 'ACEk' == org or 'CKk' == org or 'COREk' == org:
+    #     courses_list = get_courses_by_org2(request.user, org)
+    # else:
+    #     courses_list = get_courses_by_org(request.user, org)
 
-    if 'KOCWk' == org or 'ACEk' == org or 'CKk' == org or 'COREk' == org:
-        courses_list = get_courses_by_org2(request.user, org)
-    else:
-        courses_list = get_courses_by_org(request.user, org)
-
+    courses_list = get_courses_by_org(request.user, org)
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
     return render_to_response(

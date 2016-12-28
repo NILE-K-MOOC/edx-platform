@@ -49,6 +49,9 @@ from openedx.core.djangolib.js_utils import (
     <%include file="widgets/segment-io.html" />
 
     <%block name="header_extras"></%block>
+
+    <!-- djangojs.js import -->
+    <script type="text/javascript" src="/static/js/script/djangojs.js"></script>
   </head>
 
   <body class="${static.dir_rtl()} <%block name='bodyclass'></%block> lang_${LANGUAGE_CODE}">
