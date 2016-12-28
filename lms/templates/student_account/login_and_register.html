@@ -35,19 +35,18 @@
         }
 
         $(document).ready(function(){
-##             alert('alalalal');
-            var d = new Date();\
+            var d = new Date();
             var year = d.getFullYear();
 
-            %if division == 'Y':
+            %if division != 'Y':
                 $("#register-year_of_birth").find("option").each(function(){
-                    if($(this).val() != "" && eval(year - $(this).val()) < 14)
+                    if($(this).val() != "" && eval(year - $(this).val()) > 14)
                         $(this).remove();
                 });
 
             %else:
                 $("#register-year_of_birth").find("option").each(function(){
-                    if($(this).val() != "" && eval(year - $(this).val()) > 14)
+                    if($(this).val() != "" && eval(year - $(this).val()) < 14)
                         $(this).remove();
                 });
             %endif
@@ -65,7 +64,6 @@
 </%block>
 <script>
     $(document).ready(function(){
-##         alert('alalalal');
     })
 </script>
 
