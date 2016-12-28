@@ -511,8 +511,8 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
                 % if about_page_editable:
                 <li class="field text" id="field-course-effort">
                   <label for="course-effort">${_("Hours of Effort per Week")}</label>
-##                   <input type="text" class="short time" id="course-effort" placeholder="HH:MM" />
-                    <select>
+                  <input type="text" class="short time" id="course-effort" placeholder="HH:MM" /><br/>
+                    <!--<select>
                         <option selected>00</option>
                         <option>01</option>
                         <option>02</option>
@@ -530,7 +530,7 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
                     <select>
                         <option selected>00</option>
                         <option>30</option>
-                    </select><br/>
+                    </select><br/> -->
                     <span class="tip tip-inline">${_("Time spent on all course work")}</span>
                 </li>
                 % endif
