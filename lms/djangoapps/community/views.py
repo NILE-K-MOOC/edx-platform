@@ -900,6 +900,7 @@ def comm_list_json(request) :
                                  (  SELECT section,
                                            max(mod_date) mod_date
                                       FROM tb_board
+                                      WHERE use_yn = 'Y'
                                   GROUP BY section) b
                                     ON (    a.section = b.section
                                         AND a.mod_date = b.mod_date)) c
