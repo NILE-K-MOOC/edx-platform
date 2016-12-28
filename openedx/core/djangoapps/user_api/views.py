@@ -338,6 +338,12 @@ class RegistrationView(APIView):
             data["terms_of_service"] = data["honor_code"]
 
         try:
+            # print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+            # print request
+            # print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+            # print data
+            # print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+
             user = create_account_with_params(request, data)
         except ValidationError as err:
             # Should only get non-field errors from this function
@@ -881,16 +887,16 @@ class RegistrationView(APIView):
                             )
 
                     # Hide the password field
-
-                    # form_desc.override_field_properties(
-                    #     "password",
-                    #     default="",
-                    #     field_type="hidden",
-                    #     required=False,
-                    #     label="",
-                    #     instructions="",
-                    #     restrictions={}
-                    # )
+                    form_desc.override_field_properties(
+                        "password",
+                        default="",
+                        field_type="password",
+                        required=False,
+                        label="",
+                        instructions="",
+                        restrictions={}
+                    )
+                    pass
 
 
 class PasswordResetView(APIView):
