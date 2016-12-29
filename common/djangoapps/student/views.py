@@ -571,10 +571,16 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
 
     # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
+
+    log.info('cert in poll check start info course_overview')
+    log.info(course_overview)
+
     try:
 
         if status == 'ready':
-            arr = str(course_overview.id)[10:].split('+')
+            log.info('survey or poll count check start.')
+
+            arr = str(course_overview)[10:].split('+')
 
             org = arr[0]
             course = arr[1]
@@ -584,12 +590,21 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
 
+            # log.info('org, course, run', str(org), str(course), str(run))
+            print '-------------------'
+            print org
+            print course
+            print run
+            print '-------------------'
+
             cursor = db.modulestore.active_versions.find({'org':org, 'course':course, 'run':run})
 
             pb = ''
             for document in cursor:
                 pb = document.get('versions').get('published-branch')
             cursor.close()
+
+            print 'pb', pb
 
             if pb:
                 cursor = db.modulestore.structures.find({'_id':pb})
@@ -619,6 +634,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
                     if check_cnt > 0:
                         break
+                print 'check_cnt:', check_cnt
 
                 if check_cnt > 0:
                     con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
@@ -630,16 +646,14 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                            AND course_id = '{1}'
                            AND module_type in ('survey', 'poll')
                            AND SUBSTRING_INDEX(module_id, '@', -1) in ({2});
-                    """.format(str(user.id), str(course_overview.id), ','.join(checklist))
+                    """.format(str(user.id), str(course_overview), ','.join(checklist))
 
-                    print 'query :', query
+                    print 'query:', query
 
                     cur.execute(query)
                     row = cur.fetchone()
                     cur.close()
                     con.close()
-
-
 
                     if row is None or row[0] is None:
                         status_dict['survey'] = 'incomplete'
