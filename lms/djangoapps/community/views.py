@@ -280,7 +280,7 @@ def comm_notice_view(request, board_id):
         elif request.GET['method'] == 'file_download':
             file_name = request.GET['file_name']
             # print 'file_name == ', file_name
-            data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
+            data = json.dumps('/static/uploads/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
 
 
         return HttpResponse(data, 'application/json')
@@ -595,7 +595,7 @@ def comm_repo_view(request, board_id):
         elif request.GET['method'] == 'file_download':
             file_name = request.GET['file_name']
             # print 'file_name == ', file_name
-            data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
+            data = json.dumps('/static/uploads/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
         return HttpResponse(data, 'application/json')
 
     context = {
@@ -801,7 +801,7 @@ def comm_k_news_view(request, board_id):
         elif request.GET['method'] == 'file_download':
             file_name = request.GET['file_name']
             # print 'file_name == ', file_name
-            data = json.dumps('/static/file_upload/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
+            data = json.dumps('/static/uploads/'+ file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
 
         return HttpResponse(data, 'application/json')
 

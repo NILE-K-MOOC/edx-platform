@@ -9,7 +9,7 @@ $(document).ready(function(){
                 method : 'view'
             }
     }).done(function(data){
-        console.log(data[8]);
+        //console.log(data[8]);
         var title = data[4]+data[0];
         $('#title').html(title);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
