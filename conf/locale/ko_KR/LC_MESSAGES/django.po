@@ -29223,3 +29223,9 @@ msgstr "성적/이수증 관련"
 
 msgid "You need to register to enrollment."
 msgstr "수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다"
+
+msgid "If you have any questions regarding specific course content, please post your question on the bulletin <strong>board of the course.</strong>"
+msgstr "특정 강좌 내용과 관련된 질문의 경우, 해당 강좌 내 <strong>게시판</strong>에 질문을 올려주시기 바랍니다."
+
+msgid "If you do not find the answer to your question in the list, please contact us via <strong>'Contact us by email'</strong>."
+msgstr "리스트에서 질문에 대한 답을 찾기 어려우시다면 <strong>‘메일로 문의하기’</strong>를 통해 문의하여 주시기 바랍니다."
