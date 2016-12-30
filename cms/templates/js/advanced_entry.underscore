@@ -1,4 +1,14 @@
-<% if( key !='classfy' && key != 'middle_classfy' && key != 'linguistics' && key != 'course_period'){ %>
+<%
+if(key == 'classfy'){
+    display_name = '대분류(수정불가)'
+}else if(key == 'middle_classfy') {
+    display_name = '중분류(수정불가)'
+}else if(key == 'linguistics') {
+    display_name = '한국학여부(수정불가)'
+}else if(key == 'course_period'){
+    display_name = '코스 기간설정(수정불가)'
+}
+%>
 <li class="field-group course-advanced-policy-list-item <%= deprecated ? 'is-deprecated' : '' %>">
 	<div class="field is-not-editable text key" id="<%= key %>">
 		<h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
@@ -13,4 +23,3 @@
       <span class="status"><%= gettext("Deprecated") %></span>
   <% } %>
 </li>
-<% } %>
