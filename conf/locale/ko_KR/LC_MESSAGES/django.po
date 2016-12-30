@@ -10208,7 +10208,7 @@ msgstr "법률적"
 
 #: lms/templates/forgot_password_modal.html
 msgid "Password Reset"
-msgstr "새 비밀번호 설정을 위한 메일 발송하기"
+msgstr "비밀번호 재설정을 위한 이메일 발송"
 
 #: lms/templates/forgot_password_modal.html
 msgid ""
@@ -22150,7 +22150,7 @@ msgstr ""
 #: lms/templates/discovery/filter_bar.underscore
 #: test_root/staticfiles/templates/discovery/filter_bar.underscore
 msgid "Clear All"
-msgstr "모두 지우기"
+msgstr "조건 초기화"
 
 #: lms/templates/edxnotes/note-item.underscore
 #: test_root/staticfiles/templates/edxnotes/note-item.underscore
@@ -29232,3 +29232,4 @@ msgstr "리스트에서 질문에 대한 답을 찾기 어려우시다면 <stron
 
 msgid "Account Activated"
 msgstr "계정이 활성화되었습니다."
+
