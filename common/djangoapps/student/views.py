@@ -271,6 +271,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      ''
                 FROM tb_board
                WHERE section = 'N'
+               and use_yn = 'Y'
             ORDER BY mod_date DESC
                LIMIT 4)
         union all
@@ -294,6 +295,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      ''
                 FROM tb_board
                WHERE section = 'K'
+               and use_yn = 'Y'
             ORDER BY mod_date DESC
                 LIMIT 4)
         union all
@@ -313,6 +315,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      ''
                 FROM tb_board
                WHERE section = 'R'
+               and use_yn = 'Y'
             ORDER BY mod_date DESC
                LIMIT 4)
         union all
@@ -335,6 +338,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      head_title
                 FROM tb_board
                WHERE section = 'F'
+                 and use_yn = 'Y'
             ORDER BY mod_date DESC
                LIMIT 4)
     """
