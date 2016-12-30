@@ -749,6 +749,7 @@
     "Ignore": "\ubb34\uc2dc",
     "Image (Ctrl+G)": "\uc774\ubbf8\uc9c0 (Ctrl+G)",
     "Image description": "\uc774\ubbf8\uc9c0 \uc124\uba85",
+    "Image Description": "\uc774\ubbf8\uc9c0 \uc124\uba85",
     "Image must be 193px X 49px transparent PNG": "\uc774\ubbf8\uc9c0\ub294 193px X 49px \uc758 \ud06c\uae30\uc5d0 \ud22c\uba85\ud55c PNG \ub77c\uc57c \ud569\ub2c8\ub2e4.",
     "Image must be 450px X 150px transparent PNG": "\uc774\ubbf8\uc9c0\ub294 450px X 150px \uc758 \ud06c\uae30\uc5d0 \ud22c\uba85\ud55c PNG \ub77c\uc57c \ud569\ub2c8\ub2e4.",
     "Image must be 450px X 150px transparent PNG.": "\uc774\ubbf8\uc9c0\ub294 450px X 150px\uc758 \ud22c\uba85\ud55c PNG \ud30c\uc77c\uc774\ub77c\uc57c \ud569\ub2c8\ub2e4.",
@@ -1786,8 +1787,8 @@
     "Chinese": "\uc911\uad6d\uc5b4",
     "language": "\uc5b8\uc5b4",
     "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
-    "Add a Response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
-    "Add a Response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
 
     "": "\uc5c6\uc74c"
   };

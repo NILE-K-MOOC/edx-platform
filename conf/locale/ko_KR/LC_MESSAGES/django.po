@@ -16282,7 +16282,7 @@ msgid "Account already active!"
 msgstr "계정이 이미 활성화되어 있습니다."
 
 #: lms/templates/registration/activation_complete.html
-msgid "You can now {link_start}log in{link_end}."
+msgid "You can now {link_start}sign in{link_end}."
 msgstr "지금 {link_start}로그인{link_end} 할 수 있습니다."
 
 #: lms/templates/registration/activation_invalid.html
@@ -29229,3 +29229,6 @@ msgstr "특정 강좌 내용과 관련된 질문의 경우, 해당 강좌 내 <s
 
 msgid "If you do not find the answer to your question in the list, please contact us via <strong>'Contact us by email'</strong>."
 msgstr "리스트에서 질문에 대한 답을 찾기 어려우시다면 <strong>‘메일로 문의하기’</strong>를 통해 문의하여 주시기 바랍니다."
+
+msgid "Account Activated"
+msgstr "계정이 활성화되었습니다."
