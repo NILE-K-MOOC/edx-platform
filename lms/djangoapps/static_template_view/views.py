@@ -45,7 +45,7 @@ def render(request, template):
     # Guess content type from file extension
     content_type, __ = mimetypes.guess_type(template)
     try:
-        if request.session['_language'] == 'ko-kr':
+        if request.session['_language'] != 'en' :
             return render_to_response('static_templates/' + template, {}, content_type=content_type)
         if template == 'about.html' and request.session['_language'] != 'ko-kr':
             return render_to_response('static_templates/' + 'about_en.html', {}, content_type=content_type)
