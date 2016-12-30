@@ -29143,7 +29143,7 @@ msgstr "회원가입 관련"
 msgid "About sign-in and account"
 msgstr "로그인 및 계정 관련"
 
-msgid "Use of K-MOOC"
+msgid "About K-MOOC"
 msgstr "K-MOOC 사이트 이용 관련"
 
 msgid "About course registration"
