@@ -67,6 +67,7 @@
           maxFileSizeRedirectUrl: "${max_file_size_redirect_url}"
         });
     });
+
 </%block>
 
 <%block name="content">
@@ -683,7 +684,7 @@ var trCdnFile = ""
 
 
 
-    var trans_state = function (uuid) {
+    var trans_state = function (uuid, file_name, file_type, thumbnail_url, cdn_url, state) {
 
         try{
 
@@ -691,7 +692,8 @@ var trCdnFile = ""
             if(uuid != '' || uuid == undefined){
                 var transcoding_status = setInterval(function(){
 
-                    var state_msg = "";
+
+
 
 
                     //console.info('status', cnt);
@@ -699,17 +701,23 @@ var trCdnFile = ""
                         url: mme_host + '/upload_mov',
                         cache: false, dataType: "json", async: true,
                         data: {'uuid': uuid, 'playtime': ""},
+                        state_code: "",
                         success: function(res){
                             var message = res.message;
                             var state_msg = "";
+
                             if(message == 'FAILURE'){
                                 state_msg = "인코딩 실패";
+                                this.state_code = 'E';
                                 $("#"+uuid).val(state_msg);
+
                                 clearInterval(transcoding_status);
                                 return;
                             }else if(message == 'PENDING'){
                                 if(res.data.status == 'fail'){
                                     state_msg = "인코딩 실패";
+                                    this.state_code = 'E';
+
                                     $("#"+uuid).val(state_msg);
                                     clearInterval(transcoding_status);
                                     return;
@@ -721,6 +729,8 @@ var trCdnFile = ""
 
                                 }else if(res.data.status == 'complete'){
                                     state_msg = '동영상 인코딩 완료';
+                                    this.state_code = 'E';
+
                                     $("#"+uuid).val(state_msg);
                                     clearInterval(transcoding_status);
                                     return;
@@ -732,6 +742,8 @@ var trCdnFile = ""
                                 return;
                             }else if(message == 'SUCCESS'){
                                 state_msg = '동영상 인코딩 완료';
+                                this.state_code = 'E';
+
                                 $("#"+uuid).val(state_msg);
                                 clearInterval(transcoding_status);
                                 return;
@@ -740,10 +752,20 @@ var trCdnFile = ""
                         ,error: function(){
                             clearInterval(transcoding_status);
                             return;
+                        },
+                        complete: function(response){
+                            var state_code = "I";
+                            switch (response.responseJSON.message){
+                                case 'FAILURE': state_code= "F"; break;
+                                case 'NOTFOUND': state_code= "F"; break;
+                                case 'SUCCESS': state_code= "E"; break;
+                            }
+                            ajaxStateEdx(file_name, cdn_url, file_type, thumbnail_url, uuid, state_code, "00:00:00");
                         }
                     });
 
                 }, 2000);
+
             }
 
 
