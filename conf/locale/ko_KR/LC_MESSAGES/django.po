@@ -429,7 +429,7 @@ msgid "Text Input with Hints and Feedback"
 msgstr "힌트가 있는 텍스트 입력"
 
 #: openassessment/templates/openassessmentblock/response/oa_response.html
-msgid "Enter your response to the question above."
+msgid "Enter your response to the question."
 msgstr "위의 질문에 대한 답변."
 
 msgid "Your peer's response to the question above:"
@@ -601,7 +601,7 @@ msgstr "전체 강좌"
 #: lms/templates/navigation-edx.html lms/templates/navigation.html
 #: themes/edx.org/lms/templates/header.html
 msgid "Dashboard"
-msgstr "대시보드"
+msgstr "내 강의실"
 
 msgid "I want to learn about…"
 msgstr "원하시는 강의를 검색해보세요"
@@ -9240,7 +9240,7 @@ msgstr "거주지"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Please select your Country."
-msgstr "국가를 선택하십시오"
+msgstr "국가(Country)를 선택하십시오"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "I agree to the {platform_name} {terms_of_service}."
@@ -10061,7 +10061,7 @@ msgstr "모든 강좌 보기"
 
 #: lms/templates/dashboard.html themes/edx.org/lms/templates/dashboard.html
 msgid "My Courses"
-msgstr "내 강좌"
+msgstr "내 강의실"
 
 #: lms/templates/dashboard.html themes/edx.org/lms/templates/dashboard.html
 msgid "You are not enrolled in any courses yet."
@@ -10208,7 +10208,7 @@ msgstr "법률적"
 
 #: lms/templates/forgot_password_modal.html
 msgid "Password Reset"
-msgstr "비밀번호 재설정을 위한 이메일 발송"
+msgstr "새 비밀번호 설정을 위한 메일 발송하기"
 
 #: lms/templates/forgot_password_modal.html
 msgid ""
@@ -17724,7 +17724,7 @@ msgstr "기관 안에서 새로운 강좌를 식별하는 고유 번호입니다
 #: cms/templates/course-create-rerun.html cms/templates/index.html
 #: cms/templates/settings.html
 msgid "Course Run"
-msgstr "기관별 강좌 번호"
+msgstr "강좌별 운영번호"
 
 #: cms/templates/course-create-rerun.html cms/templates/index.html
 msgid "e.g. 2014_T1"
@@ -18920,7 +18920,7 @@ msgid ""
 "your course URL, so no spaces or special characters are allowed and it "
 "cannot be changed.{strong_end}"
 msgstr ""
-"강좌의 학기 혹은 회차를 의미하며, '연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입)'로 구성. (예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
+"재개강 강좌간의 구분을 위한 번호입니다. ('연도_학기_재개강횟수(첫 운영 강좌일 경우 0 기입') 형태를 권고함. 예: 2016년 1학기에 첫 재개설 강좌일 경우2016_T1_1){br}"
 "{strong_start}Note: 이것은 강좌 URL의 일부로서 띄어쓰기나 특수문자를 사용할 수 없으며 변경할 수 없습니다.{strong_end}"
 
 #: cms/templates/index.html cms/templates/js/certificate-editor.underscore
@@ -28657,7 +28657,7 @@ msgid "IPIN certification is not completed."
 msgstr "아이핀 인증이 완료되지 않았습니다."
 
 msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join."
-msgstr "어린이 회원(만 14세 미만) 은 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다."
+msgstr "만 14세 미만 학습자는 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다."
 
 msgid "Please click the 'IPIN Certification' button and proceed with the consent of the guardian (legal representative)."
 msgstr "“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
@@ -29233,3 +29233,66 @@ msgstr "리스트에서 질문에 대한 답을 찾기 어려우시다면 <stron
 msgid "Account Activated"
 msgstr "계정이 활성화되었습니다."
 
+###  ORA 관련 영문
+msgid "Your Response"
+msgstr "답변"
+
+msgid "You can save your progress and return to complete your response at any time."
+msgstr "진행 상황을 저장하고 언제든지 돌아가서 응답을 완료 할 수 있습니다."
+
+msgid "After you submit your response, you cannot edit it"
+msgstr "답을 제출 한 후에는 답을 편집 할 수 없습니다"
+
+msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the Your Response field."
+msgstr "이 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
+
+msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the {{ start_tag }}Your Response{{ end_tag }} field."
+msgstr "이 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
+
+msgid "Enter your response to the question above."
+msgstr "위 질문에 대한 귀하의 답변을 입력하십시오."
+
+msgid "You may continue to work on your response until you submit it."
+msgstr "제출할 때까지 답을 계속 작성할 수 있습니다."
+
+msgid "Save your progress"
+msgstr "진행중인 작업을 저장합니다"
+
+msgid "This response has not been saved."
+msgstr "답이 저장되지 않았습니다"
+
+msgid "Submit your response and move to the next step"
+msgstr "답변을 제출하고 다음 단계로 이동합니다."
+
+msgid "Your Grade"
+msgstr "귀하의 점수는"
+
+msgid "Not Started"
+msgstr "시작되지 않았습니다."
+
+msgid "You have not started this problem yet."
+msgstr "이 문제에 대해서 아직 시작하지 않으셨습니다."
+
+msgid "Learn to Assess Responses"
+msgstr "답변 평가 방법 학습"
+
+msgid "Learning to Assess Responses"
+msgstr "답변 평가 방법 학습"
+
+msgid "Assess Peers"
+msgstr "상호평가"
+
+msgid "Assess Your Response"
+msgstr "자신의 답변 평가"
+
+msgid "Not Available"
+msgstr "이용할 수 없습니다."
+
+msgid "Manage Individual Learners"
+msgstr "개별 학습자 관리하기"
+
+msgid "View Assignment Statistics"
+msgstr "과제 통계 조회"
+
+msgid "Grade Available Responses"
+msgstr "답변 채점하기"
