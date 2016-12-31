@@ -9,8 +9,12 @@
 <section class="container">
     <!-- [s] board write -->
     <h2>${_("Contact us by email")}</h2>
-    ${_("The inquiry will be sent to the K-MOOC staff members by e-mail.")}
-    <section class="board-view">
+    <ul>
+##         <li>${_("The inquiry will be sent to the K-MOOC staff members by e-mail.")}</li>
+        <li>${_("If you do not find the answer to your question in the list, please contact us via <strong>'Contact us by email'</strong>.")}</li>
+        <li>${_("If you have any questions regarding specific course content, please post your question on the bulletin <strong>board of the course.</strong>")}</li>
+    </ul>
+    <section class="board-view" style="padding-top: 20px !important;">
 
         <div class="board-write">
             <dl>
@@ -22,7 +26,7 @@
 
                     <select id="search_con" style="height: 35px; min-width: 100px!important; ">
                         <option id="null">${_("Please choose your inquiry.")}</option>
-                        <option id="kmooc_f">${_("Use of K-MOOC")}</option>
+                        <option id="kmooc_f">${_("About K-MOOC")}</option>
                         <option id="regist_f">${_("About membership")}</option>
                         <option id="login_f">${_("About sign-in and account")}</option>
                         <option id="enroll_f">${_("About enrollment/cancel")}</option>

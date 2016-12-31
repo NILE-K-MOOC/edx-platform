@@ -775,9 +775,14 @@ def course_about(request, course_id):
 
         if course_details.enrollment_start :
             enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10], "%Y-%m-%d").date()
-            enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y/%m/%d")}
             enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10], "%Y-%m-%d").date()
-            enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y/%m/%d")}
+
+            if request.session['_language'] != 'en' :
+                enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y년%m월%d일")}
+                enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y년%m월%d일")}
+            else :
+                enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y/%m/%d")}
+                enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y/%m/%d")}
         else :
             enroll_sdate = {'enroll_sdate' : ''}
             enroll_edate = {'enroll_edate' : ''}

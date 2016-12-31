@@ -143,14 +143,17 @@ def agree_done(request):
 def parent_agree(request):
 
     ## IPIN info
+
+    print 'ipin module called1'
+
     sSiteCode   = 'M231'
     sSitePw     = '76421752'
     sModulePath = '/edx/app/edxapp/IPINClient'
     sCPRequest  = commands.getoutput(sModulePath + ' SEQ ' + sSiteCode)
-    sReturnURL  = 'http://www.kmooc.kr/parent_agree_done'
+    sReturnURL  = 'https://localhost:8000/parent_agree_done'
     sEncData = commands.getoutput(sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL)
 
-    '''
+
     print '===================================================='
     print '1 = ', sModulePath + ' SEQ ' + sSiteCode
     print '===================================================='
@@ -160,7 +163,6 @@ def parent_agree(request):
     print '===================================================='
     print '5 = ', sEncData
     print '===================================================='
-    '''
 
     if sEncData == -9 :
         sRtnMsg = '입력값 오류 : 암호화 처리시 필요한 파라미터값의 정보를 정확하게 입력해 주시기 바랍니다.'
@@ -264,83 +266,6 @@ def agree_done(request):
 
     return HttpResponse(json.dumps(data))
 
-@csrf_exempt
-def parent_agree(request):
-
-    ## IPIN info
-    sSiteCode   = 'M231'
-    sSitePw     = '76421752'
-    sModulePath = '/edx/app/edxapp/IPINClient'
-    sCPRequest  = commands.getoutput(sModulePath + ' SEQ ' + sSiteCode)
-    sReturnURL  = 'http://www.kmooc.kr/parent_agree_done'
-    sEncData = commands.getoutput(sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL)
-
-    '''
-    print '===================================================='
-    print '1 = ', sModulePath + ' SEQ ' + sSiteCode
-    print '===================================================='
-    print '3 = ', sCPRequest
-    print '===================================================='
-    print '4 = ', sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL
-    print '===================================================='
-    print '5 = ', sEncData
-    print '===================================================='
-    '''
-
-    if sEncData == -9 :
-        sRtnMsg = '입력값 오류 : 암호화 처리시 필요한 파라미터값의 정보를 정확하게 입력해 주시기 바랍니다.'
-    else :
-        sRtnMsg = sEncData + ' 변수에 암호화 데이터가 확인되면 정상 정상이 아닌경우 리턴코드 확인 후 NICE평가정보 개발 담당자에게 문의해 주세요.'
-
-    print 'sRtnMsg = ', sRtnMsg
-
-    context = {
-        'sEncData' : sEncData,
-    }
-
-    return render_to_response('student_account/parent_agree.html', context)
-
-@csrf_exempt
-def parent_agree_done(request):
-
-    sSiteCode   = 'M231'
-    sSitePw     = '76421752'
-    sModulePath = '/edx/app/edxapp/IPINClient'
-    sEncData = request.POST['enc_data']
-
-    sDecData = commands.getoutput(sModulePath + ' RES ' + sSiteCode + ' ' + sSitePw + ' ' + sEncData)
-
-    print 'sDecData', sDecData
-
-    if sDecData:
-        val = sDecData.split('^')
-        if val[6] and len(val[6]) == 8:
-
-            print '*****************************'
-            print int(date.today().year) - int(val[6][:4])
-            print '*****************************'
-
-            if int(date.today().year) - int(val[6][:4]) < 20:
-                context = {
-                    'isAuth': 'fail',
-                    'age': int(date.today().year) - int(val[6][:4]),
-                }
-            else:
-                request.session['auth'] = 'Y'
-                context = {
-                    'isAuth' : 'succ',
-                    'age': int(date.today().year) - int(val[6][:4]),
-                }
-
-    else:
-        context = {
-            'isAuth': 'fail',
-            'age': 0,
-        }
-
-    print 'context > ', context
-
-    return render_to_response('student_account/parent_agree_done.html', context)
 
 @require_http_methods(['GET'])
 @ensure_csrf_cookie

@@ -271,6 +271,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      ''
                 FROM tb_board
                WHERE section = 'N'
+               and use_yn = 'Y'
             ORDER BY mod_date DESC
                LIMIT 4)
         union all
@@ -294,6 +295,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      ''
                 FROM tb_board
                WHERE section = 'K'
+               and use_yn = 'Y'
             ORDER BY mod_date DESC
                 LIMIT 4)
         union all
@@ -313,6 +315,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      ''
                 FROM tb_board
                WHERE section = 'R'
+               and use_yn = 'Y'
             ORDER BY mod_date DESC
                LIMIT 4)
         union all
@@ -335,6 +338,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      head_title
                 FROM tb_board
                WHERE section = 'F'
+                 and use_yn = 'Y'
             ORDER BY mod_date DESC
                LIMIT 4)
     """
@@ -571,10 +575,16 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
 
     # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
+
+    log.info('cert in poll check start info course_overview')
+    log.info(course_overview)
+
     try:
 
         if status == 'ready':
-            arr = str(course_overview.id)[10:].split('+')
+            log.info('survey or poll count check start.')
+
+            arr = str(course_overview)[10:].split('+')
 
             org = arr[0]
             course = arr[1]
@@ -584,6 +594,29 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
 
+            # log.info('org, course, run', str(org), str(course), str(run))
+            print '-------------------'
+            print org
+            print course
+            print run
+            print '-------------------'
+
+            cursor = db.modulestore.active_versions.find({'org':org, 'course':course}).sort("edited_on", 1)
+            order_course = {}
+            course_cnt = 1;
+            for document in cursor:
+                print document.get('run')
+                order_course[document.get('run')] = course_cnt
+                course_cnt += 1
+
+            print 'order_course[run]:', order_course[run]
+            if order_course[run] == 1:
+                pass
+            else:
+                print 'return because rerun course..'
+                return status_dict
+
+
             cursor = db.modulestore.active_versions.find({'org':org, 'course':course, 'run':run})
 
             pb = ''
@@ -591,6 +624,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                 pb = document.get('versions').get('published-branch')
             cursor.close()
 
+            # print 'pb', pb
             if pb:
                 cursor = db.modulestore.structures.find({'_id':pb})
                 for document in cursor:
@@ -600,7 +634,11 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
                 check_cnt = 0
                 for block in blocks:
-                    if block.get('block_type') == 'vertical':
+                    if block.get('block_type') == 'course':
+                        end = block.get('fields')['end']
+                        # print 'end:', end
+
+                    elif block.get('block_type') == 'vertical':
                         global visible_to_staff_only
 
                         if 'visible_to_staff_only' in block.get('fields'):
@@ -617,9 +655,19 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                                 check_cnt += 1
                                 checklist.append("'"+children[1]+"'")
 
-                    if check_cnt > 0:
-                        break
+                    # if check_cnt > 0:
+                    #     break
+                # print 'check_cnt:', check_cnt
+                # print 'datetime1:', datetime.datetime.now()
+                # print 'datetime2:', datetime.datetime.now(UTC)
+                # print 'datetime3:', end.strftime("%Y%m%d")
+                # print 'datetime3:', end.strftime("%Y%m%d") < '20161201'
 
+                if not end or end.strftime("%Y%m%d") < '20161231':
+                    log.info('before 20161201 course.. return..')
+                    return status_dict
+
+                # print 'check_cnt:', check_cnt
                 if check_cnt > 0:
                     con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
                     cur = con.cursor()
@@ -630,16 +678,14 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                            AND course_id = '{1}'
                            AND module_type in ('survey', 'poll')
                            AND SUBSTRING_INDEX(module_id, '@', -1) in ({2});
-                    """.format(str(user.id), str(course_overview.id), ','.join(checklist))
+                    """.format(str(user.id), str(course_overview), ','.join(checklist))
 
-                    print 'query :', query
+                    print 'query:', query
 
                     cur.execute(query)
                     row = cur.fetchone()
                     cur.close()
                     con.close()
-
-
 
                     if row is None or row[0] is None:
                         status_dict['survey'] = 'incomplete'
