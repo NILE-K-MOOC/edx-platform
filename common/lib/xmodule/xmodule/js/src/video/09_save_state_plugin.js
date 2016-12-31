@@ -116,7 +116,8 @@
                                         // chali5124@gmail.com
                                         // 2016.11.30 비디오 컨텐츠 이벤트에 대한 이용자정보 수집부분 추가
                                         var cookie = JSON.parse($.cookie('edx-user-info').replace(/\\054/g, ",").replace(/\\"/g, "'").replace(/\"/g, "").replace(/\'/g, "\""));
-                                        var url = this.state.config.element.baseURI;
+                                        // var url = this.state.config.element.baseURI;
+                                        var url = document.location.href;
                                         var re = /^((https?):\/\/(.*))\/courses\/(.*)\/courseware\/(.*)\/(.*)\/(.*)$/i;
                                         var match = url.match(re);
                                         var nedx_data = {
