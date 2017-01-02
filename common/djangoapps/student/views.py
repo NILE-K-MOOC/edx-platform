@@ -951,17 +951,45 @@ def dashboard(request):
     print 'cert_statuses'
     print cert_statuses
 
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                  settings.DATABASES.get('default').get('USER'),
+                  settings.DATABASES.get('default').get('PASSWORD'),
+                  settings.DATABASES.get('default').get('NAME'),
+                  charset='utf8')
+
     course_type1 = []
     course_type2 = []
     course_type3 = []
     course_type4 = []
 
     for c in course_enrollments:
+        course_id = c.course
+        cur = con.cursor()
+        query = "select enrollment_end from course_overviews_courseoverview where id = '"+str(course_id)+"'"
+        cur.execute(query)
+        one = cur.fetchone()
+        # print 'one == ', one[0]
+        today = datetime.datetime.now(UTC)
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        e_end = one[0]
+
+        if one[0] != None:
+            e_end_val = e_end.strptime(str(e_end)[0:10], "%Y-%m-%d").date()
+        else :
+            e_end_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+
+        a = (e_end_val-today_val)
+        print a.days
+
         if c.course.start and c.course.start > datetime.datetime.now(UTC):
             c.status = 'ready'
             course_type1.append(c)
         elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
-            c.status = 'ing'
+            if a.days >= 0 :
+                c.status = 'ing(ing)'
+            else :
+                c.status = 'ing(end)'
+
             course_type2.append(c)
         elif c.course.end and c.course.end < datetime.datetime.now(UTC):
             c.status = 'end'
@@ -1060,6 +1088,7 @@ def dashboard(request):
         # course = get_course_with_access(user, 'load', enrollment.course_id, depth=None, check_if_enrolled=True)
         # grade_summary = grades.grade(user, course, course_structure=None)
         # percents[course_id] = str(int(float(grade_summary['percent']) * 100))
+
 
 
 
