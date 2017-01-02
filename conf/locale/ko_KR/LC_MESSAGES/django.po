@@ -28280,8 +28280,11 @@ msgstr "대학명"
 msgid "All"
 msgstr "전체"
 
-msgid "ing"
-msgstr "진행중"
+msgid "ing(ing)"
+msgstr "진행중(수강신청 가능)"
+
+msgid "ing(end)"
+msgstr "진행중(수강신청 마감)"
 
 msgid "ready"
 msgstr "개강예정"
@@ -29296,3 +29299,202 @@ msgstr "과제 통계 조회"
 
 msgid "Grade Available Responses"
 msgstr "답변 채점하기"
+
+msgid "Prompts. Replace the sample text with your own text. For more information, see the ORA documentation."
+msgstr "문제와 예문을 바꾸세요. 이에 관해 도움말이 필요하면 ORA 도움말을 참고하세요."
+
+msgid "You cannot delete a prompt after the assignment has been released."
+msgstr "과제가 이미 게시된 후에는 프롬프트를 삭제할 수 없습니다."
+
+msgid "Add Prompt"
+msgstr "문제 추가"
+
+msgid ""
+"Rubrics are made up of criteria, which usually contain one or more options. "
+"Each option has a point value. This template contains two sample criteria and their options. "
+"Replace the sample text with your own text. For more information, see the ORA documentation."
+msgstr ""
+"루브릭은 평가 항목으로 구성되어 있으며, 1개 이상의 평가 기준을 포함하고 있습니다. 각 평가기준은 1점으로 점수값이 매겨져 있습니다. "
+"이 템플릿은 두 가지 평가 항목과 각각의 평가 기준 예시를 포함하고 있습니다. 예시 텍스트를 새로 작성하셔도 좋습니다. "
+"더 자세한 정보는, ORA 도움말을 참고하세요."
+
+msgid "Criterion"
+msgstr "평가 항목"
+
+msgid "Criterion Name"
+msgstr "평가 항목"
+
+msgid "Criterion Prompt"
+msgstr "평가 항목 프롬프트"
+
+msgid "You cannot delete a criterion after the assignment has been released."
+msgstr "과제가 공지되고 난 후에는 평가 항목을 삭제할 수 없습니다."
+
+msgid "Option"
+msgstr "평가 기준"
+
+msgid "Option Name"
+msgstr "평가 기준 이름"
+
+msgid "Option Points"
+msgstr "평가 기준 포인트"
+
+msgid "Option Explanation"
+msgstr "평가 기준 설명"
+
+msgid "Add Option"
+msgstr "평가 기준 추가"
+
+msgid "Feedback for This Criterion"
+msgstr "평가 항목에 대한 피드백"
+
+msgid "Select one of the options above. This describes whether or not the learner will have to provide criterion feedback."
+msgstr "위 옵션 중 한가지를 선택하세요. 이 옵션이 학습자가 기준에 대한 피드백을 입력해야 하는지 나타냅니다."
+
+msgid "Add Criterion"
+msgstr "평가 항목 추가"
+
+msgid "Feedback for This Response"
+msgstr "이 응답에 대한 피드백"
+
+msgid "Feedback Instructions"
+msgstr "피드백 지시사항"
+
+msgid "Encourage learners to provide feedback on the response they have graded. You can replace the sample text with your own."
+msgstr "학습자가 채점을 완료한 답변에 대해 피드백을 입력하도록 권장하세요. 예제 텍스트를 대체하여 입력하면 됩니다."
+
+msgid "Default Feedback Text"
+msgstr "기본 피드백 텍스트"
+
+msgid "Enter feedback text that learners will see before they enter their own feedback. Use this text to show learners a good example peer assessment."
+msgstr "학습자가 직접 피드백을 입력하기 전에 보게 될 피드백 텍스트를 입력하세요. 이 텍스트를 통해 학습자에게 좋은 상호 평가 예제를 보여주세요."
+
+msgid "This name appears when you hover over the unit in the course ribbon at the top of the page."
+msgstr "이 페이지의 상단에 있는 강좌 리본에 있는 학습활동 위로 마우스를 가져가면 이름이 나타납니다."
+
+msgid "Response Start Date"
+msgstr "답변 시작일"
+
+msgid "Response Start Time"
+msgstr "답변 시작 시간"
+
+msgid "The date and time when learners can begin submitting responses."
+msgstr "학습자가 답변 제출을 시작할 수 있는 날짜 및 시간입니다."
+
+msgid "Response Due Date"
+msgstr "답변 마감일"
+
+msgid "Response Due Time"
+msgstr "답변 마감 시간"
+
+msgid "The date and time when learners can no longer submit responses."
+msgstr "학습자가 더이상 답변을 제출할 수 없는 날짜 및 시간입니다."
+
+msgid "Allow File Upload"
+msgstr "파일 업로드 허용하기"
+
+msgid ""
+"Specify whether learners can submit a file along with their text response. "
+"Select Image to allow JPG, GIF, or PNG files. Select PDF or Image to allow PDF files and images. "
+"Select Custom File Types to allow files with extensions that you specify below. (Use this option with caution.)"
+msgstr ""
+"학습자가 텍스트 답변과 함께 파일을 첨부할 수 있는지 설정하세요. 이미지를 선택해 JPG, GIF 및 PNG 파일 첨부를 허용할 수 있습니다. "
+"또, PDF나 이미지를 선택해 PDF 파일 및 이미지 첨부를 허용할 수 있습니다. "
+"사용자 정의 파일 형식을 선택하면 설정한 확장자를 가진 파일의 첨부를 허용할 수 있습니다. (이 옵션을 사용할 땐 주의해야 합니다.)"
+
+msgid "Allow LaTeX Responses"
+msgstr "LaTeX 답변 허용하기"
+
+msgid "Specify whether learners can write LaTeX formatted strings"
+msgstr "학습자가 LaTeX 형식 스트링을 사용할 수 있는지 설정하세요."
+
+msgid "Top Responses"
+msgstr "우수 답변"
+
+msgid ""
+"Specify the number of top scoring responses to display. Valid numbers are 0 to 99. "
+"If the number is 0, the Top Responses section does not appear to learners."
+msgstr "공개할 우수 응답의 수를 지정하세요. 0에서 99까지의 수가 유효합니다. 0을 입력할 경우, 우수 응답이 공개되지 않습니다."
+
+msgid ""
+"In this assignment, you can include learner training, peer assessment, self assessment, and staff assessment steps. "
+"Select the steps that you want below, and then drag them into the order you want. "
+"If you include a learner training step, it must precede all other steps. "
+"If you include a staff assessment step, it must be the final step. "
+"After you release an ORA assignment, you cannot change the type and number of assessment steps."
+msgstr ""
+"이 과제에서 학습자 안내, 상호 평가, 자기 평가, 예제 기반 평가 및 운영팀 평가 단계를 추가할 수 있습니다. "
+"아래에서 추가할 단계를 선택하고 원하는 순서에 맞춰 드래그하세요. 예제 기반 평가 단계를 추가한다면 다른 모든 단계 앞에 위치해야 합니다. "
+"학습자 안내 단계를 추가하면 반드시 상호 및 자기 평가 단계 앞에 위치해야 합니다. 운영팀 평가 단계의 경우 마지막 단계여야 합니다. "
+"개방형 상호 평가 과제를 공개한 뒤 평가 단계 종류 및 숫자를 수정할 수 없습니다."
+
+msgid "Step: Learner Training"
+msgstr "단계: 학습자 안내"
+
+msgid ""
+"Enter one or more sample responses that you've created, and then specify the options that you would choose for each criterion in your rubric. "
+"Note that you must add your rubric to the Rubric tab before you can complete this step."
+msgstr ""
+"예시 답변을 하나 이상 입력하고, 귀하의 루브릭의 각 평가 항목에서 사용할 평가 기준을 지정합니다. 주의하셔야 할 것은, 이 단계를 완료하기 전에 루브릭 탭에 귀하의 루브릭을 추가해야 합니다."
+
+msgid "Scored Response"
+msgstr "채점된 응답"
+
+msgid "Response Score"
+msgstr "응답 점수"
+
+msgid "Add Sample Response"
+msgstr "예시 응답 추가하기"
+
+msgid "Step: Peer Assessment"
+msgstr "단계 : 상호 평가"
+
+msgid "Specify the following values for the peer assessment step."
+msgstr "상호 평가 단계에 대한 다음 값을 지정합니다."
+
+msgid "Must Grade"
+msgstr "채점해야할 수"
+
+msgid "Specify the number of peer assessments that each learner must complete. Valid numbers are 0 to 99."
+msgstr "각 학습자가 해야 할 상호 평가의 수를 지정하세요. 0에서 99까지의 수가 유효합니다. "
+
+msgid "Graded By"
+msgstr "채점받아야할 수"
+
+msgid "Specify the number of learners that each response must be assessed by. Valid numbers are 0 to 99."
+msgstr "각 응답에 대해 평가받아야 할 학습자의 수를 설정하세요. 0에서 99까지의 수가 유효합니다."
+
+msgid "Start Time"
+msgstr "시작 시간"
+
+msgid "Enter the date and time when learners can begin assessing peer responses."
+msgstr "학습자가 상호 평가를 수행할 수 있는 날짜와 시간을 입력하세요."
+
+msgid "Due Time"
+msgstr "마감 시간"
+
+msgid "Enter the date and time when all peer assessments must be complete."
+msgstr "상호 평가를 마쳐야 하는 날짜와 시간을 입력하세요."
+
+msgid "Step: Self Assessment"
+msgstr "단계 :  자기평가"
+
+msgid "Specify start and due dates for the self assessment step."
+msgstr "직접 평가 단계의 시작일과 쿠폰 만기일을 명시하세요."
+
+msgid "Step: Staff Assessment"
+msgstr "단계: 운영팀 평가"
+
+msgid "Staff members assess learners' responses using the rubric for the assignment."
+msgstr "운영팀은 과제 루브릭을 활용해 학습자의 답변을 평가할 수 있습니다."
+
+msgid "Enter the date and time when learners can begin assessing their responses."
+msgstr "학습자가 자기 답변 평가를 시작할 수 있는 날짜와 시간을 입력하세요."
+
+msgid "Enter the date and time when all self assessments must be complete."
+msgstr "모든 직접 평가들이 완료되어야 할 날짜와 시간을 입력하세요."
+
+
+
+
+
