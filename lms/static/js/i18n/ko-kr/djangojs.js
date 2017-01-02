@@ -4,7 +4,7 @@
 
   var django = globals.django || (globals.django = {});
 
-  
+
   django.pluralidx = function (n) {
     var v=0;
     if (typeof(v) == 'boolean') {
@@ -13,66 +13,66 @@
       return v;
     }
   };
-  
 
-  
+
+
   /* gettext library */
 
   django.catalog = {
-    "#Replies": "#\ub2f5\uae00\ub4e4", 
+    "#Replies": "#\ub2f5\uae00\ub4e4",
     "%(numResponses)s other response": [
       "\ub2e4\ub978 \ub2f5\ubcc0: %(numResponses)s "
-    ], 
+    ],
     "%(numResponses)s response": [
       "\ub2f5\ubcc0: %(numResponses)s"
-    ], 
+    ],
     "%(numVotes)s Vote": [
       "%(numVotes)s  \ud45c"
-    ], 
+    ],
     "%(num_questions)s question": [
       "%(num_questions)s\uac1c"
-    ], 
+    ],
     "%(num_students)s student": [
       " %(num_students)s \uba85 "
-    ], 
+    ],
     "%(num_students)s student opened Subsection": [
       "\uc18c\uc8fc\uc81c\ub97c \uc5f4\uc5b4\ubcf8 \ud559\uc2b5\uc790\ub4e4 : %(num_students)s"
-    ], 
+    ],
     "%(team_count)s Team": [
       "%(team_count)s \ud300"
-    ], 
+    ],
     "%(unread_count)s new comment": [
       "%(unread_count)s \uc758 \uc0c8\ub85c\uc6b4 \ub313\uae00"
-    ], 
+    ],
     "%(value)s hour": [
       "%(value)s \uc2dc\uac04"
-    ], 
+    ],
     "%(value)s minute": [
       "%(value)s \ubd84"
-    ], 
+    ],
     "%(value)s second": [
       "%(value)s \ucd08"
-    ], 
+    ],
     "%d day": [
       "%d \uc77c"
-    ], 
+    ],
     "%d minute": [
       "%d \ubd84"
-    ], 
+    ],
     "%d month": [
       "%d \uac1c\uc6d4"
-    ], 
+    ],
     "%d year": [
       "%d \ub144"
-    ], 
-    "%s ago": "%s \uc804", 
-    "%s from now": "\uc9c0\uae08\uc73c\ub85c \ubd80\ud130 %s \uc774\ud6c4", 
+    ],
+    "%s ago": "%s \uc804",
+    "%s from now": "\uc9c0\uae08\uc73c\ub85c \ubd80\ud130 %s \uc774\ud6c4",
     "%s result": [
       "%s \uacb0\uacfc"
-    ], 
+    ],
     "(%(earned)s/%(possible)s point)": [
       "(%(earned)s/%(possible)s \ud3ec\uc778\ud2b8)"
-    ], 
+    ],
     "(%(num_points)s point possible)": [
       "(%(num_points)s \uc810)"
     ],
@@ -1573,7 +1573,7 @@
     "We had some trouble unpinning this thread. Please try again.": "\uc774 \uac8c\uc2dc\ubb3c \uace0\uc815\uc744 \ucde8\uc18c\ud558\ub294\ub370 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "We had some trouble unsubscribing you from this thread. Please try again.": "\uc774 \uac8c\uc2dc\ubb3c \uad6c\ub3c5 \ucde8\uc18c\uc5d0 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "We have received your information and are verifying your identity. You will see a message on your dashboard when the verification process is complete (usually within 1-2 days). In the meantime, you can still access all available course content.": "\uadc0\ud558\uc758 \uc815\ubcf4\ub97c \ubc1b\uc558\uc73c\uba70 \ubcf8\uc778 \ud655\uc778 \uc911\uc785\ub2c8\ub2e4. \uc774 \uc808\ucc28\uac00 \uc644\ub8cc\ub418\uba74 (\ubcf4\ud1b5 1-2\uc77c \uc548\uc5d0 \uc644\ub8cc) \ub300\uc2dc\ubcf4\ub4dc\uc5d0\uc11c \uba54\uc2dc\uc9c0\ub97c \ubcfc \uc218 \uc788\uc744 \uac83\uc785\ub2c8\ub2e4. \uadf8\ub3d9\uc548 \ubcf8\uc778 \ud655\uc778\uc774 \ud544\uc694 \uc5c6\ub294 \ucf58\ud150\uce20\ub97c \uc774\uc6a9\ud558\uc2e4 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
-    "We just need a little more information before you start learning with %(platformName)s.": "%(platformName)s \uc5d0\uc11c \ud559\uc2b5\uc744 \uc2dc\uc791\ud558\uae30 \uc804\uc5d0 \ub2f9\uc2e0\uc5d0 \ub300\ud55c \uc815\ubcf4\uac00 \uc870\uae08\ub354 \ud544\uc694\ud569\ub2c8\ub2e4.",
+    "We just need a little more information before you start learning with %(platformName)s.": "%(platformName)s \ud68c\uc6d0\uac00\uc785\uc744 \uc644\ub8cc\ud558\uae30 \uc704\ud574 \uc544\ub798 \uc815\ubcf4\ub97c \ucd94\uac00\ub85c \uc785\ub825\ud574\uc8fc\uc138\uc694\u002e",
     "We use the highest levels of security available to encrypt your photo and send it to our authorization service for review. Your photo and information are not saved or visible anywhere on %(platformName)s after the verification process is complete.": "\uc800\ud76c\ub294 \uac00\uc7a5 \ub192\uc740 \uc218\uc900\uc758 \ubcf4\uc548\uc744 \uc0ac\uc6a9\ud558\uc5ec, \uc778\uc99d \uc13c\ud130\ub85c \uc0ac\uc9c4\uc744 \ubcf4\ub0c5\ub2c8\ub2e4. \uc778\uc99d \uc808\ucc28\uac00 \uc644\ub8cc\ub418\uba74 \uadc0\ud558\uc758 \uc0ac\uc9c4\uacfc \uc815\ubcf4\ub294 \uc800\uc7a5\ub418\uc9c0 \uc54a\uc744 \uac83\uc774\uba70,  %(platformName)s  \uc5b4\ub514\uc5d0\uc11c\ub3c4 \ubcfc \uc218 \uc5c6\uc744 \uac83\uc785\ub2c8\ub2e4. ",
     "We weren't able to send you a password reset email.": "\uadc0\ud558\uc5d0\uac8c \ube44\ubc00\ubc88\ud638 \uc7ac\uc124\uc815 \uc774\uba54\uc77c\uc744 \ubcf4\ub0bc \uc218 \uc5c6\uc5c8\uc2b5\ub2c8\ub2e4.",
     "Web:": "Web:",
@@ -1681,7 +1681,7 @@
     "Your verification status is good until %(verificationGoodUntil)s.": "%(verificationGoodUntil)s.\uae4c\uc9c0 \uc778\uc99d\uc5d0 \uc131\uacf5\ud588\uc2b5\ub2c8\ub2e4. ",
     "You've made some changes": "\uc218\uc815 \uc644\ub8cc",
     "You've made some changes, but there are some errors": "\ubcc0\uacbd \uc0ac\ud56d \ucc98\ub9ac \uc911, \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4.",
-    "You've successfully signed into %(currentProvider)s.": "%(currentProvider)s\ub85c \ub85c\uadf8\uc778\ud558\uc600\uc2b5\ub2c8\ub2e4.  ",
+    "You've successfully signed into %(currentProvider)s.": "%(currentProvider)s\uacc4\uc815\uacfc \uc5f0\ub3d9\ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e ",
     "YSUk": "\uc5f0\uc138\ub300\ud559\uad50",
     "Zoom In": "\ud655\ub300",
     "Zoom Out": "\ucd95\uc18c",
@@ -1789,6 +1789,12 @@
     "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
     "Add a response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
     "Add a response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a Response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a Response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Type in a URL or use the \"Choose File\" button to upload a file from your machine. (e.g. 'http://example.com/img/clouds.jpg')": "\u0055\u0052\u004c\uc744 \uc785\ub825\ud558\uac70\ub098 \"\ud30c\uc77c \uc120\ud0dd\" \ubc84\ud2bc\uc744 \uc0ac\uc6a9\ud574 \ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc\ud569\ub2c8\ub2e4\u002e \uc608\u003a\u0029 \u0068\u0074\u0074\u0070\u003a\u002f\u002f\u0065\u0078\u0061\u006d\u0070\u006c\u0065\u002e\u0063\u006f\u006d\u002f\u0069\u006d\u0067\u002f\u0063\u006c\u006f\u0075\u0064\u0073\u002e\u006a\u0070\u0067",
+    "e.g. 'Sky with clouds'. The description is helpful for users who cannot see the image.": "\uc774 \uc124\uba85\uc740 \uc774\ubbf8\uc9c0\ub97c \ubcf4\uc9c0 \ubabb\ud558\ub294 \ud559\uc2b5\uc790\uc5d0\uac8c \ub3c4\uc6c0\uc774 \ub429\ub2c8\ub2e4\u002e",
+    "This image is for decorative purposes only and does not require a description.": "\uc774 \uc774\ubbf8\uc9c0\ub294 \uc2dc\uac01\uc801 \ud6a8\uacfc\ub97c \uc704\ud55c \uac83\uc774\uba70 \uc124\uba85\uc774 \ud544\uc694 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
+
 
     "": "\uc5c6\uc74c"
   };
@@ -1828,7 +1834,7 @@
     }
     return value;
   };
-  
+
 
   django.interpolate = function (fmt, obj, named) {
     if (named) {
@@ -1842,45 +1848,45 @@
   /* formatting library */
 
   django.formats = {
-    "DATETIME_FORMAT": "Y\ub144 n\uc6d4 j\uc77c g:i A", 
+    "DATETIME_FORMAT": "Y\ub144 n\uc6d4 j\uc77c g:i A",
     "DATETIME_INPUT_FORMATS": [
-      "%Y-%m-%d %H:%M:%S", 
-      "%Y-%m-%d %H:%M:%S.%f", 
-      "%Y-%m-%d %H:%M", 
-      "%Y-%m-%d", 
-      "%m/%d/%Y %H:%M:%S", 
-      "%m/%d/%Y %H:%M:%S.%f", 
-      "%m/%d/%Y %H:%M", 
-      "%m/%d/%Y", 
-      "%m/%d/%y %H:%M:%S", 
-      "%m/%d/%y %H:%M:%S.%f", 
-      "%m/%d/%y %H:%M", 
-      "%m/%d/%y", 
-      "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84 %S\ucd08", 
+      "%Y-%m-%d %H:%M:%S",
+      "%Y-%m-%d %H:%M:%S.%f",
+      "%Y-%m-%d %H:%M",
+      "%Y-%m-%d",
+      "%m/%d/%Y %H:%M:%S",
+      "%m/%d/%Y %H:%M:%S.%f",
+      "%m/%d/%Y %H:%M",
+      "%m/%d/%Y",
+      "%m/%d/%y %H:%M:%S",
+      "%m/%d/%y %H:%M:%S.%f",
+      "%m/%d/%y %H:%M",
+      "%m/%d/%y",
+      "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84 %S\ucd08",
       "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84"
-    ], 
-    "DATE_FORMAT": "Y\ub144 n\uc6d4 j\uc77c", 
+    ],
+    "DATE_FORMAT": "Y\ub144 n\uc6d4 j\uc77c",
     "DATE_INPUT_FORMATS": [
-      "%Y-%m-%d", 
-      "%m/%d/%Y", 
-      "%m/%d/%y", 
+      "%Y-%m-%d",
+      "%m/%d/%Y",
+      "%m/%d/%y",
       "%Y\ub144 %m\uc6d4 %d\uc77c"
-    ], 
-    "DECIMAL_SEPARATOR": ".", 
-    "FIRST_DAY_OF_WEEK": "0", 
-    "MONTH_DAY_FORMAT": "F\uc6d4 j\uc77c", 
-    "NUMBER_GROUPING": "3", 
-    "SHORT_DATETIME_FORMAT": "Y-n-j H:i", 
-    "SHORT_DATE_FORMAT": "Y-n-j.", 
-    "THOUSAND_SEPARATOR": ",", 
-    "TIME_FORMAT": "A g:i", 
+    ],
+    "DECIMAL_SEPARATOR": ".",
+    "FIRST_DAY_OF_WEEK": "0",
+    "MONTH_DAY_FORMAT": "F\uc6d4 j\uc77c",
+    "NUMBER_GROUPING": "3",
+    "SHORT_DATETIME_FORMAT": "Y-n-j H:i",
+    "SHORT_DATE_FORMAT": "Y-n-j.",
+    "THOUSAND_SEPARATOR": ",",
+    "TIME_FORMAT": "A g:i",
     "TIME_INPUT_FORMATS": [
-      "%H:%M:%S", 
-      "%H:%M:%S.%f", 
-      "%H:%M", 
-      "%H\uc2dc %M\ubd84 %S\ucd08", 
+      "%H:%M:%S",
+      "%H:%M:%S.%f",
+      "%H:%M",
+      "%H\uc2dc %M\ubd84 %S\ucd08",
       "%H\uc2dc %M\ubd84"
-    ], 
+    ],
     "YEAR_MONTH_FORMAT": "Y\ub144 F\uc6d4"
   };
 
@@ -1904,4 +1910,3 @@
   globals.get_format = django.get_format;
 
 }(this));
-
