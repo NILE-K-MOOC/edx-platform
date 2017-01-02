@@ -58,8 +58,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from util.model_utils import emit_field_changed_events, get_changed_fields_dict
 from util.query import use_read_replica_if_available
 from util.milestones_helpers import is_entrance_exams_enabled
-
-import MySQLdb as mdb
+from django.db import connection
 
 
 UNENROLL_DONE = Signal(providing_args=["course_enrollment", "skip_refund"])
@@ -149,8 +148,7 @@ def anonymous_id_for_user(user, course_id, save=True):
     # include the secret key as a salt, and to make the ids unique across different LMS installs.
     hasher = hashlib.md5()
 
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
-    cur = con.cursor()
+    cur = connection.cursor()
     query = """
         SELECT date_format(c.created_at, '%Y%m%d') cdate
           FROM student_anonymoususerid a,
@@ -162,11 +160,9 @@ def anonymous_id_for_user(user, course_id, save=True):
                AND a.user_id = {0}
                AND a.course_id = '{1}';
     """.format(str(user.id), str(course_id))
-
     cur.execute(query)
     row = cur.fetchone()
     cur.close()
-    con.close()
     if row and row[0] > '20161221':
         hasher.update(settings.SECRET_KEY)
 
