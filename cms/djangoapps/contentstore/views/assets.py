@@ -143,6 +143,7 @@ def _assets_json(request, course_key):
         requested_sort = 'uploadDate'
     sort = [(requested_sort, sort_direction)]
 
+
     current_page = max(requested_page, 0)
     start = current_page * requested_page_size
     options = {
