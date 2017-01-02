@@ -610,8 +610,8 @@ def _get_cdn_json(display_name, content_type, date, location, thumbnail_location
     return {
         'display_name': display_name,
         'content_type': content_type,
-        # 'date_added': get_default_time_display(date),
-        'date_added': localtime,
+        'date_added': get_default_time_display(date),
+        # 'date_added': localtime,
         'url': uuid,
         # 'url': uuid,
         'external_url': cdn_url,
