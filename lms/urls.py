@@ -1061,11 +1061,13 @@ if 'debug_toolbar' in settings.INSTALLED_APPS:
     )
 
 # Custom error pages
+handler403 = 'static_template_view.views.render_403'
 handler404 = 'static_template_view.views.render_404'
 handler500 = 'static_template_view.views.render_500'
 
 # display error page templates, for testing purposes
 urlpatterns += (
+    url(r'^403$', handler403),
     url(r'^404$', handler404),
     url(r'^500$', handler500),
 )

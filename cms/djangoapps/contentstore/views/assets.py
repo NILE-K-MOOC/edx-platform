@@ -68,6 +68,7 @@ def assets_handler(request, course_key_string=None, asset_key_string=None):
         raise PermissionDenied()
 
     response_format = request.GET.get('format') or request.POST.get('format') or 'html'
+
     if response_format == 'json' or 'application/json' in request.META.get('HTTP_ACCEPT', 'application/json'):
         if request.method == 'GET':
             return _assets_json(request, course_key)
@@ -138,7 +139,10 @@ def _assets_json(request, course_key):
         requested_sort = 'uploadDate'
     elif requested_sort == 'display_name':
         requested_sort = 'displayname'
+    else:
+        requested_sort = 'uploadDate'
     sort = [(requested_sort, sort_direction)]
+
 
     current_page = max(requested_page, 0)
     start = current_page * requested_page_size
@@ -610,8 +614,8 @@ def _get_cdn_json(display_name, content_type, date, location, thumbnail_location
     return {
         'display_name': display_name,
         'content_type': content_type,
-        # 'date_added': get_default_time_display(date),
-        'date_added': localtime,
+        'date_added': get_default_time_display(date),
+        # 'date_added': localtime,
         'url': uuid,
         # 'url': uuid,
         'external_url': cdn_url,
