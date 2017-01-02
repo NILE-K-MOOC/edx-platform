@@ -162,11 +162,11 @@ class RegistrationView(APIView):
     EXTRA_FIELDS = [
         "first_name",
         "last_name",
-        "city",
         "state",
         "country",
         "gender",
         "year_of_birth",
+        "city",
         "level_of_education",
         "company",
         "title",

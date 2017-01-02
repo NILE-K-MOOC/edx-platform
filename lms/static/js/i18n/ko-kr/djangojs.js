@@ -4,7 +4,7 @@
 
   var django = globals.django || (globals.django = {});
 
-  
+
   django.pluralidx = function (n) {
     var v=0;
     if (typeof(v) == 'boolean') {
@@ -13,66 +13,66 @@
       return v;
     }
   };
-  
 
-  
+
+
   /* gettext library */
 
   django.catalog = {
-    "#Replies": "#\ub2f5\uae00\ub4e4", 
+    "#Replies": "#\ub2f5\uae00\ub4e4",
     "%(numResponses)s other response": [
       "\ub2e4\ub978 \ub2f5\ubcc0: %(numResponses)s "
-    ], 
+    ],
     "%(numResponses)s response": [
       "\ub2f5\ubcc0: %(numResponses)s"
-    ], 
+    ],
     "%(numVotes)s Vote": [
       "%(numVotes)s  \ud45c"
-    ], 
+    ],
     "%(num_questions)s question": [
       "%(num_questions)s\uac1c"
-    ], 
+    ],
     "%(num_students)s student": [
       " %(num_students)s \uba85 "
-    ], 
+    ],
     "%(num_students)s student opened Subsection": [
       "\uc18c\uc8fc\uc81c\ub97c \uc5f4\uc5b4\ubcf8 \ud559\uc2b5\uc790\ub4e4 : %(num_students)s"
-    ], 
+    ],
     "%(team_count)s Team": [
       "%(team_count)s \ud300"
-    ], 
+    ],
     "%(unread_count)s new comment": [
       "%(unread_count)s \uc758 \uc0c8\ub85c\uc6b4 \ub313\uae00"
-    ], 
+    ],
     "%(value)s hour": [
       "%(value)s \uc2dc\uac04"
-    ], 
+    ],
     "%(value)s minute": [
       "%(value)s \ubd84"
-    ], 
+    ],
     "%(value)s second": [
       "%(value)s \ucd08"
-    ], 
+    ],
     "%d day": [
       "%d \uc77c"
-    ], 
+    ],
     "%d minute": [
       "%d \ubd84"
-    ], 
+    ],
     "%d month": [
       "%d \uac1c\uc6d4"
-    ], 
+    ],
     "%d year": [
       "%d \ub144"
-    ], 
-    "%s ago": "%s \uc804", 
-    "%s from now": "\uc9c0\uae08\uc73c\ub85c \ubd80\ud130 %s \uc774\ud6c4", 
+    ],
+    "%s ago": "%s \uc804",
+    "%s from now": "\uc9c0\uae08\uc73c\ub85c \ubd80\ud130 %s \uc774\ud6c4",
     "%s result": [
       "%s \uacb0\uacfc"
-    ], 
+    ],
     "(%(earned)s/%(possible)s point)": [
       "(%(earned)s/%(possible)s \ud3ec\uc778\ud2b8)"
-    ], 
+    ],
     "(%(num_points)s point possible)": [
       "(%(num_points)s \uc810)"
     ],
@@ -1834,7 +1834,7 @@
     }
     return value;
   };
-  
+
 
   django.interpolate = function (fmt, obj, named) {
     if (named) {
@@ -1848,45 +1848,45 @@
   /* formatting library */
 
   django.formats = {
-    "DATETIME_FORMAT": "Y\ub144 n\uc6d4 j\uc77c g:i A", 
+    "DATETIME_FORMAT": "Y\ub144 n\uc6d4 j\uc77c g:i A",
     "DATETIME_INPUT_FORMATS": [
-      "%Y-%m-%d %H:%M:%S", 
-      "%Y-%m-%d %H:%M:%S.%f", 
-      "%Y-%m-%d %H:%M", 
-      "%Y-%m-%d", 
-      "%m/%d/%Y %H:%M:%S", 
-      "%m/%d/%Y %H:%M:%S.%f", 
-      "%m/%d/%Y %H:%M", 
-      "%m/%d/%Y", 
-      "%m/%d/%y %H:%M:%S", 
-      "%m/%d/%y %H:%M:%S.%f", 
-      "%m/%d/%y %H:%M", 
-      "%m/%d/%y", 
-      "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84 %S\ucd08", 
+      "%Y-%m-%d %H:%M:%S",
+      "%Y-%m-%d %H:%M:%S.%f",
+      "%Y-%m-%d %H:%M",
+      "%Y-%m-%d",
+      "%m/%d/%Y %H:%M:%S",
+      "%m/%d/%Y %H:%M:%S.%f",
+      "%m/%d/%Y %H:%M",
+      "%m/%d/%Y",
+      "%m/%d/%y %H:%M:%S",
+      "%m/%d/%y %H:%M:%S.%f",
+      "%m/%d/%y %H:%M",
+      "%m/%d/%y",
+      "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84 %S\ucd08",
       "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84"
-    ], 
-    "DATE_FORMAT": "Y\ub144 n\uc6d4 j\uc77c", 
+    ],
+    "DATE_FORMAT": "Y\ub144 n\uc6d4 j\uc77c",
     "DATE_INPUT_FORMATS": [
-      "%Y-%m-%d", 
-      "%m/%d/%Y", 
-      "%m/%d/%y", 
+      "%Y-%m-%d",
+      "%m/%d/%Y",
+      "%m/%d/%y",
       "%Y\ub144 %m\uc6d4 %d\uc77c"
-    ], 
-    "DECIMAL_SEPARATOR": ".", 
-    "FIRST_DAY_OF_WEEK": "0", 
-    "MONTH_DAY_FORMAT": "F\uc6d4 j\uc77c", 
-    "NUMBER_GROUPING": "3", 
-    "SHORT_DATETIME_FORMAT": "Y-n-j H:i", 
-    "SHORT_DATE_FORMAT": "Y-n-j.", 
-    "THOUSAND_SEPARATOR": ",", 
-    "TIME_FORMAT": "A g:i", 
+    ],
+    "DECIMAL_SEPARATOR": ".",
+    "FIRST_DAY_OF_WEEK": "0",
+    "MONTH_DAY_FORMAT": "F\uc6d4 j\uc77c",
+    "NUMBER_GROUPING": "3",
+    "SHORT_DATETIME_FORMAT": "Y-n-j H:i",
+    "SHORT_DATE_FORMAT": "Y-n-j.",
+    "THOUSAND_SEPARATOR": ",",
+    "TIME_FORMAT": "A g:i",
     "TIME_INPUT_FORMATS": [
-      "%H:%M:%S", 
-      "%H:%M:%S.%f", 
-      "%H:%M", 
-      "%H\uc2dc %M\ubd84 %S\ucd08", 
+      "%H:%M:%S",
+      "%H:%M:%S.%f",
+      "%H:%M",
+      "%H\uc2dc %M\ubd84 %S\ucd08",
       "%H\uc2dc %M\ubd84"
-    ], 
+    ],
     "YEAR_MONTH_FORMAT": "Y\ub144 F\uc6d4"
   };
 
@@ -1910,4 +1910,3 @@
   globals.get_format = django.get_format;
 
 }(this));
-

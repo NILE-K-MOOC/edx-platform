@@ -171,10 +171,11 @@ from openedx.core.lib.courses import course_image_url
         ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
         ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
         ## so that they can register and become a real user that can enroll.
-        % elif not is_shib_course and course.start_date_is_still_default:
-            <span class="register disabled" style="float: right">${_("Starting Soon")}</span>
         % elif not is_shib_course and not can_enroll:
           <span class="register disabled" style="float: right">${_("Enrollment is Closed")}</span>
+        % elif not is_shib_course and course.start_date_is_still_default:
+            <span class="register disabled" style="float: right">${_("Starting Soon")}</span>
+
         %elif can_add_course_to_cart:
           <%
           if user.is_authenticated():
@@ -256,7 +257,7 @@ from openedx.core.lib.courses import course_image_url
                 </span>
             </li>
             % endif
-          <!--
+
           % if not course.start_date_is_still_default:
               <li class="important-dates-item">
                   <span class="icon fa fa-calendar" aria-hidden="true"></span>
@@ -269,7 +270,7 @@ from openedx.core.lib.courses import course_image_url
                   <span class="important-dates-item-text start-date">${enroll_edate['enroll_edate']}</span>
               </li>
           % endif
-          -->
+
 
           % if get_course_about_section(request, course, "effort"):
             <li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><p class="important-dates-item-title">${_("Estimated Effort")}</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
