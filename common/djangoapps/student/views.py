@@ -184,7 +184,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     log.info(f1)
     courses1 = get_courses(user, filter_ = f1)
 
-    f2 = {'enrollment_start__isnull':False} if not user.is_staff else {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+    f2 = {'enrollment_start__isnull':False} if user.is_staff else {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
     log.info(f2)
     courses2 = get_courses(user, filter_ = f2)
 
