@@ -1232,7 +1232,8 @@ def advanced_settings_handler(request, course_key_string):
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,
                 'advanced_dict': CourseMetadata.fetch(course_module),
-                'advanced_settings_url': reverse_course_url('advanced_settings_handler', course_key)
+                'advanced_settings_url': reverse_course_url('advanced_settings_handler', course_key),
+                'is_staff': {"is_staff": 'true'} if request.user.is_staff is True else {"is_staff": 'false'}
             })
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
             if request.method == 'GET':
