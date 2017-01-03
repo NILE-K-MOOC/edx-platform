@@ -894,7 +894,8 @@ def comm_list_json(request) :
                                     ELSE ''
                                  END
                                     odby,
-                                 head_title s
+                                 head_title s,
+                                 substr(a.reg_date, 1, 11) reg_date
                             FROM tb_board a
                                  INNER JOIN
                                  (  SELECT section,
@@ -910,6 +911,7 @@ def comm_list_json(request) :
         row = cur.fetchall()
 
         for t in row :
+
             value_list = []
             value_list.append(t[0])
             value_list.append(t[1])
@@ -918,7 +920,7 @@ def comm_list_json(request) :
             text = re.sub('<[^>]*>', '', s)
             text = re.sub('&nbsp;', '', text)
             value_list.append(text)
-            value_list.append(t[4])
+            value_list.append(t[8])
             value_list.append(t[5])
             value_list.append(t[7])
             total_list.append(value_list)
