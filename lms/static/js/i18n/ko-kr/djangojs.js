@@ -1685,7 +1685,6 @@
     "YSUk": "\uc5f0\uc138\ub300\ud559\uad50",
     "Zoom In": "\ud655\ub300",
     "Zoom Out": "\ucd95\uc18c",
-    // 2016-12-14 river add.
     "Individual Exceptions": "\uac1c\ubcc4 \uc608\uc678 \uc0ac\ud56d",
     "Enter the username or email address of each learner that you want to add as an exception.": "\uc608\uc678 \uc0ac\ud56d\uc744 \uc801\uc6a9\ud560 \ud559\uc2b5\uc790\uc758 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c\uc744 \uc785\ub825\ud558\uc138\uc694\u002e",
     "Student email or username": "\ud559\uc2b5\uc790 \uc774\uba54\uc77c \ubc0f \uc0ac\uc6a9\uc790 \uc774\ub984",
