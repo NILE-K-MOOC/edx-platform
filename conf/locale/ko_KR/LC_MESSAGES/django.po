@@ -28280,6 +28280,9 @@ msgstr "대학명"
 msgid "All"
 msgstr "전체"
 
+msgid "ing"
+msgstr "진행중"
+
 msgid "ing(ing)"
 msgstr "진행중(수강신청 가능)"
 
