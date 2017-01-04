@@ -22,8 +22,7 @@ $(document).ready(function(){
                 html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
             }
             $('#file').html(html);
-        }else{
-            $('#file_li').css('display','none');
+            $('#file_li').css('display','inline');
         }
     });
 
