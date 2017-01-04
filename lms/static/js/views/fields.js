@@ -387,7 +387,8 @@
                     screenReaderTitle: this.options.screenReaderTitle || this.options.title,
                     titleVisible: this.options.titleVisible !== undefined ? this.options.titleVisible : true,
                     iconName: this.options.iconName,
-                    showBlankOption: (!this.options.required || !this.modelValueIsSet()),
+                    //showBlankOption: (!this.options.required || !this.modelValueIsSet()),
+                    showBlankOption: (!this.options.required),
                     selectOptions: this.options.options,
                     message: this.helpMessage
                 }));
