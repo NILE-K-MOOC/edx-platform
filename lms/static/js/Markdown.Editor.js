@@ -993,6 +993,7 @@
         };
 
         var pushPreviewHtml = function (text) {
+            text = String(text).replace(/script/g, 'notag');
 
             var emptyTop = position.getTop(panels.input) - getDocScrollTop();
 
