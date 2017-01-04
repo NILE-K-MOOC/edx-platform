@@ -18,8 +18,9 @@ $(document).ready(function(){
             for(var i=0; i<value_list.length; i++){
                 html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
             }
+            $('#file').html(html);
+            $('#file_li').css('display','inline');
         }
-        $('#file').html(html);
     });
 });
 
