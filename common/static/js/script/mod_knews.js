@@ -8,18 +8,20 @@ $(document).ready(function(){
                 method : 'view'
             }
     }).done(function(data){
-        //console.log(data);
+        console.log(data);
         var title = data[3]+data[0];
         $('#title').html(title);
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일 : '+data[2]);
         if(data[4] != '' && data[4] != null){
             value_list = data[4].toString().split(',');
+            console.log(value_list);
             for(var i=0; i<value_list.length; i++){
                 html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
             }
+            $('#file').html(html);
+            $('#file_li').css('display','inline');
         }
-        $('#file').html(html);
     });
 });
 
