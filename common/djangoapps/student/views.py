@@ -979,7 +979,7 @@ def dashboard(request):
             e_end_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
 
         a = (e_end_val-today_val)
-        print a.days
+
 
         if c.course.start and c.course.start > datetime.datetime.now(UTC):
             c.status = 'ready'

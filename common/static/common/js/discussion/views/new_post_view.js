@@ -126,6 +126,9 @@
             };
 
             NewPostView.prototype.createPost = function(event) {
+
+                //alert('createPost');
+
                 var anonymous, anonymous_to_peers, body, follow, group, thread_type, title, topicId, url,
                     self = this;
                 event.preventDefault();
@@ -138,6 +141,13 @@
                 follow = false || this.$(".js-follow").is(":checked");
                 topicId = this.isTabMode() ? this.topicView.getCurrentTopicId() : this.topicId;
                 url = DiscussionUtil.urlFor('create_thread', topicId);
+
+                //title
+                title = String(title).replace(/script/g, 'notag');
+
+                //body
+                body = String(body).replace(/script/g, 'notag');
+
                 return DiscussionUtil.safeAjax({
                     $elem: $(event.target),
                     $loading: event ? $(event.target) : void 0,
