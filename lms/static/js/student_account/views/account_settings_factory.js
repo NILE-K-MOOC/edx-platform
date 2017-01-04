@@ -145,6 +145,7 @@
                                 model: userAccountModel,
                                 title: gettext('Gender'),
                                 valueAttribute: 'gender',
+                                required: true,
                                 options: fieldsData.gender.options,
                                 persistChanges: true
                             })
@@ -154,6 +155,7 @@
                                 model: userAccountModel,
                                 title: gettext('Year of Birth'),
                                 valueAttribute: 'year_of_birth',
+                                required: true,
                                 options: fieldsData.year_of_birth.options,
                                 persistChanges: true
                             })

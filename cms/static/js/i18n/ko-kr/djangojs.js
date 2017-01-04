@@ -1685,7 +1685,6 @@
     "YSUk": "\uc5f0\uc138\ub300\ud559\uad50",
     "Zoom In": "\ud655\ub300",
     "Zoom Out": "\ucd95\uc18c",
-    // 2016-12-14 river add.
     "Individual Exceptions": "\uac1c\ubcc4 \uc608\uc678 \uc0ac\ud56d",
     "Enter the username or email address of each learner that you want to add as an exception.": "\uc608\uc678 \uc0ac\ud56d\uc744 \uc801\uc6a9\ud560 \ud559\uc2b5\uc790\uc758 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c\uc744 \uc785\ub825\ud558\uc138\uc694\u002e",
     "Student email or username": "\ud559\uc2b5\uc790 \uc774\uba54\uc77c \ubc0f \uc0ac\uc6a9\uc790 \uc774\ub984",
@@ -1746,9 +1745,7 @@
     "Type in a URL or use the \"Choose File\" button to upload a file from your machine. (e.g. 'http://example.com/img/clouds.jpg')": "\u0055\u0052\u004c\uc744 \uc785\ub825\ud558\uac70\ub098 \"\ud30c\uc77c \uc120\ud0dd\" \ubc84\ud2bc\uc744 \uc0ac\uc6a9\ud574 \ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc\ud569\ub2c8\ub2e4\u002e \uc608\u003a\u0029 \u0068\u0074\u0074\u0070\u003a\u002f\u002f\u0065\u0078\u0061\u006d\u0070\u006c\u0065\u002e\u0063\u006f\u006d\u002f\u0069\u006d\u0067\u002f\u0063\u006c\u006f\u0075\u0064\u0073\u002e\u006a\u0070\u0067",
     "e.g. 'Sky with clouds'. The description is helpful for users who cannot see the image.": "\uc774 \uc124\uba85\uc740 \uc774\ubbf8\uc9c0\ub97c \ubcf4\uc9c0 \ubabb\ud558\ub294 \ud559\uc2b5\uc790\uc5d0\uac8c \ub3c4\uc6c0\uc774 \ub429\ub2c8\ub2e4\u002e",
     "This image is for decorative purposes only and does not require a description.": "\uc774 \uc774\ubbf8\uc9c0\ub294 \uc2dc\uac01\uc801 \ud6a8\uacfc\ub97c \uc704\ud55c \uac83\uc774\uba70 \uc124\uba85\uc774 \ud544\uc694 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
-
     "": "\uc5c6\uc74c"
-
   };
 
   django.gettext = function (msgid) {
