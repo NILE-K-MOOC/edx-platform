@@ -23,7 +23,7 @@ $(document).ready(function(){
             html +="<h3><strong class='category'>"+data[i][1]+"</strong>";
             html +="<p>"+data[i][2]+"</p></h3>";
             html +="<time>"+data[i][4]+"</time>";
-            html +="<p class='summary' style='height: 150px; margin-bottom: 0px;'>"+data[i][3].substr(0,200)+"...</p>";
+            html +="<p class='summary' style='height: 150px; margin-bottom: 0px;'>"+data[i][3].substr(0,200)+"</p>";
             html +="</a>";
             html +="</div>";
             html +="</div>";
