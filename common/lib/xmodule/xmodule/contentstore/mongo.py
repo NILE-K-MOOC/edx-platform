@@ -218,13 +218,14 @@ class MongoContentStore(ContentStore):
             as_stream:
 
         Returns:
-
         '''
         content_id, __ = self.asset_db_key(location)
         try:
             with self.fs.get(content_id) as fp:
-                return {'uuid': fp.uuid, 'playtime':fp.playtime, 'cdn_url': fp.cdn_url}
-
+                if hasattr(fp, 'uuid'):
+                    return {'uuid': fp.uuid, 'playtime':fp.playtime, 'cdn_url': fp.cdn_url}
+                else:
+                    return None
 
         except NoFile:
             if throw_on_not_found:
