@@ -10208,7 +10208,7 @@ msgstr "법률적"
 
 #: lms/templates/forgot_password_modal.html
 msgid "Password Reset"
-msgstr "새 비밀번호 설정을 위한 메일 발송하기"
+msgstr "비밀번호 재설정을 위한 이메일 발송"
 
 #: lms/templates/forgot_password_modal.html
 msgid ""
@@ -28991,10 +28991,10 @@ msgstr "교육부"
 msgid "NILE"
 msgstr "국가평생교육진흥원"
 
-msgid "Accounts for Lifelong Learning"
+msgid "Lifelong Learning Account"
 msgstr "평생학습계좌제"
 
-msgid "Lifelong Education"
+msgid "Lifelong Learning Portal"
 msgstr "늘배움"
 
 msgid "ACE : Advancement of College Education"
