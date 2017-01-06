@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Models for User Information (students, staff, etc)
 
@@ -147,7 +148,6 @@ def anonymous_id_for_user(user, course_id, save=True):
 
     # include the secret key as a salt, and to make the ids unique across different LMS installs.
     hasher = hashlib.md5()
-
     cur = connection.cursor()
     query = """
         SELECT date_format(c.created_at, '%Y%m%d') cdate
@@ -220,6 +220,45 @@ def user_by_anonymous_id(uid):
         return User.objects.get(anonymoususerid__anonymous_user_id=uid)
     except ObjectDoesNotExist:
         return None
+
+def user_by_anonymous_id_dict(course_id):
+    """
+    Return user by anonymous_user_id using AnonymousUserId lookup table.
+
+    Do not raise `django.ObjectDoesNotExist` exception,
+    if there is no user for anonymous_student_id,
+    because this function will be used inside xmodule w/o django access.
+    """
+
+    """
+    cypress 와 eucalyptus 에서 anonymous_id 생성하는것이 값이 다름. (cypress 에서는 SECRET_KEY가 없는 상태로 생성됨)
+    k-mooc 에서 플랫폼 업그레이드에 따라 분기가 안되는경우 2가지 anonymous_id 르르 생성하여 한번더 조회를 하도록 기능을 추가함.
+    17.01.
+    """
+
+    anonymous_dict = {}
+    cur = connection.cursor()
+    query = """
+        SELECT user_id, s.anonymous_user_id
+          FROM student_anonymoususerid s
+         WHERE s.course_id = '{0}';
+    """.format(str(course_id))
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+
+    for user_id, anonymous_user_id in rows:
+        hasher = hashlib.md5()
+        # hasher.update(settings.SECRET_KEY)
+        hasher.update('DUMMY KEY CHANGE BEFORE GOING TO PRODUCTION')
+        hasher.update(unicode(user_id))
+        hasher.update(unicode(course_id).encode('utf-8'))
+        digest = hasher.hexdigest()
+        # print user_id, anonymous_user_id, digest
+        anonymous_dict[digest] = anonymous_user_id
+    # print anonymous_dict
+    return anonymous_dict
+
 
 
 class UserStanding(models.Model):
