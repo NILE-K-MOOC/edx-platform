@@ -660,7 +660,7 @@
     "Font Family": "\uae00\uaf34",
     "Font Sizes": "\uae00\uc790 \ud06c\uae30",
     "Footer": "\uaf2c\ub9bf\ub9d0",
-    "Forgot password?": "\ube44\ubc00\ubc88\ud638\ub97c \uc78a\uc5b4\ubc84\ub9ac\uc168\ub098\uc694\u003f?",
+    "Forgot password?": "\ube44\ubc00\ubc88\ud638\ub97c \uc78a\uc5b4\ubc84\ub9ac\uc168\ub098\uc694\u003f",
     "Format": "\ud615\uc2dd",
     "Formats": "\ud615\uc2dd",
     "formLabel": "formLabel",

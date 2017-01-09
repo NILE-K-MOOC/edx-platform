@@ -392,7 +392,7 @@ def comm_faqrequest(request) :
                                           ELSE ''
                                        END));
             """
-            print 'query == ',query
+            # print 'query == ',query
             cur.execute(query)
             cur.execute('commit')
             cur.close()
