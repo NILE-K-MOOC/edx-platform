@@ -4,7 +4,7 @@
 
   var django = globals.django || (globals.django = {});
 
-  
+
   django.pluralidx = function (n) {
     var v=0;
     if (typeof(v) == 'boolean') {
@@ -13,9 +13,9 @@
       return v;
     }
   };
-  
 
-  
+
+
   /* gettext library */
 
   django.catalog = {
@@ -255,7 +255,8 @@
     "Are you sure you want to revert to the last published version of the unit? You cannot undo this action.": "\ub9c8\uc9c0\ub9c9\uc73c\ub85c \uac8c\uc2dc\ub41c \ubc84\uc804\uc73c\ub85c \ub418\ub3cc\ub9ac\uaca0\uc2b5\ub2c8\uae4c? \uc774 \uc791\uc5c5\uc740 \ucde8\uc18c\ub420 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "Are you sure you wish to delete this item. It cannot be reversed!\n\nAlso any content that links/refers to this item will no longer work (e.g. broken images and/or links)": "\uc0ad\uc81c\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? \ub418\ub3cc\ub9b4 \uc218 \uc5c6\uc74c\uc5d0 \uc8fc\uc758\ud558\uc138\uc694.\n\n\ub610\ud55c \uc774 \ud56d\ubaa9\uc5d0 \ub9c1\ud06c\ud558\uac70\ub098 \ucc38\uc870\ud55c \ucf58\ud150\uce20\ub3c4 \uc774\uc6a9\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.(\uc608. \uae68\uc9c4 \uc774\ubbf8\uc9c0 \ud639\uc740 \ub9c1\ud06c\ub85c \ub098\ud0c0\ub098\uac8c \ub420 \uac83\uc785\ub2c8\ub2e4.)",
     "Are you sure?": "\ud655\uc2e4\ud569\ub2c8\uae4c?",
-    "Arts & Physical Education": "\uc608\uccb4\ub2a5\uacc4\uc5f4",
+    "Arts & Physical": "\uc608\uccb4\ub2a5",
+    "Arts & Physical Education": "\uc608\uccb4\ub2a5",
     "as a percent, e.g. 40": "\ubc31\ubd84\uc728 \uc608: 40",
     "As part of the verification process, you take a photo of both your face and a government-issued photo ID. Our authorization service confirms your identity by comparing the photo you take with the photo on your ID.": "\uc778\uc99d\uc744 \uc704\ud574, \uadc0\ud558\uc758 \uc5bc\uad74\uc774 \ub098\uc624\ub294 \uc0ac\uc9c4\uacfc \uc2e0\ubd84\uc99d \uc0ac\uc9c4\uc744 \ucc0d\uc2b5\ub2c8\ub2e4. \ubcf8\uc778 \ud655\uc778 \uc808\ucc28\ub294 \ub450 \uc0ac\uc9c4\uc758 \ube44\uad50\ub97c \ud1b5\ud574 \uc774\ub8e8\uc5b4\uc9d1\ub2c8\ub2e4.",
     "Assign students to cohorts by uploading a CSV file": "CSV \ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc\ud558\uc5ec \ud559\uc2b5 \uc9d1\ub2e8\uc5d0 \ud559\uc2b5\uc790\ub97c \ucd94\uac00\ud558\uc138\uc694.",
@@ -344,7 +345,7 @@
     "Circle": "\uc6d0",
     "Civil Construction & Urban Engineering": "\ud1a0\ubaa9\u318d\ub3c4\uc2dc",
     "Classified by": "\ub300\ubd84\ub958",
-    "Clear All": "\ubaa8\ub450 \uc9c0\uc6b0\uae30",
+    "Clear All": "\uc870\uac74 \ucd08\uae30\ud654",
     "Clear formatting": "\ud3ec\ub9f7\ud305 \ucd08\uae30\ud654",
     "Clear Grading Due Date": "\ucc44\uc810 \uae30\uac04 \ub2e4\uc2dc \uc124\uc815\ud558\uae30",
     "Clear Release Date/Time": "\uacf5\uac1c \ub0a0\uc9dc\uc640 \uc2dc\uac04 \ucd08\uae30\ud654",
@@ -544,7 +545,7 @@
     "Editing: %(title)s": "\uc218\uc815\uc911: %(title)s",
     "Editor": "\ud3b8\uc9d1\uae30",
     "Education Completed": "\ucd5c\uc885 \ud559\ub825",
-    "Education": "\uacf5\ud559\uacc4\uc5f4",
+    "Education": "\uad50\uc721",
     "EdX doesn\\'t have a timed transcript for this video. Please upload an .srt file.": "\ub3d9\uc601\uc0c1\uc758 \uc790\ub9c9 \ud30c\uc77c\uc774 \uc5c6\uc2b5\ub2c8\ub2e4. .srt \uc790\ub9c9 \ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc \ud558\uc138\uc694.",
     "EdX doesn't have a timed transcript for this video in Studio, but we found a transcript on YouTube. You can import the YouTube transcript or upload your own .srt transcript file.": "EdX\ub294 \uc2a4\ud29c\ub514\uc624\uc5d0\uc11c \ub3d9\uc601\uc0c1\uc758 \uc2dc\uac04\uc5d0 \ub9de\ucdb0\uc9c4 \uc790\ub9c9\uc744 \uac16\uace0 \uc788\uc9c0 \uc54a\uc9c0\ub9cc, \uc720\ud29c\ube0c\uc5d0\uc11c \uc790\ub9c9\uc744 \ubc1c\uacac\ud588\uc2b5\ub2c8\ub2e4.  YouTube \uc790\ub9c9\uc744 \uac00\uc838\uc624\uac70\ub098 .srt \uc790\ub9c9\ud30c\uc77c\ub85c \uc5c5\ub85c\ub4dc\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "EdX has a timed transcript for this video. If you want to edit this transcript, you can download, edit, and re-upload the existing transcript. If you want to replace this transcript, upload a new .srt transcript file.": "\ub3d9\uc601\uc0c1 \uc790\ub9c9\uc774 \uc788\uc2b5\ub2c8\ub2e4. \uc790\ub9c9\uc744 \uc218\uc815\ud558\ub824\uba74, \ub2e4\uc6b4\ub85c\ub4dc\ud558\uc5ec \uc218\uc815\ud558\uace0 \ub2e4\uc2dc \uc5c5\ub85c\ub4dc\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc790\ub9c9\uc744 \uad50\uccb4\ud560 \uacbd\uc6b0 \uc0c8 .srt\ub85c \uc5c5\ub85c\ub4dc\ud569\ub2c8\ub2e4.",
@@ -563,7 +564,7 @@
     "End of transcript. Skip to the start." : "\uc790\ub9c9\uc758 \ub05d\u002e \ucc98\uc74c\uc73c\ub85c \uc774\ub3d9",
     "End": "\ub05d",
     "end": "\uc885\ub8cc",
-    "Engineering": "\uacf5\ud559\uacc4\uc5f4",
+    "Engineering": "\uacf5\ud559",
     "Enrolling you in the selected course": "\uc120\ud0dd\ub41c \uac15\uc88c\uc5d0 \uc218\uac15\uc2e0\uccad \ucc98\ub9ac\uc911\uc785\ub2c8\ub2e4. ",
     "Enrollment Date": "\uc218\uac15 \ub4f1\ub85d\uc77c",
     "Ensure that you can see your photo and read your name": "\ub2f9\uc2e0\uc758 \uc0ac\uc9c4\uc744 \ubcfc \uc218 \uc788\uace0, \uc774\ub984\uc744 \uc77d\uc744\uc218 \uc788\ub3c4\ub85d \ud558\uc2ed\uc2dc\uc694.",
@@ -733,7 +734,7 @@
     "How to use %(platform_name)s discussions": "\u004b\u002d\u004d\u004f\u004f\u0043 \uac8c\uc2dc\ud310 \uc0ac\uc6a9",
     "HTML source code": "HTML \uc18c\uc2a4\ucf54\ub4dc",
     "Human Sciences": "\uc778\ubb38\uacfc\ud559",
-    "Humanities": "\uc778\ubb38\uacc4\uc5f4",
+    "Humanities": "\uc778\ubb38",
     "Hyperlink (Ctrl+L)": "\ud558\uc774\ud37c\ub9c1\ud06c (Ctrl+L)",
     "HYUk": "\ud55c\uc591\ub300\ud559\uad50",
     "ID": "\uc544\uc774\ub514",
@@ -866,7 +867,8 @@
     "MB": "MB",
     "Mechanical & Metallurgical Engineering": "\uae30\uacc4\u318d\uae08\uc18d",
     "Medical Science": "\uc758\ub8cc",
-    "Medical Sciences & Pharmacy": "\uc758\uc57d\uacc4\uc5f4",
+    "Medical Sciences": "\uc758\uc57d",
+    "Medical Sciences & Pharmacy": "\uc758\uc57d",
     "Membership": "\ub4f1\ub85d \uad00\ub9ac",
     "Merge cells": "\uc140 \ubcd1\ud569",
     "message": "\uba54\uc138\uc9c0",
@@ -888,7 +890,7 @@
     "Name of the signatory": "\uc11c\uba85\uc778 \uc774\ub984",
     "Name or short description of the configuration": "\uc124\uc815\uc5d0 \ub300\ud55c \uc9e7\uc740 \uc124\uba85 \ub610\ub294 \uc774\ub984\uc785\ub2c8\ub2e4.",
     "Name": "\uc774\ub984",
-    "Natural Sciences": "\uc790\uc5f0\uacc4\uc5f4",
+    "Natural Sciences": "\uc790\uc5f0",
     "Never published": "\uac8c\uc2dc\ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.",
     "New %(component_type)s": "\uc0c8\ub85c\uc6b4 %(component_type)s",
     "New %(item_type)s": "\uc2e0\uaddc %(item_type)s",
@@ -1012,7 +1014,7 @@
     "Please enter an integer greater than 0.": "0\ubcf4\ub2e4 \ud070 \uc815\uc218\ub97c \uc785\ub825\ud574\uc8fc\uc2dc\uae30 \ubc14\ub78d\ub2c8\ub2e4.",
     "Please enter non-negative integer.": "\uc74c\uc774 \uc544\ub2cc \uc815\uc218\ub97c \uc785\ub825\ud558\uc138\uc694.",
     "Please enter your %(field)s." : "%(field)s \ud56d\ubaa9\uc744 \uc785\ub825\ud574 \uc8fc\uc2ed\uc2dc\uc694\u002e",
-    "Please enter your email address below and we will send you instructions for setting a new password.": "\uc544\ub798\uc5d0 \uc774\uba54\uc77c \uc8fc\uc18c\ub97c \uc785\ub825 \ud574\uc8fc\uc2ed\uc2dc\uc624, \uc0c8\ub85c\uc6b4 \ube44\ubc00\ubc88\ud638\ub97c \uc124\uc815\ud558\uae30 \uc704\ud55c \uc548\ub0b4\ub97c \uc774\uba54\uc77c\ub85c \ubcf4\ub0b4\ub4dc\ub9bd\ub2c8\ub2e4.",
+    "Please enter your email address below and we will send you instructions for setting a new password.": "\uc544\ub798\uc5d0 \uc774\uba54\uc77c \uc8fc\uc18c\ub97c \uc785\ub825 \ud574\uc8fc\uc2ed\uc2dc\uc624\u002c \uc0c8\ub85c\uc6b4 \ube44\ubc00\ubc88\ud638\ub97c \uc124\uc815\ud558\uae30 \uc704\ud55c \uc548\ub0b4\ub97c \uc774\uba54\uc77c\ub85c \ubcf4\ub0b4\ub4dc\ub9bd\ub2c8\ub2e4\u002e",
     "Please follow the instructions here to upload a file elsewhere and link to it: {maxFileSizeRedirectUrl}": "\ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc\ud558\uace0 \ub9c1\ud06c\ud558\uae30 \uc704\ud574 \ub2e4\uc74c \uc548\ub0b4\ub97c \ub530\ub77c \ud558\uc138\uc694: {maxFileSizeRedirectUrl}",
     "Please note that validation of your policy key and value pairs is not currently in place yet. If you are having difficulties, please review your policy pairs.": "\uace0\uae09 \uc124\uc815\uc758 \uc785\ub825\uac12\uc758 \uc720\ud6a8\uc131 \uac80\uc99d\uc774 \uc644\ub8cc \ub418\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \ubb38\uc81c\uac00 \uc788\uc744 \uacbd\uc6b0 \uc124\uc815 \uac12\uc744 \ub2e4\uc2dc \uc0b4\ud3b4\ubcf4\uc2ed\uc2dc\uc624.",
     "Please Note": "\ucc38\uace0\ud558\uc138\uc694.",
@@ -1116,7 +1118,7 @@
     "Return and add email address": "\ub3cc\uc544\uac00\uc11c \uc774\uba54\uc77c \uc8fc\uc18c\uc5d0 \ucd94\uac00\ud569\ub2c8\ub2e4.",
     "Return to Export": "\ub0b4\ubcf4\ub0b4\uae30\ub85c \ub3cc\uc544\uac00\uae30",
     "Return to team listing": "\ud300 \ub9ac\uc2a4\ud2b8\ub85c \ub3cc\uc544\uac11\ub2c8\ub2e4.",
-    "Return to Your Dashboard": "\ub300\uc2dc\ubcf4\ub4dc\ub85c \ub3cc\uc544 \uac00\uae30",
+    "Return to Your Dashboard": "\ub0b4 \uac15\uc758\uc2e4",
     "Review your info": "\uc785\ub825 \uc815\ubcf4\ub97c \ud655\uc778\ud558\uc138\uc694.",
     "Review Your Photos": "\uc0ac\uc9c4\uc744 \uc0b4\ud3b4\ubcf4\uc138\uc694",
     "Revoke access": "\uc811\uadfc \uad8c\ud55c \ucde8\uc18c",
@@ -1200,7 +1202,7 @@
     "SKKUk": "\uc131\uade0\uad00\ub300\ud559\uad50",
     "SMUCk": "\uc0c1\uba85\ub300\ud559\uad50",
     "SNUk": "\uc11c\uc6b8\ub300\ud559\uad50",
-    "Social Sciences": "\uc0ac\ud68c\uacfc\ud559",
+    "Social Sciences": "\uc0ac\ud68c",
     "Social Studies": "\uc0ac\ud68c\uacc4\uc5f4",
     "Some content in this unit is visible only to particular content groups": "\uc774 \ud559\uc2b5\ud65c\ub3d9\uc758 \uc77c\ubd80 \ub0b4\uc6a9\uc740 \ud2b9\uc815 \ucf58\ud150\uce20 \uadf8\ub8f9\ub9cc \ubcfc \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "Some Rights Reserved": "\uc77c\ubd80 \uc800\uc791\uad8c \ubcf4\ud638",
@@ -1573,7 +1575,7 @@
     "We had some trouble unpinning this thread. Please try again.": "\uc774 \uac8c\uc2dc\ubb3c \uace0\uc815\uc744 \ucde8\uc18c\ud558\ub294\ub370 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "We had some trouble unsubscribing you from this thread. Please try again.": "\uc774 \uac8c\uc2dc\ubb3c \uad6c\ub3c5 \ucde8\uc18c\uc5d0 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "We have received your information and are verifying your identity. You will see a message on your dashboard when the verification process is complete (usually within 1-2 days). In the meantime, you can still access all available course content.": "\uadc0\ud558\uc758 \uc815\ubcf4\ub97c \ubc1b\uc558\uc73c\uba70 \ubcf8\uc778 \ud655\uc778 \uc911\uc785\ub2c8\ub2e4. \uc774 \uc808\ucc28\uac00 \uc644\ub8cc\ub418\uba74 (\ubcf4\ud1b5 1-2\uc77c \uc548\uc5d0 \uc644\ub8cc) \ub300\uc2dc\ubcf4\ub4dc\uc5d0\uc11c \uba54\uc2dc\uc9c0\ub97c \ubcfc \uc218 \uc788\uc744 \uac83\uc785\ub2c8\ub2e4. \uadf8\ub3d9\uc548 \ubcf8\uc778 \ud655\uc778\uc774 \ud544\uc694 \uc5c6\ub294 \ucf58\ud150\uce20\ub97c \uc774\uc6a9\ud558\uc2e4 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
-    "We just need a little more information before you start learning with %(platformName)s.": "%(platformName)s \uc5d0\uc11c \ud559\uc2b5\uc744 \uc2dc\uc791\ud558\uae30 \uc804\uc5d0 \ub2f9\uc2e0\uc5d0 \ub300\ud55c \uc815\ubcf4\uac00 \uc870\uae08\ub354 \ud544\uc694\ud569\ub2c8\ub2e4.",
+    "We just need a little more information before you start learning with %(platformName)s.": "%(platformName)s \ud68c\uc6d0\uac00\uc785\uc744 \uc644\ub8cc\ud558\uae30 \uc704\ud574 \uc544\ub798 \uc815\ubcf4\ub97c \ucd94\uac00\ub85c \uc785\ub825\ud574\uc8fc\uc138\uc694\u002e",
     "We use the highest levels of security available to encrypt your photo and send it to our authorization service for review. Your photo and information are not saved or visible anywhere on %(platformName)s after the verification process is complete.": "\uc800\ud76c\ub294 \uac00\uc7a5 \ub192\uc740 \uc218\uc900\uc758 \ubcf4\uc548\uc744 \uc0ac\uc6a9\ud558\uc5ec, \uc778\uc99d \uc13c\ud130\ub85c \uc0ac\uc9c4\uc744 \ubcf4\ub0c5\ub2c8\ub2e4. \uc778\uc99d \uc808\ucc28\uac00 \uc644\ub8cc\ub418\uba74 \uadc0\ud558\uc758 \uc0ac\uc9c4\uacfc \uc815\ubcf4\ub294 \uc800\uc7a5\ub418\uc9c0 \uc54a\uc744 \uac83\uc774\uba70,  %(platformName)s  \uc5b4\ub514\uc5d0\uc11c\ub3c4 \ubcfc \uc218 \uc5c6\uc744 \uac83\uc785\ub2c8\ub2e4. ",
     "We weren't able to send you a password reset email.": "\uadc0\ud558\uc5d0\uac8c \ube44\ubc00\ubc88\ud638 \uc7ac\uc124\uc815 \uc774\uba54\uc77c\uc744 \ubcf4\ub0bc \uc218 \uc5c6\uc5c8\uc2b5\ub2c8\ub2e4.",
     "Web:": "Web:",
@@ -1681,10 +1683,11 @@
     "Your verification status is good until %(verificationGoodUntil)s.": "%(verificationGoodUntil)s.\uae4c\uc9c0 \uc778\uc99d\uc5d0 \uc131\uacf5\ud588\uc2b5\ub2c8\ub2e4. ",
     "You've made some changes": "\uc218\uc815 \uc644\ub8cc",
     "You've made some changes, but there are some errors": "\ubcc0\uacbd \uc0ac\ud56d \ucc98\ub9ac \uc911, \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4.",
-    "You've successfully signed into %(currentProvider)s.": "%(currentProvider)s\ub85c \ub85c\uadf8\uc778\ud558\uc600\uc2b5\ub2c8\ub2e4.  ",
+    "You've successfully signed into %(currentProvider)s.": "%(currentProvider)s\uacc4\uc815\uacfc \uc5f0\ub3d9\ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e ",
     "YSUk": "\uc5f0\uc138\ub300\ud559\uad50",
     "Zoom In": "\ud655\ub300",
     "Zoom Out": "\ucd95\uc18c",
+    // 2016-12-14 river add.
     "Individual Exceptions": "\uac1c\ubcc4 \uc608\uc678 \uc0ac\ud56d",
     "Enter the username or email address of each learner that you want to add as an exception.": "\uc608\uc678 \uc0ac\ud56d\uc744 \uc801\uc6a9\ud560 \ud559\uc2b5\uc790\uc758 \uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \uc774\uba54\uc77c\uc744 \uc785\ub825\ud558\uc138\uc694\u002e",
     "Student email or username": "\ud559\uc2b5\uc790 \uc774\uba54\uc77c \ubc0f \uc0ac\uc6a9\uc790 \uc774\ub984",
@@ -1722,8 +1725,20 @@
     "This short name for the assignment type (for example, HW or Midterm) appears next to assignments on a learner's Progress page.": "\uc774 \uacfc\uc81c \ud615\ud0dc\uc758 \uc9e7\uc740 \uc774\ub984\uc774 \u0028\u0048\u0057\u002c \u004d\u0069\u0064\u0074\u0065\u0072\u006d \ub4f1\u0029 \ud559\uc2b5\uc790 \uc131\uacfc \ud398\uc774\uc9c0\uc758 \uacfc\uc81c \uc606\uc5d0 \ubcf4\uc5ec\uc9d1\ub2c8\ub2e4\u002e",
     "The weight of all assignments of this type as a percentage of the total grade, for example, 40. Do not include the percent symbol.": "\u0034\u0030 \ub4f1 \ucd1d \uc131\uc801\uc5d0 \ub300\ud55c \uc774 \ud615\ud0dc \uacfc\uc81c\uc758 \ubc18\uc601 \ube44\uc728\uc785\ub2c8\ub2e4\u002e \u0025 \ud45c\uc2dc\ub294 \uc4f0\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4\u002e",
     "The number of assignments of this type that will be dropped. The lowest scoring assignments are dropped first.": "\ub4dc\ub86d\ub418\ub294 \uc774 \ud615\ud0dc\uc758 \uacfc\uc81c \uc22b\uc790\uc785\ub2c8\ub2e4\u002e \uac00\uc7a5 \ub0ae\uc740 \uc810\uc218\uc758 \uacfc\uc81c\uac00 \uc6b0\uc120\uc801\uc73c\ub85c \ub4dc\ub86d\ub429\ub2c8\ub2e4\u002e",
-    "Generate certificates for all users on the Exception list who do not yet have a certificate": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \uc544\uc9c1 \uc778\uc99d\uc11c\uac00\uc5c6\ub294 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc758 \uc778\uc99d\uc11c \uc0dd\uc131",
-    "Generate a Certificate for all users on the Exception list": "\uc608\uc678 \ubaa9\ub85d\uc758 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\uc5d0 \ub300\ud55c \uc778\uc99d\uc11c \uc0dd\uc131",
+    "Discussion Home": "\ud1a0\ub860 \ud648",
+    "Use the Discussion Topics menu to find specific topics.": "\ud1a0\ub860 \uc8fc\uc81c \uba54\ub274\ub97c \uc0ac\uc6a9\ud558\uc5ec \ud2b9\uc815 \uc8fc\uc81c\ub97c \ucc3e\uc73c\uc2ed\uc2dc\uc624\u002e",
+    "Filter and sort topics": "\uc8fc\uc81c \uc815\ub82c",
+    "Engage with posts": "\ud1a0\uc758 \ucc38\uc5ec\ud558\uae30",
+    "Vote for good posts and responses": "\uc88b\uc740 \uae00\uacfc \ub2f5\ubcc0\uc5d0 \ud22c\ud45c\ud558\uae30",
+    "Report abuse, topics, and responses": "\ud5c8\uc704 \ubcf4\uace0\u002c \uc8fc\uc81c \ubc0f \ub2f5\ubcc0",
+    "Follow or unfollow posts": "\uae00 \ud314\ub85c\uc6b0\u002c \uc5b8\ud314\ub85c\uc6b0 \ud558\uae30",
+    "Add a Post": "\uae00 \ucd94\uac00",
+    "Questions raise issues that need answers. Discussions share ideas and start conversations.": "\uc9c8\ubb38\uc744 \ud558\uba74 \ub2f5\uc774 \ud544\uc694\ud55c \uc0ac\uc548\uc774 \ub098\uc635\ub2c8\ub2e4\u002e \uac8c\uc2dc\ud310\uc744 \ud1b5\ud574 \uc758\uacac\uc744 \uad50\ud658\ud558\uace0 \uc18c\ud1b5\ud558\uc138\uc694\u002e",
+    "Topic Area:": "\uc8fc\uc81c \ubd84\uc57c\u003a",
+    "Add a clear and descriptive title to encourage participation.": "\ucc38\uc5ec \uc720\ub3c4\ub97c \uc704\ud574 \uba85\ud655\ud55c \uc81c\ubaa9\uc744 \ucd94\uac00\ud558\uc138\uc694\u002e",
+    "Username or email address": "\uc0ac\uc6a9\uc790 \uc774\ub984 \ud639\uc740 \uc774\uba54\uc77c",
+    "Generate certificates for all users on the Exception list who do not yet have a certificate": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \uc544\uc9c1 \uc774\uc218\uc99d\uc774 \uc5c6\ub294 \ubaa8\ub4e0 \ud559\uc2b5\uc790\uc758 \uc774\uc218\uc99d \ubc1c\uae09",
+    "Generate a Certificate for all users on the Exception list": "\uc608\uc678 \ubaa9\ub85d\uc5d0 \uc788\ub294 \ubaa8\ub4e0 \ud559\uc2b5\uc790\uc758 \uc774\uc218\uc99d \ubc1c\uae09",
     "Set up your certificate": "\uc774\uc218\uc99d \ub9cc\ub4e4\uae30",
     "It is strongly recommended that you include four or fewer signatories. If you include additional signatories, preview the certificate in Print View to ensure the certificate will print correctly on one page.": "\uc11c\uba85\uc778\uc744 \u0034\uba85 \uc774\ud558\ub85c \uc124\uc815\ud558\ub294 \uac83\uc744 \uad8c\uc7a5\ud569\ub2c8\ub2e4\u002e \ub9cc\uc57d \uc11c\uba85\uc778 \uc22b\uc790\uac00 \ub354 \ub9ce\ub2e4\uba74 \ubc18\ub4dc\uc2dc \uc778\uc1c4 \ud654\uba74 \ubcf4\uae30\uc5d0\uc11c \uc774\uc218\uc99d\uc774 \ud55c \ud398\uc774\uc9c0\ub85c \ub098\uc624\ub294\uc9c0 \ud655\uc778\ud558\uc138\uc694\u002e",
     "Titles more than 100 characters may prevent students from printing their certificate on a single page.": "\uc81c\ubaa9\uc774 \u0031\u0030\u0030\uc790 \uc774\uc0c1\uc774 \ub418\uba74 \uc774\uc218\uc99d\uc774 \ud55c \ud398\uc774\uc9c0 \uc548\uc5d0 \ub4e4\uc5b4\uac00\uc9c0 \uc54a\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
@@ -1732,16 +1747,60 @@
     "(Add signatories for a certificate)": "\u0028\uc774\uc218\uc99d\uc5d0 \uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30\u0029",
     "Add Additional Signatory": "\uc11c\uba85\uc778 \ucd94\uac00\ud558\uae30",
     "Course Title": "\uac15\uc88c \uc81c\ubaa9",
+    "Korean Studies": "\ud55c\uad6d\ud559",
+    "hum": "\uc778\ubb38",
+    "social": "\uc0ac\ud68c",
+    "edu": "\uad50\uc721",
+    "eng": "\uacf5\ud559",
+    "nat": "\uc790\uc5f0",
+    "med": "\uc758\uc57d",
+    "art": "\uc608\uccb4\ub2a5",
+    "org": "\ub300\ud559",
+    "Link your {accountName} account to your {platformName} account and use {accountName} to sign in to {platformName}.": "{accountName} \uacc4\uc815\uc744 {platformName} \uacc4\uc815\uc5d0 \uc5f0\ub3d9\ud574 {accountName} \uc744 \uc0ac\uc6a9\ud574 {platformName} \uc5d0 \ub85c\uadf8\uc778\ud558\uc138\uc694\u002e",
+    "Link Your Account": "\uacc4\uc815 \uc5f0\ub3d9",
     "No validation is performed on policy keys or value pairs. If you are having difficulties, check your formatting.": "\uaddc\uc815 \ud0a4\ub098 \uc785\ub825\ud55c \uac12\uc5d0 \ub300\ud55c \ud655\uc778\uc808\ucc28\ub294 \ub530\ub85c \uc5c6\uc2b5\ub2c8\ub2e4\u002e \uc624\ub958\uac00 \uacc4\uc18d \ubc1c\uc0dd\ud55c\ub2e4\uba74 \ud615\uc2dd\uc744 \ub2e4\uc2dc \ud655\uc778\ud558\uc138\uc694\u002e",
+    "You can use your {accountName} account to sign in to your {platformName} account.": "{accountName} \uacc4\uc815\uc744 \uc0ac\uc6a9\ud574 {platformName} \uacc4\uc815\uc5d0 \ub85c\uadf8\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
+    "Unlink your {accountName} account": "{accountName} \uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
+    "Unlink This Account": "\uacc4\uc815 \uc5f0\ub3d9 \ud574\uc81c",
+    "Your message must have at least one target.": "\uba54\uc138\uc9c0\uc5d0 \ubc18\ub4dc\uc2dc \uc218\uc2e0\uc790\uac00 \ud55c \uba85 \uc774\uc0c1 \uc788\uc5b4\uc57c \ud569\ub2c8\ub2e4\u002e",
+    "You are sending an email message with the subject {subject} to the following recipients.": "\ub2e4\uc74c \uc218\uc2e0\uc790\uc5d0\uac8c {subject} \uc81c\ubaa9\uc758 \uc774\uba54\uc77c\uc744 \ubcf4\ub0b4\uace0 \uc788\uc2b5\ub2c8\ub2e4\u002e",
+    "Is this OK?": "\ub2e4\uc74c\uc774 \ub9de\uc2b5\ub2c8\uae4c\u003f",
+    "Yourself": "\ubcf8\uc778",
+    "Staff Graded Assignment": "\uc6b4\uc601\ud300 \ud3c9\uac00 \ubb38\ud56d",
     "Start regenerating certificates for students in this course?": "\uc774 \uac15\uc88c \ud559\uc2b5\uc790\uc758 \uc778\uc99d\uc11c \uc7ac\uc0dd\uc131\uc744 \uc2dc\uc791\ud558\uaca0\uc2b5\ub2c8\uae4c\u003f",
     "<%= user %> has been successfully added to the exception list. Click Generate Exception Certificate below to send the certificate.": "\u003c\u0025\u003d \u0075\u0073\u0065\u0072 \u0025\u003e \uac00 \uc131\uacf5\uc801\uc73c\ub85c \uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e \uc544\ub798 \uc608\uc678 \uc778\uc99d\uc11c \uc0dd\uc131\uc744 \ud074\ub9ad\ud574 \uc778\uc99d\uc11c\ub97c \ubcf4\ub0b4\uc138\uc694\u002e",
     "Staff Graded Assignment": "\uc6b4\uc601\ud300 \ud3c9\uac00 \ubb38\ud56d",
     "The number of subsections in the course that contain problems of this assignment type.": "\ud574\ub2f9 \uacfc\uc81c \uc720\ud615\uc5d0 \ud574\ub2f9\ud558\ub294 \uc18c\uc8fc\uc81c \uc218",
+    "Student username/email field is required and can not be empty. Kindly fill in username/email and then press \"Add to Exception List\" button.": "\ud559\uc2b5\uc790 \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \ud544\ub4dc\ub294 \ud544\uc218 \uc785\ub825 \uc0ac\ud56d\uc785\ub2c8\ub2e4\u002e \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \uc785\ub825 \ud6c4 \u0022\uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ud558\uae30\u0022 \ub97c \ud074\ub9ad\ud574\uc8fc\uc138\uc694",
+    "Student username/email field is required and can not be empty. Kindly fill in username/email and then press \"Invalidate Certificate\" button.": "\ud559\uc2b5\uc790 \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c\uc740 \ud544\uc218 \uc785\ub825 \uc0ac\ud56d\uc785\ub2c8\ub2e4\u002e \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \uc785\ub825 \ub4a4 \u0022\uc774\uc218\uc99d \ube44\ud65c\uc131\ud654 \ud558\uae30\u0022 \ub97c \ud074\ub9ad\ud558\uc138\uc694",
+    "CAUk": "\uc911\uc559\ub300\ud559\uad50",
+    "KUMOHk": "\uae08\uc624\uacf5\uacfc\ub300\ud559\uad50",
+    "CNUk": "\ucda9\ub0a8\ub300\ud559\uad50",
+    "SYUk": "\uc0bc\uc721\ub300\ud559\uad50",
+    "SMUk": "\uc0c1\uba85\ub300\ud559\uad50",
+    "BUFSk": "\ubd80\uc0b0\uc678\uad6d\uc5b4\ub300\ud559\uad50",
+    "DonggukK": "\ub3d9\uad6d\ub300\ud559\uad50",
+    "DSUk": "\ub3d9\uc2e0\ub300\ud559\uad50",
+    "MokwonK": "\ubaa9\uc6d0\ub300\ud559\uad50",
+    "KNUk": "\uacbd\ubd81\ub300\ud559\uad50",
+    "HallymK": "\ud55c\ub9bc\ub300\ud559\uad50",
+    "UOSk": "\uc11c\uc6b8\uc2dc\ub9bd\ub300\ud559\uad50",
+    "JEJUk": "\uc81c\uc8fc\ub300\ud559\uad50",
+    "KonYangK": "\uac74\uc591\ub300\ud559\uad50",
+    "DKUK": "\ub2e8\uad6d\ub300\ud559\uad50",
+    "CUKk": "\uac00\ud1a8\ub9ad\ub300\ud559\uad50",
+    "GachonUnivK": "\uac00\ucc9c\ub300\ud559\uad50",
+    "KONGJUk": "\uacf5\uc8fc\ub300\ud559\uad50",
+    "HGUk": "\ud55c\ub3d9\ub300\ud559\uad50",
     "English": "\uc601\uc5b4",
     "Korean": "\ud55c\uad6d\uc5b4",
     "Chinese": "\uc911\uad6d\uc5b4",
+    "language": "\uc5b8\uc5b4",
+    "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
     "Add a response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
     "Add a response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a Response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
+    "Add a Response": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
     "Type in a URL or use the \"Choose File\" button to upload a file from your machine. (e.g. 'http://example.com/img/clouds.jpg')": "\u0055\u0052\u004c\uc744 \uc785\ub825\ud558\uac70\ub098 \"\ud30c\uc77c \uc120\ud0dd\" \ubc84\ud2bc\uc744 \uc0ac\uc6a9\ud574 \ud30c\uc77c\uc744 \uc5c5\ub85c\ub4dc\ud569\ub2c8\ub2e4\u002e \uc608\u003a\u0029 \u0068\u0074\u0074\u0070\u003a\u002f\u002f\u0065\u0078\u0061\u006d\u0070\u006c\u0065\u002e\u0063\u006f\u006d\u002f\u0069\u006d\u0067\u002f\u0063\u006c\u006f\u0075\u0064\u0073\u002e\u006a\u0070\u0067",
     "e.g. 'Sky with clouds'. The description is helpful for users who cannot see the image.": "\uc774 \uc124\uba85\uc740 \uc774\ubbf8\uc9c0\ub97c \ubcf4\uc9c0 \ubabb\ud558\ub294 \ud559\uc2b5\uc790\uc5d0\uac8c \ub3c4\uc6c0\uc774 \ub429\ub2c8\ub2e4\u002e",
     "This image is for decorative purposes only and does not require a description.": "\uc774 \uc774\ubbf8\uc9c0\ub294 \uc2dc\uac01\uc801 \ud6a8\uacfc\ub97c \uc704\ud55c \uac83\uc774\uba70 \uc124\uba85\uc774 \ud544\uc694 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
@@ -1783,7 +1842,7 @@
     }
     return value;
   };
-  
+
 
   django.interpolate = function (fmt, obj, named) {
     if (named) {
@@ -1797,45 +1856,45 @@
   /* formatting library */
 
   django.formats = {
-    "DATETIME_FORMAT": "Y\ub144 n\uc6d4 j\uc77c g:i A", 
+    "DATETIME_FORMAT": "Y\ub144 n\uc6d4 j\uc77c g:i A",
     "DATETIME_INPUT_FORMATS": [
-      "%Y-%m-%d %H:%M:%S", 
-      "%Y-%m-%d %H:%M:%S.%f", 
-      "%Y-%m-%d %H:%M", 
-      "%Y-%m-%d", 
-      "%m/%d/%Y %H:%M:%S", 
-      "%m/%d/%Y %H:%M:%S.%f", 
-      "%m/%d/%Y %H:%M", 
-      "%m/%d/%Y", 
-      "%m/%d/%y %H:%M:%S", 
-      "%m/%d/%y %H:%M:%S.%f", 
-      "%m/%d/%y %H:%M", 
-      "%m/%d/%y", 
-      "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84 %S\ucd08", 
+      "%Y-%m-%d %H:%M:%S",
+      "%Y-%m-%d %H:%M:%S.%f",
+      "%Y-%m-%d %H:%M",
+      "%Y-%m-%d",
+      "%m/%d/%Y %H:%M:%S",
+      "%m/%d/%Y %H:%M:%S.%f",
+      "%m/%d/%Y %H:%M",
+      "%m/%d/%Y",
+      "%m/%d/%y %H:%M:%S",
+      "%m/%d/%y %H:%M:%S.%f",
+      "%m/%d/%y %H:%M",
+      "%m/%d/%y",
+      "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84 %S\ucd08",
       "%Y\ub144 %m\uc6d4 %d\uc77c %H\uc2dc %M\ubd84"
-    ], 
-    "DATE_FORMAT": "Y\ub144 n\uc6d4 j\uc77c", 
+    ],
+    "DATE_FORMAT": "Y\ub144 n\uc6d4 j\uc77c",
     "DATE_INPUT_FORMATS": [
-      "%Y-%m-%d", 
-      "%m/%d/%Y", 
-      "%m/%d/%y", 
+      "%Y-%m-%d",
+      "%m/%d/%Y",
+      "%m/%d/%y",
       "%Y\ub144 %m\uc6d4 %d\uc77c"
-    ], 
-    "DECIMAL_SEPARATOR": ".", 
-    "FIRST_DAY_OF_WEEK": "0", 
-    "MONTH_DAY_FORMAT": "F\uc6d4 j\uc77c", 
-    "NUMBER_GROUPING": "3", 
-    "SHORT_DATETIME_FORMAT": "Y-n-j H:i", 
-    "SHORT_DATE_FORMAT": "Y-n-j.", 
-    "THOUSAND_SEPARATOR": ",", 
-    "TIME_FORMAT": "A g:i", 
+    ],
+    "DECIMAL_SEPARATOR": ".",
+    "FIRST_DAY_OF_WEEK": "0",
+    "MONTH_DAY_FORMAT": "F\uc6d4 j\uc77c",
+    "NUMBER_GROUPING": "3",
+    "SHORT_DATETIME_FORMAT": "Y-n-j H:i",
+    "SHORT_DATE_FORMAT": "Y-n-j.",
+    "THOUSAND_SEPARATOR": ",",
+    "TIME_FORMAT": "A g:i",
     "TIME_INPUT_FORMATS": [
-      "%H:%M:%S", 
-      "%H:%M:%S.%f", 
-      "%H:%M", 
-      "%H\uc2dc %M\ubd84 %S\ucd08", 
+      "%H:%M:%S",
+      "%H:%M:%S.%f",
+      "%H:%M",
+      "%H\uc2dc %M\ubd84 %S\ucd08",
       "%H\uc2dc %M\ubd84"
-    ], 
+    ],
     "YEAR_MONTH_FORMAT": "Y\ub144 F\uc6d4"
   };
 
@@ -1859,4 +1918,3 @@
   globals.get_format = django.get_format;
 
 }(this));
-

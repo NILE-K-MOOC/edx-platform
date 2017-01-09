@@ -485,7 +485,6 @@ def _update_asset(request, course_key, asset_key):
     # print request
     if request.method == 'DELETE':
         try:
-
             """
             todo 아래의 코드는 uuid를 찾지 못함. find_cdn 과 같은 메소드를 만들고 uuid값을 가져와 처리해야 한다
              ** 우선 몽고(아래코드)를 처리하고 곧바로 mme데이터를 삭제하자.
@@ -496,33 +495,33 @@ def _update_asset(request, course_key, asset_key):
              asset-v1:e1+e1+e1+type@cdn+block@robot_arms.mp4
             """
 
-
-
             # try:
             ''' MME 콘텐츠 삭제'''
             content = contentstore().find_cdn_uuid(asset_key)
 
-            uuid = content['uuid']
-            playtime = content['playtime']
-            cdn_url = content['cdn_url']
-            cdn_parse = urlparse.urlparse(cdn_url)
+            if content:
 
-            # print content
-            # print uuid
-            mme_url = "http://%s" % cdn_parse.netloc
+                uuid = content['uuid']
+                playtime = content['playtime']
+                cdn_url = content['cdn_url']
+                cdn_parse = urlparse.urlparse(cdn_url)
 
-            if uuid is None or uuid == '':
-                uuid = cdn_url.split("/")[-1].replace(".mp4", "")
+                # print content
+                # print uuid
+                mme_url = "http://%s" % cdn_parse.netloc
 
-            # print "mme delete"
+                if uuid is None or uuid == '':
+                    uuid = cdn_url.split("/")[-1].replace(".mp4", "")
 
-            mme_delete(mme_url, uuid)
-            # except Exception, e:
-            #     print "MME Delete Exception: %s" % e
+                # print "mme delete"
 
-            # print "mme delete finish"
+                mme_delete(mme_url, uuid)
+                # except Exception, e:
+                #     print "MME Delete Exception: %s" % e
 
-            # print "mongo delete"
+                # print "mme delete finish"
+
+                # print "mongo delete"
             delete_asset(course_key, asset_key)
             # print "mongo delete finish"
 
