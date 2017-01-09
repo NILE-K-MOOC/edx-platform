@@ -63,7 +63,9 @@
            class="input-block"
            placeholder="<%- gettext('Password check') %>"
         />
+        <% if ( instructions ) { %> <span class="tip tip-input" id="<%= form %>-<%= name %>-desc"><%= instructions %></span><% } %>
         <%}%>
+
 
     <% } else { %>
         <input id="<%= form %>-<%= name %>"
