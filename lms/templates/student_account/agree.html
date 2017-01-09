@@ -47,7 +47,7 @@
 				<h2>${_("Terms and conditions for subscription")}</h2>
 				<section class="agree-frm-box">
 					<h3>${_("Terms and conditions for use")} ${_("(Essential)")}</h3>
-                    %if request.session['_language'] != 'en' :
+                    %if '_language' not in request.session or request.session['_language'] != 'en' :
 					<textarea readonly="readonly">
 제1장 총칙
 
@@ -303,7 +303,7 @@ Article 18 (Competent Court)
 
 				<section class="agree-frm-box">
 					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")} ${_("(Essential)")}</h3>
-                    %if request.session['_language'] != 'en':
+                    %if '_language' not in request.session or request.session['_language'] != 'en' :
 					<textarea readonly="readonly">1. 개인정보의 수집 및 이용 목적
 
  K-MOOC 홈페이지는 개인정보를 다음의 목적을 위해 수집합니다. 수집한 개인정보는 다음의 목적 이외의 용도로는 사용되지 않으며 이용 목적이 변경될 시에는 사전동의를 구할 예정입니다.
@@ -387,7 +387,7 @@ Article 18 (Competent Court)
 
 				<section class="agree-frm-box">
 					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")} ${_("(option)")}</h3>
-                    %if request.session['_language'] != 'en':
+                    %if '_language' not in request.session or request.session['_language'] != 'en' :
 					<textarea readonly="readonly">
 1. 선택적 개인정보의 수집목적
 
