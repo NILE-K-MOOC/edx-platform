@@ -994,11 +994,13 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 .header-global .user .dropdown-menu li {display:block;}
 
 .course-info header.course-profile:after , section.wiki .wiki-wrapper > header:after {content:"";display:block;clear:both;}
-.course-info header.course-profile + .container {clear:both;min-width:768px;}
+/*.course-info header.course-profile + .container {clear:both;min-width:768px;}*/
+.course-info header.course-profile + .container {clear:both;min-width:auto;} /** 20170104 **/
 .course-info header.course-profile {height:auto;min-height:280px;padding-top:100px;}
 .course-info header.course-profile  .intro-inner-wrapper {margin-bottom:20px;}
 
-.discussion.container {margin:0 auto;max-width:100%;min-width:768px;}
+/*.discussion.container {margin:0 auto;max-width:100%;min-width:768px;}*/
+.discussion.container {margin:0 auto;max-width:100%;min-width:auto;} /** 20170104 **/
 .container .discussion-body, .container .discussion-module, .container .discussion-user-threads {margin:0 auto;max-width:1200px;}
 section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
@@ -1094,3 +1096,19 @@ a:active {
 	font-family: "Nanum Gothic" !important;
 }
 
+/** 20170104 **/
+
+.dashboard .my-courses {width:100%;}
+.dashboard .profile-sidebar {display:none;}
+
+.course-info header.course-profile .intro-inner-wrapper {min-width:auto;}
+.course-info .details table , .course-info .details iframe {width:100% !important;}
+
+@media (max-width: 768px) {
+	.course-info .details {width:100%;margin-right:0;padding-right:10px;box-sizing:border-box;}
+	.course-info .course-sidebar {clear:both;float:none;width:100%;}
+
+	section.wiki .main-article {width:100%;box-sizing:border-box;}
+	section.wiki .article-functions {clear:both;float:none;width:100%;box-sizing:border-box;}
+	.container>div.wiki-wrapper {min-width:auto;}
+}
