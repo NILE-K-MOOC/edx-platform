@@ -508,32 +508,25 @@ CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
               </header>
 
               <ol class="list-input">
+
+                <!-- 주간 학습 권장 시간 화면 수정 -->
                 % if about_page_editable:
-                <li class="field text" id="field-course-effort">
+                <li class="field text" id="field-course-effort" style="width: 100%;">
                   <label for="course-effort">${_("Hours of Effort per Week")}</label>
-                  <input type="text" class="short time" id="course-effort" placeholder="HH:MM" /><br/>
-                    <!--<select>
-                        <option selected>00</option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                    </select> :
-                    <select>
-                        <option selected>00</option>
-                        <option>30</option>
-                    </select><br/> -->
-                    <span class="tip tip-inline">${_("Time spent on all course work")}</span>
+                    <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
+                    <div>
+                  <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2" /><span style="float: left; padding: 10px;">시간</span>
+                  <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2" /><span style="float: left; padding: 10px;">분</span>
+                    <br/>
+                    </div>
+                    <br/>
+                    <span class="tip tip-inline">매주 해당 강좌의 학습에 필요한 권장 학습시간을 입력 바랍니다.</span>
+
                 </li>
                 % endif
+
+
+
                 % if is_prerequisite_courses_enabled:
                 <li class="field field-select" id="field-pre-requisite-course">
                     <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
