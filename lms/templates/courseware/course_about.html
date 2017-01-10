@@ -195,7 +195,7 @@ from openedx.core.lib.courses import course_image_url
           </a>
           <div id="register_error"></div>
         %else:
-          <% 
+          <%
             if ecommerce_checkout:
               reg_href = ecommerce_checkout_link
             else:
@@ -261,12 +261,12 @@ from openedx.core.lib.courses import course_image_url
           % if not course.start_date_is_still_default:
               <li class="important-dates-item">
                   <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                  <p class="important-dates-item-title">수강 신청 기간</p>
+                  <p class="important-dates-item-title">${_("Course Registration Period")}</p>
                   <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}</span>
               </li>
               <li class="important-dates-item">
                   <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                  <p class="important-dates-item-title">수강 신청 마감</p>
+                  <p class="important-dates-item-title">${_("Course Registration Close Date")}</p>
                   <span class="important-dates-item-text start-date">${enroll_edate['enroll_edate']}</span>
               </li>
           % endif
