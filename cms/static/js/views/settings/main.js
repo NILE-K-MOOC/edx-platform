@@ -23,7 +23,12 @@ var DetailsView = ValidatingView.extend({
         'blur :input' : "inputUnfocus",
         'click .action-upload-image': "uploadImage",
         'click .add-course-learning-info': "addLearningFields",
-        'click .add-course-instructor-info': "addInstructorFields"
+        'click .add-course-instructor-info': "addInstructorFields",
+
+        'blur #course-effort-hh': "setEffort",
+        'blur #course-effort-mm': "setEffort",
+        'change #course-effort-hh': "setEffort",
+        'change #course-effort-mm': "setEffort"
     },
 
     initialize : function(options) {
@@ -72,6 +77,31 @@ var DetailsView = ValidatingView.extend({
             el: $(".course-instructor-details-fields"),
             model: this.model
         });
+
+    },
+    setEffort:function(){
+        //console.log('setEffort called');
+        var hh = $("#course-effort-hh").val();
+        var mm = $("#course-effort-mm").val();
+
+        if(hh == null || hh == "" || isNaN(hh) || mm == null || mm == "" || isNaN(mm)){
+            $("#course-effort").trigger("change");
+            return;
+        }
+
+        if(hh.length == 1)
+            hh = "0" + hh;
+        if(mm.length == 1)
+            mm = "0" + mm;
+
+        $("#course-effort-hh").val(hh);
+        $("#course-effort-mm").val(mm);
+
+        var val = hh + ":" + mm;
+        $("#course-effort").val(val);
+
+        //console.log("course-effort value is = " + $("#course-effort").val());
+        $("#course-effort").trigger("change");
     },
 
     render: function() {
@@ -151,6 +181,20 @@ var DetailsView = ValidatingView.extend({
         this.licenseView.render();
         this.learning_info_view.render();
         this.instructor_info_view.render();
+
+        //$("#course-effort-hh").focus();
+        var time = $("#course-effort").val();
+        if(time){
+            console.log('FULL: ' + time);
+            console.log('HH: ' + time.split(':')[0]);
+            console.log('MM: ' + time.split(':')[1]);
+            if(time.split(':')[0]){
+                $("#course-effort-hh").val(time.split(':')[0]);
+            }
+            if(time.split(':')[1]){
+                $("#course-effort-mm").val(time.split(':')[1]);
+            }
+        }
 
         return this;
     },
@@ -371,6 +415,8 @@ var DetailsView = ValidatingView.extend({
     },
 
     revertView: function() {
+
+        alert('revertView s!!!!');
         // Make sure that the CodeMirror instance has the correct
         // data from its corresponding textarea
         var self = this;
@@ -387,6 +433,9 @@ var DetailsView = ValidatingView.extend({
             },
             reset: true,
             silent: true});
+
+        alert('revertView e!!!!');
+
     },
     setAndValidate: function(attr, value) {
         // If we call model.set() with {validate: true}, model fields
