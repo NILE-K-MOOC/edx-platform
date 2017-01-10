@@ -6331,7 +6331,7 @@ msgstr "{user} 는 학습 관리 시스템에 존재하지 않습니다. 스펠�
 #: lms/djangoapps/instructor/views/api.py
 msgid ""
 "{user} is not enrolled in this course. Please check your spelling and retry."
-msgstr "{user} 는 강좌에 수강 등록하지 않았습니다. 스펠리을 확인한 뒤에 다시 시도해 주세요."
+msgstr "{user} 는 강좌에 수강 등록하지 않았습니다. 스펠링을 확인한 뒤에 다시 시도해 주세요."
 
 #: lms/djangoapps/instructor/views/api.py
 msgid "Invalid data, generate_for must be \"new\" or \"all\"."

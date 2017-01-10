@@ -1,6 +1,6 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-
+<%block name="pagetitle">${_("Contact us by email")}</%block>
 <%inherit file="../main.html" />
 
 <%block name="header_extras"></%block>
@@ -34,8 +34,8 @@
                         <option id="certi_f">${_("About grade/certificates")}</option>
                         <option id="tech_f">${_("About technical problems")}</option>
                     </select>
-                    <input type="text"  id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력">@
-                    <input type="text" style="height: 35px; min-width: 200px !important;" id="email_txt" aria-label="이메일 도메인 입력" disabled>
+                    <input type="text"  id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력">@
+                    <input type="text" style="height: 35px; min-width: 200px !important;" id="email_txt" aria-label="이메일 도메인 입력" title="이메일 도메인 입력" disabled>
                     <select id="sel_email" style="height: 35px; min-width: 200px !important;" title="이메일 선택">
                         <option id="null">${_("Please select an email")}</option>
                         <option id="email">naver.com</option>
@@ -54,7 +54,7 @@
                     <b>${_("Memo")}</b>
                 </dt>
                 <dd>
-                    <textarea id="request_con"></textarea>
+                    <textarea id="request_con" title="${_("Memo")}"></textarea>
                 </dd>
             </dl>
 
