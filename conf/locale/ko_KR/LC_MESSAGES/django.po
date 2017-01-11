@@ -12935,8 +12935,8 @@ msgid "next page"
 msgstr "다음 페이지"
 
 #: lms/templates/courseware/info.html
-msgid "{course_number} Course Info"
-msgstr "{course_number} 강좌 정보"
+msgid "{course_name} Course Info"
+msgstr "{course_name} 강좌 정보"
 
 #: lms/templates/courseware/info.html
 msgid "You are not enrolled yet"
