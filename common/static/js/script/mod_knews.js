@@ -41,8 +41,7 @@ $(document).on('click', '#file > li > a', function(){
                 file_name : file_name
             }
     }).done(function(data){
-        $("#download").prop("href", data);
-        location.href=$("#download").attr('href');
+        window.open(data,'_blank');
     });
 });
 
