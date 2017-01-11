@@ -17371,10 +17371,10 @@ msgstr ""
 #: cms/templates/asset_index.html
 msgid ""
 "{em_start}Caution{em_end}: {platform_name} recommends that you limit the "
-"file size to {em_start}10 MB{em_end}. In addition, do not upload video or "
+"file size to {em_start}20 MB{em_end}. In addition, do not upload video or "
 "audio files. You should use a third party service to host multimedia files."
 msgstr ""
-"{em_start}주의 {em_end} : {platform_name}는 {em_start} 10MB {em_end}로 파일 크기를 "
+"{em_start}주의 {em_end} : {platform_name}는 {em_start} 20MB {em_end}로 파일 크기를 "
 "제한합니다. "
 
 #: cms/templates/asset_index.html
