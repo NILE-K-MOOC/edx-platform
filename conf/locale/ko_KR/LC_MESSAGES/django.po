@@ -13824,7 +13824,7 @@ msgstr "해당 강좌로 이동하시려면 로그인을 하신 뒤에, {course_
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {course_about_url} to join the course and begin the beta test."
-msgstr "{course_about_url}에 방문해서 강좌에 참여하고 베타테스트를 시작하세요."
+msgstr "{course_about_url} 에 방문해서 강좌에 참여하고 베타테스트를 시작하세요."
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {site_name} to enroll in the course and begin the beta test."
