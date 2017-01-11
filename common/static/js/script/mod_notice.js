@@ -12,6 +12,7 @@ $(document).ready(function(){
         //console.log(data[8]);
         var title = data[4]+data[0];
         $('#title').html(title);
+        data[1] = data[1].replace("/manage/home/static/upload/",'/static/file_upload/');
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일[등록일] : '+data[2]);
         $('#mod_date').html('수정일 : '+data[3]);
