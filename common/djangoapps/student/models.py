@@ -163,7 +163,11 @@ def anonymous_id_for_user(user, course_id, save=True):
     cur.execute(query)
     row = cur.fetchone()
     cur.close()
-    if row and row[0] > '20161221':
+
+    # if row and row[0] > '20161221':
+    #     hasher.update(settings.SECRET_KEY)
+
+    if not row or row[0] > '20161221':
         hasher.update(settings.SECRET_KEY)
 
     hasher.update(unicode(user.id))
