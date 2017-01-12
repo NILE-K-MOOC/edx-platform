@@ -60,10 +60,9 @@
             title="<%= name %>"
         />
         <% if( form === 'register' ) {%>
-        <input title="<%=form %>" id="<%= form %>-<%= name %>2"
+        <input title="<%= name %>2" id="<%= form %>-<%= name %>2"
            type="<%= type %>"
            name="<%= name %>2"
-           title="<%= name %>2"
            class="input-block"
            placeholder="<%- gettext('Password check') %>"
         />

@@ -120,14 +120,14 @@ from openedx.core.lib.courses import course_image_url
     % if get_course_about_section(request, course, "video"):
       <a href="#video-modal" class="media" rel="leanModal">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" />
           <div class="play-intro"></div>
         </div>
       </a>
     %else:
       <div class="media">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지" />
         </div>
       </div>
     % endif
