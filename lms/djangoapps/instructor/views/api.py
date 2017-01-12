@@ -109,6 +109,7 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from opaque_keys import InvalidKeyError
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+import urllib
 
 log = logging.getLogger(__name__)
 
@@ -2309,6 +2310,8 @@ def list_report_downloads(_request, course_id):
     report_store = ReportStore.from_config(config_name='GRADES_DOWNLOAD')
 
     for name, url in report_store.links_for(course_id):
+        # add '+' decode..
+        url = urllib.unquote(urllib.unquote(url))
         log.info(u'report replace url is [ %s ]', settings.MEDIA_ROOT + url.replace('/media', ''))
         with open(settings.MEDIA_ROOT + url.replace('/media', ''), 'r') as r:
             s = r.read()
