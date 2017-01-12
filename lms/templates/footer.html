@@ -82,9 +82,8 @@ dir=${bidi}
     </div>
 
     <div class="footer-about-openedx">
-        <div class="associate-site-lnk">
+        <div class="associate-site-lnk" id="rel_site">
 ##             <select onchange="moveLocation(this.value);" title="관련사이트">
-
             <select title="관련사이트" id="related_site" onchange="moveLocation(this.value)">
                 <option>${_("Related sites")}</option>
                 <option value="http://www.moe.go.kr/">${_("Ministry of Education")}</option>
@@ -95,14 +94,24 @@ dir=${bidi}
             <script>
                 var ua = window.navigator.userAgent;
                 var msie = ua.indexOf("MSIE ");
+                $(function(){
+                    if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                        $('#rel_site').append('<input class="btn" type="button" id="go" value="이동" title="이동">');
+                    }
+                });
+                $(document).on('click', '#go', function(){
+                    var url = $('#related_site option:selected').val();
+                    if(url != '관련사이트'){
+                        document.location.href = url;
+                    }else{
+                        alert('관련사이트를 선택하세요.');
+                    }
+
+                });
+
 
                 function moveLocation(url){
                     if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                        $("#related_site").bind("change keydown", function(e){
-                            if(e.keyCode == 13){
-                                document.location.href = url;
-                            }
-                        })
                     }else{
                         document.location.href = url;
                     }
@@ -116,7 +125,7 @@ dir=${bidi}
                 <a href="http://mme.kmoocs.kr/vod/pop-up.htm" target="_blank" title="새창알림"><img src="/static/images/common/footer_icon02.png" alt="facebook" /></a>
             </div>
             <div>
-                <img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;margin-right: 5px;">
+                <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;margin-right: 5px;"></a>
                 <a href="http://wa.or.kr/waMark/status.asp" target="_blank" title="새창알림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크" /></a>
                 <a href="javascript:fPopup('e');" title="새창알림"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크" /></a>
                 <a href="javascript:fPopup('i');" title="새창알림"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크" /></a>
