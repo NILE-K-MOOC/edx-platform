@@ -29497,7 +29497,13 @@ msgstr "학습자가 자기 답변 평가를 시작할 수 있는 날짜와 시�
 msgid "Enter the date and time when all self assessments must be complete."
 msgstr "모든 직접 평가들이 완료되어야 할 날짜와 시간을 입력하세요."
 
+msgid "SKP.SNUk"
+msgstr "서울대, 한국과학기술원, 포항공대"
 
+msgid "SKP.KAISTk"
+msgstr "서울대, 한국과학기술원, 포항공대"
 
+msgid "SKP.POSTECHk"
+msgstr "서울대, 한국과학기술원, 포항공대"
 
 

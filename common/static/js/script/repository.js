@@ -220,8 +220,12 @@ function search(){
     var html = "";
     var html2 = "";
     var value_list =[];
-    //alert(search_search);
-    //alert(search_con);
+    search_search = search_search.replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\'/g, "&#39;")
+    .replace(/\"/g,"&quot;");
+
     if(search_search != '' && search_search != null){
         $.ajax({
             url : '/comm_repository',

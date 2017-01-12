@@ -127,7 +127,11 @@ function search() {
 	var value_list = [];
 	var head_title = $('section').find('nav').find('.on').attr('id');
 	var search = $('#search').val();
-
+	search = search.replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\'/g, "&#39;")
+    .replace(/\"/g,"&quot;");
 
 	if (search == '' || search == null) {
 		$(".faq-tab a").removeClass("on");
