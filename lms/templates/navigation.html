@@ -102,6 +102,7 @@ site_status_msg = get_site_status_msg(course_id)
         <ol class="right nav-global list-inline" id="gnb">
             % if user.is_authenticated():
             <li class="item nav-global-01" data-hidden="w"><a href="/logout">${_("Sign Out")}</a></li>
+            <li class="item nav-global-01" data-hidden="w"><a href="/dashboard"  style="background: #f2f2f2 !important; color: #333 !important;">${_("Dashboard")}</a></li>
             % else:
             <li class="item nav-global-01" data-hidden="w"><a href="/login">${_("Log In")}</a></li>
             <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}">${_("Register")}</a></li>
