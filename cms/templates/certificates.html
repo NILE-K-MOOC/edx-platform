@@ -48,12 +48,16 @@ CMS.User.isGlobalStaff = '${is_global_staff}'=='True' ? true : false;
 
 <%block name="content">
   <div class="wrapper-mast wrapper">
-    <header class="mast has-actions has-subtitle">
+    <header class="mast has-actions has-subtitle" style="min-height: 90px;">
       <h1 class="page-header">
         <small class="subtitle">${_("Settings")}</small>
         <span class="sr">&gt; </span>${_("Certificates")}
       </h1>
       <div class="preview-certificate nav-actions"></div>
+        <div style="font-size: 11px;line-height: 1.7;margin-top: 6px;float: right;width:25%; text-align: right; position: relative; bottom: -26px; background: #fff;border: 1px solid lightgray; padding:0 5px;">
+          비활성화 상태가 이수증이 발급될 수 있는 상태입니다.<br>
+          활성화로 버튼이 보일 경우 이수증이 학습자에게 보여지지 않습니다.
+        </div>
     </header>
   </div>
 
@@ -90,7 +94,7 @@ CMS.User.isGlobalStaff = '${is_global_staff}'=='True' ? true : false;
             <p>${_("For verified certificates, specify between one and four signatories and upload the associated images.")}</p>
             <p>${_("To edit or delete a certificate before it is activated, hover over the top right corner of the form and select {em_start}Edit{em_end} or the delete icon.").format(em_start="<strong>", em_end="</strong>")}</p>
             <p>${_("To view a sample certificate, choose a course mode and select {em_start}Preview Certificate{em_end}.").format(em_start='<strong>', em_end="</strong>")}</p>
-            
+
             <h3 class="title-3">${_("Issuing Certificates to Learners")}</h3>
             <p>${_("To begin issuing certificates, a course team member with the Admin role selects {em_start}Activate{em_end}. Course team members without the Admin role cannot edit or delete an activated certificate.").format(em_start='<strong>', em_end="</strong>")}</p>
             <p>${_("{em_start}Do not{em_end} delete certificates after a course has started; learners who have already earned certificates will no longer be able to access them.").format(em_start="<strong>", em_end="</strong>")}</p>

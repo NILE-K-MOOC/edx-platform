@@ -6331,7 +6331,7 @@ msgstr "{user} 는 학습 관리 시스템에 존재하지 않습니다. 스펠�
 #: lms/djangoapps/instructor/views/api.py
 msgid ""
 "{user} is not enrolled in this course. Please check your spelling and retry."
-msgstr "{user} 는 강좌에 수강 등록하지 않았습니다. 스펠리을 확인한 뒤에 다시 시도해 주세요."
+msgstr "{user} 는 강좌에 수강 등록하지 않았습니다. 스펠링을 확인한 뒤에 다시 시도해 주세요."
 
 #: lms/djangoapps/instructor/views/api.py
 msgid "Invalid data, generate_for must be \"new\" or \"all\"."
@@ -12935,8 +12935,8 @@ msgid "next page"
 msgstr "다음 페이지"
 
 #: lms/templates/courseware/info.html
-msgid "{course_number} Course Info"
-msgstr "{course_number} 강좌 정보"
+msgid "{course_name} Course Info"
+msgstr "{course_name} 강좌 정보"
 
 #: lms/templates/courseware/info.html
 msgid "You are not enrolled yet"
@@ -13824,7 +13824,7 @@ msgstr "해당 강좌로 이동하시려면 로그인을 하신 뒤에, {course_
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {course_about_url} to join the course and begin the beta test."
-msgstr "{course_about_url}에 방문해서 강좌에 참여하고 베타테스트를 시작하세요."
+msgstr "{course_about_url} 에 방문해서 강좌에 참여하고 베타테스트를 시작하세요."
 
 #: lms/templates/emails/add_beta_tester_email_message.txt
 msgid "Visit {site_name} to enroll in the course and begin the beta test."
@@ -17371,10 +17371,10 @@ msgstr ""
 #: cms/templates/asset_index.html
 msgid ""
 "{em_start}Caution{em_end}: {platform_name} recommends that you limit the "
-"file size to {em_start}10 MB{em_end}. In addition, do not upload video or "
+"file size to {em_start}20 MB{em_end}. In addition, do not upload video or "
 "audio files. You should use a third party service to host multimedia files."
 msgstr ""
-"{em_start}주의 {em_end} : {platform_name}는 {em_start} 10MB {em_end}로 파일 크기를 "
+"{em_start}주의 {em_end} : {platform_name}는 {em_start} 20MB {em_end}로 파일 크기를 "
 "제한합니다. "
 
 #: cms/templates/asset_index.html
@@ -29497,7 +29497,13 @@ msgstr "학습자가 자기 답변 평가를 시작할 수 있는 날짜와 시�
 msgid "Enter the date and time when all self assessments must be complete."
 msgstr "모든 직접 평가들이 완료되어야 할 날짜와 시간을 입력하세요."
 
+msgid "SKP.SNUk"
+msgstr "서울대, 한국과학기술원, 포항공대"
 
+msgid "SKP.KAISTk"
+msgstr "서울대, 한국과학기술원, 포항공대"
 
+msgid "SKP.POSTECHk"
+msgstr "서울대, 한국과학기술원, 포항공대"
 
 

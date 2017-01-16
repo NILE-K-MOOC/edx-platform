@@ -9,8 +9,9 @@ $(document).ready(function(){
             }
     }).done(function(data){
         //console.log(data);
-        var title = data[3]+data[0]
+        var title = data[3]+data[0];
         $('#title').html(title);
+        data[1] = data[1].replace("/manage/home/static/upload/",'/static/file_upload/');
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('수정 날짜 : '+data[2]);
         if(data[4] != '' && data[4] != null){
@@ -39,8 +40,7 @@ $(document).on('click', '#file > li > a', function(){
                 file_name : file_name
             }
     }).done(function(data){
-        $("#download").prop("href", data);
-        location.href=$("#download").attr('href');
+        window.open(data,'_blank');
     });
 });
 

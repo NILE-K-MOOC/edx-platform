@@ -383,7 +383,7 @@ a, span, p {color:inherit;}
 .wrapper-footer footer#footer-openedx .footer-about-openedx img {margin-left:5px;margin-bottom:7px;}
 .wrapper-footer .footer-util {float:left;}
 
-.wrapper-footer footer#footer-openedx .footer-about-openedx a:hover, .wrapper-footer footer#footer-openedx .footer-about-openedx a:focus, .wrapper-footer footer#footer-openedx .footer-about-openedx a:active {text-decoration:none !important;outline:none;box-shadow:none;}
+/*.wrapper-footer footer#footer-openedx .footer-about-openedx a:hover, .wrapper-footer footer#footer-openedx .footer-about-openedx a:focus, .wrapper-footer footer#footer-openedx .footer-about-openedx a:active {text-decoration:none !important;outline:none;box-shadow:none;}*/
 .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a:hover, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a:focus, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a:active,
 .wrapper-footer footer#footer-openedx a:hover, .wrapper-footer footer#footer-openedx a:focus, .wrapper-footer footer#footer-openedx a:active
 {color:#fff;box-shadow:none;text-decoration:none;border:0;}
@@ -510,7 +510,7 @@ a, span, p {color:inherit;}
 .community-container-wrap > a:nth-of-type(3) {left:40%;}
 .community-container-wrap > a:nth-of-type(4) {left:60%;}
 .community-container-wrap > a:nth-of-type(5) {left:80%;}
-.community-container-wrap > a.on {background:#b3ddeb;color:#fff;}
+.community-container-wrap > a.on {background:#b3ddeb;color:black;}
 .community-container-wrap > a.all.on::after {border-color:#646464 transparent transparent transparent !important;}
 .community-container-wrap > a.on::after {content:"";width:0; height:0; border-style:solid; border-width:20px;border-color:#b3ddeb transparent transparent transparent;position:absolute;left:50%;bottom:-30px;margin-left:-15px;z-index:1;}
 .grid-container.community {display:none;background:#fff;padding:0 0px 40px 0px;}
@@ -994,11 +994,13 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 .header-global .user .dropdown-menu li {display:block;}
 
 .course-info header.course-profile:after , section.wiki .wiki-wrapper > header:after {content:"";display:block;clear:both;}
-.course-info header.course-profile + .container {clear:both;min-width:768px;}
+/*.course-info header.course-profile + .container {clear:both;min-width:768px;}*/
+.course-info header.course-profile + .container {clear:both;min-width:auto;} /** 20170104 **/
 .course-info header.course-profile {height:auto;min-height:280px;padding-top:100px;}
 .course-info header.course-profile  .intro-inner-wrapper {margin-bottom:20px;}
 
-.discussion.container {margin:0 auto;max-width:100%;min-width:768px;}
+/*.discussion.container {margin:0 auto;max-width:100%;min-width:768px;}*/
+.discussion.container {margin:0 auto;max-width:100%;min-width:auto;} /** 20170104 **/
 .container .discussion-body, .container .discussion-module, .container .discussion-user-threads {margin:0 auto;max-width:1200px;}
 section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
@@ -1029,21 +1031,21 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 .discussion > .course-material > .tabs{float:none; !important;}
 
  /** 20161220 **/
-a:link {
-    text-decoration: none !important;
-}
+/*a:link {*/
+    /*text-decoration: none !important;*/
+/*}*/
 
-a:visited {
-    text-decoration: none !important;
-}
+/*a:visited {*/
+    /*text-decoration: none !important;*/
+/*}*/
 
-a:hover {
-    text-decoration: none !important;
-}
+/*a:hover {*/
+    /*text-decoration: none !important;*/
+/*}*/
 
-a:active {
-    text-decoration: none !important;
-}
+/*a:active {*/
+    /*text-decoration: none !important;*/
+/*}*/
 
 
 .oauth2-kakao{
@@ -1094,3 +1096,27 @@ a:active {
 	font-family: "Nanum Gothic" !important;
 }
 
+/** 20170104 **/
+
+.dashboard .my-courses {width:100%;}
+.dashboard .profile-sidebar {display:none;}
+
+.course-info header.course-profile .intro-inner-wrapper {min-width:auto;}
+.course-info .details table , .course-info .details iframe {width:100% !important;}
+
+@media (max-width: 768px) {
+	.course-info .details {width:100%;margin-right:0;padding-right:10px;box-sizing:border-box;}
+	.course-info .course-sidebar {clear:both;float:none;width:100%;}
+
+	section.wiki .main-article {width:100%;box-sizing:border-box;}
+	section.wiki .article-functions {clear:both;float:none;width:100%;box-sizing:border-box;}
+	.container>div.wiki-wrapper {min-width:auto;}
+}
+
+
+a:focus, img:focus {
+ outline: 1px solid blue;
+}
+input:focus, button:focus, textarea:focus {
+ outline: 1px solid blue;
+}

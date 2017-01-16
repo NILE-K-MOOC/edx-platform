@@ -713,8 +713,9 @@ def course_about(request, course_id):
         today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
         course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
         d_day = (course_start_val-today_val)
+
         if d_day.days > 0:
-            day = {'day' : '/ D-'+str(d_day)[0:3]}
+            day = {'day' : '/ D-'+str(d_day.days)}
         else:
             day = {'day' : ''}
 
@@ -777,15 +778,19 @@ def course_about(request, course_id):
             enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10], "%Y-%m-%d").date()
             enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10], "%Y-%m-%d").date()
 
-            if request.session['_language'] != 'en' :
-                enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y년%m월%d일")}
-                enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y년%m월%d일")}
+
+            if '_language' not in request.session or request.session['_language'] != 'en' :
+                enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y년%-m월%d일")}
+                enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y년%-m월%d일")}
             else :
                 enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y/%m/%d")}
                 enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y/%m/%d")}
         else :
             enroll_sdate = {'enroll_sdate' : ''}
             enroll_edate = {'enroll_edate' : ''}
+
+
+
 
 
         #######################################################################
@@ -1605,7 +1610,7 @@ def faqs(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def agreement(request):
-    if request.session['_language'] != 'en' :
+    if '_language' not in request.session or request.session['_language'] != 'en' :
         return render_to_response(
             "courseware/agreement.html"
         )
@@ -1618,7 +1623,7 @@ def agreement(request):
 @cache_if_anonymous()
 def privacy(request):
 
-    if request.session['_language'] != 'en' :
+    if '_language' not in request.session or request.session['_language'] != 'en' :
         return render_to_response(
             "courseware/privacy.html"
         )

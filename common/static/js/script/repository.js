@@ -30,18 +30,18 @@ $(document).ready(function(){
             html += "</li>"
         }
         $('#tbody').html(html);
-        html2 += "<a href='#' class='first' id='first'>first</a>";
-        html2 += "<a href='#' class='prev' id='prev'>prev</a>";
+        html2 += "<a href='#' class='first' id='first' title='처음으로'>first</a>";
+        html2 += "<a href='#' class='prev' id='prev' title='이전'>prev</a>";
         for(var t=0;t<total_page; t++){
             if(t==0){
-                html2 += "<a href='#' class='current' id='"+(t+1)+"'>"+(t+1)+"</a>"
+                html2 += "<a href='#' class='current' id='"+(t+1)+"' title='"+(t+1)+" 페이지'>"+(t+1)+"</a>"
             }
             else{
-                html2 += "<a href='#' id='"+(t+1)+"'>"+(t+1)+"</a>"
+                html2 += "<a href='#' id='"+(t+1)+"' title='"+(t+1)+" 페이지'>"+(t+1)+"</a>"
             }
         }
-        html2 += "<a href='#' class='next' id='next'>next</a>";
-        html2 += "<a href='#' class='last' id='last'>last</a>";
+        html2 += "<a href='#' class='next' id='next' title='다음'>next</a>";
+        html2 += "<a href='#' class='last' id='last' title='마지막으로'>last</a>";
         $('.paging').html(html2);
     });
 
@@ -220,8 +220,12 @@ function search(){
     var html = "";
     var html2 = "";
     var value_list =[];
-    //alert(search_search);
-    //alert(search_con);
+    search_search = search_search.replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\'/g, "&#39;")
+    .replace(/\"/g,"&quot;");
+
     if(search_search != '' && search_search != null){
         $.ajax({
             url : '/comm_repository',

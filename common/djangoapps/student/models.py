@@ -148,23 +148,28 @@ def anonymous_id_for_user(user, course_id, save=True):
 
     # include the secret key as a salt, and to make the ids unique across different LMS installs.
     hasher = hashlib.md5()
-    cur = connection.cursor()
-    query = """
-        SELECT date_format(c.created_at, '%Y%m%d') cdate
-          FROM student_anonymoususerid a,
-               submissions_studentitem b,
-               submissions_submission  c
-         WHERE     a.course_id = b.course_id
-               AND a.anonymous_user_id = b.student_id
-               AND b.id = c.student_item_id
-               AND a.user_id = {0}
-               AND a.course_id = '{1}';
-    """.format(str(user.id), str(course_id))
-    cur.execute(query)
-    row = cur.fetchone()
-    cur.close()
-    if row and row[0] > '20161221':
-        hasher.update(settings.SECRET_KEY)
+    # cur = connection.cursor()
+    # query = """
+    #     SELECT date_format(c.created_at, '%Y%m%d') cdate
+    #       FROM student_anonymoususerid a,
+    #            submissions_studentitem b,
+    #            submissions_submission  c
+    #      WHERE     a.course_id = b.course_id
+    #            AND a.anonymous_user_id = b.student_id
+    #            AND b.id = c.student_item_id
+    #            AND a.user_id = {0}
+    #            AND a.course_id = '{1}';
+    # """.format(str(user.id), str(course_id))
+    # cur.execute(query)
+    # row = cur.fetchone()
+    # cur.close()
+
+    # if row and row[0] > '20161221':
+    #     hasher.update(settings.SECRET_KEY)
+
+    # if not row or row[0] > '20161221':
+        #hasher.update(settings.SECRET_KEY)
+        # pass
 
     hasher.update(unicode(user.id))
     if course_id:
@@ -222,6 +227,9 @@ def user_by_anonymous_id(uid):
         return None
 
 def user_by_anonymous_id_dict(course_id):
+
+    # return None
+
     """
     Return user by anonymous_user_id using AnonymousUserId lookup table.
 
@@ -258,8 +266,6 @@ def user_by_anonymous_id_dict(course_id):
         anonymous_dict[digest] = anonymous_user_id
     # print anonymous_dict
     return anonymous_dict
-
-
 
 class UserStanding(models.Model):
     """

@@ -47,8 +47,8 @@
 				<h2>${_("Terms and conditions for subscription")}</h2>
 				<section class="agree-frm-box">
 					<h3>${_("Terms and conditions for use")} ${_("(Essential)")}</h3>
-                    %if request.session['_language'] != 'en' :
-					<textarea readonly="readonly">
+                    %if '_language' not in request.session or request.session['_language'] != 'en' :
+					<textarea readonly="readonly" title="이용약관 동의(필수)">
 제1장 총칙
 
 제1조 (목적)
@@ -174,7 +174,7 @@
     본 약관의 해석과 적용 및 본 약관과 관련한 분쟁의 해결에는 대한민국법이 적용됩니다.
         			</textarea>
                         % else :
-                    <textarea readonly="readonly">
+                    <textarea readonly="readonly" title="Terms and conditions for use(Essential)">
 Chapter 1 General Rule
 
 Article 1 (Purpose)
@@ -303,8 +303,8 @@ Article 18 (Competent Court)
 
 				<section class="agree-frm-box">
 					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")} ${_("(Essential)")}</h3>
-                    %if request.session['_language'] != 'en':
-					<textarea readonly="readonly">1. 개인정보의 수집 및 이용 목적
+                    %if '_language' not in request.session or request.session['_language'] != 'en' :
+					<textarea readonly="readonly" title="개인정보 수집 및 이용 동의(필수)">1. 개인정보의 수집 및 이용 목적
 
  K-MOOC 홈페이지는 개인정보를 다음의 목적을 위해 수집합니다. 수집한 개인정보는 다음의 목적 이외의 용도로는 사용되지 않으며 이용 목적이 변경될 시에는 사전동의를 구할 예정입니다.
 
@@ -341,7 +341,7 @@ Article 18 (Competent Court)
 
         			</textarea>
                         %else :
-                    <textarea readonly="readonly">
+                    <textarea readonly="readonly" title="Privacy policy(Essential)">
 1. Purpose of Collection and Use of Personal Information
 
  The K-MOOC homepage collects personal information for the following purposes. The collected personal information will not be used for any purpose other than the following purposes and will be subject to prior consent if the purpose of use is changed.
@@ -387,8 +387,8 @@ Article 18 (Competent Court)
 
 				<section class="agree-frm-box">
 					<h3>K-MOOC ${_("Privacy policy (or Personal information processing policy)")} ${_("(option)")}</h3>
-                    %if request.session['_language'] != 'en':
-					<textarea readonly="readonly">
+                    %if '_language' not in request.session or request.session['_language'] != 'en' :
+					<textarea readonly="readonly" title="개인정보 수집 및 이용 동의(선택)">
 1. 선택적 개인정보의 수집목적
 
  K-MOOC 홈페이지 회원 가입에 있어서 회원의 정보 확인 요청 시 편의 제공 및 강좌 안내 등 관련 서비스 제공
@@ -411,7 +411,7 @@ Article 18 (Competent Court)
 
         			</textarea>
                         %else:
-                        <textarea readonly="readonly">
+                        <textarea readonly="readonly" title="Privacy policy(option)">
 1. Purpose of collecting optional personal information
 
  In K-MOOC homepage member enrollment, providing related services such as providing convenience and lecture guidance when a member requests the confirmation of information.

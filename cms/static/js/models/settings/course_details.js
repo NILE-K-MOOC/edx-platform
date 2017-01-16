@@ -35,9 +35,22 @@ var CourseDetails = Backbone.Model.extend({
     },
 
     validate: function(newattrs) {
+        console.log('validate called');
+
         // Returns either nothing (no return call) so that validate works or an object of {field: errorstring} pairs
         // A bit funny in that the video key validation is asynchronous; so, it won't stop the validation.
         var errors = {};
+
+        if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null) && (newattrs.effort == null || newattrs.effort == "")) {
+            $("#course-effort").focus();
+            errors.effort = gettext("Effort time must be value");
+        }
+
+        if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null) && (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()))) {
+            $("#course-effort").focus();
+            errors.effort = gettext("Effort time must be number");
+        }
+
         newattrs = DateUtils.convertDateStringsToObjects(
             newattrs, ["start_date", "end_date", "enrollment_start", "enrollment_end"]
         );
@@ -55,32 +68,6 @@ var CourseDetails = Backbone.Model.extend({
         }
         if (newattrs.enrollment_end === null) {
             errors.enrollment_end = gettext("The course must have an assigned enrollment end date.");
-        }
-
-        if (newattrs.end_date != null &&
-            newattrs.enrollment_end != null &&
-            newattrs.end_date != null &&
-            newattrs.enrollment_end != null &&
-            (newattrs.effort == null || newattrs.effort == "")) {
-            errors.effort = gettext("The course must have an assigned effort time.");
-
-            //var scrollBottom = $(window).scrollTop() + $(window).height();
-            //$("html, body").animate({ scrollTop: scrollBottom }, 1000, function(){
-            //    $("#course-effort").focus();
-            //});
-        }
-
-        if (newattrs.end_date != null &&
-            newattrs.enrollment_end != null &&
-            newattrs.end_date != null &&
-            newattrs.enrollment_end != null &&
-            newattrs.effort == null || newattrs.effort == "" || isNaN(newattrs.effort)) {
-            errors.effort = gettext("Effort time must be number.");
-
-            //var scrollBottom = $(window).scrollTop() + $(window).height();
-            //$("html, body").animate({ scrollTop: scrollBottom }, 1000, function(){
-            //    $("#course-effort").focus();
-            //});
         }
 
         if (newattrs.start_date && newattrs.end_date && newattrs.start_date >= newattrs.end_date) {

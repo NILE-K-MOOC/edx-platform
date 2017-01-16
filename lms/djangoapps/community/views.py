@@ -229,6 +229,13 @@ def comm_notice_view(request, board_id):
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
     value_list = []
+    board_id = board_id.replace("<","&lt;")\
+                .replace(">","&gt;")\
+                .replace("/","&#x2F;")\
+                .replace("&","&#38;")\
+                .replace("#","&#35;")\
+                .replace("\'","&#x27;")\
+                .replace("\"","&#qout;")
     if request.is_ajax():
         data={}
         if request.GET['method'] == 'view' :
@@ -312,6 +319,13 @@ def comm_faq(request, head_title) :
             row = cur.fetchall()
             # print str(row)
             # print query
+            head_title = head_title.replace("<","&lt;")\
+                .replace(">","&gt;")\
+                .replace("/","&#x2F;")\
+                .replace("&","&#38;")\
+                .replace("#","&#35;")\
+                .replace("\'","&#x27;")\
+                .replace("\"","&#qout;")
 
             for f in row:
                 value_list = []
@@ -354,20 +368,18 @@ def comm_faqrequest(request) :
             }
             email_title = head_dict[option]+' '+email+'님의 문의 내용입니다.'
             # 이메일 전송
-            # print 'emial ==',email
-            # print 'request_con ==',request_con
-            # print 'option ==',option
-            from_address = configuration_helpers.get_value(
-                'email_from_address',
-                settings.DEFAULT_FROM_EMAIL
-            )
+
+            # from_address = configuration_helpers.get_value(
+            #     'email_from_address',
+            #     settings.DEFAULT_FROM_EMAIL
+            # )
 
             if option == 'kmooc_f':
                 #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-                send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, 'coke1541@kotech.co.kr', ['kmooc@nile.or.kr'])
                 save_email = 'kmooc@nile.or.kr'
             else :
-                send_mail(email_title, request_con, from_address, ['help_kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, 'coke1541@kotech.co.kr', ['help_kmooc@nile.or.kr'])
                 save_email = 'help_kmooc@nile.or.kr'
             # 문의내용 저장
 
@@ -392,7 +404,7 @@ def comm_faqrequest(request) :
                                           ELSE ''
                                        END));
             """
-            print 'query == ',query
+            # print 'query == ',query
             cur.execute(query)
             cur.execute('commit')
             cur.close()
@@ -550,6 +562,13 @@ def comm_repo_view(request, board_id):
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
     value_list = []
+    board_id = board_id.replace("<","&lt;")\
+                .replace(">","&gt;")\
+                .replace("/","&#x2F;")\
+                .replace("&","&#38;")\
+                .replace("#","&#35;")\
+                .replace("\'","&#x27;")\
+                .replace("\"","&#qout;")
     if request.is_ajax():
         data={}
         if request.GET['method'] == 'view' :
@@ -754,6 +773,13 @@ def comm_k_news_view(request, board_id):
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
     value_list = []
+    board_id = board_id.replace("<","&lt;")\
+                .replace(">","&gt;")\
+                .replace("/","&#x2F;")\
+                .replace("&","&#38;")\
+                .replace("#","&#35;")\
+                .replace("\'","&#x27;")\
+                .replace("\"","&#qout;")
     if request.is_ajax():
         data={}
         if request.GET['method'] == 'view' :
@@ -812,53 +838,55 @@ def comm_k_news_view(request, board_id):
 
 class SMTPException(Exception):
     """Base class for all exceptions raised by this module."""
-def test(request):
-    email_list = []
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-    cur = con.cursor()
-    query = """
-        SELECT email, dormant_mail_cd from auth_user
-    """
-    cur.execute(query)
-    row = cur.fetchall()
-    cur.close()
 
-    for u in row:
-        user = u
-        if user[1] == '15' or user[1] == '30':
-            email_list.append(user[0])
-    # 이메일 전송
-    from_address = configuration_helpers.get_value(
-        'email_from_address',
-        settings.DEFAULT_FROM_EMAIL
-    )
-
-    print 'email_list == ',email_list
-
-    cur = con.cursor()
-    for e in email_list:
-        try:
-            send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
-            query1 = "update auth_user set dormant_mail_cd = '0' where email = '"+e+"' "
-            cur.execute(query1)
-            cur.execute('commit')
-            query1 = "insert into drmt_auth_user_process(email,success) values('"+e+"', '1')"
-            cur.execute(query1)
-            cur.execute('commit')
-        except SMTPException:
-            print 'fail sending email'
-            cur = con.cursor()
-            query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
-            cur.execute(query1)
-            cur.execute('commit')
-
-
-    cur.close()
-    return render_to_response('community/test.html')
+# 휴면계정 이메일 발송 쿼리
+# def test(request):
+#     email_list = []
+#     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+#                       settings.DATABASES.get('default').get('USER'),
+#                       settings.DATABASES.get('default').get('PASSWORD'),
+#                       settings.DATABASES.get('default').get('NAME'),
+#                       charset='utf8')
+#     cur = con.cursor()
+#     query = """
+#         SELECT email, dormant_mail_cd from auth_user
+#     """
+#     cur.execute(query)
+#     row = cur.fetchall()
+#     cur.close()
+#
+#     for u in row:
+#         user = u
+#         if user[1] == '15' or user[1] == '30':
+#             email_list.append(user[0])
+#     # 이메일 전송
+#     from_address = configuration_helpers.get_value(
+#         'email_from_address',
+#         settings.DEFAULT_FROM_EMAIL
+#     )
+#
+#     print 'email_list == ',email_list
+#
+#     cur = con.cursor()
+#     for e in email_list:
+#         try:
+#             send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
+#             query1 = "update auth_user set dormant_mail_cd = '0' where email = '"+e+"' "
+#             cur.execute(query1)
+#             cur.execute('commit')
+#             query1 = "insert into drmt_auth_user_process(email,success) values('"+e+"', '1')"
+#             cur.execute(query1)
+#             cur.execute('commit')
+#         except SMTPException:
+#             print 'fail sending email'
+#             cur = con.cursor()
+#             query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
+#             cur.execute(query1)
+#             cur.execute('commit')
+#
+#
+#     cur.close()
+#     return render_to_response('community/test.html')
 
 
 def comm_list_json(request) :

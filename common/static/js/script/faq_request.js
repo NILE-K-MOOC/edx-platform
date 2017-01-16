@@ -32,10 +32,21 @@ $(document).on('click', '#request', function(){
     }else{
         flag = false;
     }
-
+    email = email.replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\'/g, "&#39;")
+    .replace(/\"/g,"&quot;");
 
     var option = $('#search_con option:selected').attr('id');
     var request_con = $('#request_con').val();
+
+    request_con = request_con.replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\'/g, "&#39;")
+    .replace(/\"/g,"&quot;");
+
     if(option != 'null' && flag == true){
         $('#request').attr('disabled', 'true');
         $.ajax({

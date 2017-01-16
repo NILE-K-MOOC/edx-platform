@@ -482,6 +482,7 @@ class RegistrationView(APIView):
         form_desc.add_field(
             "password",
             label=password_label,
+            instructions=password_instructions,
             field_type="password",
             restrictions={
                 "min_length": PASSWORD_MIN_LENGTH,
