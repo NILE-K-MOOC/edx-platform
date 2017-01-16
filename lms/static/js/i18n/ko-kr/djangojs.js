@@ -840,7 +840,7 @@
     "Location in Course": "\uac15\uc88c\uc758 \uc704\uce58",
     "Lock this asset": "asset \uc7a0\uadf8\uae30",
     "Lock/unlock file": "\ud30c\uc77c \uc7a0\uadf8\uae30/\uc7a0\uae08 \ud574\uc81c",
-    "Long(over 13 weeks)": "\uc7a5\uae30(13~ \uc8fc)",
+    "Long(over 13 weeks)": "\uc7a5\uae30\u0028\u0031\u0033\uc8fc \u007e\u0029",
     "Loud": "\ud06c\uac8c",
     "Low": "\ub0ae\uac8c",
     "Lower Alpha": "\uc601\uc5b4 \uc18c\ubb38\uc790",
