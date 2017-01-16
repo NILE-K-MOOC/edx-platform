@@ -203,11 +203,19 @@
             },
 
             toggleForm: function( e ) {
+
+
+
                 var type = $(e.currentTarget).data('type'),
                     $form = $('#' + type + '-form'),
                     $anchor = $('#' + type + '-anchor'),
                     queryParams = url('?'),
                     queryStr = queryParams.length > 0 ? '?' + queryParams : '';
+
+                if(type == "register"){
+                    document.location.href = "/register" ;
+                    return;
+                }
 
                 e.preventDefault();
 
