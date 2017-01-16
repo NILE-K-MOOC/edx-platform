@@ -369,17 +369,17 @@ def comm_faqrequest(request) :
             email_title = head_dict[option]+' '+email+'님의 문의 내용입니다.'
             # 이메일 전송
 
-            # from_address = configuration_helpers.get_value(
-            #     'email_from_address',
-            #     settings.DEFAULT_FROM_EMAIL
-            # )
+            from_address = configuration_helpers.get_value(
+                'email_from_address',
+                settings.DEFAULT_FROM_EMAIL
+            )
 
             if option == 'kmooc_f':
                 #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-                send_mail(email_title, request_con, 'coke1541@kotech.co.kr', ['kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
                 save_email = 'kmooc@nile.or.kr'
             else :
-                send_mail(email_title, request_con, 'coke1541@kotech.co.kr', ['help_kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['help_kmooc@nile.or.kr'])
                 save_email = 'help_kmooc@nile.or.kr'
             # 문의내용 저장
 
