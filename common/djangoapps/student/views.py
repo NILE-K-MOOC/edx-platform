@@ -287,9 +287,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                  END
                      head_title,
                      subject,
-                     substr(substr(content, instr(content, '"') + 1),
-                            1,
-                            instr(substr(content, instr(content, '"') + 1), '"') - 1),
+                     mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
                      SUBSTRING(reg_date, 1, 11),
                      section,
                      ''
@@ -354,6 +352,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
         s= i[3]
         text = re.sub('<[^>]*>', '', s)
         text = re.sub('&nbsp;', '', text)
+        text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
+        text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
+        # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
         value_list.append(text[0:200])
         value_list.append(i[4])
         value_list.append(i[5])

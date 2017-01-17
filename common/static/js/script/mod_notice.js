@@ -13,6 +13,7 @@ $(document).ready(function(){
         var title = data[4]+data[0];
         $('#title').html(title);
         data[1] = data[1].replace(/\/manage\/home\/static\/upload\//g,'/static/file_upload/');
+        data[1] = data[1].replace(/\/home\/project\/management\/home\/static\/upload\//g,'/static/file_upload/');
         //data[1] = data[1].replace(/\/manage\/home\/static\/excel\/notice_file\//g,'/static/file_upload/');
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('작성일[등록일] : '+data[2]);
