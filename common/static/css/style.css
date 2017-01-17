@@ -1142,3 +1142,7 @@ a:focus, img:focus {
 input:focus, button:focus, textarea:focus {
  outline: 1px solid blue;
 }
+
+.wrapper-course-image>a.cover {
+	max-height:200px !important;
+}
