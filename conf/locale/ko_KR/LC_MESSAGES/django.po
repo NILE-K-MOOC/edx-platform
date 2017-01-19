@@ -13698,6 +13698,9 @@ msgstr[0] "%s 코멘트"
 msgid "Discussion - {course_number}"
 msgstr "토의 - {course_number}"
 
+msgid "Discussion - "
+msgstr "토의 - "
+
 #: lms/templates/discussion/index.html
 msgid "Discussion thread list"
 msgstr "게시물 목록"
