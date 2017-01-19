@@ -311,14 +311,28 @@ def comm_faq(request, head_title) :
             faq_list = []
             head_title = request.GET['head_title']
             cur = con.cursor()
-            query = "select subject, content, head_title from tb_board where section = 'F' and use_yn = 'Y' and head_title = '"+head_title+"'"
+            query = """SELECT subject,
+                               content,
+                               CASE
+                                  WHEN head_title = 'kmooc_f' THEN 'K-MOOC'
+                                  WHEN head_title = 'regist_f ' THEN '회원가입'
+                                  WHEN head_title = 'login_f ' THEN '로그인/계정'
+                                  WHEN head_title = 'enroll_f ' THEN '수강신청/취소'
+                                  WHEN head_title = 'course_f ' THEN '강좌수강'
+                                  WHEN head_title = 'certi_f  ' THEN '성적/이수증'
+                                  WHEN head_title = 'tech_f ' THEN '기술적문제'
+                                  ELSE ''
+                               END
+                                  head_title
+                          FROM tb_board
+                         WHERE section = 'F' AND use_yn = 'Y' AND head_title = '"""+head_title+"'"""
             if 'search' in request.GET :
                 search = request.GET['search']
                 query += " and subject like '%"+search+"%'"
             cur.execute(query)
             row = cur.fetchall()
-            # print str(row)
-            # print query
+            print str(row)
+            print query
             head_title = head_title.replace("<","&lt;")\
                 .replace(">","&gt;")\
                 .replace("/","&#x2F;")\
