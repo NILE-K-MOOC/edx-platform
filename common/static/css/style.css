@@ -988,6 +988,7 @@ body.view-in-course .window-wrap, body.discussion .window-wrap {min-width:768px;
 body.view-in-course .header-global, body.view-in-course .header-global.slim, .header-global.slim {width:100%;height:110px;background:url(/static/images/css/bg_header.gif) top repeat-x;margin:0;padding:0;}
 body.view-in-course .header-global .wrapper-header, body.view-in-course .header-global.slim .wrapper-header, .header-global.slim .wrapper-header {padding:0;}
 
+/*.header-global.slim .wrapper-header {height:110px;}*/
 .header-global.slim .wrapper-header {height:110px;}
 .header-global.slim h1.logo {margin:15px 10px 0 10px;}
 .header-global.slim h1.logo::before {display:none;}

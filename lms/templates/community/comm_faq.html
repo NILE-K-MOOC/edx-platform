@@ -7,11 +7,22 @@
 
 ## <script src="${static.url('js/script/faq_script.js')}" charset="utf-8"></script>
 <script src="${static.url('js/script/faq.js')}" charset="utf-8"></script>
-
+<style>
+    .blind {
+        overflow:hidden;
+        position:absolute;
+        top:0;
+        left:0;
+        width:1px;
+        height:1px;
+        font-size:0;
+        line-height:0
+    }
+</style>
 
 <section class="container">
 				<!-- [s] board write -->
-    <h2 title="Q&A">q&a</h2>
+    <h2 title="Q&A" id="main">q&a</h2>
     <ul>
 ##         <li>${_("The inquiry will be sent to the K-MOOC staff members by e-mail.")}</li>
         <li>${_("If you do not find the answer to your question in the list, please contact us via <strong>'Contact us by email'</strong>.")}</li>
