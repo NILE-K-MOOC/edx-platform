@@ -155,8 +155,7 @@ from pipeline_mako import render_require_js_path_overrides
 % if not disable_window_wrap:
   <div class="window-wrap" dir="${static.dir_rtl()}">
 % endif
-##     <a class="nav-skip" href="#main">${_("Skip to main content")}</a>
-    <a class="" href="#main">${_("Skip to main content")}</a>
+    <a class="nav-skip" href="#main" style="">${_("Skip to main content")}</a>
 
     % if not disable_header:
         <%include file="${static.get_template_path('header.html')}" args="online_help_token=online_help_token" />

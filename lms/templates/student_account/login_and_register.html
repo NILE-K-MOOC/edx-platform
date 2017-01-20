@@ -7,7 +7,14 @@
 
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("Sign In")}</%block>
+<%block name="pagetitle">
+%if data['initial_mode'] == 'login':
+    ${_("Sign in")}
+%else:
+    ${_("Join Us")}
+%endif
+</%block>
+
 
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -66,6 +73,8 @@
 </%block>
 <script>
     $(document).ready(function(){
+        console.log("이 페이지 ${data['initial_mode']}");
+        console.log("${data['initial_mode']}")
     })
 </script>
 
