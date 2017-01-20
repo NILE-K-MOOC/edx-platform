@@ -215,7 +215,10 @@ define([
                     }
 
                     if (options.length > 0) {
-                        console.log('options.length:' + options.length);
+                        //console.log('options.length:' + options.length);
+                        if($(".active-filter:last").size() > 0)
+                            $(".active-filter:last").focus();
+
                         return this.renderFacet(facetKey, options);
                     }
                 }, this)

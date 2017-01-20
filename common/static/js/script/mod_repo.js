@@ -11,7 +11,9 @@ $(document).ready(function(){
         //console.log(data);
         var title = data[3]+data[0];
         $('#title').html(title);
-        data[1] = data[1].replace("/manage/home/static/upload/",'/static/file_upload/');
+        data[1] = data[1].replace(/\/home\/project\/management\/home\/static\/upload\//g,'/static/file_upload/');
+        data[1] = data[1].replace(/\/manage\/home\/static\/upload\//g,'/static/file_upload/');
+        //data[1] = data[1].replace(/\/manage\/home\/static\/excel\/notice_file\//g,'/static/file_upload/');
         $('#context').html(data[1].replace(/\&\^\&/g, ','));
         $('#reg_date').html('수정 날짜 : '+data[2]);
         if(data[4] != '' && data[4] != null){

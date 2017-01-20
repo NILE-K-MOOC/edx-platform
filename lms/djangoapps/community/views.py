@@ -311,14 +311,28 @@ def comm_faq(request, head_title) :
             faq_list = []
             head_title = request.GET['head_title']
             cur = con.cursor()
-            query = "select subject, content, head_title from tb_board where section = 'F' and use_yn = 'Y' and head_title = '"+head_title+"'"
+            query = """SELECT subject,
+                               content,
+                               CASE
+                                  WHEN head_title = 'kmooc_f' THEN 'K-MOOC'
+                                  WHEN head_title = 'regist_f ' THEN '회원가입'
+                                  WHEN head_title = 'login_f ' THEN '로그인/계정'
+                                  WHEN head_title = 'enroll_f ' THEN '수강신청/취소'
+                                  WHEN head_title = 'course_f ' THEN '강좌수강'
+                                  WHEN head_title = 'certi_f  ' THEN '성적/이수증'
+                                  WHEN head_title = 'tech_f ' THEN '기술적문제'
+                                  ELSE ''
+                               END
+                                  head_title
+                          FROM tb_board
+                         WHERE section = 'F' AND use_yn = 'Y' AND head_title = '"""+head_title+"'"""
             if 'search' in request.GET :
                 search = request.GET['search']
                 query += " and subject like '%"+search+"%'"
             cur.execute(query)
             row = cur.fetchall()
-            # print str(row)
-            # print query
+            print str(row)
+            print query
             head_title = head_title.replace("<","&lt;")\
                 .replace(">","&gt;")\
                 .replace("/","&#x2F;")\
@@ -369,17 +383,17 @@ def comm_faqrequest(request) :
             email_title = head_dict[option]+' '+email+'님의 문의 내용입니다.'
             # 이메일 전송
 
-            # from_address = configuration_helpers.get_value(
-            #     'email_from_address',
-            #     settings.DEFAULT_FROM_EMAIL
-            # )
+            from_address = configuration_helpers.get_value(
+                'email_from_address',
+                settings.DEFAULT_FROM_EMAIL
+            )
 
             if option == 'kmooc_f':
                 #send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
-                send_mail(email_title, request_con, 'coke1541@kotech.co.kr', ['kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
                 save_email = 'kmooc@nile.or.kr'
             else :
-                send_mail(email_title, request_con, 'coke1541@kotech.co.kr', ['help_kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['help_kmooc@nile.or.kr'])
                 save_email = 'help_kmooc@nile.or.kr'
             # 문의내용 저장
 

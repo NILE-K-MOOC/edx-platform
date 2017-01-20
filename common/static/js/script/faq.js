@@ -20,7 +20,7 @@ $(document).ready(function(){
 				head_title : value
 			}
 		}).done(function(data){
-			html="";
+			html="<h1 class='blind'>"+data[0][2]+"</h1>";
 			head_html="";
 			for(var i=0; i<data.length; i++){
 				html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
@@ -40,7 +40,7 @@ $(document).ready(function(){
 				head_title : 'kmooc_f'
 			}
 		}).done(function(data){
-			html="";
+			html="<h1 class='blind'>"+data[0][2]+"</h1>";
 			head_html="";
 			for(var i=0; i<data.length; i++){
 				html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
@@ -72,7 +72,7 @@ $(document).ready(function(){
 				head_title : head_title
 			}
 		}).done(function(data){
-			html="";
+			html="<h1 class='blind'>"+data[0][2]+"</h1>";
 			head_html="";
 			//console.log(data.length);
 			//console.log(data);

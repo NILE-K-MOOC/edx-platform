@@ -29,6 +29,7 @@
 <%block name="pagetitle">${_("Courses")}</%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
+          <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
     <section class="find-courses">
       <section class="courses-container">
         % if course_discovery_enabled:
@@ -39,12 +40,12 @@
             <input id="discovery-input" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
             <button type="submit" class="button postfix discovery-submit" title="${_('Search')}">
               <span class="icon fa fa-search" aria-hidden="true"></span>
-              <div aria-live="polite" aria-relevant="all">
-                <div id="loading-indicator" class="loading-spinner hidden">
-                  <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
-                  <span class="sr">${_('Loading')}</span>
-                </div>
-              </div>
+##               <div aria-live="polite" aria-relevant="all">
+##                 <div id="loading-indicator" class="loading-spinner hidden">
+##                   <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
+##                   <span class="sr">${_('Loading')}</span>
+##                 </div>
+##               </div>
             </button>
           </form>
         </div>
@@ -69,12 +70,14 @@
           <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
             <section class="course-facets-list">
                 <h3 class="header-facet">${_('Opening Status')}</h3>
+                <div id="sel_status">
                 <select class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}">
                     <option value="">${_('All')}</option>
                     <option value="i">${_('ing')}</option>
                     <option value="t">${_('ready')}</option>
                     <option value="e">${_('end')}</option>
                 </select>
+                </div>
             </section>
           <section class="search-facets-lists">
           </section>
@@ -90,12 +93,24 @@
         $(function () {
             var ua = window.navigator.userAgent;
             var msie = ua.indexOf("MSIE ");
-            var p_range = getTermParameter("range");
-            if(p_range != undefined){
-                if(p_range == 'i'|| p_range == 'e' || p_range == 't'){
-					$(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
-				}
-            }
+            $(function(){
+                if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                    $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+                }
+            });
+
+            $(document).on('click', '#go1', function(){
+                var url= '/courses';
+                var list_val = $('.course-facets-select option:selected').val();
+                if(list_val){
+                    url = url + '?range=' + list_val;
+                    document.location.href = url;
+                }else{
+                    alert('개강상태를 선택하세요.');
+                }
+
+            });
+
             $(".course-facets-select").change(function () {
                 var url = '/courses';
                 var list_val = $(this).val();
@@ -103,16 +118,17 @@
                     url = url + '?range=' + list_val;
                 }
                 if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                    $("#related_site").bind("change keydown", function(e){
-                        console.log(e.keyCode);
-                        //if(e.keyCode == 13){
-                        //    location.href = url;
-                        //}
-                    })
                 }else{
                     location.href = url;
                 }
-              });
+            });
+
+            var p_range = getTermParameter("range");
+            if(p_range != undefined){
+                if(p_range == 'i'|| p_range == 'e' || p_range == 't'){
+					$(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
+				}
+            }
           });
 
         var getTermParameter = function (sParam) {

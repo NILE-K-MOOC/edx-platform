@@ -15,16 +15,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div id="popupWrap_1" class="layerPupup">
 
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            K-MOOC 시스템 업그레이드 작업으로 인해
-            <br/>
-            홈페이지 이용이 일시적으로 원활하지 않을 수 있습니다.
-            <br/>
-            사이트 이용에 불편을 드리게 되어 대단히 죄송합니다.
-            <br/>
-            조속히 개선될 수 있도록 최선을 다하겠습니다.
-            <br/>
-            감사합니다.
-            <br/>
+             <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@kmooc_popup_2017_1.jpg" alt="2016년도 고객만족도 조사 실시">
         </p>
 
         <!-- close area -->
@@ -40,8 +31,17 @@ from openedx.core.djangolib.markup import HTML, Text
 
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
-        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-             <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@kmooc_update_banner.jpg" alt="">
+        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};"><br/>
+        안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
+        K-MOOC 의 안정적 운영을 위한 서버 장비 교체로 인해 사이트가 다음과 같이 일시 중단됩니다.<br/>
+        작업 일정을 안내하여 드리오니 참고하시기 바랍니다.<br/><br/>
+
+        ㅇ 작업 일정 :  2017.1.23(월) 19:00 ~ 20:30 (1시간 30분 소요 예정)<br/>
+        ㅇ 내용 : K-MOOC 서버 장비 교체<br/>
+
+        사이트 이용이 제한되어 불편하시겠지만 양해 부탁드립니다.<br/>
+        신속히 작업을 완료하여 더욱 안정된 서비스로 찾아뵙겠습니다.<br/>
+        감사합니다.
         </p>
 
         <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
@@ -89,7 +89,7 @@ console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv1=done") + ":" + popup
 
 if (
         (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
-        (popupDate.getFullYear() == 2016 && popupDate.getMonth() <= 12 - 1 && popupDate.getDate() <= 27)
+        (popupDate.getFullYear() == 2017 && popupDate.getMonth() <= 1 - 1 && popupDate.getDate() <= 31)
         )
    )
     {
@@ -108,7 +108,7 @@ if (
 
 if (
         (cookiedata.indexOf("popupdiv2=done") < 0 ) && (
-        (popupDate.getFullYear() == 2016 && popupDate.getMonth() <= 12 - 1 && popupDate.getDate() <= 21)
+        (popupDate.getFullYear() == 2017 && popupDate.getMonth() <= 1 - 1 && popupDate.getDate() <= 23)
         )
    )
     {
@@ -230,7 +230,7 @@ if (
 
         <!-- [s] major course list -->
         <section class="major-course-container" id="main-contents02">
-            <h2 class="main-title" style="margin-bottom: 20px;" title="전공별 강좌">< ${_("Courses by Subject")} ></h2>
+            <h2 class="main-title" style="margin-bottom: 20px;">< ${_("Courses by Subject")} ></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
@@ -304,14 +304,14 @@ if (
 
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title" title="나에게 맞는 강좌 찾기">< ${_("Find Courses for me")} ></h2>
+            <h2 class="main-title">< ${_("Find Courses for me")} ></h2>
             <div class="grid-container grid-manual">
                 <div class="row">
                     <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
                         <div class="my-course-item">
                             <h3>
-                                <img src="/static/images/main/my_course_01.png" alt="">
-                                <p>${_("Opening Status")}</p>
+                                <img src="/static/images/main/my_course_01.png" alt=""><br/>
+                                <span>${_("Opening Status")}</span>
                             </h3>
                             <div class="btns">
                                 <a href="/courses?range=t" title="개강예정">${_("Starting Soon")}</a>
@@ -323,8 +323,8 @@ if (
                     <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
                         <div class="my-course-item middle">
                             <h3>
-                                <img src="/static/images/main/my_course_02.png" alt="">
-                                <p>${_("Period of Studing")}</p>
+                                <img src="/static/images/main/my_course_02.png" alt=""><br/>
+                                <span>${_("Period of Studing")}</span>
                             </h3>
                             <div class="btns">
                                 <a href="/courses?course_period=S">${_("Short (1~6 weeks)")}</a>
@@ -336,8 +336,8 @@ if (
                     <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
                         <div class="my-course-item">
                             <h3>
-                                <img src="/static/images/main/my_course_03.png" alt="">
-                                <p>${_("Language")}</p>
+                                <img src="/static/images/main/my_course_03.png" alt=""><br/>
+                                <span>${_("Language")}</span>
                             </h3>
                             <div class="btns">
                                 <a href="/courses?language=ko">${_("Korean")}</a>
@@ -422,7 +422,7 @@ if (
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
                                 <a href="/comm_k_news_view/${list[0]}/">
-                                <h3 style="background-image: url(${list[3]}); background-size: contain;  ">
+                                <h3 style="background-image: url(${list[3]}); background-size: 100% 100%;  ">
                                 </h3>
                                     <time>${list[4]}</time>
                                     <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>

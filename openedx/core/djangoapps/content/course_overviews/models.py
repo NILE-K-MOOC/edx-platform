@@ -497,22 +497,22 @@ class CourseOverview(TimeStampedModel):
             if org == 'ACEk' or  org == 'COREk' or  org == 'CKk' or  org == 'KOCWk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(id__icontains=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                    course_overviews = CourseOverview.objects.all().filter(id__icontains=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
                 else:
                     course_overviews = CourseOverview.objects.all().filter(id__icontains=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
             elif org == 'SNUk' or  org == 'POSTECHk' or  org == 'KAISTk':
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
                 else:
                     course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
             else:
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
                 else:
                     course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
         else:
             if filter_:
-                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:30]
+                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
             else:
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
 

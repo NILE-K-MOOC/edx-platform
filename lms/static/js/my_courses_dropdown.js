@@ -25,9 +25,9 @@ $(document).ready(function () {
   });
 
   //catch keypresses when inside dropdownMenu (we want to catch spacebar; escape; up arrow or shift+tab; and down arrow or tab)
-  dropdownMenu.on('keydown', function(event){
-    catchKeyPress($(this), event);
-  });
+  //dropdownMenu.on('keydown', function(event){
+  //  catchKeyPress($(this), event);
+  //});
 
   function catchKeyPress(object, event) {
     // get currently focused item
