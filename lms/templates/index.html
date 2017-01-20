@@ -15,16 +15,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div id="popupWrap_1" class="layerPupup">
 
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            K-MOOC 시스템 업그레이드 작업으로 인해
-            <br/>
-            홈페이지 이용이 일시적으로 원활하지 않을 수 있습니다.
-            <br/>
-            사이트 이용에 불편을 드리게 되어 대단히 죄송합니다.
-            <br/>
-            조속히 개선될 수 있도록 최선을 다하겠습니다.
-            <br/>
-            감사합니다.
-            <br/>
+             <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@kmooc_popup_2017_1.jpg" alt="2016년도 고객만족도 조사 실시">
         </p>
 
         <!-- close area -->
@@ -89,7 +80,7 @@ console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv1=done") + ":" + popup
 
 if (
         (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
-        (popupDate.getFullYear() == 2016 && popupDate.getMonth() <= 12 - 1 && popupDate.getDate() <= 27)
+        (popupDate.getFullYear() == 2017 && popupDate.getMonth() <= 1 - 1 && popupDate.getDate() <= 31)
         )
    )
     {
