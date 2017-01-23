@@ -393,7 +393,7 @@ def comm_faqrequest(request) :
                 send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
                 save_email = 'kmooc@nile.or.kr'
             else :
-                send_mail(email_title, request_con, from_address, ['help_kmooc@nile.or.kr'])
+                send_mail(email_title, request_con, from_address, ['info_kmooc@nile.or.kr'])
                 save_email = 'help_kmooc@nile.or.kr'
             # 문의내용 저장
 
