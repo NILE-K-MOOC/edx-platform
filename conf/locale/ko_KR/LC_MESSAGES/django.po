@@ -29260,8 +29260,8 @@ msgstr "답을 제출 한 후에는 답을 편집 할 수 없습니다"
 msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the Your Response field."
 msgstr "이 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
 
-msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the {{ start_tag }}Your Response{{ end_tag }} field."
-msgstr "이 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
+msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the %(start_tag)sYour Response%(end_tag)s field."
+msgstr "본 과제에는 몇 가지 단계가 있습니다. 첫 번째 단계로, 질문에 대한 응답을 제출하세요. 그후 다른 단계들이 %(start_tag)s나의 응답%(end_tag)s 영역 아래에 나타날 것입니다. "
 
 msgid "Enter your response to the question above."
 msgstr "위 질문에 대한 귀하의 답변을 입력하십시오."
@@ -29504,6 +29504,157 @@ msgstr "학습자가 자기 답변 평가를 시작할 수 있는 날짜와 시�
 
 msgid "Enter the date and time when all self assessments must be complete."
 msgstr "모든 직접 평가들이 완료되어야 할 날짜와 시간을 입력하세요."
+
+msgid "Enter an individual learner's username or email"
+msgstr "개별 학습자 사용자 이름이나 이메일 입력하기"
+
+msgid "Response for: %(student_username)s"
+msgstr "%(student_username)s 에 대한 답변"
+
+msgid "This response has been saved but not submitted."
+msgstr "응답이 저장되었으나 제출되지는 않았습니다."
+
+msgid ""
+"You have completed your steps in the assignment, but some assessments still need to be done on your response. "
+"When the assessments of your response are complete, you will see feedback from everyone who assessed your response, "
+"and you will receive your final grade."
+msgstr ""
+"과제에서 모든 단계를 마쳤지만 제출한 답변에 대해 아직 평가가 완료되지 않았을 수 있습니다. "
+"답변에 대한 평가가 완료되면 평가에 참여한 학습자의 피드백을 볼 수 있고 최종 성적을 부여받게 됩니다."
+
+msgid "Give this learner a grade using the problem's rubric."
+msgstr "문제 루브릭을 활용해 이 학습자에게 성적을 부여하세요."
+
+msgid "The learner's response to the question above"
+msgstr "위의 질문에 대한 학습자의 반응"
+
+msgid "%(ungraded)s Available and %(in_progress)s Checked Out"
+msgstr "%(ungraded)s 가 가능하며 %(in_progress)s 가 확인되었습니다"
+
+msgid "Waiting for a Staff Grade"
+msgstr "운영팀 성적 대기중"
+
+msgid ""
+"Check back later to see if a course staff member has assessed your response. "
+"You will receive your grade after the assessment is complete."
+msgstr ""
+"강좌 운영자가 답변을 평가했는지 나중에 다시 확인하세요. 평가가 완료된 후 최종 성적이 부여됩니다."
+
+msgid "Waiting for Assessments"
+msgstr "평가 대기중"
+
+msgid "Submit assessment"
+msgstr "평가 제출"
+
+msgid "Submit assessment and continue grading"
+msgstr "평가를 제출하고 계속 채점합니다"
+
+msgid "We could not submit your assessment"
+msgstr "평가를 제출할 수 없습니다."
+
+msgid "Submit your assessment"
+msgstr "평가 제출하기"
+
+msgid "Submit Assessment Grade Override"
+msgstr "수정된 평가 성적 제출하기"
+
+msgid "Staff Grade"
+msgstr "운영팀 성적"
+
+msgid "You must submit a response before you can perform a peer assessment."
+msgstr "상호 평가 전에 답변을 제출해야 합니다."
+
+msgid "Your peer assessment could not be submitted."
+msgstr "귀하의 평가가 제출되지 않았습니다."
+
+msgid "Submit your assessment and review another response"
+msgstr "평가를 제출하고 다른 답변을 확인하세요"
+
+msgid "Submit your assessment and move to next step"
+msgstr "평가를 제출하고 다음 단계로 넘어가세요"
+
+msgid "Submit your assessment and move to response #{response_number}"
+msgstr "평가를 제출하고 #{response_number} 답변으로 넘어가세요"
+
+msgid "You must submit a response before you can perform a self-assessment."
+msgstr "자기 평가를 하기 전에 응답을 제출해야 합니다."
+
+msgid "Your self assessment could not be submitted."
+msgstr "자기 평가를 제출할 수 없습니다."
+
+msgid ""
+"The learner submission has been removed from peer assessment. "
+"The learner receives a grade of zero unless you delete the learner's state for the problem to allow them to resubmit a response."
+msgstr ""
+"학습자가 제출한 답변이 상호 평가에서 제외되었습니다. "
+"학습자 상태를 수정해 답변을 재제출할 수 있도록 하지 않으면 이 학습자는 0점을 획득하게 됩니다."
+
+msgid "Your staff assessment could not be submitted."
+msgstr "운영팀 평가를 제출할 수 없었습니다."
+
+msgid "Submit feedback on peer assessments"
+msgstr "상호 평가에 대한 피드백 제출하기"
+
+msgid ""
+"You have completed this assignment. "
+"Your final grade will be available when the assessments of your response are complete."
+msgstr ""
+"귀하는이 과제를 완료했습니다."
+"최종 성적은 제출한 답변에 대한 평가가 완료되면 부여됩니다."
+
+msgid "%(points_possible)s 중 %(points_earned)s"
+msgstr "%(points_earned)s out of %(points_possible)s"
+
+msgid "You have completed this assignment. Review your grade and your assessment details."
+msgstr "귀하는이 과제를 완료했습니다. 성적 및 평가 세부 사항을 검토하십시오."
+
+msgid "Assessments of Your Response"
+msgstr "귀하의 응답에 대한 평가"
+
+msgid "%(assessment_title)s - %(points)s point"
+msgstr "%(assessment_title)s - %(points)s 점"
+
+msgid "points"
+msgstr "포인트"
+
+msgid "Points"
+msgstr "점"
+
+msgid "%(num_points)s points"
+msgstr "%(num_points)s 점"
+
+msgid "Final grade: %(points_earned)s out of %(points_possible)s"
+msgstr "최종 성적: %(points_possible)s 중 %(points_earned)s"
+
+msgid "%(assessment_label)s - %(points)s point"
+msgstr "%(assessment_label)s - %(points)s 점"
+
+msgid "Points Possible"
+msgstr "가능한 점수"
+
+msgid "Staff Comments"
+msgstr "운영팀 의견"
+
+msgid "Peer Comments"
+msgstr "상호 의견"
+
+msgid "Example-Based Comments"
+msgstr "예제 기반 의견"
+
+msgid "Your Comments"
+msgstr "본인 의견"
+
+msgid "Additional comments on your response"
+msgstr "귀하의 응답에 대한 추가 의견"
+
+msgid "Some comments I received were inappropriate."
+msgstr "내가 받은 어떤 코멘트들은 적절하지 않았습니다. "
+
+msgid "Provide feedback on the grade or comments that you received from your peers."
+msgstr "상호 평가에서 받은 성적이나 의견에 대한 피드백을 입력하세요."
+
+msgid "Comments: %(comments)s"
+msgstr "코멘트: %(comments)s"
 
 msgid "SKP.SNUk"
 msgstr "서울대, 한국과학기술원, 포항공대"
