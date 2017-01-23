@@ -114,8 +114,8 @@
 .courses-container .courses .course.ready {border-color:#f4c300;}
 .courses-container .courses .course.ing {border-color:#008800;}
 .courses-container .courses .course.end {border-color:#126f9a;}
-.courses-container .courses .course .course-image .cover-image {height:150px;}
-.courses-container .courses .course .course-image .cover-image::before {height:150px;}
+.courses-container .courses .course .course-image .cover-image {min-height:188px;}
+.courses-container .courses .course .course-image .cover-image::before {min-height:188px;}
 .courses-container .courses .course .course-image .cover-image .learn-more {top:35px;}
 .courses-container .courses .course .course-info {height:145px;position:relative;}
 .courses-container .courses .course .course-info .course-status {color:#000;font-size:0.625rem;text-align:right;display:block;padding:0 8px;letter-spacing:-0.05em;line-height:16px;position:relative;z-index:10;}
