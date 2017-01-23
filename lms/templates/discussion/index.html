@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 %>
 
 <%block name="bodyclass">discussion</%block>
-<%block name="pagetitle">${_("Discussion - ")}${course.display_name_with_default_escaped}</%block>
+<%block name="pagetitle">${_("Discussion")} | ${course.display_name_with_default_escaped}</%block>
 
 <%block name="headextra">
 <%include file="_js_head_dependencies.html" />

@@ -13703,9 +13703,6 @@ msgstr[0] "%s 코멘트"
 msgid "Discussion - {course_number}"
 msgstr "토의 - {course_number}"
 
-msgid "Discussion - "
-msgstr "토의 - "
-
 #: lms/templates/discussion/index.html
 msgid "Discussion thread list"
 msgstr "게시물 목록"
@@ -28665,7 +28662,7 @@ msgstr "아이핀 인증에 실패하였습니다."
 # templates/student_account/agree.html
 
 msgid "IPIN certification."
-msgstr "아이핀 인증"
+msgstr "회원가입 (아이핀 인증)"
 
 msgid "IPIN certification is not completed."
 msgstr "아이핀 인증이 완료되지 않았습니다."
@@ -28688,7 +28685,7 @@ msgstr "다음 단계 이동"
 # templates/student_account/agree.html
 
 msgid "Terms and conditions for subscription"
-msgstr "가입약관"
+msgstr "회원가입 (가입약관)"
 
 msgid "In order to become a member, you have to agree to the terms and conditions for use."
 msgstr "이용약관을 동의하여야 회원가입이 가능합니다."
@@ -28968,7 +28965,7 @@ msgid "Opening course status"
 msgstr "개강상태"
 
 msgid "Join Us"
-msgstr "회원가입"
+msgstr "회원가입 (계정연동 및 정보입력)"
 
 msgid "Join"
 msgstr "가입하기"
@@ -29681,3 +29678,9 @@ msgstr "학습자는 과제 루브릭을 활용해 자기 답변을 평가하게
 
 msgid "Learners assess a specified number of other learners' responses using the rubric for the assignment."
 msgstr "학습자는 과제 루브릭을 활용하여 다른 학습자의 답변 중 일부를 평가합니다."
+
+msgid "Register (member classification)"
+msgstr "회원가입 (회원구분)"
+
+msgid "Course Home"
+msgstr "강좌 홈"
