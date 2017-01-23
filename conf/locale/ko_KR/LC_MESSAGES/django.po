@@ -9226,6 +9226,11 @@ msgid ""
 "changed later){bold_end}"
 msgstr "영문/숫자로 이루어진 아이디 -  {bold_start}(변경 불가){bold_end}"
 
+msgid ""
+"The password that will identify you in your courses - {bold_start}(cannot be "
+"changed later){bold_end}"
+msgstr "영문/숫자/특수문자로 이루어진 비밀번호 -  {bold_start}(변경 불가){bold_end}"
+
 #: openedx/core/djangoapps/user_api/views.py
 msgid "JaneDoe"
 msgstr "HongGilDong"

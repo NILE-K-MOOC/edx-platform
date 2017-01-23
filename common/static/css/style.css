@@ -356,6 +356,8 @@ a, span, p {color:inherit;}
 	.header-global .wrapper-header .nav-global.list-inline .item > a {font-size:1.250rem;}
 }
 @media (max-width: 768px) {
+	body.view-in-course .header-global .wrapper-header, body.view-in-course .header-global.slim .wrapper-header, .header-global.slim .wrapper-header{height: inherit;}
+	.header-global .wrapper-header {height: 60px;}
 	.header-global {background:#fff;border-bottom:solid 2.5px #03b3e4;height:62.5px;}
 	.header-global .wrapper-header .logo img {height:22px;margin-left:50px;}
 	.header-global .header-util {display:none;}
@@ -1146,4 +1148,29 @@ input:focus, button:focus, textarea:focus {
 
 .wrapper-course-image>a.cover {
 	max-height:200px !important;
+}
+
+.nav-skip {
+    font-size: 0.875rem;
+    height:0;
+    display: inline-block;
+    left: 0;
+    top: -600px;
+    position: absolute;
+    text-align: center;
+    text-decoration:none;
+}
+.nav-skip:focus, .nav-skip:active {
+    background-color: #ffffff;
+    color: black;
+    left: 0;
+    top:auto;
+    padding: 5px 20px;
+    position: relative;
+    z-index: 1000000;
+    border: 1px dotted red;
+    width: auto;
+    height: auto;
+    margin: 0;
+    text-decoration:none;
 }
