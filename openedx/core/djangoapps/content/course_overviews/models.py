@@ -530,7 +530,7 @@ class CourseOverview(TimeStampedModel):
         else:
 
             if filter_ and 'mobile_available' in filter_ and filter_['mobile_available'] is True:
-                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
             elif filter_:
                 course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
             else:
