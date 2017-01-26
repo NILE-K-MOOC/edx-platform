@@ -200,7 +200,7 @@ define([
                     default: model.set('odby2',99);
                 }
                 return [model.get('odby1'), model.get('odby2')];
-            }
+            };
 
             this.collection.sort();
 
