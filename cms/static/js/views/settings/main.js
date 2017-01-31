@@ -416,7 +416,7 @@ var DetailsView = ValidatingView.extend({
 
     revertView: function() {
 
-        alert('revertView s!!!!');
+        //alert('revertView s!!!!');
         // Make sure that the CodeMirror instance has the correct
         // data from its corresponding textarea
         var self = this;
@@ -434,7 +434,7 @@ var DetailsView = ValidatingView.extend({
             reset: true,
             silent: true});
 
-        alert('revertView e!!!!');
+        //alert('revertView e!!!!');
 
     },
     setAndValidate: function(attr, value) {
