@@ -353,12 +353,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
         text = re.sub('<[^>]*>', '', s)
         text = re.sub('&nbsp;', '', text)
         text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
+        text1 = re.sub('/home/project/management/home/static/upload/', '', text)
+        # text1 = re.sub('/manage/home/static/excel/notice_file/', '', text)
         text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
         # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
         value_list.append(text[0:200])
         value_list.append(i[4])
         value_list.append(i[5])
         value_list.append(i[6])
+        value_list.append(text1)
         index_list.append(value_list)
 
 
