@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Views for items (modules)."""
 from __future__ import absolute_import
 
@@ -51,7 +52,7 @@ from xmodule.modulestore.exceptions import ItemNotFoundError, InvalidLocationErr
 from xmodule.modulestore.inheritance import own_metadata
 from xmodule.tabs import CourseTabList
 from xmodule.x_module import PREVIEW_VIEWS, STUDIO_VIEW, STUDENT_VIEW, DEPRECATION_VSCOMPAT_EVENT
-
+from pytz import utc
 
 __all__ = [
     'orphan_handler', 'xblock_handler', 'xblock_view_handler', 'xblock_outline_handler', 'xblock_container_handler'
@@ -892,6 +893,16 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
     In addition, an optional include_children_predicate argument can be provided to define whether or
     not a particular xblock should have its children included.
     """
+
+    # vertical 안의 내용은 학습활동으로 확인되며, 학습활동에는 start 날짜가 없어야 함.
+    # 이미 start 값이 생성된 것들이 있으므로 기본값이 있을경우 2017.01.01 의 날짜로 업데이트하여 사용에 지장이 없도록 함.
+    if xblock.category == "vertical" and xblock.start == DEFAULT_START_DATE:
+        xblock.start = datetime(2017, 1, 1, tzinfo=utc)
+        xblock = _update_with_callback(xblock, user)
+    else:
+        pass
+
+
     is_library_block = isinstance(xblock.location, LibraryUsageLocator)
     is_xblock_unit = is_unit(xblock, parent_xblock)
     # this should not be calculated for Sections and Subsections on Unit page or for library blocks
@@ -1198,14 +1209,13 @@ def _get_release_date(xblock, user=None):
     # If year of start date is less than 1900 then reset the start date to DEFAULT_START_DATE
     reset_to_default = False
     try:
-        if xblock.start:
-            reset_to_default = xblock.start.year < 1900
-        else:
-            reset_to_default = False
+        reset_to_default = xblock.start.year < 1900
     except ValueError:
         # For old mongo courses, accessing the start attribute calls `to_json()`,
         # which raises a `ValueError` for years < 1900.
         reset_to_default = True
+    except Exception:
+        reset_to_default = False
 
     if reset_to_default and user:
         xblock.start = DEFAULT_START_DATE
