@@ -215,12 +215,6 @@ define([
                     }
 
                     if (options.length > 0) {
-                        //console.log('options.length:' + options.length);
-                        //if($(".active-filter:last").size() > 0)
-                        //    //$(".facet-list:last").focus();
-                        //    $(".course-facets-select").focus();
-                        $(".course-facets-select").focus();
-
                         return this.renderFacet(facetKey, options);
                     }
                 }, this)
@@ -249,6 +243,8 @@ define([
         },
 
         selectOption: function (event) {
+            $(".course-facets-select").focus();
+
             var $target = $(event.currentTarget);
             this.trigger(
                 'selectOption',
