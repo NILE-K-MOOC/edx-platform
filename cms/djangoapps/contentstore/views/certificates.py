@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Certificates Data Model:
 
@@ -455,7 +456,9 @@ def certificates_detail_handler(request, course_key_string, certificate_id):
             if int(certificate_id) in [int(certificate["id"]) for certificate in active_certificates]:
                 # Only global staff (PMs) are able to edit active certificate configuration
                 if not GlobalStaff().has_user(request.user):
-                    raise PermissionDenied()
+                    # 운영팀도 이수증 수정이 가능하도록 아래의 내용 pass
+                    # raise PermissionDenied()
+                    pass
         try:
             new_certificate = CertificateManager.deserialize_certificate(course, request.body)
         except CertificateValidationError as err:
