@@ -12,11 +12,8 @@ from openedx.core.djangolib.markup import HTML, Text
     $(document).ready(function(){
         mainImgChg();
         function mainImgChg(){ 
-        //return;          //#e6e6e6 url("/static/images/main_img1.png") no-repeat scroll center top  
-        // console.log($("#mainImg").size()); 
             var imgUrl = ""; 
-            var textUrl = ""; 
-            console.log(idx);
+            //console.log(idx);
             if(idx == 0) {
                 imgUrl = "/static/images/roll1.jpg";
             }else if(idx == 1) {
@@ -26,14 +23,14 @@ from openedx.core.djangolib.markup import HTML, Text
             $("#mainImg").animate({ 
                     opacity: 0 
             }, 3000, "easeInExpo", function(){
-##                 $(this).css("background", "url("+imgUrl+") no-repeat scroll center top");
                 $(this).attr('src', imgUrl);
                 $(this).animate({ 
                     opacity: 1 
                 },3000, "easeOutQuint", function(){ 
                     idx++; 
-                    if(idx == 2) 
+                    if(idx == 2){
                         idx = 0;  
+                    } 
                     mainImgChg(); 
                 }); 
             }); 
