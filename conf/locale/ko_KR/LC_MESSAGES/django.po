@@ -29653,6 +29653,35 @@ msgstr "상호 평가에서 받은 성적이나 의견에 대한 피드백을 �
 msgid "Comments: %(comments)s"
 msgstr "코멘트: %(comments)s"
 
+msgid "No other learner responses are available for grading at this time."
+msgstr "현재 채점이 가능한 학습자 답변이 없습니다."
+
+msgid "Problem Step"
+msgstr "문제 단계"
+
+msgid "Learner Progress"
+msgstr "학습자 성과"
+
+msgid "Response total"
+msgstr "전체 답변"
+
+msgid "Active Learners in Step"
+msgstr "이 단계에서 활동중인 학습자들"
+
+msgid "Cancelled"
+msgstr "취소됨"
+
+msgid "Dates"
+msgstr "날짜"
+
+msgid "Release Date"
+msgstr "공개 날짜"
+
+
+
+
+#-------------------------------------------------------------------------------------------------------
+
 msgid "SKP.SNUk"
 msgstr "서울대, 한국과학기술원, 포항공대"
 
