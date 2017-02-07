@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Certificates Data Model:
 
@@ -298,8 +299,9 @@ def certificate_activation_handler(request, course_key_string):
         json: is_active. update the activation state of certificate
     """
     # Only global staff (PMs) are able to activate/deactivate certificate configuration
-    if not GlobalStaff().has_user(request.user):
-        raise PermissionDenied()
+    # if not GlobalStaff().has_user(request.user):
+    #     raise PermissionDenied()
+
     course_key = CourseKey.from_string(course_key_string)
     store = modulestore()
     try:
@@ -455,7 +457,9 @@ def certificates_detail_handler(request, course_key_string, certificate_id):
             if int(certificate_id) in [int(certificate["id"]) for certificate in active_certificates]:
                 # Only global staff (PMs) are able to edit active certificate configuration
                 if not GlobalStaff().has_user(request.user):
-                    raise PermissionDenied()
+                    # 운영팀도 이수증 수정이 가능하도록 아래의 내용 pass
+                    # raise PermissionDenied()
+                    pass
         try:
             new_certificate = CertificateManager.deserialize_certificate(course, request.body)
         except CertificateValidationError as err:

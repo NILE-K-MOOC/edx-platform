@@ -353,12 +353,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
         text = re.sub('<[^>]*>', '', s)
         text = re.sub('&nbsp;', '', text)
         text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
+        text1 = re.sub('/home/project/management/home/static/upload/', '', text)
+        # text1 = re.sub('/manage/home/static/excel/notice_file/', '', text)
         text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
         # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
         value_list.append(text[0:200])
         value_list.append(i[4])
         value_list.append(i[5])
         value_list.append(i[6])
+        value_list.append(text1)
         index_list.append(value_list)
 
 
@@ -652,7 +655,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
                         childrens = block.get('fields')['children']
                         for children in childrens:
-                            if children[0] == 'survey' or children[0] == 'poll':
+                            if children[0] == 'survey':
                                 check_cnt += 1
                                 checklist.append("'"+children[1]+"'")
 
@@ -677,7 +680,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                           FROM courseware_studentmodule
                          WHERE student_id = '{0}'
                            AND course_id = '{1}'
-                           AND module_type in ('survey', 'poll')
+                           AND module_type in ('survey')
                            AND SUBSTRING_INDEX(module_id, '@', -1) in ({2});
                     """.format(str(user.id), str(course_overview), ','.join(checklist))
 

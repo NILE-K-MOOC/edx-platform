@@ -23,10 +23,18 @@
 </div>
 
 <% if (context.errorMessage) { %>
+
+    <% if (context.errorMessage == "Authentication process canceled") { %>
+    <div class="status submission-error">
+        <h4 class="message-title"><%- gettext("Unable to use the login account when not agreement.") %></h4>
+        <ul class="message-copy"><%- gettext("Please use your K-MOOC account.") %></ul>
+    </div>
+    <% } else { %>
     <div class="status submission-error">
         <h4 class="message-title"><%- _.sprintf( gettext("An error occurred when signing you in to %(platformName)s."), context ) %></h4>
         <ul class="message-copy"><%- context.errorMessage %></ul>
     </div>
+    <% } %>
 <% } %>
 
 <form id="login" class="login-form" tabindex="-1">

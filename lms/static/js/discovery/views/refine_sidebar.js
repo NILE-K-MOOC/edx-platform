@@ -200,7 +200,7 @@ define([
                     default: model.set('odby2',99);
                 }
                 return [model.get('odby1'), model.get('odby2')];
-            }
+            };
 
             this.collection.sort();
 
@@ -215,10 +215,6 @@ define([
                     }
 
                     if (options.length > 0) {
-                        //console.log('options.length:' + options.length);
-                        if($(".active-filter:last").size() > 0)
-                            $(".active-filter:last").focus();
-
                         return this.renderFacet(facetKey, options);
                     }
                 }, this)
@@ -247,6 +243,8 @@ define([
         },
 
         selectOption: function (event) {
+            $(".course-facets-select").focus();
+
             var $target = $(event.currentTarget);
             this.trigger(
                 'selectOption',

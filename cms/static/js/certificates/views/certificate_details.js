@@ -31,6 +31,16 @@ function($, _, str, gettext, BaseView, SignatoryModel, SignatoryDetailsView, Vie
         },
 
         initialize: function() {
+            //console.log('certificate initialize called');
+            var sigatories = this.model.get("signatories");
+            var new_sigatories = [];
+            sigatories.each(function(modelSignatory){
+                if(modelSignatory.id && modelSignatory.attributes.name){
+                    new_sigatories.push(modelSignatory);
+                }
+            });
+            this.model.set("signatories", new_sigatories);
+
             // Set up the initial state of the attributes set for this model instance
             this.showDetails = true;
             this.listenTo(this.model, 'change', this.render);

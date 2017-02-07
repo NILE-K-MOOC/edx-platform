@@ -28,6 +28,8 @@ from xmodule.modulestore.django import modulestore
 from xmodule_django.models import CourseKeyField, UsageKeyField
 from django.db.models import Q
 import datetime
+import pytz
+from django.utils import timezone
 log = logging.getLogger(__name__)
 
 
@@ -530,7 +532,8 @@ class CourseOverview(TimeStampedModel):
         else:
 
             if filter_ and 'mobile_available' in filter_ and filter_['mobile_available'] is True:
-                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= timezone.now() <= c.enrollment_end]
             elif filter_:
                 course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
             else:
