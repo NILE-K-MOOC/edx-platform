@@ -1174,3 +1174,8 @@ input:focus, button:focus, textarea:focus {
     margin: 0;
     text-decoration:none;
 }
+
+
+.staff_info>table th:first-child{
+	width: 20%;
+}
