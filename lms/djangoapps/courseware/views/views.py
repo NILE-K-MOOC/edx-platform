@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Courseware views functions
 """
@@ -8,7 +8,6 @@ import logging
 import urllib
 from collections import OrderedDict
 from datetime import datetime
-
 import analytics
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -35,7 +34,6 @@ from opaque_keys.edx.keys import CourseKey, UsageKey
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from rest_framework import status
 from instructor.views.api import require_global_staff
-
 import shoppingcart
 import survey.utils
 import survey.views
@@ -102,9 +100,7 @@ import sys
 import json
 from django.core.mail import send_mail
 
-
 log = logging.getLogger("edx.courseware")
-
 
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
@@ -159,7 +155,6 @@ def courses(request):
     )
 
 
-
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def haewoondaex(request, org):
@@ -172,7 +167,7 @@ def haewoondaex(request, org):
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
     return render_to_response(
-        "courseware/univ_intro_"+org+".html",
+        "courseware/univ_intro_" + org + ".html",
         {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
     )
 
@@ -181,6 +176,7 @@ def haewoondaex(request, org):
 @cache_if_anonymous()
 def openapi(request):
     return render_to_response("openapi.html")
+
 
 """
 @ensure_csrf_cookie
@@ -199,19 +195,22 @@ def openapi4(request):
     return render_to_response("openapi4.html")
 """
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def cert_check(request):
     return render_to_response("cert_check.html")
+
 
 def cert_check_id(request):
     uuid = request.POST['uuid']
 
     reload(sys)
     sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
     query = """
-         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '"""+uuid+"""';
+         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """';
     """
     print 'cert_check uuid, query', uuid, query
 
@@ -232,12 +231,11 @@ def cert_check_id(request):
 
     return HttpResponse(json.dumps(result))
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def schools(request):
     return render_to_response("courseware/schools.html")
-
-
 
 
 def get_current_child(xmodule, min_depth=None, requested_child=None):
@@ -252,6 +250,7 @@ def get_current_child(xmodule, min_depth=None, requested_child=None):
 
     Returns None only if there are no children at all.
     """
+
     def _get_child(children):
         """
         Returns either the first or last child based on the value of
@@ -273,7 +272,7 @@ def get_current_child(xmodule, min_depth=None, requested_child=None):
             content_children = [
                 child for child in child_modules
                 if child.has_children_at_depth(min_depth - 1) and child.get_display_items()
-            ]
+                ]
             return _get_child(content_children) if content_children else None
 
     child = None
@@ -655,7 +654,7 @@ def course_about(request, course_id):
             if request.user.is_authenticated():
                 cart = shoppingcart.models.Order.get_cart_for_user(request.user)
                 in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
-                    shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
 
             reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
                 reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
@@ -672,7 +671,7 @@ def course_about(request, course_id):
         is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
         if ecommerce_checkout and is_professional_mode:
             professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
-                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
             if professional_mode.sku:
                 ecommerce_checkout_link = ecomm_service.checkout_page_url(professional_mode.sku)
             if professional_mode.bulk_sku:
@@ -697,7 +696,7 @@ def course_about(request, course_id):
         # - Student is already registered for course
         # - Course is already full
         # - Student cannot enroll in course
-        active_reg_button = not(registered or is_course_full or not can_enroll)
+        active_reg_button = not (registered or is_course_full or not can_enroll)
 
         is_shib_course = uses_shib(course)
 
@@ -712,26 +711,26 @@ def course_about(request, course_id):
         course_start = course.start
         today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
         course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
-        d_day = (course_start_val-today_val)
+        d_day = (course_start_val - today_val)
 
         if d_day.days > 0:
-            day = {'day' : '/ D-'+str(d_day.days)}
+            day = {'day': '/ D-' + str(d_day.days)}
         else:
-            day = {'day' : ''}
+            day = {'day': ''}
 
         # short description
-        short_description = { 'short_description' : course_details.short_description}
+        short_description = {'short_description': course_details.short_description}
 
         # classfy name
         ClassDict = {
             # add classfy
-            "edu" : "Education",
-            "hum" : "Humanities",
-            "social" : "Social Sciences",
-            "eng" : "Engineering",
-            "nat" : "Natural Sciences",
-            "med" : "Medical Sciences",
-            "art" : "Arts & Physical"
+            "edu": "Education",
+            "hum": "Humanities",
+            "social": "Social Sciences",
+            "eng": "Engineering",
+            "nat": "Natural Sciences",
+            "med": "Medical Sciences",
+            "art": "Arts & Physical"
         }
 
         # if course_details.classfy != 'all':
@@ -742,56 +741,54 @@ def course_about(request, course_id):
 
         global classfy_name
         if course_details.classfy is None or course_details.classfy == '':
-             classfy_name = 'Etc'
-        classfy_name = ClassDict[course_details.classfy] if hasattr(ClassDict, course_details.classfy) else course_details.classfy
+            classfy_name = 'Etc'
+        else:
+            classfy_name = ClassDict[course_details.classfy] if course_details.classfy in ClassDict else course_details.classfy
 
         # univ name
         UnivDic = {
             # add univ
-            "testUniv" : "Test University",
-            "KYUNGNAMUNIVk" : "KYUNGNAM UNIVERSITY",
-            "KHUk" : "KYUNGHEE UNIVERSITY",
-            "KoreaUnivK" : "KOREA UNIVERSITY",
-            "DGUk" : "DAEGU UNIVERSITY",
-            "PNUk" : "PUSAN NATIONAL UNIVERSITY",
-            "SMUCk" : "SANGMYUNG UNIVERSITY",
-            "SNUk" : "SEOUL NATIONAL UNIVERSITY",
-            "SKKUk" : "SUNGKYUNKWAN UNIVERSITY",
-            "SSUk" : "SUNGSHIN UNIVERSITY",
-            "SejonguniversityK" : "SEJONG UNIVERSITY",
-            "SookmyungK" : "SOOKMYUNG WOMEN'S UNIVERSITY",
-            "YSUk" : "YONSEI UNIVERSITY",
-            "YeungnamUnivK" : "YOUNGNAM UNIVERSITY",
-            "UOUk" : "UNIVERSITY OF ULSAN",
-            "EwhaK" : "EWHA WOMANS UNIVERSITY",
-            "INHAuniversityK" : "INHA UNIVERSITY",
-            "CBNUk" : "CHONBUK NATIONAL UNIVERSITY",
-            "POSTECHk" : "POSTECH",
-            "KAISTk" : "KAIST",
-            "HYUk" : "HANYANG UNIVERSITY",
-            "KOCW" : "KOCW",
+            "testUniv": "Test University",
+            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
+            "KHUk": "KYUNGHEE UNIVERSITY",
+            "KoreaUnivK": "KOREA UNIVERSITY",
+            "DGUk": "DAEGU UNIVERSITY",
+            "PNUk": "PUSAN NATIONAL UNIVERSITY",
+            "SMUCk": "SANGMYUNG UNIVERSITY",
+            "SNUk": "SEOUL NATIONAL UNIVERSITY",
+            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
+            "SSUk": "SUNGSHIN UNIVERSITY",
+            "SejonguniversityK": "SEJONG UNIVERSITY",
+            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
+            "YSUk": "YONSEI UNIVERSITY",
+            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
+            "UOUk": "UNIVERSITY OF ULSAN",
+            "EwhaK": "EWHA WOMANS UNIVERSITY",
+            "INHAuniversityK": "INHA UNIVERSITY",
+            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
+            "POSTECHk": "POSTECH",
+            "KAISTk": "KAIST",
+            "HYUk": "HANYANG UNIVERSITY",
+            "KOCW": "KOCW",
         }
 
         univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
 
-        if course_details.enrollment_start :
-            enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10], "%Y-%m-%d").date()
-            enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10], "%Y-%m-%d").date()
+        if course_details.enrollment_start:
+            enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
+                                                                    "%Y-%m-%d").date()
+            enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10],
+                                                                "%Y-%m-%d").date()
 
-
-            if '_language' not in request.session or request.session['_language'] != 'en' :
-                enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y년%-m월%d일")}
-                enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y년%-m월%d일")}
-            else :
-                enroll_sdate = {'enroll_sdate' : enroll_start.strftime("%Y/%m/%d")}
-                enroll_edate = {'enroll_edate' : enroll_end.strftime("%Y/%m/%d")}
-        else :
-            enroll_sdate = {'enroll_sdate' : ''}
-            enroll_edate = {'enroll_edate' : ''}
-
-
-
-
+            if '_language' not in request.session or request.session['_language'] != 'en':
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
+            else:
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
+        else:
+            enroll_sdate = {'enroll_sdate': ''}
+            enroll_edate = {'enroll_edate': ''}
 
         #######################################################################
 
@@ -823,13 +820,13 @@ def course_about(request, course_id):
             'cart_link': reverse('shoppingcart.views.show_cart'),
             'pre_requisite_courses': pre_requisite_courses,
             'course_image_urls': overview.image_urls,
-            'day' : day,
-            'short_description' : short_description,
+            'day': day,
+            'short_description': short_description,
             # 'classfy' : classfy,
-            'classfy_name' : classfy_name,
-            'univ_name' : univ_name,
-            'enroll_sdate' : enroll_sdate,
-            'enroll_edate' : enroll_edate
+            'classfy_name': classfy_name,
+            'univ_name': univ_name,
+            'enroll_sdate': enroll_sdate,
+            'enroll_edate': enroll_edate
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
@@ -849,7 +846,6 @@ def progress(request, course_id, student_id=None):
 
 
 def _progress(request, course_key, student_id):
-
     """
     Unwrapped version of "progress".
 
@@ -908,7 +904,7 @@ def _progress(request, course_key, student_id):
     studio_url = get_studio_url(course, 'settings/grading')
 
     if courseware_summary is None:
-        #This means the student didn't have access to the course (which the instructor requested)
+        # This means the student didn't have access to the course (which the instructor requested)
         raise Http404
 
     # checking certificate generation configuration
@@ -917,14 +913,12 @@ def _progress(request, course_key, student_id):
     # If the learner is in verified modes and the student did not have
     # their ID verified, we need to show message to ask learner to verify their ID first
     missing_required_verification = enrollment_mode in CourseMode.VERIFIED_MODES and \
-        not SoftwareSecurePhotoVerification.user_is_verified(student)
+                                    not SoftwareSecurePhotoVerification.user_is_verified(student)
 
     show_generate_cert_btn = (
         is_active and CourseMode.is_eligible_for_certificate(enrollment_mode)
         and certs_api.cert_generation_enabled(course_key)
     )
-
-
 
     context = {
         'course': course,
@@ -1089,11 +1083,11 @@ def submission_history(request, course_id, student_username, location):
         scores_by_date = {
             score.created: score
             for score in scores
-        }
+            }
         scores = [
             scores_by_date[history.updated]
             for history in history_entries
-        ]
+            ]
 
     context = {
         'history_entries': history_entries,
@@ -1180,7 +1174,7 @@ def get_course_lti_endpoints(request, course_id):
             course=course
         )
         for descriptor in lti_descriptors
-    ]
+        ]
 
     endpoints = [
         {
@@ -1191,7 +1185,7 @@ def get_course_lti_endpoints(request, course_id):
                 service_name='grade_handler'),
         }
         for module in lti_noauth_modules
-    ]
+        ]
 
     return HttpResponse(json.dumps(endpoints), content_type='application/json')
 
@@ -1393,7 +1387,6 @@ FINANCIAL_ASSISTANCE_HEADER = _(
     platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
 ).split('\n')
 
-
 FA_INCOME_LABEL = _('Annual Household Income')
 FA_REASON_FOR_APPLYING_LABEL = _(
     'Tell us about your current financial situation. Why do you need assistance?'
@@ -1500,11 +1493,11 @@ def financial_assistance_form(request):
             course_id=enrollment.course_id,
             mode_slug=CourseMode.VERIFIED
         ).exists()
-    ]
+        ]
     incomes = ['Less than $5,000', '$5,000 - $10,000', '$10,000 - $15,000', '$15,000 - $20,000', '$20,000 - $25,000']
     annual_incomes = [
         {'name': _(income), 'value': income} for income in incomes  # pylint: disable=translation-of-non-string
-    ]
+        ]
     return render_to_response('financial-assistance/apply.html', {
         'header_text': FINANCIAL_ASSISTANCE_HEADER,
         'student_faq_url': marketing_link('FAQ'),
@@ -1610,27 +1603,28 @@ def faqs(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def agreement(request):
-    if '_language' not in request.session or request.session['_language'] != 'en' :
+    if '_language' not in request.session or request.session['_language'] != 'en':
         return render_to_response(
             "courseware/agreement.html"
         )
-    else :
+    else:
         return render_to_response(
             "courseware/agreement_en.html"
         )
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def privacy(request):
-
-    if '_language' not in request.session or request.session['_language'] != 'en' :
+    if '_language' not in request.session or request.session['_language'] != 'en':
         return render_to_response(
             "courseware/privacy.html"
         )
-    else :
+    else:
         return render_to_response(
             "courseware/privacy_en.html"
         )
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
@@ -1639,13 +1633,13 @@ def privacy_old1(request):
         "courseware/privacy_old1.html"
     )
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def privacy_old2(request):
     return render_to_response(
         "courseware/privacy_old2.html"
     )
-
 
 
 @ensure_csrf_cookie
