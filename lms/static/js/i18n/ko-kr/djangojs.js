@@ -1769,7 +1769,6 @@
     "Staff Graded Assignment": "\uc6b4\uc601\ud300 \ud3c9\uac00 \ubb38\ud56d",
     "Start regenerating certificates for students in this course?": "\uc774 \uac15\uc88c \ud559\uc2b5\uc790\uc758 \uc778\uc99d\uc11c \uc7ac\uc0dd\uc131\uc744 \uc2dc\uc791\ud558\uaca0\uc2b5\ub2c8\uae4c\u003f",
     "<%= user %> has been successfully added to the exception list. Click Generate Exception Certificate below to send the certificate.": "\u003c\u0025\u003d \u0075\u0073\u0065\u0072 \u0025\u003e \uac00 \uc131\uacf5\uc801\uc73c\ub85c \uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e \uc544\ub798 \uc608\uc678 \uc778\uc99d\uc11c \uc0dd\uc131\uc744 \ud074\ub9ad\ud574 \uc778\uc99d\uc11c\ub97c \ubcf4\ub0b4\uc138\uc694\u002e",
-    "Staff Graded Assignment": "\uc6b4\uc601\ud300 \ud3c9\uac00 \ubb38\ud56d",
     "The number of subsections in the course that contain problems of this assignment type.": "\ud574\ub2f9 \uacfc\uc81c \uc720\ud615\uc5d0 \ud574\ub2f9\ud558\ub294 \uc18c\uc8fc\uc81c \uc218",
     "Student username/email field is required and can not be empty. Kindly fill in username/email and then press \"Add to Exception List\" button.": "\ud559\uc2b5\uc790 \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \ud544\ub4dc\ub294 \ud544\uc218 \uc785\ub825 \uc0ac\ud56d\uc785\ub2c8\ub2e4\u002e \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \uc785\ub825 \ud6c4 \u0022\uc608\uc678 \ubaa9\ub85d\uc5d0 \ucd94\uac00\ud558\uae30\u0022 \ub97c \ud074\ub9ad\ud574\uc8fc\uc138\uc694",
     "Student username/email field is required and can not be empty. Kindly fill in username/email and then press \"Invalidate Certificate\" button.": "\ud559\uc2b5\uc790 \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c\uc740 \ud544\uc218 \uc785\ub825 \uc0ac\ud56d\uc785\ub2c8\ub2e4\u002e \uc0ac\uc6a9\uc790\uc774\ub984\u002f\uc774\uba54\uc77c \uc785\ub825 \ub4a4 \u0022\uc774\uc218\uc99d \ube44\ud65c\uc131\ud654 \ud558\uae30\u0022 \ub97c \ud074\ub9ad\ud558\uc138\uc694",
@@ -1809,6 +1808,7 @@
     "SKP.POSTECHk": "\uc11c\uc6b8\ub300\u002c \ud55c\uad6d\uacfc\ud559\uae30\uc220\uc6d0\u002c \ud3ec\ud56d\uacf5\ub300",
     "Unable to use the login account when not agreement.": "\uac1c\uc778\uc815\ubcf4 \uc218\uc9d1 \ubc0f \uc774\uc6a9 \ubbf8\ub3d9\uc758 \uc2dc \uacc4\uc815 \uc5f0\ub3d9 \ub85c\uadf8\uc778\uc740 \uc774\uc6a9\ud558\uc2e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
     "Please use your K-MOOC account.": "\u004b\u002d\u004d\u004f\u004f\u0043 \uacc4\uc815\uc744 \uc0ac\uc6a9\ud558\uc5ec \uc8fc\uc2dc\uae30 \ubc14\ub78d\ub2c8\ub2e4\u002e",
+    "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the Your Response field.": "",
     "": "\uc5c6\uc74c"
   };
 
