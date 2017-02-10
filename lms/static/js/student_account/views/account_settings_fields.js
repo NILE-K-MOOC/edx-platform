@@ -14,19 +14,16 @@
         'text!templates/fields/field_order_history.underscore',
         'edx-ui-toolkit/js/utils/string-utils',
         'edx-ui-toolkit/js/utils/html-utils'
-    ], function (
-        gettext, $, _, Backbone,
-        FieldViews,
-        field_text_account_template,
-        field_readonly_account_template,
-        field_link_account_template,
-        field_dropdown_account_template,
-        field_social_link_template,
-        field_order_history_template,
-        StringUtils,
-        HtmlUtils
-    )
-    {
+    ], function (gettext, $, _, Backbone,
+                 FieldViews,
+                 field_text_account_template,
+                 field_readonly_account_template,
+                 field_link_account_template,
+                 field_dropdown_account_template,
+                 field_social_link_template,
+                 field_order_history_template,
+                 StringUtils,
+                 HtmlUtils) {
 
         var AccountSettingsFieldViews = {
             ReadonlyFieldView: FieldViews.ReadonlyFieldView.extend({
@@ -208,19 +205,52 @@
                 },
                 disconnect: function () {
                     var data = {};
+                    var disconnectionUrl = this.options.disconnectUrl;
+                    var nowlocation = document.location.href;
+                    var target;
+
+                    var arr = disconnectionUrl.split('/');
+                    var socialId = 0;
+                    for (var i in arr) {
+                        if (arr[i] == "" || isNaN(arr[i]))
+                            continue;
+                        socialId = arr[i];
+                    }
+                    var uid = "";
+                    $.ajax({
+                        type: "POST",
+                        url: '/getUserIdBySocialInfo',
+                        data: {socialId: socialId},
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            console.log('data.userId ==> ' + data.uid);
+                            uid = data.uid;
+                            console.log('success getUserIdBySocialInfo');
+                        },
+                        error: function () {
+                            console.log('error getUserIdBySocialInfo');
+                        }
+                    });
 
                     // Disconnects the provider from the user's edX account.
                     // See python-social-auth docs for more information.
                     var view = this;
                     $.ajax({
                         type: 'POST',
-                        url: this.options.disconnectUrl,
+                        url: disconnectionUrl,
                         data: data,
                         dataType: 'html',
                         success: function () {
                             view.options.connected = false;
                             view.render();
                             view.showSuccessMessage();
+
+                            if(uid){
+                                $.post("/deleteOauth2Tokens", {uid: uid}, function (data) {
+                                    console.log('delete token : ' + data);
+                                }, "json");
+                            }
                         },
                         error: function (xhr) {
                             view.showErrorMessage(xhr);
@@ -236,7 +266,7 @@
                     return HtmlUtils.joinHtml(this.indicators.success, gettext('Successfully unlinked.'));
                 }
             }),
-            
+
             OrderHistoryFieldView: FieldViews.ReadonlyFieldView.extend({
                 fieldType: 'orderHistory',
                 fieldTemplate: field_order_history_template,
