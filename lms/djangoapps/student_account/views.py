@@ -282,10 +282,13 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
+        print 'login_and_registration_form type 1'
         pass
     elif 'errorMessage' in provider_info:
+        print 'login_and_registration_form type 2'
         pass
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
+        print 'login_and_registration_form type 2'
         division = request.session['division']
         del request.session['division']
         del request.session['agreeYN']

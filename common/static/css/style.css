@@ -1179,3 +1179,7 @@ input:focus, button:focus, textarea:focus {
 .staff_info>table th:first-child{
 	width: 20%;
 }
+
+.static_tab_wrapper P, article{
+	overflow: auto;
+}

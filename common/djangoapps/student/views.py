@@ -9,12 +9,10 @@ import json
 import warnings
 from collections import defaultdict
 from urlparse import urljoin, urlsplit, parse_qs, urlunsplit
-
 from django.views.generic import TemplateView
 from pytz import UTC
 from requests import HTTPError
 from ipware.ip import get_ip
-
 import edx_oauth2_provider
 from django.conf import settings
 from django.contrib.auth import logout, authenticate, login
@@ -40,13 +38,10 @@ from django.dispatch import receiver, Signal
 from django.template.response import TemplateResponse
 from provider.oauth2.models import Client
 from ratelimitbackend.exceptions import RateLimitException
-
 from social.apps.django_app import utils as social_utils
 from social.backends import oauth as social_oauth
 from social.exceptions import AuthException, AuthAlreadyAssociated
-
 from edxmako.shortcuts import render_to_response, render_to_string
-
 from course_modes.models import CourseMode
 from shoppingcart.api import order_history
 from student.models import (
@@ -65,40 +60,30 @@ from certificates.api import (  # pylint: disable=import-error
     get_certificate_url,
     has_html_certificates_enabled,
 )
-
 from xmodule.modulestore.django import modulestore
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from opaque_keys.edx.locator import CourseLocator
-
 from collections import namedtuple
-
 from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date  # pylint: disable=import-error
 from courseware.access import has_access
-
 from django_comment_common.models import Role
-
 from external_auth.models import ExternalAuthMap
 import external_auth.views
 from external_auth.login_and_register import (
     login as external_auth_login,
     register as external_auth_register
 )
-
 from lang_pref import LANGUAGE_KEY
-
 import track.views
-
 import dogstats_wrapper as dog_stats_api
-
 from util.db import outer_atomic
 from util.json_request import JsonResponse
 from util.bad_request_rate_limiter import BadRequestRateLimiter
 from util.milestones_helpers import (
     get_pre_requisite_courses_not_completed,
 )
-
 from util.password_policy_validators import validate_password_strength
 import third_party_auth
 from third_party_auth import pipeline, provider
@@ -110,15 +95,11 @@ from student.helpers import (
 from student.cookies import set_logged_in_cookies, delete_logged_in_cookies
 from student.models import anonymous_id_for_user, UserAttribute, EnrollStatusChange
 from shoppingcart.models import DonationConfiguration, CourseRegistrationCode
-
 from embargo import api as embargo_api
-
 import analytics
 from eventtracking import tracker
-
 # Note that this lives in LMS, so this dependency should be refactored.
 from notification_prefs.views import enable_notifications
-
 from openedx.core.djangoapps.credit.email_utils import get_credit_provider_display_names, make_providers_strings
 from openedx.core.djangoapps.user_api.preferences import api as preferences_api
 from openedx.core.djangoapps.programs.utils import get_programs_for_dashboard, get_display_category
@@ -140,12 +121,14 @@ import MySQLdb as mdb
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
-ReverifyInfo = namedtuple('ReverifyInfo', 'course_id course_name course_number date status display')  # pylint: disable=invalid-name
+ReverifyInfo = namedtuple('ReverifyInfo',
+                          'course_id course_name course_number date status display')  # pylint: disable=invalid-name
 SETTING_CHANGE_INITIATED = 'edx.user.settings.change_initiated'
 # Used as the name of the user attribute for tracking affiliate registrations
 REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
 # used to announce a registration
 REGISTER_USER = Signal(providing_args=["user", "profile"])
+
 
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
 # pylint: disable=logging-format-interpolation
@@ -180,13 +163,16 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
-    f1 = None if user.is_staff else {'enrollment_start__isnull':False, 'start__gt': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+    f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
+                                     'enrollment_start__lte': datetime.datetime.now()}
     log.info(f1)
-    courses1 = get_courses(user, filter_ = f1)
+    courses1 = get_courses(user, filter_=f1)
 
-    f2 = {'enrollment_start__isnull':False} if user.is_staff else {'enrollment_start__isnull':False, 'start__lte': datetime.datetime.now(), 'enrollment_start__lte': datetime.datetime.now()}
+    f2 = {'enrollment_start__isnull': False} if user.is_staff else {'enrollment_start__isnull': False,
+                                                                    'start__lte': datetime.datetime.now(),
+                                                                    'enrollment_start__lte': datetime.datetime.now()}
     log.info(f2)
-    courses2 = get_courses(user, filter_ = f2)
+    courses2 = get_courses(user, filter_=f2)
 
     # print 'get course test ------------------------------------------------------- e'
 
@@ -344,12 +330,12 @@ def index(request, extra_context=None, user=AnonymousUser()):
     index_list = []
     cur.execute(query)
     row = cur.fetchall()
-    for i in row :
+    for i in row:
         value_list = []
         value_list.append(i[0])
         value_list.append(i[1])
         value_list.append(i[2])
-        s= i[3]
+        s = i[3]
         text = re.sub('<[^>]*>', '', s)
         text = re.sub('&nbsp;', '', text)
         text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
@@ -363,7 +349,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(i[6])
         value_list.append(text1)
         index_list.append(value_list)
-
 
     context['index_list'] = index_list
 
@@ -525,7 +510,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
     }
 
     if (status in ('generating', 'ready', 'notpassing', 'restricted', 'auditing', 'unverified') and
-            course_overview.end_of_course_survey_url is not None):
+                course_overview.end_of_course_survey_url is not None):
         status_dict.update({
             'show_survey_button': True,
             'survey_url': process_survey_link(course_overview.end_of_course_survey_url, user)})
@@ -577,7 +562,6 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
         else:
             status_dict['grade'] = cert_status['grade']
 
-
     # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
 
     log.info('cert in poll check start info course_overview')
@@ -595,7 +579,8 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             run = arr[2]
             checklist = list()
 
-            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                 settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
 
             # log.info('org, course, run', str(org), str(course), str(run))
@@ -605,7 +590,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             print run
             print '-------------------'
 
-            cursor = db.modulestore.active_versions.find({'org':org, 'course':course}).sort("edited_on", 1)
+            cursor = db.modulestore.active_versions.find({'org': org, 'course': course}).sort("edited_on", 1)
             order_course = {}
             course_cnt = 1;
             for document in cursor:
@@ -620,8 +605,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                 print 'return because rerun course..'
                 return status_dict
 
-
-            cursor = db.modulestore.active_versions.find({'org':org, 'course':course, 'run':run})
+            cursor = db.modulestore.active_versions.find({'org': org, 'course': course, 'run': run})
 
             pb = ''
             for document in cursor:
@@ -630,7 +614,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
             # print 'pb', pb
             if pb:
-                cursor = db.modulestore.structures.find({'_id':pb})
+                cursor = db.modulestore.structures.find({'_id': pb})
                 for document in cursor:
                     blocks = document.get('blocks')
                 cursor.close()
@@ -657,10 +641,10 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                         for children in childrens:
                             if children[0] == 'survey':
                                 check_cnt += 1
-                                checklist.append("'"+children[1]+"'")
+                                checklist.append("'" + children[1] + "'")
 
-                    # if check_cnt > 0:
-                    #     break
+                                # if check_cnt > 0:
+                                #     break
                 # print 'check_cnt:', check_cnt
                 # print 'datetime1:', datetime.datetime.now()
                 # print 'datetime2:', datetime.datetime.now(UTC)
@@ -673,7 +657,10 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
                 # print 'check_cnt:', check_cnt
                 if check_cnt > 0:
-                    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+                    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                      settings.DATABASES.get('default').get('USER'),
+                                      settings.DATABASES.get('default').get('PASSWORD'),
+                                      settings.DATABASES.get('default').get('NAME'))
                     cur = con.cursor()
                     query = """
                         SELECT sum(if(instr(state, 'submissions_count') > 0, 1, 0)) cnt
@@ -843,6 +830,7 @@ def is_course_blocked(request, redeemed_registration_codes, course_key):
 
     return blocked
 
+
 @transaction.non_atomic_requests
 @login_required
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -877,9 +865,9 @@ def dashboard(request):
         course_id: {
             mode.slug: mode
             for mode in modes
-        }
+            }
         for course_id, modes in unexpired_course_modes.iteritems()
-    }
+        }
 
     # Check to see if the student has recently enrolled in a course.
     # If so, display a notification message confirming the enrollment.
@@ -924,7 +912,7 @@ def dashboard(request):
             modes=course_modes_by_course[enrollment.course_id]
         )
         for enrollment in course_enrollments
-    }
+        }
 
     # Determine the per-course verification status
     # This is a dictionary in which the keys are course locators
@@ -944,11 +932,9 @@ def dashboard(request):
     cert_statuses = {
         enrollment.course_id: cert_info(request.user, enrollment.course_overview, enrollment.mode)
         for enrollment in course_enrollments
-    }
-
+        }
 
     print datetime.datetime.now(UTC), 'check !!!!!!!!!!!!!!!! e------------------------------------------'
-
 
     # sort the enrollment pairs by the enrollment date
     # course_enrollments.sort(key=lambda x: x.created, reverse=True)
@@ -956,10 +942,10 @@ def dashboard(request):
     print cert_statuses
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                  settings.DATABASES.get('default').get('USER'),
-                  settings.DATABASES.get('default').get('PASSWORD'),
-                  settings.DATABASES.get('default').get('NAME'),
-                  charset='utf8')
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
 
     course_type1 = []
     course_type2 = []
@@ -969,7 +955,7 @@ def dashboard(request):
     for c in course_enrollments:
         course_id = c.course
         cur = con.cursor()
-        query = "select enrollment_end from course_overviews_courseoverview where id = '"+str(course_id)+"'"
+        query = "select enrollment_end from course_overviews_courseoverview where id = '" + str(course_id) + "'"
         cur.execute(query)
         one = cur.fetchone()
         # print 'one == ', one[0]
@@ -979,19 +965,18 @@ def dashboard(request):
 
         if one[0] != None:
             e_end_val = e_end.strptime(str(e_end)[0:10], "%Y-%m-%d").date()
-        else :
+        else:
             e_end_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
 
-        a = (e_end_val-today_val)
-
+        a = (e_end_val - today_val)
 
         if c.course.start and c.course.start > datetime.datetime.now(UTC):
             c.status = 'ready'
             course_type1.append(c)
         elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
-            if a.days >= 0 :
+            if a.days >= 0:
                 c.status = 'ing(ing)'
-            else :
+            else:
                 c.status = 'ing(end)'
 
             course_type2.append(c)
@@ -1093,9 +1078,6 @@ def dashboard(request):
         # grade_summary = grades.grade(user, course, course_structure=None)
         # percents[course_id] = str(int(float(grade_summary['percent']) * 100))
 
-
-
-
     context = {
         'percents': percents,
         'enrollment_message': enrollment_message,
@@ -1167,7 +1149,7 @@ def _create_recent_enrollment_message(course_enrollments, course_modes):  # pyli
                 "allow_donation": _allow_donation(course_modes, enrollment.course_overview.id, enrollment)
             }
             for enrollment in recently_enrolled_courses
-        ]
+            ]
 
         platform_name = configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)
 
@@ -1194,7 +1176,7 @@ def _get_recently_enrolled_courses(course_enrollments):
         # If the enrollment has no created date, we are explicitly excluding the course
         # from the list of recent enrollments.
         if enrollment.is_active and enrollment.created > time_delta
-    ]
+        ]
 
 
 def _allow_donation(course_modes, course_id, enrollment):
@@ -1285,13 +1267,13 @@ def _credit_statuses(user, course_enrollments):
     request_status_by_course = {
         request["course_key"]: request["status"]
         for request in credit_api.get_credit_requests_for_user(user.username)
-    }
+        }
 
     credit_enrollments = {
         enrollment.course_id: enrollment
         for enrollment in course_enrollments
         if enrollment.mode == "credit"
-    }
+        }
 
     # When a user purchases credit in a course, the user's enrollment
     # mode is set to "credit" and an enrollment attribute is set
@@ -1300,16 +1282,16 @@ def _credit_statuses(user, course_enrollments):
     purchased_credit_providers = {
         attribute.enrollment.course_id: attribute.value
         for attribute in CourseEnrollmentAttribute.objects.filter(
-            namespace="credit",
-            name="provider_id",
-            enrollment__in=credit_enrollments.values()
-        ).select_related("enrollment")
-    }
+        namespace="credit",
+        name="provider_id",
+        enrollment__in=credit_enrollments.values()
+    ).select_related("enrollment")
+        }
 
     provider_info_by_id = {
         provider["id"]: provider
         for provider in credit_api.get_credit_providers()
-    }
+        }
 
     statuses = {}
     for eligibility in credit_api.get_eligibilities_for_user(user.username):
@@ -1556,12 +1538,12 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         try:
             user = User.objects.get(email=email)
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
-            query = "SELECT email, dormant_mail_cd, dormant_yn FROM auth_user where email= '"+email+"'"
+            query = "SELECT email, dormant_mail_cd, dormant_yn FROM auth_user where email= '" + email + "'"
             cur.execute(query)
             row = cur.fetchone()
 
@@ -2017,16 +1999,16 @@ def create_account_with_params(request, params):
     # Can't have terms of service for certain SHIB users, like at Stanford
     registration_fields = getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {})
     tos_required = (
-        registration_fields.get('terms_of_service') != 'hidden' or
-        registration_fields.get('honor_code') != 'hidden'
-    ) and (
-        not settings.FEATURES.get("AUTH_USE_SHIB") or
-        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-        not do_external_auth or
-        not eamap.external_domain.startswith(
-            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
-        )
-    )
+                       registration_fields.get('terms_of_service') != 'hidden' or
+                       registration_fields.get('honor_code') != 'hidden'
+                   ) and (
+                       not settings.FEATURES.get("AUTH_USE_SHIB") or
+                       not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+                       not do_external_auth or
+                       not eamap.external_domain.startswith(
+                           external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
+                       )
+                   )
 
     form = AccountCreationForm(
         data=params,
@@ -2048,7 +2030,7 @@ def create_account_with_params(request, params):
         if should_link_with_social_auth:
             backend_name = params['provider']
             request.social_strategy = social_utils.load_strategy(request)
-            redirect_uri = reverse('social:complete', args=(backend_name, ))
+            redirect_uri = reverse('social:complete', args=(backend_name,))
             request.backend = social_utils.load_backend(request.social_strategy, backend_name, redirect_uri)
             social_access_token = params.get('access_token')
             if not social_access_token:
@@ -2796,7 +2778,7 @@ def confirm_email_change(request, key):  # pylint: disable=unused-argument
                 message,
                 configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
             )
-        except Exception:    # pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             log.warning('Unable to send confirmation email to old address', exc_info=True)
             response = render_to_response("email_change_failed.html", {'email': user.email})
             transaction.set_rollback(True)
@@ -2974,3 +2956,96 @@ class LogoutView(TemplateView):
         })
 
         return context
+
+
+@login_required
+def getUserIdBySocialInfo(request):
+    try:
+        socialId = request.POST.get("socialId")
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                          settings.DATABASES.get('default').get('USER'),
+                          settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'),
+                          charset='utf8')
+        cur = con.cursor()
+        query = """
+            SELECT uid
+              FROM social_auth_usersocialauth
+             WHERE id = {0};
+        """.format(socialId)
+        cur.execute(query)
+        uid = cur.fetchone()[0];
+
+        print 'userId = ', uid
+        return JsonResponse(
+            {
+                "success": True,
+                "uid": uid,
+            },
+            status=200
+        )
+    except Exception as e:
+        print e
+        return JsonResponse(
+            {
+                "success": False,
+            },
+            status=500
+        )
+    finally:
+        cur.close()
+        con.close()
+
+@login_required
+def deleteOauth2Tokens(request):
+    uid = request.POST.get("uid")
+    print 'deleteOauth2Tokens userId:', uid
+    try:
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), 'nileprovider', 'nileprovider', 'oauth',
+                          charset='utf8')
+        cur = con.cursor()
+        query = """
+            DELETE FROM oauth2_provider_refreshtoken
+                  USING oauth2_provider_refreshtoken
+                        INNER JOIN auth_user
+                           ON oauth2_provider_refreshtoken.user_id = auth_user.id
+                  WHERE auth_user.username = '{0}';
+                  """.format(uid)
+        cur.execute(query)
+
+        print 'query1 >>'
+        print query
+
+        con.commit()
+
+        query = """
+            DELETE FROM oauth2_provider_accesstoken
+                  USING oauth2_provider_accesstoken
+                        INNER JOIN auth_user
+                           ON oauth2_provider_accesstoken.user_id = auth_user.id
+                  WHERE auth_user.username = '{0}';
+                  """.format(uid)
+        cur.execute(query)
+        con.commit()
+
+        print 'query2 >>'
+        print query
+
+
+        return JsonResponse(
+            {
+                "success": True,
+            },
+            status=200
+        )
+    except Exception as e:
+        print e
+        return JsonResponse(
+            {
+                "success": False,
+            },
+            status=500
+        )
+    finally:
+        cur.close()
+        con.close()

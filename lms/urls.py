@@ -15,7 +15,7 @@ from courseware.views.index import CoursewareIndex
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-from student.views import LogoutView
+from student.views import LogoutView, deleteOauth2Tokens, getUserIdBySocialInfo
 
 # Uncomment the next two lines to enable the admin:
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
@@ -553,6 +553,10 @@ urlpatterns += (
     url(r'^agree_done$', 'student_account.views.agree_done', name="agree_done"),
     url(r'^parent_agree$', 'student_account.views.parent_agree', name="parent_agree"),
     url(r'^parent_agree_done$', 'student_account.views.parent_agree_done', name="parent_agree_done"),
+
+    # for oauth2 disconnection..
+    url(r'^getUserIdBySocialInfo', 'student.views.getUserIdBySocialInfo', name="getUserIdBySocialInfo"),
+    url(r'^deleteOauth2Tokens', 'student.views.deleteOauth2Tokens', name="deleteOauth2Tokens"),
 
     url(r'^courses/{}/instructor/copykiller$'.format(settings.COURSE_ID_PATTERN),
             'instructor.views.instructor_dashboard.copykiller', name="copykiller"),
