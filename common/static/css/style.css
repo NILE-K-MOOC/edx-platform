@@ -1183,3 +1183,6 @@ input:focus, button:focus, textarea:focus {
 .static_tab_wrapper P, article{
 	overflow: auto;
 }
+
+/* For ie */
+button.button-primary.login-provider{padding: 0 0 0 37px;}
