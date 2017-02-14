@@ -446,6 +446,10 @@ def _serialize_discussion_entities(request, context, discussion_entities, reques
         results.append(serialized_entity)
 
         if include_profile_image:
+            if serialized_entity['author'] is None:
+                # print '=========>', type(serialized_entity), serialized_entity
+                serialized_entity['author'] = 'user'
+
             if serialized_entity['author'] not in usernames:
                 usernames.append(serialized_entity['author'])
             if (
