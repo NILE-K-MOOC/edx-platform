@@ -288,7 +288,7 @@ def login_and_registration_form(request, initial_mode="login"):
         print 'login_and_registration_form type 2'
         pass
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
-        print 'login_and_registration_form type 2'
+        print 'login_and_registration_form type 3'
         division = request.session['division']
         del request.session['division']
         del request.session['agreeYN']
