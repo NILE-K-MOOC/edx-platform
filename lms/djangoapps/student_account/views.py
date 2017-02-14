@@ -284,7 +284,7 @@ def login_and_registration_form(request, initial_mode="login"):
     if initial_mode == "login" or provider_info['currentProvider']:
         print 'login_and_registration_form type 1'
         pass
-    elif 'errorMessage' in provider_info:
+    elif 'errorMessage' in provider_info and provider_info['errorMessage'] is not None:
         print 'login_and_registration_form type 2'
         pass
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
@@ -294,12 +294,14 @@ def login_and_registration_form(request, initial_mode="login"):
         del request.session['agreeYN']
         del request.session['auth']
     elif 'division' in request.session and 'agreeYN' in request.session:
+        print 'login_and_registration_form type 4'
         division = request.session['division']
         if request.session['division'] == 'N':
             return render_to_response('student_account/registration_gubn.html')
         del request.session['division']
         del request.session['agreeYN']
     else:
+        print 'login_and_registration_form type 5'
         return render_to_response('student_account/registration_gubn.html')
 
     # print 'division = ', division
