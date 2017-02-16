@@ -158,12 +158,24 @@ def courses(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def haewoondaex(request, org):
-    # if 'KOCWk' == org or 'ACEk' == org or 'CKk' == org or 'COREk' == org:
-    #     courses_list = get_courses_by_org2(request.user, org)
-    # else:
-    #     courses_list = get_courses_by_org(request.user, org)
+    user = request.user
 
-    courses_list = get_courses_by_org(request.user, org)
+    f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'enrollment_start__lte': datetime.now()}
+    log.info(f1)
+    courses_list = get_courses(user, org=org, filter_=f1)
+
+    print '1 s ---------------------------------'
+    for c in courses_list:
+        print c.id
+    print '1 e ---------------------------------'
+
+    # courses_list2 = get_courses_by_org(request.user, org)
+    #
+    # print '2 s ---------------------------------'
+    # for c2 in courses_list2:
+    #     print c2.id
+    # print '2 e ---------------------------------'
+
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
     return render_to_response(
@@ -743,7 +755,8 @@ def course_about(request, course_id):
         if course_details.classfy is None or course_details.classfy == '':
             classfy_name = 'Etc'
         else:
-            classfy_name = ClassDict[course_details.classfy] if course_details.classfy in ClassDict else course_details.classfy
+            classfy_name = ClassDict[
+                course_details.classfy] if course_details.classfy in ClassDict else course_details.classfy
 
         # univ name
         UnivDic = {
