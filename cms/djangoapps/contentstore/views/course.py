@@ -885,6 +885,15 @@ def _rerun_course(request, org, number, run, fields):
     """
     source_course_key = CourseKey.from_string(request.json.get('source_course_key'))
 
+    try:
+        source_course = modulestore().get_course(source_course_key)
+        fields['classfy'] = source_course.classfy
+        fields['middle_classfy'] = source_course.middle_classfy
+        fields['linguistics'] = source_course.linguistics
+        fields['course_period'] = source_course.course_period
+    except Exception as e:
+        print e
+
     # verify user has access to the original course
     if not has_studio_write_access(request.user, source_course_key):
         raise PermissionDenied()
