@@ -6,14 +6,12 @@ from datetime import datetime
 from uuid import uuid4
 import logging
 import urllib
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_str
-
 from badges.events.course_complete import get_completion_badge
 from badges.utils import badges_enabled
 from courseware.access import has_access
@@ -29,7 +27,6 @@ from util import organizations_helpers as organization_api
 from util.views import handle_500
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError
-
 from certificates.api import (
     get_active_web_certificate,
     get_certificate_url,
@@ -330,7 +327,7 @@ def _get_user_certificate(request, user, course_key, course, preview_mode=None):
     user_certificate = None
     if preview_mode:
         # certificate is being previewed from studio
-        if has_access(request.user, 'instructor', course) or has_access(request.user, 'staff', course):
+        if has_access(user, 'instructor', course) or has_access(user, 'staff', course):
             user_certificate = GeneratedCertificate(
                 mode=preview_mode,
                 verify_uuid=unicode(uuid4().hex),
@@ -459,7 +456,7 @@ def _update_organization_context(context, course):
     partner_short_name = course.display_organization if course.display_organization else course.org
     organizations = organization_api.get_course_organizations(course_id=course.id)
     if organizations:
-        #TODO Need to add support for multiple organizations, Currently we are interested in the first one.
+        # TODO Need to add support for multiple organizations, Currently we are interested in the first one.
         organization = organizations[0]
         partner_long_name = organization.get('name', partner_long_name)
         partner_short_name = organization.get('short_name', partner_short_name)

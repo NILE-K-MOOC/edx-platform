@@ -99,6 +99,7 @@ from xmodule.modulestore import EdxJSONEncoder
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
+import MySQLdb as mdb
 
 
 log = logging.getLogger(__name__)
@@ -779,6 +780,7 @@ def _create_new_course(request, org, number, run, fields):
     Returns the URL for the course overview page.
     Raises DuplicateCourseError if the course already exists
     """
+
     org_data = get_organization_by_short_name(org)
     if not org_data and organizations_enabled():
         return JsonResponse(
@@ -790,6 +792,38 @@ def _create_new_course(request, org, number, run, fields):
     store_for_new_course = modulestore().default_modulestore.get_modulestore_type()
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
+
+    try:
+        print 'new_course.id ====> ', new_course.id
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+        cur = con.cursor()
+        query = """
+            INSERT INTO course_modes_coursemode(course_id,
+                                                mode_slug,
+                                                mode_display_name,
+                                                min_price,
+                                                currency,
+                                                suggested_prices,
+                                                expiration_datetime_is_explicit)
+                 VALUES ('{0}',
+                         'honor',
+                         '{0}',
+                         0,
+                         'usd',
+                         '',
+                         FALSE);
+        """.format(new_course.id)
+        print '_create_new_course.query :', query
+
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        con.rollback()
+        print e
+    finally:
+        cur.close()
+        con.close()
+
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
         'course_key': unicode(new_course.id),
@@ -859,6 +893,38 @@ def _rerun_course(request, org, number, run, fields):
     # Rerun the course as a new celery task
     json_fields = json.dumps(fields, cls=EdxJSONEncoder)
     rerun_course.delay(unicode(source_course_key), unicode(destination_course_key), request.user.id, json_fields)
+
+    print 'new_course.id ====> ', destination_course_key
+    try:
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+        cur = con.cursor()
+        query = """
+            INSERT INTO course_modes_coursemode(course_id,
+                                                mode_slug,
+                                                mode_display_name,
+                                                min_price,
+                                                currency,
+                                                suggested_prices,
+                                                expiration_datetime_is_explicit)
+                 VALUES ('{0}',
+                         'honor',
+                         '{0}',
+                         0,
+                         'usd',
+                         '',
+                         FALSE);
+        """.format(destination_course_key)
+        print '_create_new_course.query :', query
+
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        con.rollback()
+        print e
+    finally:
+        cur.close()
+        con.close()
+
 
     # Return course listing page
     return JsonResponse({
