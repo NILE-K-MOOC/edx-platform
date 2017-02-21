@@ -921,6 +921,39 @@ def _rerun_course(request, org, number, run, fields):
     json_fields = json.dumps(fields, cls=EdxJSONEncoder)
     rerun_course.delay(unicode(source_course_key), unicode(destination_course_key), request.user.id, json_fields)
 
+    try:
+        print 'new_course.id ====> ', destination_course_key
+        # 이수증 생성을 위한 course_mode 등록
+
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+        cur = con.cursor()
+        query = """
+            INSERT INTO course_modes_coursemode(course_id,
+                                                mode_slug,
+                                                mode_display_name,
+                                                min_price,
+                                                currency,
+                                                suggested_prices,
+                                                expiration_datetime_is_explicit)
+                 VALUES ('{0}',
+                         'honor',
+                         '{0}',
+                         0,
+                         'usd',
+                         '',
+                         FALSE);
+        """.format(destination_course_key)
+        print '_create_new_course.query :', query
+
+        cur.execute(query)
+        con.commit()
+    except Exception as e:
+        con.rollback()
+        print e
+    finally:
+        cur.close()
+        con.close()
+
     # Return course listing page
     return JsonResponse({
         'url': reverse_url('course_handler'),
