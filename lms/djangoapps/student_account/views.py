@@ -17,7 +17,6 @@ from django.views.decorators.http import require_http_methods
 from django_countries import countries
 from edxmako.shortcuts import render_to_response
 import pytz
-
 from commerce.models import CommerceConfiguration
 from external_auth.login_and_register import (
     login as external_auth_login,
@@ -49,14 +48,12 @@ from datetime import date
 from student.views import register_user
 from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
-
 import commands
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from student.views import register_user
 from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
-
 # import schedule
 # import threading
 # from crontab import CronTab
@@ -67,6 +64,7 @@ from openedx.core.djangoapps.user_api.preferences.api import update_user_prefere
 from django.contrib.auth.models import User
 import datetime
 from django.contrib.auth import logout
+
 
 # def job():
 #     print("I'm working...")
@@ -97,6 +95,7 @@ from django.contrib.auth import logout
 @ensure_csrf_cookie
 def registration_gubn(request):
     return render_to_response('student_account/registration_gubn.html')
+
 
 @ensure_csrf_cookie
 def agree(request):
@@ -139,20 +138,19 @@ def agree_done(request):
 
     return HttpResponse(json.dumps(data))
 
+
 @csrf_exempt
 def parent_agree(request):
-
     ## IPIN info
 
     print 'ipin module called1'
 
-    sSiteCode   = 'M231'
-    sSitePw     = '76421752'
+    sSiteCode = 'M231'
+    sSitePw = '76421752'
     sModulePath = '/edx/app/edxapp/IPINClient'
-    sCPRequest  = commands.getoutput(sModulePath + ' SEQ ' + sSiteCode)
-    sReturnURL  = 'https://www.kmooc.kr/parent_agree_done'
+    sCPRequest = commands.getoutput(sModulePath + ' SEQ ' + sSiteCode)
+    sReturnURL = 'https://www.kmooc.kr/parent_agree_done'
     sEncData = commands.getoutput(sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL)
-
 
     print '===================================================='
     print '1 = ', sModulePath + ' SEQ ' + sSiteCode
@@ -164,24 +162,24 @@ def parent_agree(request):
     print '5 = ', sEncData
     print '===================================================='
 
-    if sEncData == -9 :
+    if sEncData == -9:
         sRtnMsg = '입력값 오류 : 암호화 처리시 필요한 파라미터값의 정보를 정확하게 입력해 주시기 바랍니다.'
-    else :
+    else:
         sRtnMsg = sEncData + ' 변수에 암호화 데이터가 확인되면 정상 정상이 아닌경우 리턴코드 확인 후 NICE평가정보 개발 담당자에게 문의해 주세요.'
 
     print 'sRtnMsg = ', sRtnMsg
 
     context = {
-        'sEncData' : sEncData,
+        'sEncData': sEncData,
     }
 
     return render_to_response('student_account/parent_agree.html', context)
 
+
 @csrf_exempt
 def parent_agree_done(request):
-
-    sSiteCode   = 'M231'
-    sSitePw     = '76421752'
+    sSiteCode = 'M231'
+    sSitePw = '76421752'
     sModulePath = '/edx/app/edxapp/IPINClient'
     sEncData = request.POST['enc_data']
 
@@ -205,7 +203,7 @@ def parent_agree_done(request):
             else:
                 request.session['auth'] = 'Y'
                 context = {
-                    'isAuth' : 'succ',
+                    'isAuth': 'succ',
                     'age': int(date.today().year) - int(val[6][:4]),
                 }
 
@@ -224,6 +222,7 @@ def parent_agree_done(request):
 @ensure_csrf_cookie
 def registration_gubn(request):
     return render_to_response('student_account/registration_gubn.html')
+
 
 @ensure_csrf_cookie
 def agree(request):
@@ -271,7 +270,6 @@ def agree_done(request):
 @ensure_csrf_cookie
 @xframe_allow_whitelisted
 def login_and_registration_form(request, initial_mode="login"):
-
     # Determine the URL to redirect to following login/registration/third_party_auth
     redirect_to = get_next_url_for_login_page(request)
     provider_info = _third_party_auth_context(request, redirect_to)
@@ -324,7 +322,6 @@ def login_and_registration_form(request, initial_mode="login"):
         initial_mode (string): Either "login" or "register".
 
     """
-
 
     # If we're already logged in, redirect to the dashboard
     if request.user.is_authenticated():
@@ -392,6 +389,7 @@ def login_and_registration_form(request, initial_mode="login"):
 def redirectTo(request, redirectTo):
     '''redirect for https..'''
     return redirect("/" + redirectTo)
+
 
 @require_http_methods(['POST'])
 def password_change_request_handler(request):
@@ -713,22 +711,22 @@ def account_settings_context(request):
         auth_states = pipeline.get_provider_user_states(user)
 
         context['auth']['providers'] = [{
-            'id': state.provider.provider_id,
-            'name': state.provider.name,  # The name of the provider e.g. Facebook
-            'connected': state.has_account,  # Whether the user's edX account is connected with the provider.
-            # If the user is not connected, they should be directed to this page to authenticate
-            # with the particular provider, as long as the provider supports initiating a login.
-            'connect_url': pipeline.get_login_url(
-                state.provider.provider_id,
-                pipeline.AUTH_ENTRY_ACCOUNT_SETTINGS,
-                # The url the user should be directed to after the auth process has completed.
-                redirect_url=reverse('account_settings'),
-            ),
-            'accepts_logins': state.provider.accepts_logins,
-            # If the user is connected, sending a POST request to this url removes the connection
-            # information for this provider from their edX account.
-            'disconnect_url': pipeline.get_disconnect_url(state.provider.provider_id, state.association_id),
-        } for state in auth_states]
+                                            'id': state.provider.provider_id,
+                                            'name': state.provider.name,  # The name of the provider e.g. Facebook
+                                            'connected': state.has_account,  # Whether the user's edX account is connected with the provider.
+                                            # If the user is not connected, they should be directed to this page to authenticate
+                                            # with the particular provider, as long as the provider supports initiating a login.
+                                            'connect_url': pipeline.get_login_url(
+                                                state.provider.provider_id,
+                                                pipeline.AUTH_ENTRY_ACCOUNT_SETTINGS,
+                                                # The url the user should be directed to after the auth process has completed.
+                                                redirect_url=reverse('account_settings'),
+                                            ),
+                                            'accepts_logins': state.provider.accepts_logins,
+                                            # If the user is connected, sending a POST request to this url removes the connection
+                                            # information for this provider from their edX account.
+                                            'disconnect_url': pipeline.get_disconnect_url(state.provider.provider_id, state.association_id),
+                                        } for state in auth_states]
 
     return context
 
@@ -753,7 +751,7 @@ def account_settings_confirm(request):
     """
 
     context = {
-        'correct' : None
+        'correct': None
     }
 
     return render_to_response('student_account/account_settings_confirm.html', context)
@@ -800,7 +798,6 @@ def account_settings_confirm_check(request):
 @login_required
 @require_http_methods(['GET'])
 def account_settings(request):
-
     """Render the current user's account settings page.
 
     Args:
@@ -821,22 +818,23 @@ def account_settings(request):
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
     elif 'passwdcheck' in request.session and request.session['passwdcheck'] == 'N':
         context = {
-            'correct' : False
+            'correct': False
         }
         return render_to_response('student_account/account_settings_confirm.html', context)
     else:
         context = {
-            'correct' : None
+            'correct': None
         }
         return render_to_response('student_account/account_settings_confirm.html', context)
+
 
 @login_required
 def remove_account_view(request):
     return render_to_response('student_account/remove_account.html')
 
+
 @login_required
 def remove_account(request):
-
     if request.user.is_authenticated():
         set_has_profile_image(request.user.username, False)
         profile_image_names = get_profile_image_names(request.user.username)
@@ -846,12 +844,45 @@ def remove_account(request):
         find_user = User.objects.get(id=request.user.id)
         find_user.is_active = False
         ts = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
-        find_user.email = 'delete_'+request.user.email+ts
+        find_user.email = 'delete_' + request.user.email + ts
+
+        user_profile = UserProfile.objects.get(user_id=request.user.id)
+
+        print 'remove_account s -------------------------------------'
+        print request.user.id
+        print find_user
+        print user_profile
+        print 'remove_account e -------------------------------------'
+
+        uid = request.user.id
+
+        find_user.username = str(uid)
+        find_user.first_name = str(uid)
+        find_user.last_name = str(uid)
+        find_user.email = 'delete_' + str(uid) + '@delete.' + ts
+        find_user.password = str(uid)
+        find_user.is_staff = False
+        find_user.is_active = False
+        find_user.is_superuser = False
+
+        user_profile.name = str(uid)
+        user_profile.language = ''
+        user_profile.location = ''
+        user_profile.meta = ''
+        user_profile.courseware = ''
+        user_profile.gender = None
+        user_profile.mailing_address = None
+        user_profile.year_of_birth = None
+        user_profile.level_of_education = None
+        user_profile.goals = None
+        user_profile.allow_certificate = ''
+        user_profile.country = None
+        user_profile.city = None
+        user_profile.bio = None
+        user_profile.profile_image_uploaded_at = None
+
         find_user.save()
+        user_profile.save()
         logout(request)
 
     return redirect('/')
-
-
-
-
