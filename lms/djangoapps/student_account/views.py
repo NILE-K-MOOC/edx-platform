@@ -842,17 +842,17 @@ def remove_account(request):
         account_privacy_setting = {u'account_privacy': u'private'}
         update_user_preferences(request.user, account_privacy_setting, request.user.username)
         find_user = User.objects.get(id=request.user.id)
-        find_user.is_active = False
         ts = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
-        find_user.email = 'delete_' + request.user.email + ts
+        # find_user.is_active = False
+        # find_user.email = 'delete_' + request.user.email + ts
 
         user_profile = UserProfile.objects.get(user_id=request.user.id)
 
-        print 'remove_account s -------------------------------------'
-        print request.user.id
-        print find_user
-        print user_profile
-        print 'remove_account e -------------------------------------'
+        # print 'remove_account s -------------------------------------'
+        # print request.user.id
+        # print find_user
+        # print user_profile
+        # print 'remove_account e -------------------------------------'
 
         uid = request.user.id
 
