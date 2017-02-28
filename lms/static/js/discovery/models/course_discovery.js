@@ -34,14 +34,44 @@ define([
 
             var options = this.facetOptions;
             _(facets).each(function (obj, key) {
-                if(key == 'org'){}
-                _(obj.terms).each(function (count, term) {
-                    options.add({
-                        facet: key,
-                        term: term,
-                        count: count
-                    }, {merge: true});
-                });
+
+                //console.log("obj:" + obj + ", key:" + key);
+
+                if(key == 'org'){
+
+                    var count2 = 0;
+                    var term2 = "sum_test";
+
+                    _(obj.terms).each(function (count, term) {
+                        if(term.match(/^SKP.*/)){
+                            //console.log('s -------------------------------------');
+                            //console.log('count:' + count + ', term:' + term);
+                            //console.log('e -------------------------------------');
+                            count2 += count;
+                            return true;
+                        }
+                        options.add({
+                            facet: key,
+                            term: term,
+                            count: count
+                        }, {merge: true});
+                    });
+                    if(count2 > 0){
+                        options.add({
+                            facet: key,
+                            term: 'SKP',
+                            count: count2
+                        }, {merge: true});
+                    }
+                }else{
+                    _(obj.terms).each(function (count, term) {
+                        options.add({
+                            facet: key,
+                            term: term,
+                            count: count
+                        }, {merge: true});
+                    });
+                }
             });
         },
 
