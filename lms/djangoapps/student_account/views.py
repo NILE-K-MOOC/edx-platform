@@ -672,12 +672,15 @@ def account_settings_context(request):
         # it will be broken if exception raised
         user_orders = []
 
+    countries_list = list(countries)
+    countries_list.insert(0, (u'KR', u'South Korea'))
+
     context = {
         'auth': {},
         'duplicate_provider': None,
         'fields': {
             'country': {
-                'options': list(countries),
+                'options': countries_list,
             }, 'gender': {
                 'options': [(choice[0], _(choice[1])) for choice in UserProfile.GENDER_CHOICES],  # pylint: disable=translation-of-non-string
             }, 'language': {
