@@ -54,6 +54,8 @@
                     form.showLoadingIndicator();
                     if (filters.get(type)) {
                         removeFilter(type);
+
+                    // skp hard coding
                     }else if(type == "org" && query == "SKP"){
                         if($(".active-filter button[data-value='SKP']").size() > 0){
                             $(".active-filter button[data-value='SKP']").click();

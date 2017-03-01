@@ -42,11 +42,9 @@ define([
                     var count2 = 0;
                     var term2 = "sum_test";
 
+                    // skp hard coding
                     _(obj.terms).each(function (count, term) {
                         if(term.match(/^SKP.*/)){
-                            //console.log('s -------------------------------------');
-                            //console.log('count:' + count + ', term:' + term);
-                            //console.log('e -------------------------------------');
                             count2 += count;
                             return true;
                         }

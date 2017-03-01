@@ -139,6 +139,7 @@ define([
         onSync: function (collection, response, options) {
             var total = this.discovery.get('totalCount');
             var originalSearchTerm = this.searchTerm;
+
             if (options.data.page_index === 0) {
                 if (total === 0) {
                     // list all courses
@@ -152,6 +153,17 @@ define([
                     this.terms = {};
                 }
                 else {
+                    // skp hard coding
+                    if(options.data.search_string == "SKP"){
+                        var option = this.discovery.facetOptions.findWhere({
+                            facet: "org",
+                            term: "SKP"
+                        })
+                        if (option) {
+                            option.set('selected', true);
+                        }
+                    }
+
                     _.each(this.terms, function (term, facet) {
                         if (facet !== 'search_query') {
                             var option = this.discovery.facetOptions.findWhere({
