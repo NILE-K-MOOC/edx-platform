@@ -54,8 +54,13 @@
                     form.showLoadingIndicator();
                     if (filters.get(type)) {
                         removeFilter(type);
-                    }
-                    else {
+                    }else if(type == "org" && query == "SKP"){
+                        if($(".active-filter button[data-value='SKP.SNUk']").size() > 0){
+                            $(".active-filter button[data-value='SKP.SNUk']").click();
+                        }else{
+                            search.performSearch("SKP.SNUk", filters.getTerms());
+                        }
+                    }else {
                         filters.add({type: type, query: query, name: name});
                         search.refineSearch(filters.getTerms());
                     }
