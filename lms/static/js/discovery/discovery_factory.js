@@ -55,10 +55,10 @@
                     if (filters.get(type)) {
                         removeFilter(type);
                     }else if(type == "org" && query == "SKP"){
-                        if($(".active-filter button[data-value='SKP.SNUk']").size() > 0){
-                            $(".active-filter button[data-value='SKP.SNUk']").click();
+                        if($(".active-filter button[data-value='SKP']").size() > 0){
+                            $(".active-filter button[data-value='SKP']").click();
                         }else{
-                            search.performSearch("SKP.SNUk", filters.getTerms());
+                            search.performSearch("SKP", filters.getTerms());
                         }
                     }else {
                         filters.add({type: type, query: query, name: name});
