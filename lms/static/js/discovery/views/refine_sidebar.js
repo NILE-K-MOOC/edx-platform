@@ -131,7 +131,7 @@ define([
 
             this.collection.comparator = function(model) {
 
-                console.log(i++ + ":" + model.get('facet'));
+                //console.log(i++ + ":" + model.get('facet'));
 
                 //facet = 분류, term = 세부항목
                 switch(model.get('facet')){

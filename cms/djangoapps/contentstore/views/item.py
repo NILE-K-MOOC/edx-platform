@@ -896,7 +896,7 @@ def create_xblock_info(xblock, data=None, metadata=None, include_ancestor_info=F
 
     # vertical은 학습활동으로 확인되며, 학습활동에는 start 날짜가 없어야 함.
     # 이미 start 값이 생성된 것들이 있으므로 기본값이 있을경우나 2017.01.01 의 날짜로 들어있는경우는 삭제 함
-    if xblock.category == "vertical" and (xblock.start == DEFAULT_START_DATE or xblock.start == datetime(2017, 1, 1, tzinfo=utc)):
+    if user and xblock.category == "vertical" and (xblock.start == DEFAULT_START_DATE or xblock.start == datetime(2017, 1, 1, tzinfo=utc)):
         # print 'vertical xblock.start delete ---> ', xblock.start
         del xblock.start
         xblock = _update_with_callback(xblock, user)
