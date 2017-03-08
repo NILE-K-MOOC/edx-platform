@@ -892,6 +892,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 }
 
 @media (max-width: 768px) {
+	body{border: 1px solid green;}
 
 	.home > header .header-slider {min-height:400px;}
 	.home > header .outer-wrapper {padding:150px 20px;}
@@ -920,6 +921,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 
 
 @media (max-width: 640px) {
+	body{border: 1px solid yellow;}
 
 	.home > header .header-slider {min-height:200px;}
 	.home > header .outer-wrapper {padding:75px 20px;}
@@ -958,7 +960,23 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 
 }
 
+.layerPopupArea{position: absolute; z-index: 999; top: 100px; left: 100px;}
+.layerPupup{
+    z-index: 10010;
+	display: none;
+	border: 0px solid #fff;
+	opacity: 1;
+	background: #ffffff;
+	font-size: 13px;
+    line-height: 25px;
+	padding: 5px;
+	box-shadow: 0 2px 5px 3px #444444;
+	margin: 3px;
+	float: left;
+}
+
 @media (max-width: 639px) {
+	body{border: 1px solid red;}
 	.community-item {height:auto;}
 	.grid-container.popular {padding:20px 10px;}
 	.grid-container.community {padding-left:10px;padding-right:10px;}
@@ -967,6 +985,11 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 
 
 @media (max-width: 480px) {
+	body{border: 1px solid blue;}
+
+	.layerPopupArea{position: absolute; z-index: 999; top: 80px; left: 0px;}
+	.layerPopupArea img{width:100%;}
+
 	.board-search-box {padding:0 80px;}
 	.board-search-box input[type="submit"] {position:absolute;right:0;top:0;}
 	.board-search-box input[type="text"] {width:100%;}
@@ -1101,20 +1124,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	background-size: contain !important;
 }
 
-.layerPopupArea{position: absolute; z-index: 999; top: 100px; left: 100px;}
-.layerPupup{
-    z-index: 10010;
-	display: none;
-	border: 0px solid #fff;
-	opacity: 1;
-	background: #ffffff;
-	font-size: 13px;
-    line-height: 25px;
-	padding: 5px;
-	box-shadow: 0 2px 5px 3px #444444;
-	margin: 3px;
-	float: left;
-}
+
 
 
 .find-courses .wrapper-search-context .search-status-label{
