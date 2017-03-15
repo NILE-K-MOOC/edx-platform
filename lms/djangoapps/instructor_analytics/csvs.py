@@ -34,6 +34,14 @@ def create_csv_response(filename, header, datarows):
         encoded_row = [unicode(s).encode('utf-8') for s in datarow]
         csvwriter.writerow(encoded_row)
 
+    try:
+        contents = unicode(response.content, 'utf-8')
+        response.content = contents.encode('utf-8-sig')
+    except Exception as e:
+        print 'except s ------------------------------------------'
+        print e
+        print 'except e ------------------------------------------'
+
     return response
 
 
