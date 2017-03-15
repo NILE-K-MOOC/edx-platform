@@ -1309,6 +1309,10 @@ class CourseEnrollment(models.Model):
         """
         if mode is None:
             mode = _default_course_mode(unicode(course_key))
+
+        # fix mode is `honor`
+        mode = 'honor'
+
         # All the server-side checks for whether a user is allowed to enroll.
         try:
             course = CourseOverview.get_from_id(course_key)
