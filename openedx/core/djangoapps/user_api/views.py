@@ -744,11 +744,14 @@ class RegistrationView(APIView):
         country_label = _(u"Country")
         error_msg = _(u"Please select your Country.")
 
+        countries_list = list(countries)
+        countries_list.insert(0, (u'KR', u'South Korea'))
+
         form_desc.add_field(
             "country",
             label=country_label,
             field_type="select",
-            options=list(countries),
+            options=countries_list,
             include_default_option=True,
             required=required,
             error_messages={
