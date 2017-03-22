@@ -80,7 +80,8 @@ var DetailsView = ValidatingView.extend({
 
     },
     setEffort:function(){
-        //console.log('setEffort called');
+        console.log('setEffort called');
+
         var hh = $("#course-effort-hh").val();
         var mm = $("#course-effort-mm").val();
 
