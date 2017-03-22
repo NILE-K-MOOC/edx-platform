@@ -25,4 +25,10 @@ function DiscussionInlineBlock(runtime, element) {
     /* jshint nonew:false */
     new DiscussionModuleView({ el: el });
 }
+
+$(document).ready(function(){
+    if($(".discussion-show.control-button")){
+        $(".discussion-show.control-button").click();
+    }
+});
 </script>
