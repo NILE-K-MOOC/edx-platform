@@ -27,11 +27,14 @@ var DetailsView = ValidatingView.extend({
 
         'blur #course-effort-hh': "setEffort",
         'blur #course-effort-mm': "setEffort",
+        'blur #course-effort-week': "setEffort",
         'change #course-effort-hh': "setEffort",
-        'change #course-effort-mm': "setEffort"
+        'change #course-effort-mm': "setEffort",
+        'change #course-effort-week': "setEffort"
     },
 
     initialize : function(options) {
+
         options = options || {};
         // fill in fields
         this.$el.find("#course-language").val(this.model.get('language'));
@@ -84,24 +87,60 @@ var DetailsView = ValidatingView.extend({
 
         var hh = $("#course-effort-hh").val();
         var mm = $("#course-effort-mm").val();
+        var week = $("#course-effort-week").val();
 
-        if(hh == null || hh == "" || isNaN(hh) || mm == null || mm == "" || isNaN(mm)){
+        if(isNaN(hh) || isNaN(mm)|| isNaN(week)){
             $("#course-effort").trigger("change");
             return;
         }
 
+        if(!hh || hh == null || hh == ""){
+            hh = "00";
+        }
+
+        if(!mm || mm == null || mm == ""){
+            mm = "00";
+        }
+
         if(hh.length == 1)
             hh = "0" + hh;
+
         if(mm.length == 1)
             mm = "0" + mm;
 
         $("#course-effort-hh").val(hh);
         $("#course-effort-mm").val(mm);
+        $("#course-effort-week").val(week);
 
-        var val = hh + ":" + mm;
+        if(hh && mm && week){
+            // 총 이수시간 계산 및 표시
+            var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
+            if(total_time.toString().indexOf(".") > 0){
+                var arr = total_time.toString().split(".");
+                var hour = arr[0];
+                var minute = Math.round(Number(arr[1]) / 10 * 60).toString().substr(0, 2);
+
+                $("#Calculated").val(hour + "시간 " + minute + "분");
+            }else{
+                $("#Calculated").val(total_time + "시간");
+            }
+
+
+
+        }
+
+
+        console.log('value..s---------------------------------------------');
+        console.log(hh + " " + typeof(hh));
+        console.log(mm + " " + typeof(mm));
+        console.log(week + " " + typeof(week));
+        console.log('value..e---------------------------------------------');
+
+        var val = hh + ":" + mm + ":" + week;
+
         $("#course-effort").val(val);
+        console.log("course-effort value is = " + $("#course-effort").val());
 
-        //console.log("course-effort value is = " + $("#course-effort").val());
         $("#course-effort").trigger("change");
     },
 
@@ -189,11 +228,15 @@ var DetailsView = ValidatingView.extend({
             console.log('FULL: ' + time);
             console.log('HH: ' + time.split(':')[0]);
             console.log('MM: ' + time.split(':')[1]);
+            console.log('WEEK: ' + time.split(':')[2]);
             if(time.split(':')[0]){
                 $("#course-effort-hh").val(time.split(':')[0]);
             }
             if(time.split(':')[1]){
                 $("#course-effort-mm").val(time.split(':')[1]);
+            }
+            if(time.split(':')[2]){
+                $("#course-effort-week").val(time.split(':')[2]);
             }
         }
 

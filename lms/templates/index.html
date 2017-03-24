@@ -38,15 +38,19 @@ from openedx.core.djangolib.markup import HTML, Text
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};"><br/>
-        << 평생학습계좌제 연계 동의 안내 >><br/><br/>
 
-        안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
-        2017년 3월 초, 학습이력 관리의 편의성 증대를 위하여<br/>
-        K-MOOC 강좌 이수이력이 평생학습계좌제와 연계됩니다.<br/><br/>
+K-MOOC 사이트 일시 중단 안내(3.28, 화)<br/><br/>
 
-        기존 회원의 경우 별도의 동의 절차가 필요하오니<br/>
-        <a href="/comm_notice_view/89/">공지사항 7번 게시글</a>을 확인하여 주시기 바랍니다.<br/><br/>
-        감사합니다.<br/>
+안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
+K-MOOC 서버 작업에 따라 다음과 같이 사이트가 일시 중단될 예정입니다.<br/>
+작업 일정을 안내하여 드리오니 참고하여 주시기 바랍니다.<br/><br/>
+
+ㅇ 일정 : 2017. 3. 28(화) 14:00 ~ 18:00 (4시간 소요 예정)<br/>
+ㅇ 내용 : K-MOOC 서버 HBA 카드 설치<br/><br/>
+
+사이트 이용이 제한되어 불편하시겠지만 양해 부탁드립니다.<br/>
+더욱 개선된 서비스를 제공할 수 있도록 최선을 다하겠습니다. 감사합니다.<br/>
+
         </p>
 
         <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
@@ -113,7 +117,7 @@ if (
 
 if (
         (cookiedata.indexOf("popupdiv2=done") < 0 ) && (
-        (popupDate.getFullYear() == 2017 && popupDate.getMonth() <= 3 - 1 && popupDate.getDate() <= 10)
+        (popupDate.getFullYear() == 2017 && popupDate.getMonth() <= 3 - 1 && popupDate.getDate() <= 28 && popupDate.getHours() < 18)
         )
    )
     {

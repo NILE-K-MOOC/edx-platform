@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Functions for accessing and displaying courses within the
 courseware.
@@ -6,12 +7,10 @@ from datetime import datetime
 from collections import defaultdict
 from fs.errors import ResourceNotFoundError
 import logging
-
 from path import Path as path
 import pytz
 from django.http import Http404
 from django.conf import settings
-
 from edxmako.shortcuts import render_to_string
 from xmodule.modulestore import ModuleStoreEnum
 from xmodule.modulestore.django import modulestore
@@ -19,7 +18,6 @@ from xmodule.modulestore.exceptions import ItemNotFoundError
 from static_replace import replace_static_urls
 from xmodule.modulestore import ModuleStoreEnum
 from xmodule.x_module import STUDENT_VIEW
-
 from courseware.access import has_access
 from courseware.date_summary import (
     CourseEndDate,
@@ -33,12 +31,10 @@ from courseware.module_render import get_module
 from lms.djangoapps.courseware.courseware_access_exception import CoursewareAccessException
 from student.models import CourseEnrollment
 import branding
-
 from opaque_keys.edx.keys import UsageKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from django.utils.timezone import UTC
-
 
 log = logging.getLogger(__name__)
 
@@ -183,6 +179,10 @@ def get_course_about_section(request, course, section_key):
     # Many of these are stored as html files instead of some semantic
     # markup. This can change without effecting this interface when we find a
     # good format for defining so many snippets of text/html.
+    course_week = False
+    if section_key == 'course_week':
+        course_week = True
+        section_key = 'effort'
 
     html_sections = {
         'short_description',
@@ -231,6 +231,18 @@ def get_course_about_section(request, course, section_key):
                         u"Error rendering course=%s, section_key=%s",
                         course, section_key
                     )
+
+            if section_key == "effort":
+                if course_week:
+                    html = html.strip()[6:] + '주'
+                else:
+                    html = html.strip()[:5]
+
+                    if ':' in html:
+                        html = html.split(':')[0] + '시간 ' + html.split(':')[1] + '분'
+                    else:
+                        html += '시간'
+
             return html
 
         except ItemNotFoundError:
@@ -331,6 +343,7 @@ def _get_course_date_summary_blocks(course, user):
         if block.date is None:
             return datetime.max.replace(tzinfo=pytz.UTC)
         return block.date
+
     return sorted((b for b in blocks if b.is_enabled), key=block_key_fn)
 
 
@@ -401,6 +414,7 @@ def get_courses(user, org=None, filter_=None):
 
     return courses
 
+
 def get_courses_by_org(user, org=None, filter_=None):
     '''
     Returns a list of courses available, sorted by course.number
@@ -455,6 +469,7 @@ def get_courses_by_org(user, org=None, filter_=None):
 
     return courses
 
+
 def get_courses_by_org2(user, org=None, filter_=None):
     '''
     Returns a list of courses available, sorted by course.number
@@ -471,7 +486,7 @@ def get_courses_by_org2(user, org=None, filter_=None):
     for c in courses_temp:
         cid = str(c.id)
 
-        print 'get_courses_by_org2.step1: ',cid
+        print 'get_courses_by_org2.step1: ', cid
 
         if c.start is not None and c.end is not None and c.start > c.end:
             continue
@@ -509,6 +524,7 @@ def get_courses_by_org2(user, org=None, filter_=None):
     courses = [c for c in courses if has_access(user, permission_name, c)]
 
     return courses
+
 
 def get_courses_by_kocw(user, domain=None):
     '''

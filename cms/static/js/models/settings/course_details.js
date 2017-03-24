@@ -46,8 +46,24 @@ var CourseDetails = Backbone.Model.extend({
             errors.effort = gettext("Effort time must be value");
         }
 
-        if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null) && (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()))) {
-            $("#course-effort").focus();
+        if (
+            (
+            newattrs.end_date != null &&
+            newattrs.enrollment_end != null &&
+            newattrs.end_date != null &&
+            newattrs.enrollment_end != null) &&
+                (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#course-effort-week").val()))
+        ) {
+            if(isNaN($("#course-effort-hh").val())){
+
+                $("#course-effort-hh").focus();
+            }else if(isNaN($("#course-effort-mm").val())){
+
+                $("#course-effort-mm").focus();
+            }else if(isNaN($("#course-effort-week").val())){
+
+                $("#course-effort-week").focus();
+            }
             errors.effort = gettext("Effort time must be number");
         }
 
