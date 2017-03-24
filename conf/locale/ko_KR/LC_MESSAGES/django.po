@@ -7844,7 +7844,7 @@ msgstr "수강 신청 마감일"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Course Registration Period"
-msgstr "수강 신청 기간"
+msgstr "수강 신청 시작일"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Total Enrolled"
@@ -9224,12 +9224,12 @@ msgstr "앞으로 받게 될 이수증에 필요합니다. 영문이름 병기�
 msgid ""
 "The name that will identify you in your courses - {bold_start}(cannot be "
 "changed later){bold_end}"
-msgstr "영문/숫자로 이루어진 아이디 -  {bold_start}(변경 불가){bold_end}"
+msgstr "영문 대/소문자, 숫자, 또는 특수문자(@/./+/-/_) 사용 -  {bold_start}(변경 불가){bold_end}"
 
 msgid ""
 "The password that will identify you in your courses - {bold_start}(cannot be "
 "changed later){bold_end}"
-msgstr "영문/숫자/특수문자로 이루어진 비밀번호 -  {bold_start}(변경 불가){bold_end}"
+msgstr "영문 소문자, 숫자, 특수문자의 3가지 조합으로 8자 이상 20자 미만 설정"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "JaneDoe"
@@ -16352,6 +16352,9 @@ msgstr "새 비밀번호"
 #: lms/templates/registration/password_reset_confirm.html
 msgid "Confirm Password"
 msgstr "비밀번호 확인"
+
+msgid "Input Password"
+msgstr "비밀번호 입력"
 
 #: lms/templates/registration/password_reset_confirm.html
 msgid "Invalid Password Reset Link"
@@ -28362,7 +28365,7 @@ msgid ""
 "<p>The university educates individual students to become more competent and incomparable in the society pursuing the primary value that the Hanyang cultivates human resources who can make a contribution to the world.  Thus, Hanyang has been able to earn reputation as the engine of Korea. 'Application of Knowledge' and 'Love in Deed.' and utilitarianism are the indispensable values and ultimate indicator of our school to designate our students as more like Hanyang People.</p>"
 "<p>In the future, we will lead the society and world employing creativeness and contribution under the philosophy, 'Application of Knowledge' and 'Love in Deed.'  All of Hanyang students will prepare for the driving force behind the society development and contribute to the community and the world by sharing social responsibilities as a member of society.</p>"
 msgstr ""
-"<p>1939년 기술입국(技術立國)의 실용정신에, '사랑의 실천'을 건학이념으로 해 설립된 한양대학교는 이제 대한민국의 대표 명문으로 발돋움했습니다. </p>"
+"<p>1939년 기술입국(技術立國)의 실용정신에, '사랑의 실천'을 건학이념으로 해 설립된 한양대학교는 이제 대한민국의 대표 명문으로 발돋움했습니다. </p>"
 "<p>우리 한양은 그동안 '사랑의 실천' 정신과 '우리 사회에 힘이 되는 인재를 양성한다'는 실용학풍에 따라 많은 인재를 배출해 왔습니다. 그 결과 한양은 '대한민국의 성장 동력(The Engine of Korea)'이라는 명성을 얻었습니다. 우리 한양의 자부심이기도 한 '사랑의 실천'과 실용학풍이야 말로 한양을 더욱 한양답게 만드는 핵심가치이자 궁극적 지표입니다. </p>"
 "<p>앞으로 한양대학교는 '사랑의 실천'을 바탕으로 삼고, '창의와 나눔의 경영'을 통해 한양 100년의 시대를 열어 나가겠습니다. 모든 한양인의 '창의'를 기초로 대학과 사회 발전의 원동력을 마련하고, 이를 가깝게는 우리 이웃, 나아가 세상과 '나눔'으로써 대학의 막중한 사회적 책임을 다하고자 합니다. </p>"
 
@@ -29038,8 +29041,8 @@ msgstr "대학 인문역량 강화사업(CORE : initiative for COllege of humani
 msgid "Kyungpook National University, Seoul National University, Sungkyunkwan University, Hanyang University"
 msgstr "경북대학교, 서울대학교, 성균관대학교, 한양대학교"
 
-msgid "Reference: National Research Foundation of Korea homepage  (http://www.nrf.re.kr)"
-msgstr "참고 : 한국연구재단 홈페이지 (http://www.nrf.re.kr)"
+msgid "Reference: National Research Foundation of Korea homepage  (http://core-portal.org/html/main/main.php)"
+msgstr "참고 : CORE 홈페이지 (http://core-portal.org/html/main/main.php)"
 
 msgid "KYUNGNAM UNIVERSITY"
 msgstr "경남대학교"
