@@ -135,6 +135,7 @@ def _external_login_or_signup(request,
                               retfun=None):
     """Generic external auth login or signup"""
     # see if we have a map from this external_id to an edX username
+    print '_external_login_or_signup called'
     try:
         eamap = ExternalAuthMap.objects.get(external_id=external_id,
                                             external_domain=external_domain)
