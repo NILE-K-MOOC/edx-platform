@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Instructor Dashboard API views
 
@@ -110,6 +111,7 @@ from opaque_keys import InvalidKeyError
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import urllib
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
 
 log = logging.getLogger(__name__)
 
@@ -620,6 +622,11 @@ def students_update_enrollment(request, course_id):
     email_students = request.POST.get('email_students') in ['true', 'True', True]
     is_white_label = CourseMode.is_white_label(course_id)
     reason = request.POST.get('reason')
+
+    # 등록 관리 로그 기록
+    # action[등록:enroll / 수강 취소:unenroll]
+    print '***** insert history log type 1'
+
     if is_white_label:
         if not reason:
             return JsonResponse(
@@ -763,6 +770,21 @@ def bulk_beta_modify_access(request, course_id):
     rolename = 'beta'
     course = get_course_by_id(course_id)
 
+    # 등록 관리 로그 기록
+    # action[등록:enroll / 수강 취소:unenroll]
+    print '***** insert history log type 2 s'
+    print email_students
+    for identifier in identifiers:
+        print 'identifiers:', identifier
+    print '***** insert history log type 2 e'
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=291,
+    #     object_id=291,
+    #     object_repr=request.POST['filename'],
+    #     action_flag=ADDITION
+    # )
+
     email_params = {}
     if email_students:
         secure = request.is_secure()
@@ -827,6 +849,11 @@ def bulk_beta_modify_access(request, course_id):
     action="'allow' or 'revoke'"
 )
 def modify_access(request, course_id):
+
+    print '@@@ modify_access called'
+    print request
+    print course_id
+
     """
     Modify staff/instructor access of other user.
     Requires instructor access.

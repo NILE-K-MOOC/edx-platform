@@ -4,6 +4,25 @@ from django.utils.translation import ugettext as _
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+<script>
+    $(document).ready(function(){
+        $(".reports-download-container").find("input[type=button]").each(function(){
+            $(this).click(function(){
+                console.log($(this).attr("name"));
+            });
+        });
+    });
+
+    function insert_history(obj){
+        console.log('file download history insert called >> ' + $(obj).html());
+
+        $.post('/PrivacyLog',
+                {filename:$(obj).html()},
+                function(data){}
+        );
+    }
+</script>
+
 <div class="data-download-container action-type-container">
   <div class="request-response-error msg msg-error copy" id="data-request-response-error"></div>
 

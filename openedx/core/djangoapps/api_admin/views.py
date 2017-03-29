@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 """Views for API management."""
 import logging
-
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -13,16 +13,49 @@ from oauth2_provider.generators import generate_client_secret, generate_client_i
 from oauth2_provider.models import get_application_model
 from oauth2_provider.views import ApplicationRegistration
 from slumber.exceptions import HttpNotFoundError
-
 from edxmako.shortcuts import render_to_response
 from openedx.core.djangoapps.api_admin.decorators import require_api_access
 from openedx.core.djangoapps.api_admin.forms import ApiAccessRequestForm, CatalogForm
 from openedx.core.djangoapps.api_admin.models import ApiAccessRequest, Catalog
 from openedx.core.djangoapps.api_admin.utils import course_discovery_api_client
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
 
 log = logging.getLogger(__name__)
 
 Application = get_application_model()  # pylint: disable=invalid-name
+
+
+class PrivacyLog(View):
+    def get(self, request):
+        print '--- PrivacyLog get called s ---------------'
+        user = request.user
+        print user
+        print user.is_authenticated()
+        print '--- PrivacyLog get called e ---------------'
+
+        return redirect('/')
+
+    def post(self, request):
+        print '--- PrivacyLog post called s ---------------'
+        user = request.user
+        print user.is_authenticated()
+        print user.id
+        print user.username
+        print user.email
+        print request
+        print request.body
+        print request.POST['filename']
+        print '--- PrivacyLog post called e ---------------'
+
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=291,
+            object_id=user.id,
+            object_repr=request.POST['filename'],
+            action_flag=ADDITION
+        )
+
+        return JsonResponse({'result': True})
 
 
 class ApiRequestView(CreateView):
