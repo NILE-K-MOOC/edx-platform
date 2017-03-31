@@ -27,18 +27,20 @@ Application = get_application_model()  # pylint: disable=invalid-name
 
 class PrivacyLog(View):
     def get(self, request):
-        print '--- PrivacyLog get called s ---------------'
-        user = request.user
-        print user
-        print user.is_authenticated()
-        print '--- PrivacyLog get called e ---------------'
-
-        return redirect('/')
+        pass
 
     def post(self, request):
+
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+
         print '--- PrivacyLog post called s ---------------'
         user = request.user
         print user.is_authenticated()
+        print ip
         print user.id
         print user.username
         print user.email
@@ -65,6 +67,7 @@ class ApiRequestView(CreateView):
     success_url = reverse_lazy('api_admin:api-status')
 
     def get(self, request):
+        print 'ApiRequestView get called'
         """
         If the requesting user has already requested API access, redirect
         them to the client creation page.
@@ -85,6 +88,7 @@ class ApiRequestStatusView(ApplicationRegistration):
     success_url = reverse_lazy('api_admin:api-status')
 
     def get(self, request, form=None):  # pylint: disable=arguments-differ
+        print 'ApiRequestStatusView get called'
         """
         If the user has not created an API request, redirect them to the
         request form. Otherwise, display the status of their API
@@ -156,6 +160,7 @@ class CatalogSearchView(View):
     """View to search for catalogs belonging to a user."""
 
     def get(self, request):
+        print 'CatalogSearchView get called'
         """Display a form to search for catalogs belonging to a user."""
         return render_to_response('api_admin/catalogs/search.html')
 
@@ -194,6 +199,7 @@ class CatalogListView(View):
         }
 
     def get(self, request, username):
+        print 'CatalogListView get called'
         """Display a list of a user's catalogs."""
         client = course_discovery_api_client(request.user)
         form = CatalogForm(initial={'viewers': [username]})
@@ -228,6 +234,7 @@ class CatalogEditView(View):
         }
 
     def get(self, request, catalog_id):
+        print 'CatalogEditView get called'
         """Display a form to edit this catalog."""
         client = course_discovery_api_client(request.user)
         response = client.catalogs(catalog_id).get()
@@ -254,6 +261,7 @@ class CatalogPreviewView(View):
     """Endpoint to preview courses for a query."""
 
     def get(self, request):
+        print 'CatalogPreviewView get called'
         """
         Return the results of a query against the course catalog API. If no
         query parameter is given, returns an empty result set.
