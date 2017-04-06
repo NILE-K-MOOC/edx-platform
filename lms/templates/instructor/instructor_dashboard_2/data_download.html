@@ -16,7 +16,7 @@ from openedx.core.djangolib.markup import HTML, Text
     function insert_history(obj){
         console.log('file download history insert called >> ' + $(obj).html());
 
-        $.post('/PrivacyLog',
+        $.post('/filedownload_log',
                 {filename:$(obj).html()},
                 function(data){}
         );

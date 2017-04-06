@@ -7,6 +7,9 @@ from cms.djangoapps.contentstore.views.program import ProgramAuthoringView, Prog
 from cms.djangoapps.contentstore.views.organization import OrganizationListView
 from student.views import LogoutView
 
+from openedx.core.djangoapps.log_action.views import LogAction
+
+LogAction()
 admin.autodiscover()
 
 # Pattern to match a course key or a library key
