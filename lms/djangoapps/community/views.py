@@ -262,11 +262,7 @@ def comm_notice_view(request, board_id):
             cur.close()
             # 파일 이름 구하기
             cur = con.cursor()
-<<<<<<< HEAD
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = "+board_id
-=======
             query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = "+board_id
->>>>>>> be04f5f9cb6088887a31f49a88f25d9f09af1835
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
