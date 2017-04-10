@@ -6,20 +6,18 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import render_to_response
-
 from xmodule.modulestore.django import modulestore
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locator import LibraryLocator
 from util.json_request import JsonResponse, expect_json
 from student.roles import CourseInstructorRole, CourseStaffRole, LibraryUserRole
 from course_creators.views import user_requested_access
-
 from student.auth import STUDIO_EDIT_ROLES, STUDIO_VIEW_USERS, get_user_permissions
-
 from student.models import CourseEnrollment
 from django.http import HttpResponseNotFound
 from student import auth
-
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from openedx.core.djangoapps.log_action import views as admin_view
 
 __all__ = ['request_course_creator', 'course_team_handler']
 
@@ -194,5 +192,15 @@ def _course_team_user(request, course_key, email):
         # The user may be newly added to this course.
         # auto-enroll the user in the course so that "View Live" will work.
         CourseEnrollment.enroll(user, course_key)
+
+    # add log_action : modify_access
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=306,
+        object_id=user.id,
+        object_repr='modify_access_in_studio[role_added:%s;user:%s;new_role:%s]' % (role_added, user, new_role),
+        action_flag=ADDITION if role_added else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
 
     return JsonResponse()

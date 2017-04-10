@@ -50,6 +50,9 @@ def get_meta_json(self, request, mode=0, message=None, count=None):
         param_dict = request.POST.dict()
         meta['query'] = param_dict
 
+        if hasattr(request, 'json'):
+            meta['query'] = request.json
+
         if 'identifiers' in param_dict:
             arr = param_dict.get('identifiers').split(',')
             count = len(arr)
@@ -58,7 +61,7 @@ def get_meta_json(self, request, mode=0, message=None, count=None):
         meta['query'] = ''
 
     if hasattr(self, 'result_count'):
-            count = self.result_count
+        count = self.result_count
 
     meta['count'] = count
 
@@ -124,7 +127,7 @@ def custom_init(self, request, model, list_display, list_display_links,
     if request.path == '/admin/auth/user/':
         LogEntry.objects.log_action(
             user_id=request.user.pk,
-            content_type_id=3,
+            content_type_id=292,
             object_id=0,
             object_repr='auth_user_list',
             action_flag=0,
@@ -142,14 +145,15 @@ def custom_get_form(self, request, obj=None, **kwargs):
         defaults['form'] = self.add_form
     defaults.update(kwargs)
 
-    LogEntry.objects.log_action(
-        user_id=request.user.pk,
-        content_type_id=3,
-        object_id=0,
-        object_repr='auth_user_info',
-        action_flag=0,
-        change_message=get_meta_json(self, request)
-    )
+    if request.method == 'GET':
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=291,
+            object_id=0,
+            object_repr='auth_user_info',
+            action_flag=0,
+            change_message=get_meta_json(self, request)
+        )
 
     return super(UserAdmin, self).get_form(request, obj, **defaults)
 
@@ -221,7 +225,6 @@ class LogAction(View):
 
     def __init__(self):
         print 'LogAction __init__ called'
-
         ModelAdmin.log_addition = custom_log_addition
         ModelAdmin.log_change = custom_log_change
         ModelAdmin.log_deletion = custom_log_deletion
@@ -234,9 +237,10 @@ class LogAction(View):
     def post(self, request):
         LogEntry.objects.log_action(
             user_id=request.user.pk,
-            content_type_id=51,
+            content_type_id=297,
             object_id=0,
             object_repr='file download[filename:%s]' % request.POST['filename'],
-            action_flag=ADDITION
+            action_flag=ADDITION,
+            change_message=get_meta_json(self, request, mode=ADDITION)
         )
         return JsonResponse({'result': True})

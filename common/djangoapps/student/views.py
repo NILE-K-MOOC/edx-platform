@@ -1071,9 +1071,9 @@ def dashboard(request):
 
     for dashboard_index, enrollment in enumerate(course_enrollments):
         course_id = str(enrollment.course_id)
-        if not enrollment.course_overview.has_started():
-            percents[course_id] = None
-            continue
+        # if not enrollment.course_overview.has_started():
+        #     percents[course_id] = None
+        #     continue
 
         percents[course_id] = None
 
