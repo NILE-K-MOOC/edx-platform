@@ -1048,7 +1048,7 @@ def get_problem_responses(request, course_id):
             content_type_id=301,
             object_id=0,
             object_repr='get_problem_responses[course_id:%s;problem_location:%s]' % (course_id, problem_location),
-            action_flag=CHANGE,
+            action_flag=ADDITION,
             change_message=admin_view.get_meta_json(self=None, request=request)
         )
 
@@ -1997,7 +1997,7 @@ def get_anon_ids(request, course_id):  # pylint: disable=unused-argument
         content_type_id=298,
         object_id=0,
         object_repr='get_anon_ids[course_id:%s]' % (course_id),
-        action_flag=CHANGE,
+        action_flag=ADDITION,
         change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
     )
 
