@@ -13,15 +13,12 @@ from util.json_request import expect_json, JsonResponse
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext
-
 import logging
 import re
-
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from courseware.courses import get_course_with_access
 from edxmako.shortcuts import render_to_response
-
 from . import cohorts
 from lms.djangoapps.django_comment_client.utils import get_discussion_category_map, get_discussion_categories_ids
 from .models import CourseUserGroup, CourseUserGroupPartitionGroup, CohortMembership
@@ -197,7 +194,7 @@ def cohort_handler(request, course_key_string, cohort_id=None):
             all_cohorts = [
                 _get_cohort_representation(c, course)
                 for c in cohorts.get_course_cohorts(course)
-            ]
+                ]
             return JsonResponse({'cohorts': all_cohorts})
         else:
             cohort = cohorts.get_cohort_by_id(course_key, cohort_id)
@@ -356,6 +353,18 @@ def add_users_to_cohort(request, course_key_string, cohort_id):
             present.append(username_or_email)
         except User.DoesNotExist:
             unknown.append(username_or_email)
+
+    # add log_action : add_users_to_cohort
+    from django.contrib.admin.models import LogEntry, ADDITION
+    from openedx.core.djangoapps.api_admin import views as admin_view
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=62,
+        object_id=0,
+        object_repr='add_users_to_cohort[course_id:%s;cohort_id:%s]' % (course_key_string, cohort_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=len(split_by_comma_and_whitespace(users)))
+    )
 
     return json_http_response({'success': True,
                                'added': added,

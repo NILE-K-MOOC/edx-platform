@@ -1706,6 +1706,7 @@
     "Invalidate Certificate": "\uc774\uc218\uc99d \ube44\ud65c\uc131\ud654\ud558\uae30",
     "No results": "\uacb0\uacfc \uc5c6\uc74c",
     "Password not equal.": "\ube44\ubc00\ubc88\ud638\uac00 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4\u002e",
+    "Password input": "\ube44\ubc00\ubc88\ud638 \uc785\ub825",
     "Password check": "\ube44\ubc00\ubc88\ud638 \ud655\uc778",
     "Basic Account Information": "\uacc4\uc815 \uae30\ubcf8 \uc815\ubcf4",
     "The name that is used for ID verification and appears on your certificates. Other learners never see your full name. Make sure to enter your name exactly as it appears on your government-issued photo ID, including any non-Roman characters.": "\uc2e0\ubd84 \ud655\uc778\uc744 \uc704\ud574 \uc0ac\uc6a9\ub41c \uc774\ub984\uc740 \uc778\uc99d\uc11c\uc5d0\ub3c4 \uc0ac\uc6a9\ub429\ub2c8\ub2e4\u002e \ub2e4\ub978 \uc0ac\uc6a9\uc790\ub294 \uc808\ub300 \uc2e4\uba85\uc744 \ubcfc \uc218 \uc5c6\uc2b5\ub2c8\ub2e4\u002e \ub85c\ub9c8\uc790\uac00 \uc544\ub2cc \ubd80\ubd84\uc744 \ud3ec\ud568\ud574 \uc815\ubd80 \uc778\uc99d \uc2e0\ubd84\uc99d \uc0c1\uc758 \uc774\ub984\uc744 \uc815\ud655\ud788 \uc785\ub825\ud574\uc57c \ud569\ub2c8\ub2e4\u002e",

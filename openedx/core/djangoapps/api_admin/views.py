@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 """Views for API management."""
 import logging
-
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -13,12 +13,12 @@ from oauth2_provider.generators import generate_client_secret, generate_client_i
 from oauth2_provider.models import get_application_model
 from oauth2_provider.views import ApplicationRegistration
 from slumber.exceptions import HttpNotFoundError
-
 from edxmako.shortcuts import render_to_response
 from openedx.core.djangoapps.api_admin.decorators import require_api_access
 from openedx.core.djangoapps.api_admin.forms import ApiAccessRequestForm, CatalogForm
 from openedx.core.djangoapps.api_admin.models import ApiAccessRequest, Catalog
 from openedx.core.djangoapps.api_admin.utils import course_discovery_api_client
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 
 log = logging.getLogger(__name__)
 
@@ -32,6 +32,7 @@ class ApiRequestView(CreateView):
     success_url = reverse_lazy('api_admin:api-status')
 
     def get(self, request):
+        print 'ApiRequestView get called'
         """
         If the requesting user has already requested API access, redirect
         them to the client creation page.
@@ -52,6 +53,7 @@ class ApiRequestStatusView(ApplicationRegistration):
     success_url = reverse_lazy('api_admin:api-status')
 
     def get(self, request, form=None):  # pylint: disable=arguments-differ
+        print 'ApiRequestStatusView get called'
         """
         If the user has not created an API request, redirect them to the
         request form. Otherwise, display the status of their API
@@ -123,6 +125,7 @@ class CatalogSearchView(View):
     """View to search for catalogs belonging to a user."""
 
     def get(self, request):
+        print 'CatalogSearchView get called'
         """Display a form to search for catalogs belonging to a user."""
         return render_to_response('api_admin/catalogs/search.html')
 
@@ -161,6 +164,7 @@ class CatalogListView(View):
         }
 
     def get(self, request, username):
+        print 'CatalogListView get called'
         """Display a list of a user's catalogs."""
         client = course_discovery_api_client(request.user)
         form = CatalogForm(initial={'viewers': [username]})
@@ -195,6 +199,7 @@ class CatalogEditView(View):
         }
 
     def get(self, request, catalog_id):
+        print 'CatalogEditView get called'
         """Display a form to edit this catalog."""
         client = course_discovery_api_client(request.user)
         response = client.catalogs(catalog_id).get()
@@ -221,6 +226,7 @@ class CatalogPreviewView(View):
     """Endpoint to preview courses for a query."""
 
     def get(self, request):
+        print 'CatalogPreviewView get called'
         """
         Return the results of a query against the course catalog API. If no
         query parameter is given, returns an empty result set.

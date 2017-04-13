@@ -16,7 +16,9 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from student.views import LogoutView, deleteOauth2Tokens, getUserIdBySocialInfo
+from openedx.core.djangoapps.log_action.views import LogAction
 
+LogAction()
 # Uncomment the next two lines to enable the admin:
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     admin.autodiscover()
@@ -543,6 +545,8 @@ urlpatterns += (
     ),
 
     # add LJH start.
+    url(r'^filedownload_log', LogAction.as_view()), # log_actioin post write
+
     url(r'^en$', 'branding.views.index_en', name="root"),   # en index
     url(r'^ko$', 'branding.views.index_ko', name="root"),   # ko index
     url(r'^notice/?$', 'branding.views.notice', name="notice"),

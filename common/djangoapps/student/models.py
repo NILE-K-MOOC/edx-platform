@@ -1908,6 +1908,9 @@ def create_comments_service_user(user):
 @receiver(user_logged_in)
 def log_successful_login(sender, request, user, **kwargs):  # pylint: disable=unused-argument
     """Handler to log when logins have occurred successfully."""
+
+    print 'log_successful_login called..'
+
     if settings.FEATURES['SQUELCH_PII_IN_LOGS']:
         AUDIT_LOG.info(u"Login success - user.id: {0}".format(user.id))
     else:

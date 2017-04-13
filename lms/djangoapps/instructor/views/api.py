@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Instructor Dashboard API views
 
@@ -36,7 +37,6 @@ from util.file import (
 )
 from util.json_request import JsonResponse, JsonResponseBadRequest
 from instructor.views.instructor_task_helpers import extract_email_features, extract_task_features
-
 from courseware.access import has_access
 from courseware.courses import get_course_with_access, get_course_by_id
 from django.contrib.auth.models import User
@@ -84,15 +84,11 @@ import csv
 from openedx.core.djangoapps.user_api.preferences.api import get_user_preference, set_user_preference
 from openedx.core.djangolib.markup import HTML, Text
 from instructor.views import INVOICE_KEY
-
 from submissions import api as sub_api  # installed from the edx-submissions repository
-
 from certificates import api as certs_api
 from certificates.models import CertificateWhitelist, GeneratedCertificate, CertificateStatuses, CertificateInvalidation
-
 from bulk_email.models import CourseEmail, BulkEmailFlag
 from student.models import get_user_by_username_or_email
-
 from .tools import (
     dump_student_extensions,
     dump_module_extensions,
@@ -110,6 +106,8 @@ from opaque_keys import InvalidKeyError
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import urllib
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from openedx.core.djangoapps.log_action import views as admin_view
 
 log = logging.getLogger(__name__)
 
@@ -119,6 +117,7 @@ def common_exceptions_400(func):
     Catches common exceptions and renders matching 400 errors.
     (decorator without arguments)
     """
+
     def wrapped(request, *args, **kwargs):  # pylint: disable=missing-docstring
         use_json = (request.is_ajax() or
                     request.META.get("HTTP_ACCEPT", "").startswith("application/json"))
@@ -136,6 +135,7 @@ def common_exceptions_400(func):
                 return JsonResponse({"error": message}, 400)
             else:
                 return HttpResponseBadRequest(message)
+
     return wrapped
 
 
@@ -151,6 +151,7 @@ def require_post_params(*args, **kwargs):
     required_params = []
     required_params += [(arg, None) for arg in args]
     required_params += [(key, kwargs[key]) for key in kwargs]
+
     # required_params = e.g. [('action', 'enroll or unenroll'), ['emails', None]]
 
     def decorator(func):  # pylint: disable=missing-docstring
@@ -173,7 +174,9 @@ def require_post_params(*args, **kwargs):
                 return JsonResponse(error_response_data, status=400)
             else:
                 return func(*args, **kwargs)
+
         return wrapped
+
     return decorator
 
 
@@ -202,12 +205,15 @@ def require_level(level):
                 return func(*args, **kwargs)
             else:
                 return HttpResponseForbidden()
+
         return wrapped
+
     return decorator
 
 
 def require_global_staff(func):
     """View decorator that requires that the user have global staff permissions. """
+
     def wrapped(request, *args, **kwargs):  # pylint: disable=missing-docstring
         if GlobalStaff().has_user(request.user):
             return func(request, *args, **kwargs)
@@ -217,6 +223,7 @@ def require_global_staff(func):
                     platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
                 )
             )
+
     return wrapped
 
 
@@ -228,6 +235,7 @@ def require_sales_admin(func):
 
     If the user does not have privileges for this operation, this will return HttpResponseForbidden (403).
     """
+
     def wrapped(request, course_id):  # pylint: disable=missing-docstring
 
         try:
@@ -242,6 +250,7 @@ def require_sales_admin(func):
             return func(request, course_id)
         else:
             return HttpResponseForbidden()
+
     return wrapped
 
 
@@ -253,6 +262,7 @@ def require_finance_admin(func):
 
     If the user does not have privileges for this operation, this will return HttpResponseForbidden (403).
     """
+
     def wrapped(request, course_id):  # pylint: disable=missing-docstring
 
         try:
@@ -267,6 +277,7 @@ def require_finance_admin(func):
             return func(request, course_id)
         else:
             return HttpResponseForbidden()
+
     return wrapped
 
 
@@ -432,7 +443,7 @@ def generate_random_string(length):
     chars = [
         char for char in string.ascii_uppercase + string.digits + string.ascii_lowercase
         if char not in 'aAeEiIoOuU1l'
-    ]
+        ]
 
     return string.join((random.choice(chars) for __ in range(length)), '')
 
@@ -620,6 +631,11 @@ def students_update_enrollment(request, course_id):
     email_students = request.POST.get('email_students') in ['true', 'True', True]
     is_white_label = CourseMode.is_white_label(course_id)
     reason = request.POST.get('reason')
+
+    # 등록 관리 로그 기록
+    # action[등록:enroll / 수강 취소:unenroll]
+    print '***** insert history log type 1'
+
     if is_white_label:
         if not reason:
             return JsonResponse(
@@ -727,6 +743,16 @@ def students_update_enrollment(request, course_id):
                 'after': after.to_dict(),
             })
 
+    # add log_action : students_update_enrollment
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=309,
+        object_id=0,
+        object_repr='students_update_enrollment[action:%s;identifiers:%s]' % (action, identifiers),
+        action_flag=ADDITION if action == 'enroll' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     response_payload = {
         'action': action,
         'results': results,
@@ -762,6 +788,14 @@ def bulk_beta_modify_access(request, course_id):
     results = []
     rolename = 'beta'
     course = get_course_by_id(course_id)
+
+    # 등록 관리 로그 기록
+    # action[등록:enroll / 수강 취소:unenroll]
+    print '***** insert history log type 2 s'
+    print email_students
+    for identifier in identifiers:
+        print 'identifiers:', identifier
+    print '***** insert history log type 2 e'
 
     email_params = {}
     if email_students:
@@ -808,6 +842,16 @@ def bulk_beta_modify_access(request, course_id):
                 'error': error,
                 'userDoesNotExist': user_does_not_exist
             })
+
+    # add log_action : bulk_beta_modify_access
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=293,
+        object_id=0,
+        object_repr='bulk_beta_modify_access[action:%s;identifiers:%s]' % (action, identifiers),
+        action_flag=ADDITION if action == 'add' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
 
     response_payload = {
         'action': action,
@@ -894,6 +938,17 @@ def modify_access(request, course_id):
         'action': action,
         'success': 'yes',
     }
+
+    # add log_action : modify_access
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=306,
+        object_id=user.id,
+        object_repr='modify_access[action:%s;user:%s;rolename:%s]' % (action, user, rolename),
+        action_flag=ADDITION if action == 'allow' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -986,6 +1041,17 @@ def get_problem_responses(request, course_id):
             "The problem responses report is being created."
             " To view the status of the report, see Pending Tasks below."
         )
+
+        # add log_action : get_problem_responses
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=301,
+            object_id=0,
+            object_repr='get_problem_responses[course_id:%s;problem_location:%s]' % (course_id, problem_location),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request)
+        )
+
         return JsonResponse({"status": success_status})
     except AlreadyRunningError:
         already_running_status = _(
@@ -1178,8 +1244,20 @@ def get_issued_certificates(request, course_id):
         ('report_run_date', _('Date Report Run'))
     ]
     certificates_data = instructor_analytics.basic.issued_certificates(course_key, query_features)
+
+    # add log_action : get_issued_certificates
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=299 if not csv else 300,
+        object_id=0,
+        object_repr='get_issued_certificates[course_id:%s;csv_required:%s]' % (course_id, csv_required),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=len(certificates_data))
+    )
+
     if csv_required.lower() == 'true':
         __, data_rows = instructor_analytics.csvs.format_dictlist(certificates_data, query_features)
+
         return instructor_analytics.csvs.create_csv_response(
             'issued_certificates.csv',
             [col_header for __, col_header in query_features_names],
@@ -1200,6 +1278,7 @@ def get_issued_certificates(request, course_id):
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @require_level('staff')
 def get_students_features(request, course_id, csv=False):  # pylint: disable=redefined-outer-name
+
     """
     Respond with json which contains a summary of all enrolled students profile information.
 
@@ -1262,6 +1341,16 @@ def get_students_features(request, course_id, csv=False):  # pylint: disable=red
     query_features.append('country')
     query_features_names['country'] = _('Country')
 
+    # add log_action : get_students_features
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=303 if not csv else 304,
+        object_id=0,
+        object_repr='get_students_features[course_id:%s;csv:%s]' % (course_id, csv),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count='instructor_task_instructortask')
+    )
+
     if not csv:
         student_data = instructor_analytics.basic.enrolled_students_features(course_key, query_features)
         response_payload = {
@@ -1304,6 +1393,16 @@ def get_students_who_may_enroll(request, course_id):
     course_key = CourseKey.from_string(course_id)
     query_features = ['email']
     try:
+        # add log_action : get_students_who_may_enroll
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=305,
+            object_id=0,
+            object_repr='get_students_who_may_enroll[course_id:%s]' % (course_id),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request, count='instructor_task_instructortask')
+        )
+
         instructor_task.api.submit_calculate_may_enroll_csv(request, course_key, query_features)
         success_status = _(
             "The enrollment report is being created. This report contains"
@@ -1326,6 +1425,7 @@ def get_students_who_may_enroll(request, course_id):
 @require_POST
 @require_level('staff')
 def add_users_to_cohorts(request, course_id):
+    print 'add_users_to_cohorts1 called'
     """
     View method that accepts an uploaded file (using key "uploaded-file")
     containing cohort assignments for users. This method spawns a celery task
@@ -1360,6 +1460,17 @@ def add_users_to_cohorts(request, course_id):
         )
         # The task will assume the default file storage.
         instructor_task.api.submit_cohort_students(request, course_key, filename)
+
+        # add log_action : add_users_to_cohorts
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=309,
+            object_id=0,
+            object_repr='add_users_to_cohorts[course_id:%s]' % (course_id),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+        )
+
     except (FileValidationException, PermissionDenied) as err:
         return JsonResponse({"error": unicode(err)}, status=400)
 
@@ -1590,7 +1701,7 @@ def get_registration_codes(request, course_id):
     """
     course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
-    #filter all the  course registration codes
+    # filter all the  course registration codes
     registration_codes = CourseRegistrationCode.objects.filter(
         course_id=course_id
     ).order_by('invoice_item__invoice__company_name')
@@ -1743,7 +1854,7 @@ def generate_registration_codes(request, course_id):
         'corp_address': configuration_helpers.get_value('invoice_corp_address', settings.INVOICE_CORP_ADDRESS),
         'payment_instructions': configuration_helpers.get_value(
             'invoice_payment_instructions',
-            settings. INVOICE_PAYMENT_INSTRUCTIONS,
+            settings.INVOICE_PAYMENT_INSTRUCTIONS,
         ),
         'date': time.strftime("%m/%d/%Y")
     }
@@ -1753,7 +1864,7 @@ def generate_registration_codes(request, course_id):
 
     invoice_attachment = render_to_string('emails/registration_codes_sale_invoice_attachment.txt', context)
 
-    #send_mail(subject, message, from_address, recipient_list, fail_silently=False)
+    # send_mail(subject, message, from_address, recipient_list, fail_silently=False)
     csv_file = StringIO.StringIO()
     csv_writer = csv.writer(csv_file)
     for registration_code in registration_codes:
@@ -1879,6 +1990,17 @@ def get_anon_ids(request, course_id):  # pylint: disable=unused-argument
     ).order_by('id')
     header = ['User ID', 'Anonymized User ID', 'Course Specific Anonymized User ID']
     rows = [[s.id, unique_id_for_user(s, save=False), anonymous_id_for_user(s, course_id, save=False)] for s in students]
+
+    # add log_action : get_anon_ids
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=298,
+        object_id=0,
+        object_repr='get_anon_ids[course_id:%s]' % (course_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    )
+
     return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-anon-ids.csv', header, rows)
 
 
@@ -1909,6 +2031,16 @@ def get_student_progress_url(request, course_id):
         'course_id': course_id.to_deprecated_string(),
         'progress_url': progress_url,
     }
+
+    # add log_action : get_student_progress_url
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=302,
+        object_id=user.id,
+        object_repr='get_student_progress_url[course_id:%s;user:%s;progress_url:%s]' % (course_id, user, progress_url),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
     return JsonResponse(response_payload)
 
 
@@ -1997,6 +2129,16 @@ def reset_student_attempts(request, course_id):
         response_payload['student'] = 'All Students'
     else:
         return HttpResponseBadRequest()
+
+    # add log_action : reset_student_attempts
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=308,
+        object_id=student.id if student else 0,
+        object_repr='reset_student_attempts[course_id:%s;student:%s;all_students:%s]' % (course_id, student, all_students),
+        action_flag=CHANGE,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
 
     return JsonResponse(response_payload)
 
@@ -2122,6 +2264,16 @@ def rescore_problem(request, course_id):
     else:
         return HttpResponseBadRequest()
 
+    # add log_action : rescore_problem
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=62,
+        object_id=student.id if student else 0,
+        object_repr='rescore_problem[course_id:%s;student:%s;all_students:%s]' % (course_id, student, all_students),
+        action_flag=CHANGE,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -2234,6 +2386,7 @@ def list_instructor_tasks(request, course_id):
     course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
     problem_location_str = strip_if_string(request.POST.get('problem_location_str', False))
     student = request.POST.get('unique_student_identifier', None)
+
     if student is not None:
         student = get_student_from_identifier(student)
 
@@ -2260,6 +2413,7 @@ def list_instructor_tasks(request, course_id):
     response_payload = {
         'tasks': map(extract_task_features, tasks),
     }
+
     return JsonResponse(response_payload)
 
 
@@ -2328,7 +2482,7 @@ def list_report_downloads(_request, course_id):
         'downloads': [
             dict(name=name, url=url, link=HTML('<a href="{}">{}</a>').format(HTML(url), Text(name)))
             for name, url in report_store.links_for(course_id)
-        ]
+            ]
     }
     return JsonResponse(response_payload)
 
@@ -2349,7 +2503,7 @@ def list_financial_report_downloads(_request, course_id):
         'downloads': [
             dict(name=name, url=url, link=HTML('<a href="{}">{}</a>').format(HTML(url), Text(name)))
             for name, url in report_store.links_for(course_id)
-        ]
+            ]
     }
     return JsonResponse(response_payload)
 
@@ -2367,6 +2521,16 @@ def export_ora2_data(request, course_id):
     try:
         instructor_task.api.submit_export_ora2_data(request, course_key)
         success_status = _("The ORA data report is being generated.")
+
+        # add log_action : export_ora2_data
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=296,
+            object_id=0,
+            object_repr='export_ora2_data[course_id:%s]' % (course_id),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request, count=0)
+        )
 
         return JsonResponse({"status": success_status})
     except AlreadyRunningError:
@@ -2394,6 +2558,17 @@ def calculate_grades_csv(request, course_id):
         instructor_task.api.submit_calculate_grades_csv(request, course_key)
         success_status = _("The grade report is being created."
                            " To view the status of the report, see Pending Tasks below.")
+
+        # add log_action : calculate_grades_csv
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=294,
+            object_id=0,
+            object_repr='calculate_grades_csv[course_id:%s]' % (course_id),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request, count=0)
+        )
+
         return JsonResponse({"status": success_status})
     except AlreadyRunningError:
         already_running_status = _("The grade report is currently being created."
@@ -2420,6 +2595,17 @@ def problem_grade_report(request, course_id):
         instructor_task.api.submit_problem_grade_report(request, course_key)
         success_status = _("The problem grade report is being created."
                            " To view the status of the report, see Pending Tasks below.")
+
+        # add log_action : problem_grade_report
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=307,
+            object_id=0,
+            object_repr='problem_grade_report[course_id:%s]' % (course_id),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request, count=0)
+        )
+
         return JsonResponse({"status": success_status})
     except AlreadyRunningError:
         already_running_status = _("A problem grade report is already being generated."
@@ -2612,6 +2798,17 @@ def update_forum_role_membership(request, course_id):
         'course_id': course_id.to_deprecated_string(),
         'action': action,
     }
+
+    # add log_action : django_comment_client_role_users
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=295,
+        object_id=user.id,
+        object_repr='django_comment_client_role_users[action:%s;user:%s;rolename:%s]' % (action, user, rolename),
+        action_flag=ADDITION if action == 'allow' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 

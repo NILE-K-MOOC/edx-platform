@@ -422,7 +422,7 @@ class ReportDownloads
       cssClass: "file-download-link"
       formatter: (row, cell, value, columnDef, dataContext) ->
         edx.HtmlUtils.joinHtml(
-          edx.HtmlUtils.HTML('<a target="_blank" href="'),
+          edx.HtmlUtils.HTML('<a onclick="insert_history(this);" target="_blank" href="'),
           dataContext['url'],
           edx.HtmlUtils.HTML('">'),
           dataContext['name'],

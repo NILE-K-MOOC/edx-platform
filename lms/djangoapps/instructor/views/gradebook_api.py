@@ -111,6 +111,26 @@ def spoc_gradebook(request, course_id):
     course = get_course_with_access(request.user, 'staff', course_key, depth=None)
     student_info, page = get_grade_book_page(request, course, course_key)
 
+    # add log_action : django_comment_client_role_users
+    # from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+    # from openedx.core.djangoapps.api_admin import views as admin_view
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=234,
+    #     object_id=user.id,
+    #     object_repr='spoc_gradebook[%s:%s:%s]' % (action, user, rolename),
+    #     action_flag=ADDITION if action == 'allow' else DELETION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request)
+    # )
+
+    print student_info
+    print type(student_info)
+
+    print 'student_info s ------------------------------'
+    for s in student_info:
+        print s
+    print 'student_info e ------------------------------'
+
     return render_to_response('courseware/gradebook.html', {
         'page': page,
         'page_url': reverse('spoc_gradebook', kwargs={'course_id': unicode(course_key)}),
