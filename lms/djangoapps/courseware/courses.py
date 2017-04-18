@@ -180,8 +180,12 @@ def get_course_about_section(request, course, section_key):
     # markup. This can change without effecting this interface when we find a
     # good format for defining so many snippets of text/html.
     course_week = False
+    course_video = False
     if section_key == 'course_week':
         course_week = True
+        section_key = 'effort'
+    if section_key == 'course_video':
+        course_video = True
         section_key = 'effort'
 
     html_sections = {
@@ -234,7 +238,16 @@ def get_course_about_section(request, course, section_key):
 
             if section_key == "effort":
                 if course_week:
-                    html = html.strip()[6:] + '주'
+                    if html.strip().find('#'):
+                        html = html.strip().split('#')[0]
+                    else:
+                        html = html.strip()[6:] + '주'
+                elif course_video:
+                    if html.strip().find('#'):
+                        html = html.strip().split('#')[1].split(':')[0] + '시간 ' + html.strip().split('#')[1].split(':')[1] + '분'
+                    else:
+                        html = ''
+
                 else:
                     html = html.strip()[:5]
 
