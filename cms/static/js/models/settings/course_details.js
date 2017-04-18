@@ -43,7 +43,7 @@ var CourseDetails = Backbone.Model.extend({
 
         if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null) && (newattrs.effort == null || newattrs.effort == "")) {
             $("#course-effort").focus();
-            errors.effort = gettext("Effort time must be value");
+            errors.effort = gettext("Effort time must have value");
         }
 
         if (
@@ -60,11 +60,23 @@ var CourseDetails = Backbone.Model.extend({
             }else if(isNaN($("#course-effort-mm").val())){
 
                 $("#course-effort-mm").focus();
-            }else if(isNaN($("#course-effort-week").val())){
-
-                $("#course-effort-week").focus();
             }
-            errors.effort = gettext("Effort time must be number");
+            errors.effort = gettext("Effort time must have number");
+        }
+
+        if($("#course-video-hh").val() && isNaN($("#course-video-hh").val())){
+            $("#course-video-hh").focus();
+            errors.effort = gettext("Video time must have number");
+        }
+
+        if($("#course-video-mm").val() && isNaN($("#course-video-mm").val())){
+            $("#course-video-mm").focus();
+            errors.effort = gettext("Video time must have number");
+        }
+
+        if($("#course-effort-week").val() && isNaN($("#course-effort-week").val())){
+            $("#course-effort-week").focus();
+            errors.effort = gettext("Chapters must have number");
         }
 
         newattrs = DateUtils.convertDateStringsToObjects(

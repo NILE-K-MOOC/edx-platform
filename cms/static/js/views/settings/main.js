@@ -27,9 +27,13 @@ var DetailsView = ValidatingView.extend({
 
         'blur #course-effort-hh': "setEffort",
         'blur #course-effort-mm': "setEffort",
+        'blur #course-video-hh': "setEffort",
+        'blur #course-video-mm': "setEffort",
         'blur #course-effort-week': "setEffort",
         'change #course-effort-hh': "setEffort",
         'change #course-effort-mm': "setEffort",
+        'change #course-video-hh': "setEffort",
+        'change #course-video-mm': "setEffort",
         'change #course-effort-week': "setEffort"
     },
 
@@ -88,6 +92,8 @@ var DetailsView = ValidatingView.extend({
         var hh = $("#course-effort-hh").val();
         var mm = $("#course-effort-mm").val();
         var week = $("#course-effort-week").val();
+        var video_hh = $("#course-video-hh").val();
+        var video_mm = $("#course-video-mm").val();
 
         if(isNaN(hh) || isNaN(mm)|| isNaN(week)){
             $("#course-effort").trigger("change");
@@ -102,15 +108,33 @@ var DetailsView = ValidatingView.extend({
             mm = "00";
         }
 
+        //if(!video_hh || video_hh == null || video_hh == ""){
+        //    video_hh = "00";
+        //}
+        //
+        //if(!video_mm || video_mm == null || video_mm == ""){
+        //    video_mm = "00";
+        //}
+
         if(hh.length == 1)
             hh = "0" + hh;
-
         if(mm.length == 1)
             mm = "0" + mm;
 
+        if(video_hh && video_hh.length == 1)
+            video_hh = "0" + video_hh;
+        if(video_mm && video_mm.length == 1)
+            video_mm = "0" + video_mm;
+
         $("#course-effort-hh").val(hh);
         $("#course-effort-mm").val(mm);
-        $("#course-effort-week").val(week);
+
+        if(video_hh)
+            $("#course-video-hh").val(video_hh);
+        if(video_mm)
+            $("#course-video-mm").val(video_mm);
+
+        var video = video_hh + ":" + video_mm;
 
         if(hh && mm && week){
             // 총 이수시간 계산 및 표시
@@ -124,19 +148,24 @@ var DetailsView = ValidatingView.extend({
             }else{
                 $("#Calculated").val(total_time + "시간");
             }
-
-
-
         }
 
+        var val = hh + ":" + mm;
+
+        if(week && week != "")
+            val = val + "@" + week;
+
+        if(video && video != "")
+            val = val + "#" + video;
 
         console.log('value..s---------------------------------------------');
         console.log(hh + " " + typeof(hh));
         console.log(mm + " " + typeof(mm));
         console.log(week + " " + typeof(week));
+        console.log(video + " " + typeof(video));
+        console.log(val + " " + typeof(val));
         console.log('value..e---------------------------------------------');
 
-        var val = hh + ":" + mm + ":" + week;
 
         $("#course-effort").val(val);
         console.log("course-effort value is = " + $("#course-effort").val());
@@ -222,21 +251,63 @@ var DetailsView = ValidatingView.extend({
         this.learning_info_view.render();
         this.instructor_info_view.render();
 
-        //$("#course-effort-hh").focus();
         var time = $("#course-effort").val();
         if(time){
-            console.log('FULL: ' + time);
-            console.log('HH: ' + time.split(':')[0]);
-            console.log('MM: ' + time.split(':')[1]);
-            console.log('WEEK: ' + time.split(':')[2]);
-            if(time.split(':')[0]){
+            console.log("time1 --> " + time);
+            console.log("time2 --> " + time.length);
+            console.log("time3 --> " + time.indexOf("@"));
+            console.log("time4 --> " + time.indexOf("#"));
+
+            if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
+                var arr1 = time.split("@");
+                var arr2 = arr1[0].split(":");
+                var week = arr1[1].split("#")[0];
+                var arr3 = arr1[1].split("#")[1].split(":");
+
+                $("#course-effort-hh").val(arr2[0]);
+                $("#course-effort-mm").val(arr2[1]);
+                $("#course-effort-week").val(week);
+                $("#course-video-hh").val(arr3[0]);
+                $("#course-video-mm").val(arr3[1]);
+            }else if(time.indexOf("@") > 0){
+                var arr1 = time.split("@");
+                var arr2 = arr1[0].split(":");
+                var week = arr1[1];
+
+                $("#course-effort-hh").val(arr2[0]);
+                $("#course-effort-mm").val(arr2[1]);
+                $("#course-effort-week").val(week);
+            }else if(time.indexOf("#") > 0){
+                var arr1 = time.split("#");
+                var arr2 = arr1[0].split(":");
+                var arr3 = arr1[1].split(":");
+
+                $("#course-effort-hh").val(arr2[0]);
+                $("#course-effort-mm").val(arr2[1]);
+                $("#course-video-hh").val(arr3[0]);
+                $("#course-video-mm").val(arr3[1]);
+            }else{
                 $("#course-effort-hh").val(time.split(':')[0]);
-            }
-            if(time.split(':')[1]){
                 $("#course-effort-mm").val(time.split(':')[1]);
             }
-            if(time.split(':')[2]){
-                $("#course-effort-week").val(time.split(':')[2]);
+
+        }
+
+        var hh = $("#course-effort-hh").val();
+        var mm = $("#course-effort-mm").val();
+        var week = $("#course-effort-week").val();
+
+        if(hh && mm && week){
+            // 총 이수시간 계산 및 표시
+            var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
+            if(total_time.toString().indexOf(".") > 0){
+                var arr = total_time.toString().split(".");
+                var hour = arr[0];
+                var minute = Math.round(Number(arr[1]) / 10 * 60).toString().substr(0, 2);
+
+                $("#Calculated").val(hour + "시간 " + minute + "분");
+            }else{
+                $("#Calculated").val(total_time + "시간");
             }
         }
 
