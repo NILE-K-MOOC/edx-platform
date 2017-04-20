@@ -692,10 +692,10 @@ msgid "KonYangK"
 msgstr "건양대학교"
 
 msgid "UOSk"
-msgstr "서울시립대"
+msgstr "서울시립대학교"
 
 msgid "CNUk"
-msgstr "충남대학"
+msgstr "충남대학교"
 
 msgid "HallymK"
 msgstr "한림대학교"
@@ -723,6 +723,9 @@ msgstr "가톨릭대학교"
 
 msgid "JEJUk"
 msgstr "제주대학교"
+
+msgid "HGUk"
+msgstr "한동대학교"
 
 #: lms/templates/course.html
 msgid "Starting Soon"
