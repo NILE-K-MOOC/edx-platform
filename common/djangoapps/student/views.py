@@ -107,6 +107,7 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 import re
+import traceback
 from courseware import grades
 from courseware.courses import (
     get_courses,
@@ -567,8 +568,8 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
     # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
 
-    log.info('cert in poll check start info course_overview')
-    log.info(course_overview)
+    # log.info('cert in poll check start info course_overview')
+    # log.info(course_overview)
 
     try:
 
@@ -581,17 +582,18 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             course = arr[1]
             run = arr[2]
             checklist = list()
+            survey_list = list()
 
             client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
                                  settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
 
             # log.info('org, course, run', str(org), str(course), str(run))
-            print '-------------------'
-            print org
-            print course
-            print run
-            print '-------------------'
+            # print '-------------------'
+            # print org
+            # print course
+            # print run
+            # print '-------------------'
 
             cursor = db.modulestore.active_versions.find({'org': org, 'course': course}).sort("edited_on", 1)
             order_course = {}
@@ -624,7 +626,20 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                 client.close()
 
                 check_cnt = 0
+
+                chapters = dict()
+                sequentials = dict()
+                verticals = dict()
+
                 for block in blocks:
+
+                    if block.get('block_type') == 'chapter':
+                        chapters[block.get('block_id')] = [id for type, id in block.get('fields')['children']]
+                    elif block.get('block_type') == 'sequential':
+                        sequentials[block.get('block_id')] = [id for type, id in block.get('fields')['children']]
+                    elif block.get('block_type') == 'vertical':
+                        verticals[block.get('block_id')] = [id for type, id in block.get('fields')['children']]
+
                     if block.get('block_type') == 'course':
                         end = block.get('fields')['end']
                         # print 'end:', end
@@ -644,21 +659,14 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                         for children in childrens:
                             if children[0] == 'survey':
                                 check_cnt += 1
-                                checklist.append("'" + children[1] + "'")
+                                survey_list.append(children[1])
 
-                                # if check_cnt > 0:
-                                #     break
-                # print 'check_cnt:', check_cnt
-                # print 'datetime1:', datetime.datetime.now()
-                # print 'datetime2:', datetime.datetime.now(UTC)
-                # print 'datetime3:', end.strftime("%Y%m%d")
-                # print 'datetime3:', end.strftime("%Y%m%d") < '20161201'
+                                checklist.append("'" + children[1] + "'")
 
                 if not end or end.strftime("%Y%m%d") < '20161231':
                     log.info('before 20161201 course.. return..')
                     return status_dict
 
-                # print 'check_cnt:', check_cnt
                 if check_cnt > 0:
                     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                                       settings.DATABASES.get('default').get('USER'),
@@ -666,32 +674,60 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                                       settings.DATABASES.get('default').get('NAME'))
                     cur = con.cursor()
                     query = """
-                        SELECT sum(if(instr(state, 'submissions_count') > 0, 1, 0)) cnt
+                        SELECT SUBSTRING_INDEX(module_id, '@', -1)                    module_id,
+                               if(instr(state, 'submissions_count') > 0, TRUE, FALSE) is_done
                           FROM courseware_studentmodule
-                         WHERE student_id = '{0}'
-                           AND course_id = '{1}'
-                           AND module_type in ('survey')
-                           AND SUBSTRING_INDEX(module_id, '@', -1) in ({2});
-                    """.format(str(user.id), str(course_overview), ','.join(checklist))
+                         WHERE     student_id = '{0}'
+                               AND course_id = '{1}'
+                               AND module_type IN ('survey');
+                    """.format(str(user.id), str(course_overview))
 
                     print 'query:', query
 
                     cur.execute(query)
-                    row = cur.fetchone()
+                    rows = cur.fetchall()
                     cur.close()
                     con.close()
 
-                    if row is None or row[0] is None:
-                        status_dict['survey'] = 'incomplete'
-                    else:
-                        print 'survey_check:', int(check_cnt), ':', int(row[0])
+                    status_dict['survey'] = 'complete'
 
-                        if int(check_cnt) == int(row[0]):
-                            status_dict['survey'] = 'complete'
+                    for survey in survey_list:
+                        print 'survey:', survey
+
+                        if rows:
+                            result = (row[1] for row in rows if row[0] == survey)
+                            cnt = next(result)
                         else:
-                            status_dict['survey'] = 'incomplete'
+                            cnt = 0
 
+                        if cnt == 0:
+                            status_dict['survey'] = 'incomplete'
+                            v_key = [key for key in verticals.keys() if survey in verticals[key]][0]
+                            s_key = [key for key in sequentials.keys() if v_key in sequentials[key]][0]
+                            c_key = [key for key in chapters.keys() if s_key in chapters[key]][0]
+
+                            # verticals_keys = verticals.keys()
+                            #
+                            # for key in verticals_keys:
+                            #     if survey in verticals[key]:
+                            #         v_key = key
+                            #
+                            # sequentials_keys = sequentials.keys()
+                            #
+                            # for key in sequentials_keys:
+                            #     if v_key in sequentials[key]:
+                            #         s_key = key
+                            #
+                            # chapters_keys = chapters.keys()
+                            #
+                            # for key in chapters_keys:
+                            #     if s_key in chapters[key]:
+                            #         c_key = key
+
+                            status_dict['survey_url'] = '/courses/{0}/courseware/{1}/{2}'.format(str(course_overview), c_key, s_key)
+                            break
     except Exception as e:
+        traceback.print_exc()
         log.error(e)
 
     return status_dict
@@ -2999,6 +3035,7 @@ def getUserIdBySocialInfo(request):
         cur.close()
         con.close()
 
+
 @login_required
 def deleteOauth2Tokens(request):
     uid = request.POST.get("uid")
@@ -3033,7 +3070,6 @@ def deleteOauth2Tokens(request):
 
         print 'query2 >>'
         print query
-
 
         return JsonResponse(
             {

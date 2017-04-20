@@ -71,7 +71,7 @@ else:
            title="${_('This link will open the certificate web view')}">
            ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
         % else:
-        <a class="btn" href="/courses/${course_overview.id}/courseware"
+        <a class="btn" href="${cert_status['survey_url']}"
            title="${_('courseware')}">
            ${_("View certificates.(Not finished Poll)")}</a>
         % endif
