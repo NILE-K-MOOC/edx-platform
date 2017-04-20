@@ -57,6 +57,7 @@ from util.json_request import JsonResponse
 # import schedule
 # import threading
 # from crontab import CronTab
+from social.apps.django_app.default.models import UserSocialAuth
 
 from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_names, set_has_profile_image
 from openedx.core.djangoapps.profile_images.images import remove_profile_images
@@ -851,6 +852,9 @@ def remove_account(request):
 
         user_profile = UserProfile.objects.get(user_id=request.user.id)
 
+        # .get() = only result one
+        user_socialauth = UserSocialAuth.objects.filter(user_id=request.user.id)
+
         # print 'remove_account s -------------------------------------'
         # print request.user.id
         # print find_user
@@ -886,6 +890,7 @@ def remove_account(request):
 
         find_user.save()
         user_profile.save()
+        user_socialauth.delete()
         logout(request)
 
     return redirect('/')
