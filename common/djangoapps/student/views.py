@@ -449,6 +449,14 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude):
                 enrollment.course_id
             )
             continue
+        else:
+            pass
+            # print type(course_overview.end), course_overview.end, ":", type(datetime.datetime.utcnow()), datetime.datetime.utcnow()
+            # print course_overview.end.strftime('%Y/%m/%d %H:%M:%S'), datetime.datetime.utcnow().strftime('%Y/%m/%d %H:%M:%S'),
+
+            # 종료 강좌 continue
+            # if course_overview.end.strftime('%Y/%m/%d %H:%M:%S') < datetime.datetime.utcnow().strftime('%Y/%m/%d %H:%M:%S'):
+            #     continue
 
         # Filter out anything that is not attributed to the current ORG.
         if org_to_include and course_overview.location.org != org_to_include:
@@ -566,11 +574,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
         else:
             status_dict['grade'] = cert_status['grade']
 
-    # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
-
-    # log.info('cert in poll check start info course_overview')
-    # log.info(course_overview)
-
+    # 이수강좌의 경우 강좌에 `survey`가 있는지와 완료 했는지 여부를 확인
     try:
 
         if status == 'ready':
@@ -588,12 +592,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                                  settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
 
-            # log.info('org, course, run', str(org), str(course), str(run))
-            # print '-------------------'
-            # print org
-            # print course
-            # print run
-            # print '-------------------'
+            log.info('org: {0}, course: {1}, run: {2}'.format(str(org), str(course), str(run)))
 
             cursor = db.modulestore.active_versions.find({'org': org, 'course': course}).sort("edited_on", 1)
             order_course = {}
@@ -895,6 +894,8 @@ def dashboard(request):
     # Build our (course, enrollment) list for the user, but ignore any courses that no
     # longer exist (because the course IDs have changed). Still, we don't delete those
     # enrollments, because it could have been a data push snafu.
+
+    # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
 
     # Retrieve the course modes for each course
@@ -967,17 +968,16 @@ def dashboard(request):
     #
     # If a course is not included in this dictionary,
     # there is no verification messaging to display.
+
     verify_status_by_course = check_verify_status_by_course(user, course_enrollments)
     cert_statuses = {
         enrollment.course_id: cert_info(request.user, enrollment.course_overview, enrollment.mode)
         for enrollment in course_enrollments
         }
 
-    print datetime.datetime.now(UTC), 'check !!!!!!!!!!!!!!!! e------------------------------------------'
-
     # sort the enrollment pairs by the enrollment date
     # course_enrollments.sort(key=lambda x: x.created, reverse=True)
-    print 'cert_statuses'
+    print 'cert_statuses:'
     print cert_statuses
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -1104,7 +1104,6 @@ def dashboard(request):
     percents = {}
 
     # add course progress
-
     for dashboard_index, enrollment in enumerate(course_enrollments):
         course_id = str(enrollment.course_id)
         # if not enrollment.course_overview.has_started():
