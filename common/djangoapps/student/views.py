@@ -567,8 +567,8 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
     # 이수강좌의 경우 강좌에 poll 이 있는지와 완료 했는지 여부를 확인한다
 
-    log.info('cert in poll check start info course_overview')
-    log.info(course_overview)
+    # log.info('cert in poll check start info course_overview')
+    # log.info(course_overview)
 
     try:
 
@@ -587,11 +587,11 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
             db = client.edxapp
 
             # log.info('org, course, run', str(org), str(course), str(run))
-            print '-------------------'
-            print org
-            print course
-            print run
-            print '-------------------'
+            # print '-------------------'
+            # print org
+            # print course
+            # print run
+            # print '-------------------'
 
             cursor = db.modulestore.active_versions.find({'org': org, 'course': course}).sort("edited_on", 1)
             order_course = {}
@@ -937,12 +937,12 @@ def dashboard(request):
         for enrollment in course_enrollments
         }
 
-    print datetime.datetime.now(UTC), 'check !!!!!!!!!!!!!!!! e------------------------------------------'
+    # print datetime.datetime.now(UTC), 'check !!!!!!!!!!!!!!!! e------------------------------------------'
 
     # sort the enrollment pairs by the enrollment date
     # course_enrollments.sort(key=lambda x: x.created, reverse=True)
-    print 'cert_statuses'
-    print cert_statuses
+    # print 'cert_statuses'
+    # print cert_statuses
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
