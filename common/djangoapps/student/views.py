@@ -119,6 +119,7 @@ from django.views.decorators.cache import cache_control
 from util.views import ensure_valid_course_key
 from pymongo import MongoClient
 import MySQLdb as mdb
+from django.db import connections
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -596,7 +597,8 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
 
             cursor = db.modulestore.active_versions.find({'org': org, 'course': course}).sort("edited_on", 1)
             order_course = {}
-            course_cnt = 1;
+            course_cnt = 1
+
             for document in cursor:
                 print document.get('run')
                 order_course[document.get('run')] = course_cnt
@@ -616,7 +618,6 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                 pb = document.get('versions').get('published-branch')
             cursor.close()
 
-            # print 'pb', pb
             if pb:
                 cursor = db.modulestore.structures.find({'_id': pb})
                 for document in cursor:
@@ -667,35 +668,26 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                     return status_dict
 
                 if check_cnt > 0:
-                    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                      settings.DATABASES.get('default').get('USER'),
-                                      settings.DATABASES.get('default').get('PASSWORD'),
-                                      settings.DATABASES.get('default').get('NAME'))
-                    cur = con.cursor()
-                    query = """
-                        SELECT SUBSTRING_INDEX(module_id, '@', -1)                    module_id,
-                               if(instr(state, 'submissions_count') > 0, TRUE, FALSE) is_done
-                          FROM courseware_studentmodule
-                         WHERE     student_id = '{0}'
-                               AND course_id = '{1}'
-                               AND module_type IN ('survey');
-                    """.format(str(user.id), str(course_overview))
+                    with connections['default'].cursor() as cur:
+                        query = """
+                            SELECT SUBSTRING_INDEX(module_id, '@', -1)                    module_id,
+                                   if(instr(state, 'submissions_count') > 0, TRUE, FALSE) is_done
+                              FROM courseware_studentmodule
+                             WHERE     student_id = '{0}'
+                                   AND course_id = '{1}'
+                                   AND module_type IN ('survey');
+                        """.format(str(user.id), str(course_overview))
+                        print 'query:', query
 
-                    print 'query:', query
-
-                    cur.execute(query)
-                    rows = cur.fetchall()
-                    cur.close()
-                    con.close()
+                        cur.execute(query)
+                        rows = cur.fetchall()
 
                     status_dict['survey'] = 'complete'
 
                     for survey in survey_list:
-                        print 'survey:', survey
-
                         if rows:
-                            result = (row[1] for row in rows if row[0] == survey)
-                            cnt = next(result)
+                            result = [row[1] for row in rows if row[0] == survey and row[1] == 1]
+                            cnt = len(result)
                         else:
                             cnt = 0
 
