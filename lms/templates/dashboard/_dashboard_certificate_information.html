@@ -67,13 +67,24 @@ else:
         <li class="action action-certificate">
 
         % if cert_status.get('survey', 'complete') == 'complete':
-        <a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"
-           title="${_('This link will open the certificate web view')}">
-           ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
+            <a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"
+               title="${_('This link will open the certificate web view')}">
+               ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
         % else:
-        <a class="btn" href="/courses/${course_overview.id}/courseware"
-           title="${_('courseware')}">
-           ${_("View certificates.(Not finished Poll)")}</a>
+
+            <%
+            alert_message1 = _('It is necessary to complete all satisfaction surveys to view a certificate.')
+            alert_message2 = _('Please go to the satisfaction survey page.')
+            %>
+            <script>
+                function move_to_survey(){
+                    return confirm("${alert_message1}\n${alert_message2}");
+                }
+            </script>
+
+            <a class="btn" onclick="return move_to_survey();" href="${cert_status['survey_url']}"
+               title="${_('courseware')}">
+               ${_("View certificates.(Not finished Poll)")}</a>
         % endif
         </li>
       % elif cert_status['show_download_url'] and enrollment.mode in CourseMode.NON_VERIFIED_MODES:

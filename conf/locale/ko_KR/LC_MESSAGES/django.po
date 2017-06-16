@@ -13288,6 +13288,12 @@ msgstr "강좌 피드백 조사를 완료하세요."
 msgid "Add Certificate to LinkedIn Profile"
 msgstr "LinkedIn 프로필에 강좌 이수증 추가하기"
 
+msgid "It is necessary to complete all satisfaction surveys to view a certificate."
+msgstr "이수증 발급을 위해 만족도조사를 모두 완료하셔야 합니다."
+
+msgid "Please go to the satisfaction survey page."
+msgstr "만족도조사 페이지로 이동합니다."
+
 #: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Share on LinkedIn"
 msgstr "LinkedIn에서 공유하기"
