@@ -130,7 +130,7 @@ from django.core.urlresolvers import reverse
         </div>
 
         <div class="student-specific-container action-type-container">
-          <h2>${_("Plagiarism test implementation")}</h2>
+          <h2 data-is_assessment="${is_assessment}" data-is_assessment_ing="${is_assessment_ing}" data-is_assessment_done="${is_assessment_done}">${_("Plagiarism test implementation")}</h2>
           <div class="request-response-error"></div>
           <br>
           <label>
@@ -144,8 +144,10 @@ from django.core.urlresolvers import reverse
           %if (is_assessment & is_assessment_ing != True) | is_assessment_done:
               <div id="copy_killer">
                   <input type="button" class="molly-guard" name="reset-attempts-all" value="${_('Performing a plagiarism test')}" onclick="run_copykiller();">
+                  <!--
                   <input id="loading" type="button" value="ddd" style="display: none" disabled>
                   <input type="button" id="cvs" name="list-anon-ids" value="CSV 파일 다운로드" style="display: none" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
+                  -->
               </div>
           %elif is_assessment :
               <div>
