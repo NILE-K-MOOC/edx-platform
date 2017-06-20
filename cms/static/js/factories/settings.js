@@ -7,6 +7,10 @@ define([
         // highlighting labels when fields are focused in
         $('form :input')
             .focus(function() {
+                // 설정일된 날짜가 과거이면 비활성화 한다. 170620 이종호.
+                console.log('HERE 232 !!!!!!!!!!!!!');
+                console.log(this.id);
+                console.log($(this).val());
                 $('label[for="' + this.id + '"]').addClass('is-focused');
             })
             .blur(function() {
