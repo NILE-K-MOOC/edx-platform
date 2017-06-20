@@ -327,19 +327,19 @@ var DetailsView = ValidatingView.extend({
 
         if(start_date < now_utc){
             //console.log("disabled on1");
-            $("#course-start-date,#course-start-time").attr("disabled", true);
+            $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
         }
         if(end_date < now_utc){
             //console.log("disabled on2");
-            $("#course-end-date,#course-end-time").attr("disabled", true);
+            $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
         }
         if(enroll_start_date < now_utc){
             //console.log("disabled on3");
-            $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true);
+            $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
         }
         if(enroll_end_date < now_utc){
             //console.log("disabled on4");
-            $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true);
+            $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
         }
 
         return this;
