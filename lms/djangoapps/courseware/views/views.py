@@ -793,12 +793,12 @@ def course_about(request, course_id):
             enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10],
                                                                 "%Y-%m-%d").date()
 
-            if '_language' not in request.session or request.session['_language'] != 'en':
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
-            else:
+            if _("Agree") == "Agree":
                 enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
                 enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
+            else:
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
         else:
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}
@@ -1616,26 +1616,26 @@ def faqs(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def agreement(request):
-    if '_language' not in request.session or request.session['_language'] != 'en':
+    if _("Agree") == "Agree":
         return render_to_response(
-            "courseware/agreement.html"
+            "courseware/agreement_en.html"
         )
     else:
         return render_to_response(
-            "courseware/agreement_en.html"
+            "courseware/agreement.html"
         )
 
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def privacy(request):
-    if '_language' not in request.session or request.session['_language'] != 'en':
+    if _("Agree") == "Agree":
         return render_to_response(
-            "courseware/privacy.html"
+            "courseware/privacy_en.html"
         )
     else:
         return render_to_response(
-            "courseware/privacy_en.html"
+            "courseware/privacy.html"
         )
 
 
