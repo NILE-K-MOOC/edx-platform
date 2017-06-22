@@ -59,7 +59,7 @@ define([
                         case 'hum':
                             data.name = this.termName(data.facet, gettext("Humanities"));break;
                         case 'social':
-                            data.name = this.termName(data.facet, gettext("Social Sciences"));break;
+                            data.name = this.termName(data.facet, gettext("Social"));break;
                         case 'edu':
                             data.name = this.termName(data.facet, gettext("Education"));break;
                         case 'eng':
@@ -86,7 +86,7 @@ define([
                 else if(data.facet == 'middle_classfy'){
 
                     var middle_text = {
-                        "lang": "Linguistics & Literature","husc":"Humanities",
+                        "lang": "Linguistics & Literature","husc":"Human Sciences",
                         "busn":"Business Administration & Economics", "law":"Law", "scsc": "Social Sciences",
                         "enor":"General Education", "ekid":"Early Childhood Education", "espc":"Special Education", "elmt":"Elementary Education", "emdd":"Secondary Education",
                         "cons":"Architecture", "civi":"Civil Construction & Urban Engineering", "traf":"Transportation", "mach":"Mechanical & Metallurgical Engineering", "elec":"Electricity & Electronics", "deta":"Precision & Energy", "matr":"Materials", "comp":"Computers & Communication", "indu":"Industrial Engineering", "cami":"Chemical Engineering", "other":"Others",
