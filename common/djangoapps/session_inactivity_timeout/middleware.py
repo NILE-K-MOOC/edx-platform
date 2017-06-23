@@ -19,18 +19,28 @@ class SessionInactivityTimeout(object):
     """
     Middleware class to keep track of activity on a given session
     """
+
     def process_request(self, request):
         """
         Standard entry point for processing requests in Django
         """
         if not hasattr(request, "user") or not request.user.is_authenticated():
-            #Can't log out if not logged in
+            # Can't log out if not logged in
             return
 
         timeout_in_seconds = getattr(settings, "SESSION_INACTIVITY_TIMEOUT_IN_SECONDS", None)
 
+        if 'ISREMEMBER' in request.session and timeout_in_seconds:
+            timeout_in_seconds = 604800
+
         # Do we have this feature enabled?
         if timeout_in_seconds:
+
+            print 'user[ {user} ] timeout_in_seconds = {timeout_in_seconds}'.format(
+                user=request.user.id,
+                timeout_in_seconds=timeout_in_seconds
+            )
+
             # what time is it now?
             utc_now = datetime.utcnow()
 
