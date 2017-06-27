@@ -2618,9 +2618,10 @@ MAX_FAILED_LOGIN_ATTEMPTS_LOCKOUT_PERIOD_SECS = 15 * 60
 ##### LMS DEADLINE DISPLAY TIME_ZONE #######
 TIME_ZONE_DISPLAYED_FOR_DEADLINES = 'UTC'
 
-
-
-
+# ORA2 setting
+ORA2_FILEUPLOAD_BACKEND = "filesystem"
+ORA2_FILEUPLOAD_CACHE_NAME = "default"
+ORA2_FILEUPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'ora-upload/')
 
 ### Apps only installed in some instances
 OPTIONAL_APPS = (
