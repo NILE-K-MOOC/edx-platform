@@ -89,7 +89,7 @@ from pymongo import MongoClient
 # job.minutes.every(1)
 # job.enable()
 #
-# AUDIT_LOG = logging.getLogger("audit")
+AUDIT_LOG = logging.getLogger("audit")
 # log = logging.getLogger(__name__)
 
 @require_http_methods(['GET'])
