@@ -37,7 +37,7 @@ dir=${bidi}
     }
 </script>
 
-<div class="colophon">
+    <div class="colophon">
     <!--
     <div class="wrapper-logo">
     <p>
@@ -69,6 +69,7 @@ dir=${bidi}
             </nav>
         <p class="copyright">Copyright(c)2016. 국가평생교육진흥원 (National Institute For Lifelong Education. All right reserved)</p>
 
+
         <!--<nav class="nav-legal">
         <ul>
             <li class="nav-legal-01"><a href="/agreement">${_("Terms of Use")}</a></li>
@@ -78,13 +79,13 @@ dir=${bidi}
         </nav>-->
 
         <p title="(04520) 서울특별시 중구 청계천로 14 (무교동 77)">${_("14, Cheonggyecheon-ro, Jung-gu, Seoul, Republic of Korea (04520)")} E-mail: <a href="mailto:kmooc@nile.or.kr" style="color: #0088d0;">kmooc@nile.or.kr</a></p>
+
         </div>
     </div>
 
     <div class="footer-about-openedx">
         <div class="associate-site-lnk" id="rel_site">
-##             <select onchange="moveLocation(this.value);" title="관련사이트">
-            <select title="관련사이트" id="related_site" onchange="moveLocation(this.value)">
+            <select title="관련사이트" id="related_site" onchange="moveLocation(this.value)" style="margin-top: 5px;">
                 <option>${_("Related sites")}</option>
                 <option value="http://www.moe.go.kr/">${_("Ministry of Education")}</option>
                 <option value="http://www.nile.or.kr/">${_("NILE")}</option>
@@ -117,6 +118,16 @@ dir=${bidi}
                     }
                 }
             </script>
+
+            <p style="margin-top: 15px;">
+                <a href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 0px;">
+                    <img alt="app_url_and" src="/static/images/and_app.png" style="margin: 0px; width: 100px;">
+                </a>
+                <a href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" style="padding: 0px;">
+                    <img alt="app_url_ios" src="/static/images/ios_app.png" style="margin: 0px; width: 100px;">
+                </a>
+            </p>
+
         </div>
         <div class="associate-icon">
             <div>
@@ -125,13 +136,15 @@ dir=${bidi}
                 <a href="http://www.facebook.com/kmooc" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon02.png" alt="facebook" /></a>
             </div>
             <div>
-                <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;margin-right: 5px;"></a>
+
+                <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;"></a>
                 <a href="http://wa.or.kr/waMark/status.asp" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크" /></a>
                 <a href="javascript:fPopup('e');" title="새창으로 알림"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크" /></a>
                 <a href="javascript:fPopup('i');" title="새창으로 알림"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크" /></a>
             </div>
         </div>
     </div>
+
 </footer>
 </div>
 
