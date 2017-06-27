@@ -1201,3 +1201,5 @@ input:focus, button:focus, textarea:focus {
 
 /* For ie */
 button.button-primary.login-provider{padding: 0 0 0 37px;}
+
+#calculator_input{color: #000;}
