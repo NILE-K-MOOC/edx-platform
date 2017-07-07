@@ -1203,3 +1203,7 @@ input:focus, button:focus, textarea:focus {
 button.button-primary.login-provider{padding: 0 0 0 37px;}
 
 #calculator_input{color: #000;}
+
+.contents>table td{
+  vertical-align: middle !important;
+}
