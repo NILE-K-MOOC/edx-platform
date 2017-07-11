@@ -634,6 +634,7 @@ if FEATURES.get('ENABLE_THIRD_PARTY_AUTH'):
             'third_party_auth.naver.NaverOAuth2',
             'third_party_auth.lifelongedu.LifelongeduOAuth2',
             'third_party_auth.allprovider.LifelongeduOAuth2',
+            'third_party_auth.civicedu.CiviceduBackend',
             'social.backends.kakao.KakaoOAuth2',
             'social.backends.google.GoogleOAuth2',
             'social.backends.linkedin.LinkedinOAuth2',
