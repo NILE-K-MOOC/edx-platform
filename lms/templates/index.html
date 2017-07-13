@@ -523,6 +523,32 @@ if (
                 </div>
                 <!--// community 04 -->
 
+
+                <a href="#community05" title="모바일">모바일</a>
+                <div class="grid-container grid-manual community" id="community05">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'M':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="/comm_faq/${list[6]}/">
+                                    <h3>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;" title="Q&A 더보기">더보기</a>
+                    </div>
+                </div>
+
             </div>
         </section>
         <!-- [e] community list -->
