@@ -895,7 +895,6 @@ def remove_account(request):
             user_profile.year_of_birth = None
             user_profile.level_of_education = None
             user_profile.goals = None
-            user_profile.allow_certificate = ''
             user_profile.country = None
             user_profile.city = None
             user_profile.bio = None
