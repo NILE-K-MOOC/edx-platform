@@ -161,7 +161,7 @@ def custom_get_form(self, request, obj=None, **kwargs):
             user_id=request.user.pk,
             content_type_id=291,
             object_id=0,
-            object_repr='auth_user_info[student=%s]' % user.username,
+            object_repr='auth_user_info[student:%s]' % user.username,
             action_flag=0,
             change_message=get_meta_json(self, request)
         )
