@@ -1675,6 +1675,18 @@ def upload_ora2_data(
     )
     task_progress.update_task_state(extra_meta=curr_step)
 
+    # Response text to `KOREAN`
+    for row in rows[1:]:
+        TASK_LOG.debug('row: %s' % row)
+        temp_dict = row[4]
+        keys = temp_dict.keys()
+        temp_str = ''
+        if 'parts' in keys:
+            for part in temp_dict['parts']:
+                TASK_LOG.info('text: %s' % part['text'])
+                temp_str += part['text'] if 'text' in part else ''
+            row[4] = temp_str if temp_str != '' else row[4]
+
     upload_csv_to_report_store(rows, 'ORA_data', course_id, start_date)
 
     curr_step = {'step': 'Finalizing ORA data report'}

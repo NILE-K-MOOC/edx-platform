@@ -89,7 +89,7 @@ from pymongo import MongoClient
 # job.minutes.every(1)
 # job.enable()
 #
-# AUDIT_LOG = logging.getLogger("audit")
+AUDIT_LOG = logging.getLogger("audit")
 # log = logging.getLogger(__name__)
 
 @require_http_methods(['GET'])
@@ -895,7 +895,6 @@ def remove_account(request):
             user_profile.year_of_birth = None
             user_profile.level_of_education = None
             user_profile.goals = None
-            user_profile.allow_certificate = ''
             user_profile.country = None
             user_profile.city = None
             user_profile.bio = None

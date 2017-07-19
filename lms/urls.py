@@ -17,6 +17,7 @@ from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from student.views import LogoutView, deleteOauth2Tokens, getUserIdBySocialInfo
 from openedx.core.djangoapps.log_action.views import LogAction
+from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
 
 LogAction()
 # Uncomment the next two lines to enable the admin:
@@ -757,6 +758,9 @@ urlpatterns += (
         include('branding.api_urls')
     ),
 )
+
+if oraurlpatterns:
+   urlpatterns += tuple(oraurlpatterns)
 
 if settings.FEATURES["ENABLE_TEAMS"]:
     # Teams endpoints

@@ -61,6 +61,7 @@ from django.http import HttpResponse
 # from django.utils import simplejson
 import json as simplejson
 import csv
+from django.db import connections
 
 log = logging.getLogger(__name__)
 
@@ -730,29 +731,23 @@ def check_assessment_ing(course_id):
 
 
 def check_assessment_done(course_id):
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'));
-    cur = con.cursor()
+    with connections['default'].cursor() as cur:
+        query = "select count(uri) from vw_copykiller where class_id ='" + course_id + "'"
+        cur.execute(query)
+        result = cur.fetchone()
+        if result[0] == 0:
+            return False
 
-    query = "select count(uri) from vw_copykiller where class_id ='" + course_id + "'"
-    cur.execute(query)
-    result = cur.fetchone()
-    if result[0] == 0:
-        return False
+        query2 = """
+            SELECT if(count(DISTINCT a.uri) = count(DISTINCT b.uri), 'True', 'False') complete
+              FROM vw_copykiller a LEFT JOIN tb_copykiller_copyratio b ON a.uri = b.uri
+             WHERE class_id = '{class_id}';
+        """.format(class_id=course_id)
 
-    query2 = "select "
-    query2 += "    if(count(uri) = (" + query + "), 'True', 'False') complete "
-    query2 += "from tb_copykiller_copyratio "
-    query2 += "where "
-    query2 += "    uri in (select uri from vw_copykiller where class_id ='" + course_id + "') "
-    query2 += "and "
-    query2 += "    complete_status in ('Y','F') and check_type='internet'"
-    # query2 += "    complete_date is not null and check_type='internet'"
+        print 'check_assessment_done query2 :', query2
 
-    cur.execute(query2)
-    result = cur.fetchone()
-    cur.close()
-    con.close()
+        cur.execute(query2)
+        result = cur.fetchone()
 
     if result[0] == 'True':
         return True
@@ -822,7 +817,7 @@ def create_temp_answer(course_id):
     query = "delete from tb_tmp_answer where course_id = '" + course_id + "'"
     cur = con.cursor()
     cur.execute(query)
-    # print 'course_id :::', course_id
+    print 'query :::', query
 
     query1 = """
         SELECT item_type,
@@ -830,13 +825,15 @@ def create_temp_answer(course_id):
              raw_answer
         FROM submissions_studentitem a, submissions_submission b
        WHERE a.id = b.student_item_id
-         and a.course_id = '""" + course_id + """';
-    """
+         and a.course_id = '{course_id}';
+    """.format(
+        course_id=course_id
+    )
+
     arr_course_id = course_id.split('+')
-    query3 = "delete from vw_copykiller where class_id='" + arr_course_id[1] + "'"
+    query3 = "delete from vw_copykiller where class_id='{course}'".format(course=arr_course_id[1])
     with con:
         cur.execute("set names utf8")
-
         log.info(u'create_temp_answer query1 ::: %s', query1)
         cur.execute(query1)
         for (item_type, uuid, raw_answer) in cur:
@@ -844,7 +841,7 @@ def create_temp_answer(course_id):
 
             if item_type == 'openassessment':
                 try:
-                    answer = ans_json[0]['text']
+                    answer = ans_json['parts'][0]['text']
                 except Exception as e:
                     answer = 'no_answer'
                     log.error(ans_json)
@@ -864,11 +861,11 @@ def create_temp_answer(course_id):
             query2 = "insert into tb_tmp_answer (course_id, uuid, raw_answer, item_type) "
             query2 += "select '" + course_id + "', '" + uuid + "', '" + answer + "', '" + item_type + "' "
             query2 = str(query2)
-            # print 'create_temp_answer query2 :::', query2
+            print 'create_temp_answer query2 :::', query2
 
             cur.execute(query2)
 
-        # print 'create_temp_answer query3 :::', query3
+        print 'create_temp_answer query3 :::', query3
         cur.execute(query3)
     cur.close()
     con.close()
@@ -954,12 +951,6 @@ def get_copykiller_result(request, course_id):
     query = "select "
     query += "v.student_id, "
     query += "v.report_id assessment_no, "
-    # query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=0&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='total'),'\")') total, "
-    # query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=1&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='year'),'\")') year, "
-    # query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=2&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='term'),'\")') term, "
-    # query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=3&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='class'),'\")') class, "
-    # query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=4&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='report'),'\")') report, "
-    # query += "concat('=HYPERLINK(\"',concat('http://192.168.1.115/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=100&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='internet'),'\")') internet "
     query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=0&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='total'),'\")') total, "
     query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=1&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='year'),'\")') year, "
     query += "concat('=HYPERLINK(\"',concat('http://pjsearch.kmooc.kr:8080/ckplus/copykiller.jsp?uri=', v.uri, '&property_id=2&lang=ko'),'\",\"',(select r.disp_total_copy_ratio from tb_copykiller_copyratio r where r.uri=v.uri and r.check_type='term'),'\")') term, "
@@ -972,6 +963,8 @@ def get_copykiller_result(request, course_id):
     query += "v.uri in (select uri from tb_copykiller_copyratio) "
     query += "and concat(class_id, '+', term_id) = '" + course_id[course_id.index('+') + 1:] + "'"
     query += "order by assessment_no, student_id "
+
+    print 'get_copykiller_result query :', query
 
     log.info(u'get_copykiller_result query:', query)
     cur.execute(query)

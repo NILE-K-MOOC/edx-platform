@@ -11,6 +11,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.http import HttpResponseNotFound, HttpResponseServerError, Http404
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.translation import ugettext as _
 
 from util.cache import cache_if_anonymous
 
@@ -45,10 +46,10 @@ def render(request, template):
     # Guess content type from file extension
     content_type, __ = mimetypes.guess_type(template)
     try:
-        if '_language' not in request.session or request.session['_language'] != 'en' :
-            return render_to_response('static_templates/' + template, {}, content_type=content_type)
-        if template == 'about.html' and request.session['_language'] != 'ko-kr':
+        if _("Agree") == "Agree":
             return render_to_response('static_templates/' + 'about_en.html', {}, content_type=content_type)
+        else:
+            return render_to_response('static_templates/' + template, {}, content_type=content_type)
     except TopLevelLookupException:
         raise Http404
 

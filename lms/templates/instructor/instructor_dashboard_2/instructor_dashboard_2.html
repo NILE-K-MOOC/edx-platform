@@ -204,9 +204,9 @@ from django.core.urlresolvers import reverse
             <br>
             <label>
               %if is_assessment_done:
-              <input type="button" name="list-anon-ids" value="${_('CSV file download')}" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
+              <input type="button" id="copykiller_csv_btn" name="list-anon-ids" value="${_('CSV file download')}" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
               %else:
-              <input type="button" name="list-anon-ids" value="${_('CSV file download')}" disabled>
+              <input type="button" id="copykiller_csv_btn" name="list-anon-ids" value="${_('CSV file download')}" disabled>
               %endif
             </label>
           </div>
