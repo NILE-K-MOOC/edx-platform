@@ -8,7 +8,7 @@ class CiviceduBackend(BaseOAuth2):
 
     # callback name
     name = 'nec'
-    AUTHORIZATION_URL = 'http://www.civicedu.go.kr/web/oauth/authorize.jsp'
+    AUTHORIZATION_URL = 'http://www.civicedu.go.kr/web/oauth/server/authorize.jsp'
     ACCESS_TOKEN_URL = 'http://www.civicedu.go.kr/web/oauth/server/token.jsp'
     # AUTHORIZATION_URL = 'http://myserver:8002/o/authorize'
     # ACCESS_TOKEN_URL = 'http://myserver:8002/o/token/'
