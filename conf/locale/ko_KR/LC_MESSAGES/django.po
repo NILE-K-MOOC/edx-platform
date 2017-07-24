@@ -29268,7 +29268,7 @@ msgid "After you submit your response, you cannot edit it"
 msgstr "답을 제출 한 후에는 답을 편집 할 수 없습니다"
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the Your Response field."
-msgstr "이 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
+msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the %(start_tag)sYour Response%(end_tag)s field."
 msgstr "본 과제에는 몇 가지 단계가 있습니다. 첫 번째 단계로, 질문에 대한 응답을 제출하세요. 그후 다른 단계들이 %(start_tag)s나의 응답%(end_tag)s 영역 아래에 나타날 것입니다. "
