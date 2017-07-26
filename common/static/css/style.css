@@ -1207,3 +1207,93 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 .contents>table td{
   vertical-align: middle !important;
 }
+
+
+
+.LJN_nav
+	{
+		position:relative;
+		height:30px;
+		width:100%;
+		background-color:#eee;
+		border-radius:3px 3px 0 0
+	}
+	.LJN_nav>li
+	{
+		float:left;
+		display:block;
+		margin-right:4px;
+		color : #000000;
+	}
+	.LJN_nav>li>div
+	{
+		background-color:#eee;
+		padding:5px 5px;
+		border-radius:4px 4px 0 0
+	}
+	.LJN_nav>li>div.active
+	{
+		background-color:#fff;
+		cursor:default;
+		border:1px solid #dddddd;
+		border-bottom-color:transparent;
+		box-shadow:4px 0px 3px #aaa
+	}
+	.LJN_equation
+	{
+		position:relative;
+		width:100%;
+		height:115px;
+		padding:5px;
+		box-sizing:border-box;
+		border:1px solid #aaa
+	}
+	.LJN_preview
+	{
+		width:100%;
+		padding:10px 20px;
+		color:#333;
+		box-sizing:border-box
+	}
+
+	.btn_submit
+	{
+		margin-top:10px;
+		display:block;
+		height:35px;
+		padding:0 15px;
+		border-radius:3px;
+		border:1px solid #2d81ad;
+		background-color:#6dccf1;
+		background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #6dccf1), color-stop(100%, #38a8e5));
+		background-image:-webkit-linear-gradient(top, #6dccf1, #38a8e5);
+		background-image:linear-gradient(to bottom, #6dccf1, #38a8e5);
+		font-size:13px;
+		font-weight:700;
+		line-height:32px;
+		color:#fff;
+		text-shadow:0 1px 0 rgba(0,0,0,0.3);
+		box-shadow:0 1px 0 rgba(255,255,255,0.4) inset,0 1px 1px rgba(0,0,0,0.15);
+		float:left
+	}
+	.btn_cancel
+	{
+		margin-top:10px;
+		margin-left:10px;
+		display:block;
+		height:35px;
+		padding:0 15px;
+		border-radius:3px;
+		border:1px solid #2d81ad;
+		background-color:#6dccf1;
+		background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #6dccf1), color-stop(100%, #38a8e5));
+		background-image:-webkit-linear-gradient(top, #6dccf1, #38a8e5);
+		background-image:linear-gradient(to bottom, #6dccf1, #38a8e5);
+		font-size:13px;
+		font-weight:700;
+		line-height:32px;
+		color:#fff;
+		text-shadow:0 1px 0 rgba(0,0,0,0.3);
+		box-shadow:0 1px 0 rgba(255,255,255,0.4) inset,0 1px 1px rgba(0,0,0,0.15);
+		float:left
+	}
