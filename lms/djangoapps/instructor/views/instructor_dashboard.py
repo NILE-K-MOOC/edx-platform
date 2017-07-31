@@ -890,7 +890,7 @@ def copykiller(request, course_id):
     query += "'" + str(course.id.course) + "' class_id, '" + str(course.display_name) + "' class_name, "
     query += "item_id report_id, '" + str(assessment_info['display_name']) + "' report_name, "
     query += "(select user.username from auth_user user where user.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_id, "
-    query += "(select profile.name from auth_userprofile profile where profile.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_name, "
+    query += "(select profile.name from auth_userprofile profile where profile.user_id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_name, "
     query += "(select user.id from auth_user user where user.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_number, "
     query += "'" + str(assessment_info['submission_start']) + "' start_date, "
     query += "'" + str(assessment_info['submission_due']) + "' end_date, "
@@ -911,7 +911,7 @@ def copykiller(request, course_id):
     query += "'" + str(course.id.course) + "' class_id, '" + str(course.display_name) + "' class_name, "
     query += "item_id report_id, '" + str(assessment_info['display_name']) + "' report_name, "
     query += "(select user.username from auth_user user where user.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_id, "
-    query += "(select profile.name from auth_userprofile profile where profile.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_name, "
+    query += "(select profile.name from auth_userprofile profile where profile.user_id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_name, "
     query += "(select user.id from auth_user user where user.id=(select anony.user_id from student_anonymoususerid anony where anony.anonymous_user_id=student_id)) student_number, "
     query += "'" + str(assessment_info['submission_start']) + "' start_date, "
     query += "'" + str(assessment_info['submission_due']) + "' end_date, "
@@ -920,7 +920,7 @@ def copykiller(request, course_id):
     query += "'' content, " \
              "(select SUBSTRING(answer.raw_answer, instr(answer.raw_answer,':') + 1) from tb_tmp_answer answer where answer.uuid=b.uuid) attach_file_name, " \
              "(select concat('/edx/var/edxapp/uploads', '/', '" + str(course.id.org) + "','/', '" + str(
-        course.id.course) + "','/',SUBSTRING_INDEX(answer.raw_answer, ':', 1),SUBSTRING(answer.raw_answer, instr(answer.raw_answer,'.'))) from tb_tmp_answer answer where answer.uuid=b.uuid) attach_file_path "
+        course.id.course) + "','/edx_sga/', substring_index(item_id, '@', -1), '/' ,SUBSTRING_INDEX(answer.raw_answer, ':', 1),SUBSTRING(answer.raw_answer, instr(answer.raw_answer,'.'))) from tb_tmp_answer answer where answer.uuid=b.uuid) attach_file_path "
     query += "FROM submissions_studentitem a, submissions_submission b "
     query += "WHERE a.id = b.student_item_id "
     query += "and a.item_type = 'sga'"
