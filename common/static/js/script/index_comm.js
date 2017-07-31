@@ -6,7 +6,9 @@ $(document).ready(function(){
     $.ajax({
         url : 'comm_list_json'
     }).done(function(data){
+        console.log('check s ----------------------------------------');
         console.log(data);
+        console.log('check e ----------------------------------------');
         //console.log(data[0]);
         for(var i=0; i<data.length; i++){
             html +="<div class='col col-12 sm-col-6 md-col-4  lg-col-3'>";
@@ -19,6 +21,8 @@ $(document).ready(function(){
                 html +="<a href='/comm_notice_view/"+data[i][0]+"/'>";
             }else if(data[i][5] == 'R'){
                 html +="<a href='/comm_repo_view/"+data[i][0]+"/'>";
+            }else if(data[i][5] == 'M'){
+                html +="<a href='/comm_mobile_view/"+data[i][0]+"/'>";
             }
             html +="<h3><strong class='category'>"+data[i][1]+"</strong>";
             html +="<p>"+data[i][2]+"</p></h3>";

@@ -264,7 +264,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                WHERE section = 'N'
                and use_yn = 'Y'
             ORDER BY mod_date DESC
-               LIMIT 4)
+               limit 5)
         union all
             (  SELECT board_id,
                  CASE
@@ -286,7 +286,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                WHERE section = 'K'
                and use_yn = 'Y'
             ORDER BY mod_date DESC
-                LIMIT 4)
+                limit 5)
         union all
             (  SELECT board_id,
                  CASE
@@ -306,7 +306,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                WHERE section = 'R'
                and use_yn = 'Y'
             ORDER BY mod_date DESC
-               LIMIT 4)
+               limit 5)
         union all
             (  SELECT board_id,
                  CASE
@@ -329,7 +329,21 @@ def index(request, extra_context=None, user=AnonymousUser()):
                WHERE section = 'F'
                  and use_yn = 'Y'
             ORDER BY mod_date DESC
-               LIMIT 4)
+               limit 5)
+        union all
+            (  SELECT board_id,
+                     '' head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     head_title
+                FROM tb_board
+               WHERE section = 'M'
+                 and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 5)
+
     """
 
     index_list = []

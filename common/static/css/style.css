@@ -1298,3 +1298,8 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 		box-shadow:0 1px 0 rgba(255,255,255,0.4) inset,0 1px 1px rgba(0,0,0,0.15);
 		float:left
 	}
+
+	@media (min-width: 1024px){
+		.grid-manual .lg-col-3{width: 20%;}
+
+	}

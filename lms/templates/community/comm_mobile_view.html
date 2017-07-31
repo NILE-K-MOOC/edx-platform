@@ -1,0 +1,46 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">모바일</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<script src="${static.url('js/script/mod_mobile.js')}" charset="utf-8"></script>
+
+<section class="container">
+    <h2 title="모바일" id="main">모바일</h2>
+    <!-- [s] board view -->
+    <section class="board-view">
+        <ul>
+            <li id="board_id" style="display: none;">${id}</li>
+            <li class="title">
+                <h3 id="title" title="제목"></h3>
+                <time id="reg_date" style="bottom: 20px;" title="작성일"></time>
+                <time id="mod_date" style="bottom: 5px;" title="수정일"></time>
+            </li>
+            <li class="contents" id="context" title="내용">
+                <div id="context1"></div>
+            </li>
+            <li class="contents" >
+
+            </li>
+            <li class="file-list" title="첨부파일" id="file_li" style="display: none;">
+                <h5>파일명:</h5>
+                <time id="file"></time>
+            </li>
+        </ul>
+
+        <div class="board-btns">
+            <div class="left">
+##                 <input type="button" value="이전글" class="btn-gray">
+##                 <input type="button" value="다음글" class="btn-gray">
+            </div>
+                <input type="button" value="목록" class="btn-gray" id="list" title="목록">
+        </div>
+    </section>
+    <!-- [e] board list -->
+</section>
+
+
+
+

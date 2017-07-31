@@ -127,7 +127,7 @@ if (
     document.all['popupWrap_2'].style.display = "none";
 }
 
-</script>
+</script>`
 
 
 <script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
@@ -503,9 +503,9 @@ if (
                         % if list[5] == 'M':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
                             <div class="community-item">
-                                <a href="/comm_faq/${list[6]}/">
+                                <a href="/comm_mobile_view/${list[0]}/">
                                     <h3>
-                                        <strong class="category">${list[1]}</strong>
+                                        <strong class="category">[모바일]</strong>
                                         <p>${list[2]}</p>
                                     </h3>
                                     <time>${list[4]}</time>
@@ -517,7 +517,7 @@ if (
                     % endfor
                     </div>
                     <div align="right" class="btns">
-                        <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;" title="Q&A 더보기">더보기</a>
+                        <a class="btn-neutral" href="comm_mobile" style="margin-top: 20px;" title="모바일 더보기">더보기</a>
                     </div>
                 </div>
 
