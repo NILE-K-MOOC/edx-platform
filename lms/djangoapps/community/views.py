@@ -100,7 +100,7 @@ def comm_notice(request) :
                            substring(reg_date, 1, 10) reg_datee,
                            (SELECT ceil(count(board_id) / 10)
                               FROM tb_board
-                             WHERE section = 'N')
+                             WHERE section = 'N' AND use_yn = 'Y')
                               AS total_page,
                            board_id,
                            CASE
@@ -453,7 +453,7 @@ def comm_repository(request):
                            substring(reg_date, 1, 10) reg_datee,
                            (SELECT ceil(count(board_id) / 10)
                               FROM tb_board
-                             WHERE section = 'R')
+                             WHERE section = 'R' AND use_yn = 'Y')
                               AS total_page,
                            board_id,
                            CASE
@@ -660,7 +660,7 @@ def comm_k_news(request) :
                            substring(reg_date, 1, 10) reg_datee,
                            (SELECT ceil(count(board_id) / 10)
                               FROM tb_board
-                             WHERE section = 'K')
+                             WHERE section = 'K' AND use_yn = 'Y')
                               AS total_page,
                            board_id,
                            CASE
