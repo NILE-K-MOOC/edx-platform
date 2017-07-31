@@ -8,7 +8,7 @@ $(document).ready(function(){
     }).done(function(data){
         //console.log(data[0]);
         for(var i=0; i<data.length; i++){
-            html +="<div class='col col-12 sm-col-6 md-col-4  lg-col-3'>";
+            html +="<div class='col col-12 sm-col-6 md-col-4 lg-col-3 tab'>";
             html +="<div class='community-item'>";
             if(data[i][5] == 'F'){
                 html +="<a href='/comm_faq/"+data[i][6]+"/'>";

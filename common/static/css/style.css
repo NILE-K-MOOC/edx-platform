@@ -1300,6 +1300,5 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 	}
 
 	@media (min-width: 1024px){
-		.grid-manual .lg-col-3{width: 20%;}
-
+		.community .tab{width: 20%;}
 	}
