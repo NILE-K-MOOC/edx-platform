@@ -7,7 +7,6 @@ from django.conf.urls import patterns, include, url
 from django.views.generic.base import RedirectView
 from ratelimitbackend import admin
 from django.conf.urls.static import static
-
 import auth_exchange.views
 from courseware.views.views import EnrollStaffView
 from config_models.views import ConfigurationModelCurrentAPIView
@@ -28,7 +27,7 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = (
     '',
 
-    url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
+    url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
@@ -119,7 +118,7 @@ urlpatterns = (
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
 
-    #community url
+    # community url
     url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),
     url(r'^comm_notice_view/(?P<board_id>.*?)/$', 'community.views.comm_notice_view', name='comm_notice_view'),
     url(r'^comm_repository$', 'community.views.comm_repository', name='comm_repository'),
@@ -130,7 +129,6 @@ urlpatterns = (
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
     # url(r'^test$', 'community.views.test', name='test'),
-
 
 )
 
@@ -253,7 +251,6 @@ for key, value in settings.MKTG_URL_LINK_MAP.items():
     urlpatterns += (url(r'^%s$' % key.lower(),
                         'static_template_view.views.render',
                         {'template': template}, name=value),)
-
 
 # Multicourse wiki (Note: wiki urls must be above the courseware ones because of
 # the custom tab catch-all)
@@ -381,7 +378,7 @@ urlpatterns += (
         name='change_email_settings',
     ),
 
-    #About the course
+    # About the course
     url(
         r'^courses/{}/about$'.format(
             settings.COURSE_ID_PATTERN,
@@ -398,7 +395,7 @@ urlpatterns += (
         name='enroll_staff',
     ),
 
-    #Inside the course
+    # Inside the course
     url(
         r'^courses/{}/$'.format(
             settings.COURSE_ID_PATTERN,
@@ -546,10 +543,10 @@ urlpatterns += (
     ),
 
     # add LJH start.
-    url(r'^filedownload_log', LogAction.as_view()), # log_actioin post write
+    url(r'^filedownload_log', LogAction.as_view()),  # log_actioin post write
 
-    url(r'^en$', 'branding.views.index_en', name="root"),   # en index
-    url(r'^ko$', 'branding.views.index_ko', name="root"),   # ko index
+    url(r'^en$', 'branding.views.index_en', name="root"),  # en index
+    url(r'^ko$', 'branding.views.index_ko', name="root"),  # ko index
     url(r'^notice/?$', 'branding.views.notice', name="notice"),
 
     url(r'^redirectTo/(?P<redirectTo>.*?)$', 'student_account.views.redirectTo', name="redirectTo"),
@@ -564,7 +561,7 @@ urlpatterns += (
     url(r'^deleteOauth2Tokens', 'student.views.deleteOauth2Tokens', name="deleteOauth2Tokens"),
 
     url(r'^courses/{}/instructor/copykiller$'.format(settings.COURSE_ID_PATTERN),
-            'instructor.views.instructor_dashboard.copykiller', name="copykiller"),
+        'instructor.views.instructor_dashboard.copykiller', name="copykiller"),
 
     url(r'^courses/{}/instructor/copykiller_csv'.format(settings.COURSE_ID_PATTERN),
         'instructor.views.instructor_dashboard.copykiller_csv', name="copykiller_csv"),
@@ -599,7 +596,6 @@ urlpatterns += (
 
     url(r'^remove_account_view/$', 'student_account.views.remove_account_view', name="remove_account_view"),
     url(r'^remove_account$', 'student_account.views.remove_account', name="remove_account"),
-
 
     # add LJH end.
 
@@ -760,7 +756,7 @@ urlpatterns += (
 )
 
 if oraurlpatterns:
-   urlpatterns += tuple(oraurlpatterns)
+    urlpatterns += tuple(oraurlpatterns)
 
 if settings.FEATURES["ENABLE_TEAMS"]:
     # Teams endpoints
@@ -1068,6 +1064,7 @@ urlpatterns += url(r'^template/(?P<template>.+)$', 'openedx.core.djangoapps.debu
 
 if 'debug_toolbar' in settings.INSTALLED_APPS:
     import debug_toolbar
+
     urlpatterns += (
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
