@@ -178,7 +178,7 @@ def comm_notice(request):
                            END
                               head_title
                       FROM tb_board
-                     WHERE use_yn = 'Y'
+                     WHERE section = 'N' and use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET:
                 title = request.GET['search_con']
@@ -527,7 +527,7 @@ def comm_repository(request):
                            END
                               head_title
                       FROM tb_board
-                     WHERE use_yn = 'Y'
+                     WHERE section = 'R' and use_yn = 'Y'
             """ % (page, page)
             if 'search_con' in request.GET:
                 title = request.GET['search_con']
@@ -628,6 +628,151 @@ def comm_repo_view(request, board_id):
         'id': board_id
     }
     return render_to_response('community/comm_repo_view.html', context)
+
+
+@ensure_csrf_cookie
+def comm_mobile(request):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    noti_list = []
+    page = 1
+    if request.is_ajax():
+        data = {}
+        if request.GET['method'] == 'mobile_list':
+            cur = con.cursor()
+            if 'cur_page' in request.GET:
+                page = request.GET['cur_page']
+            query = """
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'M' AND use_yn = 'Y')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           (SELECT ceil(count(board_id) / 10)
+                              FROM tb_board
+                             WHERE section = 'M' AND use_yn = 'Y')
+                              AS total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'noti_n' THEN '공지'
+                              WHEN head_title = 'advert_n' THEN '공고'
+                              WHEN head_title = 'guide_n' THEN '안내'
+                              WHEN head_title = 'event_n' THEN '이벤트'
+                              WHEN head_title = 'etc_n' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'M' AND use_yn = 'Y'
+            """ % (page)
+            if 'cur_page' in request.GET:
+                cur_page = request.GET['cur_page']
+                if cur_page == '1':
+                    query += "order by reg_date desc " \
+                             "limit 0,10"
+                    cur.execute(query)
+                else:
+                    start_num = (int(cur_page) - 1) * 10
+                    query += "order by reg_date desc " \
+                             "limit %s,10" % (start_num)
+                    cur.execute(query)
+            else:
+                query += "order by reg_date desc " \
+                         "limit 0,10"
+                cur.execute(query)
+            row = cur.fetchall()
+            cur.close()
+
+            for noti in row:
+                value_list = []
+                mobile = noti
+                value_list.append(int(mobile[0]))
+                value_list.append(mobile[1])
+                value_list.append(mobile[2])
+                value_list.append(int(mobile[3]))
+                value_list.append(mobile[4])
+                value_list.append(mobile[5])
+                if mobile[6] == None or mobile[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('[' + mobile[6] + '] ')
+
+                noti_list.append(value_list)
+            data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+        elif request.GET['method'] == 'search_list':
+            cur = con.cursor()
+            if 'cur_page' in request.GET:
+                page = request.GET['cur_page']
+            query = """
+                    SELECT (SELECT count(board_id) - (%s - 1) * 10
+                              FROM tb_board
+                             WHERE section = 'M' AND use_yn = 'Y')
+                              no,
+                           subject,
+                           substring(reg_date, 1, 10) reg_datee,
+                           %s                          total_page,
+                           board_id,
+                           CASE
+                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
+                              ELSE '0'
+                           END
+                              flag,
+                           CASE
+                              WHEN head_title = 'noti_n' THEN '공지'
+                              WHEN head_title = 'advert_n' THEN '공고'
+                              WHEN head_title = 'guide_n' THEN '안내'
+                              WHEN head_title = 'event_n' THEN '이벤트'
+                              WHEN head_title = 'etc_n' THEN '기타'
+                              ELSE ''
+                           END
+                              head_title
+                      FROM tb_board
+                     WHERE section = 'M' and use_yn = 'Y'
+            """ % (page, page)
+            if 'search_con' in request.GET:
+                title = request.GET['search_con']
+                search = request.GET['search_search']
+                # print 'title == ',title
+                if title == 'search_total':
+                    query += "and (subject like '%" + search + "%' or content like '%" + search + "%') and section='M' "
+                else:
+                    query += "and subject like '%" + search + "%' and section='M' "
+
+            query += "order by reg_date desc "
+            # print 'query == ', query
+            cur.execute(query)
+            row = cur.fetchall()
+            cur.close()
+
+            for noti in row:
+                value_list = []
+                mobile = noti
+                value_list.append(int(mobile[0]))
+                value_list.append(mobile[1])
+                value_list.append(mobile[2])
+                value_list.append(int(mobile[3]))
+                value_list.append(mobile[4])
+                value_list.append(mobile[5])
+                if mobile[6] == None or mobile[6] == '':
+                    value_list.append('')
+                else:
+                    value_list.append('[' + mobile[6] + '] ')
+                noti_list.append(value_list)
+            data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+
+        return HttpResponse(list(data), 'application/json')
+
+    return render_to_response('community/comm_mobile.html')
+
 
 
 @ensure_csrf_cookie
