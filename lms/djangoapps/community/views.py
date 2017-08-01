@@ -257,7 +257,7 @@ def comm_notice_view(request, board_id):
             cur.close()
             # 파일 이름 구하기
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and del_yn = 'N' and  board_id = " + board_id
+            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
@@ -600,7 +600,7 @@ def comm_repo_view(request, board_id):
             cur.close()
             # 파일 이름 구하기
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and del_yn = 'N' and board_id = " + board_id
+            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = " + board_id
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
@@ -808,7 +808,7 @@ def comm_mobile_view(request, board_id):
             cur.close()
             # 파일 이름 구하기
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and del_yn = 'N' and  board_id = " + board_id
+            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
@@ -1027,7 +1027,7 @@ def comm_k_news_view(request, board_id):
             cur.close()
             # 파일 이름 구하기
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and del_yn = 'N' and board_id = " + board_id
+            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = " + board_id
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
