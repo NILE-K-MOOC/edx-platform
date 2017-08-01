@@ -191,23 +191,15 @@ def parent_agree_done(request):
     if sDecData:
         val = sDecData.split('^')
         if val[6] and len(val[6]) == 8:
-
-            print '*****************************'
-            print int(date.today().year) - int(val[6][:4])
-            print '*****************************'
+            context = {
+                'isAuth': 'succ',
+                'age': int(date.today().year) - int(val[6][:4]),
+            }
 
             if int(date.today().year) - int(val[6][:4]) < 20:
-                context = {
-                    'isAuth': 'fail',
-                    'age': int(date.today().year) - int(val[6][:4]),
-                }
+                pass
             else:
                 request.session['auth'] = 'Y'
-                context = {
-                    'isAuth': 'succ',
-                    'age': int(date.today().year) - int(val[6][:4]),
-                }
-
     else:
         context = {
             'isAuth': 'fail',
