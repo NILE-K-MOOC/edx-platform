@@ -314,6 +314,7 @@ def comm_faq(request, head_title):
                                   WHEN head_title = 'course_f ' THEN '강좌수강'
                                   WHEN head_title = 'certi_f  ' THEN '성적/이수증'
                                   WHEN head_title = 'tech_f ' THEN '기술적문제'
+                                  WHEN head_title = 'mobile_f ' THEN '모바일문제'
                                   ELSE ''
                                END
                                   head_title

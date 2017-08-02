@@ -18,8 +18,6 @@ $(document).ready(function(){
                 html +="<a href='/comm_notice_view/"+data[i][0]+"/'>";
             }else if(data[i][5] == 'R'){
                 html +="<a href='/comm_repo_view/"+data[i][0]+"/'>";
-            }else if(data[i][5] == 'M'){
-                html +="<a href='/comm_mobile_view/"+data[i][0]+"/'>";
             }
             html +="<h3><strong class='category'>"+data[i][1]+"</strong>";
             html +="<p>"+data[i][2]+"</p></h3>";
@@ -39,7 +37,7 @@ $(document).ready(function(){
 //        <a href="">
 //            <h3>
 //                <strong class="category">[입찰공고]</strong>
-//                <p>(제공고) 한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
+//                <p>(제공고) 한국형 온라인 공개강좌 (K-OC)운영사업 체제에 관한 중장기 운영방향 연구 용역한국형 온라인 공개강좌 (K-MOOC)운영사업 체제에 관한 중장기 운영방향 연구 용역</p>
 //            </h3>
 //            <p class="summary">세부과입내역은 붙임 재공고서 및 제안요청서 참조 해당 요역건은 나라장터 G2B 및 기획재 정부 ALIO 시스템에서도 확인가능 </p>
 //            <time>2016-10-19</time>

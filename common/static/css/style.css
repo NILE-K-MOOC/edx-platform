@@ -1,4 +1,4 @@
-**  v2 override **/
+/**  v2 override **/
 .window-wrap {background:#fff;}
 .grid-container {
 	max-width:75rem;
@@ -513,13 +513,12 @@ a, span, p {color:inherit;}
 .community-container-wrap {max-width:75rem;margin:0 auto;position:relative;padding-top:45px;}
 /*20170116*/
 /*.community-container-wrap > a {position:absolute;top:0;width:20%;line-height:40px;text-align:center;color:#fff;background:#9aa1a4;border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 17px;font-weight: 700;}*/
-.community-container-wrap > a {position:absolute;top:0;width:16.6%;line-height:40px;text-align:center;color:#fff;background:#51575a;border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 17px;font-weight: 700;}
+.community-container-wrap > a {position:absolute;top:0;width:20%;line-height:40px;text-align:center;color:#fff;background:#51575a;border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 17px;font-weight: 700;}
 .community-container-wrap > a:nth-of-type(1) {left:0;border-left:0;}
-.community-container-wrap > a:nth-of-type(2) {left:16.6%;}
-.community-container-wrap > a:nth-of-type(3) {left:33.2%;}
-.community-container-wrap > a:nth-of-type(4) {left:49.8%;}
-.community-container-wrap > a:nth-of-type(5) {left:66.4%;}
-.community-container-wrap > a:nth-of-type(6) {left:83%;}
+.community-container-wrap > a:nth-of-type(2) {left:20%;}
+.community-container-wrap > a:nth-of-type(3) {left:40%;}
+.community-container-wrap > a:nth-of-type(4) {left:60%;}
+.community-container-wrap > a:nth-of-type(5) {left:80%;}
 .community-container-wrap > a.on {background:#b3ddeb;color:black;}
 .community-container-wrap > a.all.on::after {border-color:#646464 transparent transparent transparent !important;}
 .community-container-wrap > a.on::after {content:"";width:0; height:0; border-style:solid; border-width:20px;border-color:#b3ddeb transparent transparent transparent;position:absolute;left:50%;bottom:-30px;margin-left:-15px;z-index:1;}
@@ -1297,8 +1296,4 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 		text-shadow:0 1px 0 rgba(0,0,0,0.3);
 		box-shadow:0 1px 0 rgba(255,255,255,0.4) inset,0 1px 1px rgba(0,0,0,0.15);
 		float:left
-	}
-
-	@media (min-width: 1024px){
-		.community .tab{width: 20%;}
 	}
