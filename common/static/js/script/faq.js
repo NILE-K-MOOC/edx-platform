@@ -72,34 +72,47 @@ $(document).ready(function(){
 				head_title : head_title
 			}
 		}).done(function(data){
-			html="<h1 class='blind'>"+data[0][2]+"</h1>";
-			head_html="";
-			//console.log(data.length);
-			//console.log(data);
-			if(data != '' && data.length >3){
-				for(var i=0; i<data.length; i++){
-					html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
-					html += "<dd>";
-					html += "<div>"+data[i][1]+"</div>";
-					html += "</dd>";
-				}
-				$('dl').css('height', '');
-			}else if(data != '' && data.length <= 3){
-				for(var j=0; j<data.length; j++){
-					value_list = data[j].toString().split(',');
-					html += "<dt><a href='#' >"+data[j][0]+"</a></dt>";
-					html += "<dd>";
-					html += "<div>"+data[j][1]+"</div>";
-					html += "</dd>";
-				}
-				$('dl').css('height', '265px');
+
+			if(data.length == 0){
+				html = "<div style='text-align: center'>" +
+							"<h3>저장된 데이터가 없습니다.</h3>" +
+							"</div>";
+					$('dl').css('height', '265px');
 			}else{
-				//alert('dd');
-				html += "<div style='text-align: center'>" +
-						"<h3>저장된 데이터가 없습니다.</h3>" +
-						"</div>";
-				$('dl').css('height', '265px');
+				html="<h1 class='blind'>"+data[0][2]+"</h1>";
+				head_html="";
+				//console.log(data.length);
+				//console.log(data);
+				if(data != '' && data.length >3){
+					console.log('case 1 start.');
+					for(var i=0; i<data.length; i++){
+						html += "<dt><a href='#' >"+data[i][0]+"</a></dt>";
+						html += "<dd>";
+						html += "<div>"+data[i][1]+"</div>";
+						html += "</dd>";
+					}
+					$('dl').css('height', '');
+				}else if(data != '' && data.length <= 3){
+					console.log('case 2 start.');
+					for(var j=0; j<data.length; j++){
+						value_list = data[j].toString().split(',');
+						html += "<dt><a href='#' >"+data[j][0]+"</a></dt>";
+						html += "<dd>";
+						html += "<div>"+data[j][1]+"</div>";
+						html += "</dd>";
+					}
+					$('dl').css('height', '265px');
+				}else{
+					console.log('case 3 start.');
+					//alert('dd');
+					html += "<div style='text-align: center'>" +
+							"<h3>저장된 데이터가 없습니다.</h3>" +
+							"</div>";
+					$('dl').css('height', '265px');
+				}
 			}
+
+
 			$('.faq-list').html(html);
 		});
 	});
