@@ -38,6 +38,9 @@ var DetailsView = ValidatingView.extend({
     },
 
     initialize : function(options) {
+        //console.log('model check s --------------------------------');
+        //console.log(this.model);
+        //console.log('model check e --------------------------------');
 
         options = options || {};
         // fill in fields
@@ -253,10 +256,10 @@ var DetailsView = ValidatingView.extend({
 
         var time = $("#course-effort").val();
         if(time){
-            console.log("time1 --> " + time);
-            console.log("time2 --> " + time.length);
-            console.log("time3 --> " + time.indexOf("@"));
-            console.log("time4 --> " + time.indexOf("#"));
+            //console.log("time1 --> " + time);
+            //console.log("time2 --> " + time.length);
+            //console.log("time3 --> " + time.indexOf("@"));
+            //console.log("time4 --> " + time.indexOf("#"));
 
             if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
                 var arr1 = time.split("@");
@@ -310,6 +313,57 @@ var DetailsView = ValidatingView.extend({
                 $("#Calculated").val(total_time + "시간");
             }
         }
+
+        // 현재 날짜 기준 (UTC) 과 강좌 일정을 비교하여 수정이 안되도록 수정
+        var now = new Date();
+        var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+        var start_date_value = $("#course-start-date").val() + " " + $("#course-start-time").val();
+        var end_date_value = $("#course-end-date").val() + " " + $("#course-end-time").val();
+        var enroll_start_date_value = $("#course-enrollment-start-date").val() + " " + $("#course-enrollment-start-time").val();
+        var enroll_end_date_value = $("#course-enrollment-end-date").val() + " " + $("#course-enrollment-end-time").val();
+
+        var start_date = new Date(start_date_value);
+        var end_date = new Date(end_date_value);
+        var enroll_start_date = new Date(enroll_start_date_value);
+        var enroll_end_date = new Date(enroll_end_date_value);
+
+        if(this.model.get('need_lock') == 1){
+            /*
+            *   -수업주차,주간학습권장시간,총동영상 재생시간
+                -수강신청시작일/마감일, 개강일/종강일
+                -강좌 언어
+                -강좌 불러오기 메뉴 비활성화(내보내기는 가능하게 그대로 둠)
+            * */
+
+            $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
+
+            $("#course-language").attr("disabled", true).css("background", "#ccc");
+            $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
+
+        }
+
+        /*
+        if(start_date < now_utc){
+            //console.log("disabled on1");
+            $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
+        }
+        if(end_date < now_utc){
+            //console.log("disabled on2");
+            $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
+        }
+        if(enroll_start_date < now_utc){
+            //console.log("disabled on3");
+            $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
+        }
+        if(enroll_end_date < now_utc){
+            //console.log("disabled on4");
+            $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
+        }
+        */
 
         return this;
     },

@@ -31,7 +31,8 @@ var CourseDetails = Backbone.Model.extend({
         entrance_exam_enabled : '',
         entrance_exam_minimum_score_pct: '50',
         learning_info: [],
-        instructor_info: {}
+        instructor_info: {},
+        need_lock: 0
     },
 
     validate: function(newattrs) {
