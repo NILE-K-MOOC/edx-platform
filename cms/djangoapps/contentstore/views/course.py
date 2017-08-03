@@ -1139,7 +1139,27 @@ def settings_handler(request, course_key_string):
             return render_to_response('settings.html', settings_context)
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
             if request.method == 'GET':
+
+                # 강좌 상세 내용 조회시 강좌 생성일 및 이수증 생성일을 조회하여 같이 전달
                 course_details = CourseDetails.fetch(course_key)
+
+                print 'COURSE LOCK CHECK !!!!!!!!!!!!!!!!!!!!! request.user.is_staff:', request.user.is_staff
+                if not request.user.is_staff:
+                    from django.db import connections
+                    with connections['default'].cursor() as cursor:
+                        cursor.execute('''
+                          SELECT a.course_id,
+                                 if(now() > min(b.created_date) OR now() > adddate(a.created, INTERVAL 1 YEAR), 1, 0) need_lock
+                            FROM course_structures_coursestructure a
+                                 LEFT JOIN certificates_generatedcertificate b
+                                    ON a.course_id = b.course_id
+                           WHERE a.course_id = %s
+                        GROUP BY a.course_id, a.created;
+                        ''', [course_key])
+                        desc = cursor.description
+                        result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()][0]
+                    course_details.need_lock = result['need_lock']
+
                 return JsonResponse(
                     course_details,
                     # encoder serializes dates, old locations, and instances
