@@ -68,7 +68,11 @@ else:
 
         <p class="error-block"></p>
 
+      %if need_lock == 1:
+        <a href="#" class="action action-choose-file choose-file-button" disabled="disabled">
+      %else:
         <a href="#" class="action action-choose-file choose-file-button">
+      %endif
           <span class="icon fa fa-upload" aria-hidden="true"></span>
           <span class="copy">${_("Choose a File to Import")}</span>
         </a>

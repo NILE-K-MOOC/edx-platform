@@ -7,7 +7,6 @@ import json
 import logging
 import random
 import string  # pylint: disable=deprecated-module
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -18,11 +17,9 @@ import django.utils
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import ensure_csrf_cookie
-
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import Location
-
 from .component import (
     ADVANCED_COMPONENT_TYPES,
 )
@@ -101,7 +98,6 @@ from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
 import MySQLdb as mdb
-
 
 log = logging.getLogger(__name__)
 
@@ -359,13 +355,14 @@ def get_in_process_course_actions(request):
             exclude_args={'state': CourseRerunUIStateManager.State.SUCCEEDED}, should_display=True
         )
         if has_studio_read_access(request.user, course.course_key)
-    ]
+        ]
 
 
 def _accessible_courses_summary_list(request):
     """
     List all courses available to the logged in user by iterating through all the courses
     """
+
     def course_filter(course_summary):
         """
         Filter out unusable and inaccessible courses
@@ -386,6 +383,7 @@ def _accessible_courses_list(request):
     """
     List all courses available to the logged in user by iterating through all the courses
     """
+
     def course_filter(course):
         """
         Filter out unusable and inaccessible courses
@@ -415,6 +413,7 @@ def _accessible_courses_list_from_groups(request):
     """
     List all courses available to the logged in user by reversing access group names
     """
+
     def filter_ccx(course_access):
         """ CCXs cannot be edited in Studio and should not be shown in this dashboard """
         return not isinstance(course_access.course_id, CCXLocator)
@@ -648,6 +647,7 @@ def _remove_in_process_courses(courses, in_process_course_actions):
     removes any in-process courses in courses list. in-process actually refers to courses
     that are in the process of being generated for re-run
     """
+
     def format_course_for_view(course):
         """
         Return a dict of the data which the view requires for each course
@@ -668,7 +668,7 @@ def _remove_in_process_courses(courses, in_process_course_actions):
         format_course_for_view(course)
         for course in courses
         if not isinstance(course, ErrorDescriptor) and (course.id not in in_process_action_course_keys)
-    ]
+        ]
     return courses
 
 
@@ -678,6 +678,7 @@ def course_outline_initial_state(locator_to_show, course_structure):
     was provided, then the view's initial state will be to have the desired item fully expanded
     and to scroll to see the new item.
     """
+
     def find_xblock_info(xblock_info, locator):
         """
         Finds the xblock info for the specified locator.
@@ -754,7 +755,6 @@ def _create_or_rerun_course(request):
         course_period = request.json.get('course_period')
         fields['course_period'] = course_period
 
-
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
         # # TODO get rid of defining wiki slug in this org/course/run specific way and reconcile
@@ -806,12 +806,12 @@ def _create_new_course(request, org, number, run, fields):
     new_course = create_new_course_in_store(store_for_new_course, request.user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
 
-
     try:
         print 'new_course.id ====> ', new_course.id
         # 이수증 생성을 위한 course_mode 등록
 
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'))
         cur = con.cursor()
         query = """
             INSERT INTO course_modes_coursemode(course_id,
@@ -925,7 +925,8 @@ def _rerun_course(request, org, number, run, fields):
         print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
 
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'))
         cur = con.cursor()
         query = """
             INSERT INTO course_modes_coursemode(course_id,
@@ -1142,23 +1143,7 @@ def settings_handler(request, course_key_string):
 
                 # 강좌 상세 내용 조회시 강좌 생성일 및 이수증 생성일을 조회하여 같이 전달
                 course_details = CourseDetails.fetch(course_key)
-
-                print 'COURSE LOCK CHECK !!!!!!!!!!!!!!!!!!!!! request.user.is_staff:', request.user.is_staff
-                if not request.user.is_staff:
-                    from django.db import connections
-                    with connections['default'].cursor() as cursor:
-                        cursor.execute('''
-                          SELECT a.course_id,
-                                 if(now() > min(b.created_date) OR now() > adddate(a.created, INTERVAL 1 YEAR), 1, 0) need_lock
-                            FROM course_structures_coursestructure a
-                                 LEFT JOIN certificates_generatedcertificate b
-                                    ON a.course_id = b.course_id
-                           WHERE a.course_id = %s
-                        GROUP BY a.course_id, a.created;
-                        ''', [course_key])
-                        desc = cursor.description
-                        result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()][0]
-                    course_details.need_lock = result['need_lock']
+                course_details.need_lock = course_need_lock(request, course_key)
 
                 return JsonResponse(
                     course_details,
@@ -1212,6 +1197,26 @@ def settings_handler(request, course_key_string):
                     CourseDetails.update_from_json(course_key, request.json, request.user),
                     encoder=CourseSettingsEncoder
                 )
+
+def course_need_lock(request, course_key_string):
+    if not request.user.is_staff:
+        from django.db import connections
+        with connections['default'].cursor() as cursor:
+            cursor.execute('''
+              SELECT a.course_id,
+                     if(now() > min(b.created_date) OR now() > adddate(a.created, INTERVAL 1 YEAR), 1, 0) need_lock
+                FROM course_structures_coursestructure a
+                     LEFT JOIN certificates_generatedcertificate b
+                        ON a.course_id = b.course_id
+               WHERE a.course_id = %s
+            GROUP BY a.course_id, a.created;
+            ''', [course_key_string])
+            desc = cursor.description
+            result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()][0]
+        need_lock = result['need_lock']
+    else:
+        need_lock = 0
+    return need_lock
 
 
 @login_required
@@ -1327,11 +1332,16 @@ def advanced_settings_handler(request, course_key_string):
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
+
+        need_lock = course_need_lock(request, course_key_string)
+        advanced_dict = CourseMetadata.fetch(course_module)
+        advanced_dict['need_lock'] = need_lock
+
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,
-                'advanced_dict': CourseMetadata.fetch(course_module),
+                'advanced_dict': advanced_dict,
                 'advanced_settings_url': reverse_course_url('advanced_settings_handler', course_key),
                 'is_staff': {"is_staff": 'true'} if request.user.is_staff is True else {"is_staff": 'false'}
             })
@@ -1543,7 +1553,7 @@ def textbooks_detail_handler(request, course_key_string, textbook_id):
                 return JsonResponse(status=404)
             return JsonResponse(textbook)
         elif request.method in ('POST', 'PUT'):  # can be either and sometimes
-                                            # django is rewriting one to the other
+            # django is rewriting one to the other
             try:
                 new_textbook = validate_textbook_json(request.body)
             except TextbookValidationError as err:
@@ -1693,7 +1703,7 @@ def group_configurations_detail_handler(request, course_key_string, group_config
             configuration = None
 
         if request.method in ('POST', 'PUT'):  # can be either and sometimes
-                                            # django is rewriting one to the other
+            # django is rewriting one to the other
             try:
                 new_configuration = GroupConfiguration(request.body, course, group_configuration_id).get_user_partition()
             except GroupConfigurationsValidationError as err:
