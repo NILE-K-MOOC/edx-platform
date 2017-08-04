@@ -45,6 +45,11 @@ var AdvancedView = ValidatingView.extend({
                 }
             });
 
+        if(self.model.get('need_lock') == 1){
+            // some disabled column
+        }
+
+
         var policyValues = listEle$.find('.json');
         _.each(policyValues, this.attachJSONEditor, this);
         return this;
@@ -63,6 +68,8 @@ var AdvancedView = ValidatingView.extend({
             lineNumbers: false,
             lineWrapping: false});
         cm.on('change', function(instance, changeobj) {
+
+
                 instance.save();
                 // this event's being called even when there's no change :-(
                 if (instance.getValue() !== oldValue) {
@@ -151,10 +158,21 @@ var AdvancedView = ValidatingView.extend({
         });
     },
     renderTemplate: function (key, model) {
+        //console.log(key + " : "  + model.display_name);
+
         var newKeyId = _.uniqueId('policy_key_'),
-        newEle = this.template({ key: key, display_name : model.display_name, help: model.help,
-            value : JSON.stringify(model.value, null, 4), deprecated: model.deprecated,
-            keyUniqueId: newKeyId, valueUniqueId: _.uniqueId('policy_value_')});
+        lock = this.model.get('need_lock'),
+        newEle = this.template(
+            {
+                key: key,
+                display_name : model.display_name,
+                help: model.help,
+                value : JSON.stringify(model.value, null, 4),
+                deprecated: model.deprecated,
+                keyUniqueId: newKeyId, valueUniqueId: _.uniqueId('policy_value_'),
+                need_lock: lock
+            }
+        );
 
         this.fieldToSelectorMap[key] = newKeyId;
         this.selectorToField[newKeyId] = key;

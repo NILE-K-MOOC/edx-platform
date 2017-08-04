@@ -44,6 +44,7 @@ from contentstore.views.entrance_exam import (
 )
 
 from contentstore.utils import reverse_course_url, reverse_usage_url, reverse_library_url
+from contentstore.views.course import course_need_lock
 
 
 __all__ = [
@@ -96,6 +97,7 @@ def _import_handler(request, courselike_key, root_name, successful_url, context_
     """
     Parameterized function containing the meat of import_handler.
     """
+
     if not has_course_author_access(request.user, courselike_key):
         raise PermissionDenied()
 
@@ -103,8 +105,20 @@ def _import_handler(request, courselike_key, root_name, successful_url, context_
         if request.method == 'GET':
             raise NotImplementedError('coming soon')
         else:
+
             # Do everything in a try-except block to make sure everything is properly cleaned up.
             try:
+
+                if course_need_lock(request, courselike_key) == 1:
+                    return JsonResponse(
+                        {
+                            'ErrMsg': 'course is lock',
+                            'Stage': -1
+                        },
+                        status=403
+                    )
+
+
                 data_root = path(settings.GITHUB_REPO_ROOT)
                 subdir = base64.urlsafe_b64encode(repr(courselike_key))
                 course_dir = data_root / subdir
@@ -336,11 +350,15 @@ def _import_handler(request, courselike_key, root_name, successful_url, context_
         status_url = reverse_course_url(
             "import_status_handler", courselike_key, kwargs={'filename': "fillerName"}
         )
+
+        need_lock = course_need_lock(request, courselike_key)
+
         return render_to_response('import.html', {
             context_name: courselike_module,
             'successful_import_redirect_url': successful_url,
             'import_status_url': status_url,
-            'library': isinstance(courselike_key, LibraryLocator)
+            'library': isinstance(courselike_key, LibraryLocator),
+            'need_lock': need_lock,
         })
     else:
         return HttpResponseNotFound()
