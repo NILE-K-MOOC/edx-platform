@@ -373,7 +373,8 @@ def comm_faqrequest(request):
                 'enroll_f': '[수강신청/취소]',
                 'course_f': '[강좌수강]',
                 'certi_f': '[성적/이수증]',
-                'tech_f': '[기술적문제]'
+                'tech_f': '[기술적문제]',
+                'mobile_f': '[모바일문제]',
             }
             email_title = head_dict[option] + ' ' + email + '님의 문의 내용입니다.'
             # 이메일 전송

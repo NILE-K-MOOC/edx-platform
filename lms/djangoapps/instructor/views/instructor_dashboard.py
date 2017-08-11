@@ -919,7 +919,7 @@ def copykiller(request, course_id):
     query += "'' title, "
     query += "'' content, " \
              "(select SUBSTRING(answer.raw_answer, instr(answer.raw_answer,':') + 1) from tb_tmp_answer answer where answer.uuid=b.uuid) attach_file_name, " \
-             "(select concat('/edx/var/edxapp/uploads', '/', '" + str(course.id.org) + "','/', '" + str(
+             "(select concat('/edx/var/edxapp/media', '/', '" + str(course.id.org) + "','/', '" + str(
         course.id.course) + "','/edx_sga/', substring_index(item_id, '@', -1), '/' ,SUBSTRING_INDEX(answer.raw_answer, ':', 1),SUBSTRING(answer.raw_answer, instr(answer.raw_answer,'.'))) from tb_tmp_answer answer where answer.uuid=b.uuid) attach_file_path "
     query += "FROM submissions_studentitem a, submissions_submission b "
     query += "WHERE a.id = b.student_item_id "

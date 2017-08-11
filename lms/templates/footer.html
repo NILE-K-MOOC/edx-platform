@@ -107,7 +107,8 @@ from branding.api import get_footer
                     $(document).on('click', '#go', function () {
                         var url = $('#related_site option:selected').val();
                         if (url != '관련사이트') {
-                            document.location.href = url;
+                            //document.location.href = url;
+                            window.open(url, "", "");
                         } else {
                             alert('관련사이트를 선택하세요.');
                         }
@@ -117,8 +118,10 @@ from branding.api import get_footer
 
                     function moveLocation(url) {
                         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+
                         } else {
-                            document.location.href = url;
+                            //document.location.href = url;
+                            window.open(url, "", "");
                         }
                     }
                 </script>
@@ -141,7 +144,7 @@ from branding.api import get_footer
                 </div>
                 <div>
 
-                    <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;"></a>
+                    <!-- <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;"></a> -->
                     <a href="http://wa.or.kr/waMark/status.asp" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크"/></a>
                     <a href="javascript:fPopup('e');" title="새창으로 알림"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크"/></a>
                     <a href="javascript:fPopup('i');" title="새창으로 알림"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크"/></a>
