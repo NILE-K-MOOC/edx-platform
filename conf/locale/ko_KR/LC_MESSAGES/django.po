@@ -29176,6 +29176,9 @@ msgstr "강좌 수강 관련"
 msgid "About technical problems"
 msgstr "기술적인 문제 관련"
 
+msgid "About mobile problems"
+msgstr "모바일앱 관련"
+
 msgid "Send email"
 msgstr "이메일 발송"
 
