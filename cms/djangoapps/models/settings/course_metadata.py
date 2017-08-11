@@ -181,6 +181,9 @@ class CourseMetadata(object):
 
         for key, model in filtered_dict.iteritems():
             try:
+                if key == 'need_lock':
+                    continue
+
                 val = model['value']
                 if hasattr(descriptor, key) and getattr(descriptor, key) != val:
                     key_values[key] = descriptor.fields[key].from_json(val)

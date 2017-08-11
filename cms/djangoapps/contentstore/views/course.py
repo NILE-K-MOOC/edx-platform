@@ -1333,11 +1333,10 @@ def advanced_settings_handler(request, course_key_string):
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
 
-        need_lock = course_need_lock(request, course_key_string)
-        advanced_dict = CourseMetadata.fetch(course_module)
-        advanced_dict['need_lock'] = need_lock
-
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+            need_lock = course_need_lock(request, course_key_string)
+            advanced_dict = CourseMetadata.fetch(course_module)
+            advanced_dict['need_lock'] = need_lock
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,

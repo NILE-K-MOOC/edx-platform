@@ -107,7 +107,8 @@ from branding.api import get_footer
                     $(document).on('click', '#go', function () {
                         var url = $('#related_site option:selected').val();
                         if (url != '관련사이트') {
-                            document.location.href = url;
+                            //document.location.href = url;
+                            window.open(url, "", "");
                         } else {
                             alert('관련사이트를 선택하세요.');
                         }
