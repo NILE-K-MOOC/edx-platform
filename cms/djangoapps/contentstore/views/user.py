@@ -198,7 +198,7 @@ def _course_team_user(request, course_key, email):
         user_id=request.user.pk,
         content_type_id=306,
         object_id=user.id,
-        object_repr='modify_access_in_studio[role_added:%s;user:%s;new_role:%s]' % (role_added, user, new_role),
+        object_repr='modify_access_in_studio[role_added:%s;user:%s;new_role:%s]' % (role_added, user, new_role if role_added else ', '.join([role._role_name for role in old_roles])),
         action_flag=ADDITION if role_added else DELETION,
         change_message=admin_view.get_meta_json(self=None, request=request)
     )
