@@ -848,15 +848,15 @@ def create_temp_answer(course_id):
                     log.error(e)
 
             elif item_type == 'sga':
-                answer = ans_json['sha1'] + ":" + ans_json['filename']
+                answer = ans_json['sha1'] + ":" + str(ans_json['filename'])
             else:
                 answer = 'no_answer'
 
             log.info(u'item_type == %s, answer == %s' % (item_type, answer))
 
-            answer = answer.decode('unicode_escape')
-            answer = answer.encode('utf-8')
-            answer = answer.decode('utf-8')
+            # answer = answer.decode('unicode_escape')
+            # answer = answer.encode('utf-8')
+            # answer = answer.decode('utf-8')
 
             query2 = "insert into tb_tmp_answer (course_id, uuid, raw_answer, item_type) "
             query2 += "select '" + course_id + "', '" + uuid + "', '" + answer + "', '" + item_type + "' "
@@ -927,7 +927,7 @@ def copykiller(request, course_id):
     query += "and a.course_id = '" + str(course_id) + "'"
     query += "and b.attempt_number = (select max(attempt_number) from submissions_submission where student_item_id = a.id) "
 
-    query1 = "delete from tb_tmp_answer"
+    query1 = "delete from tb_tmp_answer where 1=0"
 
     print 'query =', query
     print 'query1 = ', query1
