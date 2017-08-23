@@ -53,6 +53,23 @@ from pipeline_mako import render_require_js_path_overrides
       </title>
   </%block>
 
+<script type="application/ld+json">
+{
+ "@context": "http://schema.org",
+ "@type": "Organization",
+ "name": "K-MOOC",
+ "url": http://www.kmooc.kr,
+ "sameAs": [
+   "http://blog.naver.com/kmooc_kr",
+   "https://www.facebook.com/kmooc",
+   "https://www.instagram.com/kmooc_",
+   "https://goo.gl/1dJyQS",
+   "https://appsto.re/kr/JCAmhb.i",
+ ]
+}
+</script>
+
+
   % if not allow_iframing:
       <script type="text/javascript">
         /* immediately break out of an iframe if coming from the marketing website */

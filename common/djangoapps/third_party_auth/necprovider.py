@@ -19,9 +19,9 @@ class OAuth2(BaseOAuth2):
 
     def get_user_details(self, response):
 
-        # print 'response ---------------- s'
-        # print response
-        # print 'response ---------------- e'
+        print 'response ---------------- s'
+        print response
+        print 'response ---------------- e'
 
         """Return user details from Github account"""
         jsonString = dict()
