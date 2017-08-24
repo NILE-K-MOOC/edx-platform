@@ -15390,8 +15390,7 @@ msgid ""
 "For analytics about your course, go to "
 "{link_start}{analytics_dashboard_name}{link_end}."
 msgstr ""
-"K-MOOC 인사이트 서비스 준비중입니다."
-#"강좌 분석에 대해 알아보려면 {link_start}{analytics_dashboard_name}{link_end}을 참고하세요."
+"강좌 분석에 대해 알아보려면 {link_start}{analytics_dashboard_name}{link_end}을 참고하세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/instructor_dashboard_2.html
 msgid "Instructor Dashboard"
