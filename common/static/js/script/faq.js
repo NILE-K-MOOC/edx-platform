@@ -77,7 +77,7 @@ $(document).ready(function(){
 				html = "<div style='text-align: center'>" +
 							"<h3>저장된 데이터가 없습니다.</h3>" +
 							"</div>";
-					$('dl').css('height', '265px');
+					$('dl').css('height', '485px');
 			}else{
 				html="<h1 class='blind'>"+data[0][2]+"</h1>";
 				head_html="";
@@ -91,7 +91,7 @@ $(document).ready(function(){
 						html += "<div>"+data[i][1]+"</div>";
 						html += "</dd>";
 					}
-					$('dl').css('height', '');
+					$('dl').css('height', '485px');
 				}else if(data != '' && data.length <= 3){
 					console.log('case 2 start.');
 					for(var j=0; j<data.length; j++){
@@ -101,19 +101,20 @@ $(document).ready(function(){
 						html += "<div>"+data[j][1]+"</div>";
 						html += "</dd>";
 					}
-					$('dl').css('height', '265px');
+					$('dl').css('height', '485px');
+
 				}else{
 					console.log('case 3 start.');
 					//alert('dd');
 					html += "<div style='text-align: center'>" +
 							"<h3>저장된 데이터가 없습니다.</h3>" +
 							"</div>";
-					$('dl').css('height', '265px');
+					$('dl').css('height', '485px');
 				}
 			}
 
 
-			$('.faq-list').html(html);
+			$('.faq-list2').html(html);
 		});
 	});
 });
