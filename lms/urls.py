@@ -115,6 +115,10 @@ urlpatterns = (
 
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
+
+    url(r'^comm_faq/(?P<head_title>.*?)/$', 'community.views.comm_faq', name='comm_faq'),
+    url(r'^comm_faqrequest$', 'community.views.comm_faqrequest', name='comm_faqrequest'),
+    # url(r'^comm_faqrequest$', 'community.views.comm_faqrequest', name='comm_faqrequest'),
 )
 
 urlpatterns += (
