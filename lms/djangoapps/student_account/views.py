@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 """ Views for a student's account information. """
 
 import logging
@@ -45,6 +47,16 @@ from third_party_auth import pipeline
 from third_party_auth.decorators import xframe_allow_whitelisted
 from util.bad_request_rate_limiter import BadRequestRateLimiter
 from util.date_utils import strftime_localized
+from django.core.serializers.json import DjangoJSONEncoder
+import MySQLdb as mdb
+from django.core.mail import send_mail
+
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
 
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
@@ -488,3 +500,135 @@ def account_settings_context(request):
         } for state in auth_states]
 
     return context
+
+@ensure_csrf_cookie
+def comm_faq(request, head_title):
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    if request.is_ajax():
+        if request.GET['method'] == 'faq_list':
+            faq_list = []
+            head_title = request.GET['head_title']
+            cur = con.cursor()
+            query = """SELECT subject,
+                               content,
+                               CASE
+                                  WHEN head_title = 'kmooc_f' THEN 'K-MOOC'
+                                  WHEN head_title = 'regist_f ' THEN '회원가입'
+                                  WHEN head_title = 'login_f ' THEN '로그인/계정'
+                                  WHEN head_title = 'enroll_f ' THEN '수강신청/취소'
+                                  WHEN head_title = 'course_f ' THEN '강좌수강'
+                                  WHEN head_title = 'certi_f  ' THEN '성적/이수증'
+                                  WHEN head_title = 'tech_f ' THEN '기술적문제'
+                                  WHEN head_title = 'mobile_f ' THEN '모바일문제'
+                                  ELSE ''
+                               END
+                                  head_title
+                          FROM tb_board
+                         WHERE section = 'F' AND use_yn = 'Y' AND head_title = '""" + head_title + "'"""
+            if 'search' in request.GET:
+                search = request.GET['search']
+                query += " and subject like '%" + search + "%'"
+            cur.execute(query)
+            row = cur.fetchall()
+            print str(row)
+            print query
+            head_title = head_title.replace("<", "&lt;") \
+                .replace(">", "&gt;") \
+                .replace("/", "&#x2F;") \
+                .replace("&", "&#38;") \
+                .replace("#", "&#35;") \
+                .replace("\'", "&#x27;") \
+                .replace("\"", "&#qout;")
+
+            for f in row:
+                value_list = []
+                faq = f
+                value_list.append(faq[0])
+                value_list.append(faq[1])
+                value_list.append(faq[2])
+                faq_list.append(value_list)
+            data = json.dumps(list(faq_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+
+        return HttpResponse(data, 'application/json')
+    # print 'head_title ==', head_title
+    context = {
+        'head_title': head_title
+    }
+    return render_to_response('community/comm_faq.html', context)
+
+
+def comm_faqrequest(request):
+    if request.is_ajax():
+        data = json.dumps('fail')
+        if request.GET['method'] == 'request':
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
+            email = request.GET['email']
+            request_con = request.GET['request_con']
+            option = request.GET['option']
+            save_email = ''
+            # print 'option == ', option
+            head_dict = {
+                'kmooc_f': '[K-MOOC]',
+                'regist_f': '[회원가입]',
+                'login_f': '[로그인/계정]',
+                'enroll_f': '[수강신청/취소]',
+                'course_f': '[강좌수강]',
+                'certi_f': '[성적/이수증]',
+                'tech_f': '[기술적문제]',
+                'mobile_f': '[모바일문제]',
+            }
+            email_title = head_dict[option] + ' ' + email + '님의 문의 내용입니다.'
+            # 이메일 전송
+
+            from_address = configuration_helpers.get_value(
+                'email_from_address',
+                settings.DEFAULT_FROM_EMAIL
+            )
+
+            if option == 'kmooc_f':
+                # send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
+                send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
+                save_email = 'kmooc@nile.or.kr'
+            else:
+                send_mail(email_title, request_con, from_address, ['info_kmooc@nile.or.kr'])
+                save_email = 'info_kmooc@nile.or.kr'
+            # 문의내용 저장
+
+            cur = con.cursor()
+            query = """
+                    INSERT INTO faq_request(student_email,
+                                response_email,
+                                question,
+                                head_title)
+                            VALUES (
+                                      '""" + email + """',
+                                      '""" + save_email + """',
+                                      '""" + request_con + """',
+                                      (CASE
+                                          WHEN '""" + option + """' = 'kmooc_f' THEN 'K-MOOC'
+                                          WHEN '""" + option + """' = 'regist_f ' THEN '회원가입'
+                                          WHEN '""" + option + """' = 'login_f ' THEN '로그인/계정'
+                                          WHEN '""" + option + """' = 'enroll_f ' THEN '수강신청/취소'
+                                          WHEN '""" + option + """' = 'course_f ' THEN '강좌수강'
+                                          WHEN '""" + option + """' = 'certi_f  ' THEN '성적/이수증'
+                                          WHEN '""" + option + """' = 'tech_f ' THEN '기술적문제'
+                                          ELSE ''
+                                       END));
+            """
+            # print 'query == ',query
+            cur.execute(query)
+            cur.execute('commit')
+            cur.close()
+            data = json.dumps('success')
+        return HttpResponse(data, 'application/json')
+
+    return render_to_response('community/comm_faqrequest.html')
+
