@@ -1,0 +1,49 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("KYUNGSUNG UNIVERSITY")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_KYUNGSUNG.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("KYUNGSUNG UNIVERSITY")}</h2>
+        <div class="univ-info">
+            <div class="sns-box"></div>
+            ${_(
+                "<p><b>The University where we share mutual mind with our genuine hearts.</b></p>"
+                "<p><b>The University where we aim to endeavor!</b></p>"
+                "<p><b>‘The Global University’ where we create the future with a promising spirit!</b></p>"
+                "<p>With over 60 years of history and tradition, Kyungsung University is a prestigious school in the city of Busan of Gyeongnam province for our innovative educational system and future-oriented administration. Based on the education philosophy of Truth, Service, and Freedom, we interact with students and coexist with the community while developing into a university with strong, global capabilities.</p>"
+                "<p>Kyungsung University provides one of the best educational facility to implement values for a learner-centered education. The convenient transportation system and safety of the city are the strengths of the school’s location. We offer various scholarship opportunities for students and distinctive employment program for enhancing creative professionalism. Additionally, our school is doing the best for implementing for the education of humanism.</p>"
+                "<p>Thus far, Kyungsung University emphasized an education that is equipped with global and cultural contents and implement for the internationalization of school’s campus. Our university believes that communicating and interacting across the world is essential to gain that adequate competitive edge in this era of globalization. Therefore, Kyungsung University is currently facilitating an education to enhance the language skill and expand on distinguished programs such as major training and exchange programs, in addition to the recruitment of international students and outstanding foreign faculties. With these implementations and efforts, our school’s education provides a strong linkage between the city of Busan and the rest of the world.</p>"
+                "<p>We hope that everyone would continuously give Kyungsung University much interest and affection in our future offered K-MOOC contents. It is because our current enthusiasm and passionate of Kyungsung community is our bright vision. Kyungsung University will create a new history together with the spirit of serving and sharing.</p>"
+                "<p>Soo-Geun Song, the President of Kyungsung University </p>"
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

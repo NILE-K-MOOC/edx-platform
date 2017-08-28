@@ -1,0 +1,44 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("CHONNAM NATIONAL UNIVERSITY")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_CNU.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("CHONNAM NATIONAL UNIVERSITY")}</h2>
+        <div class="univ-info">
+            <div class="sns-box"></div>
+            ${_(
+               "<p>Ever since its establishment in 1952, Chonnam National University (“CNU”) has dedicated itself to the development of the country and the region. Whenever the country was in turmoil, CNU protected the universal values of freedom, peace, human rights, and democracy through its sacrifices. </p>"
+               "<p>This proud history of CNU is now blossoming again as the hope for the new world.  Pride and Hope!  CNU is creating a new world filled with happiness by seeking truth and pursuing advances in science.  It leads the era of the 4th industrial revolution with the provision of education focused on creativity and convergence.</p>"
+               "<p>CNU’s symbol is the zelkova tree.  It symbolizes generous community sprit, strength in survival, and unlimited potential.  CNU is exercising its best efforts to allow its students to become giant zelkova trees that will provide comfortable shades for the members of our community and to become ultimately victorious in their lives.</p>"
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

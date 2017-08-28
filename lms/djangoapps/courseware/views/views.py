@@ -783,6 +783,14 @@ def course_about(request, course_id):
             "KAISTk": "KAIST",
             "HYUk": "HANYANG UNIVERSITY",
             "KOCW": "KOCW",
+            "KONKUK UNIVERSITY" : "KONKUK UNIVERSITY",
+            "KYUNGSUNG UNIVERSITY" : "KYUNGSUNG UNIVERSITY",
+            "DANKOOK UNIVERSITY" : "DANKOOK UNIVERSITY",
+            "SOGANG UNIVERSITY" : "SOGANG UNIVERSITY",
+            "UNIVERSITY OF SEOUL" : "UNIVERSITY OF SEOUL",
+            "SOONGSIL UNIVERSITY" : "SOONGSIL UNIVERSITY",
+            "CHONNAM NATIONAL UNIVERSITY" : "CHONNAM NATIONAL UNIVERSITY",
+            "JEJU NATIONAL UNIVERSITY" : "JEJU NATIONAL UNIVERSITY",
         }
 
         univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org

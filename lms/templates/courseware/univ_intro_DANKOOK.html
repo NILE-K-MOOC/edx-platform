@@ -1,0 +1,43 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("DANKOOK UNIVERSITY")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_DANKOOK.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("DANKOOK UNIVERSITY")}</h2>
+        <div class="univ-info">
+            <div class="sns-box"></div>
+            ${_(
+               "<p>DanKook University was founded in 1947, under the mottos of “Truth and Service” and national salvation, independence, and self-reliance as the founding spirit. Since its establishment, innovative development plans are continuously set and fulfilled. Thus, the educational goal is to educate patriotic experts who contribute to mankind based on D3: self-determination, discovery and dedication. </p>"
+               "<p>We want to achieve globalization of K-MOOC contents by developing contents representing South Korea, which DanKook University holds advantage and by realizing Dynamic DanKook 2027, the vision of the DanKook University, based upon K-MOOC.</p>"
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>
