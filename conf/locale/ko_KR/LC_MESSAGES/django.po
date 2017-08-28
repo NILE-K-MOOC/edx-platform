@@ -637,6 +637,9 @@ msgstr "서울대학교"
 msgid "SKKUk"
 msgstr "성균관대학교"
 
+msgid "KKUk"
+msgstr "건국대학교(글로컬)"
+
 msgid "SSUk"
 msgstr "성신여자대학교"
 
@@ -664,6 +667,15 @@ msgstr "인하대학교"
 msgid "CBNUk"
 msgstr "전북대학교"
 
+msgid "KonkukK"
+msgstr "건국대학교"
+
+msgid "KSUk"
+msgstr "경성대학교"
+
+msgid "SOGANGk"
+msgstr "서강대학교"
+
 msgid "POSTECHk"
 msgstr "포항공과대학교"
 
@@ -672,6 +684,9 @@ msgstr "한국과학기술원"
 
 msgid "HYUk"
 msgstr "한양대학교"
+
+msgid "HongikUnivK"
+msgstr "홍익대학교"
 
 msgid "CAUk"
 msgstr "중앙대학교"
@@ -685,14 +700,59 @@ msgstr "동국대학교"
 msgid "DSUk"
 msgstr "동신대학교"
 
+msgid "DAUk"
+msgstr "동아대학교"
+
+msgid "TUk"
+msgstr "동명대학교"
+
 msgid "MokwonK"
 msgstr "목원대학교"
+
+msgid "PCUk"
+msgstr "배재대학교"
+
+msgid "PKNUk"
+msgstr "부경대학교"
+
+msgid "SunMoonK"
+msgstr "선문대학교"
+
+msgid "SCHk"
+msgstr "순천향대학교"
+
+msgid "WSUK"
+msgstr "우송대학교"
+
+msgid "WKUk"
+msgstr "원광대학교"
+
+msgid "InhatcK"
+msgstr "인하공업전문대학교"
+
+msgid "ChosunK"
+msgstr "조선대학교"
+
+msgid "CNUk"
+msgstr "충남대학교"
+
+msgid "ChungbukK"
+msgstr "충북대학교"
 
 msgid "KonYangK"
 msgstr "건양대학교"
 
 msgid "UOSk"
 msgstr "서울시립대학교"
+
+msgid "SoongsilUnivK"
+msgstr "숭실대학교"
+
+msgid "JNUk"
+msgstr "전남대학교"
+
+msgid "CKUk"
+msgstr "가톨릭관동대학교"
 
 msgid "CNUk"
 msgstr "충남대학교"
@@ -703,6 +763,21 @@ msgstr "한림대학교"
 msgid "KONGJUk"
 msgstr "공주대학교"
 
+msgid "SEOULTECHk"
+msgstr "서울과학기술대학교"
+
+msgid "SKUk"
+msgstr "성결대학교"
+
+msgid "AYUk"
+msgstr "안양대학교"
+
+msgid "YonseiWK"
+msgstr "연세대학교(원주)"
+
+msgid "HansungK"
+msgstr "한성대학교"
+
 msgid "KUMOHk"
 msgstr "금오공과대학교"
 
@@ -712,11 +787,29 @@ msgstr "단국대학교"
 msgid "BUFSk"
 msgstr "부산외국어대학교"
 
+msgid "SWUk"
+msgstr "서울여자대학교"
+
 msgid "SYUk"
 msgstr "삼육대학교"
 
 msgid "KNUk"
 msgstr "경북대학교"
+
+msgid "KIUk"
+msgstr "경일대학교"
+
+msgid "KMUk"
+msgstr "국민대학교"
+
+msgid "DCUk"
+msgstr "대구가톨릭대학교"
+
+msgid "DHUk"
+msgstr "대구한의대학교"
+
+msgid "DJUk"
+msgstr "대전대학교"
 
 msgid "CUKk"
 msgstr "가톨릭대학교"
