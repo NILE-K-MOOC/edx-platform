@@ -8,12 +8,10 @@ import json
 import warnings
 from collections import defaultdict
 from urlparse import urljoin, urlsplit, parse_qs, urlunsplit
-
 from django.views.generic import TemplateView
 from pytz import UTC
 from requests import HTTPError
 from ipware.ip import get_ip
-
 import edx_oauth2_provider
 from django.conf import settings
 from django.contrib.auth import logout, authenticate, login
@@ -39,13 +37,10 @@ from django.dispatch import receiver, Signal
 from django.template.response import TemplateResponse
 from provider.oauth2.models import Client
 from ratelimitbackend.exceptions import RateLimitException
-
 from social.apps.django_app import utils as social_utils
 from social.backends import oauth as social_oauth
 from social.exceptions import AuthException, AuthAlreadyAssociated
-
 from edxmako.shortcuts import render_to_response, render_to_string
-
 from course_modes.models import CourseMode
 from shoppingcart.api import order_history
 from student.models import (
@@ -64,40 +59,30 @@ from certificates.api import (  # pylint: disable=import-error
     get_certificate_url,
     has_html_certificates_enabled,
 )
-
 from xmodule.modulestore.django import modulestore
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from opaque_keys.edx.locator import CourseLocator
-
 from collections import namedtuple
-
 from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date  # pylint: disable=import-error
 from courseware.access import has_access
-
 from django_comment_common.models import Role
-
 from external_auth.models import ExternalAuthMap
 import external_auth.views
 from external_auth.login_and_register import (
     login as external_auth_login,
     register as external_auth_register
 )
-
 from lang_pref import LANGUAGE_KEY
-
 import track.views
-
 import dogstats_wrapper as dog_stats_api
-
 from util.db import outer_atomic
 from util.json_request import JsonResponse
 from util.bad_request_rate_limiter import BadRequestRateLimiter
 from util.milestones_helpers import (
     get_pre_requisite_courses_not_completed,
 )
-
 from util.password_policy_validators import validate_password_strength
 import third_party_auth
 from third_party_auth import pipeline, provider
@@ -109,22 +94,17 @@ from student.helpers import (
 from student.cookies import set_logged_in_cookies, delete_logged_in_cookies
 from student.models import anonymous_id_for_user, UserAttribute, EnrollStatusChange
 from shoppingcart.models import DonationConfiguration, CourseRegistrationCode
-
 from embargo import api as embargo_api
-
 import analytics
 from eventtracking import tracker
-
 # Note that this lives in LMS, so this dependency should be refactored.
 from notification_prefs.views import enable_notifications
-
 from openedx.core.djangoapps.credit.email_utils import get_credit_provider_display_names, make_providers_strings
 from openedx.core.djangoapps.user_api.preferences import api as preferences_api
 from openedx.core.djangoapps.programs.utils import get_programs_for_dashboard, get_display_category
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
-
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -134,6 +114,7 @@ SETTING_CHANGE_INITIATED = 'edx.user.settings.change_initiated'
 REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
 # used to announce a registration
 REGISTER_USER = Signal(providing_args=["user", "profile"])
+
 
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
 # pylint: disable=logging-format-interpolation
@@ -350,7 +331,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
     }
 
     if (status in ('generating', 'ready', 'notpassing', 'restricted', 'auditing', 'unverified') and
-            course_overview.end_of_course_survey_url is not None):
+                course_overview.end_of_course_survey_url is not None):
         status_dict.update({
             'show_survey_button': True,
             'survey_url': process_survey_link(course_overview.end_of_course_survey_url, user)})
@@ -576,9 +557,9 @@ def dashboard(request):
         course_id: {
             mode.slug: mode
             for mode in modes
-        }
+            }
         for course_id, modes in unexpired_course_modes.iteritems()
-    }
+        }
 
     # Check to see if the student has recently enrolled in a course.
     # If so, display a notification message confirming the enrollment.
@@ -623,7 +604,7 @@ def dashboard(request):
             modes=course_modes_by_course[enrollment.course_id]
         )
         for enrollment in course_enrollments
-    }
+        }
 
     # Determine the per-course verification status
     # This is a dictionary in which the keys are course locators
@@ -643,7 +624,7 @@ def dashboard(request):
     cert_statuses = {
         enrollment.course_id: cert_info(request.user, enrollment.course_overview, enrollment.mode)
         for enrollment in course_enrollments
-    }
+        }
 
     # only show email settings for Mongo course and when bulk email is turned on
     show_email_settings_for = frozenset(
@@ -777,7 +758,7 @@ def _create_recent_enrollment_message(course_enrollments, course_modes):  # pyli
                 "allow_donation": _allow_donation(course_modes, enrollment.course_overview.id, enrollment)
             }
             for enrollment in recently_enrolled_courses
-        ]
+            ]
 
         platform_name = configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)
 
@@ -804,7 +785,7 @@ def _get_recently_enrolled_courses(course_enrollments):
         # If the enrollment has no created date, we are explicitly excluding the course
         # from the list of recent enrollments.
         if enrollment.is_active and enrollment.created > time_delta
-    ]
+        ]
 
 
 def _allow_donation(course_modes, course_id, enrollment):
@@ -896,13 +877,13 @@ def _credit_statuses(user, course_enrollments):
     request_status_by_course = {
         request["course_key"]: request["status"]
         for request in credit_api.get_credit_requests_for_user(user.username)
-    }
+        }
 
     credit_enrollments = {
         enrollment.course_id: enrollment
         for enrollment in course_enrollments
         if enrollment.mode == "credit"
-    }
+        }
 
     # When a user purchases credit in a course, the user's enrollment
     # mode is set to "credit" and an enrollment attribute is set
@@ -911,16 +892,16 @@ def _credit_statuses(user, course_enrollments):
     purchased_credit_providers = {
         attribute.enrollment.course_id: attribute.value
         for attribute in CourseEnrollmentAttribute.objects.filter(
-            namespace="credit",
-            name="provider_id",
-            enrollment__in=credit_enrollments.values()
-        ).select_related("enrollment")
-    }
+        namespace="credit",
+        name="provider_id",
+        enrollment__in=credit_enrollments.values()
+    ).select_related("enrollment")
+        }
 
     provider_info_by_id = {
         provider["id"]: provider
         for provider in credit_api.get_credit_providers()
-    }
+        }
 
     statuses = {}
     for eligibility in credit_api.get_eligibilities_for_user(user.username):
@@ -1163,6 +1144,11 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
             })  # TODO: this should be status code 400
 
         email = request.POST['email']
+
+        # cnu.ac.kr check
+        if email.find('@') < 0:
+            email = email + '@cnu.ac.kr'
+
         password = request.POST['password']
         try:
             user = User.objects.get(email=email)
@@ -1614,16 +1600,16 @@ def create_account_with_params(request, params):
     # Can't have terms of service for certain SHIB users, like at Stanford
     registration_fields = getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {})
     tos_required = (
-        registration_fields.get('terms_of_service') != 'hidden' or
-        registration_fields.get('honor_code') != 'hidden'
-    ) and (
-        not settings.FEATURES.get("AUTH_USE_SHIB") or
-        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-        not do_external_auth or
-        not eamap.external_domain.startswith(
-            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
-        )
-    )
+                       registration_fields.get('terms_of_service') != 'hidden' or
+                       registration_fields.get('honor_code') != 'hidden'
+                   ) and (
+                       not settings.FEATURES.get("AUTH_USE_SHIB") or
+                       not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+                       not do_external_auth or
+                       not eamap.external_domain.startswith(
+                           external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
+                       )
+                   )
 
     form = AccountCreationForm(
         data=params,
@@ -1645,7 +1631,7 @@ def create_account_with_params(request, params):
         if should_link_with_social_auth:
             backend_name = params['provider']
             request.social_strategy = social_utils.load_strategy(request)
-            redirect_uri = reverse('social:complete', args=(backend_name, ))
+            redirect_uri = reverse('social:complete', args=(backend_name,))
             request.backend = social_utils.load_backend(request.social_strategy, backend_name, redirect_uri)
             social_access_token = params.get('access_token')
             if not social_access_token:
@@ -2393,7 +2379,7 @@ def confirm_email_change(request, key):  # pylint: disable=unused-argument
                 message,
                 configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
             )
-        except Exception:    # pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             log.warning('Unable to send confirmation email to old address', exc_info=True)
             response = render_to_response("email_change_failed.html", {'email': user.email})
             transaction.set_rollback(True)

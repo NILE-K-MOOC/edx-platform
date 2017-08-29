@@ -45,12 +45,12 @@
                             } else {
                                 min = _fn.validate.str.minlength( $el );
                                 max = _fn.validate.str.maxlength( $el );
-                                email = _fn.validate.email.valid( $el );
+                                //email = _fn.validate.email.valid( $el );
                             }
                         } else if ( !isBlank ) {
                             min = _fn.validate.str.minlength( $el );
                             max = _fn.validate.str.maxlength( $el );
-                            email = _fn.validate.email.valid( $el );
+                            //email = _fn.validate.email.valid( $el );
                         }
 
                         response.isValid = required && min && max && email;
