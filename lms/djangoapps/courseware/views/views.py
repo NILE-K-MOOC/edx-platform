@@ -791,6 +791,7 @@ def course_about(request, course_id):
             "SOONGSIL UNIVERSITY" : "SOONGSIL UNIVERSITY",
             "CHONNAM NATIONAL UNIVERSITY" : "CHONNAM NATIONAL UNIVERSITY",
             "JEJU NATIONAL UNIVERSITY" : "JEJU NATIONAL UNIVERSITY",
+            "HGUk" : "HANDONG GLOBAL UNIVERSITY",
         }
 
         univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
