@@ -1,0 +1,49 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("KONKUK UNIVERSITY")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_KONKUK.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("KONKUK UNIVERSITY")}</h2>
+        <div class="univ-info">
+            <div class="sns-box">
+                <!--
+                 <a target="_blank" href="https://www.youtube.com/channel/UCWwYvRzlP6AkzQS-Ftw5wsA"><img src="/static/images/common/footer_icon01.png" alt="youtube" class="univSns"/></a>
+                 <a target="_blank" href="https://www.facebook.com/inhanuri"><img src="/static/images/common/footer_icon02.png" alt="facebook" class="univSns"/></a>
+                 -->
+            </div>
+            ${_(
+                "<p>Konkuk University was established as Chosun School of Politics, a junior college for future political leaders, by Dr. Yoo Seok-chang. Thanks to Dr. Yoo’s generous endowment and education philosophy, Konkuk University not only leads in agricultural and life science research, but also excels in many other areas today. Furthermore, Konkuk University has undergone major transformations in the past decade, earning the title of “the fastest growing university in Korea.”</p>"
+                "<p>Konkuk University aims at fostering intellectuals with well-rounded character, future-oriented professionals, and leaders of community development, based on the virtues of sincerity, fidelity, and righteousness.</p>"
+
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

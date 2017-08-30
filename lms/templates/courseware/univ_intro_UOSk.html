@@ -1,0 +1,46 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("UNIVERSITY OF SEOUL")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_UOS.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("UNIVERSITY OF SEOUL")}</h2>
+        <div class="univ-info">
+            <div class="sns-box"></div>
+            ${_(
+               "<p>Marking its centennial anniversary in 2018, the University of Seoul has fostered talents that are essential for the Korean society as ‘the base of learning and sharing’ driven by the university motto of “Truth, Creation, and Service” for the past 100 years. In 2012, we have halved the tuition fees for the first time among universities in Korea, sought after normalization of public education and expanded social contribution activities, fulfilling social responsibilities as a public university.</p>"
+               "<p>Appointed as the UOS president this year, I proposed a new vision, “The Pride of Seoul – 100 Years of Learning and Sharing” in order to ensure that all members including students could be proud of the UOS, showing our ambitious goal of being the soul of Seoul.</p>"
+               "<p>The UOS is committed to developing competitive talents with the spirit of the times and citizenship, conducting innovative researches that can create social values, and becoming the future-leading university by proactively responding to social needs and conducting sharing programs.</p>"
+               "<p>I sincerely ask for your passionate interest and affection for a new higher leap of the University of Seoul for the next century.</p>"
+               "<p>President of The University of Seoul, Yun-hi Won</p>"
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

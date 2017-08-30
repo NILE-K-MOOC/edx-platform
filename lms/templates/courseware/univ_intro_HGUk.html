@@ -1,0 +1,43 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("HGUk")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_HGU.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("HANDONG GLOBAL UNIVERSITY")}</h2>
+        <div class="univ-info">
+            <div class="sns-box"></div>
+            ${_(
+               "<p>For more than two decades since its establishment in 1995, Handong Global University has been redefining the Korean education landscape. Since Handong was founded, it harbored a vision of fostering honest and competent global leaders, exemplified by the unsupervised exam system. All freshmen enter without declaring a major or college, giving them the opportunity to discover a field of study that aligns with their talents and aptitudes. </p>"
+               "<p>Externally, Handong has established itself as a dependable advocate for international cooperation. In that process, Handong was the first Korean university to sign an agreement with the OECD for intern recruitment, and is currently a host university for the UNESCO-UNITWIN program while also serving as the international hub for the UNAI's capacity building for higher</p>"
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>

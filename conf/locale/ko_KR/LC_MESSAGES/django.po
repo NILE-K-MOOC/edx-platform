@@ -637,6 +637,9 @@ msgstr "서울대학교"
 msgid "SKKUk"
 msgstr "성균관대학교"
 
+msgid "KKUk"
+msgstr "건국대학교(글로컬)"
+
 msgid "SSUk"
 msgstr "성신여자대학교"
 
@@ -664,6 +667,15 @@ msgstr "인하대학교"
 msgid "CBNUk"
 msgstr "전북대학교"
 
+msgid "KonkukK"
+msgstr "건국대학교"
+
+msgid "KSUk"
+msgstr "경성대학교"
+
+msgid "SOGANGk"
+msgstr "서강대학교"
+
 msgid "POSTECHk"
 msgstr "포항공과대학교"
 
@@ -672,6 +684,9 @@ msgstr "한국과학기술원"
 
 msgid "HYUk"
 msgstr "한양대학교"
+
+msgid "HongikUnivK"
+msgstr "홍익대학교"
 
 msgid "CAUk"
 msgstr "중앙대학교"
@@ -685,14 +700,59 @@ msgstr "동국대학교"
 msgid "DSUk"
 msgstr "동신대학교"
 
+msgid "DAUk"
+msgstr "동아대학교"
+
+msgid "TUk"
+msgstr "동명대학교"
+
 msgid "MokwonK"
 msgstr "목원대학교"
+
+msgid "PCUk"
+msgstr "배재대학교"
+
+msgid "PKNUk"
+msgstr "부경대학교"
+
+msgid "SunMoonK"
+msgstr "선문대학교"
+
+msgid "SCHk"
+msgstr "순천향대학교"
+
+msgid "WSUK"
+msgstr "우송대학교"
+
+msgid "WKUk"
+msgstr "원광대학교"
+
+msgid "InhatcK"
+msgstr "인하공업전문대학교"
+
+msgid "ChosunK"
+msgstr "조선대학교"
+
+msgid "CNUk"
+msgstr "충남대학교"
+
+msgid "ChungbukK"
+msgstr "충북대학교"
 
 msgid "KonYangK"
 msgstr "건양대학교"
 
 msgid "UOSk"
 msgstr "서울시립대학교"
+
+msgid "SoongsilUnivK"
+msgstr "숭실대학교"
+
+msgid "JNUk"
+msgstr "전남대학교"
+
+msgid "CKUk"
+msgstr "가톨릭관동대학교"
 
 msgid "CNUk"
 msgstr "충남대학교"
@@ -703,6 +763,21 @@ msgstr "한림대학교"
 msgid "KONGJUk"
 msgstr "공주대학교"
 
+msgid "SEOULTECHk"
+msgstr "서울과학기술대학교"
+
+msgid "SKUk"
+msgstr "성결대학교"
+
+msgid "AYUk"
+msgstr "안양대학교"
+
+msgid "YonseiWK"
+msgstr "연세대학교(원주)"
+
+msgid "HansungK"
+msgstr "한성대학교"
+
 msgid "KUMOHk"
 msgstr "금오공과대학교"
 
@@ -712,11 +787,29 @@ msgstr "단국대학교"
 msgid "BUFSk"
 msgstr "부산외국어대학교"
 
+msgid "SWUk"
+msgstr "서울여자대학교"
+
 msgid "SYUk"
 msgstr "삼육대학교"
 
 msgid "KNUk"
 msgstr "경북대학교"
+
+msgid "KIUk"
+msgstr "경일대학교"
+
+msgid "KMUk"
+msgstr "국민대학교"
+
+msgid "DCUk"
+msgstr "대구가톨릭대학교"
+
+msgid "DHUk"
+msgstr "대구한의대학교"
+
+msgid "DJUk"
+msgstr "대전대학교"
 
 msgid "CUKk"
 msgstr "가톨릭대학교"
@@ -725,6 +818,27 @@ msgid "JEJUk"
 msgstr "제주대학교"
 
 msgid "HGUk"
+msgstr "한동대학교"
+
+msgid "KONKUK UNIVERSITY"
+msgstr "건국대학교"
+
+msgid "UNIVERSITY OF SEOUL"
+msgstr "서울시립대학교"
+
+msgid "SOONGSIL UNIVERSITY"
+msgstr "숭실대학교"
+
+msgid "CHONNAM NATIONAL UNIVERSITY"
+msgstr "전남대학교"
+
+msgid "JEJU NATIONAL UNIVERSITY"
+msgstr "제주대학교"
+
+msgid "CHUNG-ANG UNIVERSITY"
+msgstr "중앙대학교"
+
+msgid "HANDONG GLOBAL UNIVERSITY"
 msgstr "한동대학교"
 
 #: lms/templates/course.html
@@ -28537,6 +28651,110 @@ msgstr ""
 "<p>특히 MOOC를 활용하여 최고 수준의 연세대학교 강의를 일반인과 전 세계에 공개하고 고등교육의 참여기회를 확대 제공함으로써 섬김의 리더십을 실천하고 있습니다.</p>"
 "<p>현재 세계 최대 규모의 Global MOOC인 Coursera와 FutureLearn에 국내 대학 최초로 동시 가입하여 전 세계인들에게 연세의 명품 강의를 제공하여 호평을 받고 있으며, 교육부가 주관하는 K-MOOC에도 시범 운영 대학으로 선정되어 우수 강의를 공개하게 되었습니다. </p>"
 "<p>글로벌 명문교육을 확립하여 소통과 창의력, 융복합 능력과 문화적 다양성 및 기독교 리더십을 갖춘 전인적 인재를 양성해 오고 있는 연세대학교는 창립 당시부터 지켜온 수월성과 위엄을 더욱 공고하게 하고 나아가 21세기 세계를 선도하는 교육과 연구의 전당이 되고자 합니다.</p>"
+
+msgid ""
+"<p>Konkuk University was established as Chosun School of Politics, a junior college for future political leaders, by Dr. Yoo Seok-chang. Thanks to Dr. Yoo’s generous endowment and education philosophy, Konkuk University not only leads in agricultural and life science research, but also excels in many other areas today. Furthermore, Konkuk University has undergone major transformations in the past decade, earning the title of “the fastest growing university in Korea.”</p>"
+"<p>Konkuk University aims at fostering intellectuals with well-rounded character, future-oriented professionals, and leaders of community development, based on the virtues of sincerity, fidelity, and righteousness.</p>"
+msgstr ""
+"<p>독립운동의 맥동 속에서 태어난 당당한 민족사학 건국대학교는 1931년 상허 유석창 선생께서 의료제민(醫療濟民)의 기치 아래 민중병원을 창립한 이래, 성(誠) 신(信) 의(義) 교시를 바탕으로 ‘교육을 통한 나라 세우기’의 한 길을 걸어왔다.</p>"
+"<p>건국대는 ‘나라를 세우고 세계를 품는 대학’이란 캐치프레이즈 하에 새로운 비전인 ‘르네상스 건국 2031’을 수립, 2031년까지 세계 100대 대학으로 도약하는 것을 목표로 ‘신지식 경제사회를 선도하는 글로벌 창의 인재’를 양성하고 있다.</p>"
+
+msgid ""
+"<p><b>The University where we share mutual mind with our genuine hearts.</b></p>"
+"<p><b>The University where we aim to endeavor!</b></p>"
+"<p><b>‘The Global University’ where we create the future with a promising spirit!</b></p>"
+"<p>With over 60 years of history and tradition, Kyungsung University is a prestigious school in the city of Busan of Gyeongnam province for our innovative educational system and future-oriented administration. Based on the education philosophy of Truth, Service, and Freedom, we interact with students and coexist with the community while developing into a university with strong, global capabilities.</p>"
+"<p>Kyungsung University provides one of the best educational facility to implement values for a learner-centered education. The convenient transportation system and safety of the city are the strengths of the school’s location. We offer various scholarship opportunities for students and distinctive employment program for enhancing creative professionalism. Additionally, our school is doing the best for implementing for the education of humanism.</p>"
+"<p>Thus far, Kyungsung University emphasized an education that is equipped with global and cultural contents and implement for the internationalization of school’s campus. Our university believes that communicating and interacting across the world is essential to gain that adequate competitive edge in this era of globalization. Therefore, Kyungsung University is currently facilitating an education to enhance the language skill and expand on distinguished programs such as major training and exchange programs, in addition to the recruitment of international students and outstanding foreign faculties. With these implementations and efforts, our school’s education provides a strong linkage between the city of Busan and the rest of the world.</p>"
+"<p>We hope that everyone would continuously give Kyungsung University much interest and affection in our future offered K-MOOC contents. It is because our current enthusiasm and passionate of Kyungsung community is our bright vision. Kyungsung University will create a new history together with the spirit of serving and sharing.</p>"
+"<p>Soo-Geun Song, the President of Kyungsung University </p>"
+msgstr ""
+"<p><b>마음이 만나 진정성으로 소통하는 대학!</b></p>"
+"<p><b>정직한 노력이 참된 가치를 실현하는 대학!</b></p>"
+"<p><b>진취적인 기상으로 미래를 창조하는 글로벌 대학!</b></p>"
+"<p>혁신적인 교육제도와 미래지향적인 정책으로 거듭하고 있는 우리 경성대학교는 60년이 넘은 역사와 전통을 자랑하는 부산ㆍ경남의 명문사학입니다. 진리ㆍ봉사ㆍ자유의 교육이념을 바탕으로 학생들과 소통하고 지역 사회와 상생발전하며 글로벌 역량이 강한 대학으로 성장하고 있습니다.</p>"
+"<p>경성대학교는 학습자 중심의 교육가치를 실현하기 위해 최적의 교육환경을 제공하고 있습니다. 편리한 교통과 안전한 도심형 캠퍼스는 우리 대학의 장점이며, 재학생을 위한 다양한 장학제도, 창의적인 전문 인력 양성을 위한 차별화된 취업 프로그램, 참된 리더의 덕목을 익히는 인성교육으로 큰 배움의 실현을 위해 최선을 다하고 있습니다.</p>"
+"<p>일찍이 우리 대학은 글로벌 문화콘텐츠 제공을 통한 열린대학 교육의 실현과 캠퍼스의 국제화에 역점을 두어 왔습니다. 글로벌 지구촌시대에 경쟁력을 갖기 위해서는 세계와 소통하는 능력이 필요합니다. 부산과 세계를 연결하는 지역밀착형 명품 콘텐츠 교육을 바탕으로 언어능력 향상을 위한 전공연수와 교환학생제도, 그리고 외국인 유학생 유치와 우수한 외국인 교수진 확보로 글로벌 대학의 모습을 당당히 갖춰가고 있습니다.</p>"
+"<p>앞으로 우리 경성대학교에서 제공하는 다양한 K-MOOC 콘텐츠에 많은 사랑과 관심을 통해 오늘도 성실히 땀 흘리는 자랑스러운 경성의 모습을 지켜봐 주십시오. 열정적이며 진취적인 경성인의 현재가 바로 우리 대학교의 빛나는 비전이기 때문입니다. 섬김과 나눔의 정신으로 새로운 역사를 함께 만들어 갈 것입니다.</p>"
+"<p>경성대학교 총장 송수건</p>"
+
+msgid ""
+"<p>DanKook University was founded in 1947, under the mottos of “Truth and Service” and national salvation, independence, and self-reliance as the founding spirit. Since its establishment, innovative development plans are continuously set and fulfilled. Thus, the educational goal is to educate patriotic experts who contribute to mankind based on D3: self-determination, discovery and dedication. </p>"
+"<p>We want to achieve globalization of K-MOOC contents by developing contents representing South Korea, which DanKook University holds advantage and by realizing Dynamic DanKook 2027, the vision of the DanKook University, based upon K-MOOC.</p>"
+msgstr ""
+"<p>단국대학교는 1947년 구국·자주·자립의 창학정신과 진리·봉사를 교시로, 개교 이래 혁신적인 발전계획을 지속적으로 수립, 실현해 나가며 민족애를 바탕으로 인류사회에 공헌하는 능동·혁신·헌신의 D3 인재 양성이라는 교육목표를 수립하고 있습니다.</p>"
+"<p>K-MOOC을 기반으로 본 대학의 비전인 Dynamic Dankook 2027을 구현하고, 본교가 강점을 가진 한국을 대표하는 콘텐츠 개발을 통해 K-MOOC 콘텐츠의 세계화를 달성하고자 합니다.</p>"
+
+msgid ""
+"<p>  Sogang University was established by the Society of Jesus to provide an education based on Catholic beliefs and inspired by the Jesuit philosophy of education, in conformity with the Korean tradition of education. Sogang University aims the education of the whole person with love and faith, respect the values on the sense of human dignity and encourage to pursuit and seek for learning with the sincere quest for truth. Students will learn to devote their lives to the development of a humanistic culture and community.</p>"
+"<p>  Based on the concept of 「Lifelong learning through strengthening of open education system」, MOOC-based operant learning community is formed to promote educational environment that anybody can take qualitative education with no barriers. Please keep an eye out for the qualitative excellence of education of Sogang University.</p>"
+msgstr ""
+"<p>  서강대학교는 가톨릭 신앙과 예수회 교육 이념을 토대로 대한민국의 교육 정신에 따라 예수회가 설립한 교육 기관입니다. 학문을 탐구하고 진리를 추구하며 정의를 실천하고 인간의 존엄성과 생명의 가치를 존중하는, 사랑과 믿음을 갖춘 전인교육을 지향합니다. 이를 통하여 인류 문화와 인류 공동체의 발전에 헌신할 수 있는 참 인재를 양성하고 있습니다.</p>"
+"<p>  이제 「열린 교육 환경 강화를 통한 평생학습 기반 조성」이라는 목표 하에 누구나 우수한 강의를 장벽없이 수강할 수 있는 환경을 조성하고자 MOOC 기반의 자발적 학습공동체를 형성하게 되었습니다. 서강대학교만의 특별하고 우수한 강의를 만나보시기 바랍니다.</p>"
+
+msgid ""
+"<p>Marking its centennial anniversary in 2018, the University of Seoul has fostered talents that are essential for the Korean society as ‘the base of learning and sharing’ driven by the university motto of “Truth, Creation, and Service” for the past 100 years. In 2012, we have halved the tuition fees for the first time among universities in Korea, sought after normalization of public education and expanded social contribution activities, fulfilling social responsibilities as a public university.</p>"
+"<p>Appointed as the UOS president this year, I proposed a new vision, “The Pride of Seoul – 100 Years of Learning and Sharing” in order to ensure that all members including students could be proud of the UOS, showing our ambitious goal of being the soul of Seoul.</p>"
+"<p>The UOS is committed to developing competitive talents with the spirit of the times and citizenship, conducting innovative researches that can create social values, and becoming the future-leading university by proactively responding to social needs and conducting sharing programs.</p>"
+"<p>I sincerely ask for your passionate interest and affection for a new higher leap of the University of Seoul for the next century.</p>"
+"<p>President of The University of Seoul, Yun-hi Won</p>"
+msgstr ""
+"<p>서울시립대학교는 2018년에 개교 100주년을 맞이하게 됩니다. 대한민국의 수도 ‘서울’이 키우는 서울시립대학교는 2012학년도부터 전국 대학 최초로 반값등록금을 시행한 이후, 공교육의 정상화를 도모하고 사회공헌 활동을 확대하는 등 공립대학으로서의 사회적 책무를 성실히 수행하고 있습니다.</p>"
+"<p>진리·창조·봉사의 교훈을 바탕으로 우리 대학은 시대정신과 시민정신을 갖춘 경쟁력 있는 인재를 양성하고, 미래를 선도하며 사회적 가치를 창조하는 혁신적 연구를 수행하며, 사회적 필요에 능동적으로 대응하며 함께하는 나눔 활동을 적극 전개하고 있습니다. 우리 사회의 미래를 선도하는 대학으로 발돋움하고 있는 서울시립대학교의 새로운 100년을 향한 도약에 여러분의 뜨거운 관심과 애정을 부탁드립니다.</p>"
+"<p>서울시립대학교 총장 원윤희</p>"
+
+msgid ""
+"<p><b>A university that will make the future into history to prepare for the unified era and to make “creative leaders” leading the sprit of the age. </b></p>"
+"<p>Soongsil University, Korea's first modern university built in Pyeongyang, has been rebuilt in Seoul under the pain of voluntary closure against the Japanese imperialism and the tragic division of the country because of the Korean war, and it has been continuing creative challenges for 120 years.</p>"
+"<p>Soongsil University is fostering a creative, challenging and honest leader(First Mover) who leads the spirit of the era in the era of imminent reunification and the fourth industrial revolution.</p>"
+"<p>Soongsil University aims to serve the world with creative and challenging open education through K-MOOC.</p>"
+msgstr ""
+"<p><b>역사로 미래를 만드는 숭실대학교!</b></p>"
+"<p><b>통일시대 준비하고 시대정신을 이끄는 ‘창의적 리더‘를 육성합니다.</b></p>"
+"<p>평양에서 세워진 한국 최초의 근대적 대학 숭실대학교는 일제에 항거한 자진 폐교와 분단의 아픔을 겪으며 서울에 재건되어, 황무지에서 장미꽃을 피워내듯이 창의적인 도전을 120년 동안 계속해 왔습니다.</p>"
+"<p>숭실대학교는 임박한 통일시대, 4차 산업혁명시대에 그 시대정신을 이끄는 창조적이고 도전적이며 또한 바른 인성을 지닌 리더(First Mover)를 육성하고 있습니다.</p>"
+"<p>숭실대학교는 K-MOOC를 통해 세계인에게 창의적이고 도전적인 열린 교육으로 봉사하고자 합니다.</p>"
+
+msgid ""
+"<p>Ever since its establishment in 1952, Chonnam National University (“CNU”) has dedicated itself to the development of the country and the region. Whenever the country was in turmoil, CNU protected the universal values of freedom, peace, human rights, and democracy through its sacrifices. </p>"
+"<p>This proud history of CNU is now blossoming again as the hope for the new world.  Pride and Hope!  CNU is creating a new world filled with happiness by seeking truth and pursuing advances in science.  It leads the era of the 4th industrial revolution with the provision of education focused on creativity and convergence.</p>"
+"<p>CNU’s symbol is the zelkova tree.  It symbolizes generous community sprit, strength in survival, and unlimited potential.  CNU is exercising its best efforts to allow its students to become giant zelkova trees that will provide comfortable shades for the members of our community and to become ultimately victorious in their lives.</p>"
+msgstr ""
+"<p>전남대학교는 1952년 개교 이후 지역과 국가발전에 헌신해왔습니다. 나라가 어려울 때마다 희생을 무릅쓰며 인류 보편의 가치인 자유와 평화, 인권 · 민주를 지켜냈습니다. </p>"
+"<p>자부심(Pride) 넘치는 이 역사는 새 시대의 희망(Hope)으로 활짝 피어나고 있습니다. <b>Pride & Hope!</b> 진리를 탐구하고 과학의 진보를 추구하여 행복한 세상을 만들어갑니다. 미래형 융합 · 창의교육으로 4차 산업혁명 시대를 선도합니다.</p>"
+"<p>교목(校木)은 느티나무입니다. 강인한 생명력과 무한한 가능성, 넉넉하고 풍성한 공동체 정신의 상징입니다. 전남대학교는 미래의 주역인 학생들이 커다란 느티나무로 성장해 많은 사람들에게 시원한 그늘을 펼쳐주고 인생의 마지막에 웃는 승리자가 될 수 있도록 최선을 다할 것입니다.</p>"
+
+msgid ""
+"<p>Jeju National University opened its door in 1952, and since then its growth has been impressive both qualitatively and quantitatively as a bona fide international institution of higher education. </p>"
+"<p>The university boasts its high national rankings in terms of the educational environment and tailor-made teaching programs for its students, the future-oriented research potentials and global educational networking.</p>"
+"<p>Jeju National University is forcefully moving toward the new aims; it strives for Asia’s prestige and global leadership.</p>"
+"<p>May we draw your attention to Jeju National University? Through the realization of our goals we provide the driving force for the development of the region and the country.</p>"
+"<p>Jeju National University is enthusiastic in offering the newer educational environment beyond the traditional boundary via the <b>Korea-Massive Open Online Course (K-M00C)</b> program.</p>"
+msgstr ""
+"<p>1952년 문을 연 제주대학교는 60년이 넘는 기간 동안 놀라운 양적ㆍ질적 성장을 이뤄내면서 국제적인 교육기간으로 자리매김했습니다.</p>"
+"<p>학생 교육여건과 내실 있는 맞춤형 교육과정, 미래를 선도하는 초일류 연구역량, 글로벌 교육네트워크 구축은 대한민국 최고 수준으로 높아졌습니다. </p>"
+"<p>제주대학교는 이제 새로운 목표를 향해 힘차게 나아가고 있습니다. ‘아시아의 명문, 세계의 중심’ 대학으로의 도약이 그것입니다.</p>"
+"<p>제주대학교를 주목해 주십시오. 이러한 목표 실현을 통해 지역과 대한민국을 이끌어가는 성장 동력이 되겠습니다.</p>"
+"<p>제주대학교는 K-M00C를 통해 대학의 울타리를 넘어 새로운 교육환경을 제공하고자 합니다.</p>"
+
+msgid ""
+"<p>Since its establishment in 1918, Based on its motto, “Truth and Justice,” the educational mission of Chung-Ang University(CAU) is to provide its students with general knowledge required for cultured leadership, specialized knowledge for developing the country, and the open-minded worldview to bring about harmony in the nation and the world.</p>"
+"<p>In celebration of the 100th anniversary of the opening of the university in 2018, CAU has established a new 'New Vision 2030' in order to develop into a prestigious university preferred by the world.</p>"
+"<p>The K-MOOC courses developed by CAU will allow the exploration of new and innovative ways to provide online education. CAU wants to reach a global learners, meeting the worldwide demand for access to higher education, so that the outstanding learning experience it creates can benefit a global community.</p>"
+msgstr ""
+"<p>중앙대학교는 1918년 개교 이래로 ‘의와 참의 정신’을 바탕으로 사회지도자로서 갖추어야 할 교양과 국가사회의 발전에 기여할 수 있는 전문적 지식을 기르고, 민족과 인류공영에 기여할 수 있는 열린 세계관을 지닌 인재양성을 교육목적으로 설립되었습니다. </p>"
+"<p>2018년 개교 100주년을 맞이하여 중앙대학교는 세계가 선호하는 명문대학으로 발전하기 위한 중앙의 새로운 ‘New Vision 2030’ 수립에 착수하여 대학발전의 새로운 전기를 마련하고 있습니다.</p>"
+"<p>중앙대학교는 K-MOOC를 통해 새롭고 혁신적인 방법으로 글로벌 학습자에게 우리대학의 우수한 고등교육의 콘텐츠를 제공하도록 하겠습니다. 중앙대학교의 MOOC과정을 통한 학습 경험은 글로벌 공동체에 기여하게 될 것입니다.</p>"
+
+msgid ""
+"<p>For more than two decades since its establishment in 1995, Handong Global University has been redefining the Korean education landscape. Since Handong was founded, it harbored a vision of fostering honest and competent global leaders, exemplified by the unsupervised exam system. All freshmen enter without declaring a major or college, giving them the opportunity to discover a field of study that aligns with their talents and aptitudes. </p>"
+"<p>Externally, Handong has established itself as a dependable advocate for international cooperation. In that process, Handong was the first Korean university to sign an agreement with the OECD for intern recruitment, and is currently a host university for the UNESCO-UNITWIN program while also serving as the international hub for the UNAI's capacity building for higher</p>"
+msgstr ""
+"<p>한동대학교는 1995년 개교 이래 지난 20여년 간 교육계에 새로운 역사를 써 왔습니다. 정직하고 유능한 글로벌 인재양성을 목표로 개교 때부터 무감독 양심시험제도를 통해 정직성을 교육의 핵심으로 삼았으며, 신입생 전원 무전공 · 무학과 입학제도를 도입해 학생들이 자신의 재능과 적성에 맞는 전공을 선택할 수 있도록 하였습니다. 또한 OECD와 한국 대학 최초로 공식 인턴 채용협정을 체결하고, UNESCO-UNITWIN 프로그램의 주관대학, UNAI의 고등교육 역량개발 분야 글로벌 허브기관 선정 등 국제사회 협력에 이바지하는 대학으로 자리매김하고 있습니다.</p>"
+"<p>본교는 교육부의 대학 구조개혁 평가에서 최우수 A등급을 획득하였을 뿐만 아니라, 학부교육 선도대학육성(ACE)사업, 산업연계 교육활성화 선도대학(PRIME)사업, 신규무크선도대학(K-MOOC) 등을 비롯하여 주요 국가 과제에 선정되었습니다. 그 결과 학부생 1인당 수혜금액은 전국 최상위권에 위치합니다.</p>"
+"<p>또한 본교는 주변사회와 이웃, 국가와 세계의 문제를 해결할 수 있는 가장 지혜로운 인재를 기르는 것을 목표로 정진하고 있으며, K-MOOC는 목표를 달성하는데 소중한 기회로써, 많은 역할을 할 것입니다.</p>"
+
+
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 msgid "There are currently no courses available."
@@ -29113,10 +29331,17 @@ msgstr "한국과학기술원"
 msgid "HANYANG UNIVERSITY"
 msgstr "한양대학교"
 
-
+msgid "KYUNGSUNG UNIVERSITY"
+msgstr "경성대학교"
 
 msgid "KOCW"
 msgstr "KOCW"
+
+msgid "DANKOOK UNIVERSITY"
+msgstr "단국대학교"
+
+msgid "SOGANG UNIVERSITY"
+msgstr "서강대학교"
 
 msgid "(Essential)"
 msgstr "(필수)"

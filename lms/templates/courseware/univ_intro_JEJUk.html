@@ -1,0 +1,46 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${_("JEJU NATIONAL UNIVERSITY")}</%block>
+
+<section class="container full home" id="main">
+    <!-- [s]  -->
+    <div class="univ-list-infotop"><img src="/static/images/univ_intro/univ_top_JNU.jpg" alt=""></div>
+
+    <section class="container univ">
+        <h2>${_("JEJU NATIONAL UNIVERSITY")}</h2>
+        <div class="univ-info">
+            <div class="sns-box"></div>
+            ${_(
+               "<p>Jeju National University opened its door in 1952, and since then its growth has been impressive both qualitatively and quantitatively as a bona fide international institution of higher education. </p>"
+               "<p>The university boasts its high national rankings in terms of the educational environment and tailor-made teaching programs for its students, the future-oriented research potentials and global educational networking.</p>"
+               "<p>Jeju National University is forcefully moving toward the new aims; it strives for Asia’s prestige and global leadership.</p>"
+               "<p>May we draw your attention to Jeju National University? Through the realization of our goals we provide the driving force for the development of the region and the country.</p>"
+               "<p>Jeju National University is enthusiastic in offering the newer educational environment beyond the traditional boundary via the <b>Korea-Massive Open Online Course (K-M00C)</b> program.</p>"
+            )}
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>
