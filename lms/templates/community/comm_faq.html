@@ -3,63 +3,57 @@
 <%block name="pagetitle">Q&A</%block>
 <%inherit file="../main.html" />
 
+
 <script src="${static.url('js/script/script.js')}" charset="utf-8"></script>
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container">
 				<!-- [s] board write -->
-				<h2>자주하는 질문</h2>
-				<dl class="faq-list">
-					<dt><a href="#">CNU-MOOC사용법 안내 동영상 보기</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-					<dt><a href="#">회원가입 방법</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-					<dt><a href="#">인증메일을 받을 수 없습니다.</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-					<dt><a href="#">비밀번호를 잊어버렸습니다.</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-					<dt><a href="#">카카오, 네이버 등 로그인 연계는 무엇 인가요?</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-					<dt><a href="#">이용가능한 브라우저</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-					<dt><a href="#">학습 방법 안내</a></dt>
-					<dd>
-						<div>
-						회원가입 및 강좌수강에 관한 안내는 CNU-MOOC 사용방법 동영상으로 확인할 수 있습니다.<br>
-						CNU-MOOC 사용방법 동영상은 회원가입 및 강좌수강에 관한 주요사항에 대한 안내로 이외에 추가적으로 궁금한 사항이 있는 경우에는 example@email.com 로 문의 주시면 답변드리겠습니다.
-						</div>
-					</dd>
-				</dl>
-				<!-- [e] board write -->
+    <h2 title="Q&A" id="main">q&a</h2>
+    <ul>
+        <li>
+            특정 강좌 내용과 관련된 질문의 경우, 해당 강좌 내
+            <strong>게시판</strong>
+            에 질문을 올려주시기 바랍니다.
+        </li>
+
+    </ul>
+    <div align="right">
+        <input type="text" placeholder="질문 찾기" id="search" onkeydown="onKeyDown()" title="질문 찾기"/>
+        <input type="button" value="찾기" id="search_btn" title="찾기"/>
+    </div>
+    <br>
+    <div id="head_title" style="display: none;">${head_title}</div>
+    <nav class="faq-tab">
+        <a href="#" class="on" id="kmooc_f" title="CNU-MOOC">CNU-MOOC</a>
+        <a href="#" id="regist_f" title="회원가입">회원가입</a>
+        <a href="#" id="login_f" title="로그인/계정">로그인/계정</a>
+        <a href="#" id="enroll_f" title="수강신청/취소">수강신청/취소</a>
+        <a href="#" id="course_f" title="강좌 수강">강좌 수강</a>
+        <a href="#" id="certi_f" title="성적/이수증">성적/이수증</a>
+        <a href="#" id="tech_f" title="기술적문제">기술적 문제</a>
+    </nav>
+    <dl class="faq-list" title="Q&A 목록">
+    </dl>
+    <!-- [e] board write -->
 			</section>
 </main>
+
+<%block name="header_extras"></%block>
+
+## <script src="${static.url('js/script/faq_script.js')}" charset="utf-8"></script>
+<script src="${static.url('js/script/faq.js')}" charset="utf-8"></script>
+<style>
+    .blind {
+        overflow:hidden;
+        position:absolute;
+        top:0;
+        left:0;
+        width:1px;
+        height:1px;
+        font-size:0;
+        line-height:0
+    }
+</style>
+<br/><br/><br/>
+

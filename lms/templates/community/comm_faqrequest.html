@@ -1,0 +1,69 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">${_("Contact us by email")}</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+<script src="${static.url('js/script/faq_request.js')}" charset="utf-8"></script>
+
+<section class="container">
+    <!-- [s] board write -->
+    <h2 id="main">${_("Contact us by email")}</h2>
+    <ul>
+##         <li>${_("The inquiry will be sent to the K-MOOC staff members by e-mail.")}</li>
+        <li>${_("If you do not find the answer to your question in the list, please contact us via <strong>'Contact us by email'</strong>.")}</li>
+        <li>${_("If you have any questions regarding specific course content, please post your question on the bulletin <strong>board of the course.</strong>")}</li>
+    </ul>
+    <section class="board-view" style="padding-top: 20px !important;">
+
+        <div class="board-write">
+            <dl>
+                <dt><b>${_("Email")}</b></dt>
+                <dd>
+                    <div style="padding: 10px;">
+                        <!-- ${_("If you would like an answer, please enter your e-mail address correctly.")}<br> -->
+                    </div>
+
+                    <select id="search_con" style="height: 35px; min-width: 100px!important;" title="질문 선택">
+                        <option id="null">${_("Please choose your inquiry.")}</option>
+                        <option id="kmooc_f">${_("About K-MOOC")}</option>
+                        <option id="regist_f">${_("About membership")}</option>
+                        <option id="login_f">${_("About sign-in and account")}</option>
+                        <option id="enroll_f">${_("About enrollment/cancel")}</option>
+                        <option id="course_f">${_("About course registration")}</option>
+                        <option id="certi_f">${_("About grade/certificates")}</option>
+                        <option id="tech_f">${_("About technical problems")}</option>
+                        <option id="mobile_f">${_("About mobile problems")}</option>
+                    </select>
+                    <input type="text"  id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력">@
+                    <input type="text" style="height: 35px; min-width: 200px !important;" id="email_txt" aria-label="이메일 도메인 입력" title="이메일 도메인 입력" disabled>
+                    <select id="sel_email" style="height: 35px; min-width: 200px !important;" title="이메일 선택">
+                        <option id="null">${_("Please select an email")}</option>
+                        <option id="email">naver.com</option>
+                        <option id="email">hanmail.net</option>
+                        <option id="email">daum.net</option>
+                        <option id="email">gmail.com</option>
+                        <option id="email">nate.com</option>
+                        <option id="direct">직접입력</option>
+                        <!--<option id="email"></option>
+                        <option id="email"></option>-->
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <b>${_("Memo")}</b>
+                </dt>
+                <dd>
+                    <textarea id="request_con" title="${_("Memo")}"></textarea>
+                </dd>
+            </dl>
+
+            <div class="comment-submit">
+                <input type="button" value=${_("Send email")} id="request">
+                <input type="button" value=${_("Cancel")} class="btn-gray" id="cancel">
+            </div>
+        </div>
+    </section>
+    <!-- [e] board write -->
+</section>
