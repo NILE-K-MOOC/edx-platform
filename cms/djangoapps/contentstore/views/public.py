@@ -7,6 +7,7 @@ from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.conf import settings
+import logging
 
 from edxmako.shortcuts import render_to_response
 
@@ -16,6 +17,8 @@ from openedx.core.djangoapps.external_auth.views import (
     redirect_with_get,
 )
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
+log = logging.getLogger("TestLogin.log")
 
 __all__ = ['signup', 'login_page', 'howitworks']
 

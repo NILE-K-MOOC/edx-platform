@@ -1283,6 +1283,11 @@ def render_xblock(request, usage_key_string, check_if_enrolled=True):
 
 # Translators: "percent_sign" is the symbol "%". "platform_name" is a
 # string identifying the name of this installation, such as "edX".
+
+print 'check --------- s'
+print configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
+print 'check --------- e'
+
 FINANCIAL_ASSISTANCE_HEADER = _(
     '{platform_name} now offers financial assistance for learners who want to earn Verified Certificates but'
     ' who may not be able to pay the Verified Certificate fee. Eligible learners may receive up to 90{percent_sign} off'

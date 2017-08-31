@@ -1,4 +1,5 @@
 define(['backbone'], function(Backbone) {
+
     var Advanced = Backbone.Model.extend({
 
         defaults: {
@@ -11,6 +12,7 @@ define(['backbone'], function(Backbone) {
 
         validate: function(attrs) {
         // Keys can no longer be edited. We are currently not validating values.
+            alert('aaaaaa');
         }
     });
 

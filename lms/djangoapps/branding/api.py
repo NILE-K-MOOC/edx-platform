@@ -114,9 +114,7 @@ def _footer_copyright():
     return _(
         # Translators: 'EdX', 'edX', and 'Open edX' are trademarks of 'edX Inc.'.
         # Please do not translate any of these trademarks and company names.
-        u"\u00A9 {org_name}.  All rights reserved except where noted.  "
-        u"EdX, Open edX and the edX and Open EdX logos are registered trademarks "
-        u"or trademarks of edX Inc."
+        u"copyright@ 2017 CYBER EDU All Rights Reserved."
     ).format(org_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME))
 
 
@@ -165,25 +163,35 @@ def _footer_social_links():
 def _footer_navigation_links():
     """Return the navigation links to display in the footer. """
     platform_name = configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)
+
     return [
-        {
-            "name": link_name,
-            "title": link_title,
-            "url": link_url,
-        }
-        for link_name, link_url, link_title in [
-            ("about", marketing_link("ABOUT"), _("About")),
-            ("enterprise", marketing_link("ENTERPRISE"),
-             _("{platform_name} for Business").format(platform_name=platform_name)),
-            ("blog", marketing_link("BLOG"), _("Blog")),
-            ("news", marketing_link("NEWS"), _("News")),
-            ("help-center", settings.SUPPORT_SITE_LINK, _("Help Center")),
-            ("contact", marketing_link("CONTACT"), _("Contact")),
-            ("careers", marketing_link("CAREERS"), _("Careers")),
-            ("donate", marketing_link("DONATE"), _("Donate")),
-        ]
-        if link_url and link_url != "#"
+        {"name": "About", "title": "About", "url": "#"},
+        {"name": "cyber EDU for business", "title": "cyber EDU for business", "url": "#"},
+        {"name": "News", "title": "News", "url": "#"},
+        {"name": "Help Center", "title": "Help Center", "url": "#"},
+        {"name": "Contact", "title": "Contact", "url": "#"}
     ]
+
+
+    #     [
+    #     {
+    #         "name": link_name,
+    #         "title": link_title,
+    #         "url": link_url,
+    #     }
+    #     for link_name, link_url, link_title in [
+    #         ("about", marketing_link("ABOUT"), _("About")),
+    #         ("enterprise", marketing_link("ENTERPRISE"),
+    #          _("{platform_name} for Business").format(platform_name=platform_name)),
+    #         ("blog", marketing_link("BLOG"), _("Blog")),
+    #         ("news", marketing_link("NEWS"), _("News")),
+    #         ("help-center", settings.SUPPORT_SITE_LINK, _("Help Center")),
+    #         ("contact", marketing_link("CONTACT"), _("Contact")),
+    #         ("careers", marketing_link("CAREERS"), _("Careers")),
+    #         ("donate", marketing_link("DONATE"), _("Donate")),
+    #     ]
+    #     if link_url and link_url != "#"
+    # ]
 
 
 def _footer_legal_links():
@@ -260,7 +268,9 @@ def _footer_logo_img(is_secure):
     Returns:
         Absolute url to logo
     """
-    logo_name = configuration_helpers.get_value('FOOTER_ORGANIZATION_IMAGE', settings.FOOTER_ORGANIZATION_IMAGE)
+    # logo_name = configuration_helpers.get_value('FOOTER_ORGANIZATION_IMAGE', settings.FOOTER_ORGANIZATION_IMAGE)
+    logo_name = "images/logo2.png"
+    log.info(logo_name)
     # `logo_name` is looked up from the configuration,
     # which falls back on the Django settings, which loads it from
     # `lms.env.json`, which is created and managed by Ansible. Because of
@@ -279,7 +289,7 @@ def _footer_logo_img(is_secure):
         # is not activated by default, we will end up entering this block
         # of code on new Open edX installations, and on sandbox installations.
         # We can log when this happens:
-        default_logo = "images/logo.png"
+        default_logo = "images/logo2.png"
         log.info(
             "Failed to find footer logo at '%s', using '%s' instead",
             logo_name,

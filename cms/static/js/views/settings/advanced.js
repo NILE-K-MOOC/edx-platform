@@ -154,7 +154,6 @@ define(['js/views/validation',
                     newEle = this.template({key: key, display_name: model.display_name, help: model.help,
             value: JSON.stringify(model.value, null, 4), deprecated: model.deprecated,
             keyUniqueId: newKeyId, valueUniqueId: _.uniqueId('policy_value_')});
-
                 this.fieldToSelectorMap[key] = newKeyId;
                 this.selectorToField[newKeyId] = key;
                 return newEle;

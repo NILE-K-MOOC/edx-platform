@@ -131,6 +131,7 @@ def get_course_and_check_access(course_key, user, depth=0):
     if not has_studio_read_access(user, course_key):
         raise PermissionDenied()
     course_module = modulestore().get_course(course_key, depth=depth)
+
     return course_module
 
 
@@ -1216,10 +1217,19 @@ def advanced_settings_handler(request, course_key_string):
         json: update the Course's settings. The payload is a json rep of the
             metadata dicts.
     """
+
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+
+
+            print "======================================================"
+            print type(request)
+            print request.user.is_staff
+            print type(request.user.is_staff)
+            print "======================================================"
+
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,

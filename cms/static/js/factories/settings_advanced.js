@@ -2,7 +2,8 @@ define([
     'jquery', 'gettext', 'js/models/settings/advanced', 'js/views/settings/advanced'
 ], function($, gettext, AdvancedSettingsModel, AdvancedSettingsView) {
     'use strict';
-    return function(advancedDict, advancedSettingsUrl) {
+
+    return function(advancedDict, advancedSettingsUrl, request) {
         var advancedModel, editor;
 
         $('form :input')
@@ -16,11 +17,20 @@ define([
         // proactively populate advanced b/c it has the filtered list and doesn't really follow the model pattern
         advancedModel = new AdvancedSettingsModel(advancedDict, {parse: true});
         advancedModel.url = advancedSettingsUrl;
+        
 
         editor = new AdvancedSettingsView({
             el: $('.settings-advanced'),
             model: advancedModel
         });
+
+
+
+        console.log(advancedModel);
+        console.log(advancedDict);
+        console.log(editor);
+
+
         editor.render();
 
         $('#deprecated-settings').click(function() {

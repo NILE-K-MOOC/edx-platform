@@ -1,3 +1,4 @@
+# -*- coding: euc-kr -*-
 """
 This file contains tasks that are designed to perform background operations on the
 running state of a course.
@@ -226,6 +227,9 @@ class TaskProgress(object):
         Returns:
             dict: The current task's progress dict
         """
+
+        TASK_LOG.info("task_helper -> update_task_state")
+
         progress_dict = {
             'action_name': self.action_name,
             'attempted': self.attempted,
@@ -611,6 +615,7 @@ def reset_attempts_module_state(xmodule_instance_args, _module_descriptor, stude
         if old_number_of_attempts > 0:
             problem_state["attempts"] = 0
             # convert back to json and save
+            TASK_LOG.info("dataCheck")
             student_module.state = json.dumps(problem_state)
             student_module.save()
             # get request-related tracking information from args passthrough,
@@ -704,6 +709,9 @@ def upload_grades_csv(_xmodule_instance_args, _entry_id, course_id, _task_input,
     make a more general CSVDoc class instead of building out the rows like we
     do here.
     """
+
+    TASK_LOG.info("upload_grades_csv Check")
+
     start_time = time()
     start_date = datetime.now(UTC)
     status_interval = 100
@@ -942,6 +950,9 @@ def upload_problem_responses_csv(_xmodule_instance_args, _entry_id, course_id, t
     task_progress = TaskProgress(action_name, num_reports, start_time)
     current_step = {'step': 'Calculating students answers to problem'}
     task_progress.update_task_state(extra_meta=current_step)
+
+
+    TASK_LOG.info("upload -> format_ditlist in")
 
     # Compute result table and format it
     problem_location = task_input.get('problem_location')
@@ -1706,6 +1717,21 @@ def upload_ora2_data(
 
     try:
         header, datarows = OraAggregateData.collect_ora2_data(course_id)
+
+        str = ""
+
+ #       for rowdata in datarows:
+#            TASK_LOG.info(rowdata[4]['parts'][0]['text'])
+#            TASK_LOG.info(type(rowdata[4]['parts'][0]['text']))
+
+#            str += rowdata[4]['parts'][0]['text'].encode('utf-8')
+#            rowdata[4]['parts'][0]['text'] = str
+#            str = ""
+#            TASK_LOG.info(str)
+#            TASK_LOG.info(type(rowdata))
+#           TASK_LOG.info(rowdata)
+ #           TASK_LOG.info("////////////////")
+
         rows = [header] + [row for row in datarows]
     # Update progress to failed regardless of error type
     except Exception:  # pylint: disable=broad-except
@@ -1726,6 +1752,9 @@ def upload_ora2_data(
         curr_step,
     )
     task_progress.update_task_state(extra_meta=curr_step)
+
+    TASK_LOG.info(rows)
+    TASK_LOG.info(type(rows))
 
     upload_csv_to_report_store(rows, 'ORA_data', course_id, start_date)
 

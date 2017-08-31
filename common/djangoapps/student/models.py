@@ -1929,6 +1929,7 @@ def log_successful_login(sender, request, user, **kwargs):  # pylint: disable=un
         AUDIT_LOG.info(u"Login success - user.id: {0}".format(user.id))
     else:
         AUDIT_LOG.info(u"Login success - {0} ({1})".format(user.username, user.email))
+        AUDIT_LOG.info(user.is_staff)
 
 
 @receiver(user_logged_out)

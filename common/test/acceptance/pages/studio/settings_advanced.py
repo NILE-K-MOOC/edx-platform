@@ -156,6 +156,12 @@ class AdvancedSettingsPage(CoursePage):
         We call it 'name', but it's really whatever is embedded in the 'id' element for each field
         """
         query = self.q(css=SETTINGS_NAME_SELECTOR)
+
+        print "|||||||||||||||||||||||||||||||||||||"
+        print query
+        print "|||||||||||||||||||||||||||||||||||||"
+
+
         return query.attrs('id')
 
     @property

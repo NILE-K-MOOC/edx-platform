@@ -2,8 +2,10 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
-<section class="courses-container">
+<section class="courses-container" id="course_section">
   <section class="highlighted-courses">
+      <div class="course-tit">Popular Courses Starting Soon</div>
+      <div class="btn-views"><a href="#">View All Courses </a></div>
 
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
       <section class="courses">

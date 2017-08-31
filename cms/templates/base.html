@@ -35,7 +35,9 @@ from openedx.core.djangolib.js_utils import (
     <%
       jsi18n_path = "js/i18n/{language}/djangojs.js".format(language=LANGUAGE_CODE)
     %>
-
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
     <script type="text/javascript" src="${static.url(jsi18n_path)}"></script>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="path_prefix" content="${EDX_ROOT_URL}">
@@ -63,6 +65,16 @@ from openedx.core.djangolib.js_utils import (
     <script type="text/javascript" src="${static.url("common/js/vendor/require.js")}"></script>
     <script type="text/javascript" src="${static.url("cms/js/require-config.js")}"></script>
 
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            alert($("#aaaaaaaa").val());
+            alert("ok");
+        });
+    </script>
+
+
+
     <!-- view -->
     <div class="wrapper wrapper-view" dir="${static.dir_rtl()}">
         <% online_help_token = self.online_help_token() if hasattr(self, 'online_help_token') else None %>
@@ -74,6 +86,10 @@ from openedx.core.djangolib.js_utils import (
 
       <main id="main" aria-label="Content" tabindex="-1">
           <div id="content">
+
+          <div style="display: none" id="isStaff_check">${user.is_staff}</div>
+
+              <div>${user.is_staff}</div>
           <%block name="content"></%block>
           </div>
       </main>

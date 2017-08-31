@@ -193,6 +193,10 @@ def render_to_response(template_name, dictionary=None, context_instance=None, na
     Returns a HttpResponse whose content is filled with the result of calling
     lookup.get_template(args[0]).render with the passed arguments.
     """
+    print template_name
+    print request
+    print "-------------------------------------------------------"
 
     dictionary = dictionary or {}
+
     return HttpResponse(render_to_string(template_name, dictionary, context_instance, namespace, request), **kwargs)

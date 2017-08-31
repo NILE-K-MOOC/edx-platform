@@ -5,7 +5,11 @@ Format and create csv responses
 """
 
 import csv
+import logging
 from django.http import HttpResponse
+
+logger = logging.getLogger("CSVS")
+logger.info("csvs.py Check")
 
 
 def create_csv_response(filename, header, datarows):
@@ -19,6 +23,9 @@ def create_csv_response(filename, header, datarows):
     or ASCII-only bytestrings.
 
     """
+
+    logger.info("create_csv_response method")
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
     csvwriter = csv.writer(
@@ -70,6 +77,8 @@ def format_dictlist(dictlist, features):
     }
     """
 
+    logger.info('format_dictlist method')
+
     def dict_to_entry(dct):
         """ Convert dictionary to a list for a csv row """
         relevant_items = [(k, v) for (k, v) in dct.items() if k in features]
@@ -98,6 +107,7 @@ def format_instances(instances, features):
 
     Returns header and datarows, formatted for input in create_csv_response
     """
+    logger.info('format_instances method')
     header = features
     datarows = [[getattr(x, f) for f in features] for x in instances]
     return header, datarows
