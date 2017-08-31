@@ -91,9 +91,10 @@ $(document).ready(function(){
 						html += "<div>"+data[i][1]+"</div>";
 						html += "</dd>";
 					}
-					$('dl').css('height', '485px');
+					$('dl').css('height', '265px');
 				}else if(data != '' && data.length <= 3){
 					console.log('case 2 start.');
+					//html +=
 					for(var j=0; j<data.length; j++){
 						value_list = data[j].toString().split(',');
 						html += "<dt><a href='#' >"+data[j][0]+"</a></dt>";
@@ -101,7 +102,7 @@ $(document).ready(function(){
 						html += "<div>"+data[j][1]+"</div>";
 						html += "</dd>";
 					}
-					$('dl').css('height', '485px');
+					$('dl').css('height', '265px');
 
 				}else{
 					console.log('case 3 start.');
@@ -109,12 +110,12 @@ $(document).ready(function(){
 					html += "<div style='text-align: center'>" +
 							"<h3>저장된 데이터가 없습니다.</h3>" +
 							"</div>";
-					$('dl').css('height', '485px');
+					$('dl').css('height', '265px');
 				}
 			}
 
 
-			$('.faq-list2').html(html);
+			$('.faq-list').html(html);
 		});
 	});
 });
