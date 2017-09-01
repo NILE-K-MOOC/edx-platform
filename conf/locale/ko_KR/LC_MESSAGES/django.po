@@ -754,9 +754,6 @@ msgstr "전남대학교"
 msgid "CKUk"
 msgstr "가톨릭관동대학교"
 
-msgid "CNUk"
-msgstr "충남대학교"
-
 msgid "HallymK"
 msgstr "한림대학교"
 
