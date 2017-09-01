@@ -172,6 +172,7 @@ def haewoondaex(request, org):
     # courses_list2 = get_courses_by_org(request.user, org)
     #
     # print '2 s ---------------------------------'
+
     # for c2 in courses_list2:
     #     print c2.id
     # print '2 e ---------------------------------'
