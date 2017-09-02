@@ -29930,6 +29930,15 @@ msgstr "서울대, 한국과학기술원, 포항공대"
 msgid "SKP.POSTECHk"
 msgstr "서울대, 한국과학기술원, 포항공대"
 
+msgid "SKP_SNUk"
+msgstr "서울대, 한국과학기술원, 포항공대"
+
+msgid "SKP_KAISTk"
+msgstr "서울대, 한국과학기술원, 포항공대"
+
+msgid "SKP_POSTECHk"
+msgstr "서울대, 한국과학기술원, 포항공대"
+
 msgid ""
 "Learners learn to assess responses by scoring pre-assessed sample responses that you provide. "
 "Learners move to the next step when the scores they give match your scores. "
