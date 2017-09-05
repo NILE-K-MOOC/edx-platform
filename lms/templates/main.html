@@ -120,6 +120,10 @@ from pipeline_mako import render_require_js_path_overrides
     </script>
 % endif
 
+    <link rel="stylesheet" href="/static/css/lms-style-vendor.281cc7c0da1b.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/static/css/lms-main.c27e86be23da.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/static/css/layout.css" type="text/css" media="all" />
+
 </head>
 
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
@@ -136,9 +140,86 @@ from pipeline_mako import render_require_js_path_overrides
     % endif
 
     <div class="content-wrapper" id="content">
-      ${self.body()}
-      <%block name="bodyextra"/>
+        <script src="/static/js/mainImg.js"></script>
+          <section class="home" style="background: #fff !important;">
+              % if request.path == '/':
+                <header id="mainImg">
+                  <div style="margin: 0 auto; max-width: 1200px;">
+                      <!---div style="padding: 150px 10px 30px;">
+                          <img class="mainText" id="mainText" src="./images/main_text1.png" alt="">
+                      </div---->
+                  </div>
+                 </header>
+             % endif
+
+              ${self.body()}
+            <%block name="bodyextra"/>
+          </section>
     </div>
+
+
+      % if request.path == request.path == '/':
+      <section class="courses-container">
+          <div class="Community">
+              <section class="Community-list">
+
+                  <div class="Community-tit">Community </div>
+                  <div class="notice" >
+                      <div class="notice-tit"><span>notice</span> <div class="notice-view"><a href="#">+</a></div></div>
+                      <div class="notice-conts">
+                          <div class="notice-img"><img src="static/images/notic_img.png" alt="" /></div>
+                          <div class="notice-list">There's an experiment underway at
+                              a few top universities around the world
+                              to make some master's degrees out
+                              there more affordable.
+                              The Massachusetts Institute of Technology,
+                              for example, says the class of 2018 can
+                              get a master's degree in supply ...</div>
+                      </div>
+                      <div class="notice-day">
+                          <ul>
+                              <li><div class="name">EDU Welcomes Kiron</div>   <div class="date"> [2017-07-17]</div></li>
+                              <li><div class="name">EDU Welcomes Kiron</div>   <div class="date"> [2017-07-17]</div></li>
+                              <li><div class="name">EDU Welcomes Kiron</div>   <div class="date"> [2017-07-17]</div></li>
+                              <li><div class="name">EDU Welcomes Kiron</div>   <div class="date"> [2017-07-17]</div></li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div class="QnA" >
+
+                      <div class="qna_tit">Q&A <div class="qna-view"><a href="#">+</a></div> </div>
+                      <div class="qna_img"><img src="static/images/qna_img.png" alt="FAQ" /></div>
+                      <div class="qna_conts">
+                          Why does my course navigation l
+                          ok different?
+                          On Thursday April 27, 2017 we made
+                          changes to the course outline
+                          page in EDU courses to give you a
+                          better at-a-glance view of the
+                          complete course outline.
+                      </div>
+                      <div class="qna-data">2017-07-17</div>
+
+                  </div>
+                  <div class="FAQ">
+
+                      <div class="faq_tit">FAQ <div class="faq-view"><a href="#">+</a></div></div>
+                      <div class="faq-img"><img src="static/images/faq_img.png" alt="FAQ" /></div>
+                      <div class="faq_conts">
+                          Why does my course navigation l
+                          ok different?
+                          On Thursday April 27, 2017 we made
+                          changes to the course outline
+                          page in EDU courses to give you a
+                          better at-a-glance view of the
+                          complete course outline.
+                      </div>
+                      <div class="faq_data">2017-07-17</div>
+                  </div>
+              </section>
+          </div>
+      </section>
+      % endif
 
     % if not disable_footer:
         <%include file="${static.get_template_path('footer.html')}" />
