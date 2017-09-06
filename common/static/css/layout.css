@@ -43,7 +43,7 @@ header.global .nav-global{float:none;margin:0 0 0 230px;font-size:0px;padding:53
 header.global .nav-global li{margin:0;padding:0;box-sizing:border-box;}
 header.global .nav-global li a{padding:0;}
 header.global .nav-global li[class^="gnb"]{width:30%;}
-header.global .nav-global li[class^="gnb"] a{float:right;width:140px;height:26px;font-size:0px;text-transform:none;font-weight:bold;color:#fff;background: url(../../../lms/static/images/gnb.png) no-repeat top left;}
+header.global .nav-global li[class^="gnb"] a{float:right;width:140px;height:26px;font-size:0px;text-transform:none;font-weight:bold;color:#fff;background: url(/static/images/gnb.png) no-repeat top left;}
 header.global .nav-global li.gnb2 a{width:100px;background-position:-254px top;}
 header.global .nav-global li.gnb3 a{width:100px;background-position:-300px top;}
 header.global .nav-global li.gnb1 a:hover,
