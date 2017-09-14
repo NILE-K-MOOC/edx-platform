@@ -35,11 +35,11 @@
 
 /**{font-family:daumR ! important;}*/
 
-header.global{height:auto;box-shadow:none;border-bottom:solid 1px #b1b1b1;}
-header.global h1.logo{margin:30px 0;}
+header.global{/*height:auto;box-shadow:none;border-bottom:solid 1px #b1b1b1;*/}
+header.global h1.logo{/*margin:30px 0;*/}
 header.global h1.logo img {height:72px !important;}
-header.global nav {margin:0 auto;padding:0 10px;max-width:1170px;height:auto;position:relative;}
-header.global .nav-global{float:none;margin:0 0 0 230px;font-size:0px;padding:53px 0 0 100px;width:auto;display:block;}
+header.global nav {/*margin:0 auto;padding:0 10px;max-width:1170px;height:auto;position:relative;*/}
+header.global .nav-global{/*float:none;margin:0 0 0 230px;font-size:0px;padding:53px 0 0 100px;width:auto;display:block;*/}
 header.global .nav-global li{margin:0;padding:0;box-sizing:border-box;}
 header.global .nav-global li a{padding:0;}
 header.global .nav-global li[class^="gnb"]{width:30%;}
@@ -378,7 +378,7 @@ header.global .user a.user-link div{
 	margin-top: 20px;
 }
 
-.dropdown{margin-top:70px;}
+.dropdown{margin-top:0px;}
 
 .dashboard .my-courses .course .details .enter-course {
 	float: right;
@@ -387,3 +387,6 @@ header.global .user a.user-link div{
 	background: #fff;
 	/* font-weight: 700; */
 }
+
+.user-image-frame{max-width: 40px;}
+
