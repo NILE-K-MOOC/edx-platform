@@ -78,6 +78,8 @@ header.global .nav-global li a.btn.type2:hover {border:solid 1px #939393;color:#
 
 .content-wrapper{padding:0px;}
 
+.home>header{background-color:#9c9c9c;background-image:-webkit-linear-gradient(#9c9c9c,#995353);background-image:linear-gradient(#9c9c9c,#995353);background-size:cover;background-image:none;box-shadow:0 1px 0 0 rgba(255,255,255,0.93),inset 0 -1px 5px 0 rgba(0,0,0,0.1);overflow:hidden;padding:0;width:100%}
+
 .home>header{margin:0;height:auto;box-shadow:none;border-bottom:none;height:469px;background:#e6e6e6 url('../../../lms/static/images/main_img1.png') no-repeat top center;}
 .home>header .outer-wrapper{margin:0 auto;padding:0;max-width:1170px;}
 .home>header .title{margin:0;padding:60px 10px 30px 0;width:auto;max-width:526px;background:none;box-shadow:none;border:none;}
@@ -110,7 +112,7 @@ header.global .nav-global li a.btn.type2:hover {border:solid 1px #939393;color:#
 .wrapper-footer{padding:0;background:#fcfcfc; border-top:1px solid #cecece; display:block; clear:both }
 .wrapper-footer footer#footer-openedx{margin:0 auto;padding:0;max-width:1170px;position:relative;}
 .wrapper-footer footer#footer-openedx .colophon{float:none;margin:0;width:auto;}
-.wrapper-footer footer#footer-openedx .wrapper-logo{position:absolute;margin:0;top:20px;left:0;}
+.wrapper-footer footer#footer-openedx .wrapper-logo{position:absolute;margin:0;top:20px;left:10px;}
 .wrapper-footer footer#footer-openedx .nav-store{position:absolute;top:-5px;right:0;}
 .wrapper-footer footer#footer-openedx .nav-store li{display: inline; margin:0 5px}
 .wrapper-footer footer#footer-openedx .colophon .nav-colophon{margin:0 0 0 350px;padding:30px 0 0 0;min-height:30px; }
@@ -156,8 +158,6 @@ header.global .nav-global li a.btn.type2:hover {border:solid 1px #939393;color:#
 .title_type1:after {content:"";display:block;clear:both;}
 
 .home {background:#f8f8f8 !important;}
-
-
 
 .container.rule {line-height:1.7em;font-size:14px;}
 .container.rule ol,.container.rule ul,.container.rule li,.container.rule dt, .container.rule dd {padding:0;margin:0;list-style:none;}

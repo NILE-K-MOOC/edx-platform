@@ -84,7 +84,7 @@ $(document).ready(function(){
                   var d = new Date();
                   if((d.getDay() == 2 || d.getDay() == 5) && d.getHours() == 8 && ( d.getMinutes() >= 0 && d.getMinutes() <= 30)){
 
-                      setTimeout(showNotice, 10000);
+                      setTimeout(showNotice, 1000000000);
 
                       if($("#noticeLayer").length)
                           return;
