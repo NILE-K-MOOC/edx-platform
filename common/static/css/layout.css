@@ -211,8 +211,8 @@ header.global .nav-global li a.btn.type2:hover {border:solid 1px #939393;color:#
 
 .school_list .inner{padding:0 10px 30px 10px;}
 
-header.global .nav-global li.active1 {right:290px;}
-header.global .nav-global li.active2 {right:205px;}
+header.global .nav-global li.active1 {right:115px;}
+header.global .nav-global li.active2 {right:30px;}
 header.global .nav-global li.deactive{display:none;}
 
 
@@ -261,11 +261,11 @@ header.global .nav-global li.deactive{display:none;}
 	.wrapper-footer footer#footer-openedx .nav-store{ display:none}
 
 	header.global .nav-global li .deactive{display:block;}
-	header.global h1.logo{/*float:none;*/margin:0 auto;padding:20px 0 0 0;}
+	header.global h1.logo{/*float:none;*/margin:0 auto;/*padding:20px 0 0 0;*/}
 	header.global.slim h1.logo{float:none;margin:0 auto;padding:20px 0 0 0;}
 	header.global.slim h1.logo a {text-align:center;}
 	header.global.slim h2.course-header{float:none;width:100%;text-align:center;margin:0 auto;padding-bottom:10px;}
-	header.global .nav-global{margin:0;padding:20px;}
+	header.global .nav-global{margin:0;padding:10px;}
 	header.global .nav-global li[class^="gnb"]{width:22%;}
 	header.global .nav-global li:nth-child(1){right:100px;top:85px;}
 	header.global .nav-global li:nth-child(2){right:10px;top:85px;}
@@ -309,8 +309,8 @@ header.global .nav-global li.deactive{display:none;}
 
 @media only screen and (max-width:640px) {
 	header.global .nav-global{padding:0;display:none;}
-	header.global h1.logo, header.global.slim h1.logo {padding:20px 0;}
-	header.global .user{padding:0;display:none;}
+	header.global h1.logo, header.global.slim h1.logo {/*padding:20px 0;*/}
+	header.global .user{padding:0;/*display:none;*/}
 	header.global .close + .nav-global{display:block;}
 	header.global .nav-global li:nth-child(1){display:block;position:relative;right:0px;top:0px;padding:0;width:50%;float:left;}
 	header.global .nav-global li:nth-child(2){display:block;float:right;position:relative;right:0px;top:0px;padding:0;width:50%;border-left:solid 1px #fff;}
@@ -401,4 +401,8 @@ header.global .user a.user-link div{
 
 li.gnb1.loginLayout {
 	margin-left: 60px !important;
+}
+
+li.gnb1 {
+	margin-left: 50px !important;
 }
