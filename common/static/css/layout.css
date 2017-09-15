@@ -399,3 +399,6 @@ header.global .user a.user-link div{
 	margin-top: -10px !important;
 }
 
+li.gnb1.loginLayout {
+	margin-left: 60px !important;
+}
