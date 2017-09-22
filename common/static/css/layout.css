@@ -78,9 +78,12 @@ header.global .nav-global li a.btn.type2:hover {border:solid 1px #939393;color:#
 
 .content-wrapper{padding:0px;}
 
-.home>header{background-color:#9c9c9c;background-image:-webkit-linear-gradient(#9c9c9c,#995353);background-image:linear-gradient(#9c9c9c,#995353);background-size:cover;background-image:none;box-shadow:0 1px 0 0 rgba(255,255,255,0.93),inset 0 -1px 5px 0 rgba(0,0,0,0.1);overflow:hidden;padding:0;width:100%}
+.home>header{background-color:#9c9c9c;background-image:-webkit-linear-gradient(#9c9c9c,#995353);background-image:linear-gradient(#9c9c9c,#995353);/*background-size:contain;*/background-image:none;box-shadow:0 1px 0 0 rgba(255,255,255,0.93),inset 0 -1px 5px 0 rgba(0,0,0,0.1);overflow:hidden;padding:0;width:auto; height: 461px;}
+/*.home>header{background-color:#9c9c9c;background-image:-webkit-linear-gradient(#9c9c9c,#995353);background-image:linear-gradient(#9c9c9c,#995353);background-size:cover;background-image:none;box-shadow:0 1px 0 0 rgba(255,255,255,0.93),inset 0 -1px 5px 0 rgba(0,0,0,0.1);overflow:hidden;padding:0;width:100%}*/
 
-.home>header{margin:0;height:auto;box-shadow:none;border-bottom:none;height:469px;background:#e6e6e6 url('../../../lms/static/images/main_img1.png') no-repeat top center;}
+.home>header .imgDiv{/*margin:0;height:auto;*/box-shadow:none;border-bottom:none;height:100%;background:#e6e6e6 url('../../../static/images/main_img1.png') no-repeat scroll center center;text-align: right;}
+.home>header .imgDiv .mainText{box-shadow:none;margin: 50px 100px 0 0;width: 420px;height: 110px;}
+/*.home>header{margin:0;height:auto;box-shadow:none;border-bottom:none;height:469px;background:#e6e6e6 url('../../../static/images/main_img1.png') no-repeat top center;}*/
 .home>header .outer-wrapper{margin:0 auto;padding:0;max-width:1170px;}
 .home>header .title{margin:0;padding:60px 10px 30px 0;width:auto;max-width:526px;background:none;box-shadow:none;border:none;}
 .home>header .title img{width:100%;}
@@ -254,7 +257,6 @@ header.global .nav-global li.deactive{display:none;}
 	/*.container.about > nav a {width:33%;}*/
 	.container.about > nav a {width:20%;}
 
-
 }
 
 @media only screen and (max-width:750px) {
@@ -267,8 +269,8 @@ header.global .nav-global li.deactive{display:none;}
 	header.global.slim h2.course-header{float:none;width:100%;text-align:center;margin:0 auto;padding-bottom:10px;}
 	header.global .nav-global{margin:0;padding:10px;}
 	header.global .nav-global li[class^="gnb"]{width:22%;}
-	header.global .nav-global li:nth-child(1){right:100px;top:85px;}
-	header.global .nav-global li:nth-child(2){right:10px;top:85px;}
+	header.global .nav-global li:nth-child(1){right:100px;top:12px;}
+	header.global .nav-global li:nth-child(2){right:10px;top:12px;}
 	header.global .nav-global li .deactive{display:none !important;}
 	header.global .user{margin-top:-55px;}
 	header.global.slim .user {margin-top:-35px;}
@@ -405,4 +407,86 @@ li.gnb1.loginLayout {
 
 li.gnb1 {
 	margin-left: 50px !important;
+}
+
+@media screen and (max-width: 1200px) {
+	.home .backHeader {
+		height: 380px;
+	}
+
+	.home .backHeader .imgDiv {
+		height: 100%;
+		background-size: 1200px 380px !important;
+	}
+
+	.home .backHeader .imgDiv .mainText {
+		margin-top: 75px;
+		margin-right: 60px;
+		width: 330px;
+		height: 100px;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.home .backHeader {
+		height: 330px;
+	}
+
+	.home .backHeader .imgDiv {
+		height: 100%;
+		background-size: 1000px 330px !important;
+	}
+
+	.home .backHeader .imgDiv .mainText {
+		margin-top: 100px;
+		margin-right: 50px;
+		width: 300px;
+		height: 90px;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.home .backHeader .imgDiv .mainText {
+		margin-top: 90px;
+		width: 240px;
+		height: 80px;
+	}
+
+	.home .backHeader {
+		height: 280px;
+	}
+
+	.home .backHeader .imgDiv {
+		height: 100%;
+		background-size: 800px 280px !important;
+	}
+}
+
+@media screen and (max-width: 500px) {
+    .home .backHeader {
+        height: 230px;
+    }
+
+    .home .backHeader .imgDiv {
+        height: 100%;
+        background-size: 500px 230px !important;
+    }
+
+    .home .backHeader .imgDiv .mainText {
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+	.home .backHeader .imgDiv .mainText {
+		margin: 110px 20px 0 20px;
+		width: 150px;
+		height: 70px;
+	}
+}
+
+@media screen and (max-width: 200px) {
+	.home .backHeader .imgDiv .mainText {
+		display: none;
+	}
 }

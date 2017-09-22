@@ -43,6 +43,7 @@ $(document).ready(function(){
               function mainImgChg(){
                   //return;          //#e6e6e6 url("./images/main_img1.png") no-repeat scroll center top  
                   // console.log($("#mainImg").size()); 
+
                   var imgUrl = "";
                   var textUrl = "";
                   if(idx == 0) {
@@ -64,8 +65,9 @@ $(document).ready(function(){
                   }, 4000, "easeInExpo", function(){
                       console.log("imgUrl = " + imgUrl);
                       console.log("imgText = " + textUrl);
-                      $(this).css("background", "url("+imgUrl+") no-repeat scroll center top");
+                      $("#mainImg").css("background-image", "url('"+imgUrl+"')");
                       $("#mainText").attr("src", textUrl);
+
                       console.log("check >>>>>>>>>>>>>>>>>> " + $("#mainText").attr("src"));
                       console.log("css change done.");
                       $(this).animate({
@@ -84,7 +86,7 @@ $(document).ready(function(){
                   var d = new Date();
                   if((d.getDay() == 2 || d.getDay() == 5) && d.getHours() == 8 && ( d.getMinutes() >= 0 && d.getMinutes() <= 30)){
 
-                      setTimeout(showNotice, 1000000000);
+                      setTimeout(showNotice, 10000);
 
                       if($("#noticeLayer").length)
                           return;
