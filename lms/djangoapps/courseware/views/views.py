@@ -623,6 +623,40 @@ def course_about(request, course_id):
 
     Assumes the course_id is in a valid format.
     """
+
+    print "****** DEBUG ******"
+    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+    print edx_user_info['username']
+    print edx_user_info['email']
+
+    edx_db_host = settings.DATABASES.get('default').get('HOST')
+    edx_db_user = settings.DATABASES.get('default').get('USER')
+    edx_db_password = settings.DATABASES.get('default').get('PASSWORD')
+
+    import pymysql
+
+    conn = pymysql.connect(
+        host=edx_db_host,
+        user=edx_db_user,
+        password=edx_db_password,
+        charset='utf8'
+    )
+        #db='testdb', charset='utf8')
+ 
+    curs = conn.cursor()
+ 
+    sql = "select * from edxapp.course_review"
+    curs.execute(sql)
+ 
+    review_list = curs.fetchall()
+
+    for row in review_list:
+        print type(row[3])
+        print row[3]
+
+    conn.close()
+
+    print "*******************"
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
     if hasattr(course_key, 'ccx'):
@@ -849,7 +883,8 @@ def course_about(request, course_id):
             'classfy_name': classfy_name,
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
-            'enroll_edate': enroll_edate
+            'enroll_edate': enroll_edate,
+            'review_list' : review_list
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
