@@ -140,26 +140,71 @@ td{ padding: 15px; }
 </style>
 
 <!-- TEST -->
-<!--
-<script>
-jQuery.fn.center = function () {
-    this.css("position","absolute");
-    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
-    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-    return this;
+<style>
+div.backLayer {
+    display:none;
+    background-color:black;
+    position:absolute;
+    left:0px;
+    top:0px;
 }
+div#loadingDiv{
+    background-color:skyblue;
+    display: none;
+    width:300px;
+    height:300px;
+    position: fixed;
+    left: 50;
+    margin: -550px 0 0 -50px;
+}
+</style>
 
-showPopup = function() {
-$("#popLayer").show();
-$("#popLayer").center();
-}
+<script>
+$(document).ready(function(){
+    $("#btn1").click(function(){
+        var width = $(window).width();
+        var height = $(document).height();
+             
+        $(".backLayer").width(width);
+        $(".backLayer").height(height);
+        $(".backLayer").fadeTo(500, 0.3);
+
+        var loadingDivObj = $("#loadingDiv");
+        loadingDivObj.css("top", $(document).height()/2-150);
+        loadingDivObj.css("left",$(document).width()/2-150);
+        loadingDivObj.fadeIn(500);
+    });
+});
+
+$(document).keydown(function(event){
+    if(event.which=='27'){
+        $("#loadingDiv").fadeOut(300);
+        $(".backLayer").fadeOut(1000);
+    }
+});
+
+$(document).ready(function() {
+    $('#loadingDiv').click(function(e) {  
+      alert(1);
+    });
+});
+
+/*
+$(document).mousedown(function(e){ 
+    if( e.button == 0 ) { 
+        $("#loadingDiv").fadeOut(300);
+        $(".backLayer").fadeOut(1000);
+    } 
+});
+*/
+
+$(window).resize(function(){
+    var width = $(window).width();
+    var height = $(window).height();
+    $(".backLayer").width(width).height(height);
+});
 </script>
 
-<a href="javascript:;" onclick="javascript:showPopup()">팝업띄우기</a>
-<div id="popLayer" style="display:none;">
-<div>팝업 레이어입니다.</div>
-<div>
--->
 <!-- TEST -->
 
 <div class = "review_subject">Review</div>
@@ -206,8 +251,11 @@ $("#popLayer").center();
 </div>
 
 <div style="float: right">
-    <button type="button" style="color: #FFFFFF;">write</button>
+    <button type="button" id="btn1" style="color: #FFFFFF;">write2</button>
 </div>
 
+
+<div class='backLayer' style='' ></div>
+<div id="loadingDiv"></div>
 
 
