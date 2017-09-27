@@ -46,11 +46,9 @@ from openedx.core.djangolib.markup import HTML, Text
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@qr_code_resize.png" alt="플러스 친구" usemap="#map1">
-            <map name="map1">
-              <area shape="rect" coords="20,110,110,225" href="https://www.instagram.com/kmooc_/" target="_blank" alt="인스타그램" title="" />
-              <area shape="rect" coords="140,110,227,225" href="http://pf.kakao.com/_IZxkxdxl" target="_blank" alt="카카오플러스친구" title="" />
-            </map>
+            <a href="http://www.niied.go.kr/index.do" target="_blank">
+                <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@20170927.jpg" alt="플러스 친구" usemap="#map1">
+            </a>
         </p>
 
         <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
@@ -94,7 +92,7 @@ cookiedata = document.cookie;
 
 popupDate = new Date();
 targetDate1 = new Date(2017, 8, 8);
-targetDate2 = new Date(2017, 7, 8);
+targetDate2 = new Date(2017, 9, 18);
 
 console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
 
