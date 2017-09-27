@@ -497,31 +497,31 @@ class CourseOverview(TimeStampedModel):
         if org:
             print 'org:', org
             if org == 'ACEk':
-                org = org.replace('k', '.')
+                org = org.replace('k', '')
                 if filter_:
                     print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 1'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains=org)|Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
                 else:
                     print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 2'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains=org)|Q(id__icontains='FA.HGU01')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='FA.HGU01')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
 
             elif org == 'COREk':
-                org = org.replace('k', '.')
+                org = org.replace('k', '')
                 if filter_:
                     print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 3'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains=org)|Q(id__icontains='SKKU_COS2021.01K')|Q(id__icontains='SKKU_COS2022.01K')|Q(id__icontains='SKKU_NTST100.01K')|Q(id__icontains='HYUKMOOC2016-4k')|Q(id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='SKKU_COS2021.01K')|Q(id__icontains='SKKU_COS2022.01K')|Q(id__icontains='SKKU_NTST100.01K')|Q(id__icontains='HYUKMOOC2016-4k')|Q(id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
                 else:
                     print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 4'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains=org)|Q(id__icontains='SKKU_COS2021.01K')|Q(id__icontains='SKKU_COS2022.01K')|Q(id__icontains='SKKU_NTST100.01K')|Q(id__icontains='HYUKMOOC2016-4k')|Q(id__icontains='HYUKMOOC2016-5k')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='SKKU_COS2021.01K')|Q(id__icontains='SKKU_COS2022.01K')|Q(id__icontains='SKKU_NTST100.01K')|Q(id__icontains='HYUKMOOC2016-4k')|Q(id__icontains='HYUKMOOC2016-5k')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
 
             elif org == 'CKk' or  org == 'KOCWk':
-                org = org.replace('k', '.')
+                org = org.replace('k', '')
                 if filter_:
                     print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 5'
-                    course_overviews = CourseOverview.objects.all().filter(id__icontains=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
                 else:
                     print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 6'
-                    course_overviews = CourseOverview.objects.all().filter(id__icontains=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
 
             elif org == 'SNUk' or  org == 'POSTECHk' or  org == 'KAISTk':
                 if filter_:
