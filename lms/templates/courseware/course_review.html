@@ -31,8 +31,8 @@
   content: '★★★★★';
   opacity: .3;
   position: absolute;
-  top: -2px;
   font-size: 80%;
+  color: #000000;
 }
 
 [title=".000"]::after {
@@ -97,6 +97,8 @@
 
 td{ padding: 15px; }
 
+.review_own{ border: solid #c9c9c9 1px; }
+
 .review_nothing{ border: solid #cccccc 1px; margin-bottom: 18px; margin-top: 14px; padding: 15px; }
 
 .review_body_div{ border: solid #f2f2f2 1px; }
@@ -107,6 +109,8 @@ td{ padding: 15px; }
 
 .review_body_2 { width: 360px; margin-top: -10px; }
 .review_content { padding-top: 0px; padding-bottom: 4px; font-size: 80%; font-family: 'Nanum Gothic'; }
+
+.review_body_3{ color: red; font-family: 'Nanum Gothic'; margin-left: 300px; margin-top: -5px; margin-bottom: 8px; }
 
 .review_time { width: 170px; float: left; color: #999999; font-size: 70%; }
 .review_good { 
@@ -172,7 +176,7 @@ fieldset, label { margin: 0; padding: 0; }
 }
 
 .rating > label { 
-  color: #ddd; 
+  color: #c9c9c9; 
  float: right; 
 }
 
@@ -187,7 +191,7 @@ fieldset, label { margin: 0; padding: 0; }
 
 </style>
 
-<!-- Write -->
+<!-- script (write) -->
 <script>
 $(document).ready(function(){
     $("#review_write").click(function(){
@@ -223,8 +227,9 @@ $(window).resize(function(){
 </script>
 
 <!-- HTML -->
-<div class = "review_subject">Review</div>
+<div class = "review_subject">Review3</div>
 
+<!-- HTMl (nothing) -->
 % if len(review_list) == 0:
 <div class ="review_nothing">
 There is no written review.<br>
@@ -232,6 +237,54 @@ Write the first review!
 </div>
 % endif
 
+<!-- HTML (own) -->
+% if len(already_list) != 0:
+    % for row in already_list:
+    <div class = "review_own">
+    <div class = "review_body_div">
+	<table class = "review_body_table">
+	    <tr class = "review_body_1">
+		<td class ="review_id">${row[1]}</td>
+
+                % if row[3] == 1:
+		<td class ="review_star"><div class="star-ratings-css" title=".200"></div></td>
+                % endif
+                % if row[3] == 2:
+		<td class ="review_star"><div class="star-ratings-css" title=".400"></div></td>
+                % endif
+                % if row[3] == 3:
+		<td class ="review_star"><div class="star-ratings-css" title=".600"></div></td>
+                % endif
+                % if row[3] == 4:
+		<td class ="review_star"><div class="star-ratings-css" title=".800"></div></td>
+                % endif
+                % if row[3] == 5:
+		<td class ="review_star"><div class="star-ratings-css" title=".1000"></div></td>
+                % endif
+
+	    </tr>
+	</table>
+	<table>
+	    <tr class = "review_body_2">
+		<td class = "review_content">${row[2]}</td>
+	    </tr>
+	</table>
+	<table>
+	     <tr>
+		<td class = "review_time">${row[4]}</td>
+		<td class = "review_good"><img id="review_good_img" src="/static/images/good.png">${row[5]}</td>
+		<td class = "review_bad"><img id="review_bad_img" src="/static/images/bad.png">${row[6]}</td>
+	     </tr>
+	</table>
+        <div class = "review_body_3">
+	    delete
+	</div>
+    </div>
+    </div>
+    % endfor
+% endif
+
+<!-- HTML (view) -->
 % if len(review_list) != 0:
 <div class="scrollbar" id="style-1">
     % for row in review_list:
@@ -275,6 +328,8 @@ Write the first review!
 </div>
 % endif
 
+% if already_lock != 1:
+<!-- HTML (write) -->
 <form action="http://192.168.33.20:8000/courses/${course_id}/about" method="get">
     <div id="review_write_star">
 	<fieldset class="rating">
@@ -291,5 +346,5 @@ Write the first review!
         <button type="submit" id="review_write_submit">Write</button>
     </div>
 </form>
-
+% endif
 

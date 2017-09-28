@@ -643,26 +643,43 @@ def course_about(request, course_id):
         switch = 0
         print 0 #DEBUG
 
+    review_email = str(edx_user_info['email'])
     review_username = str(edx_user_info['username'])
     review_content = str(request.GET.get('review_data'))
     review_rating = str(request.GET.get('review_rating'))
 
+    print review_email #DEBUG
     print review_username #DEBUG
     print review_content #DEBUG
     print review_rating #DEBUG
 
+    # INSERT
     if( switch == 1 ):
         curs1 = conn.cursor()
-        sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "')"
+        sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key, email) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "', '"+ review_email +"')"
         print sql1 #DEBUG
         curs1.execute(sql1)
         conn.commit()
-   
+  
+    # SELECT -> all list
     curs2 = conn.cursor()
     sql2 = "select * from edxapp.course_review where course_key = '" + course_id + "' order by id DESC"
     curs2.execute(sql2)
     review_list = curs2.fetchall()
+
+    # SELECT -> already wroted
+    curs3 = conn.cursor()
+    sql3 = "select * from edxapp.course_review where email = '"+ review_email +"'"
+    curs3.execute(sql3)
+    
+    already_list = curs3.fetchall()
+    already_lock = len(already_list)
+
+    print already_list #DEBUG
+    print already_lock #DEBUG
+
     conn.close()
+    
     ### REVIEW BACKEND - end ###
 
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
@@ -893,7 +910,9 @@ def course_about(request, course_id):
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
-            'review_list' : review_list
+            'review_list' : review_list,
+            'already_list' : already_list,
+            'already_lock' : already_lock
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
