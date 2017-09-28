@@ -70,13 +70,10 @@
 
 .scrollbar
 {
-	float: left;
 	height: 500px;
-	width: 400px;
-	background: #F;
 	overflow-y: scroll;
 	margin-bottom: 15px;
-        border: solid 1px #f2f2f2;
+        border: solid 1px #c9c9c9;
 }
 #style-1::-webkit-scrollbar-track
 {
@@ -139,6 +136,10 @@ td{ padding: 15px; }
 #review_good_img{ margin-right: 10px; }
 #review_bad_img{ margin-right: 10px; }
 
+#review_write_star{ margin-bottom: -10px; }
+#review_write_area{ height: 80px; font-size: 80%; }
+#review_write_submit{ color: #FFFFFF; margin-top: 10px; float: right; }
+
 div.backLayer {
     display: none;
     background-color: black;
@@ -146,17 +147,44 @@ div.backLayer {
     left: 0px;
     top: 0px;
 }
-div#loadingDiv{
-    background-color: #FFFFFF;
-    display: none;
-    width: 600px;
-    height: 200px;
-    position: fixed;
-    left: 50;
-    margin: -550px 0 0 -150px;
-    z-index: 5;
-    border: solid 1px black;
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+fieldset, label { margin: 0; padding: 0; }
+
+.rating { 
+  border: none;
+  float: left;
 }
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+.rating > input:checked ~ label, 
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } 
+
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
 </style>
 
 <!-- Write -->
@@ -179,19 +207,11 @@ $(document).ready(function(){
 
 $(document).keydown(function(event){
     if(event.which=='27'){
-        $("#loadingDiv").fadeOut(300);
-        $(".backLayer").fadeOut(1000);
     }
 });
 
 $(document).ready(function() {
     $(document).click(function(e) {  
-        if(e.target.id === 'loadingDiv' || e.target.id === 'review_write'){
-        }
-        else{
-            $("#loadingDiv").fadeOut(300);
-            $(".backLayer").fadeOut(1000);
-        }
     });
 });
 
@@ -255,15 +275,21 @@ Write the first review!
 </div>
 % endif
 
-<div style="float: right">
-    <button type="button" id="review_write" style="color: #FFFFFF;">write</button>
-</div>
-
-<div class='backLayer' style='' ></div>
-
-<!-- HTML (cliked write button) -->
-<div id="loadingDiv">
-
-</div>
+<form action="http://192.168.33.20:8000/courses/${course_id}/about" method="get">
+    <div id="review_write_star">
+	<fieldset class="rating">
+	    <input type="radio" id="star5" name="review_rating" value="5" /><label class = "full" for="star5" id='noclose' title="Awesome - 5 stars"></label>
+	    <input type="radio" id="star4" name="review_rating" value="4" /><label class = "full" for="star4" id='noclose' title="Pretty good - 4 stars"></label>
+	    <input type="radio" id="star3" name="review_rating" value="3" /><label class = "full" for="star3" id='noclose' title="Meh - 3 stars"></label>
+	    <input type="radio" id="star2" name="review_rating" value="2" /><label class = "full" for="star2" id='noclose' title="Kinda bad - 2 stars"></label>
+	    <input type="radio" id="star1" name="review_rating" value="1" /><label class = "full" for="star1" id='noclose' title="Sucks big time - 1 star"></label>
+	</fieldset>
+    </div>
+    <div class="form-group" id="noclose">
+        <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
+        <input id="test" type="hidden" name="submit_switch" value="1">
+        <button type="submit" id="review_write_submit">Write</button>
+    </div>
+</form>
 
 

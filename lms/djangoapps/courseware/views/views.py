@@ -614,9 +614,7 @@ class EnrollStaffView(View):
         # In any other case redirect to the course about page.
         return redirect(reverse('about_course', args=[unicode(course_key)]))
 
-
 @ensure_csrf_cookie
-@cache_if_anonymous()
 def course_about(request, course_id):
     """
     Display the course's about page.
@@ -629,6 +627,7 @@ def course_about(request, course_id):
     edx_db_host = settings.DATABASES.get('default').get('HOST')
     edx_db_user = settings.DATABASES.get('default').get('USER')
     edx_db_password = settings.DATABASES.get('default').get('PASSWORD')
+
     import pymysql
     conn = pymysql.connect(
         host=edx_db_host,
@@ -636,10 +635,33 @@ def course_about(request, course_id):
         password=edx_db_password,
         charset='utf8'
     )
-    curs = conn.cursor()
-    sql = "select * from edxapp.course_review where course_key = '" + course_id + "'"
-    curs.execute(sql)
-    review_list = curs.fetchall()
+ 
+    if request.GET.get('submit_switch'):
+        switch = 1
+        print 1 #DEBUG
+    else:
+        switch = 0
+        print 0 #DEBUG
+
+    review_username = str(edx_user_info['username'])
+    review_content = str(request.GET.get('review_data'))
+    review_rating = str(request.GET.get('review_rating'))
+
+    print review_username #DEBUG
+    print review_content #DEBUG
+    print review_rating #DEBUG
+
+    if( switch == 1 ):
+        curs1 = conn.cursor()
+        sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "')"
+        print sql1 #DEBUG
+        curs1.execute(sql1)
+        conn.commit()
+   
+    curs2 = conn.cursor()
+    sql2 = "select * from edxapp.course_review where course_key = '" + course_id + "' order by id DESC"
+    curs2.execute(sql2)
+    review_list = curs2.fetchall()
     conn.close()
     ### REVIEW BACKEND - end ###
 
@@ -836,6 +858,7 @@ def course_about(request, course_id):
         #######################################################################
 
         context = {
+            'course_id' : course_id,
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,
