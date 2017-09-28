@@ -1,4 +1,5 @@
 <head>
+    <!-- Encoding setting -->
     <meta charset="UTF-8">
     <!-- BOOT STRAP -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -10,11 +11,10 @@
       src="https://code.jquery.com/jquery-3.2.1.js"
       integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
       crossorigin="anonymous"></script>
-    
 </head>
 
+<!-- CSS -->
 <style>
-
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
 .star-ratings-css {
@@ -100,6 +100,8 @@
 
 td{ padding: 15px; }
 
+.review_nothing{ border: solid #cccccc 1px; margin-bottom: 18px; margin-top: 14px; padding: 15px; }
+
 .review_body_div{ border: solid #f2f2f2 1px; }
 .review_subject{ margin-bottom: 10px; }
 
@@ -137,31 +139,30 @@ td{ padding: 15px; }
 #review_good_img{ margin-right: 10px; }
 #review_bad_img{ margin-right: 10px; }
 
-</style>
-
-<!-- TEST -->
-<style>
 div.backLayer {
-    display:none;
-    background-color:black;
-    position:absolute;
-    left:0px;
-    top:0px;
+    display: none;
+    background-color: black;
+    position: absolute;
+    left: 0px;
+    top: 0px;
 }
 div#loadingDiv{
-    background-color:skyblue;
+    background-color: #FFFFFF;
     display: none;
-    width:300px;
-    height:300px;
+    width: 600px;
+    height: 200px;
     position: fixed;
     left: 50;
-    margin: -550px 0 0 -50px;
+    margin: -550px 0 0 -150px;
+    z-index: 5;
+    border: solid 1px black;
 }
 </style>
 
+<!-- Write -->
 <script>
 $(document).ready(function(){
-    $("#btn1").click(function(){
+    $("#review_write").click(function(){
         var width = $(window).width();
         var height = $(document).height();
              
@@ -184,19 +185,15 @@ $(document).keydown(function(event){
 });
 
 $(document).ready(function() {
-    $('#loadingDiv').click(function(e) {  
-      alert(1);
+    $(document).click(function(e) {  
+        if(e.target.id === 'loadingDiv' || e.target.id === 'review_write'){
+        }
+        else{
+            $("#loadingDiv").fadeOut(300);
+            $(".backLayer").fadeOut(1000);
+        }
     });
 });
-
-/*
-$(document).mousedown(function(e){ 
-    if( e.button == 0 ) { 
-        $("#loadingDiv").fadeOut(300);
-        $(".backLayer").fadeOut(1000);
-    } 
-});
-*/
 
 $(window).resize(function(){
     var width = $(window).width();
@@ -205,10 +202,17 @@ $(window).resize(function(){
 });
 </script>
 
-<!-- TEST -->
-
+<!-- HTML -->
 <div class = "review_subject">Review</div>
 
+% if len(review_list) == 0:
+<div class ="review_nothing">
+There is no written review.<br>
+Write the first review!
+</div>
+% endif
+
+% if len(review_list) != 0:
 <div class="scrollbar" id="style-1">
     % for row in review_list:
     <div class = "review_body_div">
@@ -249,13 +253,17 @@ $(window).resize(function(){
     </div>
     % endfor
 </div>
+% endif
 
 <div style="float: right">
-    <button type="button" id="btn1" style="color: #FFFFFF;">write2</button>
+    <button type="button" id="review_write" style="color: #FFFFFF;">write</button>
 </div>
 
-
 <div class='backLayer' style='' ></div>
-<div id="loadingDiv"></div>
+
+<!-- HTML (cliked write button) -->
+<div id="loadingDiv">
+
+</div>
 
 
