@@ -629,25 +629,47 @@ def course_score(request):
     )
 
     review_raw_id = request.GET.get('id')
+    review_raw_user_email = request.GET.get('email')
 
     # good point + 1
     if review_raw_id.find('good') == 0:
         review_id = review_raw_id[4:]
-        curs0 = conn.cursor()
-        sql0 = "UPDATE edxapp.course_review SET good = good + 1 where id ='"+ review_id +"'"
-        curs0.execute(sql0)
-        conn.commit()
+        review_user_email = unicode(review_raw_user_email)
+        curs1 = conn.cursor()
+        sql1 = "select good_user from edxapp.course_review where id = '"+ review_id+"'"
+        curs1.execute(sql1)
+        user_raw_list = curs1.fetchall()
+        user = user_raw_list[0][0]
+        user_list = user.split('+')
+        if review_user_email in user_list:
+            print "find it" #DEBUG
+            return JsonResponse({'return':'fail'})
+        else:
+            curs0 = conn.cursor()
+            sql0 = "UPDATE edxapp.course_review SET good = good + 1 where id ='"+ review_id +"'"
+            curs0.execute(sql0)
+            conn.commit()
 
     # bad point + 1 
     if review_raw_id.find('bad') == 0:
         review_id = review_raw_id[3:]
-        curs0 = conn.cursor()
-        sql0 = "UPDATE edxapp.course_review SET bad = bad + 1 where id ='"+ review_id +"'"
-        curs0.execute(sql0)
-        conn.commit()
+        review_user_email = unicode(review_raw_user_email)
+        curs1 = conn.cursor()
+        sql1 = "select bad_user from edxapp.course_review where id = '"+ review_id+"'"
+        curs1.execute(sql1)
+        user_raw_list = curs1.fetchall()
+        user = user_raw_list[0][0]
+        user_list = user.split('+')
+        if review_user_email in user_list:
+            print "find it" #DEBUG
+            return JsonResponse({'return':'fail'})
+        else:
+            curs0 = conn.cursor()
+            sql0 = "UPDATE edxapp.course_review SET bad = bad + 1 where id ='"+ review_id +"'"
+            curs0.execute(sql0)
+            conn.commit()
 
     conn.close()
-
     return JsonResponse({'return':'success'})
 
 @ensure_csrf_cookie
@@ -709,7 +731,7 @@ def course_about(request, course_id):
     # INSERT
     if( write_switch == 1 ):
         curs1 = conn.cursor()
-        sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key, email) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "', '"+ review_email +"')"
+        sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key, email, good_user, bad_user) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "', '"+ review_email +"', '+', '+')"
         print sql1 #DEBUG
         curs1.execute(sql1)
         conn.commit()
@@ -964,7 +986,8 @@ def course_about(request, course_id):
             'enroll_edate': enroll_edate,
             'review_list' : review_list,
             'already_list' : already_list,
-            'already_lock' : already_lock
+            'already_lock' : already_lock,
+            'review_email' : review_email
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

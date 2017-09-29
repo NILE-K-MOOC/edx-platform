@@ -252,7 +252,7 @@ $(window).resize(function(){
 
 <!-- HTML -->
 <div class = "review_subject">Review</div>
-
+<div class = "review_hidden" id = "review_hidden" style = "display: none">${review_email}</div>
 <!-- HTMl (nothing) -->
 % if len(review_list) == 0:
 <div class ="review_nothing">
@@ -314,6 +314,7 @@ Write the first review!
 <!-- point ajax -->
 <script>
 function score_click_good(e) {
+    var user_email = document.getElementById('review_hidden').innerHTML;
     var good = document.getElementById(e).innerHTML;
     good = good.trim();
     var good_index = good.search("good.png");
@@ -327,11 +328,12 @@ function score_click_good(e) {
         type: "GET", 
         dataType: "json",
         url: "http://192.168.33.20:8000/courses/score",
-        data: {id: e}
+        data: {id: e, email: user_email}
     });
 }
 
 function score_click_bad(e) {
+    var user_email = document.getElementById('review_hidden').innerHTML;
     var bad = document.getElementById(e).innerHTML;
     bad = bad.trim();
     var bad_index = bad.search("bad.png");
@@ -345,7 +347,7 @@ function score_click_bad(e) {
         type: "GET", 
         dataType: "json",
         url: "http://192.168.33.20:8000/courses/score",
-        data: {id: e}
+        data: {id: e, email: user_email}
     });
 }
 </script>
