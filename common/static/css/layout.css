@@ -37,7 +37,7 @@
 
 header.global{height:auto;box-shadow:none;border-bottom:solid 1px #b1b1b1;}
 header.global h1.logo{margin:30px 0;}
-header.global h1.logo img {height:72px !important;}
+header.global h1.logo img {height:72px;}
 header.global nav {/*margin:0 auto;padding:0 10px;max-width:1170px;height:auto;position:relative;*/}
 header.global nav {
 	margin: 0 auto;
@@ -48,7 +48,7 @@ header.global nav {
 }
 header.global .nav-global {
 	float: none;
-	margin: 0 0 0 230px;
+	margin: 0 0 0 100px;
 	font-size: 0px;
 	padding: 53px 0 0 100px;
 	width: auto;
@@ -278,11 +278,11 @@ header.global .nav-global li.deactive{display:none;}
 	.wrapper-footer footer#footer-openedx .nav-store{ display:none}
 
 	header.global .nav-global li .deactive{display:block;}
-	header.global h1.logo{/*float:none;*/margin:0 auto;/*padding:20px 0 0 0;*/}
+	header.global h1.logo{/*float:none;*/margin:10px auto;/*padding:20px 0 0 0;*/}
 	header.global.slim h1.logo{float:none;margin:0 auto;padding:20px 0 0 0;}
 	header.global.slim h1.logo a {text-align:center;}
 	header.global.slim h2.course-header{float:none;width:100%;text-align:center;margin:0 auto;padding-bottom:10px;}
-	header.global .nav-global{margin:0;padding:10px;}
+	header.global .nav-global{margin:10px 0 0 0;;padding:25px 25px 25px 110px;}
 	header.global .nav-global li[class^="gnb"]{width:22%;}
 	header.global .nav-global li:nth-child(1){right:100px;top:12px;}
 	header.global .nav-global li:nth-child(2){right:10px;top:12px;}
