@@ -97,7 +97,7 @@
 
 td{ padding: 15px; }
 
-.review_own{ border: solid #c9c9c9 1px; }
+.review_own{ border: solid #c9c9c9 1px; background-color: #eee8fd; }
 
 .review_nothing{ border: solid #cccccc 1px; margin-bottom: 18px; margin-top: 14px; padding: 15px; }
 
@@ -139,6 +139,28 @@ td{ padding: 15px; }
 
 #review_good_img{ margin-right: 10px; }
 #review_bad_img{ margin-right: 10px; }
+
+.review_time_delete { width: 265px; float: left; color: #999999; font-size: 70%; }
+.review_delete{ 
+    border: solid #999999 1px; 
+    height: 15px; 
+    float: left; 
+    padding-top: 2px; 
+    padding-bottom: 18px; 
+    margin-top: 13px;
+    margin-right: 10px;
+    font-size: 70%;
+    color: #737373;
+    width: 87px;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+#review_button{ padding: 11px; color: #737373; }
+a#review_button{ text-decoration: none; }
+a#review_button:link{ color: #737373; }
+a#review_button:visited{ color: #737373; }
+a#review_button:hover{ color: #737373; }
+a#review_button:active{ color: #737373; }
 
 #review_write_star{ margin-bottom: -10px; }
 #review_write_area{ height: 80px; font-size: 80%; }
@@ -271,18 +293,22 @@ Write the first review!
 	</table>
 	<table>
 	     <tr>
-		<td class = "review_time">${row[4]}</td>
-		<td class = "review_good"><img id="review_good_img" src="/static/images/good.png">${row[5]}</td>
-		<td class = "review_bad"><img id="review_bad_img" src="/static/images/bad.png">${row[6]}</td>
+		<td class = "review_time_delete">${row[4]}</td>
+                <form id="delete_form" action="" method="get">
+                <input type="hidden" name="delete_switch" value="1"/>
+                <td class = "review_delete">
+                    <a id = "review_button" href="javascript:;" onclick="document.getElementById('delete_form').submit();">
+                        delete
+                    </a>
+                </td>
+                </form>
 	     </tr>
 	</table>
-        <div class = "review_body_3">
-	    delete
-	</div>
     </div>
     </div>
     % endfor
 % endif
+
 
 <!-- HTML (view) -->
 % if len(review_list) != 0:
@@ -319,8 +345,18 @@ Write the first review!
 	<table>
 	     <tr>
 		<td class = "review_time">${row[4]}</td>
-		<td class = "review_good"><img id="review_good_img" src="/static/images/good.png">${row[5]}</td>
-		<td class = "review_bad"><img id="review_bad_img" src="/static/images/bad.png">${row[6]}</td>
+
+		<td class = "review_good">
+                    <a id = "review_button" href="javascript:;" onclick="score_click()">
+                        <img id="review_good_img" src="/static/images/good.png">${row[5]}
+                    </a>
+                </td>
+
+		<td class = "review_bad">
+                    <a id = "review_button" href="javascript:;" onclick="score_click()">
+                        <img id="review_bad_img" src="/static/images/bad.png">${row[6]}
+                    </a>
+                </td>
 	     </tr>
 	</table>
     </div>
@@ -342,7 +378,7 @@ Write the first review!
     </div>
     <div class="form-group" id="noclose">
         <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
-        <input id="test" type="hidden" name="submit_switch" value="1">
+        <input id="test" type="hidden" name="write_switch" value="1">
         <button type="submit" id="review_write_submit">Write</button>
     </div>
 </form>

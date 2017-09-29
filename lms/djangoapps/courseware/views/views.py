@@ -635,14 +635,23 @@ def course_about(request, course_id):
         password=edx_db_password,
         charset='utf8'
     )
- 
-    if request.GET.get('submit_switch'):
-        switch = 1
+
+    # WRITE SWITCH
+    if request.GET.get('write_switch'):
+        write_switch = 1
         print 1 #DEBUG
     else:
-        switch = 0
+        write_switch = 0
         print 0 #DEBUG
 
+    # DELETE SWITCH
+    if request.GET.get('delete_switch'):
+        delete_switch = 1
+        print 1 #DEBUG
+    else:
+        delete_switch = 0
+        print 0 #DEBUG
+    
     review_email = str(edx_user_info['email'])
     review_username = str(edx_user_info['username'])
     review_content = str(request.GET.get('review_data'))
@@ -653,8 +662,16 @@ def course_about(request, course_id):
     print review_content #DEBUG
     print review_rating #DEBUG
 
+    # DELETE
+    if( delete_switch == 1 ):
+        curs0 = conn.cursor()
+        sql0 = "DELETE FROM edxapp.course_review WHERE email = '"+ review_email +"'"
+        print sql0 #DEBUG
+        curs0.execute(sql0)
+        conn.commit()
+
     # INSERT
-    if( switch == 1 ):
+    if( write_switch == 1 ):
         curs1 = conn.cursor()
         sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key, email) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "', '"+ review_email +"')"
         print sql1 #DEBUG
@@ -679,7 +696,6 @@ def course_about(request, course_id):
     print already_lock #DEBUG
 
     conn.close()
-    
     ### REVIEW BACKEND - end ###
 
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
