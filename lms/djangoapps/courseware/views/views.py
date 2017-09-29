@@ -17,7 +17,7 @@ from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.db import transaction
 from django.db.models import Q
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.timezone import UTC
@@ -613,6 +613,42 @@ class EnrollStaffView(View):
         print 'post about'
         # In any other case redirect to the course about page.
         return redirect(reverse('about_course', args=[unicode(course_key)]))
+
+def course_score(request):
+    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+    edx_db_host = settings.DATABASES.get('default').get('HOST')
+    edx_db_user = settings.DATABASES.get('default').get('USER')
+    edx_db_password = settings.DATABASES.get('default').get('PASSWORD')
+
+    import pymysql
+    conn = pymysql.connect(
+        host=edx_db_host,
+        user=edx_db_user,
+        password=edx_db_password,
+        charset='utf8'
+    )
+
+    review_raw_id = request.GET.get('id')
+
+    # good point + 1
+    if review_raw_id.find('good') == 0:
+        review_id = review_raw_id[4:]
+        curs0 = conn.cursor()
+        sql0 = "UPDATE edxapp.course_review SET good = good + 1 where id ='"+ review_id +"'"
+        curs0.execute(sql0)
+        conn.commit()
+
+    # bad point + 1 
+    if review_raw_id.find('bad') == 0:
+        review_id = review_raw_id[3:]
+        curs0 = conn.cursor()
+        sql0 = "UPDATE edxapp.course_review SET bad = bad + 1 where id ='"+ review_id +"'"
+        curs0.execute(sql0)
+        conn.commit()
+
+    conn.close()
+
+    return JsonResponse({'return':'success'})
 
 @ensure_csrf_cookie
 def course_about(request, course_id):

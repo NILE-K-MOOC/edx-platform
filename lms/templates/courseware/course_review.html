@@ -307,9 +307,9 @@ Write the first review!
     % endfor
 % endif
 
+<!-- point ajax -->
 <script>
 function score_click_good(e) {
-    //alert(e);
     var good = document.getElementById(e).innerHTML;
     good = good.trim();
     var good_index = good.search("good.png");
@@ -318,9 +318,16 @@ function score_click_good(e) {
     good_id_int += 1;
     var good_id_after = String(good_id_int);
     document.getElementById(e).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
+
+    $.ajax({
+        type: "GET", 
+        dataType: "json",
+        url: "http://192.168.33.20:8000/courses/score",
+        data: {id: e}
+    });
 }
+
 function score_click_bad(e) {
-    //alert(e);
     var bad = document.getElementById(e).innerHTML;
     bad = bad.trim();
     var bad_index = bad.search("bad.png");
@@ -329,6 +336,13 @@ function score_click_bad(e) {
     bad_id_int += 1;
     var bad_id_after = String(bad_id_int);
     document.getElementById(e).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
+
+    $.ajax({
+        type: "GET", 
+        dataType: "json",
+        url: "http://192.168.33.20:8000/courses/score",
+        data: {id: e}
+    });
 }
 </script>
 

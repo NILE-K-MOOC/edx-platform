@@ -390,6 +390,12 @@ urlpatterns += (
     ),
 
     url(
+        r'^courses/score$',
+        'courseware.views.views.course_score',
+        name='score_course',
+    ),
+
+    url(
         r'^courses/{}/enroll_staff$'.format(
             settings.COURSE_ID_PATTERN,
         ),
