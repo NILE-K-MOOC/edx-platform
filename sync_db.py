@@ -261,7 +261,9 @@ update_time DATETIME NOT NULL DEFAULT NOW(),
 good INT NOT NULL DEFAULT 0,
 bad INT NOT NULL DEFAULT 0,
 course_key CHAR(100) NOT NULL,
-email CHAR(100) NOT NULL
+email CHAR(100) NOT NULL,
+good_user LONGTEXT,
+bad_user LONGTEXT
 )
 """
 ### QUERY STORE ###  
