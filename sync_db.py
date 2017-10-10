@@ -253,19 +253,25 @@ CREATE TABLE drmt_auth_user_process
 
 sql20 = """
 CREATE TABLE edxapp.course_review(
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-user_name CHAR(100) NOT NULL,
-content CHAR(200) NOT NULL,
+id INT NOT NULL AUTO_INCREMENT,
+content VARCHAR(200) NOT NULL,
 point INT NOT NULL DEFAULT 1,
-update_time DATETIME NOT NULL DEFAULT NOW(),
-good INT NOT NULL DEFAULT 0,
-bad INT NOT NULL DEFAULT 0,
-course_key CHAR(100) NOT NULL,
-email CHAR(100) NOT NULL,
-good_user LONGTEXT,
-bad_user LONGTEXT
+reg_time DATETIME NOT NULL DEFAULT NOW(),
+user_id VARCHAR(100) NOT NULL,
+course_id VARCHAR(100) NOT NULL,
+PRIMARY KEY ('id')
 )
 """
+
+sql21 = """
+CREATE TABLE edxapp.course_review_user(
+review_id INT NOT NULL,
+user_id VARCHAR(100) NOT NULL, 
+good_bad VARCHAR(10) NOT NULL, 
+reg_time DATETIME NOT NULL DEFAULT NOW()
+);
+"""
+
 ### QUERY STORE ###  
 
 curs.execute(sql1)
@@ -288,5 +294,6 @@ curs.execute(sql17)
 curs.execute(sql18)
 curs.execute(sql19)
 curs.execute(sql20)
+curs.execute(sql21)
 
 conn.close()
