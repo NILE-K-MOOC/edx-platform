@@ -680,6 +680,7 @@ def course_about(request, course_id):
     Assumes the course_id is in a valid format.
     """
 
+    """
     ### REVIEW BACKEND - start###
     edx_user_info = json.loads(request.COOKIES['edx-user-info'])
     edx_db_host = settings.DATABASES.get('default').get('HOST')
@@ -755,6 +756,7 @@ def course_about(request, course_id):
 
     conn.close()
     ### REVIEW BACKEND - end ###
+    """
 
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
@@ -949,7 +951,6 @@ def course_about(request, course_id):
         #######################################################################
 
         context = {
-            'course_id' : course_id,
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,
@@ -983,11 +984,13 @@ def course_about(request, course_id):
             'classfy_name': classfy_name,
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
-            'enroll_edate': enroll_edate,
-            'review_list' : review_list,
-            'already_list' : already_list,
-            'already_lock' : already_lock,
-            'review_email' : review_email
+            'enroll_edate': enroll_edate
+            # --- REVIEW CONTEXT --- #
+            #'review_list' : review_list,
+            #'already_list' : already_list,
+            #'already_lock' : already_lock,
+            #'review_email' : review_email
+            #'course_id' : course_id,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
