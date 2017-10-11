@@ -42,81 +42,16 @@
 
 <!-- HTML (write) -->
 % if len(already_list) == 0:
-<div class = review_write>
-<form action="http://192.168.33.20:8000/courses/${course_id}/info" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-    <div id="review_write_star">
-	<fieldset class="rating">
-	    <input type="radio" id="star5" name="review_rating" value="5" /><label class = "full" for="star5" id='noclose' title="Awesome - 5 stars"></label>
-	    <input type="radio" id="star4" name="review_rating" value="4" /><label class = "full" for="star4" id='noclose' title="Pretty good - 4 stars"></label>
-	    <input type="radio" id="star3" name="review_rating" value="3" /><label class = "full" for="star3" id='noclose' title="Meh - 3 stars"></label>
-	    <input type="radio" id="star2" name="review_rating" value="2" /><label class = "full" for="star2" id='noclose' title="Kinda bad - 2 stars"></label>
-	    <input type="radio" id="star1" name="review_rating" value="1" /><label class = "full" for="star1" id='noclose' title="Sucks big time - 1 star"></label>
-	</fieldset>
-        <button type="submit" id="review_write_submit">Write</button>
-    </div>
-    <div class="form-group" id="noclose">
-        <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
-        <input id="test" type="hidden" name="write_switch" value="1">
-    </div>
-</form>
-</div>
+    <%include file="course_review_write.html" />
 % endif
 <!-- HTML (delete) -->
 % if len(already_list) != 0:
-    % for row in already_list:
-    <div class = "review_own">
-    <div class = "review_body_div">
-        <table class = "review_body_table">
-	    <tr class = "review_body_1">
-      	        <td class ="review_id">${row[1]}</td>
-                % if row[3] == 1:
-		<td class ="review_star"><div class="star-ratings-css" title=".200"></div></td>
-                % endif
-                % if row[3] == 2:
-		<td class ="review_star"><div class="star-ratings-css" title=".400"></div></td>
-                % endif
-                % if row[3] == 3:
-		<td class ="review_star"><div class="star-ratings-css" title=".600"></div></td>
-                % endif
-                % if row[3] == 4:
-		<td class ="review_star"><div class="star-ratings-css" title=".800"></div></td>
-                % endif
-                % if row[3] == 5:
-		<td class ="review_star"><div class="star-ratings-css" title=".1000"></div></td>
-                % endif
-	    </tr>
-	</table>
-	<table>
-	    <tr class = "review_body_2">
-		<td class = "review_content">${row[2]}</td>
-	    </tr>
-	</table>
-	<table>
-	     <tr>
-		<td class = "review_time_delete">${row[4]}</td>
-                <form id="delete_form" action="" method="post">
-                <input type="hidden" name="delete_switch" value="1"/>
-                <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-                <td class = "review_delete">
-                    <a class = "review_button" href="javascript:;" onclick="document.getElementById('delete_form').submit();">
-                        delete
-                    </a>
-                </td>
-                </form>
-	     </tr>
-	</table>
-    </div>
-    </div>
-    %endfor
+    <%include file="course_review_delete.html" />
 % endif
 
 <!-- HTML (main) -->
 % if len(review_list) == 0:
-<div class ="review_nothing">
-    There is no written review.<br>
-    Write the first review!
-</div>
+    <%include file="course_review_null.html" />
 % endif
 % if len(review_list) != 0:
     <%include file="course_review_list.html" />

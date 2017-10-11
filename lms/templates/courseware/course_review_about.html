@@ -42,10 +42,7 @@
 
 <!-- HTML (main) -->
 % if len(review_list) == 0:
-<div class ="review_nothing">
-    There is no written review.<br>
-    Write the first review!
-</div>
+    <%include file="course_review_null.html" />
 % endif
 % if len(review_list) != 0:
     <%include file="course_review_list.html" />
