@@ -41,4 +41,9 @@
 <div class = "review_subject"><b>Review</b></div>
 
 <!-- HTML (main) -->
-<%include file="course_review_list.html" />
+% if len(review_list) == 0:
+    database is null
+% endif
+% if len(review_list) != 0:
+    <%include file="course_review_list.html" />
+% endif

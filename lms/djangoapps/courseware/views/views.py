@@ -401,6 +401,7 @@ def course_info(request, course_id):
 	from edxapp.course_review as cr
 	join edxapp.auth_user as au
 	on au.id = cr.user_id
+        order by reg_time desc;
     """
     curs0.execute(sql0)
     review_list = curs0.fetchall()
@@ -757,6 +758,7 @@ def course_about(request, course_id):
 	from edxapp.course_review as cr
 	join edxapp.auth_user as au
 	on au.id = cr.user_id
+        order by reg_time desc;
     """
     curs0.execute(sql0)
     review_list = curs0.fetchall()
