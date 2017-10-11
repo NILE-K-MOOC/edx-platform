@@ -369,6 +369,47 @@ def course_info(request, course_id):
 
     Assumes the course_id is in a valid format.
     """
+
+    ### REVIEW BACKEND - start###
+    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+    edx_db_host = settings.DATABASES.get('default').get('HOST')
+    edx_db_user = settings.DATABASES.get('default').get('USER')
+    edx_db_password = settings.DATABASES.get('default').get('PASSWORD')
+
+    import pymysql
+    conn = pymysql.connect(
+        host=edx_db_host,
+        user=edx_db_user,
+        password=edx_db_password,
+        charset='utf8'
+    )
+
+    review_email = str(edx_user_info['email'])
+    review_username = str(edx_user_info['username'])
+    review_content = str(request.GET.get('review_data'))
+    review_rating = str(request.GET.get('review_rating'))
+
+    print review_email #DEBUG
+    print review_username #DEBUG
+    print review_content #DEBUG
+    print review_rating #DEBUG
+
+    # SELECT -> all list
+    curs0 = conn.cursor()
+    sql0 = """
+	select cr.id, au.username, cr.content, cr.point, cr.reg_time
+	from edxapp.course_review as cr
+	join edxapp.auth_user as au
+	on au.id = cr.user_id
+    """
+    curs0.execute(sql0)
+    review_list = curs0.fetchall()
+
+    print review_list #DEBUG
+
+    conn.close()
+    ### REVIEW BACKEND - end###
+
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
     with modulestore().bulk_operations(course_key):
         course = get_course_by_id(course_key, depth=2)
@@ -431,6 +472,11 @@ def course_info(request, course_id):
             'studio_url': studio_url,
             'show_enroll_banner': show_enroll_banner,
             'url_to_enroll': url_to_enroll,
+            # --- REVIEW CONTEXT --- #
+            'review_list' : review_list,
+            'review_email' : review_email
+            #'already_list' : already_list,
+            #'already_lock' : already_lock,
         }
 
         # Get the URL of the user's last position in order to display the 'where you were last' message
@@ -680,7 +726,6 @@ def course_about(request, course_id):
     Assumes the course_id is in a valid format.
     """
 
-    """
     ### REVIEW BACKEND - start###
     edx_user_info = json.loads(request.COOKIES['edx-user-info'])
     edx_db_host = settings.DATABASES.get('default').get('HOST')
@@ -695,6 +740,31 @@ def course_about(request, course_id):
         charset='utf8'
     )
 
+    review_email = str(edx_user_info['email'])
+    review_username = str(edx_user_info['username'])
+    review_content = str(request.GET.get('review_data'))
+    review_rating = str(request.GET.get('review_rating'))
+
+    print review_email #DEBUG
+    print review_username #DEBUG
+    print review_content #DEBUG
+    print review_rating #DEBUG
+
+    # SELECT -> all list
+    curs0 = conn.cursor()
+    sql0 = """
+	select cr.id, au.username, cr.content, cr.point, cr.reg_time
+	from edxapp.course_review as cr
+	join edxapp.auth_user as au
+	on au.id = cr.user_id
+    """
+    curs0.execute(sql0)
+    review_list = curs0.fetchall()
+
+    print review_list #DEBUG
+
+    conn.close()
+    """
     # WRITE SWITCH
     if request.GET.get('write_switch'):
         write_switch = 1
@@ -711,16 +781,6 @@ def course_about(request, course_id):
         delete_switch = 0
         print 0 #DEBUG
     
-    review_email = str(edx_user_info['email'])
-    review_username = str(edx_user_info['username'])
-    review_content = str(request.GET.get('review_data'))
-    review_rating = str(request.GET.get('review_rating'))
-
-    print review_email #DEBUG
-    print review_username #DEBUG
-    print review_content #DEBUG
-    print review_rating #DEBUG
-
     # DELETE
     if( delete_switch == 1 ):
         curs0 = conn.cursor()
@@ -737,12 +797,6 @@ def course_about(request, course_id):
         curs1.execute(sql1)
         conn.commit()
   
-    # SELECT -> all list
-    curs2 = conn.cursor()
-    sql2 = "select * from edxapp.course_review where course_key = '" + course_id + "' order by id DESC"
-    curs2.execute(sql2)
-    review_list = curs2.fetchall()
-
     # SELECT -> already wroted
     curs3 = conn.cursor()
     sql3 = "select * from edxapp.course_review where email = '"+ review_email +"'"
@@ -754,7 +808,6 @@ def course_about(request, course_id):
     print already_list #DEBUG
     print already_lock #DEBUG
 
-    conn.close()
     ### REVIEW BACKEND - end ###
     """
 
@@ -984,13 +1037,13 @@ def course_about(request, course_id):
             'classfy_name': classfy_name,
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
-            'enroll_edate': enroll_edate
+            'enroll_edate': enroll_edate,
             # --- REVIEW CONTEXT --- #
-            #'review_list' : review_list,
+            'review_list' : review_list,
+            'review_email' : review_email,
+            'course_id' : course_id
             #'already_list' : already_list,
             #'already_lock' : already_lock,
-            #'review_email' : review_email
-            #'course_id' : course_id,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

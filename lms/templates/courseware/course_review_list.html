@@ -1,0 +1,46 @@
+<div class="scrollbar" id="style-1">
+% for row in review_list:
+    <div class = "review_body_div">
+        <table class = "review_body_table">
+	    <tr class = "review_body_1">
+	        <td class ="review_id">${row[1]}</td>
+                % if row[3] == 1:
+		<td class ="review_star"><div class="star-ratings-css" title=".200"></div></td>
+                % endif
+                % if row[3] == 2:
+		<td class ="review_star"><div class="star-ratings-css" title=".400"></div></td>
+                % endif
+                % if row[3] == 3:
+		<td class ="review_star"><div class="star-ratings-css" title=".600"></div></td>
+                % endif
+                % if row[3] == 4:
+		<td class ="review_star"><div class="star-ratings-css" title=".800"></div></td>
+                % endif
+                % if row[3] == 5:
+		<td class ="review_star"><div class="star-ratings-css" title=".1000"></div></td>
+                % endif
+	    </tr>
+	</table>
+	<table>
+	    <tr class = "review_body_2">
+	        <td class = "review_content">${row[2]}</td>
+	    </tr>
+	</table>
+	<table>
+	    <tr>
+	        <td class = "review_time">${row[4]}</td>
+		<td class = "review_good">
+                    <a class = "review_button" id="good1">
+                        <img class="review_good_img" src="/static/images/good.png"/>0
+                    </a>
+                </td>
+		<td class = "review_bad">
+                    <a class = "review_button" id="bad2">
+                        <img class="review_bad_img" src="/static/images/bad.png"/>0
+                    </a>
+                </td>
+	    </tr>
+	</table>
+    </div>
+% endfor
+</div>
