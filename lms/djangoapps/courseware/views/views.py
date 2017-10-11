@@ -386,13 +386,52 @@ def course_info(request, course_id):
 
     review_email = str(edx_user_info['email'])
     review_username = str(edx_user_info['username'])
-    review_content = str(request.GET.get('review_data'))
-    review_rating = str(request.GET.get('review_rating'))
+    review_content = str(request.POST.get('review_data'))
+    review_rating = str(request.POST.get('review_rating'))
 
-    print review_email #DEBUG
-    print review_username #DEBUG
-    print review_content #DEBUG
-    print review_rating #DEBUG
+    print "review_email = " + review_email #DEBUG
+    print "review_username = " + review_username #DEBUG
+    print "review_content = " + review_content #DEBUG
+    print "review_rating = " + review_rating #DEBUG
+
+    # WRITE SWITCH
+    if request.POST.get('write_switch'):
+        write_switch = 1
+        print "write_switch = 1" #DEBUG
+    else:
+        write_switch = 0
+        print "write_switch = 0" #DEBUG
+
+    # INSERT
+#    if( write_switch == 1 ):
+#        curs3 = conn.cursor()
+#        sql3 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key, email, good_user, bad_user) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "', '"+ review_email +"', '+', '+')"
+#        print sql3 #DEBUG
+#        curs3.execute(sql3)
+#        conn.commit()
+
+    # DELETE SWITCH
+    if request.POST.get('delete_switch'):
+        delete_switch = 1
+        print "delete switch = 1" #DEBUG
+    else:
+        delete_switch = 0
+        print "delete switch = 0" #DEBUG
+    
+    # DELETE
+    if( delete_switch == 1 ):
+        curs2 = conn.cursor()
+        sql2 = """
+	    delete from edxapp.course_review
+	    where user_id in (
+		    select id
+		    from edxapp.auth_user
+		    where email = 'staff@example.com'
+	    );
+        """
+        print sql2 #DEBUG
+        curs2.execute(sql2)
+        conn.commit()
 
     # SELECT -> all list
     curs0 = conn.cursor()
@@ -406,7 +445,21 @@ def course_info(request, course_id):
     curs0.execute(sql0)
     review_list = curs0.fetchall()
 
-    print review_list #DEBUG
+    # SELECT -> own list
+    curs1 = conn.cursor()
+    sql1 = """
+        select cr.id, au.username, cr.content, cr.point, cr.reg_time
+        from edxapp.course_review as cr
+        join edxapp.auth_user as au
+        on au.id = cr.user_id
+        where au.email = 'staff@example.com';
+    """
+    curs1.execute(sql1)
+    
+    already_list = curs1.fetchall()
+    already_lock = len(already_list)
+
+    print "already_lock = " + str(already_lock) #DEBUG
 
     conn.close()
     ### REVIEW BACKEND - end###
@@ -475,9 +528,9 @@ def course_info(request, course_id):
             'url_to_enroll': url_to_enroll,
             # --- REVIEW CONTEXT --- #
             'review_list' : review_list,
-            'review_email' : review_email
-            #'already_list' : already_list,
-            #'already_lock' : already_lock,
+            'review_email' : review_email,
+            'already_list' : already_list,
+            'already_lock' : already_lock
         }
 
         # Get the URL of the user's last position in order to display the 'where you were last' message
@@ -767,48 +820,7 @@ def course_about(request, course_id):
 
     conn.close()
     """
-    # WRITE SWITCH
-    if request.GET.get('write_switch'):
-        write_switch = 1
-        print 1 #DEBUG
-    else:
-        write_switch = 0
-        print 0 #DEBUG
-
-    # DELETE SWITCH
-    if request.GET.get('delete_switch'):
-        delete_switch = 1
-        print 1 #DEBUG
-    else:
-        delete_switch = 0
-        print 0 #DEBUG
-    
-    # DELETE
-    if( delete_switch == 1 ):
-        curs0 = conn.cursor()
-        sql0 = "DELETE FROM edxapp.course_review WHERE email = '"+ review_email +"'"
-        print sql0 #DEBUG
-        curs0.execute(sql0)
-        conn.commit()
-
-    # INSERT
-    if( write_switch == 1 ):
-        curs1 = conn.cursor()
-        sql1 = "INSERT INTO edxapp.course_review (user_name, content, point, course_key, email, good_user, bad_user) VALUES ('"+ review_username+"', '"+ review_content +"', '"+ review_rating +"', '" + course_id+ "', '"+ review_email +"', '+', '+')"
-        print sql1 #DEBUG
-        curs1.execute(sql1)
-        conn.commit()
   
-    # SELECT -> already wroted
-    curs3 = conn.cursor()
-    sql3 = "select * from edxapp.course_review where email = '"+ review_email +"'"
-    curs3.execute(sql3)
-    
-    already_list = curs3.fetchall()
-    already_lock = len(already_list)
-
-    print already_list #DEBUG
-    print already_lock #DEBUG
 
     ### REVIEW BACKEND - end ###
     """
@@ -1044,8 +1056,6 @@ def course_about(request, course_id):
             'review_list' : review_list,
             'review_email' : review_email,
             'course_id' : course_id
-            #'already_list' : already_list,
-            #'already_lock' : already_lock,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

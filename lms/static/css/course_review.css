@@ -153,6 +153,7 @@ td{ padding: 15px; }
     color: #737373;
     border-radius: 4px;
 }
+.review_write{ margin-top: 15px; }
 .review_good_img{ margin-right: 10px; }
 .review_bad_img{ margin-right: 10px; }
 .review_time_delete { width: 265px; float: left; color: #999999; font-size: 70%; }
@@ -179,5 +180,5 @@ a.review_button:hover{ color: #737373; }
 a.review_button:active{ color: #737373; }
 #review_write_star{ margin-bottom: -10px; }
 #review_write_area{ height: 80px; font-size: 80%; }
-#review_write_submit{ color: #FFFFFF; margin-top: 10px; float: right; }
+#review_write_submit{ color: #333333; float: right; height: 30px;}
 
