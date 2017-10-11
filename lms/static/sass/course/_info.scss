@@ -45,8 +45,9 @@ div.info-wrapper {
     @extend .content;
     @include padding-left($baseline);
     line-height: lh();
-    width: 100%;
-    display: block;
+    width: 40%; 
+    /*width: 100%;*/
+    /*display: block;*/
 
     h1 {
       @include text-align(left);

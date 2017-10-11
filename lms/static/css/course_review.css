@@ -1,22 +1,38 @@
-<head>
-    <!-- Encoding setting -->
-    <meta charset="UTF-8">
-    <!-- BOOT STRAP -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <!-- JQUERY -->
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.js"
-      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-      crossorigin="anonymous"></script>
-</head>
-
-<!-- CSS -->
-<style>
+@charset "utf-8";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
+/* ---------- rating ---------- */
+fieldset, label { margin: 0; padding: 0; }
+.rating { 
+  border: none;
+  float: left;
+}
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+.rating > label { 
+  color: #c9c9c9; 
+ float: right; 
+}
+.rating > input:checked ~ label, 
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } 
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+/* ---------- star ---------- */
 .star-ratings-css {
   unicode-bidi: bidi-override;
   color: #c5c5c5;
@@ -68,6 +84,7 @@
   font-size: 80%;
 }
 
+/* ---------- scrollbar ---------- */
 .scrollbar
 {
 	height: 500px;
@@ -94,25 +111,24 @@
 	background-color: #555;
 }
 
+/* ---------- page component ---------- */
+
 #review_point{ width: 150px; height: 25px;}
-
 td{ padding: 15px; }
-
 .review_own{ border: solid #c9c9c9 1px; background-color: #eee8fd; border-radius: 3px; }
-
 .review_nothing{ border: solid #cccccc 1px; margin-bottom: 18px; margin-top: 14px; padding: 15px; }
-
 .review_body_div{ border: solid #d8d7d7 1px; }
 .review_subject{ margin-bottom: 10px; }
-
 .review_id{ width: 240px; color: #000000; font-weight: bold; font-size: 85%; font-family: 'Nanum Gothic'; }
 .review_star{ width: 100px; }
-
 .review_body_2 { width: 360px; margin-top: -10px; }
 .review_content { padding-top: 0px; padding-bottom: 4px; font-size: 80%; font-family: 'Nanum Gothic'; }
-
-.review_body_3{ color: red; font-family: 'Nanum Gothic'; margin-left: 300px; margin-top: -5px; margin-bottom: 8px; }
-
+.review_body_3{ 
+    color: red; 
+    font-family: 'Nanum Gothic'; 
+    margin-left: 300px; 
+    margin-top: -5px; margin-bottom: 8px; 
+}
 .review_time { width: 170px; float: left; color: #999999; font-size: 70%; }
 .review_good { 
     border: solid #999999 1px; 
@@ -137,10 +153,8 @@ td{ padding: 15px; }
     color: #737373;
     border-radius: 4px;
 }
-
 .review_good_img{ margin-right: 10px; }
 .review_bad_img{ margin-right: 10px; }
-
 .review_time_delete { width: 265px; float: left; color: #999999; font-size: 70%; }
 .review_delete{ 
     border: solid #999999 1px; 
@@ -163,89 +177,7 @@ a.review_button:link{ color: #737373; }
 a.review_button:visited{ color: #737373; }
 a.review_button:hover{ color: #737373; }
 a.review_button:active{ color: #737373; }
-
 #review_write_star{ margin-bottom: -10px; }
 #review_write_area{ height: 80px; font-size: 80%; }
 #review_write_submit{ color: #FFFFFF; margin-top: 10px; float: right; }
 
-div.backLayer {
-    display: none;
-    background-color: black;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-}
-
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
-fieldset, label { margin: 0; padding: 0; }
-
-.rating { 
-  border: none;
-  float: left;
-}
-
-.rating > input { display: none; } 
-.rating > label:before { 
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
-}
-
-.rating > .half:before { 
-  content: "\f089";
-  position: absolute;
-}
-
-.rating > label { 
-  color: #c9c9c9; 
- float: right; 
-}
-
-.rating > input:checked ~ label, 
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } 
-
-.rating > input:checked + label:hover,
-.rating > input:checked ~ label:hover,
-.rating > label:hover ~ input:checked ~ label,
-.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
-
-</style>
-
-<!-- HTML -->
-<div class = "review_subject">Review</div>
-
-<!-- HTML (view) -->
-<div class="scrollbar" id="style-1">
-    <div class = "review_body_div">
-	<table class = "review_body_table">
-	    <tr class = "review_body_1">
-		<td class ="review_id">staff</td>
-		<td class ="review_star"><div class="star-ratings-css" title=".1000"></div></td>
-	    </tr>
-	</table>
-	<table>
-	    <tr class = "review_body_2">
-		<td class = "review_content">hello world</td>
-	    </tr>
-	</table>
-	<table>
-	    <tr>
-	        <td class = "review_time">2017-09-09 03:22:33</td>
-		<td class = "review_good">
-                    <a class = "review_button" id="good1">
-                        <img class="review_good_img" src="/static/images/good.png"/>22
-                    </a>
-                </td>
-		<td class = "review_bad">
-                    <a class = "review_button" id="bad2">
-                        <img class="review_bad_img" src="/static/images/bad.png"/>33
-                    </a>
-                </td>
-	    </tr>
-	</table>
-    </div>
-</div>
