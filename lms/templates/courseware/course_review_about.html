@@ -40,13 +40,15 @@
 <!-- HTML (subject) -->
 <div class = "review_subject"><b>Review</b></div>
 
+% if len(enroll_list) != 0:
 <!-- HTML (write) -->
-% if len(already_list) == 0:
+    % if len(already_list) == 0:
     <%include file="course_review_write.html" />
-% endif
+    % endif
 <!-- HTML (delete) -->
-% if len(already_list) != 0:
+    % if len(already_list) != 0:
     <%include file="course_review_delete.html" />
+    % endif
 % endif
 
 <!-- HTML (main) -->

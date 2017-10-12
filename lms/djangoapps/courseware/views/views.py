@@ -708,13 +708,11 @@ def course_about(request, course_id):
 
     # course-v1:org+number+run
     course_id_str = str(course_id)
-
     index_org_start = course_id_str.find(':')+1
     index_org_end = course_id_str.find('+') 
-
     index_number_start = index_org_end+1
     index_number_end = course_id_str.rfind('+') 
-   
+
     course_org = course_id_str[index_org_start:index_org_end] 
     course_number = course_id_str[index_number_start:index_number_end] 
 
@@ -787,11 +785,30 @@ def course_about(request, course_id):
         and course_id like 'course-v1:{1}+{2}+%'
     '''.format(review_email, course_org, course_number)
     curs1.execute(sql1)
-    
     already_list = curs1.fetchall()
     already_lock = len(already_list)
 
     print "already_lock = " + str(already_lock) #DEBUG
+
+    # you are enroll
+    curs4 = conn.cursor()
+    sql4 = '''
+	select *
+	from edxapp.student_courseenrollment
+	where course_id like 'course-v1:{}+{}+%'
+	and user_id in (
+	   select id
+	   from edxapp.auth_user
+	   where email = '{}'
+	)
+        and is_active = 1
+    '''.format(course_org, course_number, review_email)
+    print sql4 #DEBUG
+    curs4.execute(sql4)
+    enroll_list = curs4.fetchall()
+    enroll_lock = len(enroll_list)
+
+    print "enroll_lock = " + str(enroll_lock) #DEBUG
 
     conn.close()
     # ---------- REVIEW BACKEND - end ----------#
@@ -1028,7 +1045,7 @@ def course_about(request, course_id):
             'review_email' : review_email,
             'course_id' : course_id,
             'already_list' : already_list,
-            'already_lock' : already_lock
+            'enroll_list' : enroll_list
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
