@@ -38,7 +38,16 @@
 </head>
 
 <!-- HTML (subject) -->
-<div class = "review_subject">Review</div>
+<div class = "review_subject"><b>Review</b></div>
+
+<!-- HTML (write) -->
+% if len(already_list) == 0:
+    <%include file="course_review_write.html" />
+% endif
+<!-- HTML (delete) -->
+% if len(already_list) != 0:
+    <%include file="course_review_delete.html" />
+% endif
 
 <!-- HTML (main) -->
 % if len(review_list) == 0:

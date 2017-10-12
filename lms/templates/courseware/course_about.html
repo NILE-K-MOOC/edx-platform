@@ -231,6 +231,9 @@ from openedx.core.lib.courses import course_image_url
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
       </div>
+      <!-- review -->
+      <%include file="course_review_about.html" />
+      <!-- review -->
   </div>
 
     <div class="course-sidebar">
@@ -311,9 +314,6 @@ from openedx.core.lib.courses import course_image_url
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
         </ol>
-
-        <%include file="course_review_info.html" />
-
     </div>
 
       ## CourseTalk widget
