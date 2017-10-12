@@ -681,7 +681,7 @@ def course_about(request, course_id):
     Assumes the course_id is in a valid format.
     """
 
-    ### REVIEW BACKEND - start###
+    # ---------- REVIEW BACKEND - start ----------#
     edx_user_info = json.loads(request.COOKIES['edx-user-info'])
     edx_db_host = settings.DATABASES.get('default').get('HOST')
     edx_db_user = settings.DATABASES.get('default').get('USER')
@@ -704,6 +704,19 @@ def course_about(request, course_id):
     print "review_username = " + review_username #DEBUG
     print "review_content = " + review_content #DEBUG
     print "review_rating = " + review_rating #DEBUG
+    print "course_id = " + course_id #DEBUG
+
+    # course-v1:org+number+run
+    course_id_str = str(course_id)
+
+    index_org_start = course_id_str.find(':')+1
+    index_org_end = course_id_str.find('+') 
+
+    index_number_start = index_org_end+1
+    index_number_end = course_id_str.rfind('+') 
+   
+    course_org = course_id_str[index_org_start:index_org_end] 
+    course_number = course_id_str[index_number_start:index_number_end] 
 
     # INSERT SWITCH
     if request.POST.get('write_switch'):
@@ -744,8 +757,8 @@ def course_about(request, course_id):
 		    from edxapp.auth_user
 		    where email = '{0}'
 	    )
-            and course_id = '{1}'
-        '''.format(review_email, course_id)
+            and course_id like 'course-v1:{1}+{2}+%'
+        '''.format(review_email, course_org, course_number)
         print sql2 #DEBUG
         curs2.execute(sql2)
         conn.commit()
@@ -753,13 +766,13 @@ def course_about(request, course_id):
     # SELECT -> all list
     curs0 = conn.cursor()
     sql0 = ''' 
-	select cr.id, au.username, cr.content, cr.point, cr.reg_time
-	from edxapp.course_review as cr
-	join edxapp.auth_user as au
-	on au.id = cr.user_id
-        where course_id = '{0}'
-        order by reg_time desc
-    '''.format(course_id)
+        select cr.id, au.username, cr.content, cr.point, cr.reg_time
+        from edxapp.course_review as cr
+        join edxapp.auth_user as au
+        on au.id = cr.user_id
+        where course_id like 'course-v1:{0}+{1}+%'
+        order by reg_time desc;
+    '''.format(course_org, course_number)
     curs0.execute(sql0)
     review_list = curs0.fetchall()
 
@@ -771,8 +784,8 @@ def course_about(request, course_id):
         join edxapp.auth_user as au
         on au.id = cr.user_id
         where au.email = '{0}'
-        and course_id = '{1}'
-    '''.format(review_email, course_id)
+        and course_id like 'course-v1:{1}+{2}+%'
+    '''.format(review_email, course_org, course_number)
     curs1.execute(sql1)
     
     already_list = curs1.fetchall()
@@ -781,7 +794,7 @@ def course_about(request, course_id):
     print "already_lock = " + str(already_lock) #DEBUG
 
     conn.close()
-    ### REVIEW BACKEND - end###
+    # ---------- REVIEW BACKEND - end ----------#
 
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
