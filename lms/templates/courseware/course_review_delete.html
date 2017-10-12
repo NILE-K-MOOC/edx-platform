@@ -4,20 +4,34 @@
         <table class = "review_body_table">
             <tr class = "review_body_1">
                 <td class ="review_id">${row[1]}</td>
+                <td class = "review_time_delete">${row[4]}</td>
+                <form id="delete_form" action="" method="post">
+                <input type="hidden" name="delete_switch" value="1"/>
+                <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+                <td class = "review_delete">
+                    <a 
+                        class = "review_button_dlink" 
+                        href="javascript:;" onclick="document.getElementById('delete_form').submit();"
+                        style="color: #666666; text-decoration: none; "
+                    >
+                        <div class = "review_delete_font">delete</div>
+                    </a>
+                </td>
+                </form>
                 % if row[3] == 1:
-                <td class ="review_star"><div class="star-ratings-css" title=".200"></div></td>
+                <td class =s"review_star"><div class="stard-ratings-css" title=".200"></div></td>
                 % endif
                 % if row[3] == 2:
-                <td class ="review_star"><div class="star-ratings-css" title=".400"></div></td>
+                <td class ="review_star"><div class="stard-ratings-css" title=".400"></div></td>
                 % endif
                 % if row[3] == 3:
-                <td class ="review_star"><div class="star-ratings-css" title=".600"></div></td>
+                <td class ="review_star"><div class="stard-ratings-css" title=".600"></div></td>
                 % endif
                 % if row[3] == 4:
-                <td class ="review_star"><div class="star-ratings-css" title=".800"></div></td>
+                <td class ="review_star"><div class="stard-ratings-css" title=".800"></div></td>
                 % endif
                 % if row[3] == 5:
-                <td class ="review_star"><div class="star-ratings-css" title=".1000"></div></td>
+                <td class ="review_star"><div class="stard-ratings-css" title=".1000"></div></td>
                 % endif
             </tr>
         </table>
@@ -26,19 +40,6 @@
                 <td class = "review_content">${row[2]}</td>
             </tr>
         </table>
-        <table>
-             <tr>
-                <td class = "review_time_delete">${row[4]}</td>
-                <form id="delete_form" action="" method="post">
-                <input type="hidden" name="delete_switch" value="1"/>
-                <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-                <td class = "review_delete">
-                    <a class = "review_button" href="javascript:;" onclick="document.getElementById('delete_form').submit();">
-                        delete
-                    </a>
-                </td>
-                </form>
-             </tr>
         </table>
     </div>
     </div>
