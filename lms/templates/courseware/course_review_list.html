@@ -25,9 +25,9 @@ function ajax_score(id, email, org, name, mode){
         data: {id: id, csrfmiddlewaretoken: csrftoken, email: email, org: org, name: name},
         success:function(data) {
             if(mode=='good'){
-                console.log(data);
-                console.log("good!!!");
-                console.log(data.return);
+                //console.log(data);
+                //console.log("good!!!");
+                //console.log(data.return);
                 if(data.return == "success"){
                     var good = document.getElementById(id).innerHTML;
                     good = good.trim();
@@ -39,13 +39,13 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
                 }
                 else if(data.return == "duplication"){
-                    alert(1);
+                    alert("I already liked it.");
                 }
             }
             if(mode=='bad'){
-                console.log(data);
-                console.log("bad!!!");
-                console.log(data.return);
+                //console.log(data);
+                //console.log("bad!!!");
+                //console.log(data.return);
                 if(data.return == "success"){
                     var bad = document.getElementById(id).innerHTML;
                     bad = bad.trim();
@@ -57,7 +57,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
                 }
                 else if(data.return == "duplication"){
-                    alert(1);
+                    alert("I already do not like it.");
                 }
             }
         }
