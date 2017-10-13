@@ -682,7 +682,7 @@ def course_score(request):
 	    curs0 = conn.cursor()
 	    sql0 = '''
 		insert into edxapp.course_review_user(review_id, user_id, good_bad)
-		select {0}, id, 'good'
+		select {0}, id, 'g'
 		from edxapp.auth_user
 		where email = '{1}';
 	    '''.format(review_id, review_email)
@@ -696,7 +696,7 @@ def course_score(request):
 	    curs0 = conn.cursor()
 	    sql0 = '''
 		insert into edxapp.course_review_user(review_id, user_id, good_bad)
-		select {0}, id, 'bad'
+		select {0}, id, 'b'
 		from edxapp.auth_user
 		where email = '{1}';
 	    '''.format(review_id, review_email)
@@ -798,12 +798,15 @@ def course_about(request, course_id):
     # SELECT -> all list
     curs0 = conn.cursor()
     sql0 = ''' 
-        select cr.id, au.username, cr.content, cr.point, cr.reg_time
-        from edxapp.course_review as cr
-        join edxapp.auth_user as au
-        on au.id = cr.user_id
-        where course_id like 'course-v1:{0}+{1}+%'
-        order by reg_time desc;
+	select cr.id, au.username, cr.content, cr.point, cr.reg_time
+	, sum(case when good_bad='g' then 1 else 0 end ) as good
+	, sum(case when good_bad='b' then 1 else 0 end ) as bad
+	from edxapp.course_review as cr
+	join edxapp.auth_user as au on au.id=cr.user_id 
+	join edxapp.course_review_user   as cru on cru.review_id = cr.id 
+	where course_id like 'course-v1:{0}+{1}+%'
+	group by cr.id, au.username, cr.content, cr.point, cr.reg_time
+	order by reg_time desc
     '''.format(course_org, course_number)
     curs0.execute(sql0)
     review_list = curs0.fetchall()
