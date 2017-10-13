@@ -847,6 +847,25 @@ def course_about(request, course_id):
 
     print "enroll_lock = " + str(enroll_lock) #DEBUG
 
+    # avg rating
+    curs5 = conn.cursor()
+    sql5 = '''
+        select avg(point)
+        from edxapp.course_review
+        where course_id like 'course-v1:{0}+{1}+%';
+    '''.format(course_org, course_number)
+    print sql5 #DEBUG
+    curs5.execute(sql5)
+    enroll_list = curs5.fetchall()
+    course_avg = enroll_list[0][0] 
+   
+    print float(course_avg) #DEBUG
+    print type(course_avg) #DEBUG
+ 
+    course_total = int(round(course_avg))
+  
+    print course_total #DEBUG
+
     conn.close()
     # ---------- REVIEW BACKEND - end ----------#
 
@@ -1084,7 +1103,8 @@ def course_about(request, course_id):
             'already_list' : already_list,
             'enroll_list' : enroll_list,
             'course_org' : course_org,
-            'course_number' : course_number
+            'course_number' : course_number,
+            'course_total' : course_total
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

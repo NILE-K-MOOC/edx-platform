@@ -32,6 +32,58 @@ fieldset, label { margin: 0; padding: 0; }
 .rating > label:hover ~ input:checked ~ label,
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 
+/* ---------- star total ---------- */
+.start-ratings-css {
+  unicode-bidi: bidi-override;
+  color: #c5c5c5;
+  font-size: 25px;
+  height: 25px;
+  width: 100px;
+  margin: 0 auto;
+  position: relative;
+  text-shadow: 0 1px 0 #a2a2a2;
+} 
+.start-ratings-css::before { 
+  content: '★★★★★';
+  opacity: .3;
+  position: absolute;
+  font-size: 80%;
+  color: #000000;
+}
+
+[title=".000"]::after {
+  width: 0%;
+}
+[title=".200"]::after {
+  width: 20%;
+}
+[title=".400"]::after {
+  width: 38%;
+}
+[title=".600"]::after {
+  width: 58%;
+}
+[title=".800"]::after {
+  width: 76%;
+}
+[title=".1000"]::after {
+  width: 100%;
+}
+
+.start-ratings-css::after {
+  color: gold;
+  content: '★★★★★';
+  text-shadow: 0 1px 0 #ab5414;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  left: 0;
+  top: -2px;
+  width: attr(rating);
+  overflow: hidden;
+  FONT-SIZE: 80%;
+}
+
 /* ---------- star delete ---------- */
 .stard-ratings-css {
   unicode-bidi: bidi-override;
