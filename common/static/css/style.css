@@ -1162,7 +1162,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
 
 a:focus, img:focus {
- outline: 1px solid blue;
+ outline: 1px solid none; /* what the fuck? */
 }
 input:focus, button:focus, textarea:focus {
  outline: 1px solid blue;

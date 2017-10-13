@@ -1,3 +1,47 @@
+<!-- point ajax -->
+<script>
+function score_click_good(e) {
+    var good = document.getElementById(e).innerHTML;
+    good = good.trim();
+    var good_index = good.search("good.png");
+    var good_id_before = good.slice(59);
+    var good_id_int = Number(good_id_before);
+    good_id_int += 1;
+    var good_id_after = String(good_id_int);
+    document.getElementById(e).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
+/*
+    $.ajax({
+        type: "GET", 
+        dataType: "json",
+        url: "http://192.168.33.20:8000/courses/score",
+        data: {id: e}
+    });
+*/
+}
+function score_click_bad(e) {
+    var bad = document.getElementById(e).innerHTML;
+    bad = bad.trim();
+    var bad_index = bad.search("bad.png");
+    var bad_id_before = bad.slice(57);
+    var bad_id_int = Number(bad_id_before);
+    bad_id_int += 1;
+    var bad_id_after = String(bad_id_int);
+    document.getElementById(e).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
+/*
+    $.ajax({
+        type: "GET", 
+        dataType: "json",
+        url: "http://192.168.33.20:8000/courses/score",
+        data: {id: e}
+    });
+*/
+}
+</script>
+
+<style>
+a.focus { outline: 1px solid red; }
+</style>
+
 <div class="scrollbar" id="style-1">
 % for row in review_list:
     <div class = "review_body_div">
@@ -6,12 +50,22 @@
 	        <td class ="review_id">${row[1]}</td>
 	        <td class = "review_time">${row[4]}</td>
 		<td class = "review_bad">
-                    <a class = "review_button_link" id="bad1">
+                    <a 
+                        class = "review_button_link" 
+                        id = "bad${row[0]}" 
+                        href = "javascript:;" onclick="score_click_bad($(this).attr('id'))"
+                        style = "color: #666666; text-decoration: none;"
+                    >
                         <img class="review_bad_img" src="/static/images/bad.png"/>0
                     </a>
                 </td>
 		<td class = "review_good">
-                    <a class = "review_button_link" id="good1">
+                    <a 
+                        class = "review_button_link" 
+                        id = "good${row[0]}"  
+                        href = "javascript:;" onclick="score_click_good($(this).attr('id'))"
+                        style = "color: #666666; text-decoration: none;"
+                    >
                         <img class="review_good_img" src="/static/images/good.png"/>0
                     </a>
                 </td>
