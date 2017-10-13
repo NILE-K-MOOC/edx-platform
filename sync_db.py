@@ -253,23 +253,23 @@ CREATE TABLE drmt_auth_user_process
 
 sql20 = """
 CREATE TABLE edxapp.course_review(
-id INT NOT NULL AUTO_INCREMENT,
-content VARCHAR(200) NOT NULL,
-point INT NOT NULL DEFAULT 1,
-reg_time DATETIME NOT NULL DEFAULT NOW(),
-user_id VARCHAR(100) NOT NULL,
-course_id VARCHAR(100) NOT NULL,
-PRIMARY KEY ('id')
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+content VARCHAR(200) NOT NULL,                               
+point INT NOT NULL DEFAULT 1,                                    
+reg_time DATETIME NOT NULL DEFAULT NOW(),         
+user_id INT NOT NULL,                                                    
+course_id VARCHAR(100) NOT NULL                             
 )
 """
 
 sql21 = """
 CREATE TABLE edxapp.course_review_user(
-review_id INT NOT NULL,
-user_id VARCHAR(100) NOT NULL, 
-good_bad VARCHAR(10) NOT NULL, 
-reg_time DATETIME NOT NULL DEFAULT NOW()
-);
+id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+review_id INT NOT NULL,                                                 
+user_id INT NOT NULL,                                                    
+good_bad VARCHAR(10) NOT NULL,                              
+reg_time DATETIME NOT NULL DEFAULT NOW()         
+)
 """
 
 ### QUERY STORE ###  
