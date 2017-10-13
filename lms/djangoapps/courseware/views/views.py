@@ -629,46 +629,80 @@ def course_score(request):
         charset='utf8'
     )
 
-    review_raw_id = request.GET.get('id')
-    review_raw_user_email = request.GET.get('email')
+    # course-v1:org+number+run
+    review_raw_id = request.POST.get('id')
+    review_raw_email = request.POST.get('email')
+    review_raw_org = request.POST.get('org')
+    review_raw_name = request.POST.get('name')
 
-    # good point + 1
+    print str(review_raw_id) #DEBUG
+    print str(review_raw_email) #DEBUG
+    print str(review_raw_org) #DEBUG
+    print str(review_raw_name) #DEBUG
+
+    review_email = str(review_raw_email)
+    review_org = str(review_raw_org)
+    review_name = str(review_raw_name)
+    duplication_lock = 0   
+
     if review_raw_id.find('good') == 0:
         review_id = review_raw_id[4:]
-        review_user_email = unicode(review_raw_user_email)
-        curs1 = conn.cursor()
-        sql1 = "select good_user from edxapp.course_review where id = '"+ review_id+"'"
-        curs1.execute(sql1)
-        user_raw_list = curs1.fetchall()
-        user = user_raw_list[0][0]
-        user_list = user.split('+')
-        if review_user_email in user_list:
-            print "find it" #DEBUG
-            return JsonResponse({'return':'fail'})
-        else:
-            curs0 = conn.cursor()
-            sql0 = "UPDATE edxapp.course_review SET good = good + 1 where id ='"+ review_id +"'"
-            curs0.execute(sql0)
-            conn.commit()
-
-    # bad point + 1 
     if review_raw_id.find('bad') == 0:
         review_id = review_raw_id[3:]
-        review_user_email = unicode(review_raw_user_email)
-        curs1 = conn.cursor()
-        sql1 = "select bad_user from edxapp.course_review where id = '"+ review_id+"'"
-        curs1.execute(sql1)
-        user_raw_list = curs1.fetchall()
-        user = user_raw_list[0][0]
-        user_list = user.split('+')
-        if review_user_email in user_list:
-            print "find it" #DEBUG
-            return JsonResponse({'return':'fail'})
-        else:
-            curs0 = conn.cursor()
-            sql0 = "UPDATE edxapp.course_review SET bad = bad + 1 where id ='"+ review_id +"'"
-            curs0.execute(sql0)
-            conn.commit()
+
+    # prevent duplication
+    curs1 = conn.cursor()
+    sql1 = '''
+	select ru.id, ru.review_id, au.email, ru.good_bad, ru.reg_time, cr.content, cr.course_id
+	from edxapp.auth_user as au
+	join edxapp.course_review_user as ru
+	join edxapp.course_review as cr
+	join edxapp.course_overviews_courseoverview as cou
+	on au.id = ru.user_id
+	and cr.id = ru.review_id
+	and cou.id = cr.course_id
+	and course_id like 'course-v1:{0}+{1}+%'
+	and au.email = '{2}'
+        and ru.review_id = '{3}'
+    '''.format(review_org, review_name, review_email, review_id)
+    curs1.execute(sql1)
+    duplication_list = curs1.fetchall()
+    print "duplication_list = {}".format(len(duplication_list)) #DEBUG
+  
+    if(len(duplication_list) > 0):
+       duplication_lock = 1
+       print "duplication_lock = {}".format(duplication_lock) #DEBUG
+       return JsonResponse({'return':'duplication'})
+
+    if duplication_lock == 0: 
+	# good
+	if review_raw_id.find('good') == 0:
+	    review_id = review_raw_id[4:]
+	    print "review_id = " + review_id #DEBUG
+	    curs0 = conn.cursor()
+	    sql0 = '''
+		insert into edxapp.course_review_user(review_id, user_id, good_bad)
+		select {0}, id, 'good'
+		from edxapp.auth_user
+		where email = '{1}';
+	    '''.format(review_id, review_email)
+	    print sql0 #DEBUG
+	    curs0.execute(sql0)
+	    conn.commit()
+	# bad
+	if review_raw_id.find('bad') == 0:
+	    review_id = review_raw_id[3:]
+	    print "review_id = " + review_id #DEBUG
+	    curs0 = conn.cursor()
+	    sql0 = '''
+		insert into edxapp.course_review_user(review_id, user_id, good_bad)
+		select {0}, id, 'bad'
+		from edxapp.auth_user
+		where email = '{1}';
+	    '''.format(review_id, review_email)
+	    print sql0 #DEBUG
+	    curs0.execute(sql0)
+	    conn.commit()
 
     conn.close()
     return JsonResponse({'return':'success'})
@@ -1045,7 +1079,9 @@ def course_about(request, course_id):
             'review_email' : review_email,
             'course_id' : course_id,
             'already_list' : already_list,
-            'enroll_list' : enroll_list
+            'enroll_list' : enroll_list,
+            'course_org' : course_org,
+            'course_number' : course_number
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

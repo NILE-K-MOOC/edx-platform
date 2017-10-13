@@ -1,46 +1,86 @@
 <!-- point ajax -->
 <script>
-function score_click_good(e) {
-    var good = document.getElementById(e).innerHTML;
-    good = good.trim();
-    var good_index = good.search("good.png");
-    var good_id_before = good.slice(59);
-    var good_id_int = Number(good_id_before);
-    good_id_int += 1;
-    var good_id_after = String(good_id_int);
-    document.getElementById(e).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
-/*
-    $.ajax({
-        type: "GET", 
-        dataType: "json",
-        url: "http://192.168.33.20:8000/courses/score",
-        data: {id: e}
-    });
-*/
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
-function score_click_bad(e) {
-    var bad = document.getElementById(e).innerHTML;
-    bad = bad.trim();
-    var bad_index = bad.search("bad.png");
-    var bad_id_before = bad.slice(57);
-    var bad_id_int = Number(bad_id_before);
-    bad_id_int += 1;
-    var bad_id_after = String(bad_id_int);
-    document.getElementById(e).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
-/*
+
+function ajax_score(id, email, org, name, mode){
+    var csrftoken = getCookie('csrftoken');
     $.ajax({
-        type: "GET", 
+        type: "POST", 
         dataType: "json",
         url: "http://192.168.33.20:8000/courses/score",
-        data: {id: e}
+        data: {id: id, csrfmiddlewaretoken: csrftoken, email: email, org: org, name: name},
+        success:function(data) {
+            if(mode=='good'){
+                console.log(data);
+                console.log("good!!!");
+                console.log(data.return);
+                if(data.return == "success"){
+                    var good = document.getElementById(id).innerHTML;
+                    good = good.trim();
+                    var good_index = good.search("good.png");
+                    var good_id_before = good.slice(59);
+                    var good_id_int = Number(good_id_before);
+                    good_id_int += 1;
+                    var good_id_after = String(good_id_int);
+                    document.getElementById(id).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
+                }
+                else if(data.return == "duplication"){
+                    alert(1);
+                }
+            }
+            if(mode=='bad'){
+                console.log(data);
+                console.log("bad!!!");
+                console.log(data.return);
+                if(data.return == "success"){
+                    var bad = document.getElementById(id).innerHTML;
+                    bad = bad.trim();
+                    var bad_index = bad.search("bad.png");
+                    var bad_id_before = bad.slice(57);
+                    var bad_id_int = Number(bad_id_before);
+                    bad_id_int += 1;
+                    var bad_id_after = String(bad_id_int);
+                    document.getElementById(id).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
+                }
+                else if(data.return == "duplication"){
+                    alert(1);
+                }
+            }
+        }
     });
-*/
+}
+
+function score_click_good(id, email, org, name) {
+    ajax_score(id, email, org, name, 'good');
+}
+
+function score_click_bad(id, email, org, name) {
+    ajax_score(id, email, org, name, 'bad');
+
 }
 </script>
 
 <style>
 a.focus { outline: 1px solid red; }
 </style>
+
+<div class = "hidden_email" style = "display:none">${review_email}</div>
+<div class = "hidden_org" style = "display:none">${course_org}</div>
+<div class = "hidden_name" style = "display:none">${course_number}</div>
 
 <div class="scrollbar" id="style-1">
 % for row in review_list:
@@ -53,7 +93,12 @@ a.focus { outline: 1px solid red; }
                     <a 
                         class = "review_button_link" 
                         id = "bad${row[0]}" 
-                        href = "javascript:;" onclick="score_click_bad($(this).attr('id'))"
+                        href = "javascript:;" onclick="score_click_bad(
+                                                  $(this).attr('id'),
+                                                  $('.hidden_email').text(),
+                                                  $('.hidden_org').text(),
+                                                  $('.hidden_name').text())
+                                              "
                         style = "color: #666666; text-decoration: none;"
                     >
                         <img class="review_bad_img" src="/static/images/bad.png"/>0
@@ -63,7 +108,12 @@ a.focus { outline: 1px solid red; }
                     <a 
                         class = "review_button_link" 
                         id = "good${row[0]}"  
-                        href = "javascript:;" onclick="score_click_good($(this).attr('id'))"
+                        href = "javascript:;" onclick="score_click_good(
+                                                  $(this).attr('id'),
+                                                  $('.hidden_email').text(),
+                                                  $('.hidden_org').text(),
+                                                  $('.hidden_name').text())
+                                              "
                         style = "color: #666666; text-decoration: none;"
                     >
                         <img class="review_good_img" src="/static/images/good.png"/>0
