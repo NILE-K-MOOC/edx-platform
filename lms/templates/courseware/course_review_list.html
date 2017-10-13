@@ -1,4 +1,5 @@
 <!-- point ajax -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 function getCookie(cname) {
     var name = cname + "=";
@@ -39,7 +40,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
                 }
                 else if(data.return == "duplication"){
-                    alert("It's already over. It's impossible!");
+                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
                 }
             }
             if(mode=='bad'){
@@ -57,7 +58,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
                 }
                 else if(data.return == "duplication"){
-                    alert("It's already over. It's impossible!");
+                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
                 }
             }
         }
