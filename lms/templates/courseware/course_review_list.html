@@ -26,9 +26,6 @@ function ajax_score(id, email, org, name, mode){
         data: {id: id, csrfmiddlewaretoken: csrftoken, email: email, org: org, name: name},
         success:function(data) {
             if(mode=='good'){
-                //console.log(data);
-                //console.log("good!!!");
-                //console.log(data.return);
                 if(data.return == "success"){
                     var good = document.getElementById(id).innerHTML;
                     good = good.trim();
@@ -44,9 +41,6 @@ function ajax_score(id, email, org, name, mode){
                 }
             }
             if(mode=='bad'){
-                //console.log(data);
-                //console.log("bad!!!");
-                //console.log(data.return);
                 if(data.return == "success"){
                     var bad = document.getElementById(id).innerHTML;
                     bad = bad.trim();

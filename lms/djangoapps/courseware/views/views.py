@@ -635,11 +635,6 @@ def course_score(request):
     review_raw_org = request.POST.get('org')
     review_raw_name = request.POST.get('name')
 
-    print str(review_raw_id) #DEBUG
-    print str(review_raw_email) #DEBUG
-    print str(review_raw_org) #DEBUG
-    print str(review_raw_name) #DEBUG
-
     review_email = str(review_raw_email)
     review_org = str(review_raw_org)
     review_name = str(review_raw_name)
@@ -667,37 +662,17 @@ def course_score(request):
 	where course_id like 'course-v1:{0}+{1}+%'
     )
     '''.format(review_org, review_name, review_email, review_id)
-
-    """ - backup query
-        select ru.id, ru.review_id, au.email, ru.good_bad, ru.reg_time, cr.content, cr.course_id
-	from edxapp.auth_user as au
-	join edxapp.course_review_user as ru
-	join edxapp.course_review as cr
-	join edxapp.course_overviews_courseoverview as cou
-	on au.id = ru.user_id
-	and cr.id = ru.review_id
-	and cou.id = cr.course_id
-	and course_id like 'course-v1:{0}+{1}+%'
-	and au.email = '{2}'
-        and ru.review_id = '{3}'
-        .format(review_org, review_name, review_email, review_id)
-    """
-
-    print sql1 #DEBUG
     curs1.execute(sql1)
     duplication_list = curs1.fetchall()
-    print "duplication_list = {}".format(len(duplication_list)) #DEBUG
   
     if(len(duplication_list) > 0):
        duplication_lock = 1
-       print "duplication_lock = {}".format(duplication_lock) #DEBUG
        return JsonResponse({'return':'duplication'})
 
     if duplication_lock == 0: 
 	# good
 	if review_raw_id.find('good') == 0:
 	    review_id = review_raw_id[4:]
-	    print "review_id = " + review_id #DEBUG
 	    curs0 = conn.cursor()
 	    sql0 = '''
 		insert into edxapp.course_review_user(review_id, user_id, good_bad)
@@ -705,13 +680,11 @@ def course_score(request):
 		from edxapp.auth_user
 		where email = '{1}';
 	    '''.format(review_id, review_email)
-	    print sql0 #DEBUG
 	    curs0.execute(sql0)
 	    conn.commit()
 	# bad
 	if review_raw_id.find('bad') == 0:
 	    review_id = review_raw_id[3:]
-	    print "review_id = " + review_id #DEBUG
 	    curs0 = conn.cursor()
 	    sql0 = '''
 		insert into edxapp.course_review_user(review_id, user_id, good_bad)
@@ -719,11 +692,11 @@ def course_score(request):
 		from edxapp.auth_user
 		where email = '{1}';
 	    '''.format(review_id, review_email)
-	    print sql0 #DEBUG
 	    curs0.execute(sql0)
 	    conn.commit()
 
     conn.close()
+
     return JsonResponse({'return':'success'})
 
 @ensure_csrf_cookie
@@ -753,12 +726,6 @@ def course_about(request, course_id):
     review_content = str(request.POST.get('review_data'))
     review_rating = str(request.POST.get('review_rating'))
 
-    print "review_email = " + review_email #DEBUG
-    print "review_username = " + review_username #DEBUG
-    print "review_content = " + review_content #DEBUG
-    print "review_rating = " + review_rating #DEBUG
-    print "course_id = " + course_id #DEBUG
-
     # course-v1:org+number+run
     course_id_str = str(course_id)
     index_org_start = course_id_str.find(':')+1
@@ -772,10 +739,8 @@ def course_about(request, course_id):
     # INSERT SWITCH
     if request.POST.get('write_switch'):
         insert_switch = 1
-        print "write_switch = 1" #DEBUG
     else:
         insert_switch = 0
-        print "write_switch = 0" #DEBUG
 
     # INSERT
     if( insert_switch == 1 ):
@@ -786,17 +751,14 @@ def course_about(request, course_id):
 	    from edxapp.auth_user
 	    where email = '{2}'
         '''.format(review_content, review_rating, review_email, course_id)
-        print sql3 #DEBUG
         curs3.execute(sql3)
         conn.commit()
 
     # DELETE SWITCH
     if request.POST.get('delete_switch'):
         delete_switch = 1
-        print "delete switch = 1" #DEBUG
     else:
         delete_switch = 0
-        print "delete switch = 0" #DEBUG
     
     # DELETE
     if( delete_switch == 1 ):
@@ -810,7 +772,6 @@ def course_about(request, course_id):
 	    )
             and course_id like 'course-v1:{1}+{2}+%'
         '''.format(review_email, course_org, course_number)
-        print sql2 #DEBUG
         curs2.execute(sql2)
         conn.commit()
 
@@ -844,8 +805,6 @@ def course_about(request, course_id):
     already_list = curs1.fetchall()
     already_lock = len(already_list)
 
-    print "already_lock = " + str(already_lock) #DEBUG
-
     # you are enroll
     curs4 = conn.cursor()
     sql4 = '''
@@ -859,12 +818,9 @@ def course_about(request, course_id):
 	)
         and is_active = 1
     '''.format(course_org, course_number, review_email)
-    print sql4 #DEBUG
     curs4.execute(sql4)
     enroll_list = curs4.fetchall()
     enroll_lock = len(enroll_list)
-
-    print "enroll_lock = " + str(enroll_lock) #DEBUG
 
     # avg rating
     curs5 = conn.cursor()
@@ -873,18 +829,11 @@ def course_about(request, course_id):
         from edxapp.course_review
         where course_id like 'course-v1:{0}+{1}+%';
     '''.format(course_org, course_number)
-    print sql5 #DEBUG
     curs5.execute(sql5)
     enroll_list = curs5.fetchall()
     course_avg = enroll_list[0][0] 
-   
-    print float(course_avg) #DEBUG
-    print type(course_avg) #DEBUG
- 
     course_total = int(round(course_avg))
   
-    print course_total #DEBUG
-
     conn.close()
     # ---------- REVIEW BACKEND - end ----------#
 
