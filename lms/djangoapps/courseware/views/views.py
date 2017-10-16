@@ -653,7 +653,23 @@ def course_score(request):
     # prevent duplication
     curs1 = conn.cursor()
     sql1 = '''
-	select ru.id, ru.review_id, au.email, ru.good_bad, ru.reg_time, cr.content, cr.course_id
+    select *
+    from edxapp.course_review_user
+    where review_id = {3}
+    and user_id in(
+        select id
+        from edxapp.auth_user
+	where email = '{2}'
+    )
+    and review_id in(
+        select id
+	from edxapp.course_review
+	where course_id like 'course-v1:{0}+{1}+%'
+    )
+    '''.format(review_org, review_name, review_email, review_id)
+
+    """ - backup query
+        select ru.id, ru.review_id, au.email, ru.good_bad, ru.reg_time, cr.content, cr.course_id
 	from edxapp.auth_user as au
 	join edxapp.course_review_user as ru
 	join edxapp.course_review as cr
@@ -664,7 +680,10 @@ def course_score(request):
 	and course_id like 'course-v1:{0}+{1}+%'
 	and au.email = '{2}'
         and ru.review_id = '{3}'
-    '''.format(review_org, review_name, review_email, review_id)
+        .format(review_org, review_name, review_email, review_id)
+    """
+
+    print sql1 #DEBUG
     curs1.execute(sql1)
     duplication_list = curs1.fetchall()
     print "duplication_list = {}".format(len(duplication_list)) #DEBUG
