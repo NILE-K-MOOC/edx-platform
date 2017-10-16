@@ -99,6 +99,7 @@ import MySQLdb as mdb
 import sys
 import json
 from django.core.mail import send_mail
+from django.db import connections
 
 log = logging.getLogger("edx.courseware")
 
@@ -617,17 +618,6 @@ class EnrollStaffView(View):
 
 def course_score(request):
     edx_user_info = json.loads(request.COOKIES['edx-user-info'])
-    edx_db_host = settings.DATABASES.get('default').get('HOST')
-    edx_db_user = settings.DATABASES.get('default').get('USER')
-    edx_db_password = settings.DATABASES.get('default').get('PASSWORD')
-
-    import pymysql
-    conn = pymysql.connect(
-        host=edx_db_host,
-        user=edx_db_user,
-        password=edx_db_password,
-        charset='utf8'
-    )
 
     # course-v1:org+number+run
     review_raw_id = request.POST.get('id')
@@ -646,24 +636,24 @@ def course_score(request):
         review_id = review_raw_id[3:]
 
     # prevent duplication
-    curs1 = conn.cursor()
-    sql1 = '''
-    select *
-    from edxapp.course_review_user
-    where review_id = {3}
-    and user_id in(
-        select id
-        from edxapp.auth_user
-	where email = '{2}'
-    )
-    and review_id in(
-        select id
-	from edxapp.course_review
-	where course_id like 'course-v1:{0}+{1}+%'
-    )
-    '''.format(review_org, review_name, review_email, review_id)
-    curs1.execute(sql1)
-    duplication_list = curs1.fetchall()
+    with connections['default'].cursor() as cur:
+	sql = '''
+	select *
+	from edxapp.course_review_user
+	where review_id = {3}
+	and user_id in(
+	    select id
+	    from edxapp.auth_user
+	    where email = '{2}'
+	)
+	and review_id in(
+	    select id
+	    from edxapp.course_review
+	    where course_id like 'course-v1:{0}+{1}+%'
+	)
+	'''.format(review_org, review_name, review_email, review_id)
+	cur.execute(sql)
+        duplication_list = cur.fetchall()
   
     if(len(duplication_list) > 0):
        duplication_lock = 1
@@ -673,29 +663,29 @@ def course_score(request):
 	# good
 	if review_raw_id.find('good') == 0:
 	    review_id = review_raw_id[4:]
-	    curs0 = conn.cursor()
-	    sql0 = '''
-		insert into edxapp.course_review_user(review_id, user_id, good_bad)
-		select {0}, id, 'g'
-		from edxapp.auth_user
-		where email = '{1}';
-	    '''.format(review_id, review_email)
-	    curs0.execute(sql0)
-	    conn.commit()
+            with connections['default'].cursor() as cur:
+		sql = '''
+		    insert into edxapp.course_review_user(review_id, user_id, good_bad)
+		    select {0}, id, 'g'
+		    from edxapp.auth_user
+		    where email = '{1}';
+		'''.format(review_id, review_email)
+		cur.execute(sql)
+            # auto commit
+	    # conn.commit()
 	# bad
 	if review_raw_id.find('bad') == 0:
 	    review_id = review_raw_id[3:]
-	    curs0 = conn.cursor()
-	    sql0 = '''
-		insert into edxapp.course_review_user(review_id, user_id, good_bad)
-		select {0}, id, 'b'
-		from edxapp.auth_user
-		where email = '{1}';
-	    '''.format(review_id, review_email)
-	    curs0.execute(sql0)
-	    conn.commit()
-
-    conn.close()
+            with connections['default'].cursor() as cur:
+		sql = '''
+		    insert into edxapp.course_review_user(review_id, user_id, good_bad)
+		    select {0}, id, 'b'
+		    from edxapp.auth_user
+		    where email = '{1}';
+		'''.format(review_id, review_email)
+		cur.execute(sql)
+                # auto commit
+		# conn.commit()
 
     return JsonResponse({'return':'success'})
 
@@ -709,17 +699,6 @@ def course_about(request, course_id):
 
     # ---------- REVIEW BACKEND - start ----------#
     edx_user_info = json.loads(request.COOKIES['edx-user-info'])
-    edx_db_host = settings.DATABASES.get('default').get('HOST')
-    edx_db_user = settings.DATABASES.get('default').get('USER')
-    edx_db_password = settings.DATABASES.get('default').get('PASSWORD')
-
-    import pymysql
-    conn = pymysql.connect(
-        host=edx_db_host,
-        user=edx_db_user,
-        password=edx_db_password,
-        charset='utf8'
-    )
 
     review_email = str(edx_user_info['email'])
     review_username = str(edx_user_info['username'])
@@ -744,15 +723,16 @@ def course_about(request, course_id):
 
     # INSERT
     if( insert_switch == 1 ):
-        curs3 = conn.cursor()
-        sql3 = '''
-	    insert into edxapp.course_review(content, point, user_id, course_id)
-	    select '{0}', {1}, id,  '{3}'
-	    from edxapp.auth_user
-	    where email = '{2}'
-        '''.format(review_content, review_rating, review_email, course_id)
-        curs3.execute(sql3)
-        conn.commit()
+        with connections['default'].cursor() as cur:
+	    sql = '''
+		insert into edxapp.course_review(content, point, user_id, course_id)
+		select '{0}', {1}, id,  '{3}'
+		from edxapp.auth_user
+		where email = '{2}'
+	    '''.format(review_content, review_rating, review_email, course_id)
+	    cur.execute(sql)
+            # auto commit
+	    # conn.commit()
 
     # DELETE SWITCH
     if request.POST.get('delete_switch'):
@@ -762,79 +742,78 @@ def course_about(request, course_id):
     
     # DELETE
     if( delete_switch == 1 ):
-        curs2 = conn.cursor()
-        sql2 = '''
-	    delete from edxapp.course_review
-	    where user_id in (
-		    select id
-		    from edxapp.auth_user
-		    where email = '{0}'
-	    )
-            and course_id like 'course-v1:{1}+{2}+%'
-        '''.format(review_email, course_org, course_number)
-        curs2.execute(sql2)
-        conn.commit()
+        with connections['default'].cursor() as cur:
+	    sql = '''
+		delete from edxapp.course_review
+		where user_id in (
+			select id
+			from edxapp.auth_user
+			where email = '{0}'
+		)
+		and course_id like 'course-v1:{1}+{2}+%'
+	    '''.format(review_email, course_org, course_number)
+	    cur.execute(sql)
+            # auto commit
+	    # conn.commit() 
 
     # SELECT -> all list
-    curs0 = conn.cursor()
-    sql0 = ''' 
-	select cr.id, au.username, cr.content, cr.point, cr.reg_time
-	, sum(case when good_bad='g' then 1 else 0 end ) as good
-	, sum(case when good_bad='b' then 1 else 0 end ) as bad
-	from edxapp.course_review as cr
-	join edxapp.auth_user as au on au.id=cr.user_id 
-	join edxapp.course_review_user   as cru on cru.review_id = cr.id 
-	where course_id like 'course-v1:{0}+{1}+%'
-	group by cr.id, au.username, cr.content, cr.point, cr.reg_time
-	order by reg_time desc
-    '''.format(course_org, course_number)
-    curs0.execute(sql0)
-    review_list = curs0.fetchall()
+    with connections['default'].cursor() as cur:
+	sql = ''' 
+	    select cr.id, au.username, cr.content, cr.point, cr.reg_time
+	    , sum(case when good_bad='g' then 1 else 0 end ) as good
+	    , sum(case when good_bad='b' then 1 else 0 end ) as bad
+	    from edxapp.course_review as cr
+	    join edxapp.auth_user as au on au.id=cr.user_id 
+	    join edxapp.course_review_user   as cru on cru.review_id = cr.id 
+	    where course_id like 'course-v1:{0}+{1}+%'
+	    group by cr.id, au.username, cr.content, cr.point, cr.reg_time
+	    order by reg_time desc
+	'''.format(course_org, course_number)
+	cur.execute(sql)
+	review_list = cur.fetchall()
 
     # SELECT -> own list
-    curs1 = conn.cursor()
-    sql1 = '''
-        select cr.id, au.username, cr.content, cr.point, cr.reg_time
-        from edxapp.course_review as cr
-        join edxapp.auth_user as au
-        on au.id = cr.user_id
-        where au.email = '{0}'
-        and course_id like 'course-v1:{1}+{2}+%'
-    '''.format(review_email, course_org, course_number)
-    curs1.execute(sql1)
-    already_list = curs1.fetchall()
+    with connections['default'].cursor() as cur:
+	sql = '''
+	    select cr.id, au.username, cr.content, cr.point, cr.reg_time
+	    from edxapp.course_review as cr
+	    join edxapp.auth_user as au
+	    on au.id = cr.user_id
+	    where au.email = '{0}'
+	    and course_id like 'course-v1:{1}+{2}+%'
+	'''.format(review_email, course_org, course_number)
+	cur.execute(sql)
+        already_list = cur.fetchall()
     already_lock = len(already_list)
 
     # you are enroll
-    curs4 = conn.cursor()
-    sql4 = '''
-	select *
-	from edxapp.student_courseenrollment
-	where course_id like 'course-v1:{}+{}+%'
-	and user_id in (
-	   select id
-	   from edxapp.auth_user
-	   where email = '{}'
-	)
-        and is_active = 1
-    '''.format(course_org, course_number, review_email)
-    curs4.execute(sql4)
-    enroll_list = curs4.fetchall()
+    with connections['default'].cursor() as cur:
+	sql = '''
+	    select *
+	    from edxapp.student_courseenrollment
+	    where course_id like 'course-v1:{}+{}+%'
+	    and user_id in (
+	       select id
+	       from edxapp.auth_user
+	       where email = '{}'
+	    )
+	    and is_active = 1
+	'''.format(course_org, course_number, review_email)
+	cur.execute(sql)
+        enroll_list = cur.fetchall()
     enroll_lock = len(enroll_list)
 
     # avg rating
-    curs5 = conn.cursor()
-    sql5 = '''
-        select avg(point)
-        from edxapp.course_review
-        where course_id like 'course-v1:{0}+{1}+%';
-    '''.format(course_org, course_number)
-    curs5.execute(sql5)
-    enroll_list = curs5.fetchall()
+    with connections['default'].cursor() as cur:
+	sql = '''
+	    select avg(point)
+	    from edxapp.course_review
+	    where course_id like 'course-v1:{0}+{1}+%';
+	'''.format(course_org, course_number)
+	cur.execute(sql)
+        enroll_list = cur.fetchall()
     course_avg = enroll_list[0][0] 
     course_total = int(round(course_avg))
-  
-    conn.close()
     # ---------- REVIEW BACKEND - end ----------#
 
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
