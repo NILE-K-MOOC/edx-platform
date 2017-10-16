@@ -318,6 +318,11 @@ from openedx.core.lib.courses import course_image_url
                 <span class="icon fa fa-info-circle" aria-hidden="true"></span>
                 <p class="important-dates-item-title">rating</p>
                 <span class="important-dates-item-text prerequisites">
+                % if course_total == 0:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".000"></div>
+                </td>
+                % endif
                 % if course_total == 1:
                 <td class ="review_star">
                     <div class="start-ratings-css" title=".200"></div>

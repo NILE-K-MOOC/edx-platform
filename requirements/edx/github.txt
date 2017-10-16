@@ -67,7 +67,7 @@ git+https://github.com/edx/rfc6266.git@v0.0.5-edx#egg=rfc6266==0.0.5-edx
 
 # Used for testing
 git+https://github.com/edx/lettuce.git@0.2.20.002#egg=lettuce==0.2.20.002
-git+https://github.com/edx/pa11ycrawler.git@0.0.4#egg=pa11ycrawler==0.0.4
+#git+https://github.com/edx/pa11ycrawler.git@0.0.4#egg=pa11ycrawler==0.0.4
 
 # Our libraries:
 git+https://github.com/edx/XBlock.git@xblock-0.4.10#egg=XBlock==0.4.10
@@ -96,3 +96,4 @@ git+https://github.com/edx/edx-proctoring.git@0.12.21#egg=edx-proctoring==0.12.2
 -e git+https://github.com/mitodl/edx-sga@172a90fd2738f8142c10478356b2d9ed3e55334a#egg=edx-sga
 -e git+https://github.com/open-craft/xblock-poll@v1.1#egg=xblock-poll==1.1
 git+https://github.com/edx-solutions/xblock-drag-and-drop-v2@v2.0.7#egg=xblock-drag-and-drop-v2==2.0.7
+
