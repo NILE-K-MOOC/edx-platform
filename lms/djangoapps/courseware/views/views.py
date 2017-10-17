@@ -788,7 +788,7 @@ def course_about(request, course_id):
             ret_val = dict()
 
             html_string = '''
-            <div class="review_body_div">
+            <div class="review_body_div" id="review_body_div_{4}">
                     <table class="review_body_table">
                     <tbody><tr class="review_body_1">
                         <td class="review_id">{2}</td>
@@ -826,26 +826,29 @@ def course_about(request, course_id):
             '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
             html_string2 = '''
+            <div class="review_own">
             <div class="review_body_div">
-                <table class="review_body_table">
-                    <tbody><tr class="review_body_1">
-                        <td class="review_id">{2}</td>
-                        <td class="review_time_delete">{3}</td>
-                        <input type="hidden" name="delete_switch" value="1">
-                        <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
-                        <td class="review_delete">
-                                <div class="review_delete_font">delete</div>
-                        </td>
-                        <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
-                    </tr>
-                </tbody></table>
-                <table>
-                    <tbody><tr class="review_body_2">
-                        <td class="review_content">{1}</td>
-                    </tr>
-                </tbody></table>
+                    <table class="review_body_table">
+                        <tbody><tr class="review_body_1">
+                            <td class="review_id">{2}</td>
+                            <td class="review_time_delete">{3}</td>
+                            <input type="hidden" name="delete_switch" value="1">
+                            <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                            <td class="review_delete">
+                                    <div class="review_delete_font">delete</div>
+                            </td>
+                            <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
+                        </tr>
+                    </tbody></table>
+                    <table>
+                        <tbody><tr class="review_body_2">
+                            <td class="review_content">{1}</td>
+                        </tr>
+                    </tbody></table>
+
+                </div>
             </div>
-            '''.format(rating_css, review_content, review_username, cur_time)
+            '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
             ret_val['html'] = html_string
             ret_val['html2'] = html_string2

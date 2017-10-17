@@ -54,10 +54,22 @@ function write_review(){
         'write_switch':1
     },function(data){
         if(data.stat == 'success'){
-            $(".review_own").append(data.html2);
+
+            //alert("main write");
+
+            alert(data.html2);
+            $(".review_help").append(data.html2);
+            console.log("append html2");
+            //alert(data.html2);
             $(".scrollbar").prepend(data.html);
+            console.log("prepend html");
             $(".review_write").hide();
-            location.reload();
+            console.log("review_write hide");
+            $(".review_delete_font").click(function(){
+                delete_review();
+                //alert(333);
+            });
+
         }
     }, 'json');
 }
@@ -78,11 +90,19 @@ function delete_review(){
         'delete_switch':1
     },function(data){
         if(data.stat == 'success'){
+
+            //alert("main delete");
+
             var hello = "#review_body_div_"+data.del_id;
+            alert(hello);
             $(".review_own").hide();
             $(".review_subject").append(data.html);
             $(hello).hide();
-            location.reload();
+            $("#review_write_submit").click(function(){
+                write_review();
+                //alert(555);
+            });
+
         }
     }, 'json');
 }
@@ -169,6 +189,9 @@ function delete_review(){
 % endif
 
 <!-- HTML (delete) -->
+<div class="review_help">
+</div>
+
 <div class="review_own">
 % if len(already_list) != 0:
 % for row in already_list:
