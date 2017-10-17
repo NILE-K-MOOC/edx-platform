@@ -107,6 +107,7 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 import re
+from django.core.serializers.json import DjangoJSONEncoder
 import traceback
 from courseware import grades
 from courseware.courses import (
@@ -369,7 +370,49 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(text1)
         index_list.append(value_list)
 
+
     context['index_list'] = index_list
+    cur = con.cursor()
+    query = """
+        SELECT popup_type,
+               link_type,
+               image_map,
+               title,
+               contents,
+               image_url,
+               link_url,
+               CASE
+                  WHEN link_target = 'B' THEN 'blank'
+                  WHEN link_target = 'S' THEN 'self'
+               END
+               link_target,
+               start_date,
+               start_time,
+               end_date,
+               end_time,
+               template,
+               width,
+               height,
+               hidden_day
+          FROM popup
+         WHERE use_yn = 'Y'
+        """
+
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
+    pop_list = []
+    for p in row:
+        pop_list.append(list(p))
+
+    extra_context['pop_list'] = pop_list
+    print ('======================================================================================================================================================')
+    print pop_list
+    print ('======================================================================================================================================================')
+    print pop_list[0]
+    print ('======================================================================================================================================================')
+    print pop_list[1]
+    print ('======================================================================================================================================================')
 
     # Insert additional context for use in the template
     context.update(extra_context)
