@@ -848,6 +848,24 @@ def course_about(request, course_id):
     
     # DELETE
     if( delete_switch == 1 ):
+        #-------------------------------------------------------
+        with connections['default'].cursor() as cur:
+            sql = '''
+            select id
+            FROM edxapp.course_review
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}')
+                   AND course_id LIKE 'course-v1:{1}+{2}+%'
+            '''.format(review_email, course_org, course_number)
+            cur.execute(sql)
+
+            print "#####################" #DEBUG
+            print sql #DEBUG
+
+            del_id_list = cur.fetchall()
+            del_id = del_id_list[0][0]
+        #-------------------------------------------------------
         with connections['default'].cursor() as cur:
             sql = '''
             DELETE FROM edxapp.course_review
@@ -860,6 +878,12 @@ def course_about(request, course_id):
             print sql #DEBUG
             # auto commit
             # conn.commit()
+
+        ret_val = dict()
+        ret_val['stat'] = 'success'
+        ret_val['del_id'] = del_id
+
+        return JsonResponse(ret_val)
 
     # SELECT -> all list
     with connections['default'].cursor() as cur:

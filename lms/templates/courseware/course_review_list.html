@@ -79,7 +79,7 @@ a.focus { outline: 1px solid red; }
 
 <div class="scrollbar" id="style-1">
 % for row in review_list:
-    <div class = "review_body_div">
+    <div class = "review_body_div" id = "review_body_div_${row[0]}">
         <table class = "review_body_table">
 	    <tr class = "review_body_1">
 	        <td class ="review_id">${row[1]}</td>

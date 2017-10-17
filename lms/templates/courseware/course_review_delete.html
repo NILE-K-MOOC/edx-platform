@@ -13,7 +13,10 @@ function delete_review(){
         'delete_switch':1
     },function(data){
         if(data.stat == 'success'){
-            alert(1);
+            var hello = "#review_body_div_"+data.del_id;
+            alert(hello);
+            $(".review_own").hide();
+            $(hello).hide();
         }
     }, 'json');
 }
