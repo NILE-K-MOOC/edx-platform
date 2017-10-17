@@ -23,7 +23,7 @@ from django.utils.decorators import method_decorator
 from django.utils.timezone import UTC
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_control
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.views.generic import View
 from eventtracking import tracker
@@ -698,7 +698,7 @@ def course_score(request):
 
 from django.http import JsonResponse
 
-@ensure_csrf_cookie
+@csrf_exempt
 def course_about(request, course_id):
 
     # ---------- REVIEW BACKEND - start ----------#
@@ -771,90 +771,142 @@ def course_about(request, course_id):
             '''.format(course_org, course_number, review_email)
             cur.execute(sql)
             cur_list = cur.fetchall()
-            cur_time = cur_list[0][0]
-            cur_id = cur_list[0][1]
+        cur_time = cur_list[0][0]
+        cur_id = cur_list[0][1]
 
-            if review_rating == '1' :
-                rating_css = '200'
-            elif review_rating == '2':
-                rating_css = '400'
-            elif review_rating == '3':
-                rating_css = '600'
-            elif review_rating == '4':
-                rating_css = '800'
-            elif review_rating == '5':
-                rating_css = '1000'
+        if review_rating == '1' :
+            rating_css = '200'
+        elif review_rating == '2':
+            rating_css = '400'
+        elif review_rating == '3':
+            rating_css = '600'
+        elif review_rating == '4':
+            rating_css = '800'
+        elif review_rating == '5':
+            rating_css = '1000'
 
-            ret_val = dict()
+        ret_val = dict()
 
-            html_string = '''
-            <div class="review_body_div" id="review_body_div_{4}">
-                    <table class="review_body_table">
+        html_string = '''
+        <div class="review_body_div" id="review_body_div_{4}">
+                <table class="review_body_table">
+                <tbody><tr class="review_body_1">
+                    <td class="review_id">{2}</td>
+                    <td class="review_time">{3}</td>
+                <td class="review_bad">
+                            <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_bad_img" src="/static/images/bad.png">0
+                            </a>
+                        </td>
+                <td class="review_good">
+                            <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_good_img" src="/static/images/good.png">0
+                            </a>
+                        </td>
+                <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
+                </tr>
+            </tbody></table>
+            <table>
+                <tbody><tr class="review_body_2">
+                    <td class="review_content">{1}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+
+        html_string2 = '''
+        <div class="review_own">
+        <div class="review_body_div">
+                <table class="review_body_table">
                     <tbody><tr class="review_body_1">
                         <td class="review_id">{2}</td>
-                        <td class="review_time">{3}</td>
-                    <td class="review_bad">
-                                <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
-                                                              $(this).attr('id'),
-                                                              $('.hidden_email').text(),
-                                                              $('.hidden_org').text(),
-                                                              $('.hidden_name').text())
-                                                          " style="color: #666666; text-decoration: none;">
-                                    <img class="review_bad_img" src="/static/images/bad.png">0
-                                </a>
-                            </td>
-                    <td class="review_good">
-                                <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
-                                                              $(this).attr('id'),
-                                                              $('.hidden_email').text(),
-                                                              $('.hidden_org').text(),
-                                                              $('.hidden_name').text())
-                                                          " style="color: #666666; text-decoration: none;">
-                                    <img class="review_good_img" src="/static/images/good.png">0
-                                </a>
-                            </td>
-                    <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
+                        <td class="review_time_delete">{3}</td>
+                        <input type="hidden" name="delete_switch" value="1">
+                        <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                        <td class="review_delete">
+                                <div class="review_delete_font">delete</div>
+                        </td>
+                        <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
                     </tr>
                 </tbody></table>
                 <table>
                     <tbody><tr class="review_body_2">
                         <td class="review_content">{1}</td>
                     </tr>
-                </tbody>
-                </table>
+                </tbody></table>
+
             </div>
-            '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
-            html_string2 = '''
-            <div class="review_own">
-            <div class="review_body_div">
-                    <table class="review_body_table">
-                        <tbody><tr class="review_body_1">
-                            <td class="review_id">{2}</td>
-                            <td class="review_time_delete">{3}</td>
-                            <input type="hidden" name="delete_switch" value="1">
-                            <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
-                            <td class="review_delete">
-                                    <div class="review_delete_font">delete</div>
-                            </td>
-                            <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
-                        </tr>
-                    </tbody></table>
-                    <table>
-                        <tbody><tr class="review_body_2">
-                            <td class="review_content">{1}</td>
-                        </tr>
-                    </tbody></table>
-
-                </div>
+        html_string3 = '''
+        <div class="scrollbar" id="style-1">
+            <div class="review_body_div" id="review_body_div_{4}">
+                <table class="review_body_table">
+                <tbody><tr class="review_body_1">
+                    <td class="review_id">{2}</td>
+                    <td class="review_time">{3}</td>
+                <td class="review_bad">
+                            <a class="review_button_link" id="bad310" href="javascript:;" onclick="score_click_bad(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_bad_img" src="/static/images/bad.png">0
+                            </a>
+                        </td>
+                <td class="review_good">
+                            <a class="review_button_link" id="good310" href="javascript:;" onclick="score_click_good(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_good_img" src="/static/images/good.png">0
+                            </a>
+                        </td>
+                <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
+                </tr>
+            </tbody></table>
+            <table>
+                <tbody><tr class="review_body_2">
+                    <td class="review_content">{1}</td>
+                </tr>
+            </tbody></table>
             </div>
-            '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
-            ret_val['html'] = html_string
-            ret_val['html2'] = html_string2
-            ret_val['stat'] = 'success'
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT *
+            FROM   edxapp.course_review
+            WHERE  course_id like 'course-v1:{0}+{1}+%'
+            '''.format(course_org, course_number)
+            cur.execute(sql)
+            first_list = cur.fetchall()
 
-            return JsonResponse(ret_val)
+            print "test = {}".format(len(first_list))
+
+        ret_val['html'] = html_string
+        ret_val['html2'] = html_string2
+        ret_val['html3'] = html_string3
+
+        ret_val['stat'] = 'success'
+
+        return JsonResponse(ret_val)
     # -----------------------------------------------------------------
 
     # DELETE SWITCH

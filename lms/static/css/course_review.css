@@ -194,7 +194,7 @@ fieldset, label { margin: 0; padding: 0; }
 /* ---------- scrollbar ---------- */
 .scrollbar
 {
-	height: 500px;
+	height: 300px;
 	overflow-y: scroll;
 	margin-bottom: 15px;
         border: solid 1px #c9c9c9;

@@ -234,13 +234,13 @@ function delete_review(){
 </div>
 % endif
 
-<!-- HTML (null) -->
+<!-- HTML (null) 
 % if len(review_list) == 0:
     <%include file="course_review_null.html" />
 % endif
+-->
 
 <!-- HTML (list) -->
-% if len(review_list) != 0:
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 function getCookie(cname) {
@@ -381,6 +381,5 @@ a.focus { outline: 1px solid red; }
     </div>
 % endfor
 </div>
-% endif
 
 
