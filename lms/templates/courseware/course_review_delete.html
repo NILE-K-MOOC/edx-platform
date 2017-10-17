@@ -1,27 +1,3 @@
-<!-- sciprt (write) -->
-<script>
-$(document).ready(function () {
-    $(".review_delete_font").click(function(){
-        delete_review();
-    });
-});
-
-function delete_review(){
-    $.post('/courses/${course_id}/about',
-    {
-        'csrfmiddlewaretoken':$("#review_token").val(),
-        'delete_switch':1
-    },function(data){
-        if(data.stat == 'success'){
-            var hello = "#review_body_div_"+data.del_id;
-            alert(hello);
-            $(".review_own").hide();
-            $(hello).hide();
-        }
-    }, 'json');
-}
-</script>
-
 % for row in already_list:
     <div class = "review_body_div">
         <table class = "review_body_table">

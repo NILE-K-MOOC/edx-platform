@@ -1,28 +1,3 @@
-<!-- sciprt (write) -->
-<script>
-$(document).ready(function () {
-    $("#review_write_submit").click(function(){
-        write_review();
-    });
-});
-
-function write_review(){
-    $.post('/courses/${course_id}/about',
-    {
-        'review_rating':$("input[name=review_rating]:checked").val(),
-        'review_data':$("#review_write_area").val(),
-        'csrfmiddlewaretoken':$("#review_token").val(),
-        'write_switch':1
-    },function(data){
-        if(data.stat == 'success'){
-            $(".review_own").append(data.html2);
-            $(".scrollbar").prepend(data.html);
-            $(".review_write").hide();
-        }
-    }, 'json');
-}
-</script>
-
 <div class = review_write>
     <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <div id="review_write_star">

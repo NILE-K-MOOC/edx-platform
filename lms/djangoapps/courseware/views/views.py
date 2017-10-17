@@ -865,6 +865,36 @@ def course_about(request, course_id):
 
             del_id_list = cur.fetchall()
             del_id = del_id_list[0][0]
+
+            html_string = '''
+            <div class="review_write">
+                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                <div id="review_write_star">
+                <fieldset class="rating">
+                    <input type="radio" id="star5" name="review_rating" value="5">
+                        <label class="full" for="star5" id="noclose" title="Awesome - 5 stars">
+                        </label>
+                    <input type="radio" id="star4" name="review_rating" value="4">
+                        <label class="full" for="star4" id="noclose" title="Pretty good - 4 stars">
+                        </label>
+                    <input type="radio" id="star3" name="review_rating" value="3">
+                         <label class="full" for="star3" id="noclose" title="Meh - 3 stars">
+                        </label>
+                    <input type="radio" id="star2" name="review_rating" value="2">
+                        <label class="full" for="star2" id="noclose" title="Kinda bad - 2 stars">
+                         </label>
+                    <input type="radio" id="star1" name="review_rating" value="1">
+                         <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
+                         </label>
+                </fieldset>
+                    <button type="button" id="review_write_submit">Write</button>
+                </div>
+                <div class="form-group" id="noclose">
+                    <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
+                    <input id="test" type="hidden" name="write_switch" value="1">
+                </div>
+            </div>
+            '''
         #-------------------------------------------------------
         with connections['default'].cursor() as cur:
             sql = '''
@@ -882,6 +912,7 @@ def course_about(request, course_id):
         ret_val = dict()
         ret_val['stat'] = 'success'
         ret_val['del_id'] = del_id
+        ret_val['html'] = html_string
 
         return JsonResponse(ret_val)
 
@@ -906,7 +937,7 @@ def course_about(request, course_id):
                  ON au.id = cr.user_id
                LEFT JOIN edxapp.course_review_user AS cru
                  ON cru.review_id = cr.id
-        WHERE  cr.course_id LIKE 'course-v1:edX+DemoX+%'
+        WHERE  cr.course_id LIKE 'course-v1:{0}+{1}+%'
         GROUP  BY cr.id,
                   au.username,
                   cr.content,

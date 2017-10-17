@@ -37,30 +37,327 @@
      >
 </head>
 
+<!-- sciprt (write) -->
+<script>
+$(document).ready(function () {
+    $("#review_write_submit").click(function(){
+        write_review();
+    });
+});
+
+function write_review(){
+    $.post('/courses/${course_id}/about',
+    {
+        'review_rating':$("input[name=review_rating]:checked").val(),
+        'review_data':$("#review_write_area").val(),
+        'csrfmiddlewaretoken':$("#review_token").val(),
+        'write_switch':1
+    },function(data){
+        if(data.stat == 'success'){
+            $(".review_own").append(data.html2);
+            $(".scrollbar").prepend(data.html);
+            $(".review_write").hide();
+            location.reload();
+        }
+    }, 'json');
+}
+</script>
+
+<!-- sciprt (delete) -->
+<script>
+$(document).ready(function () {
+    $(".review_delete_font").click(function(){
+        delete_review();
+    });
+});
+
+function delete_review(){
+    $.post('/courses/${course_id}/about',
+    {
+        'csrfmiddlewaretoken':$("#review_token").val(),
+        'delete_switch':1
+    },function(data){
+        if(data.stat == 'success'){
+            var hello = "#review_body_div_"+data.del_id;
+            $(".review_own").hide();
+            $(".review_subject").append(data.html);
+            $(hello).hide();
+            location.reload();
+        }
+    }, 'json');
+}
+</script>
+
 <!-- HTML (subject) -->
 <div class = "review_subject"><b>Review</b></div>
 
-
 % if len(enroll_list) != 0:
 <!-- HTML (write) -->
-    % if len(already_list) == 0:
-    <%include file="course_review_write.html" />
-    % endif
-
-<!-- HTML (delete) -->
-<div class="review_own">
-    % if len(already_list) != 0:
-    <%include file="course_review_delete.html" />
-    % endif
+% if len(already_list) == 0:
+<div class = review_write>
+    <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+    <div id="review_write_star">
+	<fieldset class="rating">
+	    <input 
+                type="radio" 
+                id="star5" 
+                name="review_rating" 
+                value="5"
+            />
+            <label 
+                class = "full"
+                for="star5" 
+                id='noclose' 
+                title="Awesome - 5 stars">
+            </label>
+	    <input 
+                type="radio" 
+                id="star4" 
+                name="review_rating" 
+                value="4" 
+            />
+            <label 
+                class = "full" 
+                for="star4" 
+                id='noclose' 
+                title="Pretty good - 4 stars">
+            </label>
+	    <input 
+                type="radio" 
+                id="star3" 
+                name="review_rating" 
+                value="3" 
+             />
+             <label 
+                 class = "full" 
+                 for="star3" 
+                 id='noclose' 
+                 title="Meh - 3 stars">
+            </label>
+	    <input 
+                 type="radio" 
+                 id="star2" 
+                 name="review_rating" 
+                 value="2"
+             />
+            <label 
+                 class = "full" 
+                 for="star2" 
+                 id='noclose' 
+                 title="Kinda bad - 2 stars">
+             </label>
+	    <input 
+                 type="radio" 
+                 id="star1" 
+                 name="review_rating" 
+                 value="1" 
+             />
+             <label 
+                 class = "full" 
+                 for="star1" 
+                 id='noclose' 
+                 title="Sucks big time - 1 star">
+             </label>
+	</fieldset>
+        <button type="button" id="review_write_submit">Write</button>
+    </div>
+    <div class="form-group" id="noclose">
+        <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
+        <input id="test" type="hidden" name="write_switch" value="1">
+    </div>
 </div>
 % endif
 
-<!-- HTML (main) -->
+<!-- HTML (delete) -->
+<div class="review_own">
+% if len(already_list) != 0:
+% for row in already_list:
+    <div class = "review_body_div">
+        <table class = "review_body_table">
+            <tr class = "review_body_1">
+                <td class ="review_id">${row[1]}</td>
+                <td class = "review_time_delete">${row[4]}</td>
+                <input type="hidden" name="delete_switch" value="1"/>
+                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+                <td class = "review_delete">
+                        <div class = "review_delete_font">delete</div>
+                </td>
+                % if row[3] == 1:
+                <td class =s"review_star"><div class="stard-ratings-css" title=".200"></div></td>
+                % endif
+                % if row[3] == 2:
+                <td class ="review_star"><div class="stard-ratings-css" title=".400"></div></td>
+                % endif
+                % if row[3] == 3:
+                <td class ="review_star"><div class="stard-ratings-css" title=".600"></div></td>
+                % endif
+                % if row[3] == 4:
+                <td class ="review_star"><div class="stard-ratings-css" title=".800"></div></td>
+                % endif
+                % if row[3] == 5:
+                <td class ="review_star"><div class="stard-ratings-css" title=".1000"></div></td>
+                % endif
+            </tr>
+        </table>
+        <table>
+            <tr class = "review_body_2">
+                <td class = "review_content">${row[2]}</td>
+            </tr>
+        </table>
+        </table>
+    </div>
+% endfor
+% endif
+</div>
+% endif
+
+<!-- HTML (null) -->
 % if len(review_list) == 0:
     <%include file="course_review_null.html" />
 % endif
+
+<!-- HTML (list) -->
 % if len(review_list) != 0:
-    <%include file="course_review_list.html" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function ajax_score(id, email, org, name, mode){
+    var csrftoken = getCookie('csrftoken');
+    $.ajax({
+        type: "POST", 
+        dataType: "json",
+        url: "/courses/score",
+        data: {id: id, csrfmiddlewaretoken: csrftoken, email: email, org: org, name: name},
+        success:function(data) {
+            if(mode=='good'){
+                if(data.return == "success"){
+                    var good = document.getElementById(id).innerHTML;
+                    good = good.trim();
+                    var good_index = good.search("good.png");
+                    var good_id_before = good.slice(59);
+                    var good_id_int = Number(good_id_before);
+                    good_id_int += 1;
+                    var good_id_after = String(good_id_int);
+                    document.getElementById(id).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
+                }
+                else if(data.return == "duplication"){
+                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
+                }
+            }
+            if(mode=='bad'){
+                if(data.return == "success"){
+                    var bad = document.getElementById(id).innerHTML;
+                    bad = bad.trim();
+                    var bad_index = bad.search("bad.png");
+                    var bad_id_before = bad.slice(57);
+                    var bad_id_int = Number(bad_id_before);
+                    bad_id_int += 1;
+                    var bad_id_after = String(bad_id_int);
+                    document.getElementById(id).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
+                }
+                else if(data.return == "duplication"){
+                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
+                }
+            }
+        }
+    });
+}
+
+function score_click_good(id, email, org, name) {
+    ajax_score(id, email, org, name, 'good');
+}
+
+function score_click_bad(id, email, org, name) {
+    ajax_score(id, email, org, name, 'bad');
+
+}
+</script>
+
+<style>
+a.focus { outline: 1px solid red; }
+</style>
+
+<div class = "hidden_email" style = "display:none">${review_email}</div>
+<div class = "hidden_org" style = "display:none">${course_org}</div>
+<div class = "hidden_name" style = "display:none">${course_number}</div>
+
+<div class="scrollbar" id="style-1">
+% for row in review_list:
+    <div class = "review_body_div" id = "review_body_div_${row[0]}">
+        <table class = "review_body_table">
+	    <tr class = "review_body_1">
+	        <td class ="review_id">${row[1]}</td>
+	        <td class = "review_time">${row[4]}</td>
+		<td class = "review_bad">
+                    <a 
+                        class = "review_button_link" 
+                        id = "bad${row[0]}" 
+                        href = "javascript:;" onclick="score_click_bad(
+                                                  $(this).attr('id'),
+                                                  $('.hidden_email').text(),
+                                                  $('.hidden_org').text(),
+                                                  $('.hidden_name').text())
+                                              "
+                        style = "color: #666666; text-decoration: none;"
+                    >
+                        <img class="review_bad_img" src="/static/images/bad.png"/>${row[6]}
+                    </a>
+                </td>
+		<td class = "review_good">
+                    <a 
+                        class = "review_button_link" 
+                        id = "good${row[0]}"  
+                        href = "javascript:;" onclick="score_click_good(
+                                                  $(this).attr('id'),
+                                                  $('.hidden_email').text(),
+                                                  $('.hidden_org').text(),
+                                                  $('.hidden_name').text())
+                                              "
+                        style = "color: #666666; text-decoration: none;"
+                    >
+                        <img class="review_good_img" src="/static/images/good.png"/>${row[5]}
+                    </a>
+                </td>
+                % if row[3] == 1:
+		<td class ="review_star"><div class="star-ratings-css" title=".200"></div></td>
+                % endif
+                % if row[3] == 2:
+		<td class ="review_star"><div class="star-ratings-css" title=".400"></div></td>
+                % endif
+                % if row[3] == 3:
+		<td class ="review_star"><div class="star-ratings-css" title=".600"></div></td>
+                % endif
+                % if row[3] == 4:
+		<td class ="review_star"><div class="star-ratings-css" title=".800"></div></td>
+                % endif
+                % if row[3] == 5:
+		<td class ="review_star"><div class="star-ratings-css" title=".1000"></div></td>
+                % endif
+	    </tr>
+	</table>
+	<table>
+	    <tr class = "review_body_2">
+	        <td class = "review_content">${row[2]}</td>
+	    </tr>
+	</table>
+    </div>
+% endfor
+</div>
 % endif
 
 
