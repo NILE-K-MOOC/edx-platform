@@ -656,42 +656,42 @@ def course_score(request):
        return JsonResponse({'return':'duplication'})
 
     if duplication_lock == 0: 
-	# good
-	if review_raw_id.find('good') == 0:
-	    review_id = review_raw_id[4:]
-        with connections['default'].cursor() as cur:
-            sql = '''
-            INSERT INTO edxapp.course_review_user
-                        (review_id,
-                         user_id,
-                         good_bad)
-            SELECT {0},
-                   id,
-                   'g'
-            FROM   edxapp.auth_user
-            WHERE  email = '{1}';
-            '''.format(review_id, review_email)
-            cur.execute(sql)
-            # auto commit
-            # conn.commit()
-	# bad
-	if review_raw_id.find('bad') == 0:
-	    review_id = review_raw_id[3:]
-        with connections['default'].cursor() as cur:
-            sql = '''
-            INSERT INTO edxapp.course_review_user
-                        (review_id,
-                         user_id,
-                         good_bad)
-            SELECT {0},
-                   id,
-                   'b'
-            FROM   edxapp.auth_user
-            WHERE  email = '{1}';
-            '''.format(review_id, review_email)
-            cur.execute(sql)
-            # auto commit
-            # conn.commit()
+        # good
+        if review_raw_id.find('good') == 0:
+            review_id = review_raw_id[4:]
+            with connections['default'].cursor() as cur:
+                sql = '''
+                INSERT INTO edxapp.course_review_user
+                            (review_id,
+                             user_id,
+                             good_bad)
+                SELECT {0},
+                       id,
+                       'g'
+                FROM   edxapp.auth_user
+                WHERE  email = '{1}';
+                '''.format(review_id, review_email)
+                cur.execute(sql)
+                # auto commit
+                # conn.commit()
+        # bad
+        if review_raw_id.find('bad') == 0:
+            review_id = review_raw_id[3:]
+            with connections['default'].cursor() as cur:
+                sql = '''
+                INSERT INTO edxapp.course_review_user
+                            (review_id,
+                             user_id,
+                             good_bad)
+                SELECT {0},
+                       id,
+                       'b'
+                FROM   edxapp.auth_user
+                WHERE  email = '{1}';
+                '''.format(review_id, review_email)
+                cur.execute(sql)
+                # auto commit
+                # conn.commit()
 
     return JsonResponse({'return':'success'})
 
@@ -727,6 +727,18 @@ def course_about(request, course_id):
 
     # INSERT
     if( insert_switch == 1 ):
+        """
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT *
+            FROM   edxapp.course_review
+            WHERE  course_id like 'course-v1:{0}+{1}+%'
+            '''.format(course_org, course_number)
+            cur.execute(sql)
+            first_list = cur.fetchall()
+            firstcheck = len(first_list)
+        """
+
         with connections['default'].cursor() as cur:
             sql = '''
 
@@ -850,6 +862,7 @@ def course_about(request, course_id):
         </div>
         '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
+        """
         html_string3 = '''
         <div class="scrollbar" id="style-1">
             <div class="review_body_div" id="review_body_div_{4}">
@@ -888,21 +901,10 @@ def course_about(request, course_id):
             </div>
         </div>
         '''.format(rating_css, review_content, review_username, cur_time, cur_id)
-
-        with connections['default'].cursor() as cur:
-            sql = '''
-            SELECT *
-            FROM   edxapp.course_review
-            WHERE  course_id like 'course-v1:{0}+{1}+%'
-            '''.format(course_org, course_number)
-            cur.execute(sql)
-            first_list = cur.fetchall()
-
-            print "test = {}".format(len(first_list))
+        """
 
         ret_val['html'] = html_string
         ret_val['html2'] = html_string2
-        ret_val['html3'] = html_string3
 
         ret_val['stat'] = 'success'
 

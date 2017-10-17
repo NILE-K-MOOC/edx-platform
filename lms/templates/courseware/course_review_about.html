@@ -57,7 +57,7 @@ function write_review(){
 
             //alert("main write");
 
-            alert(data.html2);
+            //alert(data.html2);
             $(".review_help").append(data.html2);
             console.log("append html2");
             //alert(data.html2);
@@ -94,7 +94,7 @@ function delete_review(){
             //alert("main delete");
 
             var hello = "#review_body_div_"+data.del_id;
-            alert(hello);
+            //alert(hello);
             $(".review_own").hide();
             $(".review_subject").append(data.html);
             $(hello).hide();
@@ -234,7 +234,7 @@ function delete_review(){
 </div>
 % endif
 
-<!-- HTML (null) 
+<!-- HTML (null)
 % if len(review_list) == 0:
     <%include file="course_review_null.html" />
 % endif
@@ -381,5 +381,4 @@ a.focus { outline: 1px solid red; }
     </div>
 % endfor
 </div>
-
 
