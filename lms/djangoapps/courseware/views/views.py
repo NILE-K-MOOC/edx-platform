@@ -729,22 +729,36 @@ def course_about(request, course_id):
     if( insert_switch == 1 ):
         with connections['default'].cursor() as cur:
             sql = '''
-            INSERT INTO edxapp.course_review
-                        (content,
-                         point,
-                         user_id,
-                         course_id)
-            SELECT '{0}',
-                    {1},
-                    id,
-                   '{3}'
-            FROM   edxapp.auth_user
-            WHERE  email = '{2}'
-            '''.format(review_content, review_rating, review_email, course_id)
-            print sql
+
+            select *
+            from edxapp.course_review
+            where user_id in (
+                select id
+                FROM   edxapp.auth_user
+                WHERE  email = '{2}'
+            )
+            and course_id like 'course-v1:{0}+{1}+%'
+            '''.format(course_org, course_number, review_email)
             cur.execute(sql)
-            # auto commit
-            # conn.commit()
+            valcheck = cur.fetchall()
+
+            if len(valcheck) == 0 :
+                with connections['default'].cursor() as cur:
+                    sql = '''
+                    INSERT INTO edxapp.course_review
+                                (content,
+                                 point,
+                                 user_id,
+                                 course_id)
+                    SELECT '{0}',
+                            {1},
+                            id,
+                           '{3}'
+                    FROM   edxapp.auth_user
+                    WHERE  email = '{2}'
+                    '''.format(review_content, review_rating, review_email, course_id)
+                    cur.execute(sql)
+                    print "insert sql !!!" #DEBUG
 
         with connections['default'].cursor() as cur:
             sql = '''
