@@ -1,23 +1,35 @@
+<!-- sciprt (write) -->
+<script>
+$(document).ready(function () {
+    $(".review_delete_font").click(function(){
+        delete_review();
+    });
+});
+
+function delete_review(){
+    $.post('/courses/${course_id}/about',
+    {
+        'csrfmiddlewaretoken':$("#review_token").val(),
+        'delete_switch':1
+    },function(data){
+        if(data.stat == 'success'){
+            alert(1);
+        }
+    }, 'json');
+}
+</script>
+
 % for row in already_list:
-    <div class = "review_own">
     <div class = "review_body_div">
         <table class = "review_body_table">
             <tr class = "review_body_1">
                 <td class ="review_id">${row[1]}</td>
                 <td class = "review_time_delete">${row[4]}</td>
-                <form id="delete_form" action="" method="post">
                 <input type="hidden" name="delete_switch" value="1"/>
-                <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
                 <td class = "review_delete">
-                    <a 
-                        class = "review_button_dlink" 
-                        href="javascript:;" onclick="document.getElementById('delete_form').submit();"
-                        style="color: #666666; text-decoration: none; "
-                    >
                         <div class = "review_delete_font">delete</div>
-                    </a>
                 </td>
-                </form>
                 % if row[3] == 1:
                 <td class =s"review_star"><div class="stard-ratings-css" title=".200"></div></td>
                 % endif
@@ -41,6 +53,5 @@
             </tr>
         </table>
         </table>
-    </div>
     </div>
 % endfor

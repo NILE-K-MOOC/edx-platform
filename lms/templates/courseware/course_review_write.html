@@ -1,6 +1,30 @@
+<!-- sciprt (write) -->
+<script>
+$(document).ready(function () {
+    $("#review_write_submit").click(function(){
+        write_review();
+    });
+});
+
+function write_review(){
+    $.post('/courses/${course_id}/about',
+    {
+        'review_rating':$("input[name=review_rating]:checked").val(),
+        'review_data':$("#review_write_area").val(),
+        'csrfmiddlewaretoken':$("#review_token").val(),
+        'write_switch':1
+    },function(data){
+        if(data.stat == 'success'){
+            $(".review_own").append(data.html2);
+            $(".scrollbar").prepend(data.html);
+            $(".review_write").hide();
+        }
+    }, 'json');
+}
+</script>
+
 <div class = review_write>
-<form action="http://192.168.33.20:8000/courses/${course_id}/about" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+    <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <div id="review_write_star">
 	<fieldset class="rating">
 	    <input 
@@ -64,11 +88,10 @@
                  title="Sucks big time - 1 star">
              </label>
 	</fieldset>
-        <button type="submit" id="review_write_submit">Write</button>
+        <button type="button" id="review_write_submit">Write</button>
     </div>
     <div class="form-group" id="noclose">
         <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
         <input id="test" type="hidden" name="write_switch" value="1">
     </div>
-</form>
 </div>

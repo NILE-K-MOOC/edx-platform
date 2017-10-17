@@ -22,7 +22,7 @@ function ajax_score(id, email, org, name, mode){
     $.ajax({
         type: "POST", 
         dataType: "json",
-        url: "http://192.168.33.20:8000/courses/score",
+        url: "/courses/score",
         data: {id: id, csrfmiddlewaretoken: csrftoken, email: email, org: org, name: name},
         success:function(data) {
             if(mode=='good'){

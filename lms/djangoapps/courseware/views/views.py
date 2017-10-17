@@ -695,13 +695,11 @@ def course_score(request):
 
     return JsonResponse({'return':'success'})
 
+
+from django.http import JsonResponse
+
 @ensure_csrf_cookie
 def course_about(request, course_id):
-    """
-    Display the course's about page.
-
-    Assumes the course_id is in a valid format.
-    """
 
     # ---------- REVIEW BACKEND - start ----------#
     edx_user_info = json.loads(request.COOKIES['edx-user-info'])
@@ -743,9 +741,104 @@ def course_about(request, course_id):
             FROM   edxapp.auth_user
             WHERE  email = '{2}'
             '''.format(review_content, review_rating, review_email, course_id)
+            print sql
             cur.execute(sql)
             # auto commit
             # conn.commit()
+
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT reg_time, id
+            FROM   edxapp.course_review
+            WHERE  course_id like 'course-v1:{0}+{1}+%'
+                   AND user_id IN (SELECT id
+                                   FROM   edxapp.auth_user
+                                   WHERE  email = '{2}');
+            '''.format(course_org, course_number, review_email)
+            cur.execute(sql)
+            cur_list = cur.fetchall()
+            cur_time = cur_list[0][0]
+            cur_id = cur_list[0][1]
+
+            if review_rating == '1' :
+                rating_css = '200'
+            elif review_rating == '2':
+                rating_css = '400'
+            elif review_rating == '3':
+                rating_css = '600'
+            elif review_rating == '4':
+                rating_css = '800'
+            elif review_rating == '5':
+                rating_css = '1000'
+
+            ret_val = dict()
+
+            html_string = '''
+            <div class="review_body_div">
+                    <table class="review_body_table">
+                    <tbody><tr class="review_body_1">
+                        <td class="review_id">{2}</td>
+                        <td class="review_time">{3}</td>
+                    <td class="review_bad">
+                                <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
+                                                              $(this).attr('id'),
+                                                              $('.hidden_email').text(),
+                                                              $('.hidden_org').text(),
+                                                              $('.hidden_name').text())
+                                                          " style="color: #666666; text-decoration: none;">
+                                    <img class="review_bad_img" src="/static/images/bad.png">0
+                                </a>
+                            </td>
+                    <td class="review_good">
+                                <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
+                                                              $(this).attr('id'),
+                                                              $('.hidden_email').text(),
+                                                              $('.hidden_org').text(),
+                                                              $('.hidden_name').text())
+                                                          " style="color: #666666; text-decoration: none;">
+                                    <img class="review_good_img" src="/static/images/good.png">0
+                                </a>
+                            </td>
+                    <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
+                    </tr>
+                </tbody></table>
+                <table>
+                    <tbody><tr class="review_body_2">
+                        <td class="review_content">{1}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+
+            html_string2 = '''
+            <div class="review_body_div">
+                <table class="review_body_table">
+                    <tbody><tr class="review_body_1">
+                        <td class="review_id">{2}</td>
+                        <td class="review_time_delete">{3}</td>
+                        <input type="hidden" name="delete_switch" value="1">
+                        <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                        <td class="review_delete">
+                                <div class="review_delete_font">delete</div>
+                        </td>
+                        <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
+                    </tr>
+                </tbody></table>
+                <table>
+                    <tbody><tr class="review_body_2">
+                        <td class="review_content">{1}</td>
+                    </tr>
+                </tbody></table>
+            </div>
+            '''.format(rating_css, review_content, review_username, cur_time)
+
+            ret_val['html'] = html_string
+            ret_val['html2'] = html_string2
+            ret_val['stat'] = 'success'
+
+            return JsonResponse(ret_val)
+    # -----------------------------------------------------------------
 
     # DELETE SWITCH
     if request.POST.get('delete_switch'):
@@ -764,6 +857,7 @@ def course_about(request, course_id):
                    AND course_id LIKE 'course-v1:{1}+{2}+%'
             '''.format(review_email, course_org, course_number)
             cur.execute(sql)
+            print sql #DEBUG
             # auto commit
             # conn.commit()
 
@@ -786,18 +880,20 @@ def course_about(request, course_id):
         FROM   edxapp.course_review AS cr
                JOIN edxapp.auth_user AS au
                  ON au.id = cr.user_id
-               JOIN edxapp.course_review_user AS cru
+               LEFT JOIN edxapp.course_review_user AS cru
                  ON cru.review_id = cr.id
-        WHERE  course_id LIKE 'course-v1:{0}+{1}+%'
+        WHERE  cr.course_id LIKE 'course-v1:edX+DemoX+%'
         GROUP  BY cr.id,
                   au.username,
                   cr.content,
                   cr.point,
                   cr.reg_time
-        ORDER  BY reg_time DESC
+        ORDER  BY reg_time DESC;
         '''.format(course_org, course_number)
+        print sql #DEBUG
         cur.execute(sql)
         review_list = cur.fetchall()
+        print len(review_list) #DEBUG
 
     # SELECT -> own list
     with connections['default'].cursor() as cur:
