@@ -396,7 +396,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                hidden_day,
                popup_id
           FROM popup
-         WHERE use_yn = 'Y'
+         WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
         """
 
     cur.execute(query)
@@ -407,12 +407,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         pop_list.append(list(p))
 
     extra_context['pop_list'] = pop_list
-    print ('======================================================================================================================================================')
-    print pop_list[0]
-    print pop_list[1]
-
-    print ('======================================================================================================================================================')
-
     # Insert additional context for use in the template
     context.update(extra_context)
 

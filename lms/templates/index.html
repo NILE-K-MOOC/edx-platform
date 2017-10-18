@@ -8,6 +8,29 @@ from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+% for pop in pop_list :
+<style>
+
+    #popupWrap_1${pop[16]} {
+        width : ${pop[13]}px;
+        height : ${pop[14]}px;
+    }
+    #popupWrap_2${pop[16]} {
+        width : ${pop[13]}px;
+        height : ${pop[14]}px;
+    }
+    #popupWrap_3${pop[16]} {
+        width : ${pop[13]}px;
+        height : ${pop[14]}px;
+    }
+    #popupWrap_4${pop[16]} {
+        width : ${pop[13]}px;
+        height : ${pop[14]}px;
+    }
+
+
+</style>
+% endfor
 <script>
 
 </script>
@@ -20,8 +43,6 @@ from openedx.core.djangolib.markup import HTML, Text
 <link rel="stylesheet" type="text/css" href="http://www.lifelongedu.go.kr/css/main_new.css?ver=1">
 </head>
 
-
-
 <div id="layerPopupArea" class="layerPopupArea">
 
     <!--popup K-mooc(1)-->
@@ -29,14 +50,17 @@ from openedx.core.djangolib.markup import HTML, Text
     % if pop[12] == '0':
         % if pop[0] == 'H':
         <div id="popupWrap_1${pop[16]}" class="layerPupup popupWrap_1">
-
-            <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            ${pop[4]}
-            </p>
+            <div class="pop-body">
+                <div class="templet-con">
+                    <p id = "CONTENTS_0${pop[16]}" class="pop_content" style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
+                        ${pop[4]}
+                    </p>
+                </div>
+            </div>
             <!-- close area -->
             <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
-                <label onclick="closeWin('chkbox_1', 'popupWrap_1${pop[16]}');">
-                    <input id="chkbox_1" name="chkbox_1" type="checkbox" style="vertical-align: middle;">
+                <label onclick="closeWin('chkbox_1${pop[16]}', 'popupWrap_1${pop[16]}','${pop[15]}');">
+                    <input id="chkbox_1${pop[16]}" name="chkbox_1${pop[16]}" type="checkbox" style="vertical-align: middle;">
                     <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
                 </label>
                 <span><a href="javascript:popClose('popupWrap_1${pop[16]}');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
@@ -53,8 +77,8 @@ from openedx.core.djangolib.markup import HTML, Text
             </p>
 
             <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
-                <label onclick="closeWin('chkbox_2' , 'popupWrap_2${pop[16]}');">
-                    <input id="chkbox_2" name="chkbox_2" type="checkbox" style="vertical-align: middle;">
+                <label onclick="closeWin('chkbox_2${pop[16]}' , 'popupWrap_2${pop[16]}','${pop[15]}');">
+                    <input id="chkbox_2${pop[16]}" name="chkbox_2${pop[16]}" type="checkbox" style="vertical-align: middle;">
                     <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
                 </label>
 
@@ -68,22 +92,22 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="layerPupup popupWrap_3" id="popupWrap_3${pop[16]}" style="display: none" >
             <div class="pop-header">
                 <h1>공지사항</h1>
-                <a href="#" class="img-ico close" onclick="fn_move('close')">창닫기</a>
+                <a href="javascript:popClose('popupWrap_3${pop[16]}')" class="img-ico close" onclick="fn_move('close')">창닫기</a>
             </div>
             <div class="pop-body">
                 <div class="templet-top cs2">
                     <h1 style="font-size: 20px; color: #3c6674; padding: 5px" id="TITLE_1" > ${pop[3]} </h1>
                 </div>
                 <div class="templet-con" style="background-color: white">
-                    <p id = "CONTENTS_1"> ${pop[4]} </p>
+                    <p id = "CONTENTS_1${pop[16]}" class="pop_content"> ${pop[4]} </p>
                 </div>
             </div>
             <div class="pop-btn" style="background-color: white">
                 <a href=${pop[6]} target="_" + ${pop[7]}><button type="button" class="button orange" onclick="fn_move('move')">자세히 보기 ></button></a>
             </div>
             <div class="closechk btn-align" style="text-align: left">
-                    <label onclick="closeWin('chkbox_3', 'popupWrap_3${pop[16]}' );">
-                        <input id="chkbox_3" name="chkbox_3" type="checkbox" style="vertical-align: middle;">
+                    <label onclick="closeWin('chkbox_3${pop[16]}', 'popupWrap_3${pop[16]}' ,'${pop[15]}');">
+                        <input id="chkbox_3${pop[16]}" name="chkbox_3${pop[16]}" type="checkbox" style="vertical-align: middle;">
                         <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
                     </label>
                     <span><a href="javascript:popClose('popupWrap_3${pop[16]}');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
@@ -103,7 +127,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <h2 style="top: -55px;position: relative;">여러분의 소중한 의견을 통해<br><strong>늘배움의 발전된 모습</strong>을 보여드리겠습니다.</h2>
                 </div>
                 <div class="templet-con">
-                    <p id = "CONTENTS_2">
+                    <p id = "CONTENTS_2${pop[16]}" class="pop_content">
                         ${pop[4]}
                     </p>
                 </div>
@@ -112,8 +136,8 @@ from openedx.core.djangolib.markup import HTML, Text
                 <a href=${pop[6]} target="_" + ${pop[7]}><button type="button" class="button orange" onclick="fn_move('move')">만족도 조사 참여하기 ></button></a>
             </div>
             <div class="closechk btn-align" style="text-align: left">
-                    <label onclick="closeWin('chkbox_4', 'popupWrap_4${pop[16]}');">
-                        <input id="chkbox_4" name="chkbox_4" type="checkbox" style="vertical-align: middle;">
+                    <label onclick="closeWin('chkbox_4${pop[16]}', 'popupWrap_4${pop[16]}' ,'${pop[15]}');">
+                        <input id="chkbox_4${pop[16]}" name="chkbox_4${pop[16]}" type="checkbox" style="vertical-align: middle;">
                         <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
                     </label>
                     <span><a href="javascript:popClose('popupWrap_4${pop[16]}');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
@@ -135,95 +159,39 @@ function setCookie( name, value, expiredays ) {
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
-function closeWin(check, id) {
+function closeWin(check, id, hidden_day) {
     if ($("#" + check).is(":checked")){
-        setCookie( id , "done" , 1);
+        setCookie( id , "done" , hidden_day);
     }
     $("#" + id).css("display" , "none");
 }
 
 cookiedata = document.cookie;
 
-popupDate = new Date();
-targetDate1 = new Date(2017, 10, 18);
-targetDate2 = new Date(2017, 9, 18);
-targetDate3 = new Date(2017, 9, 18);
-targetDate4 = new Date(2017, 10, 18);
 
-console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
+$("#layerPopupArea .pop_content").each(function() {
+    var content_id = $(this).attr("id");
 
-if (
-        (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
-        (popupDate < targetDate1)
-        )
-   )
+    $("#"+content_id).html($("#"+content_id).text());
+
+});
+
+
+$("#layerPopupArea .layerPupup").each(function(){
+    var popup_id = $(this).attr("id");
+
+    if (cookiedata.indexOf(popup_id) < 0 )
     {
+        %if LANG == 'en':
+            $('#'+ popup_id).css("display" , "none");
+        %else:
+            $('#'+ popup_id).css("display" , "block");
+        %endif
 
-    %if LANG == 'en':
-        $('.popupWrap_1').css("display" , "none");
-    %else:
-        $('.popupWrap_1').css("display" , "block");
-    %endif
-
-    //console.log(popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate());
-
-} else {
-    $('.popupWrap_1').css("display" , "none");
-}
-
-if (
-        (cookiedata.indexOf("popupdiv2=done") < 0 ) &&
-        (
-            (popupDate < targetDate2)
-        )
-   )
-    {
-
-    %if LANG == 'en':
-        $('.popupWrap_2').css("display" , "none");
-    %else:
-        $('.popupWrap_2').css("display" , "block");
-    %endif
-
-} else {
-    $('.popupWrap_2').css("display" , "none");
-}
-
-if (
-        (cookiedata.indexOf("popupdiv3=done") < 0 ) &&
-        (
-            (popupDate < targetDate3)
-        )
-   )
-    {
-
-    %if LANG == 'en':
-        $('.popupWrap_3').css("display" , "none");
-    %else:
-        $('.popupWrap_3').css("display" , "block");
-    %endif
-
-} else {
-    $('.popupWrap_3').css("display" , "none");
-}
-
-if (
-        (cookiedata.indexOf("popupdiv4=done") < 0 ) &&
-        (
-            (popupDate < targetDate4)
-        )
-   )
-    {
-
-    %if LANG == 'en':
-        $('.popupWrap_4').css("display" , "none");
-    %else:
-        $('.popupWrap_4').css("display" , "block");
-    %endif
-
-} else {
-    $('.popupWrap_4').css("display" , "none");
-}
+    } else {
+        $('#'+ popup_id).css("display" , "none");
+    }
+});
 
 </script>
 
