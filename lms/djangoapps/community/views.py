@@ -458,9 +458,9 @@ def comm_repository(request):
                            END
                               flag,
                            CASE
-                              WHEN head_title = 'publi_r' THEN '홍보'
-                              WHEN head_title = 'course_r' THEN '강좌안내'
-                              WHEN head_title = 'event_r' THEN '행사'
+                              WHEN head_title = 'publi_r' THEN '홍보자료'
+                              WHEN head_title = 'data_r' THEN '자료집'
+                              WHEN head_title = 'repo_r' THEN '보고서'
                               WHEN head_title = 'etc_r' THEN '기타'
                               ELSE ''
                            END
