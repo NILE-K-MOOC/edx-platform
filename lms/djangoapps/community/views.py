@@ -411,6 +411,7 @@ def comm_faqrequest(request):
                                           WHEN '""" + option + """' = 'course_f ' THEN '강좌수강'
                                           WHEN '""" + option + """' = 'certi_f  ' THEN '성적/이수증'
                                           WHEN '""" + option + """' = 'tech_f ' THEN '기술적문제'
+                                          WHEN '""" + option + """' = 'mobile_f ' THEN '모바일문제'
                                           ELSE ''
                                        END));
             """
