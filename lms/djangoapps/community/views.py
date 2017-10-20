@@ -74,6 +74,7 @@ sys.setdefaultencoding('utf8')
 
 @ensure_csrf_cookie
 def comm_notice(request):
+    logging.info("############# - start")
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
@@ -113,22 +114,23 @@ def comm_notice(request):
                               ELSE ''
                            END
                               head_title
-                      FROM tb_board
-                     WHERE section = 'N' AND use_yn = 'Y'
+                    FROM tb_board
+                    WHERE section = 'N' AND use_yn = 'Y'
             """ % (page)
+
             if 'cur_page' in request.GET:
                 cur_page = request.GET['cur_page']
                 if cur_page == '1':
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit 0,10"
                     cur.execute(query)
                 else:
                     start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit %s,10" % (start_num)
                     cur.execute(query)
             else:
-                query += "order by reg_date desc " \
+                query += "order by odby desc, reg_date desc " \
                          "limit 0,10"
                 cur.execute(query)
             row = cur.fetchall()
@@ -180,6 +182,8 @@ def comm_notice(request):
                       FROM tb_board
                      WHERE section = 'N' and use_yn = 'Y'
             """ % (page, page)
+            logging.info("############# - second")
+
             if 'search_con' in request.GET:
                 title = request.GET['search_con']
                 search = request.GET['search_search']
@@ -471,16 +475,16 @@ def comm_repository(request):
             if 'cur_page' in request.GET:
                 cur_page = request.GET['cur_page']
                 if cur_page == '1':
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit 0,10"
                     cur.execute(query)
                 else:
                     start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit %s,10" % (start_num)
                     cur.execute(query)
             else:
-                query += "order by reg_date desc " \
+                query += "order by odby desc, reg_date desc " \
                          "limit 0,10"
                 cur.execute(query)
             row = cur.fetchall()
@@ -894,16 +898,16 @@ def comm_k_news(request):
             if 'cur_page' in request.GET:
                 cur_page = request.GET['cur_page']
                 if cur_page == '1':
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit 0,10"
                     cur.execute(query)
                 else:
                     start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit %s,10" % (start_num)
                     cur.execute(query)
             else:
-                query += "order by reg_date desc " \
+                query += "order by odby desc, reg_date desc " \
                          "limit 0,10"
                 cur.execute(query)
             row = cur.fetchall()
