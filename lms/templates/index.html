@@ -46,8 +46,8 @@ from openedx.core.djangolib.markup import HTML, Text
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            <a href="http://www.niied.go.kr/index.do" target="_blank">
-                <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@20170927.jpg" alt="플러스 친구" usemap="#map1">
+            <a href="http://www.kmooc.kr/comm_notice_view/163/" target="_self">
+                <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@popup_supports.jpg" alt="플러스 친구" usemap="#map1">
             </a>
         </p>
 
@@ -69,7 +69,7 @@ function popClose(id){
 }
 
 function setCookie1( name, value, expiredays ) {
-    var todayDate = new Date(2017, 9, 18);
+    var todayDate = new Date(2017, 10, 6);
     todayDate.setDate( todayDate.getDate() + expiredays );
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
@@ -92,7 +92,7 @@ cookiedata = document.cookie;
 
 popupDate = new Date();
 targetDate1 = new Date(2017, 8, 8);
-targetDate2 = new Date(2017, 9, 18);
+targetDate2 = new Date(2017, 10, 6);
 
 console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
 
