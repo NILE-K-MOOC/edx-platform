@@ -259,13 +259,20 @@ def comm_notice_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',str(files)
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -605,13 +612,20 @@ def comm_repo_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',files
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -813,13 +827,20 @@ def comm_mobile_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',str(files)
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -1032,13 +1053,20 @@ def comm_k_news_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',files
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
