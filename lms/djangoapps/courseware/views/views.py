@@ -23,7 +23,7 @@ from django.utils.decorators import method_decorator
 from django.utils.timezone import UTC
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_control
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.views.generic import View
 from eventtracking import tracker
@@ -614,7 +614,83 @@ class EnrollStaffView(View):
         # In any other case redirect to the course about page.
         return redirect(reverse('about_course', args=[unicode(course_key)]))
 
+@csrf_exempt
+@cache_if_anonymous()
+@require_http_methods(['POST'])
+def course_interest(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'add':
+            user_id = request.POST.get('user_id')
+            course_id = request.POST.get('course_id')
 
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                 select count(user_id) from interest_course where user_id = '""" + user_id + """' and course_id = '""" + course_id + """' ;
+            """
+            cur.execute(query)
+            count = cur.fetchall()
+            ctn = count[0][0]
+            cur.close()
+
+            print ('==================================')
+            print ctn
+            print ('==================================')
+
+            if(ctn == 1):
+                cur = con.cursor()
+                query = """
+                     UPDATE interest_course
+                       SET use_yn = 'Y'
+                     WHERE user_id = '""" + user_id + """' AND course_id = '""" + course_id + """';
+                """
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            elif(ctn == 0):
+                cur = con.cursor()
+                query = """
+                     insert into interest_course(user_id, course_id)
+                     VALUES ('""" + user_id + """',
+                             '""" + course_id + """');
+                """
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            return HttpResponse(data, 'application/json')
+
+        elif request.POST['method'] == 'modi':
+            user_id = request.POST.get('user_id')
+            course_id = request.POST.get('course_id')
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+
+            cur = con.cursor()
+            query = """
+                 UPDATE interest_course
+                   SET use_yn = 'N'
+                 WHERE user_id = '""" + user_id + """' AND course_id = '""" + course_id + """';
+            """
+            cur.execute(query)
+            cur.execute('commit')
+            cur.close()
+            data = json.dumps('success')
+
+            return HttpResponse(data, 'application/json')
+
+        return HttpResponse('success', 'application/json')
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def course_about(request, course_id):

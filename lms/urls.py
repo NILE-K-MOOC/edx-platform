@@ -396,7 +396,7 @@ urlpatterns += (
         EnrollStaffView.as_view(),
         name='enroll_staff',
     ),
-
+    url(r'^courses/interest$', 'courseware.views.views.course_interest', name='course_interest'),
     # Inside the course
     url(
         r'^courses/{}/$'.format(

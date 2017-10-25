@@ -121,6 +121,7 @@ from util.views import ensure_valid_course_key
 from pymongo import MongoClient
 import MySQLdb as mdb
 from django.db import connections
+from django.db.models import Q
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -131,7 +132,6 @@ SETTING_CHANGE_INITIATED = 'edx.user.settings.change_initiated'
 REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
 # used to announce a registration
 REGISTER_USER = Signal(providing_args=["user", "profile"])
-
 
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
 # pylint: disable=logging-format-interpolation
@@ -372,6 +372,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
 
     context['index_list'] = index_list
+
     cur = con.cursor()
     query = """
         SELECT popup_type,
@@ -490,6 +491,8 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude):
         on the user's dashboard.
     """
     for enrollment in CourseEnrollment.enrollments_for_user(user):
+        print ('get_course_enrollments')
+        print enrollment
 
         # If the course is missing or broken, log an error and skip it.
         course_overview = enrollment.course_overview
@@ -917,6 +920,7 @@ def is_course_blocked(request, redeemed_registration_codes, course_key):
 @ensure_valid_course_key
 @ensure_csrf_cookie
 def dashboard(request):
+
     user = request.user
 
     platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
@@ -939,6 +943,11 @@ def dashboard(request):
 
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
+    print('--------------------------------------------------------------')
+    print user, course_org_filter, org_filter_out_set
+    print('--------------------------------------------------------------')
+    print course_enrollments
+
 
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
@@ -1034,6 +1043,12 @@ def dashboard(request):
     course_type4 = []
 
     for c in course_enrollments:
+
+        print ('type :')
+        print type(c)
+        print ('c :')
+        print c
+
         course_id = c.course
         cur = con.cursor()
         query = "select enrollment_end from course_overviews_courseoverview where id = '" + str(course_id) + "'"
@@ -1158,7 +1173,46 @@ def dashboard(request):
         # grade_summary = grades.grade(user, course, course_structure=None)
         # percents[course_id] = str(int(float(grade_summary['percent']) * 100))
 
+    cur = con.cursor()
+    query = """
+        SELECT course_id
+          FROM interest_course
+          WHERE use_yn = 'Y' AND user_id = '""" + str(user.id) + """'
+        """
+    print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    cur.execute(query)
+    rows = cur.fetchall()
+    cur.close()
+    interest_list = []
+    if (len(rows) > 0):
+        for p in rows:
+            interest_list.append(list(p)[0])
+    print interest_list
+
+    from .models import CourseOverview
+    # test_course = CourseOverview.objects.all().filter(Q(id='course-v1:POSTECHk+LIFE422k+2016-1'))
+    all_courses = CourseOverview.objects.all()
+    test_course = all_courses.filter(Q(id__icontains='edX'))
+    test_course1 = all_courses.filter(Q(org='edX'))
+    test_course2 = all_courses.filter(org__in=['edX', 'NILE'])
+
+    print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    print test_course
+    print test_course1
+    print test_course2
+
+    from opaque_keys.edx import locator
+    course_key = locator.CourseLocator('POSTECHk', 'LIFE422k', '2016-1')
+    test_course3 = all_courses.filter(id=course_key)
+    test_course4 = [course for course in all_courses if str(course.id) in [str(r[0]) for r in rows]]
+
+    print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    print course_key
+    print test_course3
+    print test_course4
+
     context = {
+        'interest_list': interest_list,
         'percents': percents,
         'enrollment_message': enrollment_message,
         'redirect_message': redirect_message,

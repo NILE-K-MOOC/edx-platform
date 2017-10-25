@@ -141,7 +141,68 @@ from openedx.core.lib.courses import course_image_url
                 ${course.display_name_with_default_escaped}
 ##                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
+              <div style="float: right">
+                  <a id="interest_btn_d" onclick="modi()"><i style="color:red; display:none" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-4x"  aria-hidden="true"></i></a>
+                  <a id="interest_btn_i" onclick="add()"><i style="color:red" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-4x"  aria-hidden="true"></i></a>
+              </div>
+              <script>
+                  function add() {
+
+                      try {
+                            var user_id = '${user.id}';
+                            var course_id = '${course.id}';
+                            var action = 'add';
+
+                            $.post("/courses/interest", {
+                                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                                user_id : user_id,
+                                course_id: course_id,
+                                method : action,
+                            }).done(function (data) {
+
+                            }).fail(function (error) {
+                                alert('error = ' + error.responseJSON);
+                            });
+                        } catch (e) {
+                            alert(e);
+                        }
+                  }
+
+                  function modi() {
+                      try {
+                            var user_id = '${user.id}';
+                            var course_id = '${course.id}';
+                            var action = 'modi';
+
+                            $.post("/courses/interest", {
+                                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                                user_id : user_id,
+                                course_id: course_id,
+                                method : action,
+                            }).done(function (data) {
+
+                            }).fail(function (error) {
+                                alert('error = ' + error.responseJSON);
+                            });
+                        } catch (e) {
+                            alert(e);
+                        }
+                  }
+
+
+                  function change_i(id) {
+                      if (id == 'nomal') {
+                        document.getElementById('empty').style.display = '';
+                        document.getElementById('nomal').style.display = 'none';
+                      }
+                      else if (id == 'empty') {
+                        document.getElementById('nomal').style.display = '';
+                        document.getElementById('empty').style.display = 'none';
+                      }
+                  }
+              </script>
             </div>
+
             <br>
             <!--<div>
                 ${short_description['short_description']}

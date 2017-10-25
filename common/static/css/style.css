@@ -1058,15 +1058,15 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
 
-body {border: 1px solid blue;}
+/*body {border: 1px solid blue;}*/
 @media (max-width: 1200px) {
-	body {border: 1px solid red;}
+	/*body {border: 1px solid red;}*/
 	body.view-in-course .container {padding:0 10px;}
 	body.view-in-course .wrapper-course-material, body.view-in-course .wrapper-preview-menu {padding:0 10px;}
 }
 
 @media (max-width: 768px) {
-	body {border: 1px solid yellow;}
+	/*body {border: 1px solid yellow;}*/
 	body.view-in-course .header-global, body.view-in-course .header-global.slim, .header-global.slim {background:#fff;border-bottom:solid 2.5px #03b3e4;height:62.5px;}
 	.header-global.slim .wrapper-header .logo img {height:22px;margin-left:50px;}
 	.header-global.slim .wrapper-header .list-inline.nav-global {margin:0;}
