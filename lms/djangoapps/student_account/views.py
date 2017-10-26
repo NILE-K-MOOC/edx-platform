@@ -378,6 +378,135 @@ def login_and_registration_form(request, initial_mode="login"):
 
     return render_to_response('student_account/login_and_register.html', context)
 
+# -------------------- nice check -------------------- #
+@csrf_exempt
+def nicecheckplus(request):
+    print 'nicecheckplus called'
+
+    enc_data = request.POST['EncodeData']
+
+    print 'enc_data s -----------------'
+    print enc_data
+    print 'enc_data e -----------------'
+
+    sSiteCode = 'AD521'
+    sitepasswd = 'z0lWlstxnw0u'
+
+    sRequestNumber = "REQ0000000001"
+    sAuthType = ""
+    sReturnUrl = "http://192.168.44.10:8000/nicecheckplus"
+    sErrorUrl = "http://192.168.44.10:8000/nicecheckplus_error"
+    popgubun = "N"
+    customize = ""
+    sGender = ""
+    return_msg = ""
+
+    cb_encode_path = '/edx/app/edxapp/CPClient'
+
+    plaindata = commands.getoutput(cb_encode_path + ' DEC ' + sSiteCode + ' ' + sitepasswd + ' ' + enc_data)
+
+    context = {}
+
+    print 'plaindata ==> ', plaindata
+    print type(plaindata)
+    print plaindata
+
+    if plaindata == -1:
+        return_msg = "암/복호화 시스템 오류"
+    elif plaindata == -4:
+        return_msg = "복호화 처리 오류"
+    elif plaindata == -5:
+        return_msg = "HASH값 불일치 - 복호화 데이터는 리턴됨"
+    elif plaindata == -6:
+        return_msg = "복호화 데이터 오류"
+    elif plaindata == -9:
+        return_msg = "입력값 오류"
+    elif plaindata == -12:
+        return_msg = "사이트 비밀번호 오류"
+    else:
+        # 복호화가 정상적일 경우 데이터를 파싱합니다.
+        result_dict = {}
+
+        str = plaindata
+        pos1 = 0
+
+        while pos1 <= len(str):
+            pos1 = str.find(':')
+            # print 'while gogo'
+            # print 'pos1:', pos1
+
+            key_size = int(str[:pos1])
+            # print 'key_size:', key_size
+
+            str = str[pos1 + 1:]
+            # print 'str:', str
+
+            key = str[:key_size]
+            # print 'key:', key
+
+            str = str[key_size:]
+            # print 'str:', str
+
+            pos2 = str.find(':')
+            # print 'pos2:', pos2
+
+            val_size = int(str[:pos2])
+            # print 'val_size:', val_size
+
+            val = str[pos2 + 1: pos2 + val_size + 1]
+            # print 'val:', val
+
+            result_dict[key] = val
+            # print 'str111:', str
+            str = str[pos2 + val_size + 1:]
+            # print 'str222:', str
+
+        cipher_time = commands.getoutput(cb_encode_path + ' CTS ' + sSiteCode + ' ' + sitepasswd + ' ' + enc_data)  # 암호화된 결과 데이터 검증 (복호화한 시간획득)
+
+        print 'result_dict s -----------------------------------------', cipher_time
+        print result_dict
+        print 'result_dict e -----------------------------------------'
+
+        # requestnumber = GetValue(plaindata, "REQ_SEQ");
+        # responsenumber = GetValue(plaindata, "RES_SEQ");
+        # authtype = GetValue(plaindata, "AUTH_TYPE");
+        # name = GetValue(plaindata, "NAME");
+        # # name = GetValue(plaindata , "UTF8_NAME"); # charset utf8 사용시 주석 해제 후 사용
+        # birthdate = GetValue(plaindata, "BIRTHDATE");
+        # gender = GetValue(plaindata, "GENDER");
+        # nationalinfo = GetValue(plaindata, "NATIONALINFO");  # 내/외국인정보(사용자 매뉴얼 참조)
+        # dupinfo = GetValue(plaindata, "DI");
+        # conninfo = GetValue(plaindata, "CI");
+        # mobileno = GetValue(plaindata, "MOBILE_NO");
+        # mobileco = GetValue(plaindata, "MOBILE_CO");
+        #
+        # context['requestnumber'] = requestnumber
+        # context['responsenumber'] = responsenumber
+        # context['authtype'] = authtype
+        # context['name'] = name
+        # context['birthdate'] = birthdate
+        # context['gender'] = gender
+        # context['nationalinfo'] = nationalinfo
+        # context['dupinfo'] = dupinfo
+        # context['conninfo'] = conninfo
+        # context['mobileno'] = mobileno
+        # context['mobileco'] = mobileco
+
+    context['return_msg'] = return_msg
+
+    print 'nice return values s -----------------------------------'
+    print context
+    print 'nice return values e -----------------------------------'
+
+    return render_to_response('student_account/nicecheckplus.html', context)
+
+
+@csrf_exempt
+def nicecheckplus_error(request):
+    print 'nicecheckplus_error called'
+
+    return render_to_response('student_account/nicecheckplus_error.html')
+# -------------------- nice check -------------------- #
 
 def redirectTo(request, redirectTo):
     '''redirect for https..'''
