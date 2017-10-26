@@ -19,7 +19,8 @@
                 {name: 'accountsTabSections', id: 'accounts-tab', label: gettext('Linked Accounts')},
             ],
             events: {
-                'click .account-nav-link': 'changeTab'
+                'click .account-nav-link': 'changeTab',
+                'click #nicecheck': 'nicecheck'
             },
 
             initialize: function (options) {
@@ -34,6 +35,10 @@
                 }));
                 this.renderSection(this.options.tabSections[this.activeTab]);
                 return this;
+            },
+
+            nicecheck: function(e) {
+                alert(333);
             },
 
             changeTab: function(e) {
