@@ -394,8 +394,8 @@ def nicecheckplus(request):
 
     sRequestNumber = "REQ0000000001"
     sAuthType = ""
-    sReturnUrl = "http://192.168.44.10:8000/nicecheckplus"
-    sErrorUrl = "http://192.168.44.10:8000/nicecheckplus_error"
+    sReturnUrl = "http://192.168.33.20:8000/nicecheckplus"
+    sErrorUrl = "http://192.168.33.20:8000/nicecheckplus_error"
     popgubun = "N"
     customize = ""
     sGender = ""
