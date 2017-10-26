@@ -1,7 +1,15 @@
+<% if (id === 'name') { %>
+<div class="u-field-value field">
+    <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>
+    <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" style="width: 70%;" />
+    <input class="u-field-link u-field-link-title-password " type="button" id="nicecheck" title="nicecheck" aria-describedby="u-field-message-help-nicecheck" name="nicecheck" value="실명인증" style="width: 27%; float: right;" />
+</div>
+<% } else { %>
 <div class="u-field-value field">
     <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>
     <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" />
 </div>
+<% } %>
 <span class="u-field-message" id="u-field-message-<%- id %>">
     <span class="u-field-message-notification" aria-live="polite"></span>
     <span class="u-field-message-help" id="u-field-message-help-<%- id %>"> <%- message %></span>

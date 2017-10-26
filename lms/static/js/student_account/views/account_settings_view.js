@@ -17,7 +17,6 @@
             accountSettingsTabs: [
                 {name: 'aboutTabSections', id: 'about-tab', label: gettext('Account Information'), class: 'active'},
                 {name: 'accountsTabSections', id: 'accounts-tab', label: gettext('Linked Accounts')},
-                //{name: 'ordersTabSections', id: 'orders-tab', label: gettext('Order History')}
             ],
             events: {
                 'click .account-nav-link': 'changeTab'
