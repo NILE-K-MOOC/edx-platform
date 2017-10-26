@@ -38,7 +38,10 @@
             },
 
             nicecheck: function(e) {
-                alert(333);
+                window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+                document.form2.target = "popupNICE";
+                document.form2.submit();
+
             },
 
             changeTab: function(e) {
