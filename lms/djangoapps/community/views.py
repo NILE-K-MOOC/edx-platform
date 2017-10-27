@@ -113,22 +113,22 @@ def comm_notice(request):
                               ELSE ''
                            END
                               head_title
-                      FROM tb_board
-                     WHERE section = 'N' AND use_yn = 'Y'
+                    FROM tb_board
+                    WHERE section = 'N' AND use_yn = 'Y'
             """ % (page)
             if 'cur_page' in request.GET:
                 cur_page = request.GET['cur_page']
                 if cur_page == '1':
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit 0,10"
                     cur.execute(query)
                 else:
                     start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit %s,10" % (start_num)
                     cur.execute(query)
             else:
-                query += "order by reg_date desc " \
+                query += "order by odby desc, reg_date desc " \
                          "limit 0,10"
                 cur.execute(query)
             row = cur.fetchall()
@@ -255,13 +255,20 @@ def comm_notice_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',str(files)
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -411,6 +418,7 @@ def comm_faqrequest(request):
                                           WHEN '""" + option + """' = 'course_f ' THEN '강좌수강'
                                           WHEN '""" + option + """' = 'certi_f  ' THEN '성적/이수증'
                                           WHEN '""" + option + """' = 'tech_f ' THEN '기술적문제'
+                                          WHEN '""" + option + """' = 'mobile_f ' THEN '모바일문제'
                                           ELSE ''
                                        END));
             """
@@ -457,9 +465,9 @@ def comm_repository(request):
                            END
                               flag,
                            CASE
-                              WHEN head_title = 'publi_r' THEN '홍보'
-                              WHEN head_title = 'course_r' THEN '강좌안내'
-                              WHEN head_title = 'event_r' THEN '행사'
+                              WHEN head_title = 'publi_r' THEN '홍보자료'
+                              WHEN head_title = 'data_r' THEN '자료집'
+                              WHEN head_title = 'repo_r' THEN '보고서'
                               WHEN head_title = 'etc_r' THEN '기타'
                               ELSE ''
                            END
@@ -470,16 +478,16 @@ def comm_repository(request):
             if 'cur_page' in request.GET:
                 cur_page = request.GET['cur_page']
                 if cur_page == '1':
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit 0,10"
                     cur.execute(query)
                 else:
                     start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit %s,10" % (start_num)
                     cur.execute(query)
             else:
-                query += "order by reg_date desc " \
+                query += "order by odby desc, reg_date desc " \
                          "limit 0,10"
                 cur.execute(query)
             row = cur.fetchall()
@@ -600,13 +608,20 @@ def comm_repo_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',files
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -808,13 +823,20 @@ def comm_mobile_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',str(files)
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
@@ -893,16 +915,16 @@ def comm_k_news(request):
             if 'cur_page' in request.GET:
                 cur_page = request.GET['cur_page']
                 if cur_page == '1':
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit 0,10"
                     cur.execute(query)
                 else:
                     start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
+                    query += "order by odby desc, reg_date desc " \
                              "limit %s,10" % (start_num)
                     cur.execute(query)
             else:
-                query += "order by reg_date desc " \
+                query += "order by odby desc, reg_date desc " \
                          "limit 0,10"
                 cur.execute(query)
             row = cur.fetchall()
@@ -1027,13 +1049,20 @@ def comm_k_news_view(request, board_id):
             cur.execute(query)
             row = cur.fetchall()
             cur.close()
-            # 파일 이름 구하기
+
+            # ----- 파일 이름 구하기 query ----- #
             cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and board_id = " + board_id
+            query = '''
+                SELECT attatch_file_name 
+                FROM   tb_board_attach 
+                WHERE  attatch_file_name <> 'None' 
+                AND    board_id = {0}
+                AND    del_yn = 'N'
+            '''.format(board_id)
             cur.execute(query)
             files = cur.fetchall()
             cur.close()
-            # print 'files == ',files
+            # ----- 파일 이름 구하기 query ----- #
 
             value_list.append(row[0][0])
             value_list.append(row[0][1])
