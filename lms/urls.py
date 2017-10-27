@@ -28,6 +28,11 @@ urlpatterns = (
     '',
 
     url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
+
+    # ---------- multi site ---------- #
+    url(r'^org/hello$', 'branding.views.multisite_index', name="root"),  # Main marketing page, or redirect to courseware
+    # ---------- multi site ---------- #
+
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),

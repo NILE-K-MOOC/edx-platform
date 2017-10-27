@@ -46,6 +46,58 @@ def get_course_enrollments(user):
         ]
     return site_enrollments
 
+# --------------- multisite index --------------- #
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def multisite_index(request):
+    '''
+    Redirects to main page -- info page if user authenticated, or marketing if not
+    '''
+    print 'def index called'
+
+    if request.user.is_authenticated():
+        # Only redirect to dashboard if user has
+        # courses in his/her dashboard. Otherwise UX is a bit cryptic.
+        # In this case, we want to have the user stay on a course catalog
+        # page to make it easier to browse for courses (and register)
+
+        if configuration_helpers.get_value(
+                'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
+                settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
+            pass
+            # return redirect(reverse('dashboard'))
+
+    if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
+        from external_auth.views import ssl_login
+        # Set next URL to dashboard if it isn't set to avoid
+        # caching a redirect to / that causes a redirect loop on logout
+        if not request.GET.get('next'):
+            req_new = request.GET.copy()
+            req_new['next'] = reverse('dashboard')
+            request.GET = req_new
+        return ssl_login(request)
+
+    enable_mktg_site = configuration_helpers.get_value(
+        'ENABLE_MKTG_SITE',
+        settings.FEATURES.get('ENABLE_MKTG_SITE', False)
+    )
+
+    if enable_mktg_site:
+        return redirect(settings.MKTG_URLS.get('ROOT'))
+
+    domain = request.META.get('HTTP_HOST')
+
+    # keep specialized logic for Edge until we can migrate over Edge to fully use
+    # configuration.
+    if domain and 'edge.edx.org' in domain:
+        return redirect(reverse("signin_user"))
+
+    #  we do not expect this case to be reached in cases where
+    #  marketing and edge are enabled
+
+
+    return student.views.multisite_index(request, user=request.user)
+# --------------- multisite index --------------- #
 
 @ensure_csrf_cookie
 @cache_if_anonymous()

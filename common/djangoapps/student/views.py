@@ -145,6 +145,234 @@ def csrf_token(context):
     return (u'<div style="display:none"><input type="hidden"'
             ' name="csrfmiddlewaretoken" value="%s" /></div>' % (token))
 
+# -------------------- multi site -------------------- #
+def multisite_index(request, extra_context=None, user=AnonymousUser()):
+    print "#####################"
+    """
+    Render the edX main page.
+
+    extra_context is used to allow immediate display of certain modal windows, eg signup,
+    as used by external_auth.
+    """
+    if extra_context is None:
+        extra_context = {}
+
+    user = request.user
+
+    # courses = get_courses(user)
+    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+
+    f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
+                                     'enrollment_start__lte': datetime.datetime.now()}
+    log.info(f1)
+    courses1 = get_courses(user, filter_=f1)
+
+    f2 = {'enrollment_start__isnull': False} if user.is_staff else {'enrollment_start__isnull': False,
+                                                                    'start__lte': datetime.datetime.now(),
+                                                                    'enrollment_start__lte': datetime.datetime.now()}
+    log.info(f2)
+    courses2 = get_courses(user, filter_=f2)
+
+    # print 'get course test ------------------------------------------------------- e'
+
+    # if configuration_helpers.get_value(
+    #         "ENABLE_COURSE_SORTING_BY_START_DATE",
+    #         settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
+    # ):
+    #     courses = sort_by_start_date(courses)
+    # else:
+    #     courses = sort_by_announcement(courses)
+
+    # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
+
+    print 'user.is_staff:', user.is_staff
+
+    if user and user.is_staff:
+        pass
+    else:
+        if courses1 and len(courses1) > 4:
+            courses1 = courses1[:4]
+
+    if user and user.is_staff:
+        courses = courses1
+    else:
+        courses = courses1 + courses2
+    courses = [c for c in courses if not c.has_ended()]
+    log.info(u'len(courses) ::: %s', len(courses))
+
+    if user and user.is_staff:
+        pass
+    else:
+        courses = courses[:8]
+
+    # print 'courses check s ---------------------------------------------------'
+    # for c in courses:
+    #     print c.id
+    # print 'courses check e ---------------------------------------------------'
+
+
+    context = {'courses': courses}
+
+    context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
+
+    # This appears to be an unused context parameter, at least for the master templates...
+    context['show_partners'] = configuration_helpers.get_value('show_partners', True)
+
+    # TO DISPLAY A YOUTUBE WELCOME VIDEO
+    # 1) Change False to True
+    context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
+
+    # 2) Add your video's YouTube ID (11 chars, eg "123456789xX"), or specify via site configuration
+    # Note: This value should be moved into a configuration setting and plumbed-through to the
+    # context via the site configuration workflow, versus living here
+    youtube_video_id = configuration_helpers.get_value('homepage_promo_video_youtube_id', "your-youtube-id")
+    context['homepage_promo_video_youtube_id'] = youtube_video_id
+
+    # allow for theme override of the courses list
+    context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
+
+    # allow for theme override of the boards list
+    context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    total_list = []
+    cur = con.cursor()
+    query = """
+            (  SELECT board_id,
+                 CASE
+                     WHEN head_title = 'noti_n' THEN '[공지]'
+                     WHEN head_title = 'advert_n' THEN '[공고]'
+                     WHEN head_title = 'guide_n' THEN '[안내]'
+                     WHEN head_title = 'event_n' THEN '[이벤트]'
+                     WHEN head_title = 'etc_n' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
+                FROM tb_board
+               WHERE section = 'N'
+               and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+        union all
+            (  SELECT board_id,
+                 CASE
+                     WHEN head_title = 'k_news_k' THEN '[K-MOOC소식]'
+                     WHEN head_title = 'report_k' THEN '[보도자료]'
+                     WHEN head_title = 'u_news_k' THEN '[대학뉴스]'
+                     WHEN head_title = 'support_k' THEN '[서포터즈이야기]'
+                     WHEN head_title = 'n_new_k' THEN '[NILE소식]'
+                     WHEN head_title = 'etc_k' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
+                     subject,
+                     mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
+                FROM tb_board
+               WHERE section = 'K'
+               and use_yn = 'Y'
+            ORDER BY mod_date DESC
+                limit 4)
+        union all
+            (  SELECT board_id,
+                 CASE
+                     WHEN head_title = 'publi_r' THEN '[홍보자료]'
+                     WHEN head_title = 'data_r' THEN '[자료집]'
+                     WHEN head_title = 'repo_r' THEN '[보고서]'
+                     WHEN head_title = 'etc_r' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
+                FROM tb_board
+               WHERE section = 'R'
+               and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+        union all
+            (  SELECT board_id,
+                 CASE
+                      WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+                      WHEN head_title = 'regist_f ' THEN '[회원가입]'
+                      WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+                      WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+                      WHEN head_title = 'course_f ' THEN '[강좌수강]'
+                      WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+                      WHEN head_title = 'tech_f ' THEN '[기술적문제]'
+                      ELSE ''
+                   END
+                      head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     head_title
+                FROM tb_board
+               WHERE section = 'F'
+                 and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+        union all
+            (  SELECT board_id,
+                     '' head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     head_title
+                FROM tb_board
+               WHERE section = 'M'
+                 and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+
+    """
+
+    index_list = []
+    cur.execute(query)
+    row = cur.fetchall()
+    for i in row:
+        value_list = []
+        value_list.append(i[0])
+        value_list.append(i[1])
+        value_list.append(i[2])
+        s = i[3]
+        text = re.sub('<[^>]*>', '', s)
+        text = re.sub('&nbsp;', '', text)
+        text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
+        text1 = re.sub('/home/project/management/home/static/upload/', '', text)
+        # text1 = re.sub('/manage/home/static/excel/notice_file/', '', text)
+        text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
+        # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
+        value_list.append(text[0:200])
+        value_list.append(i[4])
+        value_list.append(i[5])
+        value_list.append(i[6])
+        value_list.append(text1)
+        index_list.append(value_list)
+
+    context['index_list'] = index_list
+
+    # Insert additional context for use in the template
+    context.update(extra_context)
+
+    return render_to_response('multisite_index.html', context)
+# -------------------- multi site -------------------- #
 
 # NOTE: This view is not linked to directly--it is called from
 # branding/views.py:index(), which is cached for anonymous users.

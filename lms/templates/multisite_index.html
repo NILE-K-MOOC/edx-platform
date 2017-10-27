@@ -1,0 +1,285 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<script type="text/javascript" src="/static/js/vendor/script.js"></script>
+<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+        <!-- [s] main top -->
+        <header>
+            <div class="header-slider">
+                <div class="slider-back">
+                    <div class="outer-wrapper">
+                        <div class="title">
+                            <div class="heading-group">
+                                % if LANGUAGE_CODE == 'ko-kr':
+                                <h1>미래를 여는 최고의 강좌</h1>
+                                <p>K-MOOC, Top Quality Courses</p><br/>
+                                    <p>for Your Future</p>
+                                % else:
+                                <h1>K-MOOC, Top Quality Courses <br/>
+                                    for Your Future</h1>
+                                % endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-back">
+                    <div class="outer-wrapper animation-title-appear">
+                        <div class="title">
+                            <div class="heading-group">
+                                % if LANGUAGE_CODE == 'ko-kr':
+                                <h1>누구에게나 열린 평생교육</h1>
+                                <p>A Lifelong Open Education</p><br/>
+                                <p>for Everyone</p>
+                                % else:
+                                <h1>A Lifelong Open Education<br/>for Everyone</h1>
+                                % endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-back">
+                    <div class="outer-wrapper">
+                        <div class="title">
+                            <div class="heading-group">
+                                % if LANGUAGE_CODE == 'ko-kr':
+                                <h1>오늘의 필요를 위한 학습</h1>
+                                <p>Just-in-time Learning for Today</p>
+                                % else:
+                                <h1>Just-in-time Learning for Today</h1>
+                                % endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- [e] main top -->
+
+        <!-- [s] course list -->
+        <section class="courses-container full" id="main-contents05">
+            <%include file="${courses_list}" />
+        </section>
+        <!-- [e] course list -->
+
+        % if LANGUAGE_CODE == 'ko-kr':
+        <!-- [s] community list -->
+        <section class="community-container" id="main-contents06" title="커뮤니티">
+            <h2 class="main-title"></h2>
+            <div class="community-container-wrap">
+                <!-- community 00 -->
+                <a href="#community00" class="on" title="전체">전체</a>
+                <div class="grid-container grid-manual community" id="community00">
+                    <div class="row" id="total">
+                    </div>
+                </div>
+                <!--// community 00 -->
+                <!-- community 01 -->
+                <a href="#community01" title="공지사항">공지사항</a>
+                <div class="grid-container grid-manual community" id="community01">
+                    <div class="row">
+                        % for list in index_list :
+                        % if list[5] == 'N':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
+                            <div class="community-item">
+                                <a href="/comm_notice_view/${list[0]}/">
+                                    <h3>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
+                                   <!-- <time>${list[4]}</time> -->
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_notice" style="margin-top: 20px;" title="공지사항 더보기">더보기</a>
+                    </div>
+                </div>
+                <!--// community 01 -->
+                <!-- community 02 -->
+                <a href="#community02" title="K-MOOC 뉴스">K-MOOC 뉴스</a>
+                <!-- <div class="grid-container grid-manual community" id="community02">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'K':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
+                            <div class="community-item">
+                                <a href="/comm_k_news_view/${list[0]}/">
+                                    <h3>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <p class="summary">${list[3]}</p>
+                                    <time>${list[4]}</time>
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                </div> -->
+                <div class="grid-container grid-manual community" id="community02">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'K':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
+                            <div class="community-item">
+                                <a href="/comm_k_news_view/${list[0]}/">
+                                <h3 style="background-image: url(${list[3]}); background-size: 100% 100%;" title="${list[7]}">
+                                </h3>
+                                    <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_k_news" style="margin-top: 20px;" title="K-MOOC 뉴스 더보기">더보기</a>
+                    </div>
+                </div>
+                <!--// community 02 -->
+                <!-- community 03 -->
+                <a href="#community03" title="자료실">자료실</a>
+                <div class="grid-container grid-manual community" id="community03">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'R':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
+                            <div class="community-item">
+                                <a href="/comm_repo_view/${list[0]}/">
+                                    <h3>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_repository" style="margin-top: 20px;" title="자료실 더보기">더보기</a>
+                    </div>
+                </div>
+                <!--// community 03 -->
+                <!-- community 04 -->
+                <a href="#community04" title="Q&A">Q&A</a>
+                <div class="grid-container grid-manual community" id="community04">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'F':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
+                            <div class="community-item">
+                                <a href="/comm_faq/${list[6]}/">
+                                    <h3>
+                                        <strong class="category">${list[1]}</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
+
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;" title="Q&A 더보기">더보기</a>
+                    </div>
+                </div>
+                <!--// community 04 -->
+                <!--
+                <a href="#community05" title="모바일">모바일</a>
+                <div class="grid-container grid-manual community" id="community05">
+                    <div class="row">
+                    % for list in index_list :
+                        % if list[5] == 'M':
+                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
+                            <div class="community-item">
+                                <a href="/comm_mobile_view/${list[0]}/">
+                                    <h3>
+                                        <strong class="category">[모바일]</strong>
+                                        <p>${list[2]}</p>
+                                    </h3>
+                                    <time>${list[4]}</time>
+                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
+                                </a>
+                            </div>
+                        </div>
+                        % endif
+                    % endfor
+                    </div>
+                    <div align="right" class="btns">
+                        <a class="btn-neutral" href="comm_mobile" style="margin-top: 20px;" title="모바일 더보기">더보기</a>
+                    </div>
+                </div>
+                -->
+
+            </div>
+        </section>
+        <!-- [e] community list -->
+        % endif
+    </section>
+</main>
+
+
+% if show_homepage_promo_video:
+  <section id="video-modal" class="modal home-page-video-modal video-modal" title="비디오">
+    <div class="inner-wrapper">
+      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section>
+% endif
+
+<%block name="js_extra">
+   <script type="text/javascript">
+        $(window).load(function() {
+            if(getParameterByName('next')) {
+                $('#login').trigger("click");
+            }
+        });
+   </script>
+</%block>
+
+<script type="text/javascript">
+$(function(){
+	$(".smooth-move").on("click", function(event){
+        event.preventDefault();
+        /*
+        var hashbang = $("#"+$(this).data("hashbang")).offset();
+        $('html body').animate({scrollTop: hashbang.top-110}, 'slow');*/
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        console.log('ua:' + ua );
+        console.log('msie:' + msie);
+
+        if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+            document.documentElement.scrollTop = $(window).scrollTop();
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+            $('html, body').animate({scrollTop: hashbang.top-110}, 'slow');
+        }else{
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+            $('html body').animate({scrollTop: hashbang.top-110}, 'slow');
+        }
+	});
+})
+</script>
