@@ -666,122 +666,63 @@ def account_settings_context(request):
 
     """
     # -------------------- nice core -------------------- #
-    """
-    enc_data = request.POST['EncodeData']
+    nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/CPClient'
 
-    print 'enc_data s -----------------'
-    print enc_data
-    print 'enc_data e -----------------'
+    nice_authtype       = ''                           # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun       = 'N'                          # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize      = ''                           # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender         = ''                           # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq         = 'REQ0000000001'              # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+                                                       # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
 
-    sSiteCode = 'AD521'
-    sitepasswd = 'z0lWlstxnw0u'
+    nice_returnurl      = "http://192.168.33.20:8000/nicecheckplus"        # 성공시 이동될 URL
+    nice_errorurl       = "http://192.168.33.20:8000/nicecheckplus_error"  # 실패시 이동될 URL
+    nice_returnMsg      = ''
 
-    sRequestNumber = "REQ0000000001"
-    sAuthType = ""
-    sReturnUrl = "http://192.168.33.20:8000/nicecheckplus"
-    sErrorUrl = "http://192.168.33.20:8000/nicecheckplus_error"
-    popgubun = "N"
-    customize = ""
-    sGender = ""
-    return_msg = ""
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
+                .format(len(nice_reqseq),nice_reqseq,
+                        len(nice_sitecode),nice_sitecode,
+                        len(nice_authtype),nice_authtype,
+                        len(nice_returnurl),nice_returnurl,
+                        len(nice_errorurl),nice_errorurl,
+                        len(nice_popgubun),nice_popgubun,
+                        len(nice_customize),nice_customize,
+                        len(nice_gender),nice_gender )
 
-    cb_encode_path = '/edx/app/edxapp/CPClient'
+    nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+    enc_data = commands.getoutput(nice_command)
 
-    plaindata = commands.getoutput(cb_encode_path + ' DEC ' + sSiteCode + ' ' + sitepasswd + ' ' + enc_data)
+    print enc_data #DEBUG
 
-    context = {}
+    if enc_data == -1 :
+        nice_returnMsg = "암/복호화 시스템 오류입니다."
+        enc_data = ""
+    elif enc_data== -2 :
+        nice_returnMsg = "암호화 처리 오류입니다."
+        enc_data = ""
+    elif enc_data== -3 :
+        nice_returnMsg = "암호화 데이터 오류 입니다."
+        enc_data = ""
+    elif enc_data== -9 :
+        nice_returnMsg = "입력값 오류 입니다."
+        enc_data = ""
 
-    print 'plaindata ==> ', plaindata
-    print type(plaindata)
-    print plaindata
-
-    if plaindata == -1:
-        return_msg = "암/복호화 시스템 오류"
-    elif plaindata == -4:
-        return_msg = "복호화 처리 오류"
-    elif plaindata == -5:
-        return_msg = "HASH값 불일치 - 복호화 데이터는 리턴됨"
-    elif plaindata == -6:
-        return_msg = "복호화 데이터 오류"
-    elif plaindata == -9:
-        return_msg = "입력값 오류"
-    elif plaindata == -12:
-        return_msg = "사이트 비밀번호 오류"
-    else:
-        # 복호화가 정상적일 경우 데이터를 파싱합니다.
-        result_dict = {}
-
-        str = plaindata
-        pos1 = 0
-
-        while pos1 <= len(str):
-            pos1 = str.find(':')
-            # print 'while gogo'
-            # print 'pos1:', pos1
-
-            key_size = int(str[:pos1])
-            # print 'key_size:', key_size
-
-            str = str[pos1 + 1:]
-            # print 'str:', str
-
-            key = str[:key_size]
-            # print 'key:', key
-
-            str = str[key_size:]
-            # print 'str:', str
-
-            pos2 = str.find(':')
-            # print 'pos2:', pos2
-
-            val_size = int(str[:pos2])
-            # print 'val_size:', val_size
-
-            val = str[pos2 + 1: pos2 + val_size + 1]
-            # print 'val:', val
-
-            result_dict[key] = val
-            # print 'str111:', str
-            str = str[pos2 + val_size + 1:]
-            # print 'str222:', str
-
-        cipher_time = commands.getoutput(cb_encode_path + ' CTS ' + sSiteCode + ' ' + sitepasswd + ' ' + enc_data)  # 암호화된 결과 데이터 검증 (복호화한 시간획득)
-
-        print 'result_dict s -----------------------------------------', cipher_time
-        print result_dict
-        print 'result_dict e -----------------------------------------'
-
-        # requestnumber = GetValue(plaindata, "REQ_SEQ");
-        # responsenumber = GetValue(plaindata, "RES_SEQ");
-        # authtype = GetValue(plaindata, "AUTH_TYPE");
-        # name = GetValue(plaindata, "NAME");
-        # # name = GetValue(plaindata , "UTF8_NAME"); # charset utf8 사용시 주석 해제 후 사용
-        # birthdate = GetValue(plaindata, "BIRTHDATE");
-        # gender = GetValue(plaindata, "GENDER");
-        # nationalinfo = GetValue(plaindata, "NATIONALINFO");  # 내/외국인정보(사용자 매뉴얼 참조)
-        # dupinfo = GetValue(plaindata, "DI");
-        # conninfo = GetValue(plaindata, "CI");
-        # mobileno = GetValue(plaindata, "MOBILE_NO");
-        # mobileco = GetValue(plaindata, "MOBILE_CO");
-        #
-        # context['requestnumber'] = requestnumber
-        # context['responsenumber'] = responsenumber
-        # context['authtype'] = authtype
-        # context['name'] = name
-        # context['birthdate'] = birthdate
-        # context['gender'] = gender
-        # context['nationalinfo'] = nationalinfo
-        # context['dupinfo'] = dupinfo
-        # context['conninfo'] = conninfo
-        # context['mobileno'] = mobileno
-        # context['mobileco'] = mobileco
-
-    context['return_msg'] = return_msg
-
-    print 'nice return values s -----------------------------------'
-    print context
-    print 'nice return values e -----------------------------------'
-    """
+    # ----- DEBUG ----- #
+    print "nice_sitecode = {}".format(nice_sitecode)
+    print "nice_sitepasswd = {}".format(nice_sitepasswd)
+    print "nice_cb_encode_path = {}".format(nice_cb_encode_path)
+    print "nice_authtype = {}".format(nice_authtype)
+    print "nice_popgubun = {}".format(nice_popgubun)
+    print "nice_customize = {}".format(nice_customize)
+    print "nice_gender = {}".format(nice_gender)
+    print "nice_reqseq = {}".format(nice_reqseq)
+    print "nice_returnurl = {}".format(nice_returnurl)
+    print "nice_errorurl = {}".format(nice_errorurl)
+    print "plaindata = {}".format(plaindata)
+    print "enc_data = {}".format(enc_data)
+    # ----- DEBUG ----- #
     # -------------------- nice core -------------------- #
 
     user = request.user
@@ -799,6 +740,7 @@ def account_settings_context(request):
     countries_list.insert(0, (u'KR', u'South Korea'))
 
     context = {
+        'enc_data': enc_data,
         'auth': {},
         'duplicate_provider': None,
         'fields': {
