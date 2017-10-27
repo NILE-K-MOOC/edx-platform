@@ -1587,13 +1587,22 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
             cur = con.cursor()
-            query = "SELECT email, dormant_mail_cd, dormant_yn FROM auth_user where email= '" + email + "'"
-            cur.execute(query)
+            query = '''
+              SELECT email, dormant_mail_cd, dormant_yn
+                FROM auth_user
+              where email= %s
+            '''
+            cur.execute(query, [email])
             row = cur.fetchone()
 
+            context = {
+                'active_account_url': '/active_account/%s' % email
+            }
+
+            print 'context:', context
+
             if row[2] != None and row[2] == 'Y':
-                print 'drmt_login'
-                return render_to_response("drmt_login.html")
+                return render_to_response("drmt_login.html", context)
 
         except User.DoesNotExist:
             if settings.FEATURES['SQUELCH_PII_IN_LOGS']:
@@ -2275,6 +2284,65 @@ def _record_registration_attribution(request, user):
     affiliate_id = request.COOKIES.get(settings.AFFILIATE_COOKIE_NAME)
     if user is not None and affiliate_id is not None:
         UserAttribute.set_user_attribute(user, REGISTRATION_AFFILIATE_ID, affiliate_id)
+
+
+@csrf_exempt
+def active_account(request, email):
+
+    user = User.objects.get(email=email)
+
+    with connections['default'].cursor() as cur:
+        query = """
+            UPDATE auth_user a
+                   INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+               SET a.username = b.username,
+                   a.first_name = b.first_name,
+                   a.last_name = b.last_name,
+                   a.email = b.email,
+                   a.password = b.password,
+                   a.dormant_yn = 'N'
+             WHERE a.id = %s;
+        """
+
+        cur.execute(query, [user.id])
+
+        query = """
+            UPDATE auth_userprofile a
+                   INNER JOIN drmt_auth_userprofile b
+                      ON b.dormant_yn = 'Y' AND a.id = b.id
+               SET a.name = b.name,
+                   a.language = b.language,
+                   a.location = b.location,
+                   a.meta = b.meta,
+                   a.gender = b.gender,
+                   a.mailing_address = b.mailing_address,
+                   a.year_of_birth = b.year_of_birth,
+                   a.level_of_education = b.level_of_education,
+                   a.goals = b.goals,
+                   a.country = b.country,
+                   a.city = b.city,
+                   a.bio = b.bio
+             WHERE a.id = %s;
+        """
+
+        cur.execute(query, [user.id])
+
+        query = """
+            UPDATE drmt_auth_user
+               SET dormant_yn = 'N'
+             WHERE dormant_yn = 'Y' AND id = %s;
+        """
+        cur.execute(query, [user.id])
+
+
+        query = """
+            UPDATE drmt_auth_userprofile
+               SET dormant_yn = 'N'
+             WHERE dormant_yn = 'Y' AND id = %s;
+        """
+        cur.execute(query, [user.id])
+
+    return redirect('/login')
 
 
 @csrf_exempt
