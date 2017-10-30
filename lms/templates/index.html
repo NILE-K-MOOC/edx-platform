@@ -69,11 +69,20 @@ from openedx.core.djangolib.markup import HTML, Text
         % endif
         % if pop[0] == 'I':
         <!--popup K-mooc(2)-->
+
         <div id="popupWrap_2${pop[16]}" class="layerPupup popupWrap_2" >
             <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
                 <a href=${pop[6]} target="_" + ${pop[7]}>
-                    <img src="${pop[5]}" alt="플러스 친구" usemap="#map1">
+                    <img src="${pop[5]}" alt="플러스 친구" usemap="#map1" id="Test">
                 </a>
+                <script>
+                    var max_width = ${pop[13]};
+                    var max_height = ${pop[14]};
+                    max_width = max_width - 10;
+                    max_height = max_height - 55;
+                    $('#Test').css('width', max_width);
+                    $('#Test').css('height', max_height);
+                </script>
             </p>
 
             <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
