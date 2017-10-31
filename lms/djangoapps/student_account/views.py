@@ -66,6 +66,8 @@ import datetime
 from django.contrib.auth import logout
 from pymongo import MongoClient
 from django.db import connections
+import ast
+import urllib
 
 # def job():
 #     print("I'm working...")
@@ -753,8 +755,6 @@ def account_settings_context(request):
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
     enc_data = commands.getoutput(nice_command)
 
-    print enc_data #DEBUG
-
     if enc_data == -1 :
         nice_returnMsg = "암/복호화 시스템 오류입니다."
         enc_data = ""
@@ -769,6 +769,7 @@ def account_settings_context(request):
         enc_data = ""
 
     # ----- DEBUG ----- #
+    """
     print "nice_sitecode = {}".format(nice_sitecode)
     print "nice_sitepasswd = {}".format(nice_sitepasswd)
     print "nice_cb_encode_path = {}".format(nice_cb_encode_path)
@@ -781,8 +782,65 @@ def account_settings_context(request):
     print "nice_errorurl = {}".format(nice_errorurl)
     print "plaindata = {}".format(plaindata)
     print "enc_data = {}".format(enc_data)
+    """
     # ----- DEBUG ----- #
     # -------------------- nice core -------------------- #
+
+    # -------------------- nice check -------------------- #
+    try:
+        edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+        edx_user_email = str(edx_user_info['email'])
+    except BaseException:
+        edx_user_info = ''
+        edx_user_email = ''
+
+    # ----- get user_id query ----- #
+    with connections['default'].cursor() as cur:
+        try:
+            query = """
+            SELECT plain_data 
+            FROM   edxapp.auth_user_nicecheck 
+            WHERE  user_id IN (SELECT id 
+                               FROM   edxapp.auth_user 
+                               WHERE  email = '{0}'); 
+            """.format(edx_user_email)
+            cur.execute(query)
+            table = cur.fetchall()
+            nice_info = table[0][0]
+        except BaseException:
+            nice_info = None
+    # ----- get user_id query ----- #
+
+    if nice_info != None:
+        nice_dict = ast.literal_eval(nice_info)
+
+        # created user gender
+        user_gender = str(nice_dict['GENDER'])
+        if user_gender == '1':
+            user_gender = '남자'
+        elif user_gender == '2':
+            user_gender = '여자'
+
+        # created user birth day
+        user_birthday = nice_dict['BIRTHDATE']
+        user_birthday_y = str(user_birthday[0:4])
+        user_birthday_m = str(user_birthday[4:6])
+        user_birthday_d = str(user_birthday[6:8])
+        user_birthday = "{0}.{1}.{2}".format(user_birthday_y, user_birthday_m, user_birthday_d)
+
+        # created user name
+        user_name = nice_dict['UTF8_NAME']
+        user_name = urllib.unquote(user_name).decode('utf8') 
+  
+        # created flag
+        nice_check = 'yes'
+
+    else:
+        user_gender = ''
+        user_birthday = ''
+        user_name = ''
+        nice_check = 'no'
+    # -------------------- nice check -------------------- #
 
     user = request.user
 
@@ -799,6 +857,10 @@ def account_settings_context(request):
     countries_list.insert(0, (u'KR', u'South Korea'))
 
     context = {
+        'user_gender': user_gender,
+        'user_birthday': user_birthday,
+        'user_name': user_name,
+        'nice_check': nice_check,
         'enc_data': enc_data,
         'auth': {},
         'duplicate_provider': None,
