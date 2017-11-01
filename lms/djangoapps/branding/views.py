@@ -211,69 +211,6 @@ def course_api(request):
     cur.execute(sql)
     slist = cur.fetchall()
 
-    # ----- mongo ----- #
-    m_org = 'POSTECHk'
-    m_course = 'POSTECH.EECE341k'
-    m_run = '2015-01'
-
-    client = MongoClient('192.168.33.21', 27017)
-    db = client["edxapp"]
-    collection = db["modulestore.active_versions"]
-
-    cursor = collection.find({'org':m_org, 'course':m_course, 'run':m_run})
-
-    pb = str(cursor[0]['versions']['published-branch'])
-
-    print pb #DEBUG
-
-    collection = db["modulestore.structures"]
-    cursor = collection.find({'_id':ObjectId(pb)})
-
-    block_text = str(cursor[0]['blocks'])
-
-    index = block_text.find("u'block_type': u'course'")
-    course_text = block_text[index:]
-
-    ct_start = course_text.find("u'children':")
-    ct_end = course_text.find("u'linguistics'")
-
-    children = course_text[ct_start:ct_end-2]
-    children = children.replace('[','{')
-    children = children.replace(']','}')
- 
-    print children #DEBUG
-
-    #cc = children.count('chapter')
- 
-    chapter_list = []
-
-    for m in re.finditer('chapter', children):
-        chapter_list.append( children[ m.start()+12 : m.end()+37 ] )
-
-    index = block_text.find(chapter_list[0])
-    course_text = block_text[index: index+5000]
-    dn_index = course_text.find("u'display_name'")
-    dn = course_text[dn_index:dn_index+500]
-    
-    print "#########################"
-
-    print dn
-
-    print "#########################"
-
-    #for i in chapter_list:
-    #    print i
-    #print len(chapter_list)
-    #print children.find("u'",0)
-    #print children.find("u'",1)
-
-    #print cursor
-    #cursor = collection.find({'versions':{'published-branch':pb}})
-    #for document in cursor:
-    #    print document
-
-    # ----- mongo ----- #
-
     # init list
     display_name_list = []
     course_id_list = []
@@ -314,7 +251,6 @@ def course_api(request):
     # ----- DEBUG ----- #
     print "##############"
     print "total = {}".format(len(slist))
-    """
     for n in range(0, len(slist) ):
         print "--------------------- {}".format(n)
         print course_id_list[n]
@@ -329,7 +265,6 @@ def course_api(request):
         print video_list[n]
         print img_list[n]
         print "---------------------"
-    """
     print "##############"
     # ----- DEBUG ----- #
 
