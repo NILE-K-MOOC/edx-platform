@@ -28814,6 +28814,9 @@ msgstr "의약"
 msgid "Arts & Physical"
 msgstr "예체능"
 
+msgid "Interdisciplinary"
+msgstr "융ㆍ복합"
+
 msgid "Korean Studies"
 msgstr "한국학"
 
@@ -29367,6 +29370,9 @@ msgstr "의약"
 
 msgid "art"
 msgstr "예체능"
+
+msgid "intd"
+msgstr "융·복합"
 
 msgid "major"
 msgstr "분야"

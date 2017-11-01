@@ -735,7 +735,7 @@ def course_about(request, course_id):
         short_description = {'short_description': course_details.short_description}
 
         # classfy name
-        ClassDict = {
+        classfy_dict = {
             # add classfy
             "edu": "Education",
             "hum": "Humanities",
@@ -743,7 +743,8 @@ def course_about(request, course_id):
             "eng": "Engineering",
             "nat": "Natural Sciences",
             "med": "Medical Sciences",
-            "art": "Arts & Physical"
+            "art": "Arts & Physical",
+            "intd": "Interdisciplinary",
         }
 
         # if course_details.classfy != 'all':
@@ -751,13 +752,12 @@ def course_about(request, course_id):
         # else:
         #     classfy_name = 'Etc'
 
-
         global classfy_name
         if course_details.classfy is None or course_details.classfy == '':
             classfy_name = 'Etc'
         else:
-            classfy_name = ClassDict[
-                course_details.classfy] if course_details.classfy in ClassDict else course_details.classfy
+            classfy_name = classfy_dict[
+                course_details.classfy] if course_details.classfy in classfy_dict else course_details.classfy
 
         # univ name
         UnivDic = {

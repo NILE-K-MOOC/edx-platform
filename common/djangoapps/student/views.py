@@ -187,9 +187,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     #     courses = sort_by_announcement(courses)
 
     # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
-
-    print 'user.is_staff:', user.is_staff
-
     if user and user.is_staff:
         pass
     else:
@@ -207,12 +204,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         pass
     else:
         courses = courses[:8]
-
-    # print 'courses check s ---------------------------------------------------'
-    # for c in courses:
-    #     print c.id
-    # print 'courses check e ---------------------------------------------------'
-
 
     context = {'courses': courses}
 
@@ -343,7 +334,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
                  and use_yn = 'Y'
             ORDER BY mod_date DESC
                limit 4)
-
     """
 
     index_list = []

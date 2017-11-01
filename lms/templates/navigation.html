@@ -51,7 +51,15 @@ site_status_msg = get_site_status_msg(course_id)
 <header id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
 
-        <div class="header-util">
+        <div class="header-util" title="${static.get_platform_name()}">
+            % if static.get_platform_name() == 'LOCAL':
+            <ul class="left list-inline">
+                <li class="left item">
+                    <a href="#" style="font-size: 1.15rem;">K-MOOC DEV</a>
+                </li>
+            </ul>
+            % endif
+
             <ul class="right list-inline">
 
                 <li class="left item">
