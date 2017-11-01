@@ -46,17 +46,15 @@ from openedx.core.djangolib.markup import HTML, Text
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@qr_code_resize.png" alt="플러스 친구" usemap="#map1">
-            <map name="map1">
-              <area shape="rect" coords="20,110,110,225" href="https://www.instagram.com/kmooc_/" target="_blank" alt="인스타그램" title="" />
-              <area shape="rect" coords="140,110,227,225" href="http://pf.kakao.com/_IZxkxdxl" target="_blank" alt="카카오플러스친구" title="" />
-            </map>
+            <a href="http://www.kmooc.kr/comm_notice_view/163/" target="_self">
+                <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@popup_supports.jpg" alt="플러스 친구" usemap="#map1">
+            </a>
         </p>
 
         <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
             <label onclick="closeWin2();">
                 <input id="chkbox_2" name="chkbox_2" type="checkbox" style="vertical-align: middle;">
-                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
+                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '다시 열지 않음'} &nbsp;&nbsp;</b></span>
             </label>
 
             <span><a href="javascript:popClose('popupWrap_2');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
@@ -71,7 +69,7 @@ function popClose(id){
 }
 
 function setCookie1( name, value, expiredays ) {
-    var todayDate = new Date();
+    var todayDate = new Date(2017, 10, 6);
     todayDate.setDate( todayDate.getDate() + expiredays );
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
@@ -94,7 +92,7 @@ cookiedata = document.cookie;
 
 popupDate = new Date();
 targetDate1 = new Date(2017, 8, 8);
-targetDate2 = new Date(2017, 7, 8);
+targetDate2 = new Date(2017, 10, 6);
 
 console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
 
@@ -198,32 +196,77 @@ if (
             <section class="university-list-contents">
 
                 <ul class="university-listing" style="display: none;">
+                    % if LANGUAGE_CODE == 'ko-kr':
+                    <li class="university-listing-item"><a href="/school/KonkukK"><img src="/static/images/univ/logo01_KONKUK.png" alt="건국대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ/logo01_KYUNGNAMUNIVk.png" alt="경남대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/KSUk"><img src="/static/images/univ/logo01_KYUNGSUNG.jpg" alt="경성대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KHUk"><img src="/static/images/univ/logo01_KHUk.png" alt="경희대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KoreaUnivK"><img src="/static/images/univ/logo01_KoreaUnivK.png" alt="고려대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/DKUK"><img src="/static/images/univ/logo01_DANKOOK.jpg" alt="단국대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/DGUk"><img src="/static/images/univ/logo01_DGUk.png" alt="대구대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/PNUk"><img src="/static/images/univ/logo01_PNUk.png" alt="부산대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/SMUCk"><img src="/static/images/univ/logo01_SMUCk.png" alt="상명대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/SOGANGk"><img src="/static/images/univ/logo01_SOGANG.jpg" alt="서강대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/SNUk"><img src="/static/images/univ/logo01_SNUk.png" alt="서울대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/UOSk"><img src="/static/images/univ/logo01_UOS.png" alt="서울시립대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/SKKUk"><img src="/static/images/univ/logo01_SKKUk.png" alt="성균관대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/SSUk"><img src="/static/images/univ/logo01_SSUk.png" alt="성신여자대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/SejonguniversityK"><img src="/static/images/univ/logo01_SejonguniversityK.png" alt="세종대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/SookmyungK"><img src="/static/images/univ/logo01_SookmyungK.png" alt="숙명여자대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/SoongsilUnivK"><img src="/static/images/univ/logo01_SOONGSIL.png" alt="숭실대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/YSUk"><img src="/static/images/univ/logo01_YSUk.png" alt="연세대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/YeungnamUnivK"><img src="/static/images/univ/logo01_YeungnamUnivK.png" alt="영남대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/UOUk"><img src="/static/images/univ/logo01_UOUk.png" alt="울산대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/EwhaK"><img src="/static/images/univ/logo01_EwhaK.png" alt="이화여자대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/INHAuniversityK"><img src="/static/images/univ/logo01_INHAuniversityK.png" alt="인하대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/JNUk"><img src="/static/images/univ/logo01_CNU.png" alt="전남대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/CBNUk"><img src="/static/images/univ/logo01_CBNUk.png" alt="전북대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/JEJUk"><img src="/static/images/univ/logo01_JNU.jpg" alt="제주대학교"></a></li>
+                    <li class="university-listing-item"><a href="/school/CAUk"><img src="/static/images/univ/logo01_CAU.png" alt="중앙대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/POSTECHk"><img src="/static/images/univ/logo01_POSTECHk.png" alt="포항공과대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/KAISTk"><img src="/static/images/univ/logo01_KAISTk.png" alt="한국과학기술원"></a></li>
+                    <li class="university-listing-item"><a href="/school/HGUk"><img src="/static/images/univ/logo01_HGU.jpg" alt="한동대학교"></a></li>
                     <li class="university-listing-item"><a href="/school/HYUk"><img src="/static/images/univ/logo01_HYUk.png" alt="한양대학교"></a></li>
-                    <!--
                     <li class="university-listing-item"><a href="/school/KOCWk"><img src="/static/images/univ/logo01_KOCWk.png" alt="KOCW"></a></li>
                     <li class="university-listing-item"><a href="/school/ACEk"><img src="/static/images/univ/logo01_ACEk.png" alt="ACE"></a></li>
                     <li class="university-listing-item"><a href="/school/CKk"><img src="/static/images/univ/logo01_CKk.png" alt="CK"></a></li>
                     <li class="university-listing-item"><a href="/school/COREk"><img src="/static/images/univ/logo01_COREk.png" alt="CORE"></a></li>
-                    -->
+                  % else:
+                    <li class="university-listing-item"><a href="/school/KonkukK"><img src="/static/images/univ_e/logo01_KONKUK_e.png" alt="KONKUK UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ_e/logo01_KYUNGNAMUNIVk_e.png" alt="KYUNGNAM UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/KSUk"><img src="/static/images/univ_e/logo01_KYUNGSUNG_e.jpg" alt="KYUNGSUNG UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/KHUk"><img src="/static/images/univ_e/logo01_KHUk_e.png" alt="KYUNGHEE UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/KoreaUnivK"><img src="/static/images/univ_e/logo01_KoreaUnivK_e.png" alt="KOREA UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/DKUK"><img src="/static/images/univ_e/logo01_DANKOOK_e.jpg" alt="DANKOOK UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/DGUk"><img src="/static/images/univ_e/logo01_DGUk_e.png" alt="DAEGU UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/PNUk"><img src="/static/images/univ_e/logo01_PNUk_e.png" alt="PUSAN NATIONAL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SMUCk"><img src="/static/images/univ_e/logo01_SMUCk_e.png" alt="SANGMYUNG UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SOGANGk"><img src="/static/images/univ_e/logo01_SOGANG_e.jpg" alt="SOGANG UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SNUk"><img src="/static/images/univ_e/logo01_SNUk_e.png" alt="SEOUL NATIONAL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/UOSk"><img src="/static/images/univ_e/logo01_UOS_e.png" alt="UNIVERSITY OF SEOUL"></a></li>
+                    <li class="university-listing-item"><a href="/school/SKKUk"><img src="/static/images/univ_e/logo01_SKKUk_e.png" alt="SUNGKYUNKWAN UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SSUk"><img src="/static/images/univ_e/logo01_SSUk_e.png" alt="SUNGSHIN UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SejonguniversityK"><img src="/static/images/univ_e/logo01_SejonguniversityK_e.png" alt="SEJONG UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SookmyungK"><img src="/static/images/univ_e/logo01_SookmyungK_e.png" alt="SOOKMYUNG WOMEN'S UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/SoongsilUnivK"><img src="/static/images/univ_e/logo01_SOONGSIL_e.png" alt="SOONGSIL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/YSUk"><img src="/static/images/univ_e/logo01_YSUk_e.png" alt="YONSEI UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/YeungnamUnivK"><img src="/static/images/univ_e/logo01_YeungnamUnivK_e.png" alt="YOUNGNAM UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/UOUk"><img src="/static/images/univ_e/logo01_UOUk_e.png" alt="UNIVERSITY OF ULSAN"></a></li>
+                    <li class="university-listing-item"><a href="/school/EwhaK"><img src="/static/images/univ_e/logo01_EwhaK_e.png" alt="EWHA WOMANS UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/INHAuniversityK"><img src="/static/images/univ_e/logo01_INHAuniversityK_e.png" alt="INHA UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/JNUk"><img src="/static/images/univ_e/logo01_CNU_e.png" alt="CHONNAM NATIONAL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/CBNUk"><img src="/static/images/univ_e/logo01_CBNUk_e.png" alt="CHONBUK NATIONAL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/JEJUk"><img src="/static/images/univ_e/logo01_JNU_e.jpg" alt="JEJU NATIONAL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/CAUk"><img src="/static/images/univ_e/logo01_CAU_e.png" alt="CHUNG-ANG UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/POSTECHk"><img src="/static/images/univ_e/logo01_POSTECHk_e.png" alt="POSTECH"></a></li>
+                    <li class="university-listing-item"><a href="/school/KAISTk"><img src="/static/images/univ_e/logo01_KAISTk_e.png" alt="KAIST"></a></li>
+                    <li class="university-listing-item"><a href="/school/HGUk"><img src="/static/images/univ_e/logo01_HGU_e.jpg" alt="HANDONG GLOBAL UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/HYUk"><img src="/static/images/univ_e/logo01_HYUk_e.png" alt="HANYANG UNIVERSITY"></a></li>
+                    <li class="university-listing-item"><a href="/school/KOCWk"><img src="/static/images/univ_e/logo01_KOCWk_e.png" alt="KOCW"></a></li>
+                    <li class="university-listing-item"><a href="/school/ACEk"><img src="/static/images/univ_e/logo01_ACEk_e.png" alt="ACE"></a></li>
+                    <li class="university-listing-item"><a href="/school/CKk"><img src="/static/images/univ_e/logo01_CKk_e.png" alt="CK"></a></li>
+                    <li class="university-listing-item"><a href="/school/COREk"><img src="/static/images/univ_e/logo01_COREk_e.png" alt="CORE"></a></li>
+                  % endif
 
                 </ul>
                 <a href="/schools" class="univ-more">전체보기</a>
