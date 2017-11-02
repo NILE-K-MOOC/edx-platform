@@ -147,6 +147,9 @@ def csrf_token(context):
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
+
+    print "#####################"
+    #org = request.session['org']
     print "#####################"
     """
     Render the edX main page.
@@ -367,6 +370,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         index_list.append(value_list)
 
     context['index_list'] = index_list
+    #context['org'] = org
 
     # Insert additional context for use in the template
     context.update(extra_context)
@@ -385,6 +389,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
     """
+
     if extra_context is None:
         extra_context = {}
 

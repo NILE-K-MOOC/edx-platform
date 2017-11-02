@@ -76,6 +76,9 @@ function setCookie1( name, value, expiredays ) {
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
+//var multisite_org = $('#multisite_org').text();
+//setCookie1( 'org', multisite_org, 30 );
+
 function closeWin1() {
     if ($("#chkbox_1").is(":checked")){
         setCookie1( "popupdiv1", "done" , 1 );

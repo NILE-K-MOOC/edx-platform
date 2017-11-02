@@ -30,7 +30,12 @@ from status.status import get_site_status_msg
 % endif
 
 <%block>
+<script type="text/javascript">
+var ex = document.referer;
+</script>
+
 <%
+
 try:
     course_id = course.id
 except:
@@ -98,6 +103,11 @@ site_status_msg = get_site_status_msg(course_id)
                 </%block>
             </a>
         </h1>
+            % if request.session['org'] != 'kmooc':
+            <a href="/multisite/${request.session['org']}">
+                <img style='width:170px; height:44px; margin-top: 15px;' src="/static/images/multisite/${request.session['logo_img']}" alt=""/>
+            </a>
+            % endif
 
         <ol class="right nav-global list-inline" id="gnb">
             % if user.is_authenticated():
