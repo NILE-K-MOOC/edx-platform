@@ -53,6 +53,9 @@ site_status_msg = get_site_status_msg(course_id)
 
         <div class="header-util" title="${static.get_platform_name()}">
             % if static.get_platform_name() != "K-MOOC":
+            <script>
+                $(".header-global").css("background", "url('/static/images/css/bg_header_dev.gif')");
+            </script>
             <ul class="left list-inline">
                 <li class="left item" style="line-height: 30px;">
                     ${static.get_platform_name()}
