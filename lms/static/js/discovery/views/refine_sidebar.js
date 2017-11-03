@@ -192,6 +192,7 @@ define([
                     case 'form': model.set('odby2',33); break;
                     case 'play': model.set('odby2',34); break;
                     case 'musc': model.set('odby2',35); break;
+                    case 'intd_m': model.set('odby2',36); break;
 
                     //course_period
                     case 'S': model.set('odby2',1); break;

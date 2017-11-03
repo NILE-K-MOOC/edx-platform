@@ -54,8 +54,8 @@ site_status_msg = get_site_status_msg(course_id)
         <div class="header-util" title="${static.get_platform_name()}">
             % if static.get_platform_name() != "K-MOOC":
             <ul class="left list-inline">
-                <li class="left item">
-                    <a href="#" style="font-size: 1rem;">${static.get_platform_name()}</a>
+                <li class="left item" style="line-height: 30px;">
+                    ${static.get_platform_name()}
                 </li>
             </ul>
             % endif
