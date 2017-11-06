@@ -799,6 +799,9 @@ msgstr "경일대학교"
 msgid "KMUk"
 msgstr "국민대학교"
 
+msgid "KMUK"
+msgstr "국민대학교"
+
 msgid "DCUk"
 msgstr "대구가톨릭대학교"
 
