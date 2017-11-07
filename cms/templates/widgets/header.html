@@ -12,10 +12,10 @@
     <div class="wrapper wrapper-l">
       <h1 class="branding">
           <a href="/">
-            % if static.get_platform_name() != "K-MOOC":
-            <img src="${static.url('images/studio-logo-dev.png')}" alt="${settings.STUDIO_NAME}" />
-            % else:
+            % if static.get_platform_name() in ["K-MOOC", "K-MOOC Studio"]:
             <img src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+            % else:
+            <img src="${static.url('images/studio-logo-dev.png')}" alt="${settings.STUDIO_NAME}" />
             % endif
           </a>
       </h1>
