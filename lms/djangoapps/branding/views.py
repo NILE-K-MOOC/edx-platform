@@ -102,6 +102,7 @@ def multisite_index(request, org):
     domain = request.META.get('HTTP_HOST')
     if domain and 'edge.edx.org' in domain:
         return redirect(reverse("signin_user"))
+
     return student.views.multisite_index(request, user=request.user)
 # --------------- multisite index --------------- #
 

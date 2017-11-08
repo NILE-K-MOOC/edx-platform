@@ -148,93 +148,82 @@ def csrf_token(context):
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
-    print "#####################"
-    #org = request.session['org']
-    print "#####################"
-    """
-    Render the edX main page.
-
-    extra_context is used to allow immediate display of certain modal windows, eg signup,
-    as used by external_auth.
-    """
     if extra_context is None:
         extra_context = {}
 
     user = request.user
 
-    # courses = get_courses(user)
-    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+    # import
+    from xmodule.modulestore.django import modulestore
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
-    f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
-                                     'enrollment_start__lte': datetime.datetime.now()}
-    log.info(f1)
-    courses1 = get_courses(user, filter_=f1)
+    # session check
+    site_code = request.session.get('org')
 
-    f2 = {'enrollment_start__isnull': False} if user.is_staff else {'enrollment_start__isnull': False,
-                                                                    'start__lte': datetime.datetime.now(),
-                                                                    'enrollment_start__lte': datetime.datetime.now()}
-    log.info(f2)
-    courses2 = get_courses(user, filter_=f2)
+    # multisite - get site code query
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT site_id
+            FROM   edxapp.multisite
+            WHERE  site_code = '{0}'
+        """.format(site_code)
+        cur.execute(query)
+        result_table = cur.fetchall()
+    try:
+        site_id = result_table[0][0]
+    except BaseException:
+        site_id = None
+        course_list = []
 
-    # print 'get course test ------------------------------------------------------- e'
+    if site_id != None:
+        # list init
+        course_list = []
+        module_store = modulestore()
 
-    # if configuration_helpers.get_value(
-    #         "ENABLE_COURSE_SORTING_BY_START_DATE",
-    #         settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
-    # ):
-    #     courses = sort_by_start_date(courses)
-    # else:
-    #     courses = sort_by_announcement(courses)
+        # multisite - get site id query
+        with connections['default'].cursor() as cur:
+            query = """
+                SELECT course_id
+                FROM   edxapp.multisite_course
+                WHERE  site_id = '{0}';
+            """.format(site_id)
+            cur.execute(query)
+            result_table = cur.fetchall()
 
-    # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
+        for item in result_table:
+            ci = item[0]
+            ci = ci.split(':')
+            data_ci = ci[1]
+            data_ci = data_ci.split('+')
+            c_org = data_ci[0]
+            c_course = data_ci[1]
+            c_name = data_ci[2]
+            multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+            course_overviews = CourseOverview.objects.get(id=multi_course_id)
+            course_list.append(course_overviews)
 
-    print 'user.is_staff:', user.is_staff
+        # multisite - make course status
+        for c in course_list:
+            # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
 
-    if user and user.is_staff:
-        pass
-    else:
-        if courses1 and len(courses1) > 4:
-            courses1 = courses1[:4]
+            if c.start is None or c.start == '' or c.end is None or c.end == '':
+                c.status = 'none'
+            elif datetime.now(UTC2()) < c.start:
+                c.status = 'ready'
+            elif c.start <= datetime.now(UTC2()) <= c.end:
+                c.status = 'ing'
+            elif c.end < datetime.now(UTC2()):
+                c.status = 'end'
+            else:
+                c.status = 'none'
 
-    if user and user.is_staff:
-        courses = courses1
-    else:
-        courses = courses1 + courses2
-    courses = [c for c in courses if not c.has_ended()]
-    log.info(u'len(courses) ::: %s', len(courses))
-
-    if user and user.is_staff:
-        pass
-    else:
-        courses = courses[:8]
-
-    # print 'courses check s ---------------------------------------------------'
-    # for c in courses:
-    #     print c.id
-    # print 'courses check e ---------------------------------------------------'
-
-
-    context = {'courses': courses}
-
+    context = { 'courses': course_list }
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
-
-    # This appears to be an unused context parameter, at least for the master templates...
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
-
-    # TO DISPLAY A YOUTUBE WELCOME VIDEO
-    # 1) Change False to True
     context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
-
-    # 2) Add your video's YouTube ID (11 chars, eg "123456789xX"), or specify via site configuration
-    # Note: This value should be moved into a configuration setting and plumbed-through to the
-    # context via the site configuration workflow, versus living here
     youtube_video_id = configuration_helpers.get_value('homepage_promo_video_youtube_id', "your-youtube-id")
     context['homepage_promo_video_youtube_id'] = youtube_video_id
-
-    # allow for theme override of the courses list
     context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
-
-    # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -242,6 +231,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
+
     total_list = []
     cur = con.cursor()
     query = """
@@ -370,10 +360,9 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         index_list.append(value_list)
 
     context['index_list'] = index_list
-    #context['org'] = org
-
-    # Insert additional context for use in the template
     context.update(extra_context)
+
+    print context
 
     return render_to_response('multisite_index.html', context)
 # -------------------- multi site -------------------- #
