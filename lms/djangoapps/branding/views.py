@@ -54,26 +54,21 @@ def multisite_index(request, org):
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
         sql = '''
-        SELECT *
-        FROM   edxapp.multisite
-        WHERE  site_code = '{0}'
+            SELECT logo_img, site_url
+            FROM   edxapp.multisite
+            WHERE  site_code = '{0}'
         '''.format(org)
         cur.execute(sql)
         return_table = cur.fetchall()
 
     try:
-        logo_img = return_table[0][3]
-        site_url = return_table[0][4]
+        logo_img = return_table[0][0]
+        site_url = return_table[0][1]
     except BaseException:
         org = 'kmooc'
         logo_img = ''
         site_url = ''
     # ----- i want data query ----- #
- 
-    print "#################"
-    print logo_img
-    print site_url
-    print "#################"
 
     # session up
     request.session['org'] = org

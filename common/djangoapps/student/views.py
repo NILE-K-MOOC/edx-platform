@@ -150,7 +150,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
     if extra_context is None:
         extra_context = {}
-
     user = request.user
 
     # import
@@ -176,48 +175,95 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         course_list = []
 
     if site_id != None:
+
         # list init
         course_list = []
         module_store = modulestore()
 
-        # multisite - get site id query
-        with connections['default'].cursor() as cur:
-            query = """
-                SELECT course_id
-                FROM   edxapp.multisite_course
-                WHERE  site_id = '{0}';
-            """.format(site_id)
-            cur.execute(query)
-            result_table = cur.fetchall()
+        # get search data
+        if request.GET.get('search_query') != None:
 
-        for item in result_table:
-            ci = item[0]
-            ci = ci.split(':')
-            data_ci = ci[1]
-            data_ci = data_ci.split('+')
-            c_org = data_ci[0]
-            c_course = data_ci[1]
-            c_name = data_ci[2]
-            multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
-            course_overviews = CourseOverview.objects.get(id=multi_course_id)
-            course_list.append(course_overviews)
+            search_name = str(request.GET.get('search_query'))
 
-        # multisite - make course status
-        for c in course_list:
-            # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
+            # multisite - get site id query
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT mc.course_id, coc.display_name
+                    FROM   edxapp.multisite_course AS mc
+                    JOIN     edxapp.course_overviews_courseoverview AS coc
+                    ON mc.course_id = coc.id
+                    WHERE  site_id = {0}
+                    AND coc.display_name like '%{1}%'
+                """.format(site_id, search_name)
+                cur.execute(query)
+                result_table = cur.fetchall()
 
-            if c.start is None or c.start == '' or c.end is None or c.end == '':
-                c.status = 'none'
-            elif datetime.now(UTC2()) < c.start:
-                c.status = 'ready'
-            elif c.start <= datetime.now(UTC2()) <= c.end:
-                c.status = 'ing'
-            elif c.end < datetime.now(UTC2()):
-                c.status = 'end'
-            else:
-                c.status = 'none'
+            for item in result_table:
+                ci = item[0]
+                ci = ci.split(':')
+                data_ci = ci[1]
+                data_ci = data_ci.split('+')
+                c_org = data_ci[0]
+                c_course = data_ci[1]
+                c_name = data_ci[2]
+                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                course_list.append(course_overviews)
 
-    context = { 'courses': course_list }
+            # multisite - make course status
+            for c in course_list:
+                if c.start is None or c.start == '' or c.end is None or c.end == '':
+                    c.status = 'none'
+                elif datetime.now(UTC2()) < c.start:
+                    c.status = 'ready'
+                elif c.start <= datetime.now(UTC2()) <= c.end:
+                    c.status = 'ing'
+                elif c.end < datetime.now(UTC2()):
+                    c.status = 'end'
+                else:
+                    c.status = 'none'
+
+            context = { 'courses': course_list }
+
+        # base logic
+        else:
+            # multisite - get site id query
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT course_id
+                    FROM   edxapp.multisite_course
+                    WHERE  site_id = '{0}';
+                """.format(site_id)
+                cur.execute(query)
+                result_table = cur.fetchall()
+
+            for item in result_table:
+                ci = item[0]
+                ci = ci.split(':')
+                data_ci = ci[1]
+                data_ci = data_ci.split('+')
+                c_org = data_ci[0]
+                c_course = data_ci[1]
+                c_name = data_ci[2]
+                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                course_list.append(course_overviews)
+
+            # multisite - make course status
+            for c in course_list:
+                if c.start is None or c.start == '' or c.end is None or c.end == '':
+                    c.status = 'none'
+                elif datetime.now(UTC2()) < c.start:
+                    c.status = 'ready'
+                elif c.start <= datetime.now(UTC2()) <= c.end:
+                    c.status = 'ing'
+                elif c.end < datetime.now(UTC2()):
+                    c.status = 'end'
+                else:
+                    c.status = 'none'
+
+            context = { 'courses': course_list }
+
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
     context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
