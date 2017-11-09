@@ -54,22 +54,12 @@ function write_review(){
         'write_switch':1
     },function(data){
         if(data.stat == 'success'){
-
-            //alert("main write");
-
-            //alert(data.html2);
-            $(".review_help").append(data.html2);
-            console.log("append html2");
-            //alert(data.html2);
-            $(".scrollbar").prepend(data.html);
-            console.log("prepend html");
-            $(".review_write").hide();
-            console.log("review_write hide");
+            $(".review_help").append(data.html2); // 위
+            $(".scrollbar").prepend(data.html);   // 아래
+            $(".review_write").remove();
             $(".review_delete_font").click(function(){
-                delete_review();
-                //alert(333);
+                delete_review(); // 새로 만든 write 창에 삭제 버튼 클릭 가능
             });
-
         }
     }, 'json');
 }

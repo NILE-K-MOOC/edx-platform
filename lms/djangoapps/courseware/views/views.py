@@ -701,374 +701,339 @@ from django.http import JsonResponse
 @csrf_exempt
 def course_about(request, course_id):
 
-    # ---------- REVIEW BACKEND - start ----------#
-    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+    # ---------- 2017.11.08 REVIEW BACKEND / start ----------#
+    if not request.user.is_authenticated():
+        login_status = 'x'
 
-    review_email = str(edx_user_info['email'])
-    review_username = str(edx_user_info['username'])
-    review_content = str(request.POST.get('review_data'))
-    review_rating = str(request.POST.get('review_rating'))
-
-    # course-v1:org+number+run
-    course_id_str = str(course_id)
-    index_org_start = course_id_str.find(':')+1
-    index_org_end = course_id_str.find('+') 
-    index_number_start = index_org_end+1
-    index_number_end = course_id_str.rfind('+') 
-
-    course_org = course_id_str[index_org_start:index_org_end] 
-    course_number = course_id_str[index_number_start:index_number_end] 
-
-    # INSERT SWITCH
-    if request.POST.get('write_switch'):
-        insert_switch = 1
     else:
-        insert_switch = 0
+        try:
+            review_email = str(request.user.email)
+            review_username = str(request.user.username)
+        except BaseException:
+            review_email = 'x'
+            review_username = 'x'
 
-    # INSERT
-    if( insert_switch == 1 ):
-        """
-        with connections['default'].cursor() as cur:
-            sql = '''
-            SELECT *
-            FROM   edxapp.course_review
-            WHERE  course_id like 'course-v1:{0}+{1}+%'
-            '''.format(course_org, course_number)
-            cur.execute(sql)
-            first_list = cur.fetchall()
-            firstcheck = len(first_list)
-        """
+        print "########################"
+        print review_email
+        print review_username
+        print "########################"
 
-        with connections['default'].cursor() as cur:
-            sql = '''
+        review_content = str(request.POST.get('review_data'))
+        review_rating = str(request.POST.get('review_rating'))
 
-            select *
-            from edxapp.course_review
-            where user_id in (
-                select id
-                FROM   edxapp.auth_user
-                WHERE  email = '{2}'
-            )
-            and course_id like 'course-v1:{0}+{1}+%'
-            '''.format(course_org, course_number, review_email)
-            cur.execute(sql)
-            valcheck = cur.fetchall()
+        # course-v1:org+number+run
+        # make org, number
+        course_id_str = str(course_id)
+        index_org_start = course_id_str.find(':')+1
+        index_org_end = course_id_str.find('+')
+        index_number_start = index_org_end+1
+        index_number_end = course_id_str.rfind('+')
+        course_org = course_id_str[index_org_start:index_org_end]
+        course_number = course_id_str[index_number_start:index_number_end]
 
-            if len(valcheck) == 0 :
-                with connections['default'].cursor() as cur:
-                    sql = '''
-                    INSERT INTO edxapp.course_review
-                                (content,
-                                 point,
-                                 user_id,
-                                 course_id)
-                    SELECT '{0}',
-                            {1},
-                            id,
-                           '{3}'
-                    FROM   edxapp.auth_user
-                    WHERE  email = '{2}'
-                    '''.format(review_content, review_rating, review_email, course_id)
-                    cur.execute(sql)
-                    print "insert sql !!!" #DEBUG
+        # ---------- 리뷰 작성 시 로직 (insert) ---------- #
+        if request.POST.get('write_switch'):
+            insert_switch = 1
+        else:
+            insert_switch = 0
 
-        with connections['default'].cursor() as cur:
-            sql = '''
-            SELECT reg_time, id
-            FROM   edxapp.course_review
-            WHERE  course_id like 'course-v1:{0}+{1}+%'
-                   AND user_id IN (SELECT id
-                                   FROM   edxapp.auth_user
-                                   WHERE  email = '{2}');
-            '''.format(course_org, course_number, review_email)
-            cur.execute(sql)
-            cur_list = cur.fetchall()
-        cur_time = cur_list[0][0]
-        cur_id = cur_list[0][1]
+        if( insert_switch == 1 ):
+            # 해당 강좌에 사용자가 이미 작성한 리뷰가 테이블에 이미 있는가..?
+            with connections['default'].cursor() as cur:
+                sql = '''
+                    SELECT id
+                    FROM   edxapp.course_review
+                    WHERE  user_id IN (SELECT id
+                                       FROM   edxapp.auth_user
+                                       WHERE  email = '{2}')
+                           AND course_id LIKE 'course-v1:{0}+{1}+%'
+                '''.format(course_org, course_number, review_email)
+                cur.execute(sql)
+                valcheck = cur.fetchall()
 
-        if review_rating == '1' :
-            rating_css = '200'
-        elif review_rating == '2':
-            rating_css = '400'
-        elif review_rating == '3':
-            rating_css = '600'
-        elif review_rating == '4':
-            rating_css = '800'
-        elif review_rating == '5':
-            rating_css = '1000'
+                # 작성한 리뷰가 테이블에 없을 경우 아래의 로직 (데이터 삽입)
+                if len(valcheck) == 0 :
+                    with connections['default'].cursor() as cur:
+                        sql = '''
+                            INSERT INTO edxapp.course_review
+                                        (content,
+                                         point,
+                                         user_id,
+                                         course_id)
+                            SELECT '{0}',
+                                    {1},
+                                    id,
+                                   '{3}'
+                            FROM   edxapp.auth_user
+                            WHERE  email = '{2}'
+                        '''.format(review_content, review_rating, review_email, course_id)
+                        cur.execute(sql)
 
-        ret_val = dict()
+            # 리턴해주는 html을 만들어주는 로직
+            # 작성한 리뷰의 아이디와 등록시간을 구하는 로직
+            with connections['default'].cursor() as cur:
+                sql = '''
+                    SELECT reg_time, id
+                    FROM   edxapp.course_review
+                    WHERE  course_id like 'course-v1:{0}+{1}+%'
+                           AND user_id IN (SELECT id
+                                           FROM   edxapp.auth_user
+                                           WHERE  email = '{2}')
+                '''.format(course_org, course_number, review_email)
+                cur.execute(sql)
+                cur_list = cur.fetchall()
+            cur_time = cur_list[0][0]
+            cur_id = cur_list[0][1]
 
-        html_string = '''
-        <div class="review_body_div" id="review_body_div_{4}">
-                <table class="review_body_table">
-                <tbody><tr class="review_body_1">
-                    <td class="review_id">{2}</td>
-                    <td class="review_time">{3}</td>
-                <td class="review_bad">
-                            <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
-                                                          $(this).attr('id'),
-                                                          $('.hidden_email').text(),
-                                                          $('.hidden_org').text(),
-                                                          $('.hidden_name').text())
-                                                      " style="color: #666666; text-decoration: none;">
-                                <img class="review_bad_img" src="/static/images/bad.png">0
-                            </a>
-                        </td>
-                <td class="review_good">
-                            <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
-                                                          $(this).attr('id'),
-                                                          $('.hidden_email').text(),
-                                                          $('.hidden_org').text(),
-                                                          $('.hidden_name').text())
-                                                      " style="color: #666666; text-decoration: none;">
-                                <img class="review_good_img" src="/static/images/good.png">0
-                            </a>
-                        </td>
-                <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
-                </tr>
-            </tbody></table>
-            <table>
-                <tbody><tr class="review_body_2">
-                    <td class="review_content">{1}</td>
-                </tr>
-            </tbody>
-            </table>
-        </div>
-        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+            if review_rating == '1' :
+                rating_css = '200'
+            elif review_rating == '2':
+                rating_css = '400'
+            elif review_rating == '3':
+                rating_css = '600'
+            elif review_rating == '4':
+                rating_css = '800'
+            elif review_rating == '5':
+                rating_css = '1000'
 
-        html_string2 = '''
-        <div class="review_own">
-        <div class="review_body_div">
-                <table class="review_body_table">
+
+            ret_val = dict()
+
+            # 자신의 작성한 글이며, 리스트에 뿌려줄 html
+            html_string = '''
+            <div class="review_body_div" id="review_body_div_{4}">
+                    <table class="review_body_table">
                     <tbody><tr class="review_body_1">
                         <td class="review_id">{2}</td>
-                        <td class="review_time_delete">{3}</td>
-                        <input type="hidden" name="delete_switch" value="1">
-                        <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
-                        <td class="review_delete">
-                                <div class="review_delete_font">delete</div>
-                        </td>
-                        <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
+                        <td class="review_time">{3}</td>
+                    <td class="review_bad">
+                                <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
+                                                              $(this).attr('id'),
+                                                              $('.hidden_email').text(),
+                                                              $('.hidden_org').text(),
+                                                              $('.hidden_name').text())
+                                                          " style="color: #666666; text-decoration: none;">
+                                    <img class="review_bad_img" src="/static/images/bad.png">0
+                                </a>
+                            </td>
+                    <td class="review_good">
+                                <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
+                                                              $(this).attr('id'),
+                                                              $('.hidden_email').text(),
+                                                              $('.hidden_org').text(),
+                                                              $('.hidden_name').text())
+                                                          " style="color: #666666; text-decoration: none;">
+                                    <img class="review_good_img" src="/static/images/good.png">0
+                                </a>
+                            </td>
+                    <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
                     </tr>
                 </tbody></table>
                 <table>
                     <tbody><tr class="review_body_2">
                         <td class="review_content">{1}</td>
                     </tr>
-                </tbody></table>
-
+                </tbody>
+                </table>
             </div>
-        </div>
-        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+            '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
-        """
-        html_string3 = '''
-        <div class="scrollbar" id="style-1">
-            <div class="review_body_div" id="review_body_div_{4}">
-                <table class="review_body_table">
-                <tbody><tr class="review_body_1">
-                    <td class="review_id">{2}</td>
-                    <td class="review_time">{3}</td>
-                <td class="review_bad">
-                            <a class="review_button_link" id="bad310" href="javascript:;" onclick="score_click_bad(
-                                                          $(this).attr('id'),
-                                                          $('.hidden_email').text(),
-                                                          $('.hidden_org').text(),
-                                                          $('.hidden_name').text())
-                                                      " style="color: #666666; text-decoration: none;">
-                                <img class="review_bad_img" src="/static/images/bad.png">0
-                            </a>
-                        </td>
-                <td class="review_good">
-                            <a class="review_button_link" id="good310" href="javascript:;" onclick="score_click_good(
-                                                          $(this).attr('id'),
-                                                          $('.hidden_email').text(),
-                                                          $('.hidden_org').text(),
-                                                          $('.hidden_name').text())
-                                                      " style="color: #666666; text-decoration: none;">
-                                <img class="review_good_img" src="/static/images/good.png">0
-                            </a>
-                        </td>
-                <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
-                </tr>
-            </tbody></table>
-            <table>
-                <tbody><tr class="review_body_2">
-                    <td class="review_content">{1}</td>
-                </tr>
-            </tbody></table>
+            # 자신의 작성한 글이며, 리스트 위에 자기가 쓴 글 보여주는 곳에 뿌려줄 html
+            html_string2 = '''
+            <div class="review_own">
+            <div class="review_body_div">
+                    <table class="review_body_table">
+                        <tbody><tr class="review_body_1">
+                            <td class="review_id">{2}</td>
+                            <td class="review_time_delete">{3}</td>
+                            <input type="hidden" name="delete_switch" value="1">
+                            <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                            <td class="review_delete">
+                                    <div class="review_delete_font">delete</div>
+                            </td>
+                            <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
+                        </tr>
+                    </tbody></table>
+                    <table>
+                        <tbody><tr class="review_body_2">
+                            <td class="review_content">{1}</td>
+                        </tr>
+                    </tbody></table>
+
+                </div>
             </div>
-        </div>
-        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
-        """
+            '''.format(rating_css, review_content, review_username, cur_time, cur_id)
 
-        ret_val['html'] = html_string
-        ret_val['html2'] = html_string2
+            # ret_val의 dict에 html을 담아서 json으로 리턴해준다
+            ret_val['html'] = html_string   # 자신의 작성한 글이며, 리스트에 뿌려줄 html
+            ret_val['html2'] = html_string2 # 자신의 작성한 글이며, 리스트 위에 자기가 쓴 글 보여주는 곳에 뿌려줄 html
+            ret_val['stat'] = 'success'
 
-        ret_val['stat'] = 'success'
+            return JsonResponse(ret_val)
+        # ---------- 리뷰 작성 시 로직 (insert) ---------- #
 
-        return JsonResponse(ret_val)
-    # -----------------------------------------------------------------
+        # ---------- DELETE SWITCH ---------- #
+        if request.POST.get('delete_switch'):
+            delete_switch = 1
+        else:
+            delete_switch = 0
 
-    # DELETE SWITCH
-    if request.POST.get('delete_switch'):
-        delete_switch = 1
-    else:
-        delete_switch = 0
-    
-    # DELETE
-    if( delete_switch == 1 ):
-        #-------------------------------------------------------
+        if( delete_switch == 1 ):
+            #-------------------------------------------------------
+            with connections['default'].cursor() as cur:
+                sql = '''
+                select id
+                FROM edxapp.course_review
+                WHERE  user_id IN (SELECT id
+                                   FROM   edxapp.auth_user
+                                   WHERE  email = '{0}')
+                       AND course_id LIKE 'course-v1:{1}+{2}+%'
+                '''.format(review_email, course_org, course_number)
+                cur.execute(sql)
+
+                print "#####################" #DEBUG
+                print sql #DEBUG
+
+                del_id_list = cur.fetchall()
+                del_id = del_id_list[0][0]
+
+                html_string = '''
+                <div class="review_write">
+                    <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                    <div id="review_write_star">
+                    <fieldset class="rating">
+                        <input type="radio" id="star5" name="review_rating" value="5">
+                            <label class="full" for="star5" id="noclose" title="Awesome - 5 stars">
+                            </label>
+                        <input type="radio" id="star4" name="review_rating" value="4">
+                            <label class="full" for="star4" id="noclose" title="Pretty good - 4 stars">
+                            </label>
+                        <input type="radio" id="star3" name="review_rating" value="3">
+                             <label class="full" for="star3" id="noclose" title="Meh - 3 stars">
+                            </label>
+                        <input type="radio" id="star2" name="review_rating" value="2">
+                            <label class="full" for="star2" id="noclose" title="Kinda bad - 2 stars">
+                             </label>
+                        <input type="radio" id="star1" name="review_rating" value="1">
+                             <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
+                             </label>
+                    </fieldset>
+                        <button type="button" id="review_write_submit">Write</button>
+                    </div>
+                    <div class="form-group" id="noclose">
+                        <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
+                        <input id="test" type="hidden" name="write_switch" value="1">
+                    </div>
+                </div>
+                '''
+            #-------------------------------------------------------
+            with connections['default'].cursor() as cur:
+                sql = '''
+                DELETE FROM edxapp.course_review
+                WHERE  user_id IN (SELECT id
+                                   FROM   edxapp.auth_user
+                                   WHERE  email = '{0}')
+                       AND course_id LIKE 'course-v1:{1}+{2}+%'
+                '''.format(review_email, course_org, course_number)
+                cur.execute(sql)
+                print sql #DEBUG
+                # auto commit
+                # conn.commit()
+
+            ret_val = dict()
+            ret_val['stat'] = 'success'
+            ret_val['del_id'] = del_id
+            ret_val['html'] = html_string
+
+            return JsonResponse(ret_val)
+        # ---------- DELETE SWITCH ---------- #
+
+        # ---------- SELECT -> all list ---------- #
         with connections['default'].cursor() as cur:
             sql = '''
-            select id
-            FROM edxapp.course_review
-            WHERE  user_id IN (SELECT id
-                               FROM   edxapp.auth_user
-                               WHERE  email = '{0}')
+            SELECT cr.id,
+                   au.username,
+                   cr.content,
+                   cr.point,
+                   cr.reg_time,
+                   Sum(CASE
+                         WHEN good_bad = 'g' THEN 1
+                         ELSE 0
+                       end) AS good,
+                   Sum(CASE
+                         WHEN good_bad = 'b' THEN 1
+                         ELSE 0
+                       end) AS bad
+            FROM   edxapp.course_review AS cr
+                   JOIN edxapp.auth_user AS au
+                     ON au.id = cr.user_id
+                   LEFT JOIN edxapp.course_review_user AS cru
+                     ON cru.review_id = cr.id
+            WHERE  cr.course_id LIKE 'course-v1:{0}+{1}+%'
+            GROUP  BY cr.id,
+                      au.username,
+                      cr.content,
+                      cr.point,
+                      cr.reg_time
+            ORDER  BY reg_time DESC;
+            '''.format(course_org, course_number)
+            print sql #DEBUG
+            cur.execute(sql)
+            review_list = cur.fetchall()
+            print len(review_list) #DEBUG
+        # ---------- SELECT -> all list ---------- #
+
+        # ---------- SELECT -> own list ---------- #
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT cr.id,
+                   au.username,
+                   cr.content,
+                   cr.point,
+                   cr.reg_time
+            FROM   edxapp.course_review AS cr
+                   JOIN edxapp.auth_user AS au
+                     ON au.id = cr.user_id
+            WHERE  au.email = '{0}'
                    AND course_id LIKE 'course-v1:{1}+{2}+%'
             '''.format(review_email, course_org, course_number)
             cur.execute(sql)
+            already_list = cur.fetchall()
+        already_lock = len(already_list)
+        # ---------- SELECT -> own list ---------- #
 
-            print "#####################" #DEBUG
-            print sql #DEBUG
-
-            del_id_list = cur.fetchall()
-            del_id = del_id_list[0][0]
-
-            html_string = '''
-            <div class="review_write">
-                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
-                <div id="review_write_star">
-                <fieldset class="rating">
-                    <input type="radio" id="star5" name="review_rating" value="5">
-                        <label class="full" for="star5" id="noclose" title="Awesome - 5 stars">
-                        </label>
-                    <input type="radio" id="star4" name="review_rating" value="4">
-                        <label class="full" for="star4" id="noclose" title="Pretty good - 4 stars">
-                        </label>
-                    <input type="radio" id="star3" name="review_rating" value="3">
-                         <label class="full" for="star3" id="noclose" title="Meh - 3 stars">
-                        </label>
-                    <input type="radio" id="star2" name="review_rating" value="2">
-                        <label class="full" for="star2" id="noclose" title="Kinda bad - 2 stars">
-                         </label>
-                    <input type="radio" id="star1" name="review_rating" value="1">
-                         <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
-                         </label>
-                </fieldset>
-                    <button type="button" id="review_write_submit">Write</button>
-                </div>
-                <div class="form-group" id="noclose">
-                    <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
-                    <input id="test" type="hidden" name="write_switch" value="1">
-                </div>
-            </div>
-            '''
-        #-------------------------------------------------------
+        # ---------- you are enroll ---------- #
         with connections['default'].cursor() as cur:
             sql = '''
-            DELETE FROM edxapp.course_review
-            WHERE  user_id IN (SELECT id
-                               FROM   edxapp.auth_user
-                               WHERE  email = '{0}')
-                   AND course_id LIKE 'course-v1:{1}+{2}+%'
-            '''.format(review_email, course_org, course_number)
+            SELECT *
+            FROM   edxapp.student_courseenrollment
+            WHERE  course_id LIKE 'course-v1:{}+{}+%'
+                   AND user_id IN (SELECT id
+                                   FROM   edxapp.auth_user
+                                   WHERE  email = '{}')
+                   AND is_active = 1
+            '''.format(course_org, course_number, review_email)
             cur.execute(sql)
-            print sql #DEBUG
-            # auto commit
-            # conn.commit()
+            enroll_list = cur.fetchall()
+        enroll_lock = len(enroll_list)
+        # ---------- you are enroll ---------- #
 
-        ret_val = dict()
-        ret_val['stat'] = 'success'
-        ret_val['del_id'] = del_id
-        ret_val['html'] = html_string
-
-        return JsonResponse(ret_val)
-
-    # SELECT -> all list
-    with connections['default'].cursor() as cur:
-        sql = '''
-        SELECT cr.id,
-               au.username,
-               cr.content,
-               cr.point,
-               cr.reg_time,
-               Sum(CASE
-                     WHEN good_bad = 'g' THEN 1
-                     ELSE 0
-                   end) AS good,
-               Sum(CASE
-                     WHEN good_bad = 'b' THEN 1
-                     ELSE 0
-                   end) AS bad
-        FROM   edxapp.course_review AS cr
-               JOIN edxapp.auth_user AS au
-                 ON au.id = cr.user_id
-               LEFT JOIN edxapp.course_review_user AS cru
-                 ON cru.review_id = cr.id
-        WHERE  cr.course_id LIKE 'course-v1:{0}+{1}+%'
-        GROUP  BY cr.id,
-                  au.username,
-                  cr.content,
-                  cr.point,
-                  cr.reg_time
-        ORDER  BY reg_time DESC;
-        '''.format(course_org, course_number)
-        print sql #DEBUG
-        cur.execute(sql)
-        review_list = cur.fetchall()
-        print len(review_list) #DEBUG
-
-    # SELECT -> own list
-    with connections['default'].cursor() as cur:
-        sql = '''
-        SELECT cr.id,
-               au.username,
-               cr.content,
-               cr.point,
-               cr.reg_time
-        FROM   edxapp.course_review AS cr
-               JOIN edxapp.auth_user AS au
-                 ON au.id = cr.user_id
-        WHERE  au.email = '{0}'
-               AND course_id LIKE 'course-v1:{1}+{2}+%'
-        '''.format(review_email, course_org, course_number)
-        cur.execute(sql)
-        already_list = cur.fetchall()
-    already_lock = len(already_list)
-
-    # you are enroll
-    with connections['default'].cursor() as cur:
-        sql = '''
-        SELECT *
-        FROM   edxapp.student_courseenrollment
-        WHERE  course_id LIKE 'course-v1:{}+{}+%'
-               AND user_id IN (SELECT id
-                               FROM   edxapp.auth_user
-                               WHERE  email = '{}')
-               AND is_active = 1
-        '''.format(course_org, course_number, review_email)
-        cur.execute(sql)
-        enroll_list = cur.fetchall()
-    enroll_lock = len(enroll_list)
-
-    # avg rating
-    with connections['default'].cursor() as cur:
-        sql = '''
-        SELECT Avg(point)
-        FROM   edxapp.course_review
-        WHERE  course_id LIKE 'course-v1:{0}+{1}+%'
-        '''.format(course_org, course_number)
-        cur.execute(sql)
-        enroll_list = cur.fetchall()
-        course_avg = enroll_list[0][0]
-    try:
-        course_total = int(round(float(course_avg)))
-    except BaseException:
-        course_total = 0
-    # ---------- REVIEW BACKEND - end ----------#
+        # ---------- avg rating ---------- #
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT Avg(point)
+            FROM   edxapp.course_review
+            WHERE  course_id LIKE 'course-v1:{0}+{1}+%'
+            '''.format(course_org, course_number)
+            cur.execute(sql)
+            enroll_list = cur.fetchall()
+            course_avg = enroll_list[0][0]
+        try:
+            course_total = int(round(float(course_avg)))
+        except BaseException:
+            course_total = 0
+        # ---------- avg rating ---------- #
+    # ---------- 2017.11.08 REVIEW BACKEND / start ----------#
 
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
