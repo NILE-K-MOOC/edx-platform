@@ -728,7 +728,7 @@ msgid "WKUk"
 msgstr "원광대학교"
 
 msgid "InhatcK"
-msgstr "인하공업전문대학교"
+msgstr "인하공업전문대학"
 
 msgid "ChosunK"
 msgstr "조선대학교"
