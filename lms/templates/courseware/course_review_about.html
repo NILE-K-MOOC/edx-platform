@@ -73,7 +73,7 @@ function delete_review(){
 </script>
 
 <!-- HTML (subject) -->
-<div class = "review_subject"><b>Review</b></div>
+<div class = "review_subject" id="potal"><b>Review</b></div>
 
 % if len(enroll_list) != 0:
 <!-- HTML (write) -->
@@ -170,7 +170,7 @@ function delete_review(){
                         <div class = "review_delete_font">delete</div>
                 </td>
                 % if row[3] == 1:
-                <td class =s"review_star"><div class="stard-ratings-css" title=".200"></div></td>
+                <td class ="review_star"><div class="stard-ratings-css" title=".200"></div></td>
                 % endif
                 % if row[3] == 2:
                 <td class ="review_star"><div class="stard-ratings-css" title=".400"></div></td>
@@ -237,7 +237,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
                 }
                 else if(data.return == "duplication"){
-                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
+                    //swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
                 }
             }
             if(mode=='bad'){
@@ -252,7 +252,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
                 }
                 else if(data.return == "duplication"){
-                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
+                    //swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
                 }
             }
         }
@@ -266,6 +266,7 @@ function score_click_good(id, email, org, name) {
 function score_click_bad(id, email, org, name) {
     ajax_score(id, email, org, name, 'bad');
 }
+
 </script>
 
 <style>
@@ -338,4 +339,3 @@ a.focus { outline: 1px solid red; }
     </div>
 % endfor
 </div>
-

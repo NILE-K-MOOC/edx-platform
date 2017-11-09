@@ -432,7 +432,8 @@ def course_info(request, course_id):
             'masquerade': masquerade,
             'studio_url': studio_url,
             'show_enroll_banner': show_enroll_banner,
-            'url_to_enroll': url_to_enroll
+            'url_to_enroll': url_to_enroll,
+            'course_id': course_id
         }
 
         # Get the URL of the user's last position in order to display the 'where you were last' message
