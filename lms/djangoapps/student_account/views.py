@@ -874,7 +874,7 @@ def remove_account(request):
             find_user.first_name = str(uid)
             find_user.last_name = str(uid)
             find_user.email = 'delete_' + str(uid) + '@delete.' + ts
-            find_user.password = str(uid)
+            find_user.set_password(ts)
             find_user.is_staff = False
             find_user.is_active = False
             find_user.is_superuser = False
