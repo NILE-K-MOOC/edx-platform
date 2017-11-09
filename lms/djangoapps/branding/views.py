@@ -36,237 +36,165 @@ import re
 
 log = logging.getLogger(__name__)
 
-def get_univ_name(univ_code):
-    if univ_code == 'KYUNGNAMUNIVk':
-        return '경남대학교'
-    elif univ_code == 'KHUk':
-        return '경희대학교'
-    elif univ_code == 'KoreaUnivK':
-        return '고려대학교'
-    elif univ_code == 'DGUk':
-        return '대구대학교'
-    elif univ_code == 'PNUk':
-        return '부산대학교'
-    elif univ_code == 'SMUCk':
-        return '상명대학교(천안)'
-    elif univ_code == 'SMUk':
-        return '상명대학교(서울)'
-    elif univ_code == 'SNUk':
-        return '서울대학교'
-    elif univ_code == 'SKKUk':
-        return '성균관대학교'
-    elif univ_code == 'KKUk':
-        return '건국대학교(글로컬)'
-    elif univ_code == 'SSUk':
-        return '성신여자대학교'
-    elif univ_code == 'SejonguniversityK':
-        return '세종대학교'
-    elif univ_code == 'SookmyungK':
-        return '숙명여자대학교'
-    elif univ_code == 'YSUk':
-        return '연세대학교'
-    elif univ_code == 'YeungnamUnivK':
-        return '영남대학교'
-    elif univ_code == 'UOUk':
-        return '울산대학교'
-    elif univ_code == 'EwhaK':
-        return '이화여자대학교'
-    elif univ_code == 'INHAuniversityK':
-        return '인하대학교'
-    elif univ_code == 'CBNUk':
-        return '전북대학교'
-    elif univ_code == 'KonkukK':
-        return '건국대학교'
-    elif univ_code == 'KSUk':
-        return '경성대학교'
-    elif univ_code == 'SOGANGk':
-        return '서강대학교'
-    elif univ_code == 'POSTECHk':
-        return '포항공과대학교'
-    elif univ_code == 'KAISTk':
-        return '한국과학기술원'
-    elif univ_code == 'HYUk':
-        return '한양대학교'
-    elif univ_code == 'HongikUnivK':
-        return '홍익대학교'
-    elif univ_code == 'CAUk':
-        return '중앙대학교'
-    elif univ_code == 'GachonUnivK':
-        return '가천대학교'
-    elif univ_code == 'DonggukK':
-        return '동국대학교'
-    elif univ_code == 'DSUk':
-        return '동신대학교'
-    elif univ_code == 'DAUk':
-        return '동아대학교'
-    elif univ_code == 'TUk':
-        return '동명대학교'
-    elif univ_code == 'MokwonK':
-        return '목원대학교'
-    elif univ_code == 'PCUk':
-        return ' 배재대학교'
-    elif univ_code == 'PKNUk':
-        return '부경대학교'
-    elif univ_code == 'SunMoonK':
-        return '선문대학교'
-    elif univ_code == 'SCHk':
-        return '순천향대학교'
-    elif univ_code == 'WSUK':
-        return '우송대학교'
-    elif univ_code == 'WKUk':
-        return '원광대학교'
-    elif univ_code == 'InhatcK':
-        return '인하공업전문대학교'
-    elif univ_code == 'ChosunK':
-        return ' 조선대학교'
-    elif univ_code == 'CNUk':
-        return '충남대학교'
-    elif univ_code == 'ChungbukK':
-        return '충북대학교'
-    elif univ_code == 'KonYangK':
-        return '건양대학교'
-    elif univ_code == 'UOSk':
-        return '서울시립대학교'
-    elif univ_code == 'SoongsilUnivK':
-        return '숭실대학교'
-    elif univ_code == 'JNUk':
-        return '전남대학교'
-    elif univ_code == 'CKUk':
-        return '가톨릭관동대학교'
-    elif univ_code == 'HallymK':
-        return '한림대학교'
-    elif univ_code == 'KONGJUk':
-        return '공주대학교'
-    elif univ_code == 'SEOULTECHk':
-        return '서울과학기술대학교'
-    elif univ_code == 'SKUk':
-        return '성결대학교'
-    elif univ_code == 'AYUk':
-        return '안양대학교'
-    elif univ_code == 'YonseiWK':
-        return '연세대학교(원주)'
-    elif univ_code == 'HansungK':
-        return '한성대학교'
-    elif univ_code == 'KUMOHk':
-        return '금오공과대학교'
-    elif univ_code == 'DKUK':
-        return '단국대학교'
-    elif univ_code == 'BUFSk':
-        return '부산외국어대학교'
-    elif univ_code == 'SWUk':
-        return '서울여자대학교'
-    elif univ_code == 'SYUk':
-        return '삼육대학교'
-    elif univ_code == 'KNUk':
-        return '경북대학교'
-    elif univ_code == 'KIUk':
-        return '경일대학교'
-    elif univ_code == 'KMUk':
-        return '국민대학교'
-    elif univ_code == 'DCUk':
-        return '대구가톨릭대학교'
-    elif univ_code == 'DHUk':
-        return '대구한의대학교'
-    elif univ_code == 'DJUk':
-        return '대전대학교'
-    elif univ_code == 'CUKk':
-        return '가톨릭대학교'
-    elif univ_code == 'JEJUk':
-        return '제주대학교'
-    elif univ_code == 'HGUk':
-        return '한동대학교'
-    elif univ_code == 'SKP.KAISTk':
-        return '서울대, 한국과학기술원, 포항공대'
-    elif univ_code == 'SKP.SNUk':
-        return '서울대, 한국과학기술원, 포항공대'
-    elif univ_code == 'SKP.POSTECHk':
-        return '서울대, 한국과학기술원, 포항공대'
-    elif univ_code == 'SKP_KAISTk':
-        return '서울대, 한국과학기술원, 포항공대'
-    elif univ_code == 'SKP_SNUk':
-        return '서울대, 한국과학기술원, 포항공대'
-    elif univ_code == 'SKP_POSTECHk':
-        return '서울대, 한국과학기술원, 포항공대'
-    else:
-        return '알수없음'
-
 def course_api(request):
-    conn = pymysql.connect(host='192.168.33.21', user='hello', password='0000',
-                       db='edxapp', charset='utf8')
+    conn = pymysql.connect(host='192.168.33.21',
+                           user='hello',
+                           password='0000',
+                           db='edxapp',
+                           charset='utf8')
     cur = conn.cursor()
     #with connections['default'].cursor() as cur:
     sql = '''
-    SELECT id, 
-           display_name, 
-           start, 
-           end, 
-           enrollment_start, 
-           enrollment_end, 
-           created, 
-           modified, 
-           course_video_url, 
-           course_image_url 
-    FROM   edxapp.course_overviews_courseoverview
+        SELECT id,
+               display_name,
+               start,
+               end,
+               enrollment_start,
+               enrollment_end,
+               created,
+               modified,
+               course_video_url,
+               course_image_url,
+               cd.detail_name,
+               org,
+               display_number_with_default  AS course,
+               Substring_index(id, '+', -1) AS RUN,
+               effort
+        FROM   edxapp.course_overviews_courseoverview AS coc
+               left join edxapp.code_detail AS cd
+                      ON coc.org = cd.detail_code
     '''
     cur.execute(sql)
     slist = cur.fetchall()
 
     # init list
-    display_name_list = []
-    course_id_list = []
-    univ_name_list = []
-    start_time_list = []
-    end_time_list = []
-    enroll_start_list = []
-    enroll_end_list = []
-    created_list = []
-    modified_list = []
-    video_list = []
-    img_list = []
-    location_list = []
+    course_id_list = []     #코스아이디
+    display_name_list = []  #강좌명
+    univ_name_list = []     #대학명
+    start_time_list = []    #시작일
+    end_time_list = []      #종강일
+    enroll_start_list = []  #수강신청 시작일
+    enroll_end_list = []    #수강신청 종료일
+    created_list = []       #강좌생성 시간
+    modified_list = []      #강좌수정 시간
+    video_list = []         #강좌소개 비디오
+    img_list = []           #강좌 썸네일 이미지
+    org_list = []           #org 코드
+    course_list = []        #course 코드
+    run_list = []           #run 코드
+    e0_list = []            #주간학습권장시간
+    e1_list = []            #총주차
+    e2_list = []            #동영상재생시간
+    et_list = []            #총학습시간
 
+    # making data (insert)
     for item in slist:
-        # making
-        course_id = item[0]
-        start = course_id.find(':')
-        end = course_id.find('+')
-        univ_code = course_id[ start+1 : end ]
-        univ_name = get_univ_name(univ_code)
-        # insert
-        univ_name_list.append(univ_name)
-        course_id_list.append(course_id)
+        course_id_list.append(item[0])                          #코스아이디
+        display_name_list.append(item[1])                       #강좌명
+        start_time_list.append(item[2])                         #시작일
+        end_time_list.append(item[3])                           #종강일
+        enroll_start_list.append(item[4])                       #수강신청 시작일
+        enroll_end_list.append(item[5])                         #수강신청 종료일
+        created_list.append(item[6])                            #강좌생성 시간
+        modified_list.append(item[7])                           #강좌수정 시간
+        video_list.append(item[8])                              #강좌소개 비디오
+        img_list.append("http://www.kmooc.kr" + str(item[9]))   #강좌 썸네일 이미지
+        univ_name_list.append(item[10])                         #대학명
+        org_list.append(item[11])                               #org 코드
+        course_list.append(item[12])                            #run 코드
+        run_list.append(item[13])                               #run 코드
 
-    for item in slist:
-        # insert
-        display_name_list.append(item[1])
-        start_time_list.append(item[2])
-        end_time_list.append(item[3])
-        enroll_start_list.append(item[4])
-        enroll_end_list.append(item[5])
-        created_list.append(item[6])
-        modified_list.append(item[7])
-        video_list.append(item[8])
-        img_list.append("http://www.kmooc.kr" + str(item[9]))
+                                                                #주간학습권장시간
+                                                                #총주차
+                                                                #동영상재생시간
+                                                                #총학습시간
+        c2 = item[14].find('@')
+        c3 = item[14].find('#')
+
+        # @ 있고 # 있는 로직 ex) 11:11@7#11:11
+        if c2 != -1 and c3 != -1:
+            tmp = item[14].replace('@','#')
+            tmp = tmp.split('#')
+            e0_list.append(tmp[0])
+            e1_list.append(tmp[1])
+            e2_list.append(tmp[2])
+            t = tmp[0].split(':')
+            tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
+            th = tt/60
+            tm = tt%60
+            if len(str(th)) == 1:
+                th = "0" + str(th)
+            if len(str(tm)) == 1:
+                tm = "0" + str(tm)
+            total_time = str(th) + ":" + str(tm)
+            et_list.append(total_time)
+
+        # #만 있는 로직 ex) 11:11#11:11
+        elif c3 != -1:
+            tmp = item[14]
+            tmp = tmp.split('#')
+            e0_list.append(tmp[0])
+            e1_list.append('null')
+            e2_list.append(tmp[1])
+            et_list.append('null')
+
+        # @만 있는 로직 ex) 11:11@7
+        elif c2 != -1:
+            tmp = item[14]
+            tmp = tmp.split('@')
+            e0_list.append(tmp[0])
+            e1_list.append(tmp[1])
+            e2_list.append('null')
+            t = tmp[0].split(':')
+            tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
+            th = tt/60
+            tm = tt%60
+            if len(str(th)) == 1:
+                th = "0" + str(th)
+            if len(str(tm)) == 1:
+                tm = "0" + str(tm)
+            total_time = str(th) + ":" + str(tm)
+            et_list.append(total_time)
+
+        # @ 없고 # 없는 로직 ex) 11:11
+        elif c2 == -1 and c3 == -1:
+            e0_list.append(item[14])
+            e1_list.append('null')
+            e2_list.append('null')
+            et_list.append('null')
+
+        # 전부 없는 로직 ex)
+        else:
+            e0_list.append('null')
+            e1_list.append('null')
+            e2_list.append('null')
+            et_list.append('null')
 
     # ----- DEBUG ----- #
     print "##############"
-    print "total = {}".format(len(slist))
     for n in range(0, len(slist) ):
         print "--------------------- {}".format(n)
-        print course_id_list[n]
-        print display_name_list[n]
-        print univ_name_list[n]
-        print start_time_list[n]
-        print end_time_list[n]
-        print enroll_start_list[n]
-        print enroll_end_list[n]
-        print created_list[n]
-        print modified_list[n]
-        print video_list[n]
-        print img_list[n]
+        print course_id_list[n]     #코스아이디
+        print display_name_list[n]  #강좌명
+        print univ_name_list[n]     #대학명
+        print start_time_list[n]    #시작일
+        print end_time_list[n]      #종강일
+        print enroll_start_list[n]  #수강신청 시작일
+        print enroll_end_list[n]    #수강신청 종료일
+        print created_list[n]       #강좌생성 시간
+        print modified_list[n]      #강좌수정 시간
+        print video_list[n]         #강좌소개 비디오
+        print img_list[n]           #강좌 썸네일 이미지
+        print org_list[n]           #org 코드
+        print course_list[n]        #course 코드
+        print run_list[n]           #run 코드
+        print e0_list[n]            #주간학습권장시간
+        print e1_list[n]            #총주차
+        print e2_list[n]            #동영상재생시간
+        print et_list[n]            #총학습시간
         print "---------------------"
     print "##############"
-    # ----- DEBUG ----- #
+    print "total = {}".format(len(slist))
 
     return JsonResponse({'foo':slist})
 
