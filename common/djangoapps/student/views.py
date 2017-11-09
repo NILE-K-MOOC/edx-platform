@@ -3,6 +3,7 @@
 Student Views
 """
 import datetime
+from django.utils.timezone import UTC as UTC2
 import logging
 import uuid
 import json
@@ -214,11 +215,11 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             for c in course_list:
                 if c.start is None or c.start == '' or c.end is None or c.end == '':
                     c.status = 'none'
-                elif datetime.now(UTC2()) < c.start:
+                elif datetime.datetime.now(UTC2()) < c.start:
                     c.status = 'ready'
-                elif c.start <= datetime.now(UTC2()) <= c.end:
+                elif c.start <= datetime.datetime.now(UTC2()) <= c.end:
                     c.status = 'ing'
-                elif c.end < datetime.now(UTC2()):
+                elif c.end < datetime.datetime.now(UTC2()):
                     c.status = 'end'
                 else:
                     c.status = 'none'
@@ -253,11 +254,11 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             for c in course_list:
                 if c.start is None or c.start == '' or c.end is None or c.end == '':
                     c.status = 'none'
-                elif datetime.now(UTC2()) < c.start:
+                elif datetime.datetime.now(UTC2()) < c.start:
                     c.status = 'ready'
-                elif c.start <= datetime.now(UTC2()) <= c.end:
+                elif c.start <= datetime.datetime.now(UTC2()) <= c.end:
                     c.status = 'ing'
-                elif c.end < datetime.now(UTC2()):
+                elif c.end < datetime.datetime.now(UTC2()):
                     c.status = 'end'
                 else:
                     c.status = 'none'
