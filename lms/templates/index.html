@@ -73,15 +73,15 @@ from openedx.core.djangolib.markup import HTML, Text
         <div id="popupWrap_2${pop[16]}" class="layerPupup popupWrap_2" >
             <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
                 <a href=${pop[6]} target="_" + ${pop[7]}>
-                    <img src="${pop[5]}" alt="플러스 친구" usemap="#map1" id="Test">
+                    <img src="${pop[5]}" alt="플러스 친구" usemap="#map1" id="IMAGE">
                 </a>
                 <script>
                     var max_width = ${pop[13]};
                     var max_height = ${pop[14]};
                     max_width = max_width - 10;
                     max_height = max_height - 55;
-                    $('#Test').css('width', max_width);
-                    $('#Test').css('height', max_height);
+                    $('#IMAGE').css('width', max_width);
+                    $('#IMAGE').css('height', max_height);
                 </script>
             </p>
 
@@ -101,7 +101,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="layerPupup popupWrap_3" id="popupWrap_3${pop[16]}" style="display: none" >
             <div class="pop-header">
                 <h1>공지사항</h1>
-                <a href="javascript:popClose('popupWrap_3${pop[16]}')" class="img-ico close" onclick="fn_move('close')">창닫기</a>
+                <a href="javascript:popClose('popupWrap_3${pop[16]}')" class="img-ico close">창닫기</a>
             </div>
             <div class="pop-body">
                 <div class="templet-top cs2">
@@ -112,7 +112,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 </div>
             </div>
             <div class="pop-btn" style="background-color: white">
-                <a href=${pop[6]} target="_" + ${pop[7]}><button type="button" class="button orange" onclick="fn_move('move')">자세히 보기 ></button></a>
+                <a href=${pop[6]} target="_" + ${pop[7]}><button type="button" class="button orange">자세히 보기 ></button></a>
             </div>
             <div class="closechk btn-align" style="text-align: left">
                     <label onclick="closeWin('chkbox_3${pop[16]}', 'popupWrap_3${pop[16]}' ,'${pop[15]}');">
@@ -128,7 +128,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="layerPupup popupWrap_4" id="popupWrap_4${pop[16]}" style="display: none">
             <div class="pop-header">
                 <h1 id="TITLE_2" >${pop[3]}</h1>
-                <a href="#" class="img-ico close" onclick="fn_move('close')">창닫기</a>
+                <a href="#" class="img-ico close">창닫기</a>
             </div>
             <div class="pop-body">
                 <div class="templet-top cs1">
@@ -142,7 +142,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 </div>
             </div>
             <div class="pop-btn">
-                <a href=${pop[6]} target="_" + ${pop[7]}><button type="button" class="button orange" onclick="fn_move('move')">만족도 조사 참여하기 ></button></a>
+                <a href=${pop[6]} target="_" + ${pop[7]}><button type="button" class="button orange">만족도 조사 참여하기 ></button></a>
             </div>
             <div class="closechk btn-align" style="text-align: left">
                     <label onclick="closeWin('chkbox_4${pop[16]}', 'popupWrap_4${pop[16]}' ,'${pop[15]}');">
