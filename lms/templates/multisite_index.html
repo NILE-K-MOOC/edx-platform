@@ -13,212 +13,22 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
-        <!-- [s] main top -->
         <header>
-          <div class="multi_main" style='height:250px'><img src='/static/images/multisite/hello.png'/></div>
+            <div class="multi_main" style='height:250px'><img src='/static/images/multisite/hello.png'/></div>
         </header>
-        <!-- [e] main top -->
-
-        <!-- [s] course list -->
         <section class="courses-container full" id="main-contents05">
-        <!-- <section class="courses-container"> -->
-        <section class="highlighted-courses">
-
-        % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-
-        <section class="courses">
-          <ul class="courses-listing">
-            %for course in courses:
-            <li class="courses-listing-item">
-                <%include file="course.html" args="course=course" />
-            </li>
-            %endfor
-          </ul>
+            <section class="highlighted-courses">
+                <section class="courses">
+                      <ul class="courses-listing">
+                            %for course in courses:
+                            <li class="courses-listing-item">
+                                <%include file="course.html" args="course=course" />
+                            </li>
+                            %endfor
+                      </ul>
+                </section>
+            </section>
         </section>
-
-        ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
-        % if settings.HOMEPAGE_COURSE_MAX and len(courses) > settings.HOMEPAGE_COURSE_MAX:
-        <!--
-        <div class="courses-more">
-        <a class="courses-more-cta" href="${marketing_link('COURSES')}"> ${_("View all Courses")} </a>
-        </div>
-        -->
-        % endif
-        % endif
-        <div class="btn-list-more">
-        </div>
-        </section>
-        <!-- </section> -->
-        </section>
-        <!-- [e] course list -->
-
-        % if LANGUAGE_CODE == 'ko-kr':
-        <!-- [s] community list -->
-        <section class="community-container" id="main-contents06" title="커뮤니티">
-            <h2 class="main-title"></h2>
-            <div class="community-container-wrap">
-                <!-- community 00 -->
-                <a href="#community00" class="on" title="전체">전체</a>
-                <div class="grid-container grid-manual community" id="community00">
-                    <div class="row" id="total">
-                    </div>
-                </div>
-                <!--// community 00 -->
-                <!-- community 01 -->
-                <a href="#community01" title="공지사항">공지사항</a>
-                <div class="grid-container grid-manual community" id="community01">
-                    <div class="row">
-                        % for list in index_list :
-                        % if list[5] == 'N':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_notice_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-                                   <!-- <time>${list[4]}</time> -->
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_notice" style="margin-top: 20px;" title="공지사항 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 01 -->
-                <!-- community 02 -->
-                <a href="#community02" title="K-MOOC 뉴스">K-MOOC 뉴스</a>
-                <!-- <div class="grid-container grid-manual community" id="community02">
-                    <div class="row">
-                    % for list in index_list :
-                        % if list[5] == 'K':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="/comm_k_news_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <p class="summary">${list[3]}</p>
-                                    <time>${list[4]}</time>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                </div> -->
-                <div class="grid-container grid-manual community" id="community02">
-                    <div class="row">
-                    % for list in index_list :
-                        % if list[5] == 'K':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_k_news_view/${list[0]}/">
-                                <h3 style="background-image: url(${list[3]}); background-size: 100% 100%;" title="${list[7]}">
-                                </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_k_news" style="margin-top: 20px;" title="K-MOOC 뉴스 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 02 -->
-                <!-- community 03 -->
-                <a href="#community03" title="자료실">자료실</a>
-                <div class="grid-container grid-manual community" id="community03">
-                    <div class="row">
-                    % for list in index_list :
-                        % if list[5] == 'R':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_repo_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_repository" style="margin-top: 20px;" title="자료실 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 03 -->
-                <!-- community 04 -->
-                <a href="#community04" title="Q&A">Q&A</a>
-                <div class="grid-container grid-manual community" id="community04">
-                    <div class="row">
-                    % for list in index_list :
-                        % if list[5] == 'F':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_faq/${list[6]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;" title="Q&A 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 04 -->
-                <!--
-                <a href="#community05" title="모바일">모바일</a>
-                <div class="grid-container grid-manual community" id="community05">
-                    <div class="row">
-                    % for list in index_list :
-                        % if list[5] == 'M':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_mobile_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">[모바일]</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_mobile" style="margin-top: 20px;" title="모바일 더보기">더보기</a>
-                    </div>
-                </div>
-                -->
-
-            </div>
-        </section>
-        <!-- [e] community list -->
-        % endif
     </section>
 </main>
 
