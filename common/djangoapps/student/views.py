@@ -146,6 +146,37 @@ def csrf_token(context):
     return (u'<div style="display:none"><input type="hidden"'
             ' name="csrfmiddlewaretoken" value="%s" /></div>' % (token))
 
+def common_course_status(startDt, endDt):
+
+    #input
+    # startDt = 2016-12-19 00:00:00
+    # endDt   = 2017-02-10 23:00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    #import
+    from datetime import datetime
+    from django.utils.timezone import UTC as UTC2
+
+    #making nowDt
+    nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
+    nowDt = nowDt.split('-')
+    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
+
+    #logic
+    if startDt is None or startDt == '' or endDt is None or endDt == '':
+        status = 'none'
+    elif nowDt < startDt:
+        status = 'ready'
+    elif startDt <= nowDt <= endDt:
+        status = 'ing'
+    elif endDt < nowDt:
+        status = 'end'
+    else:
+        status = 'none'
+
+    #return status
+    return status
+
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
@@ -252,6 +283,11 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
             # multisite - make course status
             for c in course_list:
+                status = common_course_status(c.start, c.end)
+                c.status = status
+
+            """
+            for c in course_list:
                 if c.start is None or c.start == '' or c.end is None or c.end == '':
                     c.status = 'none'
                 elif datetime.datetime.now(UTC2()) < c.start:
@@ -262,6 +298,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     c.status = 'end'
                 else:
                     c.status = 'none'
+            """
 
             context = { 'courses': course_list }
 
