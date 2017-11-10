@@ -36,33 +36,78 @@ import re
 
 log = logging.getLogger(__name__)
 
+def common_course_status(startDt, endDt):
+
+    #input
+    # startDt = 2016-12-19 00:00:00
+    # endDt   = 2017-02-10 23:00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    #import
+    from datetime import datetime
+    from django.utils.timezone import UTC as UTC2
+
+    #making nowDt
+    nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
+    nowDt = nowDt.split('-')
+    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
+
+    #logic
+    if startDt is None or startDt == '' or endDt is None or endDt == '':
+        status = 'none'
+    elif nowDt < startDt:
+        status = 'ready'
+    elif startDt <= nowDt <= endDt:
+        status = 'ing'
+    elif endDt < nowDt:
+        status = 'end'
+    else:
+        status = 'none'
+
+    #return status
+    return status
+
+
 def course_api(request):
+
+    #mysql
     conn = pymysql.connect(host='192.168.33.21',
                            user='hello',
                            password='0000',
                            db='edxapp',
                            charset='utf8')
+
     cur = conn.cursor()
     #with connections['default'].cursor() as cur:
     sql = '''
-        SELECT id,
-               display_name,
-               start,
-               end,
-               enrollment_start,
-               enrollment_end,
-               created,
-               modified,
-               course_video_url,
-               course_image_url,
+        SELECT coc.id,
+               coc.display_name,
+               coc.start,
+               coc.end,
+               coc.enrollment_start,
+               coc.enrollment_end,
+               coc.created,
+               coc.modified,
+               coc.course_video_url,
+               coc.course_image_url,
                cd.detail_name,
-               org,
-               display_number_with_default  AS course,
-               Substring_index(id, '+', -1) AS RUN,
-               effort
+               coc.org,
+               coc.display_number_with_default  AS course,
+               Substring_index(coc.id, '+', -1) AS RUN,
+               coc.effort,
+               c.cert_date,
+               coa.teacher_name
         FROM   edxapp.course_overviews_courseoverview AS coc
-               left join edxapp.code_detail AS cd
+               left outer join edxapp.code_detail AS cd
                       ON coc.org = cd.detail_code
+               left outer join (
+                    select course_id, min(created_date) as cert_date
+                    from edxapp.certificates_generatedcertificate
+                    group by course_id
+               ) as c
+                      ON coc.id = c.course_id
+                left outer join edxapp.course_overview_addinfo as coa
+                      ON coc.id = coa.course_id
     '''
     cur.execute(sql)
     slist = cur.fetchall()
@@ -86,9 +131,38 @@ def course_api(request):
     e1_list = []            #총주차
     e2_list = []            #동영상재생시간
     et_list = []            #총학습시간
+    course_status_list = [] #강좌상태
+    classfy_list = []       #대분류
+    middle_classfy_list = []#중분류
+    cert_date_list = []     #이수증 생성일
+    teacher_name_list = []  #교수자 이름
 
     # making data (insert)
     for item in slist:
+        #mongo
+        client = MongoClient('192.168.33.21', 27017)
+        db = client["edxapp"]
+        cursor = db.modulestore.active_versions.find_one({'org': item[11], 'course': item[12], 'run': item[13]})
+        pb = cursor.get('versions').get('published-branch')
+        cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+        cursor_text = str(cursor)
+        index = cursor_text.find('classfy')
+        cl = cursor_text[index:index+50]
+        index = cursor_text.find('middle_classfy')
+        mcl = cursor_text[index:index+50]
+        index_cl = cl.find("': u'")
+        index_mcl = mcl.find("': u'")
+        cls = cl[index_cl+5:index_cl+15]
+        mcls = mcl[index_mcl+5:index_mcl+15]
+        ha = cls.find("',")
+        hb = mcls.find("',")
+        if mcls.find("'},") != -1:
+            hb = mcls.find("'},")
+        clsf = cls[:ha]
+        m_clsf = mcls[:hb]
+
+        classfy_list.append(clsf)                               #대분류
+        middle_classfy_list.append(m_clsf)                      #중분류
         course_id_list.append(item[0])                          #코스아이디
         display_name_list.append(item[1])                       #강좌명
         start_time_list.append(item[2])                         #시작일
@@ -99,11 +173,23 @@ def course_api(request):
         modified_list.append(item[7])                           #강좌수정 시간
         video_list.append(item[8])                              #강좌소개 비디오
         img_list.append("http://www.kmooc.kr" + str(item[9]))   #강좌 썸네일 이미지
-        univ_name_list.append(item[10])                         #대학명
+        univ_name_list.append(unicode(item[10]).strip())                         #대학명
         org_list.append(item[11])                               #org 코드
-        course_list.append(item[12])                            #run 코드
+        course_list.append(item[12])                            #course 코드
         run_list.append(item[13])                               #run 코드
 
+        if item[15] == None or item[15] == '':
+            cert_date_list.append('null')
+        else:
+            cert_date_list.append(item[15])                     #이수증 생성일
+
+        if item[16] == None or item[16] == '':
+            teacher_name_list.append('null')
+        else:
+            teacher_name_list.append(item[16])                  #교수자 이름
+
+        status = common_course_status(item[2], item[3])         #강좌상태
+        course_status_list.append(status)
                                                                 #주간학습권장시간
                                                                 #총주차
                                                                 #동영상재생시간
@@ -170,6 +256,8 @@ def course_api(request):
             e2_list.append('null')
             et_list.append('null')
 
+
+    """
     # ----- DEBUG ----- #
     print "##############"
     for n in range(0, len(slist) ):
@@ -192,11 +280,28 @@ def course_api(request):
         print e1_list[n]            #총주차
         print e2_list[n]            #동영상재생시간
         print et_list[n]            #총학습시간
+        print course_status_list[n] #강좌상태
+        print classfy_list[n]       #대분류
+        print middle_classfy_list[n]#중분류
+        print cert_date_list[n]     #이수증 생성일
+        print teacher_name_list[n]  #교수자 이름
         print "---------------------"
     print "##############"
     print "total = {}".format(len(slist))
+    """
 
-    return JsonResponse({'foo':slist})
+    json_list = []
+    for n in range(0, len(slist) ):
+        item = '{' + '"course_id":' + '"' + str(course_id_list[n])  + '"' +  ',' + '"display_name":'  + '"' +  unicode(display_name_list[n])  + '"' +  ',' + '"univ_name":'  + '"' +  unicode(univ_name_list[n])  + '"' +  ',' + '"start_time":'  + '"' +  str(start_time_list[n])  + '"' +  ',' + '"end_time":'  + '"' +  str(end_time_list[n])  + '"' +  ',' + '"enroll_start":'  + '"' +  str(enroll_start_list[n])  + '"' +  ',' + '"enroll_end":'  + '"' +  str(enroll_end_list[n])  + '"' +  ',' + '"created":'  + '"' +  str(created_list[n])  + '"' +  ',' + '"modified":'  + '"' +  str(modified_list[n])  + '"' +  ',' + '"video":'  + '"' +  str(video_list[n])  + '"' +  ',' + '"img":'  + '"' +  str(img_list[n])  + '"' +  ',' + '"org":'  + '"' +  str(org_list[n])  + '"' +  ',' + '"course":'  + '"' +  str(course_list[n])  + '"' +  ',' + '"run":'  + '"' +  str(run_list[n])  + '"' +  ',' + '"e0":'  + '"' +  str(e0_list[n])  + '"' +  ',' + '"e1":'  + '"' +  str(e1_list[n])  + '"' +  ',' + '"e2":'  + '"' +  str(e2_list[n])  + '"' +  ',' + '"et":'  + '"' +  str(et_list[n])  + '"' +  ',' + '"course_status":'  + '"' +  str(course_status_list[n])  + '"' +  ',' + '"classfy":'  + '"' +  str(classfy_list[n])  + '"' +  ',' + '"middle_classfy":'  + '"' +  str(middle_classfy_list[n])  + '"' +  ',' + '"cert_date":'  + '"' +  str(cert_date_list[n])  + '"' +  ',' + '"teacher_name":'  + '"' +  str(teacher_name_list[n])  + '"' +  '}'
+        if n == 0:
+            item = "[" + item + ","
+        elif n == len(slist)-1:
+            item = item + "]"
+        else:
+            item = item + ','
+        json_list.append(item)
+
+    return HttpResponse(json_list)
 
 def get_course_enrollments(user):
     """
