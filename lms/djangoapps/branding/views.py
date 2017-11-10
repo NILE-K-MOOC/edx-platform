@@ -256,47 +256,13 @@ def course_api(request):
             e2_list.append('null')
             et_list.append('null')
 
-
-    """
-    # ----- DEBUG ----- #
-    print "##############"
-    for n in range(0, len(slist) ):
-        print "--------------------- {}".format(n)
-        print course_id_list[n]     #코스아이디
-        print display_name_list[n]  #강좌명
-        print univ_name_list[n]     #대학명
-        print start_time_list[n]    #시작일
-        print end_time_list[n]      #종강일
-        print enroll_start_list[n]  #수강신청 시작일
-        print enroll_end_list[n]    #수강신청 종료일
-        print created_list[n]       #강좌생성 시간
-        print modified_list[n]      #강좌수정 시간
-        print video_list[n]         #강좌소개 비디오
-        print img_list[n]           #강좌 썸네일 이미지
-        print org_list[n]           #org 코드
-        print course_list[n]        #course 코드
-        print run_list[n]           #run 코드
-        print e0_list[n]            #주간학습권장시간
-        print e1_list[n]            #총주차
-        print e2_list[n]            #동영상재생시간
-        print et_list[n]            #총학습시간
-        print course_status_list[n] #강좌상태
-        print classfy_list[n]       #대분류
-        print middle_classfy_list[n]#중분류
-        print cert_date_list[n]     #이수증 생성일
-        print teacher_name_list[n]  #교수자 이름
-        print "---------------------"
-    print "##############"
-    print "total = {}".format(len(slist))
-    """
-
     json_list = []
     for n in range(0, len(slist) ):
         item = '{' + '"course_id":' + '"' + str(course_id_list[n])  + '"' +  ',' + '"display_name":'  + '"' +  unicode(display_name_list[n])  + '"' +  ',' + '"univ_name":'  + '"' +  unicode(univ_name_list[n])  + '"' +  ',' + '"start_time":'  + '"' +  str(start_time_list[n])  + '"' +  ',' + '"end_time":'  + '"' +  str(end_time_list[n])  + '"' +  ',' + '"enroll_start":'  + '"' +  str(enroll_start_list[n])  + '"' +  ',' + '"enroll_end":'  + '"' +  str(enroll_end_list[n])  + '"' +  ',' + '"created":'  + '"' +  str(created_list[n])  + '"' +  ',' + '"modified":'  + '"' +  str(modified_list[n])  + '"' +  ',' + '"video":'  + '"' +  str(video_list[n])  + '"' +  ',' + '"img":'  + '"' +  str(img_list[n])  + '"' +  ',' + '"org":'  + '"' +  str(org_list[n])  + '"' +  ',' + '"course":'  + '"' +  str(course_list[n])  + '"' +  ',' + '"run":'  + '"' +  str(run_list[n])  + '"' +  ',' + '"e0":'  + '"' +  str(e0_list[n])  + '"' +  ',' + '"e1":'  + '"' +  str(e1_list[n])  + '"' +  ',' + '"e2":'  + '"' +  str(e2_list[n])  + '"' +  ',' + '"et":'  + '"' +  str(et_list[n])  + '"' +  ',' + '"course_status":'  + '"' +  str(course_status_list[n])  + '"' +  ',' + '"classfy":'  + '"' +  str(classfy_list[n])  + '"' +  ',' + '"middle_classfy":'  + '"' +  str(middle_classfy_list[n])  + '"' +  ',' + '"cert_date":'  + '"' +  str(cert_date_list[n])  + '"' +  ',' + '"teacher_name":'  + '"' +  str(teacher_name_list[n])  + '"' +  '}'
         if n == 0:
             item = "[" + item + ","
         elif n == len(slist)-1:
-            item = item + "]"
+            item = item + "," + '{"total_cnt":"' + str(len(slist)) + '"}' + ']'
         else:
             item = item + ','
         json_list.append(item)
