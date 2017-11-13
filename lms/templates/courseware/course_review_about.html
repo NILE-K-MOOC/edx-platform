@@ -8,27 +8,6 @@
         integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
         crossorigin="anonymous"
     >
-    <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-        crossorigin="anonymous">
-    </script>
-    <script
-        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous">
-    </script>
-    <script
-       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-       integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-       crossorigin="anonymous">
-    </script>
-    <!-- JQUERY -->
-    <script
-        src="https://code.jquery.com/jquery-3.2.1.js"
-        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-        crossorigin="anonymous">
-    </script>
     <!-- page CSS -->
     <link
         rel="stylesheet"
@@ -54,22 +33,12 @@ function write_review(){
         'write_switch':1
     },function(data){
         if(data.stat == 'success'){
-
-            //alert("main write");
-
-            //alert(data.html2);
-            $(".review_help").append(data.html2);
-            console.log("append html2");
-            //alert(data.html2);
-            $(".scrollbar").prepend(data.html);
-            console.log("prepend html");
-            $(".review_write").hide();
-            console.log("review_write hide");
+            $(".review_help").append(data.html2); // 위
+            $(".scrollbar").prepend(data.html);   // 아래
+            $(".review_write").remove();
             $(".review_delete_font").click(function(){
-                delete_review();
-                //alert(333);
+                delete_review(); // 새로 만든 write 창에 삭제 버튼 클릭 가능
             });
-
         }
     }, 'json');
 }
@@ -90,17 +59,12 @@ function delete_review(){
         'delete_switch':1
     },function(data){
         if(data.stat == 'success'){
-
-            //alert("main delete");
-
             var hello = "#review_body_div_"+data.del_id;
-            //alert(hello);
             $(".review_own").hide();
             $(".review_subject").append(data.html);
             $(hello).hide();
             $("#review_write_submit").click(function(){
                 write_review();
-                //alert(555);
             });
 
         }
@@ -109,11 +73,11 @@ function delete_review(){
 </script>
 
 <!-- HTML (subject) -->
-<div class = "review_subject"><b>Review</b></div>
+<div class = "review_subject" id="potal"><b>Review</b></div>
 
 % if len(enroll_list) != 0:
 <!-- HTML (write) -->
-% if len(already_list) == 0:
+% if len(already_list) == 0 and login_status != 'x':
 <div class = review_write>
     <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <div id="review_write_star">
@@ -206,7 +170,7 @@ function delete_review(){
                         <div class = "review_delete_font">delete</div>
                 </td>
                 % if row[3] == 1:
-                <td class =s"review_star"><div class="stard-ratings-css" title=".200"></div></td>
+                <td class ="review_star"><div class="stard-ratings-css" title=".200"></div></td>
                 % endif
                 % if row[3] == 2:
                 <td class ="review_star"><div class="stard-ratings-css" title=".400"></div></td>
@@ -233,12 +197,6 @@ function delete_review(){
 % endif
 </div>
 % endif
-
-<!-- HTML (null)
-% if len(review_list) == 0:
-    <%include file="course_review_null.html" />
-% endif
--->
 
 <!-- HTML (list) -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -279,7 +237,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_good_img' src='/static/images/good.png'>" + good_id_after;
                 }
                 else if(data.return == "duplication"){
-                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
+                    //swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
                 }
             }
             if(mode=='bad'){
@@ -294,7 +252,7 @@ function ajax_score(id, email, org, name, mode){
                     document.getElementById(id).innerHTML = "<img class='review_bad_img' src='/static/images/bad.png'>" + bad_id_after;
                 }
                 else if(data.return == "duplication"){
-                    swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
+                    //swal ( "Oops" ,  "It's already over. It's impossible!" ,  "error" )
                 }
             }
         }
@@ -307,8 +265,8 @@ function score_click_good(id, email, org, name) {
 
 function score_click_bad(id, email, org, name) {
     ajax_score(id, email, org, name, 'bad');
-
 }
+
 </script>
 
 <style>
@@ -381,4 +339,3 @@ a.focus { outline: 1px solid red; }
     </div>
 % endfor
 </div>
-
