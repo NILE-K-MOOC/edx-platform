@@ -407,7 +407,7 @@ from student.helpers import (
               contact_link_start=HTML('<a href="#">'),
               contact_link_end=HTML('</a>'),
               unenroll_link_start=HTML(
-                '<a id="unregister_block_course" rel="leanModal" '
+                '<a id="unregister_block_course" rel="leanModal">'
                 'data-course-id="{course_id}" data-course-number="{course_number}" data-course-name="{course_name}" '
                 'href="#unenroll-modal">'
               ).format(
@@ -437,8 +437,31 @@ from student.helpers import (
     </ul>
   </footer>
 </article>
+
+<!-- DEBUG -->
+<!--
+<div>
+enrollment    ${enrollment}<br>
+course_overview    ${course_overview}<br>
+show_courseware_link    ${show_courseware_link}<br>
+cert_status    ${cert_status}<br>
+can_unenroll    ${can_unenroll}<br>
+credit_status    ${credit_status}<br>
+show_email_settings    ${show_email_settings}<br>
+course_mode_info    ${course_mode_info}<br>
+show_refund_option    ${show_refund_option}<br>
+is_paid_course    ${is_paid_course}<br>
+is_course_blocked    ${is_course_blocked}<br>
+verification_status    ${verification_status}<br>
+course_requirements    ${course_requirements}<br>
+dashboard_index    ${dashboard_index}<br>
+share_settings    ${share_settings}<br>
+user    ${user.id}<br>
+course_program_info    ${course_program_info}<br>
+percent    ${percent}<br>
+share_settings    ${share_settings}<br>
 </div>
-</li>
+-->
 <script>
            $( document ).ready(function() {
 
