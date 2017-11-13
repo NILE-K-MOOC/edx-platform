@@ -29,7 +29,7 @@ import MySQLdb as mdb
 from django.db import connections
 
 from django.db import connections
-import pymysql
+# import pymysql
 import pymongo
 from pymongo import MongoClient
 from bson import ObjectId
