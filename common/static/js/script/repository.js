@@ -63,15 +63,14 @@ $(document).ready(function(){
                     cur_page : click_el
                 }
             }).done(function(data){
-                //console.log(data);
                 html = "";
                 for(var i = 0; i < data.length; i++){
                     html += "<li class='tbody'>";
                     html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                     if(data[i][5] == 1){
-                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
                     }else{
-                        html += "<span class='title'><a href='/comm_repo_view/"+value_list[4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
+                        html += "<span class='title'><a href='/comm_repo_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
                     html += "<span class='date'>"+data[i][2]+"</span>";
                     total_page = data[i][3];
