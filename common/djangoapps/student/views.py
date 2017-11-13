@@ -142,7 +142,7 @@ def csrf_token(context):
     """A csrf token that can be included in a form."""
     token = context.get('csrf_token', '')
     if token == 'NOTPROVIDED':
-        return '' 
+        return ''
     return (u'<div style="display:none"><input type="hidden"'
             ' name="csrfmiddlewaretoken" value="%s" /></div>' % (token))
 
