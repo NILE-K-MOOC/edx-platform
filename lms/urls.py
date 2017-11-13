@@ -26,8 +26,12 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 # Use urlpatterns formatted as within the Django docs with first parameter "stuck" to the open parenthesis
 urlpatterns = (
     '',
+    url(r'^$', 'branding.views.index', name="root"),  
 
-    url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
+    # ---------- multi site ---------- #
+    url(r'^multisite/(?P<org>[a-zA-Z]+)$', 'branding.views.multisite_index', name="root"),  
+    # ---------- multi site ---------- #
+
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),

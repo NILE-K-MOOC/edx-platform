@@ -1,0 +1,76 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<script type="text/javascript" src="/static/js/vendor/script.js"></script>
+<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+        <header>
+            <div class="multi_main" style='height:250px'><img src='/static/images/multisite/hello.png'/></div>
+        </header>
+        <section class="courses-container full" id="main-contents05">
+            <section class="highlighted-courses">
+                <section class="courses">
+                      <ul class="courses-listing">
+                            %for course in courses:
+                            <li class="courses-listing-item">
+                                <%include file="course.html" args="course=course" />
+                            </li>
+                            %endfor
+                      </ul>
+                </section>
+            </section>
+        </section>
+    </section>
+</main>
+
+
+% if show_homepage_promo_video:
+  <section id="video-modal" class="modal home-page-video-modal video-modal" title="비디오">
+    <div class="inner-wrapper">
+      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section>
+% endif
+
+<%block name="js_extra">
+   <script type="text/javascript">
+        $(window).load(function() {
+            if(getParameterByName('next')) {
+                $('#login').trigger("click");
+            }
+        });
+   </script>
+</%block>
+
+<script type="text/javascript">
+$(function(){
+	$(".smooth-move").on("click", function(event){
+        event.preventDefault();
+        /*
+        var hashbang = $("#"+$(this).data("hashbang")).offset();
+        $('html body').animate({scrollTop: hashbang.top-110}, 'slow');*/
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        console.log('ua:' + ua );
+        console.log('msie:' + msie);
+
+        if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+            document.documentElement.scrollTop = $(window).scrollTop();
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+            $('html, body').animate({scrollTop: hashbang.top-110}, 'slow');
+        }else{
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+            $('html body').animate({scrollTop: hashbang.top-110}, 'slow');
+        }
+	});
+})
+</script>

@@ -26,6 +26,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 import sys
 import json
 import MySQLdb as mdb
+from django.db import connections
 
 from django.db import connections
 import pymysql
@@ -286,14 +287,67 @@ def get_course_enrollments(user):
         ]
     return site_enrollments
 
+# --------------- multisite index --------------- #
+@ensure_csrf_cookie
+def multisite_index(request, org):
+
+    # ----- i want data query ----- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+            SELECT logo_img, site_url
+            FROM   edxapp.multisite
+            WHERE  site_code = '{0}'
+        '''.format(org)
+        cur.execute(sql)
+        return_table = cur.fetchall()
+
+    try:
+        logo_img = return_table[0][0]
+        site_url = return_table[0][1]
+    except BaseException:
+        org = 'kmooc'
+        logo_img = ''
+        site_url = ''
+    # ----- i want data query ----- #
+
+    # session up
+    request.session['org'] = org
+    request.session['logo_img'] = logo_img
+    request.session['site_url'] = site_url
+
+    # basic logic
+    if request.user.is_authenticated():
+        if configuration_helpers.get_value(
+                'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
+                settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
+            pass
+    if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
+        from external_auth.views import ssl_login
+        if not request.GET.get('next'):
+            req_new = request.GET.copy()
+            req_new['next'] = reverse('dashboard')
+            request.GET = req_new
+        return ssl_login(request)
+    enable_mktg_site = configuration_helpers.get_value(
+        'ENABLE_MKTG_SITE',
+        settings.FEATURES.get('ENABLE_MKTG_SITE', False)
+    )
+    if enable_mktg_site:
+        return redirect(settings.MKTG_URLS.get('ROOT'))
+    domain = request.META.get('HTTP_HOST')
+    if domain and 'edge.edx.org' in domain:
+        return redirect(reverse("signin_user"))
+
+    return student.views.multisite_index(request, user=request.user)
+# --------------- multisite index --------------- #
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
 def index(request):
     '''
     Redirects to main page -- info page if user authenticated, or marketing if not
     '''
-    print 'def index called'
+
+    request.session['org'] = 'kmooc'
 
     if request.user.is_authenticated():
         # Only redirect to dashboard if user has
