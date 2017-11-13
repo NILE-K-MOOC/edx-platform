@@ -17,10 +17,10 @@
             accountSettingsTabs: [
                 {name: 'aboutTabSections', id: 'about-tab', label: gettext('Account Information'), class: 'active'},
                 {name: 'accountsTabSections', id: 'accounts-tab', label: gettext('Linked Accounts')},
-                //{name: 'ordersTabSections', id: 'orders-tab', label: gettext('Order History')}
             ],
             events: {
-                'click .account-nav-link': 'changeTab'
+                'click .account-nav-link': 'changeTab',
+                'click #nicecheck': 'nicecheck'
             },
 
             initialize: function (options) {
@@ -35,6 +35,13 @@
                 }));
                 this.renderSection(this.options.tabSections[this.activeTab]);
                 return this;
+            },
+
+            nicecheck: function(e) {
+                window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+                document.form2.target = "popupNICE";
+                document.form2.submit();
+
             },
 
             changeTab: function(e) {

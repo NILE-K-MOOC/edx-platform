@@ -158,6 +158,14 @@ if settings.FEATURES["ENABLE_COMBINED_LOGIN_REGISTRATION"]:
         url(r'^agree_done$', 'student_account.views.agree_done', name="agree_done"),
         url(r'^parent_agree$', 'student_account.views.parent_agree', name="parent_agree"),
         url(r'^parent_agree_done$', 'student_account.views.parent_agree_done', name="parent_agree_done"),
+
+        # ---------- nice check ---------- #
+        # success url
+        url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),
+        # fail url
+        url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),
+        # ---------- nice check ---------- #
+
     )
 else:
     # Serve the old views

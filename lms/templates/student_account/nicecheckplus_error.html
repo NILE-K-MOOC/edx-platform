@@ -1,0 +1,25 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">nicecheckplus error</%block>
+
+<%block name="js_extra">
+    <script>
+        $(document).ready(function(){
+            alert('인증 실패');
+            self.close();
+        });
+    </script>
+</%block>
+
+<%block name="header_extras"></%block>
+
+% if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
+    ## This overwrites the "footer" block declared in main.html
+    ## with an empty block, effectively hiding the footer
+    ## from logistration pages.
+    <%block name="footer"/>
+% endif
+
