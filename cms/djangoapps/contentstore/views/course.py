@@ -1198,8 +1198,9 @@ def settings_handler(request, course_key_string):
                     encoder=CourseSettingsEncoder
                 )
 
+
 def course_need_lock(request, course_key_string):
-    if not request.user.is_staff:
+    if not request.user.is_staff and str(course_key_string).startswith('course'):
         from django.db import connections
         with connections['default'].cursor() as cursor:
             cursor.execute('''

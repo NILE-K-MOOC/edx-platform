@@ -88,6 +88,10 @@ urlpatterns = (
 
     # Course API
     url(r'^api/courses/', include('course_api.urls')),
+ 
+    # ----- api request ----- #
+    url(r'^api/happy', 'branding.views.course_api', name="course_api"),
+    # ----- api request ----- #
 
     # User API endpoints
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),
