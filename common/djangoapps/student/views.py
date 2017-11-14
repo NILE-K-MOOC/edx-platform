@@ -176,11 +176,6 @@ def common_course_status(startDt, endDt):
     nowDt = nowDt.split('-')
     nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
-    print "###########"
-    print startDt
-    print endDt
-    print nowDt
-
     #logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
         status = 'none'
