@@ -28422,6 +28422,9 @@ msgstr "개강예정"
 msgid "end"
 msgstr "종료"
 
+msgid "interest"
+msgstr "관심강좌"
+
 msgid "none"
 msgstr "미정"
 

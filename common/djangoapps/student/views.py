@@ -134,6 +134,7 @@ REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
 # used to announce a registration
 REGISTER_USER = Signal(providing_args=["user", "profile"])
 
+
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
 # pylint: disable=logging-format-interpolation
 # pylint: disable=logging-format-interpolation
@@ -143,27 +144,27 @@ def csrf_token(context):
     """A csrf token that can be included in a form."""
     token = context.get('csrf_token', '')
     if token == 'NOTPROVIDED':
-        return '' 
+        return ''
     return (u'<div style="display:none"><input type="hidden"'
             ' name="csrfmiddlewaretoken" value="%s" /></div>' % (token))
 
-def common_course_status(startDt, endDt):
 
-    #input
+def common_course_status(startDt, endDt):
+    # input
     # startDt = 2016-12-19 00:00:00
     # endDt   = 2017-02-10 23:00:00
     # nowDt   = 2017-11-10 00:11:28
 
-    #import
+    # import
     from datetime import datetime
     from django.utils.timezone import UTC as UTC2
 
-    #making nowDt
+    # making nowDt
     nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
     nowDt = nowDt.split('-')
     nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
-    #logic
+    # logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
         status = 'none'
     elif nowDt < startDt:
@@ -175,12 +176,12 @@ def common_course_status(startDt, endDt):
     else:
         status = 'none'
 
-    #return status
+    # return status
     return status
+
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
-
     if extra_context is None:
         extra_context = {}
     user = request.user
@@ -256,7 +257,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 else:
                     c.status = 'none'
 
-            context = { 'courses': course_list }
+            context = {'courses': course_list}
 
         # base logic
         else:
@@ -301,7 +302,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     c.status = 'none'
             """
 
-            context = { 'courses': course_list }
+            context = {'courses': course_list}
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
@@ -450,6 +451,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     print context
 
     return render_to_response('multisite_index.html', context)
+
+
 # -------------------- multi site -------------------- #
 
 # NOTE: This view is not linked to directly--it is called from
@@ -676,7 +679,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(text1)
         index_list.append(value_list)
 
-
     context['index_list'] = index_list
 
     cur = con.cursor()
@@ -782,7 +784,7 @@ def reverification_info(statuses):
     return reverifications
 
 
-def get_course_enrollments(user, org_to_include, orgs_to_exclude):
+def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
     """
     Given a user, return a filtered set of his or her course enrollments.
 
@@ -796,9 +798,20 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude):
         generator[CourseEnrollment]: a sequence of enrollments to be displayed
         on the user's dashboard.
     """
-    for enrollment in CourseEnrollment.enrollments_for_user(user):
-        print ('get_course_enrollments')
-        print enrollment
+    if not status:
+        print 'case 1'
+        enrollments = CourseEnrollment.enrollments_for_user_ing(user)
+    elif status == 'end':
+        print 'case 2'
+        enrollments = CourseEnrollment.enrollments_for_user_end(user)
+    elif status == 'interest':
+        print 'case 3'
+        enrollments = CourseEnrollment.enrollments_for_user_interest(user)
+    else:
+        print 'case 4'
+        enrollments = CourseEnrollment.enrollments_for_user_ing(user)
+
+    for enrollment in enrollments:
 
         # If the course is missing or broken, log an error and skip it.
         course_overview = enrollment.course_overview
@@ -811,12 +824,6 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude):
             continue
         else:
             pass
-            # print type(course_overview.end), course_overview.end, ":", type(datetime.datetime.utcnow()), datetime.datetime.utcnow()
-            # print course_overview.end.strftime('%Y/%m/%d %H:%M:%S'), datetime.datetime.utcnow().strftime('%Y/%m/%d %H:%M:%S'),
-
-            # 종료 강좌 continue
-            # if course_overview.end.strftime('%Y/%m/%d %H:%M:%S') < datetime.datetime.utcnow().strftime('%Y/%m/%d %H:%M:%S'):
-            #     continue
 
         # Filter out anything that is not attributed to the current ORG.
         if org_to_include and course_overview.location.org != org_to_include:
@@ -1226,7 +1233,6 @@ def is_course_blocked(request, redeemed_registration_codes, course_key):
 @ensure_valid_course_key
 @ensure_csrf_cookie
 def dashboard(request):
-
     user = request.user
 
     platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
@@ -1248,12 +1254,13 @@ def dashboard(request):
     # enrollments, because it could have been a data push snafu.
 
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
-    course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
-    print('--------------------------------------------------------------')
-    print user, course_org_filter, org_filter_out_set
-    print('--------------------------------------------------------------')
-    print course_enrollments
+    if request.is_ajax():
+        status = request.POST.get('status')
+        print 'status:', status
 
+        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
+    else:
+        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
 
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
@@ -1337,57 +1344,45 @@ def dashboard(request):
     print 'cert_statuses:'
     print cert_statuses
 
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-
     course_type1 = []
     course_type2 = []
     course_type3 = []
     course_type4 = []
+    with connections['default'].cursor() as cur:
+        for c in course_enrollments:
 
-    for c in course_enrollments:
+            course_id = c.course
+            query = "select enrollment_end from course_overviews_courseoverview where id = %s"
+            cur.execute(query, [course_id])
+            one = cur.fetchone()
+            # print 'one == ', one[0]
+            today = datetime.datetime.now(UTC)
+            today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+            e_end = one[0]
 
-        print ('type :')
-        print type(c)
-        print ('c :')
-        print c
-
-        course_id = c.course
-        cur = con.cursor()
-        query = "select enrollment_end from course_overviews_courseoverview where id = '" + str(course_id) + "'"
-        cur.execute(query)
-        one = cur.fetchone()
-        # print 'one == ', one[0]
-        today = datetime.datetime.now(UTC)
-        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
-        e_end = one[0]
-
-        if one[0] != None:
-            e_end_val = e_end.strptime(str(e_end)[0:10], "%Y-%m-%d").date()
-        else:
-            e_end_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
-
-        a = (e_end_val - today_val)
-
-        if c.course.start and c.course.start > datetime.datetime.now(UTC):
-            c.status = 'ready'
-            course_type1.append(c)
-        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
-            if a.days >= 0:
-                c.status = 'ing(ing)'
+            if one[0] != None:
+                e_end_val = e_end.strptime(str(e_end)[0:10], "%Y-%m-%d").date()
             else:
-                c.status = 'ing(end)'
+                e_end_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
 
-            course_type2.append(c)
-        elif c.course.end and c.course.end < datetime.datetime.now(UTC):
-            c.status = 'end'
-            course_type3.append(c)
-        else:
-            c.status = 'none'
-            course_type4.append(c)
+            a = (e_end_val - today_val)
+
+            if c.course.start and c.course.start > datetime.datetime.now(UTC):
+                c.status = 'ready'
+                course_type1.append(c)
+            elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
+                if a.days >= 0:
+                    c.status = 'ing(ing)'
+                else:
+                    c.status = 'ing(end)'
+
+                course_type2.append(c)
+            elif c.course.end and c.course.end < datetime.datetime.now(UTC):
+                c.status = 'end'
+                course_type3.append(c)
+            else:
+                c.status = 'none'
+                course_type4.append(c)
 
     course_type1.sort(key=lambda x: x.created, reverse=True)
     course_type2.sort(key=lambda x: x.created, reverse=True)
@@ -1479,46 +1474,23 @@ def dashboard(request):
         # grade_summary = grades.grade(user, course, course_structure=None)
         # percents[course_id] = str(int(float(grade_summary['percent']) * 100))
 
-    cur = con.cursor()
-    query = """
-        SELECT course_id
-          FROM interest_course
-          WHERE use_yn = 'Y' AND user_id = '""" + str(user.id) + """'
-        """
-    print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
-    cur.execute(query)
-    rows = cur.fetchall()
-    cur.close()
-    interest_list = []
-    if (len(rows) > 0):
-        for p in rows:
-            interest_list.append(list(p)[0])
-    print interest_list
-
-    from .models import CourseOverview
-    # test_course = CourseOverview.objects.all().filter(Q(id='course-v1:POSTECHk+LIFE422k+2016-1'))
-    all_courses = CourseOverview.objects.all()
-    test_course = all_courses.filter(Q(id__icontains='edX'))
-    test_course1 = all_courses.filter(Q(org='edX'))
-    test_course2 = all_courses.filter(org__in=['edX', 'NILE'])
-
-    print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
-    print test_course
-    print test_course1
-    print test_course2
-
-    from opaque_keys.edx import locator
-    course_key = locator.CourseLocator('POSTECHk', 'LIFE422k', '2016-1')
-    test_course3 = all_courses.filter(id=course_key)
-    test_course4 = [course for course in all_courses if str(course.id) in [str(r[0]) for r in rows]]
-
-    print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
-    print course_key
-    print test_course3
-    print test_course4
+    # cur = con.cursor()
+    # query = """
+    #     SELECT course_id
+    #       FROM interest_course
+    #       WHERE use_yn = 'Y' AND user_id = '""" + str(user.id) + """'
+    #     """
+    # print ('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    # cur.execute(query)
+    # rows = cur.fetchall()
+    # cur.close()
+    # interest_list = []
+    # if (len(rows) > 0):
+    #     for p in rows:
+    #         interest_list.append(list(p)[0])
+    # print interest_list
 
     context = {
-        'interest_list': interest_list,
         'percents': percents,
         'enrollment_message': enrollment_message,
         'redirect_message': redirect_message,
@@ -1559,6 +1531,9 @@ def dashboard(request):
             'use_ecommerce_payment_flow': True,
             'ecommerce_payment_page': ecommerce_service.payment_page_url(),
         })
+
+    if request.is_ajax():
+        return render_to_response('dashboard_ajax.html', context)
 
     return render_to_response('dashboard.html', context)
 
