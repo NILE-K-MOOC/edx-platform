@@ -244,16 +244,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
             # multisite - make course status
             for c in course_list:
-                if c.start is None or c.start == '' or c.end is None or c.end == '':
-                    c.status = 'none'
-                elif datetime.datetime.now(UTC2()) < c.start:
-                    c.status = 'ready'
-                elif c.start <= datetime.datetime.now(UTC2()) <= c.end:
-                    c.status = 'ing'
-                elif c.end < datetime.datetime.now(UTC2()):
-                    c.status = 'end'
-                else:
-                    c.status = 'none'
+                c.status = common_course_status(c.start, c.end)
 
             context = { 'courses': course_list }
 
