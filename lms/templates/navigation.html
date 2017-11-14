@@ -103,8 +103,8 @@ site_status_msg = get_site_status_msg(course_id)
                 </%block>
             </a>
         </h1>
-            % if request.session['org'] != 'kmooc':
-            <a href="/multisite/${request.session['org']}">
+            % if 'org' in request.session and request.session['org'] != 'kmooc':
+            <a href="/multisite/${'org' in request.session and request.session['org']}">
                 <img style='width:170px; height:44px; margin-top: 15px;' src="/static/images/multisite/${request.session['logo_img']}" alt=""/>
             </a>
             % endif
@@ -118,11 +118,11 @@ site_status_msg = get_site_status_msg(course_id)
             <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}">${_("Register")}</a></li>
             % endif
 
-            % if request.session['org'] != 'kmooc':
+            % if 'org' in request.session and request.session['org'] != 'kmooc':
             <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             % endif
 
-            % if request.session['org'] == 'kmooc':
+            % if 'org' in request.session and request.session['org'] == 'kmooc':
             <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
             <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
@@ -139,7 +139,7 @@ site_status_msg = get_site_status_msg(course_id)
                 </ul>
             </li>
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
-            % if request.session['org'] == 'kmooc':
+            % if 'org' in request.session and request.session['org'] == 'kmooc':
             <li class="item search-global">
                 <div class="gnb-search-box">
                     <form method="get" action="/courses">
@@ -149,10 +149,10 @@ site_status_msg = get_site_status_msg(course_id)
                 </div>
             </li>
             % endif
-            % if request.session['org'] != 'kmooc':
+            % if 'org' in request.session and request.session['org'] != 'kmooc':
             <li class="item search-global">
                 <div class="gnb-search-box">
-                    <form method="get" action="/multisite/${request.session['org']}">
+                    <form method="get" action="/multisite/${'org' in request.session and request.session['org']}">
                     <input type="text" title="검색어를 입력하세요" name="search_query" type="text" placeholder="${_("Search for a course")}" title="강좌 찾기" aria-label="강좌 찾기"/>
                     <input type="image" src="/static/images/common/search-submit.gif" alt="검색" aria-label="검색" title="검색">
                     </form>
