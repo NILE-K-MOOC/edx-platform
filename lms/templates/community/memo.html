@@ -5,12 +5,95 @@
 
 <%block name="header_extras"></%block>
 
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
 
-<script src="${static.url('js/script/notice.js')}" charset="utf-8"></script>
+<!--<script src="${static.url('js/script/memo.js')}" charset="utf-8"></script>-->
 
 <section class="container">
     <h2 title="공지사항" id="main">쪽지</h2>
-    <!-- [s] board list -->
+
+<script>
+
+$(document).ready(function() {
+    setDataTable1();
+});
+
+function buildSearchData2() {
+    var obj = {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+    }
+    return obj
+}
+
+function setDataTable1() {
+    var $table = $('#datatable1');
+    $table.dataTable({
+        dom: '<"toolbar"><"search"B>rt<"bottom"ip><"clear">',
+        bProcessing: true,
+        ordering: false,
+        serverSide: false,
+        searching: true,
+        "language": {
+          "emptyTable": "조회된 데이터가 없습니다."
+        },
+        "scrollY": "250px",
+        "scrollCollapse": false,
+        ajax: {
+            url: "/memo",
+            type: "GET",
+            dataType: "json",
+            data: {"hello" : "world"},
+            dataSrc: function (json) {
+                alert(333);
+                return json.data;
+            }
+        },
+        columns: [
+            {data: "pk", name: "pk"},
+            {data: "memo_gubun"},
+            {data: "title"},
+            {data: "contents"},
+            {data: "read_date"},
+            {data: "regist_date"},
+        ],
+        columnDefs: [],
+        rowsGroup: [],
+        buttons: [],
+        paginate: false,
+        "info":false,
+        initComplete: function(){
+            alert('9090909');
+        }
+    });
+}
+
+function Del1() {
+    alert("Del");
+    $.get( "test.php", { name: "John", time: "2pm" } );
+}
+
+</script>
+        <div class="col-sm-15" align="right" style="padding: 10px;">
+            <a href="javascript:Del1()"><input class="btn btn-primary" type="button" value="삭제"></a>
+        </div>
+        <table class="table table-hover table-striped  table-bordered" id="datatable1" style="width: 100%;" >
+            <thead>
+                <tr>
+                    <td><input type="checkbox" onclick="checked_all1()" id="check_all2"/></td>
+                    <td>No</td>
+                    <td>쪽지구분</td>
+                    <td>제목</td>
+                    <td>발송일시</td>
+                    <td>조회일시</td>
+                </tr>
+            </thead>
+            <tbody id="notice_body2">
+            </tbody>
+        </table>
+
+
+    <!--
     <section class="board-search-box" style="margin-top:0;">
         <select id="search_con" title="검색 조건 선택">
             <option id="search_total" title="전체">- 전체 -</option>
@@ -34,7 +117,7 @@
         <div class="paging">
         </div>
     </section>
-    <!-- [e] board list -->
+    -->
 </section>
 <br/><br/><br/><br/><br/><br/><br/>
 

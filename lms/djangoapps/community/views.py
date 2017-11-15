@@ -67,6 +67,7 @@ import sys
 import re
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 import datetime
+from django.db import connections
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -74,221 +75,47 @@ sys.setdefaultencoding('utf8')
 # ---------- 2017.11.15 ahn jin yong ---------- #
 @ensure_csrf_cookie
 def memo(request):
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-    noti_list = []
-    page = 1
+
+    try:
+        user_email = str(request.user.email)
+        user_id = str(request.user.id)
+    except BaseException:
+        user_email = 'staff@example.com'
+        user_id = '5'
+
+    result = dict()
+
+    print '=+================================================='
+
     if request.is_ajax():
-        data = {}
-        if request.GET['method'] == 'notice_list':
-            cur = con.cursor()
-            if 'cur_page' in request.GET:
-                page = request.GET['cur_page']
-            query = """
-                    SELECT (SELECT count(board_id) - (%s - 1) * 10
-                              FROM tb_board
-                             WHERE section = 'N' AND use_yn = 'Y')
-                              no,
-                           subject,
-                           substring(reg_date, 1, 10) reg_datee,
-                           (SELECT ceil(count(board_id) / 10)
-                              FROM tb_board
-                             WHERE section = 'N' AND use_yn = 'Y')
-                              AS total_page,
-                           board_id,
-                           CASE
-                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
-                              ELSE '0'
-                           END
-                              flag,
-                           CASE
-                              WHEN head_title = 'noti_n' THEN '공지'
-                              WHEN head_title = 'advert_n' THEN '공고'
-                              WHEN head_title = 'guide_n' THEN '안내'
-                              WHEN head_title = 'event_n' THEN '이벤트'
-                              WHEN head_title = 'etc_n' THEN '기타'
-                              ELSE ''
-                           END
-                              head_title
-                      FROM tb_board
-                     WHERE section = 'N' AND use_yn = 'Y'
-            """ % (page)
-            if 'cur_page' in request.GET:
-                cur_page = request.GET['cur_page']
-                if cur_page == '1':
-                    query += "order by reg_date desc " \
-                             "limit 0,10"
-                    cur.execute(query)
-                else:
-                    start_num = (int(cur_page) - 1) * 10
-                    query += "order by reg_date desc " \
-                             "limit %s,10" % (start_num)
-                    cur.execute(query)
-            else:
-                query += "order by reg_date desc " \
-                         "limit 0,10"
-                cur.execute(query)
-            row = cur.fetchall()
-            cur.close()
-
-            for noti in row:
-                value_list = []
-                notice = noti
-                value_list.append(int(notice[0]))
-                value_list.append(notice[1])
-                value_list.append(notice[2])
-                value_list.append(int(notice[3]))
-                value_list.append(notice[4])
-                value_list.append(notice[5])
-                if notice[6] == None or notice[6] == '':
-                    value_list.append('')
-                else:
-                    value_list.append('[' + notice[6] + '] ')
-
-                noti_list.append(value_list)
-            data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
-        elif request.GET['method'] == 'search_list':
-            cur = con.cursor()
-            if 'cur_page' in request.GET:
-                page = request.GET['cur_page']
-            query = """
-                    SELECT (SELECT count(board_id) - (%s - 1) * 10
-                              FROM tb_board
-                             WHERE section = 'N' AND use_yn = 'Y')
-                              no,
-                           subject,
-                           substring(reg_date, 1, 10) reg_datee,
-                           %s                          total_page,
-                           board_id,
-                           CASE
-                              WHEN reg_date BETWEEN now() - INTERVAL 7 DAY AND now() THEN '1'
-                              ELSE '0'
-                           END
-                              flag,
-                           CASE
-                              WHEN head_title = 'noti_n' THEN '공지'
-                              WHEN head_title = 'advert_n' THEN '공고'
-                              WHEN head_title = 'guide_n' THEN '안내'
-                              WHEN head_title = 'event_n' THEN '이벤트'
-                              WHEN head_title = 'etc_n' THEN '기타'
-                              ELSE ''
-                           END
-                              head_title
-                      FROM tb_board
-                     WHERE section = 'N' and use_yn = 'Y'
-            """ % (page, page)
-            if 'search_con' in request.GET:
-                title = request.GET['search_con']
-                search = request.GET['search_search']
-                # print 'title == ',title
-                if title == 'search_total':
-                    query += "and (subject like '%" + search + "%' or content like '%" + search + "%') and section='N' "
-                else:
-                    query += "and subject like '%" + search + "%' and section='N' "
-
-            query += "order by reg_date desc "
-            # print 'query == ', query
+        print "#################"
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT memo_gubun,
+                       title,
+                       contents,
+                       read_date,
+                       regist_date
+                FROM   edxapp.memo
+                WHERE  receive_id = {0};
+            '''.format(user_id)
             cur.execute(query)
-            row = cur.fetchall()
-            cur.close()
+            columns = [i[0] for i in cur.description]
+            rows = cur.fetchall()
 
-            for noti in row:
-                value_list = []
-                notice = noti
-                value_list.append(int(notice[0]))
-                value_list.append(notice[1])
-                value_list.append(notice[2])
-                value_list.append(int(notice[3]))
-                value_list.append(notice[4])
-                value_list.append(notice[5])
-                if notice[6] == None or notice[6] == '':
-                    value_list.append('')
-                else:
-                    value_list.append('[' + notice[6] + '] ')
-                noti_list.append(value_list)
-            data = json.dumps(list(noti_list), cls=DjangoJSONEncoder, ensure_ascii=False)
+            result_list = [dict(zip(columns, (str(col) for col in row))) for row in rows]
 
-        return HttpResponse(list(data), 'application/json')
+        result['data'] = result_list
+        context = json.dumps(result, cls=DjangoJSONEncoder, ensure_ascii=False)
+        return HttpResponse(context, 'applications/json')
 
     return render_to_response('community/memo.html')
 
 @ensure_csrf_cookie
 def memo_view(request, board_id):
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-    value_list = []
-    board_id = board_id.replace("<", "&lt;") \
-        .replace(">", "&gt;") \
-        .replace("/", "&#x2F;") \
-        .replace("&", "&#38;") \
-        .replace("#", "&#35;") \
-        .replace("\'", "&#x27;") \
-        .replace("\"", "&#qout;")
-    if request.is_ajax():
-        data = {}
-        if request.GET['method'] == 'view':
-            cur = con.cursor()
-            query = """
-                    SELECT subject,
-                           content,
-                           SUBSTRING(reg_date, 1, 10),
-                           SUBSTRING(mod_date, 1, 10),
-                           CASE
-                              WHEN head_title = 'noti_n' THEN '공지'
-                              WHEN head_title = 'advert_n' THEN '공고'
-                              WHEN head_title = 'guide_n' THEN '안내'
-                              WHEN head_title = 'event_n' THEN '이벤트'
-                              WHEN head_title = 'etc_n' THEN '기타'
-                              ELSE ''
-                           END
-                              head_title
-                      FROM tb_board
-                     WHERE section = 'N' AND board_id =
-            """ + board_id
-            cur.execute(query)
-            row = cur.fetchall()
-            cur.close()
-            # 파일 이름 구하기
-            cur = con.cursor()
-            query = "select attatch_file_name from tb_board_attach where attatch_file_name <> 'None' and  board_id = " + board_id
-            cur.execute(query)
-            files = cur.fetchall()
-            cur.close()
-            # print 'files == ',str(files)
+    #if request.is_ajax():
+    return render_to_response('community/memo_view.html')
 
-            value_list.append(row[0][0])
-            value_list.append(row[0][1])
-            value_list.append(row[0][2])
-            value_list.append(row[0][3])
-            if row[0][4] == None or row[0][4] == '':
-                value_list.append('')
-            else:
-                value_list.append('[' + row[0][4] + '] ')
-
-            if files:
-                value_list.append(files)
-
-            # print 'value_list == ',value_list
-
-            data = json.dumps(list(value_list), cls=DjangoJSONEncoder, ensure_ascii=False)
-
-        elif request.GET['method'] == 'file_download':
-            file_name = request.GET['file_name']
-            # print 'file_name == ', file_name
-            data = json.dumps('/static/file_upload/' + file_name, cls=DjangoJSONEncoder, ensure_ascii=False)
-
-        return HttpResponse(data, 'application/json')
-
-    context = {
-        'id': board_id
-    }
-    return render_to_response('community/memo_view.html', context)
 # ---------- 2017.11.15 ahn jin yong ---------- #
 
 @ensure_csrf_cookie
