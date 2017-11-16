@@ -54,7 +54,7 @@ from student.helpers import (
   % else:
     <% mode_class = '' %>
   % endif
-<div class="course-container">
+<div class="course-container" data-status="${ enrollment.status if enrollment.status else 'none'}" data-is_enrolled="${ enrollment.is_enrolled }">
  % if course_program_info and course_program_info.get('category')=='xseries':
   <div class="label-xseries-association">
     <span class="xseries-icon" aria-hidden="true"></span>

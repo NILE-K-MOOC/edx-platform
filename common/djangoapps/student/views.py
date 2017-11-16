@@ -799,20 +799,16 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
         on the user's dashboard.
     """
     if not status:
-        print 'case 1'
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
     elif status == 'end':
-        print 'case 2'
         enrollments = CourseEnrollment.enrollments_for_user_end(user)
     elif status == 'interest':
-        print 'case 3'
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     else:
-        print 'case 4'
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
 
     for enrollment in enrollments:
-
+        enrollment.is_enrolled = CourseEnrollment.is_enrolled(user, enrollment.course_id)
         # If the course is missing or broken, log an error and skip it.
         course_overview = enrollment.course_overview
         if not course_overview:
@@ -1348,56 +1344,59 @@ def dashboard(request):
     course_type2 = []
     course_type3 = []
     course_type4 = []
-    with connections['default'].cursor() as cur:
-        for c in course_enrollments:
 
-            course_id = c.course
-            query = "select enrollment_end from course_overviews_courseoverview where id = %s"
-            cur.execute(query, [course_id])
-            one = cur.fetchone()
-            # print 'one == ', one[0]
-            today = datetime.datetime.now(UTC)
-            today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
-            e_end = one[0]
+    # 수정필요. https://github.com/kmoocdev2/edx-platform/commit/8da64778a4c8e758c5a9b012624c39846f100084#diff-55b798ee23a7fde8d1103408afcd0f16
 
-            if one[0] != None:
-                e_end_val = e_end.strptime(str(e_end)[0:10], "%Y-%m-%d").date()
-            else:
-                e_end_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+    for c in course_enrollments:
+        # 이수증 생성 여부: c.course.has_any_active_web_certificate
 
-            a = (e_end_val - today_val)
+        print c.course.id, c.course.display_name, c.course.has_any_active_web_certificate
 
-            if c.course.start and c.course.start > datetime.datetime.now(UTC):
-                c.status = 'ready'
-                course_type1.append(c)
-            elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end:
-                if a.days >= 0:
-                    c.status = 'ing(ing)'
-                else:
-                    c.status = 'ing(end)'
+        if c.course.start and c.course.end and c.course.start > c.course.end:
+            continue
 
-                course_type2.append(c)
-            elif c.course.end and c.course.end < datetime.datetime.now(UTC):
-                c.status = 'end'
-                course_type3.append(c)
-            else:
-                c.status = 'none'
-                course_type4.append(c)
+        elif c.course.start and c.course.start > datetime.datetime.now(UTC):
+            c.status = 'ready'
+            course_type1.append(c)
+
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+            c.status = 'ing(ing)'
+            course_type2.append(c)
+
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+            c.status = 'ing(end)'
+            course_type2.append(c)
+
+        elif c.course.has_ended():
+            c.status = 'end'
+            course_type3.append(c)
+
+        else:
+            c.status = 'none'
+            course_type4.append(c)
 
     course_type1.sort(key=lambda x: x.created, reverse=True)
     course_type2.sort(key=lambda x: x.created, reverse=True)
-    course_type3.sort(key=lambda x: x.created, reverse=True)
-    course_type4.sort(key=lambda x: x.created, reverse=True)
+    # course_type3.sort(key=lambda x: x.created, reverse=True)
+    # course_type4.sort(key=lambda x: x.created, reverse=True)
+
+    print 'course 1:'
+    print course_type1
+    print 'course 2:'
+    print course_type2
+    print 'course 3:'
+    print course_type3
+    print 'course 4:'
+    print course_type4
 
     course_enrollments = course_type1 + course_type2 + course_type3 + course_type4
-    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
 
-    # print '==================================course list s'
-    # for c in course_enrollments:
-    #     print c.course.id
-    # print '==================================course list e'
+    print 'check step 1 s'
+    for c in course_enrollments:
+        print c.course.id, c.course.display_name
+    print 'check step 1 e'
 
-    # only show email settings for Mongo course and when bulk email is turned on
+
     show_email_settings_for = frozenset(
         enrollment.course_id for enrollment in course_enrollments if (
             BulkEmailFlag.feature_enabled(enrollment.course_id)
@@ -1489,6 +1488,11 @@ def dashboard(request):
     #     for p in rows:
     #         interest_list.append(list(p)[0])
     # print interest_list
+
+    print 'check step 2 s'
+    for c in course_enrollments:
+        print c.course.id, c.course.display_name
+    print 'check step 2 e'
 
     context = {
         'percents': percents,

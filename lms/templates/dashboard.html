@@ -41,8 +41,27 @@ cert_name_long = settings.CERT_NAME_LONG
         max-width: 450px;
         margin-bottom: 0px;
     }
-    .faq-tab > a {padding: 15px 0 0 0;}
-    .progress {margin-top: 13px; height: 2px; width: 0%; background: #b3ddeb;}
+
+    .faq-tab > a {
+        padding: 15px 0 0 0;
+    }
+
+    .progress {
+        margin-top: 13px;
+        height: 2px;
+        width: 0%;
+        background: #b3ddeb;
+    }
+
+    .sub-end {
+        margin: 10px 0 10px 153px;
+        display: none;
+    }
+
+    .sub-interest {
+        margin: 10px 0 10px 293px;
+        display: none;
+    }
 </style>
 
 <%block name="js_extra">
@@ -56,37 +75,72 @@ cert_name_long = settings.CERT_NAME_LONG
             changeEmailSettings: "${reverse('change_email_settings') | n, js_escaped_string}"
         });
 
+
         $(".faq-tab a").click(function (e) {
+            console.log("tab clicked: " + e);
+
             var status = $(this).data("status");
-            $(e.target).find("div").stop().animate({
+
+            $(e.target).find(".progress").stop().animate({
                 width: "70%"
             }, 5000);
 
             $.post("/dashboard", {
                 "status": status
             }, function (data) {
-                $(e.target).find("div").stop().animate({
+                $(e.target).find(".progress").stop().animate({
                     width: "100%"
-                }, 50, function(){
-                    $(".faq-tab div").css("width", "0%");
+                }, 50, function () {
+                    $(".faq-tab .progress").css("width", "0%");
 
                     $(".faq-tab a").removeClass("on");
                     $(e.target).addClass("on");
-                    $("#courses_target").html(data).done(function(){
-                        console.log("html done.");
-                    });
-                    $(this).css("width", "0%");
+                    $("#courses_target").html(data);
+
+                    var status = $(e.target).data("status");
+
+
+                    $(".sub-end, .sub-interest").slideUp(200);
+
+                    if (status === "end")
+                        $(".sub-end").slideDown(400);
+                    else if (status === "interest")
+                        $(".sub-interest").slideDown(400);
+
                 });
+
+            }).done(function () {
+                $(".progress").css("width", "0%");
             });
         });
-
-        $(document).ajaxStart(function(){
-            console.log("ajax Start");
-        });
-        $(document).ajaxStop(function(){
-            console.log("ajax Stop");
-        });
     });
+
+    function focusTo(type) {
+        console.log('type: ' + type);
+        switch (type) {
+            case 1:
+                var target_top = $(".action-certificate:eq(0)").parents("li.course-item").position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+            case 2:
+                var target_top = $(".action-certificate:last").parents("li.course-item").next().position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+            case 3:
+                var target_top = $(".course-container[data-is_enrolled='True']:first").parents("li.course-item").position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+            case 4:
+                var target_top = $(".course-container[data-is_enrolled='False']:first").parents("li.course-item").position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+
+            default:
+                console.log('focusTo default');
+                break;
+        }
+
+    }
 </script>
 
 
@@ -142,6 +196,13 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
                         <div class="progress"></div>
                     </a>
                 </nav>
+
+                <div class="sub-end">
+                    <a href="javascript:focusTo(1);">이수과정</a> | <a href="javascript:focusTo(2);">미이수과정</a>
+                </div>
+                <div class="sub-interest">
+                    <a href="javascript:focusTo(3);">신청중인과정</a> | <a href="javascript:focusTo(4);">대기과정</a>
+                </div>
 
             </header>
 

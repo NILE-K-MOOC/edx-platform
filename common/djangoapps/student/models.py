@@ -1524,27 +1524,34 @@ class CourseEnrollment(models.Model):
     @classmethod
     def enrollments_for_user_end(cls, user):
         return cls.objects.raw('''
-            SELECT a.*
-              FROM student_courseenrollment a, course_overviews_courseoverview b
-             WHERE     a.course_id = b.id
-                   AND now() > b.end
-                   AND a.user_id = %s;
+              SELECT a.*
+                FROM student_courseenrollment      a
+                     LEFT JOIN certificates_generatedcertificate c
+                        ON     a.user_id = c.user_id
+                           AND a.course_id = c.course_id
+                           AND c.status = 'downloadable',
+                     course_overviews_courseoverview b
+               WHERE a.course_id = b.id AND now() > b.end AND a.user_id = %s
+            ORDER BY c.created_date DESC, a.created DESC;
         ''', [user.id])
 
 
     @classmethod
     def enrollments_for_user_interest(cls, user):
         return cls.objects.raw('''
-            SELECT c.interest_id id, c.user_id,
-                   c.course_id,
-                   c.created,
-                   if(c.use_yn = 'Y', 1, 0) is_active,
-                   'honor' mode
-              FROM course_overviews_courseoverview b,
-                   interest_course                 c
-             WHERE b.id = c.course_id
-                   AND c.use_yn = 'Y'
-                   AND c.user_id = '%s';
+              SELECT b.interest_id          id,
+                     b.user_id,
+                     b.course_id,
+                     b.created,
+                     if(b.use_yn = 'Y', 1, 0) is_active,
+                     'honor'                mode,
+                     c.created
+                FROM course_overviews_courseoverview a,
+                     interest_course               b
+                     LEFT JOIN student_courseenrollment c
+                        ON b.course_id = c.course_id AND b.user_id = c.user_id
+               WHERE a.id = b.course_id AND b.use_yn = 'Y' AND b.user_id = %s
+            ORDER BY c.created DESC;
         ''', [user.id])
 
 
