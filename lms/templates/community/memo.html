@@ -89,9 +89,50 @@ function setDataTable1() {
 }
 
 function Del1() {
-    alert("Del");
-    $.get( "test.php", { name: "John", time: "2pm" } );
+    var t = $('#datatable1').DataTable();
+    var group_code_list = '';
+    $("#notice_body1 input[type=checkbox]:checked").each(function() {
+        $(this).prop('checked', false);
+        var $row = $(this).closest('tr');
+        var data = t.row($row.get(0)).data();
+        var group_code = data.group_code;
+        group_code_list += group_code + "+";
+    });
+    try {
+        var method = 'del';
+
+        console.log(group_code_list);
+        console.log(method);
+
+        /*
+        $.post("/manage/group_code_db/", {
+            csrfmiddlewaretoken: $.cookie('csrftoken'),
+            group_code_list: group_code_list,
+            user_id: {{ user.id }},
+            method: method,
+        }).done(function (data) {
+            //update1();
+        }).fail(function (error) {
+            //swal("경고", "", "warning");
+        });
+        */
+
+    } catch (e) {
+        alert(e);
+    }
 }
+
+
+function checked_all1() {
+    console.log($("#check_all1").is(":checked"));
+
+    if ($("#check_all1").is(":checked")) {
+        $("#datatable1 tbody input[type=checkbox]:visible").prop("checked", true);
+    } else {
+        $("#datatable1 tbody input[type=checkbox]:visible").prop("checked", false);
+    }
+}
+
 
 </script>
         <div class="col-sm-15" align="right" style="padding: 10px;">
@@ -100,7 +141,7 @@ function Del1() {
         <table class="table table-hover table-striped  table-bordered" id="datatable1" style="width: 100%;" >
             <thead>
                 <tr>
-                    <td><input type="checkbox" onclick="checked_all1()" id="check_all2"/></td>
+                    <td><input type="checkbox" onclick="checked_all1()" id="check_all1"/></td>
                     <td>No</td>
                     <td>쪽지구분</td>
                     <td>제목</td>
