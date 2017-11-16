@@ -76,32 +76,76 @@ sys.setdefaultencoding('utf8')
 @ensure_csrf_cookie
 def memo(request):
 
-    try:
-        user_email = str(request.user.email)
-        user_id = str(request.user.id)
-    except BaseException:
-        user_email = 'staff@example.com'
-        user_id = '5'
 
-    result = dict()
+    # 삭제 로직
+    if request.method == 'POST' and request.POST.get('delete_flag'):
 
-    print '=+================================================='
+        user_id = request.POST.get('user_id')
+        board_id = request.POST.get('board_id')
 
-    if request.is_ajax():
-        print "#################"
         with connections['default'].cursor() as cur:
             query = '''
-                SELECT memo_gubun,
-                       title,
-                       contents,
-                       read_date,
-                       regist_date
+                SELECT memo_id
                 FROM   edxapp.memo
-                WHERE  receive_id = {0};
+                WHERE  memo_id = {0}
+                       AND receive_id = {1}
+            '''.format(board_id, user_id)
+            cur.execute(query)
+            rows = cur.fetchall()
+
+            secure_lock = len(rows) # secure_lock = 0 삭제불가 (권한없음)
+                                    # secure_lock = 1 가능
+
+        if secure_lock == 1:
+            with connections['default'].cursor() as cur:
+                query = '''
+                    DELETE FROM edxapp.memo
+                    WHERE  memo_id = {0}
+                           AND receive_id = {1}
+                '''.format(board_id, user_id)
+                cur.execute(query)
+            return JsonResponse({"return":"success"})
+
+        elif secure_lock == 0:
+            return JsonResponse({"return":"secure"})
+
+        else:
+            return JsonResponse({"return":"fail"})
+
+    # 메인 로직
+    try:
+        user_email = str(request.POST.get('user_email'))
+        user_id = str(request.POST.get('user_id'))
+    except BaseException:
+        user_email = ''
+        user_id = ''
+
+    # init
+    result = dict()
+
+    # ajax
+    if request.is_ajax():
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT CONVERT(@rn := @rn + 1, CHAR)                 AS rn,
+                       CASE
+                         WHEN memo_gubun = 1 THEN '단체메일발송'
+                       end                                           AS memo_gubun,
+                       CONCAT(memo_id, '$xcode$', title)             as title,
+                       Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                       CASE
+                         WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                       end                                           AS read_date
+                FROM   edxapp.memo,
+                       (SELECT @rn := 0) b
+                WHERE  receive_id = '{0}';
             '''.format(user_id)
             cur.execute(query)
             columns = [i[0] for i in cur.description]
             rows = cur.fetchall()
+
+            for n in rows:
+                print n
 
             result_list = [dict(zip(columns, (str(col) for col in row))) for row in rows]
 
@@ -113,8 +157,52 @@ def memo(request):
 
 @ensure_csrf_cookie
 def memo_view(request, board_id):
-    #if request.is_ajax():
-    return render_to_response('community/memo_view.html')
+
+    # 보안 로직
+    try:
+        user_id = request.user.id
+    except BaseException:
+        user_id = 0
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT memo_id
+            FROM   edxapp.memo
+            WHERE  memo_id = {0}
+                   AND receive_id = {1}
+        '''.format(board_id, user_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+        secure_lock = len(rows) # secure_lock = 0 (권한없음)
+                                # secure_lock = 1 (권한있음)
+
+    if secure_lock == 0:
+        return JsonResponse({"return":"secure"})
+
+    # 메인 로직
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT title,
+                   contents
+            FROM   edxapp.memo
+            WHERE  memo_id = {0};
+        '''.format(board_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+    title = rows[0][0]
+    content = rows[0][1]
+
+    print title
+    print content
+
+    context = {}
+    context['title'] = title
+    context['content'] = content
+    context['board_id'] = board_id
+
+    return render_to_response('community/memo_view.html', context)
 
 # ---------- 2017.11.15 ahn jin yong ---------- #
 
