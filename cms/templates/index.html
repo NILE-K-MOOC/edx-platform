@@ -42,7 +42,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <!--popup K-mooc(1)-->
     <div id="popupWrap_1" class="layerPupup">
         <!-- content area -->
-        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};"><br/>
+        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: {{ 'none' if LANG == 'en' else 'block' }};"><br/>
 
 <!-- univ -->
 안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
@@ -73,7 +73,7 @@ from openedx.core.djangolib.markup import HTML, Text
         </p>
 
         <!-- close area -->
-        <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
+        <div style="text-align: right; display: {{ 'none' if LANG == 'en' else 'block' }};">
             <label onclick="closeWin1();">
                 <input id="chkbox_1" name="chkbox_1" type="checkbox" style="vertical-align: middle;">
                 <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
@@ -85,11 +85,11 @@ from openedx.core.djangolib.markup import HTML, Text
 
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
-        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
+        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: {{ 'none' if LANG == 'en' else 'block' }};">
              <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@kmooc_update_banner.jpg" alt="">
         </p>
 
-        <div style="text-align: right; display: ${'none' if LANGUAGE_CODE == 'en' else 'block'};">
+        <div style="text-align: right; display: {{ 'none' if LANG == 'en' else 'block' }};">
             <label onclick="closeWin2();">
                 <input id="chkbox_2" name="chkbox_2" type="checkbox" style="vertical-align: middle;">
                 <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
@@ -128,7 +128,7 @@ function closeWin2() {
 cookiedata = document.cookie;
 
 popupDate = new Date();
-targetDate = new Date(2017, 8, 8);
+targetDate = new Date(2017, 10, 2);
 
 
 
@@ -141,11 +141,10 @@ if (
    )
     {
 
-    %if LANG == 'en':
+    if('{{ LANG }}' == 'en')
         document.all['popupWrap_1'].style.display = "none";
-    %else:
+    else
         document.all['popupWrap_1'].style.display = "block";
-    %endif
 
     //console.log(popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate());
 
@@ -160,11 +159,10 @@ if (
    )
     {
 
-    %if LANG == 'en':
+    if('{{ LANG }}' == 'en')
         document.all['popupWrap_2'].style.display = "none";
-    %else:
+    else
         document.all['popupWrap_2'].style.display = "block";
-    %endif
 
 } else {
     document.all['popupWrap_2'].style.display = "none";
@@ -194,7 +192,7 @@ if (
           % endif
 
           % if is_programs_enabled:
-            <a href=${program_authoring_url + 'new'} class="button new-button new-program-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>
+            <a href="${program_authoring_url + 'new'}" class="button new-button new-program-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>
             ${_("New Program")}</a>
           % endif
         </li>
@@ -257,13 +255,14 @@ if (
                         <option value="nat">자연계열</option>
                         <option value="med">의약계열</option>
                         <option value="art">예체능계열</option>
+                        <option value="intd">융복합계열</option>
                     </select>
 
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy">
                         <option value="">강좌 중분류 선택</option>
                     </select>
-                    <span class="tip" id="tip-new-course-name">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
+                    <span class="tip" id="tip-new-course-classfy">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
                 </li>
 
@@ -275,7 +274,7 @@ if (
                         <option value="Y">한국학</option>
                         <option value="N">그외</option>
                     </select>
-                    <span class="tip" id="tip-new-course-name">'한국' 관련 강좌의 경우 한국학을 선택하여 주시기 바랍니다.</span>
+                    <span class="tip" id="tip-new-course-linguistics">'한국' 관련 강좌의 경우 한국학을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-linguistics"></span>
                 </li>
 
@@ -289,7 +288,7 @@ if (
                         <option value="M">중기(7~12 weeks)</option>
                         <option value="L">장기(over 13 weeks)</option>
                    </select>
-                    <span class="tip" id="tip-new-course-name">강좌의 주차를 기준으로 학습기간(단기/중기/장기)을 선택하여 주시기 바랍니다.</span>
+                    <span class="tip" id="tip-new-course-period">강좌의 주차를 기준으로 학습기간(단기/중기/장기)을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
                 </li>
 
@@ -356,6 +355,9 @@ if (
                 {'category':
                         {'code': 'art', 'gettext': '예체능계'}
                 },
+                {'category':
+                        {'code': 'intd', 'gettext': '융ㆍ복합'}
+                },
         ];
 
         var mcate = {
@@ -407,6 +409,9 @@ if (
                                 {'gettext': '미술ㆍ조형', 'code': 'form'},
                                 {'gettext': '연극ㆍ영화', 'code': 'play'},
                                 {'gettext': '음악', 'code': 'musc'},
+                        ],
+                'intd':[
+                                {'gettext': '융ㆍ복합', 'code': 'intd_m'},
                         ]
         };
 
@@ -856,7 +861,7 @@ if (
               % for program in programs:
               <li class="course-item">
 
-                <a class="program-link" href=${program_authoring_url + str(program['id'])}>
+                <a class="program-link" href="${program_authoring_url + str(program['id'])}">
                   <h3 class="course-title">${program['name']}</h3>
 
                   <div class="course-metadata">
@@ -885,7 +890,7 @@ if (
 
               <ul class="list-actions">
                 <li class="action-item">
-                  <a href=${program_authoring_url + 'new'} class="action-primary action-create new-button action-create-program new-program-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span> ${_('Create Your First Program')}</a>
+                  <a href="${program_authoring_url + 'new'}" class="action-primary action-create new-button action-create-program new-program-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span> ${_('Create Your First Program')}</a>
                 </li>
               </ul>
 

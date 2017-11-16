@@ -265,6 +265,7 @@ def agree_done(request):
 @ensure_csrf_cookie
 @xframe_allow_whitelisted
 def login_and_registration_form(request, initial_mode="login"):
+
     # Determine the URL to redirect to following login/registration/third_party_auth
     redirect_to = get_next_url_for_login_page(request)
     provider_info = _third_party_auth_context(request, redirect_to)
@@ -283,16 +284,17 @@ def login_and_registration_form(request, initial_mode="login"):
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
         print 'login_and_registration_form type 3'
         division = request.session['division']
-        del request.session['division']
-        del request.session['agreeYN']
-        del request.session['auth']
+        # del request.session['division']
+        # del request.session['agreeYN']
+        # del request.session['auth']
     elif 'division' in request.session and 'agreeYN' in request.session:
         print 'login_and_registration_form type 4'
         division = request.session['division']
         if request.session['division'] == 'N':
             return render_to_response('student_account/registration_gubn.html')
-        del request.session['division']
-        del request.session['agreeYN']
+        # del request.session['division']
+        # del request.session['agreeYN']
+
     else:
         print 'login_and_registration_form type 5'
         return render_to_response('student_account/registration_gubn.html')

@@ -799,6 +799,9 @@ msgstr "경일대학교"
 msgid "KMUk"
 msgstr "국민대학교"
 
+msgid "KMUK"
+msgstr "국민대학교"
+
 msgid "DCUk"
 msgstr "대구가톨릭대학교"
 
@@ -28817,6 +28820,9 @@ msgstr "의약"
 msgid "Arts & Physical"
 msgstr "예체능"
 
+msgid "Interdisciplinary"
+msgstr "융ㆍ복합"
+
 msgid "Korean Studies"
 msgstr "한국학"
 
@@ -29370,6 +29376,9 @@ msgstr "의약"
 
 msgid "art"
 msgstr "예체능"
+
+msgid "intd"
+msgstr "융·복합"
 
 msgid "major"
 msgstr "분야"

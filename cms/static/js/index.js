@@ -12,7 +12,11 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             errorMessage: '#course_creation_error',
             tipError: '.create-course span.tip-error',
             error: '.create-course .error',
-            allowUnicode: '.allow-unicode-course-id'
+            allowUnicode: '.allow-unicode-course-id',
+            classfy: '.new-course-classfy',
+            middle_classfy: '.new-course-middle-classfy',
+            linguistics: '.new-course-linguistics',
+            course_period: '.new-course-period'
         }, {
             shown: 'is-shown',
             showing: 'is-showing',
@@ -55,7 +59,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             var classfy = $newCourseForm.find(".new-course-classfy").val();
             var middle_classfy = $newCourseForm.find(".new-course-middle-classfy").val();
             var linguistics = $newCourseForm.find(".new-course-linguistics").val();
-            var course_period = $newCourseForm.find(".new-course-period").val();
+            var period = $newCourseForm.find(".new-course-period").val();
 
 
             var course_info = {
@@ -66,8 +70,27 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 classfy: classfy,
                 middle_classfy: middle_classfy,
                 linguistics: linguistics,
-                course_period: course_period
+                period: period
             };
+
+            $("span.tip").css({"color": "#ccc"});
+
+            if (!middle_classfy || middle_classfy == "null")
+                $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
+
+            if (!linguistics)
+                $("span[id='tip-new-course-linguistics']").css({"color": "#b20610"});
+
+            if (!period)
+                $("span[id='tip-new-course-period']").css({"color": "#b20610"});
+
+            if (!classfy || !middle_classfy || middle_classfy == "null" || !linguistics || !period){
+                console.log(classfy);
+                console.log(middle_classfy);
+                console.log(linguistics);
+                console.log(period);
+                return;
+            }
 
             analytics.track('Created a Course', course_info);
             CreateCourseUtils.create(course_info, function (errorMessage) {

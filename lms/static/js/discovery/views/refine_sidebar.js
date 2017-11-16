@@ -54,6 +54,8 @@ define([
             return HtmlUtils.joinHtml.apply(this, _.map(options, function(option) {
                 var data = _.clone(option.attributes);
 
+                console.log(data);
+
                 if(data.facet == 'classfy'){
                     switch (data.term){
                         case 'hum':
@@ -70,6 +72,8 @@ define([
                             data.name = this.termName(data.facet, gettext("Medical Sciences & Pharmacy"));break;
                         case 'art':
                             data.name = this.termName(data.facet, gettext("Arts & Physical Education"));break;
+                        case 'intd':
+                            data.name = this.termName(data.facet, gettext("Interdisciplinary"));break;
                         default:
                             data.name = this.termName(data.facet, data.term);
                     }
@@ -92,8 +96,8 @@ define([
                         "cons":"Architecture", "civi":"Civil Construction & Urban Engineering", "traf":"Transportation", "mach":"Mechanical & Metallurgical Engineering", "elec":"Electricity & Electronics", "deta":"Precision & Energy", "matr":"Materials", "comp":"Computers & Communication", "indu":"Industrial Engineering", "cami":"Chemical Engineering", "other":"Others",
                         "agri":"Agriculture & Fisheries", "bio":"Biology, Chemistry & Environmental Science", "life": "Living Science", "math": "Mathematics, Physics, Astronomy & Geography",
                         "metr":"Medical Science", "nurs":"Nursing", "phar": "Pharmacy", "heal": "Therapeutics & Public Health",
-                        "dsgn":"Design", "appl":"Applied Arts", "danc": "Dancing & Physical Education", "form": "FineArts & Formative Arts", "play": "Drama & Cinema", "musc": "Music"
-
+                        "dsgn":"Design", "appl":"Applied Arts", "danc": "Dancing & Physical Education", "form": "FineArts & Formative Arts", "play": "Drama & Cinema", "musc": "Music",
+                        "intd_m":"Interdisciplinary",
                     };
                     if(middle_text[data.term]){
                         data.name = this.termName(data.facet, gettext(middle_text[data.term]));
@@ -188,6 +192,7 @@ define([
                     case 'form': model.set('odby2',33); break;
                     case 'play': model.set('odby2',34); break;
                     case 'musc': model.set('odby2',35); break;
+                    case 'intd_m': model.set('odby2',36); break;
 
                     //course_period
                     case 'S': model.set('odby2',1); break;
