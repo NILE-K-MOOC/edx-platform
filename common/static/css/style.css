@@ -552,6 +552,14 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 .board-list span.title {width:65%;}
 .board-list span.date {width:15%;}
 .board-list span.visit {width:10%;}
+
+.board-list span.memo_v {width:5%;}
+.board-list span.memo_a {width:5%;}
+.board-list span.memo_b {width:15%;}
+.board-list span.memo_c {width:35%;}
+.board-list span.memo_d {width:15%;}
+.board-list span.memo_e {width:15%;}
+
 .board-list .tbody span.title {text-align:left;padding:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .board-list .tbody span.title > a {color:#333;}
 

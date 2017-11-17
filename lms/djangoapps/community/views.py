@@ -76,82 +76,104 @@ sys.setdefaultencoding('utf8')
 @ensure_csrf_cookie
 def memo(request):
 
+    if request.is_ajax():
 
-    # 삭제 로직
-    if request.method == 'POST' and request.POST.get('delete_flag'):
+        # 페이지 클릭 시 -> 리스트에 10개 출력
+        if request.POST.get('click_page'):
 
-        user_id = request.POST.get('user_id')
-        board_id = request.POST.get('board_id')
+            # get data
+            user_id = request.POST.get('user_id')
+            click_page = request.POST.get('click_page')
 
-        with connections['default'].cursor() as cur:
-            query = '''
-                SELECT memo_id
-                FROM   edxapp.memo
-                WHERE  memo_id = {0}
-                       AND receive_id = {1}
-            '''.format(board_id, user_id)
-            cur.execute(query)
-            rows = cur.fetchall()
+            print "###########"
+            print click_page
+            print type(click_page)
 
-            secure_lock = len(rows) # secure_lock = 0 삭제불가 (권한없음)
-                                    # secure_lock = 1 가능
+            click_page = int(click_page)
 
-        if secure_lock == 1:
+            print click_page
+            print type(click_page)
+            print "###########"
+
             with connections['default'].cursor() as cur:
                 query = '''
-                    DELETE FROM edxapp.memo
-                    WHERE  memo_id = {0}
-                           AND receive_id = {1}
-                '''.format(board_id, user_id)
+                    SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                           CASE
+                             WHEN memo_gubun = 1 THEN '단체메일발송'
+                           end                                           AS memo_gubun,
+                           title,
+                           Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                           CASE
+                             WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                             ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                           end                                           AS read_date
+                    FROM   edxapp.memo,
+                           (SELECT @rn := Count(*) + 1
+                            FROM   edxapp.memo
+                            WHERE  receive_id = {0}) AS tmp
+                    WHERE  receive_id = {0}
+                    ORDER  BY regist_date DESC
+                '''.format(user_id)
                 cur.execute(query)
-            return JsonResponse({"return":"success"})
+                rows = cur.fetchall()
 
-        elif secure_lock == 0:
-            return JsonResponse({"return":"secure"})
+                total = len(rows)
+                end = 10*click_page
+                start = end-10
+                stop = 0
 
-        else:
-            return JsonResponse({"return":"fail"})
+                if end > total:
+                    end = total
+                    start = end-(end%10)
+                    click_page = (start/10)+1
+                    stop = (total/10)+1
 
-    # 메인 로직
-    try:
-        user_email = str(request.POST.get('user_email'))
-        user_id = str(request.POST.get('user_id'))
-    except BaseException:
-        user_email = ''
-        user_id = ''
+                print "##############"
+                print "total = {}".format(total)
+                print "start = {}".format(start)
+                print "end = {}".format(end)
+                print "##############"
 
-    # init
-    result = dict()
+                return_list = []
+                for n in range(start,end):
+                    return_list.append(rows[n])
+                    print rows[n]
 
-    # ajax
-    if request.is_ajax():
-        with connections['default'].cursor() as cur:
-            query = '''
-                SELECT CONVERT(@rn := @rn + 1, CHAR)                 AS rn,
-                       CASE
-                         WHEN memo_gubun = 1 THEN '단체메일발송'
-                       end                                           AS memo_gubun,
-                       CONCAT(memo_id, '$xcode$', title)             as title,
-                       Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
-                       CASE
-                         WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
-                       end                                           AS read_date
-                FROM   edxapp.memo,
-                       (SELECT @rn := 0) b
-                WHERE  receive_id = '{0}';
-            '''.format(user_id)
-            cur.execute(query)
-            columns = [i[0] for i in cur.description]
-            rows = cur.fetchall()
+            return JsonResponse({"data":return_list, "click_page":click_page, "page_stop":stop})
 
-            for n in rows:
-                print n
+        # 첫 시작 -> 리스트에 10개 출력
+        elif request.POST.get('method') == 'notice_list':
 
-            result_list = [dict(zip(columns, (str(col) for col in row))) for row in rows]
+            # get data
+            user_id = request.POST.get('user_id')
 
-        result['data'] = result_list
-        context = json.dumps(result, cls=DjangoJSONEncoder, ensure_ascii=False)
-        return HttpResponse(context, 'applications/json')
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                           CASE
+                             WHEN memo_gubun = 1 THEN '단체메일발송'
+                           end                                           AS memo_gubun,
+                           title,
+                           Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                           CASE
+                             WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                             ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                           end                                           AS read_date
+                    FROM   edxapp.memo,
+                           (SELECT @rn := Count(*) + 1
+                            FROM   edxapp.memo
+                            WHERE  receive_id = {0}) AS tmp
+                    WHERE  receive_id = {0}
+                    ORDER  BY regist_date DESC
+                '''.format(user_id)
+                cur.execute(query)
+                rows = cur.fetchall()
+
+                return_list = []
+                for n in range(0,10):
+                    return_list.append(rows[n])
+
+            return JsonResponse({"data":return_list})
 
     return render_to_response('community/memo.html')
 
@@ -184,7 +206,9 @@ def memo_view(request, board_id):
     with connections['default'].cursor() as cur:
         query = '''
             SELECT title,
-                   contents
+                   contents,
+                   Date_format(regist_date, '%Y-%m-%d %H:%m:%s') as regist_date,
+                   Date_format(read_date, '%Y-%m-%d %H:%m:%s') as read_date
             FROM   edxapp.memo
             WHERE  memo_id = {0};
         '''.format(board_id)
@@ -193,14 +217,24 @@ def memo_view(request, board_id):
 
     title = rows[0][0]
     content = rows[0][1]
-
-    print title
-    print content
+    regist_date = rows[0][2]
+    read_date = rows[0][3]
 
     context = {}
     context['title'] = title
     context['content'] = content
     context['board_id'] = board_id
+    context['regist_date'] = regist_date
+    context['read_date'] = read_date
+
+    # 조회 완료 업데이트
+    with connections['default'].cursor() as cur:
+        query = '''
+            UPDATE edxapp.memo
+            SET    read_date = Now()
+            WHERE  memo_id = {0}
+        '''.format(board_id)
+        cur.execute(query)
 
     return render_to_response('community/memo_view.html', context)
 
