@@ -78,22 +78,11 @@ def memo(request):
 
     if request.is_ajax():
 
-        # 페이지 클릭 시 -> 리스트에 10개 출력
-        if request.POST.get('click_page'):
+        # 검색 클릭 시
+        if request.POST.get('method') == 'search':
 
-            # get data
+            search_data = request.POST.get('search_data')
             user_id = request.POST.get('user_id')
-            click_page = request.POST.get('click_page')
-
-            print "###########"
-            print click_page
-            print type(click_page)
-
-            click_page = int(click_page)
-
-            print click_page
-            print type(click_page)
-            print "###########"
 
             with connections['default'].cursor() as cur:
                 query = '''
@@ -101,7 +90,7 @@ def memo(request):
                            CASE
                              WHEN memo_gubun = 1 THEN '단체메일발송'
                            end                                           AS memo_gubun,
-                           title,
+                           CONCAT(memo_id, '$xcode$', title)             AS title,
                            Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
                            CASE
                              WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
@@ -110,10 +99,93 @@ def memo(request):
                     FROM   edxapp.memo,
                            (SELECT @rn := Count(*) + 1
                             FROM   edxapp.memo
-                            WHERE  receive_id = {0}) AS tmp
+                            WHERE  receive_id = {0}
+                            AND    title like '%{1}%' ) AS tmp
                     WHERE  receive_id = {0}
+                    AND    title like '%{1}%'
                     ORDER  BY regist_date DESC
-                '''.format(user_id)
+                '''.format(user_id, search_data)
+                cur.execute(query)
+                rows = cur.fetchall()
+
+                if len(rows) < 11:
+                    return_list = []
+                    for n in range(0,len(rows)):
+                        return_list.append(rows[n])
+                elif len(rows) != 0:
+                    return_list = []
+                    for n in range(0,10):
+                        return_list.append(rows[n])
+                elif len(rows) == 0:
+                    return_list = []
+
+            return JsonResponse({"data":return_list})
+
+        # 삭제 클릭 시
+        elif request.POST.get('method') == 'delete':
+
+            del_id = request.POST.get('del_id')
+            user_id = request.POST.get('user_id')
+
+            with connections['default'].cursor() as cur:
+                query = '''
+                    delete from edxapp.memo
+                    where memo_id = {0} and receive_id = {1};
+                '''.format(del_id, user_id)
+                cur.execute(query)
+
+            return JsonResponse({"return":"success"})
+
+        # 페이지 클릭 시 -> 리스트에 10개 출력
+        elif request.POST.get('click_page'):
+
+            # get data
+            user_id = request.POST.get('user_id')
+            click_page = request.POST.get('click_page')
+            search_data = request.POST.get('search_data')
+            click_page = int(click_page)
+
+            with connections['default'].cursor() as cur:
+                if(search_data) == None:
+                    query = '''
+                        SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                               CASE
+                                 WHEN memo_gubun = 1 THEN '단체메일발송'
+                               end                                           AS memo_gubun,
+                               CONCAT(memo_id, '$xcode$', title)             AS title,
+                               Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                               CASE
+                                 WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                                 ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                               end                                           AS read_date
+                        FROM   edxapp.memo,
+                               (SELECT @rn := Count(*) + 1
+                                FROM   edxapp.memo
+                                WHERE  receive_id = {0}) AS tmp
+                        WHERE  receive_id = {0}
+                        ORDER  BY regist_date DESC
+                    '''.format(user_id)
+                elif(search_data) != None:
+                    query = '''
+                        SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                               CASE
+                                 WHEN memo_gubun = 1 THEN '단체메일발송'
+                               end                                           AS memo_gubun,
+                               CONCAT(memo_id, '$xcode$', title)             AS title,
+                               Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                               CASE
+                                 WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                                 ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                               end                                           AS read_date
+                        FROM   edxapp.memo,
+                               (SELECT @rn := Count(*) + 1
+                                FROM   edxapp.memo
+                                WHERE  receive_id = {0}
+                                AND    title like '%{1}%' ) AS tmp
+                        WHERE  receive_id = {0}
+                        AND    title like '%{1}%'
+                        ORDER  BY regist_date DESC
+                    '''.format(user_id, search_data)
                 cur.execute(query)
                 rows = cur.fetchall()
 
@@ -153,7 +225,7 @@ def memo(request):
                            CASE
                              WHEN memo_gubun = 1 THEN '단체메일발송'
                            end                                           AS memo_gubun,
-                           title,
+                           CONCAT(memo_id, '$xcode$', title)             AS title,
                            Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
                            CASE
                              WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
