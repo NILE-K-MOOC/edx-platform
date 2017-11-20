@@ -150,21 +150,36 @@ def csrf_token(context):
 
 
 def common_course_status(startDt, endDt):
-    # input
+
+    #input
+    # case - 1
     # startDt = 2016-12-19 00:00:00
     # endDt   = 2017-02-10 23:00:00
     # nowDt   = 2017-11-10 00:11:28
 
-    # import
+    # case - 2
+    # startDt = 2016-12-19 00:00:00+00:00
+    # endDt   = 2017-02-10 23:00:00+00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    #import
     from datetime import datetime
     from django.utils.timezone import UTC as UTC2
 
-    # making nowDt
+    startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
+    startDt = startDt.split('-')
+    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]), int(startDt[5]))
+
+    endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
+    endDt = endDt.split('-')
+    endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
+
+    #making nowDt
     nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
     nowDt = nowDt.split('-')
     nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
-    # logic
+    #logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
         status = 'none'
     elif nowDt < startDt:
@@ -176,9 +191,8 @@ def common_course_status(startDt, endDt):
     else:
         status = 'none'
 
-    # return status
+    #return status
     return status
-
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
@@ -246,16 +260,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
             # multisite - make course status
             for c in course_list:
-                if c.start is None or c.start == '' or c.end is None or c.end == '':
-                    c.status = 'none'
-                elif datetime.datetime.now(UTC2()) < c.start:
-                    c.status = 'ready'
-                elif c.start <= datetime.datetime.now(UTC2()) <= c.end:
-                    c.status = 'ing'
-                elif c.end < datetime.datetime.now(UTC2()):
-                    c.status = 'end'
-                else:
-                    c.status = 'none'
+                c.status = common_course_status(c.start, c.end)
 
             context = {'courses': course_list}
 
