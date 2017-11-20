@@ -139,6 +139,11 @@ urlpatterns = (
     url(r'^comm_k_news$', 'community.views.comm_k_news', name='comm_k_news'),
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
+
+    # memo
+    url(r'^memo$', 'community.views.memo', name='comm_notice'),
+    url(r'^memo_view/(?P<board_id>.*?)/$', 'community.views.memo_view', name='comm_notice_view'),
+
     # url(r'^test$', 'community.views.test', name='test'),
 
 )

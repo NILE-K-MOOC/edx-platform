@@ -1,0 +1,159 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">쪽지</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src='https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js'></script>
+
+<!--<script src="${static.url('js/script/memo.js')}" charset="utf-8"></script>-->
+
+<style>
+.title{
+    margin-top: -15px;
+}
+</style>
+
+<section class="container">
+    <h2 class ="title" title="공지사항" id="main">쪽지</h2>
+
+
+<script>
+$(document).ready(function() {
+    setDataTable1();
+});
+
+function buildSearchData1() {
+    var obj = {
+        csrfmiddlewaretoken: '${ csrf_token }',
+        user_id: '${ user.id }',
+        user_email: '${ user.email }',
+    }
+    return obj
+}
+
+function setDataTable1() {
+    var $table = $('#datatable1');
+    $table.dataTable({
+        dom: '<"toolbar"><"search"B>rt<"bottom"ip><"clear">',
+        bProcessing: true,
+        ordering: true,
+        "order": [[ 1, 'desc' ]],
+        serverSide: false,
+        searching: false,
+        "language": {
+          "emptyTable": "조회된 데이터가 없습니다."
+        },
+        "scrollCollapse": false,
+        ajax: {
+            url: "/memo",
+            type: "POST",
+            dataType: "json",
+            data: buildSearchData1(),
+            dataSrc: function (json) {
+                return json.data;
+            }
+        },
+        columns: [
+            {data: "pk", name: "pk"},
+            {data: "rn"},
+            {data: "memo_gubun"},
+            {data: "title"},
+            {data: "regist_date"},
+            {data: "read_date"},
+        ],
+        columnDefs: [
+                {
+                    targets: 0, visible: true, name: "pk", render: function (data, type) {
+                    return '<input type="checkbox" name="' + data + '" value="' + data + '">';
+                },
+                },
+                {targets: 1, visible: true},
+                {targets: 2, visible: true},
+                {
+                    targets: 3, visible: true, render: function (data, type) {
+                    var hello = data.split('$xcode$');
+                    return '<a href="/memo_view/'+ hello[0] + '"><div style="">' + hello[1] + '</div></a>';
+                },
+                },
+        ],
+        rowsGroup: [],
+        buttons: [],
+        paginate: true,
+        "info":false,
+        initComplete: function(){
+        }
+    });
+}
+
+function Del1() {
+    var t = $('#datatable1').DataTable();
+    var group_code_list = '';
+    $("#notice_body1 input[type=checkbox]:checked").each(function() {
+        $(this).prop('checked', false);
+        var $row = $(this).closest('tr');
+        var data = t.row($row.get(0)).data();
+        var group_code = data.group_code;
+        group_code_list += group_code + "+";
+    });
+    try {
+        var method = 'del';
+
+        console.log(group_code_list);
+        console.log(method);
+
+        /*
+        $.post("/manage/group_code_db/", {
+            csrfmiddlewaretoken: $.cookie('csrftoken'),
+            group_code_list: group_code_list,
+            user_id: {{ user.id }},
+            method: method,
+        }).done(function (data) {
+            //update1();
+        }).fail(function (error) {
+            //swal("경고", "", "warning");
+        });
+        */
+
+    } catch (e) {
+        alert(e);
+    }
+}
+
+
+function checked_all1() {
+    console.log($("#check_all1").is(":checked"));
+
+    if ($("#check_all1").is(":checked")) {
+        $("#datatable1 tbody input[type=checkbox]:visible").prop("checked", true);
+    } else {
+        $("#datatable1 tbody input[type=checkbox]:visible").prop("checked", false);
+    }
+}
+
+
+</script>
+        <div class="col-sm-15" align="right" style="padding: 10px;">
+            <a href="javascript:Del1()"><input class="btn btn-primary" type="button" value="삭제"></a>
+        </div>
+        <table class="table table-hover table-striped  table-bordered" id="datatable1" style="width: 100%;" >
+            <thead>
+                <tr>
+                    <td><input type="checkbox" onclick="checked_all1()" id="check_all1"/></td>
+                    <td>No</td>
+                    <td>쪽지구분</td>
+                    <td>제목</td>
+                    <td>발송일시</td>
+                    <td>조회일시</td>
+                </tr>
+            </thead>
+            <tbody id="notice_body2">
+            </tbody>
+        </table>
+</section>
+<br/><br/><br/><br/><br/><br/><br/>
+
+
+

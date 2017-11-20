@@ -1,0 +1,86 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">쪽지</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<!--<script src="${static.url('js/script/mod_memo.js')}" charset="utf-8"></script>-->
+
+<style>
+.title{
+    margin-top: -15px;
+}
+.memo_main{
+    padding: 20px;
+    margin-top: -20px;
+}
+.memo_title{
+    border: solid 1px #CCCCCC;
+    height: 50px;
+    font-size: 100%;
+    font-color: 333333;
+    padding: 15px;
+}
+.memo_content{
+    border: solid 1px #CCCCCC;
+    height: 400px;
+    font-size: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+.btn2{
+    float: right;
+}
+</style>
+
+<script>
+$(document).ready(function(){
+    $(".btn1").click(function(){
+        location.href = "/memo";
+    });
+    $(".btn2").click(function(){
+        var user_id = ${user.id}
+        var board_id = ${board_id}
+        $.post( "/memo", {
+                                "user_id": user_id,
+                                "board_id": board_id,
+                                "delete_flag": 1,
+                                "csrfmiddlewaretoken": '${ csrf_token }'
+                            })
+            .done(function( data ) {
+                if(data.return == "success"){
+                    location.href = "/memo";
+                }
+                if(data.return == "secure"){
+                    alert("권한 없음");
+                }
+                if(data.return == "fail"){
+                    alert("서버 오류");
+                }
+            });
+    });
+});
+</script>
+
+<section class="container">
+    <h2 class="title" title="공지사항" id="main">쪽지</h2>
+
+    <div class="memo_main">
+        <div class="memo_title">
+            <div class="title_float">${title}</div>
+        </div>
+
+        <div class="memo_content">
+            <div class="content_float">${content}</div>
+        </div>
+    </div>
+
+    <input class="btn2" type="button" value="삭제">
+    <input class="btn1" type="button" value="목록으로">
+</section>
+
+
+
+
