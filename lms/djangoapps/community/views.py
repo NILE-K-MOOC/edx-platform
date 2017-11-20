@@ -142,6 +142,7 @@ def memo(request):
         # 삭제 클릭 시
         elif request.POST.get('method') == 'delete':
 
+            last_num = request.POST.get('last_num')
             del_id = request.POST.get('del_id')
             user_id = request.POST.get('user_id')
 
@@ -152,7 +153,38 @@ def memo(request):
                 '''.format(del_id, user_id)
                 cur.execute(query)
 
-            return JsonResponse({"return":"success"})
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                           CASE
+                             WHEN memo_gubun = 1 THEN '단체메일발송'
+                           end                                           AS memo_gubun,
+                           CONCAT(memo_id, '$xcode$', title)             AS title,
+                           Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                           CASE
+                             WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                             ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                           end                                           AS read_date
+                    FROM   edxapp.memo,
+                           (SELECT @rn := Count(*) + 1
+                            FROM   edxapp.memo
+                            WHERE  receive_id = {0}) AS tmp
+                    WHERE  receive_id = {0}
+                    ORDER  BY regist_date DESC
+                '''.format(user_id)
+                cur.execute(query)
+                rows = cur.fetchall()
+
+                plus_list = []
+                for i in rows:
+                    if int(last_num) > int(i[0]):
+                        plus_list.append(i)
+
+                # DEBUG
+                for n in plus_list:
+                    print n
+
+            return JsonResponse({"return":"success", "plus":plus_list[0]})
 
         # 페이지 클릭 시 -> 리스트에 10개 출력
         elif request.POST.get('click_page'):
