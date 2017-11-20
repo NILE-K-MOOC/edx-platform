@@ -873,24 +873,6 @@ $(document).ready(function(){
 
                 $('.paging').html(html2);
 
-                /*
-                html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
-                html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
-
-                for(var page=0; page<5; page++){
-                    if(page==click_page-1){
-                        html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
-                    }
-                    else{
-                        html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
-                    }
-                }
-
-                html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
-                html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
-
-                $('.paging').html(html2);
-                */
             });
         }
         else if($('#hide_search').text() != "" || $('#hide_search').text() != null) {
@@ -970,30 +952,15 @@ $(document).ready(function(){
                 html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
 
                 $('.paging').html(html2);
-                /*
-                html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
-                html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
-
-                for(var page=0; page<5; page++){
-                    if(page==click_page-1){
-                        html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
-                    }
-                    else{
-                        html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
-                    }
-                }
-
-                html2 += "<a href='javascript:next_click_search();' class='next' id='next' title='다음'>next</a>";
-                html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
-
-                $('.paging').html(html2);
-                */
             });
         }
     });
 
     // 삭제 클릭 시 로직
     $('#del').click(function(e){
+        var last_num = $('.memo_a').eq(10).text();
+        var search_data = $('#hide_search').text();
+
         for(var i=0; i<10; i++){
             var tmp = "#check_all" + i + "";
             var tmp2 = "#page" + i + "";
@@ -1008,12 +975,31 @@ $(document).ready(function(){
                         method : 'delete',
                         del_id : del_id,
                         user_id : ${user.id},
-                        csrfmiddlewaretoken: '${ csrf_token }'
+                        csrfmiddlewaretoken: '${ csrf_token }',
+                        last_num: last_num,
+                        search_data: search_data
                     }
                 }).done(function(data) {
-                    // delete
-                });
+                    html = "";
+                    var data = data.plus;
 
+                    var tmp = data[2];
+                    tmp = tmp.split("$xcode$");
+
+                    html += "<li class='tbody' id='page" + i + "'>";
+
+                    html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                    html += "<span class='memo_a'>" + data[0] + "</span>";
+                    html += "<span class='memo_b'>" + data[1] + "</span>";
+                    html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                    html += "<span class='memo_d'>" + data[3] + "</span>";
+                    html += "<span class='memo_e'>" + data[4] + "</span>";
+
+                    html += "</li>"
+
+                    $('#tbody').append(html);
+                });
+                last_num = last_num - 1;
                 $(tmp2).remove();
             }
         }

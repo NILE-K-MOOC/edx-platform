@@ -145,6 +145,7 @@ def memo(request):
             last_num = request.POST.get('last_num')
             del_id = request.POST.get('del_id')
             user_id = request.POST.get('user_id')
+            search_data = request.POST.get('search_data')
 
             with connections['default'].cursor() as cur:
                 query = '''
@@ -154,24 +155,46 @@ def memo(request):
                 cur.execute(query)
 
             with connections['default'].cursor() as cur:
-                query = '''
-                    SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
-                           CASE
-                             WHEN memo_gubun = 1 THEN '단체메일발송'
-                           end                                           AS memo_gubun,
-                           CONCAT(memo_id, '$xcode$', title)             AS title,
-                           Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
-                           CASE
-                             WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
-                             ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
-                           end                                           AS read_date
-                    FROM   edxapp.memo,
-                           (SELECT @rn := Count(*) + 1
-                            FROM   edxapp.memo
-                            WHERE  receive_id = {0}) AS tmp
-                    WHERE  receive_id = {0}
-                    ORDER  BY regist_date DESC
-                '''.format(user_id)
+                if(search_data) == None:
+                    query = '''
+                        SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                               CASE
+                                 WHEN memo_gubun = 1 THEN '단체메일발송'
+                               end                                           AS memo_gubun,
+                               CONCAT(memo_id, '$xcode$', title)             AS title,
+                               Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                               CASE
+                                 WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                                 ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                               end                                           AS read_date
+                        FROM   edxapp.memo,
+                               (SELECT @rn := Count(*) + 1
+                                FROM   edxapp.memo
+                                WHERE  receive_id = {0}) AS tmp
+                        WHERE  receive_id = {0}
+                        ORDER  BY regist_date DESC
+                    '''.format(user_id)
+                elif(search_data) != None:
+                    query = '''
+                        SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
+                               CASE
+                                 WHEN memo_gubun = 1 THEN '단체메일발송'
+                               end                                           AS memo_gubun,
+                               CONCAT(memo_id, '$xcode$', title)             AS title,
+                               Date_format(regist_date, '%Y-%m-%d %H:%m:%s') AS regist_date,
+                               CASE
+                                 WHEN Date_format(read_date, '%Y-%m-%d %H:%m:%s') IS NULL THEN ''
+                                 ELSE Date_format(read_date, '%Y-%m-%d %H:%m:%s')
+                               end                                           AS read_date
+                        FROM   edxapp.memo,
+                               (SELECT @rn := Count(*) + 1
+                                FROM   edxapp.memo
+                                WHERE  receive_id = {0}
+                                AND    title like '%{1}%' ) AS tmp
+                        WHERE  receive_id = {0}
+                        AND    title like '%{1}%'
+                        ORDER  BY regist_date DESC
+                    '''.format(user_id, search_data)
                 cur.execute(query)
                 rows = cur.fetchall()
 
@@ -179,10 +202,6 @@ def memo(request):
                 for i in rows:
                     if int(last_num) > int(i[0]):
                         plus_list.append(i)
-
-                # DEBUG
-                for n in plus_list:
-                    print n
 
             return JsonResponse({"return":"success", "plus":plus_list[0]})
 
