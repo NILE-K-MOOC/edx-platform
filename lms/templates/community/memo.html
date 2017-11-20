@@ -812,6 +812,7 @@ $(document).ready(function(){
                     csrfmiddlewaretoken: '${ csrf_token }'
                 }
             }).done(function(data){
+                var page_stop = data.page_stop;
                 var click_page = data.click_page;
                 var data = data.data;
 
@@ -841,6 +842,36 @@ $(document).ready(function(){
 
                 $('.paging').children('a').remove();
 
+                var level = ((click_page-1) / 5);
+                level = parseInt(level);
+                var end = (level+1)*5;
+                var start = end-5;
+                if(page_stop != 0){
+                    end = page_stop;
+                }
+
+                console.log("level = " + level);
+                console.log("start = " + start);
+                console.log("end = " + end);
+
+                html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+                html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+
+                for(var page=start; page<end; page++){
+                    if(page==click_page-1){
+                        html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                    else{
+                        html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                }
+
+                html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+                html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+
+                $('.paging').html(html2);
+
+                /*
                 html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
                 html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
 
@@ -857,6 +888,7 @@ $(document).ready(function(){
                 html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
 
                 $('.paging').html(html2);
+                */
             });
         }
         else if($('#hide_search').text() != "" || $('#hide_search').text() != null) {
@@ -878,6 +910,7 @@ $(document).ready(function(){
                     csrfmiddlewaretoken: '${ csrf_token }'
                 }
             }).done(function(data){
+                var page_stop = data.page_stop;
                 var click_page = data.click_page;
                 var data = data.data;
 
@@ -907,6 +940,35 @@ $(document).ready(function(){
 
                 $('.paging').children('a').remove();
 
+                var level = ((click_page-1) / 5);
+                level = parseInt(level);
+                var end = (level+1)*5;
+                var start = end-5;
+                if(page_stop != 0){
+                    end = page_stop;
+                }
+
+                console.log("level = " + level);
+                console.log("start = " + start);
+                console.log("end = " + end);
+
+                html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+                html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+
+                for(var page=start; page<end; page++){
+                    if(page==click_page-1){
+                        html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                    else{
+                        html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                }
+
+                html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+                html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+
+                $('.paging').html(html2);
+                /*
                 html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
                 html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
 
@@ -923,6 +985,7 @@ $(document).ready(function(){
                 html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
 
                 $('.paging').html(html2);
+                */
             });
         }
     });
@@ -1069,7 +1132,9 @@ $(document).ready(function(){
             </div>
         </ul>
 
-        <div class="paging">
+        <div class="hello" style="width:270px; margin-left:40%">
+            <div class="paging">
+            </div>
         </div>
     </section>
 
