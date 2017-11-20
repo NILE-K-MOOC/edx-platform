@@ -374,6 +374,18 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # Insert additional context for use in the template
     context.update(extra_context)
 
+    if user.id:
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT Count(memo_id)
+                FROM   edxapp.memo
+                WHERE  receive_id = {0}
+                       AND read_date IS NULL;
+            '''.format(user.id)
+            cur.execute(query)
+            rows = cur.fetchall()
+        context['memo_cnt'] = rows[0][0]
+
     return render_to_response('index.html', context)
 
 

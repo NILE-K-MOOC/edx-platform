@@ -5,6 +5,8 @@
 
 <%block name="header_extras"></%block>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <script>
 // 처음 버튼 클릭 시
 function first_click_search(){
@@ -16,7 +18,7 @@ function first_click_search(){
     var next_page = Number(current)-1;
 
     if(current == 1){
-        alert("첫 페이지입니다");
+        swal("Kmooc", "첫 페이지 입니다", "warning");
         return 0;
     }
 
@@ -105,7 +107,7 @@ function last_click_search(){
     var lock = $('.paging').children('a').length;
 
     if(lock != 9){
-        alert("마지막 페이지입니다");
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
         return 0;
     }
 
@@ -191,7 +193,7 @@ function prev_click_search(){
     var next_page = Number(current)-1;
 
     if(current == 1){
-        alert("첫 페이지입니다");
+        swal("Kmooc", "첫 페이지 입니다", "warning");
         return 0;
     }
 
@@ -282,7 +284,7 @@ function next_click_search(){
     var lock = $('.paging').children('a').length;
 
     if(lock != 9){
-        alert("마지막 페이지입니다");
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
         return 0;
     }
 
@@ -377,7 +379,7 @@ function first_click(){
     var next_page = Number(current)-1;
 
     if(current == 1){
-        alert("첫 페이지입니다");
+        swal("Kmooc", "첫 페이지 입니다", "warning");
         return 0;
     }
 
@@ -463,7 +465,7 @@ function last_click(){
     var lock = $('.paging').children('a').length;
 
     if(lock != 9){
-        alert("마지막 페이지입니다");
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
         return 0;
     }
 
@@ -546,7 +548,7 @@ function prev_click(){
     var next_page = Number(current)-1;
 
     if(current == 1){
-        alert("첫 페이지입니다");
+        swal("Kmooc", "첫 페이지 입니다", "warning");
         return 0;
     }
 
@@ -634,7 +636,7 @@ function next_click(){
     var lock = $('.paging').children('a').length;
 
     if(lock != 9){
-        alert("마지막 페이지입니다");
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
         return 0;
     }
 

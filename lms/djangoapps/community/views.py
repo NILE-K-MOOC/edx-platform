@@ -76,9 +76,27 @@ sys.setdefaultencoding('utf8')
 @ensure_csrf_cookie
 def memo(request):
 
-    if request.is_ajax():
+    if not request.user.is_authenticated():
+        return redirect('/')
 
+    if request.is_ajax():
         # 검색 클릭 시
+
+        if request.POST.get('delete_flag'):
+            user_id = request.POST.get('user_id')
+            board_id = request.POST.get('board_id')
+            delete_flag = request.POST.get('delete_flag')
+
+            with connections['default'].cursor() as cur:
+                query = '''
+                    DELETE FROM edxapp.memo
+                    WHERE  memo_id = {0}
+                           AND receive_id = {1}
+                '''.format(board_id, user_id)
+                cur.execute(query)
+
+            return JsonResponse({"return":"success"})
+
         if request.POST.get('method') == 'search':
 
             search_data = request.POST.get('search_data')
@@ -274,6 +292,15 @@ def memo_view(request, board_id):
     if secure_lock == 0:
         return JsonResponse({"return":"secure"})
 
+    # 조회 완료 업데이트
+    with connections['default'].cursor() as cur:
+        query = '''
+            UPDATE edxapp.memo
+            SET    read_date = Now()
+            WHERE  memo_id = {0}
+        '''.format(board_id)
+        cur.execute(query)
+
     # 메인 로직
     with connections['default'].cursor() as cur:
         query = '''
@@ -298,15 +325,6 @@ def memo_view(request, board_id):
     context['board_id'] = board_id
     context['regist_date'] = regist_date
     context['read_date'] = read_date
-
-    # 조회 완료 업데이트
-    with connections['default'].cursor() as cur:
-        query = '''
-            UPDATE edxapp.memo
-            SET    read_date = Now()
-            WHERE  memo_id = {0}
-        '''.format(board_id)
-        cur.execute(query)
 
     return render_to_response('community/memo_view.html', context)
 
