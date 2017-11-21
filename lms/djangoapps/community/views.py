@@ -307,8 +307,12 @@ def memo(request):
                 cur.execute(query)
                 rows = cur.fetchall()
                 return_list = []
-                for n in range(0,10):
-                    return_list.append(rows[n])
+                if len(rows) < 10:
+                    for n in range(0,len(rows)):
+                        return_list.append(rows[n])
+                else:
+                    for n in range(0,10):
+                        return_list.append(rows[n])
             return JsonResponse({"data":return_list})
 
     # 일반 렌더링 리턴
