@@ -76,17 +76,35 @@ sys.setdefaultencoding('utf8')
 @ensure_csrf_cookie
 def memo(request):
 
+    # 1. 로그인 체크 로직
     if not request.user.is_authenticated():
         return redirect('/')
 
+    # 2. ajax 로직
     if request.is_ajax():
-        # 검색 클릭 시
 
+        # 2.1 메모 동기화 로직
+        if request.POST.get('sync_memo'):
+            user_id = request.POST.get('user_id')
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT Count(memo_id)
+                    FROM   edxapp.memo
+                    WHERE  receive_id = {0}
+                           AND read_date IS NULL;
+                '''.format(user_id)
+                cur.execute(query)
+                rows = cur.fetchall()
+                try:
+                    cnt = rows[0][0]
+                except BaseException:
+                    cnt = 0
+            return JsonResponse({"cnt":cnt})
+
+        # 2.2 메모 내부 삭제 클릭 시 로직
         if request.POST.get('delete_flag'):
             user_id = request.POST.get('user_id')
             board_id = request.POST.get('board_id')
-            delete_flag = request.POST.get('delete_flag')
-
             with connections['default'].cursor() as cur:
                 query = '''
                     DELETE FROM edxapp.memo
@@ -94,14 +112,12 @@ def memo(request):
                            AND receive_id = {1}
                 '''.format(board_id, user_id)
                 cur.execute(query)
-
             return JsonResponse({"return":"success"})
 
+        # 2.3 검색 클릭 시 로직
         if request.POST.get('method') == 'search':
-
             search_data = request.POST.get('search_data')
             user_id = request.POST.get('user_id')
-
             with connections['default'].cursor() as cur:
                 query = '''
                     SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
@@ -125,7 +141,6 @@ def memo(request):
                 '''.format(user_id, search_data)
                 cur.execute(query)
                 rows = cur.fetchall()
-
                 if len(rows) < 11:
                     return_list = []
                     for n in range(0,len(rows)):
@@ -136,25 +151,22 @@ def memo(request):
                         return_list.append(rows[n])
                 elif len(rows) == 0:
                     return_list = []
-
             return JsonResponse({"data":return_list})
 
-        # 삭제 클릭 시
+        # 2.3 메모 외부 삭제 클릭 시 로직
         elif request.POST.get('method') == 'delete':
-
             last_num = request.POST.get('last_num')
             del_id = request.POST.get('del_id')
             user_id = request.POST.get('user_id')
             search_data = request.POST.get('search_data')
-
             with connections['default'].cursor() as cur:
                 query = '''
                     delete from edxapp.memo
                     where memo_id = {0} and receive_id = {1};
                 '''.format(del_id, user_id)
                 cur.execute(query)
-
             with connections['default'].cursor() as cur:
+                # 2.3.1 검색 하지 않은 상태의 삭제
                 if(search_data) == None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
@@ -174,6 +186,7 @@ def memo(request):
                         WHERE  receive_id = {0}
                         ORDER  BY regist_date DESC
                     '''.format(user_id)
+                # 2.3.1 검색 한 이후 상태의 삭제
                 elif(search_data) != None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
@@ -197,24 +210,20 @@ def memo(request):
                     '''.format(user_id, search_data)
                 cur.execute(query)
                 rows = cur.fetchall()
-
                 plus_list = []
                 for i in rows:
                     if int(last_num) > int(i[0]):
                         plus_list.append(i)
-
             return JsonResponse({"return":"success", "plus":plus_list[0]})
 
-        # 페이지 클릭 시 -> 리스트에 10개 출력
+        # 2.4 페이징 숫자 클릭시 로직
         elif request.POST.get('click_page'):
-
-            # get data
             user_id = request.POST.get('user_id')
             click_page = request.POST.get('click_page')
             search_data = request.POST.get('search_data')
             click_page = int(click_page)
-
             with connections['default'].cursor() as cur:
+                # 2.4.1 검색 하지 않은 상태의 조회
                 if(search_data) == None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
@@ -234,6 +243,7 @@ def memo(request):
                         WHERE  receive_id = {0}
                         ORDER  BY regist_date DESC
                     '''.format(user_id)
+                # 2.4.2 검색 한 이후 상태의 조회
                 elif(search_data) != None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
@@ -257,37 +267,24 @@ def memo(request):
                     '''.format(user_id, search_data)
                 cur.execute(query)
                 rows = cur.fetchall()
-
                 total = len(rows)
                 end = 10*click_page
                 start = end-10
                 stop = 0
-
                 if end > total:
                     end = total
                     start = end-(end%10)
                     click_page = (start/10)+1
                     stop = (total/10)+1
-
-                print "##############"
-                print "total = {}".format(total)
-                print "start = {}".format(start)
-                print "end = {}".format(end)
-                print "##############"
-
                 return_list = []
                 for n in range(start,end):
                     return_list.append(rows[n])
                     print rows[n]
-
             return JsonResponse({"data":return_list, "click_page":click_page, "page_stop":stop})
 
-        # 첫 시작 -> 리스트에 10개 출력
+        # 2.5 첫 조회 (리스트에 10개 출력)
         elif request.POST.get('method') == 'notice_list':
-
-            # get data
             user_id = request.POST.get('user_id')
-
             with connections['default'].cursor() as cur:
                 query = '''
                     SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
@@ -309,24 +306,22 @@ def memo(request):
                 '''.format(user_id)
                 cur.execute(query)
                 rows = cur.fetchall()
-
                 return_list = []
                 for n in range(0,10):
                     return_list.append(rows[n])
-
             return JsonResponse({"data":return_list})
 
+    # 일반 렌더링 리턴
     return render_to_response('community/memo.html')
 
 @ensure_csrf_cookie
 def memo_view(request, board_id):
 
-    # 보안 로직
+    # 1. 미권한 조회 방지 프로텍터 로직
     try:
         user_id = request.user.id
     except BaseException:
         user_id = 0
-
     with connections['default'].cursor() as cur:
         query = '''
             SELECT memo_id
@@ -336,14 +331,11 @@ def memo_view(request, board_id):
         '''.format(board_id, user_id)
         cur.execute(query)
         rows = cur.fetchall()
-
-        secure_lock = len(rows) # secure_lock = 0 (권한없음)
-                                # secure_lock = 1 (권한있음)
-
+        secure_lock = len(rows) # secure_lock = 0 (권한없음) / secure_lock = 1 (권한있음)
     if secure_lock == 0:
         return JsonResponse({"return":"secure"})
 
-    # 조회 완료 업데이트
+    # 2. 조회 이후 조회시간 업데이트 로직
     with connections['default'].cursor() as cur:
         query = '''
             UPDATE edxapp.memo
@@ -352,7 +344,7 @@ def memo_view(request, board_id):
         '''.format(board_id)
         cur.execute(query)
 
-    # 메인 로직
+    # 3. 조회에 의한 데이터 리턴 로직(메인)
     with connections['default'].cursor() as cur:
         query = '''
             SELECT title,
@@ -364,21 +356,17 @@ def memo_view(request, board_id):
         '''.format(board_id)
         cur.execute(query)
         rows = cur.fetchall()
-
     title = rows[0][0]
     content = rows[0][1]
     regist_date = rows[0][2]
     read_date = rows[0][3]
-
     context = {}
     context['title'] = title
     context['content'] = content
     context['board_id'] = board_id
     context['regist_date'] = regist_date
     context['read_date'] = read_date
-
     return render_to_response('community/memo_view.html', context)
-
 # ---------- 2017.11.15 ahn jin yong ---------- #
 
 @ensure_csrf_cookie
