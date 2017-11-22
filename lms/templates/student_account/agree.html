@@ -17,17 +17,19 @@
                 return;
             }
 
+            /*
             if($("input[name=agree2]:checked").val() != "Y"){
                 $(this).focus();
                 alert("${_('If you agree to the personal information processing policy, membership is possible.')}");
                 gubn = "N";
                 return;
             }
+            */
 
             $.post("/agree_done",
                     {"agreeYN": gubn, "csrfmiddlewaretoken": $("#csrfmiddlewaretoken").val()},
                     function(data){
-                        console.log(data.agreeYN + ":" + data.division);
+                        //console.log(data.agreeYN + ":" + data.division);
                         if(data.agreeYN == 'Y' && data.division == 'Y')
                             document.location.href="/register"
                         else if(data.agreeYN == 'Y' && data.division == 'N')
