@@ -870,7 +870,7 @@ def remove_account(request):
 
             uid = request.user.id
 
-            find_user.username = str(uid)
+            # find_user.username = str(uid)
             find_user.first_name = str(uid)
             find_user.last_name = str(uid)
             find_user.email = 'delete_' + str(uid) + '@delete.' + ts
