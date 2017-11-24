@@ -69,14 +69,16 @@
                         } else {
                             search.performSearch("SKP", filters.getTerms());
                         }
-                        // smu hard coding
-                    } else if (type === "org" && query === "SMUk") {
-
-                        if ($(".active-filter button[data-value='SMUk'], button[data-value='상명대학교']").size() > 0) {
-                            $(".active-filter button[data-value='SMUk'], button[data-value='상명대학교']").click();
-                        } else {
-                            search.performSearch("상명대학교", filters.getTerms());
-                        }
+                    // smu hard coding
+                    //} else if (type === "org" && query === "SMUk") {
+                    //
+                    //    if ($(".active-filter button[data-value='SMUk'], button[data-value='상명대학교']").size() > 0) {
+                    //        $(".active-filter button[data-value='SMUk'], button[data-value='상명대학교']").click();
+                    //    } else {
+                    //        filters.add({type: type, query: "SMUk", name: name});
+                    //        search.refineSearch(filters.getTerms());
+                    //        search.performSearch("상명대학교", filters.getTerms());
+                    //}
                     } else {
 
                         filters.add({type: type, query: query, name: name});

@@ -131,8 +131,10 @@ def user_groups(user):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
 def courses(request):
+
+    print 'course !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
     """
@@ -148,6 +150,90 @@ def courses(request):
             courses_list = sort_by_start_date(courses_list)
         else:
             courses_list = sort_by_announcement(courses_list)
+
+
+    # API def override.
+    def course_discovery(request):
+
+        print '########## call course_discovery type 1'
+        print '########## call course_discovery type 1'
+        print '########## call course_discovery type 1'
+        print '########## call course_discovery type 1'
+
+        results = {
+            "error": _("Nothing to search")
+        }
+        status_code = 500
+
+        search_term = request.POST.get("search_string", None)
+
+        try:
+            size, from_, page = _process_pagination_values(request)
+            field_dictionary = _process_field_values(request)
+            # print type(field_dictionary),  'field_dictionary:', field_dictionary
+
+            if 'org' in field_dictionary and field_dictionary['org'] == 'SMUk':
+
+                print "##### field_dictionary['org'] override #####"
+
+                field_dictionary['org'] = ['SMUk', 'SMUCk']
+
+            # Analytics - log search request
+            track.emit(
+                'edx.course_discovery.search.initiated',
+                {
+                    "search_term": search_term,
+                    "page_size": size,
+                    "page_number": page,
+                }
+            )
+
+            results = course_discovery_search(
+                search_term=search_term,
+                size=size,
+                from_=from_,
+                field_dictionary=field_dictionary,
+            )
+
+            # Analytics - log search results before sending to browser
+            track.emit(
+                'edx.course_discovery.search.results_displayed',
+                {
+                    "search_term": search_term,
+                    "page_size": size,
+                    "page_number": page,
+                    "results_count": results["total"],
+                }
+            )
+
+            status_code = 200
+
+        except ValueError as invalid_err:
+            results = {
+                "error": unicode(invalid_err)
+            }
+            log.debug(unicode(invalid_err))
+
+        # Allow for broad exceptions here - this is an entry point from external reference
+        except Exception as err:  # pylint: disable=broad-except
+            results = {
+                "error": _('An error occurred when searching for "{search_string}"').format(search_string=search_term)
+            }
+            log.exception(
+                'Search view exception when searching for %s for user %s: %r',
+                search_term,
+                request.user.id,
+                err
+            )
+
+        return HttpResponse(
+            json.dumps(results, cls=DjangoJSONEncoder),
+            content_type='application/json',
+            status=status_code
+        )
+
+    from search import views
+    views.course_discovery = course_discovery
 
     return render_to_response(
         "courseware/courses.html",

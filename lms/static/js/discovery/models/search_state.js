@@ -166,15 +166,15 @@ define([
                     }
 
                     // smu hard coding
-                    if(options.data.search_string == "상명대학교"){
-                        var option = this.discovery.facetOptions.findWhere({
-                            facet: "org",
-                            term: "SMUk"
-                        })
-                        if (option) {
-                            option.set('selected', true);
-                        }
-                    }
+                    //if(options.data.search_string == "상명대학교"){
+                    //    var option = this.discovery.facetOptions.findWhere({
+                    //        facet: "org",
+                    //        term: "SMUk"
+                    //    })
+                    //    if (option) {
+                    //        option.set('selected', true);
+                    //    }
+                    //}
 
                     _.each(this.terms, function (term, facet) {
                         if (facet !== 'search_query') {

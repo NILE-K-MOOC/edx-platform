@@ -49,10 +49,10 @@
                                 count2 += count;
                                 return true;
                             }
-                            if (term === 'SMUk' || term === 'SMUCk') {
-                                count3 += count;
-                                return true;
-                            }
+                            //if (term === 'SMUk' || term === 'SMUCk') {
+                            //    count3 += count;
+                            //    return true;
+                            //}
                             options.add({
                                 facet: key,
                                 term: term,
