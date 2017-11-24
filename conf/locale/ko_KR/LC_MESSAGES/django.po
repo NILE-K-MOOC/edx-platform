@@ -28953,6 +28953,9 @@ msgstr "1일 1회 자동 스케줄러에 의해 수행되므로, 수행 요청 �
 msgid "Performing a plagiarism test"
 msgstr "표절검사 수행하기"
 
+msgid "Performing test target is not exists."
+msgstr "표절검사 대상이 없습니다."
+
 msgid "Plagiarism test is in progress."
 msgstr "표절검사가 진행중입니다."
 
