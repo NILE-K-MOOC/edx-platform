@@ -166,10 +166,10 @@ define([
                     }
 
                     // smu hard coding
-                    if(options.data.search_string == "SMU"){
+                    if(options.data.search_string == "상명대학교"){
                         var option = this.discovery.facetOptions.findWhere({
                             facet: "org",
-                            term: "SMU"
+                            term: "SMUk"
                         })
                         if (option) {
                             option.set('selected', true);
