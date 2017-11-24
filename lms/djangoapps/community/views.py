@@ -67,10 +67,108 @@ import sys
 import re
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 import datetime
+from django.db import connections
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+def series(request):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT series_seq,
+                   series_name
+            FROM   edxapp.series AS a
+                   LEFT JOIN edxapp.tb_board_attach AS b
+                          ON a.sumnail_file_id = b.attatch_id
+            WHERE  use_yn = 'Y'
+                   AND delete_yn = 'N'
+        '''.format()
+        cur.execute(query)
+        rows = cur.fetchall()
+
+    context = {}
+    context['series_list'] = rows
+    return render_to_response('community/series.html', context)
+
+def series_view(request, id):
+    print "##########"
+    print id
+    print "##########"
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT series_name,
+                   series_id,
+                   note
+            FROM   series
+            WHERE  series_seq = 1
+        '''.format()
+        cur.execute(query)
+        rows = cur.fetchall()
+        main_list = rows[0]
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT id,
+                   course_image_url,
+                   course_name,
+                   v1.org,
+                   detail_name                               AS univ,
+                   Date_format(enrollment_start, '%Y/%m/%d') AS enrollment_start,
+                   Date_format(enrollment_end, '%Y/%m/%d')   AS enrollment_end,
+                   Date_format(start, '%Y/%m/%d')            AS start,
+                   Date_format(end, '%Y/%m/%d')              AS end
+            FROM   edxapp.series_course AS v1
+                   JOIN(SELECT *
+                        FROM   (SELECT id,
+                                       @org := a.org                            AS org,
+                                       display_number_with_default,
+                                       start,
+                                       end,
+                                       enrollment_start,
+                                       enrollment_end,
+                                       course_image_url,
+                                       CASE
+                                         WHEN a.org = @org
+                                              AND a.display_number_with_default = @course
+                                       THEN @rn
+                                         :=
+                                         @rn + 1
+                                         ELSE @rn := 1
+                                       end                                      AS rn,
+                                       @course := a.display_number_with_default AS course
+                                FROM   course_overviews_courseoverview a,
+                                       (SELECT @rn := 0,
+                                               @org := '',
+                                               @course := '') b
+                                WHERE  a.start < a.end
+                                ORDER  BY a.org,
+                                          a.display_number_with_default,
+                                          a.start DESC) t1
+                        WHERE  rn = 1) AS v2
+                     ON v1.org = v2.org
+                        AND v1.display_number_with_default = v2.display_number_with_default
+                   LEFT JOIN edxapp.code_detail AS d
+                          ON v2.org = d.detail_code
+            WHERE  series_seq = 1
+        '''.format()
+        cur.execute(query)
+        print "################"
+        print query
+        print "################"
+        rows = cur.fetchall()
+        sub_list = rows
+
+    print "################"
+    print len(rows)
+    print main_list
+    print sub_list
+    print "################"
+
+    context = {}
+    context['main_list'] = main_list
+    context['sub_list'] = sub_list
+    return render_to_response('community/series_view.html', context)
 
 @ensure_csrf_cookie
 def comm_notice(request):

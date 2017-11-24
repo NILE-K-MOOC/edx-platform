@@ -118,6 +118,10 @@ urlpatterns = (
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
 
+    # series course
+    url(r'^series/$', 'community.views.series', name='series'),
+    url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
+
     # community url
     url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),
     url(r'^comm_notice_view/(?P<board_id>.*?)/$', 'community.views.comm_notice_view', name='comm_notice_view'),
@@ -757,8 +761,8 @@ urlpatterns += (
     ),
 )
 
-if oraurlpatterns:
-    urlpatterns += tuple(oraurlpatterns)
+#if oraurlpatterns:
+#    urlpatterns += tuple(oraurlpatterns)
 
 if settings.FEATURES["ENABLE_TEAMS"]:
     # Teams endpoints
