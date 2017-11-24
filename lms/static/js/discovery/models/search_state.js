@@ -153,11 +153,23 @@ define([
                     this.terms = {};
                 }
                 else {
+
                     // skp hard coding
                     if(options.data.search_string == "SKP"){
                         var option = this.discovery.facetOptions.findWhere({
                             facet: "org",
                             term: "SKP"
+                        })
+                        if (option) {
+                            option.set('selected', true);
+                        }
+                    }
+
+                    // smu hard coding
+                    if(options.data.search_string == "SMU"){
+                        var option = this.discovery.facetOptions.findWhere({
+                            facet: "org",
+                            term: "SMU"
                         })
                         if (option) {
                             option.set('selected', true);

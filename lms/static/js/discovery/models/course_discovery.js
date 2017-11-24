@@ -40,12 +40,17 @@ define([
                 if(key == 'org'){
 
                     var count2 = 0;
+                    var count3 = 0;
                     var term2 = "sum_test";
 
-                    // skp hard coding
+                    // skp, smu hard coding
                     _(obj.terms).each(function (count, term) {
                         if(term.match(/^SKP.*/)){
                             count2 += count;
+                            return true;
+                        }
+                        if(term.match(/^SMU.*/)){
+                            count3 += count;
                             return true;
                         }
                         options.add({
@@ -54,11 +59,20 @@ define([
                             count: count
                         }, {merge: true});
                     });
+
+                    // skp, smu hard coding
                     if(count2 > 0){
                         options.add({
                             facet: key,
                             term: 'SKP',
                             count: count2
+                        }, {merge: true});
+                    }
+                    if(count3 > 0){
+                        options.add({
+                            facet: key,
+                            term: 'tkdaude',
+                            count: count3
                         }, {merge: true});
                     }
                 }else{

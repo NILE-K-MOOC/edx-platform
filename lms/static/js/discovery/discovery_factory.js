@@ -62,6 +62,13 @@
                         }else{
                             search.performSearch("SKP", filters.getTerms());
                         }
+                    // smu hard coding
+                    }else if(type == "org" && query == "SMU"){
+                        if($(".active-filter button[data-value='SMU']").size() > 0){
+                            $(".active-filter button[data-value='SMU']").click();
+                        }else{
+                            search.performSearch("SMU", filters.getTerms());
+                        }
                     }else {
                         filters.add({type: type, query: query, name: name});
                         search.refineSearch(filters.getTerms());
