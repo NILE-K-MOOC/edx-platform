@@ -163,24 +163,19 @@ def common_course_status(startDt, endDt):
     from datetime import datetime
     from django.utils.timezone import UTC as UTC2
 
-    print "###########"
-    print startDt
-    print endDt
-    print "###########"
+    startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
+    startDt = startDt.split('-')
+    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]), int(startDt[5]))
 
-    if (startDt != None or startDt != '') and (endDt != None or endDt != ''):
-        startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
-        startDt = startDt.split('-')
-        startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]), int(startDt[5]))
-
+    if endDt != None or endDt == '':
         endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
         endDt = endDt.split('-')
         endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
 
-        #making nowDt
-        nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
-        nowDt = nowDt.split('-')
-        nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
+    #making nowDt
+    nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
+    nowDt = nowDt.split('-')
+    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
     #logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
