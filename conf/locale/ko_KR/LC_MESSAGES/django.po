@@ -28935,6 +28935,12 @@ msgstr "동의함"
 msgid "Do not agree"
 msgstr "동의하지 않음"
 
+msgid "All Agree"
+msgstr "전체 동의함"
+
+msgid "Do not all agree"
+msgstr "전체 동의하지 않음"
+
 msgid "Privacy policy (or Personal information processing policy)"
 msgstr "개인정보 수집 및 이용 동의"
 
