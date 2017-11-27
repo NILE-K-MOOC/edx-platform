@@ -617,6 +617,7 @@ urlpatterns += (
     url(r'^Privacy-Policy/?$', 'courseware.views.views.privacy', name="privacy"),
     url(r'^Privacy-Policy_old1/?$', 'courseware.views.views.privacy_old1', name="privacy_old1"),
     url(r'^Privacy-Policy_old2/?$', 'courseware.views.views.privacy_old2', name="privacy_old2"),
+    url(r'^Privacy-Policy_old3/?$', 'courseware.views.views.privacy_old3', name="privacy_old3"),
 
     # Copyright-Policy
     url(r'^Copyright-Policy/?$', 'courseware.views.views.copyright', name="copyright"),

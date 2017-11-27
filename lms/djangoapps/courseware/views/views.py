@@ -2174,6 +2174,13 @@ def privacy_old2(request):
         "courseware/privacy_old2.html"
     )
 
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old3(request):
+    return render_to_response(
+        "courseware/privacy_old3.html"
+    )
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
