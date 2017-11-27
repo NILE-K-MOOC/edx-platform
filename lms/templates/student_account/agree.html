@@ -56,24 +56,23 @@
                         document.location.href = "/parent_agree"
                     else
                         document.location.href = "/"
-                });
+        });
 
+    $('input[type=radio][name=agree_all]').change(function() {
+            if (this.value == 'Y') {
+                $("#radio1_y").prop("checked", true);
+                $("#radio2_y").prop("checked", true);
+                $("#radio3_y").prop("checked", true);
+                $("#radio4_y").prop("checked", true);
+            }
+            else if (this.value == 'N') {
+                $("#radio1_n").prop("checked", true);
+                $("#radio2_n").prop("checked", true);
+                $("#radio3_n").prop("checked", true);
+                $("#radio4_n").prop("checked", true);
+            }
+    });
 
-    }
-$('input[type=radio][name=agree_all]').change(function() {
-        if (this.value == 'Y') {
-            $("#radio1_y").prop("checked", true);
-            $("#radio2_y").prop("checked", true);
-            $("#radio3_y").prop("checked", true);
-            $("#radio4_y").prop("checked", true);
-        }
-        else if (this.value == 'N') {
-            $("#radio1_n").prop("checked", true);
-            $("#radio2_n").prop("checked", true);
-            $("#radio3_n").prop("checked", true);
-            $("#radio4_n").prop("checked", true);
-        }
-});
 </script>
 </%block>
 
