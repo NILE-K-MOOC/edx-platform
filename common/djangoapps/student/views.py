@@ -683,7 +683,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                image_map,
                title,
                contents,
-               image_url,
+               image_file,
                link_url,
                CASE
                   WHEN link_target = 'B' THEN 'blank'
