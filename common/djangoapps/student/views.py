@@ -678,27 +678,17 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     cur = con.cursor()
     query = """
-        SELECT popup_type,
-               link_type,
-               image_map,
+        SELECT popup_id,
+               template,
+               popup_type,
                title,
                contents,
-               image_file,
                link_url,
-               CASE
-                  WHEN link_target = 'B' THEN 'blank'
-                  WHEN link_target = 'S' THEN 'self'
-               END
                link_target,
-               start_date,
-               start_time,
-               end_date,
-               end_time,
-               template,
-               width,
-               height,
                hidden_day,
-               popup_id
+               width,
+               height
+
           FROM popup
          WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
         """
@@ -706,11 +696,85 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur.execute(query)
     row = cur.fetchall()
     cur.close()
+    popup_index = ""
+    for index in row:
+        if(index[1] == '0'):
+            if(index[2] == "H"):
+                print('indexH.html')
+                f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexH.html", 'r')
+                while True:
+                    line = f.readline()
+                    if not line: break
+                    popup_index += str(line)
+                    popup_index = popup_index.replace("#_id", str(index[0]))
+                    popup_index = popup_index.replace("#_title", str(index[3]))
+                    popup_index = popup_index.replace("#_contents", str(index[4]))
+                    popup_index = popup_index.replace("#_link_url", str(index[5]))
+                    popup_index = popup_index.replace("#_link_target", str(index[6]))
+                    popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                    popup_index = popup_index.replace("#_width", str(index[8]))
+                    popup_index = popup_index.replace("#_height", str(index[9]))
+                f.close()
+            elif(index[2] == "I"):
+                print('indexI.html')
+        elif(index[1] == '1'):
+            print('index1.html')
+            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index1.html", 'r')
+            while True:
+                line = f.readline()
+                if not line: break
+                popup_index += str(line)
+                popup_index = popup_index.replace("#_id", str(index[0]))
+                popup_index = popup_index.replace("#_title", str(index[3]))
+                popup_index = popup_index.replace("#_contents", str(index[4]))
+                popup_index = popup_index.replace("#_link_url", str(index[5]))
+                popup_index = popup_index.replace("#_link_target", str(index[6]))
+                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                popup_index = popup_index.replace("#_width", str(index[8]))
+                popup_index = popup_index.replace("#_height", str(index[9]))
+                popup_index = popup_index.replace("#_bg2_margin", str(int(index[8])-135))
+
+            f.close()
+        elif(index[1] == '2'):
+            print('index2.html')
+            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index2.html", 'r')
+            while True:
+                line = f.readline()
+                if not line: break
+                popup_index += str(line)
+                popup_index = popup_index.replace("#_id", str(index[0]))
+                popup_index = popup_index.replace("#_title", str(index[3]))
+                popup_index = popup_index.replace("#_contents", str(index[4]))
+                popup_index = popup_index.replace("#_link_url", str(index[5]))
+                popup_index = popup_index.replace("#_link_target", str(index[6]))
+                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                popup_index = popup_index.replace("#_width", str(index[8]))
+                popup_index = popup_index.replace("#_height", str(index[9]))
+            f.close()
+        elif(index[1] == '3'):
+            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
+            while True:
+                line = f.readline()
+                if not line: break
+                popup_index += str(line)
+                popup_index = popup_index.replace("#_id", str(index[0]))
+                popup_index = popup_index.replace("#_title", str(index[3]))
+                popup_index = popup_index.replace("#_contents", str(index[4]))
+                popup_index = popup_index.replace("#_link_url", str(index[5]))
+                popup_index = popup_index.replace("#_link_target", str(index[6]))
+                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                popup_index = popup_index.replace("#_width", str(index[8]))
+                popup_index = popup_index.replace("#_height", str(index[9]))
+            f.close()
+
     pop_list = []
     for p in row:
         pop_list.append(list(p))
 
-    extra_context['pop_list'] = pop_list
+    print ('last~~~~~~~~~~~~~~')
+    print popup_index
+
+    extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
     context.update(extra_context)
 

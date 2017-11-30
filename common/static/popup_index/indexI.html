@@ -1,0 +1,25 @@
+<div class="wrap" style="width: #_widthpx; height: #_heightpx">
+    <div class="area">
+        <img src="/manage/home/static/test_upload/#_image_file" id="image_file" usemap="image_map">
+
+        <map name="image_map">
+            {% if #_image_map == '' %}
+                <area shape="rect" coords="0,0,#_width,#_height" alt="IM" target="_#_link_target"
+                      href="#_link_url">
+            {% else %}
+                {% for map in #_image_map %}
+                    <area shape="rect" coords="{{ map }}" alt="IM" target="_#_link_target" href="#_link_url">
+                {% endfor %}
+            {% endif %}
+        </map>
+    </div>
+    <div style="text-align: right;">
+        <label>
+            <input id="" name="" type="checkbox" style="vertical-align: middle;">
+            <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
+        </label>
+
+        <span><a href="javascript:popClose('#_id');" title="닫기" style="color: inherit;">[ 닫기 ]</a></span>
+    </div>
+</div>
+

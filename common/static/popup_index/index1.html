@@ -1,0 +1,43 @@
+<style>
+    .index1_area-bg2 {
+        background: url(/static/images/bg1.png) no-repeat;
+        width: 120px;
+        height: 229px;
+        position: absolute;
+        margin-left: #_bg2_marginpx;
+    }
+</style>
+
+<div class="wrap" id="#_id" style="width: #_widthpx; height: #_heightpx; background: #3f7cc0; padding: 15px;">
+    <div class="area" style="background: #fff;">
+        <div class="area-bg1" style="max-height:350px;">
+            <div>
+                <div class="index1_area-bg2"></div>
+            </div>
+            <!-- pop_top -->
+            <div class="pop_top" style="padding: 15px;">
+                <div class="pop_top_area1" style="width: 100%; text-align: center; margin-bottom: 10px;"><img src="/static/images/logo1.jpg"></div>
+                <div class="pop_top_area2" style="width: 100%; text-align: center;">
+                    <h1 style="color: #fff; background: #3f7cc0; display: inline-block; font-size: 45px;">#_title</h1>
+                </div>
+            </div>
+            <!-- pop_container -->
+            <div class="pop_container" id="contents" style="margin:0px 10px 0px 10px; vertical-align: top;">
+                #_contents
+                <div style="width:100%; text-align:center;">
+                    <a style="padding:10px; background:#34ae1c; color:#fff; border-radius:10px;"
+                       target="_#_link_target" href="#_link_url">열기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: right;">
+        <label>
+            <input id="" name="" type="checkbox" style="vertical-align: middle;">
+            <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
+        </label>
+
+        <span><a href="javascript:popClose('#_id');" title="닫기" style="color: inherit;">[ 닫기 ]</a></span>
+    </div>
+</div>
+

@@ -251,7 +251,6 @@ def cert_check_id(request):
 def schools(request):
     return render_to_response("courseware/schools.html")
 
-
 def get_current_child(xmodule, min_depth=None, requested_child=None):
     """
     Get the xmodule.position's display item of an xmodule that has a position and
