@@ -1353,9 +1353,6 @@ def course_about(request, course_id):
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}
 
-        #######################################################################
-
-        #DEBUG
         print "review_list = {}".format(review_list)
         print "review_email = {}".format(review_email)
         print "course_id = {}".format(course_id)
@@ -1365,6 +1362,32 @@ def course_about(request, course_id):
         print "course_number = {}".format(course_number)
         print "course_total = {}".format(course_total)
         print "login_status = {}".format(login_status)
+
+        sys.setdefaultencoding('utf-8')
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
+        cur = con.cursor()
+        query = """
+            SELECT id
+              FROM auth_user
+             WHERE email = '{0}';
+        """.format(review_email)
+        cur.execute(query)
+        user_id = cur.fetchall()
+        cur.close()
+
+        cur = con.cursor()
+        query = """
+            SELECT count(user_id)
+              FROM interest_course
+             WHERE user_id = '{0}' AND course_id = '{1}' AND use_yn = 'Y';
+        """.format(user_id[0][0], course_id)
+        cur.execute(query)
+        flag = cur.fetchall()
+        cur.close()
 
         context = {
             'course': course,
@@ -1410,7 +1433,8 @@ def course_about(request, course_id):
             'course_org' : course_org,
             'course_number' : course_number,
             'course_total' : course_total,
-            'login_status' : login_status
+            'login_status' : login_status,
+            'flag' : flag[0][0],
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

@@ -142,42 +142,15 @@ from openedx.core.lib.courses import course_image_url
 ##                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
                <div style="float: right; right: 0; position: absolute; margin-right: 20px;">
-                  <a id="interest_btn_d" onclick="modi()"><i style="color:red; display:none" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
-                  <a id="interest_btn_i" onclick="add()"><i style="color:red" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   % if (flag == 1):
+                   <a id="interest_btn_d" onclick="modi()"><i style="color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
+                   <a id="interest_btn_i" onclick="add()"><i style="display:none; color:red;" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   % else :
+                   <a id="interest_btn_d" onclick="modi()"><i style="display:none; color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
+                   <a id="interest_btn_i" onclick="add()"><i style="color:red" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   % endif
                </div>
               <script>
-                   $(function() {
-                      console.log( "ready!" );
-
-                      try {
-                        var user_id = '${user.id}';
-                        var course_id = '${course.id}';
-                        var action = 'flag';
-
-                        $.post("/courses/interest", {
-                            csrfmiddlewaretoken: $.cookie('csrftoken'),
-                            user_id : user_id,
-                            course_id: course_id,
-                            method : action,
-                        }).done(function (data) {
-                            if (data == 1){
-                                document.getElementById('empty').style.display = 'none';
-                                document.getElementById('nomal').style.display = '';
-                            }
-                            else if (data == 0){
-                                document.getElementById('empty').style.display = '';
-                                document.getElementById('nomal').style.display = 'none';
-                            }
-                        }).fail(function (error) {
-                            alert('error = ' + error.responseJSON);
-                        });
-                    } catch (e) {
-                        alert(e);
-                    }
-
-                  });
-
-
                   function add() {
 
                       try {
