@@ -132,7 +132,6 @@ def user_groups(user):
 
 @ensure_csrf_cookie
 def courses(request):
-
     print 'course !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
 
     """
@@ -151,89 +150,51 @@ def courses(request):
         else:
             courses_list = sort_by_announcement(courses_list)
 
+    import time
+    try:
+        from urllib import urlencode
+    except ImportError:
+        from urllib.parse import urlencode
 
-    # API def override.
-    def course_discovery(request):
+    from elasticsearch.exceptions import ConnectionError
+    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
 
-        print '########## call course_discovery type 1'
-        print '########## call course_discovery type 1'
-        print '########## call course_discovery type 1'
-        print '########## call course_discovery type 1'
+    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
+        url = self.url_prefix + url
+        if 'size' in params:
+            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
 
-        results = {
-            "error": _("Nothing to search")
-        }
-        status_code = 500
+        if params:
+            url = '%s?%s' % (url, urlencode(params or {}))
+        full_url = self.host + url
 
-        search_term = request.POST.get("search_string", None)
+        start = time.time()
+
+        if body:
+            if '{"term": {"org": "SMUk"}}' in body:
+                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
 
         try:
-            size, from_, page = _process_pagination_values(request)
-            field_dictionary = _process_field_values(request)
-            # print type(field_dictionary),  'field_dictionary:', field_dictionary
+            kw = {}
+            if timeout:
+                kw['timeout'] = timeout
+            response = self.pool.urlopen(method, url, body, **kw)
+            duration = time.time() - start
+            raw_data = response.data.decode('utf-8')
+        except Exception as e:
+            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
+            raise ConnectionError('N/A', str(e), e)
 
-            if 'org' in field_dictionary and field_dictionary['org'] == 'SMUk':
+        if not (200 <= response.status < 300) and response.status not in ignore:
+            self.log_request_fail(method, url, body, duration, response.status)
+            self._raise_error(response.status, raw_data)
 
-                print "##### field_dictionary['org'] override #####"
+        self.log_request_success(method, full_url, url, body, response.status,
+                                 raw_data, duration)
 
-                field_dictionary['org'] = ['SMUk', 'SMUCk']
+        return response.status, response.getheaders(), raw_data
 
-            # Analytics - log search request
-            track.emit(
-                'edx.course_discovery.search.initiated',
-                {
-                    "search_term": search_term,
-                    "page_size": size,
-                    "page_number": page,
-                }
-            )
-
-            results = course_discovery_search(
-                search_term=search_term,
-                size=size,
-                from_=from_,
-                field_dictionary=field_dictionary,
-            )
-
-            # Analytics - log search results before sending to browser
-            track.emit(
-                'edx.course_discovery.search.results_displayed',
-                {
-                    "search_term": search_term,
-                    "page_size": size,
-                    "page_number": page,
-                    "results_count": results["total"],
-                }
-            )
-
-            status_code = 200
-
-        except ValueError as invalid_err:
-            results = {
-                "error": unicode(invalid_err)
-            }
-            log.debug(unicode(invalid_err))
-
-        # Allow for broad exceptions here - this is an entry point from external reference
-        except Exception as err:  # pylint: disable=broad-except
-            results = {
-                "error": _('An error occurred when searching for "{search_string}"').format(search_string=search_term)
-            }
-            log.exception(
-                'Search view exception when searching for %s for user %s: %r',
-                search_term,
-                request.user.id,
-                err
-            )
-
-        return HttpResponse(
-            json.dumps(results, cls=DjangoJSONEncoder),
-            content_type='application/json',
-            status=status_code
-        )
-
-    from search import views
-    views.course_discovery = course_discovery
+    Urllib3HttpConnection.perform_request = perform_request
 
     return render_to_response(
         "courseware/courses.html",
@@ -870,15 +831,15 @@ def course_about(request, course_id):
             "KAISTk": "KAIST",
             "HYUk": "HANYANG UNIVERSITY",
             "KOCW": "KOCW",
-            "KONKUK UNIVERSITY" : "KONKUK UNIVERSITY",
-            "KYUNGSUNG UNIVERSITY" : "KYUNGSUNG UNIVERSITY",
-            "DANKOOK UNIVERSITY" : "DANKOOK UNIVERSITY",
-            "SOGANG UNIVERSITY" : "SOGANG UNIVERSITY",
-            "UNIVERSITY OF SEOUL" : "UNIVERSITY OF SEOUL",
-            "SOONGSIL UNIVERSITY" : "SOONGSIL UNIVERSITY",
-            "CHONNAM NATIONAL UNIVERSITY" : "CHONNAM NATIONAL UNIVERSITY",
-            "JEJU NATIONAL UNIVERSITY" : "JEJU NATIONAL UNIVERSITY",
-            "HGUk" : "HANDONG GLOBAL UNIVERSITY",
+            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
+            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
+            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
+            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
+            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
+            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
+            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
+            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
+            "HGUk": "HANDONG GLOBAL UNIVERSITY",
         }
 
         univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
