@@ -1553,6 +1553,7 @@ def dashboard(request):
         print c.course.id, c.course.display_name
     print 'check step 2 e'
 
+    status = request.POST.get('status')
     context = {
         'percents': percents,
         'enrollment_message': enrollment_message,
@@ -1586,6 +1587,7 @@ def dashboard(request):
         'course_programs': course_programs,
         'disable_courseware_js': True,
         'show_program_listing': ProgramsApiConfig.current().show_program_listing,
+        'status_flag': status,
     }
 
     ecommerce_service = EcommerceService()
