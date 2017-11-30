@@ -65,6 +65,7 @@ from django.contrib.auth.models import User
 import datetime
 from django.contrib.auth import logout
 from pymongo import MongoClient
+from django.db import connections
 
 
 # def job():
@@ -118,9 +119,9 @@ def agree(request):
 
 @ensure_csrf_cookie
 def agree_done(request):
-    print 'request.is_ajax = ', request.is_ajax
-    print 'request.method = ', request.method
-    print "request.POST['division'] = ", request.POST['agreeYN']
+    # print 'request.is_ajax = ', request.is_ajax
+    # print 'request.method = ', request.method
+    # print "request.POST['division'] = ", request.POST['agreeYN']
 
     data = {}
 
@@ -132,6 +133,15 @@ def agree_done(request):
         if request.POST['agreeYN'] == 'Y':
             data['agreeYN'] = request.session['agreeYN']
             data['division'] = request.session['division']
+
+        if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+            del request.session['private_info_use_yn']
+            del request.session['event_join_yn']
+
+        # 개인정보 수집 및 이용 동의 홍보/설문 관련 정보 수진 동의값 저장
+        request.session['private_info_use_yn'] = request.POST['private_info_use_yn']
+        request.session['event_join_yn'] = request.POST['event_join_yn']
+
     else:
         data['agreeYN'] = request.POST['agreeYN']
 
@@ -233,30 +243,6 @@ def agree(request):
         return render_to_response('student_account/agree.html', context)
     else:
         return render_to_response('student_account/registration_gubn.html')
-
-
-@ensure_csrf_cookie
-def agree_done(request):
-    print 'request.is_ajax = ', request.is_ajax
-    print 'request.method = ', request.method
-    print "request.POST['division'] = ", request.POST['agreeYN']
-
-    data = {}
-
-    if request.method == 'POST' and request.POST['agreeYN'] and request.POST['agreeYN'] == 'Y':
-        # print "STEP2 :  request.session['division'] = ", request.session['division']
-        # print "STEP2 :  request.session['agreeYN'] = ", request.POST['agreeYN']
-        request.session['agreeYN'] = request.POST['agreeYN']
-
-        if request.POST['agreeYN'] == 'Y':
-            data['agreeYN'] = request.session['agreeYN']
-            data['division'] = request.session['division']
-    else:
-        data['agreeYN'] = request.POST['agreeYN']
-
-    print 'data = ', data
-
-    return HttpResponse(json.dumps(data))
 
 
 @require_http_methods(['GET'])

@@ -7,35 +7,37 @@
 
 <%block name="js_extra">
 <script xmlns="http://www.w3.org/1999/html">
-        function agree_gubn(){
-            var gubn = "Y";
+    function agree_gubn(){
+        var gubn = "Y";
+        var private_info_use_yn = $("input[name=agree3]:checked").val();
+        var event_join_yn = $("input[name=agree4]:checked").val();
 
-            if($("input[name=agree1]:checked").val() != "Y"){
-                $(this).focus();
-                alert("${_('In order to become a member, you have to agree to the terms and conditions for use.')}");
-                gubn = "N";
-                return;
-            }
-
-            if($("input[name=agree2]:checked").val() != "Y"){
-                $(this).focus();
-                alert("${_('If you agree to the personal information processing policy, membership is possible.')}");
-                gubn = "N";
-                return;
-            }
-
-            $.post("/agree_done",
-                    {"agreeYN": gubn, "csrfmiddlewaretoken": $("#csrfmiddlewaretoken").val()},
-                    function(data){
-                        console.log(data.agreeYN + ":" + data.division);
-                        if(data.agreeYN == 'Y' && data.division == 'Y')
-                            document.location.href="/register"
-                        else if(data.agreeYN == 'Y' && data.division == 'N')
-                            document.location.href="/parent_agree"
-                        else
-                            document.location.href="/"
-            });
+        if($("input[name=agree1]:checked").val() != "Y"){
+            $(this).focus();
+            alert("${_('In order to become a member, you have to agree to the terms and conditions for use.')}");
+            gubn = "N";
+            return;
         }
+
+        if($("input[name=agree2]:checked").val() != "Y"){
+            $(this).focus();
+            alert("${_('If you agree to the personal information processing policy, membership is possible.')}");
+            gubn = "N";
+            return;
+        }
+
+        $.post("/agree_done",
+                {"agreeYN": gubn, "private_info_use_yn": private_info_use_yn, "event_join_yn": event_join_yn, "csrfmiddlewaretoken": $("#csrfmiddlewaretoken").val()},
+                function(data){
+                    console.log(data.agreeYN + ":" + data.division);
+                    if(data.agreeYN == 'Y' && data.division == 'Y')
+                        document.location.href="/register"
+                    else if(data.agreeYN == 'Y' && data.division == 'N')
+                        document.location.href="/parent_agree"
+                    else
+                        document.location.href="/"
+        });
+    }
 
     $("#all_y, #all_n").click(function(){
         var v = $(this).val();
