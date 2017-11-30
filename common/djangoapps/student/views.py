@@ -123,6 +123,7 @@ from pymongo import MongoClient
 import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
+import sys
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -1548,10 +1549,29 @@ def dashboard(request):
     #         interest_list.append(list(p)[0])
     # print interest_list
 
-    print 'check step 2 s'
+    final_list = []
+
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                          settings.DATABASES.get('default').get('USER'),
+                          settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'),
+                          charset='utf8')
     for c in course_enrollments:
-        print c.course.id, c.course.display_name
-    print 'check step 2 e'
+        cur = con.cursor()
+        query = """
+            SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일"), course_id
+              FROM courseware_studentmodule
+             WHERE student_id = '{0}' AND course_id = '{1}';
+        """.format(user.id, c.course.id)
+        cur.execute(query)
+        final_day = cur.fetchall()
+        final_list.append(list(final_day[0]))
+        cur.close()
+
+    print ('final_list =====================')
+    print type(final_list)
+    print (final_list)
 
     status = request.POST.get('status')
     context = {
@@ -1588,6 +1608,7 @@ def dashboard(request):
         'disable_courseware_js': True,
         'show_program_listing': ProgramsApiConfig.current().show_program_listing,
         'status_flag': status,
+        'final_list': final_list,
     }
 
     ecommerce_service = EcommerceService()

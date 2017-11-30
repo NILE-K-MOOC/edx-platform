@@ -133,7 +133,13 @@ from student.helpers import (
             ${_("Starts - {start_date}").format(start_date=course_overview.start_datetime_text("SHORT_DATE", time_zone))}
           % endif
           </span>
-          <span id="final_day"> </span>
+          <span class="info-date-block" data-tooltip="Hi">
+            % for final in final_list:
+              % if (str(course_overview) == str(final[1])):
+                <p>${final[0]}</p>
+              % endif
+            % endfor
+          </span>
         </div>
         <div class="wrapper-course-actions" style="width: 50% !important;">
           <div class="course-actions">
@@ -480,8 +486,7 @@ share_settings    ${share_settings}<br>
 </div>
 <script>
    $( document ).ready(function() {
-
-        var user_id = '${user.id}';
+ /*       var user_id = '${user.id}';
         var action = 'final';
 
         $.post("/courses/interest", {
@@ -494,11 +499,11 @@ share_settings    ${share_settings}<br>
             var final_day = "";
             final_day += data[0][0];
             if(data[0][0] != null) {
-                document.getElementById("final_day").textContent = final_day;
+                $('#final_day').text(final_day);
             }
         }).fail(function (error) {
             alert('error = ' + error.responseJSON);
-        });
+        });*/
 
 
        if("${is_course_blocked | n, dump_js_escaped_json}" == 'true'){
