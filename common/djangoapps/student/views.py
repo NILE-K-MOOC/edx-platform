@@ -924,22 +924,27 @@ def dashboard(request):
             private_info_use_yn = request.session['private_info_use_yn']
             event_join_yn = request.session['event_join_yn']
 
-            with connections['default'].cursor() as cur:
-                query = """
-                    INSERT
-                      INTO registration_flag_history(user_id, private_info_use_yn, event_join_yn)
-                    VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}');
-                """.format(
-                    user_id=user.id,
-                    private_info_use_yn=private_info_use_yn,
-                    event_join_yn=event_join_yn
-                )
+            try:
+                with connections['default'].cursor() as cur:
+                    query = """
+                        INSERT
+                          INTO registration_flag_history(user_id, private_info_use_yn, event_join_yn)
+                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}');
+                    """.format(
+                        user_id=user.id,
+                        private_info_use_yn=private_info_use_yn,
+                        event_join_yn=event_join_yn
+                    )
 
-                print 'query:', query
-                cur.execute(query)
+                    print 'query:', query
+                    cur.execute(query)
 
-            del request.session['private_info_use_yn']
-            del request.session['event_join_yn']
+                del request.session['private_info_use_yn']
+                del request.session['event_join_yn']
+
+            except Exception as e:
+                print 'registration_flag_history error.'
+                print e
 
     # Global staff can see what courses errored on their dashboard
     staff_access = False
