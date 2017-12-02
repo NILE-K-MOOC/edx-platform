@@ -206,6 +206,10 @@
 	}
 }
 
+@media screen and (max-width:350px) {
+	.find-courses .search-facets {overflow: hidden !important;}
+}
+
 /** 20161215 **/
 .home>header .outer-wrapper {
     /*animation: home-header-pop-up 1.15s ease-in-out;
@@ -1308,3 +1312,8 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 	.logo img{
 		max-height: 44px;
 	}
+
+	.facet-list{
+		background: #fff;
+	}
+

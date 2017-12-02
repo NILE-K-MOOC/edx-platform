@@ -629,7 +629,7 @@ msgid "SMUCk"
 msgstr "상명대학교(천안)"
 
 msgid "SMUk"
-msgstr "상명대학교(서울)"
+msgstr "상명대학교"
 
 msgid "SNUk"
 msgstr "서울대학교"
