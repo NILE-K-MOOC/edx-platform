@@ -71,7 +71,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <div style="text-align: right; display: {{ 'none' if LANG == 'en' else 'block' }};">
             <label onclick="closeWin1();">
                 <input id="chkbox_1" name="chkbox_1" type="checkbox" style="vertical-align: middle;">
-                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
+                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '다시 열지 않음'} &nbsp;&nbsp;</b></span>
             </label>
 
             <span><a href="javascript:popClose('popupWrap_1');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
