@@ -228,213 +228,153 @@ def _render_footer_html(request, show_openedx_logo, include_dependencies):
 from django.db import connections
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from django.utils.translation import ugettext_lazy as _
+from django.http import JsonResponse
+import json
 
 
 def course_api(request):
+    mongo_course_info = {}
+    json_list = list()
+
+    print 'course_api step 1. get mysql info.'
     # mysql
-    with connections['default'].cursor() as cur:
-        with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
-            sql = '''
-                SELECT coc.id,
-                       coc.display_name,
-                       coc.start,
-                       coc.end,
-                       coc.enrollment_start,
-                       coc.enrollment_end,
-                       coc.created,
-                       coc.modified,
-                       coc.course_video_url,
-                       coc.course_image_url,
-                       cd.detail_name,
-                       coc.org,
-                       coc.display_number_with_default  AS course,
-                       Substring_index(coc.id, '+', -1) AS RUN,
-                       coc.effort,
-                       c.cert_date,
-                       coa.teacher_name
-                FROM   edxapp.course_overviews_courseoverview AS coc
-                       left outer join edxapp.code_detail AS cd
-                              ON coc.org = cd.detail_code
-                       left outer join (
-                            select course_id, min(created_date) as cert_date
-                            from edxapp.certificates_generatedcertificate
-                            group by course_id
-                       ) as c
-                              ON coc.id = c.course_id
-                        left outer join edxapp.course_overview_addinfo as coa
-                              ON coc.id = coa.course_id
-            '''
-            cur.execute(sql)
-            slist = cur.fetchall()
+    with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        print 'course_api step 1. get mongo info.'
 
-            # init list
-            course_id_list = []  # 코스아이디
-            display_name_list = []  # 강좌명
-            univ_name_list = []  # 대학명
-            start_time_list = []  # 시작일
-            end_time_list = []  # 종강일
-            enroll_start_list = []  # 수강신청 시작일
-            enroll_end_list = []  # 수강신청 종료일
-            created_list = []  # 강좌생성 시간
-            modified_list = []  # 강좌수정 시간
-            video_list = []  # 강좌소개 비디오
-            img_list = []  # 강좌 썸네일 이미지
-            org_list = []  # org 코드
-            course_list = []  # course 코드
-            run_list = []  # run 코드
-            e0_list = []  # 주간학습권장시간
-            e1_list = []  # 총주차
-            e2_list = []  # 동영상재생시간
-            et_list = []  # 총학습시간
-            course_status_list = []  # 강좌상태
-            classfy_list = []  # 대분류
-            middle_classfy_list = []  # 중분류
-            cert_date_list = []  # 이수증 생성일
-            teacher_name_list = []  # 교수자 이름
+        db = client.edxapp
+        cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
+        for cursor in cursors:
+            _org = cursor.get('org')
+            _course = cursor.get('course')
+            _run = cursor.get('run')
 
-            # making data (insert)
-            for item in slist:
-                # mongo
+            pb = cursor.get('versions').get('published-branch')
+            course = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"_id": 0, "blocks": {"$elemMatch": {"block_type": "course"}}})
+            block = course.get('blocks')[0]
+            fields = block.get('fields')
+            classfy = fields.get('classfy') if 'classfy' in fields else ''
+            middle_classfy = fields.get('middle_classfy') if 'middle_classfy' in fields else ''
 
-                db = client["edxapp"]
-                cursor = db.modulestore.active_versions.find_one({'org': item[11], 'course': item[12], 'run': item[13]})
-                pb = cursor.get('versions').get('published-branch')
-                cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
-                blocks = cursor.get('blocks')
-                for block in blocks:
-                    block_type = block.get('block_type')
-                    if block_type == 'course':
-                        classfy = block.get('fields').get('classfy')
-                        middle_classfy = block.get('fields').get('middle_classfy')
-                        if not classfy:
-                            classfy = ''
-                        elif not middle_classfy:
-                            middle_classfy = ''
+            _course_id = 'course-v1:{org}+{course}+{run}'.format(
+                org=_org,
+                course=_course,
+                run=_run,
+            )
 
-                classfy_list.append(classfy)  # 대분류
-                middle_classfy_list.append(middle_classfy)  # 중분류
-                course_id_list.append(item[0])  # 코스아이디
-                display_name_list.append(item[1])  # 강좌명
-                start_time_list.append(item[2])  # 시작일
-                end_time_list.append(item[3])  # 종강일
-                enroll_start_list.append(item[4])  # 수강신청 시작일
-                enroll_end_list.append(item[5])  # 수강신청 종료일
-                created_list.append(item[6])  # 강좌생성 시간
-                modified_list.append(item[7])  # 강좌수정 시간
-                video_list.append(item[8])  # 강좌소개 비디오
-                img_list.append("http://www.kmooc.kr" + str(item[9]))  # 강좌 썸네일 이미지
-                univ_name_list.append(unicode(item[10]).strip())  # 대학명
-                org_list.append(item[11])  # org 코드
-                course_list.append(item[12])  # course 코드
-                run_list.append(item[13])  # run 코드
+            mongo_course_info[_course_id] = {
+                'classfy': classfy,
+                'middle_classfy': middle_classfy
+            }
 
-                if item[15] == None or item[15] == '':
-                    cert_date_list.append('null')
-                else:
-                    cert_date_list.append(item[15])  # 이수증 생성일
+        sql = '''
+            SELECT coc.id                           AS course_id,
+                   coc.display_name,
+                   coc.start                        AS start_time,
+                   coc.end                          AS end_time,
+                   coc.enrollment_start             AS enroll_start,
+                   coc.enrollment_end               AS enroll_end,
+                   coc.created,
+                   coc.modified,
+                   coc.course_video_url             AS video,
+                   coc.course_image_url             AS img,
+                   coc.org,
+                   coc.display_number_with_default  AS course,
+                   Substring_index(coc.id, '+', -1) AS RUN,
+                   coc.effort,
+                   c.cert_date,
+                   coa.name                         teacher_name
+              FROM edxapp.course_overviews_courseoverview AS coc
+                   LEFT OUTER JOIN (  SELECT course_id, min(created_date) AS cert_date
+                                        FROM edxapp.certificates_generatedcertificate
+                                    GROUP BY course_id) AS c
+                      ON coc.id = c.course_id
+                   LEFT JOIN
+                   (  SELECT group_concat(c.name) AS name, course_id
+                        FROM student_courseaccessrole a, auth_user b, auth_userprofile c
+                       WHERE a.user_id = b.id AND role = 'instructor' AND b.id = c.user_id
+                    GROUP BY course_id) coa
+                      ON coc.id = coa.course_id
+        '''
+        cur.execute(sql)
+        rows = cur.fetchall()
 
-                if item[16] == None or item[16] == '':
-                    teacher_name_list.append('null')
-                else:
-                    teacher_name_list.append(item[16])  # 교수자 이름
+        columns = [desc[0] for desc in cur.description]
+        courses = [dict(zip(columns, row)) for row in rows]
 
-                status = common_course_status(item[2], item[3])  # 강좌상태
-                course_status_list.append(status)
-                # 주간학습권장시간
-                # 총주차
-                # 동영상재생시간
-                # 총학습시간
+        for course in courses:
+            _course_id = course['course_id']
+            course['univ_name'] = str(_(course['org']))
 
-                if item[14]:
-                    c2 = item[14].find('@')
-                    c3 = item[14].find('#')
+            if _course_id in mongo_course_info:
+                course['classfy'] = mongo_course_info[_course_id]['classfy']
+                course['middle_classfy'] = mongo_course_info[_course_id]['middle_classfy']
 
-                    # @ 있고 # 있는 로직 ex) 11:11@7#11:11
-                    if c2 != -1 and c3 != -1:
-                        tmp = item[14].replace('@', '#')
-                        tmp = tmp.split('#')
-                        e0_list.append(tmp[0])
-                        e1_list.append(tmp[1])
-                        e2_list.append(tmp[2])
-                        t = tmp[0].split(':')
-                        tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
-                        th = tt / 60
-                        tm = tt % 60
-                        if len(str(th)) == 1:
-                            th = "0" + str(th)
-                        if len(str(tm)) == 1:
-                            tm = "0" + str(tm)
-                        total_time = str(th) + ":" + str(tm)
-                        et_list.append(total_time)
+            if 'effort' in course:
+                effort = course['effort']
 
-                    # #만 있는 로직 ex) 11:11#11:11
-                    elif c3 != -1:
-                        tmp = item[14]
-                        tmp = tmp.split('#')
-                        e0_list.append(tmp[0])
-                        e1_list.append('null')
-                        e2_list.append(tmp[1])
-                        et_list.append('null')
+                if effort is None:
+                    course['e0'] = 'null'
+                    course['e1'] = 'null'
+                    course['e2'] = 'null'
+                    course['et'] = 'null'
+                elif '@' in effort and '#' in effort:
+                    tmp = effort.replace('@', '#')
+                    tmp = tmp.split('#')
+                    t = tmp[0].split(':')
+                    tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
+                    th = tt / 60
+                    tm = tt % 60
+                    if len(str(th)) == 1:
+                        th = "0" + str(th)
+                    if len(str(tm)) == 1:
+                        tm = "0" + str(tm)
+                    total_time = str(th) + ":" + str(tm)
+                    course['e0'] = tmp[0]
+                    course['e1'] = tmp[1]
+                    course['e2'] = tmp[2]
+                    course['et'] = total_time
+                elif '@' in effort:
+                    tmp = effort
+                    tmp = tmp.split('@')
+                    course['e0'] = tmp[0]
+                    course['e1'] = tmp[1]
+                    course['e2'] = 'null'
+                    t = tmp[0].split(':')
+                    tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
+                    th = tt / 60
+                    tm = tt % 60
+                    if len(str(th)) == 1:
+                        th = "0" + str(th)
+                    if len(str(tm)) == 1:
+                        tm = "0" + str(tm)
+                    total_time = str(th) + ":" + str(tm)
+                    course['et'] = total_time
+                elif '#' in effort:
+                    tmp = effort
+                    tmp = tmp.split('#')
+                    course['e0'] = tmp[0]
+                    course['e1'] = 'null'
+                    course['e2'] = 'null'
+                    course['et'] = 'null'
 
-                    # @만 있는 로직 ex) 11:11@7
-                    elif c2 != -1:
-                        tmp = item[14]
-                        tmp = tmp.split('@')
-                        e0_list.append(tmp[0])
-                        e1_list.append(tmp[1])
-                        e2_list.append('null')
-                        t = tmp[0].split(':')
-                        tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
-                        th = tt / 60
-                        tm = tt % 60
-                        if len(str(th)) == 1:
-                            th = "0" + str(th)
-                        if len(str(tm)) == 1:
-                            tm = "0" + str(tm)
-                        total_time = str(th) + ":" + str(tm)
-                        et_list.append(total_time)
+            # 전부 없는 로직 ex)
+            else:
+                course['e0'] = 'null'
+                course['e1'] = 'null'
+                course['e2'] = 'null'
+                course['et'] = 'null'
 
-                    # @ 없고 # 없는 로직 ex) 11:11
-                    elif c2 == -1 and c3 == -1:
-                        e0_list.append(item[14])
-                        e1_list.append('null')
-                        e2_list.append('null')
-                        et_list.append('null')
-                # 전부 없는 로직 ex)
-                else:
-                    e0_list.append('null')
-                    e1_list.append('null')
-                    e2_list.append('null')
-                    et_list.append('null')
+            json_list.append(course)
 
-            json_list = []
-            for n in range(0, len(slist)):
-                item = '{' + '"course_id":' + '"' + str(course_id_list[n]) + '"' + ',' + '"display_name":' + '"' + unicode(
-                    display_name_list[n]) + '"' + ',' + '"univ_name":' + '"' + unicode(
-                    univ_name_list[n]) + '"' + ',' + '"start_time":' + '"' + str(
-                    start_time_list[n]) + '"' + ',' + '"end_time":' + '"' + str(
-                    end_time_list[n]) + '"' + ',' + '"enroll_start":' + '"' + str(
-                    enroll_start_list[n]) + '"' + ',' + '"enroll_end":' + '"' + str(
-                    enroll_end_list[n]) + '"' + ',' + '"created":' + '"' + str(
-                    created_list[n]) + '"' + ',' + '"modified":' + '"' + str(
-                    modified_list[n]) + '"' + ',' + '"video":' + '"' + str(video_list[n]) + '"' + ',' + '"img":' + '"' + str(
-                    img_list[n]) + '"' + ',' + '"org":' + '"' + str(org_list[n]) + '"' + ',' + '"course":' + '"' + str(
-                    course_list[n]) + '"' + ',' + '"run":' + '"' + str(run_list[n]) + '"' + ',' + '"e0":' + '"' + str(
-                    e0_list[n]) + '"' + ',' + '"e1":' + '"' + str(e1_list[n]) + '"' + ',' + '"e2":' + '"' + str(
-                    e2_list[n]) + '"' + ',' + '"et":' + '"' + str(et_list[n]) + '"' + ',' + '"course_status":' + '"' + str(
-                    course_status_list[n]) + '"' + ',' + '"classfy":' + '"' + str(
-                    classfy_list[n]) + '"' + ',' + '"middle_classfy":' + '"' + str(
-                    middle_classfy_list[n]) + '"' + ',' + '"cert_date":' + '"' + str(
-                    cert_date_list[n]) + '"' + ',' + '"teacher_name":' + '"' + str(teacher_name_list[n]) + '"' + '}'
-                if n == 0:
-                    item = '{"results":[' + item + ','
-                elif n == len(slist) - 1:
-                    item = item + "," + '{"total_cnt":"' + str(len(slist)) + '"}' + ']}'
-                else:
-                    item = item + ','
-                json_list.append(item)
+        print 'course_api step 4.'
 
-    return HttpResponse(json_list)
+        result = {
+            "results": json_list,
+            "total_cnt": len(json_list)
+        }
+
+    return JsonResponse(result)
 
 
 def common_course_status(startDt, endDt):
