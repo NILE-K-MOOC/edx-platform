@@ -1,66 +1,40 @@
-<style>
-    .index3_btn {
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 40px;
-    }
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
+<div class="pop-wrap" id="#_id" style="width: #_widthpx;float: left; z-index: 9999; position: relative">
 
-    .index3_btn a {
-        padding: 10px;
-        background: 10px;
-        background: #e06136;
-        text-align: center;
-        color: #fff;
-        transition: all .3s;
-        border: 1px solid #e06136;
-        border-radius: 10px;
-        font-weight: bold;
-        border-bottom: 3px solid #a04120;
-    }
+    <!-- pop-area s -->
+    <div class="pop-area pop3-bg">
 
-    .index3_btn a:hover {
-        background: #fff;
-        color: #e06136;
-    }
-
-    .index3_bg1 {
-        background: radial-gradient(circle, transparent 20%, slategray 20%, slategray 80%, transparent 80%, transparent),
-        radial-gradient(circle, transparent 20%, slategray 20%, slategray 80%, transparent 80%, transparent) 50px 50px,
-        linear-gradient(#A8B1BB 8px, transparent 8px) 0 -4px,
-        linear-gradient(90deg, #A8B1BB 8px, transparent 8px) -4px 0;
-        background-color: slategray;
-        background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
-    }
-</style>
-
-<div class="wrap" id="#_id"
-     style="width: #_widthpx; height: #_heightpx;  background: efefef; font-family: malgun gothic;">
-
-    <div class="area index3_bg1" style="border: 1px solid #eee;">
-        <h4 style="text-align: center; padding: 25px 45px; background: rgba(0, 0, 0, 0.3); font-size: 40px; color: #fff; margin-bottom: 40px;">
-            #_title</h4>
-
-        <div id="contents" style="text-align: center; margin-bottom: 50px;">
-            #_contents
-        </div>
-
-        <div class="index3_btn">
-            <a target="_#_link_target" href="#_link_url">열기</a>
-            <a href="javascript:popClose('#_id');">닫기</a>
+        <!-- pop1-top-area s -->
+        <div class="pop-top-area">
+            <!-- pop2-titbar s -->
+            <div class="pop3-titbar"></div>
 
         </div>
 
-    </div>
-    <div style="text-align: right;">
-        <label>
-            <input id="" name="" type="checkbox" style="vertical-align: middle;">
-            <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
-        </label>
+        <div style="text-align: center; margin-top: -40px;">
+            <div><img src="/static/images/icon-bellbg3.png" alt=""></div>
+        </div>
 
-        <span><a href="javascript:popClose('#_id');" title="닫기" style="color: inherit;">[ 닫기 ]</a></span>
+        <!-- pop-body-area s -->
+        <div class="pop-body-area pop2-body-area" style="height: #_heightpx;">
+
+            <div class="pop1-txtarea">
+
+                <h4>#_title</h4>
+
+                <p class="t-gray" id="contents">#_contents
+                </p>
+            </div>
+
+        </div>
+        <div style="text-align: right;/* display: inline-block; */width: 100%;z-index: 9999;position: relative; background-color: #fff">
+            <label>
+                <input id="" name="" type="checkbox" style="vertical-align: middle;">
+                <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
+            </label>
+                <span style="text-align: right;"><a href="javascript:popClose('#_id');" title="닫기"
+                                                    style="color: inherit;">[
+                    닫기 ]</a></span>
+        </div>
     </div>
 </div>
-
-
-

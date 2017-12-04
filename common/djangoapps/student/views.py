@@ -151,8 +151,7 @@ def csrf_token(context):
 
 
 def common_course_status(startDt, endDt):
-
-    #input
+    # input
     # case - 1
     # startDt = 2016-12-19 00:00:00
     # endDt   = 2017-02-10 23:00:00
@@ -163,24 +162,25 @@ def common_course_status(startDt, endDt):
     # endDt   = 2017-02-10 23:00:00+00:00
     # nowDt   = 2017-11-10 00:11:28
 
-    #import
+    # import
     from datetime import datetime
     from django.utils.timezone import UTC as UTC2
 
     startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
     startDt = startDt.split('-')
-    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]), int(startDt[5]))
+    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]),
+                       int(startDt[5]))
 
     endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
     endDt = endDt.split('-')
     endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
 
-    #making nowDt
+    # making nowDt
     nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
     nowDt = nowDt.split('-')
     nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
-    #logic
+    # logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
         status = 'none'
     elif nowDt < startDt:
@@ -192,8 +192,9 @@ def common_course_status(startDt, endDt):
     else:
         status = 'none'
 
-    #return status
+    # return status
     return status
+
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
@@ -689,7 +690,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
                hidden_day,
                width,
                height
-
           FROM popup
          WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
         """
@@ -699,8 +699,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur.close()
     popup_index = ""
     for index in row:
-        if(index[1] == '0'):
-            if(index[2] == "H"):
+        if (index[1] == '0'):
+            if (index[2] == "H"):
                 print('indexH.html')
                 f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexH.html", 'r')
                 while True:
@@ -716,9 +716,72 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     popup_index = popup_index.replace("#_width", str(index[8]))
                     popup_index = popup_index.replace("#_height", str(index[9]))
                 f.close()
-            elif(index[2] == "I"):
+            elif (index[2] == "I"):
                 print('indexI.html')
-        elif(index[1] == '1'):
+                cur = con.cursor()
+                query = """
+                    SELECT popup_id,
+                           title,
+                           contents,
+                           link_url,
+                           CASE
+                              WHEN link_target = 'B' THEN 'blank'
+                              WHEN link_target = 'S' THEN 'self'
+                           END
+                           link_target,
+                           hidden_day,
+                           popup_type,
+                           attatch_file_name,
+                           width,
+                           height,
+                           image_map
+                      FROM popup
+                      JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
+                     WHERE popup_id = {0};
+                    """.format(index[0])
+                cur.execute(query)
+                row = cur.fetchall()
+                cur.close()
+                map_list = []
+                for p in row:
+                    image_map = p[10]
+                    im_arr = image_map.split('/')
+                    map_list.append(list(p + (im_arr,)))
+                for index in map_list:
+                    f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexI.html", 'r')
+                    while True:
+                        line = f.readline()
+                        if not line: break
+                        popup_index += str(line)
+                        popup_index = popup_index.replace("#_id", str(index[0]))
+                        popup_index = popup_index.replace("#_title", str(index[1]))
+                        popup_index = popup_index.replace("#_contents", str(index[2]))
+                        popup_index = popup_index.replace("#_link_url", str(index[3]))
+                        popup_index = popup_index.replace("#_link_target", str(index[4]))
+                        popup_index = popup_index.replace("#_hidden_day", str(index[5]))
+                        popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
+                        popup_index = popup_index.replace("#_width", str(index[8]))
+                        popup_index = popup_index.replace("#_height", str(index[9]))
+                        popup_index = popup_index.replace("#_img_width", str(index[9]))
+                        popup_index = popup_index.replace("#_img_height", str(index[9] - 40))
+                        if (len(index[11]) == 1):
+                            map_str = """
+                                    <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
+                                    """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
+                            popup_index = popup_index.replace("#_not_exist", map_str)
+                            popup_index = popup_index.replace("#_exist", "")
+                        else:
+                            map_str = ""
+                            for map in index[11]:
+                                map_str += """
+                                    <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
+                                    """.format(str(map), str(index[4]), str(index[3]))
+                            popup_index = popup_index.replace("#_not_exist", "")
+                            popup_index = popup_index.replace("#_exist", map_str)
+                    f.close()
+
+
+        elif (index[1] == '1'):
             print('index1.html')
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index1.html", 'r')
             while True:
@@ -733,10 +796,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                 popup_index = popup_index.replace("#_width", str(index[8]))
                 popup_index = popup_index.replace("#_height", str(index[9]))
-                popup_index = popup_index.replace("#_bg2_margin", str(int(index[8])-135))
-
+                popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 42))
             f.close()
-        elif(index[1] == '2'):
+        elif (index[1] == '2'):
             print('index2.html')
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index2.html", 'r')
             while True:
@@ -752,7 +814,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_width", str(index[8]))
                 popup_index = popup_index.replace("#_height", str(index[9]))
             f.close()
-        elif(index[1] == '3'):
+        elif (index[1] == '3'):
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
             while True:
                 line = f.readline()
@@ -771,9 +833,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     pop_list = []
     for p in row:
         pop_list.append(list(p))
-
-    print ('last~~~~~~~~~~~~~~')
-    print popup_index
 
     extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
@@ -1137,7 +1196,8 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                             #     if s_key in chapters[key]:
                             #         c_key = key
 
-                            status_dict['survey_url'] = '/courses/{0}/courseware/{1}/{2}'.format(str(course_overview), c_key, s_key)
+                            status_dict['survey_url'] = '/courses/{0}/courseware/{1}/{2}'.format(str(course_overview),
+                                                                                                 c_key, s_key)
                             break
     except Exception as e:
         traceback.print_exc()
@@ -1419,11 +1479,13 @@ def dashboard(request):
             c.status = 'ready'
             course_type1.append(c)
 
-        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
+                UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
             c.status = 'ing(ing)'
             course_type2.append(c)
 
-        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
+                UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
             c.status = 'ing(end)'
             course_type2.append(c)
 
@@ -1455,7 +1517,6 @@ def dashboard(request):
     for c in course_enrollments:
         print c.course.id, c.course.display_name
     print 'check step 1 e'
-
 
     show_email_settings_for = frozenset(
         enrollment.course_id for enrollment in course_enrollments if (
@@ -1553,10 +1614,10 @@ def dashboard(request):
 
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                          settings.DATABASES.get('default').get('USER'),
-                          settings.DATABASES.get('default').get('PASSWORD'),
-                          settings.DATABASES.get('default').get('NAME'),
-                          charset='utf8')
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
     for c in course_enrollments:
         cur = con.cursor()
         query = """
@@ -2745,7 +2806,6 @@ def _record_registration_attribution(request, user):
 
 @csrf_exempt
 def active_account(request, email):
-
     user = User.objects.get(email=email)
 
     with connections['default'].cursor() as cur:
@@ -2790,7 +2850,6 @@ def active_account(request, email):
              WHERE dormant_yn = 'Y' AND id = %s;
         """
         cur.execute(query, [user.id])
-
 
         query = """
             UPDATE drmt_auth_userprofile

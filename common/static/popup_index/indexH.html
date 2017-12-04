@@ -1,32 +1,27 @@
-<style>
-    .pop_top_area2 {
-        width: 100%;
-        text-align: center;
-    }
-</style>
+<div id="#_id" style="width: #_widthpx; float: left; z-index: 9999; position: relative; border: 1px solid #e5e5e5;">
 
+    <!-- pop-area s -->
+    <div style="-webkit-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+			-moz-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+			box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+            background:#fff;">
+        <div style="height: #_heightpx; border-bottom: 1px solid #e5e5e5;">
+            <div style="border-bottom: 1px solid #e5e5e5;">
+                <h4 style="text-align: center; font-size: x-large"><b>#_title</b></h4>
+            </div>
+            <div style="margin: 10px 5px 10px 10px; ">
+                <p id="contents" style="text-align:left; font-style:normal; font-size:15px;">#_contents</p>
+            </div>
 
-<div class="wrap" id="#_id" style="float: left" style="width: #_widthpx; height: #_heightpx">
-    <div >
-        <div class="area-bg1">
-            <div class="pop_top">
-                <div class="pop_top_area2">
-                    <h1 style="background-color: white; color: black">#_title</h1>
-                </div>
-            </div>
-            <!-- pop_container -->
-            <div class="" id="contents">
-                #_contents
-            </div>
+        </div>
+        <div style="text-align: right; width: 100%;z-index: 9999;position: relative; background-color: #fff">
+            <label>
+                <input id="" name="" type="checkbox" style="vertical-align: middle;">
+                <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
+            </label>
+                <span style="text-align: right;"><a href="javascript:popClose('#_id');" title="닫기"
+                                                    style="color: inherit;">[
+                    닫기 ]</a></span>
         </div>
     </div>
-    <div style="text-align: right;">
-        <label>
-            <input id="" name="" type="checkbox" style="vertical-align: middle;">
-            <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
-        </label>
-
-        <span><a href="javascript:popClose('#_id');" title="닫기" style="color: inherit;">[ 닫기 ]</a></span>
-    </div>
-
 </div>

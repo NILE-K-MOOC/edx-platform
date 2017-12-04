@@ -1,19 +1,13 @@
-<div class="wrap" style="width: #_widthpx; height: #_heightpx">
-    <div class="area">
-        <img src="/manage/home/static/test_upload/#_image_file" id="image_file" usemap="image_map">
+<div class="pop-wrap" id="#_id" style="width: #_widthpx; height: #_heightpx; float: left; z-index: 9999; border: 1px solid #e5e5e5; position: relative">
+    <div class="area" style="background-color: #fff;">
+        <img src="/static/images/test_upload/#_attatch_file_name" usemap="image_map#_id" style="width: #_img_widthpx; height: #_img_heightpx">
 
-        <map name="image_map">
-            {% if #_image_map == '' %}
-                <area shape="rect" coords="0,0,#_width,#_height" alt="IM" target="_#_link_target"
-                      href="#_link_url">
-            {% else %}
-                {% for map in #_image_map %}
-                    <area shape="rect" coords="{{ map }}" alt="IM" target="_#_link_target" href="#_link_url">
-                {% endfor %}
-            {% endif %}
+        <map name="image_map#_id">
+            #_exist
+            #_not_exist
         </map>
     </div>
-    <div style="text-align: right;">
+    <div style="text-align: right;/* display: inline-block; */width: 100%;z-index: 9999;position: relative; background-color: #fff">
         <label>
             <input id="" name="" type="checkbox" style="vertical-align: middle;">
             <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>

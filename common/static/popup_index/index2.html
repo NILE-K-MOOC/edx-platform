@@ -1,39 +1,40 @@
-<div class="wrap" id="#_id" style="width: #_widthpx; height: #_heightpx">
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
+<div class="pop-wrap" id="#_id" style="width: #_widthpx; float: left; z-index: 9999; position: relative">
 
-    <!-- pop_top -->
-    <div style="background: url(/static/images/bg2.jpg) no-repeat; background-size: 100% 430px;">
-        <div style="padding:15px;">
-            <!-- close -->
-            <div style="text-align: center; margin-top: 40px; margin-bottom: 100px;">
-                <div class="top-txt-bg" style="background: rgba(0, 0, 0, .5); display: inline-block; padding: 10px;">
-                    <h1 style="font-size: 50px; color: #fff; ">#_title</h1>
-                </div>
+    <!-- pop-area s -->
+    <div class="pop-area">
+
+        <!-- pop1-top-area s -->
+        <div class="pop-top-area">
+            <!-- pop2-titbar s -->
+            <div class="pop2-titbar">
+
+            </div>
+            <!-- pop1-titbar s -->
+            <div class="pop2_2-titbar">
+                <p>#_title</p>
+            </div>
+        </div>
+
+        <!-- pop-body-area s -->
+        <div class="pop-body-area pop2-body-area" style="height: #_heightpx;">
+
+            <div class="pop1-txtarea">
+
+
+                <p class="t-gray" id="contents">#_contents
+                </p>
             </div>
 
         </div>
-    </div>
-
-
-    <div style="width: 100%; margin-top: -75px; margin-bottom: -75px; position: relative; z-index: 5;">
-        <div style=" width:100%; display:inline-block; text-align: center;">
-            <img src="/static/images/logo2.png">
+        <div style="text-align: right;/* display: inline-block; */width: 100%;z-index: 9999;position: relative; background-color: #fff">
+            <label>
+                <input id="" name="" type="checkbox" style="vertical-align: middle;">
+                <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
+            </label>
+                <span style="text-align: right;"><a href="javascript:popClose('#_id');" title="닫기"
+                                                    style="color: inherit;">[
+                    닫기 ]</a></span>
         </div>
-    </div>
-
-    <div class="pop_container" style="vertical-align: top; border: 1px solid #eee; min-height: 240px; background: #fff;">
-        <div id="contents" style="width: 100%; line-height: 30px;">
-            #_contents
-        </div>
-    </div>
-    <div style="text-align: right;">
-        <label>
-            <input id="" name="" type="checkbox" style="vertical-align: middle;">
-            <span style="font-style:normal; font-size:13px;"><b>#_hidden_day일간 열지 않음 &nbsp;&nbsp;</b></span>
-        </label>
-
-        <span><a href="javascript:popClose('#_id');" title="닫기" style="color: inherit;">[ 닫기 ]</a></span>
     </div>
 </div>
-
-
-
