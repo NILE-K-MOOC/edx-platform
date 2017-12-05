@@ -30,7 +30,7 @@ function popClose(id){
 
 function setCookie( name, value, expiredays ) {
     var todayDate = new Date();
-    todayDate.setDate( todayDate.getDate() + expiredays );
+    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
@@ -45,27 +45,22 @@ cookiedata = document.cookie;
 
 $("#layerPopupArea .pop_content").each(function() {
     var content_id = $(this).attr("id");
-
     $("#"+content_id).html($("#"+content_id).text());
-
 });
 
-
-$("#layerPopupArea .layerPupup").each(function(){
-    var popup_id = $(this).attr("id");
-
-    if (cookiedata.indexOf(popup_id) < 0 )
-    {
+var leng = '${max_pop}';
+leng = Number(leng);
+for (var i = 1; i<=leng; i++) {
+    if (cookiedata.indexOf(i +"=done") < 0) {
         %if LANG == 'en':
-            $('#'+ popup_id).css("display" , "none");
+            $("#" + i).css("display" , "none");
         %else:
-            $('#'+ popup_id).css("display" , "block");
+            $("#" + i).css("display" , "''");
         %endif
-
-    } else {
-        $('#'+ popup_id).css("display" , "none");
-    }
-});
+} else {
+    $("#" + i).css("display" , "none");
+}
+}
 
 </script>
 

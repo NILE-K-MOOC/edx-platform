@@ -694,7 +694,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
                END
                hidden_day,
                width,
-               height
+               height,
+               CASE
+                  WHEN hidden_day = '1' THEN '1'
+                  WHEN hidden_day = '7' THEN '7'
+                  WHEN hidden_day = '0' THEN '999999'
+               END
+               hidden_day
           FROM popup
          WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
         """
@@ -720,6 +726,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                     popup_index = popup_index.replace("#_width", str(index[8]))
                     popup_index = popup_index.replace("#_height", str(index[9] - 28))
+                    popup_index = popup_index.replace("#_hidden", str(index[10]))
                 f.close()
             elif (index[2] == "I"):
                 print('indexI.html')
@@ -744,7 +751,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
                            attatch_file_name,
                            width,
                            height,
-                           image_map
+                           image_map,
+                           CASE
+                              WHEN hidden_day = '1' THEN '1'
+                              WHEN hidden_day = '7' THEN '7'
+                              WHEN hidden_day = '0' THEN '999999'
+                           END
+                           hidden_day
                       FROM popup
                       JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
                      WHERE popup_id = {0};
@@ -774,7 +787,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                         popup_index = popup_index.replace("#_height", str(index[9]))
                         popup_index = popup_index.replace("#_img_width", str(index[9]))
                         popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
-                        if (len(index[11]) == 1):
+                        popup_index = popup_index.replace("#_hidden", str(index[11]))
+                        if (len(index[12]) == 1):
                             map_str = """
                                     <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
                                     """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
@@ -782,7 +796,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                             popup_index = popup_index.replace("#_exist", "")
                         else:
                             map_str = ""
-                            for map in index[11]:
+                            for map in index[12]:
                                 map_str += """
                                     <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
                                     """.format(str(map), str(index[4]), str(index[3]))
@@ -807,6 +821,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_width", str(index[8]))
                 popup_index = popup_index.replace("#_height", str(index[9] - 83))
                 popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 125))
+                popup_index = popup_index.replace("#_hidden", str(index[10]))
             f.close()
         elif (index[1] == '2'):
             print('index2.html')
@@ -823,6 +838,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                 popup_index = popup_index.replace("#_width", str(index[8]))
                 popup_index = popup_index.replace("#_height", str(index[9] - 131))
+                popup_index = popup_index.replace("#_hidden", str(index[10]))
             f.close()
         elif (index[1] == '3'):
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
@@ -838,14 +854,22 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                 popup_index = popup_index.replace("#_width", str(index[8]))
                 popup_index = popup_index.replace("#_height", str(index[9] - 149))
+                popup_index = popup_index.replace("#_hidden", str(index[10]))
             f.close()
 
-    pop_list = []
-    for p in row:
-        pop_list.append(list(p))
+    cur = con.cursor()
+    query = """
+        SELECT max(popup_id) FROM popup;
+        """
+    cur.execute(query)
+    max_pop = cur.fetchall()
+    cur.close()
+
 
     extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
+    context.update(extra_context)
+    extra_context['max_pop'] = str(max_pop[0][0])
     context.update(extra_context)
 
     return render_to_response('index.html', context)
