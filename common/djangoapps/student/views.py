@@ -687,6 +687,11 @@ def index(request, extra_context=None, user=AnonymousUser()):
                contents,
                link_url,
                link_target,
+               CASE
+                  WHEN hidden_day = '1' THEN '1일간 열지 않음'
+                  WHEN hidden_day = '7' THEN '7일간 열지 않음'
+                  WHEN hidden_day = '0' THEN '다시 열지 않음'
+               END
                hidden_day,
                width,
                height
@@ -714,7 +719,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     popup_index = popup_index.replace("#_link_target", str(index[6]))
                     popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                     popup_index = popup_index.replace("#_width", str(index[8]))
-                    popup_index = popup_index.replace("#_height", str(index[9]))
+                    popup_index = popup_index.replace("#_height", str(index[9] - 28))
                 f.close()
             elif (index[2] == "I"):
                 print('indexI.html')
@@ -729,6 +734,11 @@ def index(request, extra_context=None, user=AnonymousUser()):
                               WHEN link_target = 'S' THEN 'self'
                            END
                            link_target,
+                           CASE
+                              WHEN hidden_day = '1' THEN '1일간 열지 않음'
+                              WHEN hidden_day = '7' THEN '7일간 열지 않음'
+                              WHEN hidden_day = '0' THEN '다시 열지 않음'
+                           END
                            hidden_day,
                            popup_type,
                            attatch_file_name,
@@ -763,7 +773,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                         popup_index = popup_index.replace("#_width", str(index[8]))
                         popup_index = popup_index.replace("#_height", str(index[9]))
                         popup_index = popup_index.replace("#_img_width", str(index[9]))
-                        popup_index = popup_index.replace("#_img_height", str(index[9] - 40))
+                        popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
                         if (len(index[11]) == 1):
                             map_str = """
                                     <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
@@ -795,8 +805,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_link_target", str(index[6]))
                 popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                 popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9]))
-                popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 42))
+                popup_index = popup_index.replace("#_height", str(index[9] - 83))
+                popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 125))
             f.close()
         elif (index[1] == '2'):
             print('index2.html')
@@ -812,7 +822,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_link_target", str(index[6]))
                 popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                 popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9]))
+                popup_index = popup_index.replace("#_height", str(index[9] - 131))
             f.close()
         elif (index[1] == '3'):
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
@@ -827,7 +837,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_link_target", str(index[6]))
                 popup_index = popup_index.replace("#_hidden_day", str(index[7]))
                 popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9]))
+                popup_index = popup_index.replace("#_height", str(index[9] - 149))
             f.close()
 
     pop_list = []
