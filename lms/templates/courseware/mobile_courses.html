@@ -1,0 +1,149 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from openedx.core.djangolib.js_utils import dump_js_escaped_json
+%>
+<%inherit file="../mobile_main.html" />
+<%
+  course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+%>
+
+<%namespace name='static' file='../static_content.html'/>
+
+% if course_discovery_enabled:
+<%block name="header_extras">
+  % for template_name in ["mobile_course_card", "filter_bar", "filter", "facet", "facet_option"]:
+  <script type="text/template" id="${template_name}-tpl">
+
+      <%static:include path="discovery/${template_name}.underscore" />
+  </script>
+  % endfor
+  <%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
+    DiscoveryFactory(
+      ${course_discovery_meanings | n, dump_js_escaped_json},
+      getParameterByName('search_query')
+    );
+  </%static:require_module>
+</%block>
+% endif
+
+<%block name="pagetitle">${_("Courses")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1" style="margin-top: -110px">
+    <section class="find-courses">
+      <section class="courses-container">
+        % if course_discovery_enabled:
+        <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
+          <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
+          <form class="wrapper-search-input">
+            <label for="discovery-input" class="sr">${_('Search for a course')}</label>
+            <input id="discovery-input" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
+            <button type="submit" class="button postfix discovery-submit" title="${_('Search')}">
+              <span class="icon fa fa-search" aria-hidden="true"></span>
+              <div aria-live="polite" aria-relevant="all">
+                <div id="loading-indicator" class="loading-spinner hidden">
+                  <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
+                  <span class="sr">${_('Loading')}</span>
+                </div>
+              </div>
+            </button>
+          </form>
+        </div>
+
+        <div id="filter-bar" class="filters hide-phone is-collapsed">
+        </div>
+        % endif
+
+        <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
+          <ul class="courses-listing">
+            %for course in courses:
+            <li class="courses-listing-item">
+              <%include file="../mobile_course.html" args="course=course" />
+            </li>
+            %endfor
+          </ul>
+        </div>
+
+
+        % if course_discovery_enabled:
+        <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
+          <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+            <section class="course-facets-list">
+                <h3 class="header-facet">${_('Opening Status')}</h3>
+                <div id="sel_status">
+                <select class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}">
+                    <option value="">${_('All')}</option>
+                    <option value="i">${_('ing')}</option>
+                    <option value="t">${_('ready')}</option>
+                    <option value="e">${_('end')}</option>
+                </select>
+                </div>
+            </section>
+          <section class="search-facets-lists">
+          </section>
+        </aside>
+        % endif
+
+      </section>
+    </section>
+</main>
+
+% if course_discovery_enabled:
+    <script type="text/javascript">
+        $(function () {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            $(function(){
+                if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                    $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+                }
+            });
+
+            $(document).on('click', '#go1', function(){
+                var url= '/courses';
+                var list_val = $('.course-facets-select option:selected').val();
+                if(list_val){
+                    url = url + '?range=' + list_val;
+                    document.location.href = url;
+                }else{
+                    alert('개강상태를 선택하세요.');
+                }
+
+            });
+
+            $(".course-facets-select").change(function () {
+                var url = '/courses';
+                var list_val = $(this).val();
+                if (list_val){
+                    url = url + '?range=' + list_val;
+                }
+                if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                }else{
+                    location.href = url;
+                }
+            });
+
+            var p_range = getTermParameter("range");
+            if(p_range != undefined){
+                if(p_range == 'i'|| p_range == 'e' || p_range == 't'){
+					$(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
+				}
+            }
+          });
+
+        var getTermParameter = function (sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        }
+    </script>
+% endif

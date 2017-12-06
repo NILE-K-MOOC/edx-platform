@@ -391,6 +391,7 @@ urlpatterns += (
     url(r'^calculate$', 'util.views.calculate'),
 
     url(r'^courses/?$', 'branding.views.courses', name="courses"),
+    url(r'^mobile_courses/?$', 'branding.views.mobile_courses', name="mobile_courses"),
     url(
         r'^change_enrollment$',
         'student.views.change_enrollment',
