@@ -29,6 +29,9 @@
 % endif
 
 <%block name="pagetitle">${_("Courses")}</%block>
+<style>
+
+</style>
 
 <main id="main" aria-label="Content" tabindex="-1" style="margin-top: -110px">
     <section class="find-courses">
@@ -36,34 +39,40 @@
         % if course_discovery_enabled:
         <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
           <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
-          <form class="wrapper-search-input">
-            <label for="discovery-input" class="sr">${_('Search for a course')}</label>
-            <input id="discovery-input" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
-            <button type="submit" class="button postfix discovery-submit" title="${_('Search')}">
-              <span class="icon fa fa-search" aria-hidden="true"></span>
-              <div aria-live="polite" aria-relevant="all">
-                <div id="loading-indicator" class="loading-spinner hidden">
-                  <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
-                  <span class="sr">${_('Loading')}</span>
-                </div>
-              </div>
-            </button>
-          </form>
         </div>
 
-          <div class="js-card-sorting btn-group" style="float: right; ">
-            <button class="js-grid-view sort-btn active" aria-pressed="true" style="background-color: #007db8; color: white">
+          <div class="js-card-sorting btn-group" style="float: right;">
+            <button class="js-grid-view sort-btn active" aria-pressed="true" style="background-color: white; color: black; background-image: none; padding:7px 10px; margin: 0px 0px 0px 0px;">
                 <span class="fa fa-th" aria-hidden="true"></span>
                 <span class="sr">
                     Display the cards in grid view
                 </span>
             </button>
-            <button class="js-list-view sort-btn" aria-pressed="false" style="background-color: #007db8; color: white">
+            <button class="js-list-view sort-btn " aria-pressed="false" style="background-color: white; color: black; background-image: none; padding:7px 10px; margin: 0px 0px 0px 0px;">
                 <span class="fa fa-list" aria-hidden="true"></span>
                 <span class="sr">
                     Display the cards in list view
                 </span>
             </button>
+              <script>
+                  $('.js-grid-view').css("background-color","black").css("color","white").css("background-image","none");
+                  $('.sort-btn').css("box-shadow","none").css("text-shadow","none");
+                  $('.js-grid-view').click(function() {
+                      $('.grid-view').css("display", "");
+                      $('.list-view').css("display", "none");
+                      $('.courses-listing-item').css("width", "32.4444%");
+                      $('.js-grid-view').css("background-color","black").css("color","white").css("background-image","none");
+                      $('.js-list-view').css("background-color","white").css("color","black").css("background-image","none");
+                  })
+
+                  $('.js-list-view').click(function() {
+                      $('.grid-view').css("display", "none");
+                      $('.list-view').css("display", "");
+                      $('.courses-listing-item').css("width", "99%");
+                      $('.js-list-view').css("background-color","black").css("color","white").css("background-image","none");
+                      $('.js-grid-view').css("background-color","white").css("color","black").css("background-image","none");
+                  })
+              </script>
           </div>
 
         <div id="filter-bar" class="filters hide-phone is-collapsed">
@@ -82,7 +91,7 @@
 
 
         % if course_discovery_enabled:
-        <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
+        <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu" style="display:none">
           <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
             <section class="course-facets-list">
                 <h3 class="header-facet">${_('Opening Status')}</h3>

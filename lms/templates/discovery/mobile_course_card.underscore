@@ -1,4 +1,4 @@
-<article class="course <%- status %>" role="region" aria-label="<%- content.display_name %>">
+<article class="course <%- status %> grid-view" role="region" aria-label="<%- content.display_name %>">
     <a href="edxapp://course_info?path_id=course/<%- course %>">
         <header class="course-image">
             <div class="cover-image">
@@ -35,3 +35,19 @@
         </div>
     </a>
 </article>
+
+
+
+<div class="discovery-card course-card shadow verified list-view" style="width : 99% !important; margin: 0 1% 25px; height: auto !important; min-height: 50px !important; padding: 0; align-items: center; margin-bottom: 7px !important; display: flex; -webkit-box-shadow: 1px 2px 5px #ccc; display: none;">
+    <a style="width:400px; display:inline-block; margin-left:10px;" href="edxapp://course_info?path_id=course/bioethics-law-medicine-ethics-harvardx-hls4x-3" class="course-link"><h3 style="font-size: 1.25em;" class="title-heading" lang="en"><%- content.display_name %></h3></a>
+
+    <div class="org-title" style="margin: 10px; display:inline-block; width:140px"><time><%- gettext(org) %></time></div>
+
+    <div class="card-type" style="width:60px; display:inline-block; margin-right:10px;">Course</div>
+
+    <div class="extra" style="width:200px; display:inline-block;" itemprop="startDate" content="Self-Paced" data-timestamp="1512417600"><time><%- start %></time></span>
+                    <% if (end){ %>
+                    ~ </strong><time><%- end %></time>
+                    <% } %></div>
+
+</div>
