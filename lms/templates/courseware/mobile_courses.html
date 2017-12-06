@@ -17,6 +17,7 @@
 
       <%static:include path="discovery/${template_name}.underscore" />
   </script>
+
   % endfor
   <%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
     DiscoveryFactory(
@@ -49,6 +50,21 @@
             </button>
           </form>
         </div>
+
+          <div class="js-card-sorting btn-group" style="float: right; ">
+            <button class="js-grid-view sort-btn active" aria-pressed="true" style="background-color: #007db8; color: white">
+                <span class="fa fa-th" aria-hidden="true"></span>
+                <span class="sr">
+                    Display the cards in grid view
+                </span>
+            </button>
+            <button class="js-list-view sort-btn" aria-pressed="false" style="background-color: #007db8; color: white">
+                <span class="fa fa-list" aria-hidden="true"></span>
+                <span class="sr">
+                    Display the cards in list view
+                </span>
+            </button>
+          </div>
 
         <div id="filter-bar" class="filters hide-phone is-collapsed">
         </div>
