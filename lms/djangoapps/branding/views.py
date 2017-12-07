@@ -237,6 +237,11 @@ def course_api(request):
     mongo_course_info = {}
     json_list = list()
 
+    lms_base = 'http://' + settings.ENV_TOKENS.get("LMS_BASE")
+
+    if lms_base.find("http://") < 0:
+        lms_base = 'http://' + lms_base
+
     print 'course_api step 1. get mysql info.'
     # mysql
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
@@ -300,11 +305,12 @@ def course_api(request):
         rows = cur.fetchall()
 
         columns = [desc[0] for desc in cur.description]
-        courses = [dict(zip(columns, row)) for row in rows]
+        courses = [dict(zip(columns, (str(r) for r in row))) for row in rows]
 
         for course in courses:
             _course_id = course['course_id']
             course['univ_name'] = str(_(course['org']))
+            course['img'] = lms_base + course['img']
 
             if _course_id in mongo_course_info:
                 course['classfy'] = mongo_course_info[_course_id]['classfy']
@@ -374,7 +380,7 @@ def course_api(request):
             "total_cnt": len(json_list)
         }
 
-    return JsonResponse(result)
+    return HttpResponse(json.dumps(result, ensure_ascii=False))
 
 
 def common_course_status(startDt, endDt):
