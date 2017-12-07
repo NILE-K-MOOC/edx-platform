@@ -242,36 +242,10 @@ def course_api(request):
     if lms_base.find("http://") < 0:
         lms_base = 'http://' + lms_base
 
-    print 'course_api step 1. get mysql info.'
     # mysql
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
-        print 'course_api step 1. get mongo info.'
 
-        db = client.edxapp
-        cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
-        for cursor in cursors:
-            _org = cursor.get('org')
-            _course = cursor.get('course')
-            _run = cursor.get('run')
-
-            pb = cursor.get('versions').get('published-branch')
-            course = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"_id": 0, "blocks": {"$elemMatch": {"block_type": "course"}}})
-            block = course.get('blocks')[0]
-            fields = block.get('fields')
-            classfy = fields.get('classfy') if 'classfy' in fields else ''
-            middle_classfy = fields.get('middle_classfy') if 'middle_classfy' in fields else ''
-
-            _course_id = 'course-v1:{org}+{course}+{run}'.format(
-                org=_org,
-                course=_course,
-                run=_run,
-            )
-
-            mongo_course_info[_course_id] = {
-                'classfy': classfy,
-                'middle_classfy': middle_classfy
-            }
-
+        print 'get mysql info.'
         sql = '''
             SELECT coc.id                           AS course_id,
                    coc.display_name,
@@ -333,8 +307,44 @@ def course_api(request):
         cur.execute(sql)
         rows = cur.fetchall()
 
+        course_ids = [row[0] for row in rows]
+
         columns = [desc[0] for desc in cur.description]
         courses = [dict(zip(columns, (str(r) for r in row))) for row in rows]
+
+        # print 'len(courses):', len(courses)
+
+        print 'get mongo info.'
+
+        db = client.edxapp
+        cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
+        for cursor in cursors:
+            _org = cursor.get('org')
+            _course = cursor.get('course')
+            _run = cursor.get('run')
+
+            _course_id = 'course-v1:{org}+{course}+{run}'.format(
+                org=_org,
+                course=_course,
+                run=_run,
+            )
+
+            if _course_id not in course_ids:
+                continue
+
+            pb = cursor.get('versions').get('published-branch')
+            course = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"_id": 0, "blocks": {"$elemMatch": {"block_type": "course"}}})
+            block = course.get('blocks')[0]
+            fields = block.get('fields')
+            classfy = fields.get('classfy') if 'classfy' in fields else ''
+            middle_classfy = fields.get('middle_classfy') if 'middle_classfy' in fields else ''
+
+            mongo_course_info[_course_id] = {
+                'classfy': classfy,
+                'middle_classfy': middle_classfy
+            }
+
+        # print 'len(mongo_course_info):', len(mongo_course_info)
 
         for course in courses:
             _course_id = course['course_id']
@@ -402,12 +412,12 @@ def course_api(request):
 
             json_list.append(course)
 
-        print 'course_api step 4.'
-
         result = {
             "results": json_list,
             "total_cnt": len(json_list)
         }
+
+        print 'return api courses'
 
     return HttpResponse(json.dumps(result, ensure_ascii=False))
 
