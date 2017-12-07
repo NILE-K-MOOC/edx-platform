@@ -1312,4 +1312,7 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 	.logo img{
 		max-height: 44px;
 	}
-	...	
+
+	.courses-listing-item.list {
+		width: 99% !important;
+	}

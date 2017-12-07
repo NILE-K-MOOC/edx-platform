@@ -1,3 +1,11 @@
+<style>
+    @media screen and (max-width: 718px) {
+        .card-type {
+            display: none;
+        }
+    }
+</style>
+
 <article class="course <%- status %> grid-view" role="region" aria-label="<%- content.display_name %>">
     <a href="edxapp://course_info?path_id=course/<%- course %>">
         <header class="course-image">
@@ -38,16 +46,15 @@
 
 
 
-<div class="discovery-card course-card shadow verified list-view" style="width : 99% !important; margin: 0 1% 25px; height: auto !important; min-height: 50px !important; padding: 0; align-items: center; margin-bottom: 7px !important; display: flex; -webkit-box-shadow: 1px 2px 5px #ccc; display: none;">
-    <a style="width:400px; display:inline-block; margin-left:10px;" href="edxapp://course_info?path_id=course/bioethics-law-medicine-ethics-harvardx-hls4x-3" class="course-link"><h3 style="font-size: 1.25em;" class="title-heading" lang="en"><%- content.display_name %></h3></a>
+<div class="discovery-card course-card shadow verified list-view" style="width : 99% !important; margin: 0 1% 25px; height: auto !important; min-height: 50px !important; padding: 0; align-items: center; margin-bottom: 7px !important; -webkit-box-shadow: 1px 2px 5px #ccc; display: none;">
+    <a class="course_name" style="width:40%; display:inline-flex; margin-left:10px;" href="edxapp://course_info?path_id=course/bioethics-law-medicine-ethics-harvardx-hls4x-3" class="course-link"><h3 style="font-size: 1.25em;" class="title-heading" lang="en"><%- content.display_name %></h3></a>
 
-    <div class="org-title" style="margin: 10px; display:inline-block; width:140px"><time><%- gettext(org) %></time></div>
+    <div class="org-title" id="Test11" style="margin: 10px; display:inline-flex; width:15%"><time><%- gettext(org) %></time></div>
 
-    <div class="card-type" style="width:60px; display:inline-block; margin-right:10px;">Course</div>
+    <div class="card-type" id="Test22" style="width:8%; display:inline-flex; margin-right:10px;">Course</div>
 
-    <div class="extra" style="width:200px; display:inline-block;" itemprop="startDate" content="Self-Paced" data-timestamp="1512417600"><time><%- start %></time></span>
+    <div class="extra" style="text-align: center; width:26%; display:inline-block;" itemprop="startDate" content="Self-Paced" data-timestamp="1512417600"><time><%- start %></time></span>
                     <% if (end){ %>
                     ~ </strong><time><%- end %></time>
                     <% } %></div>
-
 </div>

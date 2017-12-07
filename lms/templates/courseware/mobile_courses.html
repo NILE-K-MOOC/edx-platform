@@ -30,12 +30,28 @@ getParameterByName('search_query')
 
 <%block name="pagetitle">${_("Courses")}</%block>
 <style>
+    @media screen and (max-width: 1083px) {
+        .card-type {
+            display: none !important;
+        }
+
+        .org-title {
+            display: none !important;
+        }
+
+        .extra {
+            width:200px !important;
+        }
+        .course_name {
+            width: 65% !important;
+        }
+    }
+
     @media screen and (min-width: 100px) and  (max-width: 540px) {
         .find-courses .courses-container .courses:not(.no-course-discovery) {
             margin-right: 0px;
             width: 100%;
         }
-
         #filter {
             display: inline;
         }
@@ -46,7 +62,6 @@ getParameterByName('search_query')
             margin: -74px 0px 0px 0px;
             display: none;
         }
-
     }
 
     @media screen and (min-width: 541px) and  (max-width: 768px) {
@@ -56,6 +71,13 @@ getParameterByName('search_query')
         }
 
         #filter {
+            display: inline;
+        }
+
+        #search_filter {
+            position: absolute;
+            z-index: 9999;
+            margin: -74px 0px 0px 0px;
             display: none;
         }
     }
@@ -71,7 +93,18 @@ getParameterByName('search_query')
             width: 49%;
         }
 
+        .courses {
+            width: 98% !important;
+        }
+
         #filter {
+            display: inline;
+        }
+
+        #search_filter {
+            position: absolute;
+            z-index: 9999;
+            margin: -74px 0px 0px 0px;
             display: none;
         }
     }
@@ -144,31 +177,18 @@ getParameterByName('search_query')
                     $('.js-grid-view').click(function () {
                         $('.grid-view').css("display", "");
                         $('.list-view').css("display", "none");
-                        console.log($(window).width());
-                        if( 541 <= Number($(window).width()) && Number($(window).width()) <= 768) {
-                            $('.courses-listing-item').css("width", "48.5%");
-                        }
-                        else if( 769 <= Number($(window).width()) && Number($(window).width()) <= 979) {
-                            $('.courses-listing-item').css("width", "49%");
-                        }
-                        else if ( 980 <= Number($(window).width()) ) {
-                            $('.courses-listing-item ').css("width", "32.4444%");
-                        }
-                        else if ( 100 <= Number($(window).width()) && Number($(window).width()) <= 540) {
-                            $('.courses-listing-item').css("width", "99%");
-                        }
-
                         $('.js-grid-view').css("background-color", "black").css("color", "white").css("background-image", "none");
                         $('.js-list-view').css("background-color", "white").css("color", "black").css("background-image", "none");
-                    })
+                        $(".courses li.courses-listing-item").removeClass("list");
+                    });
 
                     $('.js-list-view').click(function () {
                         $('.grid-view').css("display", "none");
                         $('.list-view').css("display", "");
-                        $('.courses-listing-item').css("width", "99%");
                         $('.js-list-view').css("background-color", "black").css("color", "white").css("background-image", "none");
                         $('.js-grid-view').css("background-color", "white").css("color", "black").css("background-image", "none");
-                    })
+                        $(".courses li.courses-listing-item").addClass("list");
+                    });
                 </script>
             </div>
 
