@@ -281,16 +281,44 @@ def course_api(request):
                    coc.enrollment_end               AS enroll_end,
                    coc.created,
                    coc.modified,
-                   coc.course_video_url             AS video,
+                   replace(coc.course_video_url,
+                           'www.youtube.com/watch?v=',
+                           'www.youtube.com/embed/')
+                      AS video,
                    coc.course_image_url             AS img,
                    coc.org,
-                   coc.display_number_with_default  AS course,
+                   coc.course,
                    Substring_index(coc.id, '+', -1) AS RUN,
                    coc.effort,
                    c.cert_date,
-                   coa.name                         teacher_name
-              FROM edxapp.course_overviews_courseoverview AS coc
-                   LEFT OUTER JOIN (  SELECT course_id, min(created_date) AS cert_date
+                   coa.name                         AS teacher_name
+              FROM (  SELECT a.id,
+                             a.display_name,
+                             a.start,
+                             a.end,
+                             a.enrollment_start,
+                             a.enrollment_end,
+                             a.created,
+                             a.modified,
+                             a.course_video_url,
+                             a.course_image_url,
+                             a.effort,
+                             CASE
+                                WHEN     a.org = @org
+                                     AND a.display_number_with_default = @course
+                                THEN
+                                   @rn := @rn + 1
+                                ELSE
+                                   @rn := 1
+                             END
+                                rn,
+                             @org := a.org                          org,
+                             @course := a.display_number_with_default`course`
+                        FROM course_overviews_courseoverview a,
+                             (SELECT @rn := 0, @org := 0, @course := 0) b
+                       WHERE a.start < a.end
+                    ORDER BY a.org, a.display_number_with_default, a.start DESC) coc
+                   LEFT OUTER JOIN (  SELECT course_id, Min(created_date) AS cert_date
                                         FROM edxapp.certificates_generatedcertificate
                                     GROUP BY course_id) AS c
                       ON coc.id = c.course_id
@@ -300,6 +328,7 @@ def course_api(request):
                        WHERE a.user_id = b.id AND role = 'instructor' AND b.id = c.user_id
                     GROUP BY course_id) coa
                       ON coc.id = coa.course_id
+             WHERE rn = 1;
         '''
         cur.execute(sql)
         rows = cur.fetchall()
