@@ -1204,7 +1204,7 @@
     "Signature Image": "\uc11c\uba85 \uc774\ubbf8\uc9c0",
     "Skip": "\uac74\ub108\ub6f0\uae30",
     "SKKUk": "\uc131\uade0\uad00\ub300\ud559\uad50",
-    "SMUCk": "\uc0c1\uba85\ub300\ud559\uad50\u0028\ucc9c\uc548\u0029",
+    "SMUCk": "\uc0c1\uba85\ub300\ud559\uad50",
     "SNUk": "\uc11c\uc6b8\ub300\ud559\uad50",
     "Social": "\uc0ac\ud68c",
     "Social Sciences": "\uc0ac\ud68c\uacfc\ud559",

@@ -626,7 +626,7 @@ msgid "PNUk"
 msgstr "부산대학교"
 
 msgid "SMUCk"
-msgstr "상명대학교(천안)"
+msgstr "상명대학교"
 
 msgid "SMUk"
 msgstr "상명대학교"
