@@ -164,7 +164,7 @@
 	.content-wrapper .container.full {padding-left:0;padding-right:0;}
 }
 @media screen and (min-width:541px) and  (max-width:768px) {
-	.home .courses-container .courses .courses-listing .courses-listing-item {margin-right: 1.5%;width: 48.5%;}
+	.home .courses-container .courses .courses-listing .courses-listing-item {margin-right: 1.5%; width: 48.5%;}
 }
 @media screen and (min-width:769px) and (max-width:979px) {
 	.home .courses-container .courses .courses-listing .courses-listing-item {margin-right: 1%;width: 32.66666%;}
