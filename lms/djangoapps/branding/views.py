@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 """Views for the branding app. """
 import logging
 import urllib
-
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
@@ -11,7 +11,6 @@ from django.utils import translation
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.staticfiles.storage import staticfiles_storage
-
 from edxmako.shortcuts import render_to_response
 import student.views
 from student.models import CourseEnrollment
@@ -21,7 +20,6 @@ from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
 import branding.api as branding_api
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-
 import sys
 import json
 import MySQLdb as mdb
@@ -39,11 +37,11 @@ def get_course_enrollments(user):
     if course_org:
         site_enrollments = [
             enrollment for enrollment in enrollments if enrollment.course_id.org == course_org
-        ]
+            ]
     else:
         site_enrollments = [
             enrollment for enrollment in enrollments
-        ]
+            ]
     return site_enrollments
 
 
@@ -92,7 +90,7 @@ def index(request):
     if domain and 'edge.edx.org' in domain:
         return redirect(reverse("signin_user"))
 
-    #  we do not expect this case to be reached in cases where
+    # we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
 
 
@@ -114,7 +112,8 @@ def index_ko(request):
 def notice(request):
     reload(sys)
     sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
     query = """
          SELECT title, link,
                concat(substring(sdate, 1, 4),
@@ -174,7 +173,7 @@ def courses(request):
     if not settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
         raise Http404
 
-    #  we do not expect this case to be reached in cases where
+    # we do not expect this case to be reached in cases where
     #  marketing is enabled or the courses are not browsable
 
     return courseware.views.views.courses(request)
@@ -199,7 +198,7 @@ def _footer_css_urls(request, package_name):
     return [
         _footer_static_url(request, path)
         for path in paths
-    ]
+        ]
 
 
 def _render_footer_html(request, show_openedx_logo, include_dependencies):
@@ -224,6 +223,198 @@ def _render_footer_html(request, show_openedx_logo, include_dependencies):
     }
 
     return render_to_response("footer.html", context)
+
+
+from django.db import connections
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from django.utils.translation import ugettext_lazy as _
+from django.http import JsonResponse
+import json
+
+
+def course_api(request):
+    mongo_course_info = {}
+    json_list = list()
+
+    lms_base = 'http://' + settings.ENV_TOKENS.get("LMS_BASE")
+
+    if lms_base.find("http://") < 0:
+        lms_base = 'http://' + lms_base
+
+    print 'course_api step 1. get mysql info.'
+    # mysql
+    with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        print 'course_api step 1. get mongo info.'
+
+        db = client.edxapp
+        cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
+        for cursor in cursors:
+            _org = cursor.get('org')
+            _course = cursor.get('course')
+            _run = cursor.get('run')
+
+            pb = cursor.get('versions').get('published-branch')
+            course = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"_id": 0, "blocks": {"$elemMatch": {"block_type": "course"}}})
+            block = course.get('blocks')[0]
+            fields = block.get('fields')
+            classfy = fields.get('classfy') if 'classfy' in fields else ''
+            middle_classfy = fields.get('middle_classfy') if 'middle_classfy' in fields else ''
+
+            _course_id = 'course-v1:{org}+{course}+{run}'.format(
+                org=_org,
+                course=_course,
+                run=_run,
+            )
+
+            mongo_course_info[_course_id] = {
+                'classfy': classfy,
+                'middle_classfy': middle_classfy
+            }
+
+        sql = '''
+            SELECT coc.id                           AS course_id,
+                   coc.display_name,
+                   coc.start                        AS start_time,
+                   coc.end                          AS end_time,
+                   coc.enrollment_start             AS enroll_start,
+                   coc.enrollment_end               AS enroll_end,
+                   coc.created,
+                   coc.modified,
+                   coc.course_video_url             AS video,
+                   coc.course_image_url             AS img,
+                   coc.org,
+                   coc.display_number_with_default  AS course,
+                   Substring_index(coc.id, '+', -1) AS RUN,
+                   coc.effort,
+                   c.cert_date,
+                   coa.name                         teacher_name
+              FROM edxapp.course_overviews_courseoverview AS coc
+                   LEFT OUTER JOIN (  SELECT course_id, min(created_date) AS cert_date
+                                        FROM edxapp.certificates_generatedcertificate
+                                    GROUP BY course_id) AS c
+                      ON coc.id = c.course_id
+                   LEFT JOIN
+                   (  SELECT group_concat(c.name) AS name, course_id
+                        FROM student_courseaccessrole a, auth_user b, auth_userprofile c
+                       WHERE a.user_id = b.id AND role = 'instructor' AND b.id = c.user_id
+                    GROUP BY course_id) coa
+                      ON coc.id = coa.course_id
+        '''
+        cur.execute(sql)
+        rows = cur.fetchall()
+
+        columns = [desc[0] for desc in cur.description]
+        courses = [dict(zip(columns, (str(r) for r in row))) for row in rows]
+
+        for course in courses:
+            _course_id = course['course_id']
+            course['univ_name'] = str(_(course['org']))
+            course['img'] = lms_base + course['img']
+
+            if _course_id in mongo_course_info:
+                course['classfy'] = mongo_course_info[_course_id]['classfy']
+                course['middle_classfy'] = mongo_course_info[_course_id]['middle_classfy']
+
+            if 'effort' in course:
+                effort = course['effort']
+
+                if effort is None:
+                    course['e0'] = 'null'
+                    course['e1'] = 'null'
+                    course['e2'] = 'null'
+                    course['et'] = 'null'
+                elif '@' in effort and '#' in effort:
+                    tmp = effort.replace('@', '#')
+                    tmp = tmp.split('#')
+                    t = tmp[0].split(':')
+                    tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
+                    th = tt / 60
+                    tm = tt % 60
+                    if len(str(th)) == 1:
+                        th = "0" + str(th)
+                    if len(str(tm)) == 1:
+                        tm = "0" + str(tm)
+                    total_time = str(th) + ":" + str(tm)
+                    course['e0'] = tmp[0]
+                    course['e1'] = tmp[1]
+                    course['e2'] = tmp[2]
+                    course['et'] = total_time
+                elif '@' in effort:
+                    tmp = effort
+                    tmp = tmp.split('@')
+                    course['e0'] = tmp[0]
+                    course['e1'] = tmp[1]
+                    course['e2'] = 'null'
+                    t = tmp[0].split(':')
+                    tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
+                    th = tt / 60
+                    tm = tt % 60
+                    if len(str(th)) == 1:
+                        th = "0" + str(th)
+                    if len(str(tm)) == 1:
+                        tm = "0" + str(tm)
+                    total_time = str(th) + ":" + str(tm)
+                    course['et'] = total_time
+                elif '#' in effort:
+                    tmp = effort
+                    tmp = tmp.split('#')
+                    course['e0'] = tmp[0]
+                    course['e1'] = 'null'
+                    course['e2'] = 'null'
+                    course['et'] = 'null'
+
+            # 전부 없는 로직 ex)
+            else:
+                course['e0'] = 'null'
+                course['e1'] = 'null'
+                course['e2'] = 'null'
+                course['et'] = 'null'
+
+            json_list.append(course)
+
+        print 'course_api step 4.'
+
+        result = {
+            "results": json_list,
+            "total_cnt": len(json_list)
+        }
+
+    return HttpResponse(json.dumps(result, ensure_ascii=False))
+
+
+def common_course_status(startDt, endDt):
+    # input
+    # startDt = 2016-12-19 00:00:00
+    # endDt   = 2017-02-10 23:00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    # import
+    from datetime import datetime
+    from django.utils.timezone import UTC as UTC2
+
+    # making nowDt
+    # nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
+    startDt = startDt.strftime("%Y%m%d%H%m%S")
+    endDt = endDt.strftime("%Y%m%d%H%m%S")
+    nowDt = datetime.now(UTC2()).strftime("%Y%m%d%H%m%S")
+    # nowDt = nowDt.split('-')
+    # nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
+
+    # logic
+    if startDt is None or startDt == '' or endDt is None or endDt == '':
+        status = 'none'
+    elif nowDt < startDt:
+        status = 'ready'
+    elif startDt <= nowDt <= endDt:
+        status = 'ing'
+    elif endDt < nowDt:
+        status = 'end'
+    else:
+        status = 'none'
+
+    # return status
+    return status
 
 
 @cache_control(must_revalidate=True, max_age=settings.FOOTER_BROWSER_CACHE_MAX_AGE)

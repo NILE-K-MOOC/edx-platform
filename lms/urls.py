@@ -78,6 +78,10 @@ urlpatterns = (
     # Feedback Form endpoint
     url(r'^submit_feedback$', 'util.views.submit_feedback'),
 
+    # ----- api request ----- #
+    url(r'^api/all_courses', 'branding.views.course_api', name="course_api"),
+    # ----- api request ----- #
+
     # Enrollment API RESTful endpoints
     url(r'^api/enrollment/v1/', include('enrollment.urls')),
 
