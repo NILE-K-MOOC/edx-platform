@@ -38,12 +38,32 @@ getParameterByName('search_query')
         .org-title {
             display: none !important;
         }
-
-        .extra {
-            width:200px !important;
-        }
         .course_name {
             width: 65% !important;
+        }
+    }
+
+    @media screen and (max-width: 710px) {
+        .extra {
+            text-align: right;
+            width: 20% !important;
+        }
+        #time_1 {
+            display: none;
+        }
+        #time_2 {
+            line-height: 20px;
+            display: block;
+            margin-bottom: 25px;
+        }
+    }
+
+    @media screen and (min-width: 711px) {
+        #time_2 {
+            display: none;
+        }
+        #time_1 {
+            display: block;
         }
     }
 
