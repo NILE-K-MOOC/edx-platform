@@ -20,7 +20,7 @@ $(document).ready(function(){
             html += "<li class='tbody'>";
             html += "<span class='no'>"+(data[i][0]-i)+"</span>";
             if(data[i][5] == 1){
-                html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
             }else{
                 html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
             }
@@ -68,7 +68,7 @@ $(document).ready(function(){
                     html += "<li class='tbody'>";
                     html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                     if(data[i][5] == 1){
-                        html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                        html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                     }else{
                         html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
@@ -96,7 +96,7 @@ $(document).ready(function(){
                     html += "<li class='tbody'>";
                     html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                     if(data[i][5] == 1){
-                        html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                        html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                     }else{
                         html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
@@ -126,7 +126,7 @@ $(document).ready(function(){
                         html += "<li class='tbody'>";
                         html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                         if(data[i][5] == 1){
-                            html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                            html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                         }else{
                             html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                         }
@@ -157,7 +157,7 @@ $(document).ready(function(){
                     html += "<li class='tbody'>";
                     html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                     if(data[i][5] == 1){
-                        html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                        html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                     }else{
                         html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                     }
@@ -188,7 +188,7 @@ $(document).ready(function(){
                         html += "<li class='tbody'>";
                         html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                         if(data[i][5] == 1){
-                            html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                            html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                         }else{
                             html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                         }
@@ -243,7 +243,7 @@ function search(){
                 html += "<li class='tbody'>";
                 html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                 if(data[i][5] == 1){
-                    html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                    html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                 }else{
                     html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                 }
@@ -279,7 +279,7 @@ function search(){
                 html += "<li class='tbody'>";
                 html += "<span class='no'>"+(data[i][0]-i)+"</span>";
                 if(data[i][5] == 1){
-                    html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' height='15px;'></a></span>";
+                    html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+" <img src='/static/images/new.jpeg' alt='new' height='15px;'></a></span>";
                 }else{
                     html += "<span class='title'><a href='/comm_notice_view/"+data[i][4]+"'>"+data[i][6]+data[i][1]+"</a></span>";
                 }
