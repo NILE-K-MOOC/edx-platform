@@ -132,8 +132,9 @@ def user_groups(user):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
 def courses(request):
+    print 'course !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
     """
@@ -149,6 +150,52 @@ def courses(request):
             courses_list = sort_by_start_date(courses_list)
         else:
             courses_list = sort_by_announcement(courses_list)
+
+    import time
+    try:
+        from urllib import urlencode
+    except ImportError:
+        from urllib.parse import urlencode
+
+    from elasticsearch.exceptions import ConnectionError
+    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
+
+    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
+        url = self.url_prefix + url
+        if 'size' in params:
+            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
+
+        if params:
+            url = '%s?%s' % (url, urlencode(params or {}))
+        full_url = self.host + url
+
+        start = time.time()
+
+        if body:
+            if '{"term": {"org": "SMUk"}}' in body:
+                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
+
+        try:
+            kw = {}
+            if timeout:
+                kw['timeout'] = timeout
+            response = self.pool.urlopen(method, url, body, **kw)
+            duration = time.time() - start
+            raw_data = response.data.decode('utf-8')
+        except Exception as e:
+            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
+            raise ConnectionError('N/A', str(e), e)
+
+        if not (200 <= response.status < 300) and response.status not in ignore:
+            self.log_request_fail(method, url, body, duration, response.status)
+            self._raise_error(response.status, raw_data)
+
+        self.log_request_success(method, full_url, url, body, response.status,
+                                 raw_data, duration)
+
+        return response.status, response.getheaders(), raw_data
+
+    Urllib3HttpConnection.perform_request = perform_request
 
     return render_to_response(
         "courseware/courses.html",
@@ -1348,15 +1395,15 @@ def course_about(request, course_id):
             "KAISTk": "KAIST",
             "HYUk": "HANYANG UNIVERSITY",
             "KOCW": "KOCW",
-            "KONKUK UNIVERSITY" : "KONKUK UNIVERSITY",
-            "KYUNGSUNG UNIVERSITY" : "KYUNGSUNG UNIVERSITY",
-            "DANKOOK UNIVERSITY" : "DANKOOK UNIVERSITY",
-            "SOGANG UNIVERSITY" : "SOGANG UNIVERSITY",
-            "UNIVERSITY OF SEOUL" : "UNIVERSITY OF SEOUL",
-            "SOONGSIL UNIVERSITY" : "SOONGSIL UNIVERSITY",
-            "CHONNAM NATIONAL UNIVERSITY" : "CHONNAM NATIONAL UNIVERSITY",
-            "JEJU NATIONAL UNIVERSITY" : "JEJU NATIONAL UNIVERSITY",
-            "HGUk" : "HANDONG GLOBAL UNIVERSITY",
+            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
+            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
+            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
+            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
+            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
+            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
+            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
+            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
+            "HGUk": "HANDONG GLOBAL UNIVERSITY",
         }
 
         univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
@@ -2884,6 +2931,14 @@ def privacy_old2(request):
     return render_to_response(
         "courseware/privacy_old2.html"
     )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old3(request):
+    return render_to_response(
+        "courseware/privacy_old3.html"
+    )
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()

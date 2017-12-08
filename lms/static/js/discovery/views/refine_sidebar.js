@@ -54,7 +54,7 @@ define([
             return HtmlUtils.joinHtml.apply(this, _.map(options, function(option) {
                 var data = _.clone(option.attributes);
 
-                console.log(data);
+                //console.log(data);
 
                 if(data.facet == 'classfy'){
                     switch (data.term){
