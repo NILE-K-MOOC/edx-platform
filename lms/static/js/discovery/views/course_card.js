@@ -35,10 +35,16 @@ define([
 
         tagName: 'li',
         templateId: '#course_card-tpl',
+        templateId_mobile: '#mobile_course_card-tpl',
         className: 'courses-listing-item',
 
         initialize: function () {
-            this.tpl = _.template($(this.templateId).html());
+            if($('#course_card-tpl').length == 1) {
+                this.tpl = _.template($(this.templateId).html());
+            }
+            else if ($('#mobile_course_card-tpl').length == 1) {
+                this.tpl = _.template($(this.templateId_mobile).html());
+            }
         },
 
         render: function () {
@@ -73,7 +79,6 @@ define([
             }else{
                 data.status = 'none';
             }
-
             this.$el.html(this.tpl(data));
             return this;
         }

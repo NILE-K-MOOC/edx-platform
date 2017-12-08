@@ -123,6 +123,7 @@ from pymongo import MongoClient
 import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
+import sys
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -150,8 +151,7 @@ def csrf_token(context):
 
 
 def common_course_status(startDt, endDt):
-
-    #input
+    # input
     # case - 1
     # startDt = 2016-12-19 00:00:00
     # endDt   = 2017-02-10 23:00:00
@@ -162,24 +162,25 @@ def common_course_status(startDt, endDt):
     # endDt   = 2017-02-10 23:00:00+00:00
     # nowDt   = 2017-11-10 00:11:28
 
-    #import
+    # import
     from datetime import datetime
     from django.utils.timezone import UTC as UTC2
 
     startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
     startDt = startDt.split('-')
-    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]), int(startDt[5]))
+    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]),
+                       int(startDt[5]))
 
     endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
     endDt = endDt.split('-')
     endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
 
-    #making nowDt
+    # making nowDt
     nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
     nowDt = nowDt.split('-')
     nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
-    #logic
+    # logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
         status = 'none'
     elif nowDt < startDt:
@@ -191,8 +192,9 @@ def common_course_status(startDt, endDt):
     else:
         status = 'none'
 
-    #return status
+    # return status
     return status
+
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
@@ -678,27 +680,27 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     cur = con.cursor()
     query = """
-        SELECT popup_type,
-               link_type,
-               image_map,
+        SELECT popup_id,
+               template,
+               popup_type,
                title,
                contents,
-               image_url,
                link_url,
-               CASE
-                  WHEN link_target = 'B' THEN 'blank'
-                  WHEN link_target = 'S' THEN 'self'
-               END
                link_target,
-               start_date,
-               start_time,
-               end_date,
-               end_time,
-               template,
+               CASE
+                  WHEN hidden_day = '1' THEN '1일간 열지 않음'
+                  WHEN hidden_day = '7' THEN '7일간 열지 않음'
+                  WHEN hidden_day = '0' THEN '다시 열지 않음'
+               END
+               hidden_day,
                width,
                height,
-               hidden_day,
-               popup_id
+               CASE
+                  WHEN hidden_day = '1' THEN '1'
+                  WHEN hidden_day = '7' THEN '7'
+                  WHEN hidden_day = '0' THEN '999999'
+               END
+               hidden_day
           FROM popup
          WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
         """
@@ -706,12 +708,168 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur.execute(query)
     row = cur.fetchall()
     cur.close()
-    pop_list = []
-    for p in row:
-        pop_list.append(list(p))
+    popup_index = ""
+    for index in row:
+        if (index[1] == '0'):
+            if (index[2] == "H"):
+                print('indexH.html')
+                f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexH.html", 'r')
+                while True:
+                    line = f.readline()
+                    if not line: break
+                    popup_index += str(line)
+                    popup_index = popup_index.replace("#_id", str(index[0]))
+                    popup_index = popup_index.replace("#_title", str(index[3]))
+                    popup_index = popup_index.replace("#_contents", str(index[4]))
+                    popup_index = popup_index.replace("#_link_url", str(index[5]))
+                    popup_index = popup_index.replace("#_link_target", str(index[6]))
+                    popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                    popup_index = popup_index.replace("#_width", str(index[8]))
+                    popup_index = popup_index.replace("#_height", str(index[9] - 28))
+                    popup_index = popup_index.replace("#_hidden", str(index[10]))
+                f.close()
+            elif (index[2] == "I"):
+                print('indexI.html')
+                cur = con.cursor()
+                query = """
+                    SELECT popup_id,
+                           title,
+                           contents,
+                           link_url,
+                           CASE
+                              WHEN link_target = 'B' THEN 'blank'
+                              WHEN link_target = 'S' THEN 'self'
+                           END
+                           link_target,
+                           CASE
+                              WHEN hidden_day = '1' THEN '1일간 열지 않음'
+                              WHEN hidden_day = '7' THEN '7일간 열지 않음'
+                              WHEN hidden_day = '0' THEN '다시 열지 않음'
+                           END
+                           hidden_day,
+                           popup_type,
+                           attatch_file_name,
+                           width,
+                           height,
+                           image_map,
+                           CASE
+                              WHEN hidden_day = '1' THEN '1'
+                              WHEN hidden_day = '7' THEN '7'
+                              WHEN hidden_day = '0' THEN '999999'
+                           END
+                           hidden_day
+                      FROM popup
+                      JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
+                     WHERE popup_id = {0};
+                    """.format(index[0])
+                cur.execute(query)
+                row = cur.fetchall()
+                cur.close()
+                map_list = []
+                for p in row:
+                    image_map = p[10]
+                    im_arr = image_map.split('/')
+                    map_list.append(list(p + (im_arr,)))
+                for index in map_list:
+                    f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexI.html", 'r')
+                    while True:
+                        line = f.readline()
+                        if not line: break
+                        popup_index += str(line)
+                        popup_index = popup_index.replace("#_id", str(index[0]))
+                        popup_index = popup_index.replace("#_title", str(index[1]))
+                        popup_index = popup_index.replace("#_contents", str(index[2]))
+                        popup_index = popup_index.replace("#_link_url", str(index[3]))
+                        popup_index = popup_index.replace("#_link_target", str(index[4]))
+                        popup_index = popup_index.replace("#_hidden_day", str(index[5]))
+                        popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
+                        popup_index = popup_index.replace("#_width", str(index[8]))
+                        popup_index = popup_index.replace("#_height", str(index[9]))
+                        popup_index = popup_index.replace("#_img_width", str(index[9]))
+                        popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
+                        popup_index = popup_index.replace("#_hidden", str(index[11]))
+                        if (len(index[12]) == 1):
+                            map_str = """
+                                    <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
+                                    """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
+                            popup_index = popup_index.replace("#_not_exist", map_str)
+                            popup_index = popup_index.replace("#_exist", "")
+                        else:
+                            map_str = ""
+                            for map in index[12]:
+                                map_str += """
+                                    <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
+                                    """.format(str(map), str(index[4]), str(index[3]))
+                            popup_index = popup_index.replace("#_not_exist", "")
+                            popup_index = popup_index.replace("#_exist", map_str)
+                    f.close()
 
-    extra_context['pop_list'] = pop_list
+
+        elif (index[1] == '1'):
+            print('index1.html')
+            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index1.html", 'r')
+            while True:
+                line = f.readline()
+                if not line: break
+                popup_index += str(line)
+                popup_index = popup_index.replace("#_id", str(index[0]))
+                popup_index = popup_index.replace("#_title", str(index[3]))
+                popup_index = popup_index.replace("#_contents", str(index[4]))
+                popup_index = popup_index.replace("#_link_url", str(index[5]))
+                popup_index = popup_index.replace("#_link_target", str(index[6]))
+                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                popup_index = popup_index.replace("#_width", str(index[8]))
+                popup_index = popup_index.replace("#_height", str(index[9] - 83))
+                popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 125))
+                popup_index = popup_index.replace("#_hidden", str(index[10]))
+            f.close()
+        elif (index[1] == '2'):
+            print('index2.html')
+            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index2.html", 'r')
+            while True:
+                line = f.readline()
+                if not line: break
+                popup_index += str(line)
+                popup_index = popup_index.replace("#_id", str(index[0]))
+                popup_index = popup_index.replace("#_title", str(index[3]))
+                popup_index = popup_index.replace("#_contents", str(index[4]))
+                popup_index = popup_index.replace("#_link_url", str(index[5]))
+                popup_index = popup_index.replace("#_link_target", str(index[6]))
+                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                popup_index = popup_index.replace("#_width", str(index[8]))
+                popup_index = popup_index.replace("#_height", str(index[9] - 131))
+                popup_index = popup_index.replace("#_hidden", str(index[10]))
+            f.close()
+        elif (index[1] == '3'):
+            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
+            while True:
+                line = f.readline()
+                if not line: break
+                popup_index += str(line)
+                popup_index = popup_index.replace("#_id", str(index[0]))
+                popup_index = popup_index.replace("#_title", str(index[3]))
+                popup_index = popup_index.replace("#_contents", str(index[4]))
+                popup_index = popup_index.replace("#_link_url", str(index[5]))
+                popup_index = popup_index.replace("#_link_target", str(index[6]))
+                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
+                popup_index = popup_index.replace("#_width", str(index[8]))
+                popup_index = popup_index.replace("#_height", str(index[9] - 149))
+                popup_index = popup_index.replace("#_hidden", str(index[10]))
+            f.close()
+
+    cur = con.cursor()
+    query = """
+        SELECT max(popup_id) FROM popup;
+        """
+    cur.execute(query)
+    max_pop = cur.fetchall()
+    cur.close()
+
+
+    extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
+    context.update(extra_context)
+    extra_context['max_pop'] = str(max_pop[0][0])
     context.update(extra_context)
 
     return render_to_response('index.html', context)
@@ -1072,7 +1230,8 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                             #     if s_key in chapters[key]:
                             #         c_key = key
 
-                            status_dict['survey_url'] = '/courses/{0}/courseware/{1}/{2}'.format(str(course_overview), c_key, s_key)
+                            status_dict['survey_url'] = '/courses/{0}/courseware/{1}/{2}'.format(str(course_overview),
+                                                                                                 c_key, s_key)
                             break
     except Exception as e:
         traceback.print_exc()
@@ -1354,11 +1513,13 @@ def dashboard(request):
             c.status = 'ready'
             course_type1.append(c)
 
-        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
+                UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
             c.status = 'ing(ing)'
             course_type2.append(c)
 
-        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+        elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
+                UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
             c.status = 'ing(end)'
             course_type2.append(c)
 
@@ -1390,7 +1551,6 @@ def dashboard(request):
     for c in course_enrollments:
         print c.course.id, c.course.display_name
     print 'check step 1 e'
-
 
     show_email_settings_for = frozenset(
         enrollment.course_id for enrollment in course_enrollments if (
@@ -1484,11 +1644,31 @@ def dashboard(request):
     #         interest_list.append(list(p)[0])
     # print interest_list
 
-    print 'check step 2 s'
-    for c in course_enrollments:
-        print c.course.id, c.course.display_name
-    print 'check step 2 e'
+    final_list = []
 
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    for c in course_enrollments:
+        cur = con.cursor()
+        query = """
+            SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일"), course_id
+              FROM courseware_studentmodule
+             WHERE student_id = '{0}' AND course_id = '{1}';
+        """.format(user.id, c.course.id)
+        cur.execute(query)
+        final_day = cur.fetchall()
+        final_list.append(list(final_day[0]))
+        cur.close()
+
+    print ('final_list =====================')
+    print type(final_list)
+    print (final_list)
+
+    status = request.POST.get('status')
     context = {
         'percents': percents,
         'enrollment_message': enrollment_message,
@@ -1522,6 +1702,8 @@ def dashboard(request):
         'course_programs': course_programs,
         'disable_courseware_js': True,
         'show_program_listing': ProgramsApiConfig.current().show_program_listing,
+        'status_flag': status,
+        'final_list': final_list,
     }
 
     ecommerce_service = EcommerceService()
@@ -2658,7 +2840,6 @@ def _record_registration_attribution(request, user):
 
 @csrf_exempt
 def active_account(request, email):
-
     user = User.objects.get(email=email)
 
     with connections['default'].cursor() as cur:
@@ -2703,7 +2884,6 @@ def active_account(request, email):
              WHERE dormant_yn = 'Y' AND id = %s;
         """
         cur.execute(query, [user.id])
-
 
         query = """
             UPDATE drmt_auth_userprofile

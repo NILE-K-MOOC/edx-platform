@@ -391,6 +391,7 @@ urlpatterns += (
     url(r'^calculate$', 'util.views.calculate'),
 
     url(r'^courses/?$', 'branding.views.courses', name="courses"),
+    url(r'^mobile_courses/?$', 'branding.views.mobile_courses', name="mobile_courses"),
     url(
         r'^change_enrollment$',
         'student.views.change_enrollment',
@@ -408,6 +409,14 @@ urlpatterns += (
             settings.COURSE_ID_PATTERN,
         ),
         'courseware.views.views.course_about',
+        name='about_course',
+    ),
+
+    url(
+        r'^mobile_courses/{}/about$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        'courseware.views.views.mobile_course_about',
         name='about_course',
     ),
 
@@ -617,6 +626,7 @@ urlpatterns += (
     url(r'^Privacy-Policy/?$', 'courseware.views.views.privacy', name="privacy"),
     url(r'^Privacy-Policy_old1/?$', 'courseware.views.views.privacy_old1', name="privacy_old1"),
     url(r'^Privacy-Policy_old2/?$', 'courseware.views.views.privacy_old2', name="privacy_old2"),
+    url(r'^Privacy-Policy_old3/?$', 'courseware.views.views.privacy_old3', name="privacy_old3"),
 
     # Copyright-Policy
     url(r'^Copyright-Policy/?$', 'courseware.views.views.copyright', name="copyright"),
