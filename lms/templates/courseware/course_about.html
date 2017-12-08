@@ -154,14 +154,19 @@ from openedx.core.lib.courses import course_image_url
                   function add() {
 
                       try {
+                            var def_index = '${course.id}';
+                            var index_arr = [];
+                            index_arr = def_index.split("+");
                             var user_id = '${user.id}';
-                            var course_id = '${course.id}';
+                            var org = '${course.org}';
+                            var display_number_with_default = index_arr[1];
                             var action = 'add';
 
                             $.post("/courses/interest", {
                                 csrfmiddlewaretoken: $.cookie('csrftoken'),
                                 user_id : user_id,
-                                course_id: course_id,
+                                org: org,
+                                display_number_with_default: display_number_with_default,
                                 method : action,
                             }).done(function (data) {
 
@@ -175,14 +180,19 @@ from openedx.core.lib.courses import course_image_url
 
                   function modi() {
                       try {
+                            var def_index = '${course.id}';
+                            var index_arr = [];
+                            index_arr = def_index.split("+");
                             var user_id = '${user.id}';
-                            var course_id = '${course.id}';
+                            var org = '${course.org}';
+                            var display_number_with_default = index_arr[1];
                             var action = 'modi';
 
                             $.post("/courses/interest", {
                                 csrfmiddlewaretoken: $.cookie('csrftoken'),
                                 user_id : user_id,
-                                course_id: course_id,
+                                org: org,
+                                display_number_with_default: display_number_with_default,
                                 method : action,
                             }).done(function (data) {
 

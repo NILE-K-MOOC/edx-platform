@@ -381,18 +381,15 @@ use_yn char(1) default 'Y' COMMENT '사용함/안함',
 delete_yn char(1) default 'N' COMMENT '삭제여부 (YN)'
 );
 
-
-
-Create table interest_course (
-interest_id int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '관심강좌아이디',
-user_id int NOT NULL COMMENT '등록자아이디',
-course_id varchar(255) NOT NULL COMMENT '강좌아이디', 
-created datetime default CURRENT_TIMESTAMP COMMENT '등록일시',
-modifid datetime default CURRENT_TIMESTAMP COMMENT '수정일시',
-use_yn char(1) default 'Y' COMMENT '사용함/안함'
-);
-
-
+create table interest_course (
+interest_id int Not Null   auto_increment comment '관심강좌아이디' ,
+user_id int Not Null    comment '등록자아이디' ,
+org varchar(100)     comment '참여기관' ,
+display_number_with_default varchar(100)     comment '강좌코드' ,
+created datetime  default CURRENT_TIMESTAMP   comment '등록일시' ,
+modifid datetime  default CURRENT_TIMESTAMP   comment '수정일시' ,
+use_yn varchar(1)  default  'Y'   comment '사용함/안함' ,
+primary key ( interest_id ) )  comment='관심강좌아이디' ;
 
 Create table multisite(
 site_id int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '멀티사이트아이디',
