@@ -23,7 +23,7 @@ from openedx.core.djangolib.js_utils import (
 </%block>
 
 <%block name="requirejs">
-  require(["js/factories/course_info"], function(CourseInfoFactory) {
+  require(["js/factories/course_info", "js/vendor/tinymce/js/tinymce/tinymce.full.min", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min"], function(CourseInfoFactory) {
       CourseInfoFactory(
         "${updates_url | n, js_escaped_string}",
         "${handouts_locator | n, js_escaped_string}",
