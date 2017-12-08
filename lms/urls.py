@@ -413,7 +413,7 @@ urlpatterns += (
     ),
 
     url(
-        r'^mobile_courses/{}/about$'.format(
+        r'^course/{}$'.format(
             settings.COURSE_ID_PATTERN,
         ),
         'courseware.views.views.mobile_course_about',

@@ -1827,6 +1827,11 @@ def mobile_course_about(request, course_id):
         else:
             course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
 
+        course_target = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_target = course_target.replace("/info", "&email_opt_in=true")
+        print ('course target====================')
+        print course_target
+        print ('course target====================')
         show_courseware_link = bool(
             (
                 has_access(request.user, 'load', course) and
