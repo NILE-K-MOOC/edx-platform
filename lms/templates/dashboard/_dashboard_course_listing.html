@@ -469,6 +469,7 @@ from student.helpers import (
 </article>
 
 <!-- DEBUG -->
+    <!--
 
 <div>
 enrollment    ${enrollment}<br>
@@ -491,6 +492,8 @@ course_program_info    ${course_program_info}<br>
 percent    ${percent}<br>
 share_settings    ${share_settings}<br>
 </div>
+
+    -->
 
 </div>
 <script>
@@ -529,11 +532,13 @@ share_settings    ${share_settings}<br>
         var user_id = '${user.id}';
         var display_number_with_default = index_arr[1];
         var action = 'modi';
+        var org = index_arr[0].replace("course-v1:", "");
 
         $.post("/courses/interest", {
             csrfmiddlewaretoken: $.cookie('csrftoken'),
             user_id : user_id,
             display_number_with_default: display_number_with_default,
+            org : org,
             method : action,
         }).done(function (data) {
             $(obj).parents('.course-item').hide();

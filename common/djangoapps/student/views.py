@@ -956,6 +956,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
     elif status == 'end':
         enrollments = CourseEnrollment.enrollments_for_user_end(user)
     elif status == 'interest':
+        # enrollments = CourseEnrollment.enrollments_for_user_ing(user)
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     else:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
@@ -1646,23 +1647,23 @@ def dashboard(request):
 
     final_list = []
 
-    sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-    for c in course_enrollments:
-        cur = con.cursor()
-        query = """
-            SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일"), course_id
-              FROM courseware_studentmodule
-             WHERE student_id = '{0}' AND course_id = '{1}';
-        """.format(user.id, c.course.id)
-        cur.execute(query)
-        final_day = cur.fetchall()
-        final_list.append(list(final_day[0]))
-        cur.close()
+    # sys.setdefaultencoding('utf-8')
+    # con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+    #                   settings.DATABASES.get('default').get('USER'),
+    #                   settings.DATABASES.get('default').get('PASSWORD'),
+    #                   settings.DATABASES.get('default').get('NAME'),
+    #                   charset='utf8')
+    # for c in course_enrollments:
+    #     cur = con.cursor()
+    #     query = """
+    #         SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일"), course_id
+    #           FROM courseware_studentmodule
+    #          WHERE student_id = '{0}' AND course_id = '{1}';
+    #     """.format(user.id, c.course.id)
+    #     cur.execute(query)
+    #     final_day = cur.fetchall()
+    #     final_list.append(list(final_day[0]))
+    #     cur.close()
 
     print ('final_list =====================')
     print type(final_list)

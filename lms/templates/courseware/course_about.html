@@ -151,6 +151,10 @@ from openedx.core.lib.courses import course_image_url
                    % endif
                </div>
               <script>
+                  if ( '${login_status}' == 'x') {
+                      $('#interest_btn_d').hide();
+                      $('#interest_btn_i').hide();
+                  }
                   function add() {
 
                       try {
