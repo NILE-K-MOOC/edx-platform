@@ -1541,7 +1541,7 @@ class CourseEnrollment(models.Model):
         return cls.objects.raw('''
               SELECT b.interest_id          id,
                      b.user_id,
-                     b.course_id,
+                     a.id,
                      b.created,
                      if(b.use_yn = 'Y', 1, 0) is_active,
                      'honor'                mode,
