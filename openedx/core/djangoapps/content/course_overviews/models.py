@@ -4,17 +4,14 @@ Declaration of CourseOverview model
 import json
 import logging
 from urlparse import urlparse, urlunparse
-
 from django.db import models, transaction
 from django.db.models.fields import BooleanField, DateTimeField, DecimalField, TextField, FloatField, IntegerField
 from django.db.utils import IntegrityError
 from django.template import defaultfilters
 from django.utils.translation import ugettext
-
 from ccx_keys.locator import CCXLocator
 from model_utils.models import TimeStampedModel
 from opaque_keys.edx.keys import CourseKey
-
 from config_models.models import ConfigurationModel
 from lms.djangoapps import django_comment_client
 from openedx.core.djangoapps.models.course_details import CourseDetails
@@ -30,6 +27,7 @@ from django.db.models import Q
 import datetime
 import pytz
 from django.utils import timezone
+
 log = logging.getLogger(__name__)
 
 
@@ -216,9 +214,9 @@ class CourseOverview(TimeStampedModel):
                     with transaction.atomic():
                         course_overview.save()
                         CourseOverviewTab.objects.bulk_create([
-                            CourseOverviewTab(tab_id=tab.tab_id, course_overview=course_overview)
-                            for tab in course.tabs
-                        ])
+                                                                  CourseOverviewTab(tab_id=tab.tab_id, course_overview=course_overview)
+                                                                  for tab in course.tabs
+                                                                  ])
                         CourseOverviewImageSet.create_for_course(course_overview, course)
 
                 except IntegrityError:
@@ -499,58 +497,55 @@ class CourseOverview(TimeStampedModel):
             if org == 'ACEk':
                 org = org.replace('k', '')
                 if filter_:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 1'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end',
+                                                                                                                                                                                                 'display_name')[:100]
                 else:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 2'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='FA.HGU01')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
             elif org == 'COREk':
                 org = org.replace('k', '')
                 if filter_:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 3'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='SKKU_COS2021.01K')|Q(id__icontains='SKKU_COS2022.01K')|Q(id__icontains='SKKU_NTST100.01K')|Q(id__icontains='HYUKMOOC2016-4k')|Q(id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(
+                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
+                            id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
                 else:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 4'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)|Q(id__icontains='SKKU_COS2021.01K')|Q(id__icontains='SKKU_COS2022.01K')|Q(id__icontains='SKKU_NTST100.01K')|Q(id__icontains='HYUKMOOC2016-4k')|Q(id__icontains='HYUKMOOC2016-5k')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(
+                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
+                            id__icontains='HYUKMOOC2016-5k')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
-            elif org == 'CKk' or  org == 'KOCWk':
+            elif org == 'CKk' or org == 'KOCWk':
                 org = org.replace('k', '')
                 if filter_:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 5'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
                 else:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 6'
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org)|Q(id__icontains='%s_' % org)).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
-            elif org == 'SNUk' or  org == 'POSTECHk' or  org == 'KAISTk':
+            elif org == 'SNUk' or org == 'POSTECHk' or org == 'KAISTk':
                 if filter_:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 7'
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
                 else:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 8'
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+            elif org == 'SMUk':
+                if filter_:
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
+                else:
+                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
             else:
                 if filter_:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 9'
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
                 else:
-                    print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 10'
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
         else:
 
             if filter_ and 'mobile_available' in filter_ and filter_['mobile_available'] is True:
-                print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 11'
-                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
                 course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= timezone.now() <= c.enrollment_end]
             elif filter_:
-                print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 12'
-                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')[:100]
+                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
             else:
-                print ':::::::::::::::::::::::::::::::::::::: get_all_courses type 13'
-                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start','-start','-enrollment_end','-end','display_name')
+                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
         if course_overviews:
             print 'len(course_overviews):', len(course_overviews)
@@ -575,7 +570,7 @@ class CourseOverview(TimeStampedModel):
         return [
             CourseKey.from_string(course_overview['id'])
             for course_overview in CourseOverview.objects.values('id')
-        ]
+            ]
 
     def is_discussion_tab_enabled(self):
         """
@@ -652,7 +647,7 @@ class CourseOverview(TimeStampedModel):
         return {
             resolution: self._apply_cdn_to_url(url, base_url)
             for resolution, url in image_urls.items()
-        }
+            }
 
     def _apply_cdn_to_url(self, url, base_url):
         """

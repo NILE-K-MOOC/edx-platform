@@ -626,10 +626,10 @@ msgid "PNUk"
 msgstr "부산대학교"
 
 msgid "SMUCk"
-msgstr "상명대학교(천안)"
+msgstr "상명대학교"
 
 msgid "SMUk"
-msgstr "상명대학교(서울)"
+msgstr "상명대학교"
 
 msgid "SNUk"
 msgstr "서울대학교"
@@ -728,7 +728,7 @@ msgid "WKUk"
 msgstr "원광대학교"
 
 msgid "InhatcK"
-msgstr "인하공업전문대학교"
+msgstr "인하공업전문대학"
 
 msgid "ChosunK"
 msgstr "조선대학교"
@@ -28938,6 +28938,12 @@ msgstr "동의함"
 msgid "Do not agree"
 msgstr "동의하지 않음"
 
+msgid "All Agree"
+msgstr "전체 동의함"
+
+msgid "Do not all agree"
+msgstr "전체 동의하지 않음"
+
 msgid "Privacy policy (or Personal information processing policy)"
 msgstr "개인정보 수집 및 이용 동의"
 
@@ -28955,6 +28961,9 @@ msgstr "1일 1회 자동 스케줄러에 의해 수행되므로, 수행 요청 �
 
 msgid "Performing a plagiarism test"
 msgstr "표절검사 수행하기"
+
+msgid "Performing test target is not exists."
+msgstr "표절검사 대상이 없습니다."
 
 msgid "Plagiarism test is in progress."
 msgstr "표절검사가 진행중입니다."
