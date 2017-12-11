@@ -1403,16 +1403,19 @@ def course_about(request, course_id):
         cur.execute(query)
         user_id = cur.fetchall()
         cur.close()
+        flag = 0
 
-        cur = con.cursor()
-        query = """
-            SELECT count(*)
-              FROM interest_course
-             WHERE user_id = '{0}' AND use_yn = 'Y';
-        """.format(user_id[0][0], course_id)
-        cur.execute(query)
-        flag = cur.fetchall()
-        cur.close()
+        if ( login_status  != 'x' ):
+            cur = con.cursor()
+            query = """
+                SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+            """.format(user_id[0][0], course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
 
         context = {
             'course': course,
@@ -1459,7 +1462,7 @@ def course_about(request, course_id):
             'course_number' : course_number,
             'course_total' : course_total,
             'login_status' : login_status,
-            'flag' : flag[0][0],
+            'flag' : flag,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
@@ -1828,11 +1831,8 @@ def mobile_course_about(request, course_id):
         else:
             course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
 
-        course_target = course_target.replace("/courses/", "edxapp://enroll?course_id=")
-        course_target = course_target.replace("/info", "&email_opt_in=true")
-        print ('course target====================')
-        print course_target
-        print ('course target====================')
+        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_link = course_link.replace("/info", "&email_opt_in=true")
         show_courseware_link = bool(
             (
                 has_access(request.user, 'load', course) and
@@ -2020,16 +2020,19 @@ def mobile_course_about(request, course_id):
         cur.execute(query)
         user_id = cur.fetchall()
         cur.close()
+        flag = 0
 
-        cur = con.cursor()
-        query = """
-            SELECT count(user_id)
-              FROM interest_course
-             WHERE user_id = '{0}' AND course_id = '{1}' AND use_yn = 'Y';
-        """.format(user_id[0][0], course_id)
-        cur.execute(query)
-        flag = cur.fetchall()
-        cur.close()
+        if ( login_status  != 'x' ):
+            cur = con.cursor()
+            query = """
+                SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+            """.format(user_id[0][0], course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
 
         context = {
             'course': course,
@@ -2076,7 +2079,8 @@ def mobile_course_about(request, course_id):
             'course_number' : course_number,
             'course_total' : course_total,
             'login_status' : login_status,
-            'flag' : flag[0][0],
+            'flag' : flag,
+            'course_link' : course_link,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
