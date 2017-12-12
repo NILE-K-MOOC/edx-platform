@@ -52,7 +52,7 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
             },
 
             tinymceInit: function (target) {
-                console.log('tinymceInit 1.');
+                console.log('tinymceInit .');
                 tinymce.init({
                     selector: "textarea",
                     menubar: false,
@@ -63,9 +63,10 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                     },
                     toolbar_items_size: 'small',
                     extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
-                    toolbar: "formatselect | fontselect | bold italic underline forecolor wrapAsCode | table link | bullist numlist outdent indent blockquote | link unlink image | code",
-                    resize: "both",
-                    minHeight: 200,
+                    toolbar: "fontselect | fontsizeselect | bold italic underline forecolor wrapAsCode | table link | bullist numlist outdent indent blockquote | link unlink image | code",
+                    resize: true,
+                    fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+                    min_height: 300,
                     setup: function (ed) {
                         ed.on('click', function (e) {
                             tinymce.execCommand('mceFocus', false, '.new-update-form:eq(0) textarea');
