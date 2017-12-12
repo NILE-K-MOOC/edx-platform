@@ -42,9 +42,44 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                     } catch (e) {
                         // ignore
                     }
+
+
                 });
                 this.$el.find(".new-update-form").hide();
+
+                this.tinymceInit();
                 return this;
+            },
+
+            tinymceInit: function (target) {
+                console.log('tinymceInit 1.');
+                tinymce.init({
+                    selector: "textarea",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: "codemirror, table, link, image",
+                    codemirror: {
+                        path: "" + baseUrl + "/js/vendor"
+                    },
+                    toolbar_items_size: 'small',
+                    extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
+                    toolbar: "formatselect | fontselect | bold italic underline forecolor wrapAsCode | table link | bullist numlist outdent indent blockquote | link unlink image | code",
+                    resize: "both",
+                    minHeight: 200,
+                    setup: function (ed) {
+                        ed.on('click', function (e) {
+                            tinymce.execCommand('mceFocus', false, '.new-update-form:eq(0) textarea');
+                        });
+                    },
+                    block_formats: interpolate("%(paragraph)s=p;%(preformatted)s=pre;%(heading3)s=h3;%(heading4)s=h4;%(heading5)s=h5;%(heading6)s=h6", {
+                        paragraph: gettext("Paragraph"),
+                        preformatted: gettext("Preformatted"),
+                        heading3: gettext("Heading 3"),
+                        heading4: gettext("Heading 4"),
+                        heading5: gettext("Heading 5"),
+                        heading6: gettext("Heading 6")
+                    }, true),
+                });
             },
 
             collectionSelector: function (uid) {
@@ -93,6 +128,7 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
             },
 
             onNew: function (event) {
+
                 event.preventDefault();
                 var self = this;
                 // create new obj, insert into collection, and render this one ele overriding the hidden attr
@@ -109,35 +145,12 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                 var updateEle = this.$el.find("#course-update-list");
                 $(updateEle).prepend($newForm);
 
-                /* use tinymce editor */
-                if (tinymce) {
-
-                    tinymce.init({
-                        selector: ".new-update-content.text-editor",
-                        plugins: "codemirror",
-                        codemirror: {
-                            path: "" + baseUrl + "/js/vendor"
-                        },
-                        menubar: "tools",
-                        toolbar_items_size: 'small',
-                        extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
-                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code ",
-                        resize: "both",
-                        setup: function (ed) {
-                            ed.on('keyup', function (e) {
-                                console.log('Key up event: ' + e.keyCode);
-                            });
-                        }
-                    });
-
-                } else {
-                    var $textArea = $newForm.find(".new-update-content").first();
-                    this.$codeMirror = CodeMirror.fromTextArea($textArea.get(0), {
-                        mode: "text/html",
-                        lineNumbers: true,
-                        lineWrapping: true
-                    });
-                }
+                var $textArea = $newForm.find(".new-update-content").first();
+                //this.$codeMirror = CodeMirror.fromTextArea($textArea.get(0), {
+                //    mode: "text/html",
+                //    lineNumbers: true,
+                //    lineWrapping: true
+                //});
 
                 $newForm.addClass('editing');
                 this.$currentPost = $newForm.closest('li');
@@ -148,19 +161,14 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                 });
 
                 DateUtils.setupDatePicker("date", this, 0);
+                this.tinymceInit();
             },
 
             onSave: function (event) {
                 event.preventDefault();
                 var targetModel = this.eventModel(event);
 
-                var content = "";
-                if (tinymce) {
-                    content = tinymce.activeEditor.getContent({format: 'raw'});
-                } else {
-                    this.$codeMirror.getValue()
-                }
-
+                var content = tinymce.activeEditor.getContent({format: 'raw'});
 
                 targetModel.set({
                     // translate short-form date (for input) into long form date (for display)
@@ -219,8 +227,8 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                 else {
                     $(this.dateEntry(event)).val("MM/DD/YY");
                 }
-                this.$codeMirror = CourseInfoHelper.editWithCodeMirror(
-                    targetModel, 'content', self.options['base_asset_url'], $textArea.get(0));
+                //this.$codeMirror = CourseInfoHelper.editWithCodeMirror(
+                //    targetModel, 'content', self.options['base_asset_url'], $textArea.get(0));
 
                 // Variable stored for unit test.
                 this.$modalCover = ModalUtils.showModalCover(false,

@@ -13,6 +13,9 @@ define(["backbone", "jquery", "jquery.ui"], function(Backbone, $) {
             if (!(date_exists && date_is_valid_string)) {
                 return {"date_required": gettext("Action required: Enter a valid date.")};
             }
+        },
+        initialize: function(){
+            //console.log('init');
         }
     });
     return CourseUpdate;
