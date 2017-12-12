@@ -41,6 +41,42 @@ var DetailsView = ValidatingView.extend({
         //console.log('model check s --------------------------------');
         //console.log(this.model);
         //console.log('model check e --------------------------------');
+        $(function () {
+            $(".tab_content").hide();
+            $(".tab_content:first").show();
+            $("ul.tabs li").click(function () {
+                $("ul.tabs li").removeClass("active").css("color", "#333").css("background-color", "white");
+                $(this).addClass("active").css("color", "darkred").css("background-color", "#ffbe60");
+                $(".tab_content").hide()
+                var activeTab = $(this).attr("rel");
+                $("#" + activeTab).fadeIn()
+            });
+
+            $("ul.info_tabs li").click(function () {
+
+                if($(this).text() == '교수자') {
+                    $('#info_add1').css("display","inline-block");
+                    $('#info_del1').css("display","inline-block");
+                    $('#info_add2').css("display","none");
+                    $('#info_del2').css("display","none");
+                    $('#info_div1').css("display","inline-block");
+                    $('#info_div2').css("display","none");
+                }
+                else if ($(this).text() == '강좌지원팀') {
+                    $('#info_add1').css("display","none");
+                    $('#info_del1').css("display","none");
+                    $('#info_add2').css("display","inline-block");
+                    $('#info_del2').css("display","inline-block");
+                    $('#info_div1').css("display","none");
+                    $('#info_div2').css("display","inline-block");
+                }
+
+                $("ul.info_tabs li").removeClass("active").css("color", "#333").css("background-color", "white");
+                $(this).addClass("active").css("color", "darkred").css("background-color", "#AAAAAA");
+                var activeTab = $(this).attr("rel");
+                $("#" + activeTab).fadeIn()
+            });
+        });
 
         options = options || {};
         // fill in fields
@@ -186,7 +222,11 @@ var DetailsView = ValidatingView.extend({
         DateUtils.setupDatePicker('enrollment_end', this);
 
         this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
+
         this.codeMirrorize(null, $('#course-overview')[0]);
+
+        this.$el.find('#' + this.fieldToSelectorMap['input']).css("z-index", "999999").css("position", "relative");
+
 
         if (this.model.get('title') !== '') {
             this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
@@ -390,7 +430,8 @@ var DetailsView = ValidatingView.extend({
         'course_settings_learning_fields': 'course-settings-learning-fields',
         'add_course_learning_info': 'add-course-learning-info',
         'add_course_instructor_info': 'add-course-instructor-info',
-        'course_learning_info': 'course-learning-info'
+        'course_learning_info': 'course-learning-info',
+        'input': 'layer_input'
     },
 
     addLearningFields: function() {
@@ -571,7 +612,7 @@ var DetailsView = ValidatingView.extend({
             var cachethis = this;
             var field = this.selectorToField[thisTarget.id];
             this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
-                mode: "text/html", lineNumbers: true, lineWrapping: true});
+                mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true});
             this.codeMirrors[thisTarget.id].on('change', function (mirror) {
                     mirror.save();
                     cachethis.clearValidationErrors();
