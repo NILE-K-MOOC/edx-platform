@@ -776,7 +776,8 @@ def course_interest(request):
     if request.method == 'POST':
         if request.POST['method'] == 'add':
             user_id = request.POST.get('user_id')
-            course_id = request.POST.get('course_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -786,23 +787,19 @@ def course_interest(request):
                                   charset='utf8')
             cur = con.cursor()
             query = """
-                 select count(user_id) from interest_course where user_id = '""" + user_id + """' and course_id = '""" + course_id + """' ;
+                 select count(user_id) from interest_course where user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
             """
             cur.execute(query)
             count = cur.fetchall()
             ctn = count[0][0]
             cur.close()
 
-            print ('==================================')
-            print ctn
-            print ('==================================')
-
             if(ctn == 1):
                 cur = con.cursor()
                 query = """
                      UPDATE interest_course
                        SET use_yn = 'Y'
-                     WHERE user_id = '""" + user_id + """' AND course_id = '""" + course_id + """';
+                     WHERE user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
                 """
                 cur.execute(query)
                 cur.execute('commit')
@@ -811,9 +808,10 @@ def course_interest(request):
             elif(ctn == 0):
                 cur = con.cursor()
                 query = """
-                     insert into interest_course(user_id, course_id)
+                     insert into interest_course(user_id, org, display_number_with_default)
                      VALUES ('""" + user_id + """',
-                             '""" + course_id + """');
+                             '""" + org + """',
+                             '""" + display_number_with_default + """');
                 """
                 cur.execute(query)
                 cur.execute('commit')
@@ -823,7 +821,8 @@ def course_interest(request):
 
         elif request.POST['method'] == 'modi':
             user_id = request.POST.get('user_id')
-            course_id = request.POST.get('course_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -836,7 +835,7 @@ def course_interest(request):
             query = """
                  UPDATE interest_course
                    SET use_yn = 'N'
-                 WHERE user_id = '""" + user_id + """' AND course_id = '""" + course_id + """';
+                 WHERE user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
             """
             cur.execute(query)
             cur.execute('commit')
@@ -847,7 +846,8 @@ def course_interest(request):
 
         elif request.POST['method'] == 'flag':
             user_id = request.POST.get('user_id')
-            course_id = request.POST.get('course_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -860,8 +860,8 @@ def course_interest(request):
             query = """
                  SELECT count(user_id)
                   FROM interest_course
-                 WHERE user_id = '{0}' AND course_id = '{1}' AND use_yn = 'Y';
-             """.format(user_id, course_id)
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+             """.format(user_id, org, display_number_with_default)
             cur.execute(query)
             count = cur.fetchall()
             flag = count[0][0]
@@ -873,7 +873,8 @@ def course_interest(request):
 
         elif request.POST['method'] == 'final':
             user_id = request.POST.get('user_id')
-            course_id = request.POST.get('course_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -886,8 +887,8 @@ def course_interest(request):
             query = """
                 SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일")
                   FROM courseware_studentmodule
-                 WHERE student_id = '{0}' AND course_id = '{1}';
-             """.format(user_id, course_id)
+                 WHERE student_id = '{0}' org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+             """.format(user_id, org, display_number_with_default)
             cur.execute(query)
             count = cur.fetchall()
             cur.close()
@@ -1449,16 +1450,19 @@ def course_about(request, course_id):
         cur.execute(query)
         user_id = cur.fetchall()
         cur.close()
+        flag = 0
 
-        cur = con.cursor()
-        query = """
-            SELECT count(user_id)
-              FROM interest_course
-             WHERE user_id = '{0}' AND course_id = '{1}' AND use_yn = 'Y';
-        """.format(user_id[0][0], course_id)
-        cur.execute(query)
-        flag = cur.fetchall()
-        cur.close()
+        if ( login_status  != 'x' ):
+            cur = con.cursor()
+            query = """
+                SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+            """.format(user_id[0][0], course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
 
         context = {
             'course': course,
@@ -1505,7 +1509,7 @@ def course_about(request, course_id):
             'course_number' : course_number,
             'course_total' : course_total,
             'login_status' : login_status,
-            'flag' : flag[0][0],
+            'flag' : flag,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
@@ -1874,6 +1878,8 @@ def mobile_course_about(request, course_id):
         else:
             course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
 
+        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_link = course_link.replace("/info", "&email_opt_in=true")
         show_courseware_link = bool(
             (
                 has_access(request.user, 'load', course) and
@@ -2061,16 +2067,19 @@ def mobile_course_about(request, course_id):
         cur.execute(query)
         user_id = cur.fetchall()
         cur.close()
+        flag = 0
 
-        cur = con.cursor()
-        query = """
-            SELECT count(user_id)
-              FROM interest_course
-             WHERE user_id = '{0}' AND course_id = '{1}' AND use_yn = 'Y';
-        """.format(user_id[0][0], course_id)
-        cur.execute(query)
-        flag = cur.fetchall()
-        cur.close()
+        if ( login_status  != 'x' ):
+            cur = con.cursor()
+            query = """
+                SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+            """.format(user_id[0][0], course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
 
         context = {
             'course': course,
@@ -2117,7 +2126,8 @@ def mobile_course_about(request, course_id):
             'course_number' : course_number,
             'course_total' : course_total,
             'login_status' : login_status,
-            'flag' : flag[0][0],
+            'flag' : flag,
+            'course_link' : course_link,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

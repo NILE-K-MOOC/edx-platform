@@ -1518,6 +1518,7 @@ class CourseEnrollment(models.Model):
               FROM student_courseenrollment a, course_overviews_courseoverview b
              WHERE     a.course_id = b.id
                    AND now() <= b.end
+                   and a.is_active = 1
                    AND a.user_id = %s;
         ''', [user.id])
 
@@ -1539,21 +1540,37 @@ class CourseEnrollment(models.Model):
     @classmethod
     def enrollments_for_user_interest(cls, user):
         return cls.objects.raw('''
-              SELECT b.interest_id          id,
-                     b.user_id,
-                     b.course_id,
-                     b.created,
-                     if(b.use_yn = 'Y', 1, 0) is_active,
-                     'honor'                mode,
-                     c.created
-                FROM course_overviews_courseoverview a,
-                     interest_course               b
-                     LEFT JOIN student_courseenrollment c
-                        ON b.course_id = c.course_id AND b.user_id = c.user_id
-               WHERE a.id = b.course_id AND b.use_yn = 'Y' AND b.user_id = %s
-            ORDER BY c.created DESC;
+                  SELECT b.interest_id          id,
+                         b.user_id,
+                         a.id                   course_id,
+                         b.created,
+                         if(b.use_yn = 'Y', 1, 0) is_active,
+                         'honor'                mode,
+                         c.created
+                    FROM (SELECT org,
+                                 display_number_with_default,
+                                 id,
+                                 effort,
+                                 (SELECT Count(*)
+                                    FROM edxapp.course_overviews_courseoverview bb
+                                   WHERE     aa.org = bb.org
+                                         AND aa.display_number_with_default =
+                                                bb.display_number_with_default
+                                         AND aa.start >= bb.start
+                                         AND aa.created >= bb.created)
+                                    AS rank
+                            FROM edxapp.course_overviews_courseoverview aa) a
+                         JOIN interest_course b
+                            ON     a.org = b.org
+                               AND a.display_number_with_default =
+                                      b.display_number_with_default
+                               AND b.use_yn = 'Y'
+                               AND b.user_id = %s
+                         LEFT JOIN student_courseenrollment c
+                            ON a.id = c.course_id AND b.user_id = c.user_id
+                   WHERE a.rank = 1
+                ORDER BY c.created DESC;
         ''', [user.id])
-
 
     def is_paid_course(self):
         """

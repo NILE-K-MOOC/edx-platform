@@ -38,12 +38,32 @@ getParameterByName('search_query')
         .org-title {
             display: none !important;
         }
-
-        .extra {
-            width:200px !important;
-        }
         .course_name {
             width: 65% !important;
+        }
+    }
+
+    @media screen and (max-width: 710px) {
+        .extra {
+            text-align: right;
+            width: 20% !important;
+        }
+        #time_1 {
+            display: none;
+        }
+        #time_2 {
+            line-height: 20px;
+            display: block;
+            margin-bottom: 25px;
+        }
+    }
+
+    @media screen and (min-width: 711px) {
+        #time_2 {
+            display: none;
+        }
+        #time_1 {
+            display: block;
         }
     }
 
@@ -161,7 +181,7 @@ getParameterByName('search_query')
 
             </div>
             <div class="js-card-sorting btn-group" style="float: right;">
-                <button class="js-grid-view sort-btn active" aria-pressed="true"
+<!--                <button class="js-grid-view sort-btn active" aria-pressed="true"
                         style="background-color: white; color: black; background-image: none; padding:7px 10px; margin: 0px 0px 0px 0px;">
                     <span class="fa fa-th" aria-hidden="true"></span>
                 <span class="sr">
@@ -196,7 +216,7 @@ getParameterByName('search_query')
                         $('.js-grid-view').css("background-color", "white").css("color", "black").css("background-image", "none");
                         $(".courses li.courses-listing-item").addClass("list");
                     });
-                </script>
+                </script>-->
             </div>
 
             <div id="filter-bar" class="filters hide-phone is-collapsed">
