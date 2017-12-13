@@ -57,11 +57,256 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
         <div class="content-primary">
             <form id="settings_details" class="settings-details" method="post" action="">
                 <div class="group-settings basic">
+
                     <header>
                         <h2 class="title-2">${_("Basic Information")}</h2>
                         <span class="tip">${_("The nuts and bolts of your course")}</span>
                     </header>
+                    <style>
+                        ul.tabs {
+                            margin: 0;
+                            padding: 0;
+                            float: left;
+                            list-style: none;
+                            height: 32px;
+                            width: 100%;
+                            font-family:"dotum";
+                            font-size:12px;
+                        }
+                        ul.info_tabs {
+                            margin: 0;
+                            padding: 0;
+                            float: left;
+                            list-style: none;
+                            height: 32px;
+                            border-bottom: 1px solid #eee;
+                            border-left: 1px solid #eee;
+                            width: 100%;
+                            font-family:"dotum";
+                            font-size:12px;
+                        }
+                        ul.tabs li {
+                            float: left;
+                            text-align:center;
+                            cursor: pointer;
+                            width:16.15%;
+                            height: 31px;
+                            line-height: 31px;
+                            border: 1px solid #eee;
+                            border-left: none;
+                            font-weight: bold;
+                            background: #fafafa;
+                            overflow: hidden;
+                            position: relative;
+                        }
+                        ul.info_tabs li {
+                            float: left;
+                            text-align:center;
+                            cursor: pointer;
+                            width:16.55%;
+                            height: 25px;
+                            line-height: 25px;
+                            border-left: none;
+                            font-weight: bold;
+                            background: #fafafa;
+                            overflow: hidden;
+                            position: relative;
+                        }
+                        ul.tabs li.active {
+                            color: #333;
+                            background: #ffbe60;
+                        }
+                        ul.info_tabs li.active {
+                            color: #333;
+                            background: #AAAAAA;
+                            border-bottom: 1px solid black;
+                        }
+                        .tab_container {
+                            border-top: none;
+                            clear: both;
+                            float: left;
+                            width: 96.3%;
+                            background: #fafafa;
+                        }
+                        .tab_content {
+                            overflow:scroll;
+                            width: 100%;
+                            padding: 5px;
+                            font-size: 12px;
+                            display: none;
+                            height: 400px;
+                            border-left:1px solid #eee;
+                        }
+                        .tab_container .tab_content ul {
+                            width:100%;
+                            margin:0px;
+                            padding:0px;
+                        }
+                        .tab_container .tab_content ul li {
+                            padding:5px;
+                            list-style:none;
+                        }
+                         #container {
+                            background-color: #fafafa;
+                            width: 100%;
+                            margin: 0 auto;
+                        }
+                        .input_area {
+                            width:98% !important;
+                        }
+                        .input_text {
+                            width:99% !important;
+                        }
+                        th, td {
+                            border: 1px solid grey;
+                            padding: 2px;
+                            text-align: left;
+                        }
+                        td {
+                            text-align: center;
+                            vertical-align: middle;
+                        }
+                        #layer_input {
+                            padding:3px;
+                            padding-left: 25px;
+                            position: absolute !important;
+                            top:30%;
+                            left:20%;
+                            width: 60%;
+                            background-color: #fafafa;
+                            height: 500px;
+                        }
+                        #mask {
+                            position:absolute;
+                            left:0;
+                            top:0;
+                            z-index:9000;
+                            background-color:#000;
+                            display: none;
+                        }
+                    </style>
 
+                    <a href="javascript:mask_click();"><div id="mask"></div></a>
+                    <div style="display: none;" id="layer_input">
+                        <div id="course_info_text" style="display: none">${course_info_text}</div>
+                        <div id="container">
+                            <ul class="tabs">
+                                <li class="active" rel="tab1">강좌소개</li>
+                                <li rel="tab2">강좌계획</li>
+                                <li rel="tab3">강좌운영진소개</li>
+                                <li rel="tab4">강좌수강정보</li>
+                                <li rel="tab5">FaQ</li>
+                                <li rel="tab6">사용자추가</li>
+                            </ul>
+                        <div class="tab_container">
+                            <div id="tab1" class="tab_content">
+                                <label for="name">수업내용/목표</label>
+                                <textarea class="input_area" style="height:150px"></textarea>
+                                <br>
+                                <label for="name">홍보영상/예시강의</label>
+                                <textarea class="input_area" style="height:100px"></textarea>
+                            </div>
+                                <div id="tab2" class="tab_content">
+                                    <textarea class="tiny"></textarea>
+                                </div>
+                                <div id="tab3" class="tab_content">
+                                    <div align="right" style="width:100%">
+                                        <a style="background-color: #AAAAAA;" href="javascript:info_add1();" class="remove-item" id="info_add1"><span class="modify-icon"></span>추가</a>
+                                        <a style="background-color: #AAAAAA;" href="javascript:info_del1();" class="remove-item" id="info_del1"><span class="modify-icon"></span>삭제</a>
+                                        <a style="background-color: #AAAAAA; display: none" href="javascript:info_add2();" class="remove-item" id="info_add2"><span class="modify-icon"></span>추가</a>
+                                        <a style="background-color: #AAAAAA; display: none" href="javascript:info_del2();" class="remove-item" id="info_del2"><span class="modify-icon"></span>삭제</a>
+                                    </div>
+                                    <ul class="info_tabs">
+                                        <li class="active" rel="info_tab1">교수자</li>
+                                        <li rel="info_tab2">강좌지원팀</li>
+                                        <div id="info_div1" style="width: 100%">
+                                            <table border="1" style="width: 100%" id="info_table1">
+                                               <tr>
+                                                  <th rowspan="2" style="width: 3%"></th>
+                                                  <th>사진 url</th>
+                                                  <th rowspan="2" style="vertical-align: middle"> 교수자 약력</th>
+                                               </tr>
+                                               <tr>
+                                                   <th>교수자 명</th>
+                                               </tr>
+                                               <tr>
+                                                   <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
+                                                   <td><input type="text" class="input_text"></td>
+                                                   <td rowspan="2"><textarea class="input_area"></textarea></td>
+                                               </tr>
+                                               <tr>
+                                                  <td><input type="text" class="input_text"></td>
+                                               </tr>
+                                               <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div id="info_div2" style="display: none; width: 100%">
+                                            <table border="1" style="width: 100%;" id="info_table2">
+                                               <tr>
+                                                  <th rowspan="2" style="width: 3%"></th>
+                                                  <th>사진 url</th>
+                                                  <th rowspan="2" style="vertical-align: middle"> 지원팀 약력</th>
+                                               </tr>
+                                               <tr>
+                                                   <th>지원팀 명</th>
+                                               </tr>
+                                               <tr>
+                                                   <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
+                                                   <td><input type="text" class="input_text"></td>
+                                                   <td rowspan="2"><textarea class="input_area"></textarea></td>
+                                               </tr>
+                                               <tr>
+                                                  <td><input type="text" class="input_text"></td>
+                                               </tr>
+                                               <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </ul>
+                                </div>
+                                <div id="tab4" class="tab_content">
+                                    <label for="name">이수/평가정보</label>
+                                    <textarea class="input_area" style="height:70px"></textarea>
+                                    <br>
+                                    <label for="name">강좌수준 및 선수요건</label>
+                                    <textarea class="input_area" style="height:70px"></textarea>
+                                    <br>
+                                    <label for="name">교재 및 참고문헌</label>
+                                    <textarea class="input_area" style="height:50px"></textarea>
+                                </div>
+                                <div id="tab5" class="tab_content">
+                                    <div align="right" style="width:100%">
+                                        <a style="background-color: #AAAAAA;" href="javascript:faq_add();" class="remove-item"><span class="modify-icon"></span>추가</a>
+                                        <a style="background-color: #AAAAAA;" href="javascript:faq_del();" class="remove-item"><span class="modify-icon"></span>삭제</a>
+                                    </div>
+                                    <div>
+                                        <table border="1" style="width: 100%" id="faq_table">
+                                           <tr>
+                                              <th rowspan="2" style="width: 3%"></th>
+                                              <th>질문</th>
+                                           </tr>
+                                           <tr>
+                                               <th>답변</th>
+                                           </tr>
+                                           <tr>
+                                               <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
+                                               <td><input type="text" class="input_text"></td>
+                                           </tr>
+                                           <tr>
+                                              <td><textarea class="input_area"></textarea></td>
+                                           </tr>
+                                           <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="tab6" class="tab_content">
+                                    <textarea class="tiny"></textarea>
+                                </div>
+                                <div style="width: 101.152%; background-color: #fafafa;" bor>
+                                    <a style="margin-left: 45%; background-color: #AAAAAA" href="javascript:hide_input();" class="remove-item"><span class="modify-icon"></span>적용</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <ol class="list-input">
                         <li class="field text is-not-editable" id="field-course-organization">
                             <label for="course-organization">${_("Organization")}</label>
@@ -294,7 +539,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <span class="tip">${_("Information for prospective students")}</span>
                     </header>
                     <ol class="list-input">
-
                         % if enable_extended_course_details:
                         <li class="field text" id="field-course-title">
                             <label for="course-title">${_("Course Title")}</label>
@@ -330,228 +574,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <li class="field text" id="field-course-overview">
                             <label for="course-overview">${_("Course Overview")}</label>
                             <textarea class="tinymce text-editor" id="course-overview"></textarea>
-                            <style>
-                                ul.tabs {
-                                    margin: 0;
-                                    padding: 0;
-                                    float: left;
-                                    list-style: none;
-                                    height: 32px;
-                                    border-bottom: 1px solid #eee;
-                                    border-left: 1px solid #eee;
-                                    width: 100%;
-                                    font-family:"dotum";
-                                    font-size:12px;
-                                }
-                                ul.info_tabs {
-                                    margin: 0;
-                                    padding: 0;
-                                    float: left;
-                                    list-style: none;
-                                    height: 32px;
-                                    border-bottom: 1px solid #eee;
-                                    border-left: 1px solid #eee;
-                                    width: 100%;
-                                    font-family:"dotum";
-                                    font-size:12px;
-                                }
-                                ul.tabs li {
-                                    float: left;
-                                    text-align:center;
-                                    cursor: pointer;
-                                    width:16.55%;
-                                    height: 31px;
-                                    line-height: 31px;
-                                    border: 1px solid #eee;
-                                    border-left: none;
-                                    font-weight: bold;
-                                    background: #fafafa;
-                                    overflow: hidden;
-                                    position: relative;
-                                }
-                                ul.info_tabs li {
-                                    float: left;
-                                    text-align:center;
-                                    cursor: pointer;
-                                    width:16.55%;
-                                    height: 31px;
-                                    line-height: 31px;
-                                    border-left: none;
-                                    font-weight: bold;
-                                    background: #fafafa;
-                                    overflow: hidden;
-                                    position: relative;
-                                }
-                                ul.tabs li.active {
-                                    color: #333;
-                                    background: #ffbe60;
-                                }
-                                ul.info_tabs li.active {
-                                    color: #333;
-                                    background: #AAAAAA;
-                                    border-bottom: 1px solid black;
-                                }
-                                .tab_container {
-                                    border: 1px solid #eee;
-                                    border-top: none;
-                                    clear: both;
-                                    float: left;
-                                    width: 100%;
-                                    background: #FFFFFF;
-                                }
-                                .tab_content {
-                                    overflow:scroll;
-                                    width: 100%;
-                                    padding: 5px;
-                                    font-size: 12px;
-                                    display: none;
-                                    height: 400px;
-                                }
-                                .tab_container .tab_content ul {
-                                    width:100%;
-                                    margin:0px;
-                                    padding:0px;
-                                }
-                                .tab_container .tab_content ul li {
-                                    padding:5px;
-                                    list-style:none;
-                                }
-                                 #container {
-                                    background-color: white;
-                                    width: 100%;
-                                    height: 100%;
-                                    margin: 0 auto;
-                                }
-                                .input_area {
-                                    width:98% !important;
-                                }
-                                th, td {
-                                    border: 1px solid grey;
-                                    padding: 2px;
-                                    text-align: left;
-                                }
-                                td {
-                                    text-align: center;
-                                    vertical-align: middle;
-                                }
-                            </style>
-                            <div style="height: 400px; margin-top:-310px; display: none;" id="layer_input">
-                                <div id="container">
-                                    <ul class="tabs">
-                                        <li class="active" rel="tab1">강좌소개</li>
-                                        <li rel="tab2">강좌계획</li>
-                                        <li rel="tab3">강좌운영진소개</li>
-                                        <li rel="tab4">강좌수강정보</li>
-                                        <li rel="tab5">FaQ</li>
-                                        <li rel="tab6">사용자추가</li>
-                                    </ul>
-                                <div class="tab_container">
-                                    <div id="tab1" class="tab_content">
-                                        <label for="name">수업내용/목표</label>
-                                        <textarea class="input_area" style="height:150px"></textarea>
-                                        <br>
-                                        <label for="name">홍보영상/예시강의</label>
-                                        <textarea class="input_area" style="height:100px"></textarea>
-                                    </div>
-                                        <div id="tab2" class="tab_content">
-                                            <textarea class="tiny"></textarea>
-                                        </div>
-                                        <div id="tab3" class="tab_content">
-                                            <div align="right" style="width:100%">
-                                                <a style="background-color: #AAAAAA;" href="javascript:info_add1();" class="remove-item" id="info_add1"><span class="modify-icon"></span>추가</a>
-                                                <a style="background-color: #AAAAAA;" href="javascript:info_del1();" class="remove-item" id="info_del1"><span class="modify-icon"></span>삭제</a>
-                                                <a style="background-color: #AAAAAA; display: none" href="javascript:info_add2();" class="remove-item" id="info_add2"><span class="modify-icon"></span>추가</a>
-                                                <a style="background-color: #AAAAAA; display: none" href="javascript:info_del2();" class="remove-item" id="info_del2"><span class="modify-icon"></span>삭제</a>
-                                            </div>
-                                            <ul class="info_tabs">
-                                                <li class="active" rel="info_tab1">교수자</li>
-                                                <li rel="info_tab2">강좌지원팀</li>
-                                                <div id="info_div1" style="width: 100%">
-                                                    <table border="1" style="width: 100%" id="info_table1">
-                                                       <tr>
-                                                          <th rowspan="2" style="width: 3%"></th>
-                                                          <th>사진 url</th>
-                                                          <th rowspan="2" style="vertical-align: middle"> 교수자 약력</th>
-                                                       </tr>
-                                                       <tr>
-                                                           <th>교수자 명</th>
-                                                       </tr>
-                                                       <tr>
-                                                           <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
-                                                           <td><input type="text"></td>
-                                                           <td rowspan="2"><textarea class="input_area"></textarea></td>
-                                                       </tr>
-                                                       <tr>
-                                                          <td><input type="text"></td>
-                                                       </tr>
-                                                       <tbody></tbody>
-                                                    </table>
-                                                </div>
-                                                <div id="info_div2" style="display: none; width: 100%">
-                                                    <table border="1" style="width: 100%;" id="info_table2">
-                                                       <tr>
-                                                          <th rowspan="2" style="width: 3%"></th>
-                                                          <th>사진 url</th>
-                                                          <th rowspan="2" style="vertical-align: middle"> 지원팀 약력</th>
-                                                       </tr>
-                                                       <tr>
-                                                           <th>지원팀 명</th>
-                                                       </tr>
-                                                       <tr>
-                                                           <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
-                                                           <td><input type="text"></td>
-                                                           <td rowspan="2"><textarea class="input_area"></textarea></td>
-                                                       </tr>
-                                                       <tr>
-                                                          <td><input type="text"></td>
-                                                       </tr>
-                                                       <tbody></tbody>
-                                                    </table>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                        <div id="tab4" class="tab_content">
-                                            <label for="name">이수/평가정보</label>
-                                            <textarea class="input_area" style="height:70px"></textarea>
-                                            <br>
-                                            <label for="name">강좌수준 및 선수요건</label>
-                                            <textarea class="input_area" style="height:70px"></textarea>
-                                            <br>
-                                            <label for="name">교재 및 참고문헌</label>
-                                            <textarea class="input_area" style="height:50px"></textarea>
-                                        </div>
-                                        <div id="tab5" class="tab_content">
-                                            <div align="right" style="width:100%">
-                                                <a style="background-color: #AAAAAA;" href="javascript:faq_add();" class="remove-item"><span class="modify-icon"></span>추가</a>
-                                                <a style="background-color: #AAAAAA;" href="javascript:faq_del();" class="remove-item"><span class="modify-icon"></span>삭제</a>
-                                            </div>
-                                            <div>
-                                                <table border="1" style="width: 100%" id="faq_table">
-                                                   <tr>
-                                                      <th rowspan="2" style="width: 3%"></th>
-                                                      <th>질문</th>
-                                                   </tr>
-                                                   <tr>
-                                                       <th>답변</th>
-                                                   </tr>
-                                                   <tr>
-                                                       <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
-                                                       <td><input type="text"></td>
-                                                   </tr>
-                                                   <tr>
-                                                      <td><textarea class="input_area"></textarea></td>
-                                                   </tr>
-                                                   <tbody></tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div id="tab6" class="tab_content">
-                                            <textarea class="tiny"></textarea>
-                                        </div>
-                                        <a style="margin-left: 45%; background-color: #AAAAAA" href="javascript:hide_input();" class="remove-item"><span class="modify-icon"></span>적용</a>
-                                    </div>
-                                </div>
-                            </div>
+
                   <span class="tip tip-stacked">${
                     Text(_("Introductions, prerequisites, FAQs that are used on {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
                       a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
@@ -560,8 +583,22 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             <a id="modify" href="javascript:show_input();" style="float: right; background-color: #AAAAAA" class="remove-item"><span class="modify-icon"></span>수정</a>
                         </li>
                         <script>
+                            function wrapWindowByMask(){
+                                var maskHeight = $(document).height();
+                                var maskWidth = $(window).width();
+                                $('#mask').css({'width':maskWidth,'height':maskHeight});
+                                $('#mask').fadeIn(1000);
+                                $('#mask').fadeTo("slow",0.8);
+                            };
+
+
+                            function mask_click() {
+                                $('#mask').hide();
+                                $('#layer_input').hide();
+                            };
+
                             function faq_add() {
-                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text"></td></tr><tr><td><textarea class="input_area"></textarea></td></tr>');
+                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text"></td></tr><tr><td><textarea class="input_area"></textarea></td></tr>');
                             };
 
                             function faq_del(){
@@ -572,7 +609,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function info_add1() {
-                              $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text"></td><td rowspan="2"><textarea class="input_area"></textarea></td></tr><tr><td><input type="text"></td></tr>');
+                              $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text"></td><td rowspan="2"><textarea class="input_area"></textarea></td></tr><tr><td><input type="text" class="input_text"></td></tr>');
                             };
 
                             function info_del1(){
@@ -583,7 +620,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function info_add2() {
-                              $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text"></td><td rowspan="2"><textarea class="input_area"></textarea></td></tr><tr><td><input type="text"></td></tr>');
+                              $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text"></td><td rowspan="2"><textarea class="input_area"></textarea></td></tr><tr><td><input type="text" class="input_text"></td></tr>');
                             };
 
                             function info_del2(){
@@ -595,10 +632,11 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 
                             function hide_input() {
                                 $('#layer_input').css("display","none");
-                            }
+                            };
 
                             function show_input() {
                                 $('#layer_input').css("display","block");
+                                wrapWindowByMask();
                             };
                         </script>
                         % endif

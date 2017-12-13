@@ -45,7 +45,7 @@ var DetailsView = ValidatingView.extend({
             $(".tab_content").hide();
             $(".tab_content:first").show();
             $("ul.tabs li").click(function () {
-                $("ul.tabs li").removeClass("active").css("color", "#333").css("background-color", "white");
+                $("ul.tabs li").removeClass("active").css("color", "#333").css("background-color", "#fafafa");
                 $(this).addClass("active").css("color", "darkred").css("background-color", "#ffbe60");
                 $(".tab_content").hide()
                 var activeTab = $(this).attr("rel");
@@ -72,7 +72,7 @@ var DetailsView = ValidatingView.extend({
                     $('#info_div2').css("display","inline-block");
                 }
 
-                $("ul.info_tabs li").removeClass("active").css("color", "#333").css("background-color", "white");
+                $("ul.info_tabs li").removeClass("active").css("color", "#333").css("background-color", "#fafafa");
                 $(this).addClass("active").css("color", "darkred").css("background-color", "#AAAAAA");
                 var activeTab = $(this).attr("rel");
                 $("#" + activeTab).fadeIn()
@@ -223,10 +223,11 @@ var DetailsView = ValidatingView.extend({
         DateUtils.setupDatePicker('enrollment_end', this);
 
         this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
-
+        this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.$el.find('#' + this.fieldToSelectorMap['course_info_text']).text());
         this.codeMirrorize(null, $('#course-overview')[0]);
 
-        this.$el.find('#' + this.fieldToSelectorMap['input']).css("z-index", "999999").css("position", "relative");
+        this.$el.find('#' + this.fieldToSelectorMap['input']).css("z-index", "999999");
+
 
 
         if (this.model.get('title') !== '') {
@@ -465,7 +466,8 @@ var DetailsView = ValidatingView.extend({
         'add_course_learning_info': 'add-course-learning-info',
         'add_course_instructor_info': 'add-course-instructor-info',
         'course_learning_info': 'course-learning-info',
-        'input': 'layer_input'
+        'input': 'layer_input',
+        'course_info_text': 'course_info_text',
     },
 
     addLearningFields: function() {
