@@ -180,7 +180,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             position:absolute;
                             left:0;
                             top:0;
-                            z-index:9000;
+                            z-index:90;
                             background-color:#000;
                             display: none;
                         }
@@ -302,7 +302,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                     <textarea class="tiny"></textarea>
                                 </div>
                                 <div style="width: 101.152%; background-color: #fafafa;" bor>
-                                    <a style="margin-left: 45%; background-color: #AAAAAA" href="javascript:hide_input();" class="remove-item"><span class="modify-icon"></span>적용</a>
+                                    <a id="save_input" style="margin-left: 45%; background-color: #AAAAAA" href="javascript:hide_input();" class="remove-item"><span class="modify-icon"></span>적용</a>
                                 </div>
                             </div>
                         </div>
@@ -633,6 +633,11 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             function hide_input() {
                                 $('#mask').hide();
                                 $('#layer_input').css("display","none");
+
+                                $("#save_input").click(function(){
+
+                                });
+
                             };
 
                             function show_input() {
