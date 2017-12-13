@@ -405,9 +405,42 @@ var DetailsView = ValidatingView.extend({
             $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
         }
         */
-
+        this.tinymceInit();
         return this;
     },
+
+    tinymceInit: function (target) {
+    console.log('tinymceInit .');
+    tinymce.init({
+        selector: ".tiny",
+        menubar: false,
+        statusbar: false,
+        plugins: "codemirror, table, link, image",
+        codemirror: {
+            path: "" + baseUrl + "/js/vendor"
+        },
+        toolbar_items_size: 'small',
+        extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
+        toolbar: "fontselect | fontsizeselect | bold italic underline forecolor wrapAsCode | table link | bullist numlist outdent indent blockquote | link unlink image | code",
+        resize: true,
+        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+        min_height: 300,
+        setup: function (ed) {
+            ed.on('click', function (e) {
+                tinymce.execCommand('mceFocus', false, '.new-update-form:eq(0) textarea');
+            });
+        },
+        block_formats: interpolate("%(paragraph)s=p;%(preformatted)s=pre;%(heading3)s=h3;%(heading4)s=h4;%(heading5)s=h5;%(heading6)s=h6", {
+            paragraph: gettext("Paragraph"),
+            preformatted: gettext("Preformatted"),
+            heading3: gettext("Heading 3"),
+            heading4: gettext("Heading 4"),
+            heading5: gettext("Heading 5"),
+            heading6: gettext("Heading 6")
+        }, true),
+    });
+},
+
     fieldToSelectorMap : {
         'language' : 'course-language',
         'start_date' : "course-start",
