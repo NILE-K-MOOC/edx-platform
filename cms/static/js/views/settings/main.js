@@ -73,7 +73,7 @@ var DetailsView = ValidatingView.extend({
                 }
 
                 $("ul.info_tabs li").removeClass("active").css("color", "#333").css("background-color", "#fafafa");
-                $(this).addClass("active").css("color", "darkred").css("background-color", "#AAAAAA");
+                $(this).addClass("active").css("color", "#5B7484").css("background-color", "#AAAAAA");
                 var activeTab = $(this).attr("rel");
                 $("#" + activeTab).fadeIn()
             });
