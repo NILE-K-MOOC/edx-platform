@@ -51,8 +51,7 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                 return this;
             },
 
-            tinymceInit: function (target) {
-                console.log('tinymceInit .');
+            tinymceInit: function () {
                 tinymce.init({
                     selector: "textarea",
                     menubar: false,
@@ -146,12 +145,14 @@ define(["js/views/validation", "codemirror", "js/models/course_update",
                 var updateEle = this.$el.find("#course-update-list");
                 $(updateEle).prepend($newForm);
 
+                /*
                 var $textArea = $newForm.find(".new-update-content").first();
-                //this.$codeMirror = CodeMirror.fromTextArea($textArea.get(0), {
-                //    mode: "text/html",
-                //    lineNumbers: true,
-                //    lineWrapping: true
-                //});
+                this.$codeMirror = CodeMirror.fromTextArea($textArea.get(0), {
+                    mode: "text/html",
+                    lineNumbers: true,
+                    lineWrapping: true
+                });
+                */
 
                 $newForm.addClass('editing');
                 this.$currentPost = $newForm.closest('li');
