@@ -34,7 +34,7 @@ from openedx.core.djangolib.markup import HTML, Text
 </%block>
 
 <%block name="requirejs">
-require(["js/factories/settings"], function(SettingsFactory) {
+require(["js/factories/settings", "js/vendor/tinymce/js/tinymce/tinymce.full.min", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min"], function(SettingsFactory) {
 SettingsFactory(
 "${details_url | n, js_escaped_string}",
 ${show_min_grade_warning | n, dump_js_escaped_json}

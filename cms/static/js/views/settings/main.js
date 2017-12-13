@@ -62,6 +62,7 @@ var DetailsView = ValidatingView.extend({
                     $('#info_div1').css("display","inline-block");
                     $('#info_div2').css("display","none");
                 }
+
                 else if ($(this).text() == '강좌지원팀') {
                     $('#info_add1').css("display","none");
                     $('#info_del1').css("display","none");
