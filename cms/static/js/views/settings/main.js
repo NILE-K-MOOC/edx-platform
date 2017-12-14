@@ -38,7 +38,76 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'click #save_input': "testfn"
             },
             testfn: function (e) {
-                this.model.set('overview', 'CourseInfoPage_contents');
+                $('#Tab1_1').html($('#tab1_1').val());
+                $('#Tab1_2').html($('#tab1_2').val());
+                $('#Tab2_1').html(tinyMCE.get('tab2_1').getContent());
+
+                var tab3_1_1 = [];
+                var tab3_1_2 = [];
+                var tab3_1_3 = [];
+                $( ".tab3_1 .tab3_1_1" ).each(function() {
+                    tab3_1_1.push($(this).val());
+                });
+                $( ".tab3_1 .tab3_1_2" ).each(function() {
+                    tab3_1_2.push($(this).val());
+                });
+                $( ".tab3_1 .tab3_1_3" ).each(function() {
+                    tab3_1_3.push($(this).val());
+                });
+
+                var tab3_1_html = '<article><h2><i class="fa fa-group (alias)"></i>강좌운영진 소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3>'
+
+                for (var i = 0; i < tab3_1_1.length; i++) {
+                    tab3_1_html += '<article class="teacher"><div class="teacher_image"><img src="'+tab3_1_1[i]+'"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i>'+tab3_1_2[i]+'</dt><dd>'+tab3_1_3[i]+'</dd></dl></div></article>'
+                }
+                tab3_1_html+= '</article>'
+
+                var tab3_2_1 = [];
+                var tab3_2_2 = [];
+                var tab3_2_3 = [];
+                $( ".tab3_2 .tab3_2_1" ).each(function() {
+                    tab3_2_1.push($(this).val());
+                });
+                $( ".tab3_2 .tab3_2_2" ).each(function() {
+                    tab3_2_2.push($(this).val());
+                });
+                $( ".tab3_2 .tab3_2_3" ).each(function() {
+                    tab3_2_3.push($(this).val());
+                });
+
+                tab3_1_html += '<article><h3><i class="fa fa-user"></i>강좌지원팀</h3>';
+
+                for (var i = 0; i < tab3_2_1.length; i++) {
+                    tab3_1_html += '<article class="staff"><div class="ta_image"><img src="'+tab3_2_1[i]+'"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i>'+tab3_2_2[i]+'</dt><dd>'+tab3_2_3[i]+'</dd></dl></div></article>'
+                }
+                tab3_1_html+= '</article>'
+                $('#Tab3_1').html(tab3_1_html);
+
+                $('#Tab4_1').html($('#tab4_1').val());
+                $('#Tab4_2').html($('#tab4_2').val());
+                $('#Tab4_3').html($('#tab4_3').val());
+
+                var tab5_1_1 = [];
+                var tab5_1_2 = [];
+
+                $( ".tab5_1 .tab5_1_1" ).each(function() {
+                    tab5_1_1.push($(this).val());
+                });
+                $( ".tab5_1 .tab5_1_2" ).each(function() {
+                    tab5_1_2.push($(this).val());
+                });
+
+                var tab5_1_html = '<h2><i class="fa fa-question-circle"></i>자주 묻는 질문</h2>';
+
+                for (var i = 0; i < tab5_1_1.length; i++) {
+                    tab5_1_html += '<article class="question"><h4>'+ tab5_1_1[i]+ '</h4><p>'+tab5_1_2[i]+'</p></article>';
+                }
+
+                $('#Tab5_1').html(tab5_1_html);
+
+                $('#Tab6_1').html(tinyMCE.get('tab6_1').getContent());
+
+                this.model.set('overview', $('#course_info_text').html());
             },
             initialize: function (options) {
                 $(function () {
@@ -416,6 +485,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                     codemirror: {
                         path: "" + baseUrl + "/js/vendor"
                     },
+                    table_toolbar: true,
                     toolbar_items_size: 'small',
                     extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
                     toolbar: "fontselect | fontsizeselect | bold italic underline forecolor wrapAsCode | table link | bullist numlist outdent indent blockquote | link unlink image | code",

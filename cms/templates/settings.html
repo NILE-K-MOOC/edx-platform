@@ -184,11 +184,15 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             background-color:#000;
                             display: none;
                         }
-                    </style>
 
+
+                    </style>
                     <a href="javascript:mask_click();"><div id="mask"></div></a>
                     <div style="display: none;" id="layer_input">
                         <div id="course_info_text" style="display: none">${course_info_text}</div>
+                        <script>
+
+                        </script>
                         <div id="container">
                             <ul class="tabs">
                                 <li class="active" rel="tab1">강좌소개</li>
@@ -201,13 +205,13 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <div class="tab_container">
                             <div id="tab1" class="tab_content">
                                 <label for="name">수업내용/목표</label>
-                                <textarea class="input_area" style="height:150px"></textarea>
+                                <textarea class="input_area" id="tab1_1" style="height:150px"></textarea>
                                 <br>
                                 <label for="name">홍보영상/예시강의</label>
-                                <textarea class="input_area" style="height:100px"></textarea>
+                                <textarea class="input_area" id="tab1_2" style="height:100px"></textarea>
                             </div>
                                 <div id="tab2" class="tab_content">
-                                    <textarea class="tiny"></textarea>
+                                    <textarea class="tiny" id="tab2_1"></textarea>
                                 </div>
                                 <div id="tab3" class="tab_content">
                                     <div align="right" style="width:100%">
@@ -220,7 +224,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                         <li class="active" rel="info_tab1">교수자</li>
                                         <li rel="info_tab2">강좌지원팀</li>
                                         <div id="info_div1" style="width: 100%">
-                                            <table border="1" style="width: 100%" id="info_table1">
+                                            <table border="1" style="width: 100%" id="info_table1" class="tab3_1">
                                                <tr>
                                                   <th rowspan="2" style="width: 3%"></th>
                                                   <th>사진 url</th>
@@ -231,17 +235,17 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                </tr>
                                                <tr>
                                                    <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
-                                                   <td><input type="text" class="input_text"></td>
-                                                   <td rowspan="2"><textarea class="input_area"></textarea></td>
+                                                   <td><input type="text" class="input_text tab3_1_1"></td>
+                                                   <td rowspan="2"><textarea class="input_area tab3_1_3"></textarea></td>
                                                </tr>
                                                <tr>
-                                                  <td><input type="text" class="input_text"></td>
+                                                  <td><input type="text" class="input_text tab3_1_2"></td>
                                                </tr>
                                                <tbody></tbody>
                                             </table>
                                         </div>
                                         <div id="info_div2" style="display: none; width: 100%">
-                                            <table border="1" style="width: 100%;" id="info_table2">
+                                            <table border="1" style="width: 100%;" id="info_table2" class="tab3_2">
                                                <tr>
                                                   <th rowspan="2" style="width: 3%"></th>
                                                   <th>사진 url</th>
@@ -252,11 +256,11 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                </tr>
                                                <tr>
                                                    <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
-                                                   <td><input type="text" class="input_text"></td>
-                                                   <td rowspan="2"><textarea class="input_area"></textarea></td>
+                                                   <td><input type="text" class="input_text tab3_2_1"></td>
+                                                   <td rowspan="2"><textarea class="input_area tab3_2_3"></textarea></td>
                                                </tr>
                                                <tr>
-                                                  <td><input type="text" class="input_text"></td>
+                                                  <td><input type="text" class="input_text tab3_2_2"></td>
                                                </tr>
                                                <tbody></tbody>
                                             </table>
@@ -265,13 +269,13 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 </div>
                                 <div id="tab4" class="tab_content">
                                     <label for="name">이수/평가정보</label>
-                                    <textarea class="input_area" style="height:70px"></textarea>
+                                    <textarea class="input_area" id="tab4_1" style="height:70px"></textarea>
                                     <br>
                                     <label for="name">강좌수준 및 선수요건</label>
-                                    <textarea class="input_area" style="height:70px"></textarea>
+                                    <textarea class="input_area" id="tab4_2" style="height:70px"></textarea>
                                     <br>
                                     <label for="name">교재 및 참고문헌</label>
-                                    <textarea class="input_area" style="height:50px"></textarea>
+                                    <textarea class="input_area" id="tab4_3" style="height:50px"></textarea>
                                 </div>
                                 <div id="tab5" class="tab_content">
                                     <div align="right" style="width:100%">
@@ -279,7 +283,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                         <a style="background-color: #AAAAAA;" href="javascript:faq_del();" class="remove-item"><span class="modify-icon"></span>삭제</a>
                                     </div>
                                     <div>
-                                        <table border="1" style="width: 100%" id="faq_table">
+                                        <table border="1" style="width: 100%" id="faq_table" class="tab5_1">
                                            <tr>
                                               <th rowspan="2" style="width: 3%"></th>
                                               <th>질문</th>
@@ -289,17 +293,17 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                            </tr>
                                            <tr>
                                                <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
-                                               <td><input type="text" class="input_text"></td>
+                                               <td><input type="text" class="input_text tab5_1_1"></td>
                                            </tr>
                                            <tr>
-                                              <td><textarea class="input_area"></textarea></td>
+                                              <td><textarea class="input_area tab5_1_2"></textarea></td>
                                            </tr>
                                            <tbody></tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div id="tab6" class="tab_content">
-                                    <textarea class="tiny"></textarea>
+                                    <textarea class="tiny" id = "tab6_1"></textarea>
                                 </div>
                                 <div style="width: 101.152%; background-color: #fafafa;" bor>
                                     <a id="save_input" style="margin-left: 45%; background-color: #AAAAAA" href="javascript:hide_input();" class="remove-item"><span class="modify-icon"></span>적용</a>
@@ -582,6 +586,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     )}</span>
                             <a id="modify" href="javascript:show_input();" style="float: right; background-color: #AAAAAA" class="remove-item"><span class="modify-icon"></span>수정</a>
                         </li>
+
                         <script>
                             function wrapWindowByMask(){
                                 var maskHeight = $(document).height();
@@ -598,7 +603,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function faq_add() {
-                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text"></td></tr><tr><td><textarea class="input_area"></textarea></td></tr>');
+                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab5_1_1"></td></tr><tr><td><textarea class="input_area tab5_1_2"></textarea></td></tr>');
                             };
 
                             function faq_del(){
@@ -609,7 +614,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function info_add1() {
-                              $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text"></td><td rowspan="2"><textarea class="input_area"></textarea></td></tr><tr><td><input type="text" class="input_text"></td></tr>');
+                              $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_1_1"></td><td rowspan="2"><textarea class="input_area tab3_1_3"></textarea></td></tr><tr><td><input type="text" class="input_text tab3_1_2"></td></tr>');
                             };
 
                             function info_del1(){
@@ -633,7 +638,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             function hide_input() {
                                 $('#mask').hide();
                                 $('#layer_input').css("display","none");
-
                                 $("#save_input").click(function(){
 
                                 });
@@ -641,6 +645,18 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function show_input() {
+                                $('#course_info_text').html($('#course_info_text').text());
+
+                                $('#course-overview').html($('#course-overview').val());
+                                $('#tab1_1').val($('#course-overview #Tab1_1').html());
+                                $('#tab1_2').val($('#course-overview #Tab1_2').html());
+                                tinyMCE.get('tab2_1').setContent($('#course-overview #Tab2_1').html());
+                                $('#tab4_1').val($('#course-overview #Tab4_1').html());
+                                $('#tab4_2').val($('#course-overview #Tab4_2').html());
+                                $('#tab4_3').val($('#course-overview #Tab4_3').html());
+                                tinyMCE.get('tab6_1').setContent($('#course-overview #Tab6_1').html());
+
+
                                 $('#layer_input').css("display","block");
                                 wrapWindowByMask();
                             };
