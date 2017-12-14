@@ -129,6 +129,13 @@ def get_pre_requisite_courses_not_completed(user, enrolled_courses):  # pylint: 
     for course_key in enrolled_courses:
         required_courses = []
         fulfillment_paths = milestones_api.get_course_milestones_fulfillment_paths(course_key, {'id': user.id})
+        milestone = milestones_api.get_course_milestones(course_key)
+
+        if len(milestone) > 0:
+            milestone_id = milestone[0].get('id')
+            if milestone_id and milestone_id < 12:
+                continue
+
         for __, milestone_value in fulfillment_paths.items():
             for key, value in milestone_value.items():
                 if key == 'courses' and value:
