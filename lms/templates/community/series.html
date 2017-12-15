@@ -1,0 +1,88 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">공지사항</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<style>
+.series_img{
+    width:250px;
+    height:150px;
+}
+.section_frame_outer {
+    border-top: solid #DDDDDD 3px;
+    padding-top:20px;
+    display:inline-block;
+    width:100%;
+}
+.section_frame_inner{
+    border: #DDDDDD 1px solid;
+    padding-top:5px;
+    display:inline-block;
+    width:100%;
+}
+.section_a{
+    float:left;
+
+}
+.section_b{
+    float:left;
+
+    padding: 20px;
+}
+.series_title{
+    margin-bottom:60px;
+    font-size:150%;
+    font-weight: bold;
+}
+.series_target{
+    margin-bottom:6px;
+    font-size:80%;
+}
+.series_goal{
+    font-size:80%;
+}
+.section_container{
+    padding: 5px;
+}
+.pagerLink {
+    text-decoration: none !important;
+}
+@media screen and (max-width: 770px) and (min-width: 0px) {
+    .series_img{
+        margin-left: 25%;
+    }
+}
+@media screen and (max-width: 770px) and (min-width: 0px) {
+    .series_title{
+        font-size:100%;
+        text-align:center;
+        margin-bottom:20px;
+    }
+}
+@media screen and (max-width: 770px) and (min-width: 601px) {
+    .section_b{
+        margin-left:60px;
+    }
+}
+@media screen and (max-width: 600px) and (min-width: 0px) {
+    .section_b{
+    }
+}
+</style>
+
+<div class="section_container">
+
+% for item in series_list:
+<div class="section_frame_outer">
+<div class="section_frame_inner">
+    <div class="section_a">
+        <img class="series_img" src="https://img.kr.news.samsung.com/kr/wp-content/uploads/2016/03/%EC%8A%A4%ED%8E%98%EC%85%9C%EB%A6%AC%ED%8F%AC%ED%8A%B8%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%EC%9D%98%EB%AF%B8%EB%9E%984.jpg"/>
+    </div>
+    <div class="section_b">
+        <a class="pagerLink" href="/series_view/${item[0]}"><div class="series_title">${item[1]}</div></a>
+    </div>
+</div>
+</div>
+% endfor

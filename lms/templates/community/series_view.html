@@ -1,0 +1,160 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">공지사항</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<style>
+.section_frame_container{
+    display:inline-block;
+    width:100%;
+    padding:30px;
+}
+.section_1{
+    display:inline-block;
+    width:100%;
+    margin-bottom:10px;
+}
+.series_img{
+    width:250px;
+    height:150px;
+}
+.section_a{
+    float:left;
+}
+.section_b{
+    float:left;
+    padding-top:15px;
+    padding-left:20px;
+}
+.series_title{
+    margin-bottom:20px;
+    font-size:150%;
+    font-weight: bold;
+    width:500px;
+}
+.series_target{
+    margin-bottom:6px;
+    font-size:80%;
+}
+.series_goal{
+    font-size:80%;
+}
+#copy_btn{
+    float:right;
+    position:relative;
+    bottom: 40px;
+    color: #FFFFFF;
+}
+.section_2{
+    display:inline-block;
+    width:100%;
+    margin-top:10px;
+    margin-bottom:10px;
+    padding:20px;
+    border-top:solid #CCCCCC 0px;
+    border-bottom:solid #CCCCCC 1px;
+}
+.course_intro_title{
+    margin-bottom:10px;
+    font-size:100%;
+    font-weight: bold;
+}
+.course_intro_content{
+    font-size:80%;
+}
+.section_3{
+    display:inline-block;
+    width:100%;
+    padding-left:20px;
+    padding-right:20px;
+    margin-top:10px;
+}
+.pagerLink {
+    text-decoration: none !important;
+}
+.section_4{
+    display:inline-block;
+    width:100%;
+    padding-left:20px;
+    padding-right:20px;
+    margin-top:10px;
+}
+.series_img_inner{
+    width:180px;
+    height:100px;
+}
+.section_5{
+    display:inline-block;
+    width:100%;
+    margin-top:10px;
+}
+.section_bb{
+    float:left;
+    padding-top:5px;
+    padding-left:20px;
+}
+.series_a{
+    width:300px;
+    margin-bottom:2px;
+    font-size:80%;
+}
+.series_b{
+    width:300px;
+    margin-bottom:2px;
+    font-size:80%;
+}
+.series_c{
+    width:300px;
+    margin-bottom:2px;
+    font-size:80%;
+}
+.series_d{
+    width:500px;
+    margin-bottom:10px;
+    font-size:120%;
+    font-weight: bold;
+}
+</style>
+
+<div class="section_frame_container">
+    % if main_list:
+    <div class="section_1">
+        <div class="section_a">
+            <img class="series_img" src="https://img.kr.news.samsung.com/kr/wp-content/uploads/2016/03/%EC%8A%A4%ED%8E%98%EC%85%9C%EB%A6%AC%ED%8F%AC%ED%8A%B8%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%EC%9D%98%EB%AF%B8%EB%9E%984.jpg"/>
+        </div>
+        <div class="section_b">
+            <a class="pagerLink" href="#"><div class="series_title">${main_list[0]}</div></a>
+            <button class="" id="copy_btn">인쇄</button>
+            <div class="series_target">시리즈 ID : ${main_list[1]}</div>
+        </div>
+    </div>
+
+    <div class="section_2">
+        <div class="course_intro_title">강좌소개</div>
+        <div class="course_intro_content">${main_list[2]}</div>
+    </div>
+    % endif
+
+    <div class="section_3">
+            <div class="course_intro_title">대상 강좌 목록</div>
+    </div>
+
+
+    <div class="section_4">
+        % for item in sub_list:
+        <div class="section_5">
+                <div class="section_a">
+                    <img class="series_img_inner" src="http://mblogthumb3.phinf.naver.net/20140507_198/gptec_1399471805951OLt2G_JPEG/%C1%B6%B8%AE%B5%B5%B1%B8.JPEG?type=w2"/>
+                </div>
+                <div class="section_bb">
+                    <a class="pagerLink" href="#"><div class="series_d">${item[2]}</div></a>
+                    <div class="series_a">${item[3]}</div>
+                    <div class="series_b">수강신청일 : ${item[5]} - ${item[6]}</div>
+                    <div class="series_c">개강일 : ${item[7]} - ${item[8]}</div>
+                </div>
+        </div>
+        % endfor
+    </div>
+</div>
