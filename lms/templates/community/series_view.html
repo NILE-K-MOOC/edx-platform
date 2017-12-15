@@ -9,7 +9,18 @@
 .section_frame_container{
     display:inline-block;
     width:100%;
-    padding:30px;
+    padding-top: 40px;
+    padding-bottom: 100px;
+    padding-right: 100px;
+    padding-left: 100px;
+}
+.real_main_title{
+    font-size:180%;
+    margin-top:20px;
+    margin-bottom:50px;
+    border-bottom: solid 1px #DDDDDD;
+    padding-bottom: 40px;
+    font-weight: bold;
 }
 .section_1{
     display:inline-block;
@@ -119,6 +130,7 @@
 </style>
 
 <div class="section_frame_container">
+    <div class="real_main_title">시리즈 강좌</div>
     % if main_list:
     <div class="section_1">
         <div class="section_a">
