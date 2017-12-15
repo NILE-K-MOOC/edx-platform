@@ -171,9 +171,10 @@ def common_course_status(startDt, endDt):
     startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]),
                        int(startDt[5]))
 
-    endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
-    endDt = endDt.split('-')
-    endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
+    if endDt != None or endDt == '':
+        endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
+        endDt = endDt.split('-')
+        endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
 
     # making nowDt
     nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
@@ -238,12 +239,35 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             # multisite - get site id query
             with connections['default'].cursor() as cur:
                 query = """
-                    SELECT mc.course_id, coc.display_name
-                    FROM   edxapp.multisite_course AS mc
-                    JOIN     edxapp.course_overviews_courseoverview AS coc
-                    ON mc.course_id = coc.id
+                    SELECT course_id
+                    FROM   edxapp.multisite_course AS a
+                           join(SELECT *
+                                FROM   (SELECT id,
+                                               display_name,
+                                               start,
+                                               end,
+                                               enrollment_start,
+                                               enrollment_end,
+                                               CASE
+                                                 WHEN start > Now() THEN 1
+                                                 WHEN Now() BETWEEN start AND end THEN 2
+                                                 WHEN end < Now() THEN 3
+                                                 ELSE 4
+                                               END AS order1
+                                        FROM   course_overviews_courseoverview
+                                        WHERE  1 = 1
+                                               AND Lower(id) NOT LIKE '%demo%'
+                                               AND Lower(id) NOT LIKE '%nile%'
+                                               AND Lower(id) NOT LIKE '%test%') t1
+                                ORDER  BY order1,
+                                          enrollment_start DESC,
+                                          start DESC,
+                                          enrollment_end DESC,
+                                          end DESC,
+                                          display_name) AS b
+                             ON a.course_id = b.id
                     WHERE  site_id = {0}
-                    AND coc.display_name like '%{1}%'
+                           AND display_name LIKE '%{1}%';
                 """.format(site_id, search_name)
                 cur.execute(query)
                 result_table = cur.fetchall()
@@ -272,10 +296,36 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             with connections['default'].cursor() as cur:
                 query = """
                     SELECT course_id
-                    FROM   edxapp.multisite_course
-                    WHERE  site_id = '{0}';
+                    FROM   edxapp.multisite_course AS a
+                           join(SELECT *
+                                FROM   (SELECT id,
+                                               display_name,
+                                               start,
+                                               end,
+                                               enrollment_start,
+                                               enrollment_end,
+                                               CASE
+                                                 WHEN start > Now() THEN 1
+                                                 WHEN Now() BETWEEN start AND end THEN 2
+                                                 WHEN end < Now() THEN 3
+                                                 ELSE 4
+                                               END AS order1
+                                        FROM   course_overviews_courseoverview
+                                        WHERE  1 = 1
+                                               AND Lower(id) NOT LIKE '%demo%'
+                                               AND Lower(id) NOT LIKE '%nile%'
+                                               AND Lower(id) NOT LIKE '%test%') t1
+                                ORDER  BY order1,
+                                          enrollment_start DESC,
+                                          start DESC,
+                                          enrollment_end DESC,
+                                          end DESC,
+                                          display_name) AS b
+                             ON a.course_id = b.id
+                             WHERE  site_id = {0};
                 """.format(site_id)
                 cur.execute(query)
+                print query
                 result_table = cur.fetchall()
 
             for item in result_table:
@@ -310,6 +360,9 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             """
 
             context = {'courses': course_list}
+
+    for item in course_list:
+        print item
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
