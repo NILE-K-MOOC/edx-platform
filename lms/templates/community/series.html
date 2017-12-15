@@ -44,10 +44,19 @@
     font-size:80%;
 }
 .section_container{
-    padding: 5px;
+    padding-top: 40px;
+    padding-bottom: 100px;
+    padding-right: 100px;
+    padding-left: 100px;
 }
 .pagerLink {
     text-decoration: none !important;
+}
+.real_main_title{
+    font-size:180%;
+    margin-top:20px;
+    margin-bottom:20px;
+    font-weight: bold;
 }
 @media screen and (max-width: 770px) and (min-width: 0px) {
     .series_img{
@@ -73,6 +82,8 @@
 </style>
 
 <div class="section_container">
+
+<div class="real_main_title">시리즈 강좌</div>
 
 % for item in series_list:
 <div class="section_frame_outer">

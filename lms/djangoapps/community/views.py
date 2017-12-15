@@ -156,6 +156,11 @@ def memo(request):
         # 2.3 메모 외부 삭제 클릭 시 로직
         elif request.POST.get('method') == 'delete':
             last_num = request.POST.get('last_num')
+
+            print "-----------------------> reqeust post get"
+            print "last_num = {}".format(last_num)
+            print "-----------------------> reqeust post get"
+
             del_id = request.POST.get('del_id')
             user_id = request.POST.get('user_id')
             search_data = request.POST.get('search_data')
@@ -211,9 +216,12 @@ def memo(request):
                 cur.execute(query)
                 rows = cur.fetchall()
                 plus_list = []
+
+
                 for i in rows:
                     if int(last_num) > int(i[0]):
                         plus_list.append(i)
+
             return JsonResponse({"return":"success", "plus":plus_list[0]})
 
         # 2.4 페이징 숫자 클릭시 로직
