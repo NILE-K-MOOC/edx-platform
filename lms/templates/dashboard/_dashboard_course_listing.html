@@ -498,7 +498,7 @@ share_settings    ${share_settings}<br>
 </div>
 <script>
    $( document ).ready(function() {
- /*       var user_id = '${user.id}';
+        var user_id = '${user.id}';
         var action = 'final';
 
         $.post("/courses/interest", {
@@ -515,7 +515,7 @@ share_settings    ${share_settings}<br>
             }
         }).fail(function (error) {
             alert('error = ' + error.responseJSON);
-        });*/
+        });
 
 
        if("${is_course_blocked | n, dump_js_escaped_json}" == 'true'){
