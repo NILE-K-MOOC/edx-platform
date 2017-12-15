@@ -560,34 +560,36 @@ $(document).ready(function(){
         }
     }).done(function(data){
         var data = data.data;
-        var total_page = data[0][0];
-        total_page = total_page/10;
-        for(var i=0; i<data.length; i++){
-            var tmp = data[i][2];
-            tmp = tmp.split("$xcode$");
-            html += "<li class='tbody' id='page" + i + "'>";
-            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
-            html += "<span class='memo_a'>" + data[i][0] + "</span>";
-            html += "<span class='memo_b'>" + data[i][1] + "</span>";
-            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
-            html += "<span class='memo_d'>" + data[i][3] + "</span>";
-            html += "<span class='memo_e'>" + data[i][4] + "</span>";
-            html += "</li>"
-        }
-        $('#tbody').html(html);
-        html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
-        html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
-        for(var page=0; page<5; page++){
-            if(page==0){
-                html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+        if(data.length != 0){
+            var total_page = data[0][0];
+            total_page = total_page/10;
+            for(var i=0; i<data.length; i++){
+                var tmp = data[i][2];
+                tmp = tmp.split("$xcode$");
+                html += "<li class='tbody' id='page" + i + "'>";
+                html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                html += "<span class='memo_a'>" + data[i][0] + "</span>";
+                html += "<span class='memo_b'>" + data[i][1] + "</span>";
+                html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                html += "<span class='memo_d'>" + data[i][3] + "</span>";
+                html += "<span class='memo_e'>" + data[i][4] + "</span>";
+                html += "</li>"
             }
-            else{
-                html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+            $('#tbody').html(html);
+            html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=0; page<5; page++){
+                if(page==0){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
             }
+            html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
         }
-        html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
-        html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
-        $('.paging').html(html2);
     });
 
     // 페이지 클릭시 로직

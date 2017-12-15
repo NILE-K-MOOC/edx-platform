@@ -31,8 +31,8 @@ $(document).ready(function(){
     });
 
     $(".btn2").click(function(){
-        var user_id = ${user.id}
-        var board_id = ${board_id}
+        var user_id = ${user.id};
+        var board_id = ${board_id};
         $.post( "/memo", {
                                 "user_id": user_id,
                                 "board_id": board_id,
@@ -49,7 +49,7 @@ $(document).ready(function(){
                 if(data.return == "fail"){
                     alert("서버 오류");
                 }
-            });
+            });!
     });
 });
 </script>
