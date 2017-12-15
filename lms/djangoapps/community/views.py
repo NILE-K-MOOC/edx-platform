@@ -409,8 +409,8 @@ def series_view(request, id):
                    series_id,
                    note
             FROM   series
-            WHERE  series_seq = 1
-        '''.format()
+            WHERE  series_seq = {}
+        '''.format(id)
         cur.execute(query)
         rows = cur.fetchall()
         main_list = rows[0]
@@ -458,8 +458,8 @@ def series_view(request, id):
                         AND v1.display_number_with_default = v2.display_number_with_default
                    LEFT JOIN edxapp.code_detail AS d
                           ON v2.org = d.detail_code
-            WHERE  series_seq = 1
-        '''.format()
+            WHERE  series_seq = {}
+        '''.format(id)
         cur.execute(query)
         print "################"
         print query

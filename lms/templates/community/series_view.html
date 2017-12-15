@@ -1,6 +1,6 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">공지사항</%block>
+<%block name="pagetitle">시리즈강좌</%block>
 <%inherit file="../main.html" />
 
 <%block name="header_extras"></%block>
@@ -129,7 +129,24 @@
 }
 </style>
 
-<div class="section_frame_container">
+<script>
+function print(printArea)
+{
+		win = window.open();
+		self.focus();
+		win.document.open();
+		win.document.write('<html><head><title></title><style>');
+		win.document.write('.section_a,.section_b{float:left}.section_frame_container{display:inline-block;width:100%;padding:40px 100px 100px}.section_3,.section_4{padding-right:20px}.section_3,.section_4,.section_b,.section_bb{padding-left:20px}.real_main_title{font-size:180%;margin-top:20px;margin-bottom:50px;border-bottom:solid 1px #DDD;padding-bottom:40px;font-weight:700}.section_1{display:inline-block;width:100%;margin-bottom:10px}.series_img{width:250px;height:150px}.section_b{padding-top:15px}.series_title{margin-bottom:20px;font-size:150%;font-weight:700;width:500px}.section_2,.section_3,.section_4{width:100%;display:inline-block;margin-top:10px}.series_target{margin-bottom:6px;font-size:80%}.series_goal{font-size:80%}#copy_btn{float:right;position:relative;bottom:40px;color:#FFF}.section_2{margin-bottom:10px;padding:20px;border-top:solid #CCC 0;border-bottom:solid #CCC 1px}.course_intro_title{margin-bottom:10px;font-size:100%;font-weight:700}.course_intro_content{font-size:80%}.pagerLink{text-decoration:none!important}.series_img_inner{width:180px;height:100px}.section_5{display:inline-block;width:100%;margin-top:10px}.section_bb{float:left;padding-top:5px}.series_a,.series_b,.series_c{width:300px;margin-bottom:2px;font-size:80%}.series_d{width:500px;margin-bottom:10px;font-size:120%;font-weight:700}');
+		win.document.write('</style></haed><body>');
+		win.document.write(printArea);
+ 		win.document.write('</body></html>');
+		win.document.close();
+		win.print();
+		win.close();
+}
+</script>
+
+<div class="section_frame_container" id="printArea">
     <div class="real_main_title">시리즈 강좌</div>
     % if main_list:
     <div class="section_1">
@@ -137,8 +154,8 @@
             <img class="series_img" src="https://img.kr.news.samsung.com/kr/wp-content/uploads/2016/03/%EC%8A%A4%ED%8E%98%EC%85%9C%EB%A6%AC%ED%8F%AC%ED%8A%B8%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%EC%9D%98%EB%AF%B8%EB%9E%984.jpg"/>
         </div>
         <div class="section_b">
-            <a class="pagerLink" href="#"><div class="series_title">${main_list[0]}</div></a>
-            <button class="" id="copy_btn">인쇄</button>
+            <div class="series_title">${main_list[0]}</div>
+            <button class="" id="copy_btn" OnClick="print(document.getElementById('printArea').innerHTML)">인쇄</button>
             <div class="series_target">시리즈 ID : ${main_list[1]}</div>
         </div>
     </div>
@@ -155,13 +172,17 @@
 
 
     <div class="section_4">
+        % if len(sub_list) == 0:
+            <div class="course_intro_content">현재 시리즈 강좌에 등록된 강좌가 없습니다</div>
+        % endif
+
         % for item in sub_list:
         <div class="section_5">
                 <div class="section_a">
                     <img class="series_img_inner" src="http://mblogthumb3.phinf.naver.net/20140507_198/gptec_1399471805951OLt2G_JPEG/%C1%B6%B8%AE%B5%B5%B1%B8.JPEG?type=w2"/>
                 </div>
                 <div class="section_bb">
-                    <a class="pagerLink" href="#"><div class="series_d">${item[2]}</div></a>
+                    <a class="pagerLink" href="/courses/${item[0]}/about"><div class="series_d">${item[2]}</div></a>
                     <div class="series_a">${item[3]}</div>
                     <div class="series_b">수강신청일 : ${item[5]} - ${item[6]}</div>
                     <div class="series_c">개강일 : ${item[7]} - ${item[8]}</div>
