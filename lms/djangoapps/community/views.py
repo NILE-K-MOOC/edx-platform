@@ -469,7 +469,6 @@ def series_view(request, id):
     context['main_list'] = main_list
     context['sub_list'] = sub_list
     return render_to_response('community/series_view.html', context)
->>>>>>> happy-series
 
 @ensure_csrf_cookie
 def comm_notice(request):
