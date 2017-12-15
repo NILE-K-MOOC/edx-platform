@@ -13449,6 +13449,9 @@ msgstr "개강 - {start_date}"
 msgid "Coming Soon"
 msgstr "준비중입니다."
 
+msgid "Course duration - {start_date}"
+msgstr "강좌 기간 - {start_date}"
+
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Starts - {start_date}"
 msgstr "개강 - {start_date}"

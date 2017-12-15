@@ -8,117 +8,57 @@ from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
-
-<div id="layerPopupArea" class="layerPopupArea" style="">
-
-    <!--popup K-mooc(1)-->
-    <div id="popupWrap_1" class="layerPupup">
-
-        % if static.get_platform_name() == "K-MOOC":
-        <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@popup_lms.jpg" alt="인터넷 망 이전작업에 따른 사이트 중단 안내 (lms)">
-        % else:
-        <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@popup_cms.jpg" alt="인터넷 망 이전작업에 따른 사이트 중단 안내 (cms)">
-        % endif
-
-        <!-- close area -->
-        <div style="text-align: right;">
-            <label onclick="closeWin1();">
-                <input id="chkbox_1" name="chkbox_1" type="checkbox" style="vertical-align: middle;">
-                <span style="font-style:normal; font-size:13px;"><b>다시 열지 않음 &nbsp;&nbsp;</b></span>
-            </label>
-
-            <span><a href="javascript:popClose('popupWrap_1');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>
-        </div>
-    </div>
-
-    <!--popup K-mooc(2)-->
-
-
-    <div id="popupWrap_2" class="layerPupup">
-        <p style="text-align: left; font-weight: bold; margin-top: 5px; display: ${'none' if LANG == 'en' else 'block'};">
-            <a href="http://naver.me/GkO8e2hQ" target="_blank">
-                <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@2017_kmooc_concert_resize.png" alt="2017 K-MOOC 토크 콘서트" style="max-width: 800px;" />
-            </a>
-        </p>
-
-        <div style="text-align: right;">
-            <label onclick="closeWin2();">
-                <input id="chkbox_2" name="chkbox_2" type="checkbox" style="vertical-align: middle;">
-                <span style="font-style:normal; font-size:13px;"><b>3일간 열지 않음 &nbsp;&nbsp;</b></span>
-            </label>
-
-            <span><a href="javascript:popClose('popupWrap_2');" title="닫기">[ 닫기 ]</a></span>
-        </div>
-    </div>
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
+<!-- Popup Area -->
+<div id="layerPopupArea" class="layerPopupArea">
+    ${ popup_index }
 </div>
+<script>
+    var popup_index = $('#layerPopupArea').text();
+    $('#layerPopupArea').html(popup_index);
+</script>
+
 <script type="text/javascript" src="/static/js/vendor/script.js"></script>
 
 <script language="Javascript">
+
+
 function popClose(id){
     $("#" + id).hide();
 }
 
-function setCookie1( name, value, expiredays ) {
+function setCookie( name, value, expiredays ) {
     var todayDate = new Date();
-    todayDate.setDate( todayDate.getDate() + expiredays );
+    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
-function closeWin1() {
-    if ($("#chkbox_1").is(":checked")){
-        setCookie1( "popupdiv1", "done" , 3 );
+function closeWin(check, id, hidden_day) {
+    if ($("#" + check).is(":checked")){
+        setCookie( id , "done" , hidden_day);
     }
-    document.all['popupWrap_1'].style.display = "none";
-}
-
-function closeWin2() {
-    if ($("#chkbox_2").is(":checked")){
-        setCookie1( "popupdiv2", "done" , 3 );
-    }
-    document.all['popupWrap_2'].style.display = "none";
+    $("#" + id).css("display" , "none");
 }
 
 cookiedata = document.cookie;
 
-popupDate = new Date();
-targetDate1 = new Date(2017, 11, 07);
-targetDate2 = new Date(2017, 11, 02);
+$("#layerPopupArea .pop_content").each(function() {
+    var content_id = $(this).attr("id");
+    $("#"+content_id).html($("#"+content_id).text());
+});
 
-console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
-
-if (
-        (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
-        (popupDate < targetDate1)
-        )
-   )
-    {
-
-    % if LANG == 'en':
-        document.all['popupWrap_1'].style.display = "none";
-    % else:
-        document.all['popupWrap_1'].style.display = "block";
-    % endif
-
+var leng = '${max_pop}';
+leng = Number(leng);
+for (var i = 1; i<=leng; i++) {
+    if (cookiedata.indexOf(i +"=done") < 0) {
+        %if LANG == 'en':
+            $("#" + i).css("display" , "none");
+        %else:
+            $("#" + i).css("display" , "''");
+        %endif
 } else {
-    document.all['popupWrap_1'].style.display = "none";
+    $("#" + i).css("display" , "none");
 }
-
-if (
-        (cookiedata.indexOf("popupdiv2=done") < 0 ) &&
-        (
-            (popupDate < targetDate2)
-        )
-   )
-    {
-
-    %if LANG == 'en':
-        document.all['popupWrap_2'].style.display = "none";
-    %else:
-        document.all['popupWrap_2'].style.display = "block";
-    %endif
-
-} else {
-    document.all['popupWrap_2'].style.display = "none";
 }
 
 </script>
