@@ -163,7 +163,7 @@ $( document ).ready(function() {
                 <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             % endif
 
-            % if 'org' in request.session and request.session['org'] == 'kmooc':
+            % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
                 <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
                 <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
                 <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
@@ -182,20 +182,10 @@ $( document ).ready(function() {
                 </li>
 
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
-            % if 'org' in request.session and request.session['org'] == 'kmooc':
+            % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
                 <li class="item search-global">
                     <div class="gnb-search-box">
                         <form method="get" action="/courses">
-                        <input type="text" title="검색어를 입력하세요" name="search_query" type="text" placeholder="${_("Search for a course")}" title="강좌 찾기" aria-label="강좌 찾기"/>
-                        <input type="image" src="/static/images/common/search-submit.gif" alt="검색" aria-label="검색" title="검색">
-                        </form>
-                    </div>
-                </li>
-            % endif
-            % if 'org' in request.session and request.session['org'] != 'kmooc':
-                <li class="item search-global">
-                    <div class="gnb-search-box">
-                        <form method="get" action="/multisite/${'org' in request.session and request.session['org']}">
                         <input type="text" title="검색어를 입력하세요" name="search_query" type="text" placeholder="${_("Search for a course")}" title="강좌 찾기" aria-label="강좌 찾기"/>
                         <input type="image" src="/static/images/common/search-submit.gif" alt="검색" aria-label="검색" title="검색">
                         </form>
