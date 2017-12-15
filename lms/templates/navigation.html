@@ -167,6 +167,8 @@ $( document ).ready(function() {
                 <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
                 <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
                 <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
+                <li class="item nav-global-03"><a href="/series">시리즈강좌</a></li>
+            % endif
 
                 % if LANGUAGE_CODE != 'en':
                 <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
@@ -178,10 +180,6 @@ $( document ).ready(function() {
                         <li id="menu4"><a href="/comm_faq/1/">Q&A</a></li>
                     </ul>
                 </li>
-            <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
-            <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
-            <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
-            <li class="item nav-global-03"><a href="/series">시리즈강좌</a></li>
             % if LANGUAGE_CODE != 'en':
             <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
             % endif
