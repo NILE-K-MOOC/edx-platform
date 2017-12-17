@@ -3,7 +3,7 @@ define(['jquery.form', 'js/index'], function() {
     return function () {
         // showing/hiding creation rights UI
 
-        $('#cms_search').click(function(event){
+        function studio_search(){
             var cms_text = $('#cms_text').val();
             var cnt = $('.course-item').length;
 
@@ -27,7 +27,16 @@ define(['jquery.form', 'js/index'], function() {
                     $('.course-item').eq(i).show();
                 }
             }
+        }
 
+        $("input").keydown(function (event) {
+            if (event.which === 13) {
+                studio_search();
+            }
+        });
+
+        $('#cms_search').click(function(event){
+            studio_search();
         });
 
         $('.show-creationrights').click(function(e) {
