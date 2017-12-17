@@ -29,7 +29,8 @@ urlpatterns = (
     url(r'^$', 'branding.views.index', name="root"),  
 
     # ---------- multi site ---------- #
-    url(r'^multisite/(?P<org>[a-zA-Z]+)$', 'branding.views.multisite_index', name="root"),  
+    url(r'^multisite/(?P<org>[a-zA-Z]+)$', 'branding.views.multisite_index', name="root"),
+    url(r'^multisite_url_check$', 'branding.views.multisite_url_check', name="root"),
     # ---------- multi site ---------- #
 
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),

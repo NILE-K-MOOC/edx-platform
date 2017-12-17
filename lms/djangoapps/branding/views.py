@@ -286,6 +286,49 @@ def get_course_enrollments(user):
 
 # --------------- multisite index --------------- #
 @ensure_csrf_cookie
+def multisite_url_check(request):
+
+    # request
+    url_check = request.GET.get('url_check')
+    cur_url = request.GET.get('cur_url')
+
+    # url_check
+    url_check = url_check.replace('http://',"")
+
+    # cul_rul -> org_code
+    cur_url = cur_url.split('multisite/')
+    org_code = cur_url[1]
+
+    # test url
+    # url_check = 'www.sktelecom.co.kr'
+
+    # convert url_check -> req_code
+    with connections['default'].cursor() as cur:
+        sql = '''
+            SELECT site_code
+            FROM   edxapp.multisite
+            WHERE  site_url = '{0}'
+        '''.format(url_check)
+        cur.execute(sql)
+        rows = cur.fetchall()
+        try:
+            req_code = rows[0][0]
+        except BaseException:
+            req_code = None
+
+    # DEBUG
+    print "-------------------------------->"
+    print "url_check = {}".format(url_check)
+    print "req_code = {}".format(req_code)
+    print "org_code = {}".format(org_code)
+    print "-------------------------------->"
+
+    if req_code == org_code:
+        return JsonResponse({'return':'success'})
+    else:
+        return JsonResponse({'return':'fail'})
+
+@ensure_csrf_cookie
 def multisite_index(request, org):
 
     # ----- i want data query ----- #

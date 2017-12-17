@@ -11,6 +11,21 @@ from openedx.core.djangolib.markup import HTML, Text
 <script type="text/javascript" src="/static/js/vendor/script.js"></script>
 <script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
 
+<script>
+    var url_check = document.referrer;
+    var cur_url = location.href;
+    $.get( "/multisite_url_check", { url_check: url_check, cur_url: cur_url} )
+    .done(function( data ) {
+        if(data.return == 'success'){
+            // none
+        }
+        if(data.return == 'fail'){
+            alert("잘못된 접근입니다.")
+            window.history.back();
+        }
+    });
+</script>
+
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
         <header>
