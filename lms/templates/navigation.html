@@ -168,8 +168,6 @@ $( document ).ready(function() {
                 <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
                 <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
                 <li class="item nav-global-03"><a href="/series">시리즈강좌</a></li>
-            % endif
-
                 % if LANGUAGE_CODE != 'en':
                 <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
                 % endif
@@ -180,6 +178,7 @@ $( document ).ready(function() {
                         <li id="menu4"><a href="/comm_faq/1/">Q&A</a></li>
                     </ul>
                 </li>
+            % endif
 
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
             % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
