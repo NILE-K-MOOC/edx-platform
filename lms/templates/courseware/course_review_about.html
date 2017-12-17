@@ -29,7 +29,7 @@ function write_review(){
     {
         'review_rating':$("input[name=review_rating]:checked").val(),
         'review_data':$("#review_write_area").val(),
-        'csrfmiddlewaretoken':$("#review_token").val(),
+        'csrfmiddlewaretoken':'${csrf_token}',//$("#review_token").val(),
         'write_switch':1
     },function(data){
         if(data.stat == 'success'){
@@ -55,7 +55,7 @@ $(document).ready(function () {
 function delete_review(){
     $.post('/courses/${course_id}/about',
     {
-        'csrfmiddlewaretoken':$("#review_token").val(),
+        'csrfmiddlewaretoken':'${csrf_token}',//$("#review_token").val(),
         'delete_switch':1
     },function(data){
         if(data.stat == 'success'){
@@ -73,7 +73,7 @@ function delete_review(){
 </script>
 
 <!-- HTML (subject) -->
-<div class = "review_subject" id="potal"><b>Review</b></div>
+<div class = "review_subject" id="potal"><b>리뷰</b></div>
 
 % if len(enroll_list) != 0:
 <!-- HTML (write) -->
@@ -143,7 +143,7 @@ function delete_review(){
                  title="Sucks big time - 1 star">
              </label>
 	</fieldset>
-        <button type="button" id="review_write_submit">쓰기</button>
+        <button type="button" id="review_write_submit" class="btn-brand btn-small">글쓰기</button>
     </div>
     <div class="form-group" id="noclose">
         <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>

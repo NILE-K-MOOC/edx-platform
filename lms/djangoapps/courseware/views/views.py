@@ -1118,7 +1118,7 @@ def course_about(request, course_id):
                          <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
                          </label>
                 </fieldset>
-                    <button type="button" id="review_write_submit">Write</button>
+                    <button type="button" id="review_write_submit" class="btn-brand btn-small">글쓰기</button>
                 </div>
                 <div class="form-group" id="noclose">
                     <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
@@ -1733,7 +1733,7 @@ def mobile_course_about(request, course_id):
                          <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
                          </label>
                 </fieldset>
-                    <button type="button" id="review_write_submit">Write</button>
+                    <button type="button" id="review_write_submit" class="btn-brand btn-small">글쓰기</button>
                 </div>
                 <div class="form-group" id="noclose">
                     <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
