@@ -855,8 +855,12 @@ $(document).ready(function(){
             <div class="paging">
             </div>
         </div>
+        % if total_size == 0:
+            <div class="hello" style="width:270px; margin-left:40%; font-size:80%;">현재 쪽지함에 쪽지가 없습니다</div>
+        % endif
     </section>
 </section>
+
 <br/><br/><br/><br/><br/><br/><br/>
 <!-- html end -->
 

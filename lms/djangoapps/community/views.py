@@ -156,6 +156,8 @@ def memo(request):
         # 2.3 메모 외부 삭제 클릭 시 로직
         elif request.POST.get('method') == 'delete':
             last_num = request.POST.get('last_num')
+            if last_num == '':
+                last_num = 0
 
             print "-----------------------> reqeust post get"
             print "last_num = {}".format(last_num)
@@ -170,6 +172,9 @@ def memo(request):
                     where memo_id = {0} and receive_id = {1};
                 '''.format(del_id, user_id)
                 cur.execute(query)
+                print "----------------> query"
+                print query
+                print "----------------> query"
             with connections['default'].cursor() as cur:
                 # 2.3.1 검색 하지 않은 상태의 삭제
                 if(search_data) == None:
@@ -217,10 +222,21 @@ def memo(request):
                 rows = cur.fetchall()
                 plus_list = []
 
-
-                for i in rows:
+            for i in rows:
+                try:
                     if int(last_num) > int(i[0]):
                         plus_list.append(i)
+                except BaseException:
+                    print "error"
+                    return JsonResponse({"return":"success"})
+
+            print "###################################"
+            print plus_list
+            print len(plus_list)
+            print "###################################"
+
+            if len(plus_list) == 0:
+                return JsonResponse({"return":"success"})
 
             return JsonResponse({"return":"success", "plus":plus_list[0]})
 
@@ -323,8 +339,31 @@ def memo(request):
                         return_list.append(rows[n])
             return JsonResponse({"data":return_list})
 
+    # 2.1 메모 동기화 로직
+    user_email = request.user.email
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT count(memo_id)
+            FROM   edxapp.memo
+			where receive_id in (
+                select id
+                from edxapp.auth_user
+                where email = '{}'
+			)
+        '''.format(user_email)
+        print "query ------------------->"
+        print query
+        print "query ------------------->"
+        cur.execute(query)
+        rows = cur.fetchall()
+        print "total ------------------->"
+        total_size = rows[0][0]
+        print "total ------------------->"
+
+    context = {}
+    context['total_size'] = total_size
     # 일반 렌더링 리턴
-    return render_to_response('community/memo.html')
+    return render_to_response('community/memo.html', context)
 
 @ensure_csrf_cookie
 def memo_view(request, board_id):
