@@ -1,3 +1,11 @@
+<%!
+from django.utils.translation import ugettext as _
+
+from courseware.courses import get_course_info_section, get_course_date_summary
+
+from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
+from openedx.core.djangolib.markup import HTML, Text
+%>
 <head>
     <!-- Encoding -->
     <meta charset="UTF-8">
@@ -73,7 +81,7 @@ function delete_review(){
 </script>
 
 <!-- HTML (subject) -->
-<div class = "review_subject" id="potal"><b>리뷰</b></div>
+<div class = "review_subject" id="potal"><b>${_('review')}</b></div>
 
 % if len(enroll_list) != 0:
 <!-- HTML (write) -->
@@ -143,7 +151,7 @@ function delete_review(){
                  title="Sucks big time - 1 star">
              </label>
 	</fieldset>
-        <button type="button" id="review_write_submit" class="btn-brand btn-small">글쓰기</button>
+        <button type="button" id="review_write_submit" class="btn-brand btn-small">${_('write')}</button>
     </div>
     <div class="form-group" id="noclose">
         <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>

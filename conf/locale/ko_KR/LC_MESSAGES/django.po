@@ -29991,3 +29991,10 @@ msgstr "강좌 정보"
 
 msgid "review"
 msgstr "리뷰"
+
+msgid "write"
+msgstr "글쓰기"
+
+msgid "MEMO"
+msgstr "쪽지"
+
