@@ -762,6 +762,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                       JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
                      WHERE popup_id = {0};
                     """.format(index[0])
+                print 'query============='
+                print query
                 cur.execute(query)
                 row = cur.fetchall()
                 cur.close()
@@ -770,40 +772,46 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     image_map = p[10]
                     im_arr = image_map.split('/')
                     map_list.append(list(p + (im_arr,)))
-                for index in map_list:
-                    f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexI.html", 'r')
-                    while True:
-                        line = f.readline()
-                        if not line: break
-                        popup_index += str(line)
-                        popup_index = popup_index.replace("#_id", str(index[0]))
-                        popup_index = popup_index.replace("#_title", str(index[1]))
-                        popup_index = popup_index.replace("#_contents", str(index[2]))
-                        popup_index = popup_index.replace("#_link_url", str(index[3]))
-                        popup_index = popup_index.replace("#_link_target", str(index[4]))
-                        popup_index = popup_index.replace("#_hidden_day", str(index[5]))
-                        popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
-                        popup_index = popup_index.replace("#_width", str(index[8]))
-                        popup_index = popup_index.replace("#_height", str(index[9]))
-                        popup_index = popup_index.replace("#_img_width", str(index[9]))
-                        popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
-                        popup_index = popup_index.replace("#_hidden", str(index[11]))
-                        if (len(index[12]) == 1):
-                            map_str = """
-                                    <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
-                                    """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
-                            popup_index = popup_index.replace("#_not_exist", map_str)
-                            popup_index = popup_index.replace("#_exist", "")
-                        else:
-                            map_str = ""
-                            for map in index[12]:
-                                map_str += """
-                                    <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
-                                    """.format(str(map), str(index[4]), str(index[3]))
-                            popup_index = popup_index.replace("#_not_exist", "")
-                            popup_index = popup_index.replace("#_exist", map_str)
-                    f.close()
 
+                print 'row========'
+                print row
+                print 'index========'
+                print index
+
+                f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexI.html", 'r')
+                while True:
+                    line = f.readline()
+                    if not line: break
+                    popup_index += str(line)
+                    popup_index = popup_index.replace("#_id", str(index[0]))
+                    popup_index = popup_index.replace("#_title", str(index[1]))
+                    popup_index = popup_index.replace("#_contents", str(index[2]))
+                    popup_index = popup_index.replace("#_link_url", str(index[3]))
+                    popup_index = popup_index.replace("#_link_target", str(index[4]))
+                    popup_index = popup_index.replace("#_hidden_day", str(index[5]))
+                    popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
+                    popup_index = popup_index.replace("#_width", str(index[8]))
+                    popup_index = popup_index.replace("#_height", str(index[9]))
+                    popup_index = popup_index.replace("#_img_width", str(index[9]))
+                    popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
+                    popup_index = popup_index.replace("#_hidden", str(index[11]))
+                    if (len(index[12]) == 1):
+                        map_str = """
+                                <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
+                                """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
+                        popup_index = popup_index.replace("#_not_exist", map_str)
+                        popup_index = popup_index.replace("#_exist", "")
+                    else:
+                        map_str = ""
+                        for map in index[12]:
+                            map_str += """
+                                <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
+                                """.format(str(map), str(index[4]), str(index[3]))
+                        popup_index = popup_index.replace("#_not_exist", "")
+                        popup_index = popup_index.replace("#_exist", map_str)
+
+                    print popup_index
+                f.close()
 
         elif (index[1] == '1'):
             print('index1.html')
