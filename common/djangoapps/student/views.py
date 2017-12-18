@@ -124,6 +124,7 @@ import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
 import sys
+from bson import ObjectId
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -314,7 +315,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                         WHERE  1 = 1
                                                AND Lower(id) NOT LIKE '%demo%'
                                                AND Lower(id) NOT LIKE '%nile%'
-                                               AND Lower(id) NOT LIKE '%test%') t1
+                                               -- AND Lower(id) NOT LIKE '%test%') t1
+                                               ) t1
                                 ORDER  BY order1,
                                           enrollment_start DESC,
                                           start DESC,
@@ -325,10 +327,13 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                              WHERE  site_id = {0};
                 """.format(site_id)
                 cur.execute(query)
-                print query
                 result_table = cur.fetchall()
 
+            #mongo
+            client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+
             for item in result_table:
+                course_lock = 0
                 ci = item[0]
                 ci = ci.split(':')
                 data_ci = ci[1]
@@ -336,28 +341,29 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_org = data_ci[0]
                 c_course = data_ci[1]
                 c_name = data_ci[2]
-                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
-                course_overviews = CourseOverview.objects.get(id=multi_course_id)
-                course_list.append(course_overviews)
+
+                db = client["edxapp"]
+                cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
+                pb = cursor.get('versions').get('published-branch')
+                cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+                blocks = cursor.get('blocks')
+                for block in blocks:
+                    if block.get('block_type') and block.get('block_id'):
+                        if block.get('block_type') == 'course' and block.get('block_id') == 'course':
+                            if block.get('fields').get('catalog_visibility'):
+                                if block.get('fields').get('catalog_visibility') == 'none':
+                                    course_lock = 1
+
+                if course_lock == 0:
+                    multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                    course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                    course_list.append(course_overviews)
 
             # multisite - make course status
             for c in course_list:
                 status = common_course_status(c.start, c.end)
                 c.status = status
-
-            """
-            for c in course_list:
-                if c.start is None or c.start == '' or c.end is None or c.end == '':
-                    c.status = 'none'
-                elif datetime.datetime.now(UTC2()) < c.start:
-                    c.status = 'ready'
-                elif c.start <= datetime.datetime.now(UTC2()) <= c.end:
-                    c.status = 'ing'
-                elif c.end < datetime.datetime.now(UTC2()):
-                    c.status = 'end'
-                else:
-                    c.status = 'none'
-            """
 
             context = {'courses': course_list}
 

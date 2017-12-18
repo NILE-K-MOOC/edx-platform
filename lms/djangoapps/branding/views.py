@@ -300,7 +300,7 @@ def multisite_url_check(request):
     org_code = cur_url[1]
 
     # test url
-    # url_check = 'www.sktelecom.co.kr'
+    url_check = 'www.sktelecom.co.kr'
 
     # convert url_check -> req_code
     with connections['default'].cursor() as cur:
