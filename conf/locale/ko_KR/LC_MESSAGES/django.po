@@ -29998,3 +29998,14 @@ msgstr "글쓰기"
 msgid "MEMO"
 msgstr "쪽지"
 
+msgid "Series Course"
+msgstr "시리즈 강좌"
+
+msgid "Course Introduction"
+msgstr "강좌 소개"
+
+msgid "Course List"
+msgstr "대상 강좌 목록"
+
+
+

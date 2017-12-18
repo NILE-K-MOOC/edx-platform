@@ -147,7 +147,7 @@ function print(printArea)
 </script>
 
 <div class="section_frame_container" id="printArea">
-    <div class="real_main_title">시리즈 강좌</div>
+    <div class="real_main_title">${_('Series Course')}</div>
     % if main_list:
     <div class="section_1">
         <div class="section_a">
@@ -161,13 +161,13 @@ function print(printArea)
     </div>
 
     <div class="section_2">
-        <div class="course_intro_title">강좌소개</div>
+        <div class="course_intro_title">${_('Course Introduction')}</div>
         <div class="course_intro_content">${main_list[2]}</div>
     </div>
     % endif
 
     <div class="section_3">
-            <div class="course_intro_title">대상 강좌 목록</div>
+            <div class="course_intro_title">${_('Course List')}</div>
     </div>
 
 
