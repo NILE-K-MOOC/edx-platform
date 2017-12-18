@@ -419,17 +419,20 @@ def memo_view(request, board_id):
     context['read_date'] = read_date
     return render_to_response('community/memo_view.html', context)
 # ---------- 2017.11.15 ahn jin yong ---------- #
+
 def series(request):
+
     with connections['default'].cursor() as cur:
         query = '''
-            SELECT series_seq,
-                   series_name
-            FROM   edxapp.series AS a
+            SELECT a.series_seq,
+                   a.series_name,
+                   b.attach_file_path,
+                   b.attatch_file_name
+              FROM edxapp.series AS a
                    LEFT JOIN edxapp.tb_board_attach AS b
-                          ON a.sumnail_file_id = b.attatch_id
-            WHERE  use_yn = 'Y'
-                   AND delete_yn = 'N'
-        '''.format()
+                      ON a.sumnail_file_id = b.attatch_id
+             WHERE a.use_yn = 'Y' AND a.delete_yn = 'N'
+        '''
         cur.execute(query)
         rows = cur.fetchall()
 
@@ -438,17 +441,18 @@ def series(request):
     return render_to_response('community/series.html', context)
 
 def series_view(request, id):
-    print "##########"
-    print id
-    print "##########"
 
     with connections['default'].cursor() as cur:
         query = '''
-            SELECT series_name,
-                   series_id,
-                   note
-            FROM   series
-            WHERE  series_seq = {}
+            SELECT a.series_name,
+               a.series_id,
+               a.note,
+               b.attach_file_path,
+               b.attatch_file_name
+            FROM series as a
+            LEFT JOIN tb_board_attach AS b
+            ON a.sumnail_file_id = b.attatch_id
+            WHERE  a.series_seq = {}
         '''.format(id)
         cur.execute(query)
         rows = cur.fetchall()
@@ -500,17 +504,8 @@ def series_view(request, id):
             WHERE  series_seq = {}
         '''.format(id)
         cur.execute(query)
-        print "################"
-        print query
-        print "################"
         rows = cur.fetchall()
         sub_list = rows
-
-    print "################"
-    print len(rows)
-    print main_list
-    print sub_list
-    print "################"
 
     context = {}
     context['main_list'] = main_list
