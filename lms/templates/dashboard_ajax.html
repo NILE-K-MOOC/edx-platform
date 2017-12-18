@@ -9,6 +9,101 @@ from openedx.core.djangolib.markup import HTML, Text
 from microsite_configuration import microsite
 %>
 
+<%block name="js_extra">
+<script src="${static.url('js/commerce/credit.js')}"></script>
+<%static:js group='dashboard'/>
+<script type="text/javascript">
+    $(document).ready(function () {
+        edx.dashboard.legacy.init({
+            dashboard: "${reverse('dashboard') | n, js_escaped_string}",
+            signInUser: "${reverse('signin_user') | n, js_escaped_string}",
+            changeEmailSettings: "${reverse('change_email_settings') | n, js_escaped_string}"
+        });
+
+
+        $(".faq-tab a").click(function (e) {
+            console.log("tab clicked: " + e);
+
+            var status = $(this).data("status");
+
+            $(e.target).find(".progress").stop().animate({
+                width: "70%"
+            }, 5000);
+
+            $.post("/dashboard", {
+                "status": status
+            }, function (data) {
+                $(e.target).find(".progress").stop().animate({
+                    width: "100%"
+                }, 50, function () {
+                    $(".faq-tab .progress").css("width", "0%");
+
+                    $(".faq-tab a").removeClass("on");
+                    $(e.target).addClass("on");
+                    $("#courses_target").html(data);
+
+                    var status = $(e.target).data("status");
+
+
+                    $(".sub-end, .sub-interest").slideUp(200);
+
+                    if (status === "end")
+                        $(".sub-end").slideDown(400);
+                    else if (status === "interest")
+                        $(".sub-interest").slideDown(400);
+
+                });
+
+            }).done(function () {
+                $(".progress").css("width", "0%");
+            });
+        });
+    });
+
+    function focusTo(type) {
+        console.log('type: ' + type);
+        switch (type) {
+            case 1:
+                var target_top = $(".action-certificate:eq(0)").parents("li.course-item").position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+            case 2:
+                var target_top = $(".action-certificate:last").parents("li.course-item").next().position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+            case 3:
+                var target_top = $(".course-container[data-is_enrolled='True']:first").parents("li.course-item").position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+            case 4:
+                var target_top = $(".course-container[data-is_enrolled='False']:first").parents("li.course-item").position().top - 120;
+                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                break;
+
+            default:
+                console.log('focusTo default');
+                break;
+        }
+
+    }
+</script>
+
+
+% if settings.FEATURES.get('ENABLE_DASHBOARD_SEARCH'):
+<%static:require_module module_name="js/search/dashboard/dashboard_search_factory" class_name="DashboardSearchFactory">
+DashboardSearchFactory();
+</%static:require_module>
+% endif
+% if redirect_message:
+<%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+var banner = new MessageBannerView({urgency: 'low', type: 'warning'});
+$('#content').prepend(banner.$el);
+banner.showMessage(${redirect_message | n, dump_js_escaped_json})
+</%static:require_module>
+% endif
+</%block>
+
+
 
 % if len(course_enrollments) > 0:
 <ul class="listing-courses" id="default_course">

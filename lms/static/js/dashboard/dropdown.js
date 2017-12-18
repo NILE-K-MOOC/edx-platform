@@ -14,8 +14,9 @@ var edx = edx || {};
             dropdownButton = $('#actions-dropdown-link-' + dashboardIndex),
             ariaExpandedState = (dropdownButton.attr('aria-expanded') === 'true'),
             menuItems = dropdown.find('a');
-
+            console.log('Test!!!!1');
         var catchKeyPress = function(object, event) {
+            console.log('Test!!!!2');
             // get currently focused item
             var focusedItem = $(':focus');
 
