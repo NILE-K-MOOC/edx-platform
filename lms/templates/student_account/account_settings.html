@@ -26,6 +26,20 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 
 <div class="wrapper-account-settings"></div>
 
+<!-- nice check -->
+<form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+    <input type="hidden" name="m" value="checkplusSerivce">
+    <input type="hidden" name="EncodeData" value="${enc_data}">
+</form>
+<!-- nice check -->
+
+<!-- nice check test-->
+<div id='user_gender' style='display: none;'>${user_gender}</div>
+<div id='user_birthday' style='display: none;'>${user_birthday}</div>
+<div id='user_name' style='display: none;'>${user_name}</div>
+<div id='nice_check' style='display: none;'>${nice_check}</div>
+<!-- nice check test-->
+
 <%block name="headextra">
     <%static:css group='style-course'/>
 </%block>
