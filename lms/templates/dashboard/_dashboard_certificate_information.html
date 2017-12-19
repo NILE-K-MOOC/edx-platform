@@ -64,7 +64,7 @@ else:
         <li class="action"><span class="disabled">
             ${_("Your {cert_name_short} is Generating").format(cert_name_short=cert_name_short)}</span></li>
       % elif cert_status['show_download_url'] and cert_status.get('show_cert_web_view', False):
-        <li class="action action-certificate" data-check1="cert_status.get('survey', 'complete')">
+        <li class="action action-certificate" data-check1="${cert_status.get('survey', 'complete')}">
 
         % if cert_status.get('survey', 'complete') == 'complete':
             <a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"
