@@ -390,7 +390,7 @@ def nicecheckplus(request):
     # encode data
     nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
     nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
-    nice_cb_encode_path = '/edx/app/edxapp/CPClient'
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     enc_data = request.POST.get('EncodeData')
     nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
     plain_data = commands.getoutput(nice_command)
