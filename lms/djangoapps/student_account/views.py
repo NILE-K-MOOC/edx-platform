@@ -368,6 +368,75 @@ def login_and_registration_form(request, initial_mode="login"):
 
     return render_to_response('student_account/login_and_register.html', context)
 
+# -------------------- nice check -------------------- #
+@csrf_exempt
+def nicecheckplus(request):
+
+    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+    edx_user_email = str(edx_user_info['email'])
+
+    # ----- get user_id query ----- #
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT *
+            FROM   edxapp.auth_user
+            WHERE  email = '{0}'
+        """.format(edx_user_email)
+        cur.execute(query)
+        table = cur.fetchall()
+        user_id =  table[0][0]
+    # ----- get user_id query ----- #
+
+    # encode data
+    nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/CPClient'
+    enc_data = request.POST.get('EncodeData')
+    nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
+    plain_data = commands.getoutput(nice_command)
+    di_index = plain_data.find("DI64:")
+    nice_di = plain_data[di_index+5 : di_index+5+64]
+
+    # return data parsing
+    result_dict = {}
+    pos1 = 0
+    while pos1 <= len(plain_data):
+	pos1 = plain_data.find(':')
+	key_size = int(plain_data[:pos1])
+	plain_data = plain_data[pos1 + 1:]
+	key = plain_data[:key_size]
+	plain_data = plain_data[key_size:]
+	pos2 = plain_data.find(':')
+	val_size = int(plain_data[:pos2])
+	val = plain_data[pos2 + 1: pos2 + val_size + 1]
+	result_dict[key] = val
+	plain_data = plain_data[pos2 + val_size + 1:]
+    result_dict = str(result_dict)
+    result_dict = result_dict.replace("'", '"')
+
+    # ----- nice check insert query ----- #
+    with connections['default'].cursor() as cur:
+        query = """
+            INSERT INTO edxapp.auth_user_nicecheck
+                        (user_id,
+                         nice_check,
+                         di,
+                         plain_data)
+            VALUES      ({0},
+                         'Y',
+                         '{1}',
+                         '{2}')
+        """.format(str(user_id), nice_di, result_dict)
+        cur.execute(query)
+    # ----- nice check insert query ----- #
+
+    return render_to_response('student_account/nicecheckplus.html')
+
+@csrf_exempt
+def nicecheckplus_error(request):
+    print 'nicecheckplus_error called'
+    return render_to_response('student_account/nicecheckplus_error.html')
+# -------------------- nice check -------------------- #
 
 def redirectTo(request, redirectTo):
     '''redirect for https..'''
