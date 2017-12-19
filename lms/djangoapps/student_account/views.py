@@ -372,13 +372,15 @@ def login_and_registration_form(request, initial_mode="login"):
 @csrf_exempt
 def nicecheckplus(request):
 
-    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
-    edx_user_email = str(edx_user_info['email'])
+    try:
+        edx_user_email = request.user.email
+    except BaseException:
+        edx_user_email = ''
 
     # ----- get user_id query ----- #
     with connections['default'].cursor() as cur:
         query = """
-            SELECT *
+            SELECT id
             FROM   edxapp.auth_user
             WHERE  email = '{0}'
         """.format(edx_user_email)
@@ -775,10 +777,8 @@ def account_settings_context(request):
 
     # -------------------- nice check -------------------- #
     try:
-        edx_user_info = json.loads(request.COOKIES['edx-user-info'])
-        edx_user_email = str(edx_user_info['email'])
+        edx_user_email = request.user.email
     except BaseException:
-        edx_user_info = ''
         edx_user_email = ''
 
     # ----- get user_id query ----- #
