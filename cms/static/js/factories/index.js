@@ -2,6 +2,43 @@ define(['jquery.form', 'js/index'], function() {
     'use strict';
     return function () {
         // showing/hiding creation rights UI
+
+        function studio_search(){
+            var cms_text = $('#cms_text').val();
+            var cnt = $('.course-item').length;
+
+            console.log(cms_text);
+
+            for(var i=0; i<cnt; i++){
+                $('.course-item').eq(i).show();
+            }
+
+            for(var i=0; i<cnt; i++){
+                var course_tag = $('.course-item').eq(i).children('.course-link').children('.course-title').text();
+                //if(cms_text != course_tag){
+                if(course_tag.indexOf(cms_text) == -1){
+                    $('.course-item').eq(i).hide()
+                }
+                console.log(course_tag);
+            }
+
+            if(cms_text=="" || cms_text==null){
+                for(var i=0; i<cnt; i++){
+                    $('.course-item').eq(i).show();
+                }
+            }
+        }
+
+        $("input").keydown(function (event) {
+            if (event.which === 13) {
+                studio_search();
+            }
+        });
+
+        $('#cms_search').click(function(event){
+            studio_search();
+        });
+
         $('.show-creationrights').click(function(e) {
             e.preventDefault();
             $(this)
