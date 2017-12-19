@@ -722,7 +722,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                             status_dict['survey_url'] = '/courses/{0}/courseware/{1}/{2}'.format(str(course_overview), c_key, s_key)
                             break
     except Exception as e:
-        traceback.print_exc()
+        log.error(traceback.print_exc())
         log.error(e)
 
     return status_dict
