@@ -27,6 +27,11 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = (
     '',
 
+    # ---------- nice check start---------- #
+    url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),                  # success url
+    url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),# fail url
+    # ---------- nice check end ---------- #
+
     url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),

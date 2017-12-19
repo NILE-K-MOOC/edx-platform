@@ -66,6 +66,8 @@ import datetime
 from django.contrib.auth import logout
 from pymongo import MongoClient
 from django.db import connections
+import ast
+import urllib
 
 
 # def job():
@@ -642,6 +644,123 @@ def account_settings_context(request):
         dict
 
     """
+    # -------------------- nice core -------------------- #
+    nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
+
+    nice_authtype       = ''                           # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun       = 'N'                          # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize      = ''                           # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender         = ''                           # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq         = 'REQ0000000001'              # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+                                                       # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+
+    nice_returnurl      = "http://192.168.33.20:8000/nicecheckplus"        # 성공시 이동될 URL
+    nice_errorurl       = "http://192.168.33.20:8000/nicecheckplus_error"  # 실패시 이동될 URL
+    nice_returnMsg      = ''
+
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
+                .format(len(nice_reqseq),nice_reqseq,
+                        len(nice_sitecode),nice_sitecode,
+                        len(nice_authtype),nice_authtype,
+                        len(nice_returnurl),nice_returnurl,
+                        len(nice_errorurl),nice_errorurl,
+                        len(nice_popgubun),nice_popgubun,
+                        len(nice_customize),nice_customize,
+                        len(nice_gender),nice_gender )
+
+    nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+    enc_data = commands.getoutput(nice_command)
+
+    if enc_data == -1 :
+        nice_returnMsg = "암/복호화 시스템 오류입니다."
+        enc_data = ""
+    elif enc_data== -2 :
+        nice_returnMsg = "암호화 처리 오류입니다."
+        enc_data = ""
+    elif enc_data== -3 :
+        nice_returnMsg = "암호화 데이터 오류 입니다."
+        enc_data = ""
+    elif enc_data== -9 :
+        nice_returnMsg = "입력값 오류 입니다."
+        enc_data = ""
+
+    # ----- DEBUG ----- #
+    """
+    print "nice_sitecode = {}".format(nice_sitecode)
+    print "nice_sitepasswd = {}".format(nice_sitepasswd)
+    print "nice_cb_encode_path = {}".format(nice_cb_encode_path)
+    print "nice_authtype = {}".format(nice_authtype)
+    print "nice_popgubun = {}".format(nice_popgubun)
+    print "nice_customize = {}".format(nice_customize)
+    print "nice_gender = {}".format(nice_gender)
+    print "nice_reqseq = {}".format(nice_reqseq)
+    print "nice_returnurl = {}".format(nice_returnurl)
+    print "nice_errorurl = {}".format(nice_errorurl)
+    print "plaindata = {}".format(plaindata)
+    print "enc_data = {}".format(enc_data)
+    """
+    # ----- DEBUG ----- #
+    # -------------------- nice core -------------------- #
+
+    # -------------------- nice check -------------------- #
+    try:
+        edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+        edx_user_email = str(edx_user_info['email'])
+    except BaseException:
+        edx_user_info = ''
+        edx_user_email = ''
+
+    # ----- get user_id query ----- #
+    with connections['default'].cursor() as cur:
+        try:
+            query = """
+            SELECT plain_data
+            FROM   edxapp.auth_user_nicecheck
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}');
+            """.format(edx_user_email)
+            cur.execute(query)
+            table = cur.fetchall()
+            nice_info = table[0][0]
+        except BaseException:
+            nice_info = None
+    # ----- get user_id query ----- #
+
+    if nice_info != None:
+        nice_dict = ast.literal_eval(nice_info)
+
+        # created user gender
+        user_gender = str(nice_dict['GENDER'])
+        if user_gender == '1':
+            user_gender = '남자'
+        elif user_gender == '2':
+            user_gender = '여자'
+
+        # created user birth day
+        user_birthday = nice_dict['BIRTHDATE']
+        user_birthday_y = str(user_birthday[0:4])
+        user_birthday_m = str(user_birthday[4:6])
+        user_birthday_d = str(user_birthday[6:8])
+        user_birthday = "{0}.{1}.{2}".format(user_birthday_y, user_birthday_m, user_birthday_d)
+
+        # created user name
+        user_name = nice_dict['UTF8_NAME']
+        user_name = urllib.unquote(user_name).decode('utf8')
+
+        # created flag
+        nice_check = 'yes'
+
+    else:
+        user_gender = ''
+        user_birthday = ''
+        user_name = ''
+        nice_check = 'no'
+    # -------------------- nice check -------------------- #
+
+
     user = request.user
 
     year_of_birth_options = [(unicode(year), unicode(year)) for year in UserProfile.VALID_YEARS]
@@ -657,6 +776,11 @@ def account_settings_context(request):
     countries_list.insert(0, (u'KR', u'South Korea'))
 
     context = {
+        'user_gender': user_gender,    # context -> nice data
+        'user_birthday': user_birthday,# context -> nice data
+        'user_name': user_name,        # context -> nice data
+        'nice_check': nice_check,      # context -> nice data
+        'enc_data': enc_data,          # context -> nice data
         'auth': {},
         'duplicate_provider': None,
         'fields': {
