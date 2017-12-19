@@ -645,16 +645,22 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function show_input() {
-                                $('#course_info_text').html($('#course_info_text').text());
 
+                                $('#course_info_text').html(($('#course-overview').val()));
+
+                                console.log($('#course_info_text #Tab1_1').text());
+                                console.log($('#course_info_text #Tab1_1').html());
+                                console.log($('#course_info_text #Tab1_1').val());
                                 $('#course-overview').html($('#course-overview').val());
-                                $('#tab1_1').val($('#course-overview #Tab1_1').html());
-                                $('#tab1_2').val($('#course-overview #Tab1_2').html());
-                                tinyMCE.get('tab2_1').setContent($('#course-overview #Tab2_1').html());
-                                $('#tab4_1').val($('#course-overview #Tab4_1').html());
-                                $('#tab4_2').val($('#course-overview #Tab4_2').html());
-                                $('#tab4_3').val($('#course-overview #Tab4_3').html());
-                                tinyMCE.get('tab6_1').setContent($('#course-overview #Tab6_1').html());
+
+                                console.log($('#course-overview #Tab1_1').text());
+                                $('#tab1_1').val($('#course_info_text #Tab1_1').text());
+                                $('#tab1_2').val($('#course_info_text #Tab1_2').html());
+                                tinyMCE.get('tab2_1').setContent($('#course_info_text #Tab2_1').html());
+                                $('#tab4_1').val($('#course_info_text #Tab4_1').html());
+                                $('#tab4_2').val($('#course_info_text #Tab4_2').html());
+                                $('#tab4_3').val($('#course_info_text #Tab4_3').html());
+                                tinyMCE.get('tab6_1').setContent($('#course_info_text #Tab6_1').html());
 
 
                                 $('#layer_input').css("display","block");

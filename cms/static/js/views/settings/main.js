@@ -38,6 +38,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'click #save_input': "testfn"
             },
             testfn: function (e) {
+
                 $('#Tab1_1').html($('#tab1_1').val());
                 $('#Tab1_2').html($('#tab1_2').val());
                 $('#Tab2_1').html(tinyMCE.get('tab2_1').getContent());
