@@ -1854,7 +1854,7 @@
     "Chapters must have value": "\uc8fc\ucc28\ub294 \ud544\uc218 \uc785\ub825 \uc785\ub2c8\ub2e4\u002e",
     "": "\uc5c6\uc74c",
     "sign": "\uC2E4\uBA85\uC778\uC99D",
-    "complete": "\uC778\uC99D\uC644\uB8CC"
+    "complete": "\uBCF8\uC778\uC778\uC99D\20\uC644\uB8CC"
   };
 
   django.gettext = function (msgid) {

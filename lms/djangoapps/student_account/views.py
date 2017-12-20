@@ -487,9 +487,6 @@ def nicecheckplus(request):
             where user_id = {0}
             """.format(user_id, user_gender, user_birthday_y)
 
-            print "------------------>"
-            print query
-            print "------------------>"
             cur.execute(query)
 
     return render_to_response('student_account/nicecheckplus.html')
@@ -845,7 +842,7 @@ def account_settings_context(request):
     with connections['default'].cursor() as cur:
         try:
             query = """
-                SELECT b.name, b.gender, b.year_of_birth
+                SELECT b.name, b.gender, b.year_of_birth, a.plain_data
                   FROM auth_user_nicecheck AS a
                        LEFT JOIN auth_userprofile AS b ON a.user_id = b.user_id
                        JOIN auth_user AS c ON b.user_id = c.id
@@ -853,16 +850,24 @@ def account_settings_context(request):
             """.format(edx_user_email)
             cur.execute(query)
             table = cur.fetchone()
-            user_name = table[0]
+            #user_name = table[0]
             user_gender = table[1]
             user_birthday = table[2]
+            nice_info = table[3]
             nice_check = 'yes'
         except BaseException:
-            user_name = None
+            #user_name = None
             user_gender = None
             user_birthday = None
             nice_check = 'no'
     # -------------------- nice check -------------------- #
+
+    if nice_info != None:
+        nice_dict = ast.literal_eval(nice_info)
+        user_name = nice_dict['UTF8_NAME']
+        user_name = urllib.unquote(user_name).decode('utf8')
+    else:
+        user_name = ''
 
     user = request.user
 

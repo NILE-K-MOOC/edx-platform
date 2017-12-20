@@ -2,9 +2,8 @@
 <% var user_name = $('#user_name').text() %>
 <%if(id === 'name' && nice_check === 'yes') { %>
 <div style='margin-bottom: -30px;' class="u-field u-field-readonly u-field-username"><div class="field">
-    <span class="u-field-title field-label">Full Name</span>
-    <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" style="width: 60%;" />
-    <input class="u-field-link u-field-link-title-password " type="button" id="checkok" title="checkok" aria-describedby="u-field-message-help-nicecheck" name="nicecheck" value="<%- complete %>" style="background-color: #0079bc; color: #FFFFFF; width: 38%; float: right;" />
+    <span class="u-field-title field-label"><%- title %> <div style="font-weight: bold; float:right; font-size:80%;">(<%- complete %>:<%- $('#user_name').text() %>)</div></span>
+    <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>"/>
 </div>
 <% } else if (id === 'name') { %>
 <div class="u-field-value field">

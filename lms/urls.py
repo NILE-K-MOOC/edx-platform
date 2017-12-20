@@ -768,9 +768,6 @@ urlpatterns += (
     ),
 )
 
-if oraurlpatterns:
-    urlpatterns += tuple(oraurlpatterns)
-
 if settings.FEATURES["ENABLE_TEAMS"]:
     # Teams endpoints
     urlpatterns += (
