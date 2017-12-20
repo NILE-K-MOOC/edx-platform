@@ -839,6 +839,8 @@ def account_settings_context(request):
     except BaseException:
         edx_user_email = ''
 
+    nice_info = None
+
     with connections['default'].cursor() as cur:
         try:
             query = """
