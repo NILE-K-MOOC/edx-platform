@@ -334,6 +334,8 @@
 
             render: function () {
                 HtmlUtils.setHtml(this.$el, HtmlUtils.template(this.fieldTemplate)({
+                    complete: this.options.complete,
+                    sign: this.options.sign,
                     id: this.options.valueAttribute,
                     title: this.options.title,
                     value: this.modelValue(),

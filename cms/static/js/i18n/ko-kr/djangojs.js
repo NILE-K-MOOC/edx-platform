@@ -1852,7 +1852,9 @@
     "Chapters must have number": "\uc8fc\ucc28\ub294 \uc22b\uc790\ub9cc \uc785\ub825 \uac00\ub2a5\ud569\ub2c8\ub2e4\u002e",
     "Video time must have value": "\ub3d9\uc601\uc0c1 \uc7ac\uc0dd\uc2dc\uac04\uc740 \ud544\uc218 \uc785\ub825 \uc785\ub2c8\ub2e4\u002e",
     "Chapters must have value": "\uc8fc\ucc28\ub294 \ud544\uc218 \uc785\ub825 \uc785\ub2c8\ub2e4\u002e",
-    "": "\uc5c6\uc74c"
+    "": "\uc5c6\uc74c",
+    "sign": "\uC2E4\uBA85\uC778\uC99D",
+    "complete": "\uC778\uC99D\uC644\uB8CC"
   };
 
   django.gettext = function (msgid) {
