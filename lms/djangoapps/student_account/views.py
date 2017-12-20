@@ -419,7 +419,6 @@ def nicecheckplus(request):
     result_dict = str(result_dict)
     result_dict = result_dict.replace("'", '"')
 
-    # ----- nice check insert query ----- #
     with connections['default'].cursor() as cur:
         query = """
             INSERT INTO edxapp.auth_user_nicecheck
@@ -433,7 +432,66 @@ def nicecheckplus(request):
                          '{2}')
         """.format(str(user_id), nice_di, result_dict)
         cur.execute(query)
-    # ----- nice check insert query ----- #
+
+    with connections['default'].cursor() as cur:
+        try:
+            query = """
+            SELECT plain_data
+            FROM   edxapp.auth_user_nicecheck
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}');
+            """.format(edx_user_email)
+            cur.execute(query)
+            table = cur.fetchall()
+            nice_info = table[0][0]
+        except BaseException:
+            nice_info = None
+
+    if nice_info != None:
+        nice_dict = ast.literal_eval(nice_info)
+
+        # created user gender
+        user_gender = str(nice_dict['GENDER'])
+        if user_gender == '1':
+            user_gender = 'm'
+        elif user_gender == '2':
+            user_gender = 'f'
+
+        # created user birth day
+        user_birthday = nice_dict['BIRTHDATE']
+        user_birthday_y = str(user_birthday[0:4])
+        user_birthday_m = str(user_birthday[4:6])
+        user_birthday_d = str(user_birthday[6:8])
+        user_birthday = "{0}.{1}.{2}".format(user_birthday_y, user_birthday_m, user_birthday_d)
+
+        # created user name
+        user_name = nice_dict['UTF8_NAME']
+        user_name = urllib.unquote(user_name).decode('utf8')
+
+        # created flag
+        nice_check = 'yes'
+
+    else:
+        user_gender = ''
+        user_birthday = ''
+        user_name = ''
+        nice_check = 'no'
+
+    if nice_check == 'yes':
+        with connections['default'].cursor() as cur:
+            query = """
+            update auth_userprofile
+            set name = '{1}',
+                gender = '{2}',
+                year_of_birth = {3}
+            where user_id = {0}
+            """.format(user_id, user_name, user_gender, user_birthday_y)
+
+            print "------------------>"
+            print query
+            print "------------------>"
+            cur.execute(query)
 
     return render_to_response('student_account/nicecheckplus.html')
 
@@ -731,8 +789,10 @@ def account_settings_context(request):
                                                        # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
-    nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    nice_returnurl      = "http://192.168.33.20:8000/nicecheckplus"        # 성공시 이동될 URL
+    nice_errorurl       = "http://192.168.33.20:8000/nicecheckplus_error"  # 실패시 이동될 URL
+    #nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    #nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg      = ''
 
     plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
@@ -785,54 +845,27 @@ def account_settings_context(request):
     except BaseException:
         edx_user_email = ''
 
-    # ----- get user_id query ----- #
     with connections['default'].cursor() as cur:
         try:
             query = """
-            SELECT plain_data
-            FROM   edxapp.auth_user_nicecheck
-            WHERE  user_id IN (SELECT id
-                               FROM   edxapp.auth_user
-                               WHERE  email = '{0}');
+                SELECT b.name, b.gender, b.year_of_birth
+                  FROM auth_user_nicecheck AS a
+                       LEFT JOIN auth_userprofile AS b ON a.user_id = b.user_id
+                       JOIN auth_user AS c ON b.user_id = c.id
+                 WHERE c.email = 'kmoocstaff5@gmail.com'
             """.format(edx_user_email)
             cur.execute(query)
             table = cur.fetchall()
-            nice_info = table[0][0]
+            user_name = table[0][0]
+            user_gender = table[0][1]
+            user_birthday = table[0][2]
+            nice_check = 'yes'
         except BaseException:
-            nice_info = None
-    # ----- get user_id query ----- #
-
-    if nice_info != None:
-        nice_dict = ast.literal_eval(nice_info)
-
-        # created user gender
-        user_gender = str(nice_dict['GENDER'])
-        if user_gender == '1':
-            user_gender = '남자'
-        elif user_gender == '2':
-            user_gender = '여자'
-
-        # created user birth day
-        user_birthday = nice_dict['BIRTHDATE']
-        user_birthday_y = str(user_birthday[0:4])
-        user_birthday_m = str(user_birthday[4:6])
-        user_birthday_d = str(user_birthday[6:8])
-        user_birthday = "{0}.{1}.{2}".format(user_birthday_y, user_birthday_m, user_birthday_d)
-
-        # created user name
-        user_name = nice_dict['UTF8_NAME']
-        user_name = urllib.unquote(user_name).decode('utf8')
-
-        # created flag
-        nice_check = 'yes'
-
-    else:
-        user_gender = ''
-        user_birthday = ''
-        user_name = ''
-        nice_check = 'no'
+            user_name = None
+            user_gender = None
+            user_birthday = None
+            nice_check = 'no'
     # -------------------- nice check -------------------- #
-
 
     user = request.user
 
