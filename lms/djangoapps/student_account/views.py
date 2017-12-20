@@ -482,11 +482,10 @@ def nicecheckplus(request):
         with connections['default'].cursor() as cur:
             query = """
             update auth_userprofile
-            set name = '{1}',
-                gender = '{2}',
+            set gender = '{2}',
                 year_of_birth = {3}
             where user_id = {0}
-            """.format(user_id, user_name, user_gender, user_birthday_y)
+            """.format(user_id, user_gender, user_birthday_y)
 
             print "------------------>"
             print query
