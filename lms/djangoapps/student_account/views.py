@@ -851,13 +851,13 @@ def account_settings_context(request):
                   FROM auth_user_nicecheck AS a
                        LEFT JOIN auth_userprofile AS b ON a.user_id = b.user_id
                        JOIN auth_user AS c ON b.user_id = c.id
-                 WHERE c.email = 'kmoocstaff5@gmail.com'
+                 WHERE c.email = '{0}'
             """.format(edx_user_email)
             cur.execute(query)
-            table = cur.fetchall()
-            user_name = table[0][0]
-            user_gender = table[0][1]
-            user_birthday = table[0][2]
+            table = cur.fetchone()
+            user_name = table[0]
+            user_gender = table[1]
+            user_birthday = table[2]
             nice_check = 'yes'
         except BaseException:
             user_name = None
