@@ -385,8 +385,11 @@ def nicecheckplus(request):
             WHERE  email = '{0}'
         """.format(edx_user_email)
         cur.execute(query)
-        table = cur.fetchall()
-        user_id =  table[0][0]
+
+        print query
+
+        table = cur.fetchone()
+        user_id =  table[0]
     # ----- get user_id query ----- #
 
     # encode data
@@ -726,9 +729,10 @@ def account_settings_context(request):
     nice_gender         = ''                           # 없으면 기본 선택화면, 0: 여자, 1: 남자
     nice_reqseq         = 'REQ0000000001'              # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
                                                        # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    nice_returnurl      = "http://192.168.33.20:8000/nicecheckplus"        # 성공시 이동될 URL
-    nice_errorurl       = "http://192.168.33.20:8000/nicecheckplus_error"  # 실패시 이동될 URL
+    nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg      = ''
 
     plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
