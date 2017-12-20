@@ -1,3 +1,6 @@
+<% if($('.header-title').text() == '계정 설정'){$('#nicecheck').text('실명인증');} %>
+<% if($('.header-title').text() == 'Account Settings'){$('#nicecheck').text('Sign');} %>
+
 <% var nice_check = $('#nice_check').text() %>
 <% var user_name = $('#user_name').text() %>
 <%if(id === 'name' && nice_check === 'yes') { %>
@@ -10,8 +13,9 @@
 <div class="u-field-value field">
     <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>
     <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" style="width: 70%;" />
-    <input class="u-field-link u-field-link-title-password " type="button" id="nicecheck" title="nicecheck" aria-describedby="u-field-message-help-nicecheck" name="nicecheck" value="<%- sign %>" style="width: 29%; float: right;"/>
+    <div class="u-field-link u-field-link-title-password" id="nicecheck" style="width: 29%; float: right;"/></div>
 </div>
+
 <% } else { %>
 <div class="u-field-value field">
     <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>

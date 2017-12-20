@@ -30,7 +30,6 @@
             },
 
             render: function () {
-
                 HtmlUtils.setHtml(this.$el, HtmlUtils.template(accountSettingsTemplate)({
                     accountSettingsTabs: this.accountSettingsTabs
                 }));
