@@ -1093,9 +1093,25 @@ def settings_handler(request, course_key_string):
             enrollment_end_editable = GlobalStaff().has_user(request.user) or not marketing_site_enabled
             short_description_editable = settings.FEATURES.get('EDITABLE_SHORT_DESCRIPTION', True)
             self_paced_enabled = SelfPacedConfiguration.current().enabled
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                 SELECT teacher_name
+                  FROM course_overview_addinfo
+                 WHERE course_id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            teacher_index = cur.fetchall()
+            teacher_name = teacher_index[0][0]
+            cur.close()
 
             settings_context = {
                 'context_course': course_module,
+                'teacher_name': teacher_name,
                 'course_locator': course_key,
                 'lms_link_for_about_page': utils.get_lms_link_for_about_page(course_key),
                 'course_image_url': course_image_url(course_module, 'course_image'),
@@ -1145,7 +1161,6 @@ def settings_handler(request, course_key_string):
                             'show_min_grade_warning': show_min_grade_warning,
                         }
                     )
-
             return render_to_response('settings.html', settings_context)
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
             if request.method == 'GET':

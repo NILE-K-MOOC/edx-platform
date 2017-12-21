@@ -35,10 +35,27 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'change #course-video-hh': "setEffort",
                 'change #course-video-mm': "setEffort",
                 'change #course-effort-week': "setEffort",
-                'click #save_input': "testfn"
+                'click #save_input': "modi_overview",
+                'change #teacher_name': "modi_teacher_name"
             },
-            testfn: function (e) {
+            modi_teacher_name: function (e) {
 
+                this.model.set('modi_teacher_name', 'modi_teacher_name');
+                $('.action-primary').click(function() {
+                    var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
+                    var addinfo_user_id = $('#addinfo_user_id').text();
+                    var teacher_name = $('#teacher_name').val();
+
+                    $.post("/modi_teacher_name", {
+                        csrfmiddlewaretoken: $.cookie('csrftoken'),
+                        addinfo_course_id: addinfo_course_id,
+                        addinfo_user_id: addinfo_user_id,
+                        teacher_name: teacher_name,
+                        method : 'addinfo',
+                    });
+                });
+            },
+            modi_overview: function (e) {
                 $('#Tab1_1').html($('#tab1_1').val());
                 $('#Tab1_2').html($('#tab1_2').val());
                 $('#Tab2_1').html(tinyMCE.get('tab2_1').getContent());
@@ -46,13 +63,13 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 var tab3_1_1 = [];
                 var tab3_1_2 = [];
                 var tab3_1_3 = [];
-                $( ".tab3_1 .tab3_1_1" ).each(function() {
+                $( ".tab3_1_1" ).each(function() {
                     tab3_1_1.push($(this).val());
                 });
-                $( ".tab3_1 .tab3_1_2" ).each(function() {
+                $( ".tab3_1_2" ).each(function() {
                     tab3_1_2.push($(this).val());
                 });
-                $( ".tab3_1 .tab3_1_3" ).each(function() {
+                $( ".tab3_1_3" ).each(function() {
                     tab3_1_3.push($(this).val());
                 });
 
@@ -61,18 +78,18 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 for (var i = 0; i < tab3_1_1.length; i++) {
                     tab3_1_html += '<article class="teacher"><div class="teacher_image"><img src="'+tab3_1_1[i]+'"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i>'+tab3_1_2[i]+'</dt><dd>'+tab3_1_3[i]+'</dd></dl></div></article>'
                 }
-                tab3_1_html+= '</article>'
+                tab3_1_html+= '</article>';
 
                 var tab3_2_1 = [];
                 var tab3_2_2 = [];
                 var tab3_2_3 = [];
-                $( ".tab3_2 .tab3_2_1" ).each(function() {
+                $( ".tab3_2_1" ).each(function() {
                     tab3_2_1.push($(this).val());
                 });
-                $( ".tab3_2 .tab3_2_2" ).each(function() {
+                $( ".tab3_2_2" ).each(function() {
                     tab3_2_2.push($(this).val());
                 });
-                $( ".tab3_2 .tab3_2_3" ).each(function() {
+                $( ".tab3_2_3" ).each(function() {
                     tab3_2_3.push($(this).val());
                 });
 

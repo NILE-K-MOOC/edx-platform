@@ -830,7 +830,6 @@ def course_interest(request):
                                   settings.DATABASES.get('default').get('PASSWORD'),
                                   settings.DATABASES.get('default').get('NAME'),
                                   charset='utf8')
-
             cur = con.cursor()
             query = """
                  UPDATE interest_course

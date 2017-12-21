@@ -57,7 +57,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
         <div class="content-primary">
             <form id="settings_details" class="settings-details" method="post" action="">
                 <div class="group-settings basic">
-
                     <header>
                         <h2 class="title-2">${_("Basic Information")}</h2>
                         <span class="tip">${_("The nuts and bolts of your course")}</span>
@@ -190,9 +189,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     <a href="javascript:mask_click();"><div id="mask"></div></a>
                     <div style="display: none;" id="layer_input">
                         <div id="course_info_text" style="display: none">${course_info_text}</div>
-                        <script>
-
-                        </script>
                         <div id="container">
                             <ul class="tabs">
                                 <li class="active" rel="tab1">강좌소개</li>
@@ -523,7 +519,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     </header>
                     <ol class="list-input">
                         <li class="field" id="field-course-language">
-                            <label for="course-language">${_("Course Language")}</label>
+                            <label for="동">${_("Course Language")}</label>
                             <select id="course-language">
                                 <option value="" selected> -</option>
                                 % for lang, label in language_options:
@@ -531,6 +527,15 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 % endfor
                             </select>
                             <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
+                        </li>
+                        <li class="field" id="field-course-language">
+                            <label for="course-language">교수자명</label>
+                            <input type="text" id = "teacher_name" value="${teacher_name}">
+                            <span class="tip tip-stacked">교수자가 복수인 경우 “,” 로 구분해서 입력(예: 홍길동, 임꺽정)</span>
+                            <div style="display: none">
+                                <div id="addinfo_course_id" >${lms_link_for_about_page}</div>
+                                <div id="addinfo_user_id" >${user.id}</div>
+                            </div>
                         </li>
                     </ol>
                 </div>
@@ -596,21 +601,13 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 $('#mask').fadeTo("slow",0.8);
                             };
 
+                            console.log('${lms_link_for_about_page}');
+                            console.log('${user.id}');
+
 
                             function mask_click() {
                                 $('#mask').hide();
                                 $('#layer_input').hide();
-                            };
-
-                            function faq_add() {
-                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab5_1_1"></td></tr><tr><td><textarea class="input_area tab5_1_2"></textarea></td></tr>');
-                            };
-
-                            function faq_del(){
-                                $("#faq_table input[type=checkbox]:checked").each(function () {
-                                    $(this).parent().parent().next().remove();
-                                    $(this).parent().parent().remove();
-                                });
                             };
 
                             function info_add1() {
@@ -625,11 +622,22 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function info_add2() {
-                              $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text"></td><td rowspan="2"><textarea class="input_area"></textarea></td></tr><tr><td><input type="text" class="input_text"></td></tr>');
+                              $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_2_1"></td><td rowspan="2"><textarea class="input_area tab3_2_3"></textarea></td></tr><tr><td><input type="text" class="input_text tab3_2_2"></td></tr>');
                             };
 
                             function info_del2(){
                                 $("#info_table2 input[type=checkbox]:checked").each(function () {
+                                    $(this).parent().parent().next().remove();
+                                    $(this).parent().parent().remove();
+                                });
+                            };
+
+                            function faq_add() {
+                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab5_1_1"></td></tr><tr><td><textarea class="input_area tab5_1_2"></textarea></td></tr>');
+                            };
+
+                            function faq_del(){
+                                $("#faq_table input[type=checkbox]:checked").each(function () {
                                     $(this).parent().parent().next().remove();
                                     $(this).parent().parent().remove();
                                 });
@@ -645,15 +653,8 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             };
 
                             function show_input() {
-
                                 $('#course_info_text').html(($('#course-overview').val()));
-
-                                console.log($('#course_info_text #Tab1_1').text());
-                                console.log($('#course_info_text #Tab1_1').html());
-                                console.log($('#course_info_text #Tab1_1').val());
                                 $('#course-overview').html($('#course-overview').val());
-
-                                console.log($('#course-overview #Tab1_1').text());
                                 $('#tab1_1').val($('#course_info_text #Tab1_1').text());
                                 $('#tab1_2').val($('#course_info_text #Tab1_2').html());
                                 tinyMCE.get('tab2_1').setContent($('#course_info_text #Tab2_1').html());
@@ -663,6 +664,41 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 tinyMCE.get('tab6_1').setContent($('#course_info_text #Tab6_1').html());
 
 
+                                $('.teacher').each(function() {
+                                    if($('.teacher').size() != 0 ) {
+                                        if($('.tab3_1_1').val() == '' && $('.tab3_1_2').val() == '' && $('.tab3_1_3').val() == ''){
+                                            $('.tab3_1_3').parent().parent().next().remove();
+                                            $('.tab3_1_3').parent().parent().remove();
+                                        }
+                                        if($('.teacher').size() != $('.tab3_1_1').size()){
+                                            $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_1_1" value="'+$(this).find('img').attr('src')+'"></td><td rowspan="2"><textarea class="input_area tab3_1_3">'+$(this).find('dd').text()+'</textarea></td></tr><tr><td><input type="text" class="input_text tab3_1_2" value="'+$(this).find('dt').text()+'"></td></tr>');
+                                        }
+                                    }
+                                });
+
+                                $('.staff').each(function() {
+                                    if($('.staff').size() != 0 ) {
+                                        if($('.tab3_2_1').val() == '' && $('.tab3_2_2').val() == '' && $('.tab3_2_3').val() == ''){
+                                            $('.tab3_2_3').parent().parent().next().remove();
+                                            $('.tab3_2_3').parent().parent().remove();
+                                        }
+                                        if($('.staff').size() != $('.tab3_2_1').size()){
+                                            $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_2_1" value="'+$(this).find('img').attr('src')+'"></td><td rowspan="2"><textarea class="input_area tab3_2_3">'+$(this).find('dd').text()+'</textarea></td></tr><tr><td><input type="text" class="input_text tab3_2_2" value="'+$(this).find('dt').text()+'"></td></tr>');
+                                        }
+                                    }
+                                });
+
+                                $('.question').each(function() {
+                                    if($('.question').size() != 0) {
+                                        if($('.tab5_1_1').val() == '' && $('.tab5_1_2').val() == ''){
+                                            $('.tab5_1_1').parent().parent().next().remove();
+                                            $('.tab5_1_1').parent().parent().remove();
+                                        }
+                                        if($('.question').size() != $('.tab5_1_1').size()) {
+                                            $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab5_1_1" value="'+$(this).find('h4').text()+'"></td></tr><tr><td><textarea class="input_area tab5_1_2">'+$(this).find('p').text()+'</textarea></td></tr>');
+                                        }
+                                    }
+                                });
                                 $('#layer_input').css("display","block");
                                 wrapWindowByMask();
                             };

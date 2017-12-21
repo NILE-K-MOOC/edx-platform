@@ -35,7 +35,7 @@ data:
             <label for="toggle"></label>
 
             <div class="syllabus_table" id="Tab2_1">
-                <table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서">
+                <table border="1" cellpadding="5" cellspacing="0" summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서">
                     <caption>강의계획서</caption>
                     <colgroup>
                         <col width="5%"/>
