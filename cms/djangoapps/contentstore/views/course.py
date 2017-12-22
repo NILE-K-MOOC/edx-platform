@@ -1106,8 +1106,12 @@ def settings_handler(request, course_key_string):
             """.format(course_key)
             cur.execute(query)
             teacher_index = cur.fetchall()
-            teacher_name = teacher_index[0][0]
             cur.close()
+
+            if(len(teacher_index) == 1):
+                teacher_name = teacher_index[0][0]
+            else:
+                teacher_name =""
 
             settings_context = {
                 'context_course': course_module,
