@@ -29,7 +29,8 @@ urlpatterns = (
     url(r'^$', 'branding.views.index', name="root"),  
 
     # ---------- multi site ---------- #
-    url(r'^multisite/(?P<org>[a-zA-Z]+)$', 'branding.views.multisite_index', name="root"),  
+    url(r'^multisite/(?P<org>[a-zA-Z]+)$', 'branding.views.multisite_index', name="root"),
+    url(r'^multisite_url_check$', 'branding.views.multisite_url_check', name="root"),
     # ---------- multi site ---------- #
 
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
@@ -130,6 +131,10 @@ urlpatterns = (
 
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
+
+    # series course
+    url(r'^series/$', 'community.views.series', name='series'),
+    url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
 
     # community url
     url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),

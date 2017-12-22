@@ -5,44 +5,34 @@
 
 <%block name="header_extras"></%block>
 
-<!--<script src="${static.url('js/script/mod_memo.js')}" charset="utf-8"></script>-->
-
+<!-- css start -->
 <style>
 .title{
     margin-top: -15px;
 }
-.memo_main{
-    padding: 20px;
-    margin-top: -20px;
-}
-.memo_title{
-    border: solid 1px #CCCCCC;
-    height: 50px;
-    font-size: 100%;
-    font-color: 333333;
-    padding: 15px;
-}
-.memo_content{
-    border: solid 1px #CCCCCC;
-    height: 400px;
-    font-size: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    margin-top: 15px;
+.contents_bottom{
+    border-bottom: solid 1px #8a8a8a;
 }
 .btn2{
     float: right;
+    margin-left: 10px;
+}
+.btn1{
+    float: right;
 }
 </style>
+<!-- css end -->
 
+<!-- js start -->
 <script>
 $(document).ready(function(){
     $(".btn1").click(function(){
         location.href = "/memo";
     });
+
     $(".btn2").click(function(){
-        var user_id = ${user.id}
-        var board_id = ${board_id}
+        var user_id = ${user.id};
+        var board_id = ${board_id};
         $.post( "/memo", {
                                 "user_id": user_id,
                                 "board_id": board_id,
@@ -59,28 +49,33 @@ $(document).ready(function(){
                 if(data.return == "fail"){
                     alert("서버 오류");
                 }
-            });
+            });!
     });
 });
 </script>
+<!-- js end -->
 
+<!-- html start -->
 <section class="container">
     <h2 class="title" title="공지사항" id="main">쪽지</h2>
-
-    <div class="memo_main">
-        <div class="memo_title">
-            <div class="title_float">${title}</div>
-        </div>
-
-        <div class="memo_content">
-            <div class="content_float">${content}</div>
-        </div>
-    </div>
-
-    <input class="btn2" type="button" value="삭제">
-    <input class="btn1" type="button" value="목록으로">
+    <section class="board-view">
+        <ul>
+            <li class="title">
+                <h3 id="title" title="제목">${title}</h3>
+                <time id="reg_date" style="bottom: 20px;" title="작성일">발송일시[등록일시] : ${regist_date}</time>
+                <time id="mod_date" style="bottom: 5px;" title="수정일">조회일시 : ${read_date}</time>
+            </li>
+            <li class="contents" id="context" title="내용">
+                <div id="context1">${content}</div>
+            </li>
+            <li class="contents_bottom" >
+            </li>
+            <input class="btn2 btn-gray" type="button" value="삭제">
+            <input class="btn1 btn-gray" type="button" value="목록">
+        </ul>
+    </section>
 </section>
-
+<!-- html end -->
 
 
 

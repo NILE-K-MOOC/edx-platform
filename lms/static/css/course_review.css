@@ -195,7 +195,7 @@ fieldset, label { margin: 0; padding: 0; }
 .scrollbar
 {
 	height: 300px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	margin-bottom: 15px;
         border: solid 1px #c9c9c9;
         border-radius: 3px;
@@ -291,5 +291,5 @@ a.review_button:hover{ color: #737373; }
 a.review_button:active{ color: #737373; }
 #review_write_star{ margin-bottom: -10px; }
 #review_write_area{ height: 80px; font-size: 80%; }
-#review_write_submit{ color: #FFFFFF; float: right; height: 30px;}
+#review_write_submit{float:right;padding-bottom: 5px;padding-top: 5px;margin-bottom: 10px;}
 
