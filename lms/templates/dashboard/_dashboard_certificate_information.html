@@ -64,12 +64,13 @@ else:
         <li class="action"><span class="disabled">
             ${_("Your {cert_name_short} is Generating").format(cert_name_short=cert_name_short)}</span></li>
       % elif cert_status['show_download_url'] and cert_status.get('show_cert_web_view', False):
-        <li class="action action-certificate">
+        <li class="action action-certificate" data-check1="${cert_status}">
 
         % if cert_status.get('survey', 'complete') == 'complete':
             <a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"
                title="${_('This link will open the certificate web view')}">
                ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
+
         % elif 'survey_url' in cert_status:
 
             <%
@@ -85,6 +86,13 @@ else:
             <a class="btn" onclick="return move_to_survey();" href="${cert_status['survey_url']}"
                title="${_('courseware')}">
                ${_("View certificates.(Not finished Poll)")}</a>
+
+        % elif 'show_download_url' in cert_status and cert_status['show_download_url'] and 'show_cert_web_view' in cert_status and cert_status['show_cert_web_view'] and 'cert_web_view_url' in cert_status and cert_status['cert_web_view_url'] != '' :
+            <!-- temp source -->
+            <a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"
+               title="${_('This link will open the certificate web view')}">
+               ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
+
         % endif
         </li>
       % elif cert_status['show_download_url'] and enrollment.mode in CourseMode.NON_VERIFIED_MODES:
