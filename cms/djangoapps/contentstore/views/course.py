@@ -1116,8 +1116,8 @@ def settings_handler(request, course_key_string):
             cur = con.cursor()
             query = """
                  SELECT count(*)
-                  FROM course_overviews_courseoverview
-                 WHERE created >= date('2017-12-21') AND id = '{0}';
+                  FROM course_structures_coursestructure
+                 WHERE created >= date('2017-12-21') AND course_id = '{0}';
             """.format(course_key)
             cur.execute(query)
             created_check = cur.fetchall()
