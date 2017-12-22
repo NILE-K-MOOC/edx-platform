@@ -310,7 +310,6 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
 
 
                 this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
-                //this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.$el.find('#' + this.fieldToSelectorMap['course_info_text']).text());
                 this.codeMirrorize(null, $('#course-overview')[0]);
                 this.$el.find('#' + this.fieldToSelectorMap['input']).css("z-index", "99");
 
@@ -552,6 +551,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'course_learning_info': 'course-learning-info',
                 'input': 'layer_input',
                 'course_info_text': 'course_info_text',
+                'teacher_name': 'teacher_name',
             },
 
             addLearningFields: function () {
@@ -679,6 +679,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                     case 'course-duration':
                     case 'course-description':
                     case 'course-short-description':
+                    case 'teacher_name':
                         this.setField(event);
                         break;
                     default: // Everything else is handled by datepickers and CodeMirror.
