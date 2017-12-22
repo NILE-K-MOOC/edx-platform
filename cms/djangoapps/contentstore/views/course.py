@@ -1113,6 +1113,22 @@ def settings_handler(request, course_key_string):
             else:
                 teacher_name =""
 
+            cur = con.cursor()
+            query = """
+                 SELECT count(*)
+                  FROM course_overviews_courseoverview
+                 WHERE created >= date('2017-12-21') AND id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            created_check = cur.fetchall()
+            cur.close()
+
+            if(created_check[0][0] == 1):
+                modi_over = True
+            else :
+                modi_over = False
+
+
             settings_context = {
                 'context_course': course_module,
                 'teacher_name': teacher_name,
@@ -1135,7 +1151,8 @@ def settings_handler(request, course_key_string):
                 'is_entrance_exams_enabled': is_entrance_exams_enabled(),
                 'self_paced_enabled': self_paced_enabled,
                 'enable_extended_course_details': enable_extended_course_details,
-                'course_info_text':course_info_text
+                'course_info_text':course_info_text,
+                'modi_over':modi_over
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)

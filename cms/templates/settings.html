@@ -589,7 +589,13 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                       a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
                           a_link_end=HTML("</a>")
                     )}</span>
+                            % if modi_over == True:
                             <a id="modify" href="javascript:show_input();" style="float: right; background-color: #AAAAAA" class="remove-item"><span class="modify-icon"></span>수정</a>
+                            <div id = modi_check></div>
+                            <script>
+                                console.log($('#modi_check').val())
+                            </script>
+                            % endif
                         </li>
 
                         <script>

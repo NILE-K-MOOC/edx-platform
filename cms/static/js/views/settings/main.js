@@ -731,9 +731,22 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 if (!this.codeMirrors[thisTarget.id]) {
                     var cachethis = this;
                     var field = this.selectorToField[thisTarget.id];
-                    this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
+                    var check = $('#modi_check').size();
+                    console.log('Test======');
+                    console.log(check);
+
+
+                    if( check == 1) {
+                        this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
                         mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true
-                    });
+                        });
+                    }
+                    else {
+                        this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
+                        mode: "text/html", lineNumbers: true, lineWrapping: true
+                        });
+                    }
+
                     this.codeMirrors[thisTarget.id].on('change', function (mirror) {
                         mirror.save();
                         cachethis.clearValidationErrors();
