@@ -1158,7 +1158,7 @@ def settings_handler(request, course_key_string):
                     if prerequisite_course_keys:
                         if not all(is_valid_course_key(course_key) for course_key in prerequisite_course_keys):
                             return JsonResponseBadRequest({"error": _("Invalid prerequisite course key")})
-                        set_prerequisite_courses(course_key, prerequisite_course_keys)
+                    set_prerequisite_courses(course_key, prerequisite_course_keys)
 
                 # If the entrance exams feature has been enabled, we'll need to check for some
                 # feature-specific settings and handle them accordingly
