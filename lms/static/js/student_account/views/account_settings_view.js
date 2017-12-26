@@ -20,7 +20,8 @@
                 //{name: 'ordersTabSections', id: 'orders-tab', label: gettext('Order History')}
             ],
             events: {
-                'click .account-nav-link': 'changeTab'
+                'click .account-nav-link': 'changeTab',
+                'click #nicecheck': 'nicecheck'
             },
 
             initialize: function (options) {
@@ -30,11 +31,21 @@
 
             render: function () {
 
+                console.log('render 3');
+
                 HtmlUtils.setHtml(this.$el, HtmlUtils.template(accountSettingsTemplate)({
                     accountSettingsTabs: this.accountSettingsTabs
                 }));
                 this.renderSection(this.options.tabSections[this.activeTab]);
                 return this;
+            },
+
+            nicecheck: function(e) {
+                if(confirm(gettext("Once you have verified your name, you can not cancel it. Do you want to proceed?"))){
+                    window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+                    document.form2.target = "popupNICE";
+                    document.form2.submit();
+                }
             },
 
             changeTab: function(e) {
