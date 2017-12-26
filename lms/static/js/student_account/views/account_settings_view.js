@@ -30,6 +30,9 @@
             },
 
             render: function () {
+
+                console.log('render 3');
+
                 HtmlUtils.setHtml(this.$el, HtmlUtils.template(accountSettingsTemplate)({
                     accountSettingsTabs: this.accountSettingsTabs
                 }));
@@ -38,9 +41,11 @@
             },
 
             nicecheck: function(e) {
-                window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
-                document.form2.target = "popupNICE";
-                document.form2.submit();
+                if(confirm(gettext("Once you have verified your name, you can not cancel it. Do you want to proceed?"))){
+                    window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+                    document.form2.target = "popupNICE";
+                    document.form2.submit();
+                }
             },
 
             changeTab: function(e) {

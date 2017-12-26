@@ -375,7 +375,7 @@ def nicecheckplus(request):
     try:
         edx_user_email = request.user.email
     except BaseException:
-        edx_user_email = ''
+        return render_to_response('student_account/nicecheckplus_error.html')
 
     # ----- get user_id query ----- #
     with connections['default'].cursor() as cur:
