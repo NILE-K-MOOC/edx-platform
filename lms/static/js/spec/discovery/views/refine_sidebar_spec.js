@@ -70,8 +70,6 @@ define([
             expect(this.sidebar.$el.find('ul.facet-list')).toHaveClass('collapse');
             expect(this.sidebar.$el.find('.show-less')).toHaveClass('hidden');
         });
-
     });
-
 });
 

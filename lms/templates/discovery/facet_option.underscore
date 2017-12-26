@@ -1,10 +1,8 @@
-<li>
-    <button data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" class="facet-option discovery-button <%- selected ? 'selected' : '' %>">
-        <div style="width:95%;overflow:hidden;text-overflow:ellipsis;float:left;">
-        <%- gettext(name) %>
-        </div>
-        <span class="count">
-            <span class="count-number"><%- count %></span>
-        </span>
-    </button>
-</li>
+<option value="<%- term %>+<%- name %>" data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" class="facet-option discovery-button" <%- selected ? 'selected' : '' %>>
+    <div style="width:95%;overflow:hidden;text-overflow:ellipsis;float:left;">
+    <%- gettext(name) %>
+    </div>
+    <span class="count">
+        <span class="count-number"><%- count %></span>
+    </span>
+</option>
