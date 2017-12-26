@@ -2,7 +2,7 @@
 <% var user_name = $('#user_name').text() %>
 <%if(id === 'name' && nice_check === 'yes') { %>
 <div style='margin-bottom: -30px;' class="u-field u-field-readonly u-field-username"><div class="field">
-    <span class="u-field-title field-label"><%- title %> <div style="font-weight: bold; float:right; font-size:80%;">(<%- complete %>:<%- $('#user_name').text() %>)</div></span>
+    <span class="u-field-title field-label"><%- title %> <div style="font-weight: bold; float:right; font-size:80%;">"<%- $('#user_name').text() %>" <%- complete %></div></span>
     <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>"/>
 </div>
 <% } else if (id === 'name') { %>

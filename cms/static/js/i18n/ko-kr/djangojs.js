@@ -667,7 +667,7 @@
     "Formats": "\ud615\uc2dd",
     "formLabel": "formLabel",
     "Frequently Asked Questions": "\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38\ub4e4",
-    "Full Name": "\uc2e4\uba85",
+    "Full Name": "\uc774\ub984",
     "Full Profile": "\uc804\uccb4 \ud504\ub85c\ud544",
     "Fullscreen": "\uc804\uccb4 \ud654\uba74",
     "Gender": "\uc131 ",
@@ -1854,7 +1854,7 @@
     "Chapters must have value": "\uc8fc\ucc28\ub294 \ud544\uc218 \uc785\ub825 \uc785\ub2c8\ub2e4\u002e",
     "": "\uc5c6\uc74c",
     "Authentication": "\uc2e4\uba85\uc778\uc99d\ud558\uae30",
-    "Authenticationed": "\ubcf8\uc778\uc778\uc99d \uc644\ub8cc",
+    "Authenticationed": "\u0028\uc73c\u0029\ub85c \uc2e4\uba85\uc778\uc99d \ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e",
     "Once you have verified your name, you can not cancel it. Do you want to proceed?": "\ud55c \ubc88 \uc2e4\uba85\uc778\uc99d\uc744 \ud558\uba74 \ucde8\uc18c\uac00 \ubd88\uac00\ub2a5\ud569\ub2c8\ub2e4\u002e \uadf8\ub798\ub3c4 \uc9c4\ud589\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c\u003f",
     "The name is specified in the certification. When you do real name verification process, it is indicated that the real name is verified in the receipt.. Other users will never see your real name.": "\uc774\ub984\uc740 \uc774\uc218\uc99d\uc5d0 \uba85\uae30\ub429\ub2c8\ub2e4\u002e \uc2e4\uba85\uc778\uc99d\uc744 \ud560 \uacbd\uc6b0\u002c \uc774\uc218\uc99d\uc5d0 \uc2e4\uba85\uc778\uc99d \ub410\uc74c\uc774 \ud568\uaed8 \ud45c\uc2dc\ub429\ub2c8\ub2e4\u002e \ub2e4\ub978 \uc0ac\uc6a9\uc790\ub294 \uc808\ub300 \uc2e4\uba85\uc744 \ubcfc \uc218 \uc5c6\uc2b5\ub2c8\ub2e4\u002e"
   };
