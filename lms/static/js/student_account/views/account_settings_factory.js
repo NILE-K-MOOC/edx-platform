@@ -51,11 +51,11 @@
                             view: new AccountSettingsFieldViews.TextFieldView({
                                 model: userAccountModel,
                                 title: gettext('Full Name'),
-                                sign: gettext('sign'),
-                                complete: gettext('complete'),
+                                sign: gettext('Authentication'),
+                                complete: gettext('Authenticationed'),
                                 valueAttribute: 'name',
                                 helpMessage: gettext(
-                                    'The name that is used for ID verification and appears on your certificates. Other learners never see your full name. Make sure to enter your name exactly as it appears on your government-issued photo ID, including any non-Roman characters.' /* jshint ignore:line */
+                                    'The name is specified in the certification. When you do real name verification process, it is indicated that the real name is verified in the receipt.. Other users will never see your real name.' /* jshint ignore:line */
                                 ),
                                 persistChanges: true
                             })

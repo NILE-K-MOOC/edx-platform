@@ -11,10 +11,19 @@
         var AccountSectionView = Backbone.View.extend({
 
             initialize: function (options) {
+
+                console.log('check 11 --------------------------- s');
+                console.log(options);
+                console.log('check 11 --------------------------- e');
+
                 this.options = options;
             },
 
             render: function () {
+                console.log('check 1 --------------------------- s');
+                console.log(this.options.sections);
+                console.log('check 1 --------------------------- e');
+
                 this.$el.html(_.template(sectionTemplate)({
                     sections: this.options.sections,
                     activeTabName: this.options.activeTabName
