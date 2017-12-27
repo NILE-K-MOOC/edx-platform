@@ -1164,6 +1164,9 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	.container>div.wiki-wrapper {min-width:auto;}
 }
 
+.courses-listing-item a:focus{
+   border: 1px solid blue;
+}
 
 a:focus, img:focus {
  outline: 1px solid blue;
