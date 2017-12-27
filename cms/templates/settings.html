@@ -670,13 +670,13 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 tinyMCE.get('tab6_1').setContent($('#course_info_text #Tab6_1').html());
 
 
-                                $('.teacher').each(function() {
-                                    if($('.teacher').size() != 0 ) {
+                                $('.professor').each(function() {
+                                    if($('.professor').size() != 0 ) {
                                         if($('.tab3_1_1').val() == '' && $('.tab3_1_2').val() == '' && $('.tab3_1_3').val() == ''){
                                             $('.tab3_1_3').parent().parent().next().remove();
                                             $('.tab3_1_3').parent().parent().remove();
                                         }
-                                        if($('.teacher').size() != $('.tab3_1_1').size()){
+                                        if($('.professor').size() != $('.tab3_1_1').size()){
                                             $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_1_1" value="'+$(this).find('img').attr('src')+'"></td><td rowspan="2"><textarea class="input_area tab3_1_3">'+$(this).find('dd').text()+'</textarea></td></tr><tr><td><input type="text" class="input_text tab3_1_2" value="'+$(this).find('dt').text()+'"></td></tr>');
                                         }
                                     }
