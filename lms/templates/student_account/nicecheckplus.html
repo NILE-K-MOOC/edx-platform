@@ -8,7 +8,7 @@
 <%block name="js_extra">
     <script>
         $(document).ready(function(){
-            alert('인증 완료');
+            opener.location.reload();
             self.close();
         });
     </script>
@@ -22,4 +22,3 @@
     ## from logistration pages.
     <%block name="footer"/>
 % endif
-

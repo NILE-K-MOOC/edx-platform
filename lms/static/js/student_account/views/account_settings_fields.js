@@ -147,6 +147,9 @@
                     _.bindAll(this, 'redirect_to', 'disconnect', 'successMessage', 'inProgressMessage');
                 },
                 render: function () {
+
+                    console.log('render 1');
+
                     var linkTitle = '',
                         linkClass = '',
                         subTitle = '',
@@ -278,6 +281,9 @@
                 },
 
                 render: function () {
+
+                    console.log('render 2');
+
                     HtmlUtils.setHtml(this.$el, this.template({
                         title: this.options.title,
                         totalPrice: this.options.totalPrice,

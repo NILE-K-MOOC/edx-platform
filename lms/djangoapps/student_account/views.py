@@ -69,6 +69,7 @@ from django.db import connections
 import ast
 import urllib
 
+
 # def job():
 #     print("I'm working...")
 #
@@ -92,7 +93,7 @@ import urllib
 # job.enable()
 #
 AUDIT_LOG = logging.getLogger("audit")
-log = logging.getLogger(__name__)
+# log = logging.getLogger(__name__)
 
 @require_http_methods(['GET'])
 @ensure_csrf_cookie
@@ -261,19 +262,19 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
-        print 'login_and_registration_form type 1'
+        # print 'login_and_registration_form type 1'
         pass
     elif 'errorMessage' in provider_info and provider_info['errorMessage'] is not None:
-        print 'login_and_registration_form type 2'
+        # print 'login_and_registration_form type 2'
         pass
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
-        print 'login_and_registration_form type 3'
+        # print 'login_and_registration_form type 3'
         division = request.session['division']
         # del request.session['division']
         # del request.session['agreeYN']
         # del request.session['auth']
     elif 'division' in request.session and 'agreeYN' in request.session:
-        print 'login_and_registration_form type 4'
+        # print 'login_and_registration_form type 4'
         division = request.session['division']
         if request.session['division'] == 'N':
             return render_to_response('student_account/registration_gubn.html')
@@ -283,6 +284,9 @@ def login_and_registration_form(request, initial_mode="login"):
     else:
         print 'login_and_registration_form type 5'
         return render_to_response('student_account/registration_gubn.html')
+
+    if 'division' in request.session:
+        division = request.session.get('division')
 
     # print 'division = ', division
 
@@ -371,32 +375,36 @@ def login_and_registration_form(request, initial_mode="login"):
 @csrf_exempt
 def nicecheckplus(request):
 
-
-    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
-    edx_user_email = str(edx_user_info['email'])
+    try:
+        edx_user_email = request.user.email
+    except BaseException:
+        return render_to_response('student_account/nicecheckplus_error.html')
 
     # ----- get user_id query ----- #
     with connections['default'].cursor() as cur:
         query = """
-            SELECT * 
-            FROM   edxapp.auth_user 
-            WHERE  email = '{0}' 
+            SELECT id
+            FROM   edxapp.auth_user
+            WHERE  email = '{0}'
         """.format(edx_user_email)
         cur.execute(query)
-        table = cur.fetchall()
-        user_id =  table[0][0]
+
+        print query
+
+        table = cur.fetchone()
+        user_id =  table[0]
     # ----- get user_id query ----- #
 
-    # encode data 
+    # encode data
     nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
     nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
-    nice_cb_encode_path = '/edx/app/edxapp/CPClient'
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     enc_data = request.POST.get('EncodeData')
     nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
     plain_data = commands.getoutput(nice_command)
     di_index = plain_data.find("DI64:")
     nice_di = plain_data[di_index+5 : di_index+5+64]
- 
+
     # return data parsing
     result_dict = {}
     pos1 = 0
@@ -414,21 +422,75 @@ def nicecheckplus(request):
     result_dict = str(result_dict)
     result_dict = result_dict.replace("'", '"')
 
-    # ----- nice check insert query ----- #
     with connections['default'].cursor() as cur:
         query = """
-            INSERT INTO edxapp.auth_user_nicecheck 
-                        (user_id, 
-                         nice_check, 
-                         di, 
-                         plain_data) 
-            VALUES      ({0}, 
-                         'Y', 
-                         '{1}', 
+            INSERT INTO edxapp.auth_user_nicecheck
+                        (user_id,
+                         nice_check,
+                         di,
+                         plain_data)
+            VALUES      ({0},
+                         'Y',
+                         '{1}',
                          '{2}')
         """.format(str(user_id), nice_di, result_dict)
         cur.execute(query)
-    # ----- nice check insert query ----- #
+
+    with connections['default'].cursor() as cur:
+        try:
+            query = """
+            SELECT plain_data
+            FROM   edxapp.auth_user_nicecheck
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}');
+            """.format(edx_user_email)
+            cur.execute(query)
+            table = cur.fetchall()
+            nice_info = table[0][0]
+        except BaseException:
+            nice_info = None
+
+    if nice_info != None:
+        nice_dict = ast.literal_eval(nice_info)
+
+        # created user gender
+        user_gender = str(nice_dict['GENDER'])
+        if user_gender == '1':
+            user_gender = 'm'
+        elif user_gender == '2':
+            user_gender = 'f'
+
+        # created user birth day
+        user_birthday = nice_dict['BIRTHDATE']
+        user_birthday_y = str(user_birthday[0:4])
+        user_birthday_m = str(user_birthday[4:6])
+        user_birthday_d = str(user_birthday[6:8])
+        user_birthday = "{0}.{1}.{2}".format(user_birthday_y, user_birthday_m, user_birthday_d)
+
+        # created user name
+        user_name = nice_dict['UTF8_NAME']
+        user_name = urllib.unquote(user_name).decode('utf8')
+
+        # created flag
+        nice_check = 'yes'
+
+    else:
+        user_gender = ''
+        user_birthday = ''
+        user_name = ''
+        nice_check = 'no'
+
+    if nice_check == 'yes':
+        with connections['default'].cursor() as cur:
+            query = """
+            update auth_userprofile
+            set gender = '{1}',
+                year_of_birth = {2}
+            where user_id = {0}
+            """.format(user_id, user_gender, user_birthday_y)
+
+            cur.execute(query)
 
     return render_to_response('student_account/nicecheckplus.html')
 
@@ -716,7 +778,7 @@ def account_settings_context(request):
     # -------------------- nice core -------------------- #
     nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
     nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
-    nice_cb_encode_path = '/edx/app/edxapp/CPClient'
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
     nice_authtype       = ''                           # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
     nice_popgubun       = 'N'                          # Y : 취소버튼 있음 / N : 취소버튼 없음
@@ -724,9 +786,10 @@ def account_settings_context(request):
     nice_gender         = ''                           # 없으면 기본 선택화면, 0: 여자, 1: 남자
     nice_reqseq         = 'REQ0000000001'              # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
                                                        # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    nice_returnurl      = "http://192.168.33.20:8000/nicecheckplus"        # 성공시 이동될 URL
-    nice_errorurl       = "http://192.168.33.20:8000/nicecheckplus_error"  # 실패시 이동될 URL
+    nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg      = ''
 
     plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
@@ -775,59 +838,41 @@ def account_settings_context(request):
 
     # -------------------- nice check -------------------- #
     try:
-        edx_user_info = json.loads(request.COOKIES['edx-user-info'])
-        edx_user_email = str(edx_user_info['email'])
+        edx_user_email = request.user.email
     except BaseException:
-        edx_user_info = ''
         edx_user_email = ''
 
-    # ----- get user_id query ----- #
+    nice_info = None
+
     with connections['default'].cursor() as cur:
         try:
             query = """
-            SELECT plain_data 
-            FROM   edxapp.auth_user_nicecheck 
-            WHERE  user_id IN (SELECT id 
-                               FROM   edxapp.auth_user 
-                               WHERE  email = '{0}'); 
+                SELECT b.name, b.gender, b.year_of_birth, a.plain_data
+                  FROM auth_user_nicecheck AS a
+                       LEFT JOIN auth_userprofile AS b ON a.user_id = b.user_id
+                       JOIN auth_user AS c ON b.user_id = c.id
+                 WHERE c.email = '{0}'
             """.format(edx_user_email)
             cur.execute(query)
-            table = cur.fetchall()
-            nice_info = table[0][0]
+            table = cur.fetchone()
+            #user_name = table[0]
+            user_gender = table[1]
+            user_birthday = table[2]
+            nice_info = table[3]
+            nice_check = 'yes'
         except BaseException:
-            nice_info = None
-    # ----- get user_id query ----- #
+            #user_name = None
+            user_gender = None
+            user_birthday = None
+            nice_check = 'no'
+    # -------------------- nice check -------------------- #
 
     if nice_info != None:
         nice_dict = ast.literal_eval(nice_info)
-
-        # created user gender
-        user_gender = str(nice_dict['GENDER'])
-        if user_gender == '1':
-            user_gender = '남자'
-        elif user_gender == '2':
-            user_gender = '여자'
-
-        # created user birth day
-        user_birthday = nice_dict['BIRTHDATE']
-        user_birthday_y = str(user_birthday[0:4])
-        user_birthday_m = str(user_birthday[4:6])
-        user_birthday_d = str(user_birthday[6:8])
-        user_birthday = "{0}.{1}.{2}".format(user_birthday_y, user_birthday_m, user_birthday_d)
-
-        # created user name
         user_name = nice_dict['UTF8_NAME']
-        user_name = urllib.unquote(user_name).decode('utf8') 
-  
-        # created flag
-        nice_check = 'yes'
-
+        user_name = urllib.unquote(user_name).decode('utf8')
     else:
-        user_gender = ''
-        user_birthday = ''
         user_name = ''
-        nice_check = 'no'
-    # -------------------- nice check -------------------- #
 
     user = request.user
 
@@ -844,11 +889,11 @@ def account_settings_context(request):
     countries_list.insert(0, (u'KR', u'South Korea'))
 
     context = {
-        'user_gender': user_gender,
-        'user_birthday': user_birthday,
-        'user_name': user_name,
-        'nice_check': nice_check,
-        'enc_data': enc_data,
+        'user_gender': user_gender,    # context -> nice data
+        'user_birthday': user_birthday,# context -> nice data
+        'user_name': user_name,        # context -> nice data
+        'nice_check': nice_check,      # context -> nice data
+        'enc_data': enc_data,          # context -> nice data
         'auth': {},
         'duplicate_provider': None,
         'fields': {
@@ -992,13 +1037,11 @@ def account_settings(request):
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
-
     elif 'passwdcheck' in request.session and request.session['passwdcheck'] == 'N':
         context = {
             'correct': False
         }
         return render_to_response('student_account/account_settings_confirm.html', context)
-
     else:
         context = {
             'correct': None

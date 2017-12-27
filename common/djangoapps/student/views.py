@@ -1294,7 +1294,7 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                                                                                                  c_key, s_key)
                             break
     except Exception as e:
-        traceback.print_exc()
+        log.error(traceback.print_exc())
         log.error(e)
 
     return status_dict

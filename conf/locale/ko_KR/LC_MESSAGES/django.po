@@ -121,7 +121,7 @@ msgstr "이메일(Email)"
 #: lms/djangoapps/instructor/views/legacy.py
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Full name"
-msgstr "실명(Full name)"
+msgstr "이름(Full name)"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Public username"

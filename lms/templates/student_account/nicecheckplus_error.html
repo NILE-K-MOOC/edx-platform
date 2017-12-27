@@ -8,7 +8,8 @@
 <%block name="js_extra">
     <script>
         $(document).ready(function(){
-            alert('인증 실패');
+            alert('실명인증에 실패 하였습니다.\n다시 진행하시기 바랍니다.');
+            opener.location.reload();
             self.close();
         });
     </script>
@@ -21,5 +22,3 @@
     ## with an empty block, effectively hiding the footer
     ## from logistration pages.
     <%block name="footer"/>
-% endif
-
