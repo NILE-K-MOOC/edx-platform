@@ -73,12 +73,12 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                     tab3_1_3.push($(this).val());
                 });
 
-                var tab3_1_html = '<article><h2><i class="fa fa-group (alias)"></i>강좌운영진 소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3>'
+                var tab3_1_html = '<article><h2><i class="fa fa-group (alias)"></i>강좌운영진 소개</h2><br><article><h3><i class="fa fa-user"></i>교수자</h3>'
 
                 for (var i = 0; i < tab3_1_1.length; i++) {
-                    tab3_1_html += '<article class="teacher"><div class="teacher_image"><img src="'+tab3_1_1[i]+'"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i>'+tab3_1_2[i]+'</dt><dd>'+tab3_1_3[i]+'</dd></dl></div></article>'
+                    tab3_1_html += '<article class="professor"><div class="teacher_image"><img src="'+tab3_1_1[i]+'"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i>'+tab3_1_2[i]+'</dt><dd>'+tab3_1_3[i]+'</dd></dl></div></article>'
                 }
-                tab3_1_html+= '</article>';
+                tab3_1_html+= '<br></article>';
 
                 var tab3_2_1 = [];
                 var tab3_2_2 = [];
