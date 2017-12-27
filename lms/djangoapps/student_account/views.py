@@ -262,19 +262,19 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
-        print 'login_and_registration_form type 1'
+        # print 'login_and_registration_form type 1'
         pass
     elif 'errorMessage' in provider_info and provider_info['errorMessage'] is not None:
-        print 'login_and_registration_form type 2'
+        # print 'login_and_registration_form type 2'
         pass
     elif 'division' in request.session and 'agreeYN' in request.session and 'auth' in request.session:
-        print 'login_and_registration_form type 3'
+        # print 'login_and_registration_form type 3'
         division = request.session['division']
         # del request.session['division']
         # del request.session['agreeYN']
         # del request.session['auth']
     elif 'division' in request.session and 'agreeYN' in request.session:
-        print 'login_and_registration_form type 4'
+        # print 'login_and_registration_form type 4'
         division = request.session['division']
         if request.session['division'] == 'N':
             return render_to_response('student_account/registration_gubn.html')
@@ -284,6 +284,9 @@ def login_and_registration_form(request, initial_mode="login"):
     else:
         print 'login_and_registration_form type 5'
         return render_to_response('student_account/registration_gubn.html')
+
+    if 'division' in request.session:
+        division = request.session.get('division')
 
     # print 'division = ', division
 
