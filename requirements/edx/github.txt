@@ -67,7 +67,7 @@ git+https://github.com/hmarr/django-debug-toolbar-mongo.git@b0686a76f1ce3532088c
 git+https://github.com/edx/rfc6266.git@v0.0.5-edx#egg=rfc6266==0.0.5-edx
 
 # Used for testing
-git+https://github.com/edx/lettuce.git@0.2.20.002#egg=lettuce==0.2.20.002
+#git+https://github.com/edx/lettuce.git@0.2.20.002#egg=lettuce==0.2.20.002
 
 # Our libraries:
 -e git+https://github.com/edx/codejail.git@a320d43ce6b9c93b17636b2491f724d9e433be47#egg=codejail==0.0
