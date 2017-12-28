@@ -55,9 +55,9 @@ from django.utils.translation import ugettext as _
     <li class="active1">
       % if not settings.FEATURES['DISABLE_LOGIN_BUTTON'] and not combined_login_and_register:
         % if course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
-          <a class="btn type1" id="login_btn_test1" href="${reverse('course-specific-login', args=[course.id.to_deprecated_string()])}${login_query()}">${_("Sign in")}</a>
+          <a class="btn type1" href="${reverse('course-specific-login', args=[course.id.to_deprecated_string()])}${login_query()}">${_("Sign in")}</a>
         % else:
-          <a class="btn type1" id="login_btn_test2" href="/login${login_query()}">${_("Sign in")}</a>
+          <a class="btn type1" href="/login${login_query()}">${_("Sign in")}</a>
         % endif
       % endif
     </li>
