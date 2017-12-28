@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+<!--
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
       <header>
@@ -47,12 +48,12 @@ from openedx.core.djangolib.markup import HTML, Text
           % endif
         </div>
 
-      </header>
+      </header>-->
       <%include file="${courses_list}" />
-
+<!--
     </section>
 </main>
-
+-->
 % if show_homepage_promo_video:
   <section id="video-modal" class="modal home-page-video-modal video-modal">
     <div class="inner-wrapper">

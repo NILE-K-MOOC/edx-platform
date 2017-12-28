@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 %>
 
-<ol class="left list-inline nav-global">
+<ol class="left nav-global">
   <%block name="navigation_global_links">
     % if static.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False)):
       <li class="item nav-global-01">
@@ -29,8 +29,9 @@ from django.utils.translation import ugettext as _
   <%block name="navigation_other_global_links">
     % if not settings.FEATURES['DISABLE_LOGIN_BUTTON'] and not combined_login_and_register:
       % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
-        <li class="item nav-global-05">
-          <a class="btn" href="/courses">${_("Explore Courses")}</a>
+
+        <li class="gnb3">
+          <a href="/courses">${_("Explore Courses")}</a>
         </li>
       %endif
       % if course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
@@ -38,22 +39,25 @@ from django.utils.translation import ugettext as _
           <a class="btn-neutral btn-register" href="${reverse('course-specific-register', args=[course.id.to_deprecated_string()])}">${_("Register")}</a>
         </li>
       % elif static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION')):
-        <li class="item nav-global-04">
-          <a class="btn-neutral btn-register" href="/register${login_query()}">${_("Register")}</a>
+        <li class="active2">
+          <a class="btn type2" href="/register${login_query()}">${_("Register")}</a>
+        </li>
+        <li class="gnb1">
+          <a href="/about">Cyber EDU</a>
         </li>
       % endif
     % endif
   </%block>
 </ol>
 
-<ol class="right nav-courseware list-inline">
+<ol class="left nav-global">
   <%block name="navigation_sign_in">
-    <li class="item nav-courseware-01">
+    <li class="active1">
       % if not settings.FEATURES['DISABLE_LOGIN_BUTTON'] and not combined_login_and_register:
         % if course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
-          <a class="btn btn-login" href="${reverse('course-specific-login', args=[course.id.to_deprecated_string()])}${login_query()}">${_("Sign in")}</a>
+          <a class="btn type1" id="login_btn_test1" href="${reverse('course-specific-login', args=[course.id.to_deprecated_string()])}${login_query()}">${_("Sign in")}</a>
         % else:
-          <a class="btn btn-login" href="/login${login_query()}">${_("Sign in")}</a>
+          <a class="btn type1" id="login_btn_test2" href="/login${login_query()}">${_("Sign in")}</a>
         % endif
       % endif
     </li>

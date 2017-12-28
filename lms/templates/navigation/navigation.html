@@ -64,9 +64,9 @@ site_status_msg = get_site_status_msg(course_id)
     </nav>
   </header>
 % else:
-  <header id="global-navigation" class="header-global ${"slim" if course else ""}" >
-    <nav class="wrapper-header" aria-label="${_('Global')}">
-      <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
+<header id="global-navigation" class="header-global global ${"slim" if course else ""}" >
+    <nav class="nav-wrapper" aria-label="${_('Global')}">
+        <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
       % if user.is_authenticated():
         <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
       % else:

@@ -141,8 +141,8 @@ site_status_msg = get_site_status_msg(course_id)
             <a class="btn-neutral btn-register" href="${reverse('course-specific-register', args=[course.id.to_deprecated_string()])}">${_("Register Now")}</a>
           </li>
         % else:
-          <li class="nav-global-04">
-            <a class="btn-neutral btn-register" href="/register">${_("Register Now")}</a>
+          <li class="active2">
+            <a class="btn type2" href="/register">${_("Register Now")}</a>
           </li>
         % endif
       % endif
