@@ -2304,7 +2304,6 @@ def _record_registration_attribution(request, user):
 
 @csrf_exempt
 def active_account(request, email):
-
     user = User.objects.get(email=email)
 
     with connections['default'].cursor() as cur:
@@ -2349,7 +2348,6 @@ def active_account(request, email):
              WHERE dormant_yn = 'Y' AND id = %s;
         """
         cur.execute(query, [user.id])
-
 
         query = """
             UPDATE drmt_auth_userprofile
@@ -2592,7 +2590,11 @@ def password_reset(request):
 
     form = PasswordResetFormNoActive(request.POST)
     if form.is_valid():
-        form.save(use_https=request.is_secure(),
+
+        host = request.get_host()
+        is_secure = True if host == 'www.kmooc.kr' else request.is_secure()
+
+        form.save(use_https=is_secure,
                   from_email=configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL),
                   request=request,
                   domain_override=request.get_host())
