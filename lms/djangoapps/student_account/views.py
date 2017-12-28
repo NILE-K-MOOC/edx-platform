@@ -542,7 +542,9 @@ def password_change_request_handler(request):
 
     if email:
         try:
-            request_password_change(email, request.get_host(), request.is_secure())
+            host = request.get_host()
+            is_secure = True if host == 'www.kmooc.kr' else request.is_secure()
+            request_password_change(email, host, is_secure)
         except UserNotFound:
             AUDIT_LOG.info("Invalid password reset attempt")
             # Increment the rate limit counter
