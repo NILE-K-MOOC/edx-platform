@@ -56,3 +56,11 @@ from django.core.urlresolvers import reverse
 
 <%include file="_underscore_templates.html" />
 <%include file="_thread_list_template.html" />
+
+<script>
+$(document).ready(function(){
+    $('.new-post-btn').click(function(){
+        setInterval(function(){ $('.new-post-btn').focus(); }, 1000);
+    });
+});
+</script>
