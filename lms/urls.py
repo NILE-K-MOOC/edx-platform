@@ -129,6 +129,11 @@ urlpatterns = (
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
 
     # community url
+
+
+    url(r'^comm_list/(?P<section>.*?)/$', 'community.views.comm_list', name='comm_list'),
+    url(r'^comm_view/(?P<board_id>.*?)/$', 'community.views.comm_view', name='comm_view'),
+
     url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),
     url(r'^comm_notice_view/(?P<board_id>.*?)/$', 'community.views.comm_notice_view', name='comm_notice_view'),
     url(r'^comm_repository$', 'community.views.comm_repository', name='comm_repository'),

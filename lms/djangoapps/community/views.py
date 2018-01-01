@@ -67,9 +67,112 @@ import sys
 import re
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 import datetime
+from django.db import models, connections
+from django.forms.models import model_to_dict
+from django.core.paginator import Paginator
 
 reload(sys)
 sys.setdefaultencoding('utf8')
+
+
+class TbBoard(models.Model):
+    board_id = models.AutoField(primary_key=True)
+    head_title = models.CharField(max_length=50, blank=True, null=True)
+    subject = models.TextField()
+    content = models.TextField(blank=True, null=True)
+    reg_date = models.DateTimeField()
+    mod_date = models.DateTimeField()
+    # section
+    # N : notice, F: faq, K: k-mooc news, R: reference
+    section = models.CharField(max_length=10)
+    use_yn = models.CharField(max_length=1)
+    odby = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_board'
+
+
+class TbBoardAttach(models.Model):
+    attatch_id = models.AutoField(primary_key=True)
+    board = models.ForeignKey('TbBoard', on_delete=models.CASCADE, related_name='attaches', null=True)
+    attach_file_path = models.CharField(max_length=255)
+    attatch_file_name = models.CharField(max_length=255)
+    attach_org_name = models.CharField(max_length=255, blank=True, null=True)
+    attatch_file_ext = models.CharField(max_length=50, blank=True, null=True)
+    attatch_file_size = models.CharField(max_length=50, blank=True, null=True)
+    attach_gubun = models.CharField(max_length=20, blank=True, null=True)
+    del_yn = models.CharField(max_length=1)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_board_attach'
+
+
+@ensure_csrf_cookie
+def comm_list(request, section=None):
+    if request.is_ajax():
+        page_size = request.POST.get('page_size')
+        curr_page = request.POST.get('curr_page')
+        comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
+        p = Paginator(comm_list, page_size)
+        total_cnt = p.count
+        all_pages = p.num_pages
+        curr_data = p.page(curr_page)
+
+        context = {
+            'total_cnt': total_cnt,
+            'all_pages': all_pages,
+            'curr_data': [model_to_dict(o) for o in curr_data.object_list],
+        }
+
+        return JsonResponse(context)
+    else:
+        if section == 'N':
+            page_title = '공지사항'
+        elif section == 'K':
+            page_title = 'K-MOOC 뉴스'
+        elif section == 'R':
+            page_title = '자료실'
+        else:
+            return None
+
+        context = {
+            'page_title': page_title
+        }
+
+        return render_to_response('community/comm_list.html', context)
+
+
+@ensure_csrf_cookie
+def comm_view(request, board_id=None):
+    if board_id is None:
+        return redirect('/')
+
+    board = TbBoard.objects.get(board_id=board_id)
+
+    if board:
+        board.files = TbBoardAttach.objects.filter(board_id=board_id)
+
+    section = board.section
+
+    if section == 'N':
+        page_title = '공지사항'
+    elif section == 'K':
+        page_title = 'K-MOOC 뉴스'
+    elif section == 'R':
+        page_title = '자료실'
+    else:
+        return None
+
+    context = {
+        'page_title': page_title,
+        'board': board
+    }
+
+    return render_to_response('community/comm_view.html', context)
 
 
 @ensure_csrf_cookie
@@ -789,7 +892,6 @@ def comm_mobile(request):
         return HttpResponse(list(data), 'application/json')
 
     return render_to_response('community/comm_mobile.html')
-
 
 
 @ensure_csrf_cookie
