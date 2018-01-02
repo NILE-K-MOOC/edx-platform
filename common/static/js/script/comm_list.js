@@ -48,7 +48,8 @@ function search(page_no) {
             var total_cnt = context.total_cnt;
             var all_pages = context.all_pages;
             var yesterday = new Date();
-            var curr_page = $("#curr_page").val();
+            var curr_page = Number($("#curr_page").val());
+            $("#all_pages").val(all_pages);
             yesterday.setDate(yesterday.getDate() - 7); // 일주일 이내 등록글은 new 이미지 표시
             //console.log(data);
 
@@ -82,7 +83,7 @@ function search(page_no) {
                 //console.log(data[i].subject + ":" + data[i].board_id);
 
                 html += "<li class='tbody'>";
-                html += "   <span class='no'>" + eval(total_cnt - (10 * (Number(curr_page) - 1) + i)) + "</span>";
+                html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='title'><a href='/comm_view/" + data[i].board_id + "'>" + title + data[i].subject + " </a>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;'/>"
@@ -93,10 +94,21 @@ function search(page_no) {
 
             //for paging
             var paging = "";
+            var page_size = 10;
+
+            //페이징 10건씩 보이기
+            var minNum = Math.floor((curr_page - 1) / page_size) * page_size + 1;
+            var maxNum = minNum + page_size - 1;
+
+            if (maxNum > all_pages)
+                maxNum = all_pages;
+
+            console.log(minNum + ":" + maxNum);
+
             paging += "<a href='#' class='first' id='first' title='처음으로'>first</a>";
             paging += "<a href='#' class='prev' id='prev' title='이전'>prev</a>";
-            for (var i = 1; i <= all_pages; i++) {
-                if (i == Number(curr_page))
+            for (var i = minNum; i <= maxNum; i++) {
+                if (i == curr_page)
                     paging += "<a href='#' class='page current' id='" + i + "' title='" + i + " 페이지'>" + i + "</a>";
                 else
                     paging += "<a href='#' class='page' id='" + i + "' title='" + i + " 페이지'>" + i + "</a>";
@@ -119,11 +131,12 @@ function search(page_no) {
 function fnPaging() {
     $("#paging a").click(function () {
         var id = $(this).attr("id");
+        var all_pages = $("#all_pages").val();
         var curr_page = $("#curr_page").val();
         var curr_page = $("#curr_page").val();
         var prev_page = Number($("#curr_page").val()) - 1 > 0 ? Number($("#curr_page").val()) - 1 : 1;
-        var next_page = Number($("#curr_page").val()) + 1 <= Number($(".page:last").attr("id")) ? Number($("#curr_page").val()) + 1 : Number($(".page:last").attr("id"));
-        var last_page = $(".page:last").attr("id");
+        var next_page = Number($("#curr_page").val()) + 1 <= all_pages ? Number($("#curr_page").val()) + 1 : all_pages;
+        var last_page = all_pages;
 
         if (id == curr_page)
             return;

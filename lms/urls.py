@@ -133,6 +133,7 @@ urlpatterns = (
 
     url(r'^comm_list/(?P<section>.*?)/$', 'community.views.comm_list', name='comm_list'),
     url(r'^comm_view/(?P<board_id>.*?)/$', 'community.views.comm_view', name='comm_view'),
+    url(r'^comm_tabs$', 'community.views.comm_tabs', name='comm_tabs'),
     url(r'^comm_file/(?P<file_id>.*?)/$', 'community.views.comm_file', name='comm_file'),
 
     url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),

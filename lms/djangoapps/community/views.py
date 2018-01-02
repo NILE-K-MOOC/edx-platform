@@ -20,6 +20,7 @@ from django.db import models, connections
 from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
 from django.db.models import Q
+import os.path
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -75,7 +76,7 @@ def comm_list(request, section=None):
             print 'search_str:', search_str
 
             if search_con == 'title':
-                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('-reg_date')
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
             else:
                 comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
@@ -119,10 +120,6 @@ def comm_view(request, board_id=None):
     if board:
         board.files = TbBoardAttach.objects.filter(board_id=board_id)
 
-    print 'board.files --- s'
-    print board.files
-    print 'board.files --- e'
-
     section = board.section
 
     if section == 'N':
@@ -143,13 +140,43 @@ def comm_view(request, board_id=None):
 
 
 @ensure_csrf_cookie
+def comm_tabs(request):
+    if request.is_ajax():
+        search_str = request.POST.get('search_str')
+        head_title = request.POST.get('head_title')
+
+        print 'search_str:', search_str
+        print 'head_title:', head_title
+
+        if search_str:
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+
+        return JsonResponse([model_to_dict(o) for o in comm_list])
+    else:
+
+        comm_list = TbBoard.objects.filter(section='F', head_title='kmooc_f', use_yn='Y').order_by('odby', '-reg_date')
+
+        context = {
+            'data': comm_list
+        }
+
+        print 'context --- s'
+        print context
+        print 'context --- e'
+
+        return render_to_response('community/comm_tabs.html', context)
+
+
+@ensure_csrf_cookie
 def comm_file(request, file_id=None):
     try:
         file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
     except Exception as e:
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
-    if not file:
+    if not file or not os.path.exists(file.attach_file_path + '/' + file.attatch_file_name):
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
     response = HttpResponse(open(file.attach_file_path, 'rb'), content_type='application/force-download')
@@ -447,11 +474,7 @@ def comm_faqrequest(request):
     if request.is_ajax():
         data = json.dumps('fail')
         if request.GET['method'] == 'request':
-            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                              settings.DATABASES.get('default').get('USER'),
-                              settings.DATABASES.get('default').get('PASSWORD'),
-                              settings.DATABASES.get('default').get('NAME'),
-                              charset='utf8')
+            con = connections['default']
             email = request.GET['email']
             request_con = request.GET['request_con']
             option = request.GET['option']
@@ -475,6 +498,13 @@ def comm_faqrequest(request):
                 settings.DEFAULT_FROM_EMAIL
             )
 
+            email = replace_all(email)
+
+            option = replace_all(option)
+            email_title = replace_all(email_title)
+            request_con = replace_all(request_con)
+            from_address = replace_all(from_address)
+
             if option == 'kmooc_f':
                 # send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
                 send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
@@ -483,6 +513,8 @@ def comm_faqrequest(request):
                 send_mail(email_title, request_con, from_address, ['info_kmooc@nile.or.kr'])
                 save_email = 'info_kmooc@nile.or.kr'
             # 문의내용 저장
+
+            save_email = replace_all(save_email)
 
             cur = con.cursor()
             query = """
@@ -514,6 +546,14 @@ def comm_faqrequest(request):
         return HttpResponse(data, 'application/json')
 
     return render_to_response('community/comm_faqrequest.html')
+
+
+def replace_all(string):
+    string = string.replace('<', '&lt;');
+    string = string.replace('>', '&gt;');
+    string = string.replace('"', '&quot;');
+    string = string.replace("'", "&#39;");
+    return string
 
 
 @ensure_csrf_cookie

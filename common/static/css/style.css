@@ -1317,3 +1317,10 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 		background: #fff;
 	}
 
+.search-facets-lists button:focus {
+	border: 3px solid red;
+}
+
+.search-facets-lists li:focus {
+	border: 3px solid red;
+}
