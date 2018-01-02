@@ -60,33 +60,13 @@ function search(page_no) {
 
                 var reg_date = new Date(data[i].reg_date);
 
-
-                var title = '';
-                switch (data[i].head_title) {
-                    case 'noti_n':
-                        title = '[공지] ';
-                        break;
-                    case 'advert_n':
-                        title = '[공고] ';
-                        break;
-                    case 'guide_n':
-                        title = '[안내] ';
-                        break;
-                    case 'event_n':
-                        title = '[이벤트] ';
-                        break;
-                    case 'etc_n':
-                        title = '[기타] ';
-                        break;
-                }
-
                 //console.log(data[i].subject + ":" + data[i].board_id);
 
                 html += "<li class='tbody'>";
                 html += "   <span class='check'>" + '<input type="checkbox" class="check_all" id="check_all' + i + '"/>' + "</span>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='gubun'>" + 'TEST' + "</span>";
-                html += "   <span class='title'><a href='/memo_view/" + data[i].board_id + "'>" + title + data[i].subject + " </a>";
+                html += "   <span class='title'><a href='/memo_view/" + data[i].board_id + "'>" + data[i].subject + " </a>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;'/>"
                 html += "   </span>";
