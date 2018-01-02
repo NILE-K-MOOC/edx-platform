@@ -58,9 +58,15 @@ from django.core.urlresolvers import reverse
 <%include file="_thread_list_template.html" />
 
 <script>
+function focus_btn() {
+    setTimeout(function(){ $('.new-post-btn').focus(); }, 1000);
+}
+
 $(document).ready(function(){
     $('.new-post-btn').click(function(){
-        setInterval(function(){ $('.new-post-btn').focus(); }, 1000);
+        myFunction();
+        //setTimeout(focus_btn(), 3000);
+        //setInterval(function(){ $('.new-post-btn').focus(); }, 1000);
     });
 });
 </script>
