@@ -1173,7 +1173,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 }
 
 .main-cta a:focus>strong{
-	border: 1px solid blue !important;
+	border: 2px solid blue !important;
 }
 .courses-listing-item a:focus{
    border: 1px solid blue;
