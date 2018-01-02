@@ -48,6 +48,25 @@ site_status_msg = get_site_status_msg(course_id)
 % endif
 </%block>
 
+<!-- memo script (start) -->
+<script>
+$( document ).ready(function() {
+    var user_id = ${user.id}
+    $.ajax({
+        url : '/memo_sync',
+        type: "POST",
+        data : {
+            sync_memo : 'sync_memo',
+            user_id : user_id,
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data) {
+            $('#cnt').html(data.cnt);
+    });
+});
+</script>
+<!-- memo script (end) -->
+
 <header id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
 
@@ -64,6 +83,12 @@ site_status_msg = get_site_status_msg(course_id)
             % endif
 
             <ul class="right list-inline">
+
+                % if user.id:
+                <li class="left item">
+                        <a href="/memo">MEMO(<font id="cnt" color="#0080ff"></font>)</a>
+                </li>
+                % endif
 
                 <li class="left item">
                     <a href="/">HOME</a>

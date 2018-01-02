@@ -137,6 +137,25 @@ def memo_view(request, board_id=None):
 
     return render_to_response('community/comm_memo_view.html', context)
 
+# 메모 동기화 로직
+def memo_sync(request):
+    if request.is_ajax():
+        if request.POST.get('sync_memo'):
+            user_id = request.POST.get('user_id')
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT Count(memo_id)
+                    FROM   edxapp.memo
+                    WHERE  receive_id = {0}
+                           AND read_date IS NULL;
+                '''.format(user_id)
+                cur.execute(query)
+                rows = cur.fetchall()
+                try:
+                    cnt = rows[0][0]
+                except BaseException:
+                    cnt = 0
+            return JsonResponse({"cnt":cnt})
 
 @ensure_csrf_cookie
 def comm_list(request, section=None):
