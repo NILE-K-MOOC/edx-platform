@@ -20,7 +20,7 @@ $(document).ready(function(){
             value_list = data[4].toString().split(',');
             console.log(value_list);
             for(var i=0; i<value_list.length; i++){
-                html += "<li><a href='#' id='download' >"+value_list[i]+"</a></li>";
+                html += "<li><a href='#' id='download' title='새창열림'>"+value_list[i]+"</a></li>";
             }
             $('#file').html(html);
             $('#file_li').css('display','inline');
