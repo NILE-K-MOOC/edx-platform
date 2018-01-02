@@ -262,6 +262,6 @@ from microsite_configuration import microsite
     });
 
     $('.close-modal').click(function() {
-        $('#'+course_index).parent().parent().parent().parent().parent().find("img").parent().focus();
+        $('#'+course_index).next().addClass('is-visible');
     });
 </script>
