@@ -26,10 +26,9 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 # Use urlpatterns formatted as within the Django docs with first parameter "stuck" to the open parenthesis
 urlpatterns = (
     '',
-
     # ---------- nice check start---------- #
-    url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),                  # success url
-    url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),# fail url
+    url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),  # success url
+    url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),  # fail url
     # ---------- nice check end ---------- #
 
     url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
@@ -1121,3 +1120,6 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
             name='submit_financial_assistance_request'
         )
     )
+
+if oraurlpatterns:
+    urlpatterns += tuple(oraurlpatterns)
