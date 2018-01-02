@@ -17,16 +17,16 @@ from openedx.core.djangolib.markup import HTML
 from openedx.features.course_experience import UNIFIED_COURSE_TAB_FLAG, SHOW_REVIEWS_TOOL_FLAG
 from openedx.features.course_experience.course_tools import CourseToolsPluginManager
 %>
-
+<link rel="stylesheet" href="/static/css/lms-course.css" type="text/css" media="all">
 <%block name="content">
 <div class="course-view container" id="course-container">
     <header class="page-header has-secondary">
-        <div class="page-header-main">
+        <div class="page-header-main" id="page-header-main">
             <nav aria-label="${_('Course Outline')}" class="sr-is-focusable" tabindex="-1">
                 <h2 class="hd hd-3 page-title">${course.display_name_with_default}</h2>
             </nav>
         </div>
-        <div class="page-header-secondary">
+        <div class="page-header-secondary" id="page-header-secondary">
             % if settings.FEATURES.get('ENABLE_COURSEWARE_SEARCH'):
                 <div class="page-header-search">
                     <form class="search-form" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
