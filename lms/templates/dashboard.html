@@ -73,6 +73,7 @@ from microsite_configuration import microsite
                 alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
                 document.location.href="/logout";
             }, 500);
+
         </script>
     %endif
 
@@ -198,6 +199,7 @@ from microsite_configuration import microsite
       </span>
     </button>
 
+
     <header>
       <h2 id="email-settings-title">
         ${Text(_("Email Settings for {course_number}")).format(course_number=HTML('<span id="email_settings_course_number"></span>'))}
@@ -250,3 +252,16 @@ from microsite_configuration import microsite
     </form>
   </div>
 </div>
+
+<script>
+
+    var course_index;
+
+    $('.action.action-more').click(function() {
+        course_index = $(this).attr('id')
+    });
+
+    $('.close-modal').click(function() {
+        $('#'+course_index).parent().parent().parent().parent().parent().find("img").parent().focus();
+    });
+</script>
