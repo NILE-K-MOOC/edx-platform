@@ -94,7 +94,7 @@ function search(page_no) {
 
             //for paging
             var paging = "";
-            var page_size = 10;
+            var page_size = 5;
 
             //페이징 10건씩 보이기
             var minNum = Math.floor((curr_page - 1) / page_size) * page_size + 1;
