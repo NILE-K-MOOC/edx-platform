@@ -57,10 +57,85 @@ class TbBoardAttach(models.Model):
     regist_id = models.IntegerField(blank=True, null=True)
     regist_date = models.DateTimeField(blank=True, null=True)
 
-    managed = False
+    class Meta:
+        managed = False
+        db_table = 'tb_board_attach'
+
+
+class Memo(models.Model):
+    memo_id = models.AutoField(primary_key=True)                          # memo_id int(11) primary key auto_increment
+    receive_id = models.IntegerField(blank=True, null=True)               # receive_id int(11)
+    title = models.CharField(max_length=300)                              # title varchar(300) not null
+    contents = models.CharField(max_length=20000, blank=True, null=True)  # contents varchar(20000)
+    memo_gubun = models.CharField(max_length=20, blank=True, null=True)   # memo_gubun varchar(20)
+    read_date = models.DateTimeField(blank=True, null=True)               # read_date datetime
+    regist_id = models.IntegerField(blank=True, null=True)                # regist_id int(11)
+    regist_date = models.DateTimeField(blank=True, null=True)             # regist_date datetime
+    modify_date = models.DateTimeField(blank=True, null=True)             # modify_date datetime
 
     class Meta:
-        db_table = 'tb_board_attach'
+        managed = False
+        db_table = 'memo'
+
+
+@ensure_csrf_cookie
+def memo(request):
+    if request.is_ajax():
+        page_size = request.POST.get('page_size')
+        curr_page = request.POST.get('curr_page')
+        search_con = request.POST.get('search_con')
+        search_str = request.POST.get('search_str')
+
+        if search_str:
+            print 'search_con:', search_con
+            print 'search_str:', search_str
+
+            if search_con == 'title':
+                comm_list = TbBoard.objects.filter(section='N', use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+            else:
+                comm_list = TbBoard.objects.filter(section='N', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section='N', use_yn='Y').order_by('-reg_date')
+        p = Paginator(comm_list, page_size)
+        total_cnt = p.count
+        all_pages = p.num_pages
+        curr_data = p.page(curr_page)
+
+        context = {
+            'total_cnt': total_cnt,
+            'all_pages': all_pages,
+            'curr_data': [model_to_dict(o) for o in curr_data.object_list],
+        }
+
+        return JsonResponse(context)
+    else:
+        pass
+
+        context = {
+            'page_title': 'Memo'
+        }
+
+        return render_to_response('community/comm_memo.html', context)
+
+@ensure_csrf_cookie
+def memo_view(request, board_id=None):
+    if board_id is None:
+        return redirect('/')
+
+    board = TbBoard.objects.get(board_id=board_id)
+
+    if board:
+        board.files = TbBoardAttach.objects.filter(board_id=board_id)
+
+    section = board.section
+    page_title = '공지사항'
+
+    context = {
+        'page_title': 'Memo',
+        'board': board
+    }
+
+    return render_to_response('community/comm_memo_view.html', context)
 
 
 @ensure_csrf_cookie
@@ -1214,8 +1289,6 @@ def comm_k_news_view(request, board_id):
 
 class SMTPException(Exception):
     """Base class for all exceptions raised by this module."""
-
-
 # 휴면계정 이메일 발송 쿼리
 # def test(request):
 #     email_list = []
