@@ -1,75 +1,25 @@
 # -*- coding: utf-8 -*-
 """ Views for a student's account information. """
 
-import logging
 import json
-import urlparse
-from datetime import datetime
-import logging
-import json
-import urlparse
-from datetime import datetime
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, resolve
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
 )
 from django.shortcuts import redirect
-from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_http_methods
-from django_countries import countries
 from edxmako.shortcuts import render_to_response
-import pytz
-from commerce.models import CommerceConfiguration
-from external_auth.login_and_register import (
-    login as external_auth_login,
-    register as external_auth_register
-)
-from lang_pref.api import released_languages, all_languages
-from openedx.core.djangoapps.commerce.utils import ecommerce_api_client
-from openedx.core.djangoapps.programs.models import ProgramsApiConfig
-from openedx.core.djangoapps.theming.helpers import is_request_in_themed_site
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-from openedx.core.djangoapps.user_api.accounts.api import request_password_change
-from openedx.core.djangoapps.user_api.errors import UserNotFound
-from openedx.core.lib.time_zone_utils import TIME_ZONE_CHOICES
-from openedx.core.lib.edx_api_utils import get_edx_api_data
-from student.models import UserProfile
-from student.views import (
-    signin_user as old_login_view,
-    register_user as old_register_view
-)
-from student.helpers import get_next_url_for_login_page
-import third_party_auth
-from third_party_auth import pipeline
-from third_party_auth.decorators import xframe_allow_whitelisted
-from util.bad_request_rate_limiter import BadRequestRateLimiter
-from util.date_utils import strftime_localized
-import commands
-from django.views.decorators.csrf import csrf_exempt
-from datetime import date
-from student.views import register_user
-from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
-import time
-import thread
-import logging
-import logging.handlers
-from datetime import datetime
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
 import sys
 import re
-from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-import datetime
 from django.db import models, connections
 from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -106,8 +56,9 @@ class TbBoardAttach(models.Model):
     regist_id = models.IntegerField(blank=True, null=True)
     regist_date = models.DateTimeField(blank=True, null=True)
 
+    managed = False
+
     class Meta:
-        managed = False
         db_table = 'tb_board_attach'
 
 
@@ -116,7 +67,19 @@ def comm_list(request, section=None):
     if request.is_ajax():
         page_size = request.POST.get('page_size')
         curr_page = request.POST.get('curr_page')
-        comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
+        search_con = request.POST.get('search_con')
+        search_str = request.POST.get('search_str')
+
+        if search_str:
+            print 'search_con:', search_con
+            print 'search_str:', search_str
+
+            if search_con == 'title':
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('-reg_date')
+            else:
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
         p = Paginator(comm_list, page_size)
         total_cnt = p.count
         all_pages = p.num_pages
@@ -156,6 +119,10 @@ def comm_view(request, board_id=None):
     if board:
         board.files = TbBoardAttach.objects.filter(board_id=board_id)
 
+    print 'board.files --- s'
+    print board.files
+    print 'board.files --- e'
+
     section = board.section
 
     if section == 'N':
@@ -176,6 +143,20 @@ def comm_view(request, board_id=None):
 
 
 @ensure_csrf_cookie
+def comm_file(request, file_id=None):
+    try:
+        file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
+    except Exception as e:
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
+
+    if not file:
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
+
+    response = HttpResponse(open(file.attach_file_path, 'rb'), content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % file.attach_org_name
+    return response
+
+
 def comm_notice(request):
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),

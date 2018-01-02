@@ -8,12 +8,12 @@ var start_page = 1;
 $(document).ready(function () {
     search(1);
 
-    $("#search").click(function(){
+    $("#search").click(function () {
         search(1);
     });
 
-    $("#search_search").keyup(function(e){
-        if(e.keyCode == 13)
+    $("#search_search").keyup(function (e) {
+        if (e.keyCode == 13)
             search(1);
     });
 });
@@ -30,10 +30,10 @@ Date.prototype.yyyymmdd = function () {
 
 function search(page_no) {
 
-    if(page_no > 1 && $("#curr_page").val() == page_no)
+    if (page_no > 1 && $("#curr_page").val() == page_no)
         return;
 
-    if(page_no)
+    if (page_no)
         $("#curr_page").val(page_no);
 
     $.post(document.location.pathname,
@@ -50,7 +50,7 @@ function search(page_no) {
             var yesterday = new Date();
             var curr_page = $("#curr_page").val();
             yesterday.setDate(yesterday.getDate() - 7); // 일주일 이내 등록글은 new 이미지 표시
-            console.log(data);
+            //console.log(data);
 
             //for table
             var html = "";
@@ -79,7 +79,7 @@ function search(page_no) {
                         break;
                 }
 
-                console.log(data[i].subject + ":" + data[i].board_id);
+                //console.log(data[i].subject + ":" + data[i].board_id);
 
                 html += "<li class='tbody'>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (Number(curr_page) - 1) + i)) + "</span>";
@@ -106,7 +106,7 @@ function search(page_no) {
             paging += "<a href='#' class='next' id='next' title='다음'>next</a>";
             paging += "<a href='#' class='last' id='last' title='마지막으로'>last</a>";
 
-            console.log(paging);
+            //console.log(paging);
 
             $('#tbody').html(html);
             $('#paging').html(paging);
@@ -117,26 +117,42 @@ function search(page_no) {
 }
 
 function fnPaging() {
-    $("#paging a").click(function(){
+    $("#paging a").click(function () {
         var id = $(this).attr("id");
+        var curr_page = $("#curr_page").val();
         var curr_page = $("#curr_page").val();
         var prev_page = Number($("#curr_page").val()) - 1 > 0 ? Number($("#curr_page").val()) - 1 : 1;
         var next_page = Number($("#curr_page").val()) + 1 <= Number($(".page:last").attr("id")) ? Number($("#curr_page").val()) + 1 : Number($(".page:last").attr("id"));
         var last_page = $(".page:last").attr("id");
 
-        if(id == curr_page)
+        if (id == curr_page)
+            return;
+        if (id == 'first' && curr_page == '1')
+            return;
+        if (id == 'prev' && curr_page == prev_page)
+            return;
+        if (id == 'next' && curr_page == next_page)
+            return;
+        if (id == 'last' && curr_page == last_page)
             return;
 
-        if(id == 'first')
+        if (id == 'first')
             search(1);
-        else if(id == 'prev')
+        else if (id == 'prev')
             search(prev_page);
-        else if(id == 'next')
+        else if (id == 'next')
             search(next_page);
-        else if(id == 'last')
+        else if (id == 'last')
             search(last_page);
         else
             search(id);
+
+
+        console.debug('id: ' + id);
+        console.debug('curr_page: ' + curr_page);
+        console.debug('prev_page: ' + prev_page);
+        console.debug('next_page: ' + next_page);
+        console.debug('last_page: ' + last_page);
 
     });
 }
