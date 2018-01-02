@@ -19,7 +19,7 @@ def url_class(is_active):
     tab_class = url_class(tab_is_active)
   %>
   <li class="tab">
-  <a href="${tab.link_func(course, reverse)}" class="${tab_class}">
+  <a href="${tab.link_func(course, reverse)}" class="${tab_class} focus">
   ${_(tab.name)}
   % if tab_is_active:
       <span class="sr">, current location</span>
@@ -32,3 +32,12 @@ def url_class(is_active):
   </a>
   </li>
 % endfor
+
+
+<%block name="js_extra">
+    <script>
+    $(document).ready(function(){
+        $(".gnb-search-box input:eq(1)").focus().blur();
+    });
+    </script>
+</%block>
