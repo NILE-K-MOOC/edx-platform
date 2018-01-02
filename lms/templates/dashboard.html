@@ -258,10 +258,10 @@ from microsite_configuration import microsite
     var course_index;
 
     $('.action.action-more').click(function() {
-        course_index = $(this).attr('id')
+        course_index = $(this).attr('id');
     });
 
     $('.close-modal').click(function() {
-        $('#'+course_index).parent().parent().parent().parent().parent().find("img").parent().focus();
+        $('#'+course_index).next().addClass('is-visible');
     });
 </script>
