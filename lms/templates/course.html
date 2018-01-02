@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 <%page args="course" expression_filter="h"/>
 
 <article class="course ${course.status}" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="opacity: ${'0.5' if course.has_ended() else '1'}" >
-    <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default}">
+    <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d")} 종강일 ${course.end.strftime("%Y-%m-%d")} 강좌상태 ${_(course.status)}">
         <header class="course-image">
             <div class="cover-image">
                 <span class="univ-logo">
