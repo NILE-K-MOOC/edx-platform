@@ -1,0 +1,53 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">Q&A</%block>
+<%inherit file="../main.html" />
+<%block name="header_extras"></%block>
+<script src="${static.url('js/script/comm_tabs.js')}" charset="utf-8"></script>
+
+<section class="container">
+    <!-- [s] board write -->
+    <h2 title="Q&A" id="main">Q&A</h2>
+    <ul>
+        <li>${_("If you do not find the answer to your question in the list, please contact us via <strong>'Contact us by email'</strong>.")}</li>
+        <li>${_("If you have any questions regarding specific course content, please post your question on the bulletin <strong>board of the course.</strong>")}</li>
+    </ul>
+    <div align="right">
+        <input type="text" placeholder="질문 찾기" id="search" title="질문 찾기"/>
+        <input type="button" value="찾기" id="search_btn" title="찾기"/>
+    </div>
+    <br>
+
+    <div id="head_title" style="display: none;">Q&A</div>
+    <nav class="faq-tab">
+        <a href="#" class="on" data-value="kmooc_f" title="K-MOOC">K-MOOC</a>
+        <a href="#" data-value="regist_f" title="회원가입">회원가입</a>
+        <a href="#" data-value="login_f" title="로그인/계정">로그인/계정</a>
+        <a href="#" data-value="enroll_f" title="수강신청/취소">수강신청/취소</a>
+        <a href="#" data-value="course_f" title="강좌 수강">강좌 수강</a>
+        <a href="#" data-value="certi_f" title="성적/이수증">성적/이수증</a>
+        <a href="#" data-value="tech_f" title="기술적문제">기술적 문제</a>
+        <a href="#" data-value="mobile_f" title="모바일앱">모바일앱</a>
+    </nav>
+
+    <dl class="faq-list" title="Q&A 목록">
+        % if data:
+        % for board in data:
+           <dt><a href="#">${board.subject}</a></dt>
+           <dd>
+              <div>
+                 ${board.content}
+              </div>
+           </dd>
+        % endfor
+        % endif
+    </dl>
+    <div style="float: right">
+        <a href="/comm_faqrequest"><input type="button" value="이메일로 문의하기" id="question" title="이메일로 문의하기" style="float: right;"/></a>
+    </div>
+    <!-- [e] board write -->
+</section>
+<br/><br/><br/><br/><br/><br/><br/>
+
+
+
