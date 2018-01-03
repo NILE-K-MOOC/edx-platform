@@ -189,7 +189,7 @@ header.global .nav-global li a.btn.type2:hover {border:solid 1px #939393;color:#
 .title_type1 a {float:right;}
 .title_type1:after {content:"";display:block;clear:both;}
 
-.home {background:#f8f8f8 !important;}
+.home {background:#f8f8f8 !important; max-width: 1170px; padding: 0; margin: 0 auto;}
 
 .container.rule {line-height:1.7em;font-size:14px;}
 .container.rule ol,.container.rule ul,.container.rule li,.container.rule dt, .container.rule dd {padding:0;margin:0;list-style:none;}
