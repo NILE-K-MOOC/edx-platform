@@ -25,12 +25,12 @@ from openedx.core.djangolib.markup import HTML
          data-user-group-id="${user_group_id}">
     <header class="page-header has-secondary">
         ## Breadcrumb navigation
-        <div class="page-header-main">
+        <div class="page-header-main" id="page-header-main">
             <nav aria-label="${_('Discussions')}" class="sr-is-focusable" tabindex="-1">
                 <div class="has-breadcrumbs"></div>
             </nav>
         </div>
-        <div class="page-header-secondary">
+        <div class="page-header-secondary" id="page-header-secondary">
             ## Add Post button
             % if has_permission(user, 'create_thread', course.id):
             <div class="form-actions">
@@ -47,7 +47,7 @@ from openedx.core.djangolib.markup import HTML
       % endif
     >
         <div class="discussion-body layout layout-1t2t">
-            <aside class="forum-nav layout-col layout-col-a" role="complementary" aria-label="${_("Discussion thread list")}">
+            <aside class="forum-nav layout-col layout-col-a" style="width: 31%" role="complementary" aria-label="${_("Discussion thread list")}">
                 <%include file="_filter_dropdown.html" />
                 <div class="discussion-thread-list-container"></div>
             </aside>
@@ -59,6 +59,6 @@ from openedx.core.djangolib.markup import HTML
         </div>
     </div>
 </section>
-
+<link rel="stylesheet" href="/static/css/lms-course.css" type="text/css" media="all">
 <%include file="_underscore_templates.html" />
 <%include file="_thread_list_template.html" />
