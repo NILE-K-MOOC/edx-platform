@@ -4,12 +4,13 @@ import sys
 from functools import wraps
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.cache import caches
 from django.core.validators import ValidationError, validate_email
 from django.views.decorators.csrf import requires_csrf_token
 from django.views.defaults import server_error
 from django.http import (Http404, HttpResponse, HttpResponseNotAllowed,
-                         HttpResponseServerError)
+                         HttpResponseServerError, HttpResponseForbidden)
 import dogstats_wrapper as dog_stats_api
 from edxmako.shortcuts import render_to_response
 import zendesk
@@ -20,6 +21,8 @@ import track.views
 
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
+
+from student.roles import GlobalStaff
 
 log = logging.getLogger(__name__)
 
@@ -42,6 +45,21 @@ def ensure_valid_course_key(view_func):
         return response
 
     return inner
+
+
+def require_global_staff(func):
+    """View decorator that requires that the user have global staff permissions. """
+    @wraps(func)
+    def wrapped(request, *args, **kwargs):  # pylint: disable=missing-docstring
+        if GlobalStaff().has_user(request.user):
+            return func(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden(
+                u"Must be {platform_name} staff to perform this action.".format(
+                    platform_name=settings.PLATFORM_NAME
+                )
+            )
+    return login_required(wrapped)
 
 
 @requires_csrf_token
@@ -186,7 +204,8 @@ def _record_feedback_in_zendesk(
         tags,
         additional_info,
         group_name=None,
-        require_update=False
+        require_update=False,
+        support_email=None
 ):
     """
     Create a new user-requested Zendesk ticket.
@@ -231,6 +250,11 @@ def _record_feedback_in_zendesk(
         group = zendesk_api.get_group(group_name)
         if group is not None:
             new_ticket['ticket']['group_id'] = group['id']
+    if support_email is not None:
+        # If we do not include the `recipient` key here, Zendesk will default to using its default reply
+        # email address when support agents respond to tickets. By setting the `recipient` key here,
+        # we can ensure that WL site users are responded to via the correct Zendesk support email address.
+        new_ticket['ticket']['recipient'] = support_email
     try:
         ticket_id = zendesk_api.create_ticket(new_ticket)
         if group_name is not None and group is None:
@@ -337,7 +361,15 @@ def submit_feedback(request):
     ]:
         additional_info[pretty] = request.META.get(header)
 
-    success = _record_feedback_in_zendesk(realname, email, subject, details, tags, additional_info)
+    success = _record_feedback_in_zendesk(
+        realname,
+        email,
+        subject,
+        details,
+        tags,
+        additional_info,
+        support_email=configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
+    )
     _record_feedback_in_datadog(tags)
 
     return HttpResponse(status=(200 if success else 500))

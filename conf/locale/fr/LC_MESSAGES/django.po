@@ -40,10 +40,16 @@
 # Kévin SEVERIN <kevin.severin@laposte.net>, 2015
 # Régis Millet <kulgar@ct2c.fr>, 2015
 # Laetitia Pfaender <l.pfaender@learning-tribes.com>, 2016
+<<<<<<< HEAD
 # laurentFUN <laurent.at.fun@gmail.com>, 2014-2016
 # Linda B.A <siria242@gmail.com>, 2016
 # Marco Morales, 2014
 # Marco Morales, 2014
+=======
+# laurentFUN <laurent.at.fun@gmail.com>, 2014-2015
+# Linda B.A <siria242@gmail.com>, 2016
+# Marco Morales, 2014
+>>>>>>> origin
 # Matthieu Falce <falce.matthieu@gmail.com>, 2016
 # moocit-france <contact@moocit.fr>, 2014-2016
 # mtyaka <mtyaka@gmail.com>, 2015-2016
@@ -60,7 +66,10 @@
 # Régis Millet <kulgar@ct2c.fr>, 2015
 # Richard Moch <richard.moch@gmail.com>, 2014
 # Richard Moch <richard.moch@gmail.com>, 2014-2016
+<<<<<<< HEAD
 # romain couturat <romain.couturat@fun-mooc.fr>, 2016
+=======
+>>>>>>> origin
 # Sarina Canelake <sarina@edx.org>, 2014
 # Sebastien Vigneau <sebastien.vigneau@gmail.com>, 2015
 # SLOG90 <slog90@gmail.com>, 2014
@@ -97,7 +106,10 @@
 # Julien Rolland <julien.rolland33@gmail.com>, 2013
 # Jeremie Sicsic <jsicsic@gmail.com>, 2013
 # Julien Colmonts <julien.colmonts@student.uclouvain.be>, 2014
+<<<<<<< HEAD
 # Julien Rolland <julien.rolland33@gmail.com>, 2013
+=======
+>>>>>>> origin
 # Matthieu Falce <falce.matthieu@gmail.com>, 2016
 # moocit-france <contact@moocit.fr>, 2015
 # Nikolaos Maris, 2013
@@ -152,16 +164,23 @@
 # Kévin SEVERIN <kevin.severin@laposte.net>, 2015
 # Régis Millet <kulgar@ct2c.fr>, 2015
 # Laetitia Pfaender <l.pfaender@learning-tribes.com>, 2016
+<<<<<<< HEAD
 # laurentFUN <laurent.at.fun@gmail.com>, 2014,2016
+=======
+>>>>>>> origin
 # laurentFUN <laurent.at.fun@gmail.com>, 2014
 # Leslie Bordonné <inactive+lbordonne@transifex.com>, 2015
 # Leslie Bordonné <inactive+lbordonne@transifex.com>, 2015
 # madmarsu <madmarsu@gmail.com>, 2014
 # madmarsu <madmarsu@gmail.com>, 2014
 # Maghjina <Maghjina@gmail.com>, 2014
+<<<<<<< HEAD
 # mamby, 2014
 # mamby, 2014
 # Manjari <mringuet@gmail.com>, 2014
+=======
+# mamby <mamby@live.com>, 2014
+>>>>>>> origin
 # Matthieu Falce <falce.matthieu@gmail.com>, 2016
 # Emmanuel Olégine <olegine@gmail.com>, 2015
 # moocit-france <contact@moocit.fr>, 2015-2016
@@ -176,10 +195,14 @@
 # qcappart <quentin.c@swing.be>, 2014
 # Ramarohetra Malalatiana <mtiana8@gmail.com>, 2014
 # rafcha <raphael.chay@gmail.com>, 2014-2016
+<<<<<<< HEAD
 # Régis Millet <kulgar@ct2c.fr>, 2015
 # Richard Moch <richard.moch@gmail.com>, 2016
 # romain couturat <romain.couturat@fun-mooc.fr>, 2016
 # SALHI Aissam <ais.salhy@gmail.com>, 2014
+=======
+# Richard Moch <richard.moch@gmail.com>, 2016
+>>>>>>> origin
 # Sarina Canelake <sarina@edx.org>, 2014
 # Steven BERNARD <steven.bernard@u-paris2.fr>, 2014
 # Xavier Antoviaque <xavier@antoviaque.org>, 2014
@@ -224,9 +247,13 @@
 # qcappart <quentin.c@swing.be>, 2014
 # qcappart <quentin.c@swing.be>, 2014
 # rafcha <raphael.chay@gmail.com>, 2014-2016
+<<<<<<< HEAD
 # Régis Millet <kulgar@ct2c.fr>, 2015
 # Richard Moch <richard.moch@gmail.com>, 2016
 # romain couturat <romain.couturat@fun-mooc.fr>, 2016
+=======
+# Richard Moch <richard.moch@gmail.com>, 2016
+>>>>>>> origin
 # Sarina Canelake <sarina@edx.org>, 2014
 # Sebastien Vigneau <sebastien.vigneau@gmail.com>, 2015
 # SLOG90 <slog90@gmail.com>, 2014
@@ -249,7 +276,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2016-11-03 15:59+0000\n"
+=======
+"POT-Creation-Date: 2016-08-25 15:05+0000\n"
+>>>>>>> origin
 "PO-Revision-Date: 2016-08-30 15:36+0000\n"
 "Last-Translator: Matthieu Falce <falce.matthieu@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/open-edx/edx-platform/language/fr/)\n"
@@ -265,7 +296,10 @@ msgstr ""
 #. the discussion forums
 #: cms/djangoapps/contentstore/views/component.py
 #: lms/djangoapps/courseware/tabs.py lms/djangoapps/discussion/plugins.py
+<<<<<<< HEAD
 #: openedx/core/lib/xblock_builtin/xblock_discussion/xblock_discussion.py
+=======
+>>>>>>> origin
 #: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
 msgid "Discussion"
 msgstr "Discussion"
@@ -335,6 +369,75 @@ msgstr "Statut"
 msgid "Pending"
 msgstr "En attente"
 
+<<<<<<< HEAD
+=======
+#: common/djangoapps/config_models/admin.py
+msgid "Revert to the selected configuration"
+msgstr "Retourner à la configuration sélectionnée"
+
+#: common/djangoapps/config_models/admin.py
+msgid "Please select a single configuration to revert to."
+msgstr ""
+
+#: common/djangoapps/config_models/admin.py
+msgid "Reverted configuration."
+msgstr "Configuration restaurée."
+
+#: common/djangoapps/config_models/admin.py
+msgid "Current Configuration"
+msgstr "Configuration actuelle"
+
+#: common/djangoapps/config_models/admin.py
+msgid "All (Show History)"
+msgstr "Tous (Afficher l'historique)"
+
+#: common/djangoapps/config_models/admin.py
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: common/djangoapps/config_models/management/commands/populate_model.py
+msgid "A file containing JSON must be specified."
+msgstr "Un fichier JSON doit être spécifié"
+
+#: common/djangoapps/config_models/management/commands/populate_model.py
+msgid "A valid username must be specified."
+msgstr "Un nom d'utilisateur valide doit être spécifié"
+
+#: common/djangoapps/config_models/management/commands/populate_model.py
+msgid "File {0} does not exist"
+msgstr "Le fichier {0} n'existe pas"
+
+#: common/djangoapps/config_models/management/commands/populate_model.py
+msgid "Importing JSON data from file {0}"
+msgstr "Importation des données JSON depuis le fichier {0}"
+
+#: common/djangoapps/config_models/management/commands/populate_model.py
+msgid "Import complete, {0} new entries created"
+msgstr "Importation terminée, {0} nouvelles entrées créées"
+
+#: common/djangoapps/config_models/models.py
+msgid "Change date"
+msgstr "Modifier la date"
+
+#. Translators: this label indicates the name of the user who made this
+#. change:
+#: common/djangoapps/config_models/models.py
+msgid "Changed by"
+msgstr "Modifié par"
+
+#: common/djangoapps/config_models/models.py
+msgid "Enabled"
+msgstr "Activé"
+
+#: common/djangoapps/cors_csrf/models.py
+msgid ""
+"List of domains that are allowed to make cross-domain requests to this site."
+"  Please list each domain on its own line."
+msgstr ""
+"Liste des domaines autorisées à effectuer de requêtes inter-domaine vers ce "
+"site. Listez chaque domaine sur une nouvelle ligne."
+
+>>>>>>> origin
 #: common/djangoapps/course_modes/admin.py
 #: common/djangoapps/course_modes/models.py
 #: common/lib/xmodule/xmodule/library_content_module.py
@@ -509,6 +612,29 @@ msgstr "Montant sélectionné invalide"
 #: common/djangoapps/course_modes/views.py
 msgid "No selected price or selected price is too low."
 msgstr "Aucun prix sélectionné ou prix sélectionné trop faible."
+<<<<<<< HEAD
+=======
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Preview Language is currently disabled"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language code not provided"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language set to language code: {preview_language_code}"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to the default language code"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to user's preference: {preview_language_code}"
+msgstr ""
+>>>>>>> origin
 
 #: common/djangoapps/django_comment_common/models.py
 msgid "Administrator"
@@ -580,6 +706,26 @@ msgstr "Mettre le pays {country} sur liste blanche pour {course}"
 #: common/djangoapps/embargo/models.py
 msgid "Blacklist {country} for {course}"
 msgstr "Mettre sur le pays {country} sur liste noire pour {course}"
+<<<<<<< HEAD
+=======
+
+#: common/djangoapps/external_auth/views.py
+msgid ""
+"You have already created an account using an external login like WebAuth or "
+"Shibboleth. Please contact {tech_support_email} for support."
+msgstr ""
+"Vous avez déjà créé un compte utilisant une identification externe comme "
+"WebAuth ou Shibboleth. Veuillez contacter {tech_support_email} pour avoir de"
+" l'aide."
+
+#: common/djangoapps/external_auth/views.py
+msgid ""
+"\n"
+"        Your university identity server did not return your ID information to us.\n"
+"        Please try logging in again.  (You may need to restart your browser.)\n"
+"        "
+msgstr ""
+>>>>>>> origin
 
 #: common/djangoapps/student/admin.py
 msgid "User profile"
@@ -1115,10 +1261,13 @@ msgstr[1] ""
 #: common/djangoapps/student/views.py
 msgid "Password reset unsuccessful"
 msgstr "La réinitialisation du mot de passe a échoué."
+<<<<<<< HEAD
 
 #: common/djangoapps/student/views.py
 msgid "Error in resetting your password. Please try again."
 msgstr ""
+=======
+>>>>>>> origin
 
 #: common/djangoapps/student/views.py
 msgid "No inactive user with this e-mail exists"
@@ -1181,6 +1330,7 @@ msgstr ""
 "Si cette option est sélectionnée, les utilisateurs n'auront pas à confirmer "
 "leur adresse mail, et leur compte sera activé immédiatement après "
 "inscription."
+<<<<<<< HEAD
 
 #: common/djangoapps/third_party_auth/models.py
 msgid ""
@@ -1192,6 +1342,8 @@ msgstr ""
 #: common/djangoapps/third_party_auth/models.py
 msgid "The Site that this SAML configuration belongs to."
 msgstr ""
+=======
+>>>>>>> origin
 
 #: common/djangoapps/third_party_auth/templates/third_party_auth/post_custom_auth_entry.html
 #: lms/templates/student_account/finish_auth.html
@@ -1387,7 +1539,11 @@ msgstr "mars"
 #: common/djangoapps/util/date_utils.py
 msgctxt "abbreviated month name"
 msgid "Apr"
+<<<<<<< HEAD
 msgstr "avr"
+=======
+msgstr "avril"
+>>>>>>> origin
 
 #. Translators: this is an abbreviated month name that will be used when
 #. displaying dates, as in "May 10, 2014". It is used for the %b
@@ -1582,7 +1738,11 @@ msgstr "doit contenir {0} caractères ou plus"
 
 #: common/djangoapps/util/password_policy_validators.py
 msgid "must be {0} characters or fewer"
+<<<<<<< HEAD
 msgstr "doit être de {0} caractères ou moins"
+=======
+msgstr ""
+>>>>>>> origin
 
 #: common/djangoapps/util/password_policy_validators.py
 msgid "Must be more complex ({0})"
@@ -1664,6 +1824,7 @@ msgstr ""
 #: common/lib/capa/capa/capa_problem.py
 msgid "Cannot rescore problems with possible file submissions"
 msgstr ""
+<<<<<<< HEAD
 "Ne peut pas recalculer les scores des questions lors d'éventuelles "
 "soumissions de fichier"
 
@@ -1677,6 +1838,11 @@ msgstr "Incorrect"
 msgid "Correct"
 msgstr "Correct"
 
+=======
+"Ne peut pas recalculer les scores des questions avec d'éventuelles "
+"soumissions de fichier"
+
+>>>>>>> origin
 #: common/lib/capa/capa/inputtypes.py
 msgid "correct"
 msgstr "correct"
@@ -1716,12 +1882,21 @@ msgid "This answer is partially correct."
 msgstr "Cette réponse est partiellement correcte."
 
 #: common/lib/capa/capa/inputtypes.py
+<<<<<<< HEAD
 msgid "This answer is being processed."
 msgstr "Cette réponse est en cours de traitement."
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "Not yet answered."
 msgstr ""
+=======
+msgid "This answer is unanswered."
+msgstr "Il n'a pas été répondu à cette question."
+
+#: common/lib/capa/capa/inputtypes.py
+msgid "This answer is being processed."
+msgstr "Cette réponse est en cours de traitement."
+>>>>>>> origin
 
 #: wiki/forms.py
 msgid "Select an option"
@@ -1757,6 +1932,7 @@ msgid ""
 msgstr ""
 "Votre réponse a été soumise. Dès que votre soumission sera évaluée, ce "
 "message sera remplacé par le commentaire de votre évaluateur."
+<<<<<<< HEAD
 
 #: common/lib/capa/capa/inputtypes.py
 msgid "{programming_language} editor"
@@ -1765,6 +1941,8 @@ msgstr ""
 #: common/lib/capa/capa/inputtypes.py
 msgid "Press ESC then TAB or click outside of the code editor to exit"
 msgstr ""
+=======
+>>>>>>> origin
 
 #: common/lib/capa/capa/inputtypes.py
 msgid ""
@@ -1815,6 +1993,7 @@ msgstr ""
 
 #. Translators: index here could be 1,2,3 and so on
 #: common/lib/capa/capa/responsetypes.py
+<<<<<<< HEAD
 msgid "Question {index}"
 msgstr ""
 
@@ -1829,6 +2008,22 @@ msgstr ""
 #: common/lib/capa/capa/responsetypes.py
 msgid "Answer"
 msgstr ""
+=======
+msgid "Correct"
+msgstr "Correct"
+
+#: common/lib/capa/capa/responsetypes.py
+msgid "Incorrect"
+msgstr "Incorrect"
+
+#: common/lib/capa/capa/responsetypes.py
+msgid "Error {err} in evaluating hint function {hintfn}."
+msgstr "Erreur {err} dans la fonction d'indice {hintfn}."
+
+#: common/lib/capa/capa/responsetypes.py
+msgid "(Source code line unavailable)"
+msgstr "(Ligne de code source non disponible)"
+>>>>>>> origin
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Error {err} in evaluating hint function {hintfn}."
@@ -1939,9 +2134,21 @@ msgstr ""
 "Il y a un problème avec la réponse de l'équipe pédagogique à cet exercice : "
 "frontière vide."
 
+<<<<<<< HEAD
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: Separator used in NumericalResponse to display multiple
 #. answers.
+=======
+#: cms/templates/widgets/problem-edit.html
+msgid "Text Input"
+msgstr "Texte à saisir"
+
+#: common/lib/capa/capa/responsetypes.py
+msgid "error"
+msgstr "erreur"
+
+#. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
+>>>>>>> origin
 #. Translators: Separator used in StringResponse to display multiple answers.
 #. Example: "Answer: Answer_1 or Answer_2 or Answer_3".
 #. #-#-#-#-#  mako.po (edx-platform)  #-#-#-#-#
@@ -2296,6 +2503,14 @@ msgid ""
 msgstr ""
 "Code source des problèmes en LaTeX et Word. Cette fonction n'est pas bien "
 "prise en charge."
+<<<<<<< HEAD
+=======
+
+#: common/lib/xmodule/xmodule/capa_base.py
+msgid "String customization substitutions for particular locations"
+msgstr ""
+"Substitutions de chaînes de personnalisation pour des endroits particuliers"
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/html_module.py
@@ -2317,6 +2532,7 @@ msgid ""
 "contact moocsupport@mathworks.com"
 msgstr ""
 
+<<<<<<< HEAD
 #: lms/templates/help_modal.html lms/templates/manage_user_standing.html
 #: lms/templates/register-shib.html
 #: lms/templates/peer_grading/peer_grading_problem.html
@@ -2328,6 +2544,19 @@ msgstr "Soumettre"
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Submitting"
 msgstr ""
+=======
+#: common/lib/xmodule/xmodule/capa_base.py
+msgid "Check"
+msgstr "Valider"
+
+#: common/lib/xmodule/xmodule/capa_base.py
+msgid "Final Check"
+msgstr "Vérification finale"
+
+#: common/lib/xmodule/xmodule/capa_base.py
+msgid "Checking..."
+msgstr "Vérification en cours..."
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Warning: The problem has been reset to its initial state!"
@@ -2354,9 +2583,14 @@ msgstr ""
 #. This string is being passed to translation only for possible reordering of
 #. the placeholders.
 #: common/lib/xmodule/xmodule/capa_base.py
+<<<<<<< HEAD
 msgid ""
 "{previous_hints}<li><strong>{hint_number_prefix}</strong>{hint_text}</li>"
 msgstr ""
+=======
+msgid "Hint: "
+msgstr "Indice :"
+>>>>>>> origin
 
 #. Translators: e.g. "Hint 1 of 3: " meaning we are showing the first of three
 #. hints.
@@ -2364,6 +2598,7 @@ msgstr ""
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Hint ({hint_num} of {hints_count}): "
 msgstr "Indice ({hint_num} sur {hints_count}) :"
+<<<<<<< HEAD
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Incorrect ({progress} point)"
@@ -2386,6 +2621,8 @@ msgstr[1] ""
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Partially Correct"
 msgstr ""
+=======
+>>>>>>> origin
 
 #. Translators: 'closed' means the problem's due date has passed. You may no
 #. longer attempt to solve the problem.
@@ -2394,8 +2631,13 @@ msgid "Problem is closed."
 msgstr "Ce problème est maintenant fermé; la date limite est passée."
 
 #: common/lib/xmodule/xmodule/capa_base.py
+<<<<<<< HEAD
 msgid "Problem must be reset before it can be submitted again."
 msgstr ""
+=======
+msgid "Problem must be reset before it can be checked again."
+msgstr "Le problème doit être réinitialisé avant de pouvoir être revérifié."
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "You must wait at least {wait} seconds between submissions."
@@ -2465,8 +2707,13 @@ msgid "You cannot select Reset for a problem that is closed."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/capa_base.py
+<<<<<<< HEAD
 msgid "You must submit an answer before you can select Reset."
 msgstr ""
+=======
+msgid "Refresh the page and make an attempt before resetting."
+msgstr "Rafraichissez la page et refaites un essai avant de réinitialiser. "
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/capa_module.py
 msgid ""
@@ -2483,6 +2730,7 @@ msgid ""
 msgstr ""
 "Le statut de ce problème a changé depuis que vous avez chargé cette page. "
 "Merci de rafraîchir la page. "
+<<<<<<< HEAD
 
 #: common/lib/xmodule/xmodule/conditional_module.py
 msgid "Conditional"
@@ -2547,6 +2795,8 @@ msgstr ""
 #: common/lib/xmodule/xmodule/conditional_module.py
 msgid "Configure list of sources"
 msgstr ""
+=======
+>>>>>>> origin
 
 #. Translators: TBD stands for 'To Be Determined' and is used when a course
 #. does not yet have an announced start date.
@@ -2624,7 +2874,11 @@ msgstr "Cours préalables"
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Pre-Requisite Course key if this course has a pre-requisite course"
+<<<<<<< HEAD
 msgstr "Clé de cours préalable si ce cours a un cours préalable"
+=======
+msgstr "Clé du cours pré-requis si ce cours a un autre cours comme pré-requis"
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Grading policy definition for this class"
@@ -2908,7 +3162,11 @@ msgstr "Liste des modules avancés"
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Enter the names of the advanced modules to use in your course."
+<<<<<<< HEAD
 msgstr "Entrer les noms des modules avancés à utiliser dans votre cours."
+=======
+msgstr ""
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Course Home Sidebar Name"
@@ -3395,6 +3653,16 @@ msgid ""
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
+msgid "Enable Subsection Grades Saved"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If this value is true, the robust grades feature of "
+"saving subsection grades is enabled for this course."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
 msgid "Course Learning Information"
 msgstr "Information sur l'apprentissage dans ce cours"
 
@@ -3413,6 +3681,19 @@ msgstr "Saisir les détails sur l'enseignant du cours"
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Add Unsupported Problems and Tools"
 msgstr "Ajouter les exercices et outils non supportés"
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If true, you can add unsupported problems and tools to "
+"your course in Studio. Unsupported problems and tools are not recommended "
+"for use in courses due to non-compliance with one or more of the base "
+"requirements, such as testing, accessibility, internationalization, and "
+"documentation."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid "Add Unsupported Problems and Tools"
+msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid ""
@@ -4004,9 +4285,20 @@ msgid ""
 "Enter the path to use for files on the Files & Uploads page. This value "
 "overrides the Studio default, c4x://."
 msgstr ""
+<<<<<<< HEAD
 "Entrez le chemin d'accès à utiliser pour les fichiers de la page Fichiers & "
 "Téléversements. Cette valeur remplace la valeur par défaut de Studio, C4X :/"
 " /."
+=======
+
+#: common/lib/xmodule/xmodule/modulestore/inheritance.py
+msgid "Text Customization"
+msgstr "Personnalisation du texte"
+
+#: common/lib/xmodule/xmodule/modulestore/inheritance.py
+msgid "Enter string customization substitutions for particular locations."
+msgstr ""
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 msgid "Enable LaTeX Compiler"
@@ -4162,6 +4454,16 @@ msgstr ""
 " ceux de l'équipe pédagogique après que la date d'échéance soit passée."
 
 #: common/lib/xmodule/xmodule/seq_module.py
+msgid "Hide sequence content After Due Date"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"If set, the sequence content is hidden for non-staff users after the due "
+"date has passed."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
 msgid "Is Entrance Exam"
 msgstr "Est un examen d'entrée"
 
@@ -4232,6 +4534,7 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/seq_module.py
 msgid "This exam is hidden from the learner."
+<<<<<<< HEAD
 msgstr "Cet examen est caché à l'apprenant."
 
 #: common/lib/xmodule/xmodule/seq_module.py
@@ -4242,12 +4545,27 @@ msgstr "sous-section"
 msgid ""
 "Because the due date has passed, this {subsection_format} is hidden from the"
 " learner."
+=======
+>>>>>>> origin
 msgstr ""
 "Parce que la date d'échéance est passée, cette {subsection_format} est "
 "cachée pour l'apprenant."
 
 #: common/lib/xmodule/xmodule/seq_module.py
+msgid "subsection"
+msgstr "sous-section"
+
+#: common/lib/xmodule/xmodule/seq_module.py
 msgid ""
+<<<<<<< HEAD
+=======
+"Because the due date has passed, this {subsection_format} is hidden from the"
+" learner."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+>>>>>>> origin
 "This subsection is unlocked for learners when they meet the prerequisite "
 "requirements."
 msgstr ""
@@ -4256,7 +4574,11 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/split_test_module.py
 msgid "Group ID {group_id}"
+<<<<<<< HEAD
 msgstr "Identifiant de groupe {group_id}"
+=======
+msgstr "Identifiant du groupe {group_id}"
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/split_test_module.py
 msgid "Not Selected"
@@ -4267,8 +4589,13 @@ msgid ""
 "This name is used for organizing your course content, but is not shown to "
 "students."
 msgstr ""
+<<<<<<< HEAD
 "Ce nom est utilisé afin d'organiser votre contenu de cours, mais il n'est "
 "pas montré aux étudiants."
+=======
+"Ce nom vous sert à organiser le contenu de votre cours, mais il n'est pas "
+"montré aux étudiants."
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/split_test_module.py
 msgid "Content Experiment"
@@ -4434,6 +4761,7 @@ msgstr ""
 #: common/lib/xmodule/xmodule/video_module/video_module.py
 msgid "Basic"
 msgstr "Basique"
+<<<<<<< HEAD
 
 #: common/lib/xmodule/xmodule/video_module/video_module.py
 msgid "There is no transcript file associated with the {lang} language."
@@ -4441,6 +4769,8 @@ msgid_plural ""
 "There are no transcript files associated with the {lang} languages."
 msgstr[0] ""
 msgstr[1] ""
+=======
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/video_module/video_module.py
 msgid ""
@@ -4702,7 +5032,11 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/videoannotation_module.py
 msgid "Video Annotation"
+<<<<<<< HEAD
 msgstr "Annotation vidéo"
+=======
+msgstr "Annotation de vidéo"
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/videoannotation_module.py
 msgid "The external source URL for the video."
@@ -4710,7 +5044,11 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/videoannotation_module.py
 msgid "Source URL"
+<<<<<<< HEAD
 msgstr "URL source"
+=======
+msgstr "URL de la source"
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/videoannotation_module.py
 msgid "Poster Image URL"
@@ -4743,6 +5081,23 @@ msgstr ""
 "d'accessibilité."
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
+msgid "The label for this word cloud on the course page."
+msgstr ""
+
+#: lms/templates/annotatable.html lms/templates/imageannotation.html
+#: lms/templates/textannotation.html lms/templates/videoannotation.html
+#: lms/templates/peer_grading/peer_grading.html
+msgid "Instructions"
+msgstr "Instructions"
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
+msgid ""
+"Add instructions to help learners understand how to use the word cloud. "
+"Clear instructions are important, especially for learners who have "
+"accessibility requirements."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Inputs"
 msgstr "Entrées"
 
@@ -4759,7 +5114,11 @@ msgstr "Nombre maximum de mots"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "The maximum number of words displayed in the generated word cloud."
+<<<<<<< HEAD
 msgstr "Le nombre maximum de mots affichés dans le nuage de mots-clés généré."
+=======
+msgstr ""
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Show Percents"
@@ -4773,7 +5132,11 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Whether this learner has posted words to the cloud."
+<<<<<<< HEAD
 msgstr "Que cet apprenant a posté ou non des mots sur le nuage de mots-clés."
+=======
+msgstr ""
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Student answer."
@@ -4781,7 +5144,11 @@ msgstr "Réponse de l'étudiant"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "All possible words from all learners."
+<<<<<<< HEAD
 msgstr "Tous les mots possibles de tous les apprenants."
+=======
+msgstr ""
+>>>>>>> origin
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Top num_top_words words for word cloud."
@@ -5125,7 +5492,11 @@ msgstr "Le cours n'existe pas contre la clé donnée '{course_key}'"
 
 #: lms/djangoapps/certificates/views/support.py
 msgid "User {username} does not exist"
+<<<<<<< HEAD
 msgstr "L'utilisateur {username} n'existe pas."
+=======
+msgstr "L'utilisateur {username} n'existe pas"
+>>>>>>> origin
 
 #: lms/djangoapps/certificates/views/support.py
 msgid "{course_key} is not a valid course key"
@@ -5133,7 +5504,11 @@ msgstr "{course_key} n'est pas une clé de cours valide"
 
 #: lms/djangoapps/certificates/views/support.py
 msgid "The course {course_key} does not exist"
+<<<<<<< HEAD
 msgstr "La clé de cours {course_key} n'existe pas"
+=======
+msgstr "Le cours {course_key} n'existe pas"
+>>>>>>> origin
 
 #: lms/djangoapps/certificates/views/support.py
 msgid "User {username} is not enrolled in the course {course_key}"
@@ -5336,7 +5711,11 @@ msgstr "J'ai terminé un cours sur {platform_name}. Voici mon certificat."
 
 #: lms/djangoapps/certificates/views/webview.py
 msgid "More Information About {user_name}'s Certificate:"
+<<<<<<< HEAD
 msgstr "Plus d'information sur le certificat de {user_name}:"
+=======
+msgstr "Plus d'informations sur le certificat de {user_name} :"
+>>>>>>> origin
 
 #. Translators: This line is displayed to a user who has completed a course
 #. and achieved a certification
@@ -5560,7 +5939,11 @@ msgstr "{relative} depuis - {absolute}"
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "in {relative} - {absolute}"
+<<<<<<< HEAD
 msgstr "dans {relative} - {absolute}"
+=======
+msgstr ""
+>>>>>>> origin
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "Today is {date}"
@@ -5689,6 +6072,7 @@ msgstr "{price}{currency_symbol}"
 #: lms/djangoapps/courseware/views/views.py
 msgid "Free"
 msgstr "Gratuit"
+<<<<<<< HEAD
 
 #: lms/djangoapps/courseware/views/views.py
 msgid "Your enrollment: Audit track"
@@ -5740,6 +6124,16 @@ msgstr ""
 #: lms/djangoapps/courseware/views/views.py
 msgid "Congratulations, you qualified for a certificate!"
 msgstr ""
+=======
+
+#: lms/djangoapps/courseware/views/views.py
+msgid "Invalid location."
+msgstr "Localisation invalide."
+
+#: lms/djangoapps/courseware/views/views.py
+msgid "User {username} has never accessed problem {location}"
+msgstr "L'utilisateur {username} n'a jamais accédé au problème {location}"
+>>>>>>> origin
 
 #: lms/djangoapps/courseware/views/views.py
 msgid "Invalid location."
@@ -6197,8 +6591,11 @@ msgid ""
 "Optional lms url scheme + host used to construct urls for content library, "
 "e.g. https://courses.edx.org."
 msgstr ""
+<<<<<<< HEAD
 "Schème facultatif pour le url lms + hôte utilisé pour construire les urls "
 "pour la bibliothèque de contenu, par exemple https://courses.edx.org."
+=======
+>>>>>>> origin
 
 #: lms/djangoapps/instructor/paidcourse_enrollment_report.py
 msgid "{platform_name} Staff"
@@ -8151,7 +8548,11 @@ msgstr "Numéro de commande"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Customer Name"
+<<<<<<< HEAD
 msgstr "Nom du client"
+=======
+msgstr "Nom du clients"
+>>>>>>> origin
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Date of Original Transaction"
@@ -8167,6 +8568,7 @@ msgstr "Montant du remboursement"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Service Fees (if any)"
+<<<<<<< HEAD
 msgstr "Frais de service (s'il y a lieu)"
 
 #: lms/djangoapps/shoppingcart/reports.py
@@ -8180,6 +8582,21 @@ msgstr "Numéro d'indentification de la commande"
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Unit Cost"
 msgstr "Coût par unité"
+=======
+msgstr "Frais de service (s'il y en a)"
+
+#: lms/djangoapps/shoppingcart/reports.py
+msgid "Purchase Time"
+msgstr "Heure de l'achat"
+
+#: lms/djangoapps/shoppingcart/reports.py
+msgid "Order ID"
+msgstr "ID de la commande"
+
+#: lms/djangoapps/shoppingcart/reports.py
+msgid "Unit Cost"
+msgstr "Coût unitaire"
+>>>>>>> origin
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Total Cost"
@@ -8217,7 +8634,11 @@ msgstr "Période de l'inscription au cours"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Total Enrolled"
+<<<<<<< HEAD
 msgstr "Total d'inscrits"
+=======
+msgstr "Nombre total d'inscrits"
+>>>>>>> origin
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Audit Enrollment"
@@ -8437,7 +8858,11 @@ msgstr ""
 
 #: lms/djangoapps/teams/views.py
 msgid "Username is required."
+<<<<<<< HEAD
 msgstr "Le nom d'utilisateur est nécessaire."
+=======
+msgstr "Le nom d'utilisateur est requis"
+>>>>>>> origin
 
 #: lms/djangoapps/teams/views.py
 msgid "Team id is required."
@@ -8511,7 +8936,11 @@ msgstr "Introduction"
 
 #: lms/djangoapps/verify_student/views.py
 msgid "Make payment"
+<<<<<<< HEAD
 msgstr "Effectuer un paiement"
+=======
+msgstr "Payer"
+>>>>>>> origin
 
 #: lms/djangoapps/verify_student/views.py
 msgid "Payment confirmation"
@@ -9027,7 +9456,11 @@ msgstr "Wikipédia"
 #: lms/templates/wiki/includes/cheatsheet.html
 #, python-format
 msgid "%(platform_name)s Wiki"
+<<<<<<< HEAD
 msgstr "Wiki %(platform_name)s"
+=======
+msgstr "%(platform_name)s Wiki"
+>>>>>>> origin
 
 #: lms/templates/wiki/includes/cheatsheet.html
 msgid "Huge Header"
@@ -9313,6 +9746,7 @@ msgid ""
 "value greater than 0."
 msgstr ""
 
+<<<<<<< HEAD
 #: openedx/core/djangoapps/cors_csrf/models.py
 msgid ""
 "List of domains that are allowed to make cross-domain requests to this site."
@@ -9321,6 +9755,8 @@ msgstr ""
 "Liste des domaines autorisées à effectuer de requêtes inter-domaine vers ce "
 "site. Listez chaque domaine sur une nouvelle ligne."
 
+=======
+>>>>>>> origin
 #: openedx/core/djangoapps/course_groups/cohorts.py
 msgid "Default Group"
 msgstr ""
@@ -9798,10 +10234,13 @@ msgstr "Entreprise"
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Please select your Country."
 msgstr "Sélectionnez votre pays, s'il vous plaît."
+<<<<<<< HEAD
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Review the Honor Code"
 msgstr ""
+=======
+>>>>>>> origin
 
 #. Translators: This is a legal document users must agree to
 #. in order to register a new account.
@@ -10382,7 +10821,11 @@ msgstr "Format incorrect pour le champ  '{name}'. {detailed_message}"
 
 #: cms/lib/xblock/tagging/tagging.py
 msgid "Dictionary with the available tags"
+<<<<<<< HEAD
 msgstr "Dictionnaire avec les tags disponibles"
+=======
+msgstr "Dictionnaire avec les balises disponibles"
+>>>>>>> origin
 
 #: cms/templates/404.html cms/templates/error.html
 #: lms/templates/static_templates/404.html
@@ -10550,11 +10993,19 @@ msgid "View"
 msgstr "Voir"
 
 #: cms/templates/darklang/preview_lang.html
+<<<<<<< HEAD
+=======
+#: common/templates/darklang/preview_lang_include.html
+>>>>>>> origin
 #: lms/templates/darklang/preview_lang.html
 msgid "Preview Language Setting"
 msgstr ""
 
 #: cms/templates/maintenance/_force_publish_course.html
+<<<<<<< HEAD
+=======
+#: common/templates/darklang/preview_lang_include.html
+>>>>>>> origin
 #: lms/templates/problem.html lms/templates/shoppingcart/shopping_cart.html
 msgid "Reset"
 msgstr "Réinitialiser"
@@ -10603,12 +11054,20 @@ msgstr ""
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
 msgid "Hide {studio_name} Help"
+<<<<<<< HEAD
 msgstr "Cachez l'aide {studio_name}"
+=======
+msgstr "Cacher l'aide de {studio_name}"
+>>>>>>> origin
 
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
 msgid "{studio_name} Documentation"
+<<<<<<< HEAD
 msgstr "Documentation {studio_name}"
+=======
+msgstr "{studio_name} Documentation"
+>>>>>>> origin
 
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
@@ -10658,6 +11117,19 @@ msgstr ""
 
 #: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
 msgid "Usermenu dropdown"
+<<<<<<< HEAD
+=======
+msgstr ""
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+#: themes/example/lms/templates/header.html
+#: themes/red-theme/lms/templates/header.html
+msgid "Sign Out"
+msgstr "Se déconnecter"
+
+#: common/lib/capa/capa/templates/codeinput.html
+msgid "{programming_language} editor"
+>>>>>>> origin
 msgstr ""
 
 #: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
@@ -10695,18 +11167,48 @@ msgstr ""
 msgid "Some Rights Reserved"
 msgstr "Quelques droits réservés"
 
+<<<<<<< HEAD
+=======
+#: common/templates/darklang/preview_lang_include.html
+msgid "Language Code"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "For example use en for English"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/help_modal.html lms/templates/manage_user_standing.html
+#: lms/templates/register-shib.html
+#: lms/templates/peer_grading/peer_grading_problem.html
+#: lms/templates/survey/survey.html
+#: themes/stanford-style/lms/templates/register-shib.html
+msgid "Submit"
+msgstr "Soumettre"
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "Please refresh the page to see the changes applied."
+msgstr ""
+
+>>>>>>> origin
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
 #: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
 msgid "Discussion - {course_number}"
 msgstr "Discussion - {course_number}"
 
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+<<<<<<< HEAD
 msgid "Discussions"
 msgstr ""
 
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
 msgid "Add a Post"
 msgstr "Ajouter un  message"
+=======
+#: lms/templates/discussion/_discussion_inline.html
+msgid "Add a Post"
+msgstr "Ajouter une discussion"
+>>>>>>> origin
 
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
 #: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
@@ -10751,6 +11253,7 @@ msgstr "Cliquer pour supprimer"
 #: lms/templates/bookmark_button.html
 msgid "Click to add"
 msgstr "Cliquer pour ajouter"
+<<<<<<< HEAD
 
 #: lms/templates/bookmark_button.html lms/templates/seq_module.html
 msgid "Bookmarked"
@@ -10759,6 +11262,12 @@ msgstr "Ajouté aux favoris"
 #: lms/templates/bookmark_button.html
 msgid "Bookmark this page"
 msgstr ""
+=======
+
+#: lms/templates/bookmark_button.html
+msgid "Bookmark"
+msgstr "Favori"
+>>>>>>> origin
 
 #: lms/templates/course.html themes/example/lms/templates/course.html
 msgid "LEARN MORE"
@@ -11738,6 +12247,13 @@ msgid "Previous"
 msgstr "Précédent"
 
 #: lms/templates/seq_module.html
+<<<<<<< HEAD
+=======
+msgid "Bookmarked"
+msgstr "Ajouté aux favoris"
+
+#: lms/templates/seq_module.html
+>>>>>>> origin
 msgid "Next"
 msgstr "Suivant"
 
@@ -12020,6 +12536,14 @@ msgstr "Activité récente de la charge git pour {course_id}"
 
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/ccx/schedule.html
+<<<<<<< HEAD
+=======
+msgid "Error"
+msgstr "Erreur"
+
+#: lms/templates/sysadmin_dashboard_gitlogs.html
+#: lms/templates/ccx/schedule.html
+>>>>>>> origin
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Date"
 msgstr "Date"
@@ -12214,7 +12738,11 @@ msgstr ""
 
 #: lms/templates/api_admin/status.html
 msgid "Application Name"
+<<<<<<< HEAD
 msgstr "Nom d'application"
+=======
+msgstr "Nom de l'application"
+>>>>>>> origin
 
 #: lms/templates/api_admin/status.html
 msgid "API Client ID"
@@ -13669,6 +14197,13 @@ msgid "Course Progress for Student '{username}' ({email})"
 msgstr "Progression pour '{username}' ({email})"
 
 #: lms/templates/courseware/progress.html
+<<<<<<< HEAD
+=======
+msgid "View certificate in a new browser window or tab."
+msgstr ""
+
+#: lms/templates/courseware/progress.html
+>>>>>>> origin
 msgid "View Certificate"
 msgstr ""
 
@@ -14101,8 +14636,13 @@ msgid "Your current verification is effective until {date}."
 msgstr ""
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
+<<<<<<< HEAD
 msgid "Your current verification will expire soon."
 msgstr ""
+=======
+msgid "Your verification will expire soon!"
+msgstr "Votre vérification va bientôt expirer !"
+>>>>>>> origin
 
 #. Translators: start_link and end_link will be replaced with HTML tags;
 #. please do not translate these.
@@ -14265,10 +14805,13 @@ msgstr ""
 msgid "Results:"
 msgstr "Résultats :"
 
+<<<<<<< HEAD
 #: lms/templates/discussion/_discussion_inline.html
 msgid "Topic:"
 msgstr ""
 
+=======
+>>>>>>> origin
 #: lms/templates/discussion/_discussion_inline.html
 msgid "Show Discussion"
 msgstr "Afficher la discussion"
@@ -15490,7 +16033,11 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Download a CSV of learners who can enroll"
+<<<<<<< HEAD
 msgstr "Télécharger au format CSV une liste des apprenants pouvant s'inscrire"
+=======
+msgstr "Télécharger un CSV des apprenants pouvant s'inscrire"
+>>>>>>> origin
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
@@ -15639,7 +16186,11 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/e-commerce.html
 msgid "Download Unused Enrollment Codes"
+<<<<<<< HEAD
 msgstr "Télécharger les codes d'inscription inutilisés"
+=======
+msgstr "Télécharger les codes d'inscriptions inutilisés"
+>>>>>>> origin
 
 #: lms/templates/instructor/instructor_dashboard_2/e-commerce.html
 msgid "Download a .csv file of all used enrollment codes for this course."
@@ -18747,8 +19298,12 @@ msgstr "Attention"
 
 #: cms/templates/course_outline.html
 msgid "This course uses features that are no longer supported."
+<<<<<<< HEAD
 msgstr ""
 "Ce cours utilise des fonctionnalités qui ne sont plus prises en charge."
+=======
+msgstr "Ce cours utilise des fonctionnalités qui ne sont plus supportées."
+>>>>>>> origin
 
 #: cms/templates/course_outline.html
 msgid "You must delete or replace the following components."
@@ -19064,7 +19619,11 @@ msgstr "Outils"
 
 #: cms/templates/export.html
 msgid "About Exporting Libraries"
+<<<<<<< HEAD
 msgstr "À propos de l'export des bibliothèques"
+=======
+msgstr "A propos de l'export des bibliothèques"
+>>>>>>> origin
 
 #. Translators: ".tar.gz" is a file extension, and should not be translated
 #: cms/templates/export.html
@@ -19121,8 +19680,13 @@ msgstr "Données {em_start}exportées avec{em_end} votre cours :"
 msgid ""
 "Values from Advanced Settings, including MATLAB API keys and LTI passports"
 msgstr ""
+<<<<<<< HEAD
 "Les valeurs des Paramètres Avancés, incluant les clés API de MATLAB et les "
 "passeports LTI"
+=======
+"Valeurs des paramètres avancés, y compris les clés d'API MATLAB et les "
+"passports LTI"
+>>>>>>> origin
 
 #: cms/templates/export.html
 msgid "Course Content (all Sections, Sub-sections, and Units)"
@@ -19186,7 +19750,11 @@ msgstr ""
 
 #: cms/templates/export.html
 msgid "Learn more about exporting a library"
+<<<<<<< HEAD
 msgstr "Apprenez-en plus sur l'export de cours"
+=======
+msgstr "En savoir plus sur l'exportation d'une bibliothèque"
+>>>>>>> origin
 
 #: cms/templates/export.html
 msgid "Why export a course?"
@@ -21471,11 +22039,19 @@ msgstr "Label"
 
 #: cms/templates/widgets/sock.html
 msgid "Access the Open edX Portal"
+<<<<<<< HEAD
 msgstr "Accéder au portail Open edX"
 
 #: cms/templates/widgets/sock.html
 msgid "Open edX Portal"
 msgstr "Ouvrir le portail edX"
+=======
+msgstr "Accéder à Open edX Portal"
+
+#: cms/templates/widgets/sock.html
+msgid "Open edX Portal"
+msgstr "Ouvrir edX Portal"
+>>>>>>> origin
 
 #: cms/templates/widgets/tabs-aggregator.html
 msgid "name"

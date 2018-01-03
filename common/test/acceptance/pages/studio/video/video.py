@@ -6,9 +6,9 @@ import os
 import requests
 from bok_choy.promise import EmptyPromise, Promise
 from bok_choy.javascript import wait_for_js, js_defined
-from ....tests.helpers import YouTubeStubConfig
-from ...lms.video.video import VideoPage
-from ...common.utils import wait_for_notification
+from common.test.acceptance.tests.helpers import YouTubeStubConfig
+from common.test.acceptance.pages.lms.video.video import VideoPage
+from common.test.acceptance.pages.common.utils import wait_for_notification
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -639,6 +639,8 @@ class VideoComponentPage(VideoPage):
         # Show the Browse Button
         self.browser.execute_script("$('form.file-chooser').show()")
         asset_file_path = self.file_path(transcript_filename)
-        self.q(css=CLASS_SELECTORS['attach_transcript']).results[0].send_keys(asset_file_path)
+        attach_css = CLASS_SELECTORS['attach_transcript']
+        self.wait_for_element_visibility(attach_css, "The file chooser's input field is visible.")
+        self.q(css=attach_css).results[0].send_keys(asset_file_path)
         # confirm upload completion
-        self._wait_for(lambda: not self.q(css=CLASS_SELECTORS['attach_transcript']).visible, 'Upload Completed')
+        self._wait_for(lambda: not self.q(css=attach_css).visible, 'Upload Completed')

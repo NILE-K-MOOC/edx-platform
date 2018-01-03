@@ -6,17 +6,17 @@ django-oauth-toolkit as appropriate.
 from __future__ import unicode_literals
 
 import json
-from time import time
 
-import jwt
 from auth_exchange import views as auth_exchange_views
-from django.conf import settings
-from django.utils.functional import cached_property
 from django.views.generic import View
 from edx_oauth2_provider import views as dop_views  # django-oauth2-provider views
 from oauth2_provider import models as dot_models, views as dot_views  # django-oauth-toolkit
 
+<<<<<<< HEAD
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+=======
+from openedx.core.lib.token_utils import JwtBuilder
+>>>>>>> origin
 
 from . import adapters
 
@@ -87,15 +87,6 @@ class AccessTokenView(_DispatchingView):
     dot_view = dot_views.TokenView
     dop_view = dop_views.AccessTokenView
 
-    @cached_property
-    def claim_handlers(self):
-        """ Returns a dictionary mapping scopes to methods that will add claims to the JWT payload. """
-
-        return {
-            'email': self._attach_email_claim,
-            'profile': self._attach_profile_claim
-        }
-
     def dispatch(self, request, *args, **kwargs):
         response = super(AccessTokenView, self).dispatch(request, *args, **kwargs)
 
@@ -103,7 +94,7 @@ class AccessTokenView(_DispatchingView):
             expires_in, scopes, user = self._decompose_access_token_response(request, response)
 
             content = {
-                'access_token': self._generate_jwt(user, scopes, expires_in),
+                'access_token': JwtBuilder(user).build_token(scopes, expires_in),
                 'expires_in': expires_in,
                 'token_type': 'JWT',
                 'scope': ' '.join(scopes),
@@ -123,6 +114,7 @@ class AccessTokenView(_DispatchingView):
         expires_in = content['expires_in']
         return expires_in, scopes, user
 
+<<<<<<< HEAD
     def _generate_jwt(self, user, scopes, expires_in):
         """ Returns a JWT access token. """
         now = int(time())
@@ -160,6 +152,8 @@ class AccessTokenView(_DispatchingView):
             'administrator': user.is_staff,
         })
 
+=======
+>>>>>>> origin
 
 class AuthorizationView(_DispatchingView):
     """
@@ -175,3 +169,10 @@ class AccessTokenExchangeView(_DispatchingView):
     """
     dop_view = auth_exchange_views.DOPAccessTokenExchangeView
     dot_view = auth_exchange_views.DOTAccessTokenExchangeView
+
+
+class RevokeTokenView(_DispatchingView):
+    """
+    Dispatch to the RevokeTokenView of django-oauth-toolkit
+    """
+    dot_view = dot_views.RevokeTokenView

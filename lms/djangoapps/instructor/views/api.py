@@ -12,7 +12,7 @@ import logging
 import re
 import time
 from django.conf import settings
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST, require_http_methods
 from django.views.decorators.cache import cache_control
 from django.core.exceptions import ValidationError, PermissionDenied
@@ -30,13 +30,18 @@ import random
 import unicodecsv
 import decimal
 from student import auth
-from student.roles import GlobalStaff, CourseSalesAdminRole, CourseFinanceAdminRole
+from student.roles import CourseSalesAdminRole, CourseFinanceAdminRole
 from util.file import (
     store_uploaded_file, course_and_time_based_filename_generator,
     FileValidationException, UniversalNewlineIterator
 )
 from util.json_request import JsonResponse, JsonResponseBadRequest
+from util.views import require_global_staff
 from instructor.views.instructor_task_helpers import extract_email_features, extract_task_features
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin
 from courseware.access import has_access
 from courseware.courses import get_course_with_access, get_course_by_id
 from django.contrib.auth.models import User
@@ -105,9 +110,12 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from opaque_keys import InvalidKeyError
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+<<<<<<< HEAD
 import urllib
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from openedx.core.djangoapps.log_action import views as admin_view
+=======
+>>>>>>> origin
 
 log = logging.getLogger(__name__)
 
@@ -211,6 +219,7 @@ def require_level(level):
     return decorator
 
 
+<<<<<<< HEAD
 def require_global_staff(func):
     """View decorator that requires that the user have global staff permissions. """
 
@@ -227,6 +236,8 @@ def require_global_staff(func):
     return wrapped
 
 
+=======
+>>>>>>> origin
 def require_sales_admin(func):
     """
     Decorator for checking sales administrator access before executing an HTTP endpoint. This decorator
@@ -1854,7 +1865,11 @@ def generate_registration_codes(request, course_id):
         'corp_address': configuration_helpers.get_value('invoice_corp_address', settings.INVOICE_CORP_ADDRESS),
         'payment_instructions': configuration_helpers.get_value(
             'invoice_payment_instructions',
+<<<<<<< HEAD
             settings.INVOICE_PAYMENT_INSTRUCTIONS,
+=======
+            settings. INVOICE_PAYMENT_INSTRUCTIONS,
+>>>>>>> origin
         ),
         'date': time.strftime("%m/%d/%Y")
     }

@@ -20,9 +20,12 @@ from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
 import branding.api as branding_api
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+<<<<<<< HEAD
 import sys
 import json
 import MySQLdb as mdb
+=======
+>>>>>>> origin
 
 log = logging.getLogger(__name__)
 
@@ -37,7 +40,11 @@ def get_course_enrollments(user):
     if course_org:
         site_enrollments = [
             enrollment for enrollment in enrollments if enrollment.course_id.org == course_org
+<<<<<<< HEAD
             ]
+=======
+        ]
+>>>>>>> origin
     else:
         site_enrollments = [
             enrollment for enrollment in enrollments
@@ -58,7 +65,10 @@ def index(request):
         # courses in his/her dashboard. Otherwise UX is a bit cryptic.
         # In this case, we want to have the user stay on a course catalog
         # page to make it easier to browse for courses (and register)
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin
         if configuration_helpers.get_value(
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):

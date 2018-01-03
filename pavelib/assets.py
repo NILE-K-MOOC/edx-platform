@@ -17,6 +17,7 @@ from watchdog.events import PatternMatchingEventHandler
 
 from .utils.envs import Env
 from .utils.cmd import cmd, django_cmd
+from .utils.timer import timed
 
 from openedx.core.djangoapps.theming.paver_helpers import get_theme_paths
 
@@ -53,6 +54,7 @@ NPM_INSTALLED_LIBRARIES = [
     'picturefill/dist/picturefill.js',
     'backbone/backbone.js',
     'edx-ui-toolkit/node_modules/backbone.paginator/lib/backbone.paginator.js',
+    'backbone-validation/dist/backbone-validation-min.js',
 ]
 
 # Directory to install static vendor files
@@ -386,6 +388,7 @@ def coffeescript_files():
 
 @task
 @no_help
+@timed
 def compile_coffeescript(*files):
     """
     Compile CoffeeScript to JavaScript.
@@ -406,6 +409,7 @@ def compile_coffeescript(*files):
     ('debug', 'd', 'Debug mode'),
     ('force', '', 'Force full compilation'),
 ])
+@timed
 def compile_sass(options):
     """
     Compile Sass to CSS. If command is called without any arguments, it will
@@ -587,23 +591,6 @@ def _compile_sass(system, theme, debug, force, timing_info):
     return True
 
 
-def compile_templated_sass(systems, settings):
-    """
-    Render Mako templates for Sass files.
-    `systems` is a list of systems (e.g. 'lms' or 'studio' or both)
-    `settings` is the Django settings module to use.
-    """
-    for system in systems:
-        if system == "studio":
-            system = "cms"
-        sh(django_cmd(
-            system, settings, 'preprocess_assets',
-            '{system}/static/sass/*.scss'.format(system=system),
-            '{system}/static/themed_sass'.format(system=system)
-        ))
-        print("\t\tFinished preprocessing {} assets.".format(system))
-
-
 def process_npm_assets():
     """
     Process vendor libraries installed via NPM.
@@ -710,6 +697,7 @@ def execute_compile_sass(args):
     ('theme-dirs=', '-td', 'The themes dir containing all themes (defaults to None)'),
     ('themes=', '-t', 'The themes to add sass watchers for (defaults to None)'),
 ])
+@timed
 def watch_assets(options):
     """
     Watch for changes to asset files, and regenerate js/css
@@ -758,6 +746,7 @@ def watch_assets(options):
     'pavelib.prereqs.install_node_prereqs',
 )
 @consume_args
+@timed
 def update_assets(args):
     """
     Compile CoffeeScript and Sass, then collect static assets.
@@ -798,7 +787,6 @@ def update_assets(args):
     args = parser.parse_args(args)
     collect_log_args = {}
 
-    compile_templated_sass(args.system, args.settings)
     process_xmodule_assets()
     process_npm_assets()
     compile_coffeescript()

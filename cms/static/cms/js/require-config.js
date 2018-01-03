@@ -1,4 +1,4 @@
-;(function(require, define) {
+(function(require, define) {
     'use strict';
 
     if (window) {
@@ -56,6 +56,7 @@
             'underscore.string': 'common/js/vendor/underscore.string',
             'backbone': 'common/js/vendor/backbone',
             'backbone-relational': 'js/vendor/backbone-relational.min',
+            'backbone.validation': 'common/js/vendor/backbone-validation-min',
             'backbone.associations': 'js/vendor/backbone-associations-min',
             'backbone.paginator': 'common/js/vendor/backbone.paginator',
             'tinymce': 'js/vendor/tinymce/js/tinymce/tinymce.full.min',
@@ -68,9 +69,6 @@
             'URI': 'js/vendor/URI.min',
             'ieshim': 'js/src/ie_shim',
             'tooltip_manager': 'js/src/tooltip_manager',
-            'modernizr': 'edx-pattern-library/js/modernizr-custom',
-            'afontgarde': 'edx-pattern-library/js/afontgarde',
-            'edxicons': 'edx-pattern-library/js/edx-icons',
             'draggabilly': 'js/vendor/draggabilly',
 
             // Files needed for Annotations feature
@@ -96,7 +94,11 @@
             // end of Annotation tool files
 
             // externally hosted files
+<<<<<<< HEAD
             'mathjax': '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured', // jshint ignore:line
+=======
+            mathjax: '//cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured',  // eslint-disable-line max-len
+>>>>>>> origin
             'youtube': [
                 // youtube URL does not end in '.js'. We add '?noext' to the path so
                 // that require.js adds the '.js' to the query component of the URL,
@@ -212,12 +214,12 @@
                     window.MathJax.Hub.Config({
                         tex2jax: {
                             inlineMath: [
-                                ['\\(','\\)'],
-                                ['[mathjaxinline]','[/mathjaxinline]']
+                                ['\\(', '\\)'],
+                                ['[mathjaxinline]', '[/mathjaxinline]']
                             ],
                             displayMath: [
-                                ['\\[','\\]'],
-                                ['[mathjax]','[/mathjax]']
+                                ['\\[', '\\]'],
+                                ['[mathjax]', '[/mathjax]']
                             ]
                         }
                     });
@@ -247,18 +249,12 @@
                 exports: 'XBlock',
                 deps: ['xblock/core']
             },
-            'coffee/src/main': {
+            'cms/js/main': {
                 deps: ['coffee/src/ajax_prefix']
             },
             'js/src/logger': {
                 exports: 'Logger',
                 deps: ['coffee/src/ajax_prefix']
-            },
-            'modernizr': {
-                exports: 'Modernizr'
-            },
-            'afontgarde': {
-                exports: 'AFontGarde'
             },
 
             // the following are all needed for annotation tools

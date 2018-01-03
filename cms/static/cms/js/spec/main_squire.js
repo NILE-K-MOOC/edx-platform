@@ -1,3 +1,5 @@
+/* globals requirejs, requireSerial */
+
 (function(requirejs, requireSerial) {
     'use strict';
 
@@ -21,9 +23,9 @@
             'jquery.cookie': 'xmodule_js/common_static/js/vendor/jquery.cookie',
             'jquery.qtip': 'xmodule_js/common_static/js/vendor/jquery.qtip.min',
             'jquery.fileupload': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload',
-            'jquery.fileupload-process': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-process',  // jshint ignore:line
-            'jquery.fileupload-validate': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-validate',  // jshint ignore:line
-            'jquery.iframe-transport': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.iframe-transport',  // jshint ignore:line
+            'jquery.fileupload-process': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-process',   // eslint-disable-line max-len
+            'jquery.fileupload-validate': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-validate',   // eslint-disable-line max-len
+            'jquery.iframe-transport': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.iframe-transport',   // eslint-disable-line max-len
             'jquery.inputnumber': 'xmodule_js/common_static/js/vendor/html5-input-polyfills/number-polyfill',
             'jquery.immediateDescendents': 'xmodule_js/common_static/coffee/src/jquery.immediateDescendents',
             'datepair': 'xmodule_js/common_static/js/vendor/timepicker/datepair',
@@ -34,6 +36,7 @@
             'backbone': 'common/js/vendor/backbone',
             'backbone.associations': 'xmodule_js/common_static/js/vendor/backbone-associations-min',
             'backbone.paginator': 'common/js/vendor/backbone.paginator',
+            'backbone.validation': 'common/js/vendor/backbone-validation',
             'tinymce': 'xmodule_js/common_static/js/vendor/tinymce/js/tinymce/tinymce.full.min',
             'jquery.tinymce': 'xmodule_js/common_static/js/vendor/tinymce/js/tinymce/jquery.tinymce',
             'xmodule': 'xmodule_js/src/xmodule',
@@ -42,13 +45,14 @@
             'utility': 'xmodule_js/common_static/js/src/utility',
             'sinon': 'xmodule_js/common_static/js/vendor/sinon-1.17.0',
             'squire': 'xmodule_js/common_static/js/vendor/Squire',
-            'modernizr': 'edx-pattern-library/js/modernizr-custom',
-            'afontgarde': 'edx-pattern-library/js/afontgarde',
-            'edxicons': 'edx-pattern-library/js/edx-icons',
             'draggabilly': 'xmodule_js/common_static/js/vendor/draggabilly',
             'domReady': 'xmodule_js/common_static/js/vendor/domReady',
             'URI': 'xmodule_js/common_static/js/vendor/URI.min',
+<<<<<<< HEAD
             'mathjax': '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured',  // jshint ignore:line
+=======
+            mathjax: '//cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured',   // eslint-disable-line max-len
+>>>>>>> origin
             'youtube': '//www.youtube.com/player_api?noext',
             'coffee/src/ajax_prefix': 'xmodule_js/common_static/coffee/src/ajax_prefix'
         },
@@ -174,17 +178,11 @@
                 exports: 'XBlock',
                 deps: ['xblock/core']
             },
-            'coffee/src/main': {
+            'cms/js/main': {
                 deps: ['coffee/src/ajax_prefix']
             },
             'coffee/src/ajax_prefix': {
                 deps: ['jquery']
-            },
-            'modernizr': {
-                exports: 'Modernizr'
-            },
-            'afontgarde': {
-                exports: 'AFontGarde'
             }
         }
     });
@@ -214,5 +212,4 @@
     requireSerial(specHelpers.concat(testFiles), function() {
         return window.__karma__.start();
     });
-
-}).call(this, requirejs, requireSerial);  // jshint ignore:line
+}).call(this, requirejs, requireSerial);

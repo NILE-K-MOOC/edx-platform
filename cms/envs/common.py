@@ -76,8 +76,16 @@ from lms.envs.common import (
     REDIRECT_CACHE_TIMEOUT,
     REDIRECT_CACHE_KEY_PREFIX,
 
+<<<<<<< HEAD
     # django-debug-toolbar
     DEBUG_TOOLBAR_PATCH_SETTINGS,
+=======
+    JWT_AUTH,
+
+    # django-debug-toolbar
+    DEBUG_TOOLBAR_PATCH_SETTINGS,
+    BLOCK_STRUCTURES_SETTINGS,
+>>>>>>> origin
 )
 from path import Path as path
 from warnings import simplefilter
@@ -307,6 +315,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LMS_BASE = None
+LMS_ROOT_URL = "http://localhost:8000"
 
 # These are standard regexes for pulling out info like course_ids, usage_ids, etc.
 # They are used so that URLs with deprecated-format strings still work.
@@ -566,7 +575,6 @@ from openedx.core.lib.rooted_paths import rooted_glob
 PIPELINE_CSS = {
     'style-vendor': {
         'source_filenames': [
-            'js/vendor/afontgarde/afontgarde.css',
             'css/vendor/normalize.css',
             'css/vendor/font-awesome.css',
             'css/vendor/html5-input-polyfills/number-polyfill.css',
@@ -615,12 +623,6 @@ PIPELINE_CSS = {
             'css/studio-main-v2-rtl.css',
         ],
         'output_filename': 'css/studio-main-v2-rtl.css',
-    },
-    'style-edx-icons': {
-        'source_filenames': [
-            'css/edx-icons.css',
-        ],
-        'output_filename': 'css/edx-icons.css',
     },
     'style-xmodule-annotations': {
         'source_filenames': [
@@ -836,6 +838,9 @@ INSTALLED_APPS = (
     'openedx.core.djangoapps.coursetalk',  # not used in cms (yet), but tests run
     'xblock_config',
 
+    # Maintenance tools
+    'maintenance',
+
     # Tracking
     'track',
     'eventtracking.django.apps.EventTrackingConfig',
@@ -904,6 +909,9 @@ INSTALLED_APPS = (
     # programs support
     'openedx.core.djangoapps.programs',
 
+    # Catalog integration
+    'openedx.core.djangoapps.catalog',
+
     # Self-paced course configuration
     'openedx.core.djangoapps.self_paced',
 
@@ -919,6 +927,7 @@ INSTALLED_APPS = (
     # other apps that are.  Django 1.8 wants to have imported models supported
     # by installed apps.
     'lms.djangoapps.verify_student',
+    'lms.djangoapps.grades',
 
     # Microsite configuration application
     'microsite_configuration',
@@ -935,7 +944,12 @@ INSTALLED_APPS = (
     # Enables default site and redirects
     'django_sites_extensions',
 
+<<<<<<< HEAD
 
+=======
+    # additional release utilities to ease automation
+    'release_util'
+>>>>>>> origin
 )
 
 
@@ -1135,31 +1149,6 @@ XBLOCK_SETTINGS = {
     }
 }
 
-################################ XBlock Deprecation ################################
-
-# The following settings are used for deprecating XBlocks.
-
-# Adding an XBlock to this list does the following:
-# 1. Shows a warning on the course outline if the XBlock is listed in
-#    "Advanced Module List" in "Advanced Settings" page.
-# 2. List all instances of that XBlock on the top of the course outline page asking
-#    course authors to delete or replace the instances.
-DEPRECATED_BLOCK_TYPES = [
-    'peergrading',
-    'combinedopenended',
-    'graphical_slider_tool',
-    'randomize',
-]
-
-# Adding components in this list will disable the creation of new problems for
-# those advanced components in Studio. Existing problems will work fine
-# and one can edit them in Studio.
-# DEPRECATED. Please use /admin/xblock_django/xblockdisableconfig instead.
-DEPRECATED_ADVANCED_COMPONENT_TYPES = []
-
-# XBlocks can be disabled from rendering in LMS Courseware by adding them to
-# /admin/xblock_django/xblockdisableconfig/.
-
 ################################ Settings for Credit Course Requirements ################################
 # Initial delay used for retrying tasks.
 # Additional retries use longer delays.
@@ -1217,3 +1206,7 @@ PARTNER_SUPPORT_EMAIL = ''
 
 # Affiliate cookie tracking
 AFFILIATE_COOKIE_NAME = 'affiliate_id'
+
+############## Settings for Studio Context Sensitive Help ##############
+
+DOC_LINK_BASE_URL = None

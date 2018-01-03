@@ -2,6 +2,7 @@
 """
 Integration tests for submitting problem responses and getting grades.
 """
+import ddt
 import json
 import os
 from textwrap import dedent
@@ -18,12 +19,12 @@ from capa.tests.response_xml_factory import (
     OptionResponseXMLFactory, CustomResponseXMLFactory, SchematicResponseXMLFactory,
     CodeResponseXMLFactory,
 )
-from courseware import grades
+from lms.djangoapps.grades import course_grades, progress
+from course_modes.models import CourseMode
 from courseware.models import StudentModule, BaseStudentModuleHistory
 from courseware.tests.helpers import LoginEnrollmentTestCase
 from lms.djangoapps.lms_xblock.runtime import quote_slashes
-from student.tests.factories import UserFactory
-from student.models import anonymous_id_for_user
+from student.models import anonymous_id_for_user, CourseEnrollment
 from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
 from xmodule.partitions.partitions import Group, UserPartition
@@ -246,7 +247,7 @@ class TestSubmittingProblems(ModuleStoreTestCase, LoginEnrollmentTestCase, Probl
 
     def get_grade_summary(self):
         """
-        calls grades.grade for current user and course.
+        calls course_grades.summary for current user and course.
 
         the keywords for the returned object are
         - grade : A final letter grade.
@@ -256,7 +257,7 @@ class TestSubmittingProblems(ModuleStoreTestCase, LoginEnrollmentTestCase, Probl
         - grade_breakdown : A breakdown of the major components that
             make up the final grade. (For display)
         """
-        return grades.grade(self.student_user, self.course)
+        return course_grades.summary(self.student_user, self.course)
 
     def get_progress_summary(self):
         """
@@ -269,7 +270,7 @@ class TestSubmittingProblems(ModuleStoreTestCase, LoginEnrollmentTestCase, Probl
         ungraded problems, and is good for displaying a course summary with due dates,
         etc.
         """
-        return grades.progress_summary(self.student_user, self.course)
+        return progress.summary(self.student_user, self.course).chapter_grades
 
     def check_grade_percent(self, percent):
         """
@@ -300,11 +301,12 @@ class TestSubmittingProblems(ModuleStoreTestCase, LoginEnrollmentTestCase, Probl
             sections_list.extend(chapter['sections'])
 
         # get the first section that matches the url (there should only be one)
-        hw_section = next(section for section in sections_list if section.get('url_name') == hw_url_name)
-        return [s.earned for s in hw_section['scores']]
+        hw_section = next(section for section in sections_list if section.url_name == hw_url_name)
+        return [s.earned for s in hw_section.scores]
 
 
-@attr('shard_3')
+@attr(shard=3)
+@ddt.ddt
 class TestCourseGrader(TestSubmittingProblems):
     """
     Suite of tests for the course grader.
@@ -316,7 +318,6 @@ class TestCourseGrader(TestSubmittingProblems):
         """
         Set up a simple course for testing basic grading functionality.
         """
-
         grading_policy = {
             "GRADER": [{
                 "type": "Homework",
@@ -647,20 +648,26 @@ class TestCourseGrader(TestSubmittingProblems):
         self.assertEqual(self.earned_hw_scores(), [1.0, 2.0, 2.0])  # Order matters
         self.assertEqual(self.score_for_hw('homework3'), [1.0, 1.0])
 
-    def test_min_grade_credit_requirements_status(self):
+    @ddt.data(
+        *CourseMode.CREDIT_ELIGIBLE_MODES
+    )
+    def test_min_grade_credit_requirements_status(self, mode):
         """
         Test for credit course. If user passes minimum grade requirement then
         status will be updated as satisfied in requirement status table.
         """
         self.basic_setup()
+
+        # Enroll student in credit eligible mode.
+        # Note that we can't call self.enroll here since that goes through
+        # the Django student views, and does not update enrollment if it already exists.
+        CourseEnrollment.enroll(self.student_user, self.course.id, mode)
+
         self.submit_question_answer('p1', {'2_1': 'Correct'})
         self.submit_question_answer('p2', {'2_1': 'Correct'})
 
         # Enable the course for credit
-        credit_course = CreditCourse.objects.create(
-            course_key=self.course.id,
-            enabled=True,
-        )
+        CreditCourse.objects.create(course_key=self.course.id, enabled=True)
 
         # Configure a credit provider for the course
         CreditProvider.objects.create(
@@ -683,7 +690,7 @@ class TestCourseGrader(TestSubmittingProblems):
         self.assertEqual(req_status[0]["status"], 'satisfied')
 
 
-@attr('shard_1')
+@attr(shard=1)
 class ProblemWithUploadedFilesTest(TestSubmittingProblems):
     """Tests of problems with uploaded files."""
     # Tell Django to clean out all databases, not just default
@@ -738,7 +745,7 @@ class ProblemWithUploadedFilesTest(TestSubmittingProblems):
         self.assertItemsEqual(kwargs['files'].keys(), filenames.split())
 
 
-@attr('shard_1')
+@attr(shard=1)
 class TestPythonGradedResponse(TestSubmittingProblems):
     """
     Check that we can submit a schematic and custom response, and it answers properly.
@@ -989,163 +996,7 @@ class TestPythonGradedResponse(TestSubmittingProblems):
         self._check_ireset(name)
 
 
-@attr('shard_1')
-class TestAnswerDistributions(TestSubmittingProblems):
-    """Check that we can pull answer distributions for problems."""
-
-    def setUp(self):
-        """Set up a simple course with four problems."""
-        super(TestAnswerDistributions, self).setUp()
-
-        self.homework = self.add_graded_section_to_course('homework')
-        self.p1_html_id = self.add_dropdown_to_section(self.homework.location, 'p1', 1).location.html_id()
-        self.p2_html_id = self.add_dropdown_to_section(self.homework.location, 'p2', 1).location.html_id()
-        self.p3_html_id = self.add_dropdown_to_section(self.homework.location, 'p3', 1).location.html_id()
-        self.refresh_course()
-
-    def test_empty(self):
-        # Just make sure we can process this without errors.
-        empty_distribution = grades.answer_distributions(self.course.id)
-        self.assertFalse(empty_distribution)  # should be empty
-
-    def test_one_student(self):
-        # Basic test to make sure we have simple behavior right for a student
-
-        # Throw in a non-ASCII answer
-        self.submit_question_answer('p1', {'2_1': u'ⓤⓝⓘⓒⓞⓓⓔ'})
-        self.submit_question_answer('p2', {'2_1': 'Correct'})
-
-        distributions = grades.answer_distributions(self.course.id)
-        self.assertEqual(
-            distributions,
-            {
-                ('p1', 'p1', '{}_2_1'.format(self.p1_html_id)): {
-                    u'ⓤⓝⓘⓒⓞⓓⓔ': 1
-                },
-                ('p2', 'p2', '{}_2_1'.format(self.p2_html_id)): {
-                    'Correct': 1
-                }
-            }
-        )
-
-    def test_multiple_students(self):
-        # Our test class is based around making requests for a particular user,
-        # so we're going to cheat by creating another user and copying and
-        # modifying StudentModule entries to make them from other users. It's
-        # a little hacky, but it seemed the simpler way to do this.
-        self.submit_question_answer('p1', {'2_1': u'Correct'})
-        self.submit_question_answer('p2', {'2_1': u'Incorrect'})
-        self.submit_question_answer('p3', {'2_1': u'Correct'})
-
-        # Make the above submissions owned by user2
-        user2 = UserFactory.create()
-        problems = StudentModule.objects.filter(
-            course_id=self.course.id,
-            student=self.student_user
-        )
-        for problem in problems:
-            problem.student_id = user2.id
-            problem.save()
-
-        # Now make more submissions by our original user
-        self.submit_question_answer('p1', {'2_1': u'Correct'})
-        self.submit_question_answer('p2', {'2_1': u'Correct'})
-
-        self.assertEqual(
-            grades.answer_distributions(self.course.id),
-            {
-                ('p1', 'p1', '{}_2_1'.format(self.p1_html_id)): {
-                    'Correct': 2
-                },
-                ('p2', 'p2', '{}_2_1'.format(self.p2_html_id)): {
-                    'Correct': 1,
-                    'Incorrect': 1
-                },
-                ('p3', 'p3', '{}_2_1'.format(self.p3_html_id)): {
-                    'Correct': 1
-                }
-            }
-        )
-
-    def test_other_data_types(self):
-        # We'll submit one problem, and then muck with the student_answers
-        # dict inside its state to try different data types (str, int, float,
-        # none)
-        self.submit_question_answer('p1', {'2_1': u'Correct'})
-
-        # Now fetch the state entry for that problem.
-        student_module = StudentModule.objects.get(
-            course_id=self.course.id,
-            student=self.student_user
-        )
-        for val in ('Correct', True, False, 0, 0.0, 1, 1.0, None):
-            state = json.loads(student_module.state)
-            state["student_answers"]['{}_2_1'.format(self.p1_html_id)] = val
-            student_module.state = json.dumps(state)
-            student_module.save()
-
-            self.assertEqual(
-                grades.answer_distributions(self.course.id),
-                {
-                    ('p1', 'p1', '{}_2_1'.format(self.p1_html_id)): {
-                        str(val): 1
-                    },
-                }
-            )
-
-    def test_missing_content(self):
-        # If there's a StudentModule entry for content that no longer exists,
-        # we just quietly ignore it (because we can't display a meaningful url
-        # or name for it).
-        self.submit_question_answer('p1', {'2_1': 'Incorrect'})
-
-        # Now fetch the state entry for that problem and alter it so it points
-        # to a non-existent problem.
-        student_module = StudentModule.objects.get(
-            course_id=self.course.id,
-            student=self.student_user
-        )
-        student_module.module_state_key = student_module.module_state_key.replace(
-            name=student_module.module_state_key.name + "_fake"
-        )
-        student_module.save()
-
-        # It should be empty (ignored)
-        empty_distribution = grades.answer_distributions(self.course.id)
-        self.assertFalse(empty_distribution)  # should be empty
-
-    def test_broken_state(self):
-        # Missing or broken state for a problem should be skipped without
-        # causing the whole answer_distribution call to explode.
-
-        # Submit p1
-        self.submit_question_answer('p1', {'2_1': u'Correct'})
-
-        # Now fetch the StudentModule entry for p1 so we can corrupt its state
-        prb1 = StudentModule.objects.get(
-            course_id=self.course.id,
-            student=self.student_user
-        )
-
-        # Submit p2
-        self.submit_question_answer('p2', {'2_1': u'Incorrect'})
-
-        for new_p1_state in ('{"student_answers": {}}', "invalid json!", None):
-            prb1.state = new_p1_state
-            prb1.save()
-
-            # p1 won't show up, but p2 should still work
-            self.assertEqual(
-                grades.answer_distributions(self.course.id),
-                {
-                    ('p2', 'p2', '{}_2_1'.format(self.p2_html_id)): {
-                        'Incorrect': 1
-                    },
-                }
-            )
-
-
-@attr('shard_1')
+@attr(shard=1)
 class TestConditionalContent(TestSubmittingProblems):
     """
     Check that conditional content works correctly with grading.
@@ -1325,7 +1176,7 @@ class TestConditionalContent(TestSubmittingProblems):
 
         self.assertEqual(self.score_for_hw('homework1'), [1.0])
         self.assertEqual(self.score_for_hw('homework2'), [])
-        self.assertEqual(self.earned_hw_scores(), [1.0, 0.0])
+        self.assertEqual(self.earned_hw_scores(), [1.0])
 
         # Grade percent is .25. Here is the calculation.
         homework_1_score = 1.0 / 2

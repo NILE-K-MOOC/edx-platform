@@ -57,10 +57,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/djangojs.po.origin
 "POT-Creation-Date: 2016-06-30 15:59+0000\n"
 "PO-Revision-Date: 2016-05-09 11:26+0000\n"
 "Last-Translator: Ned Batchelder <ned@edx.org>\n"
 "Language-Team: Korean (Korea) (http://www.transifex.com/open-edx/edx-platform/language/ko_KR/)\n"
+=======
+"POT-Creation-Date: 2016-09-01 11:12+0000\n"
+"PO-Revision-Date: 2016-09-01 11:13:42.908257\n"
+"Last-Translator: \n"
+"Language-Team: openedx-translation <openedx-translation@googlegroups.com>\n"
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/djangojs.po
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -84,14 +91,15 @@ msgstr ""
 msgid "Saving"
 msgstr "저장중"
 
+#. #-#-#-#-#  djangojs-partial.po (0.1a)  #-#-#-#-#
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
 #: cms/static/coffee/src/views/tabs.js
 #: cms/static/js/views/course_info_update.js cms/static/js/views/tabs.js
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 #: common/static/coffee/src/discussion/utils.js
-#: common/static/common/js/discussion/utils.js
 #: lms/static/js/Markdown.Editor.js
+#: common/static/common/templates/discussion/alert-popup.underscore
 msgid "OK"
 msgstr "확인"
 
@@ -100,8 +108,9 @@ msgstr "확인"
 #. browser when a user needs to edit HTML
 #: cms/static/coffee/src/views/tabs.js
 #: cms/static/js/certificates/views/signatory_editor.js
-#: cms/static/js/factories/export.js cms/static/js/views/asset.js
-#: cms/static/js/views/course_info_update.js
+#: cms/static/js/factories/export.js
+#: cms/static/js/programs/views/program_details_view.js
+#: cms/static/js/views/asset.js cms/static/js/views/course_info_update.js
 #: cms/static/js/views/manage_users_and_roles.js
 #: cms/static/js/views/modals/base_modal.js
 #: cms/static/js/views/modals/course_outline_modals.js
@@ -121,6 +130,7 @@ msgstr "확인"
 #: cms/templates/js/section-name-edit.underscore
 #: cms/templates/js/signatory-actions.underscore
 #: cms/templates/js/xblock-string-field-editor.underscore
+#: cms/templates/js/programs/program_creator_form.underscore
 #: common/static/common/templates/discussion/new-post.underscore
 #: common/static/common/templates/discussion/response-comment-edit.underscore
 #: common/static/common/templates/discussion/thread-edit.underscore
@@ -150,12 +160,21 @@ msgstr "업로드 중"
 #. browser when a user needs to edit HTML
 #: cms/static/js/views/assets.js
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/djangojs.po.origin
+=======
+#: cms/templates/js/asset-library.underscore
+#: cms/templates/js/course-instructor-details.underscore
+#: cms/templates/js/previous-video-upload-list.underscore
+#: cms/templates/js/signatory-details.underscore
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/djangojs.po
 msgid "Name"
 msgstr "이름"
 
 #: cms/static/js/views/assets.js lms/static/js/Markdown.Editor.js
 #: cms/templates/js/asset-upload-modal.underscore
-#: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
 msgid "Choose File"
 msgstr ""
 
@@ -212,7 +231,15 @@ msgstr "고급"
 #: cms/static/js/views/modals/edit_xblock.js
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 #: common/static/coffee/src/discussion/utils.js
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/djangojs.po.origin
 #: common/static/common/js/discussion/utils.js
+=======
+#: common/static/common/templates/image-modal.underscore
+#: common/static/common/templates/discussion/alert-popup.underscore
+#: common/static/common/templates/discussion/forum-action-close.underscore
+#: common/static/common/templates/discussion/search-alert.underscore
+#: lms/templates/student_profile/share_modal.underscore
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/djangojs.po
 msgid "Close"
 msgstr "닫기"
 
@@ -1793,6 +1820,22 @@ msgstr ""
 msgid "Turn off transcripts"
 msgstr ""
 
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "{start_strong}{total}{end_strong} words submitted in total."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "text_word_{uniqueId} title_word_{uniqueId}"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "title_word_{uniqueId}"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "text_word_{uniqueId}"
+msgstr ""
+
 #: common/static/coffee/src/discussion/discussion_module_view.js
 #: common/static/common/js/discussion/discussion_module_view.js
 msgid "Hide Discussion"
@@ -1813,8 +1856,8 @@ msgstr "게시판  보기"
 #: common/static/common/js/discussion/utils.js
 #: common/static/common/js/discussion/views/discussion_thread_list_view.js
 #: common/static/common/js/discussion/views/discussion_thread_view.js
-#: common/static/common/js/discussion/views/discussion_user_profile_view.js
 #: common/static/common/js/discussion/views/response_comment_view.js
+#: lms/djangoapps/discussion/static/discussion/js/views/discussion_user_profile_view.js
 msgid "Sorry"
 msgstr "죄송합니다"
 
@@ -1848,19 +1891,16 @@ msgstr "요청 처리 중 오류가 발생했습니다. 다시 시도하세요"
 #: common/static/coffee/src/discussion/utils.js
 #: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
 #: common/static/common/js/discussion/utils.js
-#: common/static/common/js/discussion/views/discussion_thread_list_view.js
 #: common/static/common/js/discussion/views/discussion_topic_menu_view.js
 msgid "…"
 msgstr "…"
 
 #: common/static/coffee/src/discussion/views/discussion_content_view.js
-#: common/static/common/js/discussion/views/discussion_content_view.js
 msgid "there is currently %(numVotes)s vote"
 msgid_plural "there are currently %(numVotes)s votes"
 msgstr[0] "현재 %(numVotes)s 명이 투표하였습니다."
 
 #: common/static/coffee/src/discussion/views/discussion_content_view.js
-#: common/static/common/js/discussion/views/discussion_content_view.js
 msgid "%(numVotes)s Vote"
 msgid_plural "%(numVotes)s Votes"
 msgstr[0] "%(numVotes)s  표"
@@ -1935,7 +1975,7 @@ msgid "We had some trouble reopening this thread.  Please try again."
 msgstr "이 게시물을 다시 여는데 문제가 발생했습니다. 다시 시도하세요."
 
 #: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
-#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+#: common/static/common/templates/discussion/nav-load-more-link.underscore
 msgid "Load more"
 msgstr "추가 로드"
 
@@ -1950,7 +1990,6 @@ msgid "We had some trouble loading more threads. Please try again."
 msgstr "다른 게시물 추가 로딩중에 오류가 발생했습니다. 다시 시도하세요."
 
 #: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
-#: common/static/common/js/discussion/views/discussion_thread_list_view.js
 msgid "%(unread_count)s new comment"
 msgid_plural "%(unread_count)s new comments"
 msgstr[0] "%(unread_count)s 의 새로운 댓글"
@@ -1961,7 +2000,6 @@ msgid "Current conversation"
 msgstr "현재 대화"
 
 #: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
-#: common/static/common/js/discussion/views/discussion_thread_list_view.js
 #: lms/static/js/edxnotes/views/tabs/search_results.js
 #: lms/templates/search/course_search_results.underscore
 #: lms/templates/search/dashboard_search_results.underscore
@@ -1985,7 +2023,6 @@ msgid "No threads matched your query."
 msgstr "귀하의 검색에 부합하는 게시물이 없습니다. "
 
 #: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
-#: common/static/common/js/discussion/views/discussion_thread_list_view.js
 msgid "Show posts by %(username)s."
 msgstr "게시물을 %(username)s 순으로 표시"
 
@@ -2006,13 +2043,11 @@ msgid "We had some trouble loading more responses. Please try again."
 msgstr "더 많은 답변 로드중 문제가 생겼습니다. 다시 시도하세요. "
 
 #: common/static/coffee/src/discussion/views/discussion_thread_view.js
-#: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "%(numResponses)s other response"
 msgid_plural "%(numResponses)s other responses"
 msgstr[0] "다른 답변: %(numResponses)s "
 
 #: common/static/coffee/src/discussion/views/discussion_thread_view.js
-#: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "%(numResponses)s response"
 msgid_plural "%(numResponses)s responses"
 msgstr[0] "답변: %(numResponses)s"
@@ -2034,7 +2069,6 @@ msgid "Load all responses"
 msgstr "모든 답변 로드하기"
 
 #: common/static/coffee/src/discussion/views/discussion_thread_view.js
-#: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "Load next %(numResponses)s responses"
 msgstr "다음 %(numResponses)s 답변을 로드하기"
 
@@ -2044,7 +2078,7 @@ msgid "Are you sure you want to delete this post?"
 msgstr "이 게시물을 삭제하시겠습니까?"
 
 #: common/static/coffee/src/discussion/views/discussion_user_profile_view.js
-#: common/static/common/js/discussion/views/discussion_user_profile_view.js
+#: lms/djangoapps/discussion/static/discussion/js/views/discussion_user_profile_view.js
 msgid "We had some trouble loading the page you requested. Please try again."
 msgstr "요청한 페이지를 로딩 중 오류가 발생했습니다. 잠시 후에 다시 시도하세요."
 
@@ -2110,8 +2144,48 @@ msgid ""
 "any "
 msgstr ""
 
+#: common/static/common/js/discussion/utils.js
+msgid "Some images in this post have been omitted"
+msgstr ""
+
+#: common/static/common/js/discussion/utils.js
+msgid "image omitted"
+msgstr ""
+
+#: common/static/common/js/discussion/views/discussion_content_view.js
+msgid "there is currently {numVotes} vote"
+msgid_plural "there are currently {numVotes} votes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/common/js/discussion/views/discussion_content_view.js
+msgid "{numVotes} Vote"
+msgid_plural "{numVotes} Votes"
+msgstr[0] ""
+msgstr[1] ""
+
 #: common/static/common/js/discussion/views/discussion_thread_list_view.js
-msgid "No results found for %(original_query)s. "
+msgid "No results found for {original_query}. "
+msgstr ""
+
+#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+msgid "Show posts by {username}."
+msgstr ""
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "{numResponses} other response"
+msgid_plural "{numResponses} other responses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "{numResponses} response"
+msgid_plural "{numResponses} responses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "Load next {numResponses} responses"
 msgstr ""
 
 #: common/static/common/js/utils/edx.utils.validate.js
@@ -2261,6 +2335,13 @@ msgid "Public"
 msgstr "공개"
 
 #: common/static/js/vendor/ova/catch/js/catch.js
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/djangojs.po.origin
+=======
+#: common/static/common/templates/components/search-field.underscore
+#: lms/djangoapps/discussion/static/discussion/templates/search.underscore
+#: lms/djangoapps/support/static/support/templates/certificates.underscore
+#: lms/djangoapps/support/static/support/templates/enrollment.underscore
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/djangojs.po
 msgid "Search"
 msgstr "검색"
 
@@ -2399,6 +2480,7 @@ msgstr "팀"
 #: cms/templates/js/certificate-editor.underscore
 #: cms/templates/js/content-group-editor.underscore
 #: cms/templates/js/group-configuration-editor.underscore
+#: cms/templates/js/programs/program_creator_form.underscore
 msgid "Create"
 msgstr ""
 
@@ -2590,13 +2672,9 @@ msgstr "강좌에서 주제별로 조직된 모든 팀을 보세요. 관심사�
 msgid "My Team"
 msgstr ""
 
-#. Translators: sr_start and sr_end surround text meant only for screen
-#. readers.
-#. The whole string will be shown to users as "Browse teams" if they are using
-#. a
-#. screenreader, and "Browse" otherwise.
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
-msgid "Browse {sr_start} teams {sr_end}"
+#: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+msgid "Browse"
 msgstr ""
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
@@ -2652,6 +2730,7 @@ msgid "Search teams"
 msgstr ""
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
+#: lms/djangoapps/discussion/static/discussion/templates/fake-breadcrumbs.underscore
 msgid "All Topics"
 msgstr ""
 
@@ -2709,6 +2788,10 @@ msgid "Close Calculator"
 msgstr "계산기 닫기"
 
 #: lms/static/coffee/src/customwmd.js
+msgid "HTML preview of post"
+msgstr ""
+
+#: lms/static/coffee/src/customwmd.js
 msgid "Post body"
 msgstr "본문 게시글 올리기"
 
@@ -2735,7 +2818,6 @@ msgstr "학습자 정보를 만드는 중 오류가 발생했습니다. 다시 �
 #: lms/static/coffee/src/instructor_dashboard/data_download.js
 #: lms/static/js/bookmarks/views/bookmarks_list.js
 #: lms/templates/search/search_loading.underscore
-#: lms/templates/student_account/account_settings_section.underscore
 msgid "Loading"
 msgstr "로딩"
 
@@ -2791,12 +2873,17 @@ msgstr "이용자의 권한 변경 에러"
 
 #: lms/static/coffee/src/instructor_dashboard/membership.js
 msgid ""
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/djangojs.po.origin
 "Could not find a user with username or email address '<%= identifier %>'."
 msgstr "아이디나 이메일 주소 '<%= identifier %>'  로 이용자를 찾을 수 없습니다. "
+=======
+"Could not find a user with username or email address '<%- identifier %>'."
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/djangojs.po
 
 #: lms/static/coffee/src/instructor_dashboard/membership.js
 msgid ""
-"Error: User '<%= username %>' has not yet activated their account. Users "
+"Error: User '<%- username %>' has not yet activated their account. Users "
 "must create and activate their accounts before they can be assigned a role."
 msgstr ""
 "오류: 이용자  '<%= username %>' 는  계정을 활성화하지 않았습니다. 역할을 부여하기 전에 계정을 생성 후 활성화해야 "
@@ -3968,6 +4055,13 @@ msgstr "강좌를 불러오고 있습니다."
 
 #: lms/static/js/student_account/views/LoginView.js
 msgid ""
+"We have sent an email message with password reset instructions to the email "
+"address you provided.  If you do not receive this message, "
+"{anchorStart}contact technical support{anchorEnd}."
+msgstr ""
+
+#: lms/static/js/student_account/views/LoginView.js
+msgid ""
 "An error has occurred. Try refreshing the page, or check your Internet "
 "connection."
 msgstr ""
@@ -4044,6 +4138,10 @@ msgstr ""
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
 "Select the time zone for displaying course dates. If you do not specify a "
+msgstr ""
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid "All Time Zones"
 msgstr ""
 
 #: lms/static/js/student_account/views/account_settings_factory.js
@@ -4460,19 +4558,19 @@ msgstr[0] "%(num_questions)s개"
 msgid "Number of Students"
 msgstr "학습자 수 "
 
-#: cms/static/cms/js/xblock/cms.runtime.v1.js
-#: cms/static/coffee/src/xblock/cms.runtime.v1.js
-msgid "OpenAssessment Save Error"
-msgstr ""
-
-#: cms/static/coffee/src/main.js
+#: cms/static/cms/js/main.js cms/static/coffee/src/main.js
 msgid ""
 "This may be happening because of an error with our server or your internet "
 "connection. Try refreshing the page or making sure you are online."
 msgstr ""
 
-#: cms/static/coffee/src/main.js
+#: cms/static/cms/js/main.js cms/static/coffee/src/main.js
 msgid "Studio's having trouble saving your work"
+msgstr ""
+
+#: cms/static/cms/js/xblock/cms.runtime.v1.js
+#: cms/static/coffee/src/xblock/cms.runtime.v1.js
+msgid "OpenAssessment Save Error"
 msgstr ""
 
 #: cms/static/coffee/src/views/tabs.js cms/static/js/views/tabs.js
@@ -4668,6 +4766,11 @@ msgstr ""
 
 #: cms/static/js/factories/manage_users.js
 #: cms/static/js/factories/manage_users_lib.js
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/djangojs.po.origin
+=======
+#: common/static/common/templates/discussion/post-user-display.underscore
+#: common/static/common/templates/discussion/thread-list-item.underscore
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/djangojs.po
 msgid "Staff"
 msgstr "운영팀"
 
@@ -4700,6 +4803,10 @@ msgstr ""
 #: cms/static/js/factories/textbooks.js
 #: cms/static/js/views/pages/group_configurations.js
 msgid "You have unsaved changes. Do you really want to leave this page?"
+msgstr ""
+
+#: cms/static/js/maintenance/force_publish_course.js
+msgid "Internal Server Error."
 msgstr ""
 
 #. Translators: This is the status of a video upload that is queued
@@ -4850,6 +4957,112 @@ msgstr ""
 
 #: cms/static/js/models/xblock_validation.js
 msgid "This component has validation issues."
+msgstr ""
+
+#: cms/static/js/programs/models/course_model.js
+#: cms/templates/js/programs/course_details.underscore
+msgid "Course Code"
+msgstr ""
+
+#: cms/static/js/programs/models/course_model.js
+#: cms/templates/js/certificate-details.underscore
+#: cms/templates/js/certificate-editor.underscore
+#: cms/templates/js/programs/course_details.underscore
+msgid "Course Title"
+msgstr ""
+
+#: cms/static/js/programs/models/program_model.js
+msgid "Please select a valid organization."
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} is required"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be accepted"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be greater than or equal to {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be less than or equal to {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be between {1} and {2}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be {1} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be at least {1} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be at most {1} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be between {1} and {2} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be one of: {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be the same as {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must only contain digits"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be a number"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be a valid email"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be a valid url"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} is invalid"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid "confirm"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid "Publish this program?"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid ""
+"After you publish this program, you cannot add or remove course codes or "
+"remove course runs."
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+#: cms/static/js/views/modals/course_outline_modals.js
+#: cms/templates/js/course-outline.underscore
+#: cms/templates/js/publish-xblock.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Publish"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid "Marketing Slug is required."
 msgstr ""
 
 #: cms/static/js/views/active_video_upload_list.js
@@ -5121,34 +5334,23 @@ msgid "Are you sure you want to restrict {email} access to “{container}”?"
 msgstr ""
 
 #: cms/static/js/views/modals/course_outline_modals.js
-msgid "%(display_name)s Settings"
+msgid "{display_name} Settings"
 msgstr ""
 
 #: cms/static/js/views/modals/course_outline_modals.js
-msgid "Change the settings for %(display_name)s"
+msgid "Change the settings for {display_name}"
 msgstr ""
 
 #: cms/static/js/views/modals/course_outline_modals.js
-msgid "Publish %(display_name)s"
+msgid "Publish {display_name}"
 msgstr ""
 
 #: cms/static/js/views/modals/course_outline_modals.js
-msgid "Publish all unpublished changes for this %(item)s?"
-msgstr ""
-
-#: cms/static/js/views/modals/course_outline_modals.js
-#: cms/templates/js/course-outline.underscore
-#: cms/templates/js/publish-xblock.underscore
-msgid "Publish"
+msgid "Publish all unpublished changes for this {item}?"
 msgstr ""
 
 #: cms/static/js/views/modals/course_outline_modals.js
 msgid "Basic"
-msgstr ""
-
-#. Translators: This label refers to access to course content.
-#: cms/static/js/views/modals/course_outline_modals.js
-msgid "Access"
 msgstr ""
 
 #. Translators: "title" is the name of the current component being edited.
@@ -5505,6 +5707,7 @@ msgstr ""
 
 #: cms/templates/js/asset-library.underscore
 #: cms/templates/js/basic-modal.underscore
+#: cms/templates/js/programs/confirm_modal.underscore
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
 msgid "Actions"
 msgstr ""
@@ -5584,10 +5787,11 @@ msgid "Find discussions"
 msgstr ""
 
 #: common/static/common/templates/discussion/discussion-home.underscore
-msgid "Use the Discussion Topics menu to find specific topics."
+msgid "Use the All Topics menu to find specific topics."
 msgstr ""
 
 #: common/static/common/templates/discussion/discussion-home.underscore
+#: lms/djangoapps/discussion/static/discussion/templates/search.underscore
 msgid "Search all posts"
 msgstr ""
 
@@ -5720,6 +5924,7 @@ msgid "Add Post"
 msgstr ""
 
 #: common/static/common/templates/discussion/post-user-display.underscore
+#: common/static/common/templates/discussion/thread-list-item.underscore
 msgid "Community TA"
 msgstr ""
 
@@ -5785,16 +5990,12 @@ msgid "Following"
 msgstr ""
 
 #: common/static/common/templates/discussion/thread-list-item.underscore
-msgid "By: Staff"
-msgstr ""
-
-#: common/static/common/templates/discussion/thread-list-item.underscore
-msgid "By: Community TA"
-msgstr ""
-
-#: common/static/common/templates/discussion/thread-list-item.underscore
 #: common/static/common/templates/discussion/thread-response-show.underscore
 msgid "fmt"
+msgstr ""
+
+#: common/static/common/templates/discussion/thread-list-item.underscore
+msgid "{unread_comments_count} new"
 msgstr ""
 
 #: common/static/common/templates/discussion/thread-list-item.underscore
@@ -5930,7 +6131,7 @@ msgstr ""
 msgid "Add your post to a relevant topic to help others find it."
 msgstr ""
 
-#: common/static/common/templates/discussion/user-profile.underscore
+#: lms/djangoapps/discussion/static/discussion/templates/user-profile.underscore
 msgid "Active Threads"
 msgstr ""
 
@@ -6474,7 +6675,7 @@ msgid ""
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
-msgid "Browse"
+msgid "Upload a CSV file"
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
@@ -6532,18 +6733,24 @@ msgid ""
 "an exception."
 msgstr ""
 
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+msgid "Student email or username"
+msgstr ""
+
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+msgid "Free text notes"
+msgstr ""
+
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Generate Exception Certificates"
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
-msgid ""
-"Generate certificates for all users on the Exception list who do not yet "
-"have a certificate"
+msgid "All users on the Exception list who do not yet have a certificate"
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
-msgid "Generate a Certificate for all users on the Exception list"
+msgid "All users on the Exception list"
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
@@ -6756,8 +6963,8 @@ msgstr ""
 #: lms/templates/instructor/instructor_dashboard_2/cohorts.underscore
 msgid ""
 "To review student cohort assignments or see the results of uploading a CSV "
-"file, download course profile information or cohort results on {link_start} "
-"the Data Download page. {link_end}"
+"file, download course profile information or cohort results on the "
+"{link_start}Data Download{link_end} page."
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
@@ -6769,7 +6976,7 @@ msgid "Valid"
 msgstr ""
 
 #: lms/templates/learner_dashboard/certificate.underscore
-msgid "XSeries Program Certificates"
+msgid "Program Certificates"
 msgstr ""
 
 #: lms/templates/learner_dashboard/certificate.underscore
@@ -6785,7 +6992,7 @@ msgid "Congratulations! You have earned a certificate for this course."
 msgstr ""
 
 #: lms/templates/learner_dashboard/certificate_status.underscore
-msgid "View/Share Certificate"
+msgid "View Certificate"
 msgstr ""
 
 #: lms/templates/learner_dashboard/course_enroll.underscore
@@ -6833,12 +7040,16 @@ msgstr ""
 msgid "Enrollment Opens"
 msgstr ""
 
-#: lms/templates/learner_dashboard/empty_programs_list.underscore
-msgid "You are not enrolled in any XSeries Programs yet."
+#: lms/templates/learner_dashboard/course_enroll.underscore
+msgid "Not Currently Available"
 msgstr ""
 
 #: lms/templates/learner_dashboard/empty_programs_list.underscore
-msgid "Explore XSeries Programs"
+msgid "You are not enrolled in any programs yet."
+msgstr ""
+
+#: lms/templates/learner_dashboard/empty_programs_list.underscore
+msgid "Explore Programs"
 msgstr ""
 
 #: lms/templates/learner_dashboard/explore_new_programs.underscore
@@ -6848,11 +7059,11 @@ msgid ""
 msgstr ""
 
 #: lms/templates/learner_dashboard/explore_new_programs.underscore
-msgid "Explore New XSeries"
+msgid "Explore New Programs"
 msgstr ""
 
 #: lms/templates/learner_dashboard/program_card.underscore
-msgid "type"
+msgid "category"
 msgstr ""
 
 #: lms/templates/learner_dashboard/program_card.underscore
@@ -6973,12 +7184,6 @@ msgstr ""
 
 #: lms/templates/student_account/login.underscore
 msgid "Password Reset Email Sent"
-msgstr ""
-
-#: lms/templates/student_account/login.underscore
-msgid ""
-"We've sent instructions for resetting your password to the email address you"
-" provided."
 msgstr ""
 
 #: lms/templates/student_account/login.underscore
@@ -7722,6 +7927,27 @@ msgstr ""
 msgid "Common Problem Types"
 msgstr ""
 
+#: cms/templates/js/add-xblock-component-support-legend.underscore
+msgid "Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-legend.underscore
+msgid "Provisional"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-legend.underscore
+#: cms/templates/js/add-xblock-component-support-level.underscore
+msgid "Not Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-level.underscore
+msgid "Fully Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-level.underscore
+msgid "Provisionally Supported"
+msgstr ""
+
 #: cms/templates/js/add-xblock-component.underscore
 msgid "Add New Component"
 msgstr ""
@@ -7795,11 +8021,6 @@ msgstr ""
 #: cms/templates/js/certificate-details.underscore
 #: cms/templates/js/certificate-editor.underscore
 msgid "Certificate Details"
-msgstr ""
-
-#: cms/templates/js/certificate-details.underscore
-#: cms/templates/js/certificate-editor.underscore
-msgid "Course Title"
 msgstr ""
 
 #: cms/templates/js/certificate-details.underscore
@@ -7927,6 +8148,46 @@ msgstr ""
 msgid "This content group is used in one or more units."
 msgstr ""
 
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Subsection Visibility"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Show entire subsection"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Learners see the published subsection and can access its content."
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Hide content after due date"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid ""
+"After the subsection\\'s due date has passed, learners can no longer access "
+"its content. The subsection remains included in grade calculations."
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Hide entire subsection"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid ""
+"Learners do not see the subsection in the course outline. The subsection is "
+"not included in grade calculations."
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+#, python-format
+msgid ""
+"If you select an option other than \"%(hide_label)s\", after the subsection "
+"release date has passed, published units in this subsection will become "
+"available to learners unless units are explicitly hidden."
+msgstr ""
+
 #: cms/templates/js/course-instructor-details.underscore
 msgid "Instructor Name"
 msgstr ""
@@ -7945,6 +8206,7 @@ msgstr ""
 
 #: cms/templates/js/course-instructor-details.underscore
 #: cms/templates/js/signatory-details.underscore
+#: cms/templates/js/programs/program_creator_form.underscore
 msgid "Organization"
 msgstr ""
 
@@ -8069,11 +8331,7 @@ msgid "Due:"
 msgstr ""
 
 #: cms/templates/js/course-outline.underscore
-msgid "Exam will remain hidden after due date"
-msgstr ""
-
-#: cms/templates/js/course-outline.underscore
-msgid "Exam will be visible after due date"
+msgid "Subsection is hidden after due date"
 msgstr ""
 
 #: cms/templates/js/course-outline.underscore
@@ -8481,7 +8739,7 @@ msgid "with %(section_or_subsection)s"
 msgstr ""
 
 #: cms/templates/js/publish-xblock.underscore
-msgid "Staff and Students"
+msgid "Staff and Learners"
 msgstr ""
 
 #: cms/templates/js/publish-xblock.underscore
@@ -8490,7 +8748,11 @@ msgstr ""
 
 #: cms/templates/js/publish-xblock.underscore
 #: cms/templates/js/staff-lock-editor.underscore
-msgid "Hide from students"
+msgid "Hide from learners"
+msgstr ""
+
+#: cms/templates/js/publish-xblock.underscore
+msgid "Note: Do not hide graded assignments after they have been released."
 msgstr ""
 
 #: cms/templates/js/release-date-editor.underscore
@@ -8580,33 +8842,26 @@ msgid "Upload Signature Image"
 msgstr ""
 
 #: cms/templates/js/staff-lock-editor.underscore
-msgid "Student Visibility"
+msgid "Unit Visibility"
+msgstr ""
+
+#: cms/templates/js/staff-lock-editor.underscore
+msgid "Section Visibility"
 msgstr ""
 
 #: cms/templates/js/staff-lock-editor.underscore
 msgid ""
-"If the unit was previously published and released to students, any changes "
-"you made to the unit when it was hidden will now be visible to students."
+"If the unit was previously published and released to learners, any changes "
+"you made to the unit when it was hidden will now be visible to learners."
 msgstr ""
 
 #: cms/templates/js/staff-lock-editor.underscore
 #, python-format
 msgid ""
-"If you make this %(xblockType)s visible to students, students will be able "
+"If you make this %(xblockType)s visible to learners, learners will be able "
 "to see its content after the release date has passed and you have published "
-"the unit."
-msgstr ""
-
-#: cms/templates/js/staff-lock-editor.underscore
-msgid ""
-"Any subsections or units that are explicitly hidden from students will "
-"remain hidden after you clear this option for the section."
-msgstr ""
-
-#: cms/templates/js/staff-lock-editor.underscore
-msgid ""
-"Any units that are explicitly hidden from students will remain hidden after "
-"you clear this option for the subsection."
+"the unit. Only units that are explicitly hidden from learners will remain "
+"hidden after you clear this option for the %(xblockType)s."
 msgstr ""
 
 #: cms/templates/js/team-member.underscore
@@ -8700,16 +8955,6 @@ msgid ""
 "specify that calculators are allowed."
 msgstr ""
 
-#: cms/templates/js/timed-examination-preference-editor.underscore
-msgid "Hide Exam After Due Date"
-msgstr ""
-
-#: cms/templates/js/timed-examination-preference-editor.underscore
-msgid ""
-"By default, submitted exams are available for review after the due date has "
-"passed. Select this option to keep exams hidden after that date."
-msgstr ""
-
 #: cms/templates/js/upload-dialog.underscore
 msgid "File upload succeeded"
 msgstr ""
@@ -8750,6 +8995,152 @@ msgstr ""
 
 #: cms/templates/js/xblock-string-field-editor.underscore
 msgid "formLabel"
+msgstr ""
+
+#: cms/templates/js/maintenance/force-published-course-response.underscore
+msgid ""
+"You have done a dry run of force publishing the course. Nothing has changed."
+" Had you run it, the following course versions would have been change."
+msgstr ""
+
+#: cms/templates/js/maintenance/force-published-course-response.underscore
+msgid ""
+"The published branch version, {published}, was reset to the draft branch "
+"version, {draft}."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Delete course"
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+#, python-format
+msgid "Remove %(name)s from the program"
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Add another run"
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid ""
+"The unique number that identifies your course within your organization, e.g."
+" CS101."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid ""
+"The title entered here will override the title set for the individual run of"
+" the course. It will be displayed on the XSeries progress page and in "
+"marketing presentations."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Save Course"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Run %(key)s"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+msgid "Delete course run"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Remove run %(key)s from the program"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Start Date: %(date)s"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Mode: %(mode)s"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+msgid "Please select a Course Run"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Create a New Program"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Program type"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Select a type"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "XSeries"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "MicroMasters"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Select an organization"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "The public display name of the program."
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Subtitle"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid ""
+"A short description of the program, including concepts covered and expected "
+"outcomes (255 character limit)."
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Marketing Slug"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Slug used to generate links to the marketing site."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program title"
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s name."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program subtitle"
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s subtitle."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program marketing slug"
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s marketing slug."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Add a course"
 msgstr ""
 
 #: cms/templates/js/video/transcripts/metadata-videolist-entry.underscore

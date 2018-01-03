@@ -76,7 +76,7 @@
 # 刘知远 <liuliudong@163.com>, 2013
 # 张太红 <zth@xjau.edu.cn>, 2014
 # 张逸涵 <jeanzhang970128@gmail.com>, 2014
-# 桢 任 <1105054123@st.nuc.edu.cn>, 2016
+# Z_Razer <1105054123@st.nuc.edu.cn>, 2016
 # 沈世奇 <vicapple22@gmail.com>, 2013
 # 熊冬升 <xdsnet@gmail.com>, 2013
 # 竹轩 <fmyzjs@gmail.com>, 2014
@@ -96,6 +96,7 @@
 # Harry Li <harry75369@gmail.com>, 2014
 # hohomi <hohomi@gmail.com>, 2016
 # hohomi <hohomi@gmail.com>, 2016
+# Iris Zeng <yz3535@nyu.edu>, 2016
 # Jerome Huang <canni3269@gmail.com>, 2014
 # Jianfei Wang <me@thinxer.com>, 2013
 # jiangnan.hugo <jiangnan.hugo@gmail.com>, 2014
@@ -185,6 +186,7 @@
 # perypery <410224186@qq.com>, 2014
 # pku9104038 <pku9104038@hotmail.com>, 2014
 # pku9104038 <pku9104038@hotmail.com>, 2014
+# randy lin <jack20039@hotmail.com>, 2016
 # ruiruillp <gaier1993@163.com>, 2015
 # Sarina Canelake <sarina@edx.org>, 2014
 # SherryQin <1449791494@qq.com>, 2015
@@ -299,6 +301,7 @@
 # 刘知远 <liuliudong@163.com>, 2013
 # Zhang Meng <zmlarry@foxmail.com>, 2013
 # 张太红 <zth@xjau.edu.cn>, 2014
+# 兆镒 黄 <1002423907@qq.com>, 2016
 # 刘家骅 <alphaf52@gmail.com>, 2013
 # 刘洋 <liuyang2011@tsinghua.edu.cn>, 2013
 # 刘知远 <liuliudong@163.com>, 2013
@@ -339,7 +342,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
-"POT-Creation-Date: 2016-06-30 16:00+0000\n"
+"POT-Creation-Date: 2016-08-25 15:05+0000\n"
 "PO-Revision-Date: 2016-06-29 18:11+0000\n"
 "Last-Translator: Yue Fang <yfang@juilliard.edu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/open-edx/edx-platform/language/zh_CN/)\n"
@@ -353,8 +356,7 @@ msgstr ""
 #. Translators: 'Discussion' refers to the tab in the courseware that leads to
 #. the discussion forums
 #: cms/djangoapps/contentstore/views/component.py
-#: lms/djangoapps/courseware/tabs.py
-#: lms/djangoapps/django_comment_client/forum/views.py
+#: lms/djangoapps/courseware/tabs.py lms/djangoapps/discussion/plugins.py
 msgid "Discussion"
 msgstr "讨论"
 
@@ -537,6 +539,7 @@ msgstr "您已作为诚信准则学员选修"
 #: common/djangoapps/course_modes/helpers.py lms/djangoapps/branding/api.py
 #: openedx/core/djangoapps/user_api/views.py
 #: lms/templates/static_templates/honor.html
+#: themes/example/lms/templates/static_templates/honor.html
 #: themes/stanford-style/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/static_templates/tos.html
 msgid "Honor Code"
@@ -643,6 +646,26 @@ msgstr "选择的数量无效。"
 msgid "No selected price or selected price is too low."
 msgstr "未选择价格或选择的价格过低。"
 
+#: common/djangoapps/dark_lang/views.py
+msgid "Preview Language is currently disabled"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language code not provided"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language set to language code: {preview_language_code}"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to the default language code"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to user's preference: {preview_language_code}"
+msgstr ""
+
 #: common/djangoapps/django_comment_common/models.py
 msgid "Administrator"
 msgstr "管理员"
@@ -717,6 +740,14 @@ msgid ""
 "You have already created an account using an external login like WebAuth or "
 "Shibboleth. Please contact {tech_support_email} for support."
 msgstr "你已经创建使用外部登录类似的WebAuth或Shibboleth的帐户。请联系{tech_support_email}支持。"
+
+#: common/djangoapps/external_auth/views.py
+msgid ""
+"\n"
+"        Your university identity server did not return your ID information to us.\n"
+"        Please try logging in again.  (You may need to restart your browser.)\n"
+"        "
+msgstr ""
 
 #: common/djangoapps/student/admin.py
 msgid "User profile"
@@ -1618,8 +1649,8 @@ msgid "must be {0} characters or more"
 msgstr "必须包含 {0} 个或更多字符"
 
 #: common/djangoapps/util/password_policy_validators.py
-msgid "must be {0} characters or less"
-msgstr "必须包含 {0} 个或更少字符"
+msgid "must be {0} characters or fewer"
+msgstr ""
 
 #: common/djangoapps/util/password_policy_validators.py
 msgid "Must be more complex ({0})"
@@ -1681,15 +1712,6 @@ msgid ""
 "always be created in Studio. Unsupported XBlock/template combinations "
 "require course author opt-in."
 msgstr ""
-
-#: common/djangoapps/xblock_django/models.py
-msgid "Space-separated list of XBlocks which should not render."
-msgstr "XBlocks不提供空白分隔的列表。"
-
-#: common/djangoapps/xblock_django/models.py
-msgid ""
-"Space-separated list of XBlock types whose creation to disable in Studio."
-msgstr "XBlock不可创建空白分隔的列表在工作室中。"
 
 #: common/djangoapps/xblock_django/models.py
 msgid "show deprecation messaging in Studio"
@@ -2091,7 +2113,6 @@ msgstr "用于批注的XML数据"
 #: common/lib/xmodule/xmodule/library_content_module.py
 #: common/lib/xmodule/xmodule/textannotation_module.py
 #: common/lib/xmodule/xmodule/videoannotation_module.py
-#: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Display name for this module"
 msgstr "显示此模块的名称"
 
@@ -2732,8 +2753,8 @@ msgid "Advanced Module List"
 msgstr "高级模块列表"
 
 #: common/lib/xmodule/xmodule/course_module.py
-msgid "Enter the names of the advanced components to use in your course."
-msgstr "输入在你课程中使用的高级组件的名字。"
+msgid "Enter the names of the advanced modules to use in your course."
+msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Course Home Sidebar Name"
@@ -3179,6 +3200,16 @@ msgid ""
 msgstr "输入 true 或 false。如果该值为 true，你可以隐藏某分段，直到学习者获得最低分数为止。"
 
 #: common/lib/xmodule/xmodule/course_module.py
+msgid "Enable Subsection Grades Saved"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If this value is true, the robust grades feature of "
+"saving subsection grades is enabled for this course."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
 msgid "Course Learning Information"
 msgstr "课程学习信息"
 
@@ -3192,6 +3223,19 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Enter the details for Course Instructor"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid "Add Unsupported Problems and Tools"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If true, you can add unsupported problems and tools to "
+"your course in Studio. Unsupported problems and tools are not recommended "
+"for use in courses due to non-compliance with one or more of the base "
+"requirements, such as testing, accessibility, internationalization, and "
+"documentation."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
@@ -3843,6 +3887,16 @@ msgid "Enter the date by which problems are due."
 msgstr "输入问题的截止日期。"
 
 #: common/lib/xmodule/xmodule/seq_module.py
+msgid "Hide sequence content After Due Date"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"If set, the sequence content is hidden for non-staff users after the due "
+"date has passed."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
 msgid "Is Entrance Exam"
 msgstr "是入学考试"
 
@@ -3891,16 +3945,6 @@ msgid ""
 msgstr "此设定表示在浏览视频时，团队必须遵循监考的规则。"
 
 #: common/lib/xmodule/xmodule/seq_module.py
-msgid "Hide Exam Results After Due Date"
-msgstr "截止日期后隐藏测验结果"
-
-#: common/lib/xmodule/xmodule/seq_module.py
-msgid ""
-"This setting overrides the default behavior of showing exam results after "
-"the due date has passed. Currently only supported for timed exams."
-msgstr ""
-
-#: common/lib/xmodule/xmodule/seq_module.py
 msgid "Is Practice Exam"
 msgstr "是否是模拟考试"
 
@@ -3909,6 +3953,26 @@ msgid ""
 "This setting indicates whether this exam is for testing purposes only. "
 "Practice exams are not verified."
 msgstr "该设置表明这场考试是否仅用于测试目的。模拟考试未经过身份认证。"
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid "This exam is hidden from the learner."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid "subsection"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"Because the due date has passed, this {subsection_format} is hidden from the"
+" learner."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"This subsection is unlocked for learners when they meet the prerequisite "
+"requirements."
+msgstr ""
 
 #: common/lib/xmodule/xmodule/split_test_module.py
 msgid "Group ID {group_id}"
@@ -4333,20 +4397,38 @@ msgid "Poster URL"
 msgstr "封面URL"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
+msgid "The label for this word cloud on the course page."
+msgstr ""
+
+#: lms/templates/annotatable.html lms/templates/imageannotation.html
+#: lms/templates/textannotation.html lms/templates/videoannotation.html
+#: lms/templates/peer_grading/peer_grading.html
+msgid "Instructions"
+msgstr "说明"
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
+msgid ""
+"Add instructions to help learners understand how to use the word cloud. "
+"Clear instructions are important, especially for learners who have "
+"accessibility requirements."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Inputs"
 msgstr "投入"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "Number of text boxes available for students to input words/sentences."
-msgstr "学生可输入单词/句子的文本框的数量。"
+msgid ""
+"The number of text boxes available for learners to add words and sentences."
+msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Maximum Words"
 msgstr "字数上限"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "Maximum number of words to be displayed in generated word cloud."
-msgstr "在生成的词云中显示的最多单词数。"
+msgid "The maximum number of words displayed in the generated word cloud."
+msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Show Percents"
@@ -4357,16 +4439,16 @@ msgid "Statistics are shown for entered words near that word."
 msgstr "展示了临近那个单词输入的单词的统计信息。"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "Whether this student has posted words to the cloud."
-msgstr "这个学生是否已经向云端发帖。"
+msgid "Whether this learner has posted words to the cloud."
+msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Student answer."
 msgstr "学生答案"
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "All possible words from all students."
-msgstr "来自所有学生的所有可能的词汇。"
+msgid "All possible words from all learners."
+msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Top num_top_words words for word cloud."
@@ -4511,6 +4593,7 @@ msgstr "服务条款 & 荣誉准则"
 #: lms/djangoapps/branding/api.py lms/djangoapps/certificates/views/webview.py
 #: cms/templates/widgets/footer.html
 #: lms/templates/static_templates/privacy.html
+#: themes/example/lms/templates/static_templates/privacy.html
 #: themes/red-theme/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/static_templates/tos.html
@@ -4526,6 +4609,7 @@ msgstr "可访问策略"
 #. in order to register a new account.
 #: lms/djangoapps/branding/api.py openedx/core/djangoapps/user_api/views.py
 #: cms/templates/widgets/footer.html lms/templates/static_templates/tos.html
+#: themes/example/lms/templates/static_templates/tos.html
 #: themes/red-theme/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/static_templates/tos.html
@@ -4987,7 +5071,7 @@ msgstr "透过使用电子商务服务承载结帐页面。"
 msgid "Path to single course checkout page hosted by the E-Commerce service."
 msgstr "透过电子商务服务承载单门课程结帐页面之途径"
 
-#: lms/djangoapps/commerce/models.py
+#: lms/djangoapps/commerce/models.py openedx/core/djangoapps/catalog/models.py
 #: openedx/core/djangoapps/credentials/models.py
 #: openedx/core/djangoapps/credit/models.py
 #: openedx/core/djangoapps/programs/models.py
@@ -5114,10 +5198,6 @@ msgstr "{relative} 年 - {absolute}"
 #: lms/djangoapps/courseware/date_summary.py
 msgid "in {relative} - {absolute}"
 msgstr "in {relative} - {absolute}"
-
-#: lms/djangoapps/courseware/date_summary.py
-msgid "UTC"
-msgstr "国际标准时间"
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "Today is {date}"
@@ -5622,11 +5702,12 @@ msgid "Sailthru template to use on activation send. "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru template to use on abandoned cart reminder. "
+msgid "Sailthru template to use on abandoned cart reminder. Deprecated."
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru minutes to wait before sending abandoned cart message."
+msgid ""
+"Sailthru minutes to wait before sending abandoned cart message. Deprecated."
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
@@ -5634,11 +5715,11 @@ msgid "Sailthru send template to use on enrolling for audit. "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru send template to use on upgrading a course. "
+msgid "Sailthru send template to use on upgrading a course. Deprecated "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru send template to use on purchasing a course seat. "
+msgid "Sailthru send template to use on purchasing a course seat. Deprecated "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
@@ -5651,6 +5732,12 @@ msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
 msgid "Cost in cents to report to Sailthru for enrolls."
+msgstr ""
+
+#: lms/djangoapps/email_marketing/models.py
+msgid ""
+"Optional lms url scheme + host used to construct urls for content library, "
+"e.g. https://courses.edx.org."
 msgstr ""
 
 #: lms/djangoapps/instructor/paidcourse_enrollment_report.py
@@ -7831,10 +7918,6 @@ msgid "You do not have permission to view this page."
 msgstr "你没有访问此页面的权限。"
 
 #: lms/djangoapps/student_account/views.py
-msgid "No user with the provided email address exists."
-msgstr "根据提供的邮件地址来查找该用户并不存在。"
-
-#: lms/djangoapps/student_account/views.py
 msgid "No email address provided."
 msgstr "未提供Email地址。"
 
@@ -7866,6 +7949,7 @@ msgid "Email Address"
 msgstr "电子邮件地址"
 
 #: lms/djangoapps/support/views/refund.py
+#: cms/templates/maintenance/_force_publish_course.html
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/instructor/instructor_dashboard_2/add_coupon_modal.html
 #: lms/templates/instructor/instructor_dashboard_2/edit_coupon_modal.html
@@ -8735,6 +8819,22 @@ msgstr "您可以建立 {max_num_bookmarks_per_course} 书签。您必须在新�
 msgid "Bookmark with usage_id: {usage_id} does not exist."
 msgstr "书签 usage_id: {usage_id}  不存在。"
 
+#: openedx/core/djangoapps/catalog/models.py
+msgid "Internal API URL"
+msgstr ""
+
+#: openedx/core/djangoapps/catalog/models.py
+msgid ""
+"API root to be used for server-to-server requests (e.g., https://catalog-"
+"internal.example.com/api/v1/)."
+msgstr ""
+
+#: openedx/core/djangoapps/catalog/models.py
+msgid ""
+"Specified in seconds. Enable caching of API responses by setting this to a "
+"value greater than 0."
+msgstr ""
+
 #: openedx/core/djangoapps/course_groups/cohorts.py
 msgid "Default Group"
 msgstr "默认组"
@@ -8934,6 +9034,10 @@ msgid "API Version"
 msgstr "API版本"
 
 #: openedx/core/djangoapps/programs/models.py
+msgid "Path used to construct URLs to programs marketing pages (e.g., \"/foo\")."
+msgstr ""
+
+#: openedx/core/djangoapps/programs/models.py
 msgid "Path to authoring app's JS"
 msgstr "指向应用创作的JS的路径"
 
@@ -9010,6 +9114,10 @@ msgstr "对于用户参数'{preference_key}',值'{preference_value}'无效."
 msgid ""
 "Value '{preference_value}' not valid for preference '{preference_key}': Not "
 "in timezone set."
+msgstr ""
+
+#: openedx/core/djangoapps/user_api/preferences/api.py
+msgid "Value '{preference_value}' is not a valid time zone selection."
 msgstr ""
 
 #: openedx/core/djangoapps/user_api/preferences/api.py
@@ -9224,21 +9332,6 @@ msgid ""
 " the discussion forum for the course."
 msgstr "讨论子类别名称时，该名称会出现在课程论坛的左窗格里。"
 
-#: pavelib/utils/passthrough_opts.py
-#, python-format
-msgid "%s option requires an argument"
-msgstr ""
-
-#: pavelib/utils/passthrough_opts.py
-#, python-format
-msgid "%s option requires %d arguments"
-msgstr ""
-
-#: pavelib/utils/passthrough_opts.py
-#, python-format
-msgid "%s option does not take a value"
-msgstr ""
-
 #: cms/djangoapps/contentstore/course_group_config.py
 #: cms/djangoapps/contentstore/views/certificates.py
 msgid "invalid JSON"
@@ -9362,6 +9455,10 @@ msgstr ""
 
 #: cms/djangoapps/contentstore/views/certificates.py
 msgid "PermissionDenied: Failed in authenticating {user}"
+msgstr ""
+
+#: cms/djangoapps/contentstore/views/component.py
+msgid "{platform_name} Support Levels:"
 msgstr ""
 
 #: cms/djangoapps/contentstore/views/component.py
@@ -9663,6 +9760,39 @@ msgid ""
 "denied)"
 msgstr "关于本用户的可选备注（例如，课程创建被拒绝的原因）"
 
+#: cms/djangoapps/maintenance/views.py
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "Force Publish Course"
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid ""
+"Sometimes the draft and published branches of a course can get out of sync. "
+"Force publish course command resets the published branch of a course to "
+"point to the draft branch, effectively force publishing the course. This "
+"view dry runs the force publish command"
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Please provide course id."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Invalid course key."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "No matching course found."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Force publishing course is not supported with old mongo courses."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Course is already in published state."
+msgstr ""
+
 #: cms/djangoapps/models/settings/course_metadata.py
 msgid "Incorrect format for field '{name}'. {detailed_message}"
 msgstr "“{name}”字段的格式不正确。{detailed_message}"
@@ -9742,6 +9872,7 @@ msgstr "课程代码："
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/courseware/courses.html
 #: themes/edx.org/lms/templates/header.html
+#: themes/example/lms/templates/header.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Courses"
 msgstr "课程"
@@ -9831,6 +9962,7 @@ msgstr "修习要求"
 
 #: cms/templates/studio_xblock_wrapper.html lms/templates/help_modal.html
 #: lms/templates/module-error.html
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Details"
 msgstr "细节"
 
@@ -9839,6 +9971,18 @@ msgstr "细节"
 #: lms/templates/wiki/includes/article_menu.html
 msgid "View"
 msgstr "阅览"
+
+#: cms/templates/darklang/preview_lang.html
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/darklang/preview_lang.html
+msgid "Preview Language Setting"
+msgstr ""
+
+#: cms/templates/maintenance/_force_publish_course.html
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/problem.html lms/templates/shoppingcart/shopping_cart.html
+msgid "Reset"
+msgstr "重置"
 
 #: cms/templates/registration/activation_complete.html
 #: lms/templates/registration/activation_complete.html
@@ -9865,6 +10009,7 @@ msgid "Choose Language"
 msgstr "选择语言"
 
 #: cms/templates/widgets/header.html lms/templates/user_dropdown.html
+#: themes/example/lms/templates/header.html
 msgid "Account"
 msgstr "账户"
 
@@ -9872,11 +10017,6 @@ msgstr "账户"
 #: lms/templates/static_templates/help.html wiki/plugins/help/wiki_plugin.py
 msgid "Help"
 msgstr "帮助"
-
-#: cms/templates/widgets/header.html lms/templates/user_dropdown.html
-#: themes/red-theme/lms/templates/header.html
-msgid "Sign Out"
-msgstr "退出"
 
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
@@ -9930,9 +10070,24 @@ msgstr "发送邮件到 {email}"
 
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
+#: themes/example/lms/templates/static_templates/contact.html
 #: themes/stanford-style/lms/templates/static_templates/about.html
 msgid "Contact Us"
 msgstr "联系我们"
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+msgid "Usermenu"
+msgstr "用户菜单"
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+msgid "Usermenu dropdown"
+msgstr "用户菜单下拉列表"
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+#: themes/example/lms/templates/header.html
+#: themes/red-theme/lms/templates/header.html
+msgid "Sign Out"
+msgstr "退出"
 
 #: common/lib/capa/capa/templates/codeinput.html
 msgid "{programming_language} editor"
@@ -9966,11 +10121,59 @@ msgstr "知识共享许可内容，条款如下："
 msgid "Some Rights Reserved"
 msgstr "保留部分权利"
 
-#: lms/templates/annotatable.html lms/templates/imageannotation.html
-#: lms/templates/textannotation.html lms/templates/videoannotation.html
-#: lms/templates/peer_grading/peer_grading.html
-msgid "Instructions"
-msgstr "说明"
+#: common/templates/darklang/preview_lang_include.html
+msgid "Language Code"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "For example use en for English"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/help_modal.html lms/templates/manage_user_standing.html
+#: lms/templates/register-shib.html
+#: lms/templates/peer_grading/peer_grading_problem.html
+#: lms/templates/survey/survey.html
+#: themes/stanford-style/lms/templates/register-shib.html
+msgid "Submit"
+msgstr "提交"
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "Please refresh the page to see the changes applied."
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
+msgid "Discussion - {course_number}"
+msgstr "讨论 - {course_number}"
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+#: lms/templates/discussion/_discussion_inline.html
+msgid "Add a Post"
+msgstr "添加一个讨论帖"
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
+msgid "Discussion thread list"
+msgstr "讨论列表"
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+msgid "New topic form"
+msgstr "新主题表格"
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
+msgid "User Profile"
+msgstr "用户资料"
+
+#: lms/djangoapps/discussion/templates/discussion/maintenance.html
+msgid "Discussion unavailable"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/maintenance.html
+msgid ""
+"The discussions are currently undergoing maintenance. We'll have them back "
+"up shortly!"
+msgstr ""
 
 #: lms/templates/annotatable.html lms/templates/imageannotation.html
 #: lms/templates/textannotation.html lms/templates/videoannotation.html
@@ -9997,11 +10200,11 @@ msgstr "点击添加"
 msgid "Bookmark"
 msgstr "收藏"
 
-#: lms/templates/course.html
+#: lms/templates/course.html themes/example/lms/templates/course.html
 msgid "LEARN MORE"
 msgstr "了解更多"
 
-#: lms/templates/course.html
+#: lms/templates/course.html themes/example/lms/templates/course.html
 msgid "Starts"
 msgstr "开始"
 
@@ -10011,6 +10214,7 @@ msgstr "浏览所有课程"
 
 #: lms/templates/dashboard.html lms/templates/user_dropdown.html
 #: themes/edx.org/lms/templates/dashboard.html
+#: themes/example/lms/templates/header.html
 msgid "Dashboard"
 msgstr "课程面板"
 
@@ -10105,6 +10309,7 @@ msgstr "您在查看单元前应先注册。"
 #: lms/templates/enroll_staff.html lms/templates/ccx/enrollment.html
 #: lms/templates/courseware/course_about.html
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid "Enroll"
 msgstr "选修"
 
@@ -10243,16 +10448,11 @@ msgid "Tell us the details"
 msgstr "告诉我们细节"
 
 #: lms/templates/help_modal.html
-msgid "Include error messages, steps which lead to the issue, etc"
-msgstr "附上错误消息以及导致这个问题的步骤等"
-
-#: lms/templates/help_modal.html lms/templates/manage_user_standing.html
-#: lms/templates/register-shib.html
-#: lms/templates/peer_grading/peer_grading_problem.html
-#: lms/templates/survey/survey.html
-#: themes/stanford-style/lms/templates/register-shib.html
-msgid "Submit"
-msgstr "提交"
+msgid ""
+"Describe what you were doing when you encountered the issue. Include any "
+"details that will help us to troubleshoot, including error messages that you"
+" saw."
+msgstr ""
 
 #: lms/templates/help_modal.html
 msgid "Thank You!"
@@ -10281,10 +10481,8 @@ msgid "Brief description of the problem"
 msgstr "简述此问题"
 
 #: lms/templates/help_modal.html
-msgid ""
-"Details of the problem you are encountering{asterisk}{begin_span}Include "
-"error messages, steps which lead to the issue, etc.{end_span}"
-msgstr "您遇到的问题的详情{asterisk}{begin_span}包括错误信息、导致这个问题的步骤等。{end_span}"
+msgid "Details of the problem you are encountering{asterisk}"
+msgstr ""
 
 #: lms/templates/help_modal.html
 msgid "suggestion"
@@ -10321,6 +10519,17 @@ msgstr "请 {link_start}发送e-mail{link_end} 给我们。"
 #: lms/templates/help_modal.html
 msgid "Please try again later."
 msgstr "请稍后再试。"
+
+#: lms/templates/hidden_content.html
+msgid "The due date for this {subsection_format} has passed."
+msgstr ""
+
+#: lms/templates/hidden_content.html
+msgid ""
+"Because the due date has passed, this {subsection_format} is no longer "
+"available.{line_break}If you have completed this {subsection_format}, your "
+"grade is available on the {link_start}progress page{link_end}."
+msgstr ""
 
 #: lms/templates/imageannotation.html
 msgid "Note: only instructors may annotate."
@@ -10566,6 +10775,7 @@ msgstr "{platform_name} 平台的服务器发生了错误"
 
 #: lms/templates/module-error.html
 #: lms/templates/courseware/courseware-error.html
+#: lms/templates/courseware/error-message.html
 msgid ""
 "We're sorry, this module is temporarily unavailable. Our staff is working to"
 " fix it as soon as possible. Please email us at {tech_support_email} to "
@@ -10577,7 +10787,8 @@ msgstr ""
 msgid "Raw data:"
 msgstr "原始数据："
 
-#: lms/templates/navigation.html themes/red-theme/lms/templates/header.html
+#: lms/templates/navigation.html themes/example/lms/templates/header.html
+#: themes/red-theme/lms/templates/header.html
 msgid "Global"
 msgstr "全球"
 
@@ -10617,6 +10828,7 @@ msgid "Register"
 msgstr "注册"
 
 #: lms/templates/navigation.html themes/edx.org/lms/templates/header.html
+#: themes/example/lms/templates/header.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Sign in"
 msgstr "登录"
@@ -10640,10 +10852,6 @@ msgstr "您的回答"
 #: lms/templates/problem.html
 msgid "Hint"
 msgstr "提示"
-
-#: lms/templates/problem.html lms/templates/shoppingcart/shopping_cart.html
-msgid "Reset"
-msgstr "重置"
 
 #: lms/templates/problem.html lms/templates/word_cloud.html
 msgid "Save"
@@ -10903,10 +11111,6 @@ msgid ""
 "{dashboard_link_start}return to your dashboard{link_end}."
 msgstr ""
 "您已重新启用{platform_name}的论坛邮件提醒。您可以{dashboard_link_start}返回您的课程面板{link_end}。"
-
-#: lms/templates/seq_module.html
-msgid "This exam is hidden from the learner."
-msgstr ""
 
 #: lms/templates/seq_module.html
 msgid "Previous"
@@ -11194,6 +11398,7 @@ msgstr "错误"
 
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/ccx/schedule.html
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Date"
 msgstr "日期"
 
@@ -11252,15 +11457,7 @@ msgstr ""
 msgid "Dashboard for:"
 msgstr "课程面板："
 
-#: lms/templates/user_dropdown.html
-msgid "Usermenu"
-msgstr "用户菜单"
-
-#: lms/templates/user_dropdown.html
-msgid "Usermenu dropdown"
-msgstr "用户菜单下拉列表"
-
-#: lms/templates/user_dropdown.html
+#: lms/templates/user_dropdown.html themes/example/lms/templates/header.html
 msgid "Profile"
 msgstr "用户资料"
 
@@ -11323,12 +11520,12 @@ msgid "Download Handout"
 msgstr "下载讲义"
 
 #: lms/templates/word_cloud.html
-msgid "Your words:"
-msgstr "您的话："
+msgid "{num} of {total}"
+msgstr ""
 
 #: lms/templates/word_cloud.html
-msgid "Total number of words:"
-msgstr "总字数："
+msgid "Your words were:"
+msgstr ""
 
 #: lms/templates/api_admin/api_access_request_form.html
 msgid "API Access Request"
@@ -12081,6 +12278,8 @@ msgstr "分数"
 msgid "Decimals"
 msgstr "小数"
 
+#. Translators: This refers to mathematical operators such as `plus`, `minus`,
+#. `division` and others.
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Operators"
 msgstr "操作"
@@ -12099,18 +12298,16 @@ msgstr "^ (自乘)"
 msgid "|| (parallel resistors)"
 msgstr "|| (或运算)"
 
-#: lms/templates/calculator/toggle_calculator.html
-msgid "Greek letters"
-msgstr "希腊字母"
-
-#: lms/templates/calculator/toggle_calculator.html
-msgid "Name of letter"
-msgstr "信件名称"
-
+#. Translators: This refers to symbols that are mathematical constants, such
+#. as
+#. "i" (square root of -1)
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Constants"
 msgstr "常量"
 
+#. Translators: This refers to symbols that appear at the end of a number,
+#. such
+#. as the percent sign (%) and metric affixes
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Affixes"
 msgstr "词缀"
@@ -12119,10 +12316,13 @@ msgstr "词缀"
 msgid "Percent sign (%) and metric affixes (d, c, m, u, n, p, k, M, G, T)"
 msgstr "百分比符号(%)和公制词缀(d,c,m,u,n,p,k,M,G,T)"
 
+#. Translators: This refers to basic mathematical functions such as "square
+#. root"
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Basic functions"
 msgstr "基本功能"
 
+#. Translators: This refers to mathematical Sine, Cosine and Tan
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Trigonometric functions"
 msgstr "三角函数"
@@ -12623,10 +12823,12 @@ msgid "This content is graded"
 msgstr "该内容计入总分。"
 
 #: lms/templates/courseware/course_about.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid "An error occurred. Please try again later."
 msgstr "出现错误，请稍后再试。"
 
 #: lms/templates/courseware/course_about.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid ""
 "The currently logged-in user account does not have permission to enroll in "
 "this course. You may need to {start_logout_tag}log out{end_tag} then try the"
@@ -12701,6 +12903,7 @@ msgid "Additional Resources"
 msgstr "额外资源"
 
 #: lms/templates/courseware/course_about.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid "enroll"
 msgstr "选课"
 
@@ -12768,6 +12971,10 @@ msgid "Course Material"
 msgstr "课程资料"
 
 #: lms/templates/courseware/course_updates.html
+msgid "All course updates"
+msgstr ""
+
+#: lms/templates/courseware/course_updates.html
 msgid "Hide"
 msgstr "隐藏"
 
@@ -12827,14 +13034,6 @@ msgstr "您在本测验的分数必须达到或高于 {required_score}% o才能�
 #: lms/templates/courseware/courseware.html
 msgid "Your score is {current_score}%. You have passed the entrance exam."
 msgstr "您的分数为 {current_score}%，通过了入门测试"
-
-#: lms/templates/courseware/error-message.html
-msgid ""
-"We're sorry, this module is temporarily unavailable. Our staff is working to"
-" fix it as soon as possible. Please email us at {link_to_support_email} to "
-"report any problems or downtime."
-msgstr ""
-"非常抱歉，该模块暂时无法使用，我们的教员正在努力尽修复问题。要报告您发现的任何问题或遇到网站非正常，请向{link_to_support_email}发送邮件"
 
 #: lms/templates/courseware/gradebook.html
 msgid "Gradebook"
@@ -12919,21 +13118,6 @@ msgid "Course Progress for Student '{username}' ({email})"
 msgstr "学生'{username}' ({email})的学习进度"
 
 #: lms/templates/courseware/progress.html
-msgid ""
-"Your certificate has been invalidated. Please contact your course team if "
-"you have any questions."
-msgstr ""
-
-#: lms/templates/courseware/progress.html
-msgid "Your certificate is available"
-msgstr "您的证书有效"
-
-#: lms/templates/courseware/progress.html
-msgid ""
-"You can keep working for a higher grade, or request your certificate now."
-msgstr "您可以继续努力以获得更高分数，也可以马上申请证书。"
-
-#: lms/templates/courseware/progress.html
 msgid "View certificate in a new browser window or tab."
 msgstr "在一个新的浏览器窗口或标签中查看证书。"
 
@@ -12948,40 +13132,6 @@ msgstr "PDF将在新的浏览器窗口或标签打开"
 #: lms/templates/courseware/progress.html
 msgid "Download Your Certificate"
 msgstr "下载您的证书"
-
-#. Translators: This message appears to users when the system is processessing
-#. course certificates, which can take a few hours.
-#: lms/templates/courseware/progress.html
-msgid "We're working on it..."
-msgstr "我们正在努力..."
-
-#: lms/templates/courseware/progress.html
-msgid ""
-"We're creating your certificate. You can keep working in your courses and a "
-"link to it will appear here and on your Dashboard when it is ready."
-msgstr "我们正在为您生成证书。您可以继续学习您的课程，一旦证书准备就绪，这里及您的课程面板中都会显示指向证书的链接。"
-
-#. Translators: This message appears to users when the users have not
-#. completed
-#. identity verification.
-#: lms/templates/courseware/progress.html
-msgid "Certificate unavailable"
-msgstr "无法查看证书"
-
-#: lms/templates/courseware/progress.html
-msgid ""
-"You have not received a certificate because you do not have a current "
-"{platform_name} verified identity. "
-msgstr "您还未获得证书，是因为您未在当前的{platform_name}平台上验证您的身份。"
-
-#: lms/templates/courseware/progress.html
-#: lms/templates/dashboard/_dashboard_certificate_information.html
-msgid "Verify your identity now."
-msgstr "立刻验证您的身份。"
-
-#: lms/templates/courseware/progress.html
-msgid "Congratulations, you qualified for a certificate!"
-msgstr "恭喜！您已经通过认证！"
 
 #: lms/templates/courseware/progress.html
 msgid "Request Certificate"
@@ -13178,6 +13328,10 @@ msgid ""
 msgstr "我们未向您颁发证书，是因为您未在当前的{platform_name}平台上验证您的身份。"
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html
+msgid "Verify your identity now."
+msgstr "立刻验证您的身份。"
+
+#: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Your {cert_name_short} is Generating"
 msgstr "您的{cert_name_short}生成中"
 
@@ -13233,8 +13387,8 @@ msgstr ""
 " 。"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
-msgid "{category} Program Course"
-msgstr "{category} 项目课程"
+msgid "Course details"
+msgstr ""
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "{course_number} {course_name} Home Page"
@@ -13322,6 +13476,10 @@ msgstr "由于该课程的退款期限已过，你将无法获得退款。"
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Email Settings"
 msgstr "电子邮件设置"
+
+#: lms/templates/dashboard/_dashboard_course_listing.html
+msgid "Related Programs"
+msgstr ""
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Verification not yet complete."
@@ -13517,30 +13675,9 @@ msgid ""
 "{platform_name} account."
 msgstr "你选择的 {provider_name}账户已经和{platform_name}账户相关联。"
 
-#: lms/templates/dashboard/_dashboard_xseries_info.html
-msgid "{category} Program: Interested in more courses in this subject?"
-msgstr "{category} 项目：对此科目的更多课程感兴趣？"
-
-#: lms/templates/dashboard/_dashboard_xseries_info.html
-msgid ""
-"This course is 1 of {course_count} courses in the "
-"{link_start}{program_display_name}{link_end} {program_category}."
-msgstr ""
-"此课程是 {link_start}{program_display_name}{link_end} {program_category} 的 "
-"{course_count} 个课程中的一个。"
-
-#: lms/templates/dashboard/_dashboard_xseries_info.html
-msgid "View {category} Details"
-msgstr "查看{category}详细信息"
-
 #: lms/templates/debug/run_python_form.html
 msgid "Results:"
 msgstr "结果："
-
-#: lms/templates/discussion/_discussion_course_navigation.html
-#: lms/templates/discussion/_discussion_inline.html
-msgid "Add a Post"
-msgstr "添加一个讨论帖"
 
 #: lms/templates/discussion/_discussion_inline.html
 msgid "Show Discussion"
@@ -13563,21 +13700,12 @@ msgid "filter topics"
 msgstr "过滤主题"
 
 #: lms/templates/discussion/_filter_dropdown.html
-#: lms/templates/discussion/_thread_list_template.html
 msgid "All Discussions"
 msgstr "所有讨论"
 
 #: lms/templates/discussion/_filter_dropdown.html
 msgid "Posts I'm Following"
 msgstr "我关注的讨论帖"
-
-#: lms/templates/discussion/_thread_list_template.html
-msgid "Discussion topics; currently listing: "
-msgstr "讨论话题；当前列出："
-
-#: lms/templates/discussion/_thread_list_template.html
-msgid "Search all posts"
-msgstr "搜索所有帖子"
 
 #. Translators: This labels a filter menu in forum navigation
 #: lms/templates/discussion/_thread_list_template.html
@@ -13646,33 +13774,6 @@ msgstr[0] "%s 场讨论已开始"
 msgid "%s comment"
 msgid_plural "%s comments"
 msgstr[0] "%s 条评论"
-
-#: lms/templates/discussion/index.html
-#: lms/templates/discussion/user_profile.html
-msgid "Discussion - {course_number}"
-msgstr "讨论 - {course_number}"
-
-#: lms/templates/discussion/index.html
-msgid "Discussion thread list"
-msgstr "讨论列表"
-
-#: lms/templates/discussion/index.html
-msgid "New topic form"
-msgstr "新主题表格"
-
-#: lms/templates/discussion/maintenance.html
-msgid "We're sorry"
-msgstr "很抱歉"
-
-#: lms/templates/discussion/maintenance.html
-msgid ""
-"The forums are currently undergoing maintenance. We'll have them back up "
-"shortly!"
-msgstr "论坛现在正在维护，将尽快恢复正常。"
-
-#: lms/templates/discussion/user_profile.html
-msgid "User Profile"
-msgstr "用户资料"
 
 #: lms/templates/edxnotes/edxnotes.html
 msgid "Student Notes"
@@ -14328,6 +14429,9 @@ msgstr "你已从课程 {course_name}中被移除。"
 #: lms/templates/embargo/default_courseware.html
 #: lms/templates/embargo/default_enrollment.html
 #: lms/templates/static_templates/embargo.html
+#: themes/stanford-style/lms/templates/embargo/default_courseware.html
+#: themes/stanford-style/lms/templates/embargo/default_enrollment.html
+#: themes/stanford-style/lms/templates/static_templates/embargo.html
 msgid "This Course Unavailable In Your Country"
 msgstr "这门课程未在您的国家开设"
 
@@ -14538,6 +14642,10 @@ msgid ""
 msgstr "要重新生成你的课程证书，请选择将要接收重新生成证书的学员并单击“重新生成证书”。"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
+msgid "Choose learner types for regeneration"
+msgstr ""
+
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid ""
 "Regenerate for learners who have already received certificates. ({count})"
 msgstr "为已获得证书的学员重新生成。({count})"
@@ -14553,6 +14661,10 @@ msgstr "为错误状态的学员重新生成。({count})"
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Certificate Generation History"
 msgstr "证书生成历史"
+
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
+msgid "Task name"
+msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "SET CERTIFICATE EXCEPTIONS"
@@ -14574,8 +14686,6 @@ msgstr "无效证书"
 msgid "Enrollment Information"
 msgstr "选课信息"
 
-#. Translators: 'track' refers to the enrollment type ('honor', 'verified', or
-#. 'audit')
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Number of enrollees (admins, staff, and students) by track"
 msgstr "总参与人数(包括管理员、员工和学生)"
@@ -17038,6 +17148,83 @@ msgid ""
 "certificates to help fund free education for everyone globally"
 msgstr "{b_start}支持我们的使命：{b_end} EdX 是一个非营利组织，依靠认证证书来来资助人人可享的全球免费教育"
 
+#: themes/example/lms/templates/header.html
+msgid "Create Account"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid "Want to purchase this course for a group?"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid ""
+"You can purchase enrollment codes for this course to distribute to your team"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid "Purchase for a Group"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid ""
+"Bulk discounts may apply for groups larger than 10. Contact "
+"{link_start}harvardxplus@harvard.edu{link_end} for more information."
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid "Email Us"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/courses.html
+msgid "Lorem ipsum dolor sit amet."
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/about.html
+msgid "About Us"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/contact.html
+msgid "Thank you for your inquiry"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "FAQ's"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "General FAQs"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+#: themes/example/lms/templates/static_templates/honor.html
+#: themes/example/lms/templates/static_templates/privacy.html
+#: themes/example/lms/templates/static_templates/tos.html
+msgid "Lorem ipsum dolor sit amet"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "Academic Planning"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+#: themes/example/lms/templates/static_templates/honor.html
+#: themes/example/lms/templates/static_templates/privacy.html
+#: themes/example/lms/templates/static_templates/tos.html
+msgid "Back to top"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "Registration"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "Finances"
+msgstr ""
+
+#: themes/example/lms/templates/student_account/login_and_register.html
+msgid "Sign in or Create Account"
+msgstr ""
+
 #. Translators: 'EdX', 'edX', and 'Open edX' are trademarks of 'edX Inc.'.
 #. Please do not translate any of these trademarks and company names.
 #: themes/red-theme/lms/templates/footer.html
@@ -17637,12 +17824,11 @@ msgstr "本课程已作为重启创建，需要进行一些必要的手动配置
 
 #: cms/templates/course_outline.html
 msgid ""
-"No course content is currently visible, and no students are enrolled. Be "
+"No course content is currently visible, and no learners are enrolled. Be "
 "sure to review and reset all dates, including the Course Start Date; set up "
 "the course team; review course updates and other assets for dated material; "
 "and seed the discussions and wiki."
 msgstr ""
-"当前没有可见的课程内容，也没有学生选修。请确保已检查和重置包括课程开始日期在内的所有的日期，设置好课程团队，检查课程更新和其他资料中的过期内容，并设置好论坛和Wiki。"
 
 #: cms/templates/course_outline.html cms/templates/index.html
 msgid "Dismiss"
@@ -17752,6 +17938,10 @@ msgid "Drag sections, subsections, and units to new locations in the outline."
 msgstr "在大纲中拖动章、节和单元到新的位置。"
 
 #: cms/templates/course_outline.html
+msgid "Learn more about the course outline"
+msgstr "了解更多关于课程大纲的信息"
+
+#: cms/templates/course_outline.html
 msgid "Setting release dates and grading policies"
 msgstr "设置课程公开日期和评分策略"
 
@@ -17763,8 +17953,12 @@ msgid ""
 msgstr "选择配置图标来为章、节设置公开日期。在对节进行配置时，您还可以设置评分策略及截止日期。"
 
 #: cms/templates/course_outline.html
-msgid "Changing the content students see"
-msgstr "更改学生看到的内容"
+msgid "Learn more about grading policy settings"
+msgstr ""
+
+#: cms/templates/course_outline.html
+msgid "Changing the content learners see"
+msgstr ""
 
 #: cms/templates/course_outline.html
 msgid ""
@@ -17774,13 +17968,23 @@ msgstr "请选择章、节或单元中的发布图标以发布草稿内容。"
 
 #: cms/templates/course_outline.html
 msgid ""
-"To hide content from students, select the Configure icon for a section, "
-"subsection, or unit, then select {em_start}Hide from students{em_end}."
-msgstr "要对学生隐藏内容，首先选择相应的章、小节或单元的配置图标，然后选择{em_start}对学生隐藏{em_end}。"
+"To make a section, subsection, or unit unavailable to learners, select the "
+"Configure icon for that level, then select the appropriate "
+"{em_start}Hide{em_end} option. Grades for hidden sections, subsections, and "
+"units are not included in grade calculations."
+msgstr ""
 
 #: cms/templates/course_outline.html
-msgid "Learn more about the course outline"
-msgstr "了解更多关于课程大纲的信息"
+msgid ""
+"To hide the content of a subsection from learners after the subsection due "
+"date has passed, select the Configure icon for a subsection, then select "
+"{em_start}Hide content after due date{em_end}. Grades for the subsection "
+"remain included in grade calculations."
+msgstr ""
+
+#: cms/templates/course_outline.html
+msgid "Learn more about content visibility settings"
+msgstr ""
 
 #. Translators: Pages refer to the tabs that appear in the top navigation of
 #. each course.
@@ -18647,7 +18851,7 @@ msgstr ""
 msgid "Learn more about importing a course"
 msgstr "了解更多关于导入课程的信息"
 
-#: cms/templates/index.html cms/templates/widgets/header.html
+#: cms/templates/index.html cms/templates/widgets/user_dropdown.html
 msgid "{studio_name} Home"
 msgstr "{studio_name}主页"
 
@@ -20099,6 +20303,22 @@ msgstr "您在{studio_name}上的课程创建权限已被撤销。如果您觉�
 msgid "Your course creator status for {studio_name}"
 msgstr "您在{studio_name}上的课程创建者状态"
 
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "Required data to force publish course."
+msgstr ""
+
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "course-v1:edX+DemoX+Demo_Course"
+msgstr ""
+
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "Reset values"
+msgstr ""
+
+#: cms/templates/maintenance/base.html cms/templates/maintenance/index.html
+msgid "Maintenance Dashboard"
+msgstr ""
+
 #: cms/templates/registration/reg_complete.html
 msgid ""
 "We've sent an email message to {email} with instructions for activating your"
@@ -20144,16 +20364,16 @@ msgid "Current Library:"
 msgstr "当前知识库："
 
 #: cms/templates/widgets/header.html
+msgid "Language preference"
+msgstr ""
+
+#: cms/templates/widgets/header.html
 msgid "Account Navigation"
 msgstr "账户导航"
 
 #: cms/templates/widgets/header.html
 msgid "Contextual Online Help"
 msgstr "相关在线帮助"
-
-#: cms/templates/widgets/header.html
-msgid "Currently signed in as:"
-msgstr "当前登录用户："
 
 #: cms/templates/widgets/metadata-edit.html
 msgid "Launch Latex Source Compiler"
@@ -20217,6 +20437,14 @@ msgstr ""
 
 #: cms/templates/widgets/tabs-aggregator.html
 msgid "name"
+msgstr ""
+
+#: cms/templates/widgets/user_dropdown.html
+msgid "Currently signed in as:"
+msgstr "当前登录用户："
+
+#: cms/templates/widgets/user_dropdown.html
+msgid "Maintenance"
 msgstr ""
 
 #: wiki/forms.py

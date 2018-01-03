@@ -367,18 +367,20 @@ def get_base_url(is_secure):
     return _absolute_url(is_secure=is_secure, url_path="")
 
 
-def get_logo_url():
+def get_logo_url(is_secure=True):
     """
     Return the url for the branded logo image to be used
+    Arguments:
+        is_secure (bool): If true, use HTTPS as the protocol.
     """
 
     # if the configuration has an overide value for the logo_image_url
     # let's use that
     image_url = configuration_helpers.get_value('logo_image_url')
     if image_url:
-        return '{static_url}{image_url}'.format(
-            static_url=settings.STATIC_URL,
-            image_url=image_url
+        return _absolute_url_staticfile(
+            is_secure=is_secure,
+            name=image_url,
         )
 
     # otherwise, use the legacy means to configure this

@@ -164,9 +164,6 @@ FEATURES['ENABLE_DASHBOARD_SEARCH'] = True
 # Enable support for OpenBadges accomplishments
 FEATURES['ENABLE_OPENBADGES'] = True
 
-# Enable time zone field in account settings. Will be removed in Ticket #TNL-4750.
-FEATURES['ENABLE_TIME_ZONE_PREFERENCE'] = True
-
 # Use MockSearchEngine as the search engine for test scenario
 SEARCH_ENGINE = "search.tests.mock_search_engine.MockSearchEngine"
 # Path at which to store the mock index
@@ -195,6 +192,8 @@ BADGING_BACKEND = 'lms.djangoapps.badges.backends.tests.dummy_backend.DummyBacke
 # Configure the LMS to use our stub eCommerce implementation
 ECOMMERCE_API_URL = 'http://localhost:8043/api/v2/'
 ECOMMERCE_API_SIGNING_KEY = 'ecommerce-key'
+
+LMS_ROOT_URL = "http://localhost:8000"
 
 #####################################################################
 # Lastly, see if the developer has any local overrides.

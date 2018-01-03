@@ -35,6 +35,7 @@ from lms.envs.test import (
     MEDIA_ROOT,
     MEDIA_URL,
     COMPREHENSIVE_THEME_DIRS,
+    JWT_AUTH,
 )
 
 # mongo connection settings
@@ -140,6 +141,7 @@ if os.environ.get('DISABLE_MIGRATIONS'):
     MIGRATION_MODULES = NoOpMigrationModules()
 
 LMS_BASE = "localhost:8000"
+LMS_ROOT_URL = "http://{}".format(LMS_BASE)
 FEATURES['PREVIEW_LMS_BASE'] = "preview.localhost"
 
 

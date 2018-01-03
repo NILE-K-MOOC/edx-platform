@@ -33,7 +33,7 @@ html.video-fullscreen {
     @include margin-left($baseline/2);
     padding: ($baseline/4) ($baseline/2);
     border-radius: ($baseline/4);
-    background-color: $shadow-l2;
+    background-color: $light-gray1;
     text-align: right;
     text-transform: uppercase;
     color: $staff-color;
@@ -58,42 +58,46 @@ html.video-fullscreen {
 
 .content-wrapper {
 
-  .course-license,
-  .xblock-license {
-    @include text-align(right);
-    @extend %t-title7;
-    display: block;
-    width: auto;
-    padding: ($baseline/4) 0;
-    color: $gray-d1;
+    .course-license,
+    .xblock-license {
+        @include text-align(right);
+        @extend %t-title7;
+        display: block;
+        width: auto;
+        padding: ($baseline/4) 0;
+        color: $base-font-color;
 
-    span {
-      color: inherit;
-    }
+        span {
+            color: inherit;
+        }
 
-    a:link, a:visited {
-      color: $gray;
-    }
-    a:active, a:hover {
-      color: $link-hover;
-    }
+        a:link,
+        a:visited {
+            color: $base-font-color;
+        }
 
-    .license-label,
-    .license-value,
-    .license-actions {
-      display: inline-block;
-      vertical-align: middle;
-      margin-bottom: 0;
-    }
+        a:active,
+        a:hover {
+            color: $uxpl-blue-base;
+        }
 
-    i {
-      font-style: normal;
-    }
+        .license-label,
+        .license-value,
+        .license-actions {
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 0;
+        }
 
-    img {
-      display: inline;
+        i,
+        em {
+            font-style: normal;
+        }
+
+        img {
+            display: inline;
+        }
     }
-  }
 }
 
 // TO-DO should this be content wrapper?
@@ -151,7 +155,7 @@ html.video-fullscreen {
       }
       button.gated-sequence {
         background: $transparent;
-        color: $blue-d1;
+        color: $uxpl-blue-base;
         border: none;
         box-shadow: none;
         @include text-align(left);
@@ -160,7 +164,7 @@ html.video-fullscreen {
 
         &:hover {
           background-color: transparent;
-          color: $link-hover;
+          color: $uxpl-blue-hover-active;
         }
       }
 
@@ -169,12 +173,12 @@ html.video-fullscreen {
         font-size: 1.3em;
       }
       .gated-sequence {
-        color: #147ABA;
+        color: $uxpl-blue-base;
         font-weight: 600;
         padding: ($baseline / 1.5) ($baseline / 4);
         a.start-timed-exam {
           cursor: pointer;
-          color: #147ABA;
+          color: $uxpl-blue-base;
           font-weight: 600;
           position: relative;
           top: ($baseline/10);
@@ -205,7 +209,7 @@ html.video-fullscreen {
         }
       }
 
-      background-color: #F2F4F5;
+      background-color: #F2F8FB;
       padding: 30px;
       font-size: 16px;
       box-shadow: inset 1px 1px 2px rgba(0, 0, 0, .1);
@@ -283,7 +287,7 @@ html.video-fullscreen {
           display: block;
         }
         p {
-          color: rgb(63, 58, 59);
+          color: #414141;
           strong {
             font-weight: 600;
           }
@@ -306,7 +310,7 @@ html.video-fullscreen {
         }
         &:last-child {
           > .practice-exam {
-            color: #147ABA;
+            color: $uxpl-blue-base;
           }
           border-bottom: none;
         }
@@ -557,6 +561,14 @@ html.video-fullscreen {
       }
     }
 
+    section.xqa-modal, section.staff-modal, section.history-modal {
+        width: 80%;
+        height: 80%;
+        left: left(20%);
+        overflow: auto;
+        display: none;
+    }
+
     div.staff_info {
       display: none;
       @include clearfix();
@@ -663,3 +675,14 @@ section.self-assessment {
 }
 
 
+/*
+ * CodeMirror color contrast overrides
+ * (so we don't change the vendor file)
+ */
+
+.CodeMirror {
+    
+    .CodeMirror-linenumber.CodeMirror-gutter-elt {
+        color: $gray-d3 !important;
+    }
+}

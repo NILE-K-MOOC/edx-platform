@@ -159,6 +159,17 @@ $blue-t1: rgba($blue, 0.25);
 $blue-t2: rgba($blue, 0.50);
 $blue-t3: rgba($blue, 0.75);
 
+$uxpl-blue-base: rgb(0, 117, 180); // wcag2a compliant
+$uxpl-blue-hover-active: rgb(6, 86, 131); // wcag2a compliant
+
+$uxpl-green-base: rgb(0, 129, 0); // wcag2a compliant
+$uxpl-green-hover-active: rgb(0, 155, 0); // wcag2a compliant
+
+$uxpl-pink-base: rgb(194, 56, 125); // wcag2a compliant
+$uxpl-pink-hover-active: lighten($uxpl-pink-base, 7%); // wcag2a compliant
+
+$uxpl-grayscale-x-back: rgb(245, 245, 245); // UXPL grayscale, x-back
+
 $orange: rgb(237, 189, 60);
 $orange-l1: tint($orange,20%);
 $orange-l2: tint($orange,40%);
@@ -305,7 +316,7 @@ $audit-color-lvl2: tint($audit-color-lvl1, 33%);
 $credit-color-base: rgb(244,195,0); // accessible with black text
 
 // edx-specific: Studio/Staff actions
-$staff-color: $pink;
+$staff-color: $uxpl-pink-base;
 
 
 // ----------------------------
@@ -361,7 +372,7 @@ $body-line-height: golden-ratio(.875em, 1) !default;
 $base-font-color: rgb(60,60,60) !default;
 $baseFontColor: $base-font-color;
 
-$lighter-base-font-color: rgb(100,100,100) $base-font-color;
+$lighter-base-font-color: rgb(100,100,100) !default;
 $very-light-text: rgb(255,255,255) !default;
 $text-color: rgb(51, 51, 51) !default;
 
@@ -423,17 +434,17 @@ $action-secondary-disabled-bg: $m-gray-d3 !default;
 $action-secondary-disabled-fg: $white !default;
 
 // actions - misc
-$link-color: $blue !default;
-$link-color-d1: $blue !default;
-$link-hover: $blue-l1 !default; // from our Pattern Library http://ux.edx.org/elements/colors/
+$link-color: $uxpl-blue-base !default;
+$link-color-d1: $link-color !default;
+$link-hover: $uxpl-blue-hover-active !default; // from our Pattern Library http://ux.edx.org/elements/colors/
 $site-status-color: $pink !default;
-$button-color: $blue !default;
+$button-color: $uxpl-blue-base !default;
 $button-archive-color: rgb(238,238,238) !default; // #eeeeee
 
 // larger, random elements
 $dark-trans-bg: rgba(0, 0, 0, .75);
 
-$body-bg: rgb(250,250,250) !default;
+$body-bg: $uxpl-grayscale-x-back !default;
 
 $container-bg: $white !default;
 
@@ -462,7 +473,7 @@ $courseware-footer-margin: 0px !default;
 $courseware-border-bottom-color: rgb(68,162,222) !default;
 $courseware-button-border-color: rgb(230,230,230) !default;
 $courseware-hover-color: rgb(51,52,53) !default;
-$courseware-navigation-color: $blue !default;
+$courseware-navigation-color: $uxpl-blue-base !default;
 
 // homepage, onboarding, and course discovery
 $homepage__header--gradient__color--alpha: lighten($gray, 15%) !default;
@@ -489,7 +500,7 @@ $dashboard-course-cover-border: rgb(221, 221, 221) !default;
 
 // course elements
 $content-wrapper-bg: $white !default;
-$course-bg-color: #f2f2f2 !default;
+$course-bg-color: $uxpl-grayscale-x-back !default;
 $account-content-wrapper-bg: shade($body-bg, 2%) !default;
 $course-profile-bg: rgb(245,245,245) !default;
 $course-header-bg: rgba(255,255,255, 0.93) !default;

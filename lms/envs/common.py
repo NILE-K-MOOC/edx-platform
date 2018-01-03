@@ -49,7 +49,7 @@ from lms.djangoapps.lms_xblock.mixin import LmsBlockMixin
 PLATFORM_NAME = "Your Platform Name Here"
 CC_MERCHANT_NAME = PLATFORM_NAME
 # Shows up in the platform footer, eg "(c) COPYRIGHT_YEAR"
-COPYRIGHT_YEAR = "2015"
+COPYRIGHT_YEAR = "2016"
 
 PLATFORM_FACEBOOK_ACCOUNT = "http://www.facebook.com/YourPlatformFacebookAccount"
 PLATFORM_TWITTER_ACCOUNT = "@YourPlatformTwitterAccount"
@@ -60,6 +60,7 @@ DISCUSSION_SETTINGS = {
     'MAX_COMMENT_DEPTH': 2,
 }
 
+<<<<<<< HEAD
 # Source:
 # http://loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt according to http://en.wikipedia.org/wiki/ISO_639-1
 # Note that this is used as the set of choices to the `code` field of the
@@ -291,6 +292,9 @@ COURSE_DISCOVERY_MEANINGS = {
         }
     }
 }
+=======
+LMS_ROOT_URL = "http://localhost:8000"
+>>>>>>> origin
 
 # Features
 FEATURES = {
@@ -383,9 +387,6 @@ FEATURES = {
 
     # Enable URL that shows information about the status of variuous services
     'ENABLE_SERVICE_STATUS': False,
-
-    # Toggle to indicate use of the Stanford theming system
-    'USE_CUSTOM_THEME': False,
 
     # Don't autoplay videos for students
     'AUTOPLAY_VIDEOS': False,
@@ -493,6 +494,7 @@ FEATURES = {
 
     # Enable the combined login/registration form
     'ENABLE_COMBINED_LOGIN_REGISTRATION': False,
+    'ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER': False,
 
     # Enable organizational email opt-in
     'ENABLE_MKTG_EMAIL_OPT_IN': False,
@@ -572,9 +574,6 @@ FEATURES = {
     # Enable OpenBadge support. See the BADGR_* settings later in this file.
     'ENABLE_OPENBADGES': False,
 
-    # The block types to disable need to be specified in "x block disable config" in django admin.
-    'ENABLE_DISABLING_XBLOCK_TYPES': True,
-
     # Enable LTI Provider feature.
     'ENABLE_LTI_PROVIDER': False,
 
@@ -592,9 +591,6 @@ FEATURES = {
     # lives in the Extended table, saving the frontend from
     # making multiple queries.
     'ENABLE_READING_FROM_MULTIPLE_HISTORY_TABLES': True,
-
-    # WIP -- will be removed in Ticket #TNL-4750.
-    'ENABLE_TIME_ZONE_PREFERENCE': False,
 }
 
 # Ignore static asset files on import which match this pattern
@@ -1496,8 +1492,7 @@ base_vendor_js = [
     'js/vendor/requirejs/require.js',
     'js/RequireJS-namespace-undefine.js',
     'js/vendor/URI.min.js',
-    'common/js/vendor/backbone.js',
-    'edx-pattern-library/js/modernizr-custom.js',
+    'common/js/vendor/backbone.js'
 ]
 
 main_vendor_js = base_vendor_js + [
@@ -1512,6 +1507,7 @@ base_application_js = [
     'js/src/utility.js',
     'js/src/logger.js',
     'js/my_courses_dropdown.js',
+    'js/dialog_tab_controls.js',
     'js/src/string_utils.js',
     'js/form.ext.js',
     'js/src/ie_shim.js',
@@ -1609,7 +1605,6 @@ credit_web_view_js = [
 PIPELINE_CSS = {
     'style-vendor': {
         'source_filenames': [
-            'js/vendor/afontgarde/afontgarde.css',
             'css/vendor/font-awesome.css',
             'css/vendor/jquery.qtip.min.css',
         ],
@@ -1938,8 +1933,6 @@ REQUIRE_JS_PATH_OVERRIDES = {
     'js/student_profile/views/learner_profile_factory': 'js/student_profile/views/learner_profile_factory.js',
     'js/courseware/courseware_factory': 'js/courseware/courseware_factory.js',
     'js/groups/views/cohorts_dashboard_factory': 'js/groups/views/cohorts_dashboard_factory.js',
-    'afontgarde': 'edx-pattern-library/js/afontgarde.js',
-    'edxicons': 'edx-pattern-library/js/edx-icons.js',
     'draggabilly': 'js/vendor/draggabilly.js'
 }
 
@@ -2009,6 +2002,23 @@ CELERY_QUEUES = {
 
 # let logging work as configured:
 CELERYD_HIJACK_ROOT_LOGGER = True
+
+################################ Block Structures ###################################
+
+BLOCK_STRUCTURES_SETTINGS = dict(
+    # Delay, in seconds, after a new edit of a course is published
+    # before updating the block structures cache.  This is needed
+    # for a better chance at getting the latest changes when there
+    # are secondary reads in sharded mongoDB clusters. See TNL-5041
+    # for more info.
+    BLOCK_STRUCTURES_COURSE_PUBLISH_TASK_DELAY=30,
+
+    # Delay, in seconds, between retry attempts if a task fails.
+    BLOCK_STRUCTURES_TASK_DEFAULT_RETRY_DELAY=30,
+
+    # Maximum number of retries per task.
+    BLOCK_STRUCTURES_TASK_MAX_RETRIES=5,
+)
 
 ################################ Bulk Email ###################################
 
@@ -2140,6 +2150,7 @@ INSTALLED_APPS = (
     'openedx.core.djangoapps.course_groups',
     'bulk_email',
     'branding',
+    'lms.djangoapps.grades',
 
     # Student support tools
     'support',
@@ -2155,6 +2166,7 @@ INSTALLED_APPS = (
 
     # django-oauth-toolkit
     'oauth2_provider',
+    'lms.djangoapps.oauth_dispatch.apps.OAuthDispatchAppConfig',
 
     'third_party_auth',
 
@@ -2189,8 +2201,10 @@ INSTALLED_APPS = (
     'django_comment_client',
     'django_comment_common',
     'discussion_api',
-    'notes',
+    'lms.djangoapps.discussion',
 
+    # Notes
+    'notes',
     'edxnotes',
 
     # Splash screen
@@ -2286,6 +2300,9 @@ INSTALLED_APPS = (
     # programs support
     'openedx.core.djangoapps.programs',
 
+    # Catalog integration
+    'openedx.core.djangoapps.catalog',
+
     # Self-paced course configuration
     'openedx.core.djangoapps.self_paced',
 
@@ -2323,6 +2340,9 @@ INSTALLED_APPS = (
 
     # Email marketing integration
     'email_marketing',
+
+    # additional release utilities to ease automation
+    'release_util',
 )
 
 # Migrations which are not in the standard module "migrations"
@@ -2959,10 +2979,6 @@ APP_UPGRADE_CACHE_TIMEOUT = 3600
 # if you want to avoid an overlap in ids while searching for history across the two tables.
 STUDENTMODULEHISTORYEXTENDED_OFFSET = 10000
 
-# Deprecated xblock types
-DEPRECATED_ADVANCED_COMPONENT_TYPES = []
-
-
 # Cutoff date for granting audit certificates
 
 AUDIT_CERT_CUTOFF_DATE = None
@@ -3004,3 +3020,12 @@ AFFILIATE_COOKIE_NAME = 'affiliate_id'
 # The cache is cleared when Redirect models are saved/deleted
 REDIRECT_CACHE_TIMEOUT = None  # The length of time we cache Redirect model data
 REDIRECT_CACHE_KEY_PREFIX = 'redirects'
+
+############## Settings for Neo4j ############################
+
+# This should be set in configuration
+NEO4J_CONFIG = None
+
+############## Settings for LMS Context Sensitive Help ##############
+
+DOC_LINK_BASE_URL = None

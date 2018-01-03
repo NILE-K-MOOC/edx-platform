@@ -14,7 +14,11 @@ from xmodule.modulestore.tests.factories import CourseFactory, ItemFactory
 from xmodule.modulestore.tests.django_utils import SharedModuleStoreTestCase
 
 
+<<<<<<< HEAD
 @attr('shard_1')
+=======
+@attr(shard=1)
+>>>>>>> origin
 class TestSites(SharedModuleStoreTestCase, LoginEnrollmentTestCase):
     """
     This is testing of the Site Configuration feature

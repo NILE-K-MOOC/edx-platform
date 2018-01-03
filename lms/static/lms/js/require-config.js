@@ -1,20 +1,20 @@
-;(function(require, define) {
+(function(require, define) {
     'use strict';
 
     // We do not wish to bundle common libraries (that may also be used by non-RequireJS code on the page
     // into the optimized files. Therefore load these libraries through script tags and explicitly define them.
     // Note that when the optimizer executes this code, window will not be defined.
     if (window) {
-        var defineDependency = function (globalName, name, noShim) {
+        var defineDependency = function(globalName, name, noShim) {
             var getGlobalValue = function(name) {
-                var globalNamePath = name.split('.'),
-                    result = window,
-                    i;
-                for (i = 0; i < globalNamePath.length; i++) {
-                    result = result[globalNamePath[i]];
-                }
-                return result;
-            },
+                    var globalNamePath = name.split('.'),
+                        result = window,
+                        i;
+                    for (i = 0; i < globalNamePath.length; i++) {
+                        result = result[globalNamePath[i]];
+                    }
+                    return result;
+                },
                 globalValue = getGlobalValue(globalName);
             if (globalValue) {
                 if (noShim) {
@@ -41,7 +41,6 @@
         defineDependency('Logger', 'logger');
         defineDependency('URI', 'URI');
         defineDependency('Backbone', 'backbone');
-        defineDependency('Modernizr', 'modernizr');
 
         // Add the UI Toolkit helper classes that have been installed in the 'edx' namespace
         defineDependency('edx.HtmlUtils', 'edx-ui-toolkit/js/utils/html-utils');
@@ -82,9 +81,6 @@
             'URI': 'js/vendor/URI.min',
             'string_utils': 'js/src/string_utils',
             'utility': 'js/src/utility',
-            'modernizr': 'edx-pattern-library/js/modernizr-custom',
-            'afontgarde': 'edx-pattern-library/js/afontgarde',
-            'edxicons': 'edx-pattern-library/js/edx-icons',
             'draggabilly': 'js/vendor/draggabilly',
 
             // Files needed by OVA
@@ -217,9 +213,6 @@
             },
             'moment-with-locales': {
                 exports: 'moment'
-            },
-            'afontgarde': {
-                exports: 'AFontGarde'
             },
             // Because Draggabilly is being used by video code, the namespaced version of
             // require is not being recognized. Therefore the library is being added to the

@@ -14,8 +14,11 @@ from django.conf import settings
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+<<<<<<< HEAD
 from datetime import datetime
 from django.utils.timezone import UTC as UTC2
+=======
+>>>>>>> origin
 
 
 def get_visible_courses(org=None, filter_=None):
@@ -29,7 +32,10 @@ def get_visible_courses(org=None, filter_=None):
         filter_ (dict): Optional parameter that allows custom filtering by
             fields on the course.
     """
+<<<<<<< HEAD
     # print '::::: get_visible_courses called', org, filter
+=======
+>>>>>>> origin
     current_site_org = configuration_helpers.get_value('course_org_filter')
 
     if org and current_site_org:
@@ -47,6 +53,7 @@ def get_visible_courses(org=None, filter_=None):
 
     # courses = sorted(courses, key=lambda course: course.number)
 
+<<<<<<< HEAD
     # Add Course Status
     for c in courses:
         # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
@@ -64,6 +71,8 @@ def get_visible_courses(org=None, filter_=None):
 
         # print 'c.status = ', c.id, c.status
 
+=======
+>>>>>>> origin
     # Filtering can stop here.
     if current_site_org:
         return courses

@@ -84,10 +84,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 "POT-Creation-Date: 2016-06-30 16:00+0000\n"
 "PO-Revision-Date: 2016-05-09 11:27+0000\n"
 "Last-Translator: Sarina Canelake <sarina@edx.org>\n"
 "Language-Team: Korean (Korea) (http://www.transifex.com/open-edx/edx-platform/language/ko_KR/)\n"
+=======
+"POT-Creation-Date: 2016-09-01 11:13+0000\n"
+"PO-Revision-Date: 2016-09-01 11:13:42.383538\n"
+"Last-Translator: \n"
+"Language-Team: openedx-translation <openedx-translation@googlegroups.com>\n"
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -95,11 +102,12 @@ msgstr ""
 "Language: ko_KR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#. #-#-#-#-#  django-partial.po (0.1a)  #-#-#-#-#
 #. Translators: 'Discussion' refers to the tab in the courseware that leads to
 #. the discussion forums
 #: cms/djangoapps/contentstore/views/component.py
-#: lms/djangoapps/courseware/tabs.py
-#: lms/djangoapps/django_comment_client/forum/views.py
+#: lms/djangoapps/courseware/tabs.py lms/djangoapps/discussion/plugins.py
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
 msgid "Discussion"
 msgstr ""
 
@@ -268,6 +276,7 @@ msgid "You're enrolled as an honor code student"
 msgstr ""
 
 #: lms/templates/static_templates/honor.html
+#: themes/example/lms/templates/static_templates/honor.html
 #: themes/stanford-style/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/static_templates/tos.html
 msgid "Honor Code"
@@ -359,6 +368,26 @@ msgstr ""
 msgid "No selected price or selected price is too low."
 msgstr ""
 
+#: common/djangoapps/dark_lang/views.py
+msgid "Preview Language is currently disabled"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language code not provided"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language set to language code: {preview_language_code}"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to the default language code"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to user's preference: {preview_language_code}"
+msgstr ""
+
 #: common/djangoapps/django_comment_common/models.py
 msgid "Administrator"
 msgstr ""
@@ -430,6 +459,14 @@ msgstr ""
 msgid ""
 "You have already created an account using an external login like WebAuth or "
 "Shibboleth. Please contact {tech_support_email} for support."
+msgstr ""
+
+#: common/djangoapps/external_auth/views.py
+msgid ""
+"\n"
+"        Your university identity server did not return your ID information to us.\n"
+"        Please try logging in again.  (You may need to restart your browser.)\n"
+"        "
 msgstr ""
 
 #: common/djangoapps/student/admin.py
@@ -1329,7 +1366,7 @@ msgid "must be {0} characters or more"
 msgstr ""
 
 #: common/djangoapps/util/password_policy_validators.py
-msgid "must be {0} characters or less"
+msgid "must be {0} characters or fewer"
 msgstr ""
 
 #: common/djangoapps/util/password_policy_validators.py
@@ -1391,15 +1428,6 @@ msgid ""
 "Enabled XBlock/template combinations with full or provisional support can "
 "always be created in Studio. Unsupported XBlock/template combinations "
 "require course author opt-in."
-msgstr ""
-
-#: common/djangoapps/xblock_django/models.py
-msgid "Space-separated list of XBlocks which should not render."
-msgstr ""
-
-#: common/djangoapps/xblock_django/models.py
-msgid ""
-"Space-separated list of XBlock types whose creation to disable in Studio."
 msgstr ""
 
 #: common/djangoapps/xblock_django/models.py
@@ -1793,7 +1821,6 @@ msgstr ""
 #: common/lib/xmodule/xmodule/library_content_module.py
 #: common/lib/xmodule/xmodule/textannotation_module.py
 #: common/lib/xmodule/xmodule/videoannotation_module.py
-#: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Display name for this module"
 msgstr ""
 
@@ -2419,7 +2446,7 @@ msgid "Advanced Module List"
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
-msgid "Enter the names of the advanced components to use in your course."
+msgid "Enter the names of the advanced modules to use in your course."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
@@ -2850,6 +2877,16 @@ msgid ""
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
+msgid "Enable Subsection Grades Saved"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If this value is true, the robust grades feature of "
+"saving subsection grades is enabled for this course."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
 msgid "Course Learning Information"
 msgstr ""
 
@@ -2863,6 +2900,19 @@ msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Enter the details for Course Instructor"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid "Add Unsupported Problems and Tools"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If true, you can add unsupported problems and tools to "
+"your course in Studio. Unsupported problems and tools are not recommended "
+"for use in courses due to non-compliance with one or more of the base "
+"requirements, such as testing, accessibility, internationalization, and "
+"documentation."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
@@ -3485,6 +3535,16 @@ msgid "Enter the date by which problems are due."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/seq_module.py
+msgid "Hide sequence content After Due Date"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"If set, the sequence content is hidden for non-staff users after the due "
+"date has passed."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
 msgid "Is Entrance Exam"
 msgstr ""
 
@@ -3533,16 +3593,6 @@ msgid ""
 msgstr ""
 
 #: common/lib/xmodule/xmodule/seq_module.py
-msgid "Hide Exam Results After Due Date"
-msgstr ""
-
-#: common/lib/xmodule/xmodule/seq_module.py
-msgid ""
-"This setting overrides the default behavior of showing exam results after "
-"the due date has passed. Currently only supported for timed exams."
-msgstr ""
-
-#: common/lib/xmodule/xmodule/seq_module.py
 msgid "Is Practice Exam"
 msgstr ""
 
@@ -3550,6 +3600,26 @@ msgstr ""
 msgid ""
 "This setting indicates whether this exam is for testing purposes only. "
 "Practice exams are not verified."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid "This exam is hidden from the learner."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid "subsection"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"Because the due date has passed, this {subsection_format} is hidden from the"
+" learner."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/seq_module.py
+msgid ""
+"This subsection is unlocked for learners when they meet the prerequisite "
+"requirements."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/split_test_module.py
@@ -3960,11 +4030,30 @@ msgid "Poster URL"
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
+msgid "The label for this word cloud on the course page."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
+#: lms/templates/annotatable.html lms/templates/imageannotation.html
+#: lms/templates/textannotation.html lms/templates/videoannotation.html
+#: lms/templates/peer_grading/peer_grading.html
+msgid "Instructions"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
+msgid ""
+"Add instructions to help learners understand how to use the word cloud. "
+"Clear instructions are important, especially for learners who have "
+"accessibility requirements."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/word_cloud_module.py
 msgid "Inputs"
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "Number of text boxes available for students to input words/sentences."
+msgid ""
+"The number of text boxes available for learners to add words and sentences."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
@@ -3972,7 +4061,7 @@ msgid "Maximum Words"
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "Maximum number of words to be displayed in generated word cloud."
+msgid "The maximum number of words displayed in the generated word cloud."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
@@ -3984,7 +4073,7 @@ msgid "Statistics are shown for entered words near that word."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "Whether this student has posted words to the cloud."
+msgid "Whether this learner has posted words to the cloud."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
@@ -3992,7 +4081,7 @@ msgid "Student answer."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
-msgid "All possible words from all students."
+msgid "All possible words from all learners."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/word_cloud_module.py
@@ -4127,6 +4216,7 @@ msgstr ""
 
 #: cms/templates/widgets/footer.html
 #: lms/templates/static_templates/privacy.html
+#: themes/example/lms/templates/static_templates/privacy.html
 #: themes/red-theme/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/static_templates/tos.html
@@ -4138,6 +4228,7 @@ msgid "Accessibility Policy"
 msgstr ""
 
 #: cms/templates/widgets/footer.html lms/templates/static_templates/tos.html
+#: themes/example/lms/templates/static_templates/tos.html
 #: themes/red-theme/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/footer.html
 #: themes/stanford-style/lms/templates/static_templates/tos.html
@@ -4586,7 +4677,7 @@ msgstr ""
 msgid "Path to single course checkout page hosted by the E-Commerce service."
 msgstr ""
 
-#: lms/djangoapps/commerce/models.py
+#: lms/djangoapps/commerce/models.py openedx/core/djangoapps/catalog/models.py
 #: openedx/core/djangoapps/credentials/models.py
 #: openedx/core/djangoapps/credit/models.py
 #: openedx/core/djangoapps/programs/models.py
@@ -5205,11 +5296,12 @@ msgid "Sailthru template to use on activation send. "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru template to use on abandoned cart reminder. "
+msgid "Sailthru template to use on abandoned cart reminder. Deprecated."
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru minutes to wait before sending abandoned cart message."
+msgid ""
+"Sailthru minutes to wait before sending abandoned cart message. Deprecated."
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
@@ -5217,11 +5309,11 @@ msgid "Sailthru send template to use on enrolling for audit. "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru send template to use on upgrading a course. "
+msgid "Sailthru send template to use on upgrading a course. Deprecated "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
-msgid "Sailthru send template to use on purchasing a course seat. "
+msgid "Sailthru send template to use on purchasing a course seat. Deprecated "
 msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
@@ -5234,6 +5326,12 @@ msgstr ""
 
 #: lms/djangoapps/email_marketing/models.py
 msgid "Cost in cents to report to Sailthru for enrolls."
+msgstr ""
+
+#: lms/djangoapps/email_marketing/models.py
+msgid ""
+"Optional lms url scheme + host used to construct urls for content library, "
+"e.g. https://courses.edx.org."
 msgstr ""
 
 #: lms/djangoapps/instructor/paidcourse_enrollment_report.py
@@ -7242,10 +7340,6 @@ msgid "You do not have permission to view this page."
 msgstr ""
 
 #: lms/djangoapps/student_account/views.py
-msgid "No user with the provided email address exists."
-msgstr ""
-
-#: lms/djangoapps/student_account/views.py
 msgid "No email address provided."
 msgstr ""
 
@@ -7274,6 +7368,11 @@ msgstr ""
 msgid "Email Address"
 msgstr "이메일 주소"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
+=======
+#: lms/djangoapps/support/views/refund.py
+#: cms/templates/maintenance/_force_publish_course.html
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/instructor/instructor_dashboard_2/add_coupon_modal.html
 #: lms/templates/instructor/instructor_dashboard_2/edit_coupon_modal.html
@@ -7967,7 +8066,9 @@ msgstr ""
 #: lms/templates/wiki/plugins/attachments/index.html
 #: lms/templates/dashboard.html lms/templates/index.html
 #: lms/templates/api_admin/catalogs/search.html
-#: lms/templates/courseware/courses.html lms/templates/edxnotes/edxnotes.html
+#: lms/templates/courseware/courses.html
+#: lms/templates/courseware/courseware.html
+#: lms/templates/edxnotes/edxnotes.html
 #: themes/edx.org/lms/templates/dashboard.html
 #: themes/stanford-style/lms/templates/index.html
 msgid "Search"
@@ -8139,6 +8240,22 @@ msgstr ""
 
 #: openedx/core/djangoapps/bookmarks/views.py
 msgid "Bookmark with usage_id: {usage_id} does not exist."
+msgstr ""
+
+#: openedx/core/djangoapps/catalog/models.py
+msgid "Internal API URL"
+msgstr ""
+
+#: openedx/core/djangoapps/catalog/models.py
+msgid ""
+"API root to be used for server-to-server requests (e.g., https://catalog-"
+"internal.example.com/api/v1/)."
+msgstr ""
+
+#: openedx/core/djangoapps/catalog/models.py
+msgid ""
+"Specified in seconds. Enable caching of API responses by setting this to a "
+"value greater than 0."
 msgstr ""
 
 #: openedx/core/djangoapps/course_groups/cohorts.py
@@ -8334,6 +8451,10 @@ msgstr ""
 
 #: openedx/core/djangoapps/programs/models.py
 msgid "API Version"
+msgstr ""
+
+#: openedx/core/djangoapps/programs/models.py
+msgid "Path used to construct URLs to programs marketing pages (e.g., \"/foo\")."
 msgstr ""
 
 #: openedx/core/djangoapps/programs/models.py
@@ -8616,21 +8737,6 @@ msgid ""
 " the discussion forum for the course."
 msgstr ""
 
-#: pavelib/utils/passthrough_opts.py
-#, python-format
-msgid "%s option requires an argument"
-msgstr ""
-
-#: pavelib/utils/passthrough_opts.py
-#, python-format
-msgid "%s option requires %d arguments"
-msgstr ""
-
-#: pavelib/utils/passthrough_opts.py
-#, python-format
-msgid "%s option does not take a value"
-msgstr ""
-
 #: cms/djangoapps/contentstore/course_group_config.py
 #: cms/djangoapps/contentstore/views/certificates.py
 msgid "invalid JSON"
@@ -8749,6 +8855,10 @@ msgstr ""
 
 #: cms/djangoapps/contentstore/views/certificates.py
 msgid "PermissionDenied: Failed in authenticating {user}"
+msgstr ""
+
+#: cms/djangoapps/contentstore/views/component.py
+msgid "{platform_name} Support Levels:"
 msgstr ""
 
 #: cms/djangoapps/contentstore/views/component.py
@@ -9042,6 +9152,39 @@ msgid ""
 "denied)"
 msgstr ""
 
+#: cms/djangoapps/maintenance/views.py
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "Force Publish Course"
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid ""
+"Sometimes the draft and published branches of a course can get out of sync. "
+"Force publish course command resets the published branch of a course to "
+"point to the draft branch, effectively force publishing the course. This "
+"view dry runs the force publish command"
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Please provide course id."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Invalid course key."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "No matching course found."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Force publishing course is not supported with old mongo courses."
+msgstr ""
+
+#: cms/djangoapps/maintenance/views.py
+msgid "Course is already in published state."
+msgstr ""
+
 #: cms/djangoapps/models/settings/course_metadata.py
 msgid "Incorrect format for field '{name}'. {detailed_message}"
 msgstr ""
@@ -9121,6 +9264,7 @@ msgstr "강좌 번호:"
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/courseware/courses.html
 #: themes/edx.org/lms/templates/header.html
+#: themes/example/lms/templates/header.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Courses"
 msgstr "강좌"
@@ -9210,6 +9354,7 @@ msgstr "학습 시간 및 선수 강좌"
 
 #: cms/templates/studio_xblock_wrapper.html lms/templates/help_modal.html
 #: lms/templates/module-error.html
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Details"
 msgstr "세부사항"
 
@@ -9218,6 +9363,18 @@ msgstr "세부사항"
 #: lms/templates/wiki/includes/article_menu.html
 msgid "View"
 msgstr "보기"
+
+#: cms/templates/darklang/preview_lang.html
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/darklang/preview_lang.html
+msgid "Preview Language Setting"
+msgstr ""
+
+#: cms/templates/maintenance/_force_publish_course.html
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/problem.html lms/templates/shoppingcart/shopping_cart.html
+msgid "Reset"
+msgstr ""
 
 #: cms/templates/registration/activation_complete.html
 #: lms/templates/registration/activation_complete.html
@@ -9244,6 +9401,7 @@ msgid "Choose Language"
 msgstr ""
 
 #: cms/templates/widgets/header.html lms/templates/user_dropdown.html
+#: themes/example/lms/templates/header.html
 msgid "Account"
 msgstr "계정"
 
@@ -9252,11 +9410,14 @@ msgstr "계정"
 msgid "Help"
 msgstr "도움말"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #: cms/templates/widgets/header.html lms/templates/user_dropdown.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Sign Out"
 msgstr "로그아웃"
 
+=======
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
 msgid "Looking for help with {studio_name}?"
@@ -9309,8 +9470,23 @@ msgstr ""
 
 #: cms/templates/widgets/sock.html
 #: themes/edx.org/cms/templates/widgets/sock.html
+#: themes/example/lms/templates/static_templates/contact.html
 #: themes/stanford-style/lms/templates/static_templates/about.html
 msgid "Contact Us"
+msgstr ""
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+msgid "Usermenu"
+msgstr ""
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+msgid "Usermenu dropdown"
+msgstr ""
+
+#: cms/templates/widgets/user_dropdown.html lms/templates/user_dropdown.html
+#: themes/example/lms/templates/header.html
+#: themes/red-theme/lms/templates/header.html
+msgid "Sign Out"
 msgstr ""
 
 #: common/lib/capa/capa/templates/codeinput.html
@@ -9345,11 +9521,67 @@ msgstr "Creative Commons 저작물인 콘텐츠로 다음의 조건을 따릅니
 msgid "Some Rights Reserved"
 msgstr "일부 저작권 보호"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #: lms/templates/annotatable.html lms/templates/imageannotation.html
 #: lms/templates/textannotation.html lms/templates/videoannotation.html
 #: lms/templates/peer_grading/peer_grading.html
 msgid "Instructions"
 msgstr "지시사항"
+=======
+#: common/templates/darklang/preview_lang_include.html
+msgid "Language Code"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "For example use en for English"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/help_modal.html lms/templates/manage_user_standing.html
+#: lms/templates/register-shib.html
+#: lms/templates/peer_grading/peer_grading_problem.html
+#: lms/templates/survey/survey.html
+#: themes/stanford-style/lms/templates/register-shib.html
+msgid "Submit"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "Please refresh the page to see the changes applied."
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
+msgid "Discussion - {course_number}"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+#: lms/templates/discussion/_discussion_inline.html
+msgid "Add a Post"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
+msgid "Discussion thread list"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+msgid "New topic form"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
+msgid "User Profile"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/maintenance.html
+msgid "Discussion unavailable"
+msgstr ""
+
+#: lms/djangoapps/discussion/templates/discussion/maintenance.html
+msgid ""
+"The discussions are currently undergoing maintenance. We'll have them back "
+"up shortly!"
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 
 #: lms/templates/annotatable.html lms/templates/imageannotation.html
 #: lms/templates/textannotation.html lms/templates/videoannotation.html
@@ -9376,11 +9608,11 @@ msgstr ""
 msgid "Bookmark"
 msgstr ""
 
-#: lms/templates/course.html
+#: lms/templates/course.html themes/example/lms/templates/course.html
 msgid "LEARN MORE"
 msgstr "자세히 알아보기"
 
-#: lms/templates/course.html
+#: lms/templates/course.html themes/example/lms/templates/course.html
 msgid "Starts"
 msgstr "개강일"
 
@@ -9390,6 +9622,7 @@ msgstr "모든 강좌 보기"
 
 #: lms/templates/dashboard.html lms/templates/user_dropdown.html
 #: themes/edx.org/lms/templates/dashboard.html
+#: themes/example/lms/templates/header.html
 msgid "Dashboard"
 msgstr "대시보드"
 
@@ -9484,6 +9717,7 @@ msgstr ""
 #: lms/templates/enroll_staff.html lms/templates/ccx/enrollment.html
 #: lms/templates/courseware/course_about.html
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid "Enroll"
 msgstr "등록"
 
@@ -9621,6 +9855,7 @@ msgid "Tell us the details"
 msgstr "자세한 내용을 알려주세요"
 
 #: lms/templates/help_modal.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "Include error messages, steps which lead to the issue, etc"
 msgstr "오류메세지, 문제 발생으로 가는 단계 등을 포함하세요"
 
@@ -9631,6 +9866,13 @@ msgstr "오류메세지, 문제 발생으로 가는 단계 등을 포함하세�
 #: themes/stanford-style/lms/templates/register-shib.html
 msgid "Submit"
 msgstr "제출"
+=======
+msgid ""
+"Describe what you were doing when you encountered the issue. Include any "
+"details that will help us to troubleshoot, including error messages that you"
+" saw."
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 
 #: lms/templates/help_modal.html
 msgid "Thank You!"
@@ -9660,9 +9902,7 @@ msgid "Brief description of the problem"
 msgstr "문제 기술"
 
 #: lms/templates/help_modal.html
-msgid ""
-"Details of the problem you are encountering{asterisk}{begin_span}Include "
-"error messages, steps which lead to the issue, etc.{end_span}"
+msgid "Details of the problem you are encountering{asterisk}"
 msgstr ""
 
 #: lms/templates/help_modal.html
@@ -9700,6 +9940,17 @@ msgstr "{link_start}이메일{link_end}을 보내주세요."
 #: lms/templates/help_modal.html
 msgid "Please try again later."
 msgstr "잠시 후에 다시 시도하세요."
+
+#: lms/templates/hidden_content.html
+msgid "The due date for this {subsection_format} has passed."
+msgstr ""
+
+#: lms/templates/hidden_content.html
+msgid ""
+"Because the due date has passed, this {subsection_format} is no longer "
+"available.{line_break}If you have completed this {subsection_format}, your "
+"grade is available on the {link_start}progress page{link_end}."
+msgstr ""
 
 #: lms/templates/imageannotation.html
 msgid "Note: only instructors may annotate."
@@ -9959,7 +10210,8 @@ msgstr ""
 msgid "Raw data:"
 msgstr "원자료:"
 
-#: lms/templates/navigation.html themes/red-theme/lms/templates/header.html
+#: lms/templates/navigation.html themes/example/lms/templates/header.html
+#: themes/red-theme/lms/templates/header.html
 msgid "Global"
 msgstr "글로벌"
 
@@ -9999,6 +10251,7 @@ msgid "Register"
 msgstr "가입하기 "
 
 #: lms/templates/navigation.html themes/edx.org/lms/templates/header.html
+#: themes/example/lms/templates/header.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Sign in"
 msgstr "로그인"
@@ -10022,10 +10275,13 @@ msgstr "답"
 msgid "Hint"
 msgstr "힌트"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #: lms/templates/problem.html lms/templates/shoppingcart/shopping_cart.html
 msgid "Reset"
 msgstr "초기화"
 
+=======
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #: lms/templates/problem.html lms/templates/word_cloud.html
 msgid "Save"
 msgstr "저장"
@@ -10284,10 +10540,6 @@ msgstr "재구독 성공!"
 msgid ""
 "You have re-enabled forum notification emails from {platform_name}. You may "
 "{dashboard_link_start}return to your dashboard{link_end}."
-msgstr ""
-
-#: lms/templates/seq_module.html
-msgid "This exam is hidden from the learner."
 msgstr ""
 
 #: lms/templates/seq_module.html
@@ -10576,6 +10828,7 @@ msgstr "오류"
 
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/ccx/schedule.html
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Date"
 msgstr "날짜"
 
@@ -10633,15 +10886,7 @@ msgstr ""
 msgid "Dashboard for:"
 msgstr "대시보드:"
 
-#: lms/templates/user_dropdown.html
-msgid "Usermenu"
-msgstr ""
-
-#: lms/templates/user_dropdown.html
-msgid "Usermenu dropdown"
-msgstr ""
-
-#: lms/templates/user_dropdown.html
+#: lms/templates/user_dropdown.html themes/example/lms/templates/header.html
 msgid "Profile"
 msgstr ""
 
@@ -10708,12 +10953,21 @@ msgid "Download Handout"
 msgstr "학습 자료 다운로드"
 
 #: lms/templates/word_cloud.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "Your words:"
 msgstr "당신의 단어들:"
 
 #: lms/templates/word_cloud.html
 msgid "Total number of words:"
 msgstr "전체 단어수:"
+=======
+msgid "{num} of {total}"
+msgstr ""
+
+#: lms/templates/word_cloud.html
+msgid "Your words were:"
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 
 #: lms/templates/api_admin/api_access_request_form.html
 msgid "API Access Request"
@@ -11368,6 +11622,8 @@ msgstr "분수"
 msgid "Decimals"
 msgstr "소수"
 
+#. Translators: This refers to mathematical operators such as `plus`, `minus`,
+#. `division` and others.
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Operators"
 msgstr "연산자"
@@ -11386,6 +11642,7 @@ msgstr "^ (몇 승 구하기)"
 msgid "|| (parallel resistors)"
 msgstr "|| (병렬 저항)"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Greek letters"
 msgstr "그리스 문자"
@@ -11394,10 +11651,18 @@ msgstr "그리스 문자"
 msgid "Name of letter"
 msgstr "문자명"
 
+=======
+#. Translators: This refers to symbols that are mathematical constants, such
+#. as
+#. "i" (square root of -1)
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Constants"
 msgstr "상수"
 
+#. Translators: This refers to symbols that appear at the end of a number,
+#. such
+#. as the percent sign (%) and metric affixes
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Affixes"
 msgstr "수학기호"
@@ -11406,10 +11671,13 @@ msgstr "수학기호"
 msgid "Percent sign (%) and metric affixes (d, c, m, u, n, p, k, M, G, T)"
 msgstr "퍼센트기호 (%)와 행렬 기호 (d, c, m, u, n, p, k, M, G, T)"
 
+#. Translators: This refers to basic mathematical functions such as "square
+#. root"
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Basic functions"
 msgstr "기초적인 함수 "
 
+#. Translators: This refers to mathematical Sine, Cosine and Tan
 #: lms/templates/calculator/toggle_calculator.html
 msgid "Trigonometric functions"
 msgstr "삼각함수"
@@ -11909,10 +12177,12 @@ msgid "This content is graded"
 msgstr ""
 
 #: lms/templates/courseware/course_about.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid "An error occurred. Please try again later."
 msgstr "오류가 발생했습니다. 잠시 후에 다시 시도하세요."
 
 #: lms/templates/courseware/course_about.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid ""
 "The currently logged-in user account does not have permission to enroll in "
 "this course. You may need to {start_logout_tag}log out{end_tag} then try the"
@@ -11987,6 +12257,7 @@ msgid "Additional Resources"
 msgstr "추가 자원"
 
 #: lms/templates/courseware/course_about.html
+#: themes/example/lms/templates/courseware/course_about.html
 msgid "enroll"
 msgstr "등록"
 
@@ -12096,10 +12367,13 @@ msgid "Course Search"
 msgstr "강좌 검색"
 
 #: lms/templates/courseware/courseware.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "search"
 msgstr "검색"
 
 #: lms/templates/courseware/courseware.html
+=======
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 msgid "No content has been added to this course"
 msgstr "강좌 내용을 추가하세요. "
 
@@ -12205,6 +12479,7 @@ msgstr "스튜디오에서 평가 보기"
 
 #: lms/templates/courseware/progress.html
 msgid "Course Progress for Student '{username}' ({email})"
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgstr "'{username}' ({email})의 학습 진행 상황"
 
 #: lms/templates/courseware/progress.html
@@ -12223,6 +12498,11 @@ msgid ""
 msgstr "더 높은 성적을 받기 위해 계속 하거나, 지금 이수증을 신청할 수도 있습니다. "
 
 #: lms/templates/courseware/progress.html
+=======
+msgstr ""
+
+#: lms/templates/courseware/progress.html
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 msgid "View certificate in a new browser window or tab."
 msgstr "새 브라우저 창/탭에서 강좌 이수증이 열립니다."
 
@@ -12238,6 +12518,7 @@ msgstr "PDF는 새로운 브라우져 창 혹은 탭에 열릴 것입니다."
 msgid "Download Your Certificate"
 msgstr "강좌 이수증 다운로드하기"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #. Translators: This message appears to users when the system is processessing
 #. course certificates, which can take a few hours.
 #: lms/templates/courseware/progress.html
@@ -12274,6 +12555,8 @@ msgstr ""
 msgid "Congratulations, you qualified for a certificate!"
 msgstr "축하합니다. 당신은 강좌 이수증을 받기 위한 조건을 모두 충족하였습니다. "
 
+=======
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #: lms/templates/courseware/progress.html
 msgid "Request Certificate"
 msgstr "강좌 이수증 신청하기"
@@ -12472,6 +12755,10 @@ msgid ""
 msgstr ""
 
 #: lms/templates/dashboard/_dashboard_certificate_information.html
+msgid "Verify your identity now."
+msgstr ""
+
+#: lms/templates/dashboard/_dashboard_certificate_information.html
 msgid "Your {cert_name_short} is Generating"
 msgstr "{cert_name_short}이 만들어지고 있습니다."
 
@@ -12527,7 +12814,11 @@ msgstr ""
 "이수증을 수여할 수 없습니다. 대신 {cert_name_short}명예 수료증 발급은 가능합니다. "
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "{category} Program Course"
+=======
+msgid "Course details"
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 msgstr ""
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
@@ -12615,6 +12906,10 @@ msgstr "본 강좌의 환불가능일이 지났으므로 환불을 받을 수 �
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Email Settings"
 msgstr "이메일 설정"
+
+#: lms/templates/dashboard/_dashboard_course_listing.html
+msgid "Related Programs"
+msgstr ""
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Verification not yet complete."
@@ -12810,28 +13105,9 @@ msgid ""
 "{platform_name} account."
 msgstr "선택한 {provider_name} 계정은 이미 다른 {platform_name} 계정에 링크되어 있습니다."
 
-#: lms/templates/dashboard/_dashboard_xseries_info.html
-msgid "{category} Program: Interested in more courses in this subject?"
-msgstr ""
-
-#: lms/templates/dashboard/_dashboard_xseries_info.html
-msgid ""
-"This course is 1 of {course_count} courses in the "
-"{link_start}{program_display_name}{link_end} {program_category}."
-msgstr ""
-
-#: lms/templates/dashboard/_dashboard_xseries_info.html
-msgid "View {category} Details"
-msgstr ""
-
 #: lms/templates/debug/run_python_form.html
 msgid "Results:"
 msgstr "결과"
-
-#: lms/templates/discussion/_discussion_course_navigation.html
-#: lms/templates/discussion/_discussion_inline.html
-msgid "Add a Post"
-msgstr ""
 
 #: lms/templates/discussion/_discussion_inline.html
 msgid "Show Discussion"
@@ -12854,7 +13130,6 @@ msgid "filter topics"
 msgstr "제목 검색"
 
 #: lms/templates/discussion/_filter_dropdown.html
-#: lms/templates/discussion/_thread_list_template.html
 msgid "All Discussions"
 msgstr "모든 게시물"
 
@@ -12862,6 +13137,7 @@ msgstr "모든 게시물"
 msgid "Posts I'm Following"
 msgstr "구독하는 게시글"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #: lms/templates/discussion/_thread_list_template.html
 msgid "Discussion topics; currently listing: "
 msgstr ""
@@ -12870,6 +13146,8 @@ msgstr ""
 msgid "Search all posts"
 msgstr "모든 게시물 검색"
 
+=======
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #. Translators: This labels a filter menu in forum navigation
 #: lms/templates/discussion/_thread_list_template.html
 msgid "Filter:"
@@ -12938,6 +13216,7 @@ msgid "%s comment"
 msgid_plural "%s comments"
 msgstr[0] "%s 코멘트"
 
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 #: lms/templates/discussion/index.html
 #: lms/templates/discussion/user_profile.html
 msgid "Discussion - {course_number}"
@@ -12965,6 +13244,8 @@ msgstr "포럼이 현재 유지 관리 중입니다. 잠시후에 사용할 수 
 msgid "User Profile"
 msgstr "사용자 정보"
 
+=======
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 #: lms/templates/edxnotes/edxnotes.html
 msgid "Student Notes"
 msgstr "학습자 노트"
@@ -13627,6 +13908,9 @@ msgstr "{course_name}에 등록 취소되었습니다."
 #: lms/templates/embargo/default_courseware.html
 #: lms/templates/embargo/default_enrollment.html
 #: lms/templates/static_templates/embargo.html
+#: themes/stanford-style/lms/templates/embargo/default_courseware.html
+#: themes/stanford-style/lms/templates/embargo/default_enrollment.html
+#: themes/stanford-style/lms/templates/static_templates/embargo.html
 msgid "This Course Unavailable In Your Country"
 msgstr "이 강좌는 귀하의 나라에서는 제공되지 않습니다."
 
@@ -13838,6 +14122,10 @@ msgid ""
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
+msgid "Choose learner types for regeneration"
+msgstr ""
+
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid ""
 "Regenerate for learners who have already received certificates. ({count})"
 msgstr ""
@@ -13852,6 +14140,10 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Certificate Generation History"
+msgstr ""
+
+#: lms/templates/instructor/instructor_dashboard_2/certificates.html
+msgid "Task name"
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
@@ -13874,8 +14166,6 @@ msgstr ""
 msgid "Enrollment Information"
 msgstr "등록 정보"
 
-#. Translators: 'track' refers to the enrollment type ('honor', 'verified', or
-#. 'audit')
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Number of enrollees (admins, staff, and students) by track"
 msgstr "유형별 (관리자, 운영팀, 학습자)  등록 인원"
@@ -16361,8 +16651,9 @@ msgstr "edX 소개"
 
 #: themes/edx.org/lms/templates/footer.html
 msgid ""
-"© edX Inc.  All rights reserved except where noted.  EdX, Open edX and the "
-"edX and Open EdX logos are registered trademarks or trademarks of edX Inc."
+"© 2016 edX Inc.  All rights reserved except where noted.  EdX, Open edX and "
+"the edX and Open EdX logos are registered trademarks or trademarks of edX "
+"Inc."
 msgstr ""
 
 #: themes/edx.org/lms/templates/header.html
@@ -16378,6 +16669,83 @@ msgstr "대학교 및 협력기관"
 msgid ""
 "{b_start}Support our Mission: {b_end} EdX, a non-profit, relies on verified "
 "certificates to help fund free education for everyone globally"
+msgstr ""
+
+#: themes/example/lms/templates/header.html
+msgid "Create Account"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid "Want to purchase this course for a group?"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid ""
+"You can purchase enrollment codes for this course to distribute to your team"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid "Purchase for a Group"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid ""
+"Bulk discounts may apply for groups larger than 10. Contact "
+"{link_start}harvardxplus@harvard.edu{link_end} for more information."
+msgstr ""
+
+#: themes/example/lms/templates/courseware/course_about.html
+msgid "Email Us"
+msgstr ""
+
+#: themes/example/lms/templates/courseware/courses.html
+msgid "Lorem ipsum dolor sit amet."
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/about.html
+msgid "About Us"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/contact.html
+msgid "Thank you for your inquiry"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "FAQ's"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "General FAQs"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+#: themes/example/lms/templates/static_templates/honor.html
+#: themes/example/lms/templates/static_templates/privacy.html
+#: themes/example/lms/templates/static_templates/tos.html
+msgid "Lorem ipsum dolor sit amet"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "Academic Planning"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+#: themes/example/lms/templates/static_templates/honor.html
+#: themes/example/lms/templates/static_templates/privacy.html
+#: themes/example/lms/templates/static_templates/tos.html
+msgid "Back to top"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "Registration"
+msgstr ""
+
+#: themes/example/lms/templates/static_templates/faq.html
+msgid "Finances"
+msgstr ""
+
+#: themes/example/lms/templates/student_account/login_and_register.html
+msgid "Sign in or Create Account"
 msgstr ""
 
 #. Translators: 'EdX', 'edX', and 'Open edX' are trademarks of 'edX Inc.'.
@@ -16984,7 +17352,7 @@ msgstr "재개강된 강좌입니다. 일부 사항은 다시 설정해야 합�
 
 #: cms/templates/course_outline.html
 msgid ""
-"No course content is currently visible, and no students are enrolled. Be "
+"No course content is currently visible, and no learners are enrolled. Be "
 "sure to review and reset all dates, including the Course Start Date; set up "
 "the course team; review course updates and other assets for dated material; "
 "and seed the discussions and wiki."
@@ -17102,6 +17470,10 @@ msgid "Drag sections, subsections, and units to new locations in the outline."
 msgstr "주제, 소주제 및 학습활동을 드래그 아이콘을 클릭한 채로 새 위치로 드래그 하세요."
 
 #: cms/templates/course_outline.html
+msgid "Learn more about the course outline"
+msgstr ""
+
+#: cms/templates/course_outline.html
 msgid "Setting release dates and grading policies"
 msgstr "공개일과 성적 규정 설정하기"
 
@@ -17115,8 +17487,17 @@ msgstr ""
 "있습니다."
 
 #: cms/templates/course_outline.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "Changing the content students see"
 msgstr "콘텐츠 공개 설정"
+=======
+msgid "Learn more about grading policy settings"
+msgstr ""
+
+#: cms/templates/course_outline.html
+msgid "Changing the content learners see"
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 
 #: cms/templates/course_outline.html
 msgid ""
@@ -17126,14 +17507,29 @@ msgstr "콘텐츠를 게시하려면, 주제, 소주제, 학습활동에서 '게
 
 #: cms/templates/course_outline.html
 msgid ""
-"To hide content from students, select the Configure icon for a section, "
-"subsection, or unit, then select {em_start}Hide from students{em_end}."
+"To make a section, subsection, or unit unavailable to learners, select the "
+"Configure icon for that level, then select the appropriate "
+"{em_start}Hide{em_end} option. Grades for hidden sections, subsections, and "
+"units are not included in grade calculations."
 msgstr ""
 "학습자에게 콘텐츠를 보이지 않게 하려면, 주제 및 소주제의 설정에서 {em_start}학습자에게 감추기{em_end}를 선택하세요."
 
 #: cms/templates/course_outline.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "Learn more about the course outline"
 msgstr "강좌 개요에 대해 더 자세히 알아보기"
+=======
+msgid ""
+"To hide the content of a subsection from learners after the subsection due "
+"date has passed, select the Configure icon for a subsection, then select "
+"{em_start}Hide content after due date{em_end}. Grades for the subsection "
+"remain included in grade calculations."
+msgstr ""
+
+#: cms/templates/course_outline.html
+msgid "Learn more about content visibility settings"
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 
 #. Translators: Pages refer to the tabs that appear in the top navigation of
 #. each course.
@@ -18031,7 +18427,7 @@ msgstr ""
 msgid "Learn more about importing a course"
 msgstr "강좌 가져오기에 대해 자세히 알아보기"
 
-#: cms/templates/index.html cms/templates/widgets/header.html
+#: cms/templates/index.html cms/templates/widgets/user_dropdown.html
 msgid "{studio_name} Home"
 msgstr "{studio_name} Home"
 
@@ -19526,6 +19922,22 @@ msgstr "{studio_name} 에서의 강좌 개설 권한이 폐지되었습니다. �
 msgid "Your course creator status for {studio_name}"
 msgstr "{studio_name} 강좌 개설 준비 상태"
 
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "Required data to force publish course."
+msgstr ""
+
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "course-v1:edX+DemoX+Demo_Course"
+msgstr ""
+
+#: cms/templates/maintenance/_force_publish_course.html
+msgid "Reset values"
+msgstr ""
+
+#: cms/templates/maintenance/base.html cms/templates/maintenance/index.html
+msgid "Maintenance Dashboard"
+msgstr ""
+
 #: cms/templates/registration/reg_complete.html
 msgid ""
 "We've sent an email message to {email} with instructions for activating your"
@@ -19571,6 +19983,7 @@ msgid "Current Library:"
 msgstr "현재 콘텐츠 보관함:"
 
 #: cms/templates/widgets/header.html
+<<<<<<< HEAD:conf/locale/ko_KR/LC_MESSAGES/django.po.origin
 msgid "Account Navigation"
 msgstr "계정 검색"
 
@@ -19581,6 +19994,18 @@ msgstr "문맥상 온라인도움 "
 #: cms/templates/widgets/header.html
 msgid "Currently signed in as:"
 msgstr "현재 로그인된 사용자이름:"
+=======
+msgid "Language preference"
+msgstr ""
+
+#: cms/templates/widgets/header.html
+msgid "Account Navigation"
+msgstr ""
+
+#: cms/templates/widgets/header.html
+msgid "Contextual Online Help"
+msgstr ""
+>>>>>>> origin:conf/locale/en/LC_MESSAGES/django.po
 
 #: cms/templates/widgets/metadata-edit.html
 msgid "Launch Latex Source Compiler"
@@ -19645,6 +20070,14 @@ msgstr ""
 #: cms/templates/widgets/tabs-aggregator.html
 msgid "name"
 msgstr "이름"
+
+#: cms/templates/widgets/user_dropdown.html
+msgid "Currently signed in as:"
+msgstr ""
+
+#: cms/templates/widgets/user_dropdown.html
+msgid "Maintenance"
+msgstr ""
 
 #: wiki/forms.py
 msgid "Only localhost... muahahaha"

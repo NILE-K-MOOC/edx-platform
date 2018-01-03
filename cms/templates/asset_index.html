@@ -36,6 +36,7 @@
 <%block name="bodyclass">${upload_body_class()}</%block>
 <%namespace name='static' file='static_content.html'/>
 <%block name="header_extras">
+<<<<<<< HEAD
 <%
     path_info = request.path_info
     path_info_split = path_info.split('/')
@@ -57,6 +58,13 @@
     % endfor
 % endif
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+=======
+% for template_name in ["asset"]:
+<script type="text/template" id="${template_name}-tpl">
+    <%static:include path="js/${template_name}.underscore" />
+</script>
+% endfor
+>>>>>>> origin
 </%block>
 
 <%block name="requirejs">

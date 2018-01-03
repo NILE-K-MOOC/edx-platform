@@ -116,6 +116,7 @@ from openedx.core.lib.courses import course_image_url
   <header class="course-profile">
     <div class="intro-inner-wrapper">
       <div class="table">
+<<<<<<< HEAD
 ##     강좌 이미지 부분
 
     % if get_course_about_section(request, course, "video"):
@@ -123,6 +124,14 @@ from openedx.core.lib.courses import course_image_url
         <div class="hero">
           <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" />
           <div class="play-intro"></div>
+=======
+      <section class="intro">
+        <div class="heading-group">
+          <h1>
+            ${course.display_name_with_default_escaped}
+            <button type="button">${course.display_org_with_default | h}</button>
+          </h1>
+>>>>>>> origin
         </div>
       </a>
     %else:

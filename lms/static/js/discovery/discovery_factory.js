@@ -1,13 +1,20 @@
-;(function (define) {
+(function(define) {
     'use strict';
 
     define(['backbone', 'js/discovery/models/search_state', 'js/discovery/collections/filters',
+<<<<<<< HEAD
             'js/discovery/views/search_form', 'js/discovery/views/courses_listing',
             'js/discovery/views/filter_bar', 'js/discovery/views/refine_sidebar'],
         function (Backbone, SearchState, Filters, SearchForm, CoursesListing, FilterBar, RefineSidebar) {
 
             return function (meanings, searchQuery) {
 
+=======
+        'js/discovery/views/search_form', 'js/discovery/views/courses_listing',
+        'js/discovery/views/filter_bar', 'js/discovery/views/refine_sidebar'],
+        function(Backbone, SearchState, Filters, SearchForm, CoursesListing, FilterBar, RefineSidebar) {
+            return function(meanings, searchQuery) {
+>>>>>>> origin
                 var dispatcher = _.extend({}, Backbone.Events);
                 var search = new SearchState();
                 var filters = new Filters();
@@ -19,6 +26,7 @@
                     meanings: meanings
                 });
 
+<<<<<<< HEAD
                 dispatcher.listenTo(form, 'search', function (query) {
 
                     var term = search.getTermParameter('term');
@@ -27,6 +35,9 @@
                     var language = search.getTermParameter('language');
                     var course_period = search.getTermParameter('course_period');
 
+=======
+                dispatcher.listenTo(form, 'search', function(query) {
+>>>>>>> origin
                     filters.reset();
                     form.showLoadingIndicator();
 
@@ -54,8 +65,12 @@
                     }
                 });
 
+<<<<<<< HEAD
                 dispatcher.listenTo(refineSidebar, 'selectOption', function (type, query, name) {
 
+=======
+                dispatcher.listenTo(refineSidebar, 'selectOption', function(type, query, name) {
+>>>>>>> origin
                     form.showLoadingIndicator();
 
                     if (filters.get(type)) {
@@ -88,21 +103,25 @@
 
                 dispatcher.listenTo(filterBar, 'clearFilter', removeFilter);
 
+<<<<<<< HEAD
                 dispatcher.listenTo(filterBar, 'clearAll', function () {
                     if (isRedirect(''))
                         return;
+=======
+                dispatcher.listenTo(filterBar, 'clearAll', function() {
+>>>>>>> origin
                     form.doSearch('');
                 });
 
-                dispatcher.listenTo(listing, 'next', function () {
-                    search.loadNextPage()
+                dispatcher.listenTo(listing, 'next', function() {
+                    search.loadNextPage();
                 });
 
-                dispatcher.listenTo(search, 'next', function () {
+                dispatcher.listenTo(search, 'next', function() {
                     listing.renderNext();
                 });
 
-                dispatcher.listenTo(search, 'search', function (query, total) {
+                dispatcher.listenTo(search, 'search', function(query, total) {
                     if (total > 0) {
                         form.showFoundMessage(total);
                         if (query) {
@@ -121,7 +140,7 @@
                     refineSidebar.render();
                 });
 
-                dispatcher.listenTo(search, 'error', function () {
+                dispatcher.listenTo(search, 'error', function() {
                     form.showErrorMessage();
                     form.hideLoadingIndicator();
                 });
@@ -167,9 +186,6 @@
                 function quote(string) {
                     return '"' + string + '"';
                 }
-
             };
-
         });
-
 })(define || RequireJS.define);

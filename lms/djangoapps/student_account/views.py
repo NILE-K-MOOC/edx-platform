@@ -352,6 +352,10 @@ def login_and_registration_form(request, initial_mode="login"):
             'third_party_auth': provider_info,
             'third_party_auth_hint': third_party_auth_hint or '',
             'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),
+<<<<<<< HEAD
+=======
+            'support_link': configuration_helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK),
+>>>>>>> origin
 
             # Include form descriptions retrieved from the user API.
             # We could have the JS client make these requests directly,
@@ -365,8 +369,15 @@ def login_and_registration_form(request, initial_mode="login"):
         'responsive': True,
         'allow_iframing': True,
         'disable_courseware_js': True,
+<<<<<<< HEAD
         'disable_footer': True,
         'division': division,
+=======
+        'disable_footer': not configuration_helpers.get_value(
+            'ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER',
+            settings.FEATURES['ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER']
+        ),
+>>>>>>> origin
     }
 
     return render_to_response('student_account/login_and_register.html', context)
@@ -521,8 +532,7 @@ def password_change_request_handler(request):
 
     Returns:
         HttpResponse: 200 if the email was sent successfully
-        HttpResponse: 400 if there is no 'email' POST parameter, or if no user with
-            the provided email exists
+        HttpResponse: 400 if there is no 'email' POST parameter
         HttpResponse: 403 if the client has been rate limited
         HttpResponse: 405 if using an unsupported HTTP method
 
@@ -531,6 +541,7 @@ def password_change_request_handler(request):
         POST /account/password
 
     """
+
     limiter = BadRequestRateLimiter()
     if limiter.is_rate_limit_exceeded(request):
         AUDIT_LOG.warning("Password reset rate limit exceeded")
@@ -549,8 +560,6 @@ def password_change_request_handler(request):
             AUDIT_LOG.info("Invalid password reset attempt")
             # Increment the rate limit counter
             limiter.tick_bad_request_counter(request)
-
-            return HttpResponseBadRequest(_("No user with the provided email address exists."))
 
         return HttpResponse(status=200)
     else:
@@ -898,6 +907,7 @@ def account_settings_context(request):
         'enc_data': enc_data,          # context -> nice data
         'auth': {},
         'duplicate_provider': None,
+        'nav_hidden': True,
         'fields': {
             'country': {
                 'options': countries_list,
@@ -915,7 +925,6 @@ def account_settings_context(request):
                 'options': all_languages(),
             }, 'time_zone': {
                 'options': TIME_ZONE_CHOICES,
-                'enabled': settings.FEATURES.get('ENABLE_TIME_ZONE_PREFERENCE'),
             }
         },
         'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),

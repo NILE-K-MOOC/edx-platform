@@ -34,9 +34,6 @@
             'backbone-super': 'js/vendor/backbone-super',
             'jasmine-imagediff': 'js/vendor/jasmine-imagediff',
             'URI': 'js/vendor/URI.min',
-            'modernizr': 'edx-pattern-library/js/modernizr-custom',
-            'afontgarde': 'edx-pattern-library/js/afontgarde',
-            'edxicons': 'edx-pattern-library/js/edx-icons',
             'draggabilly': 'js/vendor/draggabilly'
         },
         shim: {
@@ -133,8 +130,8 @@
                 deps: ['backbone'],
                 exports: 'Backbone.PageableCollection'
             },
-            "backbone-super": {
-                deps: ["backbone"]
+            'backbone-super': {
+                deps: ['backbone']
             },
             'URI': {
                 exports: 'URI'
@@ -149,14 +146,8 @@
             'common/js/spec_helpers/jasmine-waituntil': {
                 deps: ['jquery']
             },
-            "sinon": {
-                exports: "sinon"
-            },
-            "modernizr": {
-                exports: "Modernizr"
-            },
-            "afontgarde": {
-                exports: "AFontGarde"
+            'sinon': {
+                exports: 'sinon'
             }
         }
     });
@@ -185,9 +176,8 @@
 
     // Jasmine has a global stack for creating a tree of specs. We need to load
     // spec files one by one, otherwise some end up getting nested under others.
-    window.requireSerial(specHelpers.concat(testFiles), function () {
+    window.requireSerial(specHelpers.concat(testFiles), function() {
         // start test run, once Require.js is done
         window.__karma__.start();
     });
-
 }).call(this, requirejs, define);

@@ -110,9 +110,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2016-11-03 15:57+0000\n"
 "PO-Revision-Date: 2016-11-03 16:06+0000\n"
 "Last-Translator: Ned Batchelder <ned@edx.org>\n"
+=======
+"POT-Creation-Date: 2016-08-25 15:04+0000\n"
+"PO-Revision-Date: 2016-08-24 20:16+0000\n"
+"Last-Translator: AR C2 <e2f458fd4s512@outlook.com>\n"
+>>>>>>> origin
 "Language-Team: Arabic (http://www.transifex.com/open-edx/edx-platform/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,6 +141,7 @@ msgstr ""
 msgid "Saving"
 msgstr "يجري الحفظ"
 
+<<<<<<< HEAD
 #: cms/static/js/certificates/views/signatory_editor.js
 #: cms/static/js/views/asset.js cms/static/js/views/list_item.js
 #: cms/static/js/views/manage_users_and_roles.js
@@ -160,6 +167,19 @@ msgstr "يجري الحفظ"
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/forum-action-delete.underscore
 msgid "Delete"
 msgstr "حذف"
+=======
+#. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/coffee/src/views/tabs.js
+#: cms/static/js/views/course_info_update.js cms/static/js/views/tabs.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+#: common/static/coffee/src/discussion/utils.js
+#: lms/static/js/Markdown.Editor.js
+#: common/static/common/templates/discussion/alert-popup.underscore
+msgid "OK"
+msgstr "موافق"
+>>>>>>> origin
 
 #. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: this is a message from the raw HTML editor displayed in the
@@ -309,6 +329,10 @@ msgstr "إعدادات متقدّمة"
 #. browser when a user needs to edit HTML
 #: cms/static/js/views/modals/edit_xblock.js
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
+<<<<<<< HEAD
+=======
+#: common/static/coffee/src/discussion/utils.js
+>>>>>>> origin
 #: common/static/common/templates/image-modal.underscore
 #: common/static/common/templates/discussion/alert-popup.underscore
 #: common/static/common/templates/discussion/forum-action-close.underscore
@@ -2057,6 +2081,7 @@ msgstr ""
 msgid "text_word_{uniqueId}"
 msgstr ""
 
+<<<<<<< HEAD
 #: common/static/common/js/components/utils/view_utils.js
 msgid "Required field."
 msgstr "حقل مطلوب."
@@ -2091,6 +2116,9 @@ msgstr "يُعرض الآن {firstIndex} من أصل {numItems}."
 msgid "Showing {firstIndex}-{lastIndex} out of {numItems} total"
 msgstr "يُعرض الآن {firstIndex}-{lastIndex} من أصل {numItems}."
 
+=======
+#: common/static/coffee/src/discussion/discussion_module_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/discussion_module_view.js
 msgid "Hide Discussion"
 msgstr "إخفاء النقاش"
@@ -2130,12 +2158,17 @@ msgstr ""
 "كان لدينا بعض المشاكل في معالجة طلبك. الرجاء التأكد من الانتهاء من نسخ أي"
 
 #: common/static/common/js/discussion/utils.js
+<<<<<<< HEAD
+=======
+#: common/static/common/js/discussion/views/discussion_topic_menu_view.js
+>>>>>>> origin
 #: common/static/common/templates/discussion/pagination.underscore
 #: test_root/staticfiles/common/templates/discussion/pagination.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/pagination.underscore
 msgid "…"
 msgstr "..."
 
+<<<<<<< HEAD
 #: common/static/common/js/discussion/utils.js
 msgid "Some images in this post have been omitted"
 msgstr "لقد تم حذف بعض الصور في هذا المنشور"
@@ -2164,6 +2197,29 @@ msgstr[3] "{numVotes} أصوات"
 msgstr[4] "{numVotes} صوتاً"
 msgstr[5] "{numVotes} صوت"
 
+=======
+#: common/static/coffee/src/discussion/views/discussion_content_view.js
+msgid "there is currently %(numVotes)s vote"
+msgid_plural "there are currently %(numVotes)s votes"
+msgstr[0] "يوجد حاليًا %(numVotes)s صوت"
+msgstr[1] "يوجد حاليًا %(numVotes)s صوت"
+msgstr[2] "يوجد حاليًا %(numVotes)s صوت"
+msgstr[3] "يوجد حاليًا %(numVotes)s أصوات"
+msgstr[4] "يوجد حاليًا %(numVotes)s أصوات"
+msgstr[5] "يتوفّر حاليًّا %(numVotes)s صوتًا"
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js
+msgid "%(numVotes)s Vote"
+msgid_plural "%(numVotes)s Votes"
+msgstr[0] "%(numVotes)s صوت"
+msgstr[1] "%(numVotes)s صوت "
+msgstr[2] "%(numVotes)s صوت"
+msgstr[3] "%(numVotes)s أصوات"
+msgstr[4] "%(numVotes)s أصوات"
+msgstr[5] "%(numVotes)s صوتًا "
+
+#: common/static/coffee/src/discussion/views/discussion_content_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/views/discussion_content_view.js
 msgid "We had some trouble subscribing you to this thread. Please try again."
 msgstr ""
@@ -2225,6 +2281,15 @@ msgstr "نأسف لحدوث مشكلة في إغلاق هذا الموضوع. ي
 msgid "We had some trouble reopening this thread.  Please try again."
 msgstr "نأسف لحدوث مشكلة في إعادة فتح هذا الموضوع. يُرجى إعادة المحاولة."
 
+<<<<<<< HEAD
+=======
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+#: common/static/common/templates/discussion/nav-load-more-link.underscore
+msgid "Load more"
+msgstr "تحميل المزيد"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/views/discussion_thread_list_view.js
 msgid "Loading more threads"
 msgstr "تحميل المزيد من المواضيع"
@@ -2233,10 +2298,35 @@ msgstr "تحميل المزيد من المواضيع"
 msgid "We had some trouble loading more threads. Please try again."
 msgstr "نأسف لحدوث مشكلة في تحميل المزيد من المواضيع. يُرجى إعادة المحاولة."
 
+<<<<<<< HEAD
+=======
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+msgid "%(unread_count)s new comment"
+msgid_plural "%(unread_count)s new comments"
+msgstr[0] "%(unread_count)s تعليق جديد "
+msgstr[1] "%(unread_count)s تعليق جديد"
+msgstr[2] "%(unread_count)s تعليقات جديدة"
+msgstr[3] "%(unread_count)s تعليقات جديدة"
+msgstr[4] " %(unread_count)s تعليقات جديدة"
+msgstr[5] " %(unread_count)s تعليقات جديدة"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/views/discussion_thread_list_view.js
 msgid "Current conversation"
 msgstr "المحادثة الحالية"
 
+<<<<<<< HEAD
+=======
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+#: lms/static/js/edxnotes/views/tabs/search_results.js
+#: lms/templates/search/course_search_results.underscore
+#: lms/templates/search/dashboard_search_results.underscore
+msgid "Search Results"
+msgstr "بحث في النتائج"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/views/discussion_thread_list_view.js
 msgid "Loading thread list"
 msgstr "تحميل قائمة المواضيع"
@@ -2249,9 +2339,15 @@ msgstr "لم نعثر على {original_query}. "
 msgid "No threads matched your query."
 msgstr "عذرًا، لا توجد مواضيع مطابقة لاستفسارك."
 
+<<<<<<< HEAD
 #: common/static/common/js/discussion/views/discussion_thread_list_view.js
 msgid "Show posts by {username}."
 msgstr "عرض منشوراتِ حسب {username}."
+=======
+#: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+msgid "Show posts by %(username)s."
+msgstr "عرض المنشورات بحسب %(username)s."
+>>>>>>> origin
 
 #: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid ""
@@ -2266,6 +2362,7 @@ msgstr "نأسف لحدوث مشكلة في تحميل الردود. يُرجى 
 msgid "We had some trouble loading more responses. Please try again."
 msgstr "نأسف لحدوث مشكلة في تحميل المزيد من الردود. يُرجى إعادة المحاولة."
 
+<<<<<<< HEAD
 #: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "{numResponses} other response"
 msgid_plural "{numResponses} other responses"
@@ -2286,6 +2383,29 @@ msgstr[3] "{numResponses} ردود"
 msgstr[4] "{numResponses} رداً"
 msgstr[5] "{numResponses} رد"
 
+=======
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js
+msgid "%(numResponses)s other response"
+msgid_plural "%(numResponses)s other responses"
+msgstr[0] "%(numResponses)s ردود أخرى"
+msgstr[1] "%(numResponses)s ردّ آخر"
+msgstr[2] "%(numResponses)s ردّ آخر"
+msgstr[3] "%(numResponses)s ردود أخرى"
+msgstr[4] "%(numResponses)s ردود أخرى"
+msgstr[5] "%(numResponses)s ردود أخرى"
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js
+msgid "%(numResponses)s response"
+msgid_plural "%(numResponses)s responses"
+msgstr[0] "%(numResponses)s ردّ"
+msgstr[1] "%(numResponses)s ردّ"
+msgstr[2] "%(numResponses)s ردّ"
+msgstr[3] "%(numResponses)s ردود"
+msgstr[4] "%(numResponses)s ردود "
+msgstr[5] "%(numResponses)s ردود "
+
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "Showing all responses"
 msgstr "إظهار كافة الردود"
@@ -2304,14 +2424,29 @@ msgstr[5] ""
 msgid "Load all responses"
 msgstr "تحميل كافة الردود"
 
+<<<<<<< HEAD
 #: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "Load next {numResponses} responses"
 msgstr "تحميل الردود {numResponses} التالية"
+=======
+#: common/static/coffee/src/discussion/views/discussion_thread_view.js
+msgid "Load next %(numResponses)s responses"
+msgstr "تحميل الردود الـ %(numResponses)s التالية"
+>>>>>>> origin
 
 #: common/static/common/js/discussion/views/discussion_thread_view.js
 msgid "Are you sure you want to delete this post?"
 msgstr "هل أنت واثق من أنّك تودّ حذف هذا المنشور؟ "
 
+<<<<<<< HEAD
+=======
+#: common/static/coffee/src/discussion/views/discussion_user_profile_view.js
+#: lms/djangoapps/discussion/static/discussion/js/views/discussion_user_profile_view.js
+msgid "We had some trouble loading the page you requested. Please try again."
+msgstr "نأسف لحدوث مشكلة في تحميل الصفحة التي طلبتها. يُرجى إعادة المحاولة. "
+
+#: common/static/coffee/src/discussion/views/new_post_view.js
+>>>>>>> origin
 #: common/static/common/js/discussion/views/new_post_view.js
 msgid "Your post will be discarded."
 msgstr "سوف يُحذَف منشورك."
@@ -2338,6 +2473,110 @@ msgstr "نأسف لحدوث مشكلة في حذف هذا التعليق. يُر
 msgid "Are you sure you want to delete this response?"
 msgstr "هل أنت واثق من أنّك تودّ حذف هذا الرد؟"
 
+<<<<<<< HEAD
+=======
+#: common/static/common/js/components/utils/view_utils.js
+msgid "Required field."
+msgstr "حقل مطلوب."
+
+#: common/static/common/js/components/utils/view_utils.js
+msgid "Please do not use any spaces in this field."
+msgstr "يُرجى عدم إدخال أي مسافات في هذا الحقل."
+
+#: common/static/common/js/components/utils/view_utils.js
+msgid "Please do not use any spaces or special characters in this field."
+msgstr "يُرجى عدم إدخال أي مسافات أو أحرف خاصة في هذا الحقل."
+
+#: common/static/common/js/components/views/paginated_view.js
+#: common/static/common/js/components/views/paging_footer.js
+msgid "Pagination"
+msgstr "ترقيم الصفحات"
+
+#: common/static/common/js/components/views/paginated_view.js
+msgid ""
+"Your request could not be completed. Reload the page and try again. If the "
+"issue persists, click the Help tab to report the problem."
+msgstr ""
+"عذرًا لم نتمكّن من إتمام طلبك نظراً لوجود مشكلة في الخادم. قم بإعادة تحميل "
+"الصفحة من جديد والمحاولة مرّة أخرى. في حال استمرار حدوث المشكلة، يُرجى النقر"
+" على علامة تبويب ’مساعدة‘ لإعلام فريق الدعم."
+
+#: common/static/common/js/components/views/paging_header.js
+msgid "Showing {firstIndex} out of {numItems} total"
+msgstr "يُعرض الآن {firstIndex} من أصل {numItems}."
+
+#: common/static/common/js/components/views/paging_header.js
+msgid "Showing {firstIndex}-{lastIndex} out of {numItems} total"
+msgstr "يُعرض الآن {firstIndex}-{lastIndex} من أصل {numItems}."
+
+#: common/static/common/js/discussion/utils.js
+msgid ""
+"We had some trouble processing your request. Please ensure you have copied "
+"any "
+msgstr ""
+"كان لدينا بعض المشاكل في معالجة طلبك. الرجاء التأكد من الانتهاء من نسخ أي"
+
+#: common/static/common/js/discussion/utils.js
+msgid "Some images in this post have been omitted"
+msgstr "لقد تم حذف بعض الصور في هذا المنشور"
+
+#: common/static/common/js/discussion/utils.js
+msgid "image omitted"
+msgstr "تم حذف الصورة"
+
+#: common/static/common/js/discussion/views/discussion_content_view.js
+msgid "there is currently {numVotes} vote"
+msgid_plural "there are currently {numVotes} votes"
+msgstr[0] "هناك {numVotes} صوت"
+msgstr[1] "هناك {numVotes} صوت"
+msgstr[2] "هناك {numVotes} صوت"
+msgstr[3] "هناك {numVotes} أصوات"
+msgstr[4] "هناك {numVotes} صوتاً"
+msgstr[5] "هناك {numVotes} صوت"
+
+#: common/static/common/js/discussion/views/discussion_content_view.js
+msgid "{numVotes} Vote"
+msgid_plural "{numVotes} Votes"
+msgstr[0] "{numVotes} صوت"
+msgstr[1] "{numVotes} صوت"
+msgstr[2] "{numVotes} صوت"
+msgstr[3] "{numVotes} أصوات"
+msgstr[4] "{numVotes} صوتاً"
+msgstr[5] "{numVotes} صوت"
+
+#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+msgid "No results found for {original_query}. "
+msgstr "لم نعثر على {original_query}. "
+
+#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+msgid "Show posts by {username}."
+msgstr "عرض منشوراتِ حسب {username}."
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "{numResponses} other response"
+msgid_plural "{numResponses} other responses"
+msgstr[0] "{numResponses} رد آخر"
+msgstr[1] "{numResponses} رد آخر"
+msgstr[2] "{numResponses} رد آخر"
+msgstr[3] "{numResponses} ردود أخرى"
+msgstr[4] "{numResponses} رداً آخراً"
+msgstr[5] "{numResponses} رد آخر"
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "{numResponses} response"
+msgid_plural "{numResponses} responses"
+msgstr[0] "{numResponses} رد"
+msgstr[1] "{numResponses} رد"
+msgstr[2] "{numResponses} رد"
+msgstr[3] "{numResponses} ردود"
+msgstr[4] "{numResponses} رداً"
+msgstr[5] "{numResponses} رد"
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "Load next {numResponses} responses"
+msgstr "تحميل الردود {numResponses} التالية"
+
+>>>>>>> origin
 #: common/static/common/js/utils/edx.utils.validate.js
 msgid "The email address you've provided isn't formatted correctly."
 msgstr "صيغة عنوان البريد الإلكتروني الذي ذكرته غير صحيحة"
@@ -2902,7 +3141,10 @@ msgstr "فريقي"
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+=======
+>>>>>>> origin
 msgid "Browse"
 msgstr "تصفّح"
 
@@ -3072,7 +3314,10 @@ msgstr ""
 #: lms/static/js/bookmarks/views/bookmarks_list.js
 #: lms/static/js/instructor_dashboard/data_download.js
 #: lms/templates/search/search_loading.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/search/search_loading.underscore
+=======
+>>>>>>> origin
 msgid "Loading"
 msgstr "جاري التحميل"
 
@@ -4646,10 +4891,20 @@ msgstr "جاري تحميل مساقاتك"
 
 #: lms/static/js/student_account/views/LoginView.js
 msgid ""
+<<<<<<< HEAD
 "{paragraphStart}You entered {boldStart}{email}{boldEnd}. If this email "
 "address is associated with an edX account, we will send a message with "
 "password reset instructions to this email address.{paragraphEnd}"
 msgstr ""
+=======
+"We have sent an email message with password reset instructions to the email "
+"address you provided.  If you do not receive this message, "
+"{anchorStart}contact technical support{anchorEnd}."
+msgstr ""
+"لقد قمنا بإرسال رسالة بريد إلكتروني مع إرشادات إعادة تعيين كلمة المرور إلى "
+"عنوان البريد الإلكتروني الذي قدمته. إذا لم تتلق هذه الرسالة، "
+"{anchorStart}اتصل بالدعم التقني{anchorEnd}."
+>>>>>>> origin
 
 #: lms/static/js/student_account/views/LoginView.js
 msgid ""
@@ -5211,7 +5466,11 @@ msgstr[5] "%(num_questions)s سؤال"
 msgid "Number of Students"
 msgstr "عدد الطلّاب"
 
+<<<<<<< HEAD
 #: cms/static/cms/js/main.js
+=======
+#: cms/static/cms/js/main.js cms/static/coffee/src/main.js
+>>>>>>> origin
 msgid ""
 "This may be happening because of an error with our server or your internet "
 "connection. Try refreshing the page or making sure you are online."
@@ -5219,13 +5478,42 @@ msgstr ""
 "قد يُعزى هذا إلى حدوث مشكلة في الخادم لدينا أو في اتّصالك بالإنترنت. يُرجى "
 "محاولة تحديث الصفحة أو التأكّد من اتّصالك بالإنترنت."
 
+<<<<<<< HEAD
 #: cms/static/cms/js/main.js
+=======
+#: cms/static/cms/js/main.js cms/static/coffee/src/main.js
+>>>>>>> origin
 msgid "Studio's having trouble saving your work"
 msgstr "يواجه نظام Studio صعوبة في حفظ عملك "
 
 #: cms/static/cms/js/xblock/cms.runtime.v1.js
+<<<<<<< HEAD
 msgid "OpenAssessment Save Error"
 msgstr "نأسف لحدوث خطأ في حفظ التقييم المفتوح."
+=======
+#: cms/static/coffee/src/xblock/cms.runtime.v1.js
+msgid "OpenAssessment Save Error"
+msgstr "نأسف لحدوث خطأ في حفظ التقييم المفتوح."
+
+#: cms/static/coffee/src/views/tabs.js cms/static/js/views/tabs.js
+msgid "Delete Page Confirmation"
+msgstr "تأكيد حذف الصفحة"
+
+#: cms/static/coffee/src/views/tabs.js cms/static/js/views/tabs.js
+msgid ""
+"Are you sure you want to delete this page? This action cannot be undone."
+msgstr ""
+"هل أنت واثق من أنّك تريد حذف هذه الصفحة؟ لا يمكن التراجع عن هذه العملية "
+"لاحقًا."
+
+#: cms/static/coffee/src/views/tabs.js
+#: cms/static/js/certificates/views/signatory_editor.js
+#: cms/static/js/views/course_info_update.js cms/static/js/views/list_item.js
+#: cms/static/js/views/show_textbook.js cms/static/js/views/tabs.js
+#: cms/static/js/views/utils/xblock_utils.js
+msgid "Deleting"
+msgstr "جاري الحذف"
+>>>>>>> origin
 
 #: cms/static/js/base.js
 msgid "This link will open in a new browser window/tab"
@@ -5421,10 +5709,13 @@ msgstr "هل أنت متأكّد من رغبتك في حذف {email} من فري
 #: cms/static/js/factories/manage_users_lib.js
 #: common/static/common/templates/discussion/post-user-display.underscore
 #: common/static/common/templates/discussion/thread-list-item.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/post-user-display.underscore
 #: test_root/staticfiles/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/post-user-display.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-list-item.underscore
+=======
+>>>>>>> origin
 msgid "Staff"
 msgstr "طاقم المساق"
 
@@ -6550,7 +6841,11 @@ msgstr "حذف البحث"
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/discussion-home.underscore
 msgid "Discussion Home"
+<<<<<<< HEAD
 msgstr "صفحة المناقشة الرئيسية"
+=======
+msgstr "الصفحة الرئيسية للنقاش"
+>>>>>>> origin
 
 #: common/static/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
@@ -6566,16 +6861,22 @@ msgid "Find discussions"
 msgstr "إيجاد النقاشات"
 
 #: common/static/common/templates/discussion/discussion-home.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/discussion-home.underscore
+=======
+>>>>>>> origin
 msgid "Use the All Topics menu to find specific topics."
 msgstr "استخدم قائمة الموضوعات لتجد موضوعات معينة."
 
 #: common/static/common/templates/discussion/discussion-home.underscore
 #: lms/djangoapps/discussion/static/discussion/templates/search.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/discussion/templates/search.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/discussion-home.underscore
+=======
+>>>>>>> origin
 msgid "Search all posts"
 msgstr "البحث في كافّة المنشورات"
 
@@ -6793,10 +7094,13 @@ msgstr "أَضِف منشورًا"
 
 #: common/static/common/templates/discussion/post-user-display.underscore
 #: common/static/common/templates/discussion/thread-list-item.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/post-user-display.underscore
 #: test_root/staticfiles/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/post-user-display.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-list-item.underscore
+=======
+>>>>>>> origin
 msgid "Community TA"
 msgstr "مساعد أستاذ لشؤون المتعلّمين"
 
@@ -6898,6 +7202,7 @@ msgid "Following"
 msgstr "جاري المتابعة"
 
 #: common/static/common/templates/discussion/thread-list-item.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-list-item.underscore
 msgid "{unread_comments_count} new"
@@ -6906,6 +7211,17 @@ msgstr "{unread_comments_count} جديد"
 #: common/static/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-list-item.underscore
+=======
+#: common/static/common/templates/discussion/thread-response-show.underscore
+msgid "fmt"
+msgstr "fmt"
+
+#: common/static/common/templates/discussion/thread-list-item.underscore
+msgid "{unread_comments_count} new"
+msgstr "{unread_comments_count} جديد"
+
+#: common/static/common/templates/discussion/thread-list-item.underscore
+>>>>>>> origin
 #, python-format
 msgid ""
 "%(comments_count)s %(span_sr_open)scomments (%(unread_comments_count)s "
@@ -7089,7 +7405,10 @@ msgid "Add your post to a relevant topic to help others find it."
 msgstr "أضف منشورك إلى موضوع ذي صلة لمساعدة الآخرين على إيجاده."
 
 #: lms/djangoapps/discussion/static/discussion/templates/user-profile.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/discussion/templates/user-profile.underscore
+=======
+>>>>>>> origin
 msgid "Active Threads"
 msgstr "المواضيع النشطة"
 
@@ -7342,7 +7661,14 @@ msgid "Join Team"
 msgstr "انضم إلى الفريق"
 
 #: lms/djangoapps/teams/static/teams/templates/team-profile.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/teams/templates/team-profile.underscore
+=======
+msgid "Add a Post"
+msgstr "أضف منشوراً"
+
+#: lms/djangoapps/teams/static/teams/templates/team-profile.underscore
+>>>>>>> origin
 msgid "Team Details"
 msgstr "تفاصيل معلومات الفريق"
 
@@ -7699,6 +8025,13 @@ msgstr "يُرجى النقر للتعديل"
 #: test_root/staticfiles/templates/fields/field_order_history.underscore
 msgid "Order Details"
 msgstr "تفاصيل الطلبية"
+<<<<<<< HEAD
+=======
+
+#: lms/templates/fields/field_text.underscore
+msgid "title"
+msgstr "العنوان"
+>>>>>>> origin
 
 #: lms/templates/financial-assistance/financial_assessment_form.underscore
 #: lms/templates/financial-assistance/financial_assessment_submitted.underscore
@@ -7780,7 +8113,10 @@ msgstr ""
 " ملاحظة اختيارية تصف سبب منح الاستثناء في الحقل الثاني المفصول بفاصلة. "
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+=======
+>>>>>>> origin
 msgid "Upload a CSV file"
 msgstr "ارفع ملف CSV"
 
@@ -7859,12 +8195,18 @@ msgstr ""
 "كاستثناء."
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+=======
+>>>>>>> origin
 msgid "Student email or username"
 msgstr "اسم أو عنوان الطالب البريدي"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+=======
+>>>>>>> origin
 msgid "Free text notes"
 msgstr "ملاحظات مكتوبة حرة"
 
@@ -7874,12 +8216,18 @@ msgid "Generate Exception Certificates"
 msgstr "إنشاء شهادات استثنائية"
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+=======
+>>>>>>> origin
 msgid "All users on the Exception list who do not yet have a certificate"
 msgstr "كافة المستخدمين على قائمة الاستثناء ليس لديهم شهادة بعد "
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+=======
+>>>>>>> origin
 msgid "All users on the Exception list"
 msgstr "كافة المستخدمين في قائمة الاستثناء"
 
@@ -8180,9 +8528,22 @@ msgid "Valid"
 msgstr "صالح"
 
 #: lms/templates/learner_dashboard/certificate.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/certificate.underscore
 msgid "Program Certificates"
 msgstr "شهادات برنامج "
+=======
+msgid "Program Certificates"
+msgstr "شهادات برنامج "
+
+#: lms/templates/learner_dashboard/certificate.underscore
+msgid "certificate.credential_url"
+msgstr "certificate.credential_url"
+
+#: lms/templates/learner_dashboard/certificate.underscore
+msgid "certificate.display_name"
+msgstr "certificate.display_name"
+>>>>>>> origin
 
 #: lms/templates/learner_dashboard/certificate_status.underscore
 #: test_root/staticfiles/templates/learner_dashboard/certificate_status.underscore
@@ -8190,6 +8551,7 @@ msgid "Congratulations! You have earned a certificate for this course."
 msgstr "تهانينا، لقد حصلت على شهادة إتمام هذه الدورة التدريبية!"
 
 #: lms/templates/learner_dashboard/certificate_status.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/certificate_status.underscore
 msgid "View Certificate"
 msgstr ""
@@ -8198,6 +8560,9 @@ msgstr ""
 #: test_root/staticfiles/templates/learner_dashboard/course_card.underscore
 #, python-format
 msgid "%(courseName)s Home Page."
+=======
+msgid "View Certificate"
+>>>>>>> origin
 msgstr ""
 
 #: lms/templates/learner_dashboard/course_enroll.underscore
@@ -8252,22 +8617,34 @@ msgid "Coming Soon"
 msgstr "قريباً"
 
 #: lms/templates/learner_dashboard/course_enroll.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/course_enroll.underscore
+=======
+>>>>>>> origin
 msgid "Enrollment Opens on"
 msgstr "يُفتح باب الانضمام في"
 
 #: lms/templates/learner_dashboard/course_enroll.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/course_enroll.underscore
+=======
+>>>>>>> origin
 msgid "Not Currently Available"
 msgstr "غير متاحٍ الآن"
 
 #: lms/templates/learner_dashboard/empty_programs_list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/empty_programs_list.underscore
+=======
+>>>>>>> origin
 msgid "You are not enrolled in any programs yet."
 msgstr "أنت لست منضماً لأي برامج بعد."
 
 #: lms/templates/learner_dashboard/empty_programs_list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/empty_programs_list.underscore
+=======
+>>>>>>> origin
 msgid "Explore Programs"
 msgstr "استكشاف برامج"
 
@@ -8279,9 +8656,18 @@ msgid ""
 msgstr "تصفح الفصول حديثة الإنشاء وشاهد الجديد في مواضيعك المفضلة."
 
 #: lms/templates/learner_dashboard/explore_new_programs.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/explore_new_programs.underscore
 msgid "Explore New Programs"
 msgstr "استكشاف برامج جديدة"
+=======
+msgid "Explore New Programs"
+msgstr "استكشاف برامج جديدة"
+
+#: lms/templates/learner_dashboard/program_card.underscore
+msgid "category"
+msgstr "فئة"
+>>>>>>> origin
 
 #: lms/templates/learner_dashboard/program_card.underscore
 #: test_root/staticfiles/templates/learner_dashboard/program_card.underscore
@@ -8320,7 +8706,10 @@ msgid "Programs"
 msgstr "البرامج"
 
 #: lms/templates/learner_dashboard/upgrade_message.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/upgrade_message.underscore
+=======
+>>>>>>> origin
 msgid ""
 "You need a certificate in this course to be eligible for a program "
 "certificate."
@@ -8328,7 +8717,10 @@ msgstr ""
 "تحتاج لشهادة إتمام في هذه الدورة التدريبية حتى تكون مؤهلاً لشهادة البرنامج."
 
 #: lms/templates/learner_dashboard/upgrade_message.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/upgrade_message.underscore
+=======
+>>>>>>> origin
 msgid "Upgrade Now"
 msgstr "طوّر اشتراكك الآن"
 
@@ -8455,10 +8847,15 @@ msgstr ""
 "%(platformName)s."
 
 #: lms/templates/student_account/login.underscore
+<<<<<<< HEAD
 #: lms/templates/verify_student/intro_step.underscore
 #: test_root/staticfiles/templates/verify_student/intro_step.underscore
 msgid "Check Your Email"
 msgstr "يُرجى تفقّد بريدك الإلكتروني"
+=======
+msgid "Password Reset Email Sent"
+msgstr "لقد أرسلنا بريداً إلكترونياً لك لتغيير كلمة المرور."
+>>>>>>> origin
 
 #: lms/templates/student_account/login.underscore
 #: test_root/staticfiles/templates/student_account/login.underscore
@@ -9889,6 +10286,13 @@ msgid "Proctored Exam"
 msgstr "امتحان مراقَب"
 
 #: cms/templates/js/course-outline.underscore
+<<<<<<< HEAD
+=======
+msgid "Timed Exam"
+msgstr "امتحان موقوت"
+
+#: cms/templates/js/course-outline.underscore
+>>>>>>> origin
 #: cms/templates/js/xblock-outline.underscore
 #, python-format
 msgid "Collapse/Expand this %(xblock_type)s"
@@ -10643,6 +11047,159 @@ msgstr "تعديل الاسم"
 #, python-format
 msgid "Edit %(display_name)s (required)"
 msgstr "تعديل %(display_name)s (مطلوب)"
+
+#: cms/templates/js/maintenance/force-published-course-response.underscore
+msgid ""
+"You have done a dry run of force publishing the course. Nothing has changed."
+" Had you run it, the following course versions would have been change."
+msgstr ""
+"لقد قمت بإجراء تنفيذ لنشر الدورة التدريبية. فلم يتغير شيء، عند التشغيل، "
+"إصدارات الدورة التالية قد يتم تغييرها."
+
+#: cms/templates/js/maintenance/force-published-course-response.underscore
+msgid ""
+"The published branch version, {published}, was reset to the draft branch "
+"version, {draft}."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Delete course"
+msgstr "حذف الدورة التدريبية"
+
+#: cms/templates/js/programs/course_details.underscore
+#, python-format
+msgid "Remove %(name)s from the program"
+msgstr "أزل %(name)s من البرنامج"
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Add another run"
+msgstr "إضافة مسار آخر"
+
+#: cms/templates/js/programs/course_details.underscore
+msgid ""
+"The unique number that identifies your course within your organization, e.g."
+" CS101."
+msgstr ""
+"الرقم الفريد الذي يحدد دورتك التدريبية داخل منظمتك، على سبيل المثال CS101."
+
+#: cms/templates/js/programs/course_details.underscore
+msgid ""
+"The title entered here will override the title set for the individual run of"
+" the course. It will be displayed on the XSeries progress page and in "
+"marketing presentations."
+msgstr ""
+"العنوان المسجل هنا سوف يتجاوز العنوان المضبوط للمسار الفردي للدورة "
+"التدريبية. سيتم عرضه على صفحة تقدم XSeries في العروض التسويقية."
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Save Course"
+msgstr "حفظ الدورة التدريبية"
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Run %(key)s"
+msgstr " %(key)s المسار"
+
+#: cms/templates/js/programs/course_run.underscore
+msgid "Delete course run"
+msgstr "حذف مسار الدورة التدريبية"
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Remove run %(key)s from the program"
+msgstr "إزالة %(key)s المسار من البرنامج "
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Start Date: %(date)s"
+msgstr "تاريخ البدء: %(date)s"
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Mode: %(mode)s"
+msgstr "الوضع: %(mode)s"
+
+#: cms/templates/js/programs/course_run.underscore
+msgid "Please select a Course Run"
+msgstr "يرجى تحديد مسار للدورة التدريبية"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Create a New Program"
+msgstr "إنشاء برنامج جديد"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Program type"
+msgstr "نوع البرنامج"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Select a type"
+msgstr "حدد نوعًا"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "XSeries"
+msgstr "XSeries"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "MicroMasters"
+msgstr "MicroMasters"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Select an organization"
+msgstr "حدد منظمة"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "The public display name of the program."
+msgstr "اسم العرض العام للبرنامج."
+
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Subtitle"
+msgstr "عنوان فرعي"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid ""
+"A short description of the program, including concepts covered and expected "
+"outcomes (255 character limit)."
+msgstr ""
+"وصف موجز للبرنامج، بما في ذلك المفاهيم المشمولة والنتائج المتوقعة (255 عدد "
+"الأحرف المسموح بها)."
+
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Marketing Slug"
+msgstr "الشارة التسويقية"
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Slug used to generate links to the marketing site."
+msgstr "الشارة تستخدم لإنشاء روابط إلى الموقع التسويقي."
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program title"
+msgstr "تحرير عنوان البرنامج"
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s name."
+msgstr "تحرر اسم البرنامج."
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program subtitle"
+msgstr "تحرير العنوان الفرعي للبرنامج."
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s subtitle."
+msgstr "تحرير العنوان الفرعي للبرنامج."
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program marketing slug"
+msgstr "تحرير الشارة التسويقية للبرنامج"
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s marketing slug."
+msgstr "تحرير الشارة التسويقية للبرنامج."
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Add a course"
+msgstr "إضافة دورة تدريبية"
 
 #: cms/templates/js/maintenance/force-published-course-response.underscore
 msgid ""

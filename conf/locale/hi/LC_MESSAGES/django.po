@@ -71,7 +71,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2016-11-03 15:59+0000\n"
+=======
+"POT-Creation-Date: 2016-08-25 15:05+0000\n"
+>>>>>>> origin
 "PO-Revision-Date: 2016-05-09 11:27+0000\n"
 "Last-Translator: plankton rules <planktonrules0@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/open-edx/edx-platform/language/hi/)\n"
@@ -86,7 +90,10 @@ msgstr ""
 #. the discussion forums
 #: cms/djangoapps/contentstore/views/component.py
 #: lms/djangoapps/courseware/tabs.py lms/djangoapps/discussion/plugins.py
+<<<<<<< HEAD
 #: openedx/core/lib/xblock_builtin/xblock_discussion/xblock_discussion.py
+=======
+>>>>>>> origin
 msgid "Discussion"
 msgstr "चर्चा"
 
@@ -307,6 +314,26 @@ msgstr ""
 msgid "No selected price or selected price is too low."
 msgstr ""
 
+#: common/djangoapps/dark_lang/views.py
+msgid "Preview Language is currently disabled"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language code not provided"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language set to language code: {preview_language_code}"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to the default language code"
+msgstr ""
+
+#: common/djangoapps/dark_lang/views.py
+msgid "Language reset to user's preference: {preview_language_code}"
+msgstr ""
+
 #: common/djangoapps/django_comment_common/models.py
 msgid "Administrator"
 msgstr ""
@@ -376,6 +403,23 @@ msgstr ""
 msgid "Blacklist {country} for {course}"
 msgstr ""
 
+<<<<<<< HEAD
+=======
+#: common/djangoapps/external_auth/views.py
+msgid ""
+"You have already created an account using an external login like WebAuth or "
+"Shibboleth. Please contact {tech_support_email} for support."
+msgstr ""
+
+#: common/djangoapps/external_auth/views.py
+msgid ""
+"\n"
+"        Your university identity server did not return your ID information to us.\n"
+"        Please try logging in again.  (You may need to restart your browser.)\n"
+"        "
+msgstr ""
+
+>>>>>>> origin
 #: common/djangoapps/student/admin.py
 msgid "User profile"
 msgstr ""
@@ -2958,6 +3002,16 @@ msgstr ""
 msgid ""
 "Enter true or false. If this value is true, you can hide a subsection until "
 "learners earn a minimum score in another, prerequisite subsection."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid "Enable Subsection Grades Saved"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/course_module.py
+msgid ""
+"Enter true or false. If this value is true, the robust grades feature of "
+"saving subsection grades is enabled for this course."
 msgstr ""
 
 #: common/lib/xmodule/xmodule/course_module.py
@@ -8464,12 +8518,15 @@ msgid ""
 "value greater than 0."
 msgstr ""
 
+<<<<<<< HEAD
 #: openedx/core/djangoapps/cors_csrf/models.py
 msgid ""
 "List of domains that are allowed to make cross-domain requests to this site."
 "  Please list each domain on its own line."
 msgstr ""
 
+=======
+>>>>>>> origin
 #: openedx/core/djangoapps/course_groups/cohorts.py
 msgid "Default Group"
 msgstr ""
@@ -9624,11 +9681,19 @@ msgid "View"
 msgstr "देखें"
 
 #: cms/templates/darklang/preview_lang.html
+<<<<<<< HEAD
+=======
+#: common/templates/darklang/preview_lang_include.html
+>>>>>>> origin
 #: lms/templates/darklang/preview_lang.html
 msgid "Preview Language Setting"
 msgstr ""
 
 #: cms/templates/maintenance/_force_publish_course.html
+<<<<<<< HEAD
+=======
+#: common/templates/darklang/preview_lang_include.html
+>>>>>>> origin
 #: lms/templates/problem.html lms/templates/shoppingcart/shopping_cart.html
 msgid "Reset"
 msgstr "रीसेट करें"
@@ -9739,6 +9804,13 @@ msgstr ""
 #: themes/example/lms/templates/header.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Sign Out"
+<<<<<<< HEAD
+=======
+msgstr ""
+
+#: common/lib/capa/capa/templates/codeinput.html
+msgid "{programming_language} editor"
+>>>>>>> origin
 msgstr ""
 
 #: common/templates/license.html
@@ -9769,16 +9841,44 @@ msgstr ""
 msgid "Some Rights Reserved"
 msgstr ""
 
+<<<<<<< HEAD
+=======
+#: common/templates/darklang/preview_lang_include.html
+msgid "Language Code"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "For example use en for English"
+msgstr ""
+
+#: common/templates/darklang/preview_lang_include.html
+#: lms/templates/help_modal.html lms/templates/manage_user_standing.html
+#: lms/templates/register-shib.html
+#: lms/templates/peer_grading/peer_grading_problem.html
+#: lms/templates/survey/survey.html
+#: themes/stanford-style/lms/templates/register-shib.html
+msgid "Submit"
+msgstr "सबमिट"
+
+#: common/templates/darklang/preview_lang_include.html
+msgid "Please refresh the page to see the changes applied."
+msgstr ""
+
+>>>>>>> origin
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
 #: lms/djangoapps/discussion/templates/discussion/discussion_profile_page.html
 msgid "Discussion - {course_number}"
 msgstr "चर्चा - {course_number}"
 
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+<<<<<<< HEAD
 msgid "Discussions"
 msgstr ""
 
 #: lms/djangoapps/discussion/templates/discussion/discussion_board.html
+=======
+#: lms/templates/discussion/_discussion_inline.html
+>>>>>>> origin
 msgid "Add a Post"
 msgstr ""
 
@@ -11063,6 +11163,14 @@ msgstr ""
 
 #: lms/templates/sysadmin_dashboard_gitlogs.html
 #: lms/templates/ccx/schedule.html
+<<<<<<< HEAD
+=======
+msgid "Error"
+msgstr "त्रुटि"
+
+#: lms/templates/sysadmin_dashboard_gitlogs.html
+#: lms/templates/ccx/schedule.html
+>>>>>>> origin
 #: lms/templates/instructor/instructor_dashboard_2/certificates.html
 msgid "Date"
 msgstr "तारीख़"
@@ -12695,6 +12803,13 @@ msgid "Course Progress for Student '{username}' ({email})"
 msgstr "छात्र '{username}' ({email}) की पाठ्यक्रम प्रगति"
 
 #: lms/templates/courseware/progress.html
+<<<<<<< HEAD
+=======
+msgid "View certificate in a new browser window or tab."
+msgstr ""
+
+#: lms/templates/courseware/progress.html
+>>>>>>> origin
 msgid "View Certificate"
 msgstr ""
 
@@ -13280,10 +13395,13 @@ msgstr ""
 msgid "Results:"
 msgstr "परिणाम:"
 
+<<<<<<< HEAD
 #: lms/templates/discussion/_discussion_inline.html
 msgid "Topic:"
 msgstr ""
 
+=======
+>>>>>>> origin
 #: lms/templates/discussion/_discussion_inline.html
 msgid "Show Discussion"
 msgstr "चर्चा दिखाएं"

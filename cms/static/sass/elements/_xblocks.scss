@@ -167,7 +167,7 @@
       display: inline-block;
       vertical-align: top;
       width: flex-grid(9, 12);
-      color: $gray-l1;
+      color: $gray-d1;
 
       .count-current-shown,
       .count-total,
@@ -247,6 +247,15 @@
       .action-visibility .visibility-button.visibility-button { // needed to cascade in front of overscoped header-actions CSS rule
         color: $color-visibility-set;
       }
+    }
+    
+    .action {
+        
+        .save {
+            // taking styles from LMS for these Save buttons to maintain consistency
+            // there is no studio-specific style for these LMS-styled buttons
+            @extend %btn-lms-style;
+        }
     }
   }
 

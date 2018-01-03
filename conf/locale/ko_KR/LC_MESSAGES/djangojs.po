@@ -69,6 +69,870 @@
 # 
 # Translators:
 # bossnm11 <bossnm11@gmail.com>, 2014
+# kmooc <shevious@gmail.com>, 2015
+# shevious <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (0.1a)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# #-#-#-#-#  djangojs-studio.po (0.1a)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# #-#-#-#-#  underscore.po (0.1a)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# #-#-#-#-#  underscore-studio.po (0.1a)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# kmooc <shevious@gmail.com>, 2015
+# shevious <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# roidog <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# kmooc <shevious@gmail.com>, 2015-2016
+# shevious <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# kmooc <shevious@gmail.com>, 2015
+# shevious <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+<<<<<<< HEAD
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# Kevin Min <gr326887@graded.br>, 2015
+# Rang Kim <lovinrang@gmail.com>, 2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# Jong-Dae Park <jdpark7@gmail.com>, 2013
+# jeon <bluerespect@nate.com>, 2014-2015
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# seungil <luck8778@gmail.com>, 2014
+# SANG WOO KIM <jimroid@gmail.com>, 2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2015
+# Kevin Min <gr326887@graded.br>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# Hongseob Lee <shevious@gmail.com>, 2015
+# Hongseob Lee <shevious@yahoo.com>, 2015
+# jeon <bluerespect@nate.com>, 2014-2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2015 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2015 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# jeon <bluerespect@nate.com>, 2014-2015
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
+# Chanseok <kcsgoodboy@gmail.com>, 2014
+# Hongseob Lee <shevious@gmail.com>, 2015-2016
+# jeon <bluerespect@nate.com>, 2014
+# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
+# Kevin Min <gr326887@graded.br>, 2015
+# Kunwoo Kim <crazyabtmath@naver.com>, 2015
+# LEE SI HYEONG <super2451894@gmail.com>, 2014
+# Sam Ryoo <samryoo@gmail.com>, 2014
+# Seo. Junmin <sof.midnight@live.co.kr>, 2015
+# seungil <luck8778@gmail.com>, 2014
+# SEUNGWON <baeksw0620@gmail.com>, 2014
+# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+# #-#-#-#-#  djangojs-partial.po (0.1a)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# #-#-#-#-#  djangojs-studio.po (0.1a)  #-#-#-#-#
+# edX translation file.
+# Copyright (C) 2016 EdX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# #-#-#-#-#  underscore.po (0.1a)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# #-#-#-#-#  underscore-studio.po (0.1a)  #-#-#-#-#
+# edX translation file
+# Copyright (C) 2016 edX
+# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
+# 
+# Translators:
+# bossnm11 <bossnm11@gmail.com>, 2014
 # Hongseob Lee <shevious@gmail.com>, 2015
 # Hongseob Lee <shevious@yahoo.com>, 2015
 # Jong-Dae Park <jdpark7@gmail.com>, 2013
@@ -377,869 +1241,6 @@
 # Translators:
 # Translators:
 # Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (0.1a)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# #-#-#-#-#  djangojs-studio.po (0.1a)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# #-#-#-#-#  underscore.po (0.1a)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# #-#-#-#-#  underscore-studio.po (0.1a)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (0.1a)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# #-#-#-#-#  djangojs-studio.po (0.1a)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# #-#-#-#-#  underscore.po (0.1a)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# #-#-#-#-#  underscore-studio.po (0.1a)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2013,2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# seungil <luck8778@gmail.com>, 2014
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# Kevin Min <gr326887@graded.br>, 2015
-# Rang Kim <lovinrang@gmail.com>, 2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2016 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# SEUNGWON <baeksw0620@gmail.com>, 2014
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# Jong-Dae Park <jdpark7@gmail.com>, 2013
-# jeon <bluerespect@nate.com>, 2014-2015
-# Chanseok <kcsgoodboy@gmail.com>, 2014
-# seungil <luck8778@gmail.com>, 2014
-# SANG WOO KIM <jimroid@gmail.com>, 2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# bossnm11 <bossnm11@gmail.com>, 2014
-# Hongseob Lee <shevious@gmail.com>, 2015-2016
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014
-# Jong-Dae Park <jdpark7@gmail.com>, 2015
-# Kevin Min <gr326887@graded.br>, 2015
-# LEE SI HYEONG <super2451894@gmail.com>, 2014
-# Seo. Junmin <sof.midnight@live.co.kr>, 2015
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2016 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# Hongseob Lee <shevious@gmail.com>, 2015
-# Hongseob Lee <shevious@yahoo.com>, 2015
-# jeon <bluerespect@nate.com>, 2014-2015
-# Kevin Min <gr326887@graded.br>, 2015
-# Kunwoo Kim <crazyabtmath@naver.com>, 2015
-# Sam Ryoo <samryoo@gmail.com>, 2014
-# #-#-#-#-#  djangojs.po (edx-platform)  #-#-#-#-#
-# #-#-#-#-#  kmoocjs.po (kmooc-platform)  #-#-#-#-#
-# #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  djangojs-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file.
-# Copyright (C) 2015 EdX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# #-#-#-#-#  underscore.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# #-#-#-#-#  underscore-studio.po (edx-platform)  #-#-#-#-#
-# edX translation file
-# Copyright (C) 2015 edX
-# This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
-# Translators:
-# jeon <bluerespect@nate.com>, 2014-2015
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
-# Translators:
 # bossnm11 <bossnm11@gmail.com>, 2014
 # Chanseok <kcsgoodboy@gmail.com>, 2014
 # Hongseob Lee <shevious@gmail.com>, 2015-2016
@@ -3365,13 +3366,21 @@
 # Kevin Min <gr326887@graded.br>, 2015
 # Kunwoo Kim <crazyabtmath@naver.com>, 2015
 # Sam Ryoo <samryoo@gmail.com>, 2014
+=======
+>>>>>>> origin
 msgid ""
 msgstr ""
 "Project-Id-Version: edx-platform\n"
 "Report-Msgid-Bugs-To: openedx-translation@googlegroups.com\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2015-09-24 03:06+0000\n"
 "PO-Revision-Date: 2015-09-25 11:18+0000\n"
 "Last-Translator: Hongseob Lee <shevious@yahoo.com>\n"
+=======
+"POT-Creation-Date: 2016-08-25 15:04+0000\n"
+"PO-Revision-Date: 2016-08-16 19:42+0000\n"
+"Last-Translator: Ned Batchelder <ned@edx.org>\n"
+>>>>>>> origin
 "Language-Team: Korean (Korea) (http://www.transifex.com/open-edx/edx-platform/language/ko_KR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3380,6 +3389,7 @@ msgstr ""
 "Language: ko_KR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+<<<<<<< HEAD
 #. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
@@ -3507,6 +3517,50 @@ msgstr ""
 #. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
+=======
+#: cms/static/cms/js/xblock/cms.runtime.v1.js
+#: cms/static/coffee/src/views/tabs.js
+#: cms/static/coffee/src/xblock/cms.runtime.v1.js
+#: cms/static/js/certificates/views/signatory_details.js
+#: cms/static/js/models/section.js cms/static/js/utils/drag_and_drop.js
+#: cms/static/js/views/asset.js cms/static/js/views/container.js
+#: cms/static/js/views/course_info_handout.js
+#: cms/static/js/views/course_info_update.js
+#: cms/static/js/views/edit_textbook.js
+#: cms/static/js/views/list_item_editor.js
+#: cms/static/js/views/modals/edit_xblock.js cms/static/js/views/tabs.js
+#: cms/static/js/views/tabs.js.c cms/static/js/views/utils/xblock_utils.js
+#: lms/static/js/ccx/schedule.js lms/static/js/views/fields.js
+msgid "Saving"
+msgstr "저장중"
+
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/coffee/src/views/tabs.js
+#: cms/static/js/views/course_info_update.js cms/static/js/views/tabs.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+#: common/static/coffee/src/discussion/utils.js
+#: lms/static/js/Markdown.Editor.js
+msgid "OK"
+msgstr "확인"
+
+#. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/coffee/src/views/tabs.js
+#: cms/static/js/certificates/views/signatory_editor.js
+#: cms/static/js/factories/export.js
+#: cms/static/js/programs/views/program_details_view.js
+#: cms/static/js/views/asset.js cms/static/js/views/course_info_update.js
+#: cms/static/js/views/manage_users_and_roles.js
+#: cms/static/js/views/modals/base_modal.js
+#: cms/static/js/views/modals/course_outline_modals.js
+#: cms/static/js/views/show_textbook.js cms/static/js/views/tabs.js
+#: cms/static/js/views/validation.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+#: common/static/common/js/components/utils/view_utils.js
+#: lms/static/js/Markdown.Editor.js
+>>>>>>> origin
 #: cms/templates/js/add-xblock-component-menu-problem.underscore
 #: cms/templates/js/add-xblock-component-menu.underscore
 #: cms/templates/js/certificate-editor.underscore
@@ -3516,6 +3570,7 @@ msgstr ""
 #: cms/templates/js/edit-textbook.underscore
 #: cms/templates/js/group-configuration-editor.underscore
 #: cms/templates/js/section-name-edit.underscore
+<<<<<<< HEAD
 #: cms/templates/js/xblock-string-field-editor.underscore
 #: lms/templates/instructor/instructor_dashboard_2/cohort-form.underscore
 #: cms/static/coffee/src/views/tabs.js
@@ -3530,12 +3585,18 @@ msgstr ""
 #: common/static/common/js/components/utils/view_utils.js
 #: lms/static/js/Markdown.Editor.js
 #: cms/templates/js/signatory-actions.underscore
+=======
+#: cms/templates/js/signatory-actions.underscore
+#: cms/templates/js/xblock-string-field-editor.underscore
+#: cms/templates/js/programs/program_creator_form.underscore
+>>>>>>> origin
 #: common/static/common/templates/discussion/new-post.underscore
 #: common/static/common/templates/discussion/response-comment-edit.underscore
 #: common/static/common/templates/discussion/thread-edit.underscore
 #: common/static/common/templates/discussion/thread-response-edit.underscore
 #: lms/djangoapps/support/static/support/templates/enrollment-modal.underscore
 #: lms/djangoapps/teams/static/teams/templates/edit-team.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/new-post.underscore
 #: test_root/staticfiles/common/templates/discussion/response-comment-edit.underscore
 #: test_root/staticfiles/common/templates/discussion/thread-edit.underscore
@@ -3700,12 +3761,19 @@ msgstr "저장중"
 msgid "OK"
 msgstr "확인"
 
+=======
+#: lms/templates/instructor/instructor_dashboard_2/cohort-form.underscore
+msgid "Cancel"
+msgstr "취소"
+
+>>>>>>> origin
 #: cms/static/js/certificates/views/signatory_editor.js
 #: cms/static/js/views/asset.js cms/static/js/views/list_item.js
 #: cms/static/js/views/manage_users_and_roles.js
 #: cms/static/js/views/show_textbook.js
 #: common/static/js/vendor/ova/catch/js/catch.js
 #: lms/djangoapps/teams/static/teams/js/views/instructor_tools.js
+<<<<<<< HEAD
 #: cms/templates/js/certificate-details.underscore
 #: cms/templates/js/certificate-editor.underscore
 #: cms/templates/js/content-group-details.underscore
@@ -3747,6 +3815,8 @@ msgstr "확인"
 #: test_root/staticfiles/templates/show-textbook.underscore
 #: test_root/staticfiles/templates/signatory-editor.underscore
 #: test_root/staticfiles/templates/xblock-outline.underscore
+=======
+>>>>>>> origin
 msgid "Delete"
 msgstr "삭제"
 
@@ -3756,6 +3826,7 @@ msgstr "삭제"
 msgid "Uploading"
 msgstr "업로드 중"
 
+<<<<<<< HEAD
 #. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
@@ -5144,6 +5215,115 @@ msgstr " html 편집"
 #: test_root/staticfiles/templates/xblock-string-field-editor.underscore
 msgid "Edit"
 msgstr "편집"
+=======
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/js/views/assets.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+msgid "Name"
+msgstr "이름"
+
+#: cms/static/js/views/assets.js lms/static/js/Markdown.Editor.js
+#: cms/templates/js/asset-upload-modal.underscore
+msgid "Choose File"
+msgstr ""
+
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/js/views/manage_users_and_roles.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+msgid "Ok"
+msgstr "확인"
+
+#: cms/static/js/views/manage_users_and_roles.js
+#: lms/static/coffee/src/instructor_dashboard/util.js
+msgid "Unknown"
+msgstr "알 수 없음"
+
+#: cms/static/js/views/metadata.js
+#: lms/djangoapps/teams/static/teams/js/views/edit_team_members.js
+#: lms/static/js/views/image_field.js
+msgid "Remove"
+msgstr "제거"
+
+#: cms/static/js/views/metadata.js lms/static/js/views/file_uploader.js
+msgid "Upload File"
+msgstr "파일 업로드"
+
+#. #-#-#-#-#  djangojs-partial.po (edx-platform)  #-#-#-#-#
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/js/views/modals/base_modal.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+#: cms/templates/js/certificate-editor.underscore
+#: cms/templates/js/content-group-editor.underscore
+#: cms/templates/js/course_info_handouts.underscore
+#: cms/templates/js/edit-textbook.underscore
+#: cms/templates/js/group-configuration-editor.underscore
+#: cms/templates/js/section-name-edit.underscore
+#: cms/templates/js/signatory-actions.underscore
+#: cms/templates/js/xblock-string-field-editor.underscore
+#: lms/templates/instructor/instructor_dashboard_2/cohort-discussions-course-wide.underscore
+#: lms/templates/instructor/instructor_dashboard_2/cohort-discussions-inline.underscore
+#: lms/templates/instructor/instructor_dashboard_2/cohort-form.underscore
+msgid "Save"
+msgstr "저장"
+
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/js/views/modals/course_outline_modals.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+msgid "Advanced"
+msgstr "고급"
+
+#. Translators: this is a message from the raw HTML editor displayed in the
+#. browser when a user needs to edit HTML
+#: cms/static/js/views/modals/edit_xblock.js
+#: common/lib/xmodule/xmodule/js/src/html/edit.js
+#: common/static/coffee/src/discussion/utils.js
+msgid "Close"
+msgstr "닫기"
+
+#: cms/static/js/views/validation.js
+#: lms/static/js/groups/views/cohort_discussions_course_wide.js
+#: lms/static/js/groups/views/cohort_discussions_inline.js
+#: lms/static/js/views/fields.js
+msgid "Your changes have been saved."
+msgstr "변경사항이 저장되었습니다."
+
+#. Translators: This message will be added to the front of messages of type
+#. error,
+#. e.g. "Error: required field is missing".
+#: cms/static/js/views/xblock_validation.js
+#: lms/static/js/student_account/views/FinishAuthView.js
+#: lms/static/js/verify_student/views/payment_confirmation_step_view.js
+#: lms/static/js/verify_student/views/step_view.js
+#: lms/static/js/views/fields.js
+msgid "Error"
+msgstr "오류"
+
+#: common/lib/xmodule/xmodule/assets/library_content/public/js/library_content_edit.js
+#: common/lib/xmodule/xmodule/js/public/js/library_content_edit.js
+msgid "Updating with latest library content"
+msgstr "최신 콘텐츠 보관함으로 업데이트"
+
+#: common/lib/xmodule/xmodule/assets/split_test/public/js/split_test_author_view.js
+#: common/lib/xmodule/xmodule/js/public/js/split_test_author_view.js
+msgid "Creating missing groups"
+msgstr "빠진 그룹 만들기"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js
+msgid "Show Annotations"
+msgstr "주석 보이기"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js
+msgid "Hide Annotations"
+msgstr "주석 감추기"
+
+#: common/lib/xmodule/xmodule/js/src/annotatable/display.js
+msgid "Expand Instructions"
+msgstr "지시사항 펼치기"
+>>>>>>> origin
 
 #. Translators: this is a message from the raw HTML editor displayed in the
 #. browser when a user needs to edit HTML
@@ -7073,6 +7253,22 @@ msgstr ""
 msgid "Turn off transcripts"
 msgstr ""
 
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "{start_strong}{total}{end_strong} words submitted in total."
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "text_word_{uniqueId} title_word_{uniqueId}"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "title_word_{uniqueId}"
+msgstr ""
+
+#: common/lib/xmodule/xmodule/js/src/word_cloud/word_cloud_main.js
+msgid "text_word_{uniqueId}"
+msgstr ""
+
 #: common/static/coffee/src/discussion/discussion_module_view.js
 msgid "Hide Discussion"
 msgstr "게시판 감추기"
@@ -7087,6 +7283,15 @@ msgstr "게시판  보기"
 #: common/static/coffee/src/discussion/views/discussion_thread_view.js
 #: common/static/coffee/src/discussion/views/discussion_user_profile_view.js
 #: common/static/coffee/src/discussion/views/response_comment_view.js
+<<<<<<< HEAD
+=======
+#: common/static/common/js/discussion/discussion_module_view.js
+#: common/static/common/js/discussion/utils.js
+#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+#: common/static/common/js/discussion/views/response_comment_view.js
+#: lms/djangoapps/discussion/static/discussion/js/views/discussion_user_profile_view.js
+>>>>>>> origin
 msgid "Sorry"
 msgstr "죄송합니다"
 
@@ -7115,10 +7320,15 @@ msgstr "요청 처리 중 오류가 발생했습니다. 다시 시도하세요"
 
 #: common/static/coffee/src/discussion/utils.js
 #: common/static/coffee/src/discussion/views/discussion_thread_list_view.js
+<<<<<<< HEAD
 #: common/static/coffee/src/discussion/views/discussion_topic_menu_view.js
 #: common/static/common/templates/discussion/pagination.underscore
 #: test_root/staticfiles/common/templates/discussion/pagination.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/pagination.underscore
+=======
+#: common/static/common/js/discussion/utils.js
+#: common/static/common/js/discussion/views/discussion_topic_menu_view.js
+>>>>>>> origin
 msgid "…"
 msgstr "…"
 
@@ -7281,6 +7491,10 @@ msgid "Are you sure you want to delete this post?"
 msgstr "이 게시물을 삭제하시겠습니까?"
 
 #: common/static/coffee/src/discussion/views/discussion_user_profile_view.js
+<<<<<<< HEAD
+=======
+#: lms/djangoapps/discussion/static/discussion/js/views/discussion_user_profile_view.js
+>>>>>>> origin
 msgid "We had some trouble loading the page you requested. Please try again."
 msgstr "요청한 페이지를 로딩 중 오류가 발생했습니다. 잠시 후에 다시 시도하세요."
 
@@ -7338,8 +7552,59 @@ msgid "Showing %(first_index)s out of %(num_items)s total"
 msgstr "총 %(num_items)s개 중 %(first_index)s 보기"
 
 #: common/static/common/js/components/views/paging_header.js
+<<<<<<< HEAD
 msgid "Showing %(first_index)s-%(last_index)s out of %(num_items)s total"
 msgstr "총 %(num_items)s개 중 %(first_index)s-%(last_index)s 보기  "
+=======
+msgid "Showing {firstIndex}-{lastIndex} out of {numItems} total"
+msgstr ""
+
+#: common/static/common/js/discussion/utils.js
+msgid ""
+"We had some trouble processing your request. Please ensure you have copied "
+"any "
+msgstr ""
+
+#: common/static/common/js/discussion/utils.js
+msgid "Some images in this post have been omitted"
+msgstr ""
+
+#: common/static/common/js/discussion/utils.js
+msgid "image omitted"
+msgstr ""
+
+#: common/static/common/js/discussion/views/discussion_content_view.js
+msgid "there is currently {numVotes} vote"
+msgid_plural "there are currently {numVotes} votes"
+msgstr[0] ""
+
+#: common/static/common/js/discussion/views/discussion_content_view.js
+msgid "{numVotes} Vote"
+msgid_plural "{numVotes} Votes"
+msgstr[0] ""
+
+#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+msgid "No results found for {original_query}. "
+msgstr ""
+
+#: common/static/common/js/discussion/views/discussion_thread_list_view.js
+msgid "Show posts by {username}."
+msgstr ""
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "{numResponses} other response"
+msgid_plural "{numResponses} other responses"
+msgstr[0] ""
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "{numResponses} response"
+msgid_plural "{numResponses} responses"
+msgstr[0] ""
+
+#: common/static/common/js/discussion/views/discussion_thread_view.js
+msgid "Load next {numResponses} responses"
+msgstr ""
+>>>>>>> origin
 
 #: common/static/common/js/utils/edx.utils.validate.js
 msgid "The email address you've provided isn't formatted correctly."
@@ -7655,12 +7920,16 @@ msgstr "팀"
 #: cms/templates/js/certificate-editor.underscore
 #: cms/templates/js/content-group-editor.underscore
 #: cms/templates/js/group-configuration-editor.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/coffee/fixtures/certificate-editor.underscore
 #: test_root/staticfiles/coffee/fixtures/content-group-editor.underscore
 #: test_root/staticfiles/coffee/fixtures/group-configuration-editor.underscore
 #: test_root/staticfiles/templates/certificate-editor.underscore
 #: test_root/staticfiles/templates/content-group-editor.underscore
 #: test_root/staticfiles/templates/group-configuration-editor.underscore
+=======
+#: cms/templates/js/programs/program_creator_form.underscore
+>>>>>>> origin
 msgid "Create"
 msgstr "만들기"
 
@@ -7865,14 +8134,15 @@ msgstr "강좌에서 주제별로 조직된 모든 팀을 보세요. 관심사�
 msgid "My Team"
 msgstr "내 팀"
 
-#. Translators: sr_start and sr_end surround text meant only for screen
-#. readers.
-#. The whole string will be shown to users as "Browse teams" if they are using
-#. a
-#. screenreader, and "Browse" otherwise.
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
+<<<<<<< HEAD
 msgid "Browse %(sr_start)s teams %(sr_end)s"
 msgstr "%(sr_start)s 팀 %(sr_end)s을 검색하세요."
+=======
+#: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+msgid "Browse"
+msgstr ""
+>>>>>>> origin
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
 msgid "Your request could not be completed. Reload the page and try again."
@@ -7928,6 +8198,7 @@ msgid "Search teams"
 msgstr ""
 
 #: lms/djangoapps/teams/static/teams/js/views/teams_tab.js
+#: lms/djangoapps/discussion/static/discussion/templates/fake-breadcrumbs.underscore
 msgid "All Topics"
 msgstr "모든 주제"
 
@@ -7985,6 +8256,10 @@ msgid "Close Calculator"
 msgstr "계산기 닫기"
 
 #: lms/static/coffee/src/customwmd.js
+msgid "HTML preview of post"
+msgstr ""
+
+#: lms/static/coffee/src/customwmd.js
 msgid "Post body"
 msgstr "본문 게시글 올리기"
 
@@ -8011,9 +8286,12 @@ msgstr "학습자 정보를 만드는 중 오류가 발생했습니다. 다시 �
 #: lms/static/coffee/src/instructor_dashboard/data_download.js
 #: lms/static/js/bookmarks/views/bookmarks_list.js
 #: lms/templates/search/search_loading.underscore
+<<<<<<< HEAD
 #: lms/templates/student_account/account_settings.underscore
 #: test_root/staticfiles/templates/search/search_loading.underscore
 #: test_root/staticfiles/templates/student_account/account_settings.underscore
+=======
+>>>>>>> origin
 msgid "Loading"
 msgstr "로딩"
 
@@ -8074,16 +8352,14 @@ msgstr "이용자의 권한 변경 에러"
 
 #: lms/static/coffee/src/instructor_dashboard/membership.js
 msgid ""
-"Could not find a user with username or email address '<%= identifier %>'."
-msgstr "아이디나 이메일 주소 '<%= identifier %>'  로 이용자를 찾을 수 없습니다. "
+"Could not find a user with username or email address '<%- identifier %>'."
+msgstr ""
 
 #: lms/static/coffee/src/instructor_dashboard/membership.js
 msgid ""
-"Error: User '<%= username %>' has not yet activated their account. Users "
+"Error: User '<%- username %>' has not yet activated their account. Users "
 "must create and activate their accounts before they can be assigned a role."
 msgstr ""
-"오류: 이용자  '<%= username %>' 는  계정을 활성화하지 않았습니다. 역할을 부여하기 전에 계정을 생성 후 활성화해야 "
-"합니다. "
 
 #: lms/static/coffee/src/instructor_dashboard/membership.js
 msgid "Error: You cannot remove yourself from the Instructor group!"
@@ -8918,10 +9194,6 @@ msgstr "\"%s\"를 찾을 수 없습니다. "
 msgid "There was an error, try searching again."
 msgstr "오류가 발생했습니다. 다시 검색하세요."
 
-#: lms/static/js/edxnotes/plugins/accessibility.js
-msgid "Focus grabber"
-msgstr "Focus grabber "
-
 #: lms/static/js/edxnotes/views/notes_visibility_factory.js
 #: lms/static/js/edxnotes/views/search_box.js
 msgid ""
@@ -9246,6 +9518,13 @@ msgstr "강좌를 불러오고 있습니다."
 
 #: lms/static/js/student_account/views/LoginView.js
 msgid ""
+"We have sent an email message with password reset instructions to the email "
+"address you provided.  If you do not receive this message, "
+"{anchorStart}contact technical support{anchorEnd}."
+msgstr ""
+
+#: lms/static/js/student_account/views/LoginView.js
+msgid ""
 "An error has occurred. Try refreshing the page, or check your Internet "
 "connection."
 msgstr ""
@@ -9317,8 +9596,26 @@ msgid "Country or Region"
 msgstr "국가"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
+<<<<<<< HEAD
 msgid "Additional Information (optional)"
 msgstr "추가 정보 (선택)"
+=======
+msgid "Time Zone"
+msgstr ""
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid ""
+"Select the time zone for displaying course dates. If you do not specify a "
+msgstr ""
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid "All Time Zones"
+msgstr ""
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid "Additional Information"
+msgstr ""
+>>>>>>> origin
 
 #: lms/static/js/student_account/views/account_settings_factory.js
 msgid "Education Completed"
@@ -9657,18 +9954,31 @@ msgstr[0] "%(num_questions)s개"
 msgid "Number of Students"
 msgstr "학습자 수 "
 
+<<<<<<< HEAD
 #: cms/static/coffee/src/main.js
+=======
+#: cms/static/cms/js/main.js cms/static/coffee/src/main.js
+>>>>>>> origin
 msgid ""
 "This may be happening because of an error with our server or your internet "
 "connection. Try refreshing the page or making sure you are online."
 msgstr ""
 "인터넷 연결 상태나 서버의 문제로 인해 오류가 발생했습니다. 페이지를 새로 고침을 해보거나 인터넷 연결상태를 확인해보시기 바랍니다."
 
-#: cms/static/coffee/src/main.js
+#: cms/static/cms/js/main.js cms/static/coffee/src/main.js
 msgid "Studio's having trouble saving your work"
 msgstr "작업 저장중 오류가 발생했습니다."
 
+<<<<<<< HEAD
 #: cms/static/coffee/src/views/tabs.js
+=======
+#: cms/static/cms/js/xblock/cms.runtime.v1.js
+#: cms/static/coffee/src/xblock/cms.runtime.v1.js
+msgid "OpenAssessment Save Error"
+msgstr ""
+
+#: cms/static/coffee/src/views/tabs.js cms/static/js/views/tabs.js
+>>>>>>> origin
 msgid "Delete Page Confirmation"
 msgstr "페이지 삭제 확인"
 
@@ -9905,6 +10215,10 @@ msgstr "부가기능 설정 보이기"
 msgid "You have unsaved changes. Do you really want to leave this page?"
 msgstr "변경사항이 저장되지 않았습니다. 정말로 현재 페이지를 벗어나시겠습니까?"
 
+#: cms/static/js/maintenance/force_publish_course.js
+msgid "Internal Server Error."
+msgstr ""
+
 #. Translators: This is the status of a video upload that is queued
 #. waiting for other uploads to complete
 #: cms/static/js/models/active_video_upload.js
@@ -10095,6 +10409,112 @@ msgstr "또는"
 #: cms/static/js/models/xblock_validation.js
 msgid "This component has validation issues."
 msgstr "이 구성 요소는 문제가 있습니다."
+
+#: cms/static/js/programs/models/course_model.js
+#: cms/templates/js/programs/course_details.underscore
+msgid "Course Code"
+msgstr ""
+
+#: cms/static/js/programs/models/course_model.js
+#: cms/templates/js/certificate-details.underscore
+#: cms/templates/js/certificate-editor.underscore
+#: cms/templates/js/programs/course_details.underscore
+msgid "Course Title"
+msgstr ""
+
+#: cms/static/js/programs/models/program_model.js
+msgid "Please select a valid organization."
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} is required"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be accepted"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be greater than or equal to {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be less than or equal to {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be between {1} and {2}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be {1} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be at least {1} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be at most {1} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be between {1} and {2} characters"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be one of: {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be the same as {1}"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must only contain digits"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be a number"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be a valid email"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} must be a valid url"
+msgstr ""
+
+#: cms/static/js/programs/utils/validation_config.js
+msgid "{0} is invalid"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid "confirm"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid "Publish this program?"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid ""
+"After you publish this program, you cannot add or remove course codes or "
+"remove course runs."
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+#: cms/static/js/views/modals/course_outline_modals.js
+#: cms/templates/js/course-outline.underscore
+#: cms/templates/js/publish-xblock.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Publish"
+msgstr ""
+
+#: cms/static/js/programs/views/program_details_view.js
+msgid "Marketing Slug is required."
+msgstr ""
 
 #: cms/static/js/views/active_video_upload_list.js
 msgid "Your video uploads are not complete."
@@ -10387,6 +10807,7 @@ msgid "Are you sure you want to restrict {email} access to “{container}”?"
 msgstr " {email}이 “{container}” 접근을 제한하시겠습니까?"
 
 #: cms/static/js/views/modals/course_outline_modals.js
+<<<<<<< HEAD
 msgid "%(display_name)s Settings"
 msgstr "%(display_name)s 설정하기"
 
@@ -10411,15 +10832,26 @@ msgstr "%(item)s의 수정안을 모두 게시하시겠습니까?"
 #: test_root/staticfiles/templates/publish-xblock.underscore
 msgid "Publish"
 msgstr "게시"
+=======
+msgid "{display_name} Settings"
+msgstr ""
+
+#: cms/static/js/views/modals/course_outline_modals.js
+msgid "Change the settings for {display_name}"
+msgstr ""
+
+#: cms/static/js/views/modals/course_outline_modals.js
+msgid "Publish {display_name}"
+msgstr ""
+
+#: cms/static/js/views/modals/course_outline_modals.js
+msgid "Publish all unpublished changes for this {item}?"
+msgstr ""
+>>>>>>> origin
 
 #: cms/static/js/views/modals/course_outline_modals.js
 msgid "Basic"
 msgstr "기본"
-
-#. Translators: This label refers to access to course content.
-#: cms/static/js/views/modals/course_outline_modals.js
-msgid "Access"
-msgstr ""
 
 #. Translators: "title" is the name of the current component being edited.
 #: cms/static/js/views/modals/edit_xblock.js
@@ -10801,6 +11233,7 @@ msgstr ""
 
 #: cms/templates/js/asset-library.underscore
 #: cms/templates/js/basic-modal.underscore
+#: cms/templates/js/programs/confirm_modal.underscore
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
 #: test_root/staticfiles/proctoring/templates/course_allowances.underscore
 #: test_root/staticfiles/proctoring/templates/student-proctored-exam-attempts.underscore
@@ -10928,6 +11361,7 @@ msgid "Find discussions"
 msgstr "토론 찿기"
 
 #: common/static/common/templates/discussion/discussion-home.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/discussion-home.underscore
 msgid "Use the Discussion Topics menu to find specific topics."
@@ -10936,6 +11370,13 @@ msgstr ""
 #: common/static/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/common/templates/discussion/discussion-home.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/discussion-home.underscore
+=======
+msgid "Use the All Topics menu to find specific topics."
+msgstr ""
+
+#: common/static/common/templates/discussion/discussion-home.underscore
+#: lms/djangoapps/discussion/static/discussion/templates/search.underscore
+>>>>>>> origin
 msgid "Search all posts"
 msgstr "모든 게시물 검색"
 
@@ -11124,8 +11565,12 @@ msgid "Add Post"
 msgstr "게시물 추가"
 
 #: common/static/common/templates/discussion/post-user-display.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/post-user-display.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/post-user-display.underscore
+=======
+#: common/static/common/templates/discussion/thread-list-item.underscore
+>>>>>>> origin
 msgid "Community TA"
 msgstr "커뮤니티 조교"
 
@@ -11226,6 +11671,7 @@ msgid "Following"
 msgstr "구독"
 
 #: common/static/common/templates/discussion/thread-list-item.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-list-item.underscore
 msgid "By: Staff"
@@ -11244,6 +11690,14 @@ msgstr "By: 커뮤니티 조교"
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-list-item.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/thread-response-show.underscore
 msgid "fmt"
+=======
+#: common/static/common/templates/discussion/thread-response-show.underscore
+msgid "fmt"
+msgstr ""
+
+#: common/static/common/templates/discussion/thread-list-item.underscore
+msgid "{unread_comments_count} new"
+>>>>>>> origin
 msgstr ""
 
 #: common/static/common/templates/discussion/thread-list-item.underscore
@@ -11432,9 +11886,13 @@ msgstr ""
 msgid "Add your post to a relevant topic to help others find it."
 msgstr "검색하기 쉽도록 게시물에 주제를 추가합니다."
 
+<<<<<<< HEAD
 #: common/static/common/templates/discussion/user-profile.underscore
 #: test_root/staticfiles/common/templates/discussion/user-profile.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/discussion/user-profile.underscore
+=======
+#: lms/djangoapps/discussion/static/discussion/templates/user-profile.underscore
+>>>>>>> origin
 msgid "Active Threads"
 msgstr "활성화된 글타래"
 
@@ -12110,9 +12568,14 @@ msgid ""
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
 msgid "Browse"
 msgstr "살펴보기"
+=======
+msgid "Upload a CSV file"
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
@@ -12184,12 +12647,21 @@ msgid ""
 "an exception."
 msgstr ""
 
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+msgid "Student email or username"
+msgstr ""
+
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
+msgid "Free text notes"
+msgstr ""
+
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Generate Exception Certificates"
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid ""
 "Generate certificates for all users on the Exception list who do not yet "
@@ -12199,6 +12671,13 @@ msgstr ""
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Generate a Certificate for all users on the Exception list"
+=======
+msgid "All users on the Exception list who do not yet have a certificate"
+msgstr ""
+
+#: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
+msgid "All users on the Exception list"
+>>>>>>> origin
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
@@ -12459,8 +12938,8 @@ msgstr "CSV 파일을 업로드하여 학습 집단에 학습자를 추가하세
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/cohorts.underscore
 msgid ""
 "To review student cohort assignments or see the results of uploading a CSV "
-"file, download course profile information or cohort results on {link_start} "
-"the Data Download page. {link_end}"
+"file, download course profile information or cohort results on the "
+"{link_start}Data Download{link_end} page."
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/enrollment-code-lookup-links.underscore
@@ -12474,8 +12953,12 @@ msgid "Valid"
 msgstr "유효함"
 
 #: lms/templates/learner_dashboard/certificate.underscore
+<<<<<<< HEAD
 #: test_root/staticfiles/templates/learner_dashboard/certificate.underscore
 msgid "XSeries Program Certificates"
+=======
+msgid "Program Certificates"
+>>>>>>> origin
 msgstr ""
 
 #: lms/templates/learner_dashboard/certificate.underscore
@@ -12821,12 +13304,18 @@ msgstr ""
 msgid "An error occurred. Try loading the page again."
 msgstr ""
 
+<<<<<<< HEAD
 #: lms/templates/student_profile/section_two.underscore
 #: test_root/staticfiles/templates/student_profile/section_two.underscore
 #: lms/templates/student_profile/learner_profile.underscore
 #: test_root/staticfiles/templates/student_profile/learner_profile.underscore
 msgid "You are currently sharing a limited profile."
 msgstr "현재 아이디만 공개하고 있습니다."
+=======
+#: lms/templates/learner_dashboard/certificate_status.underscore
+msgid "View Certificate"
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/student_profile/section_two.underscore
 #: test_root/staticfiles/templates/student_profile/section_two.underscore
@@ -12886,6 +13375,7 @@ msgstr "강좌"
 msgid "Starts: %(start)s"
 msgstr "개강일: %(start)s"
 
+<<<<<<< HEAD
 #: lms/templates/verify_student/enrollment_confirmation_step.underscore
 #: test_root/staticfiles/templates/verify_student/enrollment_confirmation_step.underscore
 msgid "Explore your course!"
@@ -12900,6 +13390,23 @@ msgstr "대시보드로 가기"
 #: test_root/staticfiles/templates/verify_student/enrollment_confirmation_step.underscore
 msgid "Verified Status"
 msgstr "확인된 상태"
+=======
+#: lms/templates/learner_dashboard/course_enroll.underscore
+msgid "Enrollment Opens on"
+msgstr ""
+
+#: lms/templates/learner_dashboard/course_enroll.underscore
+msgid "Not Currently Available"
+msgstr ""
+
+#: lms/templates/learner_dashboard/empty_programs_list.underscore
+msgid "You are not enrolled in any programs yet."
+msgstr ""
+
+#: lms/templates/learner_dashboard/empty_programs_list.underscore
+msgid "Explore Programs"
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/verify_student/enrollment_confirmation_step.underscore
 #: test_root/staticfiles/templates/verify_student/enrollment_confirmation_step.underscore
@@ -12912,6 +13419,7 @@ msgstr ""
 "사진을 제출해주셔서 감사합니다. 귀하는 %(platformName)s에서 인증 이수증을 제공하는 모든 강좌에 수강 신청이 가능합니다. "
 "인증 사진의 유효 기간은 1년입니다. 1년 후, 사진 인증을 다시 받아야 합니다.    "
 
+<<<<<<< HEAD
 #: lms/templates/verify_student/error.underscore
 #: test_root/staticfiles/templates/verify_student/error.underscore
 msgid "Error:"
@@ -12921,6 +13429,15 @@ msgstr "오류:"
 #: test_root/staticfiles/templates/verify_student/face_photo_step.underscore
 msgid "What You Need for Verification"
 msgstr "인증을 위해 필요한 것"
+=======
+#: lms/templates/learner_dashboard/explore_new_programs.underscore
+msgid "Explore New Programs"
+msgstr ""
+
+#: lms/templates/learner_dashboard/program_card.underscore
+msgid "category"
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/verify_student/face_photo_step.underscore
 #: lms/templates/verify_student/intro_step.underscore
@@ -12968,10 +13485,29 @@ msgid ""
 "your photo."
 msgstr ""
 
+<<<<<<< HEAD
 #: lms/templates/verify_student/face_photo_step.underscore
 #: test_root/staticfiles/templates/verify_student/face_photo_step.underscore
 msgid "To take a successful photo, make sure that:"
 msgstr "사진을 잘 찍기 위해서, 다음을 확인하세요:"
+=======
+#: lms/templates/learner_dashboard/upgrade_message.underscore
+msgid ""
+"You need a certificate in this course to be eligible for a program "
+"certificate."
+msgstr ""
+
+#: lms/templates/learner_dashboard/upgrade_message.underscore
+msgid "Upgrade Now"
+msgstr ""
+
+#: lms/templates/search/course_search_results.underscore
+#: lms/templates/search/dashboard_search_results.underscore
+#, python-format
+msgid "Load next %(num_items)s result"
+msgid_plural "Load next %(num_items)s results"
+msgstr[0] ""
+>>>>>>> origin
 
 #: lms/templates/verify_student/face_photo_step.underscore
 #: test_root/staticfiles/templates/verify_student/face_photo_step.underscore
@@ -13118,6 +13654,7 @@ msgstr "업로드된 이미지 미리보기"
 msgid "Upload an image or capture one with your web or phone camera."
 msgstr "이미지를 올리거나 웹 혹은 폰카메라로 캡춰 하세요."
 
+<<<<<<< HEAD
 #: lms/templates/verify_student/incourse_reverify.underscore
 #: test_root/staticfiles/templates/verify_student/incourse_reverify.underscore
 msgid ""
@@ -13144,6 +13681,11 @@ msgstr ""
 #: test_root/staticfiles/templates/verify_student/incourse_reverify.underscore
 msgid "Can we match the photo you took with the one on your ID?"
 msgstr "당신의 사진이 아이디에 있는 사진과 동일인물 입니까?"
+=======
+#: lms/templates/student_account/login.underscore
+msgid "We couldn't sign you in."
+msgstr "로그인 실패"
+>>>>>>> origin
 
 #: lms/templates/verify_student/intro_step.underscore
 #: test_root/staticfiles/templates/verify_student/intro_step.underscore
@@ -14131,11 +14673,38 @@ msgid ""
 " next to assignments on a learner's Progress page."
 msgstr ""
 
+<<<<<<< HEAD
 #: cms/templates/js/course_grade_policy.underscore
 #: test_root/staticfiles/coffee/fixtures/course_grade_policy.underscore
 #: test_root/staticfiles/templates/course_grade_policy.underscore
 msgid "Weight of Total Grade"
 msgstr "점수 가중치"
+=======
+#: cms/templates/js/add-xblock-component-support-legend.underscore
+msgid "Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-legend.underscore
+msgid "Provisional"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-legend.underscore
+#: cms/templates/js/add-xblock-component-support-level.underscore
+msgid "Not Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-level.underscore
+msgid "Fully Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component-support-level.underscore
+msgid "Provisionally Supported"
+msgstr ""
+
+#: cms/templates/js/add-xblock-component.underscore
+msgid "Add New Component"
+msgstr ""
+>>>>>>> origin
 
 #: cms/templates/js/course_grade_policy.underscore
 #: test_root/staticfiles/coffee/fixtures/course_grade_policy.underscore
@@ -14247,6 +14816,7 @@ msgstr "학습자가 검색할 수 있도록 챕터의 이름을 입력하세요
 msgid "Chapter Asset"
 msgstr "챕터 별 파일"
 
+<<<<<<< HEAD
 #: cms/templates/js/edit-chapter.underscore
 #: test_root/staticfiles/coffee/fixtures/edit-chapter.underscore
 #: test_root/staticfiles/templates/edit-chapter.underscore
@@ -14258,6 +14828,12 @@ msgstr "PDF 파일을 업로드하세요."
 #: test_root/staticfiles/templates/edit-chapter.underscore
 msgid "Upload PDF"
 msgstr "PDF 업로드"
+=======
+#: cms/templates/js/certificate-details.underscore
+#: cms/templates/js/certificate-editor.underscore
+msgid "Course Title Override"
+msgstr ""
+>>>>>>> origin
 
 #: cms/templates/js/edit-chapter.underscore
 #: test_root/staticfiles/coffee/fixtures/edit-chapter.underscore
@@ -14432,11 +15008,57 @@ msgstr "라이센스 유형"
 msgid "Learn more about {license_name}"
 msgstr "{license_name} 더 알아보기"
 
+<<<<<<< HEAD
 #: cms/templates/js/license-selector.underscore
 #: test_root/staticfiles/coffee/fixtures/license-selector.underscore
 #: test_root/staticfiles/templates/license-selector.underscore
 msgid "Options for {license_name}"
 msgstr "{license_name}을 위한 평가 기준"
+=======
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Subsection Visibility"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Show entire subsection"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Learners see the published subsection and can access its content."
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Hide content after due date"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid ""
+"After the subsection\\'s due date has passed, learners can no longer access "
+"its content. The subsection remains included in grade calculations."
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid "Hide entire subsection"
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+msgid ""
+"Learners do not see the subsection in the course outline. The subsection is "
+"not included in grade calculations."
+msgstr ""
+
+#: cms/templates/js/content-visibility-editor.underscore
+#, python-format
+msgid ""
+"If you select an option other than \"%(hide_label)s\", after the subsection "
+"release date has passed, published units in this subsection will become "
+"available to learners unless units are explicitly hidden."
+msgstr ""
+
+#: cms/templates/js/course-instructor-details.underscore
+msgid "Instructor Name"
+msgstr ""
+>>>>>>> origin
 
 #: cms/templates/js/license-selector.underscore
 #: test_root/staticfiles/coffee/fixtures/license-selector.underscore
@@ -14458,11 +15080,19 @@ msgid ""
 "pages within your course:"
 msgstr "다음 메세지는 강좌 내용의 하단부에 나타납니다. "
 
+<<<<<<< HEAD
 #: cms/templates/js/license-selector.underscore
 #: test_root/staticfiles/coffee/fixtures/license-selector.underscore
 #: test_root/staticfiles/templates/license-selector.underscore
 msgid "Creative Commons licensed content, with terms as follow:"
 msgstr "Creative Commons 저작물인 콘텐츠로 다음의 조건을 따릅니다:"
+=======
+#: cms/templates/js/course-instructor-details.underscore
+#: cms/templates/js/signatory-details.underscore
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Organization"
+msgstr ""
+>>>>>>> origin
 
 #: cms/templates/js/license-selector.underscore
 #: test_root/staticfiles/coffee/fixtures/license-selector.underscore
@@ -14708,6 +15338,7 @@ msgstr "공개 날짜와 시간"
 msgid "Release Date:"
 msgstr "공개 날짜"
 
+<<<<<<< HEAD
 #: cms/templates/js/release-date-editor.underscore
 #: test_root/staticfiles/coffee/fixtures/release-date-editor.underscore
 #: test_root/staticfiles/templates/release-date-editor.underscore
@@ -14719,6 +15350,11 @@ msgstr "공개 시간"
 #: test_root/staticfiles/templates/release-date-editor.underscore
 msgid "Clear Release Date/Time"
 msgstr "공개 날짜와 시간 초기화"
+=======
+#: cms/templates/js/course-outline.underscore
+msgid "Subsection is hidden after due date"
+msgstr ""
+>>>>>>> origin
 
 #: cms/templates/js/show-textbook.underscore
 #: test_root/staticfiles/coffee/fixtures/show-textbook.underscore
@@ -15387,21 +16023,38 @@ msgstr "이 그룹의 항목 활성화가 일치하는 시간 지점에 동영�
 msgid "<li>Transcript will be displayed when "
 msgstr ""
 
+<<<<<<< HEAD
 #: common/static/common/templates/components/paging-footer.underscore
 #: test_root/staticfiles/common/templates/components/paging-footer.underscore
 #: test_root/staticfiles/xmodule_js/common_static/common/templates/components/paging-footer.underscore
 msgid "Page number"
 msgstr "페이지 숫자"
+=======
+#: cms/templates/js/publish-xblock.underscore
+msgid "Staff and Learners"
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "Generate a Certificate for all "
 msgstr ""
 
+<<<<<<< HEAD
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid "New"
 msgstr "새로운"
+=======
+#: cms/templates/js/publish-xblock.underscore
+#: cms/templates/js/staff-lock-editor.underscore
+msgid "Hide from learners"
+msgstr ""
+
+#: cms/templates/js/publish-xblock.underscore
+msgid "Note: Do not hide graded assignments after they have been released."
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
@@ -15559,6 +16212,7 @@ msgstr ""
 "이 문제는 파일을 업로드해야 하지만, 브라우저가 기능을 지원하지 않습니다. 구글 Chrome 최신 버전을 설치한 후 시도해 보세요. 혹은"
 " 다른 웹사이트에 이미지를 업로드후 링크를 복사했다면 답안 박스에 이미지의 링크를 붙여넣기 하면 됩니다."
 
+<<<<<<< HEAD
 #. Translators: "Show Question" is some text that, when clicked, shows a
 #. question's
 #. content that had been hidden
@@ -15676,6 +16330,15 @@ msgid ""
 "This content group is not in use. Add a content group to any unit from the "
 "%(outlineAnchor)s."
 msgstr "본 콘텐츠 그룹은 사용되지 않습니다. %(outlineAnchor)s로 부터 콘텐츠 그룹을 추가하세요."
+=======
+#: cms/templates/js/staff-lock-editor.underscore
+msgid "Unit Visibility"
+msgstr ""
+
+#: cms/templates/js/staff-lock-editor.underscore
+msgid "Section Visibility"
+msgstr ""
+>>>>>>> origin
 
 #. Translators: 'count' is number of groups that the group
 #. configuration contains.
@@ -15688,6 +16351,7 @@ msgstr[0] "%(count)s 그룹을 포함합니다"
 #. the course outline page.
 #: cms/static/js/views/group_configuration_details.js
 msgid ""
+<<<<<<< HEAD
 "This Group Configuration is not in use. Start by adding a content experiment"
 " to any Unit via the %(outlineAnchor)s."
 msgstr "이 그룹 구성은 사용하지 않습니다. %(outlineAnchor)s를 통해 모든 장치에 콘텐츠 실험을 추가하여 시작합니다."
@@ -15770,6 +16434,19 @@ msgstr "주제: 현재 선택:"
 msgid ""
 "%(screen_reader_start)sWarning:%(screen_reader_end)s The previously selected"
 " content group was deleted. Select another content group."
+=======
+"If the unit was previously published and released to learners, any changes "
+"you made to the unit when it was hidden will now be visible to learners."
+msgstr ""
+
+#: cms/templates/js/staff-lock-editor.underscore
+#, python-format
+msgid ""
+"If you make this %(xblockType)s visible to learners, learners will be able "
+"to see its content after the release date has passed and you have published "
+"the unit. Only units that are explicitly hidden from learners will remain "
+"hidden after you clear this option for the %(xblockType)s."
+>>>>>>> origin
 msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/cohort-form.underscore
@@ -15865,6 +16542,7 @@ msgstr "자막이 다음의 경우 표시됩니다."
 msgid "Errors!"
 msgstr ""
 
+<<<<<<< HEAD
 #: lms/static/js/certificates/views/certificate_bulk_whitelist.js
 msgid " records are not in correct format"
 msgstr ""
@@ -15875,6 +16553,10 @@ msgstr ""
 
 #: lms/static/js/certificates/views/certificate_bulk_whitelist.js
 msgid " learners do not exist in LMS"
+=======
+#: cms/templates/js/upload-dialog.underscore
+msgid "File upload succeeded"
+>>>>>>> origin
 msgstr ""
 
 #: lms/static/js/certificates/views/certificate_bulk_whitelist.js
@@ -15911,9 +16593,161 @@ msgid ""
 " certificate exceptions white list."
 msgstr ""
 
+<<<<<<< HEAD
 #: lms/templates/instructor/instructor_dashboard_2/certificate-bulk-white-list.underscore
 msgid "Upload CSV"
 msgstr "CSV 업로드 "
+=======
+#: cms/templates/js/maintenance/force-published-course-response.underscore
+msgid ""
+"You have done a dry run of force publishing the course. Nothing has changed."
+" Had you run it, the following course versions would have been change."
+msgstr ""
+
+#: cms/templates/js/maintenance/force-published-course-response.underscore
+msgid ""
+"The published branch version, {published}, was reset to the draft branch "
+"version, {draft}."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Delete course"
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+#, python-format
+msgid "Remove %(name)s from the program"
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Add another run"
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid ""
+"The unique number that identifies your course within your organization, e.g."
+" CS101."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid ""
+"The title entered here will override the title set for the individual run of"
+" the course. It will be displayed on the XSeries progress page and in "
+"marketing presentations."
+msgstr ""
+
+#: cms/templates/js/programs/course_details.underscore
+msgid "Save Course"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Run %(key)s"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+msgid "Delete course run"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Remove run %(key)s from the program"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Start Date: %(date)s"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+#, python-format
+msgid "Mode: %(mode)s"
+msgstr ""
+
+#: cms/templates/js/programs/course_run.underscore
+msgid "Please select a Course Run"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Create a New Program"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Program type"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Select a type"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "XSeries"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "MicroMasters"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Select an organization"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "The public display name of the program."
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Subtitle"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid ""
+"A short description of the program, including concepts covered and expected "
+"outcomes (255 character limit)."
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+#: cms/templates/js/programs/program_details.underscore
+msgid "Marketing Slug"
+msgstr ""
+
+#: cms/templates/js/programs/program_creator_form.underscore
+msgid "Slug used to generate links to the marketing site."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program title"
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s name."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program subtitle"
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s subtitle."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program marketing slug"
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Edit the program\\'s marketing slug."
+msgstr ""
+
+#: cms/templates/js/programs/program_details.underscore
+msgid "Add a course"
+msgstr ""
+
+#: cms/templates/js/video/transcripts/metadata-videolist-entry.underscore
+msgid "Add URLs for additional versions"
+msgstr ""
+>>>>>>> origin
 
 #: lms/templates/instructor/instructor_dashboard_2/certificate-white-list-editor.underscore
 msgid ""

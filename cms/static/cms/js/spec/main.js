@@ -1,3 +1,5 @@
+/* globals requirejs, requireSerial */
+
 (function(requirejs, requireSerial) {
     'use strict';
 
@@ -22,9 +24,9 @@
             'jquery.cookie': 'xmodule_js/common_static/js/vendor/jquery.cookie',
             'jquery.qtip': 'xmodule_js/common_static/js/vendor/jquery.qtip.min',
             'jquery.fileupload': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload',
-            'jquery.fileupload-process': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-process',  // jshint ignore:line
-            'jquery.fileupload-validate': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-validate',  // jshint ignore:line
-            'jquery.iframe-transport': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.iframe-transport',  // jshint ignore:line
+            'jquery.fileupload-process': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-process',   // eslint-disable-line max-len
+            'jquery.fileupload-validate': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.fileupload-validate',   // eslint-disable-line max-len
+            'jquery.iframe-transport': 'xmodule_js/common_static/js/vendor/jQuery-File-Upload/js/jquery.iframe-transport',   // eslint-disable-line max-len
             'jquery.inputnumber': 'xmodule_js/common_static/js/vendor/html5-input-polyfills/number-polyfill',
             'jquery.immediateDescendents': 'xmodule_js/common_static/coffee/src/jquery.immediateDescendents',
             'jquery.simulate': 'xmodule_js/common_static/js/vendor/jquery.simulate',
@@ -38,6 +40,7 @@
             'backbone': 'common/js/vendor/backbone',
             'backbone.associations': 'xmodule_js/common_static/js/vendor/backbone-associations-min',
             'backbone.paginator': 'common/js/vendor/backbone.paginator',
+            'backbone.validation': 'common/js/vendor/backbone-validation-min',
             'backbone-relational': 'xmodule_js/common_static/js/vendor/backbone-relational.min',
             'tinymce': 'xmodule_js/common_static/js/vendor/tinymce/js/tinymce/tinymce.full.min',
             'jquery.tinymce': 'xmodule_js/common_static/js/vendor/tinymce/js/tinymce/jquery.tinymce',
@@ -53,10 +56,14 @@
             'domReady': 'xmodule_js/common_static/js/vendor/domReady',
             'URI': 'xmodule_js/common_static/js/vendor/URI.min',
             'mock-ajax': 'xmodule_js/common_static/js/vendor/mock-ajax',
+<<<<<<< HEAD
             'modernizr': 'edx-pattern-library/js/modernizr-custom',
             'afontgarde': 'edx-pattern-library/js/afontgarde',
             'edxicons': 'edx-pattern-library/js/edx-icons',
             'mathjax': '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured',  // jshint ignore:line
+=======
+            mathjax: '//cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-MML-AM_SVG&delayStartupUntil=configured',   // eslint-disable-line max-len
+>>>>>>> origin
             'youtube': '//www.youtube.com/player_api?noext',
             'coffee/src/ajax_prefix': 'xmodule_js/common_static/coffee/src/ajax_prefix',
             'js/spec/test_utils': 'js/spec/test_utils'
@@ -199,17 +206,11 @@
             'mock-ajax': {
                 deps: ['jquery']
             },
-            'coffee/src/main': {
+            'cms/js/main': {
                 deps: ['coffee/src/ajax_prefix']
             },
             'coffee/src/ajax_prefix': {
                 deps: ['jquery']
-            },
-            'modernizr': {
-                exports: 'Modernizr'
-            },
-            'afontgarde': {
-                exports: 'AFontGarde'
             }
         }
     });
@@ -217,8 +218,8 @@
     jasmine.getFixtures().fixturesPath += 'coffee/fixtures';
 
     testFiles = [
+        'cms/js/spec/main_spec',
         'cms/js/spec/xblock/cms.runtime.v1_spec',
-        'coffee/spec/main_spec',
         'coffee/spec/models/course_spec',
         'coffee/spec/models/metadata_spec',
         'coffee/spec/models/section_spec',
@@ -276,7 +277,10 @@
         'js/certificates/spec/views/certificate_details_spec',
         'js/certificates/spec/views/certificate_editor_spec',
         'js/certificates/spec/views/certificates_list_spec',
-        'js/certificates/spec/views/certificate_preview_spec'
+        'js/certificates/spec/views/certificate_preview_spec',
+        'js/spec/models/auto_auth_model_spec',
+        'js/spec/views/programs/program_creator_spec',
+        'js/spec/views/programs/program_details_spec'
     ];
 
     i = 0;
@@ -295,5 +299,4 @@
     requireSerial(specHelpers.concat(testFiles), function() {
         return window.__karma__.start();
     });
-
-}).call(this, requirejs, requireSerial);  // jshint ignore:line
+}).call(this, requirejs, requireSerial);

@@ -61,6 +61,7 @@ class TestSuite(object):
         """
         return None
 
+<<<<<<< HEAD
     def generate_optimized_static_assets(self, log_dir=None):
         """
         Collect static assets using test_static_optimized.py which generates
@@ -75,6 +76,8 @@ class TestSuite(object):
                 log_dir=log_dir
             ))
 
+=======
+>>>>>>> origin
     def run_test(self):
         """
         Runs a self.cmd in a subprocess and waits for it to finish.

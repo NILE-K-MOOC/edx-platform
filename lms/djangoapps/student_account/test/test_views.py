@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """ Tests for student account views. """
 
-from copy import copy
+import logging
 import re
 from unittest import skipUnless
 from urllib import urlencode
@@ -19,6 +19,7 @@ from django.test.utils import override_settings
 from django.http import HttpRequest
 from edx_rest_api_client import exceptions
 from nose.plugins.attrib import attr
+from testfixtures import LogCapture
 
 from commerce.models import CommerceConfiguration
 from commerce.tests import TEST_API_URL, TEST_API_SIGNING_KEY, factories
@@ -35,6 +36,9 @@ from third_party_auth.tests.testutil import simulate_running_pipeline, ThirdPart
 from util.testing import UrlResetMixin
 from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from openedx.core.djangoapps.theming.tests.test_util import with_comprehensive_theme_context
+
+
+LOGGER_NAME = 'audit'
 
 
 @ddt.ddt
@@ -96,7 +100,7 @@ class StudentAccountUpdateTest(CacheIsolationTestCase, UrlResetMixin):
 
         # Retrieve the activation link from the email body
         email_body = mail.outbox[0].body
-        result = re.search('(?P<url>https?://[^\s]+)', email_body)
+        result = re.search(r'(?P<url>https?://[^\s]+)', email_body)
         self.assertIsNot(result, None)
         activation_link = result.group('url')
 
@@ -176,9 +180,11 @@ class StudentAccountUpdateTest(CacheIsolationTestCase, UrlResetMixin):
         # Log out the user created during test setup
         self.client.logout()
 
-        # Send the view an email address not tied to any user
-        response = self._change_password(email=self.NEW_EMAIL)
-        self.assertEqual(response.status_code, 400)
+        with LogCapture(LOGGER_NAME, level=logging.INFO) as logger:
+            # Send the view an email address not tied to any user
+            response = self._change_password(email=self.NEW_EMAIL)
+            self.assertEqual(response.status_code, 200)
+            logger.check((LOGGER_NAME, 'INFO', 'Invalid password reset attempt'))
 
     def test_password_change_rate_limited(self):
         # Log out the user created during test setup, to prevent the view from
@@ -187,7 +193,7 @@ class StudentAccountUpdateTest(CacheIsolationTestCase, UrlResetMixin):
         self.client.logout()
 
         # Make many consecutive bad requests in an attempt to trigger the rate limiter
-        for attempt in xrange(self.INVALID_ATTEMPTS):
+        for __ in xrange(self.INVALID_ATTEMPTS):
             self._change_password(email=self.NEW_EMAIL)
 
         response = self._change_password(email=self.NEW_EMAIL)
@@ -215,7 +221,7 @@ class StudentAccountUpdateTest(CacheIsolationTestCase, UrlResetMixin):
         return self.client.post(path=reverse('password_change_request'), data=data)
 
 
-@attr('shard_3')
+@attr(shard=3)
 @ddt.ddt
 class StudentAccountLoginAndRegistrationTest(ThirdPartyAuthTestMixin, UrlResetMixin, ModuleStoreTestCase):
     """ Tests for the student account views that update the user's account information. """
@@ -462,9 +468,6 @@ class AccountSettingsViewTest(ThirdPartyAuthTestMixin, TestCase, ProgramsApiConf
         'password',
         'year_of_birth',
         'preferred_language',
-    ]
-
-    HIDDEN_FIELDS = [
         'time_zone',
     ]
 
@@ -512,35 +515,15 @@ class AccountSettingsViewTest(ThirdPartyAuthTestMixin, TestCase, ProgramsApiConf
         self.assertEqual(context['auth']['providers'][0]['name'], 'Facebook')
         self.assertEqual(context['auth']['providers'][1]['name'], 'Google')
 
-    def test_hidden_fields_not_visible(self):
+    def test_view(self):
         """
-        Test that hidden fields are not visible when disabled.
+        Test that all fields are  visible
         """
-        temp_features = copy(settings.FEATURES)
-        temp_features['ENABLE_TIME_ZONE_PREFERENCE'] = False
-        with self.settings(FEATURES=temp_features):
-            view_path = reverse('account_settings')
-            response = self.client.get(path=view_path)
+        view_path = reverse('account_settings')
+        response = self.client.get(path=view_path)
 
-            for attribute in self.FIELDS:
-                self.assertIn(attribute, response.content)
-            for attribute in self.HIDDEN_FIELDS:
-                self.assertIn('"%s": {"enabled": false' % (attribute), response.content)
-
-    def test_hidden_fields_are_visible(self):
-        """
-        Test that hidden fields are visible when enabled.
-        """
-        temp_features = copy(settings.FEATURES)
-        temp_features['ENABLE_TIME_ZONE_PREFERENCE'] = True
-        with self.settings(FEATURES=temp_features):
-            view_path = reverse('account_settings')
-            response = self.client.get(path=view_path)
-
-            for attribute in self.FIELDS:
-                self.assertIn(attribute, response.content)
-            for attribute in self.HIDDEN_FIELDS:
-                self.assertIn('"%s": {"enabled": true' % (attribute), response.content)
+        for attribute in self.FIELDS:
+            self.assertIn(attribute, response.content)
 
     def test_header_with_programs_listing_enabled(self):
         """

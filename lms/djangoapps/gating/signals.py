@@ -4,7 +4,7 @@ Signal handlers for the gating djangoapp
 from django.dispatch import receiver
 from opaque_keys.edx.keys import CourseKey, UsageKey
 from xmodule.modulestore.django import modulestore
-from courseware.models import SCORE_CHANGED
+from lms.djangoapps.grades.signals import SCORE_CHANGED
 from gating import api as gating_api
 
 
@@ -26,5 +26,5 @@ def handle_score_changed(**kwargs):
         gating_api.evaluate_prerequisite(
             course,
             UsageKey.from_string(kwargs.get('usage_id')),
-            kwargs.get('user_id'),
+            kwargs.get('user').id,
         )
