@@ -385,6 +385,7 @@ urlpatterns += (
     url(r'^calculate$', 'util.views.calculate'),
 
     url(r'^courses/?$', 'branding.views.courses', name="courses"),
+    url(r'^mobile_courses/?$', 'branding.views.mobile_courses', name="mobile_courses"),
     url(
         r'^change_enrollment$',
         'student.views.change_enrollment',
@@ -411,6 +412,13 @@ urlpatterns += (
         ),
         EnrollStaffView.as_view(),
         name='enroll_staff',
+    ),
+    url(
+        r'^course/{}$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        'courseware.views.views.mobile_course_about',
+        name='about_course',
     ),
 
     # Inside the course

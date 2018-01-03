@@ -204,6 +204,31 @@ def courses(request):
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
+def mobile_courses(request):
+    """
+    Render "find courses" page.  The course selection work is done in courseware.courses.
+    """
+    courses_list = []
+    course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
+    if not settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
+        courses_list = get_courses(request.user)
+
+        if configuration_helpers.get_value(
+                "ENABLE_COURSE_SORTING_BY_START_DATE",
+                settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"]
+        ):
+            courses_list = sort_by_start_date(courses_list)
+        else:
+            courses_list = sort_by_announcement(courses_list)
+
+    return render_to_response(
+        "courseware/mobile_courses.html",
+        {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
 def haewoondaex(request, org):
     user = request.user
 
@@ -901,6 +926,8 @@ def course_about(request, course_id):
         inject_coursetalk_keys_into_context(context, course_key)
 
         return render_to_response('courseware/course_about.html', context)
+
+
 
 
 @transaction.non_atomic_requests
