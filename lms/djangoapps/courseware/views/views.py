@@ -927,7 +927,249 @@ def course_about(request, course_id):
 
         return render_to_response('courseware/course_about.html', context)
 
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def mobile_course_about(request, course_id):
+    """
+    Display the course's about page.
 
+    Assumes the course_id is in a valid format.
+    """
+    course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    if hasattr(course_key, 'ccx'):
+        # if un-enrolled/non-registered user try to access CCX (direct for registration)
+        # then do not show him about page to avoid self registration.
+        # Note: About page will only be shown to user who is not register. So that he can register. But for
+        # CCX only CCX coach can enroll students.
+        return redirect(reverse('dashboard'))
+
+    with modulestore().bulk_operations(course_key):
+        permission = get_permission_for_course_about()
+        course = get_course_with_access(request.user, permission, course_key)
+        course_details = CourseDetails.populate(course)
+        modes = CourseMode.modes_for_course_dict(course_key)
+
+        if configuration_helpers.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False)):
+            return redirect(reverse('info', args=[course.id.to_deprecated_string()]))
+
+        registered = registered_for_course(course, request.user)
+
+        staff_access = bool(has_access(request.user, 'staff', course))
+        studio_url = get_studio_url(course, 'settings/details')
+
+        if has_access(request.user, 'load', course):
+            course_target = reverse('info', args=[course.id.to_deprecated_string()])
+        else:
+            course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
+
+        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_link = course_link.replace("/info", "&email_opt_in=true")
+
+        show_courseware_link = bool(
+            (
+                has_access(request.user, 'load', course) and
+                has_access(request.user, 'view_courseware_with_prerequisites', course)
+            ) or settings.FEATURES.get('ENABLE_LMS_MIGRATION')
+        )
+
+        # Note: this is a flow for payment for course registration, not the Verified Certificate flow.
+        in_cart = False
+        reg_then_add_to_cart_link = ""
+
+        _is_shopping_cart_enabled = is_shopping_cart_enabled()
+        if _is_shopping_cart_enabled:
+            if request.user.is_authenticated():
+                cart = shoppingcart.models.Order.get_cart_for_user(request.user)
+                in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
+                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+
+            reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
+                reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
+            )
+
+        # If the ecommerce checkout flow is enabled and the mode of the course is
+        # professional or no id professional, we construct links for the enrollment
+        # button to add the course to the ecommerce basket.
+        ecomm_service = EcommerceService()
+        ecommerce_checkout = ecomm_service.is_enabled(request.user)
+        ecommerce_checkout_link = ''
+        ecommerce_bulk_checkout_link = ''
+        professional_mode = None
+        is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
+        if ecommerce_checkout and is_professional_mode:
+            professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
+                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+            if professional_mode.sku:
+                ecommerce_checkout_link = ecomm_service.checkout_page_url(professional_mode.sku)
+            if professional_mode.bulk_sku:
+                ecommerce_bulk_checkout_link = ecomm_service.checkout_page_url(professional_mode.bulk_sku)
+
+        # Find the minimum price for the course across all course modes
+        registration_price = CourseMode.min_course_price_for_currency(
+            course_key,
+            settings.PAID_COURSE_REGISTRATION_CURRENCY[0]
+        )
+        course_price = get_cosmetic_display_price(course, registration_price)
+
+        # Determine which checkout workflow to use -- LMS shoppingcart or Otto basket
+        can_add_course_to_cart = _is_shopping_cart_enabled and registration_price and not ecommerce_checkout_link
+
+        # Used to provide context to message to student if enrollment not allowed
+        can_enroll = bool(has_access(request.user, 'enroll', course))
+        invitation_only = course.invitation_only
+        is_course_full = CourseEnrollment.objects.is_course_full(course)
+
+        # Register button should be disabled if one of the following is true:
+        # - Student is already registered for course
+        # - Course is already full
+        # - Student cannot enroll in course
+        active_reg_button = not (registered or is_course_full or not can_enroll)
+
+        is_shib_course = uses_shib(course)
+
+        # get prerequisite courses display names
+        pre_requisite_courses = get_prerequisite_courses_display(course)
+
+        # Overview
+        overview = CourseOverview.get_from_id(course.id)
+
+        # D-day
+        today = datetime.now()
+        course_start = course.start
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
+        d_day = (course_start_val - today_val)
+
+        if d_day.days > 0:
+            day = {'day': '/ D-' + str(d_day.days)}
+        else:
+            day = {'day': ''}
+
+        # short description
+        short_description = {'short_description': course_details.short_description}
+
+        # classfy name
+        classfy_dict = {
+            # add classfy
+            "edu": "Education",
+            "hum": "Humanities",
+            "social": "Social Sciences",
+            "eng": "Engineering",
+            "nat": "Natural Sciences",
+            "med": "Medical Sciences",
+            "art": "Arts & Physical",
+            "intd": "Interdisciplinary",
+        }
+
+        # if course_details.classfy != 'all':
+        #     classfy_name = ClassDict[course_details.classfy]
+        # else:
+        #     classfy_name = 'Etc'
+
+        global classfy_name
+        if course_details.classfy is None or course_details.classfy == '':
+            classfy_name = 'Etc'
+        else:
+            classfy_name = classfy_dict[
+                course_details.classfy] if course_details.classfy in classfy_dict else course_details.classfy
+
+        # univ name
+        UnivDic = {
+            # add univ
+            "testUniv": "Test University",
+            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
+            "KHUk": "KYUNGHEE UNIVERSITY",
+            "KoreaUnivK": "KOREA UNIVERSITY",
+            "DGUk": "DAEGU UNIVERSITY",
+            "PNUk": "PUSAN NATIONAL UNIVERSITY",
+            "SMUCk": "SANGMYUNG UNIVERSITY",
+            "SNUk": "SEOUL NATIONAL UNIVERSITY",
+            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
+            "SSUk": "SUNGSHIN UNIVERSITY",
+            "SejonguniversityK": "SEJONG UNIVERSITY",
+            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
+            "YSUk": "YONSEI UNIVERSITY",
+            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
+            "UOUk": "UNIVERSITY OF ULSAN",
+            "EwhaK": "EWHA WOMANS UNIVERSITY",
+            "INHAuniversityK": "INHA UNIVERSITY",
+            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
+            "POSTECHk": "POSTECH",
+            "KAISTk": "KAIST",
+            "HYUk": "HANYANG UNIVERSITY",
+            "KOCW": "KOCW",
+            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
+            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
+            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
+            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
+            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
+            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
+            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
+            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
+            "HGUk": "HANDONG GLOBAL UNIVERSITY",
+        }
+
+        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
+
+        if course_details.enrollment_start:
+            enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
+                                                                    "%Y-%m-%d").date()
+            enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10],
+                                                                "%Y-%m-%d").date()
+
+            if _("Agree") == "Agree":
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
+            else:
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
+        else:
+            enroll_sdate = {'enroll_sdate': ''}
+            enroll_edate = {'enroll_edate': ''}
+
+        #######################################################################
+
+        context = {
+            'course': course,
+            'course_details': course_details,
+            'staff_access': staff_access,
+            'studio_url': studio_url,
+            'registered': registered,
+            'course_target': course_target,
+            'is_cosmetic_price_enabled': settings.FEATURES.get('ENABLE_COSMETIC_DISPLAY_PRICE'),
+            'course_price': course_price,
+            'in_cart': in_cart,
+            'ecommerce_checkout': ecommerce_checkout,
+            'ecommerce_checkout_link': ecommerce_checkout_link,
+            'ecommerce_bulk_checkout_link': ecommerce_bulk_checkout_link,
+            'professional_mode': professional_mode,
+            'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
+            'show_courseware_link': show_courseware_link,
+            'is_course_full': is_course_full,
+            'can_enroll': can_enroll,
+            'invitation_only': invitation_only,
+            'active_reg_button': active_reg_button,
+            'is_shib_course': is_shib_course,
+            # We do not want to display the internal courseware header, which is used when the course is found in the
+            # context. This value is therefor explicitly set to render the appropriate header.
+            'disable_courseware_header': True,
+            'can_add_course_to_cart': can_add_course_to_cart,
+            'cart_link': reverse('shoppingcart.views.show_cart'),
+            'pre_requisite_courses': pre_requisite_courses,
+            'course_image_urls': overview.image_urls,
+            'day': day,
+            'short_description': short_description,
+            # 'classfy' : classfy,
+            'classfy_name': classfy_name,
+            'univ_name': univ_name,
+            'enroll_sdate': enroll_sdate,
+            'enroll_edate': enroll_edate,
+            'course_link': course_link,
+        }
+        inject_coursetalk_keys_into_context(context, course_key)
+
+        return render_to_response('courseware/mobile_course_about.html', context)
 
 
 @transaction.non_atomic_requests
