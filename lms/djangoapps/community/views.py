@@ -1267,49 +1267,90 @@ class SMTPException(Exception):
 
 
 def comm_list_json(request):
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
+    con = connections['default']
     if request.is_ajax:
         total_list = []
         data = json.dumps('ready')
         cur = con.cursor()
         query = """
-              SELECT c.*
-                FROM (SELECT a.board_id,
+              SELECT *
+                FROM (SELECT board_id,
                              CASE
-                                WHEN a.section = 'N' THEN '[공지사항]'
-                                WHEN a.section = 'F' THEN '[Q&A]'
-                                WHEN a.section = 'K' THEN '[K-MOOC 뉴스]'
-                                WHEN a.section = 'R' THEN '[자료실]'
-                                WHEN a.section = 'M' THEN '[모바일]'
+                                WHEN section = 'N' THEN '[공지사항]'
+                                WHEN section = 'F' THEN '[Q&A]'
+                                WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                                WHEN section = 'R' THEN '[자료실]'
+                                WHEN section = 'M' THEN '[모바일]'
                                 ELSE ''
                              END
                                 head_title,
-                             a.subject,
-                             a.content,
-                             substr(a.mod_date, 1, 11) mod_date,
-                             a.section,
+                             subject,
+                             content,
+                             mod_date,
+                             section,
                              CASE
-                                WHEN a.section = 'N' THEN 1
-                                WHEN a.section = 'F' THEN 4
-                                WHEN a.section = 'K' THEN 2
-                                WHEN a.section = 'R' THEN 3
-                                WHEN a.section = 'M' THEN 5
+                                WHEN section = 'N' THEN 1
+                                WHEN section = 'F' THEN 4
+                                WHEN section = 'K' THEN 2
+                                WHEN section = 'R' THEN 3
+                                WHEN section = 'M' THEN 5
                                 ELSE ''
                              END
                                 odby,
-                             head_title              s,
-                             substr(a.reg_date, 1, 11) reg_date
-                        FROM tb_board a
-                             INNER JOIN (  SELECT section, max(mod_date) mod_date
-                                             FROM tb_board
-                                            WHERE use_yn = 'Y'
-                                         GROUP BY section) b
-                                ON (a.section = b.section AND a.mod_date = b.mod_date)) c
-            ORDER BY c.odby;
+                             head_title AS `s`,
+                             reg_date
+                        FROM ((  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'N'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)
+                              UNION ALL
+                              (  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'K'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)
+                              UNION ALL
+                              (  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'R'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)
+                              UNION ALL
+                              (  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'F'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)) dt1) dt2
+            ORDER BY odby
         """
         cur.execute(query)
         row = cur.fetchall()
