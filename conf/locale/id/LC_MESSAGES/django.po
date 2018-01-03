@@ -12153,7 +12153,7 @@ msgstr "Daftar"
 #: lms/templates/navigation.html themes/edx.org/lms/templates/header.html
 #: themes/red-theme/lms/templates/header.html
 msgid "Sign in"
-msgstr "Daftar"
+msgstr "Masuk"
 
 #: lms/templates/navigation.html themes/edx.org/lms/templates/header.html
 msgid ""
