@@ -7,7 +7,11 @@
                     <img src="/static/images/univ/logo02_<%- org %>.png" alt=""  onerror="this.src='/static/images/no_images.png'">
                     -->
                 </span>
-                <img src="<%- image_url %>" alt="<%- content.display_name %> <%- content.number %>"  onerror="this.src='/static/images/no_images_large.png'"/>
+                <% if (end){ %>
+                <img src="<%- image_url %>" alt="<%- content.display_name %> <%- content.number %> 개강일 <%- start %> 종강일 <%- end %> 강좌상태 <%- gettext(status) %>"  onerror="this.src='/static/images/no_images_large.png'"/>
+                <% }else{ %>
+                <img src="<%- image_url %>" alt="<%- content.display_name %> <%- content.number %> 개강일 <%- start %> 강좌상태 <%- gettext(status) %>"  onerror="this.src='/static/images/no_images_large.png'"/>
+                <% } %>
                 <div class="learn-more" aria-hidden="true"><%- gettext("LEARN MORE") %></div>
             </div>
         </header>
