@@ -16,14 +16,16 @@ $(document).ready(function () {
 });
 
 function search(head_title) {
-    $.post("/comm_tabs",
+    $.post("/comm_tabs/" + head_title + "/",
         {
             'head_title': head_title,
             'search_str': $("#search").val()
         },
         function (data) {
-
             $(".faq-list").html("");
+
+            $(".faq-tab a").removeClass("on");
+            $(".faq-tab a[data-value=" + head_title + "]").addClass("on");
 
             if (data.length == 0) {
                 $(".faq-list").html("<div style='text-align: center'><h3>저장된 데이터가 없습니다.</h3></div>");
@@ -39,8 +41,7 @@ function search(head_title) {
             }
             $(".faq-list").html(html);
 
-            $(".faq-tab a").removeClass("on");
-            $(".faq-tab a[data-value=" + head_title + "]").addClass("on");
+
             view_content();
 
         },

@@ -1,31 +1,27 @@
 /**
  * Created by dev on 2016. 11. 29..
  */
-$(document).ready(function(){
-    var html ='';
+$(document).ready(function () {
+    var html = '';
     $.ajax({
-        url : 'comm_list_json'
-    }).done(function(data){
+        url: 'comm_list_json'
+    }).done(function (data) {
         //console.log(data[0]);
-        for(var i=0; i<data.length; i++){
-            html +="<div class='col col-12 sm-col-6 md-col-4 lg-col-3 tab'>";
-            html +="<div class='community-item'>";
-            if(data[i][5] == 'F'){
-                html +="<a href='/comm_faq/"+data[i][6]+"/'>";
-            }else if(data[i][5] == 'K'){
-                html +="<a href='/comm_k_news_view/"+data[i][0]+"/'>";
-            }else if(data[i][5] == 'N'){
-                html +="<a href='/comm_notice_view/"+data[i][0]+"/'>";
-            }else if(data[i][5] == 'R'){
-                html +="<a href='/comm_repo_view/"+data[i][0]+"/'>";
+        for (var i = 0; i < data.length; i++) {
+            html += "<div class='col col-12 sm-col-6 md-col-4 lg-col-3 tab'>";
+            html += "<div class='community-item'>";
+            if (data[i][5] == 'F') {
+                html += "<a href='/comm_tabs/" + data[i][6] + "/'>";
+            } else {
+                html += "<a href='/comm_view/" + data[i][0] + "/'>";
             }
-            html +="<h3><strong class='category'>"+data[i][1]+"</strong>";
-            html +="<p>"+data[i][2]+"</p></h3>";
-            html +="<time>"+data[i][4]+"</time>";
-            html +="<p class='summary' style='height: 150px; margin-bottom: 0px;'>"+data[i][3].substr(0,200)+"</p>";
-            html +="</a>";
-            html +="</div>";
-            html +="</div>";
+            html += "<h3><strong class='category'>" + data[i][1] + "</strong>";
+            html += "<p>" + data[i][2] + "</p></h3>";
+            html += "<time>" + data[i][4] + "</time>";
+            html += "<p class='summary' style='height: 150px; margin-bottom: 0px;'>" + data[i][3].substr(0, 200) + "</p>";
+            html += "</a>";
+            html += "</div>";
+            html += "</div>";
         }
         $('#total').html(html);
     })
