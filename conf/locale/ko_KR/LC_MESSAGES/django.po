@@ -29988,3 +29988,6 @@ msgstr "강좌 홈"
 
 msgid "Effort time must have value"
 msgstr "권장 학습 시간은 필수 입력입니다."
+
+msgid "move"
+msgstr "이동"
