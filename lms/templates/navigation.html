@@ -127,10 +127,16 @@ site_status_msg = get_site_status_msg(course_id)
             <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
             % endif
                 <ul class="dropdown-menu">
+                    <!--
                     <li id="menu1"><a href="/comm_list/N">공지사항</a></li>
                     <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
                     <li id="menu3"><a href="/comm_list/R">자료실</a></li>
                     <li id="menu4"><a href="/comm_tabs">Q&A</a></li>
+                    -->
+                    <li id="menu1"><a href="/comm_notice">공지사항</a></li>
+                    <li id="menu2"><a href="/comm_k_news">K-MOOC 뉴스</a></li>
+                    <li id="menu3"><a href="/comm_repository">자료실</a></li>
+                    <li id="menu4"><a href="/comm_faq/1/">Q&A</a></li>
                 </ul>
             </li>
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
