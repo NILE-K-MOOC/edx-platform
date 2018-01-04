@@ -109,9 +109,9 @@ function search(page_no) {
             paging += "<a href='#' class='prev' id='prev' title='이전'>prev</a>";
             for (var i = minNum; i <= maxNum; i++) {
                 if (i == curr_page)
-                    paging += "<a href='#' class='page current' id='" + i + "' title='" + i + " 페이지'>" + i + "</a>";
+                    paging += "<a href='#' class='page current' id='" + i + "' title='현재 페이지'>" + i + "</a>";
                 else
-                    paging += "<a href='#' class='page' id='" + i + "' title='" + i + " 페이지'>" + i + "</a>";
+                    paging += "<a href='#' class='page' id='" + i + "' title=''>" + i + "</a>";
 
 
             }

@@ -131,6 +131,11 @@ def comm_view(request, board_id=None):
     else:
         return None
 
+    # 관리자에서 업로드한 경로와 실서버에서 가져오는 경로를 replace 시켜주어야함
+    board.content = board.content.replace('/manage/home/static/upload/', '/static/file_upload/')
+
+    # local test
+    board.content = board.content.replace('/home/project/management/home/static/upload/', '/static/file_upload/')
     context = {
         'page_title': page_title,
         'board': board
@@ -174,10 +179,16 @@ def comm_file(request, file_id=None):
     try:
         file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
     except Exception as e:
+        print 'comm_file error --- s'
+        print e
+        print connections['default'].queries
+        print 'comm_file error --- e'
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
-    if not file or not os.path.exists(file.attach_file_path + '/' + file.attatch_file_name):
-        return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
+    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/static/file_upload/') if not file.attach_file_path else '/static/file_upload/'
+
+    if not file or not os.path.exists(filepath + file.attatch_file_name):
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다..'); window.history.back();</script>")
 
     response = HttpResponse(open(file.attach_file_path, 'rb'), content_type='application/force-download')
     response['Content-Disposition'] = 'attachment; filename=%s' % file.attach_org_name
