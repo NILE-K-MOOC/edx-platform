@@ -1338,3 +1338,7 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 .search-facets-lists li:focus {
 	border: 3px solid red;
 }
+
+#global-navigation {
+	background-color: #fff;
+}

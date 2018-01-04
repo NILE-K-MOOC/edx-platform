@@ -20,14 +20,14 @@
 
     <div id="head_title" style="display: none;">Q&A</div>
     <nav class="faq-tab">
-        <a href="#" class="on" data-value="kmooc_f" title="K-MOOC">K-MOOC</a>
-        <a href="#" data-value="regist_f" title="회원가입">회원가입</a>
-        <a href="#" data-value="login_f" title="로그인/계정">로그인/계정</a>
-        <a href="#" data-value="enroll_f" title="수강신청/취소">수강신청/취소</a>
-        <a href="#" data-value="course_f" title="강좌 수강">강좌 수강</a>
-        <a href="#" data-value="certi_f" title="성적/이수증">성적/이수증</a>
-        <a href="#" data-value="tech_f" title="기술적문제">기술적 문제</a>
-        <a href="#" data-value="mobile_f" title="모바일앱">모바일앱</a>
+        <a href="#" class="${'on' if head_title == 'kmooc_f' else ''}" data-value="kmooc_f" title="K-MOOC">K-MOOC</a>
+        <a href="#" class="${'on' if head_title == 'regist_f' else ''}" data-value="regist_f" title="회원가입">회원가입</a>
+        <a href="#" class="${'on' if head_title == 'login_f' else ''}" data-value="login_f" title="로그인/계정">로그인/계정</a>
+        <a href="#" class="${'on' if head_title == 'enroll_f' else ''}" data-value="enroll_f" title="수강신청/취소">수강신청/취소</a>
+        <a href="#" class="${'on' if head_title == 'course_f' else ''}" data-value="course_f" title="강좌 수강">강좌 수강</a>
+        <a href="#" class="${'on' if head_title == 'certi_f' else ''}" data-value="certi_f" title="성적/이수증">성적/이수증</a>
+        <a href="#" class="${'on' if head_title == 'tech_f' else ''}" data-value="tech_f" title="기술적문제">기술적 문제</a>
+        <a href="#" class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" title="모바일앱">모바일앱</a>
     </nav>
 
     <dl class="faq-list" title="Q&A 목록">

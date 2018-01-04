@@ -140,13 +140,10 @@ def comm_view(request, board_id=None):
 
 
 @ensure_csrf_cookie
-def comm_tabs(request):
+def comm_tabs(request, head_title=None):
     if request.is_ajax():
         search_str = request.POST.get('search_str')
         head_title = request.POST.get('head_title')
-
-        print 'search_str:', search_str
-        print 'head_title:', head_title
 
         if search_str:
             comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
@@ -155,11 +152,14 @@ def comm_tabs(request):
 
         return JsonResponse([model_to_dict(o) for o in comm_list])
     else:
+        if not head_title:
+            head_title = 'kmooc_f'
 
-        comm_list = TbBoard.objects.filter(section='F', head_title='kmooc_f', use_yn='Y').order_by('odby', '-reg_date')
+        comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
 
         context = {
-            'data': comm_list
+            'data': comm_list,
+            'head_title': head_title
         }
 
         print 'context --- s'
