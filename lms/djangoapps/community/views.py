@@ -185,14 +185,16 @@ def comm_file(request, file_id=None):
         print 'comm_file error --- e'
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
-    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/static/file_upload/') if file.attach_file_path else '/static/file_upload/'
+    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
+    filename = file.attatch_file_name
 
-    if not file or not os.path.exists(filepath + file.attatch_file_name):
-        print 'filepath + file.attatch_file_name :', filepath + file.attatch_file_name
+    if not file or not os.path.exists(filepath + filename):
+        print 'filepath + file.attatch_file_name :', filepath + filename
         return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
 
-    response = HttpResponse(open(file.attach_file_path, 'rb'), content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=%s' % file.attach_org_name
+    response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
+    
+    response['Content-Disposition'] = 'attachment; filename=%s' % str(filename).encode('utf-8')
     return response
 
 
