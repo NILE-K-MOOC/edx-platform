@@ -993,7 +993,10 @@
         };
 
         var pushPreviewHtml = function (text) {
-            text = String(text).replace(/script/g, 'notag');
+            console.debug('pushPreviewHtml.');
+
+            text = String(text).replace(/script/ig, '_script');
+            text = String(text).replace(/on/ig, '_on');
 
             var emptyTop = position.getTop(panels.input) - getDocScrollTop();
 
