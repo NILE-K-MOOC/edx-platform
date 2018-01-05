@@ -106,8 +106,8 @@ def container_handler(request, usage_key_string):
         html: returns the HTML page for editing a container
         json: not currently supported
     """
-    if 'text/html' in request.META.get('HTTP_ACCEPT', 'text/html'):
-
+    #if 'text/html' in request.META.get('HTTP_ACCEPT', 'text/html'):
+    if True:
         try:
             usage_key = UsageKey.from_string(usage_key_string)
         except InvalidKeyError:  # Raise Http404 on invalid 'usage_key_string'

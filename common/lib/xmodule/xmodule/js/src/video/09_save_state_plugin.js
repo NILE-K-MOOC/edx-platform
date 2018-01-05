@@ -41,7 +41,8 @@
                     'play': this.bindUnloadHandler,
                     'pause destroy': this.saveStateHandler,
                     'language_menu:change': this.onLanguageChange,
-                    'youtube_availability': this.onYoutubeAvailability
+                    'youtube_availability': this.onYoutubeAvailability,
+                    'ended stop': this.saveStateHandler
                 };
                 this.bindHandlers();
             },
@@ -93,27 +94,61 @@
             },
 
             saveState: function(async, data) {
+                console.log("save state");
+
+                var seek_mode = this.state.config.seekEnable;
+                var score_mode = this.state.config.hasScore;
+
+                //console.log("state.videoPlayer");
+                //console.log(this.state.videoPlayer);
+                //console.log("state.config");
+                //console.log(this.state.config);
+
+                var startPoint = this.state.videoPlayer.currentTime;
+                var endPoint = this.state.videoPlayer.duration();
+
+                //console.log(startPoint);
+                //console.log(endPoint);
+
+                var avgPoint = (startPoint/endPoint) * 100;
+
+                //console.log(avgPoint);
+
+                if (avgPoint > 95){
+                    avgPoint = 100;
+                    //console.log(avgPoint);
+                }
+
                 if (!($.isPlainObject(data))) {
                     data = {
                         saved_video_position: this.state.videoPlayer.currentTime
                     };
                 }
-
                 if (data.speed) {
                     this.state.storage.setItem('speed', data.speed, true);
                 }
-
                 if (_.has(data, 'saved_video_position')) {
                     this.state.storage.setItem('savedVideoPosition', data.saved_video_position, true);
                     data.saved_video_position = Time.formatFull(data.saved_video_position);
+                    data.total_duration = this.state.videoPlayer.duration();
+                    data.duration = this.state.videoPlayer.currentTime;
                 }
-
                 $.ajax({
                     url: this.state.config.saveStateUrl,
                     type: 'POST',
                     async: async ? true : false,
                     dataType: 'json',
-                    data: data
+                    data: data ,
+
+                    success: function(msg){
+                        if ((avgPoint > 95) && (score_mode == true) && (seek_mode == false)){
+                            alert("video completed")
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("video check error");
+                    }
+
                 });
             }
         };

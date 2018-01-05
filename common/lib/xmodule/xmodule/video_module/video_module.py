@@ -297,6 +297,9 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
                 yt_api_key = xblock_settings['YOUTUBE_API_KEY']
 
         metadata = {
+            'hasScore' : self.has_score,
+            'seekEnable' : self.seek_enable,
+
             'saveStateUrl': self.system.ajax_url + '/save_user_state',
             'autoplay': settings.FEATURES.get('AUTOPLAY_VIDEOS', False),
             'streams': self.youtube_streams,

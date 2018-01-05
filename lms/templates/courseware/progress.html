@@ -49,7 +49,7 @@ from django.utils.http import urlquote_plus
                 </div>
                 % endif
                 <h3 class="hd hd-3 progress-certificates-title">
-                    ${_("Course Progress for Student '{username}' ({email})").format(username=student.username, email=student.email)}
+                    ${_("Course Progress for Student '{username}' ({email})").format(username=student.profile.name, email=student.email)}
                 </h3>
 
                 %if certificate_data:

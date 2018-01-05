@@ -46,8 +46,8 @@
         &:hover,
         &:focus,
         &.active {
-          color: $uxpl-blue-hover-active;
-          border-bottom-color: $uxpl-blue-hover-active;
+          color: #a40f3e; 
+          border-bottom-color: #a40f3e;
         }
       }
     }
@@ -65,7 +65,7 @@
 .header-global.slim {
   box-shadow: 0 1px 2px $shadow-l1;
   height: auto;
-  padding: ($baseline/4) 0 ($baseline/2) 0;
+  padding: ($baseline/4) 0 15px 0;
   border-bottom: 1px solid $outer-border-color;
   background: $header-bg;
 
@@ -144,7 +144,7 @@
     }
 
     img {
-      height: 30px;
+      height: 50px;
       width: auto;
     }
   }

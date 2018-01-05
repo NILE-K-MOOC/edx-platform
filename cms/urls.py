@@ -6,6 +6,8 @@ from ratelimitbackend import admin
 from cms.djangoapps.contentstore.views.program import ProgramAuthoringView, ProgramsIdTokenView
 from cms.djangoapps.contentstore.views.organization import OrganizationListView
 
+from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
+
 admin.autodiscover()
 
 # Pattern to match a course key or a library key
@@ -72,6 +74,11 @@ urlpatterns += patterns(
     url(r'^$', 'howitworks', name='homepage'),
     url(r'^howitworks$', 'howitworks'),
     url(r'^signup$', 'signup', name='signup'),
+
+    ################ 0609
+    url(r'^newsignin$', 'newlogin_page', name='login'),
+    ################ 0609
+
     url(r'^signin$', 'login_page', name='login'),
     url(r'^request_course_creator$', 'request_course_creator', name='request_course_creator'),
 
@@ -114,6 +121,7 @@ urlpatterns += patterns(
         settings.COURSE_KEY_PATTERN), 'group_configurations_detail_handler'),
     url(r'^api/val/v0/', include('edxval.urls')),
     url(r'^api/tasks/v0/', include('user_tasks.urls')),
+    url(r'^studioapi/', include('studioapi.urls')),
 )
 
 JS_INFO_DICT = {
@@ -210,3 +218,5 @@ urlpatterns += (
     url(r'^404$', handler404),
     url(r'^500$', handler500),
 )
+
+urlpatterns+= oraurlpatterns

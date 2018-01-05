@@ -96,6 +96,114 @@ class CourseDetails(object):
         """
         return cls.populate(modulestore().get_course(course_key))
 
+#################################################################################
+
+    @classmethod
+    def update_from_json_good(cls, course_key, jsondict, user, image_dir_string):  # pylint: disable=too-many-statements
+
+        module_store = modulestore()
+        descriptor = module_store.get_course(course_key)
+
+        dirty = False
+
+        date = Date()
+
+        ###### BUG FIX ######
+        #descriptor.static_asset_path = image_dir_string
+        descriptor.course_image = image_dir_string
+        descriptor.banner_image = image_dir_string
+        descriptor.video_thumbnail_image = image_dir_string
+        ###### BUG FIX ######
+
+        if 'start_date' in jsondict:
+            converted = date.from_json(jsondict['start_date'])
+        else:
+            converted = None
+        if converted != descriptor.start:
+            dirty = True
+            descriptor.start = converted
+
+        if 'end_date' in jsondict:
+            converted = date.from_json(jsondict['end_date'])
+        else:
+            converted = None
+
+        if converted != descriptor.end:
+            dirty = True
+            descriptor.end = converted
+
+        if 'enrollment_start' in jsondict:
+            converted = date.from_json(jsondict['enrollment_start'])
+        else:
+            converted = None
+
+        if converted != descriptor.enrollment_start:
+            dirty = True
+            descriptor.enrollment_start = converted
+
+        if 'enrollment_end' in jsondict:
+            converted = date.from_json(jsondict['enrollment_end'])
+        else:
+            converted = None
+
+        if converted != descriptor.enrollment_end:
+            dirty = True
+            descriptor.enrollment_end = converted
+        """
+        if 'course_image_name' in jsondict and jsondict['course_image_name'] != descriptor.course_image:
+            descriptor.course_image = jsondict['course_image_name']
+            dirty = True
+
+        if 'banner_image_name' in jsondict and jsondict['banner_image_name'] != descriptor.banner_image:
+            descriptor.banner_image = jsondict['banner_image_name']
+            dirty = True
+
+        if 'video_thumbnail_image_name' in jsondict \
+                and jsondict['video_thumbnail_image_name'] != descriptor.video_thumbnail_image:
+            descriptor.video_thumbnail_image = jsondict['video_thumbnail_image_name']
+            dirty = True
+        """
+        if 'pre_requisite_courses' in jsondict \
+                and sorted(jsondict['pre_requisite_courses']) != sorted(descriptor.pre_requisite_courses):
+            descriptor.pre_requisite_courses = jsondict['pre_requisite_courses']
+            dirty = True
+
+        if 'license' in jsondict:
+            descriptor.license = jsondict['license']
+            dirty = True
+
+        if 'learning_info' in jsondict:
+            descriptor.learning_info = jsondict['learning_info']
+            dirty = True
+
+        if 'instructor_info' in jsondict:
+            descriptor.instructor_info = jsondict['instructor_info']
+            dirty = True
+
+        if 'language' in jsondict and jsondict['language'] != descriptor.language:
+            descriptor.language = jsondict['language']
+            dirty = True
+
+        if (SelfPacedConfiguration.current().enabled
+            and descriptor.can_toggle_course_pacing
+            and 'self_paced' in jsondict
+            and jsondict['self_paced'] != descriptor.self_paced):
+            descriptor.self_paced = jsondict['self_paced']
+            dirty = True
+
+        if dirty:
+            module_store.update_item(descriptor, user.id)
+
+        for attribute in ABOUT_ATTRIBUTES:
+            if attribute in jsondict:
+                cls.update_about_item(descriptor, attribute, jsondict[attribute], user.id)
+
+        cls.update_about_video(descriptor, jsondict['intro_video'], user.id)
+
+        return CourseDetails.fetch(course_key)
+
+#################################################################################
+
     @classmethod
     def populate(cls, course_descriptor):
         """

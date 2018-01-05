@@ -46,7 +46,7 @@ from lms.djangoapps.lms_xblock.mixin import LmsBlockMixin
 
 ################################### FEATURES ###################################
 # The display name of the platform to be used in templates/emails/etc.
-PLATFORM_NAME = "Your Platform Name Here"
+PLATFORM_NAME = "LearningNet"
 CC_MERCHANT_NAME = PLATFORM_NAME
 # Shows up in the platform footer, eg "(c) COPYRIGHT_YEAR"
 COPYRIGHT_YEAR = "2017"
@@ -3042,3 +3042,21 @@ DOC_LINK_BASE_URL = None
 ############## Settings for the Enterprise App ######################
 
 ENTERPRISE_ENROLLMENT_API_URL = LMS_ROOT_URL + "/api/enrollment/v1/"
+
+############################ ORA 2 ############################################
+
+ORA2_FILEUPLOAD_BACKEND = "filesystem"
+#your prefered cache system
+
+ORA2_FILEUPLOAD_CACHE_NAME="default"
+#where you want to upload ora2 files
+
+ORA2_FILEUPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'ora-upload/')
+
+# By default, don't use a file prefix
+ORA2_FILE_PREFIX = None
+
+# Default File Upload Storage bucket and prefix. Used by the FileUpload Service.
+FILE_UPLOAD_STORAGE_BUCKET_NAME = 'edxuploads'
+FILE_UPLOAD_STORAGE_PREFIX = 'submissions_attachments'
+

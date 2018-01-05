@@ -36,7 +36,7 @@
 
         .course-header {
             @include float(left);
-            @include margin(12px, 10px, 0px, 10px);
+            @include margin(15px, 10px, 0px, 10px);
             color: $lms-label-color;
         }
 
@@ -107,19 +107,20 @@
     // Style the courseware's slim version of the header
     &.slim {
         .wrapper-header {
-            height: 60px;
+            height: 70px;
 
             .logo img {
-                margin-top: 4px;
-                height: 30px;
+                //margin-top: 4px;
+                height: 50px;
             }
 
             .course-header {
-                margin-top: 10px;
+                margin-top: 13px;
             }
 
             .list-inline.nav-global {
-                margin-top: 10px;
+                margin-top: 15px;
+                margin-left: 12px;
             }
 
             .wrapper-user-menu {
