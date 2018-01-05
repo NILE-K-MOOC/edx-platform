@@ -887,7 +887,8 @@ def course_info_handler(request, course_key_string):
         course_module = get_course_and_check_access(course_key, request.user)
         if not course_module:
             raise Http404
-        if 'text/html' in request.META.get('HTTP_ACCEPT', 'text/html'):
+        #if 'text/html' in request.META.get('HTTP_ACCEPT', 'text/html'):
+        if True:
             return render_to_response(
                 'course_info.html',
                 {
@@ -972,7 +973,8 @@ def settings_handler(request, course_key_string):
     credit_eligibility_enabled = settings.FEATURES.get('ENABLE_CREDIT_ELIGIBILITY', False)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
-        if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        #if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        if 'application/json' not in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             upload_asset_url = reverse_course_url('assets_handler', course_key)
 
             # see if the ORG of this course can be attributed to a defined configuration . In that case, the
@@ -1125,7 +1127,8 @@ def grading_handler(request, course_key_string, grader_index=None):
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
 
-        if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        #if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        if 'application/json' not in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             course_details = CourseGradingModel.fetch(course_key)
 
             return render_to_response('settings_graders.html', {
@@ -1219,7 +1222,8 @@ def advanced_settings_handler(request, course_key_string):
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
-        if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        #if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        if 'application/json' not in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,
@@ -1520,7 +1524,8 @@ def group_configurations_list_handler(request, course_key_string):
     with store.bulk_operations(course_key):
         course = get_course_and_check_access(course_key, request.user)
 
-        if 'text/html' in request.META.get('HTTP_ACCEPT', 'text/html'):
+        #if 'text/html' in request.META.get('HTTP_ACCEPT', 'text/html'):
+        if "application/json" not in request.META.get('HTTP_ACCEPT'):
             group_configuration_url = reverse_course_url('group_configurations_list_handler', course_key)
             course_outline_url = reverse_course_url('course_handler', course_key)
             should_show_experiment_groups = are_content_experiments_enabled(course)

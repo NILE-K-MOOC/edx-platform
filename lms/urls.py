@@ -19,6 +19,8 @@ from django_comment_common.models import ForumsConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from util.enterprise_helpers import enterprise_enabled
 
+from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
+
 # Uncomment the next two lines to enable the admin:
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     admin.autodiscover()
@@ -67,6 +69,7 @@ urlpatterns = (
 
     # Course API
     url(r'^api/courses/', include('course_api.urls')),
+    url(r'^edxapi/', include('edxapi.urls')),
 
     # User API endpoints
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),
@@ -119,6 +122,14 @@ if settings.FEATURES["ENABLE_COMBINED_LOGIN_REGISTRATION"]:
         url(r'^register$', 'student_account.views.login_and_registration_form',
             {'initial_mode': 'register'}, name="register_user"),
     )
+    ################ 0609
+    urlpatterns += (
+        url(r'^newlogin$', 'student_account.views.newlogin_and_registration_form',
+            {'initial_mode': 'login'}, name="signin_user"),
+        url(r'^newregister$', 'student_account.views.newlogin_and_registration_form',
+            {'initial_mode': 'register'}, name="register_user"),
+    )
+    ################ 0609
 else:
     # Serve the old views
     urlpatterns += (
@@ -964,3 +975,5 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
             name='submit_financial_assistance_request'
         )
     )
+
+urlpatterns+= oraurlpatterns

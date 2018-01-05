@@ -509,7 +509,8 @@ def export_handler(request, course_key_string):
             return render_to_response('export.html', context)
         return send_tarball(tarball)
 
-    elif 'text/html' in requested_format:
+    #elif 'text/html' in requested_format:
+    elif True:
         return render_to_response('export.html', context)
 
     else:

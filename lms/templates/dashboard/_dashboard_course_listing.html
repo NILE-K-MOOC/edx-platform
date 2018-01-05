@@ -236,12 +236,12 @@ from student.helpers import (
                     % elif enrollment.mode != "verified":
                       % if not is_course_blocked:
                       <a href="#unenroll-modal" class="action action-unenroll" rel="leanModal" data-course-id="${course_overview.id}" data-course-number="${course_overview.number}" data-course-name="${course_overview.display_name_with_default}" data-dashboard-index="${dashboard_index}"
-                         data-track-info="${_("Are you sure you want to unenroll from %(course_name)s (%(course_number)s)?")}">
+                         data-track-info="${_("Unenroll is only enabled from Learningnet")}">
                         ${_('Unenroll')}
                       </a>
                       % else:
                       <a class="action action-unenroll is-disabled" data-course-id="${course_overview.id}" data-course-number="${course_overview.number}" data-course-name="${course_overview.display_name_with_default}" data-dashboard-index="${dashboard_index}"
-                         data-track-info="${_("Are you sure you want to unenroll from %(course_name)s (%(course_number)s)?")}">
+                         data-track-info="${_("Unenroll is only enabled from Learningnet")}">
                         ${_('Unenroll')}
                       </a>
                       % endif

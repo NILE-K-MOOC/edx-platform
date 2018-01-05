@@ -39,7 +39,7 @@ $(function () {
   /* -------------------------------- Grade detail bars -------------------------------- */
     
   <%
-  colors = ["#b72121", "#600101", "#666666", "#333333"]
+  colors = ["#b72121", "#b72121", "#b72121", "#b72121"]
   categories = {}
 
   tickIndex = 1
@@ -189,15 +189,25 @@ $(function () {
       }
   }
 
-  // hide the vertical axis since they are audibly lacking context
+// hide the vertical axis since they are audibly lacking context
   for (var i = 0; i < grade_cutoff_ticks.length; i++) {
       grade_cutoff_ticks[i][1] = edx.HtmlUtils.joinHtml(
           edx.HtmlUtils.HTML('<span aria-hidden="true">'),
-          grade_cutoff_ticks[i][1],
+          "",
           edx.HtmlUtils.HTML('</span>')
       ).text;
   }
-    
+  grade_cutoff_ticks[0][1] = edx.HtmlUtils.joinHtml(
+      edx.HtmlUtils.HTML('<span aria-hidden="true">'),
+      "100%",
+      edx.HtmlUtils.HTML('</span>')
+  ).text;
+  grade_cutoff_ticks[1][1] = edx.HtmlUtils.joinHtml(
+      edx.HtmlUtils.HTML('<span aria-hidden="true">'),
+      "0%",
+      edx.HtmlUtils.HTML('</span>')
+  ).text;
+
   //Always be sure that one series has the xaxis set to 2, or the second xaxis labels won't show up
   series.push( {label: 'Dropped Scores', data: droppedScores, points: {symbol: "cross", show: true, radius: 3}, bars: {show: false}, color: "#333"} );
   

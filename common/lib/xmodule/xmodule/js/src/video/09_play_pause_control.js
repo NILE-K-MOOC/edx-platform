@@ -71,6 +71,7 @@
             },
 
             play: function() {
+                console.log("play");
                 this.el
                 .addClass('pause')
                 .removeClass('play')
@@ -81,6 +82,7 @@
             },
 
             pause: function() {
+                console.log("pause");
                 this.el
                 .removeClass('pause')
                 .addClass('play')

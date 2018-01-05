@@ -27,13 +27,14 @@ from openedx.core.djangolib.markup import HTML, Text
       <h3 class="sr">${_("Page Actions")}</h3>
       <ul>
         <li class="nav-item">
+          <!--
           % if course_creator_status=='granted':
           <a href="#" class="button new-button new-course-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>
               ${_("New Course")}</a>
           % elif course_creator_status=='disallowed_for_this_site' and settings.FEATURES.get('STUDIO_REQUEST_EMAIL',''):
           <a href="mailto:${settings.FEATURES.get('STUDIO_REQUEST_EMAIL','')}">${_("Email staff to create course")}</a>
           % endif
-
+          -->
           % if show_new_library_button:
             <a href="#" class="button new-button new-library-button"><span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>
             ${_("New Library")}</a>
@@ -297,18 +298,22 @@ from openedx.core.djangolib.markup import HTML, Text
 
       % if libraries_enabled or is_programs_enabled:
       <ul id="course-index-tabs">
+        <li class="courses-tab active">${_("Libraries")}</li>
+        <!--<li class="libraries-tab active">${_("Libraries")}</li>-->
+        <!--
         <li class="courses-tab active"><a>${_("Courses")}</a></li>
-
+        
         % if libraries_enabled:
           <li class="libraries-tab"><a>${_("Libraries")}</a></li>
         % endif
-
+        -->
         % if is_programs_enabled:
           <li class="programs-tab"><a>${_("Programs")}</a></li>
         % endif
       </ul>
       % endif
 
+      <!--
       %if len(courses) > 0:
       <div class="courses courses-tab active">
         <ul class="list-courses">
@@ -460,9 +465,11 @@ from openedx.core.djangolib.markup import HTML, Text
         </div>
       </div>
       % endif
+      -->
 
       %if len(libraries) > 0:
-      <div class="libraries libraries-tab">
+      <div class="courses courses-tab active">
+      <!--<div class="libraries libraries-tab">-->
         <ul class="list-courses">
           %for library_info in sorted(libraries, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
           <li class="course-item">
@@ -488,7 +495,8 @@ from openedx.core.djangolib.markup import HTML, Text
       </div>
 
       %else:
-      <div class="notice notice-incontext notice-instruction notice-instruction-nocourses list-notices libraries-tab">
+      <div class="notice notice-incontext notice-instruction notice-instruction-nocourses list-notices courses-tab active">
+      <!--<div class="notice notice-incontext notice-instruction notice-instruction-nocourses list-notices libraries-tab">-->
         <div class="notice-item">
           <div class="msg">
               <h3 class="title">${_("Were you expecting to see a particular library here?")}</h3>

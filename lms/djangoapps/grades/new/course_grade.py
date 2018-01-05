@@ -333,7 +333,8 @@ class CourseGradeFactory(object):
         course_structure = get_course_blocks(student, course.location)
         # if user does not have access to this course, throw an exception
         if not self._user_has_access_to_course(course_structure):
-            raise PermissionDenied("User does not have access to this course")
+            return "false"
+            #raise PermissionDenied("User does not have access to this course")
         return (
             self._get_saved_grade(student, course, course_structure) or
             self._compute_and_update_grade(student, course, course_structure, read_only)

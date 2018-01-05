@@ -258,7 +258,7 @@
         }
 
         .hd {
-          @include border-right(1px dashed #ddd);
+          @include border-right(0px dashed #ddd);
           @include box-sizing(border-box);
           display: table-cell;
           letter-spacing: 0;

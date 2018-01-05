@@ -12,6 +12,7 @@ import openedx.core.djangoapps.external_auth.views
 from xmodule.modulestore.django import modulestore
 from opaque_keys.edx.keys import CourseKey
 
+from django.utils.http import urlencode
 
 # pylint: disable=fixme
 # TODO: This function is kind of gnarly/hackish/etc and is only used in one location.
@@ -66,7 +67,8 @@ def login(request):
         response = openedx.core.djangoapps.external_auth.views.redirect_with_get('root', request.GET)
     elif settings.FEATURES.get('AUTH_USE_CAS'):
         # If CAS is enabled, redirect auth handling to there
-        response = redirect(reverse('cas-login'))
+        redirect_to = urlencode({'next': request.GET.get('next', None)})
+        response = redirect(reverse('cas-login')+'?'+redirect_to)
     elif settings.FEATURES.get('AUTH_USE_SHIB'):
         redirect_to = request.GET.get('next')
         if redirect_to:
