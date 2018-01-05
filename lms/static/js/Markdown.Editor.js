@@ -996,6 +996,9 @@
             console.debug('pushPreviewHtml.');
 
             text = String(text).replace(/script/ig, '_script');
+            text = String(text).replace(/iframe/ig, '_iframe');
+            text = String(text).replace(/xmp/ig, '_xmp');
+            text = String(text).replace(/xml/ig, '_xml');
             text = String(text).replace(/on/ig, '_on');
 
             var emptyTop = position.getTop(panels.input) - getDocScrollTop();
