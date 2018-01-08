@@ -8,6 +8,35 @@ ${page_title}
 <%block name="header_extras"></%block>
 <script src="${static.url('js/script/comm_memo.js')}" charset="utf-8"></script>
 
+<script>
+function checked_all() {
+    if ($("#check_all").is(":checked")) {
+        $(".check_all").prop('checked', true) ;
+    } else {
+        $(".check_all").prop('checked', false) ;
+    }
+}
+
+function delete_all() {
+    del_list = ''
+    for(var i=0; i<10; i++){
+        if($(".check_all").eq(i).is(":checked") == true){
+            //$(".check_all").eq(i).attr('id');
+            del_list += $(".check_all").eq(i).attr('id') + '+';
+        }
+    }
+
+    console.log(del_list);
+
+    $.post( "/memo", {
+        del_list: del_list
+    })
+    .done(function( data ) {
+        search(1);
+    });
+}
+</script>
+
 <section class="container">
     <h2 title="${page_title}" id="main">${page_title}</h2>
     <!-- [s] board list -->
@@ -19,12 +48,12 @@ ${page_title}
         <input type="text" id="search_search" onkeydown="onKeyDown()" aria-label="검색어 입력" title="검색어 입력">
         <input type="button" id="search" value="검색" title="검색" aria-label="검색">
         <input type="hidden" id="curr_page" value="1">
-        <input type="button" id="delete" value="삭제" title="삭제" aria-label="삭제">
+        <input type="button" id="delete" value="삭제" title="삭제" aria-label="삭제" onclick="delete_all()">
     </section>
     <section class="memo-list">
         <ul>
             <li class="thead">
-                <span class="check" title="체크"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>
+                <span class="check" title="체크"><input type="checkbox" onclick="checked_all()" id="check_all"/></span>
                 <span class="no" title="번호">번호</span>
                 <span class="gubun" title="구분">구분</span>
                 <span class="title" title="제목">제목</span>

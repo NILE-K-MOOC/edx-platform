@@ -82,53 +82,71 @@ class Memo(models.Model):
 
 @ensure_csrf_cookie
 def memo(request):
+    user_id = request.user.id
+
     if request.is_ajax():
-        page_size = request.POST.get('page_size')
-        curr_page = request.POST.get('curr_page')
-        search_con = request.POST.get('search_con')
-        search_str = request.POST.get('search_str')
-        user_id = request.user.id
+        if request.POST.get('del_list'):
+            del_list = request.POST.get('del_list')
+            del_list = del_list.split('+')
+            del_list.pop()
 
-        print "---------------------- DEBUG s"
-        print "page_size = ", page_size
-        print "curr_page = ", curr_page
-        print "search_con = ", search_con
-        print "search_str = ", search_str
-        print "user_id = ", user_id
-        print "---------------------- DEBUG e"
+            print "-----------------------> del_list s"
+            print "del_list = ", del_list
+            print "-----------------------> del_list e"
 
-        if search_str:
-            print 'search_con:', search_con
-            print 'search_str:', search_str
+            for item in del_list:
+                Memo.objects.filter(memo_id=item).delete()
+                print "-------------### del"
+                print "item = ", item
+                print "-------------### del"
+            return JsonResponse({'a':'b'})
 
-            if search_con == 'title':
-                print "---------------------->1"
-                comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by('-regist_date')
-            else:
-                print "---------------------->2"
-                comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
         else:
-            print "---------------------->3"
-            comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
+            page_size = request.POST.get('page_size')
+            curr_page = request.POST.get('curr_page')
+            search_con = request.POST.get('search_con')
+            search_str = request.POST.get('search_str')
 
-        p = Paginator(comm_list, page_size)
-        total_cnt = p.count
-        all_pages = p.num_pages
-        curr_data = p.page(curr_page)
+            print "---------------------- DEBUG s"
+            print "page_size = ", page_size
+            print "curr_page = ", curr_page
+            print "search_con = ", search_con
+            print "search_str = ", search_str
+            print "user_id = ", user_id
+            print "---------------------- DEBUG e"
 
-        print "---------------------- DEBUG s"
-        print "total_cnt = ", total_cnt
-        print "all_pages = ", all_pages
-        print "curr_data = ", curr_data
-        print "---------------------- DEBUG e"
+            if search_str:
+                print 'search_con:', search_con
+                print 'search_str:', search_str
 
-        context = {
-            'total_cnt': total_cnt,
-            'all_pages': all_pages,
-            'curr_data': [model_to_dict(o) for o in curr_data.object_list],
-        }
+                if search_con == 'title':
+                    print "---------------------->1"
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by('-regist_date')
+                else:
+                    print "---------------------->2"
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
+            else:
+                print "---------------------->3"
+                comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
 
-        return JsonResponse(context)
+            p = Paginator(comm_list, page_size)
+            total_cnt = p.count
+            all_pages = p.num_pages
+            curr_data = p.page(curr_page)
+
+            print "---------------------- DEBUG s"
+            print "total_cnt = ", total_cnt
+            print "all_pages = ", all_pages
+            print "curr_data = ", curr_data
+            print "---------------------- DEBUG e"
+
+            context = {
+                'total_cnt': total_cnt,
+                'all_pages': all_pages,
+                'curr_data': [model_to_dict(o) for o in curr_data.object_list],
+            }
+
+            return JsonResponse(context)
     else:
         pass
 
