@@ -19,10 +19,10 @@ $(document).ready(function () {
 });
 
 Date.prototype.yyyymmdd = function () {
-    var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getDate();
+    var mm = this.getUTCMonth() + 1; // getMonth() is zero-based
+    var dd = this.getUTCDate();
 
-    return [this.getFullYear(), '/',
+    return [this.getUTCFullYear(), '/',
         (mm > 9 ? '' : '0') + mm, '/',
         (dd > 9 ? '' : '0') + dd
     ].join('');
