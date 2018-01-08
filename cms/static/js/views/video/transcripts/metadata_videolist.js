@@ -13,7 +13,8 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
         events : {
             'click .setting-clear' : 'clear',
             'keypress .setting-input' : 'showClearButton',
-            'click .collapse-setting' : 'toggleExtraVideosBar'
+            'click .collapse-setting' : 'toggleExtraVideosBar',
+            'keyup .input': 'input_verify'
         },
 
         templateName: 'metadata-videolist-entry',
@@ -21,8 +22,8 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
         // Pre-defined dict of placeholders: "videoType - placeholder" pairs.
         placeholders: {
             'webm': '.webm',
-            'mp4': 'http://somesite.com/video.mp4',
-            'youtube': 'http://youtube.com/'
+            'mp4': 'http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4',
+            'youtube': 'http://vod.kmoocs.kr/'
         },
 
         initialize: function (options) {
@@ -239,6 +240,18 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
             } else {
                 this.openExtraVideosBar.apply(this, arguments);
             }
+        },
+
+        input_verify: function (event) {
+            if(!($('.input.videolist-url').val().search('youtube') == -1)) {
+                this.messenger.showError(gettext('YouTube url은 사용할 수 없습니다.'), true);
+                $('.input.videolist-url').val('http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4');
+                $('.input.videolist-url').focus();
+            }
+            if(!($('.videolist-settings').children().eq(0).children().val().search('youtube') == -1)) {
+                  $('.videolist-settings').children().eq(0).children().delay(1000).val('');
+                  $('.videolist-settings').children().eq(0).children().delay(1000).focus();
+             }
         },
 
         /**

@@ -27,7 +27,15 @@
         <li class="external-url">
             <label>
                 <span class="label"><%- gettext('Web:') %></span>
-                <input type="text" class="embeddable-xml-input" value="<%- external_url %>" readonly>
+                <%
+                    verify = external_url
+                %>
+                <% if (!verify.startsWith("https://") || verify.startsWith("https:") || verify.startsWith("https") || verify.startsWith("https:/")){ %>
+                    <input type="text" class="embeddable-xml-input" value="https://<%- external_url %>" readonly>
+                <% } %>
+                <% if (verify.startsWith("https://")){ %>
+                    <input type="text" class="embeddable-xml-input" value="<%- external_url %>" readonly>
+                <% } %>
             </label>
         </li>
     </ul>

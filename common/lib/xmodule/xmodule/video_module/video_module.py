@@ -619,7 +619,7 @@ class VideoDescriptor(VideoFields, VideoTranscriptsMixin, VideoStudioViewHandler
             A full youtube url to the video whose ID is passed in
         """
         if youtube_id:
-            return 'https://www.youtube.com/watch?v={0}'.format(youtube_id)
+            return 'http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4'
         else:
             return ''
 

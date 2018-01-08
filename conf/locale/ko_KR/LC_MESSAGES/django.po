@@ -4494,7 +4494,7 @@ msgstr "기본"
 msgid ""
 "The URL for your video. This can be a YouTube URL or a link to an .mp4, "
 ".ogg, or .webm video file hosted elsewhere on the Internet."
-msgstr "video URL 입니다. YouTube URL 이나 mp4, ogg, .webm 파일을 링크시키세요."
+msgstr "video URL 입니다. mp4, ogg, .webm 파일을 링크시키세요. (YouTube URL 입력불가)"
 
 #: common/lib/xmodule/xmodule/video_module/video_module.py
 msgid "Default Video URL"
