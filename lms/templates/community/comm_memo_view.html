@@ -14,16 +14,16 @@ ${page_title}
     <section class="board-view">
         <ul>
             <li class="title">
-                <h3 id="title" title="제목">${board.subject}</h3>
-                <time id="reg_date" style="bottom: 20px;" title="등록일시">${board.reg_date}</time>
-                <time id="mod_date" style="bottom: 5px;" title="조회일시">${board.mod_date}</time>
+                <h3 id="title" title="제목">${memo.title}</h3>
+                <time id="reg_date" style="bottom: 20px;" title="등록일시">${(memo.regist_date).strftime("%Y.%m.%d %H:%M:%S")}</time>
+                <time id="mod_date" style="bottom: 5px;" title="조회일시">${memo.read_date.strftime("%Y.%m.%d %H:%M:%S")}</time>
             </li>
 
             <li class="contents" id="context" title="내용">
-                ${board.content}
+                ${memo.contents}
             </li>
 
-            % if board.files:
+            % if memo.files:
             <li class="file-list" title="첨부파일" id="file_li" style="display: none;">
 
                 <h5>파일명:</h5>

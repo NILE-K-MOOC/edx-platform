@@ -147,7 +147,7 @@ urlpatterns = (
 
     # memo
     url(r'^memo$', 'community.views.memo', name='memo'),
-    url(r'^memo_view/(?P<board_id>.*?)/$', 'community.views.memo_view', name='memo_view'),
+    url(r'^memo_view/(?P<memo_id>.*?)/$', 'community.views.memo_view', name='memo_view'),
     url(r'^memo_sync$', 'community.views.memo_sync', name='memo'),
 )
 

@@ -19,22 +19,35 @@ $(document).ready(function () {
 });
 
 Date.prototype.yyyymmdd = function () {
-    var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getDate();
+    var mm = this.getUTCMonth() + 1; // getMonth() is zero-based
+    var dd = this.getUTCDate();
 
-    return [this.getFullYear(), '/',
-        (mm > 9 ? '' : '0') + mm, '/',
-        (dd > 9 ? '' : '0') + dd
-    ].join('');
+    var rt_date = [this.getFullYear(), '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd].join('');
+
+    console.log("-------------------> date prototype s");
+    console.log("mm = " + mm);
+    console.log("dd = " + dd);
+    console.log("rt_date = " + rt_date);
+    console.log("-------------------> date prototype s");
+
+    return rt_date;
 };
 
 function search(page_no) {
 
-    if (page_no > 1 && $("#curr_page").val() == page_no)
-        return;
+    console.log("----------------> s");
+    console.log("page_no = " + page_no);
+    console.log("----------------> e");
 
-    if (page_no)
+    if (page_no > 1 && $("#curr_page").val() == page_no) {
+        console.log("----------------> if 1");
+        return;
+    }
+
+    if (page_no){
+        console.log("----------------> if 2");
         $("#curr_page").val(page_no);
+    }
 
     $.post(document.location.pathname,
         {
@@ -51,27 +64,49 @@ function search(page_no) {
             var curr_page = Number($("#curr_page").val());
             $("#all_pages").val(all_pages);
             yesterday.setDate(yesterday.getDate() - 7); // 일주일 이내 등록글은 new 이미지 표시
-            //console.log(data);
 
             //for table
             var html = "";
 
             for (var i = 0; i < data.length; i++) {
 
-                var reg_date = new Date(data[i].reg_date);
+                var reg_date = new Date(data[i].regist_date);
+                var red_date = new Date(data[i].read_date);
 
-                //console.log(data[i].subject + ":" + data[i].board_id);
+                if(data[i].read_date == null){
+                    var out_red_date = '미조회';
+                }
+                else{
+                    var out_red_date = red_date.yyyymmdd();
+                }
+
+                console.log("-------------------> red date s");
+                console.log("red_date = " + data[i].read_date);
+                console.log("-------------------> red date e");
+
+                if(data[i].memo_gubun == '1'){
+                    gubun = '단체메일발송';
+                }
+                else if(data[i].memo_gubun == '2') {
+                    gubun = '관심강좌개설';
+                }
+                else if(data[i].memo_gubun == '3') {
+                    gubun = '공지사항변경';
+                }
+                else if(data[i].memo_gubun == '4') {
+                    gubun = '게시판팔로우';
+                }
 
                 html += "<li class='tbody'>";
-                html += "   <span class='check'>" + '<input type="checkbox" class="check_all" id="check_all' + i + '"/>' + "</span>";
+                html += "   <span class='check'>" + '<input type="checkbox" id="memo' + i + '"/>' + "</span>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
-                html += "   <span class='gubun'>" + 'TEST' + "</span>";
-                html += "   <span class='title'><a href='/memo_view/" + data[i].board_id + "'>" + data[i].subject + " </a>";
+                html += "   <span class='gubun'>" + gubun + "</span>";
+                html += "   <span class='title'><a href='/memo_view/" + data[i].memo_id + "'>" + data[i].title + " </a>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;'/>"
                 html += "   </span>";
                 html += "   <span class='send_date'>" + reg_date.yyyymmdd() + "</span>";
-                html += "   <span class='read_date'>" + reg_date.yyyymmdd() + "</span>";
+                html += "   <span class='read_date'>" + out_red_date + "</span>";
                 html += "</li>";
             }//end for
 
@@ -95,8 +130,6 @@ function search(page_no) {
                     paging += "<a href='#' class='page current' id='" + i + "' title='" + i + " 페이지'>" + i + "</a>";
                 else
                     paging += "<a href='#' class='page' id='" + i + "' title='" + i + " 페이지'>" + i + "</a>";
-
-
             }
             paging += "<a href='#' class='next' id='next' title='다음'>next</a>";
             paging += "<a href='#' class='last' id='last' title='마지막으로'>last</a>";

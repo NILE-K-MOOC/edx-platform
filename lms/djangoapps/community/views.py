@@ -21,6 +21,8 @@ from django.forms.models import model_to_dict
 from django.core.paginator import Paginator
 from django.db.models import Q
 import os.path
+import datetime
+from datetime import timedelta
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -85,21 +87,40 @@ def memo(request):
         curr_page = request.POST.get('curr_page')
         search_con = request.POST.get('search_con')
         search_str = request.POST.get('search_str')
+        user_id = request.user.id
+
+        print "---------------------- DEBUG s"
+        print "page_size = ", page_size
+        print "curr_page = ", curr_page
+        print "search_con = ", search_con
+        print "search_str = ", page_size
+        print "user_id = ", user_id
+        print "---------------------- DEBUG e"
 
         if search_str:
             print 'search_con:', search_con
             print 'search_str:', search_str
 
             if search_con == 'title':
+                print "---------------------->1"
                 comm_list = TbBoard.objects.filter(section='N', use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
             else:
+                print "---------------------->2"
                 comm_list = TbBoard.objects.filter(section='N', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section='N', use_yn='Y').order_by('-reg_date')
+            print "---------------------->3"
+            comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
+
         p = Paginator(comm_list, page_size)
         total_cnt = p.count
         all_pages = p.num_pages
         curr_data = p.page(curr_page)
+
+        print "---------------------- DEBUG s"
+        print "total_cnt = ", total_cnt
+        print "all_pages = ", all_pages
+        print "curr_data = ", curr_data
+        print "---------------------- DEBUG e"
 
         context = {
             'total_cnt': total_cnt,
@@ -118,21 +139,19 @@ def memo(request):
         return render_to_response('community/comm_memo.html', context)
 
 @ensure_csrf_cookie
-def memo_view(request, board_id=None):
-    if board_id is None:
+def memo_view(request, memo_id=None):
+    if memo_id is None:
         return redirect('/')
 
-    board = TbBoard.objects.get(board_id=board_id)
+    Memo.objects.filter(memo_id=memo_id).update(read_date=datetime.datetime.now() + datetime.timedelta(hours=+9))
+    memo = Memo.objects.get(memo_id=memo_id)
 
-    if board:
-        board.files = TbBoardAttach.objects.filter(board_id=board_id)
-
-    section = board.section
-    page_title = '공지사항'
+    if memo:
+        memo.files = Memo.objects.filter(memo_id=memo_id)
 
     context = {
         'page_title': 'Memo',
-        'board': board
+        'memo': memo
     }
 
     return render_to_response('community/comm_memo_view.html', context)
