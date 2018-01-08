@@ -93,7 +93,7 @@ def memo(request):
         print "page_size = ", page_size
         print "curr_page = ", curr_page
         print "search_con = ", search_con
-        print "search_str = ", page_size
+        print "search_str = ", search_str
         print "user_id = ", user_id
         print "---------------------- DEBUG e"
 
@@ -103,10 +103,10 @@ def memo(request):
 
             if search_con == 'title':
                 print "---------------------->1"
-                comm_list = TbBoard.objects.filter(section='N', use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+                comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by('-regist_date')
             else:
                 print "---------------------->2"
-                comm_list = TbBoard.objects.filter(section='N', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+                comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
         else:
             print "---------------------->3"
             comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
