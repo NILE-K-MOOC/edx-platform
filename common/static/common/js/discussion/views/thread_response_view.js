@@ -1,11 +1,11 @@
 /* globals
-    Comments, ResponseCommentView, DiscussionUtil, ThreadResponseEditView,
-    ThreadResponseShowView, DiscussionContentView
-*/
-(function() {
+ Comments, ResponseCommentView, DiscussionUtil, ThreadResponseEditView,
+ ThreadResponseShowView, DiscussionContentView
+ */
+(function () {
     'use strict';
     var __hasProp = {}.hasOwnProperty,
-        __extends = function(child, parent) {
+        __extends = function (child, parent) {
             for (var key in parent) {
                 if (__hasProp.call(parent, key)) {
                     child[key] = parent[key];
@@ -22,25 +22,25 @@
         };
 
     if (typeof Backbone !== "undefined" && Backbone !== null) {
-        this.ThreadResponseView = (function(_super) {
+        this.ThreadResponseView = (function (_super) {
 
             __extends(ThreadResponseView, _super);
 
             function ThreadResponseView() {
                 var self = this;
-                this.update = function() {
+                this.update = function () {
                     return ThreadResponseView.prototype.update.apply(self, arguments);
                 };
-                this.edit = function() {
+                this.edit = function () {
                     return ThreadResponseView.prototype.edit.apply(self, arguments);
                 };
-                this.cancelEdit = function() {
+                this.cancelEdit = function () {
                     return ThreadResponseView.prototype.cancelEdit.apply(self, arguments);
                 };
-                this._delete = function() {
+                this._delete = function () {
                     return ThreadResponseView.prototype._delete.apply(self, arguments);
                 };
-                this.renderComment = function() {
+                this.renderComment = function () {
                     return ThreadResponseView.prototype.renderComment.apply(self, arguments);
                 };
                 return ThreadResponseView.__super__.constructor.apply(this, arguments);
@@ -55,17 +55,17 @@
                 "focus .wmd-input": "showEditorChrome"
             };
 
-            ThreadResponseView.prototype.$ = function(selector) {
+            ThreadResponseView.prototype.$ = function (selector) {
                 return this.$el.find(selector);
             };
 
-            ThreadResponseView.prototype.initialize = function(options) {
+            ThreadResponseView.prototype.initialize = function (options) {
                 this.collapseComments = options.collapseComments;
                 this.createShowView();
                 this.readOnly = $('.discussion-module').data('read-only');
             };
 
-            ThreadResponseView.prototype.renderTemplate = function() {
+            ThreadResponseView.prototype.renderTemplate = function () {
                 var container, templateData, _ref;
                 this.template = _.template($("#thread-response-template").html());
                 container = $("#discussion-container");
@@ -80,7 +80,7 @@
                 return this.template(templateData);
             };
 
-            ThreadResponseView.prototype.render = function() {
+            ThreadResponseView.prototype.render = function () {
                 this.$el.addClass("response_" + this.model.get("id"));
                 this.$el.html(this.renderTemplate());
                 this.delegateEvents();
@@ -93,12 +93,12 @@
                 return this;
             };
 
-            ThreadResponseView.prototype.afterInsert = function() {
+            ThreadResponseView.prototype.afterInsert = function () {
                 this.makeWmdEditor("comment-body");
                 return this.hideEditorChrome();
             };
 
-            ThreadResponseView.prototype.hideEditorChrome = function() {
+            ThreadResponseView.prototype.hideEditorChrome = function () {
                 this.$('.wmd-button-row').hide();
                 this.$('.wmd-preview-container').hide();
                 this.$('.wmd-input').css({
@@ -108,7 +108,7 @@
                 return this.$('.comment-post-control').hide();
             };
 
-            ThreadResponseView.prototype.showEditorChrome = function() {
+            ThreadResponseView.prototype.showEditorChrome = function () {
                 this.$('.wmd-button-row').show();
                 this.$('.wmd-preview-container').show();
                 this.$('.comment-post-control').show();
@@ -118,30 +118,30 @@
                 });
             };
 
-            ThreadResponseView.prototype.renderComments = function() {
+            ThreadResponseView.prototype.renderComments = function () {
                 var collectComments, comments,
                     self = this;
                 comments = new Comments();
                 this.commentViews = [];
-                comments.comparator = function(comment) {
+                comments.comparator = function (comment) {
                     return comment.get('created_at');
                 };
-                collectComments = function(comment) {
+                collectComments = function (comment) {
                     var children;
                     comments.add(comment);
                     children = new Comments(comment.get('children'));
-                    return children.each(function(child) {
+                    return children.each(function (child) {
                         child.parent = comment;
                         return collectComments(child);
                     });
                 };
                 this.model.get('comments').each(collectComments);
-                comments.each(function(comment) {
+                comments.each(function (comment) {
                     return self.renderComment(comment, false, null);
                 });
                 if (this.collapseComments && comments.length) {
                     this.$(".comments").hide();
-                    return this.$(".action-show-comments").on("click", function(event) {
+                    return this.$(".action-show-comments").on("click", function (event) {
                         event.preventDefault();
                         self.$(".action-show-comments").hide();
                         return self.$(".comments").show();
@@ -151,7 +151,7 @@
                 }
             };
 
-            ThreadResponseView.prototype.renderComment = function(comment) {
+            ThreadResponseView.prototype.renderComment = function (comment) {
                 var view,
                     self = this;
                 comment.set('thread', this.model.get('thread'));
@@ -164,25 +164,32 @@
                 } else {
                     this.$el.find(".comments .new-comment").before(view.el);
                 }
-                view.bind("comment:edit", function(event) {
+                view.bind("comment:edit", function (event) {
                     if (self.editView) {
                         self.cancelEdit(event);
                     }
                     self.cancelCommentEdits();
                     return self.hideCommentForm();
                 });
-                view.bind("comment:cancel_edit", function() {
+                view.bind("comment:cancel_edit", function () {
                     return self.showCommentForm();
                 });
                 this.commentViews.push(view);
                 return view;
             };
 
-            ThreadResponseView.prototype.submitComment = function(event) {
+            ThreadResponseView.prototype.submitComment = function (event) {
                 var body, comment, url, view;
                 event.preventDefault();
                 url = this.model.urlFor('reply');
                 body = this.getWmdContent("comment-body");
+
+                body = String(body).replace(/script/ig, '_script');
+                body = String(body).replace(/iframe/ig, '_iframe');
+                body = String(body).replace(/xmp/ig, '_xmp');
+                body = String(body).replace(/xml/ig, '_xml');
+                body = String(body).replace(/on/ig, '_on');
+
                 if (!body.trim().length) {
                     return;
                 }
@@ -206,7 +213,7 @@
                     data: {
                         body: body
                     },
-                    success: function(response) {
+                    success: function (response) {
                         comment.set(response.content);
                         comment.updateInfo(response.annotated_content_info);
                         return view.render();
@@ -214,7 +221,7 @@
                 });
             };
 
-            ThreadResponseView.prototype._delete = function(event) {
+            ThreadResponseView.prototype._delete = function (event) {
                 var $elem, url;
                 event.preventDefault();
                 if (!this.model.can('can_delete')) {
@@ -234,7 +241,7 @@
                 });
             };
 
-            ThreadResponseView.prototype.createEditView = function() {
+            ThreadResponseView.prototype.createEditView = function () {
                 if (this.showView) {
                     this.showView.$el.empty();
                 }
@@ -249,31 +256,31 @@
                 }
             };
 
-            ThreadResponseView.prototype.renderSubView = function(view) {
+            ThreadResponseView.prototype.renderSubView = function (view) {
                 view.setElement(this.$('.discussion-response'));
                 view.render();
                 return view.delegateEvents();
             };
 
-            ThreadResponseView.prototype.renderEditView = function() {
+            ThreadResponseView.prototype.renderEditView = function () {
                 return this.renderSubView(this.editView);
             };
 
-            ThreadResponseView.prototype.cancelCommentEdits = function() {
-                return _.each(this.commentViews, function(view) {
+            ThreadResponseView.prototype.cancelCommentEdits = function () {
+                return _.each(this.commentViews, function (view) {
                     return view.cancelEdit();
                 });
             };
 
-            ThreadResponseView.prototype.hideCommentForm = function() {
+            ThreadResponseView.prototype.hideCommentForm = function () {
                 return this.$('.comment-form').closest('li').hide();
             };
 
-            ThreadResponseView.prototype.showCommentForm = function() {
+            ThreadResponseView.prototype.showCommentForm = function () {
                 return this.$('.comment-form').closest('li').show();
             };
 
-            ThreadResponseView.prototype.createShowView = function() {
+            ThreadResponseView.prototype.createShowView = function () {
                 var self = this;
 
                 if (this.editView) {
@@ -287,31 +294,31 @@
                     });
                     this.showView.bind("response:_delete", this._delete);
                     this.showView.bind("response:edit", this.edit);
-                    return this.showView.on("comment:endorse", function() {
+                    return this.showView.on("comment:endorse", function () {
                         return self.trigger("comment:endorse");
                     });
                 }
             };
 
-            ThreadResponseView.prototype.renderShowView = function() {
+            ThreadResponseView.prototype.renderShowView = function () {
                 return this.renderSubView(this.showView);
             };
 
-            ThreadResponseView.prototype.cancelEdit = function(event) {
+            ThreadResponseView.prototype.cancelEdit = function (event) {
                 event.preventDefault();
                 this.createShowView();
                 this.renderShowView();
                 return this.showCommentForm();
             };
 
-            ThreadResponseView.prototype.edit = function() {
+            ThreadResponseView.prototype.edit = function () {
                 this.createEditView();
                 this.renderEditView();
                 this.cancelCommentEdits();
                 return this.hideCommentForm();
             };
 
-            ThreadResponseView.prototype.update = function(event) {
+            ThreadResponseView.prototype.update = function (event) {
                 var newBody, url,
                     self = this;
                 newBody = this.editView.$(".edit-post-body textarea").val();
@@ -326,7 +333,7 @@
                         body: newBody
                     },
                     error: DiscussionUtil.formErrorHandler(this.$(".edit-post-form-errors")),
-                    success: function() {
+                    success: function () {
                         self.editView.$(".edit-post-body textarea").val("").attr("prev-text", "");
                         self.editView.$(".wmd-preview p").html("");
                         self.model.set({
