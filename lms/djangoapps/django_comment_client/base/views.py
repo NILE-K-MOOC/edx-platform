@@ -1,3 +1,4 @@
+import re
 import functools
 import logging
 import json
@@ -191,6 +192,19 @@ def ajax_content_response(request, course_key, content):
     })
 
 
+def replace_for_xss(str=''):
+    try:
+        str = re.sub(re.compile(re.escape('script'), re.IGNORECASE), '_script', str)
+        str = re.sub(re.compile(re.escape('iframe'), re.IGNORECASE), '_iframe', str)
+        str = re.sub(re.compile(re.escape('xmp'), re.IGNORECASE), '_xmp', str)
+        str = re.sub(re.compile(re.escape('xml'), re.IGNORECASE), '_xml', str)
+        str = re.sub(re.compile(re.escape('on'), re.IGNORECASE), '_on', str)
+    except Exception as e:
+        print e
+        return ''
+    return str
+
+
 @require_POST
 @login_required
 @permitted
@@ -227,8 +241,8 @@ def create_thread(request, course_id, commentable_id):
         'course_id': course_key.to_deprecated_string(),
         'user_id': user.id,
         'thread_type': post["thread_type"],
-        'body': post["body"],
-        'title': post["title"],
+        'body': replace_for_xss(post["body"]),
+        'title': replace_for_xss(post["title"]),
     }
 
     # Check for whether this commentable belongs to a team, and add the right context
@@ -289,8 +303,8 @@ def update_thread(request, course_id, thread_id):
     thread = cc.Thread.find(thread_id)
     # Get thread context first in order to be safe from reseting the values of thread object later
     thread_context = getattr(thread, "context", "course")
-    thread.body = request.POST["body"]
-    thread.title = request.POST["title"]
+    thread.body = replace_for_xss(request.POST["body"])
+    thread.title = replace_for_xss(request.POST["title"])
     user = request.user
     # The following checks should avoid issues we've seen during deploys, where end users are hitting an updated server
     # while their browser still has the old client code. This will avoid erasing present values in those cases.
@@ -344,7 +358,7 @@ def _create_comment(request, course_key, thread_id=None, parent_id=None):
         course_id=course_key.to_deprecated_string(),
         thread_id=thread_id,
         parent_id=parent_id,
-        body=post["body"]
+        body=replace_for_xss(post["body"])
     )
     comment.save()
 
@@ -404,7 +418,7 @@ def update_comment(request, course_id, comment_id):
     comment = cc.Comment.find(comment_id)
     if 'body' not in request.POST or not request.POST['body'].strip():
         return JsonError(_("Body can't be empty"))
-    comment.body = request.POST["body"]
+    comment.body = replace_for_xss(request.POST["body"])
     comment.save()
 
     comment_edited.send(sender=None, user=request.user, post=comment)
