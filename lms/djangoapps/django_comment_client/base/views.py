@@ -198,7 +198,7 @@ def replace_for_xss(str=''):
         str = re.sub(re.compile(re.escape('iframe'), re.IGNORECASE), '_iframe', str)
         str = re.sub(re.compile(re.escape('xmp'), re.IGNORECASE), '_xmp', str)
         str = re.sub(re.compile(re.escape('xml'), re.IGNORECASE), '_xml', str)
-        str = re.sub(re.compile(re.escape('on'), re.IGNORECASE), '_on', str)
+        str = re.sub(re.compile(re.escape(' on'), re.IGNORECASE), ' _on', str)  # on 의 경우 공백포함 ' on' 의 경우만 _ 추가로 변경
     except Exception as e:
         print e
         return ''
