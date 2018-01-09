@@ -322,6 +322,13 @@
                 var newBody, url,
                     self = this;
                 newBody = this.editView.$(".edit-post-body textarea").val();
+
+                newBody = String(newBody).replace(/script/ig, '_script');
+                newBody = String(newBody).replace(/iframe/ig, '_iframe');
+                newBody = String(newBody).replace(/xmp/ig, '_xmp');
+                newBody = String(newBody).replace(/xml/ig, '_xml');
+                newBody = String(newBody).replace(/on/ig, '_on');
+
                 url = DiscussionUtil.urlFor('update_comment', this.model.id);
                 return DiscussionUtil.safeAjax({
                     $elem: $(event.target),
