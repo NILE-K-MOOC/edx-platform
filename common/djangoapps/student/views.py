@@ -1522,6 +1522,91 @@ def change_enrollment(request, check_access=True):
         return HttpResponseBadRequest(_("Enrollment action is invalid"))
 
 
+@transaction.non_atomic_requests
+@require_POST
+@outer_atomic(read_committed=True)
+def enrollment_verifi(request):
+    course_id = request.POST.get('course_id')
+    user_id = request.POST.get('user_id')
+    course_id = course_id.replace('course-v1:','')
+    course_index = course_id.split('+')
+    org = course_index[0]
+    course = course_index[1]
+
+    print 'POST.get index ===================='
+    print org
+    print course
+    print user_id
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    cur = con.cursor()
+    query = """
+            SELECT id
+              FROM (SELECT org,
+                           display_number_with_default,
+                           id,
+                           effort,
+                           (SELECT Count(*)
+                              FROM edxapp.course_overviews_courseoverview b
+                             WHERE     a.org = b.org
+                                   AND a.display_number_with_default =
+                                          b.display_number_with_default
+                                   AND a.start >= b.start
+                                   AND a.created >= b.created)
+                              AS rank
+                      FROM edxapp.course_overviews_courseoverview a) ab
+             WHERE     rank = 1
+                   AND org = '{0}'
+                   AND display_number_with_default = '{1}'
+           """.format(org, course)
+    cur.execute(query)
+    course_verifi = cur.fetchone()
+
+    query = """
+            SELECT count(*)
+              FROM course_overviews_courseoverview
+             WHERE     id = '{0}'
+                   AND now() BETWEEN enrollment_start AND enrollment_end;
+       """.format(course_verifi[0])
+    cur.execute(query)
+    verifi_index = cur.fetchone()
+
+    if(verifi_index[0] == 1 and user_id != None) :
+        query = """
+            INSERT INTO student_courseenrollment(user_id,
+                                                 course_id,
+                                                 created,
+                                                 is_active,
+                                                 mode)
+                 VALUES ('{0}',
+                         '{1}',
+                         now(),
+                         TRUE,
+                         'honor')
+       """.format(user_id, course_verifi[0])
+        cur.execute(query)
+        con.commit()
+    elif(verifi_index[0] == 0 and user_id != None) :
+        query = """
+            INSERT INTO student_courseenrollment(user_id,
+                                                 course_id,
+                                                 created,
+                                                 is_active,
+                                                 mode)
+                 VALUES ('{0}',
+                         '{1}',
+                         now(),
+                         TRUE,
+                         'audit')
+       """.format(user_id, course_verifi[0])
+        cur.execute(query)
+        con.commit()
+
+    return HttpResponse()
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):  # pylint: disable=too-many-statements,unused-argument

@@ -132,8 +132,6 @@ def user_groups(user):
 
 @ensure_csrf_cookie
 def courses(request):
-    print 'course !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
     """

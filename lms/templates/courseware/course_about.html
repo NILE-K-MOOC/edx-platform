@@ -33,7 +33,20 @@ from openedx.core.lib.courses import course_image_url
       event.preventDefault();
     });
 
-    % if can_add_course_to_cart:
+    $("#rnshek").click(function(event) {
+            console.log('success!!!!!!!!');
+            console.log('${course.id}');
+            console.log('${user.id}');
+          $.post('/enrollment_verifi', {
+                course_id: '${course.id}',
+                user_id: '${user.id}'
+            },
+            function (data) {
+                location.href = "/dashboard";
+            }
+        );
+      });
+
       add_course_complete_handler = function(jqXHR, textStatus) {
         if (jqXHR.status == 200) {
           location.href = "${cart_link}";
@@ -57,7 +70,6 @@ from openedx.core.lib.courses import course_image_url
         })
         event.preventDefault();
       });
-    % endif
 
     ## making the conditional around this entire JS block for sanity
     %if settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
@@ -105,7 +117,10 @@ from openedx.core.lib.courses import course_image_url
     %endif
 
   })(this)
+
+
   </script>
+
 
   <script src="${static.url('js/course_info.js')}"></script>
 </%block>
@@ -174,10 +189,21 @@ from openedx.core.lib.courses import course_image_url
         ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
         ## so that they can register and become a real user that can enroll.
         % elif not is_shib_course and not can_enroll:
-          <span class="register disabled" style="float: right">${_("Enrollment is Closed")}</span>
+          <a href="javascript:Test();" class="register" id="rnshek" style="float: right">${_("Enrollment")}!!!!</a>
         % elif not is_shib_course and course.start_date_is_still_default:
-            <span class="register disabled" style="float: right">${_("Starting Soon")}</span>
-
+          <%
+            if ecommerce_checkout:
+              reg_href = ecommerce_checkout_link
+            else:
+              reg_href="#"
+            if professional_mode:
+              href_class = "add-to-cart"
+            else:
+              href_class = "register"
+          %>
+          <a class="${href_class}" id="Test" style="float: right">
+                ${_("Enrollment")}
+          </a>
         %elif can_add_course_to_cart:
           <%
           if user.is_authenticated():
