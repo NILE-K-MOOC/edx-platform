@@ -33,6 +33,11 @@ urlpatterns = (
     url(r'^multisite_url_check$', 'branding.views.multisite_url_check', name="root"),
     # ---------- multi site ---------- #
 
+    # ---------- nice check start---------- #
+    url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),  # success url
+    url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),  # fail url
+    # ---------- nice check end ---------- #
+
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
@@ -137,6 +142,11 @@ urlpatterns = (
     url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
 
     # community url
+    url(r'^comm_list/(?P<section>.*?)/$', 'community.views.comm_list', name='comm_list'),
+    url(r'^comm_view/(?P<board_id>.*?)/$', 'community.views.comm_view', name='comm_view'),
+    url(r'^comm_tabs$', 'community.views.comm_tabs', name='comm_tabs'),
+    url(r'^comm_file/(?P<file_id>.*?)/$', 'community.views.comm_file', name='comm_file'),
+
     url(r'^comm_notice$', 'community.views.comm_notice', name='comm_notice'),
     url(r'^comm_notice_view/(?P<board_id>.*?)/$', 'community.views.comm_notice_view', name='comm_notice_view'),
     url(r'^comm_repository$', 'community.views.comm_repository', name='comm_repository'),
@@ -150,11 +160,9 @@ urlpatterns = (
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
 
     # memo
-    url(r'^memo$', 'community.views.memo', name='comm_notice'),
-    url(r'^memo_view/(?P<board_id>.*?)/$', 'community.views.memo_view', name='comm_notice_view'),
-
-    # url(r'^test$', 'community.views.test', name='test'),
-
+    url(r'^memo$', 'community.views.memo', name='memo'),
+    url(r'^memo_view/(?P<memo_id>.*?)/$', 'community.views.memo_view', name='memo_view'),
+    url(r'^memo_sync$', 'community.views.memo_sync', name='memo'),
 )
 
 urlpatterns += (
@@ -1153,3 +1161,6 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
             name='submit_financial_assistance_request'
         )
     )
+
+if oraurlpatterns:
+    urlpatterns += tuple(oraurlpatterns)

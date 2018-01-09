@@ -567,7 +567,23 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 .board-list .tbody span.title {text-align:left;padding:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .board-list .tbody span.title > a {color:#333;}
 
-.paging {margin-top:40px; text-align:center;}
+.memo-list ul, .board-view ul, .board-write ul {list-style:none;padding:0;margin:0;}
+.memo-list  li:after {content:"";display:block;clear:both;}
+.memo-list  li:last-child {border-color:#cdcdcd;}
+.memo-list .thead {border-top:solid 2px #646464;border-bottom:solid 1px #f1f1f1;background:#f8f8f8;font-size:0.875rem;padding:13px 0;text-align:center;}
+.memo-list .tbody {border-bottom:solid 1px #f1f1f1;text-align:center;font-size:0.875rem;padding:13px 0;}
+.memo-list span {display:inline-block;float:left;text-align:center;box-sizing:border-box;}
+.memo-list span.check {width:5%;}
+.memo-list span.no {width:5%;}
+.memo-list span.gubun {width:10%;}
+.memo-list span.title {width:50%;}
+.memo-list span.send_date {width:15%;}
+.memo-list span.read_date {width:15%;}
+
+.memo-list .tbody span.title {text-align:left;padding:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.memo-list .tbody span.title > a {color:#333;}
+
+.paging {padding:40px 0;text-align:center;}
 .paging > a {display:inline-block;min-width:30px;line-height:28px;border:solid 1px #dad6d5;text-align:center;font-size:0.750em;color:#666;}
 .paging > a.current {color:#fff;background:#646464;}
 .paging > a.prev, .paging > a.first, .paging > a.next, .paging > a.last {text-indent:-999em;position:relative;}
@@ -1176,13 +1192,27 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	.container>div.wiki-wrapper {min-width:auto;}
 }
 
+.courses-listing-item a:focus{
+   border: 1px solid blue;
+}
 
+.login-register .form-field .tip, .financial-assistance-wrapper .financial-assistance-form .form-field .tip {
+	color : #5F5C5C;
+}
+
+.main-cta a:focus>strong{
+	border: 2px solid blue !important;
+}
+.courses-listing-item a:focus{
+   border: 1px solid blue;
+}
 a:focus, img:focus {
  outline: 1px solid none; /* what the fuck? */
 }
 input:focus, button:focus, textarea:focus {
  outline: 1px solid blue;
 }
+
 
 .wrapper-course-image>a.cover {
 	max-height:200px !important;
@@ -1332,3 +1362,12 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 	.facet-list{
 		background: #fff;
 	}
+
+.search-facets-lists button:focus {
+	border: 3px solid red;
+}
+
+.search-facets-lists li:focus {
+	border: 3px solid red;
+}
+

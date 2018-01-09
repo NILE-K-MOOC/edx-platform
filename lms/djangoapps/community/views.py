@@ -1,73 +1,29 @@
 # -*- coding: utf-8 -*-
 """ Views for a student's account information. """
 
-import logging
 import json
-import urlparse
-from datetime import datetime
-import logging
-import json
-import urlparse
-from datetime import datetime
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, resolve
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
 )
 from django.shortcuts import redirect
-from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_http_methods
-from django_countries import countries
 from edxmako.shortcuts import render_to_response
-import pytz
-from commerce.models import CommerceConfiguration
-from external_auth.login_and_register import (
-    login as external_auth_login,
-    register as external_auth_register
-)
-from lang_pref.api import released_languages, all_languages
-from openedx.core.djangoapps.commerce.utils import ecommerce_api_client
-from openedx.core.djangoapps.programs.models import ProgramsApiConfig
-from openedx.core.djangoapps.theming.helpers import is_request_in_themed_site
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-from openedx.core.djangoapps.user_api.accounts.api import request_password_change
-from openedx.core.djangoapps.user_api.errors import UserNotFound
-from openedx.core.lib.time_zone_utils import TIME_ZONE_CHOICES
-from openedx.core.lib.edx_api_utils import get_edx_api_data
-from student.models import UserProfile
-from student.views import (
-    signin_user as old_login_view,
-    register_user as old_register_view
-)
-from student.helpers import get_next_url_for_login_page
-import third_party_auth
-from third_party_auth import pipeline
-from third_party_auth.decorators import xframe_allow_whitelisted
-from util.bad_request_rate_limiter import BadRequestRateLimiter
-from util.date_utils import strftime_localized
-import commands
-from django.views.decorators.csrf import csrf_exempt
-from datetime import date
-from student.views import register_user
-from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
-import time
-import thread
-import logging
-import logging.handlers
-from datetime import datetime
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.mail import send_mail
 import sys
 import re
-from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from django.db import models, connections
+from django.forms.models import model_to_dict
+from django.core.paginator import Paginator
+from django.db.models import Q
+import os.path
 import datetime
 from django.db import connections
+from datetime import timedelta
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -512,7 +468,293 @@ def series_view(request, id):
     context['sub_list'] = sub_list
     return render_to_response('community/series_view.html', context)
 
+class TbBoard(models.Model):
+    board_id = models.AutoField(primary_key=True)
+    head_title = models.CharField(max_length=50, blank=True, null=True)
+    subject = models.TextField()
+    content = models.TextField(blank=True, null=True)
+    reg_date = models.DateTimeField()
+    mod_date = models.DateTimeField()
+    # section
+    # N : notice, F: faq, K: k-mooc news, R: reference
+    section = models.CharField(max_length=10)
+    use_yn = models.CharField(max_length=1)
+    odby = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_board'
+
+
+class TbBoardAttach(models.Model):
+    attatch_id = models.AutoField(primary_key=True)
+    board = models.ForeignKey('TbBoard', on_delete=models.CASCADE, related_name='attaches', null=True)
+    attach_file_path = models.CharField(max_length=255)
+    attatch_file_name = models.CharField(max_length=255)
+    attach_org_name = models.CharField(max_length=255, blank=True, null=True)
+    attatch_file_ext = models.CharField(max_length=50, blank=True, null=True)
+    attatch_file_size = models.CharField(max_length=50, blank=True, null=True)
+    attach_gubun = models.CharField(max_length=20, blank=True, null=True)
+    del_yn = models.CharField(max_length=1)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_board_attach'
+
+
+class Memo(models.Model):
+    memo_id = models.AutoField(primary_key=True)                          # memo_id int(11) primary key auto_increment
+    receive_id = models.IntegerField(blank=True, null=True)               # receive_id int(11)
+    title = models.CharField(max_length=300)                              # title varchar(300) not null
+    contents = models.CharField(max_length=20000, blank=True, null=True)  # contents varchar(20000)
+    memo_gubun = models.CharField(max_length=20, blank=True, null=True)   # memo_gubun varchar(20)
+    read_date = models.DateTimeField(blank=True, null=True)               # read_date datetime
+    regist_id = models.IntegerField(blank=True, null=True)                # regist_id int(11)
+    regist_date = models.DateTimeField(blank=True, null=True)             # regist_date datetime
+    modify_date = models.DateTimeField(blank=True, null=True)             # modify_date datetime
+
+    class Meta:
+        managed = False
+        db_table = 'memo'
+
+
 @ensure_csrf_cookie
+def memo(request):
+    user_id = request.user.id
+
+    if request.is_ajax():
+        if request.POST.get('del_list'):
+            del_list = request.POST.get('del_list')
+            del_list = del_list.split('+')
+            del_list.pop()
+
+            print "-----------------------> del_list s"
+            print "del_list = ", del_list
+            print "-----------------------> del_list e"
+
+            for item in del_list:
+                Memo.objects.filter(memo_id=item).delete()
+                print "-------------### del"
+                print "item = ", item
+                print "-------------### del"
+            return JsonResponse({'a':'b'})
+
+        else:
+            page_size = request.POST.get('page_size')
+            curr_page = request.POST.get('curr_page')
+            search_con = request.POST.get('search_con')
+            search_str = request.POST.get('search_str')
+
+            print "---------------------- DEBUG s"
+            print "page_size = ", page_size
+            print "curr_page = ", curr_page
+            print "search_con = ", search_con
+            print "search_str = ", search_str
+            print "user_id = ", user_id
+            print "---------------------- DEBUG e"
+
+            if search_str:
+                print 'search_con:', search_con
+                print 'search_str:', search_str
+
+                if search_con == 'title':
+                    print "---------------------->1"
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by('-regist_date')
+                else:
+                    print "---------------------->2"
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
+            else:
+                print "---------------------->3"
+                comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
+
+            p = Paginator(comm_list, page_size)
+            total_cnt = p.count
+            all_pages = p.num_pages
+            curr_data = p.page(curr_page)
+
+            print "---------------------- DEBUG s"
+            print "total_cnt = ", total_cnt
+            print "all_pages = ", all_pages
+            print "curr_data = ", curr_data
+            print "---------------------- DEBUG e"
+
+            context = {
+                'total_cnt': total_cnt,
+                'all_pages': all_pages,
+                'curr_data': [model_to_dict(o) for o in curr_data.object_list],
+            }
+
+            return JsonResponse(context)
+    else:
+        pass
+
+        context = {
+            'page_title': 'Memo'
+        }
+
+        return render_to_response('community/comm_memo.html', context)
+
+@ensure_csrf_cookie
+def memo_view(request, memo_id=None):
+    if memo_id is None:
+        return redirect('/')
+
+    Memo.objects.filter(memo_id=memo_id).update(read_date=datetime.datetime.now() + datetime.timedelta(hours=+9))
+    memo = Memo.objects.get(memo_id=memo_id)
+
+    if memo:
+        memo.files = Memo.objects.filter(memo_id=memo_id)
+
+    context = {
+        'page_title': 'Memo',
+        'memo': memo
+    }
+
+    return render_to_response('community/comm_memo_view.html', context)
+
+# 메모 동기화 로직
+def memo_sync(request):
+    if request.is_ajax():
+        if request.POST.get('sync_memo'):
+            user_id = request.POST.get('user_id')
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT Count(memo_id)
+                    FROM   edxapp.memo
+                    WHERE  receive_id = {0}
+                           AND read_date IS NULL;
+                '''.format(user_id)
+                cur.execute(query)
+                rows = cur.fetchall()
+                try:
+                    cnt = rows[0][0]
+                except BaseException:
+                    cnt = 0
+            return JsonResponse({"cnt":cnt})
+
+@ensure_csrf_cookie
+def comm_list(request, section=None):
+    if request.is_ajax():
+        page_size = request.POST.get('page_size')
+        curr_page = request.POST.get('curr_page')
+        search_con = request.POST.get('search_con')
+        search_str = request.POST.get('search_str')
+
+        if search_str:
+            print 'search_con:', search_con
+            print 'search_str:', search_str
+
+            if search_con == 'title':
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+            else:
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
+        p = Paginator(comm_list, page_size)
+        total_cnt = p.count
+        all_pages = p.num_pages
+        curr_data = p.page(curr_page)
+
+        context = {
+            'total_cnt': total_cnt,
+            'all_pages': all_pages,
+            'curr_data': [model_to_dict(o) for o in curr_data.object_list],
+        }
+
+        return JsonResponse(context)
+    else:
+        if section == 'N':
+            page_title = '공지사항'
+        elif section == 'K':
+            page_title = 'K-MOOC 뉴스'
+        elif section == 'R':
+            page_title = '자료실'
+        else:
+            return None
+
+        context = {
+            'page_title': page_title
+        }
+
+        return render_to_response('community/comm_list.html', context)
+
+
+@ensure_csrf_cookie
+def comm_view(request, board_id=None):
+    if board_id is None:
+        return redirect('/')
+
+    board = TbBoard.objects.get(board_id=board_id)
+
+    if board:
+        board.files = TbBoardAttach.objects.filter(board_id=board_id)
+
+    section = board.section
+
+    if section == 'N':
+        page_title = '공지사항'
+    elif section == 'K':
+        page_title = 'K-MOOC 뉴스'
+    elif section == 'R':
+        page_title = '자료실'
+    else:
+        return None
+
+    context = {
+        'page_title': page_title,
+        'board': board
+    }
+
+    return render_to_response('community/comm_view.html', context)
+
+
+@ensure_csrf_cookie
+def comm_tabs(request):
+    if request.is_ajax():
+        search_str = request.POST.get('search_str')
+        head_title = request.POST.get('head_title')
+
+        print 'search_str:', search_str
+        print 'head_title:', head_title
+
+        if search_str:
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+
+        return JsonResponse([model_to_dict(o) for o in comm_list])
+    else:
+
+        comm_list = TbBoard.objects.filter(section='F', head_title='kmooc_f', use_yn='Y').order_by('odby', '-reg_date')
+
+        context = {
+            'data': comm_list
+        }
+
+        print 'context --- s'
+        print context
+        print 'context --- e'
+
+        return render_to_response('community/comm_tabs.html', context)
+
+
+@ensure_csrf_cookie
+def comm_file(request, file_id=None):
+    try:
+        file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
+    except Exception as e:
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
+
+    if not file or not os.path.exists(file.attach_file_path + '/' + file.attatch_file_name):
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
+
+    response = HttpResponse(open(file.attach_file_path, 'rb'), content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % file.attach_org_name
+    return response
+
+
 def comm_notice(request):
     logging.info("############# - start")
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -807,11 +1049,7 @@ def comm_faqrequest(request):
     if request.is_ajax():
         data = json.dumps('fail')
         if request.GET['method'] == 'request':
-            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                              settings.DATABASES.get('default').get('USER'),
-                              settings.DATABASES.get('default').get('PASSWORD'),
-                              settings.DATABASES.get('default').get('NAME'),
-                              charset='utf8')
+            con = connections['default']
             email = request.GET['email']
             request_con = request.GET['request_con']
             option = request.GET['option']
@@ -835,6 +1073,13 @@ def comm_faqrequest(request):
                 settings.DEFAULT_FROM_EMAIL
             )
 
+            email = replace_all(email)
+
+            option = replace_all(option)
+            email_title = replace_all(email_title)
+            request_con = replace_all(request_con)
+            from_address = replace_all(from_address)
+
             if option == 'kmooc_f':
                 # send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
                 send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
@@ -843,6 +1088,8 @@ def comm_faqrequest(request):
                 send_mail(email_title, request_con, from_address, ['info_kmooc@nile.or.kr'])
                 save_email = 'info_kmooc@nile.or.kr'
             # 문의내용 저장
+
+            save_email = replace_all(save_email)
 
             cur = con.cursor()
             query = """
@@ -874,6 +1121,14 @@ def comm_faqrequest(request):
         return HttpResponse(data, 'application/json')
 
     return render_to_response('community/comm_faqrequest.html')
+
+
+def replace_all(string):
+    string = string.replace('<', '&lt;');
+    string = string.replace('>', '&gt;');
+    string = string.replace('"', '&quot;');
+    string = string.replace("'", "&#39;");
+    return string
 
 
 @ensure_csrf_cookie
@@ -1235,7 +1490,6 @@ def comm_mobile(request):
     return render_to_response('community/comm_mobile.html')
 
 
-
 @ensure_csrf_cookie
 def comm_mobile_view(request, board_id):
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -1535,8 +1789,6 @@ def comm_k_news_view(request, board_id):
 
 class SMTPException(Exception):
     """Base class for all exceptions raised by this module."""
-
-
 # 휴면계정 이메일 발송 쿼리
 # def test(request):
 #     email_list = []

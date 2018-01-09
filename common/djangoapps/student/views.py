@@ -3212,10 +3212,16 @@ def password_reset(request):
 
     form = PasswordResetFormNoActive(request.POST)
     if form.is_valid():
-        form.save(use_https=request.is_secure(),
+
+        host = request.get_host()
+        is_secure = True if host == 'www.kmooc.kr' else request.is_secure()
+
+        print 'is_secure:', is_secure
+
+        form.save(use_https=is_secure,
                   from_email=configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL),
                   request=request,
-                  domain_override=request.get_host())
+                  domain_override=host)
         # When password change is complete, a "edx.user.settings.changed" event will be emitted.
         # But because changing the password is multi-step, we also emit an event here so that we can
         # track where the request was initiated.
