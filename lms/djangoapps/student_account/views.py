@@ -458,7 +458,7 @@ def nicecheckplus(request):
         user_gender = str(nice_dict['GENDER'])
         if user_gender == '1':
             user_gender = 'm'
-        elif user_gender == '2':
+        elif user_gender == '0':
             user_gender = 'f'
 
         # created user birth day
