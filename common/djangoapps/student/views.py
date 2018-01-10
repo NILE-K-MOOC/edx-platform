@@ -1532,11 +1532,6 @@ def enrollment_verifi(request):
     course_index = course_id.split('+')
     org = course_index[0]
     course = course_index[1]
-
-    print 'POST.get index ===================='
-    print org
-    print course
-    print user_id
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
@@ -1554,8 +1549,8 @@ def enrollment_verifi(request):
                              WHERE     a.org = b.org
                                    AND a.display_number_with_default =
                                           b.display_number_with_default
-                                   AND a.start >= b.start
-                                   AND a.created >= b.created)
+                                   AND a.start <= b.start
+                                   AND a.created <= b.created)
                               AS rank
                       FROM edxapp.course_overviews_courseoverview a) ab
              WHERE     rank = 1
@@ -1574,7 +1569,7 @@ def enrollment_verifi(request):
     cur.execute(query)
     verifi_index = cur.fetchone()
 
-    if(verifi_index[0] == 1 and user_id != None) :
+    if(verifi_index[0] == 1 and user_id != 'None') :
         query = """
             INSERT INTO student_courseenrollment(user_id,
                                                  course_id,
@@ -1589,7 +1584,7 @@ def enrollment_verifi(request):
        """.format(user_id, course_verifi[0])
         cur.execute(query)
         con.commit()
-    elif(verifi_index[0] == 0 and user_id != None) :
+    elif(verifi_index[0] == 0 and user_id != 'None') :
         query = """
             INSERT INTO student_courseenrollment(user_id,
                                                  course_id,
@@ -1601,10 +1596,11 @@ def enrollment_verifi(request):
                          now(),
                          TRUE,
                          'audit')
-       """.format(user_id, course_verifi[0])
+                """.format(user_id, course_verifi[0])
         cur.execute(query)
         con.commit()
-
+    elif(user_id == 'None'):
+        return HttpResponse()
     return HttpResponse()
 
 # Need different levels of logging
