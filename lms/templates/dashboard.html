@@ -359,6 +359,7 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
         <header>
             <h2 id="email-settings-title">
                 ${Text(_("Email Settings for {course_number}")).format(course_number=HTML('<span id="email_settings_course_number"></span>'))}
+
         <span class="sr">,
           ## Translators: this text gives status on if the modal interface (a menu or piece of UI that takes the full focus of the screen) is open or not
           ${_("window open")}
@@ -410,3 +411,16 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
         </form>
     </div>
 </div>
+
+<script>
+
+    var course_index;
+
+    $('.action.action-more').click(function() {
+        course_index = $(this).attr('id');
+    });
+
+    $('.close-modal').click(function() {
+        $('#'+course_index).next().addClass('is-visible');
+    });
+</script>

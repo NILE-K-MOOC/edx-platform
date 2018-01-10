@@ -1,64 +1,15 @@
 # -*- coding: utf-8 -*-
 """ Views for a student's account information. """
 
-import logging
 import json
-import urlparse
-from datetime import datetime
-import logging
-import json
-import urlparse
-from datetime import datetime
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, resolve
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
 )
 from django.shortcuts import redirect
-from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_http_methods
-from django_countries import countries
 from edxmako.shortcuts import render_to_response
-import pytz
-from commerce.models import CommerceConfiguration
-from external_auth.login_and_register import (
-    login as external_auth_login,
-    register as external_auth_register
-)
-from lang_pref.api import released_languages, all_languages
-from openedx.core.djangoapps.commerce.utils import ecommerce_api_client
-from openedx.core.djangoapps.programs.models import ProgramsApiConfig
-from openedx.core.djangoapps.theming.helpers import is_request_in_themed_site
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-from openedx.core.djangoapps.user_api.accounts.api import request_password_change
-from openedx.core.djangoapps.user_api.errors import UserNotFound
-from openedx.core.lib.time_zone_utils import TIME_ZONE_CHOICES
-from openedx.core.lib.edx_api_utils import get_edx_api_data
-from student.models import UserProfile
-from student.views import (
-    signin_user as old_login_view,
-    register_user as old_register_view
-)
-from student.helpers import get_next_url_for_login_page
-import third_party_auth
-from third_party_auth import pipeline
-from third_party_auth.decorators import xframe_allow_whitelisted
-from util.bad_request_rate_limiter import BadRequestRateLimiter
-from util.date_utils import strftime_localized
-import commands
-from django.views.decorators.csrf import csrf_exempt
-from datetime import date
-from student.views import register_user
-from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
-import time
-import thread
-import logging
-import logging.handlers
-from datetime import datetime
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
 from django.core.serializers.json import DjangoJSONEncoder
@@ -68,6 +19,11 @@ import re
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 import datetime
 from django.db import connections
+from django.db import models, connections
+from django.forms.models import model_to_dict
+from django.core.paginator import Paginator
+from django.db.models import Q
+import os.path
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -512,7 +468,178 @@ def series_view(request, id):
     context['sub_list'] = sub_list
     return render_to_response('community/series_view.html', context)
 
+class TbBoard(models.Model):
+    board_id = models.AutoField(primary_key=True)
+    head_title = models.CharField(max_length=50, blank=True, null=True)
+    subject = models.TextField()
+    content = models.TextField(blank=True, null=True)
+    reg_date = models.DateTimeField()
+    mod_date = models.DateTimeField()
+    # section
+    # N : notice, F: faq, K: k-mooc news, R: reference
+    section = models.CharField(max_length=10)
+    use_yn = models.CharField(max_length=1)
+    odby = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_board'
+
+
+class TbBoardAttach(models.Model):
+    attatch_id = models.AutoField(primary_key=True)
+    board = models.ForeignKey('TbBoard', on_delete=models.CASCADE, related_name='attaches', null=True)
+    attach_file_path = models.CharField(max_length=255)
+    attatch_file_name = models.CharField(max_length=255)
+    attach_org_name = models.CharField(max_length=255, blank=True, null=True)
+    attatch_file_ext = models.CharField(max_length=50, blank=True, null=True)
+    attatch_file_size = models.CharField(max_length=50, blank=True, null=True)
+    attach_gubun = models.CharField(max_length=20, blank=True, null=True)
+    del_yn = models.CharField(max_length=1)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+
+    managed = False
+
+    class Meta:
+        db_table = 'tb_board_attach'
+
+
 @ensure_csrf_cookie
+def comm_list(request, section=None):
+    if request.is_ajax():
+        page_size = request.POST.get('page_size')
+        curr_page = request.POST.get('curr_page')
+        search_con = request.POST.get('search_con')
+        search_str = request.POST.get('search_str')
+
+        if search_str:
+            print 'search_con:', search_con
+            print 'search_str:', search_str
+
+            if search_con == 'title':
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+            else:
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
+        p = Paginator(comm_list, page_size)
+        total_cnt = p.count
+        all_pages = p.num_pages
+        curr_data = p.page(curr_page)
+
+        context = {
+            'total_cnt': total_cnt,
+            'all_pages': all_pages,
+            'curr_data': [model_to_dict(o) for o in curr_data.object_list],
+        }
+
+        return JsonResponse(context)
+    else:
+        if section == 'N':
+            page_title = '공지사항'
+        elif section == 'K':
+            page_title = 'K-MOOC 뉴스'
+        elif section == 'R':
+            page_title = '자료실'
+        else:
+            return None
+
+        context = {
+            'page_title': page_title
+        }
+
+        return render_to_response('community/comm_list.html', context)
+
+
+@ensure_csrf_cookie
+def comm_view(request, board_id=None):
+    if board_id is None:
+        return redirect('/')
+
+    board = TbBoard.objects.get(board_id=board_id)
+
+    if board:
+        board.files = TbBoardAttach.objects.filter(board_id=board_id)
+
+    section = board.section
+
+    if section == 'N':
+        page_title = '공지사항'
+    elif section == 'K':
+        page_title = 'K-MOOC 뉴스'
+    elif section == 'R':
+        page_title = '자료실'
+    else:
+        return None
+
+    # 관리자에서 업로드한 경로와 실서버에서 가져오는 경로를 replace 시켜주어야함
+    board.content = board.content.replace('/manage/home/static/upload/', '/static/file_upload/')
+
+    # local test
+    board.content = board.content.replace('/home/project/management/home/static/upload/', '/static/file_upload/')
+    context = {
+        'page_title': page_title,
+        'board': board
+    }
+
+    return render_to_response('community/comm_view.html', context)
+
+
+@ensure_csrf_cookie
+def comm_tabs(request, head_title=None):
+    if request.is_ajax():
+        search_str = request.POST.get('search_str')
+        head_title = request.POST.get('head_title')
+
+        if search_str:
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+
+        return JsonResponse([model_to_dict(o) for o in comm_list])
+    else:
+        if not head_title:
+            head_title = 'kmooc_f'
+
+        comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+
+        context = {
+            'data': comm_list,
+            'head_title': head_title
+        }
+
+        print 'context --- s'
+        print context
+        print 'context --- e'
+
+        return render_to_response('community/comm_tabs.html', context)
+
+
+@ensure_csrf_cookie
+def comm_file(request, file_id=None):
+    try:
+        file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
+    except Exception as e:
+        print 'comm_file error --- s'
+        print e
+        print connections['default'].queries
+        print 'comm_file error --- e'
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
+
+    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
+    filename = file.attatch_file_name
+
+    if not file or not os.path.exists(filepath + filename):
+        print 'filepath + file.attatch_file_name :', filepath + filename
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
+
+    response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
+    
+    response['Content-Disposition'] = 'attachment; filename=%s' % str(filename).encode('utf-8')
+    return response
+
+
 def comm_notice(request):
     logging.info("############# - start")
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -807,11 +934,7 @@ def comm_faqrequest(request):
     if request.is_ajax():
         data = json.dumps('fail')
         if request.GET['method'] == 'request':
-            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                              settings.DATABASES.get('default').get('USER'),
-                              settings.DATABASES.get('default').get('PASSWORD'),
-                              settings.DATABASES.get('default').get('NAME'),
-                              charset='utf8')
+            con = connections['default']
             email = request.GET['email']
             request_con = request.GET['request_con']
             option = request.GET['option']
@@ -835,6 +958,13 @@ def comm_faqrequest(request):
                 settings.DEFAULT_FROM_EMAIL
             )
 
+            email = replace_all(email)
+
+            option = replace_all(option)
+            email_title = replace_all(email_title)
+            request_con = replace_all(request_con)
+            from_address = replace_all(from_address)
+
             if option == 'kmooc_f':
                 # send_mail(email+'님의 문의 내용입니다.', request_con, 보내는 사람, ['받는사람'])
                 send_mail(email_title, request_con, from_address, ['kmooc@nile.or.kr'])
@@ -843,6 +973,8 @@ def comm_faqrequest(request):
                 send_mail(email_title, request_con, from_address, ['info_kmooc@nile.or.kr'])
                 save_email = 'info_kmooc@nile.or.kr'
             # 문의내용 저장
+
+            save_email = replace_all(save_email)
 
             cur = con.cursor()
             query = """
@@ -874,6 +1006,14 @@ def comm_faqrequest(request):
         return HttpResponse(data, 'application/json')
 
     return render_to_response('community/comm_faqrequest.html')
+
+
+def replace_all(string):
+    string = string.replace('<', '&lt;');
+    string = string.replace('>', '&gt;');
+    string = string.replace('"', '&quot;');
+    string = string.replace("'", "&#39;");
+    return string
 
 
 @ensure_csrf_cookie
@@ -1235,7 +1375,6 @@ def comm_mobile(request):
     return render_to_response('community/comm_mobile.html')
 
 
-
 @ensure_csrf_cookie
 def comm_mobile_view(request, board_id):
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -1588,49 +1727,90 @@ class SMTPException(Exception):
 
 
 def comm_list_json(request):
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
+    con = connections['default']
     if request.is_ajax:
         total_list = []
         data = json.dumps('ready')
         cur = con.cursor()
         query = """
-              SELECT c.*
-                FROM (SELECT a.board_id,
+              SELECT *
+                FROM (SELECT board_id,
                              CASE
-                                WHEN a.section = 'N' THEN '[공지사항]'
-                                WHEN a.section = 'F' THEN '[Q&A]'
-                                WHEN a.section = 'K' THEN '[K-MOOC 뉴스]'
-                                WHEN a.section = 'R' THEN '[자료실]'
-                                WHEN a.section = 'M' THEN '[모바일]'
+                                WHEN section = 'N' THEN '[공지사항]'
+                                WHEN section = 'F' THEN '[Q&A]'
+                                WHEN section = 'K' THEN '[K-MOOC 뉴스]'
+                                WHEN section = 'R' THEN '[자료실]'
+                                WHEN section = 'M' THEN '[모바일]'
                                 ELSE ''
                              END
                                 head_title,
-                             a.subject,
-                             a.content,
-                             substr(a.mod_date, 1, 11) mod_date,
-                             a.section,
+                             subject,
+                             content,
+                             mod_date,
+                             section,
                              CASE
-                                WHEN a.section = 'N' THEN 1
-                                WHEN a.section = 'F' THEN 4
-                                WHEN a.section = 'K' THEN 2
-                                WHEN a.section = 'R' THEN 3
-                                WHEN a.section = 'M' THEN 5
+                                WHEN section = 'N' THEN 1
+                                WHEN section = 'F' THEN 4
+                                WHEN section = 'K' THEN 2
+                                WHEN section = 'R' THEN 3
+                                WHEN section = 'M' THEN 5
                                 ELSE ''
                              END
                                 odby,
-                             head_title              s,
-                             substr(a.reg_date, 1, 11) reg_date
-                        FROM tb_board a
-                             INNER JOIN (  SELECT section, max(mod_date) mod_date
-                                             FROM tb_board
-                                            WHERE use_yn = 'Y'
-                                         GROUP BY section) b
-                                ON (a.section = b.section AND a.mod_date = b.mod_date)) c
-            ORDER BY c.odby;
+                             head_title AS `s`,
+                             reg_date
+                        FROM ((  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'N'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)
+                              UNION ALL
+                              (  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'K'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)
+                              UNION ALL
+                              (  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'R'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)
+                              UNION ALL
+                              (  SELECT board_id,
+                                        head_title,
+                                        subject,
+                                        content,
+                                        date_format(mod_date, '%Y/%m/%d') mod_date,
+                                        section,
+                                        head_title                    s,
+                                        date_format(reg_date, '%Y/%m/%d') reg_date
+                                   FROM tb_board
+                                  WHERE use_yn = 'Y' AND section = 'F'
+                               ORDER BY reg_date DESC, board_id DESC
+                                  LIMIT 1)) dt1) dt2
+            ORDER BY odby
         """
         cur.execute(query)
         row = cur.fetchall()

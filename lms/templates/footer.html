@@ -25,7 +25,7 @@ from branding.api import get_footer
                 var url, name;
 
                 if (type == 'e') {
-                    url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=e&code=2016-R108';
+                    url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=e&code=2017-R099';
                     name = 'e';
                 } else {
                     url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=i&code=2016-R053';
@@ -87,13 +87,14 @@ from branding.api import get_footer
         <div class="footer-about-openedx">
             <div class="associate-site-lnk" id="rel_site">
                 <div id="rel_site_div">
-                    <select title="관련사이트" id="related_site" onchange="moveLocation(this.value)" style="margin-top: 5px; width: 255px;">
+                    <select title="관련사이트" id="related_site" style="margin-top: 5px;">
                         <option>${_("Related sites")}</option>
                         <option value="http://www.moe.go.kr/">${_("Ministry of Education")}</option>
                         <option value="http://www.nile.or.kr/">${_("NILE")}</option>
                         <option value="http://www.all.go.kr">${_("Lifelong Learning Account")}</option>
                         <option value="http://www.lifelongedu.go.kr/">${_("Lifelong Learning Portal")}</option>
                     </select>
+                    <input id="go" class="btn-neutral" type="button" title="새창으로 열림" value='${_("move")}' style="border: solid 0px">
                 </div>
                 <script>
                     var ua = window.navigator.userAgent;
@@ -101,7 +102,7 @@ from branding.api import get_footer
                     $(function () {
                         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
                             $("#related_site").css("width", "180px").css("min-width", "100px");
-                            $('#rel_site_div').append('<input class="btn" type="button" id="go" value="이동" title="이동">');
+                            //$('#rel_site_div').append('<input class="btn" type="button" id="go" value="이동" title="이동">');
                         }
                     });
                     $(document).on('click', '#go', function () {
@@ -126,28 +127,28 @@ from branding.api import get_footer
                     }
                 </script>
                 <p style="margin-top: 15px;">
-                    <a href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 0px;">
-                        <img alt="app_url_and" src="/static/images/and_app.png" style="margin: 0px; width: 125px;">
+                    <a title="구글 플레이 새창으로 열림" href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 0px;">
+                        <img alt="google play" src="/static/images/and_app.png" style="margin: 0px; width: 125px;">
                     </a>
-                    <a href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank"
+                    <a title="앱 스토어로 새창으로 열림" href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank"
                        style="padding: 0px;">
-                        <img alt="app_url_ios" src="/static/images/ios_app.png" style="margin: 0px; width: 125px;">
+                        <img alt="app store" src="/static/images/ios_app.png" style="margin: 0px; width: 125px;">
                     </a>
                 </p>
 
             </div>
             <div class="associate-icon">
                 <div>
-                    <a href="http://blog.naver.com/kmooc_kr" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon06.png" alt="blog"/></a>
-                    <a href="https://www.youtube.com/channel/UCaXoWllLNJ4t5d39nmJKyJw" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon01.png" alt="youtube"/></a>
-                    <a href="http://www.facebook.com/kmooc" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon02.png" alt="facebook"/></a>
+                    <a href="http://blog.naver.com/kmooc_kr" target="_blank" title="새창으로 열림"><img src="/static/images/common/footer_icon06.png" alt="blog"/></a>
+                    <a href="https://www.youtube.com/channel/UCaXoWllLNJ4t5d39nmJKyJw" target="_blank" title="새창으로 열림"><img src="/static/images/common/footer_icon01.png" alt="youtube"/></a>
+                    <a href="http://www.facebook.com/kmooc" target="_blank" title="새창으로 열림"><img src="/static/images/common/footer_icon02.png" alt="facebook"/></a>
                 </div>
                 <div>
 
                     <!-- <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;"></a> -->
-                    <a href="http://wa.or.kr/waMark/status.asp" target="_blank" title="새창으로 알림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크"/></a>
-                    <a href="javascript:fPopup('e');" title="새창으로 알림"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크"/></a>
-                    <a href="javascript:fPopup('i');" title="새창으로 알림"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크"/></a>
+                    <a href="http://wa.or.kr/board/list.asp?BoardID=0006" target="_blank" title="새창으로 열림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크"/></a>
+                    <a href="javascript:fPopup('e');" title="새창으로 열림"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크"/></a>
+                    <a href="javascript:fPopup('i');" title="새창으로 열림"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크"/></a>
                 </div>
             </div>
         </div>

@@ -787,6 +787,9 @@ msgstr "부산외국어대학교"
 msgid "SWUk"
 msgstr "서울여자대학교"
 
+msgid "SWUK"
+msgstr "서울여자대학교"
+
 msgid "SYUk"
 msgstr "삼육대학교"
 
@@ -819,6 +822,9 @@ msgstr "제주대학교"
 
 msgid "HGUk"
 msgstr "한동대학교"
+
+msgid "PTUk"
+msgstr "평택대학교"
 
 msgid "KONKUK UNIVERSITY"
 msgstr "건국대학교"
@@ -30018,3 +30024,6 @@ msgstr "수강신청일"
 
 msgid "start"
 msgstr "개강일"
+
+msgid "move"
+msgstr "이동"

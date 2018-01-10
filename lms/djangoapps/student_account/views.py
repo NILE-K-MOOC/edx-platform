@@ -542,7 +542,9 @@ def password_change_request_handler(request):
 
     if email:
         try:
-            request_password_change(email, request.get_host(), request.is_secure())
+            host = request.get_host()
+            is_secure = True if host == 'www.kmooc.kr' else request.is_secure()
+            request_password_change(email, host, is_secure)
         except UserNotFound:
             AUDIT_LOG.info("Invalid password reset attempt")
             # Increment the rate limit counter
@@ -1037,16 +1039,8 @@ def account_settings(request):
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
-    elif 'passwdcheck' in request.session and request.session['passwdcheck'] == 'N':
-        context = {
-            'correct': False
-        }
-        return render_to_response('student_account/account_settings_confirm.html', context)
     else:
-        context = {
-            'correct': None
-        }
-        return render_to_response('student_account/account_settings_confirm.html', context)
+        return redirect('/account/settings_confirm')
 
 
 @login_required

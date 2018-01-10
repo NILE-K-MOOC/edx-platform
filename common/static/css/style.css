@@ -1176,13 +1176,27 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	.container>div.wiki-wrapper {min-width:auto;}
 }
 
+.courses-listing-item a:focus{
+   border: 1px solid blue;
+}
 
+.login-register .form-field .tip, .financial-assistance-wrapper .financial-assistance-form .form-field .tip {
+	color : #5F5C5C;
+}
+
+.main-cta a:focus>strong{
+	border: 2px solid blue !important;
+}
+.courses-listing-item a:focus{
+   border: 1px solid blue;
+}
 a:focus, img:focus {
  outline: 1px solid none; /* what the fuck? */
 }
 input:focus, button:focus, textarea:focus {
  outline: 1px solid blue;
 }
+
 
 .wrapper-course-image>a.cover {
 	max-height:200px !important;
@@ -1331,4 +1345,15 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 
 	.facet-list{
 		background: #fff;
+	}
+	.search-facets-lists button:focus {
+		border: 3px solid red;
+	}
+
+	.search-facets-lists li:focus {
+		border: 3px solid red;
+	}
+
+	#global-navigation {
+		background-color: #fff;
 	}

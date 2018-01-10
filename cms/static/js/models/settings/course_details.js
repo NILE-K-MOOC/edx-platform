@@ -128,7 +128,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-effort-week").val()) {
                     errors.effort = gettext("Chapters must have value");
-                    $("#course-effort-week").focus();
+                    //$("#course-effort-week").focus();
                 }
                 if ((
                     newattrs.end_date != null &&
@@ -136,7 +136,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-video-hh").val()) {
                     errors.effort = gettext("Video time must have value");
-                    $("#course-video-mm").focus();
+                    //$("#course-video-mm").focus();
                 }
                 if ((
                     newattrs.end_date != null &&
@@ -144,7 +144,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-video-mm").val()) {
                     errors.effort = gettext("Video time must have value");
-                    $("#course-video-mm").focus();
+                    //$("#course-video-mm").focus();
                 }
 
                 if (_.has(newattrs, 'entrance_exam_minimum_score_pct')) {

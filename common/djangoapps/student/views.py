@@ -1206,8 +1206,11 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                 sequentials = dict()
                 verticals = dict()
 
-                for block in blocks:
+                skip_targets = []
 
+                global visible_to_staff_only
+
+                for block in blocks:
                     if block.get('block_type') == 'chapter':
                         chapters[block.get('block_id')] = [id for type, id in block.get('fields')['children']]
                     elif block.get('block_type') == 'sequential':
@@ -1215,24 +1218,43 @@ def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disa
                     elif block.get('block_type') == 'vertical':
                         verticals[block.get('block_id')] = [id for type, id in block.get('fields')['children']]
 
+                for block in blocks:
+                    if block.get('block_type') == 'chapter':
+                        if 'visible_to_staff_only' in block.get('fields'):
+                            visible_to_staff_only = block.get('fields')['visible_to_staff_only']
+                        else:
+                            visible_to_staff_only = False
+
+                        if visible_to_staff_only:
+                            c = chapters[block.get('block_id')]
+                            for id1 in c:
+                                s = sequentials[id1]
+                                for id2 in s:
+                                    v = verticals[id2]
+                                    for id3 in v:
+                                        skip_targets.append(id3)
+
+                for block in blocks:
                     if block.get('block_type') == 'course':
                         end = block.get('fields')['end']
                         # print 'end:', end
-
                     elif block.get('block_type') == 'vertical':
-                        global visible_to_staff_only
 
                         if 'visible_to_staff_only' in block.get('fields'):
                             visible_to_staff_only = block.get('fields')['visible_to_staff_only']
                         else:
                             visible_to_staff_only = False
 
-                        if visible_to_staff_only is True:
+                        # print 'check visible_to_staff_only2:', visible_to_staff_only
+
+                        if visible_to_staff_only:
                             continue
 
                         childrens = block.get('fields')['children']
                         for children in childrens:
-                            if children[0] == 'survey':
+                            if children[1] in skip_targets:
+                                continue
+                            elif children[0] == 'survey':
                                 check_cnt += 1
                                 survey_list.append(children[1])
 
@@ -3212,10 +3234,16 @@ def password_reset(request):
 
     form = PasswordResetFormNoActive(request.POST)
     if form.is_valid():
-        form.save(use_https=request.is_secure(),
+
+        host = request.get_host()
+        is_secure = True if host == 'www.kmooc.kr' else request.is_secure()
+
+        print 'is_secure:', is_secure
+
+        form.save(use_https=is_secure,
                   from_email=configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL),
                   request=request,
-                  domain_override=request.get_host())
+                  domain_override=host)
         # When password change is complete, a "edx.user.settings.changed" event will be emitted.
         # But because changing the password is multi-step, we also emit an event here so that we can
         # track where the request was initiated.
