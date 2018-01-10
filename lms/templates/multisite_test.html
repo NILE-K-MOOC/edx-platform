@@ -1,0 +1,21 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<script>
+</script>
+
+
+<div id="multisite_index">
+    <h3>Multisite Server sample</h3>
+    <div style="min-height: 600px;">
+        content area
+        <hr/>
+    </div>
+</div>

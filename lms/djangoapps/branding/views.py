@@ -109,6 +109,52 @@ def index_ko(request):
     return redirect('/')
 
 
+import base64
+import hashlib
+from Crypto import Random
+from Crypto.Cipher import AES
+
+
+def multisite_test(request, org=None):
+    if not org:
+        print 'org not exists !!!!!!!!'
+        raise Exception
+    else:
+        print 'org exists !!!!!!!!!!!!'
+
+    bs = 32
+    key = "K-MOOC"
+    key = hashlib.sha256(key.encode()).digest()
+
+    def encrypt(raw):
+        raw = _pad(raw)
+        iv = Random.new().read(AES.block_size)
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        return base64.b64encode(iv + cipher.encrypt(raw))
+
+    def decrypt(enc):
+        enc = base64.b64decode(enc)
+        iv = enc[:AES.block_size]
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        return _unpad(cipher.decrypt(enc[AES.block_size:])).decode('utf-8')
+
+    def _pad(self, s):
+        return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+
+    def _unpad(s):
+        return s[:-ord(s[len(s) - 1:])]
+
+    send_id = request.GET.get('u')
+
+    if send_id:
+        print 'send_id1:', send_id
+        print 'send_id2:', decrypt(send_id)
+    else:
+        print 'send_id is not exists'
+
+    return render_to_response("multisite_test.html")
+
+
 def notice(request):
     reload(sys)
     sys.setdefaultencoding('utf-8')
@@ -178,6 +224,7 @@ def courses(request):
 
     return courseware.views.views.courses(request)
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def mobile_courses(request):
@@ -197,7 +244,7 @@ def mobile_courses(request):
     if not settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
         raise Http404
 
-    #  we do not expect this case to be reached in cases where
+    # we do not expect this case to be reached in cases where
     #  marketing is enabled or the courses are not browsable
     return courseware.views.views.mobile_courses(request)
 

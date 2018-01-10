@@ -573,6 +573,10 @@ urlpatterns += (
 
     url(r'^en$', 'branding.views.index_en', name="root"),  # en index
     url(r'^ko$', 'branding.views.index_ko', name="root"),  # ko index
+
+    # MULTISITE TEST
+    url(r'^multisite_test/(?P<org>.*?)$', 'branding.views.multisite_test', name="multisite_test"),  # ko index
+
     url(r'^notice/?$', 'branding.views.notice', name="notice"),
 
     url(r'^redirectTo/(?P<redirectTo>.*?)$', 'student_account.views.redirectTo', name="redirectTo"),
