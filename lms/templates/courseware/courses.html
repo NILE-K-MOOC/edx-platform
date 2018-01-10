@@ -104,6 +104,7 @@
                 var list_val = $('.course-facets-select option:selected').val();
                 if(list_val){
                     url = url + '?range=' + list_val;
+                    url = url + '&pagepos=l';
                     document.location.href = url;
                 }else{
                     alert('개강상태를 선택하세요.');
@@ -116,6 +117,7 @@
                 var list_val = $(this).val();
                 if (list_val){
                     url = url + '?range=' + list_val;
+                    url = url + '&pagepos=l';
                 }
                 if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
                 }else{

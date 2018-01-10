@@ -192,6 +192,13 @@ COURSE_DISCOVERY_MEANINGS = {
             'middle_classfy': 'middle_classfy'
         }
     },
+    # mih add
+    'middle_classfysub': {
+        'name': 'Section',
+        'terms': {
+            'middle_classfysub': 'middle_classfysub'
+        }
+    },
     'linguistics': {
         'name': 'Section',
         'terms': {

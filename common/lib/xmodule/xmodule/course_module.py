@@ -274,6 +274,14 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
+    # mih add
+    middle_classfysub = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
     linguistics = String(
         help=_("Select Section name"),
         default="all",

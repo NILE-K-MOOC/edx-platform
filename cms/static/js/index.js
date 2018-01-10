@@ -2,6 +2,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
     "js/views/utils/create_library_utils", "common/js/components/utils/view_utils"],
     function (domReady, $, _, CancelOnEscape, CreateCourseUtilsFactory, CreateLibraryUtilsFactory, ViewUtils) {
         "use strict";
+//        alert("this is line ok...saveNewCourse");
         var CreateCourseUtils = new CreateCourseUtilsFactory({
             name: '.new-course-name',
             org: '.new-course-org',
@@ -15,6 +16,10 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             allowUnicode: '.allow-unicode-course-id',
             classfy: '.new-course-classfy',
             middle_classfy: '.new-course-middle-classfy',
+            // mih add field
+            middle_classfy_sub1: '.new-course-middle-classfy-sub1',
+            middle_classfy_sub2: '.new-course-middle-classfy-sub2',
+            middle_classfy_sub3: '.new-course-middle-classfy-sub3',
             linguistics: '.new-course-linguistics',
             course_period: '.new-course-period'
         }, {
@@ -44,6 +49,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         });
 
         var saveNewCourse = function (e) {
+  //          alert("this is line ok...saveNewCourse");
             e.preventDefault();
 
             if (CreateCourseUtils.hasInvalidRequiredFields()) {
@@ -58,9 +64,30 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
 
             var classfy = $newCourseForm.find(".new-course-classfy").val();
             var middle_classfy = $newCourseForm.find(".new-course-middle-classfy").val();
+
+            // mih update
+//alert("0 : /cms/static/js/index.js");
+            var msub1 = $newCourseForm.find(".new-course-middle-classfy-sub1").val();
+//alert("1 : msub1 :"+msub1);
+            var msub2 = $newCourseForm.find(".new-course-middle-classfy-sub2").val();
+//alert("2 : msub2 :"+msub2);
+            var msub3 = $newCourseForm.find(".new-course-middle-classfy-sub3").val();
+//alert("3 : msub3 :"+msub3);
+
+            var middle_classfysub = "";
+            //var middle_classfysub = msub1+"+"+msub2+"+"+msub3;
+
+            if(msub1 != null && msub1 != "" && msub1 != "null")
+                middle_classfysub = msub1;
+            if(msub2 != null && msub2 != "" && msub2 != "null")
+                middle_classfysub += " "+msub2;
+            if(msub3 != null && msub3 != "" && msub3 != "null")
+                middle_classfysub += " "+msub3;
+//alert("middle_classfysub:"+middle_classfysub);
+
+
             var linguistics = $newCourseForm.find(".new-course-linguistics").val();
             var period = $newCourseForm.find(".new-course-period").val();
-
 
             var course_info = {
                 org: org,
@@ -69,6 +96,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 run: run,
                 classfy: classfy,
                 middle_classfy: middle_classfy,
+                middle_classfysub: middle_classfysub,   // mih add
                 linguistics: linguistics,
                 period: period
             };
@@ -87,6 +115,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             if (!classfy || !middle_classfy || middle_classfy == "null" || !linguistics || !period){
                 console.log(classfy);
                 console.log(middle_classfy);
+                console.log(middle_classfysub);     // mih add
                 console.log(linguistics);
                 console.log(period);
                 return;
@@ -102,6 +131,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var makeCancelHandler = function (addType) {
+  //          alert("this is line ok...makeCancelHandler");
             return function(e) {
                 e.preventDefault();
                 $('.new-'+addType+'-button').removeClass('is-disabled').attr('aria-disabled', false);
@@ -115,6 +145,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var addNewCourse = function (e) {
+//            alert("this is line ok...addNewCourse");
             e.preventDefault();
             $('.new-course-button').addClass('is-disabled').attr('aria-disabled', true);
             $('.new-course-save').addClass('is-disabled').attr('aria-disabled', true);
@@ -130,6 +161,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var saveNewLibrary = function (e) {
+//            alert("this is line ok...saveNewLibrary");
             e.preventDefault();
 
             if (CreateLibraryUtils.hasInvalidRequiredFields()) {
@@ -156,6 +188,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var addNewLibrary = function (e) {
+//            alert("this is line ok...addNewLibrary");
             e.preventDefault();
             $('.new-library-button').addClass('is-disabled').attr('aria-disabled', true);
             $('.new-library-save').addClass('is-disabled').attr('aria-disabled', true);
@@ -171,6 +204,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var showTab = function(tab) {
+//            alert("this is line ok...showTab");
           return function(e) {
             e.preventDefault();
             $('.courses-tab').toggleClass('active', tab === 'courses');
@@ -183,6 +217,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var onReady = function () {
+//            alert("this is line ok...onReady");
             $('.new-course-button').bind('click', addNewCourse);
             $('.new-library-button').bind('click', addNewLibrary);
 

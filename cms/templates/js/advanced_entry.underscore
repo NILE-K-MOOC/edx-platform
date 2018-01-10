@@ -3,6 +3,8 @@ if(key == 'classfy'){
     display_name = '대분류(수정불가. 소문자 입력)'
 }else if(key == 'middle_classfy') {
     display_name = '중분류(수정불가. 소문자 입력)'
+}else if(key == 'middle_classfysub') {
+    display_name = '보조분류 (수정불가. 소문자 입력)'
 }else if(key == 'linguistics') {
     display_name = '한국학여부(수정불가. 대문자 입력)'
 }else if(key == 'course_period'){
@@ -12,13 +14,13 @@ if(key == 'classfy'){
 %>
 
 <li class="field-group course-advanced-policy-list-item <%= deprecated ? 'is-deprecated' : '' %>">
-	<div class="field is-not-editable text key" id="<%= key %>">
-		<h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
+   <div class="field is-not-editable text key" id="<%= key %>">
+      <h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
   </div>
 
   <div class="field text value">
     <label class="sr" for="<%= valueUniqueId %>"><%= display_name %></label>
-    <% if((key == 'classfy' || key == 'middle_classfy' || key == 'linguistics' || key == 'course_period') && (window.is_staff != true)) { %>
+    <% if((key == 'classfy' || key == 'middle_classfy' || key == 'middle_classfysub' || key == 'linguistics' || key == 'course_period') && (window.is_staff != true)) { %>
         <textarea class="text" id="<%= valueUniqueId %>" readonly><%= value %></textarea>
     <% } else if((need_lock == 1) && (key == 'display_name') && (window.is_staff != true)) { %>
         <textarea class="text" id="<%= valueUniqueId %>" readonly><%= value %></textarea>
