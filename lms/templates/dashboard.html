@@ -120,19 +120,19 @@ cert_name_long = settings.CERT_NAME_LONG
         switch (type) {
             case 1:
                 var target_top = $(".action-certificate:eq(0)").parents("li.course-item").position().top - 120;
-                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                $('html, body').animate({scrollTop: target_top}, 500);
                 break;
             case 2:
                 var target_top = $(".action-certificate:last").parents("li.course-item").next().position().top - 120;
-                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                $('html, body').animate({scrollTop: target_top}, 500);
                 break;
             case 3:
                 var target_top = $(".course-container[data-is_enrolled='True']:first").parents("li.course-item").position().top - 120;
-                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                $('html, body').animate({scrollTop: target_top}, 500);
                 break;
             case 4:
                 var target_top = $(".course-container[data-is_enrolled='False']:first").parents("li.course-item").position().top - 120;
-                $( 'html, body' ).animate( { scrollTop : target_top }, 500 );
+                $('html, body').animate({scrollTop: target_top}, 500);
                 break;
 
             default:
@@ -416,11 +416,11 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
 
     var course_index;
 
-    $('.action.action-more').click(function() {
+    $('.action.action-more').click(function () {
         course_index = $(this).attr('id');
     });
 
-    $('.close-modal').click(function() {
-        $('#'+course_index).next().addClass('is-visible');
+    $('.close-modal').click(function () {
+        $('#' + course_index).next().addClass('is-visible');
     });
 </script>

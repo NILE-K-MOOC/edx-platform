@@ -142,8 +142,6 @@ urlpatterns = (
     url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
 
     # community url
-
-
     url(r'^comm_list/(?P<section>.*?)/$', 'community.views.comm_list', name='comm_list'),
     url(r'^comm_view/(?P<board_id>.*?)/$', 'community.views.comm_view', name='comm_view'),
     url(r'^comm_tabs/(?P<head_title>.*?)/$', 'community.views.comm_tabs', name='comm_tabs'),
@@ -162,11 +160,9 @@ urlpatterns = (
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
 
     # memo
-    url(r'^memo$', 'community.views.memo', name='comm_notice'),
-    url(r'^memo_view/(?P<board_id>.*?)/$', 'community.views.memo_view', name='comm_notice_view'),
-
-    # url(r'^test$', 'community.views.test', name='test'),
-
+    url(r'^memo$', 'community.views.memo', name='memo'),
+    url(r'^memo_view/(?P<memo_id>.*?)/$', 'community.views.memo_view', name='memo_view'),
+    url(r'^memo_sync$', 'community.views.memo_sync', name='memo'),
 )
 
 urlpatterns += (
