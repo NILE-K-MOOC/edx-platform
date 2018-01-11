@@ -552,7 +552,6 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("end", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("effort", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
         AboutInfo("display_name", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("overview", AboutInfo.ANALYSE, AboutInfo.FROM_ABOUT_INFO),
         AboutInfo("title", AboutInfo.ANALYSE | AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
         AboutInfo("university", AboutInfo.ANALYSE | AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
         AboutInfo("number", AboutInfo.ANALYSE | AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
@@ -578,6 +577,9 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("middle_classfy", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("linguistics", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("course_period", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("middle_classfysub", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("difficult_degree", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("catalog_visibility", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
     @classmethod
@@ -606,6 +608,8 @@ class CourseAboutSearchIndexer(object):
             'image_url': course_image_url(course),
             'classfy': course.classfy,
             'middle_classfy': course.middle_classfy,
+            'middle_classfysub': course.middle_classfysub,      # mih add
+            'difficult_degree': course.difficult_degree,        # mih add
             'linguistics': course.linguistics,
             'course_period': course.course_period,
         }

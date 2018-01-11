@@ -17,7 +17,6 @@
             accountSettingsTabs: [
                 {name: 'aboutTabSections', id: 'about-tab', label: gettext('Account Information'), class: 'active'},
                 {name: 'accountsTabSections', id: 'accounts-tab', label: gettext('Linked Accounts')},
-                //{name: 'ordersTabSections', id: 'orders-tab', label: gettext('Order History')}
             ],
             events: {
                 'click .account-nav-link': 'changeTab',
@@ -41,6 +40,7 @@
             },
 
             nicecheck: function(e) {
+
                 if(confirm(gettext("Once you have verified your name, you can not cancel it. Do you want to proceed?"))){
                     window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
                     document.form2.target = "popupNICE";

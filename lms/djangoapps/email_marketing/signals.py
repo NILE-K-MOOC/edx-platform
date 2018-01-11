@@ -9,6 +9,7 @@ from django.dispatch import receiver
 
 from student.models import ENROLL_STATUS_CHANGE
 from student.cookies import CREATE_LOGON_COOKIE
+
 from student.views import REGISTER_USER
 from email_marketing.models import EmailMarketingConfiguration
 from util.model_utils import USER_FIELD_CHANGED

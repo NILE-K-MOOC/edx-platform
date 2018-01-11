@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+
+.pop-wrap{ position:absolute; z-index:10; font-family:"malgun gothic"; min-width: 400px; min-height: 400px;}
+
+.pop-area{-webkit-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+			-moz-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+			box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+ background:#fff;}
+.pop-top-area{min-width:400px; background:#2391d7;}
+
+.pop_imgbg{text-align:center;}
+
+.pop-body-area{min-width:400px; border:1px solid #efefef; padding:20px; background:#fff;}
+.pop-body-area p {text-align:center; margin-bottom: 19px;}
+.pop-body-area h4{margin-top:0px; margin-bottom:10px; text-align:center; font-size:20px;}
+.pop-footer-area {min-width:400px;margin-top:5px;}
+
+/* btn */
+.pop-btnarea{ text-align:center;}
+.pop-btnarea a{display:inline-block; text-decoration:none; transition:all ease-out .2s;}
+
+/* text-color */
+.t-gray{color:#a0a2a5;}
+.t-gray2{color:#a7a6a6;}
+.t-white{color:#fff;}
+.t-blue{color:#83b4d4;}
+
+
+/* btn-color */
+.b-green{background:#23d77e;}
+.b-gray{background:#e9e8e8;}
+
+/* height */
+.hei-123{height:123px; background:#0f55b4;}
+.hei-200{height:200px;}
+.hei-50{height:50px;}
+
+/* img margin */
+.pop1_imgmg > img{margin:4px auto;}
+.pop2_imgmg > img{margin:21px auto;}
+
+/*========= pop1 ============*/
+.pop1-btnarea a{padding:12px 20px; border-radius:25px; width:110px;}
+.pop1-titbar {padding:10px ;padding-left: 20px;}
+.pop1-titbar i{width:30px; height:5px; background:#0099ff; display:inline-block;}
+.pop1-body-area h4{margin-top:0px; margin-bottom:10px; text-align:left; font-size:20px; border-bottom: 1px solid #e5e5e5; padding-bottom: 10px;}
+.pop1-imgbg{display: inline-block; position: absolute; right: 0; height: 99px;}
+.pop1-txtarea{position: relative;}
+
+/*========= pop2 ============*/
+.pop2-titbar{background:#23d77e; height:23px;}
+.pop2_2-titbar{background:url(/static/images/bg2pt.gif) repeat-x; text-align: center; padding: 13px;}
+.pop2-body-area{border-top:0px; padding-top:0px;}
+.pop2_2-titbar p {font-size:21px; font-weight:600;}
+.pop2-body-area p{margin-bottom:0px;}
+.pop1-titbar > span{line-height: 37px; vertical-align: top; color:#fff; padding-left:5px; font-size:20px;}
+/*========= pop3 ============*/
+.pop3-titbar{height: 75px; background:#23d77e;}
+.pop3-bg{background:url(/static/images/bg3pt.gif) repeat-x;}
+
+
+
+
+
+
+

@@ -153,7 +153,7 @@ def comm_tabs(request, head_title=None):
         if search_str:
             comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby','-reg_date')
 
         return JsonResponse([model_to_dict(o) for o in comm_list])
     else:
@@ -185,7 +185,7 @@ def comm_file(request, file_id=None):
         print 'comm_file error --- e'
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
-    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
+    filepath = file.attach_file_path.replace('/manage/home/static/upload/','/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
     filename = file.attatch_file_name
 
     if not file or not os.path.exists(filepath + filename):
@@ -193,7 +193,7 @@ def comm_file(request, file_id=None):
         return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
 
     response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
-    
+
     response['Content-Disposition'] = 'attachment; filename=%s' % str(filename).encode('utf-8')
     return response
 
@@ -1386,50 +1386,50 @@ def comm_list_json(request):
 
     return HttpResponse(data, 'application/json')
 
-# def dormant_mail(request):
-#     email_list = []
-#     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-#                       settings.DATABASES.get('default').get('USER'),
-#                       settings.DATABASES.get('default').get('PASSWORD'),
-#                       settings.DATABASES.get('default').get('NAME'),
-#                       charset='utf8')
-#     cur = con.cursor()
-#     query = """
-#         SELECT email, dormant_mail_cd from auth_user
-#     """
-#     cur.execute(query)
-#     row = cur.fetchall()
-#     cur.close()
-#
-#     for u in row:
-#         user = u
-#         if user[1] == '15' or user[1] == '30':
-#             email_list.append(user[0])
-#     # 이메일 전송
-#     from_address = configuration_helpers.get_value(
-#         'email_from_address',
-#         settings.DEFAULT_FROM_EMAIL
-#     )
-#
-#     print 'email_list == ',email_list
-#
-#     cur = con.cursor()
-#     for e in email_list:
-#         try:
-#             send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
-#             query1 = "update auth_user set dormant_mail_cd = '0' where email = '"+e+"' "
-#             cur.execute(query1)
-#             cur.execute('commit')
-#             query1 = "insert into drmt_auth_user_process(email,success) values('"+e+"', '1')"
-#             cur.execute(query1)
-#             cur.execute('commit')
-#         except SMTPException:
-#             print 'fail sending email'
-#             cur = con.cursor()
-#             query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
-#             cur.execute(query1)
-#             cur.execute('commit')
-#
-#
-#     cur.close()
-#     print 'done'
+    # def dormant_mail(request):
+    #     email_list = []
+    #     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+    #                       settings.DATABASES.get('default').get('USER'),
+    #                       settings.DATABASES.get('default').get('PASSWORD'),
+    #                       settings.DATABASES.get('default').get('NAME'),
+    #                       charset='utf8')
+    #     cur = con.cursor()
+    #     query = """
+    #         SELECT email, dormant_mail_cd from auth_user
+    #     """
+    #     cur.execute(query)
+    #     row = cur.fetchall()
+    #     cur.close()
+    #
+    #     for u in row:
+    #         user = u
+    #         if user[1] == '15' or user[1] == '30':
+    #             email_list.append(user[0])
+    #     # 이메일 전송
+    #     from_address = configuration_helpers.get_value(
+    #         'email_from_address',
+    #         settings.DEFAULT_FROM_EMAIL
+    #     )
+    #
+    #     print 'email_list == ',email_list
+    #
+    #     cur = con.cursor()
+    #     for e in email_list:
+    #         try:
+    #             send_mail('테스트 이메일', '이메일 제대로 가나요', from_address, [e], fail_silently=False)
+    #             query1 = "update auth_user set dormant_mail_cd = '0' where email = '"+e+"' "
+    #             cur.execute(query1)
+    #             cur.execute('commit')
+    #             query1 = "insert into drmt_auth_user_process(email,success) values('"+e+"', '1')"
+    #             cur.execute(query1)
+    #             cur.execute('commit')
+    #         except SMTPException:
+    #             print 'fail sending email'
+    #             cur = con.cursor()
+    #             query1 = "insert into drmt_auth_user_process(email) values('"+e+"')"
+    #             cur.execute(query1)
+    #             cur.execute('commit')
+    #
+    #
+    #     cur.close()
+    #     print 'done'

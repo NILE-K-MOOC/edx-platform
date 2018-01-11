@@ -28431,6 +28431,9 @@ msgstr "개강예정"
 msgid "end"
 msgstr "종료"
 
+msgid "interest"
+msgstr "관심강좌"
+
 msgid "none"
 msgstr "미정"
 
@@ -29989,5 +29992,35 @@ msgstr "강좌 홈"
 msgid "Effort time must have value"
 msgstr "권장 학습 시간은 필수 입력입니다."
 
-msgid "move"
-msgstr "이동"
+msgid "course info"
+msgstr "강좌 정보"
+
+msgid "review"
+msgstr "리뷰"
+
+msgid "write"
+msgstr "글쓰기"
+
+msgid "MEMO"
+msgstr "쪽지"
+
+msgid "Series Course"
+msgstr "시리즈 강좌"
+
+msgid "Course Introduction"
+msgstr "강좌 소개"
+
+msgid "Course List"
+msgstr "대상 강좌 목록"
+
+msgid "Print"
+msgstr "인쇄"
+
+msgid "Series ID"
+msgstr "시리즈 ID"
+
+msgid "enrollment"
+msgstr "수강신청일"
+
+msgid "start"
+msgstr "개강일"

@@ -26,12 +26,20 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 # Use urlpatterns formatted as within the Django docs with first parameter "stuck" to the open parenthesis
 urlpatterns = (
     '',
+
     # ---------- nice check start---------- #
     url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),  # success url
     url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),  # fail url
     # ---------- nice check end ---------- #
 
-    url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
+    url(r'^$', 'branding.views.index', name="root"),  
+
+    # ---------- multi site ---------- #
+    url(r'^multisite/(?P<org>[a-zA-Z]+)$', 'branding.views.multisite_index', name="root"),
+    url(r'^multisite_url_check$', 'branding.views.multisite_url_check', name="root"),
+    # ---------- multi site ---------- #
+
+
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
@@ -97,6 +105,10 @@ urlpatterns = (
 
     # Course API
     url(r'^api/courses/', include('course_api.urls')),
+ 
+    # ----- api request ----- #
+    url(r'^api/happy', 'branding.views.course_api', name="course_api"),
+    # ----- api request ----- #
 
     # User API endpoints
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),
@@ -127,6 +139,10 @@ urlpatterns = (
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
 
+    # series course
+    url(r'^series/$', 'community.views.series', name='series'),
+    url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
+
     # community url
 
 
@@ -146,6 +162,11 @@ urlpatterns = (
     url(r'^comm_k_news$', 'community.views.comm_k_news', name='comm_k_news'),
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
+
+    # memo
+    url(r'^memo$', 'community.views.memo', name='comm_notice'),
+    url(r'^memo_view/(?P<board_id>.*?)/$', 'community.views.memo_view', name='comm_notice_view'),
+
     # url(r'^test$', 'community.views.test', name='test'),
 
 )
@@ -166,6 +187,14 @@ if settings.FEATURES["ENABLE_COMBINED_LOGIN_REGISTRATION"]:
         url(r'^agree_done$', 'student_account.views.agree_done', name="agree_done"),
         url(r'^parent_agree$', 'student_account.views.parent_agree', name="parent_agree"),
         url(r'^parent_agree_done$', 'student_account.views.parent_agree_done', name="parent_agree_done"),
+
+        # ---------- nice check ---------- #
+        # success url
+        url(r'^nicecheckplus$', 'student_account.views.nicecheckplus', name="nicecheckplus"),
+        # fail url
+        url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),
+        # ---------- nice check ---------- #
+
     )
 else:
     # Serve the old views
@@ -407,12 +436,27 @@ urlpatterns += (
     ),
 
     url(
+        r'^course/{}$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        'courseware.views.views.mobile_course_about',
+        name='about_course',
+    ),
+
+    url(
+        r'^courses/score$',
+        'courseware.views.views.course_score',
+        name='score_course',
+    ),
+
+    url(
         r'^courses/{}/enroll_staff$'.format(
             settings.COURSE_ID_PATTERN,
         ),
         EnrollStaffView.as_view(),
         name='enroll_staff',
     ),
+
     url(
         r'^course/{}$'.format(
             settings.COURSE_ID_PATTERN,
@@ -420,6 +464,9 @@ urlpatterns += (
         'courseware.views.views.mobile_course_about',
         name='about_course',
     ),
+
+
+    url(r'^courses/interest$', 'courseware.views.views.course_interest', name='course_interest'),
 
     # Inside the course
     url(
@@ -781,6 +828,9 @@ urlpatterns += (
         include('branding.api_urls')
     ),
 )
+
+# if oraurlpatterns:
+#     urlpatterns += tuple(oraurlpatterns)
 
 if settings.FEATURES["ENABLE_TEAMS"]:
     # Teams endpoints

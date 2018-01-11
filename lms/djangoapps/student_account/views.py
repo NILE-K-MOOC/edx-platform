@@ -291,22 +291,17 @@ def login_and_registration_form(request, initial_mode="login"):
     # print 'division = ', division
 
     """Render the combined login/registration form, defaulting to login
-
     This relies on the JS to asynchronously load the actual form from
     the user_api.
-
     Keyword Args:
         initial_mode (string): Either "login" or "register".
     """
 
     """Render the combined login/registration form, defaulting to login
-
     This relies on the JS to asynchronously load the actual form from
     the user_api.
-
     Keyword Args:
         initial_mode (string): Either "login" or "register".
-
     """
 
     # If we're already logged in, redirect to the dashboard
@@ -510,28 +505,21 @@ def redirectTo(request, redirectTo):
 @require_http_methods(['POST'])
 def password_change_request_handler(request):
     """Handle password change requests originating from the account page.
-
     Uses the Account API to email the user a link to the password reset page.
-
     Note:
         The next step in the password reset process (confirmation) is currently handled
         by student.views.password_reset_confirm_wrapper, a custom wrapper around Django's
         password reset confirmation view.
-
     Args:
         request (HttpRequest)
-
     Returns:
         HttpResponse: 200 if the email was sent successfully
         HttpResponse: 400 if there is no 'email' POST parameter, or if no user with
             the provided email exists
         HttpResponse: 403 if the client has been rate limited
         HttpResponse: 405 if using an unsupported HTTP method
-
     Example usage:
-
         POST /account/password
-
     """
     limiter = BadRequestRateLimiter()
     if limiter.is_rate_limit_exceeded(request):
@@ -561,16 +549,13 @@ def password_change_request_handler(request):
 
 def _third_party_auth_context(request, redirect_to):
     """Context for third party auth providers and the currently running pipeline.
-
     Arguments:
         request (HttpRequest): The request, used to determine if a pipeline
             is currently running.
         redirect_to: The URL to send the user to following successful
             authentication.
-
     Returns:
         dict
-
     """
     context = {
         "currentProvider": None,
@@ -624,14 +609,11 @@ def _third_party_auth_context(request, redirect_to):
 
 def _get_form_descriptions(request):
     """Retrieve form descriptions from the user API.
-
     Arguments:
         request (HttpRequest): The original request, used to retrieve session info.
-
     Returns:
         dict: Keys are 'login', 'registration', and 'password_reset';
             values are the JSON-serialized form descriptions.
-
     """
     return {
         'login': _local_server_get('/user_api/v1/account/login_session/', request.session),
@@ -642,15 +624,12 @@ def _get_form_descriptions(request):
 
 def _local_server_get(url, session):
     """Simulate a server-server GET request for an in-process API.
-
     Arguments:
         url (str): The URL of the request (excluding the protocol and domain)
         session (SessionStore): The session of the original request,
             used to get past the CSRF checks.
-
     Returns:
         str: The content of the response
-
     """
     # Since the user API is currently run in-process,
     # we simulate the server-server API call by constructing
@@ -672,14 +651,11 @@ def _local_server_get(url, session):
 
 def _external_auth_intercept(request, mode):
     """Allow external auth to intercept a login/registration request.
-
     Arguments:
         request (Request): The original request.
         mode (str): Either "login" or "register"
-
     Returns:
         Response or None
-
     """
     if mode == "login":
         return external_auth_login(request)
@@ -689,10 +665,8 @@ def _external_auth_intercept(request, mode):
 
 def get_user_orders(user):
     """Given a user, get the detail of all the orders from the Ecommerce service.
-
     Arguments:
         user (User): The user to authenticate as when requesting ecommerce.
-
     Returns:
         list of dict, representing orders returned by the Ecommerce service.
     """
@@ -739,29 +713,20 @@ def get_user_orders(user):
 @require_http_methods(['GET'])
 def finish_auth(request):  # pylint: disable=unused-argument
     """ Following logistration (1st or 3rd party), handle any special query string params.
-
     See FinishAuthView.js for details on the query string params.
-
     e.g. auto-enroll the user in a course, set email opt-in preference.
-
     This view just displays a "Please wait" message while AJAX calls are made to enroll the
     user in the course etc. This view is only used if a parameter like "course_id" is present
     during login/registration/third_party_auth. Otherwise, there is no need for it.
-
     Ideally this view will finish and redirect to the next step before the user even sees it.
-
     Args:
         request (HttpRequest)
-
     Returns:
         HttpResponse: 200 if the page was sent successfully
         HttpResponse: 302 if not logged in (redirect to login page)
         HttpResponse: 405 if using an unsupported HTTP method
-
     Example usage:
-
         GET /account/finish_auth/?course_id=course-v1:blah&enrollment_action=enroll
-
     """
     return render_to_response('student_account/finish_auth.html', {
         'disable_courseware_js': True,
@@ -771,13 +736,10 @@ def finish_auth(request):  # pylint: disable=unused-argument
 
 def account_settings_context(request):
     """ Context for the account settings page.
-
     Args:
         request: The request object.
-
     Returns:
         dict
-
     """
     # -------------------- nice core -------------------- #
     nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
@@ -960,19 +922,14 @@ def account_settings_context(request):
 @require_http_methods(['GET'])
 def account_settings_confirm(request):
     """Render the current user's account settings page.
-
     Args:
         request (HttpRequest)
-
     Returns:
         HttpResponse: 200 if the page was sent successfully
         HttpResponse: 302 if not logged in (redirect to login page)
         HttpResponse: 405 if using an unsupported HTTP method
-
     Example usage:
-
         GET /account/settings
-
     """
 
     context = {
@@ -986,19 +943,14 @@ def account_settings_confirm(request):
 @require_http_methods(['POST'])
 def account_settings_confirm_check(request):
     """Render the current user's account settings page.
-
     Args:
         request (HttpRequest)
-
     Returns:
         HttpResponse: 200 if the page was sent successfully
         HttpResponse: 302 if not logged in (redirect to login page)
         HttpResponse: 405 if using an unsupported HTTP method
-
     Example usage:
-
         GET /account/settings
-
     """
     print '********************'
     print request.user.is_authenticated()
@@ -1024,19 +976,14 @@ def account_settings_confirm_check(request):
 @require_http_methods(['GET'])
 def account_settings(request):
     """Render the current user's account settings page.
-
     Args:
         request (HttpRequest)
-
     Returns:
         HttpResponse: 200 if the page was sent successfully
         HttpResponse: 302 if not logged in (redirect to login page)
         HttpResponse: 405 if using an unsupported HTTP method
-
     Example usage:
-
         GET /account/settings
-
     """
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':

@@ -248,13 +248,26 @@ if (
                     </select>
 
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
-                    <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy">
+                    <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" onchange="middle_classfy_sub(1)">
                         <option value="">강좌 중분류 선택</option>
                     </select>
+
+                    <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
+                        <option value="">융합 분류 선택1</option>
+                    </select>
+
+                    <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
+                        <option value="">융합 분류 선택2</option>
+                    </select>
+
+                    <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
+                        <option value="">융합 분류 선택3</option>
+                    </select>
+                    <input class="new-course-org" id="new-course-middle-classfy-sub" type="hidden" name=new-course-middle-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <span class="tip" id="tip-new-course-classfy">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
-                </li>
 
+                </li>
 
                 <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Linguistics")}</label>
@@ -404,6 +417,47 @@ if (
                         ]
         };
 
+        // 추가
+        var scate = {
+                'intd_m':[
+                    {'gettext': '언어ㆍ문학', 'code': 'lang'},
+                    {'gettext': '인문과학', 'code': 'husc'},
+                    {'gettext': '경영ㆍ경제', 'code': 'busn'},
+                    {'gettext': '법률', 'code': 'law'},
+                    {'gettext': '사회과학', 'code': 'scsc'},
+                    {'gettext': '교육일반', 'code': 'enor'},
+                    {'gettext': '유아교육', 'code': 'ekid'},
+                    {'gettext': '특수교육', 'code': 'espc'},
+                    {'gettext': '초등교육', 'code': 'elmt'},
+                    {'gettext': '중등교육', 'code': 'emdd'},
+                    {'gettext': '건축', 'code': 'cons'},
+                    {'gettext': '토목ㆍ도시', 'code': 'civi'},
+                    {'gettext': '교통ㆍ운송', 'code': 'traf'},
+                    {'gettext': '기계ㆍ금속', 'code': 'mach'},
+                    {'gettext': '전기ㆍ전자', 'code': 'elec'},
+                    {'gettext': '정밀ㆍ에너지', 'code': 'deta'},
+                    {'gettext': '소재ㆍ재료', 'code': 'matr'},
+                    {'gettext': '컴퓨터ㆍ통신', 'code': 'comp'},
+                    {'gettext': '산업', 'code': 'indu'},
+                    {'gettext': '화공', 'code': 'cami'},
+                    {'gettext': '기타', 'code': 'other'},
+                    {'gettext': '농림ㆍ수산', 'code': 'agri'},
+                    {'gettext': '생물ㆍ화학ㆍ환경', 'code': 'bio'},
+                    {'gettext': '생활과학', 'code': 'life'},
+                    {'gettext': '수학ㆍ물리ㆍ천문ㆍ지리', 'code': 'math'},
+                    {'gettext': '의료', 'code': 'metr'},
+                    {'gettext': '간호', 'code': 'nurs'},
+                    {'gettext': '약학', 'code': 'phar'},
+                    {'gettext': '치료ㆍ보건', 'code': 'heal'},
+                    {'gettext': '디자인', 'code': 'dsgn'},
+                    {'gettext': '응용예술','code': 'appl'},
+                    {'gettext': '무용ㆍ체육','code': 'danc'},
+                    {'gettext': '미술ㆍ조형', 'code': 'form'},
+                    {'gettext': '연극ㆍ영화', 'code': 'play'},
+                    {'gettext': '음악', 'code': 'musc'},
+                ]
+        };
+
         var middle_classfy = function(){
 
             var bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
@@ -413,8 +467,8 @@ if (
             var middle_classfy_id = document.getElementById("new-course-middle-classfy");
             removeOptions(middle_classfy_id);
 
-            input_middle_classfy(middle_classfy_id, bcate_val)
-
+            input_middle_classfy(middle_classfy_id, bcate_val);
+            middle_classfy_sub_init(0);
 
         }
 
@@ -428,6 +482,67 @@ if (
 
             for(key in mcate[m_info]){
                 var row = mcate[m_info][key];
+                var option = document.createElement("option");
+                option.text = row.gettext;
+                option.value = row.code;
+                selectbox.appendChild(option);
+
+            }
+        }
+
+        var middle_classfy_sub_init = function(p) {
+            var middle_classfy_sub_id;
+            if(p==0){
+                document.getElementById("new-course-middle-classfy-sub1").style.visibility = "hidden";
+                document.getElementById("new-course-middle-classfy-sub2").style.visibility = "hidden";
+                document.getElementById("new-course-middle-classfy-sub3").style.visibility = "hidden";
+                middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub1");
+                removeOptions(middle_classfy_sub_id);
+                middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub2");
+                removeOptions(middle_classfy_sub_id);
+                middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub3");
+                removeOptions(middle_classfy_sub_id);
+            } else if (p == 1) {
+                document.getElementById("new-course-middle-classfy-sub1").style.visibility = "visible";
+            } else if (p == 2) {
+                document.getElementById("new-course-middle-classfy-sub2").style.visibility = "visible";
+            } else if (p == 3) {
+                document.getElementById("new-course-middle-classfy-sub3").style.visibility = "visible";
+            }
+        }
+
+        var middle_classfy_sub = function(p) {
+            var mcate_val = document.getElementById("new-course-middle-classfy").options[document.getElementById("new-course-middle-classfy").selectedIndex].value;
+            var key = 0;
+            var middle_classfy_sub_id;
+            if (mcate_val != 'intd_m') return;
+
+            if (p == 1) {
+                middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub1");
+                middle_classfy_sub_init(1);
+            } else if (p == 2) {
+                middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub2");
+                middle_classfy_sub_init(2);
+            } else if (p == 3){
+                middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub3");
+                middle_classfy_sub_init(3);
+            } else {
+                middle_classfy_sub_id = null;
+            }
+            removeOptions(middle_classfy_sub_id);
+            input_middle_classfy_sub(middle_classfy_sub_id, mcate_val);
+
+        }
+
+        var input_middle_classfy_sub = function(selectbox, m_info){
+            var option = document.createElement("option");
+            option.text = "강좌 중분류 선택";
+            option.value = null;
+
+            selectbox.appendChild(option);
+
+            for(key in scate[m_info]){
+                var row = scate[m_info][key];
                 var option = document.createElement("option");
                 option.text = row.gettext;
                 option.value = row.code;
@@ -634,6 +749,19 @@ if (
         % endif
       </ul>
       % endif
+
+    <div class="search_div" style="margin:10px; margin-left:0px;">
+        <input type="text" id="cms_text" style="">
+        <button class="btn btn-primary" id="cms_search" type="button"
+                style="height:30px;
+                       width:80px;
+                       margin-bottom:2px;
+                       border-radius:5px;
+                       background-color:#009fe6;
+                       color:#FFFFFF;
+                       font-size:90%;
+                       ">${_("Search")}</button>
+    </div>
 
       %if len(courses) > 0:
       <div class="courses courses-tab active">

@@ -11,7 +11,6 @@
     <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" style="width: 55%;" />
     <div class="u-field-link u-field-link-title-password" id="nicecheck" style="width: 43%; float: right;"><%- sign %></div>
 </div>
-
 <% } else { %>
 <div class="u-field-value field">
     <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>

@@ -43,7 +43,6 @@
                 <option value="<%- selectOption[0] %>"><%- selectOption[1] %></option>
             <% }); %>
             </select>
-
         <% } else { %>
         <select name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>">
             <% if (showBlankOption) { %>

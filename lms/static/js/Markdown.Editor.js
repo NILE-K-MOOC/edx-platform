@@ -2481,7 +2481,7 @@
     commandProto.doEquation = function (chunk, postProcessing, insertText) {
 
         // Get rid of whitespace and fixup newlines.
-        chunk.trimWhitespace();
+    chunk.trimWhitespace();
 	chunk.selection = "";
         chunk.before = chunk.before+ " $" + insertText + "$ ";
         return;

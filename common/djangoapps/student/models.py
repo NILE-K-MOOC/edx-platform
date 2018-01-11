@@ -21,9 +21,7 @@ import logging
 from pytz import UTC
 from urllib import urlencode
 import uuid
-
 import analytics
-
 from config_models.models import ConfigurationModel
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -47,7 +45,6 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from simple_history.models import HistoricalRecords
 from track import contexts
 from xmodule_django.models import CourseKeyField, NoneToEmptyManager
-
 from lms.djangoapps.badges.utils import badges_enabled
 from certificates.models import GeneratedCertificate
 from course_modes.models import CourseMode
@@ -61,12 +58,12 @@ from util.query import use_read_replica_if_available
 from util.milestones_helpers import is_entrance_exams_enabled
 from django.db import connection
 
-
 UNENROLL_DONE = Signal(providing_args=["course_enrollment", "skip_refund"])
 ENROLL_STATUS_CHANGE = Signal(providing_args=["event", "user", "course_id", "mode", "cost", "currency"])
 log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: disable=invalid-name
+
 
 # enroll status changed events - signaled to email_marketing.  See email_marketing.tasks for more info
 
@@ -88,6 +85,7 @@ class EnrollStatusChange(object):
     paid_start = 'paid_start'
     # complete a paid course purchase
     paid_complete = 'paid_complete'
+
 
 UNENROLLED_TO_ALLOWEDTOENROLL = 'from unenrolled to allowed to enroll'
 ALLOWEDTOENROLL_TO_ENROLLED = 'from allowed to enroll to enrolled'
@@ -168,8 +166,8 @@ def anonymous_id_for_user(user, course_id, save=True):
     #     hasher.update(settings.SECRET_KEY)
 
     # if not row or row[0] > '20161221':
-        #hasher.update(settings.SECRET_KEY)
-        # pass
+    # hasher.update(settings.SECRET_KEY)
+    # pass
 
     hasher.update(unicode(user.id))
     if course_id:
@@ -226,8 +224,8 @@ def user_by_anonymous_id(uid):
     except ObjectDoesNotExist:
         return None
 
-def user_by_anonymous_id_dict(course_id):
 
+def user_by_anonymous_id_dict(course_id):
     # return None
 
     """
@@ -266,6 +264,7 @@ def user_by_anonymous_id_dict(course_id):
         anonymous_dict[digest] = anonymous_user_id
     # print anonymous_dict
     return anonymous_dict
+
 
 class UserStanding(models.Model):
     """
@@ -680,11 +679,10 @@ class PasswordHistory(models.Model):
         """
 
         if not (PasswordHistory.is_student_password_reuse_restricted() or
-                PasswordHistory.is_staff_password_reuse_restricted() or
-                PasswordHistory.is_password_reset_frequency_restricted() or
-                PasswordHistory.is_staff_forced_password_reset_enabled() or
-                PasswordHistory.is_student_forced_password_reset_enabled()):
-
+                    PasswordHistory.is_staff_password_reuse_restricted() or
+                    PasswordHistory.is_password_reset_frequency_restricted() or
+                    PasswordHistory.is_staff_forced_password_reset_enabled() or
+                    PasswordHistory.is_student_forced_password_reset_enabled()):
             return
 
         self.user = user
@@ -1513,6 +1511,67 @@ class CourseEnrollment(models.Model):
     def enrollments_for_user(cls, user):
         return cls.objects.filter(user=user, is_active=1)
 
+    @classmethod
+    def enrollments_for_user_ing(cls, user):
+        return cls.objects.raw('''
+            SELECT a.*
+              FROM student_courseenrollment a, course_overviews_courseoverview b
+             WHERE     a.course_id = b.id
+                   AND now() <= b.end
+                   and a.is_active = 1
+                   AND a.user_id = %s;
+        ''', [user.id])
+
+    @classmethod
+    def enrollments_for_user_end(cls, user):
+        return cls.objects.raw('''
+              SELECT a.*
+                FROM student_courseenrollment      a
+                     LEFT JOIN certificates_generatedcertificate c
+                        ON     a.user_id = c.user_id
+                           AND a.course_id = c.course_id
+                           AND c.status = 'downloadable',
+                     course_overviews_courseoverview b
+               WHERE a.course_id = b.id AND now() > b.end AND a.user_id = %s
+            ORDER BY c.created_date DESC, a.created DESC;
+        ''', [user.id])
+
+
+    @classmethod
+    def enrollments_for_user_interest(cls, user):
+        return cls.objects.raw('''
+                  SELECT b.interest_id          id,
+                         b.user_id,
+                         a.id                   course_id,
+                         b.created,
+                         if(b.use_yn = 'Y', 1, 0) is_active,
+                         'honor'                mode,
+                         c.created
+                    FROM (SELECT org,
+                                 display_number_with_default,
+                                 id,
+                                 effort,
+                                 (SELECT Count(*)
+                                    FROM edxapp.course_overviews_courseoverview bb
+                                   WHERE     aa.org = bb.org
+                                         AND aa.display_number_with_default =
+                                                bb.display_number_with_default
+                                         AND aa.start >= bb.start
+                                         AND aa.created >= bb.created)
+                                    AS rank
+                            FROM edxapp.course_overviews_courseoverview aa) a
+                         JOIN interest_course b
+                            ON     a.org = b.org
+                               AND a.display_number_with_default =
+                                      b.display_number_with_default
+                               AND b.use_yn = 'Y'
+                               AND b.user_id = %s
+                         LEFT JOIN student_courseenrollment c
+                            ON a.id = c.course_id AND b.user_id = c.user_id
+                   WHERE a.rank = 1
+                ORDER BY c.created DESC;
+        ''', [user.id])
+
     def is_paid_course(self):
         """
         Returns True, if course is paid
@@ -1865,6 +1924,7 @@ def remove_user_from_group(user, group):
     utg.users.remove(User.objects.get(username=user))
     utg.save()
 
+
 DEFAULT_GROUPS = {
     'email_future_courses': 'Receive e-mails about future MITx courses',
     'email_helpers': 'Receive e-mails about how to help with MITx',
@@ -1899,6 +1959,7 @@ def create_comments_service_user(user):
             exc_info=True
         )
 
+
 # Define login and logout handlers here in the models file, instead of the views file,
 # so that they are more likely to be loaded when a Studio user brings up the Studio admin
 # page to login.  These are currently the only signals available, so we need to continue
@@ -1929,7 +1990,7 @@ def log_successful_logout(sender, request, user, **kwargs):  # pylint: disable=u
 
 @receiver(user_logged_in)
 @receiver(user_logged_out)
-def enforce_single_login(sender, request, user, signal, **kwargs):    # pylint: disable=unused-argument
+def enforce_single_login(sender, request, user, signal, **kwargs):  # pylint: disable=unused-argument
     """
     Sets the current session id in the user profile,
     to prevent concurrent logins.
@@ -2099,7 +2160,7 @@ class EntranceExamConfiguration(models.Model):
     skip_entrance_exam = models.BooleanField(default=True)
 
     class Meta(object):
-        unique_together = (('user', 'course_id'), )
+        unique_together = (('user', 'course_id'),)
 
     def __unicode__(self):
         return "[EntranceExamConfiguration] %s: %s (%s) = %s" % (
@@ -2155,6 +2216,7 @@ class LanguageProficiency(models.Model):
     /edx-platform/openedx/core/djangoapps/user_api/accounts/views.py or its associated api method
     (update_account_settings) so that the events are emitted.
     """
+
     class Meta(object):
         unique_together = (('code', 'user_profile'),)
 
@@ -2206,7 +2268,7 @@ class CourseEnrollmentAttribute(models.Model):
         attributes = [
             cls(enrollment=enrollment, namespace=data['namespace'], name=data['name'], value=data['value'])
             for data in data_list
-        ]
+            ]
         cls.objects.bulk_create(attributes)
 
     @classmethod
@@ -2235,7 +2297,7 @@ class CourseEnrollmentAttribute(models.Model):
                 "value": attribute.value,
             }
             for attribute in cls.objects.filter(enrollment=enrollment)
-        ]
+            ]
 
 
 class EnrollmentRefundConfiguration(ConfigurationModel):
@@ -2276,7 +2338,7 @@ class UserAttribute(TimeStampedModel):
 
     class Meta(object):
         # Ensure that at most one value exists for a given user/name.
-        unique_together = (('user', 'name',), )
+        unique_together = (('user', 'name',),)
 
     user = models.ForeignKey(User, related_name='attributes')
     name = models.CharField(max_length=255, help_text=_("Name of this user attribute."), db_index=True)

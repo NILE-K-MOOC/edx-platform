@@ -1,0 +1,47 @@
+<%def name="online_help_token()"><% return "course" %></%def>
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+%>
+<%page args="course" expression_filter="h"/>
+
+<article class="course ${course.status}" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="opacity: ${'0.5' if course.has_ended() else '1'}" >
+    <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default}">
+        <header class="course-image">
+            <div class="cover-image">
+                <span class="univ-logo">
+                    <!--
+                    <img src="/static/images/univ/logo02_${course.display_org_with_default}.png" alt="logo02_${course.display_org_with_default}.png"  onerror="this.src='/static/images/unanswered-icon.png'">
+                    -->
+                </span>
+                <img src="${course.course_image_url}" alt="${course.display_name_with_default} ${course.display_number_with_default}" onerror="this.src='/static/images/no_images_large.png'">
+                <div class="learn-more" aria-hidden="true">${_("LEARN MORE")}</div>
+            </div>
+        </header>
+        <div class="course-info" aria-hidden="true">
+            <h2 class="course-name">
+                <span class="course-status over">${_(course.status)}</span>
+                <span class="course-title" style="height: 3.4em; !important;">${course.display_name}</span>
+            </h2>
+            <div class="course-date" aria-hidden="true" style="position: absolute;">
+                <time>${course.start.strftime("%Y-%m-%d")}</time></span>
+                % if course.end:
+                ~ </strong><time>${course.end.strftime("%Y-%m-%d")}</time>
+                % endif
+            </div>
+            <div class="course-date" aria-hidden="true" style="position: absolute; bottom: 25px;">
+                <time>${_(course.display_org_with_default)}</time>
+            </div>
+        </div>
+        <div class="sr">
+            <ul>
+                <li>${course.display_org_with_default}</li>
+                <li>${course.display_number_with_default}</li>
+                <li>${_("Starts")}: <time itemprop="startDate" datetime="${course.start_datetime_text()}">${course.start_datetime_text()}</time></li>
+            </ul>
+        </div>
+    </a>
+</article>
+
+
