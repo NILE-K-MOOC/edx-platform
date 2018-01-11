@@ -55,10 +55,12 @@ function tab_click() {
 }
 
 function view_content() {
-    console.log('view_content clicked');
-
     $(".faq-list dt").click(function () {
-        $("dd:visible").slideUp();
-        $(this).next().slideDown();
+        if($(this).next().is(":visible")){
+            $(this).next().slideUp();
+        }else{
+            $("dd:visible").slideUp();
+            $(this).next().slideDown();
+        }
     });
 }
