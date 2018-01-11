@@ -58,8 +58,7 @@ function view_content() {
     console.log('view_content clicked');
 
     $(".faq-list dt").click(function () {
-        $("dd:visible").slideup(200, function(){
-            $(this).next().slideDown(300);
-        });
+        $("dd:visible").slideUp();
+        $(this).next().slideDown();
     });
 }
