@@ -542,7 +542,7 @@ FEATURES = {
     'LICENSING': False,
 
     # Certificates Web/HTML Views
-    'CERTIFICATES_HTML_VIEW': False,
+    'CERTIFICATES_HTML_VIEW': True,
 
     # Batch-Generated Certificates from Instructor Dashboard
     # 'CERTIFICATES_INSTRUCTOR_GENERATION': False,
