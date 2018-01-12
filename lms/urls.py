@@ -576,6 +576,7 @@ urlpatterns += (
 
     # MULTISITE TEST
     url(r'^multisite_test/(?P<org>.*?)$', 'branding.views.multisite_test', name="multisite_test"),  # ko index
+    url(r'^multisite_test2$', 'branding.views.multisite_test2', name="multisite_test2"),  # ko index
 
     url(r'^notice/?$', 'branding.views.notice', name="notice"),
 

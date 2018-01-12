@@ -109,50 +109,52 @@ def index_ko(request):
     return redirect('/')
 
 
-import base64
-import hashlib
-from Crypto import Random
 from Crypto.Cipher import AES
+from base64 import b64decode
+from base64 import b64encode
 
 
 def multisite_test(request, org=None):
+    HTTP_REFERER = request.META['HTTP_REFERER']
+    print 'HTTP_REFERER CHECK', HTTP_REFERER
+
     if not org:
-        print 'org not exists !!!!!!!!'
-        raise Exception
-    else:
-        print 'org exists !!!!!!!!!!!!'
+        return redirect('/')
 
-    bs = 32
-    key = "K-MOOC"
-    key = hashlib.sha256(key.encode()).digest()
+    # testing aes 128
+    BLOCK_SIZE = 16  # Bytes
+    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
-    def encrypt(raw):
-        raw = _pad(raw)
-        iv = Random.new().read(AES.block_size)
-        cipher = AES.new(key, AES.MODE_CBC, iv)
-        return base64.b64encode(iv + cipher.encrypt(raw))
-
-    def decrypt(enc):
-        enc = base64.b64decode(enc)
-        iv = enc[:AES.block_size]
-        cipher = AES.new(key, AES.MODE_CBC, iv)
-        return _unpad(cipher.decrypt(enc[AES.block_size:])).decode('utf-8')
-
-    def _pad(self, s):
-        return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
-
-    def _unpad(s):
-        return s[:-ord(s[len(s) - 1:])]
-
+    key = 'abcdefghijklmnop'
+    iv = 'abcdefghijklmnop'
     send_id = request.GET.get('u')
 
+    def decrypt(key, _iv, enc):
+        enc = b64decode(enc)
+        iv = _iv
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        return unpad(cipher.decrypt(enc)).decode('utf8')
+
     if send_id:
-        print 'send_id1:', send_id
-        print 'send_id2:', decrypt(send_id)
+        request.session['send_id'] = decrypt(key, iv, send_id)
+        request.session['referer'] = HTTP_REFERER
+
+        return redirect('/multisite_test2')
     else:
         print 'send_id is not exists'
+        return redirect('/')
 
-    return render_to_response("multisite_test.html")
+
+def multisite_test2(request):
+    if not 'send_id' in request.session or not 'referer' in request.session:
+        return redirect('/')
+
+    context = {
+        'send_id': request.session['send_id'],
+        'referer': request.session['referer']
+    }
+    return render_to_response("multisite_test.html", context)
 
 
 def notice(request):
