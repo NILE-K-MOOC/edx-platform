@@ -12,7 +12,7 @@ define([
 
         el: '.search-facets',
         events: {
-            'click li button': 'selectOption',
+            'change .facet-list': 'selectOption',
             'click .show-less': 'collapse',
             'click .show-more': 'expand'
         },
@@ -21,7 +21,7 @@ define([
             this.meanings = options.meanings || {};
             this.$container = this.$el.find('.search-facets-lists');
             this.facetTpl = HtmlUtils.template($('#facet-tpl').html());
-            
+
             this.facetOptionTpl = HtmlUtils.template($('#facet_option-tpl').html());
         },
 
@@ -249,14 +249,19 @@ define([
 
         selectOption: function (event) {
             $(".course-facets-select").focus();
-
+            $(".search-facets-lists").focus();
             var $target = $(event.currentTarget);
+            var select_val = $target.val();
+            var select_index = select_val.split('+');
+
             this.trigger(
                 'selectOption',
                 $target.data('facet'),
-                $target.data('value'),
-                $target.data('text')
+                select_index[0],
+                select_index[1]
             );
+
+            $(".facet-list option[value=" + select_val+ "]").attr("selected","selected")
         }
     });
 });

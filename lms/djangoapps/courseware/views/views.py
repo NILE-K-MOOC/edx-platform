@@ -855,7 +855,6 @@ def course_interest(request):
                                   settings.DATABASES.get('default').get('PASSWORD'),
                                   settings.DATABASES.get('default').get('NAME'),
                                   charset='utf8')
-
             cur = con.cursor()
             query = """
                  UPDATE interest_course
@@ -898,8 +897,7 @@ def course_interest(request):
 
         elif request.POST['method'] == 'final':
             user_id = request.POST.get('user_id')
-            org = request.POST.get('org')
-            display_number_with_default = request.POST.get('display_number_with_default')
+            course_id = request.POST.get('course_id')
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -912,9 +910,10 @@ def course_interest(request):
             query = """
                 SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일")
                   FROM courseware_studentmodule
-                 WHERE student_id = '{0}' org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
-             """.format(user_id, org, display_number_with_default)
+                 WHERE student_id = '{0}' AND course_id = '{1}';
+             """.format(user_id, course_id)
             cur.execute(query)
+
             count = cur.fetchall()
             cur.close()
             data = json.dumps(count)

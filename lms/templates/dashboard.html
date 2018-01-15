@@ -38,7 +38,7 @@ cert_name_long = settings.CERT_NAME_LONG
 
 <style>
     .faq-tab {
-        max-width: 450px;
+        max-width: 600px;
         margin-bottom: 0px;
     }
 
@@ -63,6 +63,80 @@ cert_name_long = settings.CERT_NAME_LONG
         display: none;
     }
 </style>
+
+
+
+<div class="dashboard-notifications" tabindex="-1">
+    %if message:
+    <div class="dashboard-banner">
+        ${message | n, decode.utf8}
+    </div>
+
+    <script>
+        setTimeout(function () {
+            alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
+            document.location.href = "/logout";
+        }, 500);
+    </script>
+    %endif
+
+    %if enrollment_message:
+    <div class="dashboard-banner">
+        ${enrollment_message | n, decode.utf8}
+    </div>
+    %endif
+</div>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <div class="container dashboard" id="dashboard-main">
+        <div class="my-courses" id="my-courses">
+            <header class="wrapper-header-courses">
+                <h2 class="header-courses">${_("My Courses")}</h2>
+
+                <nav class="faq-tab">
+                    <a href="#" class="on" data-status="ing" title="K-MOOC">${_("ing")}
+                        <div class="progress"></div>
+                    </a>
+                    <a href="#" data-status="end" title="회원가입">${_("end")}
+                        <div class="progress"></div>
+                    </a>
+                    <a href="#" data-status="interest" title="로그인/계정">${_("interest")}
+                        <div class="progress"></div>
+                    </a>
+                    <a href="#" data-status="interest" title="로그인/계정">추천강좌
+                        <div class="progress"></div>
+                    </a>
+                </nav>
+
+                <div class="sub-end">
+                    <a href="javascript:focusTo(1);">이수과정</a> | <a href="javascript:focusTo(2);">미이수과정</a>
+                </div>
+                <div class="sub-interest">
+                    <a href="javascript:focusTo(3);">신청중인과정</a> | <a href="javascript:focusTo(4);">대기과정</a>
+                </div>
+
+            </header>
+
+
+            <div id="interest_course" style="display:none;">
+                <a id="request_course1" onclick="show_list('request_course1')">신청한 과정</a> | <a id="request_course2" onclick="show_list('request_course2')">신청안한 과정</a>
+
+                <script>
+                    function show_list(id) {
+                        if (id == 'request_course1') {
+                            document.getElementById('interest_course_list').style.display = '';
+                            document.getElementById('uninterest_course_list').style.display = 'none';
+                        }
+                        else if (id == 'request_course2') {
+                            document.getElementById('uninterest_course_list').style.display = '';
+                            document.getElementById('interest_course_list').style.display = 'none';
+                        }
+                    }
+                </script>
+            </div>
+
+            <div id="courses_target">
+
 
 <%block name="js_extra">
 <script src="${static.url('js/commerce/credit.js')}"></script>
@@ -157,75 +231,8 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
 </%static:require_module>
 % endif
 </%block>
-
-<div class="dashboard-notifications" tabindex="-1">
-    %if message:
-    <div class="dashboard-banner">
-        ${message | n, decode.utf8}
-    </div>
-
-    <script>
-        setTimeout(function () {
-            alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
-            document.location.href = "/logout";
-        }, 500);
-    </script>
-    %endif
-
-    %if enrollment_message:
-    <div class="dashboard-banner">
-        ${enrollment_message | n, decode.utf8}
-    </div>
-    %endif
-</div>
-
-<main id="main" aria-label="Content" tabindex="-1">
-    <div class="container dashboard" id="dashboard-main">
-        <div class="my-courses" id="my-courses">
-            <header class="wrapper-header-courses">
-                <h2 class="header-courses">${_("My Courses")}</h2>
-
-                <nav class="faq-tab">
-                    <a href="#" class="on" data-status="ing" title="K-MOOC">${_("ing")}
-                        <div class="progress"></div>
-                    </a>
-                    <a href="#" data-status="end" title="회원가입">${_("end")}
-                        <div class="progress"></div>
-                    </a>
-                    <a href="#" data-status="interest" title="로그인/계정">${_("interest")}
-                        <div class="progress"></div>
-                    </a>
-                </nav>
-
-                <div class="sub-end">
-                    <a href="javascript:focusTo(1);">이수과정</a> | <a href="javascript:focusTo(2);">미이수과정</a>
-                </div>
-                <div class="sub-interest">
-                    <a href="javascript:focusTo(3);">신청중인과정</a> | <a href="javascript:focusTo(4);">대기과정</a>
-                </div>
-
-            </header>
-
-
-            <div id="interest_course" style="display:none;">
-                <a id="request_course1" onclick="show_list('request_course1')">신청한 과정</a> | <a id="request_course2" onclick="show_list('request_course2')">신청안한 과정</a>
-
-                <script>
-                    function show_list(id) {
-                        if (id == 'request_course1') {
-                            document.getElementById('interest_course_list').style.display = '';
-                            document.getElementById('uninterest_course_list').style.display = 'none';
-                        }
-                        else if (id == 'request_course2') {
-                            document.getElementById('uninterest_course_list').style.display = '';
-                            document.getElementById('interest_course_list').style.display = 'none';
-                        }
-                    }
-                </script>
-            </div>
-
-            <div id="courses_target">
                 % if len(course_enrollments) > 0:
+
                 <ul class="listing-courses" id="default_course">
                     <% share_settings = getattr(settings, 'SOCIAL_SHARING_SETTINGS', {}) %>
                     % for dashboard_index, enrollment in enumerate(course_enrollments):

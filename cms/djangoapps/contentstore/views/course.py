@@ -1061,6 +1061,14 @@ def settings_handler(request, course_key_string):
     PUT
         json: update the Course and About xblocks through the CourseDetails model
     """
+    course_info_text = ""
+    f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseinfoPage.html", 'r')
+    while True:
+        line = f.readline()
+        if not line: break
+        course_info_text += str(line)
+    f.close()
+
     course_key = CourseKey.from_string(course_key_string)
     credit_eligibility_enabled = settings.FEATURES.get('ENABLE_CREDIT_ELIGIBILITY', False)
     with modulestore().bulk_operations(course_key):
@@ -1085,9 +1093,45 @@ def settings_handler(request, course_key_string):
             enrollment_end_editable = GlobalStaff().has_user(request.user) or not marketing_site_enabled
             short_description_editable = settings.FEATURES.get('EDITABLE_SHORT_DESCRIPTION', True)
             self_paced_enabled = SelfPacedConfiguration.current().enabled
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                 SELECT teacher_name
+                  FROM course_overview_addinfo
+                 WHERE course_id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            teacher_index = cur.fetchall()
+            cur.close()
+
+            if(len(teacher_index) == 1):
+                teacher_name = teacher_index[0][0]
+            else:
+                teacher_name =""
+
+            cur = con.cursor()
+            query = """
+                 SELECT count(*)
+                  FROM course_structures_coursestructure
+                 WHERE created >= date('2017-12-21') AND course_id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            created_check = cur.fetchall()
+            cur.close()
+
+            if(created_check[0][0] == 1):
+                modi_over = True
+            else :
+                modi_over = False
+
 
             settings_context = {
                 'context_course': course_module,
+                'teacher_name': teacher_name,
                 'course_locator': course_key,
                 'lms_link_for_about_page': utils.get_lms_link_for_about_page(course_key),
                 'course_image_url': course_image_url(course_module, 'course_image'),
@@ -1106,7 +1150,9 @@ def settings_handler(request, course_key_string):
                 'is_prerequisite_courses_enabled': is_prerequisite_courses_enabled(),
                 'is_entrance_exams_enabled': is_entrance_exams_enabled(),
                 'self_paced_enabled': self_paced_enabled,
-                'enable_extended_course_details': enable_extended_course_details
+                'enable_extended_course_details': enable_extended_course_details,
+                'course_info_text':course_info_text,
+                'modi_over':modi_over
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
@@ -1136,7 +1182,6 @@ def settings_handler(request, course_key_string):
                             'show_min_grade_warning': show_min_grade_warning,
                         }
                     )
-
             return render_to_response('settings.html', settings_context)
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
             if request.method == 'GET':

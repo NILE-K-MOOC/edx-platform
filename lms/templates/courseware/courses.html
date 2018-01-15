@@ -66,15 +66,16 @@
             %endfor
           </ul>
         </div>
+        <script>
 
-
+        </script>
         % if course_discovery_enabled:
         <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
           <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
             <section class="course-facets-list">
                 <h3 class="header-facet">${_('Opening Status')}</h3>
                 <div id="sel_status">
-                <select class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}">
+                <select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}">
                     <option value="">${_('All')}</option>
                     <option value="i">${_('ing')}</option>
                     <option value="t">${_('ready')}</option>
@@ -86,7 +87,6 @@
           </section>
         </aside>
         % endif
-
       </section>
     </section>
 </main>

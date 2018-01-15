@@ -2,52 +2,153 @@
 metadata:
     display_name: overview
 
-data: |
+data:
     <section class="about">
-      <h2>About This Course</h2>
-      <p>Include your long course description here. The long course description should contain 150-400 words.</p>
+        <h2><i class="fa fa-university"></i>강좌 소개</h2>
+        <br>
+        <article>
+            <h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3>
 
-      <p>This is paragraph 2 of the long course description. Add more paragraphs as needed. Make sure to enclose them in paragraph tags.</p>
-    </section>
-
-    <section class="prerequisites">
-      <h2>Requirements</h2>
-      <p>Add information about the skills and knowledge students need to take this course.</p>
-    </section>
-
-    <section class="course-staff">
-      <h2>Course Staff</h2>
-      <article class="teacher">
-        <div class="teacher-image">
-          <img src="/static/images/placeholder-faculty.png" align="left" style="margin:0 20 px 0" alt="Course Staff Image #1">
-        </div>
-
-        <h3>Staff Member #1</h3>
-        <p>Biography of instructor/staff member #1</p>
-      </article>
-
-      <article class="teacher">
-        <div class="teacher-image">
-          <img src="/static/images/placeholder-faculty.png" align="left" style="margin:0 20 px 0" alt="Course Staff Image #2">
-        </div>
-
-        <h3>Staff Member #2</h3>
-        <p>Biography of instructor/staff member #2</p>
-      </article>
-    </section>
-
-    <section class="faq">
-      <section class="responses">
-        <h2>Frequently Asked Questions</h2>
-        <article class="response">
-          <h3>What web browser should I use?</h3>
-          <p>The Open edX platform works best with current versions of Chrome, Firefox or Safari, or with Internet Explorer version 9 and above.</p>
-          <p>See our <a href="http://edx.readthedocs.org/projects/open-edx-learner-guide/en/latest/front_matter/browsers.html">list of supported browsers</a> for the most up-to-date information.</p>
+            <div class="article_contents" id="Tab1_1"></div>
         </article>
+        <br>
+        <article>
+            <h3><i class="fa fa-video-camera"></i>홍보영상/예시강의</h3>
 
-        <article class="response">
-          <h3>Question #2</h3>
-          <p>Your answer would be displayed here.</p>
+            <div class="article_contents">
+                <div class="youtubewrap">
+                    <iframe title="홍보영상/예시강의" src="https://www.youtube.com/embed/9aXAmFvKTY4" frameborder="0"
+                            allowfullscreen scrolling="no"></iframe>
+                </div>
+                <div class="subtitle_box" tabindex="0">
+                    <div class="subtitle_section" id="Tab1_2"></div>
+                </div>
+            </div>
         </article>
-      </section>
     </section>
+
+
+    <section class="course-plan">
+    <h2><i class="fa fa-calendar"></i>강좌 계획</h2>
+    <article class="syllabus">
+        <div class="article_contents">
+            <input type="checkbox" name="toggle" id="toggle"/>
+            <label for="toggle"></label>
+
+            <div class="syllabus_table" id="Tab2_1">
+                <table border="1" cellpadding="5" cellspacing="0" summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서">
+                    <caption>강의계획서</caption>
+                    <colgroup>
+                        <col width="5%"/>
+                        <col width="30%"/>
+                        <col width=""/>
+                        <col width="15%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>
+                            주차
+                        </th>
+                        <th>
+                            주차명
+                        </th>
+                        <th>
+                            차시명
+                        </th>
+                        <th>
+                            과제
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td rowspan="2" class="cts">
+                            1
+                        </td>
+                        <td rowspan="2">
+                            심리학이란 무엇인가?
+                        </td>
+                        <td>
+                            심리학에 대한 오해
+                        </td>
+                        <td class="cts">
+                            퀴즈1
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            진심 추론 방법
+                        </td>
+                        <td class="cts">
+                            토론
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cts">
+                            2
+                        </td>
+                        <td>
+                            심리과학
+                        </td>
+                        <td>
+                            문자와 이메일의 딜레마
+                        </td>
+                        <td class="cts">
+                            토론
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="bgcolor cts">
+                            중간시험
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cts">
+                            3
+                        </td>
+                        <td>
+                            학습의 원리
+                        </td>
+                        <td>
+                            문자와 이메일의 딜레마
+                        </td>
+                        <td class="cts">
+                            상호평가
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="cts bgcolor">
+                            기말시험
+                        </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="course-staff" id="Tab3_1"></section>
+    <section class="info">
+        <h2><i class="fa fa-info-circle"></i>강좌 수강 정보</h2>
+        <br>
+        <article>
+            <h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3>
+            <div class="grade_table" id="Tab4_1"></div>
+        </article>
+        <br>
+        <article>
+            <h3><i class="fa fa-sort-amount-desc"></i>강좌 수준 및 선수요건</h3>
+            <div class="grade_table" id="Tab4_2"></div>
+        </article>
+        <br>
+        <article>
+            <h3><i class="fa fa-book"></i>교재 및 참고문헌</h3>
+            <div class="grade_table" id="Tab4_3"></div>
+        </article>
+    </section>
+
+    <section class="faq" id="Tab5_1"></section>
+
+    <section class="user_add" id="Tab6_1"></section>
+

@@ -124,6 +124,8 @@ import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 from bson import ObjectId
 
 log = logging.getLogger("edx.student")
@@ -846,8 +848,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                         popup_index = popup_index.replace("#_height", str(index[9]))
                         popup_index = popup_index.replace("#_img_width", str(index[9]))
                         popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
-                        popup_index = popup_index.replace("#_hidden", str(index[11]))
-                        if (len(index[12]) == 1):
+                        popup_index = popup_index.replace("#_hidden", str(index[10]))
+                        if (len(index[11]) == 1):
                             map_str = """
                                     <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
                                     """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
@@ -855,13 +857,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                             popup_index = popup_index.replace("#_exist", "")
                         else:
                             map_str = ""
-                            for map in index[12]:
+                            for map in index[11]:
                                 map_str += """
                                     <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
                                     """.format(str(map), str(index[4]), str(index[3]))
                             popup_index = popup_index.replace("#_not_exist", "")
                             popup_index = popup_index.replace("#_exist", map_str)
                     f.close()
+                    print 'IMAGE -------'
+                    print popup_index
 
 
         elif (index[1] == '1'):
@@ -1754,23 +1758,23 @@ def dashboard(request):
 
     final_list = []
 
-    # sys.setdefaultencoding('utf-8')
-    # con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-    #                   settings.DATABASES.get('default').get('USER'),
-    #                   settings.DATABASES.get('default').get('PASSWORD'),
-    #                   settings.DATABASES.get('default').get('NAME'),
-    #                   charset='utf8')
-    # for c in course_enrollments:
-    #     cur = con.cursor()
-    #     query = """
-    #         SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일"), course_id
-    #           FROM courseware_studentmodule
-    #          WHERE student_id = '{0}' AND course_id = '{1}';
-    #     """.format(user.id, c.course.id)
-    #     cur.execute(query)
-    #     final_day = cur.fetchall()
-    #     final_list.append(list(final_day[0]))
-    #     cur.close()
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    for c in course_enrollments:
+        cur = con.cursor()
+        query = """
+            SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일"), course_id
+              FROM courseware_studentmodule
+             WHERE student_id = '{0}' AND course_id = '{1}';
+        """.format(user.id, c.course.id)
+        cur.execute(query)
+        final_day = cur.fetchall()
+        final_list.append(list(final_day[0]))
+        cur.close()
 
     print ('final_list =====================')
     print type(final_list)
@@ -3040,6 +3044,65 @@ def create_account(request, post_override=None):
     set_logged_in_cookies(request, response, user)
     return response
 
+
+@csrf_exempt
+def modi_teacher_name(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'addinfo':
+            addinfo_user_id = request.POST.get('addinfo_user_id')
+            addinfo_course_id = request.POST.get('addinfo_course_id')
+            teacher_name = request.POST.get('teacher_name')
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                    SELECT count(*)
+                      FROM course_overview_addinfo
+                     WHERE course_id = '{0}';
+            """.format(addinfo_course_id)
+            cur.execute(query)
+            count = cur.fetchall()
+            ctn = count[0][0]
+            cur.close()
+
+            if(ctn == 1):
+                cur = con.cursor()
+                query = """
+                    UPDATE course_overview_addinfo
+                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), teacher_name = '{1}'
+                     WHERE course_id = '{2}';
+                """.format(addinfo_user_id, teacher_name, addinfo_course_id)
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            elif(ctn == 0):
+                cur = con.cursor()
+                query = """
+                        INSERT INTO course_overview_addinfo(course_id,
+                                    create_type,
+                                    create_year,
+                                    course_no,
+                                    teacher_name,
+                                    delete_yn,
+                                    regist_id,
+                                    regist_date,
+                                    modify_id,
+                                    modify_date)
+                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
+                """.format(addinfo_course_id, teacher_name, addinfo_user_id, addinfo_user_id)
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            return HttpResponse(data, 'application/json')
+
+        return HttpResponse('success', 'application/json')
 
 def auto_auth(request):
     """
