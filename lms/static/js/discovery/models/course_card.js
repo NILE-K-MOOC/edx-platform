@@ -10,7 +10,6 @@ define(['backbone'], function (Backbone) {
             enrollment_start: '',
             number: '',
             content: {
-                overview: '',
                 display_name: '',
                 number: ''
             },

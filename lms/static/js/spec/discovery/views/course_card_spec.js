@@ -17,7 +17,6 @@ define([
                     "enrollment_start": "2015-04-21T00:00:00+00:00",
                     "number": "DemoX",
                     "content": {
-                        "overview": " About This Course Include your long course description here.",
                         "display_name": "edX Demonstration Course",
                         "number": "DemoX"
                     },
