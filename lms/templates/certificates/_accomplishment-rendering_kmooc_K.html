@@ -5,6 +5,7 @@ accomplishment_course_title =  accomplishment_copy_course_name
 if certificate_data and certificate_data.get('course_title', ''):
     accomplishment_course_title =  certificate_data.get('course_title', '')
 course_mode_class = course_mode if course_mode else ''
+accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
 %>
 
 <style>
@@ -29,7 +30,8 @@ course_mode_class = course_mode if course_mode else ''
     .kmooc_d{margin:50px 0 0 0; text-align:center; }
     .kmooc_d li{width:900px;}
     .kmooc_d li.kmooc_font1{margin:0 0 0 140px; font-size:33px; font-weight:bold; color:#2b282e; text-align:center; height: 45px; overflow: hidden;}
-    .kmooc_d li.kmooc_font2{margin:10px 0 0 140px; font-size:15px; font-weight:bold; text-align:center;}
+    .kmooc_d li.kmooc_font2{margin:10px 0 0 140px; font-size:15px; font-weight:bold; text-align:left;}
+    .kmooc_d li.kmooc_font2_1{margin:10px 141px 0 140px; font-size:15px; font-weight:bold; text-align:right; float: right}
     .kmooc_e{margin:20px 0 0 0; text-align:center;}
     .kmooc_e li{width:900px;}
     .kmooc_e li.kmooc_font3{margin:0 0 0 141px; font-size:29px; font-weight:bold; color:#2b282e; line-height:120%; height: 150px; overflow: hidden;}
@@ -51,29 +53,29 @@ course_mode_class = course_mode if course_mode else ''
 
 </script>
 
-<main id="printArea" class="accomplishment accomplishment-main" style="height: 750px; padding: 0 0 0 calc((100% - 1178px) / 2);">
+<main id="printArea_K" class="accomplishment accomplishment-main" style="height: 750px; padding: 0 0 0 calc((100% - 1178px) / 2);">
     <!-- wrap Start -->
     <div class="kmooc_a"><img src="/static/images/certificate_bg.gif" alt="certificate_bg" onloadeddata="imgloaded();" style="width:1180px; height:750px;" /></div>
     <div class="kmooc_contents">
-    <p class="kmooc_b">${_("Certificatiion ID")}11111<br />
-    ${certificate_id_number}222222</p>
-    <div class="kmooc_c"><img src="/static/images/kmooc_title.png" alt="certificate_bg 이수증 입니다." /></div>
+    <p class="kmooc_b">인증번호<br />
+    ${certificate_id_number}</p>
+    <div class="kmooc_c"><h2 style="font-size: 30px">이 수 증</h2></div>
     <ul class="kmooc_d">
-      <li class="kmooc_font1">${accomplishment_copy_name}333333</li>
-      <li class="kmooc_font2">has successfully completed.44444</li>
+      <li class="kmooc_font2">성명 : ${accomplishment_copy_username}</li>
+      <li class="kmooc_font2">교육과정 : ${accomplishment_course_title[0]}</li>
+      <li class="kmooc_font2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(${course_id})</li>
+      <li class="kmooc_font2_1" id="k_box1" style="display: none">성적 : ${grade} 점</li>
+      <li class="kmooc_font2_1" id="k_box2" style="display: none">동영상 재생시간 : ${Play_h} 시간 ${Play_m} 분</li>
+      <li class="kmooc_font2_1" id="k_box3" style="display: none">학습시간 : ${Learning_h} 시간 ${Learning_m} 분</li>
     </ul>
     <ul class="kmooc_e">
-      <li class="kmooc_font3">${accomplishment_course_title}55555<br /><span class="kmooc_small">66666(${accomplishment_copy_course_org}.${course_id2})</span></li>
+      <li class="kmooc_font3"><br /><span class="kmooc_small">${_("This certificate will be awarded by faithfully completing the above course")}</span></li>
     </ul>
     <ul class="kmooc_f">
-      <li class="kmooc_font4">77777${_("This certificate will be awarded by faithfully completing the above course")}</li>
-      <li class="kmooc_font5">88888an online learning Initiative of ${accomplishment_copy_course_org} through K-MOOC.</li>
+      <li class="kmooc_font4">${certificate_date_issued2}</li>
     </ul>
     <ul class="kmooc_g">
-      <li>99999${_("Completion date")} ISSUE DATE<br />aaaaa${certificate_date_issued2} ${certificate_date_issued}</li>
-
       <li class="p10">
-
           % if organization_logo:
             <img src="${organization_logo.url}" alt="${platform_name}" style="max-width: 220px; max-height: 48px;" />
           % endif
@@ -84,9 +86,9 @@ course_mode_class = course_mode if course_mode else ''
             % for signatory in certificate_data.get('signatories', []):
             <dl class="pr8">
                 <dt><img src="${static.url(signatory['signature_image_path'])}" alt="${signatory['name']}" style="width: 193px; height: 49px;" /></dt>
-                <dd class="kmooc_color">bbbbb${signatory['name']}</dd>
-                <dd>ccccc${signatory['title']}</dd>
-                <dd>ddddd${signatory['organization']}</dd>
+                <dd class="kmooc_color">${signatory['name']}</dd>
+                <dd>${signatory['title']}</dd>
+                <dd>${signatory['organization']}</dd>
             </dl>
             % endfor
         % endif

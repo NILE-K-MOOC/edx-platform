@@ -6,10 +6,55 @@
 % endif
 <%include file="_accomplishment-introduction.html" />
 
-<%include file="_accomplishment-rendering_kmooc.html" />
+<%include file="_accomplishment-rendering_kmooc_K.html" />
+<%include file="_accomplishment-rendering_kmooc_E.html" />
 <div class="wrapper-about">
     <aside role="complementary" class="about" aria-label="About edX Certificates">
         <%include file="_about-edx.html" />
         <%include file="_about-accomplishments.html" />
     </aside>
 </div>
+
+<script>
+    $('input[type=radio][name=radio]').change(function() {
+        console.log('checked!!!!');
+        if (this.value == 'K') {
+            $('#printArea_K').css("display","");
+            $('#printArea_E').css("display","none");
+        }
+        else if (this.value == 'E') {
+            $('#printArea_K').css("display","none");
+            $('#printArea_E').css("display","");
+        }
+    });
+
+    $('#textbox1').val($(this).is(':checked'));
+
+    $('#checkbox1').change(function() {
+        if($(this).is(":checked")) {
+            $('#k_box1').css("display","")
+            $('#e_box1').css("display","")
+        }else{
+            $('#k_box1').css("display","none")
+            $('#e_box1').css("display","none")
+        }
+    });
+    $('#checkbox2').change(function() {
+        if($(this).is(":checked")) {
+            $('#k_box2').css("display","")
+            $('#e_box2').css("display","")
+        }else{
+            $('#k_box2').css("display","none")
+            $('#e_box2').css("display","none")
+        }
+    });
+    $('#checkbox3').change(function() {
+        if($(this).is(":checked")) {
+            $('#k_box3').css("display","")
+            $('#e_box3').css("display","")
+        }else{
+            $('#k_box3').css("display","none")
+            $('#e_box3').css("display","none")
+        }
+    });
+</script>

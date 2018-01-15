@@ -43,7 +43,7 @@ from django.template.defaultfilters import escapejs
             <h2 class="message-title hd-5 emphasized">${accomplishment_banner_opening | h}</h2>
             <div class="wrapper-copy-and-actions">
                 <p class="message-copy copy copy-base emphasized">${accomplishment_banner_congrats}</p>
-                <div class="message-actions">
+                <div class="message-actions" align="left" style="color: white !important;">
                     <h3 class="sr-only">${_("Print or share your certificate:")}</h3>
                     % if facebook_share_enabled:
                       <button class="action action-share-facebook btn-inverse btn-small icon-only" id="action-share-facebook"
@@ -80,10 +80,22 @@ from django.template.defaultfilters import escapejs
                         ${_("Add to Mozilla Backpack")}
                     </button>
                     %endif
+                    <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
+                    <input type="radio" name="radio" checked="checked" value="K"> 한국어
+                    <input type="radio" name="radio" value="E"> 영어<br>
 
+                    <span>추가표기사항</span>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                    <input type="checkbox" id ="checkbox1"> 성적
+                    <input type="checkbox" id ="checkbox2"> 동영상 재생시간
+                    <input type="checkbox" id ="checkbox3"> 주간학습시간
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button class="action action-print btn-inverse btn-small" id="action-print-view">
                         <span class="icon fa fa-print" aria-hidden="true"></span>
                         ${_("Print Certificate")}
+                    </button>
+                    <button class="action action-print btn-inverse btn-small Test_btn" id="action-print-view">
+                        본인인증
                     </button>
                 </div>
             </div>
