@@ -381,6 +381,12 @@ def multisite_index(request, org):
     return student.views.multisite_index(request, user=request.user)
 # --------------- multisite index --------------- #
 
+
+# --------------- multisite TEST --------------- #
+from Crypto.Cipher import AES
+from base64 import b64decode
+from base64 import b64encode
+
 def multisite_test(request, org=None):
     HTTP_REFERER = request.META['HTTP_REFERER']
     print 'HTTP_REFERER CHECK', HTTP_REFERER
@@ -422,6 +428,8 @@ def multisite_test2(request):
         'referer': request.session['referer']
     }
     return render_to_response("multisite_test.html", context)
+# --------------- multisite TEST --------------- #
+
 
 @ensure_csrf_cookie
 def index(request):
