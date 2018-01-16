@@ -289,18 +289,25 @@ def get_course_enrollments(user):
 def multisite_url_check(request):
 
     # request
-    url_check = request.GET.get('url_check')
-    cur_url = request.GET.get('cur_url')
+    url_check = request.GET.get('url_check') # A의 URL
+    cur_url = request.GET.get('cur_url')     # A가 요청한 URL
 
-    # url_check
+    # DEBUG
+    print "-------------------------------->"
+    print "url_check = {}".format(url_check)
+    print "cur_url = {}".format(cur_url)
+    print "-------------------------------->"
+
+    # A의 URL을 체크에 불필요한 http를 제거한다
     url_check = url_check.replace('http://',"")
 
-    # cul_rul -> org_code
+    # cul_rul을 이용해 기관코드를 얻어낸다
+    # ex) 'http://kmooc.kr/multisite/naver' -> 'naver'
     cur_url = cur_url.split('multisite/')
     org_code = cur_url[1]
 
     # test url
-    url_check = 'www.sktelecom.co.kr'
+    url_check = 'www.naver.com'
 
     # convert url_check -> req_code
     with connections['default'].cursor() as cur:
@@ -330,6 +337,30 @@ def multisite_url_check(request):
 
 @ensure_csrf_cookie
 def multisite_index(request, org):
+
+    from Crypto.Cipher import AES
+    from base64 import b64decode
+    from base64 import b64encode
+
+    if request.GET.get('encStr'):
+        send_id = request.GET.get('encStr')
+
+    BLOCK_SIZE = 16  # Bytes
+    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+
+    key = '1234567890123456'
+    iv = '1234567890123456'
+
+    def decrypt(key, _iv, enc):
+        enc = b64decode(enc)
+        iv = _iv
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        return unpad(cipher.decrypt(enc)).decode('utf8')
+
+    print "--------------------------->"
+    print "decrypt(key, iv, send_id) = ", decrypt(key, iv, send_id)
+    print "--------------------------->"
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
@@ -399,8 +430,8 @@ def multisite_test(request, org=None):
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
     unpad = lambda s: s[:-ord(s[len(s) - 1:])]
 
-    key = 'abcdefghijklmnop'
-    iv = 'abcdefghijklmnop'
+    key = '1234567890123456'
+    iv = '1234567890123456'
     send_id = request.GET.get('u')
 
     def decrypt(key, _iv, enc):
