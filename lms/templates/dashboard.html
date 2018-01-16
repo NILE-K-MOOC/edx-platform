@@ -190,28 +190,31 @@ cert_name_long = settings.CERT_NAME_LONG
     });
 
     function focusTo(type) {
-        console.log('type: ' + type);
-        switch (type) {
-            case 1:
-                var target_top = $(".action-certificate:eq(0)").parents("li.course-item").position().top - 120;
-                $('html, body').animate({scrollTop: target_top}, 500);
-                break;
-            case 2:
-                var target_top = $(".action-certificate:last").parents("li.course-item").next().position().top - 120;
-                $('html, body').animate({scrollTop: target_top}, 500);
-                break;
-            case 3:
-                var target_top = $(".course-container[data-is_enrolled='True']:first").parents("li.course-item").position().top - 120;
-                $('html, body').animate({scrollTop: target_top}, 500);
-                break;
-            case 4:
-                var target_top = $(".course-container[data-is_enrolled='False']:first").parents("li.course-item").position().top - 120;
-                $('html, body').animate({scrollTop: target_top}, 500);
-                break;
+        try {
+            switch (type) {
+                case 1:
+                    var target_top = $(".action-certificate:eq(0)").parents("li.course-item").position().top - 120;
+                    $('html, body').animate({scrollTop: target_top}, 500);
+                    break;
+                case 2:
+                    var target_top = $(".action-certificate:last").parents("li.course-item").next().position().top - 120;
+                    $('html, body').animate({scrollTop: target_top}, 500);
+                    break;
+                case 3:
+                    var target_top = $(".course-container[data-is_enrolled='True']:first").parents("li.course-item").position().top - 120;
+                    $('html, body').animate({scrollTop: target_top}, 500);
+                    break;
+                case 4:
+                    var target_top = $(".course-container[data-is_enrolled='False']:first").parents("li.course-item").position().top - 120;
+                    $('html, body').animate({scrollTop: target_top}, 500);
+                    break;
 
-            default:
-                console.log('focusTo default');
-                break;
+                default:
+                    console.log('focusTo default');
+                    break;
+            }
+        }catch(err){
+            console.debug(err);
         }
 
     }
