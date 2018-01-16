@@ -56,7 +56,7 @@ site_status_msg = get_site_status_msg(course_id)
 <!-- memo script (start) -->
 <script>
 $( document ).ready(function() {
-    var user_id = '${user.id}';
+    var user_id = "${user.id if user.is_authenticated() else ''}";
 
     if (!user_id)
         return;
