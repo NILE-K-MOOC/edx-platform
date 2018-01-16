@@ -381,6 +381,48 @@ def multisite_index(request, org):
     return student.views.multisite_index(request, user=request.user)
 # --------------- multisite index --------------- #
 
+def multisite_test(request, org=None):
+    HTTP_REFERER = request.META['HTTP_REFERER']
+    print 'HTTP_REFERER CHECK', HTTP_REFERER
+
+    if not org:
+        return redirect('/')
+
+    # testing aes 128
+    BLOCK_SIZE = 16  # Bytes
+    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+
+    key = 'abcdefghijklmnop'
+    iv = 'abcdefghijklmnop'
+    send_id = request.GET.get('u')
+
+    def decrypt(key, _iv, enc):
+        enc = b64decode(enc)
+        iv = _iv
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        return unpad(cipher.decrypt(enc)).decode('utf8')
+
+    if send_id:
+        request.session['send_id'] = decrypt(key, iv, send_id)
+        request.session['referer'] = HTTP_REFERER
+
+        return redirect('/multisite_test2')
+    else:
+        print 'send_id is not exists'
+        return redirect('/')
+
+
+def multisite_test2(request):
+    if not 'send_id' in request.session or not 'referer' in request.session:
+        return redirect('/')
+
+    context = {
+        'send_id': request.session['send_id'],
+        'referer': request.session['referer']
+    }
+    return render_to_response("multisite_test.html", context)
+
 @ensure_csrf_cookie
 def index(request):
     '''
