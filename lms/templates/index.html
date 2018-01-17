@@ -555,7 +555,7 @@ $(function(){
         console.log('ua:' + ua );
         console.log('msie:' + msie);
 
-        if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        if(msie < 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
             document.documentElement.scrollTop = $(window).scrollTop();
             var hashbang = $("#"+$(this).data("hashbang")).offset();
             $('html, body').animate({scrollTop: hashbang.top-110}, 'slow');
