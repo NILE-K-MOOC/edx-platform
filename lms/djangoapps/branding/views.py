@@ -308,6 +308,9 @@ def multisite_index(request, org):
     print request.session['status']
     print " ---------------------------> status e"
 
+    if 'status_org' in request.session and request.session['status_org'] != org:
+        request.session['status'] = 'fail'
+
     if request.session['status'] == None or request.session['status'] == 'fail':
         print " ---------------------------> status s inner"
         print request.session['status']
@@ -413,6 +416,7 @@ def multisite_index(request, org):
                     if request.session['status'] != 'fail':
                         request.session['multisite_userid'] = userid
                         request.session['status'] = 'success'
+                        request.session['status_org'] = org
                         print " ---------------------------> status s inner last"
                         print request.session['status']
                         print " ---------------------------> status e inner last"
