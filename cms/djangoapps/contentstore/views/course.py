@@ -1063,7 +1063,7 @@ def settings_handler(request, course_key_string):
     """
     course_info_text = ""
 
-    f = open("/edx/app/edxapp/edx-platform/common/lib/xmodule/xmodule/js/common_static/courseinfo/CourseinfoPage.html", 'r')
+    f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
     while True:
         line = f.readline()
         if not line: break
