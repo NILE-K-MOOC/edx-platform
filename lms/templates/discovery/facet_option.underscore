@@ -1,3 +1,17 @@
+<% if (facet != "org"){ %>
+
+<li value="<%- term %>+<%- name %>" data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" class="facet-option discovery-button" <%- selected ? 'selected' : '' %>>
+    <div style="width:95%;overflow:hidden;text-overflow:ellipsis;float:left;">
+    <%- gettext(name) %>
+    </div>
+    <span class="count">
+        <span class="count-number"><%- count %></span>
+    </span>
+</li>
+<% } %>
+
+
+<% if (facet == "org"){ %>
 <option value="<%- term %>+<%- name %>" data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" class="facet-option discovery-button" <%- selected ? 'selected' : '' %>>
     <div style="width:95%;overflow:hidden;text-overflow:ellipsis;float:left;">
     <%- gettext(name) %>
@@ -6,3 +20,4 @@
         <span class="count-number"><%- count %></span>
     </span>
 </option>
+<% } %>
