@@ -124,7 +124,7 @@ define([
                 name: facetKey,
                 displayName: this.facetName(facetKey),
                 optionsHtml: this.renderOptions(options),
-                listIsHuge: (options.length > 9)
+                listIsHuge: (options.length > 1)
             });
         },
 
@@ -231,8 +231,7 @@ define([
         collapse: function (event) {
             var $el = $(event.currentTarget),
                 $more = $el.siblings('.show-more'),
-                $ul = $el.parent().siblings('ul');
-
+                $ul = $('#'+($el).attr('id')).parent().prev();
             $ul.addClass('collapse');
             $el.addClass('hidden');
             $more.removeClass('hidden');
@@ -240,8 +239,7 @@ define([
 
         expand: function (event) {
             var $el = $(event.currentTarget),
-                $ul = $el.parent('div').siblings('ul');
-
+                $ul = $('#'+($el).attr('id')).parent('div').prev();
             $el.addClass('hidden');
             $ul.removeClass('collapse');
             $el.siblings('.show-less').removeClass('hidden');
