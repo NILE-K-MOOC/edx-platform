@@ -284,57 +284,6 @@ def get_course_enrollments(user):
             ]
     return site_enrollments
 
-# --------------- multisite index --------------- #
-@ensure_csrf_cookie
-def multisite_url_check(request):
-
-    # request
-    url_check = request.GET.get('url_check') # A의 URL
-    cur_url = request.GET.get('cur_url')     # A가 요청한 URL
-
-    # DEBUG
-    print "-------------------------------->"
-    print "url_check = {}".format(url_check)
-    print "cur_url = {}".format(cur_url)
-    print "-------------------------------->"
-
-    # A의 URL을 체크에 불필요한 http를 제거한다
-    url_check = url_check.replace('http://',"")
-
-    # cul_rul을 이용해 기관코드를 얻어낸다
-    # ex) 'http://kmooc.kr/multisite/naver' -> 'naver'
-    cur_url = cur_url.split('multisite/')
-    org_code = cur_url[1]
-
-    # test url
-    url_check = 'www.naver.com'
-
-    # convert url_check -> req_code
-    with connections['default'].cursor() as cur:
-        sql = '''
-            SELECT site_code
-            FROM   edxapp.multisite
-            WHERE  site_url = '{0}'
-        '''.format(url_check)
-        cur.execute(sql)
-        rows = cur.fetchall()
-        try:
-            req_code = rows[0][0]
-        except BaseException:
-            req_code = None
-
-    # DEBUG
-    print "-------------------------------->"
-    print "url_check = {}".format(url_check)
-    print "req_code = {}".format(req_code)
-    print "org_code = {}".format(org_code)
-    print "-------------------------------->"
-
-    if req_code == org_code:
-        return JsonResponse({'return':'success'})
-    else:
-        return JsonResponse({'return':'fail'})
-
 # ---------------- AES 복호화 함수 ---------------- #
 from Crypto.Cipher import AES
 from base64 import b64decode
@@ -352,96 +301,121 @@ def decrypt(key, _iv, enc):
 @ensure_csrf_cookie
 def multisite_index(request, org):
 
-    # 방식 구분 로직 ( 파라미터전송 / Oauth )
-    with connections['default'].cursor() as cur:
-        sql = '''
-        SELECT login_type, site_url, Encryption_key
-        FROM multisite
-        where site_code = '{}'
-        '''.format(org)
-        cur.execute(sql)
-        rows = cur.fetchall()
-        login_type = rows[0][0]
-        out_url = rows[0][1]
-        key = rows[0][2]
-        iv = rows[0][2]
+    if 'status' not in request.session or request.session['status'] != 'success':
+        request.session['status'] = None
 
-    print "---------------------------------->s"
-    print "login_type = ", login_type
-    print "---------------------------------->e"
+    print " ---------------------------> status s"
+    print request.session['status']
+    print " ---------------------------> status e"
 
-    # 공통 로직 (URL 체크)
-    in_url = request.META['HTTP_REFERER']
+    if request.session['status'] == None or request.session['status'] == 'fail':
+        print " ---------------------------> status s inner"
+        print request.session['status']
+        print " ---------------------------> status e inner"
+        # 방식 구분 로직 ( 파라미터전송 / Oauth )
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT login_type, site_url, Encryption_key
+            FROM multisite
+            where site_code = '{}'
+            '''.format(org)
+            cur.execute(sql)
+            rows = cur.fetchall()
+            login_type = rows[0][0]
+            out_url = rows[0][1]
+            key = rows[0][2]
+            iv = rows[0][2]
 
-    print "---------------------------------->s"
-    print 'in_url (before) = ', in_url
-    print "---------------------------------->e"
-
-    in_url = in_url.replace('http://',"")
-    in_url = in_url.replace('www.',"")
-
-    out_url = out_url.replace('http://',"")
-    out_url = out_url.replace('http://',"")
-
-    print "---------------------------------->s"
-    print 'in_url (after) = ', in_url
-    print "---------------------------------->e"
-    print "---------------------------------->s"
-    print 'out_url (after) = ', out_url
-    print "---------------------------------->e"
-
-    if in_url != out_url:
         print "---------------------------------->s"
-        request.session['status'] = 'fail'
-        print "request.session['status'] = ", request.session['status']
+        print "login_type = ", login_type
         print "---------------------------------->e"
 
-    else:
-        # 파라미터 전송 타입
-        if login_type == 'P':
-            # 암호화 데이터 복호화 로직
-            if request.GET.get('encStr'):
-                encStr = request.GET.get('encStr')
-                raw_data = decrypt(key, iv, encStr)
-                raw_data = raw_data.split('&')
-                t1 = raw_data[0].split('=')
-                t2 = raw_data[1].split('=')
-                t3 = raw_data[2].split('=')
-                calltime = t1[1]
-                userid = t2[1]
-                orgid = t3[1]
+        # 공통 로직 (URL 체크)
+        if 'HTTP_REFERER' in request.META:
+            in_url = request.META['HTTP_REFERER']
+        else:
+            in_url = ''
 
-                calltime = str(calltime)
+        print "---------------------------------->s"
+        print 'in_url (before) = ', in_url
+        print "---------------------------------->e"
 
-                t_a = int(calltime[0:4])
-                t_b = int(calltime[4:6])
-                t_c = int(calltime[6:8])
-                t_d = int(calltime[8:10])
-                t_e = int(calltime[10:12])
-                t_f = int(calltime[12:14])
+        in_url = in_url.replace('http://',"")
+        in_url = in_url.replace('www.',"")
 
-                java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
-                python_calltime = datetime.utcnow() + timedelta(hours=9)
+        out_url = out_url.replace('http://',"")
+        out_url = out_url.replace('http://',"")
 
-                #(datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        print "---------------------------------->s"
+        print 'in_url (after) = ', in_url
+        print "---------------------------------->e"
+        print "---------------------------------->s"
+        print 'out_url (after) = ', out_url
+        print "---------------------------------->e"
 
-                if java_calltime + timedelta(seconds=60) < python_calltime:
-                    request.session['status'] = 'fail'
-                    print "######################## fail logic - 1"
+        if in_url != out_url:
+            print "---------------------------------->s"
+            request.session['status'] = 'fail'
+            print "request.session['status'] = ", request.session['status']
+            print "---------------------------------->e"
 
-                print "--------------------------->"
-                print "calltime ja = ", java_calltime
-                print "calltime py = ", python_calltime
-                print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
-                print "userid = ", userid
-                print "orgid = ", orgid
-                print "--------------------------->"
+        else:
+            # 파라미터 전송 타입
+            if login_type == 'P':
+                # 암호화 데이터 복호화 로직
+                if request.GET.get('encStr'):
+                    encStr = request.GET.get('encStr')
+                    raw_data = decrypt(key, iv, encStr)
+                    raw_data = raw_data.split('&')
+                    t1 = raw_data[0].split('=')
+                    t2 = raw_data[1].split('=')
+                    t3 = raw_data[2].split('=')
+                    calltime = t1[1]
+                    userid = t2[1]
+                    orgid = t3[1]
 
-                if org != orgid:
-                    request.session['status'] = 'fail'
-                    print "######################## fail logic - 2"
-                else:
-                    request.session['multisite_userid'] = userid
+                    calltime = str(calltime)
+
+                    t_a = int(calltime[0:4])
+                    t_b = int(calltime[4:6])
+                    t_c = int(calltime[6:8])
+                    t_d = int(calltime[8:10])
+                    t_e = int(calltime[10:12])
+                    t_f = int(calltime[12:14])
+
+                    java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
+                    python_calltime = datetime.utcnow() + timedelta(hours=9)
+
+                    #(datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+                    if java_calltime + timedelta(seconds=60) < python_calltime:
+                        request.session['status'] = 'fail'
+                        print "######################## fail logic - 1"
+                        print " ---------------------------> status s inner time"
+                        print request.session['status']
+                        print " ---------------------------> status e inner time"
+
+                    print "--------------------------->"
+                    print "calltime ja = ", java_calltime
+                    print "calltime py = ", python_calltime
+                    print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
+                    print "userid = ", userid
+                    print "orgid = ", orgid
+                    print "--------------------------->"
+
+                    if org != orgid:
+                        request.session['status'] = 'fail'
+                        print "######################## fail logic - 2"
+                        print " ---------------------------> status s inner org"
+                        print request.session['status']
+                        print " ---------------------------> status e inner org"
+
+                    if request.session['status'] != 'fail':
+                        request.session['multisite_userid'] = userid
+                        request.session['status'] = 'success'
+                        print " ---------------------------> status s inner last"
+                        print request.session['status']
+                        print " ---------------------------> status e inner last"
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
@@ -504,25 +478,25 @@ from base64 import b64decode
 from base64 import b64encode
 
 def multisite_test(request, org=None):
-    HTTP_REFERER = request.META['HTTP_REFERER']
-    print 'HTTP_REFERER CHECK', HTTP_REFERER
+
+    if 'HTTP_REFERER' in request.META:
+        in_url = request.META['HTTP_REFERER']
+    else:
+        in_url = ''
 
     if not org:
         return redirect('/')
 
     key = '1234567890123456'
     iv = '1234567890123456'
-    send_id = request.GET.get('u')
+    encStr = request.GET.get('encStr')
 
-    if send_id:
-        request.session['send_id'] = decrypt(key, iv, send_id)
-        request.session['referer'] = HTTP_REFERER
-
+    if encStr:
+        request.session['send_id'] = decrypt(key, iv, encStr)
+        request.session['referer'] = in_url
         return redirect('/multisite_test2')
     else:
-        print 'send_id is not exists'
         return redirect('/')
-
 
 def multisite_test2(request):
     if not 'send_id' in request.session or not 'referer' in request.session:

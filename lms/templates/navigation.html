@@ -93,14 +93,6 @@ $( document ).ready(function() {
 
             <ul class="right list-inline">
 
-                <!-- TEST -->
-                % if 'status' in request.session:
-                <li class="left item">
-                    <a href="#">${request.session['status']}</a>
-                </li>
-                % endif
-                <!-- TEST -->
-
                 % if user.id:
                 <li class="left item">
                     <a href="/memo">${_('MEMO')}(<font id="cnt" color="#0080ff"></font>)</a>
