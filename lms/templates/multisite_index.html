@@ -15,7 +15,11 @@ from openedx.core.djangolib.markup import HTML, Text
     % if 'status' in request.session and request.session['status'] != None:
         if('${request.session['status']}' == 'fail'){
             alert("잘못된 접근입니다.");
-            self.close();
+            try{
+                window.history.back();
+            }catch(err){
+                alert(err);
+            }
         }
     % endif
 

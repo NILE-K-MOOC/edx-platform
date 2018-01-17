@@ -304,17 +304,10 @@ def multisite_index(request, org):
     if 'status' not in request.session or request.session['status'] != 'success':
         request.session['status'] = None
 
-    print " ---------------------------> status s"
-    print request.session['status']
-    print " ---------------------------> status e"
-
     if 'status_org' in request.session and request.session['status_org'] != org:
         request.session['status'] = 'fail'
 
     if request.session['status'] == None or request.session['status'] == 'fail':
-        print " ---------------------------> status s inner"
-        print request.session['status']
-        print " ---------------------------> status e inner"
         # 방식 구분 로직 ( 파라미터전송 / Oauth )
         with connections['default'].cursor() as cur:
             sql = '''
