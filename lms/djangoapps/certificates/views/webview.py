@@ -190,6 +190,20 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['Learning_m'] = Learning_m
     context['grade'] = str(grade)
 
+
+    cur = con.cursor()
+    query = """
+            SELECT teacher_name
+              FROM course_overview_addinfo
+             WHERE course_id = '{0}';
+            """.format(course_id)
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
+    teacher_list = row[0][0].split(',')
+
+    context['teacher_list'] = teacher_list
+
     # Update the view context with the default ConfigurationModel settings
     context.update(configuration.get('default', {}))
 

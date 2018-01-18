@@ -46,12 +46,18 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
     <div class="kmooc_h">
         % if certificate_data:
             % for signatory in certificate_data.get('signatories', []):
-            <dl class="pr8">
-                <dt><img src="${static.url(signatory['signature_image_path'])}" alt="${signatory['name']}" style="width: 193px; height: 49px;" /></dt>
-                <dd class="kmooc_color">${signatory['name']}</dd>
-                <dd>${signatory['title']}</dd>
-                <dd>${signatory['organization']}</dd>
-            </dl>
+                % for teacher_name in teacher_list:
+                    <%
+                        teacher = teacher_name.split('(')
+                        title_k = signatory['title'].split('(')
+                        organization_k = signatory['organization'].split('(')
+                    %>
+                    <dl class="pr8">
+                        <dd class="kmooc_color">${teacher[1].replace(')','')}</dd>
+                        <dd>${title_k[1].replace(')','')}</dd>
+                        <dd>${organization_k[1].replace(')','')}</dd>
+                    </dl>
+                %endfor
             % endfor
         % endif
      </div>
