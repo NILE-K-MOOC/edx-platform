@@ -24,13 +24,13 @@ import sys
 import json
 import MySQLdb as mdb
 from django.db import connections
-
-from django.db import connections
 # import pymysql
 import pymongo
 from pymongo import MongoClient
 from bson import ObjectId
 import re
+from datetime import datetime
+from datetime import timedelta
 
 log = logging.getLogger(__name__)
 
@@ -284,52 +284,135 @@ def get_course_enrollments(user):
             ]
     return site_enrollments
 
-# --------------- multisite index --------------- #
-@ensure_csrf_cookie
-def multisite_url_check(request):
-
-    # request
-    url_check = request.GET.get('url_check')
-    cur_url = request.GET.get('cur_url')
-
-    # url_check
-    url_check = url_check.replace('http://',"")
-
-    # cul_rul -> org_code
-    cur_url = cur_url.split('multisite/')
-    org_code = cur_url[1]
-
-    # test url
-    url_check = 'www.sktelecom.co.kr'
-
-    # convert url_check -> req_code
-    with connections['default'].cursor() as cur:
-        sql = '''
-            SELECT site_code
-            FROM   edxapp.multisite
-            WHERE  site_url = '{0}'
-        '''.format(url_check)
-        cur.execute(sql)
-        rows = cur.fetchall()
-        try:
-            req_code = rows[0][0]
-        except BaseException:
-            req_code = None
-
-    # DEBUG
-    print "-------------------------------->"
-    print "url_check = {}".format(url_check)
-    print "req_code = {}".format(req_code)
-    print "org_code = {}".format(org_code)
-    print "-------------------------------->"
-
-    if req_code == org_code:
-        return JsonResponse({'return':'success'})
-    else:
-        return JsonResponse({'return':'fail'})
+# ---------------- AES 복호화 함수 ---------------- #
+from Crypto.Cipher import AES
+from base64 import b64decode
+from base64 import b64encode
+def decrypt(key, _iv, enc):
+    BLOCK_SIZE = 16  # Bytes
+    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+    enc = b64decode(enc)
+    iv = _iv
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(enc)).decode('utf8')
+# ---------------- AES 복호화 함수 ---------------- #
 
 @ensure_csrf_cookie
 def multisite_index(request, org):
+
+    if 'status' not in request.session or request.session['status'] != 'success':
+        request.session['status'] = None
+
+    if 'status_org' in request.session and request.session['status_org'] != org:
+        request.session['status'] = 'fail'
+
+    if request.session['status'] == None or request.session['status'] == 'fail':
+        # 방식 구분 로직 ( 파라미터전송 / Oauth )
+        with connections['default'].cursor() as cur:
+            sql = '''
+            SELECT login_type, site_url, Encryption_key
+            FROM multisite
+            where site_code = '{}'
+            '''.format(org)
+            cur.execute(sql)
+            rows = cur.fetchall()
+            login_type = rows[0][0]
+            out_url = rows[0][1]
+            key = rows[0][2]
+            iv = rows[0][2]
+
+        print "---------------------------------->s"
+        print "login_type = ", login_type
+        print "---------------------------------->e"
+
+        # 공통 로직 (URL 체크)
+        if 'HTTP_REFERER' in request.META:
+            in_url = request.META['HTTP_REFERER']
+        else:
+            in_url = ''
+
+        print "---------------------------------->s"
+        print 'in_url (before) = ', in_url
+        print "---------------------------------->e"
+
+        in_url = in_url.replace('http://',"")
+        in_url = in_url.replace('www.',"")
+
+        out_url = out_url.replace('http://',"")
+        out_url = out_url.replace('http://',"")
+
+        print "---------------------------------->s"
+        print 'in_url (after) = ', in_url
+        print "---------------------------------->e"
+        print "---------------------------------->s"
+        print 'out_url (after) = ', out_url
+        print "---------------------------------->e"
+
+        if in_url != out_url:
+            print "---------------------------------->s"
+            request.session['status'] = 'fail'
+            print "request.session['status'] = ", request.session['status']
+            print "---------------------------------->e"
+
+        else:
+            # 파라미터 전송 타입
+            if login_type == 'P':
+                # 암호화 데이터 복호화 로직
+                if request.GET.get('encStr'):
+                    encStr = request.GET.get('encStr')
+                    raw_data = decrypt(key, iv, encStr)
+                    raw_data = raw_data.split('&')
+                    t1 = raw_data[0].split('=')
+                    t2 = raw_data[1].split('=')
+                    t3 = raw_data[2].split('=')
+                    calltime = t1[1]
+                    userid = t2[1]
+                    orgid = t3[1]
+
+                    calltime = str(calltime)
+
+                    t_a = int(calltime[0:4])
+                    t_b = int(calltime[4:6])
+                    t_c = int(calltime[6:8])
+                    t_d = int(calltime[8:10])
+                    t_e = int(calltime[10:12])
+                    t_f = int(calltime[12:14])
+
+                    java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
+                    python_calltime = datetime.utcnow() + timedelta(hours=9)
+
+                    #(datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+                    if java_calltime + timedelta(seconds=60) < python_calltime:
+                        request.session['status'] = 'fail'
+                        print "######################## fail logic - 1"
+                        print " ---------------------------> status s inner time"
+                        print request.session['status']
+                        print " ---------------------------> status e inner time"
+
+                    print "--------------------------->"
+                    print "calltime ja = ", java_calltime
+                    print "calltime py = ", python_calltime
+                    print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
+                    print "userid = ", userid
+                    print "orgid = ", orgid
+                    print "--------------------------->"
+
+                    if org != orgid:
+                        request.session['status'] = 'fail'
+                        print "######################## fail logic - 2"
+                        print " ---------------------------> status s inner org"
+                        print request.session['status']
+                        print " ---------------------------> status e inner org"
+
+                    if request.session['status'] != 'fail':
+                        request.session['multisite_userid'] = userid
+                        request.session['status'] = 'success'
+                        request.session['status_org'] = org
+                        print " ---------------------------> status s inner last"
+                        print request.session['status']
+                        print " ---------------------------> status e inner last"
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
@@ -338,12 +421,16 @@ def multisite_index(request, org):
             FROM   edxapp.multisite
             WHERE  site_code = '{0}'
         '''.format(org)
+
+        print sql
+
         cur.execute(sql)
         return_table = cur.fetchall()
 
     try:
         logo_img = return_table[0][0]
         site_url = return_table[0][1]
+
     except BaseException:
         org = 'kmooc'
         logo_img = ''
@@ -380,6 +467,45 @@ def multisite_index(request, org):
 
     return student.views.multisite_index(request, user=request.user)
 # --------------- multisite index --------------- #
+
+
+# --------------- multisite TEST --------------- #
+from Crypto.Cipher import AES
+from base64 import b64decode
+from base64 import b64encode
+
+def multisite_test(request, org=None):
+
+    if 'HTTP_REFERER' in request.META:
+        in_url = request.META['HTTP_REFERER']
+    else:
+        in_url = ''
+
+    if not org:
+        return redirect('/')
+
+    key = '1234567890123456'
+    iv = '1234567890123456'
+    encStr = request.GET.get('encStr')
+
+    if encStr:
+        request.session['send_id'] = decrypt(key, iv, encStr)
+        request.session['referer'] = in_url
+        return redirect('/multisite_test2')
+    else:
+        return redirect('/')
+
+def multisite_test2(request):
+    if not 'send_id' in request.session or not 'referer' in request.session:
+        return redirect('/')
+
+    context = {
+        'send_id': request.session['send_id'],
+        'referer': request.session['referer']
+    }
+    return render_to_response("multisite_test.html", context)
+# --------------- multisite TEST --------------- #
+
 
 @ensure_csrf_cookie
 def index(request):
