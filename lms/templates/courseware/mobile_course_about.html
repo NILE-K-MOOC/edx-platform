@@ -9,7 +9,7 @@ from openedx.core.lib.courses import course_image_url
 
 %>
 
-<%inherit file="..//mobile_main.html" />
+<%inherit file="../mobile_main.html" />
 <%block name="headextra">
   ## OG (Open Graph) title and description added below to give social media info to display
   ## (https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content#tags)
@@ -24,12 +24,21 @@ from openedx.core.lib.courses import course_image_url
   % endif
   <script type="text/javascript">
   (function() {
+
     $(".register").click(function(event) {
         %if not user.is_authenticated():
         %endif
         $("#class_enroll_form").submit();
       event.preventDefault();
     });
+
+      $(".main-cta a").click(function(){
+          var url = $(this).prop("href");
+          console.debug('url check ---------------------------------------- s');
+          console.debug(url);
+          console.debug('url check ---------------------------------------- e');
+          //document.location.href = url;
+      });
 
     % if can_add_course_to_cart:
       add_course_complete_handler = function(jqXHR, textStatus) {
@@ -336,23 +345,5 @@ from openedx.core.lib.courses import course_image_url
 
   </div>
 </div>
-
-## Need to put this hidden form on the page so that the registration button works.
-## Since it's no harm to display a hidden form, we display it with the most permissive conditional
-## which is when the student is not registered.
-%if active_reg_button or is_shib_course:
-  <div style="display: none;">
-    <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
-      <fieldset class="enroll_fieldset">
-        <legend class="sr">${_("Enroll")}</legend>
-        <input name="course_id" type="hidden" value="${course.id | h}">
-        <input name="enrollment_action" type="hidden" value="enroll">
-      </fieldset>
-      <div class="submit">
-        <input name="submit" type="submit" value="${_('enroll')}">
-      </div>
-    </form>
-  </div>
-%endif
 
 <%include file="../video_modal.html" />
