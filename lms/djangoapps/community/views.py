@@ -118,7 +118,7 @@ def comm_view(request, board_id=None):
     board = TbBoard.objects.get(board_id=board_id)
 
     if board:
-        board.files = TbBoardAttach.objects.filter(board_id=board_id)
+        board.files = TbBoardAttach.objects.filter(board_id=board_id, del_yn='N')
 
     section = board.section
 
