@@ -518,7 +518,7 @@ $(function(){
 	$(".smooth-move").on("click", function(event){
         event.preventDefault();
         var hashbang = $("#"+$(this).data("hashbang")).offset();
-        $('html, body').animate({scrollTop: hashbang.top-110}, 'slow');
+        $('html, body').stop().animate({scrollTop: hashbang.top-110}, 'slow');
 	});
 })
 </script>
