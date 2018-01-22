@@ -29,7 +29,7 @@ urlpatterns = (
     url(r'^$', 'branding.views.index', name="root"),
 
     # ---------- multi site ---------- #
-    url(r'^multisite/(?P<org>.*?)$', 'branding.views.multisite_index', name="root"),
+    url(r'^multisite/(?P<org>.*?)/$', 'branding.views.multisite_index', name="root"),
 
     # MULTISITE TEST
     url(r'^multisite_test/(?P<org>.*?)$', 'branding.views.multisite_test', name="multisite_test"),  # ko index

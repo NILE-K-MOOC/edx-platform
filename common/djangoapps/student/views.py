@@ -2243,6 +2243,11 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
 
         email = request.POST['email']
         password = request.POST['password']
+
+        #-------------------------------------------------------- TEST
+        #email = 'redukyo@gmail.com'
+        #-------------------------------------------------------- TEST
+
         try:
             user = User.objects.get(email=email)
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -2317,6 +2322,9 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
     if not third_party_auth_successful:
         try:
             user = authenticate(username=username, password=password, request=request)
+            #----------------------------------------------------------------------------- TEST
+            #user = User.objects.get(email='redukyo@gmail.com')
+            #----------------------------------------------------------------------------- TEST
         # this occurs when there are too many attempts from the same IP address
         except RateLimitException:
             return JsonResponse({
@@ -2383,7 +2391,7 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         try:
             # We do not log here, because we have a handler registered
             # to perform logging on successful logins.
-            login(request, user)
+            login(request, user) #<--------------------------------------------------- 의심구간
             if request.POST.get('remember') == 'true':
                 request.session['ISREMEMBER'] = True
                 request.session.set_expiry(604800)
