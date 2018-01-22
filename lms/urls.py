@@ -145,8 +145,8 @@ urlpatterns = (
     url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
 
     # community url
-    url(r'^comm_list/(?P<section>.*?)/$', 'community.views.comm_list', name='comm_list'),
-    url(r'^comm_view/(?P<board_id>.*?)/$', 'community.views.comm_view', name='comm_view'),
+    url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', 'community.views.comm_list', name='comm_list'),
+    url(r'^comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', 'community.views.comm_view', name='comm_view'),
     url(r'^comm_tabs/(?P<head_title>.*?)/$', 'community.views.comm_tabs', name='comm_tabs'),
     url(r'^comm_file/(?P<file_id>.*?)/$', 'community.views.comm_file', name='comm_file'),
 

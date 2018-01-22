@@ -23,14 +23,15 @@ from django.db.models import Q
 import os.path
 import datetime
 from django.db import connections
+from django.core.urlresolvers import reverse
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
 # ---------- 2017.11.15 ahn jin yong ---------- #
 @ensure_csrf_cookie
 def memo(request):
-
     # 1. 로그인 체크 로직
     if not request.user.is_authenticated():
         return redirect('/')
@@ -54,7 +55,7 @@ def memo(request):
                     cnt = rows[0][0]
                 except BaseException:
                     cnt = 0
-            return JsonResponse({"cnt":cnt})
+            return JsonResponse({"cnt": cnt})
 
         # 2.2 메모 내부 삭제 클릭 시 로직
         if request.POST.get('delete_flag'):
@@ -67,7 +68,7 @@ def memo(request):
                            AND receive_id = {1}
                 '''.format(board_id, user_id)
                 cur.execute(query)
-            return JsonResponse({"return":"success"})
+            return JsonResponse({"return": "success"})
 
         # 2.3 검색 클릭 시 로직
         if request.POST.get('method') == 'search':
@@ -98,15 +99,15 @@ def memo(request):
                 rows = cur.fetchall()
                 if len(rows) < 11:
                     return_list = []
-                    for n in range(0,len(rows)):
+                    for n in range(0, len(rows)):
                         return_list.append(rows[n])
                 elif len(rows) != 0:
                     return_list = []
-                    for n in range(0,10):
+                    for n in range(0, 10):
                         return_list.append(rows[n])
                 elif len(rows) == 0:
                     return_list = []
-            return JsonResponse({"data":return_list})
+            return JsonResponse({"data": return_list})
 
         # 2.3 메모 외부 삭제 클릭 시 로직
         elif request.POST.get('method') == 'delete':
@@ -132,7 +133,7 @@ def memo(request):
                 print "----------------> query"
             with connections['default'].cursor() as cur:
                 # 2.3.1 검색 하지 않은 상태의 삭제
-                if(search_data) == None:
+                if (search_data) == None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
                                CASE
@@ -152,7 +153,7 @@ def memo(request):
                         ORDER  BY regist_date DESC
                     '''.format(user_id)
                 # 2.3.1 검색 한 이후 상태의 삭제
-                elif(search_data) != None:
+                elif (search_data) != None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
                                CASE
@@ -183,7 +184,7 @@ def memo(request):
                         plus_list.append(i)
                 except BaseException:
                     print "error"
-                    return JsonResponse({"return":"success"})
+                    return JsonResponse({"return": "success"})
 
             print "###################################"
             print plus_list
@@ -191,9 +192,9 @@ def memo(request):
             print "###################################"
 
             if len(plus_list) == 0:
-                return JsonResponse({"return":"success"})
+                return JsonResponse({"return": "success"})
 
-            return JsonResponse({"return":"success", "plus":plus_list[0]})
+            return JsonResponse({"return": "success", "plus": plus_list[0]})
 
         # 2.4 페이징 숫자 클릭시 로직
         elif request.POST.get('click_page'):
@@ -203,7 +204,7 @@ def memo(request):
             click_page = int(click_page)
             with connections['default'].cursor() as cur:
                 # 2.4.1 검색 하지 않은 상태의 조회
-                if(search_data) == None:
+                if (search_data) == None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
                                CASE
@@ -223,7 +224,7 @@ def memo(request):
                         ORDER  BY regist_date DESC
                     '''.format(user_id)
                 # 2.4.2 검색 한 이후 상태의 조회
-                elif(search_data) != None:
+                elif (search_data) != None:
                     query = '''
                         SELECT REPLACE(@rn := @rn - 1, .0, '')               AS index_num,
                                CASE
@@ -247,19 +248,19 @@ def memo(request):
                 cur.execute(query)
                 rows = cur.fetchall()
                 total = len(rows)
-                end = 10*click_page
-                start = end-10
+                end = 10 * click_page
+                start = end - 10
                 stop = 0
                 if end > total:
                     end = total
-                    start = end-(end%10)
-                    click_page = (start/10)+1
-                    stop = (total/10)+1
+                    start = end - (end % 10)
+                    click_page = (start / 10) + 1
+                    stop = (total / 10) + 1
                 return_list = []
-                for n in range(start,end):
+                for n in range(start, end):
                     return_list.append(rows[n])
                     print rows[n]
-            return JsonResponse({"data":return_list, "click_page":click_page, "page_stop":stop})
+            return JsonResponse({"data": return_list, "click_page": click_page, "page_stop": stop})
 
         # 2.5 첫 조회 (리스트에 10개 출력)
         elif request.POST.get('method') == 'notice_list':
@@ -287,12 +288,12 @@ def memo(request):
                 rows = cur.fetchall()
                 return_list = []
                 if len(rows) < 10:
-                    for n in range(0,len(rows)):
+                    for n in range(0, len(rows)):
                         return_list.append(rows[n])
                 else:
-                    for n in range(0,10):
+                    for n in range(0, 10):
                         return_list.append(rows[n])
-            return JsonResponse({"data":return_list})
+            return JsonResponse({"data": return_list})
 
     # 2.1 메모 동기화 로직
     user_email = request.user.email
@@ -320,9 +321,9 @@ def memo(request):
     # 일반 렌더링 리턴
     return render_to_response('community/memo.html', context)
 
+
 @ensure_csrf_cookie
 def memo_view(request, board_id):
-
     # 1. 미권한 조회 방지 프로텍터 로직
     try:
         user_id = request.user.id
@@ -337,9 +338,9 @@ def memo_view(request, board_id):
         '''.format(board_id, user_id)
         cur.execute(query)
         rows = cur.fetchall()
-        secure_lock = len(rows) # secure_lock = 0 (권한없음) / secure_lock = 1 (권한있음)
+        secure_lock = len(rows)  # secure_lock = 0 (권한없음) / secure_lock = 1 (권한있음)
     if secure_lock == 0:
-        return JsonResponse({"return":"secure"})
+        return JsonResponse({"return": "secure"})
 
     # 2. 조회 이후 조회시간 업데이트 로직
     with connections['default'].cursor() as cur:
@@ -373,10 +374,11 @@ def memo_view(request, board_id):
     context['regist_date'] = regist_date
     context['read_date'] = read_date
     return render_to_response('community/memo_view.html', context)
+
+
 # ---------- 2017.11.15 ahn jin yong ---------- #
 
 def series(request):
-
     with connections['default'].cursor() as cur:
         query = '''
             SELECT a.series_seq,
@@ -395,8 +397,8 @@ def series(request):
     context['series_list'] = rows
     return render_to_response('community/series.html', context)
 
-def series_view(request, id):
 
+def series_view(request, id):
     with connections['default'].cursor() as cur:
         query = '''
             SELECT a.series_name,
@@ -467,6 +469,7 @@ def series_view(request, id):
     context['sub_list'] = sub_list
     return render_to_response('community/series_view.html', context)
 
+
 class TbBoard(models.Model):
     board_id = models.AutoField(primary_key=True)
     head_title = models.CharField(max_length=50, blank=True, null=True)
@@ -504,15 +507,15 @@ class TbBoardAttach(models.Model):
 
 
 class Memo(models.Model):
-    memo_id = models.AutoField(primary_key=True)                          # memo_id int(11) primary key auto_increment
-    receive_id = models.IntegerField(blank=True, null=True)               # receive_id int(11)
-    title = models.CharField(max_length=300)                              # title varchar(300) not null
+    memo_id = models.AutoField(primary_key=True)  # memo_id int(11) primary key auto_increment
+    receive_id = models.IntegerField(blank=True, null=True)  # receive_id int(11)
+    title = models.CharField(max_length=300)  # title varchar(300) not null
     contents = models.CharField(max_length=20000, blank=True, null=True)  # contents varchar(20000)
-    memo_gubun = models.CharField(max_length=20, blank=True, null=True)   # memo_gubun varchar(20)
-    read_date = models.DateTimeField(blank=True, null=True)               # read_date datetime
-    regist_id = models.IntegerField(blank=True, null=True)                # regist_id int(11)
-    regist_date = models.DateTimeField(blank=True, null=True)             # regist_date datetime
-    modify_date = models.DateTimeField(blank=True, null=True)             # modify_date datetime
+    memo_gubun = models.CharField(max_length=20, blank=True, null=True)  # memo_gubun varchar(20)
+    read_date = models.DateTimeField(blank=True, null=True)  # read_date datetime
+    regist_id = models.IntegerField(blank=True, null=True)  # regist_id int(11)
+    regist_date = models.DateTimeField(blank=True, null=True)  # regist_date datetime
+    modify_date = models.DateTimeField(blank=True, null=True)  # modify_date datetime
 
     class Meta:
         managed = False
@@ -538,7 +541,7 @@ def memo(request):
                 print "-------------### del"
                 print "item = ", item
                 print "-------------### del"
-            return JsonResponse({'a':'b'})
+            return JsonResponse({'a': 'b'})
 
         else:
             page_size = request.POST.get('page_size')
@@ -595,6 +598,7 @@ def memo(request):
 
         return render_to_response('community/comm_memo.html', context)
 
+
 @ensure_csrf_cookie
 def memo_view(request, memo_id=None):
     if memo_id is None:
@@ -612,6 +616,7 @@ def memo_view(request, memo_id=None):
     }
 
     return render_to_response('community/comm_memo_view.html', context)
+
 
 # 메모 동기화 로직
 def memo_sync(request):
@@ -631,10 +636,11 @@ def memo_sync(request):
                     cnt = rows[0][0]
                 except BaseException:
                     cnt = 0
-            return JsonResponse({"cnt":cnt})
+            return JsonResponse({"cnt": cnt})
+
 
 @ensure_csrf_cookie
-def comm_list(request, section=None):
+def comm_list(request, section=None, curr_page=None):
     if request.is_ajax():
         page_size = request.POST.get('page_size')
         curr_page = request.POST.get('curr_page')
@@ -642,9 +648,6 @@ def comm_list(request, section=None):
         search_str = request.POST.get('search_str')
 
         if search_str:
-            print 'search_con:', search_con
-            print 'search_str:', search_str
-
             if search_con == 'title':
                 comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
             else:
@@ -674,14 +677,15 @@ def comm_list(request, section=None):
             return None
 
         context = {
-            'page_title': page_title
+            'page_title': page_title,
+            'curr_page': curr_page,
         }
 
         return render_to_response('community/comm_list.html', context)
 
 
 @ensure_csrf_cookie
-def comm_view(request, board_id=None):
+def comm_view(request, section=None, curr_page=None, board_id=None):
     if board_id is None:
         return redirect('/')
 
@@ -708,7 +712,8 @@ def comm_view(request, board_id=None):
     board.content = board.content.replace('/home/project/management/home/static/upload/', '/static/file_upload/')
     context = {
         'page_title': page_title,
-        'board': board
+        'board': board,
+        'comm_list_url': reverse('comm_list', kwargs={'section': section, 'curr_page': curr_page})
     }
 
     return render_to_response('community/comm_view.html', context)
@@ -737,10 +742,6 @@ def comm_tabs(request, head_title=None):
             'head_title': head_title
         }
 
-        print 'context --- s'
-        print context
-        print 'context --- e'
-
         return render_to_response('community/comm_tabs.html', context)
 
 
@@ -763,7 +764,7 @@ def comm_file(request, file_id=None):
         return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
 
     response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
-    
+
     response['Content-Disposition'] = 'attachment; filename=%s' % str(filename).encode('utf-8')
     return response
 
@@ -1802,6 +1803,8 @@ def comm_k_news_view(request, board_id):
 
 class SMTPException(Exception):
     """Base class for all exceptions raised by this module."""
+
+
 # 휴면계정 이메일 발송 쿼리
 # def test(request):
 #     email_list = []

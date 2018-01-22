@@ -5,8 +5,9 @@
 var total_page = "";
 var cur_page = "";
 var start_page = 1;
+
 $(document).ready(function () {
-    search(1);
+    search($("#curr_page").val());
 
     $("#search").click(function () {
         search(1);
@@ -30,8 +31,8 @@ Date.prototype.yyyymmdd = function () {
 
 function search(page_no) {
 
-    if (page_no > 1 && $("#curr_page").val() == page_no)
-        return;
+    //if (page_no > 1 && $("#curr_page").val() == page_no)
+    //    return;
 
     if (page_no)
         $("#curr_page").val(page_no);
@@ -84,7 +85,7 @@ function search(page_no) {
 
                 html += "<li class='tbody'>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
-                html += "   <span class='title'><a href='/comm_view/" + data[i].board_id + "'>" + title + data[i].subject + " </a>";
+                html += "   <span class='title'><a href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'>" + title + data[i].subject + " </a>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;'/>"
                 html += "   </span>";
@@ -133,7 +134,6 @@ function fnPaging() {
         var id = $(this).attr("id");
         var all_pages = $("#all_pages").val();
         var curr_page = $("#curr_page").val();
-        var curr_page = $("#curr_page").val();
         var prev_page = Number($("#curr_page").val()) - 1 > 0 ? Number($("#curr_page").val()) - 1 : 1;
         var next_page = Number($("#curr_page").val()) + 1 <= all_pages ? Number($("#curr_page").val()) + 1 : all_pages;
         var last_page = all_pages;
@@ -159,7 +159,6 @@ function fnPaging() {
             search(last_page);
         else
             search(id);
-
 
         console.debug('id: ' + id);
         console.debug('curr_page: ' + curr_page);
