@@ -11,6 +11,7 @@ from microsite_configuration import microsite
 
 
 % if len(course_enrollments) > 0:
+<script>console.log("dashboard_ajax.html len > 0");</script>
 <ul class="listing-courses" id="default_course">
     <% share_settings = getattr(settings, 'SOCIAL_SHARING_SETTINGS', {}) %>
     % for dashboard_index, enrollment in enumerate(course_enrollments):
@@ -50,7 +51,7 @@ from microsite_configuration import microsite
 </ul>
 
 % else:
-
+<script>console.log("dashboard_ajax.html len <= 0");</script>
 <div class="empty-dashboard-message">
     <p>${_("You are not enrolled in any courses yet.")}</p>
 

@@ -80,9 +80,9 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             if(msub1 != null && msub1 != "" && msub1 != "null")
                 middle_classfysub = msub1;
             if(msub2 != null && msub2 != "" && msub2 != "null")
-                middle_classfysub += " "+msub2;
+                middle_classfysub += ","+msub2;
             if(msub3 != null && msub3 != "" && msub3 != "null")
-                middle_classfysub += " "+msub3;
+                middle_classfysub += ","+msub3;
 //alert("middle_classfysub:"+middle_classfysub);
 
 
@@ -97,6 +97,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 classfy: classfy,
                 middle_classfy: middle_classfy,
                 middle_classfysub: middle_classfysub,   // mih add
+                difficult_degree: difficult_degree,     // mih add
                 linguistics: linguistics,
                 period: period
             };
@@ -116,6 +117,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 console.log(classfy);
                 console.log(middle_classfy);
                 console.log(middle_classfysub);     // mih add
+                console.log(difficult_degree);      // mih add
                 console.log(linguistics);
                 console.log(period);
                 return;

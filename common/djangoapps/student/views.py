@@ -1017,6 +1017,9 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
     elif status == 'interest':
         # enrollments = CourseEnrollment.enrollments_for_user_ing(user)
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
+    elif status == 'propose':
+        # enrollments = CourseEnrollment.enrollments_for_user_ing(user)
+        enrollments = CourseEnrollment.enrollments_for_user_propose(user)
     else:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
 

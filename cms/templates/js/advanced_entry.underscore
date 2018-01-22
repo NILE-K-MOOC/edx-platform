@@ -5,6 +5,8 @@ if(key == 'classfy'){
     display_name = '중분류(수정불가. 소문자 입력)'
 }else if(key == 'middle_classfysub') {
     display_name = '보조분류 (수정불가. 소문자 입력)'
+}else if(key == 'difficult_degree') {
+    display_name = '강좌레벨(학습단계 선택)'
 }else if(key == 'linguistics') {
     display_name = '한국학여부(수정불가. 대문자 입력)'
 }else if(key == 'course_period'){
@@ -18,6 +20,7 @@ if(key == 'classfy'){
       <h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
   </div>
 
+  <% if(key != 'difficult_degree') { %>
   <div class="field text value">
     <label class="sr" for="<%= valueUniqueId %>"><%= display_name %></label>
     <% if((key == 'classfy' || key == 'middle_classfy' || key == 'middle_classfysub' || key == 'linguistics' || key == 'course_period') && (window.is_staff != true)) { %>
@@ -29,6 +32,23 @@ if(key == 'classfy'){
     <% } %>
     <span class="tip tip-stacked"><%= help %></span>
   </div>
+  <% } else { %>
+  <div class="field text value">
+    <div id="selectdiv">
+    <% if(window.is_staff == true) { %>
+            <select class="select difficult-degree" id="selectfixid">
+                <option value="">강좌 레벨</option>
+            </select>
+    <% } else { %>
+            <select class="select difficult-degree is-shown" id="selectfixid" readonly>
+                <option value="">강좌 레벨</option>
+            </select>
+    <% } %>
+    </div>
+    <span class="tip tip-stacked"><%= help %></span>
+    <textarea class="json text is-hidden" id="txtfixid" style="display: none;"><%= value %></textarea>
+    </div>
+  <% } %>
   <% if (deprecated) { %>
       <span class="status"><%= gettext("Deprecated") %></span>
   <% } %>

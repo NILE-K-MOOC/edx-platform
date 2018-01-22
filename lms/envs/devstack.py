@@ -199,6 +199,12 @@ COURSE_DISCOVERY_MEANINGS = {
             'middle_classfysub': 'middle_classfysub'
         }
     },
+    'difficult_degree': {
+        'name': 'Section',
+        'terms': {
+            'difficult_degree': 'difficult_degree'
+        }
+    },
     'linguistics': {
         'name': 'Section',
         'terms': {

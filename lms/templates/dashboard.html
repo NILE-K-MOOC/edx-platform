@@ -62,6 +62,11 @@ cert_name_long = settings.CERT_NAME_LONG
         margin: 10px 0 10px 293px;
         display: none;
     }
+
+    .sub-propose {
+        margin: 10px 0 10px 433px;
+        display: none;
+    }
 </style>
 
 <%block name="js_extra">
@@ -100,12 +105,14 @@ cert_name_long = settings.CERT_NAME_LONG
                     var status = $(e.target).data("status");
 
 
-                    $(".sub-end, .sub-interest").slideUp(200);
+                    $(".sub-end, .sub-interest, .sub-propose").slideUp(200);
 
                     if (status === "end")
                         $(".sub-end").slideDown(400);
                     else if (status === "interest")
                         $(".sub-interest").slideDown(400);
+                    else if (status === "propose")
+                        $(".sub-propose").slideDown(400);
 
                 });
 
@@ -186,13 +193,16 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
                 <h2 class="header-courses">${_("My Courses")}</h2>
 
                 <nav class="faq-tab">
-                    <a href="#" class="on" data-status="ing" title="K-MOOC">${_("ing")}
+                    <a href="#" class="on" data-status="ing" title="진행중">${_("ing")}
                         <div class="progress"></div>
                     </a>
-                    <a href="#" data-status="end" title="회원가입">${_("end")}
+                    <a href="#" data-status="end" title="완료">${_("end")}
                         <div class="progress"></div>
                     </a>
-                    <a href="#" data-status="interest" title="로그인/계정">${_("interest")}
+                    <a href="#" data-status="interest" title="관심강좌">${_("interest")}
+                        <div class="progress"></div>
+                    </a>
+                    <a href="#" data-status="propose" title="추천강좌">${_("propose")}
                         <div class="progress"></div>
                     </a>
                 </nav>
