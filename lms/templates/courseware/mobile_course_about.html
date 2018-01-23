@@ -214,7 +214,7 @@ from openedx.core.lib.courses import course_image_url
             else:
               href_class = "register"
           %>
-          <a href="${course_link}" class="${href_class}" style="float: right">
+          <a href="${course_link}" class="find-courses" target="_blank" style="float: right">
 ##           <a href="${reg_href}" class="${href_class}" style="float: right">
 ##             ${_("Enroll in {course_name}").format(course_name=course.display_number_with_default) | h}
                 ${_("Enrollment")}
@@ -345,5 +345,4 @@ from openedx.core.lib.courses import course_image_url
 
   </div>
 </div>
-
 <%include file="../video_modal.html" />
