@@ -463,9 +463,9 @@ def multisite_index(request, org):
             print "request.session['status'] = ", request.session['status']
             print "---------------------------------->e"
 
+        # URL이 일치하면 타는 로직
         else:
             print "URL check 종료 ---------------------------->"
-
 
             # 파라미터 전송 타입
             if login_type == 'P':
@@ -572,6 +572,12 @@ def multisite_index(request, org):
                         print " ---------------------------> status s inner last"
                         print request.session['status']
                         print " ---------------------------> status e inner last"
+
+            elif login_type == 'O':
+                print "------------------> O"
+                print "------------------> O"
+                print "------------------> O"
+                print "------------------> O"
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
