@@ -2004,6 +2004,175 @@ def get_anon_ids(request, course_id):  # pylint: disable=unused-argument
     return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-anon-ids.csv', header, rows)
 
 
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
+    print 'get_contents_stat called'
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.
+    course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    def csv_response(filename, header, rows):
+        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
+        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+        # In practice, there should not be non-ascii data in this query,
+        # but trying to do the right thing anyway.
+
+        encoded = [unicode(s).encode('utf-8') for s in header]
+        writer.writerow(encoded)
+        for row in rows:
+            encoded = [unicode(s).encode('utf-8') for s in row]
+            writer.writerow(encoded)
+
+        response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
+        return response
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+    overview = CourseOverview.objects.get(id=course_id)
+
+    from pymongo import MongoClient
+    with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.cs_comments_service_development
+
+        # cursor = db.contents.find({'course_id': str(course_id)})
+        cursor = db.contents.aggregate([
+            {'$match': {'course_id': str(course_id)}},
+            {'$group': {'_id': "$author_id", 'count': {'$sum': 1}}},
+            {'$sort': {'count': -1}}
+        ])
+
+        # 과정명, course_id, 영문ID, email, 성명, 게시글 수
+        header = ['과정명', 'Course_id', '영문ID', 'email', '성명', '게시글 수']
+        rows = list()
+        for c in cursor['result']:
+            student = User.objects.select_related('profile').get(id=c['_id'])
+            rows.append([overview.display_name, str(course_id), student.username, student.email, student.profile.name, c['count']])
+
+    # add log_action : get_contents_stat
+
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=,
+    #     object_id=0,
+    #     object_repr='get_contents_stat[course_id:%s]' % str(course_id),
+    #     action_flag=ADDITION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    # )
+
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_stat.csv', header, rows)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+def get_contents_view(request, course_id):  # pylint: disable=unused-argument
+    print 'get_contents_view called'
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.
+    course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    def csv_response(filename, header, rows):
+        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
+        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+        # In practice, there should not be non-ascii data in this query,
+        # but trying to do the right thing anyway.
+
+        encoded = [unicode(s).encode('utf-8') for s in header]
+        writer.writerow(encoded)
+        for row in rows:
+            encoded = [unicode(s).encode('utf-8') for s in row]
+            writer.writerow(encoded)
+
+        response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
+        return response
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+    overview = CourseOverview.objects.get(id=course_id)
+
+    from pymongo import MongoClient
+    from bson.objectid import ObjectId
+    with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.cs_comments_service_development
+
+        cursor = db.contents.find({'course_id': str(course_id)}).sort('created_at', -1)
+
+        comment_threads = list()
+        comment_depth_0 = list()
+        comment_depth_1 = list()
+
+        print type(cursor)
+
+        for c in cursor:
+            if c['_type'] == 'CommentThread':
+                comment_threads.append(c)
+            elif 'depth' not in c or c['depth'] == 0:
+                comment_depth_0.append(c)
+            else:
+                comment_depth_1.append(c)
+
+                # if comment_count > 0:
+                #     comment_depth_0 = db.contents.find({'comment_thread_id': ObjectId(c['_id'])}).sort('created_at', -1)
+                #     child_count = comment_depth_0['child_count'] if 'child_count' in comment_depth_0 else 0
+
+                # print 'child_count:', child_count
+
+        # 과정명, course_id, 영문ID, email, 성명, 게시글 수
+        header = ['Course_id', '영문ID', 'email', '성명', '게시글제목', '게시글내용', '등록일자']
+        temp = list()
+
+
+
+        for c in comment_threads:
+            temp.append(c)
+            comment_depth_0_cnt = c['comment_count'] if 'comment_count' in c else 0
+
+            if comment_depth_0_cnt > 0:
+                comment_id = c['_id']
+
+                for c1 in comment_depth_0:
+                    if c1['comment_thread_id'] == comment_id:
+                        parent_id = c1['_id']
+                        c1['title'] = '  답변'
+                        child_count = c1['child_count'] if 'child_count' in c1 else 0
+                        temp.append(c1)
+
+                        if child_count > 0:
+                            for c2 in comment_depth_1:
+                                if c2['parent_id'] == parent_id:
+                                    c2['title'] = '    코멘트'
+                                    temp.append(c2)
+                                    comment_depth_1.remove(c2)
+
+                        comment_depth_0.remove(c1)
+
+        print type(temp), len(temp)
+
+        rows = list()
+        for t in temp:
+            student = User.objects.select_related('profile').get(id=t['author_id'])
+            rows.append([str(course_id), student.username, student.email, student.profile.name, t['title'], t['body'], t['created_at']])
+
+    # add log_action : get_contents_view
+
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=,
+    #     object_id=0,
+    #     object_repr='get_contents_view[course_id:%s]' % str(course_id),
+    #     action_flag=ADDITION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    # )
+
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_view.csv', header, rows)
+
+
 @require_POST
 @ensure_csrf_cookie
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
