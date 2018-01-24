@@ -499,26 +499,6 @@ share_settings    ${share_settings}<br>
 </div>
 <script>
    $( document ).ready(function() {
-        var user_id = '${user.id}';
-        var action = 'final';
-
-        $.post("/courses/interest", {
-            csrfmiddlewaretoken: $.cookie('csrftoken'),
-            user_id : user_id,
-            course_id: '${course_overview}',
-            method : action,
-        }).done(function (data) {
-            console.log(data[0][0]);
-            var final_day = "";
-            final_day += data[0][0];
-            if(data[0][0] != null) {
-                $('#final_day').text(final_day);
-            }
-        }).fail(function (error) {
-
-        });
-
-
        if("${is_course_blocked | n, dump_js_escaped_json}" == 'true'){
            $( "#unregister_block_course" ).click(function() {
                $('.disable-look-unregister').click();

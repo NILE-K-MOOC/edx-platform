@@ -216,15 +216,16 @@ if (
                   <label for="new-course-name">${_("Course Name")}</label>
                   ## Translators: This is an example name for a new course, seen when
                   ## filling out the form to create a new course.
-                  <input class="new-course-name" id="new-course-name" type="text" name="new-course-name" required placeholder="${_('e.g. Introduction to Computer Science')}" aria-describedby="tip-new-course-name tip-error-new-course-name" />
+                  <input  class="new-course-name" id="new-course-name" type="text" name="new-course-name" required placeholder="${_('e.g. Introduction to Computer Science')}" aria-describedby="tip-new-course-name tip-error-new-course-name" />
 ##                   <span class="tip" id="tip-new-course-name">${_("The public display name for your course. This cannot be changed, but you can set a different display name in Advanced Settings later.")}</span>
                   <span class="tip tip-error is-hiding" id="tip-error-new-course-name"></span>
+
                 </li>
                 <li class="field text required" id="field-organization">
                   <label for="new-course-org">${_("Organization")}</label>
                   ## Translators: This is an example for the name of the organization sponsoring a course, seen when filling out the form to create a new course. The organization name cannot contain spaces.
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
-                  <input class="new-course-org" id="new-course-org" type="text" name="new-course-org" required placeholder="${_('e.g. UniversityX or OrganizationX')}" aria-describedby="tip-new-course-org tip-error-new-course-org" />
+                  <input onchange="Test1();" onkeyup="this.onchange();" class="new-course-org" id="new-course-org" type="text" name="new-course-org" required placeholder="${_('e.g. UniversityX or OrganizationX')}" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                   <span class="tip" id="tip-new-course-org">${Text(_("The name of the organization sponsoring the course.{br} {strong_start}Note: The organization name is part of the course URL.{strong_end} This cannot be changed, but you can set a different display name in Advanced Settings later.")).format(
                       br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
@@ -233,7 +234,34 @@ if (
                   <span class="tip tip-error is-hiding" id="tip-error-new-course-org"></span>
                 </li>
 
-                <li class="field select required" id="field-classfy">
+                <li class="field text required" id="field-course-number">
+                  <label for="new-course-number">${_("Course Number")}</label>
+                  ## Translators: This is an example for the number used to identify a course,
+                  ## seen when filling out the form to create a new course. The number here is
+                  ## short for "Computer Science 101". It can contain letters but cannot contain spaces.
+                  <input onchange="Test2();" onkeyup="this.onchange();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
+                  <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                      br=HTML('<br/>'),
+                      strong_start=HTML('<strong>'),
+                      strong_end=HTML('</strong>'),
+                  )}</span>
+                  <span class="tip tip-error is-hiding" id="tip-error-new-course-number"></span>
+                </li>
+
+                <li class="field text required" id="field-course-run">
+                  <label for="new-course-run">${_("Course Run")}</label>
+                  ## Translators: This is an example for the "run" used to identify different
+                  ## instances of a course, seen when filling out the form to create a new course.
+                  <input class="new-course-run" id="new-course-run" type="text" name="new-course-run" required placeholder="${_('e.g. 2014_T1')}" aria-describedby="tip-new-course-run tip-error-new-course-run" />
+                  <span class="tip" id="tip-new-course-run">${Text(_("The term in which your course will run.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                      br=HTML('<br/>'),
+                      strong_start=HTML('<strong>'),
+                      strong_end=HTML('</strong>'),
+                  )}</span>
+                  <span class="tip tip-error is-hiding" id="tip-error-new-course-run"></span>
+                </li>
+
+                  <li class="field select required" id="field-classfy">
                     <label for="new-course-">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy()">
                         <option value="">강좌 대분류 선택</option>
@@ -267,8 +295,6 @@ if (
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-linguistics"></span>
                 </li>
 
-
-
                 <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Period of Studing")}</label>
                     <select class="new-course-period" id="new-course-period" name="new-course-period">
@@ -279,34 +305,6 @@ if (
                    </select>
                     <span class="tip" id="tip-new-course-period">강좌의 주차를 기준으로 학습기간(단기/중기/장기)을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
-                </li>
-
-
-                <li class="field text required" id="field-course-number">
-                  <label for="new-course-number">${_("Course Number")}</label>
-                  ## Translators: This is an example for the number used to identify a course,
-                  ## seen when filling out the form to create a new course. The number here is
-                  ## short for "Computer Science 101". It can contain letters but cannot contain spaces.
-                  <input class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
-                  <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
-                      br=HTML('<br/>'),
-                      strong_start=HTML('<strong>'),
-                      strong_end=HTML('</strong>'),
-                  )}</span>
-                  <span class="tip tip-error is-hiding" id="tip-error-new-course-number"></span>
-                </li>
-
-                <li class="field text required" id="field-course-run">
-                  <label for="new-course-run">${_("Course Run")}</label>
-                  ## Translators: This is an example for the "run" used to identify different
-                  ## instances of a course, seen when filling out the form to create a new course.
-                  <input class="new-course-run" id="new-course-run" type="text" name="new-course-run" required placeholder="${_('e.g. 2014_T1')}" aria-describedby="tip-new-course-run tip-error-new-course-run" />
-                  <span class="tip" id="tip-new-course-run">${Text(_("The term in which your course will run.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
-                      br=HTML('<br/>'),
-                      strong_start=HTML('<strong>'),
-                      strong_end=HTML('</strong>'),
-                  )}</span>
-                  <span class="tip tip-error is-hiding" id="tip-error-new-course-run"></span>
                 </li>
               </ol>
 
@@ -321,6 +319,20 @@ if (
         </form>
       </div>
       <script type="text/javascript">
+          function Test1() {
+
+              console.log('기관번호 입력 !!!!');
+              console.log($('#new-course-org').val());
+              console.log($('#new-course-number').val());
+          }
+
+          function Test2() {
+              console.log('강좌번호 입력 !!!!');
+              console.log($('#new-course-org').val());
+              console.log($('#new-course-number').val());
+
+          }
+
           var bcate = [
                 {'category':
                         {'code': 'hum', 'gettext': '인문계열'}
@@ -442,6 +454,7 @@ if (
                 selectbox.remove(i);
             }
         }
+
       </script>
       % endif
 
@@ -658,7 +671,16 @@ if (
 
               <div class="course-metadata">
                 <span class="course-org metadata-item">
-                  <span class="label">${_("Organization:")}</span> <span class="value">${course_info['org']}</span>
+                  <span class="label">${_("Organization:")}</span>
+                  %for org_index in org_list[0] :
+                    %if org_index[0] == course_info['org'] :
+                        <span class="value">${org_index[1]}</span>
+                        </span>
+                    %endif
+                  %endfor
+
+                <span class="course-org metadata-item">
+                    <span class="value">${course_info['org']}</span>
                 </span>
                 <span class="course-num metadata-item">
                   <span class="label">${_("Course Number:")}</span>

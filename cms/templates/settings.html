@@ -529,6 +529,16 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
                         </li>
                         <li class="field" id="field-course-language">
+                            <label for="동">강좌난이도</label>
+                            <select id="course-language">
+                                <option value="" selected> -</option>
+                                <option value="상">상</option>
+                                <option value="중">중</option>
+                                <option value="하">하</option>
+                            </select>
+                            <span class="tip tip-stacked">강좌난이도를 선택하세요.</span>
+                        </li>
+                        <li class="field" id="field-course-language">
                             <label for="course-language">교수자명</label>
                             <input type="text" id = "teacher_name" value="${teacher_name}">
                             <span class="tip tip-stacked">교수자가 복수인 경우 “,” 로 구분해서 입력(예: 홍길동, 임꺽정)</span>
