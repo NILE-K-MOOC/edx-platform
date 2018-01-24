@@ -1776,10 +1776,6 @@ def dashboard(request):
         final_list.append(list(final_day[0]))
         cur.close()
 
-    print ('final_list =====================')
-    print type(final_list)
-    print (final_list)
-
     status = request.POST.get('status')
     context = {
         'percents': percents,

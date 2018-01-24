@@ -895,33 +895,6 @@ def course_interest(request):
 
             return HttpResponse(data, 'application/json')
 
-        elif request.POST['method'] == 'final':
-            user_id = request.POST.get('user_id')
-            course_id = request.POST.get('course_id')
-
-            sys.setdefaultencoding('utf-8')
-            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
-
-            cur = con.cursor()
-            query = """
-                SELECT DATE_FORMAT(max(modified), "최종수강일 - %Y년%m월%d일")
-                  FROM courseware_studentmodule
-                 WHERE student_id = '{0}' AND course_id = '{1}';
-             """.format(user_id, course_id)
-            cur.execute(query)
-
-            count = cur.fetchall()
-            cur.close()
-            data = json.dumps(count)
-
-            return HttpResponse(data, 'application/json')
-
-
-
         return HttpResponse('success', 'application/json')
 
 
