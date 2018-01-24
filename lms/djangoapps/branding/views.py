@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.views.decorators.cache import cache_control
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponseRedirect
 from django.utils import translation
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -404,13 +404,26 @@ def multisite_index(request, org):
 
     print "--------------------------> org s"
     print "org = ", org
+    print request.session #u'gzc3na70yjpgc1wgga2xc96ns17q6enw'
     print "--------------------------> org e"
+
+    print "---------------------> request.GET.get('pass')"
+    if request.GET.get('pass'):
+        print request.GET.get('pass')
+    print "---------------------> request.GET.get('pass')"
 
     if 'status' not in request.session or request.session['status'] != 'success':
         request.session['status'] = None
 
     if 'status_org' in request.session and request.session['status_org'] != org:
         request.session['status'] = 'fail'
+
+    print "=============================> xxx"
+    print request.session['status']
+    print "=============================> xxx"
+
+    if 'social_auth_last_login_backend' in request.session:
+        request.session['status'] = 'success'
 
     if request.session['status'] == None or request.session['status'] == 'fail':
         # 방식 구분 로직 ( 파라미터전송 / Oauth )
@@ -577,7 +590,8 @@ def multisite_index(request, org):
                 print "------------------> O"
                 print "------------------> O"
                 print "------------------> O"
-                print "------------------> O"
+                url = 'http://devstack.kr:8000/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+                return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
