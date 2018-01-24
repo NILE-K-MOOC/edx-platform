@@ -32,29 +32,69 @@
 
     $('#checkbox1').change(function() {
         if($(this).is(":checked")) {
-            $('#k_box1').css("display","")
-            $('#e_box1').css("display","")
+            $('#k_box1').css("visibility","")
+            $('#e_box1').css("visibility","")
         }else{
-            $('#k_box1').css("display","none")
-            $('#e_box1').css("display","none")
+            $('#k_box1').css("visibility","hidden")
+            $('#e_box1').css("visibility","hidden")
         }
     });
     $('#checkbox2').change(function() {
         if($(this).is(":checked")) {
-            $('#k_box2').css("display","")
-            $('#e_box2').css("display","")
+            if($('#checkbox3').is(":checked")) {
+                $('#k_box2').css("display","")
+                $('#e_box2').css("display","")
+                $('#k_box1').css("margin-bottom","20px")
+                $('#e_box1').css("margin-bottom","20px")
+            }
+            else{
+                $('#k_box2').css("display","")
+                $('#e_box2').css("display","")
+                $('#k_box1').css("margin-bottom","43px")
+                $('#e_box1').css("margin-bottom","43px")
+            }
         }else{
-            $('#k_box2').css("display","none")
-            $('#e_box2').css("display","none")
+            if($('#checkbox3').is(":checked")) {
+                $('#k_box2').css("display","none")
+                $('#e_box2').css("display","none")
+                $('#k_box1').css("margin-bottom","43px")
+                $('#e_box1').css("margin-bottom","43px")
+            }
+            else {
+                $('#k_box2').css("display","none")
+                $('#e_box2').css("display","none")
+                $('#k_box1').css("margin-bottom","66px")
+                $('#e_box1').css("margin-bottom","66px")
+            }
         }
     });
     $('#checkbox3').change(function() {
         if($(this).is(":checked")) {
-            $('#k_box3').css("display","")
-            $('#e_box3').css("display","")
+            if($('#checkbox2').is(":checked")) {
+                $('#k_box3').css("display","")
+                $('#e_box3').css("display","")
+                $('#k_box1').css("margin-bottom","20px")
+                $('#e_box1').css("margin-bottom","20px")
+            }
+            else {
+                $('#k_box3').css("display","")
+                $('#e_box3').css("display","")
+                $('#k_box1').css("margin-bottom","43px")
+                $('#e_box1').css("margin-bottom","43px")
+            }
         }else{
-            $('#k_box3').css("display","none")
-            $('#e_box3').css("display","none")
+            if($('#checkbox2').is(":checked")) {
+                $('#k_box3').css("display","none")
+                $('#e_box3').css("display","none")
+                $('#k_box1').css("margin-bottom","43px")
+                $('#e_box1').css("margin-bottom","43px")
+            }
+            else {
+                $('#k_box3').css("display","none")
+                $('#e_box3').css("display","none")
+                $('#k_box1').css("margin-bottom","66px")
+                $('#e_box1').css("margin-bottom","66px")
+            }
         }
     });
 </script>

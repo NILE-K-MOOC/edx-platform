@@ -160,11 +160,13 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     cur = con.cursor()
     query = """
-            SELECT effort FROM course_overviews_courseoverview where id = '{0}';
+            SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
             """.format(course_id)
     cur.execute(query)
     row = cur.fetchall()
     cur.close()
+    start_date = row[0][1]
+    end_date = row[0][2]
     row = row[0][0].replace('#', '+').replace('@', '+')
     effort_index = row.split('+')
     if (len(effort_index) == 3):
@@ -173,12 +175,13 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     cur = con.cursor()
     query = """
-            SELECT grade FROM certificates_generatedcertificate where course_id = '{0}' and user_id = '{1}';
+            SELECT grade, date_format(now(), '%Y.%m.%d  %h:%i') FROM certificates_generatedcertificate where course_id = '{0}' and user_id = '{1}';
             """.format(course_id, user_id)
     cur.execute(query)
     row = cur.fetchall()
     cur.close()
     grade = int(float(row[0][0]) * 100)
+    created_date = row[0][1]
     Play_time = effort_index[2].split(':')
     Learning_m = str(all_time % 60)
     if len(Learning_m) == 1:
@@ -189,6 +192,9 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['Learning_h'] = str(all_time/60)
     context['Learning_m'] = Learning_m
     context['grade'] = str(grade)
+    context['created_date'] = created_date
+    context['start_date'] = start_date
+    context['end_date'] = end_date
 
 
     cur = con.cursor()
