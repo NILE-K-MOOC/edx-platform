@@ -596,9 +596,11 @@ def multisite_index(request, org):
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
         sql = '''
-            SELECT logo_img, site_url
-            FROM   edxapp.multisite
-            WHERE  site_code = '{0}'
+            SELECT b.attatch_file_name, a.site_url
+            FROM   multisite as a
+            join tb_board_attach as b
+            on a.logo_img = attatch_id
+            WHERE  a.site_code = '{0}'
         '''.format(org)
 
         print sql
