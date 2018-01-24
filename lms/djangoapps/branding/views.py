@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.views.decorators.cache import cache_control
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponseRedirect
 from django.utils import translation
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -284,7 +284,104 @@ def get_course_enrollments(user):
             ]
     return site_enrollments
 
-# ---------------- AES 복호화 함수 ---------------- #
+#==================================================================================================> login 오버라이딩 시작
+from django.apps import apps as django_apps
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+from django.middleware.csrf import rotate_token
+from django.utils.crypto import constant_time_compare
+from django.utils.module_loading import import_string
+from django.contrib.auth.signals import user_logged_in
+
+SESSION_KEY = '_auth_user_id'
+BACKEND_SESSION_KEY = '_auth_user_backend'
+HASH_SESSION_KEY = '_auth_user_hash'
+REDIRECT_FIELD_NAME = 'next'
+
+def load_backend(path):
+    return import_string(path)()
+
+def _get_backends(return_tuples=False):
+    backends = []
+    for backend_path in settings.AUTHENTICATION_BACKENDS:
+        backend = load_backend(backend_path)
+        backends.append((backend, backend_path) if return_tuples else backend)
+    if not backends:
+        raise ImproperlyConfigured(
+            'No authentication backends have been defined. Does '
+            'AUTHENTICATION_BACKENDS contain anything?'
+        )
+    return backends
+
+
+def get_backends():
+    return _get_backends(return_tuples=False)
+
+def get_user_model():
+    """
+    Returns the User model that is active in this project.
+    """
+    try:
+        return django_apps.get_model(settings.AUTH_USER_MODEL, require_ready=False)
+    except ValueError:
+        raise ImproperlyConfigured("AUTH_USER_MODEL must be of the form 'app_label.model_name'")
+    except LookupError:
+        raise ImproperlyConfigured(
+            "AUTH_USER_MODEL refers to model '%s' that has not been installed" % settings.AUTH_USER_MODEL
+        )
+
+def _get_user_session_key(request):
+    # This value in the session is always serialized to a string, so we need
+    # to convert it back to Python whenever we access it.
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+
+def login(request, user, backend=None):
+    """
+    Persist a user id and a backend in the request. This way a user doesn't
+    have to reauthenticate on every request. Note that data set during
+    the anonymous session is retained when the user logs in.
+    """
+    session_auth_hash = ''
+    if user is None:
+        user = request.user
+    if hasattr(user, 'get_session_auth_hash'):
+        session_auth_hash = user.get_session_auth_hash()
+
+    if SESSION_KEY in request.session:
+        if _get_user_session_key(request) != user.pk or (
+                session_auth_hash and
+                not constant_time_compare(request.session.get(HASH_SESSION_KEY, ''), session_auth_hash)):
+            # To avoid reusing another user's session, create a new, empty
+            # session if the existing session corresponds to a different
+            # authenticated user.
+            request.session.flush()
+    else:
+        request.session.cycle_key()
+
+    try:
+        backend = backend or user.backend
+    except AttributeError:
+        backends = _get_backends(return_tuples=True)
+        if len(backends) == 1:
+            _, backend = backends[0]
+        else:
+            raise ValueError(
+                'You have multiple authentication backends configured and '
+                'therefore must provide the `backend` argument or set the '
+                '`backend` attribute on the user.'
+            )
+
+    request.session[SESSION_KEY] = user._meta.pk.value_to_string(user)
+    request.session[BACKEND_SESSION_KEY] = backend
+    request.session[HASH_SESSION_KEY] = session_auth_hash
+    if hasattr(request, 'user'):
+        request.user = user
+    rotate_token(request)
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+#==================================================================================================> login 오버라이딩 종료
+
+
+#==================================================================================================> AES 복호화 함수 시작
 from Crypto.Cipher import AES
 from base64 import b64decode
 from base64 import b64encode
@@ -296,10 +393,24 @@ def decrypt(key, _iv, enc):
     iv = _iv
     cipher = AES.new(key, AES.MODE_CBC, iv)
     return unpad(cipher.decrypt(enc)).decode('utf8')
-# ---------------- AES 복호화 함수 ---------------- #
+#==================================================================================================> AES 복호화 함수 종료
 
+
+#==================================================================================================> 멀티사이트 시작
 @ensure_csrf_cookie
 def multisite_index(request, org):
+
+    org = org.replace("/comm_list_json","") # <---- bugfix
+
+    print "--------------------------> org s"
+    print "org = ", org
+    print request.session #u'gzc3na70yjpgc1wgga2xc96ns17q6enw'
+    print "--------------------------> org e"
+
+    print "---------------------> request.GET.get('pass')"
+    if request.GET.get('pass'):
+        print request.GET.get('pass')
+    print "---------------------> request.GET.get('pass')"
 
     if 'status' not in request.session or request.session['status'] != 'success':
         request.session['status'] = None
@@ -307,14 +418,24 @@ def multisite_index(request, org):
     if 'status_org' in request.session and request.session['status_org'] != org:
         request.session['status'] = 'fail'
 
+    print "=============================> xxx"
+    print request.session['status']
+    print "=============================> xxx"
+
+    if 'social_auth_last_login_backend' in request.session:
+        request.session['status'] = 'success'
+
     if request.session['status'] == None or request.session['status'] == 'fail':
         # 방식 구분 로직 ( 파라미터전송 / Oauth )
         with connections['default'].cursor() as cur:
             sql = '''
             SELECT login_type, site_url, Encryption_key
             FROM multisite
-            where site_code = '{}'
+            where site_code = '{0}'
             '''.format(org)
+
+            print sql
+
             cur.execute(sql)
             rows = cur.fetchall()
             login_type = rows[0][0]
@@ -355,14 +476,27 @@ def multisite_index(request, org):
             print "request.session['status'] = ", request.session['status']
             print "---------------------------------->e"
 
+        # URL이 일치하면 타는 로직
         else:
+            print "URL check 종료 ---------------------------->"
+
             # 파라미터 전송 타입
             if login_type == 'P':
                 # 암호화 데이터 복호화 로직
                 if request.GET.get('encStr'):
                     encStr = request.GET.get('encStr')
-                    raw_data = decrypt(key, iv, encStr)
+
+                    print "-------------------------------> encStr s"
+                    print "encStr = ", encStr
+                    print "-------------------------------> encStr e"
+
+                    raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
                     raw_data = raw_data.split('&')
+
+                    print "-------------------------------> encStr s"
+                    print "raw_data = ", raw_data
+                    print "-------------------------------> encStr e"
+
                     t1 = raw_data[0].split('=')
                     t2 = raw_data[1].split('=')
                     t3 = raw_data[2].split('=')
@@ -381,6 +515,11 @@ def multisite_index(request, org):
 
                     java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
                     python_calltime = datetime.utcnow() + timedelta(hours=9)
+
+                    print "----------------------------- call time check s"
+                    print "java_calltime = ",java_calltime
+                    print "python_calltime = ",python_calltime
+                    print "----------------------------- call time check e"
 
                     #(datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
@@ -407,12 +546,52 @@ def multisite_index(request, org):
                         print " ---------------------------> status e inner org"
 
                     if request.session['status'] != 'fail':
+                        print "------------------------------------==========> success"
                         request.session['multisite_userid'] = userid
                         request.session['status'] = 'success'
                         request.session['status_org'] = org
+
+                        with connections['default'].cursor() as cur:
+                            sql = '''
+                                SELECT user_id
+                                FROM multisite_member as a
+                                join multisite as b
+                                on a.site_id = b.site_id
+                                where site_code = '{0}'
+                                and org_user_id = '{1}'
+                            '''.format(org, userid)
+
+                            print sql
+
+                            cur.execute(sql)
+                            rows = cur.fetchall()
+
+                        print "----------------------------========> rows s"
+                        print rows
+                        print len(rows)
+                        print "----------------------------========> rows e"
+
+                        if len(rows) != 0:
+                            from django.contrib.auth.models import User
+                            user = User.objects.get(pk=rows[0][0])
+
+                            print "********************************* s"
+                            print user.pk
+                            print "********************************* s"
+
+                            user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                            login(request, user)
+
                         print " ---------------------------> status s inner last"
                         print request.session['status']
                         print " ---------------------------> status e inner last"
+
+            elif login_type == 'O':
+                print "------------------> O"
+                print "------------------> O"
+                print "------------------> O"
+                url = 'http://devstack.kr:8000/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+                return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
@@ -466,10 +645,10 @@ def multisite_index(request, org):
         return redirect(reverse("signin_user"))
 
     return student.views.multisite_index(request, user=request.user)
-# --------------- multisite index --------------- #
+#==================================================================================================> 멀티사이트 종료
 
 
-# --------------- multisite TEST --------------- #
+#==================================================================================================> 멀티사이트 테스트 시작
 from Crypto.Cipher import AES
 from base64 import b64decode
 from base64 import b64encode
@@ -504,7 +683,7 @@ def multisite_test2(request):
         'referer': request.session['referer']
     }
     return render_to_response("multisite_test.html", context)
-# --------------- multisite TEST --------------- #
+#==================================================================================================> 멀티사이트 테스트 종료
 
 
 @ensure_csrf_cookie
