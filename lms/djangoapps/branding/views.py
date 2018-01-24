@@ -590,7 +590,7 @@ def multisite_index(request, org):
                 print "------------------> O"
                 print "------------------> O"
                 print "------------------> O"
-                url = 'http://devstack.kr:8000/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+                url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
                 return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
