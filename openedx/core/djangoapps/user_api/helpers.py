@@ -433,9 +433,15 @@ def shim_student_view(view_func, check_logged_in=False):
             edx_userid = edx_userobject.id        # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
             edx_useremail = edx_userobject.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
 
+        print "==========================================> what"
         if 'multisite_userid' in request.session and 'org' in request.session: # <- 멀티사이트가 아닐 경우 (null exception 처리)
             multisite_userid = request.session['multisite_userid']
             multisite_org = request.session['org']
+
+            print "==========================================>"
+            print "multisite_userid = ", multisite_userid
+            print "multisite_org = ", multisite_org
+            print "==========================================>"
 
             # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [s]
             with connections['default'].cursor() as cur:
