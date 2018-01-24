@@ -272,8 +272,6 @@ define([
                 $target.data('value'),
                 $target.data('text')
             );
-
-            $(".facet-list option[value=" + select_val+ "]").attr("selected","selected")
         }
     });
 });
