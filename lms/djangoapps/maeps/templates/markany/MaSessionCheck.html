@@ -1,0 +1,48 @@
+﻿<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>E-Certification</title>
+	<style>
+	.container {
+		position: relative;
+		margin: 0 auto;
+	}
+	#content{
+		display: block;
+		font-size: 11px;
+		margin-top: 40px;
+		text-align: center;
+	}
+
+	img{
+		margin: 0 auto;
+		display: block;
+	}
+	</style>
+	</head>
+	<body>
+		<div class="container">
+			<div id="content">
+				<img src="{{ strImagePath }}/loading.gif"><br>
+				<img src="{{ strImagePath }}/Ma_progressBar.gif"><br>
+				<img src="{{ strImagePath }}/notice.png"><br>
+			</div>
+		</div>
+	</body>
+</html> 
+<script src="{{ strJsWebHome }}/MaVerCheck.js" charset="UTF-8"></script> 
+<script language="javascript">
+		var vstrSudongInstallURL = "{{ strSudongInstallURL }}";
+		var vSession = getCookie("sessionid");
+		var vstrSCookie = "{{ strParamCookie }}";
+		var vpversion = "{{ strParamPversion }}";
+		var vstrSDownURL = "{{ strParamDownURL }}";
+		var iVersion  = "{{ strPVersion }}";
+		var vstrApp = "{{ strApp }}";
+		
+		{% if iQuickSet == 2 %}
+			LaunchApp(vstrApp, "sockmeta");  
+		{% elif iQuickSet == 1 %}
+			setTimeout(function(){messageDataSend()},3000);
+		{% endif %}
+</script> 

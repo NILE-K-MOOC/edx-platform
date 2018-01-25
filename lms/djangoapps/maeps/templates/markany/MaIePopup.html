@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script src="{{ strJsWebHome }}/MaVerCheck.js" charset="utf-8"></script> 
+<script type="text/javascript">
+	function setCheckValue()
+	{
+	  window.opener.checkcustomurl = true;
+	}
+	window.opener.focus();
+
+	var strBrowser = get_browser();
+
+	if( get_browser_version() > 10)
+	{
+	   var src = window.localStorage['sessionurl'];
+	}
+	else
+	{
+	  var src = "{{ strParamSessionURL }}";
+	}
+
+	var ifrm = document.createElement("iframe");
+		ifrm.src = src;
+		ifrm.style.display = "none";
+		document.body.appendChild(ifrm);   	  
+	
+	setTimeout(setCheckValue,100);
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>위변조 방지솔루션 설치 확인 페이지</title>
+
+<link rel="stylesheet" href="{{ strWebHome }}/css/base.css" type="text/css" />
+<script src="{{ strJsWebHome }}/MaVerCheck.js" charset="UTF-8"></script>
+<script>
+
+	/*******************************************************************************
+	 * 	function	userSupportBrowserCheck(browserName, browserVersio) - 브라우져가능 브라우져 및 지원가능 버전 체크
+	 *
+	 * 	@Parameter	browserName			-	유저 브라우져 명
+	 * 	@Parameter	browserVersio		-	유저 브라우져 버전
+	 *	@value		supportBrowserFlag	-	지원여부
+	 ******************************************************************************/
+	function userSupportBrowserCheck(browserName, browserVersio) {
+		var supportBrowserFlag = false;
+		if (userPlatform == "Lin") {
+
+			for (var index = 0; index < supportBrowserArr.length; index++) {
+				if (supportBrowserArr[index] == browserName) {
+					if (browserVersio >= supportMinVersionArrLin[index]) {
+						supportBrowserFlag = true;
+						break;
+					}
+				}
+			}
+		} else {
+			if (multiBsSupportFlag) {
+				for (var index = 0; index < supportBrowserArr.length; index++) {
+					if (supportBrowserArr[index] == browserName) {
+						if (browserVersio >= supportMinVersionArr[index]) {
+							supportBrowserFlag = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (userPlatform != "Win") {
+			supportBrowserFlag = supportBrowserFlag && multiOSsupportFlag;
+		}
+		return supportBrowserFlag;
+	}
+
+	//##################기본 지원범위 설정 관련 변수입니다.##################
+	multiOSsupportFlag = true; //지원가능 OS. 0:win, 1:MultiOS
+	multiBsSupportFlag = true; //Windows 멀티브라우져 지원여부. 0: 미지원, 1: 지원
+	supportBrowserArr 		= ["MSIE",	"Chrome",	"Firefox",	"Opera",	"Safari"]; //지원가능 브라우져
+	supportMinVersionArr 	= [8,		19,			18,			15,			5]; //브라우져별 지원가능 최소 버전
+	supportMinVersionArrLin = [99, 		0,			0,			12,			99]; //브라우져별 지원가능 최소 버전
+	
+	//supportMinVersionArr	= [6		, 59		, 59		, 55		, 57];			//브라우져별 지원가능 최소 버전[테스트용]	//IE 지원가능범위 하위버전은 무조건 ActiveX로 지원가능한다고 가정
+	userPlatform = navigator.platform.substring(0, 3); //접속 PC OS
+	osVersion = 
+	browserName = get_browser(); //접속 브라우져 이름
+	browserVersio = get_browser_version(); //접속 브라우져 버전
+	supportBrowserFlag = userSupportBrowserCheck(browserName, browserVersio) //접속 브라우져 지원여부
+		//alert("supportBrowserFlag :: " + supportBrowserFlag );
+
+	//##################다운로드 URL설정 변수입니다.##################
+	windowInstaller_ActiveX = "{{ strWebHome }}/bin/Setup_ePageSafer.exe";
+	windowInstaller_NonActiveX = "{{ strWebHome }}/bin/Setup_ePageSafer.exe";
+	fedoraInstaller = "{{ strWebHome }}/bin/epagesafer-markany-2.5.1.2.i386.tar";
+	ubuntuInstaller = "{{ strWebHome }}/bin/epagesafer-markany-2.5.1.2.tar";
+	macInstaller = "{{ strWebHome }}/bin/ePageSAFERMarkAnySTD.pkg";
+
+	window.onload = function () {
+		resize_window();
+		maInit();
+	}
+</script>
+
+</head>
+<body>
+	<!--onload="maInstallFlag();">-->
+	<div id='markanybody'></div>
+	<div class="container">
+		<div id="header">
+			<img src="{{ strWebHome }}/images/top_img.jpg" alt="상단 이미지" id="top_img">
+			<img src="{{ strWebHome }}/images/top_comment.jpg" alt="상단 문구" id="top_comment">
+		</div>
+
+		<!-- 메인 컨텐츠 영역 -->
+		<div class="content">
+						
+			<!-- OS별 다운로드 테이블 -->
+			<div class="section" id="downloadTable">
+				<table>
+					<tr>
+						<th id="OS">프로그램명</th>
+						<th id="supportOS">운영체제 지원범위</th>
+						<th id="supportBS">브라우져 지원범위</th>
+						<th id="installStatus">다운로드</th>
+					</tr>
+
+					<tr id="winTr">
+						<td>ePageSAFER</td>
+						<td>XP, Vista, 7, 8, 8.1, 10</td>
+						<td class="supportBStd">
+							- Internet Explorer [8.0 이상]<br>
+							<span id="winMultiBs"> - Chrome<!-- [19.0 이상]--><br>
+							 - Firefox<!--  [18.0 이상]--><br>
+							 - Opera<!--  [15.0 이상]--><br> 
+							</span>
+						</td>
+						<td>
+							<div class="btn_download" id="installBtn_imgWin"
+								onclick="downloadFile('windows');" tabindex="1">
+							</div>
+							<span class="notSupport" id="installBtn_imgWinstr">
+								미지원
+							</span>
+						</td>
+					</tr>
+
+					<tr id="linTr">
+						<td rowspan="3">ePageSAFER</td>
+						<td rowspan="3">페도라 / 우분투</td>
+						<td rowspan="3" class="supportBStd">
+							 - Chrome<!--[16.0 이상]--><br>
+							 - Firefox<!--[10.0 이상]--><br>
+							 - Opera<!--[12.0 이상]--><br>
+						</td>
+						<td id="linTd">페도라
+							<div class="btn_download" id="installBtn_imgLinFedora"
+								onclick="downloadFile('fedora');" tabindex="1">
+							</div>
+							<span class="notSupport" id="installBtn_imgLinFedorastr">
+								미지원
+							</span>	
+							<hr> 우분투
+							<div class="btn_download" id="installBtn_imgLinUbuntu"
+								onclick="downloadFile('ubuntu');" tabindex="1">
+							</div>
+							<span class="notSupport" id="installBtn_imgLinUbuntustr">
+								미지원
+							</span>
+						</td>
+					</tr>
+
+					<tr id="macTr">
+						<td>ePageSAFER</td>
+						<td>Mac 10.6 ~ </td>
+						<td class="supportBStd">
+							 - Chrome [19.0 이상]<br>
+							 - Firefox [18.0 이상]<br>
+							 - Opera [15.0 이상]<br>
+							 - Safari [5.0 이상] 
+						</td>
+						<td>
+							<div class="btn_download" id="installBtn_imgMac"
+								onclick="downloadFile('mac');" tabindex="1">
+							</div>
+							<span class="notSupport" id="installBtn_imgMacstr">
+								미지원
+							</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- 미지원 OS 테이블 -->
+			<div class="section" id="notSupportTable">
+				<table>
+					<tr>
+						<td>
+							<span id="userInfo"></span><br>						
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+
+		<!-- footer 영역 -->
+		<div id="footer">
+			<!-- 	<img src="../images/btn_close.png" onclick="window.close();"> -->
+		</div>
+		<br>
+	</div>
+
+	<script>
+		function resize_window() {
+			window.resizeTo(800, 730);
+		}
+
+		/*******************************************************************************
+		 * 	function	downloadFile(os, Obj) - OS별 수동설치 파일 다운로드
+		 *
+		 * 	@Parameter	os				-	OS종류
+		 *	@value		downloadURL		-	OS별 다운로드 URL
+		 ******************************************************************************/
+		function downloadFile(os) {
+			var downloadURL;
+			switch (os) {
+			case "windows":
+				//지원가능 멀티브라우져이거나 IE10이상일 경우
+				if (supportBrowserFlag || (browserName == "MSIE" && browserVersio >= 10)) {
+					//	alert("Installer ActiveX");
+					downloadURL = windowInstaller_ActiveX
+						//IE9이하일 경우
+				} else if ((browserName == "MSIE" && browserVersio < 10)) {
+					//	alert("InstallerN0n- ActiveX");
+					downloadURL = windowInstaller_NonActiveX;
+				} else {
+					alert('지원하는 않는 브라우져의 접근입니다.');
+				}
+				break;
+
+			case "fedora":
+				downloadURL = fedoraInstaller;
+				break;
+
+			case "ubuntu":
+				downloadURL = ubuntuInstaller;
+				break;
+
+			case "mac":
+				downloadURL = macInstaller;
+				break;
+
+			default:
+				alert('잘못된 URL 접근입니다');
+				return;
+			}
+			location.href = downloadURL;
+		}
+
+		/*******************************************************************************
+		 * 	function	maInit()		 	- 	OS별 Tr표시 후 지원범위 OS여부 체크.
+		Win 일경우 다운로드 링크 출력여부 및 멀티브라우져 지원여부설정.
+		타 OS일 경우 다운로드 링크 출력여부 설정.
+		 ******************************************************************************/
+		function maInit() {
+			switch (userPlatform) {
+			case "Win":
+				//멀티브라우져이면서 지원불가 버전인경우 다운로드 이미지 제거 및 미지원 문구
+				if (browserName.indexOf("MSIE") == -1 && !supportBrowserFlag) {
+					setNotSupport("installBtn_imgWin");
+				}
+
+				//IE7 이하버전 처리
+				if (browserVersio <= 7) {
+					document.getElementById("winTr").style.display = "block";
+				} else {
+					document.getElementById("winTr").style.display = "table-row";
+				}
+
+				//windows 멀티브라우져 지원 여부에 따른 표시여부
+				var winMulti = document.getElementById("winMultiBs");
+				if (!multiBsSupportFlag) {
+					winMulti.style.display = "none";
+				}
+				break;
+
+			case "Lin":
+				if (!supportBrowserFlag) {
+					setNotSupport("installBtn_imgLinFedora");
+					setNotSupport("installBtn_imgLinUbuntu");
+				}
+
+				document.getElementById("linTr").style.display = "table-row";
+				document.getElementById("fedoraTr").style.display = "table-row";
+				document.getElementById("ubuntuTr").style.display = "table-row";
+				break;
+
+			case "Mac":
+				if (!supportBrowserFlag) {
+					setNotSupport("installBtn_imgMac");
+				}
+				var userInfo = document.getElementById("userInfo");
+				var str = "";
+
+				document.getElementById("macTr").style.display = "table-row";
+				break;
+			default:
+				showNotSupportTable();
+				return;
+			}
+		}
+
+		/*******************************************************************************
+		 * 	function	setNotSupport(installBtn_img) 	- 미지원 브라우져일 경우 미지원 문구처리, 미지원테이블 출력
+		 *	value		downloadLink					- 다운로드URL Div엘리먼트ID
+		 ******************************************************************************/
+		function setNotSupport(installBtn_img) {
+			var downloadLink = document.getElementById(installBtn_img);
+			var notSupportTable = document.getElementById("notSupportTable");
+
+			downloadLink.style.display = "none";
+			document.getElementById(installBtn_img + "str").style.display = "block";
+			notSupportTable.style.display = "block";
+		}
+
+		//사용자 정보 출력
+		var userDetailInfo = document.getElementById("userDetailInfo");
+		var userInfo = document.getElementById("userInfo");
+		var str = "";
+		var str2 = "";
+
+		str = "접속하신 운영체제는 " + os + " 이며 브라우져는 " + browserName + "(ver." + browserVersio + ") 입니다.";
+		if (!multiOSsupportFlag) {
+			str2 = "<br>지원가능한 운영체제가 아닙니다.";
+
+		}
+		if (!supportBrowserFlag && multiOSsupportFlag) {
+			str2 = "<br>지원가능한 브라우져가 아닙니다. 지원가능한 브라우져로 다시 접속하시기 바랍니다.";
+		}
+		userInfo.innerHTML = str + str2;
+	</script>
+	<script type="text/javascript">
+		//isInstall(appName);
+	</script>
+</body>
+</html>
