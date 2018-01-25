@@ -102,7 +102,7 @@ import sys
 
 log = logging.getLogger(__name__)
 
-__all__ = ['course_info_handler', 'course_handler', 'course_listing',
+__all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Verifi',
            'course_info_update_handler', 'course_search_index_handler',
            'course_rerun_handler',
            'settings_handler',
@@ -201,6 +201,12 @@ def _course_notifications_json_get(course_action_state_id):
         'should_display': action_state.should_display
     }
     return JsonResponse(action_state_info)
+
+
+def level_Verifi(request):
+    data = json.dumps({'status': "success"})
+
+    return HttpResponse(data, 'applications/json')
 
 
 def _dismiss_notification(request, course_action_state_id):  # pylint: disable=unused-argument

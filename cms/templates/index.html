@@ -320,17 +320,23 @@ if (
       </div>
       <script type="text/javascript">
           function Test1() {
-
-              console.log('기관번호 입력 !!!!');
               console.log($('#new-course-org').val());
               console.log($('#new-course-number').val());
+              $.ajax({
+                    url: '/level_Verifi/',
+                    data: {
+                        level_1: $('#new-course-org').val(),
+                        level_2: $('#new-course-number').val()
+                }
+                }).done(function (data) {
+                    console.log('Test!!');
+                    console.log(data);
+                });
           }
 
           function Test2() {
-              console.log('강좌번호 입력 !!!!');
               console.log($('#new-course-org').val());
               console.log($('#new-course-number').val());
-
           }
 
           var bcate = [
