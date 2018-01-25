@@ -44,6 +44,9 @@ from certificates.models import (
     CertificateStatuses,
     CertificateHtmlViewConfiguration,
     CertificateSocialNetworks)
+from pymongo import MongoClient
+from django.db import connections
+from bson.objectid import ObjectId
 
 log = logging.getLogger(__name__)
 
@@ -209,6 +212,36 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     teacher_list = row[0][0].split(',')
 
     context['teacher_list'] = teacher_list
+
+    course_index = course_id.split(':')
+    course_index = course_index[1].split('+')
+
+    with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.edxapp
+        cursor = db.modulestore.active_versions.find_one({'org': course_index[0], 'course': course_index[1], 'run': course_index[2]})
+        pb = cursor.get('versions').get('published-branch')
+        cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+        blocks = cursor.get('blocks')
+        for block in blocks:
+            block_type = block.get('block_type')
+
+            if block_type == 'course':
+                classfy = block.get('fields').get('classfy')
+                if not classfy:
+                    classfy = ''
+
+    cur = con.cursor()
+    query = """
+            SELECT detail_name, detail_Ename
+              FROM code_detail
+             WHERE detail_code = '{0}';
+            """.format(classfy)
+    cur.execute(query)
+    classfy = cur.fetchall()
+    cur.close()
+
+    context['classfy_k'] = classfy[0][0]
+    context['classfy_e'] = classfy[0][1]
 
     # Update the view context with the default ConfigurationModel settings
     context.update(configuration.get('default', {}))
