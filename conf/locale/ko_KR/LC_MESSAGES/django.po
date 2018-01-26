@@ -14818,6 +14818,18 @@ msgid "Get Student Anonymized IDs CSV"
 msgstr "익명 학습자 아이디 CSV 파일"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Click to download a CSV of about student contents:"
+msgstr "게시판 게시글 CSV 파일 다운로드"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Get Student contents stats CSV"
+msgstr "게시글 통계 CSV 파일"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Get Student contents file CSV"
+msgstr "게시글 내용 CSV 파일"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/e-commerce.html
 msgid "Reports"
 msgstr "보고서"
