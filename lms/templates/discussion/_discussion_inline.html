@@ -26,14 +26,13 @@ function DiscussionInlineBlock(runtime, element) {
     new DiscussionModuleView({ el: el });
 }
 
-/*
 setTimeout(function(){
     if($(".discussion-show.control-button")){
         $(".discussion-show.control-button").each(function(){
-            this.click();
+            if(!$(this).hasClass("shown"))
+                this.click();
         });
     }
 }, 500);
-*/
 
 </script>
