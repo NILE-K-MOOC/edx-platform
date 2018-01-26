@@ -80,6 +80,8 @@ class DataDownload
     @$list_problem_responses_csv_input = @$section.find("input[name='problem-location']")
     @$list_problem_responses_csv_btn = @$section.find("input[name='list-problem-responses-csv']")
     @$list_anon_btn = @$section.find("input[name='list-anon-ids']")
+    @$list_contents_stat = @$section.find("input[name='list-contents-stat']")
+    @$list_contents_view = @$section.find("input[name='list-contents-view']")
     @$grade_config_btn = @$section.find("input[name='dump-gradeconf']")
     @$calculate_grades_csv_btn = @$section.find("input[name='calculate-grades-csv']")
     @$problem_grade_report_csv_btn = @$section.find("input[name='problem-grade-report']")

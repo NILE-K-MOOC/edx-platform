@@ -7,39 +7,49 @@ JSON views which the instructor dashboard requests.
 Many of these GETs may become PUTs in the future.
 """
 import StringIO
+import csv
+import decimal
 import json
 import logging
-import re
+import random
+import string
 import time
+import urllib
+
+import re
+import unicodecsv
 from django.conf import settings
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from django.views.decorators.http import require_POST, require_http_methods
-from django.views.decorators.cache import cache_control
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.mail.message import EmailMessage
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import IntegrityError, transaction
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email
-from django.utils.translation import ugettext as _
+from django.db import IntegrityError, transaction
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound
-from django.utils.html import strip_tags
 from django.shortcuts import redirect
-import string
-import random
-import unicodecsv
-import decimal
-from student import auth
-from student.roles import GlobalStaff, CourseSalesAdminRole, CourseFinanceAdminRole
-from util.file import (
-    store_uploaded_file, course_and_time_based_filename_generator,
-    FileValidationException, UniversalNewlineIterator
-)
-from util.json_request import JsonResponse, JsonResponseBadRequest
-from instructor.views.instructor_task_helpers import extract_email_features, extract_task_features
+from django.utils.html import strip_tags
+from django.utils.translation import ugettext as _
+from django.views.decorators.cache import cache_control
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST, require_http_methods
+from opaque_keys import InvalidKeyError
+from opaque_keys.edx.keys import CourseKey, UsageKey
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from submissions import api as sub_api  # installed from the edx-submissions repository
+
+import instructor.enrollment as enrollment
+import instructor_analytics.basic
+import instructor_analytics.csvs
+import instructor_analytics.distributions
+import instructor_task.api
+from bulk_email.models import CourseEmail, BulkEmailFlag
+from certificates import api as certs_api
+from certificates.models import CertificateWhitelist, GeneratedCertificate, CertificateStatuses, CertificateInvalidation
 from courseware.access import has_access
 from courseware.courses import get_course_with_access, get_course_by_id
-from django.contrib.auth.models import User
+from courseware.models import StudentModule
 from django_comment_client.utils import has_forum_access
 from django_comment_common.models import (
     Role,
@@ -48,26 +58,7 @@ from django_comment_common.models import (
     FORUM_ROLE_COMMUNITY_TA,
 )
 from edxmako.shortcuts import render_to_string
-from courseware.models import StudentModule
-from shoppingcart.models import (
-    Coupon,
-    CourseRegistrationCode,
-    RegistrationCodeRedemption,
-    Invoice,
-    CourseMode,
-    CourseRegistrationCodeInvoiceItem,
-)
-from student.models import (
-    CourseEnrollment, unique_id_for_user, anonymous_id_for_user,
-    UserProfile, Registration, EntranceExamConfiguration,
-    ManualEnrollmentAudit, UNENROLLED_TO_ALLOWEDTOENROLL, ALLOWEDTOENROLL_TO_ENROLLED,
-    ENROLLED_TO_ENROLLED, ENROLLED_TO_UNENROLLED, UNENROLLED_TO_ENROLLED,
-    UNENROLLED_TO_UNENROLLED, ALLOWEDTOENROLL_TO_UNENROLLED, DEFAULT_TRANSITION_STATE
-)
-import instructor_task.api
-from instructor_task.api_helper import AlreadyRunningError
-from instructor_task.models import ReportStore
-import instructor.enrollment as enrollment
+from instructor.access import list_with_level, allow_access, revoke_access, ROLES, update_forum_role
 from instructor.enrollment import (
     get_user_email_language,
     enroll_email,
@@ -76,19 +67,38 @@ from instructor.enrollment import (
     send_beta_role_email,
     unenroll_email,
 )
-from instructor.access import list_with_level, allow_access, revoke_access, ROLES, update_forum_role
-import instructor_analytics.basic
-import instructor_analytics.distributions
-import instructor_analytics.csvs
-import csv
+from instructor.views import INVOICE_KEY
+from instructor.views.instructor_task_helpers import extract_email_features, extract_task_features
+from instructor_task.api_helper import AlreadyRunningError
+from instructor_task.models import ReportStore
+from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
+from openedx.core.djangoapps.log_action import views as admin_view
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.user_api.preferences.api import get_user_preference, set_user_preference
 from openedx.core.djangolib.markup import HTML, Text
-from instructor.views import INVOICE_KEY
-from submissions import api as sub_api  # installed from the edx-submissions repository
-from certificates import api as certs_api
-from certificates.models import CertificateWhitelist, GeneratedCertificate, CertificateStatuses, CertificateInvalidation
-from bulk_email.models import CourseEmail, BulkEmailFlag
+from shoppingcart.models import (
+    Coupon,
+    CourseRegistrationCode,
+    RegistrationCodeRedemption,
+    Invoice,
+    CourseMode,
+    CourseRegistrationCodeInvoiceItem,
+)
+from student import auth
+from student.models import (
+    CourseEnrollment, unique_id_for_user, anonymous_id_for_user,
+    UserProfile, Registration, EntranceExamConfiguration,
+    ManualEnrollmentAudit, UNENROLLED_TO_ALLOWEDTOENROLL, ALLOWEDTOENROLL_TO_ENROLLED,
+    ENROLLED_TO_ENROLLED, ENROLLED_TO_UNENROLLED, UNENROLLED_TO_ENROLLED,
+    UNENROLLED_TO_UNENROLLED, ALLOWEDTOENROLL_TO_UNENROLLED, DEFAULT_TRANSITION_STATE
+)
 from student.models import get_user_by_username_or_email
+from student.roles import GlobalStaff, CourseSalesAdminRole, CourseFinanceAdminRole
+from util.file import (
+    store_uploaded_file, course_and_time_based_filename_generator,
+    FileValidationException, UniversalNewlineIterator
+)
+from util.json_request import JsonResponse, JsonResponseBadRequest
 from .tools import (
     dump_student_extensions,
     dump_module_extensions,
@@ -100,14 +110,6 @@ from .tools import (
     set_due_date_extension,
     strip_if_string,
 )
-from opaque_keys.edx.keys import CourseKey, UsageKey
-from opaque_keys.edx.locations import SlashSeparatedCourseKey
-from opaque_keys import InvalidKeyError
-from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-import urllib
-from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
-from openedx.core.djangoapps.log_action import views as admin_view
 
 log = logging.getLogger(__name__)
 
@@ -2002,6 +2004,172 @@ def get_anon_ids(request, course_id):  # pylint: disable=unused-argument
     )
 
     return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-anon-ids.csv', header, rows)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
+    print 'get_contents_stat called'
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.
+    course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    def csv_response(filename, header, rows):
+        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
+        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+        # In practice, there should not be non-ascii data in this query,
+        # but trying to do the right thing anyway.
+
+        encoded = [unicode(s).encode('utf-8') for s in header]
+        writer.writerow(encoded)
+        for row in rows:
+            encoded = [unicode(s).encode('utf-8') for s in row]
+            writer.writerow(encoded)
+
+        response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
+        return response
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+    overview = CourseOverview.objects.get(id=course_id)
+
+    from pymongo import MongoClient
+    with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.cs_comments_service_development
+
+        # cursor = db.contents.find({'course_id': str(course_id)})
+        cursor = db.contents.aggregate([
+            {'$match': {'course_id': str(course_id)}},
+            {'$group': {'_id': "$author_id", 'count': {'$sum': 1}}},
+            {'$sort': {'count': -1}}
+        ])
+
+        # 과정명, course_id, 영문ID, email, 성명, 게시글 수
+        header = ['과정명', 'Course_id', '영문ID', 'email', '성명', '게시글 수']
+        rows = list()
+        for c in cursor['result']:
+            student = User.objects.select_related('profile').get(id=c['_id'])
+            rows.append([overview.display_name, str(course_id), student.username, student.email, student.profile.name, c['count']])
+
+    # add log_action : get_contents_stat
+
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=,
+    #     object_id=0,
+    #     object_repr='get_contents_stat[course_id:%s]' % str(course_id),
+    #     action_flag=ADDITION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    # )
+
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_stat.csv', header, rows)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+def get_contents_view(request, course_id):  # pylint: disable=unused-argument
+    print 'get_contents_view called'
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.
+    course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    def csv_response(filename, header, rows):
+        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
+        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+        # In practice, there should not be non-ascii data in this query,
+        # but trying to do the right thing anyway.
+
+        encoded = [unicode(s).encode('utf-8') for s in header]
+        writer.writerow(encoded)
+        for row in rows:
+            encoded = [unicode(s).encode('utf-8') for s in row]
+            writer.writerow(encoded)
+
+        response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
+        return response
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+    overview = CourseOverview.objects.get(id=course_id)
+
+    from pymongo import MongoClient
+    with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.cs_comments_service_development
+
+        cursor = db.contents.find({'course_id': str(course_id)}).sort('created_at', -1)
+
+        comment_threads = list()
+        comment_depth_0 = list()
+        comment_depth_1 = list()
+
+        print type(cursor)
+
+        for c in cursor:
+            if c['_type'] == 'CommentThread':
+                comment_threads.append(c)
+            elif 'depth' not in c or c['depth'] == 0:
+                comment_depth_0.append(c)
+            else:
+                comment_depth_1.append(c)
+
+                # if comment_count > 0:
+                #     comment_depth_0 = db.contents.find({'comment_thread_id': ObjectId(c['_id'])}).sort('created_at', -1)
+                #     child_count = comment_depth_0['child_count'] if 'child_count' in comment_depth_0 else 0
+
+                # print 'child_count:', child_count
+
+        # 과정명, course_id, 영문ID, email, 성명, 게시글 수
+        header = ['Course_id', '영문ID', 'email', '성명', '게시글제목', '게시글내용', '등록일자']
+        temp = list()
+
+        for c in comment_threads:
+            temp.append(c)
+            comment_depth_0_cnt = c['comment_count'] if 'comment_count' in c else 0
+
+            if comment_depth_0_cnt > 0:
+                comment_id = c['_id']
+
+                for c1 in comment_depth_0:
+                    if c1['comment_thread_id'] == comment_id:
+                        parent_id = c1['_id']
+                        c1['title'] = '  답변'
+                        child_count = c1['child_count'] if 'child_count' in c1 else 0
+                        temp.append(c1)
+
+                        if child_count > 0:
+                            for c2 in comment_depth_1:
+                                if c2['parent_id'] == parent_id:
+                                    c2['title'] = '    코멘트'
+                                    temp.append(c2)
+                                    comment_depth_1.remove(c2)
+
+                        comment_depth_0.remove(c1)
+
+        print type(temp), len(temp)
+
+        rows = list()
+        for t in temp:
+            student = User.objects.select_related('profile').get(id=t['author_id'])
+            rows.append([str(course_id), student.username, student.email, student.profile.name, t['title'], t['body'], t['created_at']])
+
+    # add log_action : get_contents_view
+
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=,
+    #     object_id=0,
+    #     object_repr='get_contents_view[course_id:%s]' % str(course_id),
+    #     action_flag=ADDITION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    # )
+
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_view.csv', header, rows)
 
 
 @require_POST

@@ -3,40 +3,29 @@
 Instructor Dashboard Views
 """
 
-import logging
 import datetime
+import json
+import logging
+import uuid
+
+import pytz
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseServerError
+from django.utils.html import escape
+from django.utils.translation import ugettext as _, ugettext_noop
+from django.views.decorators.cache import cache_control
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST
+from mock import patch
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
-import uuid
-import pytz
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.utils.translation import ugettext as _, ugettext_noop
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.cache import cache_control
-from edxmako.shortcuts import render_to_response
-from django.core.urlresolvers import reverse
-from django.utils.html import escape
-from django.http import Http404, HttpResponseServerError
-from django.conf import settings
-from util.json_request import JsonResponse
-from mock import patch
-from lms.djangoapps.lms_xblock.runtime import quote_slashes
-from openedx.core.lib.xblock_utils import wrap_xblock
-from xmodule.html_module import HtmlDescriptor
-from xmodule.modulestore.django import modulestore
-from xmodule.tabs import CourseTab
-from xblock.field_data import DictFieldData
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from xblock.fields import ScopeIds
-from courseware.access import has_access
-from courseware.courses import get_course_by_id, get_studio_url
-from django_comment_client.utils import has_forum_access
-from django_comment_common.models import FORUM_ROLE_ADMINISTRATOR
-from openedx.core.djangoapps.course_groups.cohorts import get_course_cohorts, is_course_cohorted, DEFAULT_COHORT_NAME
-from student.models import CourseEnrollment
-from shoppingcart.models import Coupon, PaidCourseRegistration, CourseRegCodeItem
-from course_modes.models import CourseMode, CourseModesArchive
-from student.roles import CourseFinanceAdminRole, CourseSalesAdminRole
+
+from bulk_email.models import BulkEmailFlag
+from certificates import api as certs_api
 from certificates.models import (
     CertificateGenerationConfiguration,
     CertificateWhitelist,
@@ -45,14 +34,27 @@ from certificates.models import (
     CertificateGenerationHistory,
     CertificateInvalidation,
 )
-from certificates import api as certs_api
-from bulk_email.models import BulkEmailFlag
-from util.date_utils import get_default_time_display
 from class_dashboard.dashboard_data import get_section_display_name, get_array_section_has_problem
-from .tools import get_units_with_due_date, title_or_url
-from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from course_modes.models import CourseMode, CourseModesArchive
+from courseware.access import has_access
+from courseware.courses import get_course_by_id, get_studio_url
+from django_comment_client.utils import has_forum_access
+from django_comment_common.models import FORUM_ROLE_ADMINISTRATOR
+from edxmako.shortcuts import render_to_response
+from lms.djangoapps.lms_xblock.runtime import quote_slashes
+from openedx.core.djangoapps.course_groups.cohorts import get_course_cohorts, is_course_cohorted, DEFAULT_COHORT_NAME
 from openedx.core.djangolib.markup import HTML, Text
-import json
+from openedx.core.lib.xblock_utils import wrap_xblock
+from shoppingcart.models import Coupon, PaidCourseRegistration, CourseRegCodeItem
+from student.models import CourseEnrollment
+from student.roles import CourseFinanceAdminRole, CourseSalesAdminRole
+from util.date_utils import get_default_time_display
+from util.json_request import JsonResponse
+from xblock.field_data import DictFieldData
+from xmodule.html_module import HtmlDescriptor
+from xmodule.modulestore.django import modulestore
+from xmodule.tabs import CourseTab
+from .tools import get_units_with_due_date, title_or_url
 # import add
 from pymongo import MongoClient
 import MySQLdb as mdb
@@ -580,6 +582,8 @@ def _section_data_download(course, access):
             'get_students_who_may_enroll', kwargs={'course_id': unicode(course_key)}
         ),
         'get_anon_ids_url': reverse('get_anon_ids', kwargs={'course_id': unicode(course_key)}),
+        'get_contents_stat_url': reverse('get_contents_stat', kwargs={'course_id': unicode(course_key)}),
+        'get_contents_view_url': reverse('get_contents_view', kwargs={'course_id': unicode(course_key)}),
         'list_proctored_results_url': reverse('get_proctored_exam_results', kwargs={'course_id': unicode(course_key)}),
         'list_instructor_tasks_url': reverse('list_instructor_tasks', kwargs={'course_id': unicode(course_key)}),
         'list_report_downloads_url': reverse('list_report_downloads', kwargs={'course_id': unicode(course_key)}),
@@ -769,7 +773,7 @@ def check_assessment_ing(course_course, course_run):
     cur.close()
     con.close()
     print copy_cnt
-    print 'cur_rowcount :::  ', cur_rowcount, '     ----------    cur_rowcount2 ::: ',  cur_rowcount2
+    print 'cur_rowcount :::  ', cur_rowcount, '     ----------    cur_rowcount2 ::: ', cur_rowcount2
     if (cur_rowcount > 0 and (copy_cnt == cur_rowcount)) or (cur_rowcount > 0 and cur_rowcount2 == 0):
         return True
     else:
@@ -913,12 +917,12 @@ def course_block_id(published_branch, children_id, sga_id):
     cursor2 = db.modulestore.structures.find({'_id': published_branch}, {'_id': 0, 'blocks': {'$elemMatch': {'block_id': children_id}}})
 
     for cur in cursor2:
-            submission_blocks = cur.get('blocks')
-            for sblock in submission_blocks:
-                submission_fields = sblock.get('fields')
-                for sf in submission_fields['children']:
-                    if sga_id == sf[1]:
-                        block_id = submission_blocks['block_id']
+        submission_blocks = cur.get('blocks')
+        for sblock in submission_blocks:
+            submission_fields = sblock.get('fields')
+            for sf in submission_fields['children']:
+                if sga_id == sf[1]:
+                    block_id = submission_blocks['block_id']
 
     return block_id
 
