@@ -520,8 +520,8 @@ def _render_certificate_template(request, context, course, user_certificate):
 
     context = RequestContext(request, context)
     strHtmlData = render_to_string('certificates/valid.html', context)
-
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
