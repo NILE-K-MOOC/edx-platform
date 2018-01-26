@@ -37,11 +37,14 @@ from openedx.core.djangolib.markup import HTML, Text
   <p>${_("Click to download a CSV of anonymized student IDs:")}</p>
   <p><input type="button" name="list-anon-ids" value="${_("Get Student Anonymized IDs CSV")}" data-csv="true" class="csv" data-endpoint="${ section_data['get_anon_ids_url'] }" class="${'is-disabled' if disable_buttons else ''}" aria-disabled="${'true' if disable_buttons else 'false'}" ></p>
 
+  <!--
   <p>${_("Click to download a CSV of about student contents:")}</p>
   <p>
     <input type="button" name="list-contents-stat" value="${_("Get Student contents stats CSV")}" data-csv="true" class="csv" data-endpoint="${ section_data['get_contents_stat_url'] }" class="${'is-disabled' if disable_buttons else ''}" aria-disabled="${'true' if disable_buttons else 'false'}" >
     <input type="button" name="list-contents-view" value="${_("Get Student contents file CSV")}" data-csv="true" class="csv" data-endpoint="${ section_data['get_contents_view_url'] }" class="${'is-disabled' if disable_buttons else ''}" aria-disabled="${'true' if disable_buttons else 'false'}" >
   </p>
+  -->
+
 </div>
 
 %if settings.FEATURES.get('ENABLE_GRADE_DOWNLOADS'):
