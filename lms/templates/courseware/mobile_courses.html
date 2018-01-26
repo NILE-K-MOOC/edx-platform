@@ -174,10 +174,12 @@ getParameterByName('search_query')
                 <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
             </div>
             <div>
+                <!--
                 <button style="background-color: white; box-shadow: none; text-shadow: none; color: black; background-image: none;"
                         id="filter" class="js-facet-toggle facet-toggle webview-filter active" aria-expanded="true">
                     Filter Courses
                 </button>
+                -->
 
             </div>
             <div class="js-card-sorting btn-group" style="float: right;">
@@ -219,8 +221,12 @@ getParameterByName('search_query')
                 </script>-->
             </div>
 
+
+            <!--
             <div id="filter-bar" class="filters hide-phone is-collapsed">
             </div>
+            -->
+
             % endif
 
             <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region"
