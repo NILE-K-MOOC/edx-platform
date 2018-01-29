@@ -1057,14 +1057,14 @@ def remove_account(request):
         try:
 
             # user info delete in Mongo
-            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
-            db = client.cs_comments_service_development
-            user_cnt = db.users.find({"external_id": "%s" % request.user.id, "username": "%s" % request.user.username}).count()
+            # client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            # db = client.cs_comments_service_development
+            # user_cnt = db.users.find({"external_id": "%s" % request.user.id, "username": "%s" % request.user.username}).count()
 
-            print 'user_cnt --> ', user_cnt
-            if user_cnt > 0:
-                result = db.users.remove({"external_id": "%s" % request.user.id, "username": "%s" % request.user.username})
-                print 'deleted_count --------------------------> ', request.user.id, request.user.username, result
+            # print 'user_cnt --> ', user_cnt
+            # if user_cnt > 0:
+            #     result = db.users.remove({"external_id": "%s" % request.user.id, "username": "%s" % request.user.username})
+            #     print 'deleted_count --------------------------> ', request.user.id, request.user.username, result
 
             set_has_profile_image(request.user.username, False)
             profile_image_names = get_profile_image_names(request.user.username)
