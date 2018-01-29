@@ -418,7 +418,7 @@ urlpatterns += (
             settings.COURSE_ID_PATTERN,
         ),
         'courseware.views.views.mobile_course_about',
-        name='about_course',
+        name='mobile_about_course',
     ),
 
     # Inside the course
