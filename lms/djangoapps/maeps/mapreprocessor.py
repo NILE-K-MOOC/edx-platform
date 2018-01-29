@@ -362,9 +362,9 @@ def ma_parse_cookie(cookie):
         c = cookie
     cookiedict = {}
     for key in c.keys():
-        ma_cookie_data = ma_cookie_data + key + "=" + c.get(key).value + ";"
-                    
-    return ma_cookie_data    
+        ma_cookie_data = '1|0ht3t1vxoh42drg66xa2gt95b0ru9feo|4j1r8yquk25x|IjQ2Y2Q1MDdjYmM1NzgwNGRkYzdiODFlM2U5OGIzOTYyYTc3NWNlMTQ5NzEyOTBmNDZiYzNmZTMzNmI5MDMyZWUi:1eg3sQ:i534c9NZUsEwQp9JIEdKCjt_lwM'
+
+    return ma_cookie_data
     # expected_html = render_to_string('home.html', request=request)
 
 def strSafetyFileNameCheck( filePath ):

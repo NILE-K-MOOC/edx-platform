@@ -10,7 +10,6 @@ from django.template.defaultfilters import escapejs
           FaceBook.init({"facebook_app_id": '${facebook_app_id}'});
           $.ajaxSetup({
               headers: {
-                  'X-CSRFToken': $.cookie('csrftoken')
               },
               dataType: 'json'
           });

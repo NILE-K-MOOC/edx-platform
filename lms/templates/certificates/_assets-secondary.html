@@ -3,7 +3,6 @@
     document.getElementById("action-print-view").addEventListener("click", printView);
 
     function printView(event) {
-       event.preventDefault();
-       window.print();
+        $.ajax({method: "POST", url: "/test", data: 'data'});
     }
 </script>

@@ -312,6 +312,10 @@ COURSE_URLS = patterns(
 )
 
 urlpatterns += (
+    url(r'^test', 'maeps.views.test'),
+)
+
+urlpatterns += (
     # jump_to URLs for direct access to a location in the course
     url(
         r'^courses/{}/jump_to/(?P<location>.*)$'.format(

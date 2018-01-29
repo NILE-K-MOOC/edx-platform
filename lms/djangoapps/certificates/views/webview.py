@@ -515,25 +515,7 @@ def _render_certificate_template(request, context, course, user_certificate):
             context = RequestContext(request, context)
             return HttpResponse(template.render(context))
 
-    # strHtmlData = render_to_string("certificates/valid.html", context)
-    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-    #
-    # response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
-    # return response
-    strHtmlData = render_to_string('markany/sampleh.html', context)
-    strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-
-    response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
-    # return response
-    return response
-
-
-    # strHtmlData = render_to_string('markany/sampleh.html', context)
-    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-    #
-    # response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
-    # # return response
-    # return response
+    return render_to_response("certificates/valid.html", context)
 
 
 def _update_configuration_context(context, configuration):

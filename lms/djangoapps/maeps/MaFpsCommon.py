@@ -33,7 +33,7 @@ iQuickSet = 1      # 1: Use QuickUrl, 2: Use Service Check
 # int iFileServerPort                    = 18430;        
 
 # iUseNas:1 -> set meta temp directory
-strCurrentPath = "/maeps/static/markany"                 # ex) getServletContext().getRealPath("") + "/product/install/MarkAny";
+strCurrentPath = "/static/markany"                 # ex) getServletContext().getRealPath("") + "/product/install/MarkAny";
 strDownFolder = "/var/tmp";                    # metafile location        # log
 strPrtDatDownFolder = strCurrentPath + "/bin/";         # dat
 
