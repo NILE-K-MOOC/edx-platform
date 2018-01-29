@@ -155,6 +155,7 @@ urlpatterns = (
     url(r'Mafndown', 'maeps.views.Mafndown', name='Mafndown'),
     url(r'MaGetSession', 'maeps.views.MaGetSession', name='MaGetSession'),
     url(r'MaInstallPage', 'maeps.views.MaInstallPage', name='MaInstallPage'),
+    url(r'certificate_print', 'maeps.views.certificate_print', name='certificate_print'),
 )
 
 urlpatterns += (
@@ -309,10 +310,6 @@ COURSE_URLS = patterns(
         'instructor.views.registration_codes.registration_code_details',
         name='registration_code_details',
     ),
-)
-
-urlpatterns += (
-    url(r'^test', 'maeps.views.test'),
 )
 
 urlpatterns += (
@@ -1055,6 +1052,7 @@ urlpatterns += (
     url(r'^update_certificate$', 'certificates.views.update_certificate'),
     url(r'^update_example_certificate$', 'certificates.views.update_example_certificate'),
     url(r'^request_certificate$', 'certificates.views.request_certificate'),
+
 
     # REST APIs
     url(r'^api/certificates/',

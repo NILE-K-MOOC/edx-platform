@@ -214,3 +214,114 @@ h5{margin:0;}
     </body>
 </main>
 <div class="brDiv"></div>
+
+
+
+
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+<%
+accomplishment_course_title =  accomplishment_copy_course_name
+if certificate_data and certificate_data.get('course_title', ''):
+    accomplishment_course_title =  certificate_data.get('course_title', '')
+course_mode_class = course_mode if course_mode else ''
+accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
+%>
+
+
+## <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+
+</script>
+
+<main id="printArea_E" class="accomplishment accomplishment-main" style="display: none">
+    <body>
+
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+
+            <div class="ribbon">
+                <img src="/static/images/ribbon.png"/>
+            </div>
+
+            <div class="content">
+
+                <h5>Certification Number : ${certificate_id_number}</h5>
+                <h5>Print date and time : ${created_date}</h5>
+
+                <h1>CRETIFICATE</h1>
+
+                <h5 class="ce-t-gray">NAME</h5>
+                <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+
+                <h5 class="ce-t-gray">COURSE</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>Course number : (${course_id})</li>
+                        <li>Education period : ${start_date} ~ ${end_date}</li>
+                        <li id="e_box2" style="display: none">Video duration : ${Play_h}hour ${Play_m}minute</li>
+                        <li id="e_box3" style="display: none">Weekly learning time : ${Learning_h}hour ${Learning_m}minute</li>
+                    </ul>
+                    <h5>※ The above information is course information, which may be different from the student's actual study information.</h5>
+                </blockquote>
+                <div id="e_box1" style="visibility: hidden; margin-bottom: 66px">
+                <h5 class="ce-t-gray">score</h5>
+                <h4 class="ce-txt-second">${grade}</h4>
+                </div>
+                <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.<br><br></h2>
+                <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
+
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+
+                <div class="sign-area">
+                    % if certificate_data:
+                    <div class="sign-area-depth2">
+                        % for signatory in certificate_data.get('signatories', []):
+                            <% cnt = 0 %>
+                            % for i in range(0, 10 - len(teacher_list)):
+                                <div class="t-center">
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                </div>
+                                <% cnt = cnt + 1%>
+                                %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                %endif
+                            %endfor
+                            % for teacher_name in teacher_list:
+                                <%
+                                teacher = teacher_name.split('(')
+                                title_k = signatory['title'].split('(')
+                                organization_k = signatory['organization'].split('(')
+                                %>
+                                    <div class="t-center">
+                                        <h5 class="t-sign">${teacher[1].replace(')','')}</h5>
+                                        <h5>${teacher[1].replace(')','')} ${title_k[1].replace(')','')}</h5>
+                                        <h5>${organization_k[1].replace(')','')}</h5>
+                                        <h5>${classfy_e}</h5>
+                                    </div>
+                            %endfor
+                        % endfor
+                        </div>
+                    % endif
+                </div>
+                <!-- 로고 -->
+                <div class="ce-logo-area">
+                    <div class="ce-logo1">
+                    % if organization_logo:
+                        <img src="${organization_logo.url}" alt="${platform_name}">
+                    % endif
+                    </div>
+                    <div class="ce-logo2"><img src="/static/images/logo2.png" alt="국평원"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</main>
+<div class="brDiv"></div>

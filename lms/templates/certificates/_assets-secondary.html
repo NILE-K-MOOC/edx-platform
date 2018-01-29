@@ -3,6 +3,7 @@
     document.getElementById("action-print-view").addEventListener("click", printView);
 
     function printView(event) {
-        $.ajax({method: "POST", url: "/test", data: 'data'});
+        var print_index = $('#printArea_K').html();
+        $.ajax({method: "POST", url: "/certificate_print", data:{print_index: print_index}});
     }
 </script>

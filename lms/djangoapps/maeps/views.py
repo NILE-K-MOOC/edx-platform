@@ -9,13 +9,24 @@ import os
 import time
 from . import mapreprocessor
 from . import MaFpsCommon
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect, csrf_exempt
+from django.views.decorators.http import require_http_methods, require_GET, require_POST
+from util.cache import cache, cache_if_anonymous
 
-@ensure_csrf_cookie
-def test(request):
-    print 'Test!@!!@!#@!##!@#!#@!'
+@csrf_exempt
+@cache_if_anonymous()
+@require_http_methods(['POST'])
+def certificate_print(request):
+    if request.method == 'POST':
+        print_index = request.POST.get('print_index')
+        print 'print_index========================='
+        print print_index
+        print 'print_index========================='
 
-    return '3'
+        strHtmlData = print_index
+        strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+
+        response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+        return response
 
 def MaSample(request):
     # strHtmlData = render_to_string('markany/sampleh.html')
