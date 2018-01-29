@@ -142,7 +142,19 @@ class SafeCookieData(object):
         try:
             raw_cookie_components = safe_cookie_string.split(cls.SEPARATOR)
             safe_cookie_data = SafeCookieData(*raw_cookie_components)
+            print 'cookie Test11111 ==============='
+            print type(safe_cookie_string)
+            print safe_cookie_string
+            print type(raw_cookie_components)
+            print raw_cookie_components
+            print 'cookie Test11111 =============='
         except TypeError:
+            print 'cookie Test22222 ==============='
+            print type(safe_cookie_string)
+            print safe_cookie_string
+            print type(raw_cookie_components)
+            print raw_cookie_components
+            print 'cookie Test 22222=============='
             raise SafeCookieError(
                 "SafeCookieData BWC parse error: {0!r}.".format(safe_cookie_string)
             )

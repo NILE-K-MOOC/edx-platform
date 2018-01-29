@@ -1,0 +1,162 @@
+@CHARSET "euc-kr";
+
+body {
+	margin-top: 50px;
+	font-size: 12px;
+	font-family:'맑은고딕' 'NanumGothic', 'MalgunGothic';
+}
+
+.container {
+	position: relative;
+	width: 700px;
+	margin: 0 auto;
+}
+
+/* 상단 이미지 영역 */
+#header {
+	margin: 0 auto;
+	position: relative;
+	magin
+}
+
+#top_img{
+	margin-bottom: 40px;
+}
+
+#header,#section,#article,.content {
+	display: block;
+}
+
+.content {
+}
+
+ul,ol,dl {
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #000000;
+}
+
+a img {
+	border: none;
+}
+
+
+/* 상단 멘트 */
+#comment{
+	font-size: 11px;
+	font-weight: bold;
+}
+
+/* 하단 영역  */
+#footer {
+	position: relative;
+	clear: both;
+	text-align: center;
+	/* border: solid #DDD 1px; */
+}
+
+#notSupportTable {
+	margin: 20px 0;
+	display: none;
+}
+
+#notSupportTable table {
+	text-align: center;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+#notSupportTable table tr td {
+	border: solid #ccced2 1px;
+	height: 50px;
+	padding: 10px;
+}
+
+#notSupportTable table tr td .fontred {
+	color: red;
+	font-weight: bold;
+}
+
+/* **********install table***********  */
+hr{
+	border: solid #ccced2 1px;
+}
+
+#downloadTable {
+	margin: 20px 0;
+}
+
+#downloadTable table {
+	text-align: center;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: solid #ccced2 1px;
+}
+
+#downloadTable table tr th {
+	background-color: #f6f6f6;
+	border: solid #ccced2 1px;
+	height: 40px;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+#downloadTable table tr td {
+	border: solid #ccced2 1px;
+	height: 50px;
+}
+
+/* OS분류 */
+#OS {
+	width: 100px;
+}
+
+/* OS지원범위  */
+#supportOS {
+	width: 150px;
+}
+
+/* 브라우져 지원범위 */
+#supportBS {
+	width: 350px;
+}
+
+/* 지원범위 td */
+.supportBStd{
+	text-align: left;
+	padding-left: 10px;
+	letter-spacing: 1px;
+}
+
+/* 설치상태 */
+#installStatus {
+	width: 100px;
+}
+
+/* 다운로드 버튼 */
+.btn_download {
+	background-image: url("../images/btn_download.png");
+	display: inline-block;
+	width: 63px;
+	height: 20px;
+	cursor: pointer;
+	position: relative;
+}
+/* 미지원 문구 */
+.notSupport{
+	display: none;
+	color: red;
+}
+#winTr,#linTr,#macTr,#fedoraTr,#ubuntuTr {
+	display: none;
+}
+
+/* 설치여부  */
+.intallFlag {
+	color: red;
+}

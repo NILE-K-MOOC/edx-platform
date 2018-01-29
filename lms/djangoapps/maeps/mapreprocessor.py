@@ -34,6 +34,9 @@ MAX_FILE_READ_SIZE = 4096
 
 def strMaPrestreamWmByteInFile( strServerIp, iServerPort, strHtmlFilePath, iCellBlockCount, iCellBlockRow ):
     strMetaData = "" 
+    strTmpRecvSocketData = ""
+    strRecvSocketHeader = ""
+    iRecvSocketHeaderSize = 0    
 
     # socket
     sock = None
@@ -132,30 +135,41 @@ def strMaPrestreamWmByteInFile( strServerIp, iServerPort, strHtmlFilePath, iCell
     fOrgHtmlFile.close()
 
     while True:
-        #print "receive data...."
         try:    
             strSockRecvData = sock.recv(PACKET_SIZE)
-            # iSockRecvDataSize = len(strSockRecvData)
+            # print "strSockRecvDataSize = ", len(strSockRecvData)
+            
+            if iRecvSocketHeaderSize != -1:
+                iRecvSocketHeaderSize += len(strSockRecvData)
+                strTmpRecvSocketData += strSockRecvData
+                
         except socket.error as msg:
             sock.close()
             sock = None
-            return (E_READ_SOCKET, "0")            
-
-        if iStartRecvData == 0:
+            return (E_READ_SOCKET, "0")
+        
+        if iRecvSocketHeaderSize >= PACKET_SIZE:
+            if  iRecvSocketHeaderSize > PACKET_SIZE:                
+                strRecvSocketHeader = strTmpRecvSocketData[:PACKET_SIZE]
+                strSockRecvData = strTmpRecvSocketData[PACKET_SIZE:]
+                strMetaData += strSockRecvData
+            else:
+                strRecvSocketHeader = strTmpRecvSocketData
+                
             unpacker = struct.Struct('>L5s10s4077x')
-            unpacked_data = unpacker.unpack(strSockRecvData)
+            unpacked_data = unpacker.unpack(str(strRecvSocketHeader))
             
             if unpacked_data[0] != PrestreamHtml_GetHtmlRep_Sig:
                 sock.close()
                 sock = None
                 return (E_PACKET_HEADER, "0")
 
-            iStartRecvData = iStartRecvData + 1           
+            iRecvSocketHeaderSize = -1          
             #print unpacked_data[0]
             #print unpacked_data[1]
             #print unpacked_data[2] 
-        else:
-            strMetaData = strMetaData + strSockRecvData
+        elif iRecvSocketHeaderSize == -1:
+            strMetaData += strSockRecvData
         
         if not strSockRecvData:
             break;    
@@ -170,6 +184,9 @@ def strMaPrestreamWmByteInFile( strServerIp, iServerPort, strHtmlFilePath, iCell
 
 def strMaPrestreamWmByte( strServerIp, iServerPort, strHtmlData, iHtmlDataSize, iCellBlockCount, iCellBlockRow ):
     strMetaData = "" 
+    strTmpRecvSocketData = ""
+    strRecvSocketHeader = ""
+    iRecvSocketHeaderSize = 0
 
     # socket
     sock = None
@@ -233,40 +250,45 @@ def strMaPrestreamWmByte( strServerIp, iServerPort, strHtmlData, iHtmlDataSize, 
     except socket.error as msg:
         sock.close
         sock = None              
-        return E_WRITE_SOCKET
-
-    tempStr = ''
+        return E_WRITE_SOCKET    
 
     while True:
         #print "receive data...."
         try:    
-            strSockRecvData = sock.recv(1024)
-            iSockRecvDataSize = len(strSockRecvData)
-            iStartRecvData = iStartRecvData + 1
-
-            # print "iSockRecvDataSize : ", iSockRecvDataSize
+            strSockRecvData = sock.recv(PACKET_SIZE)
+            # print "strSockRecvDataSize = ", len(strSockRecvData)
+            
+            if iRecvSocketHeaderSize != -1:
+                iRecvSocketHeaderSize += len(strSockRecvData)
+                strTmpRecvSocketData += strSockRecvData
+                
         except socket.error as msg:
             sock.close()
             sock = None
-            return (E_READ_SOCKET, "0")            
+            return (E_READ_SOCKET, "0")
+        
+        if iRecvSocketHeaderSize >= PACKET_SIZE:
+            if  iRecvSocketHeaderSize > PACKET_SIZE:                
+                strRecvSocketHeader = strTmpRecvSocketData[:PACKET_SIZE]
+                strSockRecvData = strTmpRecvSocketData[PACKET_SIZE:]
+                strMetaData += strSockRecvData
+            else:
+                strRecvSocketHeader = strTmpRecvSocketData
+                
+            unpacker = struct.Struct('>L5s10s4077x')
+            unpacked_data = unpacker.unpack(str(strRecvSocketHeader))
+            
+            if unpacked_data[0] != PrestreamHtml_GetHtmlRep_Sig:
+                sock.close()
+                sock = None
+                return (E_PACKET_HEADER, "0")
 
-        if iStartRecvData <= 4:
-            tempStr += strSockRecvData
-            if iStartRecvData == 4:
-                unpacker = struct.Struct('>L5s10s4077x')
-                unpacked_data = unpacker.unpack(tempStr)
-
-                if unpacked_data[0] != PrestreamHtml_GetHtmlRep_Sig:
-                    sock.close()
-                    sock = None
-                    return (E_PACKET_HEADER, "0")
-
-            #iStartRecvData = iStartRecvData + 1
+            iRecvSocketHeaderSize = -1          
             #print unpacked_data[0]
             #print unpacked_data[1]
             #print unpacked_data[2] 
-        else:
-            strMetaData = strMetaData + strSockRecvData
+        elif iRecvSocketHeaderSize == -1:
+            strMetaData += strSockRecvData
         
         if not strSockRecvData:
             break;    
@@ -345,6 +367,23 @@ def ma_parse_cookie(cookie):
     return ma_cookie_data    
     # expected_html = render_to_string('home.html', request=request)
 
+def strSafetyFileNameCheck( filePath ):
+    filePath = filePath.replace("/", "")
+    filePath = filePath.replace("\\\\", "");
+    filePath = filePath.replace("\\..", "");
+    filePath = filePath.replace("&", "");
+    
+    # XSS Script
+    filePath = filePath.replace("<", "& lt;").replace(">", "& gt;"); 
+    filePath = filePath.replace("\\(", "& #40;").replace("\\)", "& #41;");
+    filePath = filePath.replace("'", "& #39;"); 
+    filePath = filePath.replace("eval\\((.*)\\)", "");
+    filePath = filePath.replace("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
+    filePath = filePath.replace("script", "");    
+    filePath = filePath.replace("\r", "");  
+    filePath = filePath.replace("\n", "");  
+
+    return filePath
 ''' 
 strHtmlFilePath = 'E://Workspace_oxygen//PythonTestPrj//sample.html'    
 (strRetCode, strRetData) = strMaPrestreamWmByte(strHtmlFilePath, 16, 1)

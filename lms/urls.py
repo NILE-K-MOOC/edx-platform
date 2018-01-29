@@ -148,6 +148,13 @@ urlpatterns = (
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
     # url(r'^test$', 'community.views.test', name='test'),
 
+    url(r'MaMakeCookie', 'maeps.views.MaMakeCookie', name='MaMakeCookie'),
+    url(r'MaIePopup', 'maeps.views.MaIePopup', name='MaIePopup'),
+    url(r'MaSetInstall', 'maeps.views.MaSetInstall', name='MaSetInstall'),
+    url(r'MaSessionCheck', 'maeps.views.MaSessionCheck', name='MaSessionCheck'),
+    url(r'Mafndown', 'maeps.views.Mafndown', name='Mafndown'),
+    url(r'MaGetSession', 'maeps.views.MaGetSession', name='MaGetSession'),
+    url(r'MaInstallPage', 'maeps.views.MaInstallPage', name='MaInstallPage'),
 )
 
 urlpatterns += (

@@ -47,11 +47,8 @@ from certificates.models import (
 from pymongo import MongoClient
 from django.db import connections
 from bson.objectid import ObjectId
-from django.template.loader import render_to_string, get_template
-from maeps import mapreprocessor
-from maeps import MaFpsCommon
-import base64
-from django.template import loader
+from maeps.views import MaFpsTail
+from edxmako.shortcuts import render_to_string
 
 log = logging.getLogger(__name__)
 
@@ -508,198 +505,35 @@ def _render_certificate_template(request, context, course, user_certificate):
     if settings.FEATURES.get('CUSTOM_CERTIFICATE_TEMPLATES_ENABLED', False):
         custom_template = get_certificate_template(course.id, user_certificate.mode)
         if custom_template:
-                template = Template(
-                    custom_template,
-                    output_encoding='utf-8',
-                    input_encoding='utf-8',
-                    default_filters=['decode.utf8'],
-                    encoding_errors='replace',
-                )
-                context = RequestContext(request, context)
-                return HttpResponse(template.render(context))
+            template = Template(
+                custom_template,
+                output_encoding='utf-8',
+                input_encoding='utf-8',
+                default_filters=['decode.utf8'],
+                encoding_errors='replace',
+            )
+            context = RequestContext(request, context)
+            return HttpResponse(template.render(context))
 
-    context = RequestContext(request, context)
-    strHtmlData = render_to_string('certificates/valid.html', context)
+    # strHtmlData = render_to_string("certificates/valid.html", context)
+    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+    #
+    # response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+    # return response
+    strHtmlData = render_to_string('markany/sampleh.html', context)
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
 
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+    # return response
     return response
 
-def MaFpsTail(request, strHtmlData, iHtmlDataSize):
-    strRetCode = ''
-    iRetCode = 0
 
-    strAddData = ''
-    strAMetaData = ''
-    iAMetaDataSize = 0
-
-    ma_cookie_data = ''
-
-    (strRetCode, strAMetaData) = mapreprocessor.strMaPrestreamWmByte(MaFpsCommon.strMAServerIP, MaFpsCommon.iMAServerPort, strHtmlData, iHtmlDataSize, MaFpsCommon.iCellBlockCount, MaFpsCommon.iCellBlockRow)
-    if strRetCode == mapreprocessor.ISUCCESS:
-        iAMetaDataSize = len(strAMetaData)
-
-        '''
-        strAMetaData = strAMetaData.replace("\n", "\\n")
-        fResult = open("C://MarkAny//web_recv.dat", 'wb')
-        fResult.write(strAMetaData)
-        fResult.close()
-        '''
-    else:
-        iRetCode = int(strRetCode)
-        if (iRetCode == 1001) or (iRetCode == 10001):
-            strErrorMessage = "Error code : " + strRetCode + " 마크애니 데몬프로세스를 구동해주세요."
-        elif (iRetCode == 70007):
-            strErrorMessage = "Error code : " + strRetCode + " 바코드 사이즈가 작습니다."
-
-        return HttpResponse(strErrorMessage)
-
-    iAMetaDataSize = len(strAMetaData)
-
-    # strUserAgent = request.META
-    strUserAgent = request.META.get('HTTP_USER_AGENT')
-    MaFpsCommon.MaSetVariable(request)
-    # print("strDomain : " + MaFpsCommon.strDomain )
-    # print("tototoday : " + MaFpsCommon.tototoday)
-    # print("PRINTERUPDATE : " + MaFpsCommon.PRINTERUPDATE )
-    # PRINTERUPDATE = base64.encodestring(strPrtDatDownURL)
-
-    browserinfo = mapreprocessor.ma_getBrowserInfo(strUserAgent)
-    iRetOsCheck = browserinfo[0]
-    browsername = browserinfo[1]
-    browserversion = browserinfo[2]
-
-    ma_cookie_data_temp = mapreprocessor.ma_parse_cookie(request.COOKIES)
-
-    if iRetOsCheck == 1:
-        ma_cookie_data = "Cookie: " + ma_cookie_data_temp;
-
-    strVersion = ''
-    strSID = ''
-    iNotSessionInCookie = 0
-
-    if not request.session.session_key:
-        request.session.save()
-        iNotSessionInCookie = 1
-
-    strSID = request.session.session_key
-    if iNotSessionInCookie == 1:
-        ma_cookie_data = ma_cookie_data + "sessionid=" + strSID + ";"
-
-    strBase64Cookie = base64.standard_b64encode(ma_cookie_data)
-
-    pversion = "NONE"
-    iCurrent = 0
-    iSession = 0
-    iSessionCheck = 0
-
-    pversion = request.session.get('productversion', 'NONE')
-
-    if pversion != "NONE":
-        strVersion = pversion.replace(MaFpsCommon.strSignature, "")
-        iCurrent = MaFpsCommon.strPVersion
-        iSession = strVersion
-        if iSession >= iCurrent:
-            iSessionCheck = 1
-
-    if iRetCode == 0:
-        if iRetOsCheck == 1:
-            # Windows OS
-            strAddData += "#META_SIZE=" + str(iAMetaDataSize)
-            strAddData += "#CPPARAM=" + MaFpsCommon.strCPParam
-            strAddData += "#CPSUBPARAM=" + MaFpsCommon.strCPSubParam
-            strAddData += "#PRTIP=" + MaFpsCommon.strServerName
-            strAddData += "#PRTPORT=" + str(MaFpsCommon.iServerPort)
-            strAddData += "#PRTPARAM=" + MaFpsCommon.strPrintParam
-            strAddData += "#PRTURL=" + MaFpsCommon.strPrintURL
-            strAddData += "#DOCTYPE=1";
-            strAddData += "#PRTTYPE=0";
-            strAddData += "#PSSTRING=" + MaFpsCommon.PSSTRING
-            strAddData += "#PSSTRING2=" + MaFpsCommon.PSSTRING2
-            strAddData += "#FAQURL=" + MaFpsCommon.FAQURL
-            strAddData += "#WMPARAM=" + MaFpsCommon.WMPARAM
-            strAddData += "#PRINTERDAT=" + MaFpsCommon.strDataFileName
-            strAddData += "#PRINTERVER=" + MaFpsCommon.PRINTERVER
-            strAddData += "#PRINTERUPDATE=" + MaFpsCommon.PRINTERUPDATE
-            strAddData += "#CHARSET=" + MaFpsCommon.CHARSET
-            strAddData += "#VIRTUAL=" + MaFpsCommon.VIRTUAL  # allow virtual
-            strAddData += "#LANGUAGE=" + MaFpsCommon.LANGUAGE  # set lang
-            strAddData += "#PAGEMARGIN=" + MaFpsCommon.PAGEMARGIN  # PAGEMARGIN L^T^R^B
-            strAddData += "#PRINTCNT=" + MaFpsCommon.strPrintCount  # set printcount
-            strAddData += "#STNODATA=" + MaFpsCommon.STNODATA  # Nodata -> Print
-            strAddData += "#BUCLOSE=" + MaFpsCommon.BUCLOSE  # add close button
-            strAddData += "#WINDOWSIZE=" + MaFpsCommon.WINDOWSIZE  # window size land^port
-            strAddData += "#SHRINKTOFIT=" + MaFpsCommon.SHRINKTOFIT  # auto shrink print
-            strAddData += "#FIXEDSIZE=" + MaFpsCommon.FIXEDSIZE  # adjust window size
-            strAddData += "#PRTPROTOCOL=" + MaFpsCommon.strPrtProtocol  # prt protocol
-            strAddData += "#PRTAFTEREXIT=" + MaFpsCommon.PRTAFTEREXIT  # after print close
-            strAddData += "#NO2DBARCODE=" + MaFpsCommon.NO2DBARCODE;  # print no barcode
-            strAddData += "#VIEWPAGE=" + MaFpsCommon.VIEWPAGE;  # ViewPage option
-            strAddData += "#ZOOMINCONTENT =" + MaFpsCommon.ZOOMINCONTENT  # ViewPage option
-            strAddData += "#HIDECD =" + MaFpsCommon.strHIDECD;  # hidden copydetector
-            strAddData += "#PRINTTEXT=1";
-            strAddData += "#PRINTCOPIES=" + MaFpsCommon.strPrintCount;
-
-            if MaFpsCommon.CBFDIRECTORY != "":
-                strAddData += "#CBFDIRECTORY =" + base64.standard_b64encode(MaFpsCommon.CBFDIRECTORY)  # CBFDIRECTORY
-            if MaFpsCommon.CBFPRPOCESS != "":
-                strAddData += "#CBFPRPOCESS =" + base64.standard_b64encode(MaFpsCommon.CBFPRPOCESS)  # CBFPRPOCESS
-
-            strAddData = strAddData.replace("\\n", "\n");
-
-    # print strAddData
-    if (iRetOsCheck == 1) or (iRetOsCheck == 2):
-        strPath = strSID + MaFpsCommon.tototoday + ".matmp"
-        filePath = MaFpsCommon.strDownFolder + "/" + strPath
-        strDownURL = MaFpsCommon.strDownURL + MaFpsCommon.tototoday
-        if MaFpsCommon.iUseNas == 1:
-            fResult = open(filePath, 'wb')
-            fResult.write(strAMetaData + strAddData)
-            fResult.close()
-
-        request.session['strDownURL'] = strDownURL
-        request.session['strCookie'] = ma_cookie_data
-        request.session.modified = True
-
-    # print "strDownURL : " + strDownURL
-    # print "strSessionURL : " + MaFpsCommon.strSessionURL
-
-    strBase64DownURL = base64.standard_b64encode(strDownURL)
-    strBase64SessionURL = base64.standard_b64encode(MaFpsCommon.strSessionURL)
-
-    LaunchRegistAppCommand = ""
-    if MaFpsCommon.iQuickSet == 1:
-        LaunchRegistAppCommand = "quickurl"
-    elif MaFpsCommon.iQuickSet == 0 or MaFpsCommon.iQuickSet == 2:
-        if iSessionCheck == 0:
-            LaunchRegistAppCommand = "registapp"
-        else:
-            LaunchRegistAppCommand = "sockmeta"
-
-    template = loader.get_template('certificates/valid.html')
-
-    context = {
-        'strWebHome': MaFpsCommon.strWebHome,
-        'strJsWebHome': MaFpsCommon.strJsWebHome,
-        'strPyHome': MaFpsCommon.strPyHome,
-        'strBase64Cookie': strBase64Cookie,
-        'strSessionCheck': MaFpsCommon.strSessionCheck,
-        'strBase64DownURL': strBase64DownURL,
-        'strBase64SessionURL': strBase64SessionURL,
-        'strSudongInstallURL': MaFpsCommon.strSudongInstallURL,
-        'strApp': MaFpsCommon.strApp,
-        'strIePopupURL': MaFpsCommon.strIePopupURL,
-        'iVersion': MaFpsCommon.strPVersion,
-        'iQuickSet': MaFpsCommon.iQuickSet,
-        'iRetOsCheck': iRetOsCheck,
-        'pversion': pversion,
-        'iSessionCheck': iSessionCheck,
-        'strImagePath': MaFpsCommon.strImagePath,
-        'LaunchRegistAppCommand': LaunchRegistAppCommand,
-    }
-
-    return HttpResponse(template.render(context, request))
-
+    # strHtmlData = render_to_string('markany/sampleh.html', context)
+    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+    #
+    # response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+    # # return response
+    # return response
 
 
 def _update_configuration_context(context, configuration):
