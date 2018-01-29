@@ -2048,7 +2048,7 @@ def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
         ])
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['과정명', 'Course_id', '영문ID', 'email', '성명', '게시글 수']
+        header = ['강좌명', '강좌 아이디', '영문ID', '이메일', '성명', '게시글 수']
         rows = list()
         for c in cursor['result']:
             student = User.objects.select_related('profile').get(id=c['_id'])
@@ -2125,11 +2125,11 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                 # print 'child_count:', child_count
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['Course_id', '영문ID', 'email', '성명', '게시글제목', '게시글내용', '등록일자']
-        temp = list()
+        header = ['강좌 아이디', '영문ID', '이메일', '성명', '게시글제목', '게시글내용', '등록일자']
+        rows = list()
 
         for c in comment_threads:
-            temp.append(c)
+            rows.append(c)
             comment_depth_0_cnt = c['comment_count'] if 'comment_count' in c else 0
 
             if comment_depth_0_cnt > 0:
@@ -2140,21 +2140,19 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                         parent_id = c1['_id']
                         c1['title'] = '  답변'
                         child_count = c1['child_count'] if 'child_count' in c1 else 0
-                        temp.append(c1)
+                        rows.append(c1)
 
                         if child_count > 0:
                             for c2 in comment_depth_1:
                                 if c2['parent_id'] == parent_id:
                                     c2['title'] = '    코멘트'
-                                    temp.append(c2)
+                                    rows.append(c2)
                                     comment_depth_1.remove(c2)
 
                         comment_depth_0.remove(c1)
 
-        print type(temp), len(temp)
-
         rows = list()
-        for t in temp:
+        for t in rows:
             student = User.objects.select_related('profile').get(id=t['author_id'])
             rows.append([str(course_id), student.username, student.email, student.profile.name, t['title'], t['body'], t['created_at']])
 
