@@ -106,13 +106,13 @@ class DataDownload
       url = @$list_anon_btn.data 'endpoint'
       location.href = url
 
-    @$list_contents_stat.click (e) =>
-      url = @$list_contents_stat.data 'endpoint'
-      location.href = url
+#    @$list_contents_stat.click (e) =>
+#      url = @$list_contents_stat.data 'endpoint'
+#      location.href = url
 
-    @$list_contents_view.click (e) =>
-      url = @$list_contents_view.data 'endpoint'
-      location.href = url
+#    @$list_contents_view.click (e) =>
+#      url = @$list_contents_view.data 'endpoint'
+#      location.href = url
 
     # attach click handlers
     # The list_proctored_exam_results case is always CSV
