@@ -2088,9 +2088,6 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
         comment_depth_1 = list()
 
         for c in cursor:
-            if not isinstance(c, dict):
-                print '--->', c
-
             if c['_type'] == 'CommentThread':
                 comment_threads.append(c)
             elif 'depth' not in c or c['depth'] == 0:
@@ -2105,12 +2102,13 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                 # print 'child_count:', child_count
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['기본 정렬', '강좌 명', '강좌 아이디', '아이디', '이메일', '성명', '게시글제목', '구분', '게시글내용', '등록일자']
+        header = ['기본 정렬', '강좌 명', '강좌 아이디', '웹 주소', '아이디', '이메일', '성명', '게시글제목', '구분', '게시글내용', '등록일자']
         _rows = list()
 
         for c in comment_threads:
             c['type'] = '본문'
             comment_depth_0_cnt = c['comment_count'] if 'comment_count' in c else 0
+            c['web'] = '=HYPERLINK(\"' + 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']]) + '\")'
             _rows.append(c)
 
             if comment_depth_0_cnt > 0:
@@ -2122,6 +2120,7 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                         c1['type'] = ' 답변'
                         c1['title'] = c['title']
                         child_count = c1['child_count'] if 'child_count' in c1 else 0
+                        c1['web'] = 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']])
                         _rows.append(c1)
                         # comment_depth_0.remove(c1)
 
@@ -2130,6 +2129,7 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                                 if c2['parent_id'] == parent_id:
                                     c2['type'] = '  코멘트'
                                     c2['title'] = c['title']
+                                    c2['web'] = 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']])
                                     _rows.append(c2)
                                     # comment_depth_1.remove(c2)
 
@@ -2137,7 +2137,7 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
         rows = list()
         for index, t in enumerate(_rows):
             student = User.objects.select_related('profile').get(id=t['author_id'])
-            rows.append([index + 1, overview.display_name, str(course_id), student.username, student.email, student.profile.name, t['title'], t['type'], t['body'], t['created_at']])
+            rows.append([index + 1, overview.display_name, str(course_id), t['web'], student.username, student.email, student.profile.name, t['title'], t['type'], t['body'], t['created_at'].strftime('%Y/%m/%d %H:%I')])
 
     # add log_action : get_contents_view
 
