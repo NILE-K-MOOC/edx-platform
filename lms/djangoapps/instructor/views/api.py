@@ -18,6 +18,7 @@ import urllib
 
 import re
 import unicodecsv
+from bson.son import SON
 from django.conf import settings
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from django.contrib.auth.models import User
@@ -37,6 +38,7 @@ from django.views.decorators.http import require_POST, require_http_methods
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey, UsageKey
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from pymongo import MongoClient
 from submissions import api as sub_api  # installed from the edx-submissions repository
 
 import instructor.enrollment as enrollment
@@ -71,6 +73,7 @@ from instructor.views import INVOICE_KEY
 from instructor.views.instructor_task_helpers import extract_email_features, extract_task_features
 from instructor_task.api_helper import AlreadyRunningError
 from instructor_task.models import ReportStore
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.course_groups.cohorts import is_course_cohorted
 from openedx.core.djangoapps.log_action import views as admin_view
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
@@ -2016,43 +2019,40 @@ def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
     # has similar functionality but not quite what's needed.
     course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
-    def csv_response(filename, header, rows):
-        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
-        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
-        # In practice, there should not be non-ascii data in this query,
-        # but trying to do the right thing anyway.
-
-        encoded = [unicode(s).encode('utf-8') for s in header]
-        writer.writerow(encoded)
-        for row in rows:
-            encoded = [unicode(s).encode('utf-8') for s in row]
-            writer.writerow(encoded)
-
-        response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
-        return response
-
-    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-    overview = CourseOverview.objects.get(id=course_id)
-
-    from pymongo import MongoClient
     with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
         db = client.cs_comments_service_development
 
         # cursor = db.contents.find({'course_id': str(course_id)})
         cursor = db.contents.aggregate([
-            {'$match': {'course_id': str(course_id)}},
-            {'$group': {'_id': "$author_id", 'count': {'$sum': 1}}},
-            {'$sort': {'count': -1}}
+            {'$match':
+                {
+                    'course_id': 'course-v1:DonggukK+ACE.DGU01+2016_DGU01'
+                }
+            },
+            {'$group':
+                {
+                    '_id': "$author_id",
+                    'count0': {'$sum': 1},
+                    'count1': {'$sum': {'$cond': [{'$eq': ['$_type', 'CommentThread'], '$eq': ['$thread_type', 'discussion']}, 1, 0]}},
+                    'count2': {'$sum': {'$cond': [{'$eq': ['$_type', 'CommentThread'], '$eq': ['$thread_type', 'question']}, 1, 0]}},
+                    'count3': {'$sum': {'$cond': [{'$ne': ['$_type', 'CommentThread']}, 1, 0]}}
+                }
+            },
+            {'$sort':
+                 SON([('count0', -1), ('count1', -1), ('count2', -1), ('count3', -1)])
+             }
         ])
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['강좌명', '강좌 아이디', '영문ID', '이메일', '성명', '게시글 수']
+        header = ['강좌 명', '강좌 아이디', '아이디', '이메일', '성명', '총 글수', '게시글 수', '질문 수', '답글 수']
         rows = list()
+
+        print cursor['result']
+
+        overview = CourseOverview.objects.get(id=course_id)
         for c in cursor['result']:
             student = User.objects.select_related('profile').get(id=c['_id'])
-            rows.append([overview.display_name, str(course_id), student.username, student.email, student.profile.name, c['count']])
+            rows.append([overview.display_name, str(course_id), student.username, student.email, student.profile.name, c['count0'], c['count1'], c['count2'], c['count3']])
 
     # add log_action : get_contents_stat
 
@@ -2078,27 +2078,6 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
     # has similar functionality but not quite what's needed.
     course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
-    def csv_response(filename, header, rows):
-        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
-        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
-        # In practice, there should not be non-ascii data in this query,
-        # but trying to do the right thing anyway.
-
-        encoded = [unicode(s).encode('utf-8') for s in header]
-        writer.writerow(encoded)
-        for row in rows:
-            encoded = [unicode(s).encode('utf-8') for s in row]
-            writer.writerow(encoded)
-
-        response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
-        return response
-
-    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-    overview = CourseOverview.objects.get(id=course_id)
-
-    from pymongo import MongoClient
     with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
         db = client.cs_comments_service_development
 
@@ -2108,9 +2087,10 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
         comment_depth_0 = list()
         comment_depth_1 = list()
 
-        print type(cursor)
-
         for c in cursor:
+            if not isinstance(c, dict):
+                print '--->', c
+
             if c['_type'] == 'CommentThread':
                 comment_threads.append(c)
             elif 'depth' not in c or c['depth'] == 0:
@@ -2125,12 +2105,13 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                 # print 'child_count:', child_count
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['강좌 아이디', '영문ID', '이메일', '성명', '게시글제목', '게시글내용', '등록일자']
-        rows = list()
+        header = ['기본 정렬', '강좌 명', '강좌 아이디', '아이디', '이메일', '성명', '게시글제목', '구분', '게시글내용', '등록일자']
+        _rows = list()
 
         for c in comment_threads:
-            rows.append(c)
+            c['type'] = '본문'
             comment_depth_0_cnt = c['comment_count'] if 'comment_count' in c else 0
+            _rows.append(c)
 
             if comment_depth_0_cnt > 0:
                 comment_id = c['_id']
@@ -2138,23 +2119,25 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                 for c1 in comment_depth_0:
                     if c1['comment_thread_id'] == comment_id:
                         parent_id = c1['_id']
-                        c1['title'] = '  답변'
+                        c1['type'] = ' 답변'
+                        c1['title'] = c['title']
                         child_count = c1['child_count'] if 'child_count' in c1 else 0
-                        rows.append(c1)
+                        _rows.append(c1)
+                        # comment_depth_0.remove(c1)
 
                         if child_count > 0:
                             for c2 in comment_depth_1:
                                 if c2['parent_id'] == parent_id:
-                                    c2['title'] = '    코멘트'
-                                    rows.append(c2)
-                                    comment_depth_1.remove(c2)
+                                    c2['type'] = '  코멘트'
+                                    c2['title'] = c['title']
+                                    _rows.append(c2)
+                                    # comment_depth_1.remove(c2)
 
-                        comment_depth_0.remove(c1)
-
+        overview = CourseOverview.objects.get(id=course_id)
         rows = list()
-        for t in rows:
+        for index, t in enumerate(_rows):
             student = User.objects.select_related('profile').get(id=t['author_id'])
-            rows.append([str(course_id), student.username, student.email, student.profile.name, t['title'], t['body'], t['created_at']])
+            rows.append([index + 1, overview.display_name, str(course_id), student.username, student.email, student.profile.name, t['title'], t['type'], t['body'], t['created_at']])
 
     # add log_action : get_contents_view
 
@@ -2168,6 +2151,24 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
     # )
 
     return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_view.csv', header, rows)
+
+
+def csv_response(filename, header, rows):
+    """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
+    writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+    # In practice, there should not be non-ascii data in this query,
+    # but trying to do the right thing anyway.
+
+    encoded = [unicode(s).encode('utf-8') for s in header]
+    writer.writerow(encoded)
+    for row in rows:
+        encoded = [unicode(s).encode('utf-8') for s in row]
+        writer.writerow(encoded)
+
+    response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
+    return response
 
 
 @require_POST
