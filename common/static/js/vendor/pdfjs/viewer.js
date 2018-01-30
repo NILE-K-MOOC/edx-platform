@@ -974,6 +974,7 @@ var PDFFindBar = (function PDFFindBarClosure() {
 
       this.findField.setAttribute('data-status', status);
       this.findMsg.textContent = findMsg;
+
     },
 
     open: function PDFFindBar_open() {

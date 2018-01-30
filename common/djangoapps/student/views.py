@@ -125,6 +125,8 @@ from django.db import connections
 from django.db.models import Q
 import sys
 from bson import ObjectId
+import operator
+import random
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -1015,39 +1017,65 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
     elif status == 'end':
         enrollments = CourseEnrollment.enrollments_for_user_end(user)
     elif status == 'interest':
-        # enrollments = CourseEnrollment.enrollments_for_user_ing(user)
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     elif status == 'propose':
-        # enrollments = CourseEnrollment.enrollments_for_user_ing(user)
-        enrollments = CourseEnrollment.enrollments_for_user_propose(user)
+        enrollment_rows = CourseEnrollment.enrollments_for_user_propose_score_pick(user)
+
+        # init list
+        where_display_number = []  # 운영기본번호 dict.
+        where_org = []  # org 코드
+        propose_course_list = []
+
+        for enrollment_row in enrollment_rows:
+            print enrollment_row
+
+            # I'll get middle_classfy data from mongodb
+            where_display_number.append(enrollment_row[3])  # 운영기본번호
+            where_org.append(enrollment_row[4])  # org 코드
+            propose_course_list.append(enrollment_row[0])   # 강좌아이디
+
+        n = 0
+        for i in propose_course_list:
+            if n == 0:
+                course_ids = '\'' + i + '\''
+            else:
+                course_ids = course_ids + ',\'' + i + '\''
+            n = n + 1
+
+        enrollments = CourseEnrollment.enrollments_for_user_propose(course_ids)
+
     else:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
 
-    for enrollment in enrollments:
-        enrollment.is_enrolled = CourseEnrollment.is_enrolled(user, enrollment.course_id)
-        # If the course is missing or broken, log an error and skip it.
-        course_overview = enrollment.course_overview
-        if not course_overview:
-            log.error(
-                "User %s enrolled in broken or non-existent course %s",
-                user.username,
-                enrollment.course_id
-            )
-            continue
-        else:
-            pass
-
-        # Filter out anything that is not attributed to the current ORG.
-        if org_to_include and course_overview.location.org != org_to_include:
-            continue
-
-        # Conversely, filter out any enrollments with courses attributed to current ORG.
-        elif course_overview.location.org in orgs_to_exclude:
-            continue
-
-        # Else, include the enrollment.
-        else:
+    if status == 'propose':
+        for enrollment in enrollments:
             yield enrollment
+    else:
+        for enrollment in enrollments:
+            enrollment.is_enrolled = CourseEnrollment.is_enrolled(user, enrollment.course_id)
+            # If the course is missing or broken, log an error and skip it.
+            course_overview = enrollment.course_overview
+            if not course_overview:
+                log.error(
+                    "User %s enrolled in broken or non-existent course %s",
+                    user.username,
+                    enrollment.course_id
+                )
+                continue
+            else:
+                pass
+
+            # Filter out anything that is not attributed to the current ORG.
+            if org_to_include and course_overview.location.org != org_to_include:
+                continue
+
+            # Conversely, filter out any enrollments with courses attributed to current ORG.
+            elif course_overview.location.org in orgs_to_exclude:
+                continue
+
+            # Else, include the enrollment.
+            else:
+                yield enrollment
 
 
 def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disable=unused-argument
@@ -1469,7 +1497,7 @@ def dashboard(request):
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     if request.is_ajax():
         status = request.POST.get('status')
-        print 'status:', status
+        # print 'status:', status
 
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
     else:
@@ -1580,8 +1608,9 @@ def dashboard(request):
 
     # sort the enrollment pairs by the enrollment date
     # course_enrollments.sort(key=lambda x: x.created, reverse=True)
-    print 'cert_statuses:'
-    print cert_statuses
+
+    #print 'cert_statuses:'
+    #print cert_statuses
 
     course_type1 = []
     course_type2 = []
@@ -1625,21 +1654,21 @@ def dashboard(request):
     # course_type3.sort(key=lambda x: x.created, reverse=True)
     # course_type4.sort(key=lambda x: x.created, reverse=True)
 
-    print 'course 1:'
-    print course_type1
-    print 'course 2:'
-    print course_type2
-    print 'course 3:'
-    print course_type3
-    print 'course 4:'
-    print course_type4
+    #print 'course 1:'
+    #print course_type1
+    #print 'course 2:'
+    #print course_type2
+    #print 'course 3:'
+    #print course_type3
+    #print 'course 4:'
+    #print course_type4
 
     course_enrollments = course_type1 + course_type2 + course_type3 + course_type4
 
-    print 'check step 1 s'
-    for c in course_enrollments:
-        print c.course.id, c.course.display_name
-    print 'check step 1 e'
+    #print 'check step 1 s'
+    #for c in course_enrollments:
+    #    print c.course.id, c.course.display_name
+    #print 'check step 1 e'
 
     show_email_settings_for = frozenset(
         enrollment.course_id for enrollment in course_enrollments if (
@@ -1753,9 +1782,9 @@ def dashboard(request):
     #     final_list.append(list(final_day[0]))
     #     cur.close()
 
-    print ('final_list =====================')
-    print type(final_list)
-    print (final_list)
+    #print ('final_list =====================')
+    #print type(final_list)
+    #print (final_list)
 
     status = request.POST.get('status')
     context = {
