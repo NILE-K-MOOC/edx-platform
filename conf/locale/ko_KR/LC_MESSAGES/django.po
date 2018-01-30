@@ -9995,7 +9995,7 @@ msgstr "강좌 종료일"
 
 #: cms/templates/settings.html lms/templates/courseware/course_about.html
 msgid "Requirements"
-msgstr "학습 시간 및 선수 강좌"
+msgstr "강좌 학습 시간"
 
 #: cms/templates/studio_xblock_wrapper.html lms/templates/help_modal.html
 #: lms/templates/module-error.html
@@ -20027,7 +20027,7 @@ msgstr "강사 추가"
 
 #: cms/templates/settings.html
 msgid "Expectations of the students taking this course"
-msgstr "효과적인 학습을 위해 학습 시간 및 선수 강좌를 입력합니다."
+msgstr "효과적인 학습을 위해 학습 시간 입력합니다."
 
 #: cms/templates/settings.html
 msgid "Hours of Effort per Week"
@@ -28414,6 +28414,12 @@ msgstr "개강일"
 
 msgid "univ_name"
 msgstr "대학명"
+
+msgid "Previous Courses"
+msgstr "이전 강좌"
+
+msgid "Current Course"
+msgstr "현재 강좌"
 
 #: river
 msgid "All"

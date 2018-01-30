@@ -1461,6 +1461,18 @@ def course_about(request, course_id):
             cur.close()
             flag = flag_index[0][0]
 
+        cur = con.cursor()
+        query = """
+            SELECT display_name, id
+              FROM course_overviews_courseoverview
+             WHERE org = '{0}' AND display_number_with_default = '{1}' AND id NOT IN ('{2}')
+             ORDER BY start DESC;
+        """.format(course_org, course_number, overview)
+        cur.execute(query)
+        pre_course_index = cur.fetchall()
+        cur.close()
+        pre_course = pre_course_index
+
         context = {
             'course': course,
             'course_details': course_details,
@@ -1507,6 +1519,7 @@ def course_about(request, course_id):
             'course_total' : course_total,
             'login_status' : login_status,
             'flag' : flag,
+            'pre_course':pre_course,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

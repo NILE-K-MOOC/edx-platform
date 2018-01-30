@@ -204,8 +204,26 @@ def _course_notifications_json_get(course_action_state_id):
 
 
 def level_Verifi(request):
-    data = json.dumps({'status': "success"})
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    cur = con.cursor()
+    level_1 = request.GET.get('level_1')
+    level_2 = request.GET.get('level_2')
 
+    query = """
+        SELECT count(*)
+          FROM course_overviews_courseoverview
+         WHERE org = '{0}' AND display_number_with_default = '{1}';
+    """.format(level_1, level_2)
+    cur.execute(query)
+    check_index = cur.fetchall()
+    cur.close()
+
+    data = json.dumps(check_index[0][0])
     return HttpResponse(data, 'applications/json')
 
 
@@ -776,6 +794,8 @@ def _create_or_rerun_course(request):
         fields['classfy'] = classfy
         middle_classfy = request.json.get('middle_classfy')
         fields['middle_classfy'] = middle_classfy
+        difficult_degree = request.json.get('difficult_degree')
+        fields['difficult_degree'] = difficult_degree
         linguistics = request.json.get('linguistics')
         fields['linguistics'] = linguistics
         course_period = request.json.get('course_period')

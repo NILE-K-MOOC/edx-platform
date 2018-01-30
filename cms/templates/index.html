@@ -225,7 +225,7 @@ if (
                   <label for="new-course-org">${_("Organization")}</label>
                   ## Translators: This is an example for the name of the organization sponsoring a course, seen when filling out the form to create a new course. The organization name cannot contain spaces.
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
-                  <input onchange="Test1();" onkeyup="this.onchange();" class="new-course-org" id="new-course-org" type="text" name="new-course-org" required placeholder="${_('e.g. UniversityX or OrganizationX')}" aria-describedby="tip-new-course-org tip-error-new-course-org" />
+                  <input onchange="check_2levl();" onkeyup="this.onchange();" class="new-course-org" id="new-course-org" type="text" name="new-course-org" required placeholder="${_('e.g. UniversityX or OrganizationX')}" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                   <span class="tip" id="tip-new-course-org">${Text(_("The name of the organization sponsoring the course.{br} {strong_start}Note: The organization name is part of the course URL.{strong_end} This cannot be changed, but you can set a different display name in Advanced Settings later.")).format(
                       br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
@@ -239,7 +239,7 @@ if (
                   ## Translators: This is an example for the number used to identify a course,
                   ## seen when filling out the form to create a new course. The number here is
                   ## short for "Computer Science 101". It can contain letters but cannot contain spaces.
-                  <input onchange="Test2();" onkeyup="this.onchange();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
+                  <input onchange="check_2levl();" onkeyup="this.onchange();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
                   <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
                       br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
@@ -319,9 +319,7 @@ if (
         </form>
       </div>
       <script type="text/javascript">
-          function Test1() {
-              console.log($('#new-course-org').val());
-              console.log($('#new-course-number').val());
+          function check_2levl() {
               $.ajax({
                     url: '/level_Verifi/',
                     data: {
@@ -329,14 +327,18 @@ if (
                         level_2: $('#new-course-number').val()
                 }
                 }).done(function (data) {
-                    console.log('Test!!');
-                    console.log(data);
+                    if(data != '0') {
+                        console.log('입력불가능함!');
+                        $('#new-course-org').parent().attr("class","field text required error");
+                        $('#new-course-number').parent().attr("class","field text required error");
+                        $('#tip-error-new-course-org').text('기관번호+강좌번호 중복입니다.');
+                        $('#tip-error-new-course-number').text('기관번호+강좌번호 중복입니다.');
+                    }
+                    else {
+                        $('#new-course-org').parent().attr("class","field text required");
+                        $('#new-course-number').parent().attr("class","field text required");
+                    }
                 });
-          }
-
-          function Test2() {
-              console.log($('#new-course-org').val());
-              console.log($('#new-course-number').val());
           }
 
           var bcate = [

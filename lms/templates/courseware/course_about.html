@@ -642,8 +642,22 @@ box-sizing: border-box;
                 </span>
             </li>
             <!-- review -->
+            <li class="important-dates-item">
+            <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Previous Courses")}</p>
+            <select id="pre_course" style="float: right">
+                <option value="${course.id}">${_("Current Course")}</option>
+                % for course_index in pre_course:
+                    <option value="${course_index[1]}">${course_index[0]}</option>
+                % endfor
+            </select>
+            </li>
         </ol>
     </div>
+        <script>
+            $( "#pre_course" ).change(function() {
+                location.href ='/courses/'+$( "#pre_course").val()+'/about';
+            });
+        </script>
 
       ## CourseTalk widget
       % if show_coursetalk_widget:
