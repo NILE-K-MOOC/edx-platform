@@ -23,7 +23,7 @@
         <% if (id === 'gender' && nice_check === 'yes') { %>
             <% var user_gender = $('#user_gender').text() %>
 
-            <select disabled name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>" style="border: solid 1px red">
+            <select disabled name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>" style="background-color: #eee;">
             <% if (showBlankOption) { %>
                 <option value=""></option>
             <% } %>
@@ -35,7 +35,7 @@
         <% } else if (id === 'year_of_birth' && nice_check === 'yes') { %>
             <% var user_birthday = $('#user_birthday').text() %>
 
-            <select disabled name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>" style="border: solid 1px red">
+            <select disabled name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>" style="background-color: #eee;">
             <% if (showBlankOption) { %>
                 <option value=""></option>
             <% } %>
