@@ -1,0 +1,12 @@
+<h2 class="sr" id="header-subtitle-<%- tabName %>">
+    <%- tabLabel %>
+</h2>
+<% _.each(sections, function(section) { %>
+    <div class="section">
+        <!--
+        <h3 class="section-header"><%- gettext(section.title) %></h3>
+        <div class="account-settings-section-body <%- tabName %>-section-body">
+        </div>
+        -->
+    </div>
+<% }); %>

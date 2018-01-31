@@ -3,6 +3,7 @@
 import logging
 import json
 import urlparse
+import urllib
 from datetime import datetime
 
 from django.conf import settings
@@ -53,6 +54,90 @@ AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
 User = get_user_model()  # pylint:disable=invalid-name
 
+#########################################################
+@require_http_methods(['GET'])
+@ensure_csrf_cookie
+@xframe_allow_whitelisted
+def newlogin_and_registration_form(request, initial_mode="login"):
+    log.info("################### NEW")
+
+    # Determine the URL to redirect to following login/registration/third_party_auth
+    redirect_to = get_next_url_for_login_page(request)
+    # If we're already logged in, redirect to the dashboard
+    if request.user.is_authenticated():
+        log.info("return redirect(redirect_to)")
+        log.info(redirect_to)
+        return redirect(redirect_to)
+
+    # Retrieve the form descriptions from the user API
+    form_descriptions = _get_form_descriptions(request)
+
+    # Our ?next= URL may itself contain a parameter 'tpa_hint=x' that we need to check.
+    # If present, we display a login page focused on third-party auth with that provider.
+    third_party_auth_hint = None
+    if '?' in redirect_to:
+        try:
+            next_args = urlparse.parse_qs(urlparse.urlparse(redirect_to).query)
+            provider_id = next_args['tpa_hint'][0]
+            if third_party_auth.provider.Registry.get(provider_id=provider_id):
+                third_party_auth_hint = provider_id
+                initial_mode = "hinted_login"
+        except (KeyError, ValueError, IndexError):
+            pass
+
+    set_enterprise_branding_filter_param(request=request, provider_id=third_party_auth_hint)
+
+    # If this is a themed site, revert to the old login/registration pages.
+    # We need to do this for now to support existing themes.
+    # Themed sites can use the new logistration page by setting
+    # 'ENABLE_COMBINED_LOGIN_REGISTRATION' in their
+    # configuration settings.
+    if is_request_in_themed_site() and not configuration_helpers.get_value('ENABLE_COMBINED_LOGIN_REGISTRATION', False):
+        if initial_mode == "login":
+            log.info("return old_login_view(request)")
+            return old_login_view(request)
+        elif initial_mode == "register":
+            log.info("return old_register_view(request)")
+            return old_register_view(request)
+
+    # Allow external auth to intercept and handle the request
+    ext_auth_response = _external_auth_intercept(request, initial_mode)
+
+    ############################################
+    #if ext_auth_response is not None:
+    #    log.info("return ext_auth_response")
+    #    return ext_auth_response
+    ############################################
+
+    # Otherwise, render the combined login/registration page
+    context = {
+        'data': {
+            'login_redirect_url': redirect_to,
+            'initial_mode': initial_mode,
+            'third_party_auth': _third_party_auth_context(request, redirect_to),
+            'third_party_auth_hint': third_party_auth_hint or '',
+            'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),
+            'support_link': configuration_helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK),
+
+            # Include form descriptions retrieved from the user API.
+            # We could have the JS client make these requests directly,
+            # but we include them in the initial page load to avoid
+            # the additional round-trip to the server.
+            'login_form_desc': json.loads(form_descriptions['login']),
+            'registration_form_desc': json.loads(form_descriptions['registration']),
+            'password_reset_form_desc': json.loads(form_descriptions['password_reset']),
+        },
+        'login_redirect_url': redirect_to,  # This gets added to the query string of the "Sign In" button in header
+        'responsive': True,
+        'allow_iframing': True,
+        'disable_courseware_js': True,
+        'disable_footer': not configuration_helpers.get_value(
+            'ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER',
+            settings.FEATURES['ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER']
+        ),
+    }
+    return render_to_response('student_account/login_and_register.html', context)
+#########################################################
 
 @require_http_methods(['GET'])
 @ensure_csrf_cookie
@@ -103,6 +188,60 @@ def login_and_registration_form(request, initial_mode="login"):
             return old_register_view(request)
 
     # Allow external auth to intercept and handle the request
+
+    #================ LGE SSO CHECK ================#
+    use_lgesso = request.COOKIES.get('LNETID')
+    log.info("####### cookie check")
+    log.info(use_lgesso)
+
+    """
+    #1
+    url_string1 = "http://10.185.219.196:8180/api/auth/limelogin.do?key=3q5e7a8d9f4q5as65f4g7&jjsessionid=" + str(use_lgesso)
+    html = urllib.urlopen(url_string1)
+    json_data = html.read()
+    try:
+        data = json.loads(json_data)
+        code_data = data['result']
+        code1 = code_data['code']
+        log.info("####### code1")
+        log.info(code1)
+    except BaseException:
+        log.info("####### code1 exception")
+        code1 = 'error'
+
+    #2
+    url_string2 = "http://10.185.219.29:8180/api/auth/limelogin.do?key=3q5e7a8d9f4q5as65f4g7&jjsessionid=" + str(use_lgesso)
+    html = urllib.urlopen(url_string2)
+    json_data = html.read()
+    try:
+        data = json.loads(json_data)
+        code_data = data['result']
+        code2 = code_data['code']
+        log.info("####### code2")
+        log.info(code2)
+    except BaseException:
+        log.info("####### code2 exception")
+        code2 = 'error'
+    """
+
+    ext_auth_response = _external_auth_intercept(request, initial_mode)
+    ext_auth_response = str(ext_auth_response)
+    index = ext_auth_response.find('?')
+    ext_next = ext_auth_response[index:]
+    re_url = 'http://edxlmsdev.lge.com/newlogin'
+    full_url = re_url + ext_next
+    log.info("*****************")
+    log.info(full_url)
+
+    # tmp
+    code1 = 'error'
+    code2 = 'error'
+
+    if code1 == 'error' and code2 == 'error' :
+        log.info("redirect(full_url)")
+        return redirect(full_url)
+    #================ LGE SSO CHECK ================#
+
     ext_auth_response = _external_auth_intercept(request, initial_mode)
     if ext_auth_response is not None:
         return ext_auth_response

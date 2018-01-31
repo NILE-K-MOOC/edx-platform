@@ -1913,6 +1913,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'djcelery',
+#    'login_test',
 
     # Common views
     'openedx.core.djangoapps.common_views',
@@ -3042,3 +3043,21 @@ DOC_LINK_BASE_URL = None
 ############## Settings for the Enterprise App ######################
 
 ENTERPRISE_ENROLLMENT_API_URL = LMS_ROOT_URL + "/api/enrollment/v1/"
+
+############################ ORA 2 ############################################
+
+ORA2_FILEUPLOAD_BACKEND = "filesystem"
+#your prefered cache system
+
+ORA2_FILEUPLOAD_CACHE_NAME="default"
+#where you want to upload ora2 files
+
+ORA2_FILEUPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'ora-upload/')
+
+# By default, don't use a file prefix
+ORA2_FILE_PREFIX = None
+
+# Default File Upload Storage bucket and prefix. Used by the FileUpload Service.
+FILE_UPLOAD_STORAGE_BUCKET_NAME = 'edxuploads'
+FILE_UPLOAD_STORAGE_PREFIX = 'submissions_attachments'
+

@@ -297,6 +297,9 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
                 yt_api_key = xblock_settings['YOUTUBE_API_KEY']
 
         metadata = {
+            'hasScore' : self.has_score,
+            'seekEnable' : self.seek_enable,
+
             'saveStateUrl': self.system.ajax_url + '/save_user_state',
             'autoplay': settings.FEATURES.get('AUTOPLAY_VIDEOS', False),
             'streams': self.youtube_streams,
@@ -420,7 +423,6 @@ class VideoDescriptor(VideoFields, VideoTranscriptsMixin, VideoStudioViewHandler
                 self.source_visible = True
                 if not self.fields['download_video'].is_set_on(self):
                     self.download_video = True
-
         # Force download_video field to default value if it's not explicitly set for backward compatibility.
         if not self.fields['download_video'].is_set_on(self):
             self.download_video = self.download_video

@@ -972,7 +972,8 @@ def settings_handler(request, course_key_string):
     credit_eligibility_enabled = settings.FEATURES.get('ENABLE_CREDIT_ELIGIBILITY', False)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
-        if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        #if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+        if 'application/json' not in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             upload_asset_url = reverse_course_url('assets_handler', course_key)
 
             # see if the ORG of this course can be attributed to a defined configuration . In that case, the

@@ -160,6 +160,27 @@ def xblock_handler(request, usage_key_string):
             _delete_item(usage_key, request.user)
             return JsonResponse()
         else:  # Since we have a usage_key, we are updating an existing xblock.
+            """
+            import re
+            update_data = request.json.get('data')#script
+            if type(update_data) is unicode :
+                update_data = re.sub("<[s|S][c|C][r|R][i|I][p|P][t|T]>", "", update_data)
+                update_data = re.sub("</[s|S][c|C][r|R][i|I][p|P][t|T]>", "", update_data)
+                return _save_xblock(
+                    request.user,
+                    _get_xblock(usage_key, request.user),
+                    data=update_data,
+                    children_strings=request.json.get('children'),
+                    metadata=request.json.get('metadata'),
+                    nullout=request.json.get('nullout'),
+                    grader_type=request.json.get('graderType'),
+                    is_prereq=request.json.get('isPrereq'),
+                    prereq_usage_key=request.json.get('prereqUsageKey'),
+                    prereq_min_score=request.json.get('prereqMinScore'),
+                    publish=request.json.get('publish'),
+                    fields=request.json.get('fields'),
+                )
+            """
             return _save_xblock(
                 request.user,
                 _get_xblock(usage_key, request.user),

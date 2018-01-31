@@ -88,6 +88,5 @@
     <% } %>
 
     <% if( form === 'login' && name === 'password' ) { %>
-        <button type="button" class="forgot-password field-link"><%- gettext("Forgot password?") %></button>
     <% } %>
 </div>

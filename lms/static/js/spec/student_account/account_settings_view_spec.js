@@ -36,7 +36,7 @@ define(['backbone',
                                 })
                             }
                         ]
-                    },
+                    }
                     {
                         title: 'Additional Information',
                         fields: [

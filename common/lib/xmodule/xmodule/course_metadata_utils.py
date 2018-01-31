@@ -14,6 +14,8 @@ from pytz import utc
 
 DEFAULT_START_DATE = datetime(2030, 1, 1, tzinfo=utc)
 
+import logging
+log = logging.getLogger(__name__)
 
 def clean_course_key(course_key, padding_char):
     """

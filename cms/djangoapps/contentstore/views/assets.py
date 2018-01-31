@@ -274,8 +274,43 @@ def _upload_asset(request, course_key):
     if thumbnail_content is not None:
         content.thumbnail_location = thumbnail_location
 
-    # then commit the content
-    contentstore().save(content)
+    # FILE UPLOAD VUL
+    fileindex = (upload_file.name).rfind(".")
+    fileend = (upload_file.name)[fileindex+1:]
+    locking = 0
+    if (fileend == u'jsp'):
+        locking += 1
+    if (fileend == u'jspx'):
+        locking += 1
+    if (fileend == u'use'):
+        locking += 1
+    if (fileend == u'usb'):
+        locking += 1
+    if (fileend == u'jspf'):
+        locking += 1
+    if (fileend == u'war'):
+        locking += 1
+    if (fileend == u'car'):
+        locking += 1
+    if (fileend == u'html'):
+        locking += 1
+    if (fileend == u'exe'):
+        locking += 1
+    if (fileend == u'php'):
+        locking += 1
+    if (fileend == u'asp'):
+        locking += 1
+    if (fileend == u'bat'):
+        locking += 1
+    if (fileend == u'py'):
+        locking += 1
+
+    if locking == 0 :
+        contentstore().save(content)
+    if locking == 1 :
+        return JsonResponse("fail")
+    # FILE UPLOAD VUL
+
     del_cached_content(content.location)
 
     # readback the saved content - we need the database timestamp

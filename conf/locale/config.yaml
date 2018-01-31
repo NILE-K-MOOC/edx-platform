@@ -33,11 +33,11 @@ locales:
     # - fa_IR  # Persian (Iran)
     # - fi_FI  # Finnish (Finland)
     # - fil  # Filipino
-    - fr  # French
+    #- fr  # French
     # - gl  # Galician
     # - gu  # Gujarati
-    - he  # Hebrew
-    - hi  # Hindi
+    #- he  # Hebrew
+    #- hi  # Hindi
     # - hr  # Croatian
     # - hu  # Hungarian
     # - hy_AM  # Armenian (Armenia)
@@ -58,8 +58,8 @@ locales:
     # - nl_NL  # Dutch (Netherlands)
     # - or  # Oriya
     # - pl  # Polish
-    - pt_BR  # Portuguese (Brazil)
-    # - pt_PT  # Portuguese (Portugal)
+    #- pt_BR  # Portuguese (Brazil)
+    - pt_PT  # Portuguese (Portugal)
     # - ro  # Romanian
     - ru  # Russian
     # - si  # Sinhala

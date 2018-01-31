@@ -7,11 +7,8 @@ from xmodule.assetstore.assetmgr import AssetManager
 from xmodule.contentstore.content import StaticContent
 from xmodule.contentstore.django import contentstore
 
-
+"""
 def course_image_url(course, image_key='course_image'):
-    """Try to look up the image url for the course.  If it's not found,
-    log an error and return the dead link.
-    image_key can be one of the three: 'course_image', 'hero_image', 'thumbnail_image' """
     if course.static_asset_path:
         # If we are a static course with the image_key attribute
         # set different than the default, return that path so that
@@ -30,7 +27,23 @@ def course_image_url(course, image_key='course_image'):
         url = StaticContent.serialize_asset_key_with_slash(loc)
 
     return url
+"""
 
+#################################################################################
+
+# video_thumbnail_image / course_image / banner_image
+def course_image_url(course, image_key='course_image'):
+    if course.static_asset_path:
+        url = '/static/' + (course.static_asset_path or getattr(course, 'data_dir', ''))
+        if hasattr(course, image_key) and getattr(course, image_key) != course.fields[image_key].default:
+            url += '/' + getattr(course, image_key)
+        else:
+            url += '/images/' + image_key + '.jpg'
+    else:
+        url = course.course_image
+    return url
+
+#################################################################################
 
 def create_course_image_thumbnail(course, dimensions):
     """Create a course image thumbnail and return the URL.

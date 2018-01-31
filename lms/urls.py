@@ -19,6 +19,8 @@ from django_comment_common.models import ForumsConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from util.enterprise_helpers import enterprise_enabled
 
+from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
+
 # Uncomment the next two lines to enable the admin:
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     admin.autodiscover()
@@ -26,6 +28,10 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 # Use urlpatterns formatted as within the Django docs with first parameter "stuck" to the open parenthesis
 urlpatterns = (
     '',
+
+    #url(r'^login_test/', 'login_test.views.login_test', name='login_test'),
+    #url(r'^login_check/', 'login_test.views.login_check', name='login_check'),
+    #url(r'^login_process/', 'login_test.views.login_process', name='login_process'),
 
     url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
 
@@ -67,6 +73,7 @@ urlpatterns = (
 
     # Course API
     url(r'^api/courses/', include('course_api.urls')),
+    url(r'^edxapi/', include('edxapi.urls')),
 
     # User API endpoints
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),
@@ -103,6 +110,10 @@ urlpatterns = (
 
     # URLs for API access management
     url(r'^api-admin/', include('openedx.core.djangoapps.api_admin.urls', namespace='api_admin')),
+
+    url(r'^login_test/', 'login_test.views.login_test', name='login_test'),
+    url(r'^login_check/', 'login_test.views.login_check', name='login_check'),
+    url(r'^login_process/', 'login_test.views.login_process', name='login_process'),
 )
 
 urlpatterns += (
@@ -119,6 +130,14 @@ if settings.FEATURES["ENABLE_COMBINED_LOGIN_REGISTRATION"]:
         url(r'^register$', 'student_account.views.login_and_registration_form',
             {'initial_mode': 'register'}, name="register_user"),
     )
+    ################ 0609
+    urlpatterns += (
+        url(r'^newlogin$', 'student_account.views.newlogin_and_registration_form',
+            {'initial_mode': 'login'}, name="signin_user"),
+        url(r'^newregister$', 'student_account.views.newlogin_and_registration_form',
+            {'initial_mode': 'register'}, name="register_user"),
+    )
+    ################ 0609
 else:
     # Serve the old views
     urlpatterns += (
@@ -964,3 +983,5 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
             name='submit_financial_assistance_request'
         )
     )
+
+urlpatterns+= oraurlpatterns

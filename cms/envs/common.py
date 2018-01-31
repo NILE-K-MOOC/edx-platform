@@ -240,6 +240,7 @@ OPENEDX_ROOT = REPO_ROOT / "openedx"
 CMS_ROOT = REPO_ROOT / "cms"
 LMS_ROOT = REPO_ROOT / "lms"
 ENV_ROOT = REPO_ROOT.dirname()  # virtualenv dir /edx-platform is in
+MEDIA_ROOT = "/edx/var/edxapp/media"
 
 GITHUB_REPO_ROOT = ENV_ROOT / "data"
 
@@ -493,7 +494,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 # Site info
 SITE_NAME = "localhost:8001"
-HTTPS = 'on'
+HTTPS = 'off'
 ROOT_URLCONF = 'cms.urls'
 
 # Email
@@ -959,6 +960,9 @@ INSTALLED_APPS = (
 
     # Unusual migrations
     'database_fixups',
+
+    # REST FRAME WORK
+    'rest_framework',
 )
 
 
@@ -1242,3 +1246,21 @@ RETRY_ACTIVATION_EMAIL_TIMEOUT = 0.5
 
 # How long until database records about the outcome of a task and its artifacts get deleted?
 USER_TASKS_MAX_AGE = timedelta(days=7)
+
+############################ ORA 2 ############################################
+
+ORA2_FILEUPLOAD_BACKEND = "filesystem"
+#your prefered cache system
+
+ORA2_FILEUPLOAD_CACHE_NAME="default"
+#where you want to upload ora2 files
+
+ORA2_FILEUPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'ora-upload/')
+
+# By default, don't use a file prefix
+ORA2_FILE_PREFIX = None
+
+# Default File Upload Storage bucket and prefix. Used by the FileUpload Service.
+FILE_UPLOAD_STORAGE_BUCKET_NAME = 'edxuploads'
+FILE_UPLOAD_STORAGE_PREFIX = 'submissions_attachments'
+
