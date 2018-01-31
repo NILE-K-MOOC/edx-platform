@@ -794,8 +794,6 @@ def _create_or_rerun_course(request):
         fields['classfy'] = classfy
         middle_classfy = request.json.get('middle_classfy')
         fields['middle_classfy'] = middle_classfy
-        difficult_degree = request.json.get('difficult_degree')
-        fields['difficult_degree'] = difficult_degree
         linguistics = request.json.get('linguistics')
         fields['linguistics'] = linguistics
         course_period = request.json.get('course_period')
@@ -1175,6 +1173,7 @@ def settings_handler(request, course_key_string):
             else :
                 modi_over = False
 
+            difficult_degree_list = course_difficult_degree(request, course_key_string)
 
             settings_context = {
                 'context_course': course_module,
@@ -1199,7 +1198,8 @@ def settings_handler(request, course_key_string):
                 'self_paced_enabled': self_paced_enabled,
                 'enable_extended_course_details': enable_extended_course_details,
                 'course_info_text':course_info_text,
-                'modi_over':modi_over
+                'modi_over':modi_over,
+                'difficult_degree_list':difficult_degree_list
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
@@ -1407,6 +1407,25 @@ def _refresh_course_tabs(request, course_module):
     if course_tabs != course_module.tabs:
         course_module.tabs = course_tabs
 
+def course_difficult_degree(request, course_key_string):
+	    difficult_degree = None
+	    from django.db import connections
+	    with connections['default'].cursor() as cur:
+	        query = '''
+	          SELECT
+	                detail_code, detail_name, detail_ename
+	            FROM code_detail
+	           WHERE group_code = '007'
+	           AND   use_yn = 'Y'
+	           AND   delete_yn = 'N'
+	           ORDER BY detail_code asc
+	        '''
+	        cur.execute(query)
+	        rows = cur.fetchall()
+	        difficult_degree = {}
+	        difficult_degree['degree_list'] = rows
+	        cur.close()
+	    return difficult_degree
 
 @login_required
 @ensure_csrf_cookie

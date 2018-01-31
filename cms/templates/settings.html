@@ -528,12 +528,12 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             </select>
                             <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
                         </li>
-                        <li class="field" id="field-course-language">
+                        <li class="field" id="field-course-language selectdiv">
                             <label for="동">강좌레벨(학습단계 선택)</label>
                             <select class="select difficult-degree" id="selectfixid">
-                                <option value="">강좌 레벨</option>
+                                <option value="">강좌레벨</option>
                             </select>
-                            <span class="tip tip-stacked">강좌난이도를 선택하세요.</span>
+                            <span class="tip tip-stacked">강좌레벨을 선택하세요.</span>
                         </li>
                         <li class="field" id="field-course-language">
                             <label for="course-language">교수자명</label>
@@ -547,7 +547,72 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     </ol>
                 </div>
                 % endif
+                % for dgree in difficult_degree_list:
+                    <%
+                    for key, val in difficult_degree_list.items():
+                        print val, key
+                        print val[0]
+                        print val[1]
+                        print val[2]
 
+                        print val[0][0]
+                        print val[0][1]
+
+                        print val[1][0]
+                        print val[1][1]
+
+                        print val[2][0]
+                        print val[2][1]
+
+                        pstr = """var degree = {'category':[{'code':'""" + val[0][0] + """', 'gettext': '""" + val[0][1] + """'}, """
+                        pstr += """{'code':'""" + val[1][0] + """', 'gettext': '""" + val[1][1] + """'}, """
+                        pstr += """{'code':'""" + val[2][0] + """', 'gettext': '""" + val[2][1] + """'},]};"""
+                    %>
+
+                <script type="text/javascript">
+                    ${ pstr | n, trim }
+
+                    var degree_js = function(){
+                        var key = 0;
+                        var difficult_degree_id = document.getElementById("selectfixid");
+                        removeOptions(difficult_degree_id);
+                        input_difficult_degree(difficult_degree_id, 'category');
+                        var idx = $("#txtfixid").val();
+                        if (idx == '"1"') {
+                            $("#selectfixid").val("1");
+                        } else if (idx == '"2"') {
+                            $("#selectfixid").val("2");
+                        } else if (idx == '"3"') {
+                            $("#selectfixid").val("3");
+                        } else {
+                            $("#selectfixid").val("null");
+                        }
+                    }
+                    var input_difficult_degree = function(selectbox,p_info){
+                        //console.log("run settings_advanced.html javascript calling input_difficult_degree");
+                        var option = document.createElement("option");
+                        option.text = "강좌레벨";
+                        option.value = null;
+                        selectbox.appendChild(option);
+                        for(key in degree[p_info]){
+                            var row = degree[p_info][key];
+                            var option = document.createElement("option");
+                            option.text = row.gettext;
+                            option.value = row.code;
+                            selectbox.appendChild(option);
+                        }
+                    }
+                    var removeOptions = function(selectbox){
+                    //console.log("run settings_advanced.html javascript calling removeOptions");
+                        var i;
+                        for(i=selectbox.options.length-1;i>=0;i--){
+                            selectbox.remove(i);
+                        }
+                    }
+
+
+                </script>
+                % endfor
                 % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
                 <hr class="divide"/>
 

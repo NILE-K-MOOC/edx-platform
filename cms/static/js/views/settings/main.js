@@ -36,7 +36,22 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'change #course-video-mm': "setEffort",
                 'change #course-effort-week': "setEffort",
                 'click #save_input': "modi_overview",
-                'change #teacher_name': "modi_teacher_name"
+                'change #teacher_name': "modi_teacher_name",
+                'change #selectfixid': "modi_course_level",
+            },
+            modi_course_level: function (e){
+                this.model.set('course_level', $('#selectfixid').val());
+                var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
+                var addinfo_user_id = $('#addinfo_user_id').text();
+                var course_level =$('#selectfixid').val();
+
+                $.post("/modi_course_level", {
+                    csrfmiddlewaretoken: $.cookie('csrftoken'),
+                    addinfo_course_id: addinfo_course_id,
+                    addinfo_user_id: addinfo_user_id,
+                    course_level: course_level,
+                    method : 'addinfo',
+                });
             },
             modi_teacher_name: function (e) {
 
@@ -138,7 +153,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                         var activeTab = $(this).attr("rel");
                         $("#" + activeTab).fadeIn()
                     });
-
+                    degree_js();
                     $("ul.info_tabs li").click(function () {
 
                         if ($(this).text() == '교수자') {
@@ -310,6 +325,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
 
 
                 this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
+                this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
                 this.codeMirrorize(null, $('#course-overview')[0]);
                 this.$el.find('#' + this.fieldToSelectorMap['input']).css("z-index", "99");
 
@@ -532,6 +548,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'enrollment_start': 'enrollment-start',
                 'enrollment_end': 'enrollment-end',
                 'overview': 'course-overview',
+                'course_level':'selectfixid',
                 'title': 'course-title',
                 'subtitle': 'course-subtitle',
                 'duration': 'course-duration',

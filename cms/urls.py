@@ -66,6 +66,7 @@ urlpatterns += patterns(
 
     url(r'^create_account$', 'student.views.create_account', name='create_account'),
     url(r'^modi_teacher_name', 'student.views.modi_teacher_name', name='modi_teacher_name'),
+    url(r'^modi_course_level', 'student.views.modi_course_level', name='modi_course_level'),
     url(r'^activate/(?P<key>[^/]*)$', 'student.views.activate_account', name='activate'),
 
     # ajax view that actually does the work

@@ -3104,6 +3104,65 @@ def modi_teacher_name(request):
 
         return HttpResponse('success', 'application/json')
 
+
+@csrf_exempt
+def modi_course_level(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'addinfo':
+            addinfo_user_id = request.POST.get('addinfo_user_id')
+            addinfo_course_id = request.POST.get('addinfo_course_id')
+            course_level = request.POST.get('course_level')
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                    SELECT count(*)
+                      FROM course_overview_addinfo
+                     WHERE course_id = '{0}';
+            """.format(addinfo_course_id)
+            cur.execute(query)
+            count = cur.fetchall()
+            ctn = count[0][0]
+            cur.close()
+
+            if(ctn == 1):
+                cur = con.cursor()
+                query = """
+                    UPDATE course_overview_addinfo
+                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), course_level = '{1}'
+                     WHERE course_id = '{2}';
+                """.format(addinfo_user_id, course_level, addinfo_course_id)
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            elif(ctn == 0):
+                cur = con.cursor()
+                query = """
+                        INSERT INTO course_overview_addinfo(course_id,
+                                    create_type,
+                                    create_year,
+                                    course_no,
+                                    course_level,
+                                    delete_yn,
+                                    regist_id,
+                                    regist_date,
+                                    modify_id,
+                                    modify_date)
+                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
+                """.format(addinfo_course_id, course_level, addinfo_user_id, addinfo_user_id)
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            return HttpResponse(data, 'application/json')
+        return HttpResponse('success', 'application/json')
+
 def auto_auth(request):
     """
     Create or configure a user account, then log in as that user.
