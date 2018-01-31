@@ -2026,7 +2026,7 @@ def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
         cursor = db.contents.aggregate([
             {'$match':
                 {
-                    'course_id': 'course-v1:DonggukK+ACE.DGU01+2016_DGU01'
+                    'course_id': str(course_id)
                 }
             },
             {'$group':
@@ -2044,7 +2044,7 @@ def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
         ])
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['강좌 명', '강좌 아이디', '아이디', '이메일', '성명', '총 글수', '게시글 수', '질문 수', '답글 수']
+        header = ['강좌 명', '강좌 아이디', '아이디', '이메일', '성명', '총 글수', '게시글 수', '질문글 수', '댓글 수']
         rows = list()
 
         print cursor['result']
@@ -2102,7 +2102,7 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                 # print 'child_count:', child_count
 
         # 과정명, course_id, 영문ID, email, 성명, 게시글 수
-        header = ['기본 정렬', '강좌 명', '강좌 아이디', '웹 주소', '아이디', '이메일', '성명', '게시글제목', '구분', '게시글내용', '등록일자']
+        header = ['기본 정렬', '강좌 명', '강좌 아이디', '웹 주소 (클릭시 이동)', '아이디', '이메일', '성명', '게시글제목', '구분', '게시글내용', '등록일자']
         _rows = list()
 
         for c in comment_threads:
@@ -2117,10 +2117,10 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                 for c1 in comment_depth_0:
                     if c1['comment_thread_id'] == comment_id:
                         parent_id = c1['_id']
-                        c1['type'] = ' 답변'
+                        c1['type'] = ' 댓글'
                         c1['title'] = c['title']
                         child_count = c1['child_count'] if 'child_count' in c1 else 0
-                        c1['web'] = 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']])
+                        c1['web'] = '=HYPERLINK(\"' + 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']]) + '\")'
                         _rows.append(c1)
                         # comment_depth_0.remove(c1)
 
@@ -2129,12 +2129,14 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                                 if c2['parent_id'] == parent_id:
                                     c2['type'] = '  코멘트'
                                     c2['title'] = c['title']
-                                    c2['web'] = 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']])
+                                    c2['web'] = '=HYPERLINK(\"' + 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']]) + '\")'
                                     _rows.append(c2)
                                     # comment_depth_1.remove(c2)
 
         overview = CourseOverview.objects.get(id=course_id)
         rows = list()
+        # print '----------------> ', settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), len(_rows)
+
         for index, t in enumerate(_rows):
             student = User.objects.select_related('profile').get(id=t['author_id'])
             rows.append([index + 1, overview.display_name, str(course_id), t['web'], student.username, student.email, student.profile.name, t['title'], t['type'], t['body'], t['created_at'].strftime('%Y/%m/%d %H:%I')])
