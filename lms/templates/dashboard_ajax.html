@@ -1,3 +1,22 @@
+<%page expression_filter="h"/>
+<%def name="online_help_token()"><% return "learnerdashboard" %></%def>
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+import third_party_auth
+from third_party_auth import pipeline
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML, Text
+from microsite_configuration import microsite
+%>
+
+<%
+cert_name_short = settings.CERT_NAME_SHORT
+cert_name_long = settings.CERT_NAME_LONG
+%>
+
 % if len(course_enrollments) > 0:
 <ul class="listing-courses" id="default_course">
     <% share_settings = getattr(settings, 'SOCIAL_SHARING_SETTINGS', {}) %>
