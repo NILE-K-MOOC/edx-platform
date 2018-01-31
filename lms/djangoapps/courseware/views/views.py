@@ -970,7 +970,8 @@ def course_about(request, course_id):
         # 작성한 리뷰의 아이디와 등록시간을 구하는 로직
         with connections['default'].cursor() as cur:
             sql = '''
-                SELECT reg_time, id
+                SELECT DATE_FORMAT(reg_time, "%Y/%m/%d %H:%m:%s") as reg_time,
+                       id
                 FROM   edxapp.course_review
                 WHERE  course_id like 'course-v1:{0}+{1}+%'
                        AND user_id IN (SELECT id
@@ -1152,7 +1153,7 @@ def course_about(request, course_id):
                au.username,
                cr.content,
                cr.point,
-               cr.reg_time,
+               DATE_FORMAT(cr.reg_time, "%Y/%m/%d %H:%m:%s") as reg_time,
                Sum(CASE
                      WHEN good_bad = 'g' THEN 1
                      ELSE 0
@@ -1187,10 +1188,10 @@ def course_about(request, course_id):
                au.username,
                cr.content,
                cr.point,
-               cr.reg_time
-        FROM   edxapp.course_review AS cr
-               JOIN edxapp.auth_user AS au
-                 ON au.id = cr.user_id
+               DATE_FORMAT(cr.reg_time, "%Y/%m/%d %H:%m:%s") as reg_time
+          FROM course_review AS cr
+          JOIN auth_user AS au
+          ON au.id = cr.user_id
         WHERE  au.email = '{0}'
                AND course_id LIKE 'course-v1:{1}+{2}+%'
         '''.format(review_email, course_org, course_number)
