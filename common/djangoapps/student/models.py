@@ -1572,6 +1572,169 @@ class CourseEnrollment(models.Model):
                 ORDER BY c.created DESC;
         ''', [user.id])
 
+    # ----------------------------------------------------------------------------- 맹일희 부장 추가 (추천강좌)
+    @classmethod
+    def enrollments_for_user_propose(cls, course_ids):
+
+        qry = '''
+            SELECT 1 as id
+                  , '5' as user_id
+                  , a.id as course_id
+                  , 'Y' as is_active
+                  , 'honor' as  mode
+                  , a.created
+              FROM course_overviews_courseoverview a
+             WHERE id in ('''+course_ids+''')
+             and   now() <= a.end
+             order by a.id asc;
+        '''
+
+        return cls.objects.raw(qry)
+
+    @classmethod
+    def enrollments_for_user_propose_score(cls, user):
+
+        qry = '''
+                select
+                    course.id as id
+                    , display_number_with_default
+                    , org
+                    , if(sce.id is null,'N','Y') regist_yn
+                    , sum(regist_cnt*IFNULL(ELT(FIELD(rnum1,1,2,3),0.5,0.3,0.2),0)) as score
+                    , '' as mclassfy
+                    , 0 as mclassfy_count
+                    , 0.00 as count_rate
+                    , 0.00 as weight_value
+                    , 0.00 as score_value
+                from (
+                      SELECT id
+                           , CASE
+                                WHEN @V_A1 = display_number_with_default and @V_B=org THEN @RNUM1 := @RNUM1 + 1
+                                ELSE @RNUM1 :=1  END AS RNUM1
+                           , @V_A1 := display_number_with_default as display_number_with_default
+                           , @V_B := org as org
+                      FROM course_overviews_courseoverview
+                           , (SELECT @V_A1 := '0',@V_B := '0', @RNUM1 := 0) A
+                      where enrollment_start <=  now()
+                      order by org, display_number_with_default, start desc
+                ) course
+                join (
+                    select
+                        standard_day
+                        , honor_acc_apply_cnt - honor_acc_cancel_cnt + audit_acc_apply_cnt - audit_acc_cancel_cnt  as regist_cnt
+                        , CASE WHEN @V_A2 = course_id   THEN @RNUM2 := @RNUM2 + 1   ELSE @RNUM2 := 1  END AS RNUM2
+                        , @V_A2 := course_id as course_id
+                    from daily_course_regist ,
+                        (SELECT @V_A2 := '0',  @RNUM2 := 0) B
+                    order by course_id, standard_day desc
+                ) regist on regist.course_id = course.id  and regist.rnum2 = 1
+                 left outer join student_courseenrollment  sce
+                            on sce.user_id = %s
+                                and GET_STRING_INDEX(mid(sce.course_id,11,100),'+',0) = course.org
+                                and GET_STRING_INDEX(sce.course_id,'+',1) = course.display_number_with_default
+                where rnum1<=3
+                group by display_number_with_default, org
+                order by score desc ;
+            '''
+
+        cursor = connection.cursor()
+        cursor.execute(qry, [user.id])
+        row = cursor.fetchall()
+        return row
+
+    @classmethod
+    def enrollments_for_user_propose_score_pick(cls, user):
+        qry = '''
+                select
+                      newcouse.id
+                    , finaldata.classfy
+                    , finaldata.middle_classfy
+                    , finaldata.display_number_with_default
+                    , finaldata.org
+                    , fscore
+                from
+                (
+                    select
+                          course.classfy
+                        , course.middle_classfy
+                        , display_number_with_default, org
+                        , sum(regist_cnt * IFNULL(ELT(FIELD(rnum1, 1, 2, 3), 0.5, 0.3, 0.1), 0)) * (ifnull(rate * 2, 0) + 1)  as fscore
+                    from
+                    (
+                        SELECT
+                              coa.classfy
+                            , coa.middle_classfy
+                            , id
+                            , CASE WHEN @V_A1 = display_number_with_default and @V_B = org THEN @RNUM1:= @RNUM1 + 1 ELSE @RNUM1 := 1 END AS RNUM1
+                            , @V_A1 := display_number_with_default as display_number_with_default
+                            , @V_B := org as org
+                        FROM course_overviews_courseoverview
+                                join(SELECT @V_A1 := '0', @V_B := '0', @RNUM1:= 0) A
+                                left outer join course_overview_addinfo as coa on coa.course_id = course_overviews_courseoverview.id
+                        where enrollment_start <= now()
+                        order by org, display_number_with_default, start desc
+                    ) course
+                join(
+                    select standard_day
+                        , honor_acc_apply_cnt - honor_acc_cancel_cnt + audit_acc_apply_cnt - audit_acc_cancel_cnt  as regist_cnt
+                        , CASE WHEN @V_A2 = course_id THEN @RNUM2 := @RNUM2 + 1 ELSE @RNUM2 := 1 END AS RNUM2
+                        , @V_A2 := course_id as course_id
+                    from daily_course_regist,
+                        (SELECT @V_A2:= '0', @RNUM2 := 0  ) B
+                    order by course_id, standard_day desc
+                ) regist on regist.course_id = course.id and regist.rnum2 = 1
+                left outer join(
+                    select
+                          classfy
+                        , middle_classfy
+                        , round(count(sce.course_id) / total, 4) as rate
+                    from student_courseenrollment sce
+                            join course_overview_addinfo coa on coa.course_id = sce.course_id
+                            join(
+                                select count(*) total
+                                from student_courseenrollment  tmp
+                                where tmp.user_id = '''+str(user.id)+'''
+                            ) b
+                    where sce.user_id = '''+str(user.id)+'''
+                    group by classfy, middle_classfy
+                    ) userReg
+                        on userReg.classfy = course.classfy and userReg.middle_classfy = course.middle_classfy
+                    where rnum1 <= 3
+                group by classfy, middle_classfy, display_number_with_default, org
+                order by fscore desc
+                limit 30
+                ) finaldata
+                join
+                (
+                    select id, display_number_with_default, org
+                    from
+                    (
+                          SELECT
+                              coa.classfy
+                            , coa.middle_classfy
+                            , id
+                            , CASE WHEN @V_A1 = display_number_with_default and @V_B = org THEN @RNUM1 := @RNUM1 + 1 ELSE @RNUM1 := 1 END AS RNUM1
+                            , @V_A1 := display_number_with_default as display_number_with_default
+                            , @V_B := org as org
+                        FROM course_overviews_courseoverview
+                            join(SELECT @V_A1:= '0', @V_B := '0', @RNUM1 := 0) A
+                            left outer join course_overview_addinfo as coa on coa.course_id = course_overviews_courseoverview.id
+                        where enrollment_start <= now()
+                    ) aa
+                    where RNUM1 = 1
+                ) newcouse
+                on newcouse.display_number_with_default = finaldata.display_number_with_default
+                    and newcouse.org = finaldata.org
+            order by rand() limit 10;
+        '''
+
+        cursor = connection.cursor()
+        cursor.execute(qry)
+        row = cursor.fetchall()
+        return row
+    # ----------------------------------------------------------------------------- 맹일희 부장 추가 (추천강좌)
+
+
     def is_paid_course(self):
         """
         Returns True, if course is paid
