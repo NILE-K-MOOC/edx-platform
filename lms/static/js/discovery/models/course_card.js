@@ -11,7 +11,9 @@ define(['backbone'], function (Backbone) {
             number: '',
             content: {
                 display_name: '',
-                number: ''
+                overview: '',
+                number: '',
+                catalog_visibility: ''
             },
             start: '',
             image_url: '',

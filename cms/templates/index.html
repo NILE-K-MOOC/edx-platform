@@ -217,7 +217,7 @@ if (
 
                 <li class="field select required" id="field-classfy">
                     <label for="new-course-">${_("Classification")}</label>
-                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy()">
+                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
                         <option value="">강좌 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
@@ -234,12 +234,48 @@ if (
                         <option value="">강좌 중분류 선택</option>
                     </select>
 
+                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1"  onchange="middle_classfy(1)">
+                        <option value="">강좌 대분류 선택</option>
+                        <option value="hum">인문계열</option>
+                        <option value="social">사회계열</option>
+                        <option value="edu">교육계열</option>
+                        <option value="eng">공학계열</option>
+                        <option value="nat">자연계열</option>
+                        <option value="med">의약계열</option>
+                        <option value="art">예체능계열</option>
+                        <option value="intd">융ㆍ복합계열</option>
+                    </select>
+
                     <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
                         <option value="">융합 분류 선택1</option>
                     </select>
 
+                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2"  onchange="middle_classfy(2)">
+                        <option value="">강좌 대분류 선택</option>
+                        <option value="hum">인문계열</option>
+                        <option value="social">사회계열</option>
+                        <option value="edu">교육계열</option>
+                        <option value="eng">공학계열</option>
+                        <option value="nat">자연계열</option>
+                        <option value="med">의약계열</option>
+                        <option value="art">예체능계열</option>
+                        <option value="intd">융ㆍ복합계열</option>
+                    </select>
+
                     <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
                         <option value="">융합 분류 선택2</option>
+                    </select>
+
+                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3"  onchange="middle_classfy(3)">
+                        <option value="">강좌 대분류 선택</option>
+                        <option value="hum">인문계열</option>
+                        <option value="social">사회계열</option>
+                        <option value="edu">교육계열</option>
+                        <option value="eng">공학계열</option>
+                        <option value="nat">자연계열</option>
+                        <option value="med">의약계열</option>
+                        <option value="art">예체능계열</option>
+                        <option value="intd">융ㆍ복합계열</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
@@ -440,9 +476,18 @@ if (
                 ]
         };
 
-        var middle_classfy = function(){
+        var middle_classfy = function(p){
 
-            var bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
+            var bcate_val;
+
+            if (p==0)
+                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
+            else if (p==1)
+                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
+            else if (p==2)
+                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
+            else if (p==3)
+                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
 
             var key = 0;
 
@@ -475,9 +520,14 @@ if (
         var middle_classfy_sub_init = function(p) {
             var middle_classfy_sub_id;
             if(p==0){
+                document.getElementById("new-course-classfy-sub1").style.visibility = "hidden";
+                document.getElementById("new-course-classfy-sub2").style.visibility = "hidden";
+                document.getElementById("new-course-classfy-sub3").style.visibility = "hidden";
+
                 document.getElementById("new-course-middle-classfy-sub1").style.visibility = "hidden";
                 document.getElementById("new-course-middle-classfy-sub2").style.visibility = "hidden";
                 document.getElementById("new-course-middle-classfy-sub3").style.visibility = "hidden";
+
                 middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub1");
                 removeOptions(middle_classfy_sub_id);
                 middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub2");
@@ -485,10 +535,13 @@ if (
                 middle_classfy_sub_id = document.getElementById("new-course-middle-classfy-sub3");
                 removeOptions(middle_classfy_sub_id);
             } else if (p == 1) {
+                document.getElementById("new-course-classfy-sub1").style.visibility = "visible";
                 document.getElementById("new-course-middle-classfy-sub1").style.visibility = "visible";
             } else if (p == 2) {
+                document.getElementById("new-course-classfy-sub2").style.visibility = "visible";
                 document.getElementById("new-course-middle-classfy-sub2").style.visibility = "visible";
             } else if (p == 3) {
+                document.getElementById("new-course-classfy-sub3").style.visibility = "visible";
                 document.getElementById("new-course-middle-classfy-sub3").style.visibility = "visible";
             }
         }

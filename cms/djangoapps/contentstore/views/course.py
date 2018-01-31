@@ -748,6 +748,8 @@ def _create_or_rerun_course(request):
         ##kmooc
         classfy = request.json.get('classfy')
         fields['classfy'] = classfy
+        classfysub = request.json.get('classfysub')
+        fields['classfysub'] = classfysub
         middle_classfy = request.json.get('middle_classfy')
         fields['middle_classfy'] = middle_classfy
         middle_classfysub = request.json.get('middle_classfysub')
@@ -892,6 +894,7 @@ def _rerun_course(request, org, number, run, fields):
     try:
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy
+        fields['classfysub'] = source_course.classfysub
         fields['middle_classfy'] = source_course.middle_classfy
         fields['middle_classfysub'] = source_course.middle_classfysub
         fields['difficult_degree'] = source_course.difficult_degree
