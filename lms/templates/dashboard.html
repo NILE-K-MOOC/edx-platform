@@ -150,16 +150,19 @@ cert_name_long = settings.CERT_NAME_LONG
         });
 
 
+        var xhr;
         $(".faq-tab a").click(function (e) {
-            console.log("tab clicked: " + e);
-
             var status = $(this).data("status");
+            $(".progress").stop().css("width", "0%");
+
+            if(xhr && xhr.readyState != 4)
+                xhr.abort();
 
             $(e.target).find(".progress").stop().animate({
                 width: "70%"
             }, 5000);
 
-            $.post("/dashboard", {
+            xhr = $.post("/dashboard", {
                 "status": status
             }, function (data) {
                 $(e.target).find(".progress").stop().animate({
@@ -180,13 +183,12 @@ cert_name_long = settings.CERT_NAME_LONG
                         $(".sub-end").slideDown(400);
                     else if (status === "interest")
                         $(".sub-interest").slideDown(400);
-
                 });
 
             }).done(function () {
                 $(".progress").css("width", "0%");
-            }).error(function () {
-                window.location.href = "/";
+            }).error(function (e) {
+                console.log(e);
             });
         });
     });
