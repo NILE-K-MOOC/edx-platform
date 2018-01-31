@@ -62,6 +62,11 @@ cert_name_long = settings.CERT_NAME_LONG
         margin: 10px 0 10px 293px;
         display: none;
     }
+
+    .sub-propose {
+        margin: 10px 0 10px 433px;
+        display: none;
+    }
 </style>
 
 
@@ -103,7 +108,7 @@ cert_name_long = settings.CERT_NAME_LONG
                     <a href="#" data-status="interest" title="로그인/계정">${_("interest")}
                         <div class="progress"></div>
                     </a>
-                    <a href="#" data-status="interest" title="로그인/계정">추천강좌
+                    <a href="#" data-status="propose" title="추천강좌">${_("propose")}
                         <div class="progress"></div>
                     </a>
                 </nav>
@@ -177,12 +182,14 @@ cert_name_long = settings.CERT_NAME_LONG
                     var status = $(e.target).data("status");
 
 
-                    $(".sub-end, .sub-interest").slideUp(200);
+                    $(".sub-end, .sub-interest, .sub-propose").slideUp(200);
 
                     if (status === "end")
                         $(".sub-end").slideDown(400);
                     else if (status === "interest")
                         $(".sub-interest").slideDown(400);
+                    else if (status === "propose")
+                        $(".sub-propose").slideDown(400);
                 });
 
             }).done(function () {

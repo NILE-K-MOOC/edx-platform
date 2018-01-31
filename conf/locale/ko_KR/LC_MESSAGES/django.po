@@ -28449,6 +28449,9 @@ msgstr "종료"
 msgid "interest"
 msgstr "관심강좌"
 
+msgid "propose"
+msgstr "추천강좌"
+
 msgid "none"
 msgstr "미정"
 
