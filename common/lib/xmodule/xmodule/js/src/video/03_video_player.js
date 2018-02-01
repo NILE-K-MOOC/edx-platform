@@ -474,6 +474,11 @@ function(HTML5Video, Resizer) {
 
         var seek_mode = this.config.seekEnable;
         var score_mode = this.config.hasScore;
+ 
+        console.log("seek_mode")
+        console.log(seek_mode)
+        console.log("score_mode")
+        console.log(score_mode)
 
         var time = params.time,
             type = params.type,

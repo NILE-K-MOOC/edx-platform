@@ -19,7 +19,7 @@ class VideoFields(object):
         help=_("Assign score"),
         display_name=_("Progress check"),
         scope=Scope.settings,
-        default=False
+        default=True
     )
 
     seek_enable = Boolean(

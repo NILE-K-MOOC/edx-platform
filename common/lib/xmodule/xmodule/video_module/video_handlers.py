@@ -71,26 +71,26 @@ class VideoStudentViewHandlers(object):
         }
 
         if 'saved_video_position' in data.keys():
-            total_time_string = data[u'total_duration']
-            current_time_string = data[u'duration']
-            total_time = float(total_time_string)
-            current_time = float(current_time_string)
+	    total_time_string = data[u'total_duration']
+	    current_time_string = data[u'duration']
+	    total_time = float(total_time_string)
+	    current_time = float(current_time_string)
 
-            # DEBUG
-            log.info("********total_time")
-            log.info(total_time)
-            log.info("********current_time")
-            log.info(current_time)
+	    # DEBUG
+	    log.info("********total_time")
+	    log.info(total_time)
+	    log.info("********current_time")
+	    log.info(current_time)
 
-            try:
-                avg = current_time/total_time
-            except ZeroDivisionError:
-                avg = 0
+	    try:
+		avg = current_time/total_time
+	    except ZeroDivisionError:
+		avg = 0
 
-            avg_progess = (round(avg*100)/100)
+	    avg_progess = (round(avg*100)/100)
 
-            if avg_progess > 0.95 :
-                avg_progess = 1
+	    if avg_progess > 0.95 :
+		avg_progess = 1
 
             # DEBUG
             log.info("********avg_progess")

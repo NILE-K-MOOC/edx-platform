@@ -41,8 +41,8 @@
                     'play': this.bindUnloadHandler,
                     'pause destroy': this.saveStateHandler,
                     'language_menu:change': this.onLanguageChange,
-                    'youtube_availability': this.onYoutubeAvailability,
-                    'ended stop': this.saveStateHandler
+                    'youtube_availability': this.onYoutubeAvailability//,
+                    //'ended stop': this.saveStateHandler, 
                 };
                 this.bindHandlers();
             },
@@ -105,18 +105,18 @@
                 //console.log(this.state.config);
 
                 var startPoint = this.state.videoPlayer.currentTime;
-                var endPoint = this.state.videoPlayer.duration();
+                var endPoint = this.state.videoPlayer.duration(); 
 
-                //console.log(startPoint);
-                //console.log(endPoint);
-
+                console.log(startPoint);
+                console.log(endPoint);
+ 
                 var avgPoint = (startPoint/endPoint) * 100;
+                 
+                console.log(avgPoint);
 
-                //console.log(avgPoint);
-
-                if (avgPoint > 95){
-                    avgPoint = 100;
-                    //console.log(avgPoint);
+                if (avgPoint > 95){ 
+	            avgPoint = 100;
+                    console.log(avgPoint);
                 }
 
                 if (!($.isPlainObject(data))) {
@@ -139,7 +139,7 @@
                     async: async ? true : false,
                     dataType: 'json',
                     data: data ,
-
+                    
                     success: function(msg){
                         if ((avgPoint > 95) && (score_mode == true) && (seek_mode == false)){
                             alert("video completed")
@@ -148,7 +148,7 @@
                     error: function(XMLHttpRequest, textStatus, errorThrown) {
                         alert("video check error");
                     }
-
+                    
                 });
             }
         };
