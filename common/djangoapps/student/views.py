@@ -3163,6 +3163,97 @@ def modi_course_level(request):
             return HttpResponse(data, 'application/json')
         return HttpResponse('success', 'application/json')
 
+@csrf_exempt
+def modi_course_period(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'addinfo':
+            addinfo_user_id = request.POST.get('addinfo_user_id')
+            addinfo_course_id = request.POST.get('addinfo_course_id')
+            course_period = request.POST.get('course_period')
+            course_period = int(course_period)
+
+            if (1 <=course_period <=6):
+                course_period = 'S'
+            elif (7 <=course_period <=12):
+                course_period = 'M'
+            elif (13 <=course_period):
+                course_period = 'L'
+            course_index = addinfo_course_id.split(':')
+            course_index2 = course_index[1].split('+')
+
+            course_org = course_index2[0]
+            course_course = course_index2[1]
+            course_run = course_index2[2]
+
+
+            from django.db import connections
+            from pymongo import MongoClient
+            from bson.objectid import ObjectId
+            from django.utils.translation import ugettext_lazy as _
+            from django.http import JsonResponse
+            import json
+            client = MongoClient('172.17.101.117', 27017)
+
+            db = client.edxapp
+            # cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
+            cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
+            cursor = cursors.get('versions').get('published-branch')
+
+            db.modulestore.structures.update({"_id":ObjectId("5a7179d656c02c49fd923630"), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period}});
+
+
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                    SELECT count(*)
+                      FROM course_overview_addinfo
+                     WHERE course_id = '{0}';
+            """.format(addinfo_course_id)
+            cur.execute(query)
+            count = cur.fetchall()
+            ctn = count[0][0]
+            cur.close()
+
+            if(ctn == 1):
+                cur = con.cursor()
+                query = """
+                    UPDATE course_overview_addinfo
+                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), course_period = '{1}'
+                     WHERE course_id = '{2}';
+                """.format(addinfo_user_id, course_period, addinfo_course_id)
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            elif(ctn == 0):
+                cur = con.cursor()
+                query = """
+                        INSERT INTO course_overview_addinfo(course_id,
+                                    create_type,
+                                    create_year,
+                                    course_no,
+                                    course_period,
+                                    delete_yn,
+                                    regist_id,
+                                    regist_date,
+                                    modify_id,
+                                    modify_date)
+                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
+                """.format(addinfo_course_id, course_period, addinfo_user_id, addinfo_user_id)
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            print query
+            return HttpResponse(data, 'application/json')
+        return HttpResponse('success', 'application/json')
+
 def auto_auth(request):
     """
     Create or configure a user account, then log in as that user.

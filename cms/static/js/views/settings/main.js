@@ -300,18 +300,31 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 if (video && video != "")
                     val = val + "#" + video;
 
-                console.log('value..s---------------------------------------------');
-                console.log(hh + " " + typeof(hh));
-                console.log(mm + " " + typeof(mm));
-                console.log(week + " " + typeof(week));
-                console.log(video + " " + typeof(video));
-                console.log(val + " " + typeof(val));
-                console.log('value..e---------------------------------------------');
+                //console.log('value..s---------------------------------------------');
+                //console.log(hh + " " + typeof(hh));
+                //console.log(mm + " " + typeof(mm));
+                //console.log(week + " " + typeof(week));
+                //console.log(video + " " + typeof(video));
+                //console.log(val + " " + typeof(val));
+                //console.log('value..e---------------------------------------------');
 
                 $("#course-effort").val(val);
-                console.log("course-effort value is = " + $("#course-effort").val());
+                //console.log("course-effort value is = " + $("#course-effort").val());
 
                 $("#course-effort").trigger("change");
+
+                var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
+                var addinfo_user_id = $('#addinfo_user_id').text();
+                var course_period = $("#course-effort-week").val();
+
+                $.post("/modi_course_period", {
+                    csrfmiddlewaretoken: $.cookie('csrftoken'),
+                    addinfo_course_id: addinfo_course_id,
+                    addinfo_user_id: addinfo_user_id,
+                    course_period: course_period,
+                    method : 'addinfo',
+                });
+
             },
 
             render: function () {

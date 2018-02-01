@@ -29,13 +29,11 @@ import urllib
         ##     )
         ## ).replace(u" ", u"+")
 
-        tweet_text = _("Take a course with {platform} online").format(
-            platform=u"http://{domain}{path}".format(
-                domain=site_domain,
-                path=reverse('about_course', args=[course.id.to_deprecated_string()])
-            )
-        ).replace(u" ", u"+")
-        tweet_action = u"http://twitter.com/intent/tweet?text={tweet_text}".format(tweet_text=tweet_text)
+        url=u"http://{domain}{path}".format(
+            domain=site_domain,
+            path=reverse('about_course', args=[course.id.to_deprecated_string()])
+        )
+        tweet_action = "https://twitter.com/intent/tweet?text=온라인수강&url={url}".format(url=urllib.quote(url.encode("utf-8")))
 
         ## facebook_link = static.get_value('course_about_facebook_link', settings.PLATFORM_FACEBOOK_ACCOUNT)
         url=u"http://{domain}{path}".format(
