@@ -98,6 +98,7 @@ from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
 import MySQLdb as mdb
+from django.db import connections
 
 log = logging.getLogger(__name__)
 
@@ -810,35 +811,61 @@ def _create_new_course(request, org, number, run, fields):
         print 'new_course.id ====> ', new_course.id
         # 이수증 생성을 위한 course_mode 등록
 
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
-                          settings.DATABASES.get('default').get('NAME'))
-        cur = con.cursor()
-        query = """
-            INSERT INTO course_modes_coursemode(course_id,
-                                                mode_slug,
-                                                mode_display_name,
-                                                min_price,
-                                                currency,
-                                                suggested_prices,
-                                                expiration_datetime_is_explicit)
-                 VALUES ('{0}',
-                         'honor',
-                         '{0}',
-                         0,
-                         'usd',
-                         '',
-                         FALSE);
-        """.format(new_course.id)
-        print '_create_new_course.query :', query
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_modes_coursemode(course_id,
+                                                    mode_slug,
+                                                    mode_display_name,
+                                                    min_price,
+                                                    currency,
+                                                    suggested_prices,
+                                                    expiration_datetime_is_explicit)
+                     VALUES ('{0}',
+                             'honor',
+                             '{0}',
+                             0,
+                             'usd',
+                             '',
+                             FALSE);
+            """.format(new_course.id)
+            print '_create_new_course.query :', query
 
-        cur.execute(query)
-        con.commit()
+            cur.execute(query)
+
+        course_id = new_course.id
+        user_id = request.user.id
+        middle_classfy = fields['middle_classfy']
+        classfy = fields['classfy']
+        course_number = new_course.number
+
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_overview_addinfo(course_id,
+                                                    create_year,
+                                                    course_no,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    middle_classfy,
+                                                    classfy)
+                     VALUES ('{course_id}',
+                             date_format(now(), '%Y'),
+                             (SELECT count(*)
+                                  FROM course_overviews_courseoverview
+                                 WHERE   display_number_with_default = '{course_number}'
+                                      AND org = '{org}'),
+                             '{user_id}',
+                             now(),
+                             '{user_id}',
+                             '{middle_classfy}',
+                             '{classfy}');
+            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org)
+
+            cur.execute(query)
+
+            print 'course_overview_addinfo insert --------- ', query
     except Exception as e:
-        con.rollback()
         print e
-    finally:
-        cur.close()
-        con.close()
 
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
@@ -925,10 +952,8 @@ def _rerun_course(request, org, number, run, fields):
         print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
 
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
-                          settings.DATABASES.get('default').get('NAME'))
-        cur = con.cursor()
-        query = """
+        with connections['default'].cursor() as cur:
+            query = """
             INSERT INTO course_modes_coursemode(course_id,
                                                 mode_slug,
                                                 mode_display_name,
@@ -943,17 +968,44 @@ def _rerun_course(request, org, number, run, fields):
                          'usd',
                          '',
                          FALSE);
-        """.format(destination_course_key)
-        print '_create_new_course.query :', query
+            """.format(destination_course_key)
+            print '_create_new_course.query :', query
 
-        cur.execute(query)
-        con.commit()
+            cur.execute(query)
+
+        user_id = request.user.id
+        middle_classfy = fields['middle_classfy']
+        classfy = fields['classfy']
+
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_overview_addinfo(course_id,
+                                                    create_year,
+                                                    course_no,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    middle_classfy,
+                                                    classfy)
+                     VALUES ('{course_id}',
+                             date_format(now(), '%Y'),
+                             (SELECT count(*)
+                                  FROM course_overviews_courseoverview
+                                 WHERE   display_number_with_default = '{course_number}'
+                                      AND org = '{org}'),
+                             '{user_id}',
+                             now(),
+                             '{user_id}',
+                             '{middle_classfy}',
+                             '{classfy}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
+
+            cur.execute(query)
+
+            print 'rerun_course insert -------------- ', query
+
     except Exception as e:
-        con.rollback()
         print e
-    finally:
-        cur.close()
-        con.close()
 
     # Return course listing page
     return JsonResponse({
@@ -1360,6 +1412,40 @@ def _refresh_course_tabs(request, course_module):
     # Save the tabs into the course if they have been changed
     if course_tabs != course_module.tabs:
         course_module.tabs = course_tabs
+
+    course_id = course_module.id
+    classfy = course_module.classfy
+    middle_classfy = course_module.middle_classfy
+    user_id = request.user.id
+    old_classfy = u''
+    old_middle_classfy = u''
+
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT classfy, middle_classfy
+              FROM course_overview_addinfo
+             WHERE course_id = '{course_id}';
+        """.format(course_id=course_id)
+
+        cur.execute(query)
+        old_classfy_data = cur.fetchall()
+        old_classfy = old_classfy_data[0][0]
+        old_middle_classfy = old_classfy_data[0][1]
+        print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
+
+    with connections['default'].cursor() as cur:
+        if classfy != old_classfy or middle_classfy != old_middle_classfy:
+            query2 = """
+                UPDATE course_overview_addinfo
+                   SET middle_classfy = '{middle_classfy}',
+                       classfy = '{classfy}',
+                       modify_id = '{user_id}',
+                       modify_date = now()
+                 WHERE course_id = '{course_id}';
+            """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id)
+
+            print 'advanced addinfo update --------- ', query2
+            cur.execute(query2)
 
 
 @login_required
