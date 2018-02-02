@@ -226,7 +226,7 @@ td{ padding-left: 15px; padding-bottom: 5px; padding-top: 5px;}
 .review_nothing{ border: solid #cccccc 1px; margin-bottom: 18px; margin-top: 14px; padding: 15px; }
 .review_body_div{ border: solid #d8d7d7 1px; }
 .review_subject{ margin-bottom: 10px; }
-.review_id{ width: 30px; color: #000000; font-weight: bold; font-size: 85%; font-family: 'Nanum Gothic'; }
+.review_id{ width: 8%; color: #000000; font-weight: bold; font-size: 85%; font-family: 'Nanum Gothic'; }
 .review_star{ width: 100px; }
 .review_star_d{ width: 100px; }
 .review_body_2 { width: 360px; margin-top: -10px; }
@@ -258,7 +258,7 @@ td{ padding-left: 15px; padding-bottom: 5px; padding-top: 5px;}
 .review_write{ margin-top: 15px; }
 .review_good_img{ margin-right: 10px; }
 .review_bad_img{ margin-right: 10px; }
-.review_time_delete { width: 300px; float: left; color: #999999; font-size: 70%; }
+.review_time_delete { width: 50%; float: left; color: #999999; font-size: 70%; }
 .review_delete{ 
     border: solid #999999 1px; 
     height: 25px; 

@@ -33,22 +33,32 @@ $(document).ready(function () {
 });
 
 function write_review(){
-    $.post('/courses/${course_id}/about',
-    {
-        'review_rating':$("input[name=review_rating]:checked").val(),
-        'review_data':$("#review_write_area").val(),
-        'csrfmiddlewaretoken':'${csrf_token}',//$("#review_token").val(),
-        'write_switch':1
-    },function(data){
-        if(data.stat == 'success'){
-            $(".review_help").append(data.html2); // 위
-            $(".scrollbar").prepend(data.html);   // 아래
-            $(".review_write").remove();
-            $(".review_delete_font").click(function(){
-                delete_review(); // 새로 만든 write 창에 삭제 버튼 클릭 가능
-            });
-        }
-    }, 'json');
+
+    var area_data = $('#review_write_area').val();
+    var lock = 0;
+    if(area_data == ''){
+        swal("내용을 입력해주세요");
+        lock = 1;
+    }
+
+    if(lock == 0){
+        $.post('/courses/${course_id}/about',
+        {
+            'review_rating':$("input[name=review_rating]:checked").val(),
+            'review_data':$("#review_write_area").val(),
+            'csrfmiddlewaretoken':'${csrf_token}',//$("#review_token").val(),
+            'write_switch':1
+        },function(data){
+            if(data.stat == 'success'){
+                $(".review_help").append(data.html2); // 위
+                $(".scrollbar").prepend(data.html);   // 아래
+                $(".review_write").remove();
+                $(".review_delete_font").click(function(){
+                    delete_review(); // 새로 만든 write 창에 삭제 버튼 클릭 가능
+                });
+            }
+        }, 'json');
+    }
 }
 </script>
 
