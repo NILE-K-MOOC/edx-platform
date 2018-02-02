@@ -1467,8 +1467,13 @@ def course_about(request, course_id):
             SELECT display_name, id
               FROM course_overviews_courseoverview
              WHERE org = '{0}' AND display_number_with_default = '{1}' AND id NOT IN ('{2}')
+                    AND created < (SELECT created
+                          FROM course_overviews_courseoverview
+                         WHERE id = '{3}')
              ORDER BY start DESC;
-        """.format(course_org, course_number, overview)
+        """.format(course_org, course_number, overview, overview)
+        print 'Test~~~~'
+        print query
         cur.execute(query)
         pre_course_index = cur.fetchall()
         cur.close()
