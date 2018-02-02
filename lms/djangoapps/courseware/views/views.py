@@ -1472,8 +1472,6 @@ def course_about(request, course_id):
                          WHERE id = '{3}')
              ORDER BY start DESC;
         """.format(course_org, course_number, overview, overview)
-        print 'Test~~~~'
-        print query
         cur.execute(query)
         pre_course_index = cur.fetchall()
         cur.close()
