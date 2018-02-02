@@ -437,7 +437,7 @@ urlpatterns += (
             settings.COURSE_ID_PATTERN,
         ),
         'courseware.views.views.mobile_course_about',
-        name='about_course',
+        name='mobile_about_course',
     ),
 
     url(
@@ -454,13 +454,6 @@ urlpatterns += (
         name='enroll_staff',
     ),
     url(r'^courses/interest$', 'courseware.views.views.course_interest', name='course_interest'),
-    url(
-        r'^course/{}$'.format(
-            settings.COURSE_ID_PATTERN,
-        ),
-        'courseware.views.views.mobile_course_about',
-        name='about_course',
-    ),
 
     # Inside the course
     url(
