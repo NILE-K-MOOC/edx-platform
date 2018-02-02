@@ -44,13 +44,14 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
                 var addinfo_user_id = $('#addinfo_user_id').text();
                 var course_level =$('#selectfixid').val();
-
-                $.post("/modi_course_level", {
-                    csrfmiddlewaretoken: $.cookie('csrftoken'),
-                    addinfo_course_id: addinfo_course_id,
-                    addinfo_user_id: addinfo_user_id,
-                    course_level: course_level,
-                    method : 'addinfo',
+                $('.action-primary').click(function() {
+                    $.post("/modi_course_level", {
+                        csrfmiddlewaretoken: $.cookie('csrftoken'),
+                        addinfo_course_id: addinfo_course_id,
+                        addinfo_user_id: addinfo_user_id,
+                        course_level: course_level,
+                        method : 'addinfo',
+                    });
                 });
             },
             modi_teacher_name: function (e) {
@@ -316,15 +317,15 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
                 var addinfo_user_id = $('#addinfo_user_id').text();
                 var course_period = $("#course-effort-week").val();
-
-                $.post("/modi_course_period", {
-                    csrfmiddlewaretoken: $.cookie('csrftoken'),
-                    addinfo_course_id: addinfo_course_id,
-                    addinfo_user_id: addinfo_user_id,
-                    course_period: course_period,
-                    method : 'addinfo',
+                $('.action-primary').click(function() {
+                    $.post("/modi_course_period", {
+                        csrfmiddlewaretoken: $.cookie('csrftoken'),
+                        addinfo_course_id: addinfo_course_id,
+                        addinfo_user_id: addinfo_user_id,
+                        course_period: course_period,
+                        method : 'addinfo',
+                    });
                 });
-
             },
 
             render: function () {
