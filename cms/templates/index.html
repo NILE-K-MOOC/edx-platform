@@ -233,8 +233,8 @@ if (
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" onchange="middle_classfy_sub(1)">
                         <option value="">강좌 중분류 선택</option>
                     </select>
-
-                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1"  onchange="middle_classfy(1)">
+                    <br>
+                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
                         <option value="">강좌 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
@@ -243,14 +243,13 @@ if (
                         <option value="nat">자연계열</option>
                         <option value="med">의약계열</option>
                         <option value="art">예체능계열</option>
-                        <option value="intd">융ㆍ복합계열</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
                         <option value="">융합 분류 선택1</option>
                     </select>
 
-                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2"  onchange="middle_classfy(2)">
+                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
                         <option value="">강좌 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
@@ -259,14 +258,13 @@ if (
                         <option value="nat">자연계열</option>
                         <option value="med">의약계열</option>
                         <option value="art">예체능계열</option>
-                        <option value="intd">융ㆍ복합계열</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
                         <option value="">융합 분류 선택2</option>
                     </select>
 
-                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3"  onchange="middle_classfy(3)">
+                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
                         <option value="">강좌 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
@@ -275,12 +273,12 @@ if (
                         <option value="nat">자연계열</option>
                         <option value="med">의약계열</option>
                         <option value="art">예체능계열</option>
-                        <option value="intd">융ㆍ복합계열</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
                         <option value="">융합 분류 선택3</option>
                     </select>
+                    <input class="new-course-org" id="new-course-classfy-sub" type="hidden" name=new-course-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <input class="new-course-org" id="new-course-middle-classfy-sub" type="hidden" name=new-course-middle-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <span class="tip" id="tip-new-course-classfy">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
@@ -435,68 +433,32 @@ if (
                         ]
         };
 
-        // 추가
-        var scate = {
-                'intd_m':[
-                    {'gettext': '언어ㆍ문학', 'code': 'lang'},
-                    {'gettext': '인문과학', 'code': 'husc'},
-                    {'gettext': '경영ㆍ경제', 'code': 'busn'},
-                    {'gettext': '법률', 'code': 'law'},
-                    {'gettext': '사회과학', 'code': 'scsc'},
-                    {'gettext': '교육일반', 'code': 'enor'},
-                    {'gettext': '유아교육', 'code': 'ekid'},
-                    {'gettext': '특수교육', 'code': 'espc'},
-                    {'gettext': '초등교육', 'code': 'elmt'},
-                    {'gettext': '중등교육', 'code': 'emdd'},
-                    {'gettext': '건축', 'code': 'cons'},
-                    {'gettext': '토목ㆍ도시', 'code': 'civi'},
-                    {'gettext': '교통ㆍ운송', 'code': 'traf'},
-                    {'gettext': '기계ㆍ금속', 'code': 'mach'},
-                    {'gettext': '전기ㆍ전자', 'code': 'elec'},
-                    {'gettext': '정밀ㆍ에너지', 'code': 'deta'},
-                    {'gettext': '소재ㆍ재료', 'code': 'matr'},
-                    {'gettext': '컴퓨터ㆍ통신', 'code': 'comp'},
-                    {'gettext': '산업', 'code': 'indu'},
-                    {'gettext': '화공', 'code': 'cami'},
-                    {'gettext': '기타', 'code': 'other'},
-                    {'gettext': '농림ㆍ수산', 'code': 'agri'},
-                    {'gettext': '생물ㆍ화학ㆍ환경', 'code': 'bio'},
-                    {'gettext': '생활과학', 'code': 'life'},
-                    {'gettext': '수학ㆍ물리ㆍ천문ㆍ지리', 'code': 'math'},
-                    {'gettext': '의료', 'code': 'metr'},
-                    {'gettext': '간호', 'code': 'nurs'},
-                    {'gettext': '약학', 'code': 'phar'},
-                    {'gettext': '치료ㆍ보건', 'code': 'heal'},
-                    {'gettext': '디자인', 'code': 'dsgn'},
-                    {'gettext': '응용예술','code': 'appl'},
-                    {'gettext': '무용ㆍ체육','code': 'danc'},
-                    {'gettext': '미술ㆍ조형', 'code': 'form'},
-                    {'gettext': '연극ㆍ영화', 'code': 'play'},
-                    {'gettext': '음악', 'code': 'musc'},
-                ]
-        };
-
-        var middle_classfy = function(p){
+        var middle_classfy = function(p) {
 
             var bcate_val;
+            var middle_classfy_id;
 
-            if (p==0)
+            if (p == 0) {
                 bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
-            else if (p==1)
-                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
-            else if (p==2)
-                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
-            else if (p==3)
-                bcate_val = document.getElementById("new-course-classfy").options[document.getElementById("new-course-classfy").selectedIndex].value;
+                middle_classfy_sub_init(0);
+                middle_classfy_id = document.getElementById("new-course-middle-classfy");
+            } else if (p==1) {
+                  bcate_val = document.getElementById("new-course-classfy-sub1").options[document.getElementById("new-course-classfy-sub1").selectedIndex].value;
+                  middle_classfy_id = document.getElementById("new-course-middle-classfy-sub1");
+            } else if (p==2) {
+                  bcate_val = document.getElementById("new-course-classfy-sub2").options[document.getElementById("new-course-classfy-sub2").selectedIndex].value;
+                  middle_classfy_id = document.getElementById("new-course-middle-classfy-sub2");
+            } else if (p==3) {
+                  bcate_val = document.getElementById("new-course-classfy-sub3").options[document.getElementById("new-course-classfy-sub3").selectedIndex].value;
+                  middle_classfy_id = document.getElementById("new-course-middle-classfy-sub3");
+            }
 
-            var key = 0;
+            //console.log("--------------------------------------------");
+            //console.log("bcate selected : "+bcate_val);
+            //console.log("--------------------------------------------");
 
-            var middle_classfy_id = document.getElementById("new-course-middle-classfy");
             removeOptions(middle_classfy_id);
-
             input_middle_classfy(middle_classfy_id, bcate_val);
-            middle_classfy_sub_init(0);
-
         }
 
         var input_middle_classfy = function(selectbox, m_info){
@@ -513,7 +475,6 @@ if (
                 option.text = row.gettext;
                 option.value = row.code;
                 selectbox.appendChild(option);
-
             }
         }
 
@@ -576,7 +537,7 @@ if (
 
             selectbox.appendChild(option);
 
-            for(key in scate[m_info]){
+            for(key in mcate[m_info]){
                 var row = scate[m_info][key];
                 var option = document.createElement("option");
                 option.text = row.gettext;

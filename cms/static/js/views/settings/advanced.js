@@ -42,7 +42,7 @@ var AdvancedView = ValidatingView.extend({
 
         var v_source = [];
         var v_result = [];
-    	var v_compare = ["classfy", "middle_classfy", "middle_classfysub", "difficult_degree"];
+    	var v_compare = ["classfy", "middle_classfy", "classfysub", "middle_classfysub", "difficult_degree"];
 
     	v_result = _.sortBy(_.keys(this.model.attributes), function(key) { return self.model.get(key).display_name; });
         v_source = _.sortBy(_.keys(this.model.attributes));
@@ -100,7 +100,7 @@ var AdvancedView = ValidatingView.extend({
             var index = $("#selectfixid").val();
 
             $("#txtfixid").text(index);
-            $(".cm-string").eq(3).text(index);
+            $(".cm-string").eq(4).text(index);  // difficult_degree
 
             var newValue = $("#txtfixid").val();
             // save process

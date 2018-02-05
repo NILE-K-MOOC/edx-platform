@@ -275,13 +275,21 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
-    # mih add
+    # Maeng Ilhee add
+    classfysub = String(
+        help=_("융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
     middle_classfysub = String(
         help=_("융복합 분류인 경우 최대 3개 추가입력 가능"),
         default="all",
         display_name=_("Section"),
         scope=Scope.settings
     )
+
     difficult_degree = String(
         help=_("강좌 난이도에 따른 레벨을 지정합니다."),
         default="all",

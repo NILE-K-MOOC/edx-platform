@@ -16,7 +16,10 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             allowUnicode: '.allow-unicode-course-id',
             classfy: '.new-course-classfy',
             middle_classfy: '.new-course-middle-classfy',
-            // mih add field
+            // Maeng Ilhee add field
+            classfy_sub1: '.new-course-classfy-sub1',
+            classfy_sub2: '.new-course-classfy-sub2',
+            classfy_sub3: '.new-course-classfy-sub3',
             middle_classfy_sub1: '.new-course-middle-classfy-sub1',
             middle_classfy_sub2: '.new-course-middle-classfy-sub2',
             middle_classfy_sub3: '.new-course-middle-classfy-sub3',
@@ -64,18 +67,31 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
 
             var classfy = $newCourseForm.find(".new-course-classfy").val();
             var middle_classfy = $newCourseForm.find(".new-course-middle-classfy").val();
+            var difficult_degree = "";
 
-            // mih update
+            // Maeng Ilhee update
 //alert("0 : /cms/static/js/index.js");
+            var csub1 = $newCourseForm.find(".new-course-classfy-sub1").val();
+            var csub2 = $newCourseForm.find(".new-course-classfy-sub2").val();
+            var csub3 = $newCourseForm.find(".new-course-classfy-sub3").val();
+
             var msub1 = $newCourseForm.find(".new-course-middle-classfy-sub1").val();
-//alert("1 : msub1 :"+msub1);
             var msub2 = $newCourseForm.find(".new-course-middle-classfy-sub2").val();
-//alert("2 : msub2 :"+msub2);
             var msub3 = $newCourseForm.find(".new-course-middle-classfy-sub3").val();
-//alert("3 : msub3 :"+msub3);
+
+            var classfysub = "";
+            //var classfysub = csub1+"+"+csub2+"+"+csub3;
 
             var middle_classfysub = "";
             //var middle_classfysub = msub1+"+"+msub2+"+"+msub3;
+
+
+            if(csub1 != null && csub1 != "" && csub1 != "null")
+                classfysub = csub1;
+            if(csub2 != null && csub2 != "" && csub2 != "null")
+                classfysub += ","+csub2;
+            if(csub3 != null && csub3 != "" && csub3 != "null")
+                classfysub += ","+csub3;
 
             if(msub1 != null && msub1 != "" && msub1 != "null")
                 middle_classfysub = msub1;
@@ -83,8 +99,9 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfysub += ","+msub2;
             if(msub3 != null && msub3 != "" && msub3 != "null")
                 middle_classfysub += ","+msub3;
-//alert("middle_classfysub:"+middle_classfysub);
 
+//alert("classfysub:"+classfysub);
+//alert("middle_classfysub:"+middle_classfysub);
 
             var linguistics = $newCourseForm.find(".new-course-linguistics").val();
             var period = $newCourseForm.find(".new-course-period").val();
@@ -95,9 +112,10 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 display_name: display_name,
                 run: run,
                 classfy: classfy,
+                classfysub: classfysub,                 // Maeng Ilhee add
                 middle_classfy: middle_classfy,
-                middle_classfysub: middle_classfysub,   // mih add
-                difficult_degree: difficult_degree,     // mih add
+                middle_classfysub: middle_classfysub,   // Maeng Ilhee add
+                difficult_degree: difficult_degree,     // Maeng Ilhee add
                 linguistics: linguistics,
                 period: period
             };
@@ -115,9 +133,10 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
 
             if (!classfy || !middle_classfy || middle_classfy == "null" || !linguistics || !period){
                 console.log(classfy);
+                console.log(classfysub);            // Maeng Ilhee add
                 console.log(middle_classfy);
-                console.log(middle_classfysub);     // mih add
-                console.log(difficult_degree);      // mih add
+                console.log(middle_classfysub);     // Maeng Ilhee add
+                console.log(difficult_degree);      // Maeng Ilhee add
                 console.log(linguistics);
                 console.log(period);
                 return;

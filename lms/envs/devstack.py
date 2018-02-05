@@ -193,6 +193,12 @@ COURSE_DISCOVERY_MEANINGS = {
         }
     },
     # mih add
+    'classfysub': {
+        'name': 'Section',
+        'terms': {
+            'classfysub': 'classfysub'
+        }
+    },
     'middle_classfysub': {
         'name': 'Section',
         'terms': {
@@ -223,6 +229,7 @@ COURSE_DISCOVERY_MEANINGS = {
 
 FEATURES['ENABLE_COURSE_DISCOVERY'] = True
 # FEATURES['COURSE_DISCOVERY_FILTERS'] = ["org", "language", "modes", 'classfy', 'start','end','range']
+#COURSE_DISCOVERY_FILTERS = ["org", "modes", "language", "classfy", "classfysub", "middle_classfy", "middle_classfysub", "linguistics"]
 COURSE_DISCOVERY_FILTERS = FEATURES['COURSE_DISCOVERY_FILTERS']
 
 # Setting for overriding default filtering facets for Course discovery

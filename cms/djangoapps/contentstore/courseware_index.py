@@ -545,6 +545,11 @@ class CourseAboutSearchIndexer(object):
     INDEX_NAME = CoursewareSearchIndexer.INDEX_NAME
 
     # List of properties to add to the index - each item in the list is an instance of AboutInfo object
+    # Maeng Ilhee add about information to include
+    # classfysub
+    # middle_classfysub
+    # difficult_degree
+
     ABOUT_INFORMATION_TO_INCLUDE = [
         AboutInfo("advertised_start", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("announcement", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
@@ -594,9 +599,6 @@ class CourseAboutSearchIndexer(object):
         course - course object from which to take properties, locate about information
         """
 
-
-
-
         searcher = SearchEngine.get_search_engine(cls.INDEX_NAME)
         if not searcher:
             return
@@ -608,9 +610,10 @@ class CourseAboutSearchIndexer(object):
             'content': {},
             'image_url': course_image_url(course),
             'classfy': course.classfy,
+            'classfysub': course.classfysub,                    # Maeng Ilhee add
             'middle_classfy': course.middle_classfy,
-            'middle_classfysub': course.middle_classfysub,      # mih add
-            'difficult_degree': course.difficult_degree,        # mih add
+            'middle_classfysub': course.middle_classfysub,      # Maeng Ilhee add
+            'difficult_degree': course.difficult_degree,        # Maeng Ilhee add
             'linguistics': course.linguistics,
             'course_period': course.course_period,
         }
