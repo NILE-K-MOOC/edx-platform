@@ -384,7 +384,8 @@ def series(request):
             SELECT a.series_seq,
                    a.series_name,
                    b.attach_file_path,
-                   b.attatch_file_name
+                   b.attatch_file_name,
+                   attatch_file_ext
               FROM edxapp.series AS a
                    LEFT JOIN edxapp.tb_board_attach AS b
                       ON a.sumnail_file_id = b.attatch_id
@@ -405,7 +406,8 @@ def series_view(request, id):
                a.series_id,
                a.note,
                b.attach_file_path,
-               b.attatch_file_name
+               b.attatch_file_name,
+               attatch_file_ext
             FROM series as a
             LEFT JOIN tb_board_attach AS b
             ON a.sumnail_file_id = b.attatch_id
