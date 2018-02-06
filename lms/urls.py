@@ -155,7 +155,8 @@ urlpatterns = (
     url(r'Mafndown', 'maeps.views.Mafndown', name='Mafndown'),
     url(r'MaGetSession', 'maeps.views.MaGetSession', name='MaGetSession'),
     url(r'MaInstallPage', 'maeps.views.MaInstallPage', name='MaInstallPage'),
-    url(r'certificate_print', 'maeps.views.certificate_print', name='certificate_print'),
+    url(r'certificate_print$', 'maeps.views.certificate_print', name='certificate_print'),
+    url(r'MaSample', 'maeps.views.MaSample', name='MaSample'),
 )
 
 urlpatterns += (

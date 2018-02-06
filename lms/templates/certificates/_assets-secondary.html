@@ -3,7 +3,17 @@
     document.getElementById("action-print-view").addEventListener("click", printView);
 
     function printView(event) {
-        var print_index = $('#printArea_K').html();
-        $.ajax({method: "POST", url: "/certificate_print", data:{print_index: print_index}});
+        var print_index = $('#certifi_print').html();
+        //$.ajax({method: "POST", url: "/certificate_print", data:{print_index: print_index}});
+        var frmPop= document.frmPopup;
+        var url = '/certificate_print';
+        window.open('','popupView','옵션');
+
+        frmPop.action = url;
+        frmPop.target = 'popupView'; //window,open()의 두번째 인수와 같아야 하며 필수다.
+        frmPop.print_index.value = print_index;
+        frmPop.submit();
+
+
     }
 </script>

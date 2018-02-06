@@ -1,34 +1,71 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
-from django.template.loader import render_to_string, get_template
-from django.views.decorators.csrf import csrf_exempt
+
 import base64
 import os
 import time
-from . import mapreprocessor
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import loader
+from django.template.loader import render_to_string
+from django.utils.crypto import get_random_string
+from django.views.decorators.csrf import csrf_exempt
+from openedx.core.djangoapps.safe_sessions.middleware import SafeCookieData
 from . import MaFpsCommon
-from django.views.decorators.http import require_http_methods, require_GET, require_POST
-from util.cache import cache, cache_if_anonymous
+from . import mapreprocessor
+
+
+# Create your views here.
+@csrf_exempt
+def index(request):
+    '''
+    print 'index META check s'
+    print request.META
+    print 'index META check e'
+    print 'session key:', request.session.session_key, '[1]'
+    print 'session key:', request.session.session_key, '[1]'
+    '''
+    MaFpsCommon.MaSetVariable(request)
+
+    template = loader.get_template('markany/index.html')
+    context = {
+        'strWebHome': MaFpsCommon.strWebHome,
+        'strJsWebHome': MaFpsCommon.strJsWebHome,
+    }
+
+    # return HttpResponse(template.render(context, request))
+    return MaSample(request)
+    '''
+    page_title = '블로그 글 목록 화면'
+    #html_content = render_to_string('index.html', {'message':page_title})
+    #return HttpResponse(html_content)
+    #return HttpResponse( "strSessionKey [%s], donghwa [%s]" % ( strSessionKey, strValue ) )
+    return HttpResponse( '안녕, 여러분. 이곳은 [%s] 이야.' % page_title )
+    '''
 
 @csrf_exempt
-@cache_if_anonymous()
-@require_http_methods(['POST'])
 def certificate_print(request):
-    if request.method == 'POST':
-        print_index = request.POST.get('print_index')
-        print 'print_index========================='
-        print print_index
-        print 'print_index========================='
+    # print 'session key:', request.session.session_key, '[2]'
+    # strHtmlData = render_to_string('markany/sampleh.html')
+    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
 
-        strHtmlData = print_index
-        strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+    print_index = request.POST.get('print_index')
+    context = {
+        'strName': '김동화',
+        'strJuminNo': '880808-1234567',
+    }
+    print 'Test~~~~~~~'
+    print print_index
+    print 'Test~~~~~~~'
 
-        response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
-        return response
+    strHtmlData = print_index
+    strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+
+    response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+    return response
 
 def MaSample(request):
+    # print 'session key:', request.session.session_key, '[2]'
     # strHtmlData = render_to_string('markany/sampleh.html')
     # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
     context = {
@@ -44,6 +81,7 @@ def MaSample(request):
 
 
 def MaFpsTail(request, strHtmlData, iHtmlDataSize):
+    # print 'session key:', request.session.session_key, '[3]'
     strRetCode = ''
     iRetCode = 0
 
@@ -53,10 +91,7 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
 
     ma_cookie_data = ''
 
-    (strRetCode, strAMetaData) = mapreprocessor.strMaPrestreamWmByte(MaFpsCommon.strMAServerIP,
-                                                                     MaFpsCommon.iMAServerPort, strHtmlData,
-                                                                     iHtmlDataSize, MaFpsCommon.iCellBlockCount,
-                                                                     MaFpsCommon.iCellBlockRow)
+    (strRetCode, strAMetaData) = mapreprocessor.strMaPrestreamWmByte(MaFpsCommon.strMAServerIP, MaFpsCommon.iMAServerPort, strHtmlData, iHtmlDataSize, MaFpsCommon.iCellBlockCount, MaFpsCommon.iCellBlockRow)
     if strRetCode == mapreprocessor.ISUCCESS:
         iAMetaDataSize = len(strAMetaData)
 
@@ -97,19 +132,22 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
 
     strVersion = ''
     strSID = ''
-    iNotSessionInCookie = 0
 
+    '''
+    iNotSessionInCookie = 0
+    '''
     if not request.session.session_key:
         request.session.save()
-        iNotSessionInCookie = 1
 
-    strSID = 'ytvamqjoiyr1h36spotbgtitc4po5hhc'
-    print 'strSID=========='
-    print strSID
+    strSID = request.session.session_key
+    safe_cookie_data = SafeCookieData.create(strSID, get_random_string())
+    serialized_value = unicode(safe_cookie_data)
 
-    if iNotSessionInCookie == 1:
-        ma_cookie_data = ma_cookie_data + "sessionid=" + strSID + ";"
+    ma_cookie_data = ma_cookie_data + "sessionid=" + serialized_value + ";"
+    # print "ma_cookie_data"
+    # print ma_cookie_data
 
+    # if iNotSessionInCookie == 1:
     strBase64Cookie = base64.standard_b64encode(ma_cookie_data)
 
     pversion = "NONE"
@@ -118,6 +156,7 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
     iSessionCheck = 0
 
     pversion = request.session.get('productversion', 'NONE')
+    # print pversion
 
     if pversion != "NONE":
         strVersion = pversion.replace(MaFpsCommon.strSignature, "")
@@ -231,6 +270,7 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
 
 
 def MaIePopup(request):
+    # print 'session key:', request.session.session_key, '[4]'
     # print "MaIePopup"
     strParamSessionURL = request.GET.get("sessionurl")
     # print strParamSessionURL
@@ -248,9 +288,15 @@ def MaIePopup(request):
 
 @csrf_exempt
 def MaSetInstall(request):
+    '''
+    print 'MaSetInstall META check s'
+    print request.META
+    print 'MaSetInstall META check e'
+    print 'session key:', request.session.session_key, '[5]'
+    '''
     # print "MaSetInstall"
     # strParam = request.GET.get("param", "NONE")
-    strParam = '1|0ht3t1vxoh42drg66xa2gt95b0ru9feo|4j1r8yquk25x|IjQ2Y2Q1MDdjYmM1NzgwNGRkYzdiODFlM2U5OGIzOTYyYTc3NWNlMTQ5NzEyOTBmNDZiYzNmZTMzNmI5MDMyZWUi:1eg3sQ:i534c9NZUsEwQp9JIEdKCjt_lwM'
+    strParam = request.POST.get("param", "NONE")
 
     # print "MaSetInstall " + strParam
     # safetyFileNameChek
@@ -264,9 +310,10 @@ def MaSetInstall(request):
 
 
 def MaSessionCheck(request):
+    # print 'session key:', request.session.session_key, '[5]'
     strParamPversion = request.session.get('productversion', 'NONE')
     strDownURL = request.session.get('strDownURL', 'NONE')
-    strCookie = '1|0ht3t1vxoh42drg66xa2gt95b0ru9feo|4j1r8yquk25x|IjQ2Y2Q1MDdjYmM1NzgwNGRkYzdiODFlM2U5OGIzOTYyYTc3NWNlMTQ5NzEyOTBmNDZiYzNmZTMzNmI5MDMyZWUi:1eg3sQ:i534c9NZUsEwQp9JIEdKCjt_lwM'
+    strCookie = request.session.get('strCookie', 'NONE')
 
     # print "strParamPversion : " + strParamPversion
     # print "strDownURL : " + strDownURL
@@ -303,9 +350,7 @@ def MaSessionCheck(request):
     if not (bValidVersion):
         result = strDownURL.split("fn=")
         filePath = MaFpsCommon.strDownFolder
-        strSID = 'ytvamqjoiyr1h36spotbgtitc4po5hhc'
-        print 'strSID=========='
-        print strSID
+        strSID = request.session.session_key
 
         # safetyFileNameCheck...
         # security check
@@ -327,7 +372,7 @@ def MaSessionCheck(request):
         'strImagePath': MaFpsCommon.strImagePath,
         'strJsWebHome': MaFpsCommon.strJsWebHome,
         'strSudongInstallURL': MaFpsCommon.strSudongInstallURL,
-        'strParamCookie': '1|0ht3t1vxoh42drg66xa2gt95b0ru9feo|4j1r8yquk25x|IjQ2Y2Q1MDdjYmM1NzgwNGRkYzdiODFlM2U5OGIzOTYyYTc3NWNlMTQ5NzEyOTBmNDZiYzNmZTMzNmI5MDMyZWUi:1eg3sQ:i534c9NZUsEwQp9JIEdKCjt_lwM',
+        'strParamCookie': strParamCookie,
         'strParamPversion': strParamPversion,
         'strParamDownURL': strParamDownURL,
         'strPVersion': MaFpsCommon.strPVersion,
@@ -340,15 +385,14 @@ def MaSessionCheck(request):
 
 @csrf_exempt
 def Mafndown(request):
+    # print 'session key:', request.session.session_key, '[6]'
     # String requestFileNameAndPath = request.getParameter("fn");
     # String requestFileServerIp = request.getParameter("fs");
     # String requestDatFile = request.getParameter("prtdat");
     strFileName = ''
     strParamFileName = request.POST.get("fn", "NONE")
     filePath = MaFpsCommon.strDownFolder
-    strSID = 'ytvamqjoiyr1h36spotbgtitc4po5hhc'
-    print 'strSID=========='
-    print strSID
+    strSID = request.session.session_key
 
     # print "strParamFileName : " + strParamFileName
     strParamFileName = mapreprocessor.strSafetyFileNameCheck(strParamFileName)
@@ -383,6 +427,7 @@ def Mafndown(request):
 
 
 def MaInstallPage(request):
+    # print 'session key:', request.session.session_key, '[7]'
     MaFpsCommon.MaSetVariable(request)
 
     template = loader.get_template('markany/MaInstallPage.html')
@@ -395,9 +440,10 @@ def MaInstallPage(request):
 
 
 def MaGetSession(request):
+    print 'session key:', request.session.session_key, '[8]'
     strParamPversion = request.session.get('productversion', 'NONE')
     strDownURL = request.session.get('strDownURL', 'NONE')
-    strCookie = '1|0ht3t1vxoh42drg66xa2gt95b0ru9feo|4j1r8yquk25x|IjQ2Y2Q1MDdjYmM1NzgwNGRkYzdiODFlM2U5OGIzOTYyYTc3NWNlMTQ5NzEyOTBmNDZiYzNmZTMzNmI5MDMyZWUi:1eg3sQ:i534c9NZUsEwQp9JIEdKCjt_lwM'
+    strCookie = request.session.get('strCookie', 'NONE')
 
     print request.session.session_key
     print "strParamPversion : " + strParamPversion
@@ -408,8 +454,11 @@ def MaGetSession(request):
 
 
 def MaMakeCookie(request):
+    print 'session key:', request.session.session_key, '[9]'
     response = HttpResponse()
-    response.set_cookie('1|0ht3t1vxoh42drg66xa2gt95b0ru9feo|4j1r8yquk25x|IjQ2Y2Q1MDdjYmM1NzgwNGRkYzdiODFlM2U5OGIzOTYyYTc3NWNlMTQ5NzEyOTBmNDZiYzNmZTMzNmI5MDMyZWUi:1eg3sQ:i534c9NZUsEwQp9JIEdKCjt_lwM')
+    response.set_cookie('test_cookie', 'value#1')
+    response.set_cookie('test_donghwa', 'value#2')
+    response.set_cookie('test-babo', 'value#3')
 
     request.session['productversion'] = 'MARKANYEPS25124'
     request.session.modified = True
