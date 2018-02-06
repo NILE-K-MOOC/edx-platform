@@ -87,7 +87,7 @@ function () {
         };
 
         Player.prototype.getAvailablePlaybackRates = function () {
-            return [0.75, 1.0, 1.25, 1.5];
+            return [0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
         };
 
         Player.prototype._getLogs = function () {
