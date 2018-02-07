@@ -28,6 +28,8 @@ from openedx.core.djangolib.markup import HTML, Text
 <script>
 $(document).ready(function () {
     $("#review_write_submit").click(function(){
+        $('#style-1').show();
+        $('#comment').remove();
         write_review();
     });
 });
@@ -295,7 +297,16 @@ a.focus { outline: 1px solid red; }
 <div class = "hidden_org" style = "display:none">${course_org}</div>
 <div class = "hidden_name" style = "display:none">${course_number}</div>
 
-<div class="scrollbar" id="style-1">
+% if len(review_list) == 0:
+<div id="comment" style="text-align: center;">현재 등록된 리뷰가 없습니다</div>
+% endif
+
+% if len(review_list) == 0:
+<div class="scrollbar" id="style-1" style="display: none;">
+% endif
+% if len(review_list) != 0:
+<div class="scrollbar" id="style-1" style="display: block;">
+% endif
 % for row in review_list:
     <div class = "review_body_div" id = "review_body_div_${row[0]}">
         <table class = "review_body_table">
@@ -357,3 +368,4 @@ a.focus { outline: 1px solid red; }
     </div>
 % endfor
 </div>
+
