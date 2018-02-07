@@ -12,6 +12,30 @@ _ = lambda text: text
 
 
 class VideoFields(object):
+
+    #### video progress check ####
+
+    has_score = Boolean(
+        help=_("Assign score"),
+        display_name=_("Progress check"),
+        scope=Scope.settings,
+        default=False
+    )
+
+    seek_enable = Boolean(
+        help=_("progress bar control"),
+        scope=Scope.user_state,
+        default=False
+    )
+
+    lock = Float(
+        help=_("score control"),
+        scope=Scope.user_state,
+        default=0.0
+    )
+
+    #### video progress check ####
+
     """Fields for `VideoModule` and `VideoDescriptor`."""
     display_name = String(
         help=_("The name students see. This name appears in the course ribbon and as a header for the video."),
