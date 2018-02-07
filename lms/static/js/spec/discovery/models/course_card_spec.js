@@ -14,7 +14,9 @@ define(['js/discovery/models/course_card'], function(CourseCard) {
             expect(this.card.get('number')).toBeDefined();
             expect(this.card.get('content')).toEqual({
                 display_name: '',
+                overview: '',
                 number: '',
+                catalog_visibility: '',
             });
             expect(this.card.get('start')).toBeDefined();
             expect(this.card.get('image_url')).toBeDefined();

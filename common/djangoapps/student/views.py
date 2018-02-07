@@ -1038,6 +1038,11 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
             where_org.append(enrollment_row[4])  # org 코드
             propose_course_list.append(enrollment_row[0])   # 강좌아이디
 
+        print "-----------------------> s"
+        print "propose_course_list = ", propose_course_list
+        print "len(propose_course_list) = ", len(propose_course_list)
+        print "-----------------------> e"
+
         n = 0
         for i in propose_course_list:
             if n == 0:
@@ -1045,6 +1050,9 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
             else:
                 course_ids = course_ids + ',\'' + i + '\''
             n = n + 1
+
+        if len(propose_course_list) == 0:
+            course_ids = "''" #<--- null except
 
         enrollments = CourseEnrollment.enrollments_for_user_propose(course_ids)
     else:

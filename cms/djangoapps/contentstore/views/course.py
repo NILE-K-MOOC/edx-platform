@@ -792,8 +792,14 @@ def _create_or_rerun_course(request):
         ##kmooc
         classfy = request.json.get('classfy')
         fields['classfy'] = classfy
+        classfysub = request.json.get('classfysub')
+        fields['classfysub'] = classfysub
         middle_classfy = request.json.get('middle_classfy')
         fields['middle_classfy'] = middle_classfy
+        middle_classfysub = request.json.get('middle_classfysub')
+        fields['middle_classfysub'] = middle_classfysub
+        difficult_degree = request.json.get('difficult_degree')
+        fields['difficult_degree'] = difficult_degree
         linguistics = request.json.get('linguistics')
         fields['linguistics'] = linguistics
         course_period = request.json.get('course_period')
@@ -932,7 +938,10 @@ def _rerun_course(request, org, number, run, fields):
     try:
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy
+        fields['classfysub'] = source_course.classfysub
         fields['middle_classfy'] = source_course.middle_classfy
+        fields['middle_classfysub'] = source_course.middle_classfysub
+        fields['difficult_degree'] = source_course.difficult_degree
         fields['linguistics'] = source_course.linguistics
         fields['course_period'] = source_course.course_period
     except Exception as e:
@@ -1408,24 +1417,25 @@ def _refresh_course_tabs(request, course_module):
         course_module.tabs = course_tabs
 
 def course_difficult_degree(request, course_key_string):
-	    difficult_degree = None
-	    from django.db import connections
-	    with connections['default'].cursor() as cur:
-	        query = '''
-	          SELECT
-	                detail_code, detail_name, detail_ename
-	            FROM code_detail
-	           WHERE group_code = '007'
-	           AND   use_yn = 'Y'
-	           AND   delete_yn = 'N'
-	           ORDER BY detail_code asc
-	        '''
-	        cur.execute(query)
-	        rows = cur.fetchall()
-	        difficult_degree = {}
-	        difficult_degree['degree_list'] = rows
-	        cur.close()
-	    return difficult_degree
+    difficult_degree = None
+    from django.db import connections
+    with connections['default'].cursor() as cur:
+        query = '''
+          SELECT
+                detail_code, detail_name, detail_ename
+            FROM code_detail
+           WHERE group_code = '007'
+           AND   use_yn = 'Y'
+           AND   delete_yn = 'N'
+           ORDER BY detail_code asc
+        '''
+        cur.execute(query)
+        rows = cur.fetchall()
+        difficult_degree = {}
+        difficult_degree['degree_list'] = rows
+        cur.close()
+    return difficult_degree
+
 
 @login_required
 @ensure_csrf_cookie
@@ -1447,12 +1457,14 @@ def advanced_settings_handler(request, course_key_string):
 
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             need_lock = course_need_lock(request, course_key_string)
+            difficult_degree_list = course_difficult_degree(request, course_key_string)
             advanced_dict = CourseMetadata.fetch(course_module)
             advanced_dict['need_lock'] = need_lock
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,
                 'advanced_dict': advanced_dict,
+                'difficult_degree_list': difficult_degree_list,
                 'advanced_settings_url': reverse_course_url('advanced_settings_handler', course_key),
                 'is_staff': {"is_staff": 'true'} if request.user.is_staff is True else {"is_staff": 'false'}
             })
