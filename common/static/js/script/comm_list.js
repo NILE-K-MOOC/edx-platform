@@ -7,6 +7,7 @@ var cur_page = "";
 var start_page = 1;
 
 $(document).ready(function () {
+    //alert('community list');
     search($("#curr_page").val());
 
     $("#search").click(function () {
