@@ -15,7 +15,8 @@ var AdvancedView = ValidatingView.extend({
     // Model class is CMS.Models.Settings.Advanced
     events : {
         'focus :input' : "focusInput",
-        'blur :input' : "blurInput"
+        'blur :input' : "blurInput",
+        'change :input' : "selectInput"
         // TODO enable/disable save based on validation (currently enabled whenever there are changes)
     },
     initialize : function() {
@@ -36,9 +37,27 @@ var AdvancedView = ValidatingView.extend({
         this.fieldToSelectorMap = {};
         this.selectorToField = {};
 
-        // iterate through model and produce key : value editors for each property in model.get
+        // iterate through model and produce key : value editor        // some disabled column for each property in model.get
         var self = this;
-        _.each(_.sortBy(_.keys(this.model.attributes), function(key) { return self.model.get(key).display_name; }),
+
+        var v_source = [];
+        var v_result = [];
+    	var v_compare = ["classfy", "middle_classfy", "classfysub", "middle_classfysub", "difficult_degree"];
+
+    	v_result = _.sortBy(_.keys(this.model.attributes), function(key) { return self.model.get(key).display_name; });
+        v_source = _.sortBy(_.keys(this.model.attributes));
+
+        for (var v in v_compare) {
+            //console.log("data0 : "+ v_compare[v]);
+            v_source.splice(v_source.indexOf(v_compare[v]),1);
+        }
+
+        // 우선순위 항목 삽입
+        for (var v = 0; v < v_compare.length; v++) {
+            v_source.splice(v, 0, v_compare[v]);
+        }
+
+        _.each(v_source,
             function(key) {
                 if (self.render_deprecated || !self.model.get(key).deprecated) {
                     HtmlUtils.append(listEle$, self.renderTemplate(key, self.model.get(key)));
@@ -50,10 +69,53 @@ var AdvancedView = ValidatingView.extend({
         }
 
 
-        var policyValues = listEle$.find('.json');
-        _.each(policyValues, this.attachJSONEditor, this);
+        var policyValues1= listEle$.find('.json');
+        //console.log("policyValues1:" + policyValues1.length + ":" + policyValues1 );
+        _.each(policyValues1, this.attachJSONEditor, this);
+
+        var policyValues2 = listEle$.find('.select');
+        //console.log("policyValues2:" + policyValues2.length + ":" + policyValues2 );
+        _.each(policyValues2, this.attachJSONInput, this);
+
+        // textarea display none
+        var pdiv1 = document.getElementById("selectdiv");
+        var pdiv6 = pdiv1.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
+        // console.log("------------->"+pdiv6.className);
+        pdiv6.style.display = "none";
+        //pdiv6.text("good job");    // Very important line. why action?
+
+        degree_js();    //combo box call
+
         return this;
     },
+
+    attachJSONInput : function (input) {
+        //console.log('attachJSONInput : '+input);
+        var self = this;
+        var oldValue = $(input).val();
+        //console.log('attachJSONInput changed : '+oldValue);
+        var cm = $("#selectfixid")
+
+        cm.on('change', function (instance, changeobj) {
+            //console.log('attachJSONInput changed');
+            var index = $("#selectfixid").val();
+
+            $("#txtfixid").text(index);
+            $(".cm-string").eq(4).text(index);  // difficult_degree
+
+            var newValue = $("#txtfixid").val();
+            // save process
+            if (newValue !== oldValue) {
+                    //console.log("attachJSONInput newValue : " + newValue + " : " + oldValue);
+                    var message = gettext("Your changes will not take effect until you save your progress. Take care with key and value formatting, as validation is not implemented.");
+                    self.showNotificationBar(message,
+                                             _.bind(self.saveView, self),
+                                             _.bind(self.revertView, self));
+                }
+
+        });
+    },
+
     attachJSONEditor : function (textarea) {
         // Since we are allowing duplicate keys at the moment, it is possible that we will try to attach
         // JSON Editor to a value that already has one. Therefore only attach if no CodeMirror peer exists.
@@ -97,7 +159,7 @@ var AdvancedView = ValidatingView.extend({
                     var firstNonWhite = stringValue.substring(0, 1);
                     if (firstNonWhite !== "{" && firstNonWhite !== "[" && firstNonWhite !== "'") {
                         try {
-                            stringValue = '"'+stringValue +'"';
+                            //stringValue = '"'+stringValue +'"';
                             JSONValue = JSON.parse(stringValue);
                             mirror.setValue(stringValue);
                         } catch(quotedE) {
@@ -120,6 +182,10 @@ var AdvancedView = ValidatingView.extend({
         //    call validateKey on each to ensure proper format
         //    check for dupes
         var self = this;
+        var x = this.model.get("difficult_degree");
+        if (x['value'].replace('"','').replace('"','') != $('#txtfixid').text().trim().replace('"','').replace('"','')) {
+            this.model.set('difficult_degree', {value: $('#txtfixid').text().trim()});
+        }
         this.model.save({}, {
             success : function() {
                 self.render();

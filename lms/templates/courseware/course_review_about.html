@@ -28,6 +28,8 @@ from openedx.core.djangolib.markup import HTML, Text
 <script>
 $(document).ready(function () {
     $("#review_write_submit").click(function(){
+        $('#style-1').show();
+        $('#comment').hide();
         write_review();
     });
 });
@@ -54,6 +56,12 @@ function write_review(){
                 $(".scrollbar").prepend(data.html);   // 아래
                 $(".review_write").remove();
                 $(".review_delete_font").click(function(){
+                    var list_cnt = '${len(review_list)}';
+                    //alert(list_cnt);
+                    if(list_cnt == '0'){
+                        $('#style-1').hide();
+                        $('#comment').show();
+                    }
                     delete_review(); // 새로 만든 write 창에 삭제 버튼 클릭 가능
                 });
             }
@@ -82,6 +90,8 @@ function delete_review(){
             $(".review_subject").append(data.html);
             $(hello).hide();
             $("#review_write_submit").click(function(){
+                $('#style-1').show();
+                $('#comment').hide();
                 write_review();
             });
 
@@ -295,7 +305,16 @@ a.focus { outline: 1px solid red; }
 <div class = "hidden_org" style = "display:none">${course_org}</div>
 <div class = "hidden_name" style = "display:none">${course_number}</div>
 
-<div class="scrollbar" id="style-1">
+% if len(review_list) == 0:
+<div id="comment" style="text-align: center;">현재 등록된 리뷰가 없습니다</div>
+% endif
+
+% if len(review_list) == 0:
+<div class="scrollbar" id="style-1" style="display: none;">
+% endif
+% if len(review_list) != 0:
+<div class="scrollbar" id="style-1" style="display: block;">
+% endif
 % for row in review_list:
     <div class = "review_body_div" id = "review_body_div_${row[0]}">
         <table class = "review_body_table">
@@ -357,3 +376,4 @@ a.focus { outline: 1px solid red; }
     </div>
 % endfor
 </div>
+

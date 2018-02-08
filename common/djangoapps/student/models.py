@@ -1584,10 +1584,10 @@ class CourseEnrollment(models.Model):
                   , 'honor' as  mode
                   , a.created
               FROM course_overviews_courseoverview a
-             WHERE id in ('''+course_ids+''')
+             WHERE id in ({course_ids})
              and   now() <= a.end
              order by a.id asc;
-        '''
+        '''.format(course_ids=course_ids)
 
         return cls.objects.raw(qry)
 

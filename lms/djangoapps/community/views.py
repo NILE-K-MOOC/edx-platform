@@ -715,6 +715,7 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
     context = {
         'page_title': page_title,
         'board': board,
+        # 'comm_list_url': reverse('file_check', kwargs={'section': section, 'curr_page': curr_page})
         'comm_list_url': reverse('comm_list', kwargs={'section': section, 'curr_page': curr_page})
     }
 
