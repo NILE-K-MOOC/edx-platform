@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
     document.getElementById("action-print-view").addEventListener("click", printView);
+    document.getElementById("action-check-view").addEventListener("click", checkView);
 
     function printView(event) {
         var print_index = $('#certifi_print').html();
@@ -13,7 +14,11 @@
         frmPop.target = 'popupView'; //window,open()의 두번째 인수와 같아야 하며 필수다.
         frmPop.print_index.value = print_index;
         frmPop.submit();
+    }
 
-
+    function checkView(event) {
+        window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        document.form2.target = "popupNICE";
+        document.form2.submit();
     }
 </script>

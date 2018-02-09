@@ -94,11 +94,16 @@ from django.template.defaultfilters import escapejs
                         ${_("Print Certificate")}
                     </button>
 
-                    <button class="action action-print btn-inverse btn-small Test_btn" id="action-print-view">
+                    <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
                         본인인증
                     </button>
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="print_index">
+                    </form>
+
+                    <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+                        <input type="hidden" name="m" value="checkplusSerivce">
+                        <input type="hidden" name="EncodeData" value="${enc_data}">
                     </form>
                 </div>
             </div>
