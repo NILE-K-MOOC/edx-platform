@@ -78,13 +78,11 @@ var AdvancedView = ValidatingView.extend({
         _.each(policyValues2, this.attachJSONInput, this);
 
         // textarea display none
-        var pdiv1 = document.getElementById("selectdiv");
-        var pdiv6 = pdiv1.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
+        //var pdiv1 = document.getElementById("selectdiv");
+        //var pdiv6 = pdiv1.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
         // console.log("------------->"+pdiv6.className);
-        pdiv6.style.display = "none";
+        //pdiv6.style.display = "none";
         //pdiv6.text("good job");    // Very important line. why action?
-
-        degree_js();    //combo box call
 
         return this;
     },

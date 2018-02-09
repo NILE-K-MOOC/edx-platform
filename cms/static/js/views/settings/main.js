@@ -144,6 +144,7 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 this.model.set('overview', $('#course_info_text').html());
             },
             initialize: function (options) {
+
                 $(function () {
                     $(".tab_content").hide();
                     $(".tab_content:first").show();
@@ -763,9 +764,6 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                     var cachethis = this;
                     var field = this.selectorToField[thisTarget.id];
                     var check = $('#modi_check').size();
-                    console.log('Test======');
-                    console.log(check);
-
 
                     if( check == 1) {
                         this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
