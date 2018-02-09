@@ -13,7 +13,9 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
         events : {
             'click .setting-clear' : 'clear',
             'keypress .setting-input' : 'showClearButton',
-            'click .collapse-setting' : 'toggleExtraVideosBar'
+            'click .collapse-setting' : 'toggleExtraVideosBar',
+            'keyup .videolist-url' : 'urlVerification',
+            'keyup .videolist-url2' : 'urlVerification2',
         },
 
         templateName: 'metadata-videolist-entry',
@@ -22,7 +24,7 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
         placeholders: {
             'webm': '.webm',
             'mp4': 'http://somesite.com/video.mp4',
-            'youtube': 'http://youtube.com/'
+            'youtube': 'http://'
         },
 
         initialize: function (options) {
@@ -35,7 +37,6 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
                 el: this.$el,
                 parent: this
             });
-
             // Call it after MessageManager. This is because
             // MessageManager is used in `render` method that
             // is called in `AbstractEditor.prototype.initialize`.
@@ -238,6 +239,21 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
                 this.closeExtraVideosBar.apply(this, arguments);
             } else {
                 this.openExtraVideosBar.apply(this, arguments);
+            }
+        },
+        urlVerification: function(event) {
+            var a = $('.videolist-url').val().toLowerCase();
+            var results = a.match('youtube');
+            if(results != null) {
+                $('.videolist-url').val('');
+            }
+
+        },
+        urlVerification2: function(event) {
+            var a = $('.videolist-url2').val().toLowerCase();;
+            var results = a.match('youtube');
+            if(results != null) {
+                $('.videolist-url2').val('');
             }
         },
 

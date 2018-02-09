@@ -1556,9 +1556,9 @@ class CourseEnrollment(models.Model):
                                    WHERE     aa.org = bb.org
                                          AND aa.display_number_with_default =
                                                 bb.display_number_with_default
-                                         AND aa.start >= bb.start
-                                         AND aa.created >= bb.created)
-                                    AS rank
+                                         AND aa.start >= bb.start)
+                                    AS rank,
+                                    start
                             FROM edxapp.course_overviews_courseoverview aa) a
                          JOIN interest_course b
                             ON     a.org = b.org
@@ -1569,9 +1569,8 @@ class CourseEnrollment(models.Model):
                          LEFT JOIN student_courseenrollment c
                             ON a.id = c.course_id AND b.user_id = c.user_id
                    WHERE a.rank = 1
-                ORDER BY c.created DESC;
+                ORDER BY a.start DESC;
         ''', [user.id])
-
     # ----------------------------------------------------------------------------- 맹일희 부장 추가 (추천강좌)
     @classmethod
     def enrollments_for_user_propose(cls, course_ids):

@@ -54,7 +54,7 @@ DISPLAY_NAME = "Component Display Name"
 DEFAULT_SETTINGS = [
     # basic
     [DISPLAY_NAME, 'Video', False],
-    ['Default Video URL', 'https://www.youtube.com/watch?v=3_yD_cEKoCk, , ', False],
+    ['Default Video URL', 'http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4, , ', False],
 
     # advanced
     [DISPLAY_NAME, 'Video', False],

@@ -291,8 +291,8 @@ class CourseFields(object):
     )
 
     difficult_degree = String(
-        help=_("강좌 난이도에 따른 레벨을 지정합니다."),
-        default="all",
+        help=_("Y 또는 N을 입력합니다. Y를 입력하면 청강모드를 사용합니다."),
+        default="N",
         display_name=_("Section"),
         scope=Scope.settings
     )

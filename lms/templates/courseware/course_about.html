@@ -321,7 +321,23 @@ box-sizing: border-box;
 .faq .question{margin-bottom: 0px;}
 .faq .question h4 {margin :0.1rem 0 0.2rem 0 ;}
 
+.arrow_box {
+  display: none;
+  position: absolute;
+  padding: 7px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+  left: -25px;
+  width: 95px;
+  font-size:13px;
+}
 
+a:hover + p.arrow_box {
+  display: block;
+}
 </style>
 <section class="course-info">
   <header class="course-profile">
@@ -354,11 +370,11 @@ box-sizing: border-box;
               </h1>
                <div style="float: right; right: 0; position: absolute; margin-right: 20px;">
                    % if (flag == 1):
-                   <a id="interest_btn_d" onclick="modi()"><i style="color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
-                   <a id="interest_btn_i" onclick="add()"><i style="display:none; color:red;" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="color:red; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 삭제</p>
+                   <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="display:none; color:red; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 추가</p>
                    % else :
-                   <a id="interest_btn_d" onclick="modi()"><i style="display:none; color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
-                   <a id="interest_btn_i" onclick="add()"><i style="color:red" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="display:none; color:red; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 삭제</p>
+                   <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="color:red; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 추가</p>
                    % endif
                </div>
               <script>
