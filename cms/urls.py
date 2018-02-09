@@ -189,7 +189,9 @@ if settings.FEATURES.get('CERTIFICATES_HTML_VIEW'):
         url(r'^certificates/{}/(?P<certificate_id>\d+)?$'.format(settings.COURSE_KEY_PATTERN),
             'contentstore.views.certificates.certificates_detail_handler'),
         url(r'^certificates/{}$'.format(settings.COURSE_KEY_PATTERN),
-            'contentstore.views.certificates.certificates_list_handler')
+            'contentstore.views.certificates.certificates_list_handler'),
+        url(r'^certificates_print/{}$'.format(settings.COURSE_KEY_PATTERN),
+            'contentstore.views.certificates.certificates_print')
     )
 
 urlpatterns += (

@@ -55,22 +55,22 @@ course_mode_class = course_mode if course_mode else ''
     <!-- wrap Start -->
     <div class="kmooc_a"><img src="/static/images/certificate_bg.gif" alt="certificate_bg" onloadeddata="imgloaded();" style="width:1180px; height:750px;" /></div>
     <div class="kmooc_contents">
-    <p class="kmooc_b">${_("Certificatiion ID")}<br />
-    ${certificate_id_number}</p>
+    <p class="kmooc_b">${_("Certificatiion ID")}11111<br />
+    ${certificate_id_number}222222</p>
     <div class="kmooc_c"><img src="/static/images/kmooc_title.png" alt="certificate_bg 이수증 입니다." /></div>
     <ul class="kmooc_d">
-      <li class="kmooc_font1">${accomplishment_copy_name}</li>
-      <li class="kmooc_font2">has successfully completed.</li>
+      <li class="kmooc_font1">${accomplishment_copy_name}333333</li>
+      <li class="kmooc_font2">has successfully completed.44444</li>
     </ul>
     <ul class="kmooc_e">
-      <li class="kmooc_font3">${accomplishment_course_title}<br /><span class="kmooc_small">(${accomplishment_copy_course_org}.${course_id2})</span></li>
+      <li class="kmooc_font3">${accomplishment_course_title}55555<br /><span class="kmooc_small">66666(${accomplishment_copy_course_org}.${course_id2})</span></li>
     </ul>
     <ul class="kmooc_f">
-      <li class="kmooc_font4">${_("This certificate will be awarded by faithfully completing the above course")}</li>
-      <li class="kmooc_font5">an online learning Initiative of ${accomplishment_copy_course_org} through K-MOOC.</li>
+      <li class="kmooc_font4">77777${_("This certificate will be awarded by faithfully completing the above course")}</li>
+      <li class="kmooc_font5">88888an online learning Initiative of ${accomplishment_copy_course_org} through K-MOOC.</li>
     </ul>
     <ul class="kmooc_g">
-      <li>${_("Completion date")} ISSUE DATE<br />${certificate_date_issued2} ${certificate_date_issued}</li>
+      <li>99999${_("Completion date")} ISSUE DATE<br />aaaaa${certificate_date_issued2} ${certificate_date_issued}</li>
 
       <li class="p10">
 
@@ -84,9 +84,9 @@ course_mode_class = course_mode if course_mode else ''
             % for signatory in certificate_data.get('signatories', []):
             <dl class="pr8">
                 <dt><img src="${static.url(signatory['signature_image_path'])}" alt="${signatory['name']}" style="width: 193px; height: 49px;" /></dt>
-                <dd class="kmooc_color">${signatory['name']}</dd>
-                <dd>${signatory['title']}</dd>
-                <dd>${signatory['organization']}</dd>
+                <dd class="kmooc_color">bbbbb${signatory['name']}</dd>
+                <dd>ccccc${signatory['title']}</dd>
+                <dd>ddddd${signatory['organization']}</dd>
             </dl>
             % endfor
         % endif

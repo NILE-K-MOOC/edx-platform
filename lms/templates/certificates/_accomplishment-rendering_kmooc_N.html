@@ -1,0 +1,327 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+<%
+accomplishment_course_title =  accomplishment_copy_course_name
+if certificate_data and certificate_data.get('course_title', ''):
+    accomplishment_course_title =  certificate_data.get('course_title', '')
+course_mode_class = course_mode if course_mode else ''
+accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
+%>
+
+<style>
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #ddd;
+	font-family:'malgun gothic', 맑은 고딕 !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hd-1, .hd-2, .accomplishment-rendering .accomplishment-statement-lead, .hd-3, .hd-4, .hd-5, .hd-6{
+    line-height: inherit !important;
+}
+h1, h2, h3, h4, h5 {
+    font-weight: 800;
+}
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+ul{border-left: 3px solid #333; padding-left: 15px; font-size:14px;}
+ul li{list-style:none;}
+
+.paper {
+    width: 210mm;
+    min-height: 297mm;
+    padding:35px;
+    margin: 10mm auto;
+  /*  border-radius: 5px; */
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	position:relative;
+}
+ul, .list-bulleted{
+    margin-left: 0px !important;
+}
+
+.content {
+    padding: 25px;
+    border: 4px solid #6c6f73;
+    height: 267mm;
+	position:relative;
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+@media print {
+    html, body {
+        width: 210mm;
+        height: 297mm;
+        background: #fff;
+    }
+    .paper {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
+
+.ribbon{
+	display: inline-block;
+    position: absolute;
+    right: 110px;
+    z-index: 10;
+    top: 0px;
+}
+
+h5{margin:0;}
+
+.t-center{display:inline-block; float:right; margin-left: 34px; width:99px;}
+.t-sign{margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #333;}
+.t-center:last-child{margin-left:0;}
+.t-center h5{text-align:center; font-size:11px;}
+
+.ce-bg{
+	background:url(/static/images/bg.png) no-repeat;
+	width: 643px;
+    height: 232px;
+    display: inline-block;
+    position: absolute;
+    top: 393px;
+    left: 68px;
+}
+
+.ce-t-gray{color:#959595;}
+
+.content h1 {font-size:50px; margin-bottom: 80px; margin-top: 40px;}
+.content h2 {font-size:20px;}
+.ce-txt-second {margin-top: 0px; font-size: 20px;}
+
+.ce-center-txt1{text-align: center; width: 249px; margin: 0 auto;}
+.ce-center-txt2{text-align:center; margin-bottom: 50px;}
+
+.sign-area{ display:inline-block;}
+.sign-area-depth1, .sign-area-depth2{display:inline-block; height:80px;}
+.sign-none{ height:171px; display:inline-block; text-indent:-9999px; overflow:hidden;}
+
+/* logo */
+.ce-logo-area{display:inline-block; width:100%;}
+.ce-logo1{float:left;}
+.ce-logo2{float:right; margin-top: 21px;}
+</style>
+
+
+##
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<main id="printArea_K" class="accomplishment accomplishment-main"
+      style="">
+    <body>
+
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+
+            <div class="ribbon">
+                <img src="/static/images/ribbon.png"/>
+            </div>
+
+            <div class="content">
+
+                <h5>인증번호 : ${certificate_id_number}</h5>
+                <h5>출력일시 : ${created_date}</h5>
+
+                <h1>이 수 증</h1>
+
+                <h5 class="ce-t-gray">성명</h5>
+                <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+
+                <h5 class="ce-t-gray">교육과정</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>강 좌 번 호 : (${course_id})</li>
+                        <li>교 육 기 간 : ${start_date} ~ ${end_date}</li>
+                        <li id="k_box2" style="display: none">총동영상시간 : ${Play_h}시간 ${Play_m}분</li>
+                        <li id="k_box3" style="display: none">학습권장시간 : ${Learning_h}시간 ${Learning_m}분</li>
+                    </ul>
+                    <h5>※ 위 정보는 강좌 정보로, 이수자의 실제 학습 정보와는 상이할 수 있습니다.</h5>
+                </blockquote>
+                <div id="k_box1" style="visibility: hidden; margin-bottom: 66px">
+                <h5 class="ce-t-gray">점수</h5>
+                <h4 class="ce-txt-second">${grade}</h4>
+                </div>
+                <h2 class="ce-center-txt1">위 과정을 성실히 이수하여<br> 이 증서를 수여 합니다.<br><br></h2>
+                <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
+
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+
+                <div class="sign-area">
+                    % if certificate_data:
+                    <div class="sign-area-depth2">
+                        % for signatory in certificate_data.get('signatories', []):
+                            <% cnt = 0 %>
+                            % for i in range(0, 10 - len(teacher_list)):
+                                <div class="t-center">
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                </div>
+                                <% cnt = cnt + 1%>
+                                %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                %endif
+                            %endfor
+                            % for teacher_name in teacher_list:
+                                <%
+                                teacher = teacher_name.split('(')
+                                title_k = signatory['title'].split('(')
+                                organization_k = signatory['organization'].split('(')
+                                %>
+                                    <div class="t-center">
+                                        <h5 class="t-sign">${teacher[0]}</h5>
+                                        <h5>${teacher[0]} ${title_k[0]}</h5>
+                                        <h5>${organization_k[0]}</h5>
+                                        <h5>${classfy_k}</h5>
+                                    </div>
+                            %endfor
+                        % endfor
+                        </div>
+                    % endif
+                </div>
+                <!-- 로고 -->
+                <div class="ce-logo-area">
+                    <div class="ce-logo1">
+                    % if organization_logo:
+                        <img src="${organization_logo.url}" alt="${platform_name}">
+                    % endif
+                    </div>
+                    <div class="ce-logo2"><img src="/static/images/logo2.png" alt="국평원"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</main>
+<div class="brDiv"></div>
+
+
+
+
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+<%
+accomplishment_course_title =  accomplishment_copy_course_name
+if certificate_data and certificate_data.get('course_title', ''):
+    accomplishment_course_title =  certificate_data.get('course_title', '')
+course_mode_class = course_mode if course_mode else ''
+accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
+%>
+
+
+## <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+
+</script>
+
+<main id="printArea_E" class="accomplishment accomplishment-main" style="display: none">
+    <body>
+
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+
+            <div class="ribbon">
+                <img src="/static/images/ribbon.png"/>
+            </div>
+
+            <div class="content">
+
+                <h5>Certification Number : ${certificate_id_number}</h5>
+                <h5>Print date and time : ${created_date}</h5>
+
+                <h1>CRETIFICATE</h1>
+
+                <h5 class="ce-t-gray">NAME</h5>
+                <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+
+                <h5 class="ce-t-gray">COURSE</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>Course number : (${course_id})</li>
+                        <li>Education period : ${start_date} ~ ${end_date}</li>
+                        <li id="e_box2" style="display: none">Video duration : ${Play_h}hour ${Play_m}minute</li>
+                        <li id="e_box3" style="display: none">Weekly learning time : ${Learning_h}hour ${Learning_m}minute</li>
+                    </ul>
+                    <h5>※ The above information is course information, which may be different from the student's actual study information.</h5>
+                </blockquote>
+                <div id="e_box1" style="visibility: hidden; margin-bottom: 66px">
+                <h5 class="ce-t-gray">score</h5>
+                <h4 class="ce-txt-second">${grade}</h4>
+                </div>
+                <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.<br><br></h2>
+                <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
+
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+
+                <div class="sign-area">
+                    % if certificate_data:
+                    <div class="sign-area-depth2">
+                        % for signatory in certificate_data.get('signatories', []):
+                            <% cnt = 0 %>
+                            % for i in range(0, 10 - len(teacher_list)):
+                                <div class="t-center">
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                </div>
+                                <% cnt = cnt + 1%>
+                                %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                %endif
+                            %endfor
+                            % for teacher_name in teacher_list:
+                                <%
+                                teacher = teacher_name.split('(')
+                                title_k = signatory['title'].split('(')
+                                organization_k = signatory['organization'].split('(')
+                                %>
+                                    <div class="t-center">
+                                        <h5 class="t-sign">${teacher[1].replace(')','')}</h5>
+                                        <h5>${teacher[1].replace(')','')} ${title_k[1].replace(')','')}</h5>
+                                        <h5>${organization_k[1].replace(')','')}</h5>
+                                        <h5>${classfy_e}</h5>
+                                    </div>
+                            %endfor
+                        % endfor
+                        </div>
+                    % endif
+                </div>
+                <!-- 로고 -->
+                <div class="ce-logo-area">
+                    <div class="ce-logo1">
+                    % if organization_logo:
+                        <img src="${organization_logo.url}" alt="${platform_name}">
+                    % endif
+                    </div>
+                    <div class="ce-logo2"><img src="/static/images/logo2.png" alt="국평원"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</main>
+<div class="brDiv"></div>

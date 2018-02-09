@@ -143,6 +143,7 @@ urlpatterns = (
     # series course
     url(r'^series/$', 'community.views.series', name='series'),
     url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
+    url(r'^series_print/(?P<id>.*?)/$', 'community.views.series_print', name='series_print'),
 
     # community url
     url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', 'community.views.comm_list', name='comm_list'),
@@ -1082,6 +1083,7 @@ urlpatterns += (
     url(r'^update_example_certificate$', 'certificates.views.update_example_certificate'),
     url(r'^request_certificate$', 'certificates.views.request_certificate'),
 
+
     # REST APIs
     url(r'^api/certificates/',
         include('lms.djangoapps.certificates.apis.urls', namespace='certificates_api')),
@@ -1168,3 +1170,8 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
 
 if oraurlpatterns:
     urlpatterns += tuple(oraurlpatterns)
+
+# markany
+urlpatterns += (
+    url(r'^maeps/', include('maeps.urls')),
+)

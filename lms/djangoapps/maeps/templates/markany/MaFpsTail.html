@@ -1,0 +1,181 @@
+﻿{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="utf-8">
+	<TITLE>::: 전자확인증 발급 :::</TITLE>
+	<link rel="stylesheet" type="text/css" href="{{ strWebHome }}/css/MaCommon.css?version=20180112">
+	
+	<script src="{{ strJsWebHome }}/jquery-1.11.3.min.js" charset="utf-8"></script>
+	<!--<script src="{% static 'markany/js/jquery-1.11.3.min.js' %}" charset="utf-8"></script>-->
+	<script src="{{ strJsWebHome }}/jQuery.XDomainRequest.js" charset="utf-8"></script>
+	<script src="{{ strJsWebHome }}/MaXHRControl.js?version=20180113" charset="utf-8"></script> 
+	<script src="{{ strJsWebHome }}/MaVerCheck.js?version=20180113" charset="utf-8"></script>
+	<script>
+		// ***********************************************************************************//
+		var vstrSCookie					= "{{ strBase64Cookie }}";
+		var vstrSessionCheck 			= "{{ strSessionCheck }}";
+		var vstrSDownURL				= "{{ strBase64DownURL }}";
+		var vstrSSessionURL				= "{{ strBase64SessionURL }}";
+		var vstrSudongInstallURL    	= "{{ strSudongInstallURL }}";
+		var vstrApp 					= "{{ strApp }}"; 
+		var vstrIePopupURL 				= "{{ strIePopupURL }}";
+		// ***********************************************************************************//		
+		//var vstrCookie 					= "{{ strCookie }}";
+		var iVersion  					= "{{ strPVersion }}";
+		var viQuickSet					= "{{ iQuickSet }}";
+		var viRetOsCheck				= "{{ iRetOsCheck }}";
+		var vpversion 					= "{{ pversion }}";
+		var resize_height 				= 450;	//default
+		// ***********************************************************************************//
+		if (viQuickSet == 2 ){
+			//var checkFileInfo_1 		= [iVersion, 0x0026, "y85/zv65HGcOkFXjRS2WVg==", "TWFya0FueVxtYWVwc3J0"	];
+			var checkFileInfo_1 		= [iVersion, 0x0026, "ZVBhZ2VTYWZlci5leGU=", "TWFya0FueVxtYWVwcw=="	];
+			var chkFileArray 			= new Array(checkFileInfo_1);
+			
+			//var executeBinaryInfo_1		= [GetParamData(vstrApp), 0x0026, "y85/zv65HGcOkFXjRS2WVg==", "TWFya0FueVxtYWVwc3J0"];
+			var executeBinaryInfo_1		= [GetParamData(vstrApp), 0x0026, "ZVBhZ2VTYWZlci5leGU=", "TWFya0FueVxtYWVwcw=="];
+			var executeBinaryArray 		= new Array(executeBinaryInfo_1);		
+		}else {
+			if( viQuickSet === 1){
+				resize_height -= 200;
+			}
+			window.name = 'popWinC';
+			var browserName	= {{ iSessionCheck }}===1?'installCheckSuccess':get_browser();
+			switch (browserName){
+			case "installCheckSuccess":
+				resize_height = 500;
+				break;
+			case "Opera":
+				resize_height = 600;
+				break;
+			case "Safari":
+				resize_height = 600;
+				break;
+			case "Chrome":
+				resize_height = 950;
+				break;
+			case "MSIE":
+			case "Edge":
+				resize_height = 500;
+				break;
+			case "Firefox":
+				resize_height = 650;
+				break;
+			}
+		}
+		window.resizeTo(550, resize_height);
+	</script>
+</head>
+	{% if iQuickSet == 2 %}
+			<BODY LEFTMARGIN="0" TOPMARGIN="0" RIGHTMARGIN="0" bottommargin="0" marginwidth="0" marginheight="0">
+				<div id="popLayer" style="display: none;">
+					<h3>ePageSAFER</h3>
+					<div id="installSection">
+						<div id="ment">증명서의 안전한 출력을 위해 보안 프로그램의 설치체크 여부를 확인 중입니다.</div>
+						<div id="progressbar">
+							<img src="{{ strImagePath }}/loading_c.gif">
+						</div>
+					</div>
+					<div id="btnSection">
+						<button id="btn_maInstall" class="btn-class" disabled onclick="javascript:location.href='{{ strWebHome }}/bin/Setup_ePageSafer.exe'">다운로드</button>
+						<button id="btn_closePopLayer" class="btn-class" onclick="javascript:closeWindow()">닫기</button>
+					</div>
+				</div>
+			</BODY>
+		</HTML>
+		<script>
+			showPopup();
+		</script>
+	{% else %}
+			<BODY LEFTMARGIN="0" TOPMARGIN="0" RIGHTMARGIN="0" bottommargin="0" marginwidth="0" marginheight="0">
+				<iframe id="hidpopWinC" name="hidpopWinC" width=0 height=0 frameborder=0 marginheight=0 marginwidth=0 scrolling="auto"></iframe>
+				<div class="container">
+					<div class="content">
+						<div class="section" id="browserChkImgSection">
+							<img id="browserChkImg">
+						</div>
+					</div>
+					<div class="section">
+						<p id="browserChkComment"></p>
+						<div class="section" id="printBtnSection">
+							<input type="button" onclick="location.href='{{ strPyHome }}/MaSessionCheck.jsp'" value="문서발급">
+							<br><br>
+							<!--<hr>
+							<p>* 미설치, PC에 설치된 버전이 낮을 경우 문서발급을 누르시면 설치페이지로 이동합니다.</p>
+							<hr>
+							-->
+						</div>
+					</div>
+				</div>
+				<script>
+					LaunchRegistApp(vstrApp, "{{ LaunchRegistAppCommand }}", vstrIePopupURL);
+					
+					document.oncontextmenu		= document.body.oncontextmenu = function() {return false;}
+					var browserChkImg			= document.getElementById("browserChkImg");
+					var browserChkComment		= document.getElementById("browserChkComment");
+					var printBtnSection			= document.getElementById("printBtnSection");
+					var browserChkImgSection	= document.getElementById("browserChkImgSection");
+					
+					switch (browserName){
+					case "installCheckSuccess":
+						browserChkImgSection.innerHTML ='<img src="{{ strImagePath }}/loading.gif" id="browserChkImg"><br>'
+														+'<img src="{{ strImagePath }}/Ma_progressBar.gif"><br>'
+														+'<img src="{{ strImagePath }}/notice.png"><br>';
+						printBtnSection.style.display = "none";
+						break;
+					case "Opera":
+						browserChkImg.src = "{{ strImagePath }}/check_guide_opera.png";
+						browserChkComment.innerHTML = 	'* 외부 프로토콜 요청 팝업이 보이실 경우 다음과 같이 진행해주십시오<br>'
+														+ '<br> 1. [mareportsafer. 링크 항상 열기] 체크 합니다.'
+														+ '<br> 2. [허용] 버튼을 누릅니다.';
+						printBtnSection.style.display = "none";
+						break;
+					case "Safari":
+						browserChkImg.src = "{{ strImagePath }}/check_guide_opera.png";
+						browserChkComment.innerHTML = 	'* 외부 프로토콜 요청 팝업이 보이실 경우 다음과 같이 진행해주십시오<br>'
+														+ '<br> 1. [mareportsafer. 링크 항상 열기] 체크 합니다.'
+														+ '<br> 2. [허용] 버튼을 누릅니다.';
+						printBtnSection.style.display = "none";
+						break;
+					case "Chrome":
+						browserChkImg.src = "{{ strImagePath }}/check_guide_chrome.png";
+						browserChkComment.innerHTML = 	'* 외부 프로토콜 요청 팝업이 보이실 경우 다음과 같이 진행해주십시오<br>'
+														+ '<br> 1. [위와같은 유형의 모든 링크에 대해 내 선택을 기억합니다.] 체크 합니다.'
+														+ '<br> 2. [어플리케이션 시작] 버튼을 누릅니다.';
+						printBtnSection.style.display = "none";
+						break;
+					case "MSIE":
+					case "Edge":
+						browserChkImgSection.innerHTML ='<img src="{{ strImagePath }}/loading.gif" id="browserChkImg"><br>'
+														+'<img src="{{ strImagePath }}/Ma_progressBar.gif"><br>'
+														+'<img src="{{ strImagePath }}/notice.png"><br>';
+						printBtnSection.style.display = "none";
+						browserChkComment.innerHTML = 	'<br>1. 미설치 및 PC에 설치된 버전이 낮을 경우 10초 후 설치페이지로 이동합니다.'
+														+ '<br> 2. Microsoft Internet Explorer 8 이하 버전인 경우 팝업 항상 허용을 눌러주십시오.';
+						break;
+					case "Firefox":
+						browserChkImg.src = "{{ strImagePath }}/check_guide_firefox.png";
+						printBtnSection.style.display = "none";
+						browserChkComment.innerHTML = 	'* 프로그램 실행 팝업이 보이실 경우 다음과 같이 진행해주십시오<br>'
+														+ '<br> 1. [mareportsafer 링크에 대한 선택 사항을 기억 합니다.] 체크 합니다.'
+														+ '<br> 2. [확인] 버튼을 누릅니다.';
+														//+ '<br> 3. [문서발급] 버튼을 눌러 발급을 계속 진행합니다.';
+						break;
+					}
+					
+					if( browserName == 'Chrome' || browserName == 'Opera'){
+						if( viQuickSet == "0"){ // Window 및 Linux는 QuickURL 처리가 완료 맥만 기존 SessionCheck로 동작 따라서 프린터 발급 버튼이 필요
+							browserChkComment.innerHTML =  browserChkComment.innerHTML + '<br> 3. [문서발급] 버튼을 눌러 발급을 계속 진행합니다.';
+							printBtnSection.style.display = "block";
+						}else{
+							browserChkComment.innerHTML =  browserChkComment.innerHTML + '<br><br> *미설치 혹은 업데이트가 필요한 경우 10초 후 수동설치 페이지로 이동합니다';
+						}
+					}
+				</script>
+			</BODY>
+		</HTML>
+	{% endif %}
+

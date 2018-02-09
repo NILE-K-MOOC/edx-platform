@@ -4,6 +4,7 @@
 Certificate HTML webview.
 """
 from django.contrib.auth.decorators import login_required
+import MySQLdb as mdb
 from datetime import datetime
 from uuid import uuid4
 import logging
@@ -43,6 +44,11 @@ from certificates.models import (
     CertificateStatuses,
     CertificateHtmlViewConfiguration,
     CertificateSocialNetworks)
+from pymongo import MongoClient
+from django.db import connections
+from bson.objectid import ObjectId
+from maeps.views import MaFpsTail
+from edxmako.shortcuts import render_to_string
 
 log = logging.getLogger(__name__)
 
@@ -143,8 +149,7 @@ def _update_certificate_context(context, user_certificate, platform_name):
         tos_url=context.get('company_tos_url'),
         verified_cert_url=context.get('company_verified_certificate_url'))
 
-
-def _update_context_with_basic_info(context, course_id, platform_name, configuration):
+def _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id):
     """
     Updates context dictionary with basic info required before rendering simplest
     certificate templates.
@@ -152,6 +157,93 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['platform_name'] = platform_name
     context['course_id'] = course_id
     context['course_id2'] = course_id.split('+')[1]
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+
+    cur = con.cursor()
+    query = """
+            SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
+            """.format(course_id)
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
+    start_date = row[0][1]
+    end_date = row[0][2]
+    row = row[0][0].replace('#', '+').replace('@', '+')
+    effort_index = row.split('+')
+    if (len(effort_index) == 3):
+        time = effort_index[0].split(':')
+        all_time = ((int(time[0]) * 60) + int(time[1])) * int(effort_index[1])
+
+    cur = con.cursor()
+    query = """
+            SELECT grade, date_format(now(), '%Y.%m.%d  %h:%i') FROM certificates_generatedcertificate where course_id = '{0}' and user_id = '{1}';
+            """.format(course_id, user_id)
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
+    grade = int(float(row[0][0]) * 100)
+    created_date = row[0][1]
+    Play_time = effort_index[2].split(':')
+    Learning_m = str(all_time % 60)
+    if len(Learning_m) == 1:
+        Learning_m = Learning_m + '0'
+
+    context['Play_h'] = Play_time[0]
+    context['Play_m'] = Play_time[1]
+    context['Learning_h'] = str(all_time/60)
+    context['Learning_m'] = Learning_m
+    context['grade'] = str(grade)
+    context['created_date'] = created_date
+    context['start_date'] = start_date
+    context['end_date'] = end_date
+
+
+    cur = con.cursor()
+    query = """
+            SELECT teacher_name
+              FROM course_overview_addinfo
+             WHERE course_id = '{0}';
+            """.format(course_id)
+    cur.execute(query)
+    row = cur.fetchall()
+    cur.close()
+    teacher_list = row[0][0].split(',')
+
+    context['teacher_list'] = teacher_list
+
+    course_index = course_id.split(':')
+    course_index = course_index[1].split('+')
+
+    with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.edxapp
+        cursor = db.modulestore.active_versions.find_one({'org': course_index[0], 'course': course_index[1], 'run': course_index[2]})
+        pb = cursor.get('versions').get('published-branch')
+        cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+        blocks = cursor.get('blocks')
+        for block in blocks:
+            block_type = block.get('block_type')
+
+            if block_type == 'course':
+                classfy = block.get('fields').get('classfy')
+                if not classfy:
+                    classfy = ''
+
+    cur = con.cursor()
+    query = """
+            SELECT detail_name, detail_Ename
+              FROM code_detail
+             WHERE detail_code = '{0}';
+            """.format(classfy)
+    cur.execute(query)
+    classfy = cur.fetchall()
+    cur.close()
+
+    context['classfy_k'] = classfy[0][0]
+    context['classfy_e'] = classfy[0][1]
 
     # Update the view context with the default ConfigurationModel settings
     context.update(configuration.get('default', {}))
@@ -425,6 +517,12 @@ def _render_certificate_template(request, context, course, user_certificate):
 
     return render_to_response("certificates/valid.html", context)
 
+    # strHtmlData = render_to_string('certificates/valid.html', context)
+    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+    #
+    # response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+    # return response
+
 
 def _update_configuration_context(context, configuration):
     """
@@ -512,7 +610,7 @@ def render_html_view(request, user_id, course_id):
     configuration = CertificateHtmlViewConfiguration.get_config()
     # Create the initial view context, bootstrapping with Django settings and passed-in values
     context = {}
-    _update_context_with_basic_info(context, course_id, platform_name, configuration)
+    _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id)
     invalid_template_path = 'certificates/invalid.html'
 
     # Kick the user back to the "Invalid" screen if the feature is disabled

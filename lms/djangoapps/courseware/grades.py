@@ -636,6 +636,11 @@ def get_score(user, block, scores_client, submissions_scores_cache):
         if total is None:
             return (None, None)
 
+    # ------------------------------ video check DEBUG temp
+    if not block.weight:
+        block.weight = 1
+    # ------------------------------ video check DEBUG temp
+
     return weighted_score(correct, total, block.weight)
 
 

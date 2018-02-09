@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MarkAny Inc. ** 온라인 위변조 방지 시스템 데모 사이트 **</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8>
+<script src="{{ strJsWebHome }}/MaVerCheck.js" charset="utf-8"></script>
+<script language="JavaScript">
+    var objPopup;
+    
+	function win_open(xxx, cw, percent) 
+	{
+		 //새창의 크기
+		 //스크린의 크기
+		 sw = screen.availWidth;
+		 sh = screen.availHeight;
+		
+		 ch = 650;
+		 
+		 //열 창의 포지션
+		 winPosLeft=(sw-cw)/2;
+		 winPosTop=10;
+		 
+		 window.open(xxx,'','width='+cw+',height='+ch+',top='+winPosTop+',left='+winPosLeft+',toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no');
+    }
+
+    function win_open_faq(xxx) {
+    	//window.showModalDialog(xxx,'','dialogWidth:630px;dialogHeight:650px;dialogLeft:0;dialogTop:0;scroll:1;help:0;status:0'); 	
+    	window.open(xxx,'target','width=600,height=570,top=0,left=0,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no')
+    }
+    
+    function win_open_maninstall(xxx) {
+    	window.showModalDialog(xxx,'','dialogWidth:600px;dialogHeight:470px;dialogLeft:0;dialogTop:0;scroll:0;help:0;status:0'); 	
+    	//window.open(xxx,'target','width=420,height=570,top='+winPosTop+',left='+winPosLeft+',toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no')
+    }
+    
+    function win_open_printer(xxx) {
+    	//window.showModalDialog(xxx,'','dialogWidth:420px;dialogHeight:570px;dialogLeft:0;dialogTop:0;scroll:0;help:0;status:0'); 	
+    	window.open(xxx,'target','width=420,height=570,top=0,left=0,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no')
+    }
+    
+	function init()
+	{
+		//새창의 크기
+		//스크린의 크기
+		sw = screen.availWidth;
+		sh = screen.availHeight;
+		
+		cw = 300;
+		ch = 300;
+		
+		//열 창의 포지션
+		winPosLeft=(sw-cw)/2;
+		winPosTop=10;
+		
+		//window.open('','ifrm','width='+cw+',height='+ch+',top='+winPosTop+',left='+winPosLeft+',toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no');
+		var form = document.forms[0];
+		form.target = "ifrm";
+		form.action = "../com/IndexDrmFP.jsp";
+		form.submit();
+	}
+	
+	function down_close()
+    {
+      objPopup.close();
+    }
+</script> 
+</head>
+<body bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"
+ oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+<table class="mook" width="100%" border="0" cellspacing="0" cellpadding="5" height="100%">
+  <tr bgcolor="#6A645B"> 
+    <td height="7" colspan="2"></td>
+  </tr>
+  <tr> 
+    <td width="65%" height="111">&nbsp;</td>
+    <td width="75" valign="bottom" height="111"><img src="./images/title_logo.gif"></td>
+  </tr>
+  <tr bgcolor="#A69F97"> 
+    <td height="1" colspan="2">  </td>
+  </tr>
+  <tr> 
+    <td background="{{ strWebHome }}/images/bg01.gif" height="409" align="left" valign="top"><br>    
+        <table CLASS="MOOK" width="85%" border="0" cellspacing="0" cellpadding="0">        
+        <tr>
+          <td>
+          	<br><br>
+			<!--- 사이트 적용시 패치 이력 부분은 빼고 나가세요 -->
+
+			<br><br><br>
+			<br><br><br>
+			<br><br><br>
+			<font size=2> </font>
+			<br><br>
+			
+			<br><br>
+			<br><br>
+		  </td>		  
+        </tr>
+      </table>       
+<!--- 사이트 적용시 패치 이력 부분은 빼고 나가세요 -->
+      
+    <br>
+      <br>
+      <!--<img src="./images/logo02.gif" width="80" height="50">--></td>     
+    <td background="{{ strWebHome }}/images/bg01.gif" height="409" valign="top"><br>
+      <br>
+      <br>
+      <br>
+      <table CLASS="MOOK" width="85%" border="0" cellspacing="0" cellpadding="0">        
+        <tr>
+          <td><b><font color="red">e-PageSAFER 테스트 페이지입니다.<br><p><br><br>
+			  <!--<FONT SIZE="2" COLOR="#006699"><B><a href="javascript:win_open( './jsp/Sample_total1.jsp');"> 출력문서 Sample </a>
+       		  </FONT><br><br>
+			  <a href="javascript:poptastic( './jsp/MaSample_1Page.jsp');" > 1Page_Non ActiveX e-PageSafer Test</a>
+			  <br><br>		       		  			  
+			  <a href="javascript:poptastic( './jsp/MaSample_2Page.jsp');" > 2Page_Non ActiveX e-PageSafer Test</a>
+			  -->
+			  <br><br>	
+      		  			  
+			  <a href="javascript:win_open( 'MaSample', 850, 0.6)"> Sample Page</a>
+	<br><br>		<br><br>		
+			  		  <!--
+			  
+			  <a href="javascript:poptastic( './jsp/MaSample_JPN.jsp?strLanguage=JA');"> 일본어 OS Non ActiveX e-PageSafer Sample_ Test</a>
+			  <br><br>		       		  			  
+			  <a href="javascript:poptastic( './jsp/MaSample_ENG.jsp?strLanguage=EN');"> 영문 OS Non ActiveX e-PageSafer Sample_ Test</a>
+			  <br><br>		       		  			  
+		      --> 		  		  			  
+		  </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+    </td>
+  </tr>
+  <tr bgcolor="#35455E"> 
+    <td width="125">&nbsp;</td>
+    <td CLASS="MIKI" valign="top"><br>
+      <font color="#FFFFFF">Copyright ⓒ 2016 <a href="http://www.markany.com"><font color="#FFFFCC"><b>MarkAny</b></font></a> 
+      INC.</font><br>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
+<script language="javascript">
+  //alert(navigator.userAgent);
+  var newwindow;
+  function poptastic(url)
+  {
+  	newwindow=window.open(url,'popWinC','height=200,width=400,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no');
+  	if (window.focus) {newwindow.focus()}
+  }
+</script>
+
+
+
+
+

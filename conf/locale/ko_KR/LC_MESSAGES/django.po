@@ -5270,7 +5270,7 @@ msgstr "{platform_name} 연락"
 
 #: lms/djangoapps/certificates/views/webview.py
 msgid "{platform_name} acknowledges the following student accomplishment"
-msgstr "{platform_name}은 다음과 같이 학습자의 강좌 이수 결과를 제공합니다.."
+msgstr "{platform_name}은 다음과 같이 학습자의 강좌 이수 결과를 제공합니다."
 
 #: lms/djangoapps/certificates/views/webview.py
 msgid ""
@@ -30051,3 +30051,7 @@ msgstr "개강일"
 
 msgid "move"
 msgstr "이동"
+
+msgid "Series Education Certificate"
+msgstr "시리즈 교육 확인증"
+
