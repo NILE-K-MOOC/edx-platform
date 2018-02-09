@@ -11,8 +11,6 @@
     width:100%;
     padding-top: 40px;
     padding-bottom: 100px;
-    padding-right: 20%;
-    padding-left: 20%;
 }
 .real_main_title{
     font-size:180%;
@@ -132,27 +130,6 @@ table, th, td {
     border: 1px solid black;
     padding:5px;
 }
-@media screen and (max-width: 1600px) and (min-width: 1200px) {
-    .section_frame_container{
-        display:inline-block;
-        width:100%;
-        padding-top: 40px;
-        padding-bottom: 100px;
-        padding-right: 10%;
-        padding-left: 10%;
-    }
-}
-@media screen and (max-width: 1200px) and (min-width: 800px) {
-    .section_frame_container{
-        display:inline-block;
-        width:100%;
-        padding-top: 40px;
-        padding-bottom: 100px;
-        padding-right: 3%;
-        padding-left: 3%;
-    }
-}
-
 </style>
 
 <script>
@@ -162,7 +139,7 @@ function print(printArea)
 		self.focus();
 		win.document.open();
 		win.document.write('<html><head><title></title><style>');
-		win.document.write('.section_a,.section_b{float:left}.section_frame_container{display:inline-block;width:100%;padding:40px 20% 100px}.section_3,.section_4{padding-right:20px}.section_3,.section_4,.section_b,.section_bb{padding-left:20px}.real_main_title{font-size:180%;margin-top:20px;margin-bottom:50px;border-bottom:solid 1px #DDD;padding-bottom:40px;font-weight:700;text-align:center}.section_1{display:inline-block;width:100%;margin-bottom:10px}.series_img{width:250px;height:150px}.section_b{padding-top:15px}.series_title{margin-bottom:20px;font-size:150%;font-weight:700;width:500px}.section_2,.section_3,.section_4{width:100%;display:inline-block;margin-top:10px}.series_target{margin-bottom:6px;font-size:80%}.series_goal{font-size:80%}#copy_btn{float:right;position:relative;bottom:40px;color:#FFF}.section_2{margin-bottom:10px;padding:20px;border-top:solid #CCC 0;border-bottom:solid #CCC 1px}.course_intro_title{margin-bottom:10px;font-size:100%;font-weight:700}.course_intro_content{font-size:80%}.pagerLink{text-decoration:none!important}.series_img_inner{width:180px;height:100px}.section_5{display:inline-block;width:100%;margin-top:10px}.section_bb{float:left;padding-top:5px}.series_a,.series_b,.series_c{width:300px;margin-bottom:2px;font-size:80%}.series_d{width:500px;margin-bottom:10px;font-size:120%;font-weight:700}table,td,th{border:0px solid #000;padding:2px}');
+		win.document.write('.section_a,.section_b{float:left}.section_3,.section_4{padding-right:20px;padding-left:20px}.section_3,.section_4,.section_b,.section_bb{padding-left:20px}.section_frame_container{display:inline-block;width:100%;padding-top:40px;padding-bottom:100px}.real_main_title{font-size:180%;margin-top:20px;margin-bottom:50px;border-bottom:solid 1px #DDD;padding-bottom:40px;font-weight:700}.section_1{display:inline-block;width:100%;margin-bottom:10px}.series_img{width:250px;height:150px}.section_b{padding-top:15px}.series_title{margin-bottom:20px;font-size:150%;font-weight:700;width:500px}.section_2,.section_3,.section_4{width:100%;display:inline-block;margin-top:10px}.series_target{margin-bottom:6px;font-size:80%}.series_goal{font-size:80%}#copy_btn{float:right;position:relative;bottom:40px;color:#FFF}.section_2{margin-bottom:10px;padding:20px;border-top:solid #CCC 0;border-bottom:solid #CCC 1px}.course_intro_title{margin-bottom:10px;font-size:100%;font-weight:700}.course_intro_content{font-size:80%}.pagerLink{text-decoration:none!important}.series_img_inner{width:180px;height:100px}.section_5{display:inline-block;width:100%;margin-top:10px}.section_bb{float:left;padding-top:5px}.series_a,.series_b,.series_c{width:300px;margin-bottom:2px;font-size:80%}.series_d{width:500px;margin-bottom:10px;font-size:120%;font-weight:700}');
 		win.document.write('</style></haed><body>');
 		win.document.write(printArea);
  		win.document.write('</body></html>');
@@ -175,6 +152,7 @@ $(document).ready(function(){
 });
 </script>
 
+<section class="container" id="printArea">
 <div class="section_frame_container" id="printArea">
     <div class="real_main_title">${_('Series Education Certificate')}</div>
     % if main_list:
@@ -184,7 +162,6 @@ $(document).ready(function(){
         </div>
         <div class="section_b">
             <div class="series_title">${main_list[0]}</div>
-            <button class="btn-brand" id="copy_btn" OnClick="print(document.getElementById('printArea').innerHTML)">${_('Print')}</button>
             <div class="series_target">${_('Series ID')} : ${main_list[1]}</div>
         </div>
     </div>
@@ -232,3 +209,4 @@ $(document).ready(function(){
 
     </div>
 </div>
+</section>
