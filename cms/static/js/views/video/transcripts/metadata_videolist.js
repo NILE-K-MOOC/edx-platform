@@ -242,24 +242,19 @@ function($, Backbone, _, AbstractEditor, Utils, MessageManager) {
             }
         },
         urlVerification: function(event) {
-            var a = $('.videolist-url').val();
-            var results1 = a.match('Youtube');
-            var results2 = a.match('youtube');
-            var results3 = a.match('YouTube');
-            if(results1 != null || results2 != null || results3 != null) {
+            var a = $('.videolist-url').val().toLowerCase();
+            var results = a.match('youtube');
+            if(results != null) {
                 $('.videolist-url').val('');
             }
 
         },
         urlVerification2: function(event) {
-            var a = $('.videolist-url2').val();
-            var results1 = a.match('Youtube');
-            var results2 = a.match('youtube');
-            var results3 = a.match('YouTube');
-            if(results1 != null || results2 != null || results3 != null) {
+            var a = $('.videolist-url2').val().toLowerCase();;
+            var results = a.match('youtube');
+            if(results != null) {
                 $('.videolist-url2').val('');
             }
-
         },
 
         /**
