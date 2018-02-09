@@ -93,10 +93,12 @@ from django.template.defaultfilters import escapejs
                         <span class="icon fa fa-print" aria-hidden="true"></span>
                         ${_("Print Certificate")}
                     </button>
+                    % if nice_check_flag == 0:
+                        <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
+                            본인인증
+                        </button>
+                    %endif
 
-                    <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
-                        본인인증
-                    </button>
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="print_index">
                     </form>

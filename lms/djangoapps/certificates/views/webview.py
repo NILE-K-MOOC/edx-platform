@@ -125,6 +125,13 @@ def _update_certificate_context(context, user_certificate, platform_name):
     enc_data = commands.getoutput(nice_command)
     context['enc_data'] = enc_data
 
+
+
+
+
+
+
+
     # Override the defaults with any mode-specific static values
     context['certificate_id_number'] = user_certificate.verify_uuid
     context['certificate_verify_url'] = "{prefix}{uuid}{suffix}".format(
@@ -250,6 +257,25 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     course_index = course_id.split(':')
     course_index = course_index[1].split('+')
+
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+
+    cur = con.cursor()
+    query = """
+            SELECT count(*)
+              FROM auth_user_nicecheck
+             WHERE user_id = {0};
+            """.format(user_id)
+    cur.execute(query)
+    nice_check_flag = cur.fetchall()
+    cur.close()
+
+    context['nice_check_flag'] = nice_check_flag[0][0]
 
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
         db = client.edxapp
