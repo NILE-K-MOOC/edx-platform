@@ -4,9 +4,10 @@ Created on 2018. 1. 2.
 @author: donghwa
 '''
 import Cookie
-import os
 import socket
 import struct
+
+import os
 
 ISUCCESS = "00000"
 IFAILED = "10000"
@@ -364,9 +365,14 @@ def ma_parse_cookie(cookie):
     cookiedict = {}
     for key in c.keys():
         if key != "sessionid":
-            ma_cookie_data = ma_cookie_data + key + "=" + c.get(key).value + ";"
-
-            # ma_cookie_data = ma_cookie_data + key + "=" + c.get(key).value + ";"
+            if key == "edx-user-info":
+                ma_value = c.get(key).value.replace(',', '\\054');
+                ma_value = ma_value.replace('"', '\\"');
+                ma_value = '"' + ma_value + '"'
+                ma_cookie_data = ma_cookie_data + key + "=" + ma_value + "; "
+            else:
+                ma_cookie_data = ma_cookie_data + key + "=" + c.get(key).value + ";"
+                # ma_cookie_data = ma_cookie_data + key + "=" + c.get(key).value + ";"
     return ma_cookie_data
     # expected_html = render_to_string('home.html', request=request)
 

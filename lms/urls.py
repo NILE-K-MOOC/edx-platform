@@ -147,16 +147,6 @@ urlpatterns = (
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', 'community.views.comm_k_news_view', name='comm_k_news_view'),
     url(r'^comm_list_json$', 'community.views.comm_list_json', name='comm_list_json'),
     # url(r'^test$', 'community.views.test', name='test'),
-
-    url(r'MaMakeCookie', 'maeps.views.MaMakeCookie', name='MaMakeCookie'),
-    url(r'MaIePopup', 'maeps.views.MaIePopup', name='MaIePopup'),
-    url(r'MaSetInstall', 'maeps.views.MaSetInstall', name='MaSetInstall'),
-    url(r'MaSessionCheck', 'maeps.views.MaSessionCheck', name='MaSessionCheck'),
-    url(r'Mafndown', 'maeps.views.Mafndown', name='Mafndown'),
-    url(r'MaGetSession', 'maeps.views.MaGetSession', name='MaGetSession'),
-    url(r'MaInstallPage', 'maeps.views.MaInstallPage', name='MaInstallPage'),
-    url(r'certificate_print$', 'maeps.views.certificate_print', name='certificate_print'),
-    url(r'MaSample', 'maeps.views.MaSample', name='MaSample'),
 )
 
 urlpatterns += (
@@ -1141,3 +1131,8 @@ if settings.FEATURES.get('ENABLE_FINANCIAL_ASSISTANCE_FORM'):
 
 if oraurlpatterns:
     urlpatterns += tuple(oraurlpatterns)
+
+# markany
+urlpatterns += (
+    url(r'^maeps/', include('maeps.urls')),
+)

@@ -2,29 +2,51 @@
 from __future__ import unicode_literals
 
 import base64
-import os
 import time
 
+import os
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
+
 from openedx.core.djangoapps.safe_sessions.middleware import SafeCookieData
 from . import MaFpsCommon
 from . import mapreprocessor
 
 
-# Create your views here.
+@csrf_exempt
+def certificate_print(request):
+    print_index = request.POST.get('print_index')
+
+    strHtmlData = '''
+            <HTML>
+            <HEAD>
+            <TITLE>소득공제 사용금액 확인서</TITLE>
+            <META http-equiv=Content-Type content="text/html; charset=utf-8">
+            <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
+            </HEAD>
+            <BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
+            {print_index}
+            </BODY>
+            </HTML>
+    '''.format(print_index=print_index)
+
+    print 'strHtmlData ---------------------------------------------- s'
+    print strHtmlData
+    print 'strHtmlData ---------------------------------------------- e'
+
+    strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
+
+    strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+
+    response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
+    return response
+
+
 @csrf_exempt
 def index(request):
-    '''
-    print 'index META check s'
-    print request.META
-    print 'index META check e'
-    print 'session key:', request.session.session_key, '[1]'
-    print 'session key:', request.session.session_key, '[1]'
-    '''
     MaFpsCommon.MaSetVariable(request)
 
     template = loader.get_template('markany/index.html')
@@ -33,47 +55,22 @@ def index(request):
         'strJsWebHome': MaFpsCommon.strJsWebHome,
     }
 
-    # return HttpResponse(template.render(context, request))
-    return MaSample(request)
-    '''
-    page_title = '블로그 글 목록 화면'
-    #html_content = render_to_string('index.html', {'message':page_title})
-    #return HttpResponse(html_content)
-    #return HttpResponse( "strSessionKey [%s], donghwa [%s]" % ( strSessionKey, strValue ) )
-    return HttpResponse( '안녕, 여러분. 이곳은 [%s] 이야.' % page_title )
-    '''
+    return HttpResponse(template.render(context, request))
+
 
 @csrf_exempt
-def certificate_print(request):
-    # print 'session key:', request.session.session_key, '[2]'
-    # strHtmlData = render_to_string('markany/sampleh.html')
-    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-
-    print_index = request.POST.get('print_index')
-    context = {
-        'strName': '김동화',
-        'strJuminNo': '880808-1234567',
-    }
-    print 'Test~~~~~~~'
-    print print_index
-    print 'Test~~~~~~~'
-
-    strHtmlData = print_index
-    strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-
-    response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
-    return response
-
 def MaSample(request):
-    # print 'session key:', request.session.session_key, '[2]'
-    # strHtmlData = render_to_string('markany/sampleh.html')
-    # strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
     context = {
         'strName': '김동화',
         'strJuminNo': '880808-1234567',
     }
 
     strHtmlData = render_to_string('markany/sampleh.html', context)
+
+    print 'strHtmlData ---------------------------------------------- s'
+    print strHtmlData
+    print 'strHtmlData ---------------------------------------------- e'
+
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
 
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
@@ -133,14 +130,26 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
     strVersion = ''
     strSID = ''
 
+    strUserIdFromSession = ''
+
     '''
     iNotSessionInCookie = 0
     '''
+    from openedx.core.djangoapps.safe_sessions.middleware import SafeSessionMiddleware
+
+    print 'request.COOKIES ----------------------------------------------------------- s'
+    print request.COOKIES
+    print 'request.COOKIES ----------------------------------------------------------- e'
+
     if not request.session.session_key:
         request.session.save()
+        strUserIdFromSession = get_random_string()
+    else:
+        strUserIdFromSession = SafeSessionMiddleware.get_user_id_from_session(request)
 
     strSID = request.session.session_key
-    safe_cookie_data = SafeCookieData.create(strSID, get_random_string())
+
+    safe_cookie_data = SafeCookieData.create(strSID, strUserIdFromSession)
     serialized_value = unicode(safe_cookie_data)
 
     ma_cookie_data = ma_cookie_data + "sessionid=" + serialized_value + ";"
@@ -396,6 +405,8 @@ def Mafndown(request):
 
     # print "strParamFileName : " + strParamFileName
     strParamFileName = mapreprocessor.strSafetyFileNameCheck(strParamFileName)
+
+    print 'strSID check ------------------------>', strSID
 
     if strParamFileName == "NONE":
         print 'Error'
