@@ -467,10 +467,129 @@ def series_view(request, id):
         sub_list = rows
 
     context = {}
+    context['id'] = id
     context['main_list'] = main_list
     context['sub_list'] = sub_list
     return render_to_response('community/series_view.html', context)
 
+def series_print(request, id):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT a.series_name,
+               a.series_id,
+               a.note,
+               b.attach_file_path,
+               b.attatch_file_name,
+               attatch_file_ext
+            FROM series as a
+            LEFT JOIN tb_board_attach AS b
+            ON a.sumnail_file_id = b.attatch_id
+            WHERE  a.series_seq = {}
+        '''.format(id)
+        cur.execute(query)
+        rows = cur.fetchall()
+        main_list = rows[0]
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT CAST((@rownum := @rownum + 1) AS CHAR(50))
+                      AS row_number,
+                   univ,
+                   CASE
+                      WHEN cd.detail_name IS NULL THEN '미등록'
+                      ELSE cd.detail_name
+                   END
+                      AS classfy,
+                   CASE
+                      WHEN cd2.detail_name IS NULL THEN '미등록'
+                      ELSE cd2.detail_name
+                   END
+                      AS middle_classfy,
+                   course_name,
+                   created
+              FROM (SELECT CASE
+                              WHEN detail_name IS NULL THEN '미등록'
+                              ELSE detail_name
+                           END
+                              AS univ,
+                           CASE WHEN coa.classfy IS NULL THEN '' ELSE coa.classfy END
+                              AS classfy,
+                           CASE
+                              WHEN coa.middle_classfy IS NULL THEN ''
+                              ELSE coa.middle_classfy
+                           END
+                              AS middle_classfy,
+                           course_name,
+                           CASE
+                              WHEN Date_format(e.created, '%Y/%m/%d') IS NULL
+                              THEN
+                                 '미생성'
+                              ELSE
+                                 Date_format(e.created, '%Y/%m/%d')
+                           END
+                              AS created
+                      FROM edxapp.series_course AS v1
+                           JOIN
+                           (SELECT *
+                              FROM (  SELECT id,
+                                             @org := a.org
+                                                AS org,
+                                             display_number_with_default,
+                                             start,
+                                             end,
+                                             enrollment_start,
+                                             enrollment_end,
+                                             course_image_url,
+                                             CASE
+                                                WHEN     a.org = @org
+                                                     AND a.display_number_with_default =
+                                                         @course
+                                                THEN
+                                                   @rn := @rn + 1
+                                                ELSE
+                                                   @rn := 1
+                                             END
+                                                AS rn,
+                                             @course := a.display_number_with_default
+                                                AS course
+                                        FROM course_overviews_courseoverview a,
+                                             (SELECT @rn := 0, @org := '', @course := '') b
+                                       WHERE a.start < a.end
+                                    ORDER BY a.org,
+                                             a.display_number_with_default,
+                                             a.start DESC) t1
+                             WHERE rn = 1) AS v2
+                              ON     v1.org = v2.org
+                                 AND v1.display_number_with_default =
+                                     v2.display_number_with_default
+                           LEFT JOIN code_detail AS d
+                              ON v2.org = d.detail_code AND d.group_code = 003
+                           LEFT JOIN
+                           (  SELECT DISTINCT
+                                     (course_id) AS course_id, min(created) AS created
+                                FROM certificates_certificategenerationhistory
+                            GROUP BY course_id) AS e
+                              ON v2.id = e.course_id
+                           JOIN (SELECT @rownum := 0) r
+                           LEFT JOIN course_overview_addinfo AS coa
+                              ON coa.course_id = v2.id
+                     WHERE  series_seq = {}) last
+                   LEFT JOIN code_detail AS cd ON last.classfy = cd.detail_code
+                   LEFT JOIN code_detail AS cd2 ON last.middle_classfy = cd2.detail_code;
+        '''.format(id)
+
+        print "--------------------------->"
+        print query
+        print "--------------------------->"
+
+        cur.execute(query)
+        rows = cur.fetchall()
+        sub_list = rows
+
+    context = {}
+    context['main_list'] = main_list
+    context['sub_list'] = sub_list
+    return render_to_response('community/series_print.html', context)
 
 class TbBoard(models.Model):
     board_id = models.AutoField(primary_key=True)

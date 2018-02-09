@@ -143,6 +143,7 @@ urlpatterns = (
     # series course
     url(r'^series/$', 'community.views.series', name='series'),
     url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
+    url(r'^series_print/(?P<id>.*?)/$', 'community.views.series_print', name='series_print'),
 
     # community url
     url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', 'community.views.comm_list', name='comm_list'),

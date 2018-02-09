@@ -30051,3 +30051,7 @@ msgstr "개강일"
 
 msgid "move"
 msgstr "이동"
+
+msgid "Series Education Certificate"
+msgstr "시리즈 교육 확인증"
+
