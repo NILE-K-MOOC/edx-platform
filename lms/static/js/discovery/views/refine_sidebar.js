@@ -12,7 +12,8 @@ define([
 
         el: '.search-facets',
         events: {
-            'click li button': 'selectOption',
+            'change .facet-list': 'selectOption',
+            'click li button': 'selectOption2',
             'click .show-less': 'collapse',
             'click .show-more': 'expand'
         },
@@ -21,15 +22,15 @@ define([
             this.meanings = options.meanings || {};
             this.$container = this.$el.find('.search-facets-lists');
             this.facetTpl = HtmlUtils.template($('#facet-tpl').html());
-            
+
             this.facetOptionTpl = HtmlUtils.template($('#facet_option-tpl').html());
         },
 
         facetName: function (key) {
-            if(key == 'classfy'){
+            if(key == 'classfy' || key == 'classfysub'){
                 return gettext("Classified by");
             }
-            else if(key == 'middle_classfy'){
+            else if(key == 'middle_classfy' || key == 'middle_classfysub'){
                 return gettext("Sub classified by");
             }
             else if(key == 'linguistics'){
@@ -56,7 +57,7 @@ define([
 
                 //console.log(data);
 
-                if(data.facet == 'classfy'){
+                if(data.facet == 'classfy' || data.facet == 'classfysub'){
                     switch (data.term){
                         case 'hum':
                             data.name = this.termName(data.facet, gettext("Humanities"));break;
@@ -87,7 +88,7 @@ define([
                             data.name = this.termName(data.facet, gettext("Long(over 13 weeks)"));break;
                     }
                 }
-                else if(data.facet == 'middle_classfy'){
+                else if(data.facet == 'middle_classfy' || data.facet == 'middle_classfysub'){
 
                     var middle_text = {
                         "lang": "Linguistics & Literature","husc":"Human Sciences",
@@ -104,7 +105,8 @@ define([
                     }else{
                         data.name = this.termName(data.facet, data.term);
                     }
-                }else if(data.facet == 'linguistics'){
+                }
+                else if(data.facet == 'linguistics'){
                     if(data.term == 'Y'){
                         data.name = this.termName(data.facet, gettext("Koreanology"));
                     }else{
@@ -135,19 +137,22 @@ define([
 
             this.collection.comparator = function(model) {
 
+                i=0;
                 //console.log(i++ + ":" + model.get('facet'));
 
                 //facet = 분류, term = 세부항목
                 switch(model.get('facet')){
                     case 'classfy': model.set('odby1',1); break;
+                    case 'classfysub': model.set('odby1',1); break;
                     case 'middle_classfy': model.set('odby1',2); break;
+                    case 'middle_classfysub': model.set('odby1',2); break;
                     case 'course_period': model.set('odby1',3); break;
                     case 'language': model.set('odby1',4); break;
                     default: model.set('odby1',7);
                 }
 
                 switch(model.get('term')){
-                    //classfy
+                    //classfy or classfysub
                     case 'hum': model.set('odby2',1); break;
                     case 'social': model.set('odby2',2); break;
                     case 'edu': model.set('odby2',3); break;
@@ -156,7 +161,7 @@ define([
                     case 'med': model.set('odby2',6); break;
                     case 'art': model.set('odby2',7); break;
 
-                    //middle_classfy
+                    //middle_classfy or middle_classfysub
                     case 'lang': model.set('odby2',1); break;
                     case 'husc': model.set('odby2',2); break;
                     case 'busn': model.set('odby2',3); break;
@@ -212,7 +217,7 @@ define([
 
 
             var grouped = this.collection.groupBy('facet');
-            var dict = {"org": [], "classfy": [], "middle_classfy": [], "linguistics": [],"course_period": [], "language": [], "modes": []};
+            var dict = {"org": [], "classfy": [], "middle_classfy": [], "classfysub": [], "middle_classfysub": [], "linguistics": [],"course_period": [], "language": [], "modes": []};
             var htmlSnippet = HtmlUtils.joinHtml.apply(
                 this, _.map(grouped, function(options, facetKey) {
                     if(facetKey == 'modes'){
@@ -231,8 +236,7 @@ define([
         collapse: function (event) {
             var $el = $(event.currentTarget),
                 $more = $el.siblings('.show-more'),
-                $ul = $el.parent().siblings('ul');
-
+                $ul = $('#'+($el).attr('id')).parent().prev();
             $ul.addClass('collapse');
             $el.addClass('hidden');
             $more.removeClass('hidden');
@@ -240,8 +244,7 @@ define([
 
         expand: function (event) {
             var $el = $(event.currentTarget),
-                $ul = $el.parent('div').siblings('ul');
-
+                $ul = $('#'+($el).attr('id')).parent('div').prev();
             $el.addClass('hidden');
             $ul.removeClass('collapse');
             $el.siblings('.show-less').removeClass('hidden');
@@ -249,8 +252,24 @@ define([
 
         selectOption: function (event) {
             $(".course-facets-select").focus();
-
+            $(".search-facets-lists").focus();
             var $target = $(event.currentTarget);
+            var select_val = $target.val();
+            var select_index = select_val.split('+');
+
+            this.trigger(
+                'selectOption',
+                $target.data('facet'),
+                select_index[0],
+                select_index[1]
+            );
+
+            $(".facet-list option[value=" + select_val+ "]").attr("selected","selected")
+        },
+        selectOption2: function (event) {
+            $(".course-facets-select").focus();
+            var $target = $(event.currentTarget);
+
             this.trigger(
                 'selectOption',
                 $target.data('facet'),

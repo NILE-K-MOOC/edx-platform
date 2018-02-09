@@ -17,9 +17,10 @@ define([
                     "enrollment_start": "2015-04-21T00:00:00+00:00",
                     "number": "DemoX",
                     "content": {
-                        "overview": " About This Course Include your long course description here.",
                         "display_name": "edX Demonstration Course",
-                        "number": "DemoX"
+                        "overview": " About This Course Include your long course description here.",
+                        "number": "DemoX",
+                        "catalog_visibility": "both"
                     },
                     "start": "1970-01-01T05:00:00+00:00",
                     "image_url": "/c4x/edX/DemoX/asset/images_course_image.jpg",

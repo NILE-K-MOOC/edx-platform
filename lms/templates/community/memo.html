@@ -1,0 +1,866 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">쪽지</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<!-- library start -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- library end -->
+
+<!-- js start -->
+<script>
+// 검색 이후 처음 버튼 클릭 시
+function first_click_search(){
+    // init var
+    html = "";
+    html2 = "";
+    var current = $('.current').text();
+    var next_page = Number(current)-1;
+    if(current == 1){
+        swal("Kmooc", "첫 페이지 입니다", "warning");
+        return 0;
+    }
+    var search_data = $('#search_search').val();
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            search_data : search_data,
+            method : 'notice_list',
+            click_page : 1,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click_search();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 검색 이후 끝 버튼 클릭 시
+function last_click_search(){
+    // init var
+    html = "";
+    html2 = "";
+    var lock = $('.paging').children('a').length;
+    if(lock != 9){
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
+        return 0;
+    }
+    var search_data = $('#search_search').val();
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            search_data : search_data,
+            method : 'notice_list',
+            click_page : 999999999999,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click_search();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 검색 이후 이전 버튼 클릭 시
+function prev_click_search(){
+    var current = $('.current').text();
+    var next_page = Number(current)-1;
+    if(current == 1){
+        swal("Kmooc", "첫 페이지 입니다", "warning");
+        return 0;
+    }
+    // init var
+    html = "";
+    html2 = "";
+    var search_data = $('#search_search').val();
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            search_data : search_data,
+            method : 'notice_list',
+            click_page : next_page,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click_search();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 검색 이후 다음 버튼 클릭 시
+function next_click_search(){
+    var current = $('.current').text();
+    var next_page = Number(current)+1;
+    var lock = $('.paging').children('a').length;
+    if(lock != 9){
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
+        return 0;
+    }
+    // init var
+    html = "";
+    html2 = "";
+    var search_data = $('#search_search').val();
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            search_data : search_data,
+            method : 'notice_list',
+            click_page : next_page,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click_search();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 처음 버튼 클릭 시
+function first_click(){
+    // init var
+    html = "";
+    html2 = "";
+    var current = $('.current').text();
+    var next_page = Number(current)-1;
+    if(current == 1){
+        swal("Kmooc", "첫 페이지 입니다", "warning");
+        return 0;
+    }
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            method : 'notice_list',
+            click_page : 1,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 끝 버튼 클릭 시
+function last_click(){
+    // init var
+    html = "";
+    html2 = "";
+    var lock = $('.paging').children('a').length;
+    if(lock != 9){
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
+        return 0;
+    }
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            method : 'notice_list',
+            click_page : 999999999999,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 이전 버튼 클릭 시
+function prev_click(){
+    var current = $('.current').text();
+    var next_page = Number(current)-1;
+    if(current == 1){
+        swal("Kmooc", "첫 페이지 입니다", "warning");
+        return 0;
+    }
+    // init var
+    html = "";
+    html2 = "";
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            method : 'notice_list',
+            click_page : next_page,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 다음 버튼 클릭 시
+function next_click(){
+    var current = $('.current').text();
+    var next_page = Number(current)+1;
+    var lock = $('.paging').children('a').length;
+    if(lock != 9){
+        swal("Kmooc", "마지막 페이지 입니다", "warning");
+        return 0;
+    }
+    // init var
+    html = "";
+    html2 = "";
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            method : 'notice_list',
+            click_page : next_page,
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var page_stop = data.page_stop;
+        var click_page = data.click_page;
+        var data = data.data;
+        for(var i=0; i<10; i++){
+           $('#page').remove();
+        }
+        for(var i=0; i<data.length; i++){
+            var tmp = data[i][2];
+            tmp = tmp.split("$xcode$");
+            html += "<li class='tbody' id='page" + i + "'>";
+            html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+            html += "<span class='memo_a'>" + data[i][0] + "</span>";
+            html += "<span class='memo_b'>" + data[i][1] + "</span>";
+            html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+            html += "<span class='memo_d'>" + data[i][3] + "</span>";
+            html += "<span class='memo_e'>" + data[i][4] + "</span>";
+            html += "</li>"
+        }
+        $('#tbody').html(html);
+        $('.paging').children('a').remove();
+        var level = ((click_page-1) / 5);
+        level = parseInt(level);
+        var end = (level+1)*5;
+        var start = end-5;
+        if(page_stop != 0){
+            end = page_stop;
+        }
+            html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=start; page<end; page++){
+                if(page==click_page-1){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+    });
+}
+
+// 체크박스 전체 클릭 로직
+function checked_all(){
+    var status = $('#check_all').is(':checked');
+    if(status == true){
+        for(var i=0; i<10; i++) {
+            $(".check_all").prop("checked", true);
+        }
+    }
+    else if(status == false){
+        for(var i=0; i<10; i++) {
+            $(".check_all").prop("checked", false);
+        }
+    }
+}
+
+// 처음 조회 시 로직
+$(document).ready(function(){
+    var html  = "";
+    var html2 = "";
+    $.ajax({
+        url : '/memo',
+        type: "POST",
+        data : {
+            method : 'notice_list',
+            user_id : ${user.id},
+            csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data){
+        var data = data.data;
+        if(data.length != 0){
+            var total_page = data[0][0];
+            total_page = total_page/10;
+            for(var i=0; i<data.length; i++){
+                var tmp = data[i][2];
+                tmp = tmp.split("$xcode$");
+                html += "<li class='tbody' id='page" + i + "'>";
+                html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                html += "<span class='memo_a'>" + data[i][0] + "</span>";
+                html += "<span class='memo_b'>" + data[i][1] + "</span>";
+                html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                html += "<span class='memo_d'>" + data[i][3] + "</span>";
+                html += "<span class='memo_e'>" + data[i][4] + "</span>";
+                html += "</li>"
+            }
+            $('#tbody').html(html);
+            html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+            html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+            for(var page=0; page<5; page++){
+                if(page==0){
+                    html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+                else{
+                    html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                }
+            }
+            html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+            html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+            $('.paging').html(html2);
+        }
+    });
+
+    // 페이지 클릭시 로직
+    $('.paging').click(function(e){
+        // init var
+        html = "";
+        html2 = "";
+        if($('#hide_search').text() == "" || $('#hide_search').text() == null){
+            var click_page = e.target.text;
+            if (click_page == 'next' || click_page == 'prev' || click_page == 'first' || click_page == 'last'){
+                return 0;
+            }
+            $.ajax({
+                url : '/memo',
+                type: "POST",
+                data : {
+                    method : 'notice_list',
+                    click_page : click_page,
+                    user_id : ${user.id},
+                    csrfmiddlewaretoken: '${ csrf_token }'
+                }
+            }).done(function(data){
+                var page_stop = data.page_stop;
+                var click_page = data.click_page;
+                var data = data.data;
+                for(var i=0; i<10; i++){
+                   $('#page').remove();
+                }
+                for(var i=0; i<data.length; i++){
+                    var tmp = data[i][2];
+                    tmp = tmp.split("$xcode$");
+                    html += "<li class='tbody' id='page" + i + "'>";
+                    html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                    html += "<span class='memo_a'>" + data[i][0] + "</span>";
+                    html += "<span class='memo_b'>" + data[i][1] + "</span>";
+                    html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                    html += "<span class='memo_d'>" + data[i][3] + "</span>";
+                    html += "<span class='memo_e'>" + data[i][4] + "</span>";
+                    html += "</li>"
+                }
+                $('#tbody').html(html);
+                $('.paging').children('a').remove();
+                var level = ((click_page-1) / 5);
+                level = parseInt(level);
+                var end = (level+1)*5;
+                var start = end-5;
+                if(page_stop != 0){
+                    end = page_stop;
+                }
+                html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+                html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+                for(var page=start; page<end; page++){
+                    if(page==click_page-1){
+                        html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                    else{
+                        html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                }
+                html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+                html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+                $('.paging').html(html2);
+            });
+        }
+        else if($('#hide_search').text() != "" || $('#hide_search').text() != null) {
+            var click_page = e.target.text;
+            var search_data = $('#hide_search').text();
+            if (click_page == 'next' || click_page == 'prev' || click_page == 'first' || click_page == 'last'){
+                return 0;
+            }
+            $.ajax({
+                url : '/memo',
+                type: "POST",
+                data : {
+                    search_data : search_data,
+                    method : 'notice_list',
+                    click_page : click_page,
+                    user_id : ${user.id},
+                    csrfmiddlewaretoken: '${ csrf_token }'
+                }
+            }).done(function(data){
+                var page_stop = data.page_stop;
+                var click_page = data.click_page;
+                var data = data.data;
+                for(var i=0; i<10; i++){
+                   $('#page').remove();
+                }
+                for(var i=0; i<data.length; i++){
+                    var tmp = data[i][2];
+                    tmp = tmp.split("$xcode$");
+                    html += "<li class='tbody' id='page" + i + "'>";
+                    html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                    html += "<span class='memo_a'>" + data[i][0] + "</span>";
+                    html += "<span class='memo_b'>" + data[i][1] + "</span>";
+                    html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                    html += "<span class='memo_d'>" + data[i][3] + "</span>";
+                    html += "<span class='memo_e'>" + data[i][4] + "</span>";
+                    html += "</li>"
+                }
+                $('#tbody').html(html);
+                $('.paging').children('a').remove();
+                var level = ((click_page-1) / 5);
+                level = parseInt(level);
+                var end = (level+1)*5;
+                var start = end-5;
+                if(page_stop != 0){
+                    end = page_stop;
+                }
+                html2 += "<a href='javascript:first_click();' class='first' id='first' title='처음으로'>first</a>";
+                html2 += "<a href='javascript:prev_click();' class='prev' id='prev' title='이전'>prev</a>";
+                for(var page=start; page<end; page++){
+                    if(page==click_page-1){
+                        html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                    else{
+                        html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                    }
+                }
+                html2 += "<a href='javascript:next_click();' class='next' id='next' title='다음'>next</a>";
+                html2 += "<a href='javascript:last_click();' class='last' id='last' title='마지막으로'>last</a>";
+                $('.paging').html(html2);
+            });
+        }
+    });
+
+    // 삭제 클릭 시 로직
+    $('#del').click(function(e){
+        var last_num = $('.memo_a').eq(10).text();
+        var search_data = $('#hide_search').text();
+        for(var i=0; i<10; i++){
+            var tmp = "#check_all" + i + "";
+            var tmp2 = "#page" + i + "";
+            if ($(tmp).is(':checked') == true){
+                var del_id = $(tmp).parent().attr('id');
+                $.ajax({
+                    url : '/memo',
+                    type: "POST",
+                    data : {
+                        method : 'delete',
+                        del_id : del_id,
+                        user_id : ${user.id},
+                        csrfmiddlewaretoken: '${ csrf_token }',
+                        last_num: last_num,
+                        search_data: search_data
+                    }
+                }).done(function(data) {
+                    html = "";
+                    var data = data.plus;
+                    var tmp = data[2];
+                    tmp = tmp.split("$xcode$");
+                    html += "<li class='tbody' id='page" + i + "'>";
+                    html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                    html += "<span class='memo_a'>" + data[0] + "</span>";
+                    html += "<span class='memo_b'>" + data[1] + "</span>";
+                    html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                    html += "<span class='memo_d'>" + data[3] + "</span>";
+                    html += "<span class='memo_e'>" + data[4] + "</span>";
+                    html += "</li>"
+                    $('#tbody').append(html);
+                });
+                last_num = last_num - 1;
+                $(tmp2).remove();
+            }
+        }
+    });
+
+    // 검색 클릭 시 로직
+    $('#search').click(function(e){
+        html = "";
+        html2 = "";
+        var search_data = $('#search_search').val();
+        $('#hide_search').remove();
+        $('#main').append('<div id="hide_search" style="display:none;">' + search_data + '</div>');
+        $.ajax({
+            url : '/memo',
+            type: "POST",
+            data : {
+                method : 'search',
+                search_data : search_data,
+                user_id : ${user.id},
+                csrfmiddlewaretoken: '${ csrf_token }'
+            }
+        }).done(function(data) {
+            for(var i=0; i<10; i++){
+               var tmp = "#page" + i;
+               $(tmp).remove();
+            }
+            $('.paging').children('a').remove();
+            var data = data.data;
+            if(data.length == 0){
+                html += "<div style='text-align:center;margin-top:50px;'>검색 데이터가 없습니다</div>";
+                $('#tbody').html(html);
+            }
+            else{
+                for(var i=0; i<data.length; i++){
+                    var tmp = data[i][2];
+                    tmp = tmp.split("$xcode$");
+                    html += "<li class='tbody' id='page" + i + "'>";
+                    html += '<span class="memo_v" id="'+ tmp[0] +'"><input type="checkbox" class="check_all" id="check_all' + i + '"/></span>';
+                    html += "<span class='memo_a'>" + data[i][0] + "</span>";
+                    html += "<span class='memo_b'>" + data[i][1] + "</span>";
+                    html += "<a href='/memo_view/" + tmp[0] + "'><span class='memo_c'>" + tmp[1] + "</span></a>";
+                    html += "<span class='memo_d'>" + data[i][3] + "</span>";
+                    html += "<span class='memo_e'>" + data[i][4] + "</span>";
+                    html += "</li>"
+                }
+                $('#tbody').html(html);
+                html2 += "<a href='javascript:first_click_search();' class='first' id='first' title='처음으로'>first</a>";
+                html2 += "<a href='javascript:prev_click_search();' class='prev' id='prev' title='이전'>prev</a>";
+                if(data.length == 10){
+                    for(var page=0; page<5; page++){
+                        if(page==0){
+                            html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                        }
+                        else{
+                            html2 += "<a href='#' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                        }
+                    }
+                }
+                else{
+                    for(var page=0; page<1; page++){
+                        if(page==0){
+                            html2 += "<a href='#' class='current' id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                        }
+                        else{
+                            html2 += "<a id='" + (page+1) + "' title='" + (page+1) + " 페이지'>" + (page+1) + "</a>"
+                        }
+                    }
+                }
+                html2 += "<a href='javascript:next_click_search();' class='next' id='next' title='다음'>next</a>";
+                html2 += "<a href='javascript:last_click_search();' class='last' id='last' title='마지막으로'>last</a>";
+                $('.paging').html(html2);
+            }
+        });
+    });
+
+});
+</script>
+<!-- js end -->
+
+<!-- html start -->
+<section class="container">
+    <h2 title="공지사항" id="main">쪽지</h2>
+    <section class="board-search-box" style="margin-top:0;">
+        <input type="text" id="search_search" aria-label="검색어 입력" title="검색어 입력">
+        <input type="button" id="search" value="검색"  title="검색" aria-label="검색">
+        <input type="button" id="del" value="삭제"  title="삭제" aria-label="삭제">
+    </section>
+    <section class="board-list">
+        <ul>
+            <li class="thead">
+                <span class="memo_v" title="체크박스"><input type="checkbox" onclick="checked_all()" id="check_all"/></span>
+                <span class="memo_a" title="번호">번호</span>
+                <span class="memo_b" title="쪽지구분">쪽지구분</span>
+                <span class="memo_c" title="제목">제목</span>
+                <span class="memo_d" title="발송일시">발송일시</span>
+                <span class="memo_e" title="조회일시">조회일시</span>
+            </li>
+            <div id="tbody">
+            </div>
+        </ul>
+        <div class="hello" style="width:270px; margin-left:40%">
+            <div class="paging">
+            </div>
+        </div>
+        % if total_size == 0:
+            <div class="hello" style="width:270px; margin-left:40%; font-size:80%;">현재 쪽지함에 쪽지가 없습니다</div>
+        % endif
+    </section>
+</section>
+
+<br/><br/><br/><br/><br/><br/><br/>
+<!-- html end -->
+

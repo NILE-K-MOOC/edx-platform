@@ -1,0 +1,117 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">공지사항</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<style>
+.series_img{
+    width:250px;
+    height:150px;
+}
+.section_frame_outer {
+    border-top: solid #DDDDDD 3px;
+    padding-top:20px;
+    display:inline-block;
+    width:100%;
+}
+.section_frame_inner{
+    border: #DDDDDD 1px solid;
+    padding-top:5px;
+    display:inline-block;
+    width:100%;
+}
+.section_a{
+    float:left;
+
+}
+.section_b{
+    float:left;
+
+    padding: 20px;
+}
+.series_title{
+    margin-bottom:60px;
+    font-size:150%;
+    font-weight: bold;
+}
+.series_target{
+    margin-bottom:6px;
+    font-size:80%;
+}
+.series_goal{
+    font-size:80%;
+}
+.section_container{
+    padding-top: 40px;
+    padding-bottom: 100px;
+    padding-right: 10%;
+    padding-left: 10%;
+}
+.pagerLink {
+    text-decoration: none !important;
+}
+.real_main_title{
+    font-size:180%;
+    margin-top:20px;
+    border-bottom: solid 1px #DDDDDD;
+    padding-bottom: 40px;
+    font-weight: bold;
+}
+@media screen and (max-width: 1600px) and (min-width: 1200px) {
+    .section_container{
+        padding-top: 40px;
+        padding-bottom: 100px;
+        padding-right: 10%;
+        padding-left: 10%;
+    }
+}
+@media screen and (max-width: 1200px) and (min-width: 800px) {
+.section_container{
+        padding-top: 40px;
+        padding-bottom: 100px;
+        padding-right: 3%;
+        padding-left: 3%;
+    }
+}
+
+@media screen and (max-width: 770px) and (min-width: 0px) {
+    .series_img{
+        margin-left: 25%;
+    }
+}
+@media screen and (max-width: 770px) and (min-width: 0px) {
+    .series_title{
+        font-size:100%;
+        text-align:center;
+        margin-bottom:20px;
+    }
+}
+@media screen and (max-width: 770px) and (min-width: 601px) {
+    .section_b{
+        margin-left:60px;
+    }
+}
+@media screen and (max-width: 600px) and (min-width: 0px) {
+    .section_b{
+    }
+}
+</style>
+
+<div class="section_container">
+
+<div class="real_main_title">${_('Series Course')}</div>
+
+% for item in series_list:
+<div class="section_frame_outer">
+<div class="section_frame_inner">
+    <div class="section_a">
+        <img class="series_img" src="/static/series/${item[3]}.${item[4]}"/>
+    </div>
+    <div class="section_b">
+        <a class="pagerLink" href="/series_view/${item[0]}"><div class="series_title">${item[1]}</div></a>
+    </div>
+</div>
+</div>
+% endfor

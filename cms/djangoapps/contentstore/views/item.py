@@ -176,6 +176,7 @@ def xblock_handler(request, usage_key_string):
                 fields=request.json.get('fields'),
             )
     elif request.method in ('PUT', 'POST'):
+        print 'Test!!!!!!!!'
         if 'duplicate_source_locator' in request.json:
             parent_usage_key = usage_key_with_run(request.json['parent_locator'])
             duplicate_source_usage_key = usage_key_with_run(request.json['duplicate_source_locator'])

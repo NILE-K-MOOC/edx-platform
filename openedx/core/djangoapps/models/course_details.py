@@ -24,6 +24,7 @@ ABOUT_ATTRIBUTES = [
     'description',
     'short_description',
     'overview',
+    'course_level',
     'effort',
     'entrance_exam_enabled',
     'entrance_exam_id',
@@ -53,6 +54,7 @@ class CourseDetails(object):
         self.description = ""
         self.short_description = ""
         self.overview = ""  # html to render as the overview
+        self.course_level = ""
         self.intro_video = None  # a video pointer
         self.effort = None  # hours/week
         self.license = "all-rights-reserved"  # default course license is all rights reserved

@@ -1,0 +1,36 @@
+% for row in already_list:
+    <div class = "review_body_div">
+        <table class = "review_body_table">
+            <tr class = "review_body_1">
+                <td class ="review_id">${row[1]}</td>
+                <td class = "review_time_delete">${row[4]}</td>
+                <input type="hidden" name="delete_switch" value="1"/>
+                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+                <td class = "review_delete">
+                        <div class = "review_delete_font">delete</div>
+                </td>
+                % if row[3] == 1:
+                <td class =s"review_star"><div class="stard-ratings-css" title=".200"></div></td>
+                % endif
+                % if row[3] == 2:
+                <td class ="review_star"><div class="stard-ratings-css" title=".400"></div></td>
+                % endif
+                % if row[3] == 3:
+                <td class ="review_star"><div class="stard-ratings-css" title=".600"></div></td>
+                % endif
+                % if row[3] == 4:
+                <td class ="review_star"><div class="stard-ratings-css" title=".800"></div></td>
+                % endif
+                % if row[3] == 5:
+                <td class ="review_star"><div class="stard-ratings-css" title=".1000"></div></td>
+                % endif
+            </tr>
+        </table>
+        <table>
+            <tr class = "review_body_2">
+                <td class = "review_content">${row[2]}</td>
+            </tr>
+        </table>
+        </table>
+    </div>
+% endfor

@@ -40,6 +40,20 @@ class VideoStudentViewHandlers(object):
     Handlers for video module instance.
     """
 
+    #### video progress check ####
+
+    def _publish_grade(self, status, score):
+
+        self.runtime.publish(
+            self,
+            'grade',
+            {
+                'value': score,
+                'max_value': 1,
+            })
+
+    #### video progress check ####
+
     def handle_ajax(self, dispatch, data):
         """
         Update values of xfields, that were changed by student.
@@ -56,7 +70,41 @@ class VideoStudentViewHandlers(object):
             'youtube_is_available': json.loads,
         }
 
+
+        if 'saved_video_position' in data.keys():
+            total_time_string = data[u'total_duration']
+            current_time_string = data[u'duration']
+            total_time = float(total_time_string)
+            current_time = float(current_time_string)
+
+            # DEBUG
+            log.info("********total_time")
+            log.info(total_time)
+            log.info("********current_time")
+            log.info(current_time)
+
+            try:
+                avg = current_time/total_time
+            except ZeroDivisionError:
+                avg = 0
+
+            avg_progess = (round(avg*100)/100)
+
+            if avg_progess > 0.95 :
+                avg_progess = 1
+
+            # DEBUG
+            log.info("********avg_progess")
+            log.info(avg_progess)
+
+
         if dispatch == 'save_user_state':
+            if 'saved_video_position' in data.keys():
+                if self.lock == 0:
+                    self._publish_grade(1, avg_progess)
+                    if avg_progess == 1:
+                        self.seek_enable = True
+                        self.lock = 1
             for key in data:
                 if key in accepted_keys:
                     if key in conversions:
@@ -331,16 +379,20 @@ class VideoStudioViewHandlers(object):
 
             if request.method == 'POST':
                 subtitles = request.POST['file']
+                import time
+                now = time.localtime()
+                s = "%04d%02d%02d%02d%02d%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
+
                 try:
                     file_data = subtitles.file.read()
                     unicode(file_data, "utf-8", "strict")
                 except UnicodeDecodeError:
-                    log.info("Invalid encoding type for transcript file: {}".format(subtitles.filename))
+                    log.info("Invalid encoding type for transcript file: {}".format(s+subtitles.filename))
                     msg = _("Invalid encoding type, transcripts should be UTF-8 encoded.")
                     return Response(msg, status=400)
-                save_to_store(file_data, unicode(subtitles.filename), 'application/x-subrip', self.location)
-                generate_sjson_for_all_speeds(self, unicode(subtitles.filename), {}, language)
-                response = {'filename': unicode(subtitles.filename), 'status': 'Success'}
+                save_to_store(file_data, s+unicode(subtitles.filename), 'application/x-subrip', self.location)
+                generate_sjson_for_all_speeds(self, s+unicode(subtitles.filename), {}, language)
+                response = {'filename': s+unicode(subtitles.filename), 'status': 'Success'}
                 return Response(json.dumps(response), status=201)
 
             elif request.method == 'GET':

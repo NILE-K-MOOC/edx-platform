@@ -65,6 +65,9 @@ urlpatterns += patterns(
     '',
 
     url(r'^create_account$', 'student.views.create_account', name='create_account'),
+    url(r'^modi_teacher_name', 'student.views.modi_teacher_name', name='modi_teacher_name'),
+    url(r'^modi_course_level', 'student.views.modi_course_level', name='modi_course_level'),
+    url(r'^modi_course_period', 'student.views.modi_course_period', name='modi_course_period'),
     url(r'^activate/(?P<key>[^/]*)$', 'student.views.activate_account', name='activate'),
 
     # ajax view that actually does the work
@@ -89,6 +92,7 @@ urlpatterns += patterns(
         'course_info_update_handler'
     ),
     url(r'^home/?$', 'course_listing', name='home'),
+    url(r'^level_Verifi/?$', 'level_Verifi', name='level_Verifi'),
     url(
         r'^course/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
         'course_search_index_handler',

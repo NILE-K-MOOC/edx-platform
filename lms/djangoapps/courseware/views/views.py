@@ -17,13 +17,13 @@ from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.db import transaction
 from django.db.models import Q
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.timezone import UTC
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_control
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.views.generic import View
 from eventtracking import tracker
@@ -99,6 +99,7 @@ import MySQLdb as mdb
 import sys
 import json
 from django.core.mail import send_mail
+from django.db import connections
 
 log = logging.getLogger("edx.courseware")
 
@@ -198,6 +199,30 @@ def courses(request):
 
     return render_to_response(
         "courseware/courses.html",
+        {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
+    )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def mobile_courses(request):
+    """
+    Render "find courses" page.  The course selection work is done in courseware.courses.
+    """
+    courses_list = []
+    course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
+    if not settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
+        courses_list = get_courses(request.user)
+
+        if configuration_helpers.get_value(
+                "ENABLE_COURSE_SORTING_BY_START_DATE",
+                settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"]
+        ):
+            courses_list = sort_by_start_date(courses_list)
+        else:
+            courses_list = sort_by_announcement(courses_list)
+
+    return render_to_response(
+        "courseware/mobile_courses.html",
         {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
     )
 
@@ -322,7 +347,6 @@ def cert_check_id(request):
 def schools(request):
     return render_to_response("courseware/schools.html")
 
-
 def get_current_child(xmodule, min_depth=None, requested_child=None):
     """
     Get the xmodule.position's display item of an xmodule that has a position and
@@ -441,6 +465,7 @@ def course_info(request, course_id):
 
     Assumes the course_id is in a valid format.
     """
+
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
     with modulestore().bulk_operations(course_key):
         course = get_course_by_id(course_key, depth=2)
@@ -503,6 +528,7 @@ def course_info(request, course_id):
             'studio_url': studio_url,
             'show_enroll_banner': show_enroll_banner,
             'url_to_enroll': url_to_enroll,
+            'course_id': course_id
         }
 
         # Get the URL of the user's last position in order to display the 'where you were last' message
@@ -686,15 +712,527 @@ class EnrollStaffView(View):
         # In any other case redirect to the course about page.
         return redirect(reverse('about_course', args=[unicode(course_key)]))
 
+def course_score(request):
+    edx_user_info = json.loads(request.COOKIES['edx-user-info'])
+
+    # course-v1:org+number+run
+    review_raw_id = request.POST.get('id')
+    review_raw_email = request.POST.get('email')
+    review_raw_org = request.POST.get('org')
+    review_raw_name = request.POST.get('name')
+
+    review_email = str(review_raw_email)
+    review_org = str(review_raw_org)
+    review_name = str(review_raw_name)
+    duplication_lock = 0   
+
+    if review_raw_id.find('good') == 0:
+        review_id = review_raw_id[4:]
+    if review_raw_id.find('bad') == 0:
+        review_id = review_raw_id[3:]
+
+    # prevent duplication
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT *
+        FROM   edxapp.course_review_user
+        WHERE  review_id = {3}
+               AND user_id IN(SELECT id
+                              FROM   edxapp.auth_user
+                              WHERE  email = '{2}')
+               AND review_id IN(SELECT id
+                                FROM   edxapp.course_review
+                                WHERE  course_id LIKE 'course-v1:{0}+{1}+%')
+        '''.format(review_org, review_name, review_email, review_id)
+        cur.execute(sql)
+        duplication_list = cur.fetchall()
+  
+    if len(duplication_list) > 0:
+       duplication_lock = 1
+       return JsonResponse({'return':'duplication'})
+
+    if duplication_lock == 0: 
+        # good
+        if review_raw_id.find('good') == 0:
+            review_id = review_raw_id[4:]
+            with connections['default'].cursor() as cur:
+                sql = '''
+                INSERT INTO edxapp.course_review_user
+                            (review_id,
+                             user_id,
+                             good_bad)
+                SELECT {0},
+                       id,
+                       'g'
+                FROM   edxapp.auth_user
+                WHERE  email = '{1}';
+                '''.format(review_id, review_email)
+                cur.execute(sql)
+                # auto commit
+                # conn.commit()
+        # bad
+        if review_raw_id.find('bad') == 0:
+            review_id = review_raw_id[3:]
+            with connections['default'].cursor() as cur:
+                sql = '''
+                INSERT INTO edxapp.course_review_user
+                            (review_id,
+                             user_id,
+                             good_bad)
+                SELECT {0},
+                       id,
+                       'b'
+                FROM   edxapp.auth_user
+                WHERE  email = '{1}';
+                '''.format(review_id, review_email)
+                cur.execute(sql)
+                # auto commit
+                # conn.commit()
+
+    return JsonResponse({'return':'success'})
+
+
+from django.http import JsonResponse
+
+@csrf_exempt
+@cache_if_anonymous()
+@require_http_methods(['POST'])
+def course_interest(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'add':
+            user_id = request.POST.get('user_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                 select count(user_id) from interest_course where user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
+            """
+            cur.execute(query)
+            count = cur.fetchall()
+            ctn = count[0][0]
+            cur.close()
+
+            if(ctn == 1):
+                cur = con.cursor()
+                query = """
+                     UPDATE interest_course
+                       SET use_yn = 'Y'
+                     WHERE user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
+                """
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            elif(ctn == 0):
+                cur = con.cursor()
+                query = """
+                     insert into interest_course(user_id, org, display_number_with_default)
+                     VALUES ('""" + user_id + """',
+                             '""" + org + """',
+                             '""" + display_number_with_default + """');
+                """
+                cur.execute(query)
+                cur.execute('commit')
+                cur.close()
+                data = json.dumps('success')
+            return HttpResponse(data, 'application/json')
+
+        elif request.POST['method'] == 'modi':
+            user_id = request.POST.get('user_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                 UPDATE interest_course
+                   SET use_yn = 'N'
+                 WHERE user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
+            """
+            cur.execute(query)
+            cur.execute('commit')
+            cur.close()
+            data = json.dumps('success')
+
+            return HttpResponse(data, 'application/json')
+
+        elif request.POST['method'] == 'flag':
+            user_id = request.POST.get('user_id')
+            org = request.POST.get('org')
+            display_number_with_default = request.POST.get('display_number_with_default')
+
+            sys.setdefaultencoding('utf-8')
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+
+            cur = con.cursor()
+            query = """
+                 SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+             """.format(user_id, org, display_number_with_default)
+            cur.execute(query)
+            count = cur.fetchall()
+            flag = count[0][0]
+            cur.close()
+
+            data = json.dumps(flag)
+
+            return HttpResponse(data, 'application/json')
+
+        return HttpResponse('success', 'application/json')
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def course_about(request, course_id):
-    """
-    Display the course's about page.
 
-    Assumes the course_id is in a valid format.
-    """
+    # ---------- 2017.11.08 REVIEW BACKEND / start ----------#
+    try:
+        review_email = str(request.user.email)
+        review_username = str(request.user.username)
+        login_status = 'o'
+    except BaseException:
+        review_email = 'x'
+        review_username = 'x'
+
+    #login check
+    if not request.user.is_authenticated():
+        login_status = 'x'
+
+    review_content = str(request.POST.get('review_data'))
+    review_rating = str(request.POST.get('review_rating'))
+
+    # course-v1:org+number+run
+    # make org, number
+    course_id_str = str(course_id)
+    index_org_start = course_id_str.find(':')+1
+    index_org_end = course_id_str.find('+')
+    index_number_start = index_org_end+1
+    index_number_end = course_id_str.rfind('+')
+    course_org = course_id_str[index_org_start:index_org_end]
+    course_number = course_id_str[index_number_start:index_number_end]
+
+    # ---------- 리뷰 작성 시 로직 (insert) ---------- #
+    if request.POST.get('write_switch'):
+        insert_switch = 1
+    else:
+        insert_switch = 0
+
+    if( insert_switch == 1 ):
+        # 해당 강좌에 사용자가 이미 작성한 리뷰가 테이블에 이미 있는가..?
+        with connections['default'].cursor() as cur:
+            sql = '''
+                SELECT id
+                FROM   edxapp.course_review
+                WHERE  user_id IN (SELECT id
+                                   FROM   edxapp.auth_user
+                                   WHERE  email = '{2}')
+                       AND course_id LIKE 'course-v1:{0}+{1}+%'
+            '''.format(course_org, course_number, review_email)
+            cur.execute(sql)
+            valcheck = cur.fetchall()
+
+            # 작성한 리뷰가 테이블에 없을 경우 아래의 로직 (데이터 삽입)
+            if len(valcheck) == 0 :
+                with connections['default'].cursor() as cur:
+                    sql = '''
+                        INSERT INTO edxapp.course_review
+                                    (content,
+                                     point,
+                                     user_id,
+                                     course_id)
+                        SELECT '{0}',
+                                {1},
+                                id,
+                               '{3}'
+                        FROM   edxapp.auth_user
+                        WHERE  email = '{2}'
+                    '''.format(review_content, review_rating, review_email, course_id)
+                    cur.execute(sql)
+
+        # 리턴해주는 html을 만들어주는 로직
+        # 작성한 리뷰의 아이디와 등록시간을 구하는 로직
+        with connections['default'].cursor() as cur:
+            sql = '''
+                SELECT DATE_FORMAT(reg_time, "%Y/%m/%d %H:%m:%s") as reg_time,
+                       id
+                FROM   edxapp.course_review
+                WHERE  course_id like 'course-v1:{0}+{1}+%'
+                       AND user_id IN (SELECT id
+                                       FROM   edxapp.auth_user
+                                       WHERE  email = '{2}')
+            '''.format(course_org, course_number, review_email)
+            cur.execute(sql)
+            cur_list = cur.fetchall()
+        cur_time = cur_list[0][0]
+        cur_id = cur_list[0][1]
+
+        if review_rating == '1' :
+            rating_css = '200'
+        elif review_rating == '2':
+            rating_css = '400'
+        elif review_rating == '3':
+            rating_css = '600'
+        elif review_rating == '4':
+            rating_css = '800'
+        elif review_rating == '5':
+            rating_css = '1000'
+
+
+        ret_val = dict()
+
+        # 자신의 작성한 글이며, 리스트에 뿌려줄 html
+        html_string = '''
+        <div class="review_body_div" id="review_body_div_{4}">
+                <table class="review_body_table">
+                <tbody><tr class="review_body_1">
+                    <td class="review_id">{2}</td>
+                    <td class="review_time">{3}</td>
+                <td class="review_bad">
+                            <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_bad_img" src="/static/images/bad.png">0
+                            </a>
+                        </td>
+                <td class="review_good">
+                            <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_good_img" src="/static/images/good.png">0
+                            </a>
+                        </td>
+                <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
+                </tr>
+            </tbody></table>
+            <table>
+                <tbody><tr class="review_body_2">
+                    <td class="review_content">{1}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+
+        # 자신의 작성한 글이며, 리스트 위에 자기가 쓴 글 보여주는 곳에 뿌려줄 html
+        html_string2 = '''
+        <div class="review_own">
+        <div class="review_body_div">
+                <table class="review_body_table">
+                    <tbody><tr class="review_body_1">
+                        <td class="review_id">{2}</td>
+                        <td class="review_time_delete">{3}</td>
+                        <input type="hidden" name="delete_switch" value="1">
+                        <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                        <td class="review_delete">
+                                <div class="review_delete_font">delete</div>
+                        </td>
+                        <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
+                    </tr>
+                </tbody></table>
+                <table>
+                    <tbody><tr class="review_body_2">
+                        <td class="review_content">{1}</td>
+                    </tr>
+                </tbody></table>
+
+            </div>
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+
+        # ret_val의 dict에 html을 담아서 json으로 리턴해준다
+        ret_val['html'] = html_string   # 자신의 작성한 글이며, 리스트에 뿌려줄 html
+        ret_val['html2'] = html_string2 # 자신의 작성한 글이며, 리스트 위에 자기가 쓴 글 보여주는 곳에 뿌려줄 html
+        ret_val['stat'] = 'success'
+
+        return JsonResponse(ret_val)
+    # ---------- 리뷰 작성 시 로직 (insert) ---------- #
+
+    # ---------- DELETE SWITCH ---------- #
+    if request.POST.get('delete_switch'):
+        delete_switch = 1
+    else:
+        delete_switch = 0
+
+    if( delete_switch == 1 ):
+        #-------------------------------------------------------
+        with connections['default'].cursor() as cur:
+            sql = '''
+            select id
+            FROM edxapp.course_review
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}')
+                   AND course_id LIKE 'course-v1:{1}+{2}+%'
+            '''.format(review_email, course_org, course_number)
+            cur.execute(sql)
+
+            print "#####################" #DEBUG
+            print sql #DEBUG
+
+            del_id_list = cur.fetchall()
+            del_id = del_id_list[0][0]
+
+            html_string = '''
+            <div class="review_write">
+                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                <div id="review_write_star">
+                <fieldset class="rating">
+                    <input type="radio" id="star5" name="review_rating" value="5">
+                        <label class="full" for="star5" id="noclose" title="Awesome - 5 stars">
+                        </label>
+                    <input type="radio" id="star4" name="review_rating" value="4">
+                        <label class="full" for="star4" id="noclose" title="Pretty good - 4 stars">
+                        </label>
+                    <input type="radio" id="star3" name="review_rating" value="3">
+                         <label class="full" for="star3" id="noclose" title="Meh - 3 stars">
+                        </label>
+                    <input type="radio" id="star2" name="review_rating" value="2">
+                        <label class="full" for="star2" id="noclose" title="Kinda bad - 2 stars">
+                         </label>
+                    <input type="radio" id="star1" name="review_rating" value="1">
+                         <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
+                         </label>
+                </fieldset>
+                    <button type="button" id="review_write_submit" class="btn-brand btn-small">글쓰기</button>
+                </div>
+                <div class="form-group" id="noclose">
+                    <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
+                    <input id="test" type="hidden" name="write_switch" value="1">
+                </div>
+            </div>
+            '''
+        #-------------------------------------------------------
+        with connections['default'].cursor() as cur:
+            sql = '''
+            DELETE FROM edxapp.course_review
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}')
+                   AND course_id LIKE 'course-v1:{1}+{2}+%'
+            '''.format(review_email, course_org, course_number)
+            cur.execute(sql)
+            print sql #DEBUG
+            # auto commit
+            # conn.commit()
+
+        ret_val = dict()
+        ret_val['stat'] = 'success'
+        ret_val['del_id'] = del_id
+        ret_val['html'] = html_string
+
+        return JsonResponse(ret_val)
+    # ---------- DELETE SWITCH ---------- #
+
+    # ---------- SELECT -> all list ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT cr.id,
+               au.username,
+               cr.content,
+               cr.point,
+               DATE_FORMAT(cr.reg_time, "%Y/%m/%d %H:%m:%s") as reg_time,
+               Sum(CASE
+                     WHEN good_bad = 'g' THEN 1
+                     ELSE 0
+                   end) AS good,
+               Sum(CASE
+                     WHEN good_bad = 'b' THEN 1
+                     ELSE 0
+                   end) AS bad
+        FROM   edxapp.course_review AS cr
+               JOIN edxapp.auth_user AS au
+                 ON au.id = cr.user_id
+               LEFT JOIN edxapp.course_review_user AS cru
+                 ON cru.review_id = cr.id
+        WHERE  cr.course_id LIKE 'course-v1:{0}+{1}+%'
+        GROUP  BY cr.id,
+                  au.username,
+                  cr.content,
+                  cr.point,
+                  cr.reg_time
+        ORDER  BY reg_time DESC;
+        '''.format(course_org, course_number)
+        print sql #DEBUG
+        cur.execute(sql)
+        review_list = cur.fetchall()
+        print len(review_list) #DEBUG
+    # ---------- SELECT -> all list ---------- #
+
+    # ---------- SELECT -> own list ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT cr.id,
+               au.username,
+               cr.content,
+               cr.point,
+               DATE_FORMAT(cr.reg_time, "%Y/%m/%d %H:%m:%s") as reg_time
+          FROM course_review AS cr
+          JOIN auth_user AS au
+          ON au.id = cr.user_id
+        WHERE  au.email = '{0}'
+               AND course_id LIKE 'course-v1:{1}+{2}+%'
+        '''.format(review_email, course_org, course_number)
+        cur.execute(sql)
+        already_list = cur.fetchall()
+    already_lock = len(already_list)
+    # ---------- SELECT -> own list ---------- #
+
+    # ---------- you are enroll ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT *
+        FROM   edxapp.student_courseenrollment
+        WHERE  course_id LIKE 'course-v1:{}+{}+%'
+               AND user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{}')
+               AND is_active = 1
+        '''.format(course_org, course_number, review_email)
+        cur.execute(sql)
+        enroll_list = cur.fetchall()
+    enroll_lock = len(enroll_list)
+    # ---------- you are enroll ---------- #
+
+    # ---------- avg rating ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT Avg(point)
+        FROM   edxapp.course_review
+        WHERE  course_id LIKE 'course-v1:{0}+{1}+%'
+        '''.format(course_org, course_number)
+        cur.execute(sql)
+        enroll_list = cur.fetchall()
+        course_avg = enroll_list[0][0]
+    try:
+        course_total = int(round(float(course_avg)))
+    except BaseException:
+        course_total = 0
+    # ---------- avg rating ---------- #
+    # ---------- 2017.11.08 REVIEW BACKEND / start ----------#
+
     course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
 
     if hasattr(course_key, 'ccx'):
@@ -885,251 +1423,59 @@ def course_about(request, course_id):
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}
 
-        #######################################################################
+        print "review_list = {}".format(review_list)
+        print "review_email = {}".format(review_email)
+        print "course_id = {}".format(course_id)
+        print "already_list = {}".format(already_list)
+        print "enroll_list = {}".format(enroll_list)
+        print "course_org = {}".format(course_org)
+        print "course_number = {}".format(course_number)
+        print "course_total = {}".format(course_total)
+        print "login_status = {}".format(login_status)
 
-        context = {
-            'course': course,
-            'course_details': course_details,
-            'staff_access': staff_access,
-            'studio_url': studio_url,
-            'registered': registered,
-            'course_target': course_target,
-            'is_cosmetic_price_enabled': settings.FEATURES.get('ENABLE_COSMETIC_DISPLAY_PRICE'),
-            'course_price': course_price,
-            'in_cart': in_cart,
-            'ecommerce_checkout': ecommerce_checkout,
-            'ecommerce_checkout_link': ecommerce_checkout_link,
-            'ecommerce_bulk_checkout_link': ecommerce_bulk_checkout_link,
-            'professional_mode': professional_mode,
-            'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
-            'show_courseware_link': show_courseware_link,
-            'is_course_full': is_course_full,
-            'can_enroll': can_enroll,
-            'invitation_only': invitation_only,
-            'active_reg_button': active_reg_button,
-            'is_shib_course': is_shib_course,
-            # We do not want to display the internal courseware header, which is used when the course is found in the
-            # context. This value is therefor explicitly set to render the appropriate header.
-            'disable_courseware_header': True,
-            'can_add_course_to_cart': can_add_course_to_cart,
-            'cart_link': reverse('shoppingcart.views.show_cart'),
-            'pre_requisite_courses': pre_requisite_courses,
-            'course_image_urls': overview.image_urls,
-            'day': day,
-            'short_description': short_description,
-            # 'classfy' : classfy,
-            'classfy_name': classfy_name,
-            'univ_name': univ_name,
-            'enroll_sdate': enroll_sdate,
-            'enroll_edate': enroll_edate
-        }
-        inject_coursetalk_keys_into_context(context, course_key)
+        sys.setdefaultencoding('utf-8')
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
+        cur = con.cursor()
+        query = """
+            SELECT id
+              FROM auth_user
+             WHERE email = '{0}';
+        """.format(review_email)
+        cur.execute(query)
+        user_id = cur.fetchall()
+        cur.close()
+        flag = 0
 
-        return render_to_response('courseware/course_about.html', context)
+        if ( login_status  != 'x' ):
+            cur = con.cursor()
+            query = """
+                SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+            """.format(user_id[0][0], course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
 
-
-@ensure_csrf_cookie
-@cache_if_anonymous()
-def mobile_course_about(request, course_id):
-    """
-    Display the course's about page.
-
-    Assumes the course_id is in a valid format.
-    """
-    course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
-
-    if hasattr(course_key, 'ccx'):
-        # if un-enrolled/non-registered user try to access CCX (direct for registration)
-        # then do not show him about page to avoid self registration.
-        # Note: About page will only be shown to user who is not register. So that he can register. But for
-        # CCX only CCX coach can enroll students.
-        return redirect(reverse('dashboard'))
-
-    with modulestore().bulk_operations(course_key):
-        permission = get_permission_for_course_about()
-        course = get_course_with_access(request.user, permission, course_key)
-        course_details = CourseDetails.populate(course)
-        modes = CourseMode.modes_for_course_dict(course_key)
-
-        if configuration_helpers.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False)):
-            return redirect(reverse('info', args=[course.id.to_deprecated_string()]))
-
-        registered = registered_for_course(course, request.user)
-
-        staff_access = bool(has_access(request.user, 'staff', course))
-        studio_url = get_studio_url(course, 'settings/details')
-
-        if has_access(request.user, 'load', course):
-            course_target = reverse('info', args=[course.id.to_deprecated_string()])
-        else:
-            course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
-
-        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
-        course_link = course_link.replace("/info", "&email_opt_in=true")
-
-        show_courseware_link = bool(
-            (
-                has_access(request.user, 'load', course) and
-                has_access(request.user, 'view_courseware_with_prerequisites', course)
-            ) or settings.FEATURES.get('ENABLE_LMS_MIGRATION')
-        )
-
-        # Note: this is a flow for payment for course registration, not the Verified Certificate flow.
-        in_cart = False
-        reg_then_add_to_cart_link = ""
-
-        _is_shopping_cart_enabled = is_shopping_cart_enabled()
-        if _is_shopping_cart_enabled:
-            if request.user.is_authenticated():
-                cart = shoppingcart.models.Order.get_cart_for_user(request.user)
-                in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
-                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
-
-            reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
-                reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
-            )
-
-        # If the ecommerce checkout flow is enabled and the mode of the course is
-        # professional or no id professional, we construct links for the enrollment
-        # button to add the course to the ecommerce basket.
-        ecomm_service = EcommerceService()
-        ecommerce_checkout = ecomm_service.is_enabled(request.user)
-        ecommerce_checkout_link = ''
-        ecommerce_bulk_checkout_link = ''
-        professional_mode = None
-        is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
-        if ecommerce_checkout and is_professional_mode:
-            professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
-                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
-            if professional_mode.sku:
-                ecommerce_checkout_link = ecomm_service.checkout_page_url(professional_mode.sku)
-            if professional_mode.bulk_sku:
-                ecommerce_bulk_checkout_link = ecomm_service.checkout_page_url(professional_mode.bulk_sku)
-
-        # Find the minimum price for the course across all course modes
-        registration_price = CourseMode.min_course_price_for_currency(
-            course_key,
-            settings.PAID_COURSE_REGISTRATION_CURRENCY[0]
-        )
-        course_price = get_cosmetic_display_price(course, registration_price)
-
-        # Determine which checkout workflow to use -- LMS shoppingcart or Otto basket
-        can_add_course_to_cart = _is_shopping_cart_enabled and registration_price and not ecommerce_checkout_link
-
-        # Used to provide context to message to student if enrollment not allowed
-        can_enroll = bool(has_access(request.user, 'enroll', course))
-        invitation_only = course.invitation_only
-        is_course_full = CourseEnrollment.objects.is_course_full(course)
-
-        # Register button should be disabled if one of the following is true:
-        # - Student is already registered for course
-        # - Course is already full
-        # - Student cannot enroll in course
-        active_reg_button = not (registered or is_course_full or not can_enroll)
-
-        is_shib_course = uses_shib(course)
-
-        # get prerequisite courses display names
-        pre_requisite_courses = get_prerequisite_courses_display(course)
-
-        # Overview
-        overview = CourseOverview.get_from_id(course.id)
-
-        # D-day
-        today = datetime.now()
-        course_start = course.start
-        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
-        course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
-        d_day = (course_start_val - today_val)
-
-        if d_day.days > 0:
-            day = {'day': '/ D-' + str(d_day.days)}
-        else:
-            day = {'day': ''}
-
-        # short description
-        short_description = {'short_description': course_details.short_description}
-
-        # classfy name
-        classfy_dict = {
-            # add classfy
-            "edu": "Education",
-            "hum": "Humanities",
-            "social": "Social Sciences",
-            "eng": "Engineering",
-            "nat": "Natural Sciences",
-            "med": "Medical Sciences",
-            "art": "Arts & Physical",
-            "intd": "Interdisciplinary",
-        }
-
-        # if course_details.classfy != 'all':
-        #     classfy_name = ClassDict[course_details.classfy]
-        # else:
-        #     classfy_name = 'Etc'
-
-        global classfy_name
-        if course_details.classfy is None or course_details.classfy == '':
-            classfy_name = 'Etc'
-        else:
-            classfy_name = classfy_dict[
-                course_details.classfy] if course_details.classfy in classfy_dict else course_details.classfy
-
-        # univ name
-        UnivDic = {
-            # add univ
-            "testUniv": "Test University",
-            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
-            "KHUk": "KYUNGHEE UNIVERSITY",
-            "KoreaUnivK": "KOREA UNIVERSITY",
-            "DGUk": "DAEGU UNIVERSITY",
-            "PNUk": "PUSAN NATIONAL UNIVERSITY",
-            "SMUCk": "SANGMYUNG UNIVERSITY",
-            "SNUk": "SEOUL NATIONAL UNIVERSITY",
-            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
-            "SSUk": "SUNGSHIN UNIVERSITY",
-            "SejonguniversityK": "SEJONG UNIVERSITY",
-            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
-            "YSUk": "YONSEI UNIVERSITY",
-            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
-            "UOUk": "UNIVERSITY OF ULSAN",
-            "EwhaK": "EWHA WOMANS UNIVERSITY",
-            "INHAuniversityK": "INHA UNIVERSITY",
-            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
-            "POSTECHk": "POSTECH",
-            "KAISTk": "KAIST",
-            "HYUk": "HANYANG UNIVERSITY",
-            "KOCW": "KOCW",
-            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
-            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
-            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
-            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
-            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
-            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
-            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
-            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
-            "HGUk": "HANDONG GLOBAL UNIVERSITY",
-        }
-
-        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
-
-        if course_details.enrollment_start:
-            enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
-                                                                    "%Y-%m-%d").date()
-            enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10],
-                                                                "%Y-%m-%d").date()
-
-            if _("Agree") == "Agree":
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
-            else:
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
-        else:
-            enroll_sdate = {'enroll_sdate': ''}
-            enroll_edate = {'enroll_edate': ''}
-
-        #######################################################################
+        cur = con.cursor()
+        query = """
+            SELECT display_name, id
+              FROM course_overviews_courseoverview
+             WHERE org = '{0}' AND display_number_with_default = '{1}' AND id NOT IN ('{2}')
+                    AND created < (SELECT created
+                          FROM course_overviews_courseoverview
+                         WHERE id = '{3}')
+             ORDER BY start DESC;
+        """.format(course_org, course_number, overview, overview)
+        cur.execute(query)
+        pre_course_index = cur.fetchall()
+        cur.close()
+        pre_course = pre_course_index
 
         context = {
             'course': course,
@@ -1166,7 +1512,636 @@ def mobile_course_about(request, course_id):
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
-            'course_link': course_link,
+            # --- REVIEW CONTEXT --- #
+            'review_list' : review_list,
+            'review_email' : review_email,
+            'course_id' : course_id,
+            'already_list' : already_list,
+            'enroll_list' : enroll_list,
+            'course_org' : course_org,
+            'course_number' : course_number,
+            'course_total' : course_total,
+            'login_status' : login_status,
+            'flag' : flag,
+            'pre_course':pre_course,
+        }
+        inject_coursetalk_keys_into_context(context, course_key)
+
+        return render_to_response('courseware/course_about.html', context)
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def mobile_course_about(request, course_id):
+
+    # ---------- 2017.11.08 REVIEW BACKEND / start ----------#
+    try:
+        review_email = str(request.user.email)
+        review_username = str(request.user.username)
+        login_status = 'o'
+    except BaseException:
+        review_email = 'x'
+        review_username = 'x'
+
+    #login check
+    if not request.user.is_authenticated():
+        login_status = 'x'
+
+    review_content = str(request.POST.get('review_data'))
+    review_rating = str(request.POST.get('review_rating'))
+
+    # course-v1:org+number+run
+    # make org, number
+    course_id_str = str(course_id)
+    index_org_start = course_id_str.find(':')+1
+    index_org_end = course_id_str.find('+')
+    index_number_start = index_org_end+1
+    index_number_end = course_id_str.rfind('+')
+    course_org = course_id_str[index_org_start:index_org_end]
+    course_number = course_id_str[index_number_start:index_number_end]
+
+    # ---------- 리뷰 작성 시 로직 (insert) ---------- #
+    if request.POST.get('write_switch'):
+        insert_switch = 1
+    else:
+        insert_switch = 0
+
+    if( insert_switch == 1 ):
+        # 해당 강좌에 사용자가 이미 작성한 리뷰가 테이블에 이미 있는가..?
+        with connections['default'].cursor() as cur:
+            sql = '''
+                SELECT id
+                FROM   edxapp.course_review
+                WHERE  user_id IN (SELECT id
+                                   FROM   edxapp.auth_user
+                                   WHERE  email = '{2}')
+                       AND course_id LIKE 'course-v1:{0}+{1}+%'
+            '''.format(course_org, course_number, review_email)
+            cur.execute(sql)
+            valcheck = cur.fetchall()
+
+            # 작성한 리뷰가 테이블에 없을 경우 아래의 로직 (데이터 삽입)
+            if len(valcheck) == 0 :
+                with connections['default'].cursor() as cur:
+                    sql = '''
+                        INSERT INTO edxapp.course_review
+                                    (content,
+                                     point,
+                                     user_id,
+                                     course_id)
+                        SELECT '{0}',
+                                {1},
+                                id,
+                               '{3}'
+                        FROM   edxapp.auth_user
+                        WHERE  email = '{2}'
+                    '''.format(review_content, review_rating, review_email, course_id)
+                    cur.execute(sql)
+
+        # 리턴해주는 html을 만들어주는 로직
+        # 작성한 리뷰의 아이디와 등록시간을 구하는 로직
+        with connections['default'].cursor() as cur:
+            sql = '''
+                SELECT reg_time, id
+                FROM   edxapp.course_review
+                WHERE  course_id like 'course-v1:{0}+{1}+%'
+                       AND user_id IN (SELECT id
+                                       FROM   edxapp.auth_user
+                                       WHERE  email = '{2}')
+            '''.format(course_org, course_number, review_email)
+            cur.execute(sql)
+            cur_list = cur.fetchall()
+        cur_time = cur_list[0][0]
+        cur_id = cur_list[0][1]
+
+        if review_rating == '1' :
+            rating_css = '200'
+        elif review_rating == '2':
+            rating_css = '400'
+        elif review_rating == '3':
+            rating_css = '600'
+        elif review_rating == '4':
+            rating_css = '800'
+        elif review_rating == '5':
+            rating_css = '1000'
+
+
+        ret_val = dict()
+
+        # 자신의 작성한 글이며, 리스트에 뿌려줄 html
+        html_string = '''
+        <div class="review_body_div" id="review_body_div_{4}">
+                <table class="review_body_table">
+                <tbody><tr class="review_body_1">
+                    <td class="review_id">{2}</td>
+                    <td class="review_time">{3}</td>
+                <td class="review_bad">
+                            <a class="review_button_link" id="bad{4}" href="javascript:;" onclick="score_click_bad(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_bad_img" src="/static/images/bad.png">0
+                            </a>
+                        </td>
+                <td class="review_good">
+                            <a class="review_button_link" id="good{4}" href="javascript:;" onclick="score_click_good(
+                                                          $(this).attr('id'),
+                                                          $('.hidden_email').text(),
+                                                          $('.hidden_org').text(),
+                                                          $('.hidden_name').text())
+                                                      " style="color: #666666; text-decoration: none;">
+                                <img class="review_good_img" src="/static/images/good.png">0
+                            </a>
+                        </td>
+                <td class="review_star"><div class="star-ratings-css" title=".{0}"></div></td>
+                </tr>
+            </tbody></table>
+            <table>
+                <tbody><tr class="review_body_2">
+                    <td class="review_content">{1}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+
+        # 자신의 작성한 글이며, 리스트 위에 자기가 쓴 글 보여주는 곳에 뿌려줄 html
+        html_string2 = '''
+        <div class="review_own">
+        <div class="review_body_div">
+                <table class="review_body_table">
+                    <tbody><tr class="review_body_1">
+                        <td class="review_id">{2}</td>
+                        <td class="review_time_delete">{3}</td>
+                        <input type="hidden" name="delete_switch" value="1">
+                        <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                        <td class="review_delete">
+                                <div class="review_delete_font">delete</div>
+                        </td>
+                        <td class="review_star"><div class="stard-ratings-css" title=".{0}"></div></td>
+                    </tr>
+                </tbody></table>
+                <table>
+                    <tbody><tr class="review_body_2">
+                        <td class="review_content">{1}</td>
+                    </tr>
+                </tbody></table>
+
+            </div>
+        </div>
+        '''.format(rating_css, review_content, review_username, cur_time, cur_id)
+
+        # ret_val의 dict에 html을 담아서 json으로 리턴해준다
+        ret_val['html'] = html_string   # 자신의 작성한 글이며, 리스트에 뿌려줄 html
+        ret_val['html2'] = html_string2 # 자신의 작성한 글이며, 리스트 위에 자기가 쓴 글 보여주는 곳에 뿌려줄 html
+        ret_val['stat'] = 'success'
+
+        return JsonResponse(ret_val)
+    # ---------- 리뷰 작성 시 로직 (insert) ---------- #
+
+    # ---------- DELETE SWITCH ---------- #
+    if request.POST.get('delete_switch'):
+        delete_switch = 1
+    else:
+        delete_switch = 0
+
+    if( delete_switch == 1 ):
+        #-------------------------------------------------------
+        with connections['default'].cursor() as cur:
+            sql = '''
+            select id
+            FROM edxapp.course_review
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}')
+                   AND course_id LIKE 'course-v1:{1}+{2}+%'
+            '''.format(review_email, course_org, course_number)
+            cur.execute(sql)
+
+            print "#####################" #DEBUG
+            print sql #DEBUG
+
+            del_id_list = cur.fetchall()
+            del_id = del_id_list[0][0]
+
+            html_string = '''
+            <div class="review_write">
+                <input id="review_token" type="hidden" name="csrfmiddlewaretoken" value="undjrrBoCMWb5C09eBI9bQgeFEhbFIlM">
+                <div id="review_write_star">
+                <fieldset class="rating">
+                    <input type="radio" id="star5" name="review_rating" value="5">
+                        <label class="full" for="star5" id="noclose" title="Awesome - 5 stars">
+                        </label>
+                    <input type="radio" id="star4" name="review_rating" value="4">
+                        <label class="full" for="star4" id="noclose" title="Pretty good - 4 stars">
+                        </label>
+                    <input type="radio" id="star3" name="review_rating" value="3">
+                         <label class="full" for="star3" id="noclose" title="Meh - 3 stars">
+                        </label>
+                    <input type="radio" id="star2" name="review_rating" value="2">
+                        <label class="full" for="star2" id="noclose" title="Kinda bad - 2 stars">
+                         </label>
+                    <input type="radio" id="star1" name="review_rating" value="1">
+                         <label class="full" for="star1" id="noclose" title="Sucks big time - 1 star">
+                         </label>
+                </fieldset>
+                    <button type="button" id="review_write_submit" class="btn-brand btn-small">글쓰기</button>
+                </div>
+                <div class="form-group" id="noclose">
+                    <textarea class="form-control" id="review_write_area" rows="5" name="review_data"></textarea>
+                    <input id="test" type="hidden" name="write_switch" value="1">
+                </div>
+            </div>
+            '''
+        #-------------------------------------------------------
+        with connections['default'].cursor() as cur:
+            sql = '''
+            DELETE FROM edxapp.course_review
+            WHERE  user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{0}')
+                   AND course_id LIKE 'course-v1:{1}+{2}+%'
+            '''.format(review_email, course_org, course_number)
+            cur.execute(sql)
+            print sql #DEBUG
+            # auto commit
+            # conn.commit()
+
+        ret_val = dict()
+        ret_val['stat'] = 'success'
+        ret_val['del_id'] = del_id
+        ret_val['html'] = html_string
+
+        return JsonResponse(ret_val)
+    # ---------- DELETE SWITCH ---------- #
+
+    # ---------- SELECT -> all list ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT cr.id,
+               au.username,
+               cr.content,
+               cr.point,
+               cr.reg_time,
+               Sum(CASE
+                     WHEN good_bad = 'g' THEN 1
+                     ELSE 0
+                   end) AS good,
+               Sum(CASE
+                     WHEN good_bad = 'b' THEN 1
+                     ELSE 0
+                   end) AS bad
+        FROM   edxapp.course_review AS cr
+               JOIN edxapp.auth_user AS au
+                 ON au.id = cr.user_id
+               LEFT JOIN edxapp.course_review_user AS cru
+                 ON cru.review_id = cr.id
+        WHERE  cr.course_id LIKE 'course-v1:{0}+{1}+%'
+        GROUP  BY cr.id,
+                  au.username,
+                  cr.content,
+                  cr.point,
+                  cr.reg_time
+        ORDER  BY reg_time DESC;
+        '''.format(course_org, course_number)
+        print sql #DEBUG
+        cur.execute(sql)
+        review_list = cur.fetchall()
+        print len(review_list) #DEBUG
+    # ---------- SELECT -> all list ---------- #
+
+    # ---------- SELECT -> own list ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT cr.id,
+               au.username,
+               cr.content,
+               cr.point,
+               cr.reg_time
+        FROM   edxapp.course_review AS cr
+               JOIN edxapp.auth_user AS au
+                 ON au.id = cr.user_id
+        WHERE  au.email = '{0}'
+               AND course_id LIKE 'course-v1:{1}+{2}+%'
+        '''.format(review_email, course_org, course_number)
+        cur.execute(sql)
+        already_list = cur.fetchall()
+    already_lock = len(already_list)
+    # ---------- SELECT -> own list ---------- #
+
+    # ---------- you are enroll ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT *
+        FROM   edxapp.student_courseenrollment
+        WHERE  course_id LIKE 'course-v1:{}+{}+%'
+               AND user_id IN (SELECT id
+                               FROM   edxapp.auth_user
+                               WHERE  email = '{}')
+               AND is_active = 1
+        '''.format(course_org, course_number, review_email)
+        cur.execute(sql)
+        enroll_list = cur.fetchall()
+    enroll_lock = len(enroll_list)
+    # ---------- you are enroll ---------- #
+
+    # ---------- avg rating ---------- #
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT Avg(point)
+        FROM   edxapp.course_review
+        WHERE  course_id LIKE 'course-v1:{0}+{1}+%'
+        '''.format(course_org, course_number)
+        cur.execute(sql)
+        enroll_list = cur.fetchall()
+        course_avg = enroll_list[0][0]
+    try:
+        course_total = int(round(float(course_avg)))
+    except BaseException:
+        course_total = 0
+    # ---------- avg rating ---------- #
+    # ---------- 2017.11.08 REVIEW BACKEND / start ----------#
+
+    course_key = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    if hasattr(course_key, 'ccx'):
+        # if un-enrolled/non-registered user try to access CCX (direct for registration)
+        # then do not show him about page to avoid self registration.
+        # Note: About page will only be shown to user who is not register. So that he can register. But for
+        # CCX only CCX coach can enroll students.
+        return redirect(reverse('dashboard'))
+
+    with modulestore().bulk_operations(course_key):
+        permission = get_permission_for_course_about()
+        course = get_course_with_access(request.user, permission, course_key)
+        course_details = CourseDetails.populate(course)
+        modes = CourseMode.modes_for_course_dict(course_key)
+
+        if configuration_helpers.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False)):
+            return redirect(reverse('info', args=[course.id.to_deprecated_string()]))
+
+        registered = registered_for_course(course, request.user)
+
+        staff_access = bool(has_access(request.user, 'staff', course))
+        studio_url = get_studio_url(course, 'settings/details')
+
+        if has_access(request.user, 'load', course):
+            course_target = reverse('info', args=[course.id.to_deprecated_string()])
+        else:
+            course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
+
+        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_link = course_link.replace("/info", "&email_opt_in=true")
+        show_courseware_link = bool(
+            (
+                has_access(request.user, 'load', course) and
+                has_access(request.user, 'view_courseware_with_prerequisites', course)
+            ) or settings.FEATURES.get('ENABLE_LMS_MIGRATION')
+        )
+
+        # Note: this is a flow for payment for course registration, not the Verified Certificate flow.
+        in_cart = False
+        reg_then_add_to_cart_link = ""
+
+        _is_shopping_cart_enabled = is_shopping_cart_enabled()
+        if _is_shopping_cart_enabled:
+            if request.user.is_authenticated():
+                cart = shoppingcart.models.Order.get_cart_for_user(request.user)
+                in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
+                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+
+            reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
+                reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
+            )
+
+        # If the ecommerce checkout flow is enabled and the mode of the course is
+        # professional or no id professional, we construct links for the enrollment
+        # button to add the course to the ecommerce basket.
+        ecomm_service = EcommerceService()
+        ecommerce_checkout = ecomm_service.is_enabled(request.user)
+        ecommerce_checkout_link = ''
+        ecommerce_bulk_checkout_link = ''
+        professional_mode = None
+        is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
+        if ecommerce_checkout and is_professional_mode:
+            professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
+                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+            if professional_mode.sku:
+                ecommerce_checkout_link = ecomm_service.checkout_page_url(professional_mode.sku)
+            if professional_mode.bulk_sku:
+                ecommerce_bulk_checkout_link = ecomm_service.checkout_page_url(professional_mode.bulk_sku)
+
+        # Find the minimum price for the course across all course modes
+        registration_price = CourseMode.min_course_price_for_currency(
+            course_key,
+            settings.PAID_COURSE_REGISTRATION_CURRENCY[0]
+        )
+        course_price = get_cosmetic_display_price(course, registration_price)
+
+        # Determine which checkout workflow to use -- LMS shoppingcart or Otto basket
+        can_add_course_to_cart = _is_shopping_cart_enabled and registration_price and not ecommerce_checkout_link
+
+        # Used to provide context to message to student if enrollment not allowed
+        can_enroll = bool(has_access(request.user, 'enroll', course))
+        invitation_only = course.invitation_only
+        is_course_full = CourseEnrollment.objects.is_course_full(course)
+
+        # Register button should be disabled if one of the following is true:
+        # - Student is already registered for course
+        # - Course is already full
+        # - Student cannot enroll in course
+        active_reg_button = not (registered or is_course_full or not can_enroll)
+
+        is_shib_course = uses_shib(course)
+
+        # get prerequisite courses display names
+        pre_requisite_courses = get_prerequisite_courses_display(course)
+
+        # Overview
+        overview = CourseOverview.get_from_id(course.id)
+
+        # D-day
+        today = datetime.now()
+        course_start = course.start
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
+        d_day = (course_start_val - today_val)
+
+        if d_day.days > 0:
+            day = {'day': '/ D-' + str(d_day.days)}
+        else:
+            day = {'day': ''}
+
+        # short description
+        short_description = {'short_description': course_details.short_description}
+
+        # classfy name
+        classfy_dict = {
+            # add classfy
+            "edu": "Education",
+            "hum": "Humanities",
+            "social": "Social Sciences",
+            "eng": "Engineering",
+            "nat": "Natural Sciences",
+            "med": "Medical Sciences",
+            "art": "Arts & Physical",
+            "intd": "Interdisciplinary",
+        }
+
+        # if course_details.classfy != 'all':
+        #     classfy_name = ClassDict[course_details.classfy]
+        # else:
+        #     classfy_name = 'Etc'
+
+        global classfy_name
+        if course_details.classfy is None or course_details.classfy == '':
+            classfy_name = 'Etc'
+        else:
+            classfy_name = classfy_dict[
+                course_details.classfy] if course_details.classfy in classfy_dict else course_details.classfy
+
+        # univ name
+        UnivDic = {
+            # add univ
+            "testUniv": "Test University",
+            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
+            "KHUk": "KYUNGHEE UNIVERSITY",
+            "KoreaUnivK": "KOREA UNIVERSITY",
+            "DGUk": "DAEGU UNIVERSITY",
+            "PNUk": "PUSAN NATIONAL UNIVERSITY",
+            "SMUCk": "SANGMYUNG UNIVERSITY",
+            "SNUk": "SEOUL NATIONAL UNIVERSITY",
+            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
+            "SSUk": "SUNGSHIN UNIVERSITY",
+            "SejonguniversityK": "SEJONG UNIVERSITY",
+            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
+            "YSUk": "YONSEI UNIVERSITY",
+            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
+            "UOUk": "UNIVERSITY OF ULSAN",
+            "EwhaK": "EWHA WOMANS UNIVERSITY",
+            "INHAuniversityK": "INHA UNIVERSITY",
+            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
+            "POSTECHk": "POSTECH",
+            "KAISTk": "KAIST",
+            "HYUk": "HANYANG UNIVERSITY",
+            "KOCW": "KOCW",
+            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
+            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
+            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
+            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
+            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
+            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
+            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
+            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
+            "HGUk": "HANDONG GLOBAL UNIVERSITY",
+        }
+
+        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
+
+        if course_details.enrollment_start:
+            enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
+                                                                    "%Y-%m-%d").date()
+            enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10],
+                                                                "%Y-%m-%d").date()
+
+            if _("Agree") == "Agree":
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
+            else:
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
+        else:
+            enroll_sdate = {'enroll_sdate': ''}
+            enroll_edate = {'enroll_edate': ''}
+
+        print "review_list = {}".format(review_list)
+        print "review_email = {}".format(review_email)
+        print "course_id = {}".format(course_id)
+        print "already_list = {}".format(already_list)
+        print "enroll_list = {}".format(enroll_list)
+        print "course_org = {}".format(course_org)
+        print "course_number = {}".format(course_number)
+        print "course_total = {}".format(course_total)
+        print "login_status = {}".format(login_status)
+
+        sys.setdefaultencoding('utf-8')
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
+        cur = con.cursor()
+        query = """
+            SELECT id
+              FROM auth_user
+             WHERE email = '{0}';
+        """.format(review_email)
+        cur.execute(query)
+        user_id = cur.fetchall()
+        cur.close()
+        flag = 0
+
+        if ( login_status  != 'x' ):
+            cur = con.cursor()
+            query = """
+                SELECT count(user_id)
+                  FROM interest_course
+                 WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+            """.format(user_id[0][0], course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
+
+        context = {
+            'course': course,
+            'course_details': course_details,
+            'staff_access': staff_access,
+            'studio_url': studio_url,
+            'registered': registered,
+            'course_target': course_target,
+            'is_cosmetic_price_enabled': settings.FEATURES.get('ENABLE_COSMETIC_DISPLAY_PRICE'),
+            'course_price': course_price,
+            'in_cart': in_cart,
+            'ecommerce_checkout': ecommerce_checkout,
+            'ecommerce_checkout_link': ecommerce_checkout_link,
+            'ecommerce_bulk_checkout_link': ecommerce_bulk_checkout_link,
+            'professional_mode': professional_mode,
+            'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
+            'show_courseware_link': show_courseware_link,
+            'is_course_full': is_course_full,
+            'can_enroll': can_enroll,
+            'invitation_only': invitation_only,
+            'active_reg_button': active_reg_button,
+            'is_shib_course': is_shib_course,
+            # We do not want to display the internal courseware header, which is used when the course is found in the
+            # context. This value is therefor explicitly set to render the appropriate header.
+            'disable_courseware_header': True,
+            'can_add_course_to_cart': can_add_course_to_cart,
+            'cart_link': reverse('shoppingcart.views.show_cart'),
+            'pre_requisite_courses': pre_requisite_courses,
+            'course_image_urls': overview.image_urls,
+            'day': day,
+            'short_description': short_description,
+            # 'classfy' : classfy,
+            'classfy_name': classfy_name,
+            'univ_name': univ_name,
+            'enroll_sdate': enroll_sdate,
+            'enroll_edate': enroll_edate,
+            # --- REVIEW CONTEXT --- #
+            'review_list' : review_list,
+            'review_email' : review_email,
+            'course_id' : course_id,
+            'already_list' : already_list,
+            'enroll_list' : enroll_list,
+            'course_org' : course_org,
+            'course_number' : course_number,
+            'course_total' : course_total,
+            'login_status' : login_status,
+            'flag' : flag,
+            'course_link' : course_link,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
@@ -1979,6 +2954,13 @@ def privacy_old1(request):
 def privacy_old2(request):
     return render_to_response(
         "courseware/privacy_old2.html"
+    )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old3(request):
+    return render_to_response(
+        "courseware/privacy_old3.html"
     )
 
 

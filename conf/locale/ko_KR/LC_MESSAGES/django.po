@@ -4494,7 +4494,7 @@ msgstr "기본"
 msgid ""
 "The URL for your video. This can be a YouTube URL or a link to an .mp4, "
 ".ogg, or .webm video file hosted elsewhere on the Internet."
-msgstr "video URL 입니다. YouTube URL 이나 mp4, ogg, .webm 파일을 링크시키세요."
+msgstr "video URL 입니다. mp4, ogg, .webm 파일을 링크시키세요.(YouTube URL 불가)"
 
 #: common/lib/xmodule/xmodule/video_module/video_module.py
 msgid "Default Video URL"
@@ -9995,7 +9995,7 @@ msgstr "강좌 종료일"
 
 #: cms/templates/settings.html lms/templates/courseware/course_about.html
 msgid "Requirements"
-msgstr "학습 시간 및 선수 강좌"
+msgstr "강좌 학습 시간"
 
 #: cms/templates/studio_xblock_wrapper.html lms/templates/help_modal.html
 #: lms/templates/module-error.html
@@ -13455,6 +13455,9 @@ msgstr "개강 - {start_date}"
 msgid "Coming Soon"
 msgstr "준비중입니다."
 
+msgid "Course duration - {start_date}"
+msgstr "강좌 기간 - {start_date}"
+
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Starts - {start_date}"
 msgstr "개강 - {start_date}"
@@ -14812,6 +14815,18 @@ msgstr "성적 가중치"
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Click to download a CSV of anonymized student IDs:"
 msgstr "익명 학습자 아이디를 CSV 파일로 다운로드하기"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Click to download a CSV of about student contents:"
+msgstr "게시판 게시글 CSV 파일 다운로드"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Get Student contents stats CSV"
+msgstr "게시글 통계 CSV 파일"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Get Student contents file CSV"
+msgstr "게시글 내용 CSV 파일"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Get Student Anonymized IDs CSV"
@@ -20024,7 +20039,7 @@ msgstr "강사 추가"
 
 #: cms/templates/settings.html
 msgid "Expectations of the students taking this course"
-msgstr "효과적인 학습을 위해 학습 시간 및 선수 강좌를 입력합니다."
+msgstr "효과적인 학습을 위해 학습 시간 입력합니다."
 
 #: cms/templates/settings.html
 msgid "Hours of Effort per Week"
@@ -28412,6 +28427,12 @@ msgstr "개강일"
 msgid "univ_name"
 msgstr "대학명"
 
+msgid "Previous Courses"
+msgstr "이전 강좌"
+
+msgid "Current Course"
+msgstr "현재 강좌"
+
 #: river
 msgid "All"
 msgstr "전체"
@@ -28430,6 +28451,12 @@ msgstr "개강예정"
 
 msgid "end"
 msgstr "종료"
+
+msgid "interest"
+msgstr "관심강좌"
+
+msgid "propose"
+msgstr "추천강좌"
 
 msgid "none"
 msgstr "미정"
@@ -29989,5 +30016,42 @@ msgstr "강좌 홈"
 msgid "Effort time must have value"
 msgstr "권장 학습 시간은 필수 입력입니다."
 
+msgid "course info"
+msgstr "강좌 정보"
+
+msgid "review"
+msgstr "리뷰"
+
+msgid "write"
+msgstr "글쓰기"
+
+msgid "MEMO"
+msgstr "쪽지"
+
+msgid "Series Course"
+msgstr "시리즈 강좌"
+
+msgid "Course Introduction"
+msgstr "강좌 소개"
+
+msgid "Course List"
+msgstr "대상 강좌 목록"
+
+msgid "Print"
+msgstr "인쇄"
+
+msgid "Series ID"
+msgstr "시리즈 ID"
+
+msgid "enrollment"
+msgstr "수강신청일"
+
+msgid "start"
+msgstr "개강일"
+
 msgid "move"
 msgstr "이동"
+
+msgid "Series Education Certificate"
+msgstr "시리즈 교육 확인증"
+

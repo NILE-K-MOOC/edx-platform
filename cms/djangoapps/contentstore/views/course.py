@@ -98,10 +98,13 @@ from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
 import MySQLdb as mdb
+import sys
+from django.db import connections
+
 
 log = logging.getLogger(__name__)
 
-__all__ = ['course_info_handler', 'course_handler', 'course_listing',
+__all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Verifi',
            'course_info_update_handler', 'course_search_index_handler',
            'course_rerun_handler',
            'settings_handler',
@@ -200,6 +203,30 @@ def _course_notifications_json_get(course_action_state_id):
         'should_display': action_state.should_display
     }
     return JsonResponse(action_state_info)
+
+
+def level_Verifi(request):
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    cur = con.cursor()
+    level_1 = request.GET.get('level_1')
+    level_2 = request.GET.get('level_2')
+
+    query = """
+        SELECT count(*)
+          FROM course_overviews_courseoverview
+         WHERE org = '{0}' AND display_number_with_default = '{1}';
+    """.format(level_1, level_2)
+    cur.execute(query)
+    check_index = cur.fetchall()
+    cur.close()
+
+    data = json.dumps(check_index[0][0])
+    return HttpResponse(data, 'applications/json')
 
 
 def _dismiss_notification(request, course_action_state_id):  # pylint: disable=unused-argument
@@ -514,6 +541,24 @@ def course_listing(request):
     courses = _remove_in_process_courses(courses, in_process_course_actions)
     in_process_course_actions = [format_in_process_course_view(uca) for uca in in_process_course_actions]
 
+    org_list = []
+
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    cur = con.cursor()
+    query = """
+        SELECT detail_code, detail_name
+          FROM code_detail
+         WHERE group_code = 003;
+    """
+    cur.execute(query)
+    org_index = cur.fetchall()
+    org_list.append(list(org_index))
+    cur.close()
     return render_to_response('index.html', {
         'courses': courses,
         'in_process_course_actions': in_process_course_actions,
@@ -529,6 +574,7 @@ def course_listing(request):
         'is_programs_enabled': programs_config.is_studio_tab_enabled and request.user.is_staff,
         'programs': programs,
         'program_authoring_url': reverse('programs'),
+        'org_list': org_list,
     })
 
 
@@ -748,8 +794,14 @@ def _create_or_rerun_course(request):
         ##kmooc
         classfy = request.json.get('classfy')
         fields['classfy'] = classfy
+        classfysub = request.json.get('classfysub')
+        fields['classfysub'] = classfysub
         middle_classfy = request.json.get('middle_classfy')
         fields['middle_classfy'] = middle_classfy
+        middle_classfysub = request.json.get('middle_classfysub')
+        fields['middle_classfysub'] = middle_classfysub
+        difficult_degree = request.json.get('difficult_degree')
+        fields['difficult_degree'] = difficult_degree
         linguistics = request.json.get('linguistics')
         fields['linguistics'] = linguistics
         course_period = request.json.get('course_period')
@@ -810,35 +862,61 @@ def _create_new_course(request, org, number, run, fields):
         print 'new_course.id ====> ', new_course.id
         # 이수증 생성을 위한 course_mode 등록
 
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
-                          settings.DATABASES.get('default').get('NAME'))
-        cur = con.cursor()
-        query = """
-            INSERT INTO course_modes_coursemode(course_id,
-                                                mode_slug,
-                                                mode_display_name,
-                                                min_price,
-                                                currency,
-                                                suggested_prices,
-                                                expiration_datetime_is_explicit)
-                 VALUES ('{0}',
-                         'honor',
-                         '{0}',
-                         0,
-                         'usd',
-                         '',
-                         FALSE);
-        """.format(new_course.id)
-        print '_create_new_course.query :', query
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_modes_coursemode(course_id,
+                                                    mode_slug,
+                                                    mode_display_name,
+                                                    min_price,
+                                                    currency,
+                                                    suggested_prices,
+                                                    expiration_datetime_is_explicit)
+                     VALUES ('{0}',
+                             'honor',
+                             '{0}',
+                             0,
+                             'usd',
+                             '',
+                             FALSE);
+            """.format(new_course.id)
+            print '_create_new_course.query :', query
 
-        cur.execute(query)
-        con.commit()
+            cur.execute(query)
+
+        course_id = new_course.id
+        user_id = request.user.id
+        middle_classfy = fields['middle_classfy']
+        classfy = fields['classfy']
+        course_number = new_course.number
+
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_overview_addinfo(course_id,
+                                                    create_year,
+                                                    course_no,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    middle_classfy,
+                                                    classfy)
+                     VALUES ('{course_id}',
+                             date_format(now(), '%Y'),
+                             (SELECT count(*)
+                                  FROM course_overviews_courseoverview
+                                 WHERE   display_number_with_default = '{course_number}'
+                                      AND org = '{org}'),
+                             '{user_id}',
+                             now(),
+                             '{user_id}',
+                             '{middle_classfy}',
+                             '{classfy}');
+            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org)
+
+            cur.execute(query)
+
+            print 'course_overview_addinfo insert --------- ', query
     except Exception as e:
-        con.rollback()
         print e
-    finally:
-        cur.close()
-        con.close()
 
     return JsonResponse({
         'url': reverse_course_url('course_handler', new_course.id),
@@ -888,7 +966,10 @@ def _rerun_course(request, org, number, run, fields):
     try:
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy
+        fields['classfysub'] = source_course.classfysub
         fields['middle_classfy'] = source_course.middle_classfy
+        fields['middle_classfysub'] = source_course.middle_classfysub
+        fields['difficult_degree'] = source_course.difficult_degree
         fields['linguistics'] = source_course.linguistics
         fields['course_period'] = source_course.course_period
     except Exception as e:
@@ -925,10 +1006,8 @@ def _rerun_course(request, org, number, run, fields):
         print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
 
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
-                          settings.DATABASES.get('default').get('NAME'))
-        cur = con.cursor()
-        query = """
+        with connections['default'].cursor() as cur:
+            query = """
             INSERT INTO course_modes_coursemode(course_id,
                                                 mode_slug,
                                                 mode_display_name,
@@ -943,17 +1022,44 @@ def _rerun_course(request, org, number, run, fields):
                          'usd',
                          '',
                          FALSE);
-        """.format(destination_course_key)
-        print '_create_new_course.query :', query
+            """.format(destination_course_key)
+            print '_create_new_course.query :', query
 
-        cur.execute(query)
-        con.commit()
+            cur.execute(query)
+
+        user_id = request.user.id
+        middle_classfy = fields['middle_classfy']
+        classfy = fields['classfy']
+
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_overview_addinfo(course_id,
+                                                    create_year,
+                                                    course_no,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    middle_classfy,
+                                                    classfy)
+                     VALUES ('{course_id}',
+                             date_format(now(), '%Y'),
+                             (SELECT count(*)
+                                  FROM course_overviews_courseoverview
+                                 WHERE   display_number_with_default = '{course_number}'
+                                      AND org = '{org}'),
+                             '{user_id}',
+                             now(),
+                             '{user_id}',
+                             '{middle_classfy}',
+                             '{classfy}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
+
+            cur.execute(query)
+
+            print 'rerun_course insert -------------- ', query
+
     except Exception as e:
-        con.rollback()
         print e
-    finally:
-        cur.close()
-        con.close()
 
     # Return course listing page
     return JsonResponse({
@@ -1061,6 +1167,15 @@ def settings_handler(request, course_key_string):
     PUT
         json: update the Course and About xblocks through the CourseDetails model
     """
+    course_info_text = ""
+
+    f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
+    while True:
+        line = f.readline()
+        if not line: break
+        course_info_text += str(line)
+    f.close()
+
     course_key = CourseKey.from_string(course_key_string)
     credit_eligibility_enabled = settings.FEATURES.get('ENABLE_CREDIT_ELIGIBILITY', False)
     with modulestore().bulk_operations(course_key):
@@ -1085,9 +1200,46 @@ def settings_handler(request, course_key_string):
             enrollment_end_editable = GlobalStaff().has_user(request.user) or not marketing_site_enabled
             short_description_editable = settings.FEATURES.get('EDITABLE_SHORT_DESCRIPTION', True)
             self_paced_enabled = SelfPacedConfiguration.current().enabled
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                                  settings.DATABASES.get('default').get('USER'),
+                                  settings.DATABASES.get('default').get('PASSWORD'),
+                                  settings.DATABASES.get('default').get('NAME'),
+                                  charset='utf8')
+            cur = con.cursor()
+            query = """
+                 SELECT teacher_name
+                  FROM course_overview_addinfo
+                 WHERE course_id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            teacher_index = cur.fetchall()
+            cur.close()
+
+            if(len(teacher_index) == 1):
+                teacher_name = teacher_index[0][0]
+            else:
+                teacher_name =""
+
+            cur = con.cursor()
+            query = """
+                 SELECT count(*)
+                  FROM course_structures_coursestructure
+                 WHERE created >= date('2017-12-21') AND course_id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            created_check = cur.fetchall()
+            cur.close()
+
+            if(created_check[0][0] == 1):
+                modi_over = True
+            else :
+                modi_over = False
+
+            difficult_degree_list = course_difficult_degree(request, course_key_string)
 
             settings_context = {
                 'context_course': course_module,
+                'teacher_name': teacher_name,
                 'course_locator': course_key,
                 'lms_link_for_about_page': utils.get_lms_link_for_about_page(course_key),
                 'course_image_url': course_image_url(course_module, 'course_image'),
@@ -1106,7 +1258,10 @@ def settings_handler(request, course_key_string):
                 'is_prerequisite_courses_enabled': is_prerequisite_courses_enabled(),
                 'is_entrance_exams_enabled': is_entrance_exams_enabled(),
                 'self_paced_enabled': self_paced_enabled,
-                'enable_extended_course_details': enable_extended_course_details
+                'enable_extended_course_details': enable_extended_course_details,
+                'course_info_text':course_info_text,
+                'modi_over':modi_over,
+                'difficult_degree_list':difficult_degree_list
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
@@ -1136,7 +1291,6 @@ def settings_handler(request, course_key_string):
                             'show_min_grade_warning': show_min_grade_warning,
                         }
                     )
-
             return render_to_response('settings.html', settings_context)
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
             if request.method == 'GET':
@@ -1315,6 +1469,61 @@ def _refresh_course_tabs(request, course_module):
     if course_tabs != course_module.tabs:
         course_module.tabs = course_tabs
 
+    course_id = course_module.id
+    classfy = course_module.classfy
+    middle_classfy = course_module.middle_classfy
+    user_id = request.user.id
+    old_classfy = u''
+    old_middle_classfy = u''
+
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT classfy, middle_classfy
+              FROM course_overview_addinfo
+             WHERE course_id = '{course_id}';
+        """.format(course_id=course_id)
+
+        cur.execute(query)
+        old_classfy_data = cur.fetchall()
+        old_classfy = old_classfy_data[0][0]
+        old_middle_classfy = old_classfy_data[0][1]
+        print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
+
+    with connections['default'].cursor() as cur:
+        if classfy != old_classfy or middle_classfy != old_middle_classfy:
+            query2 = """
+                UPDATE course_overview_addinfo
+                   SET middle_classfy = '{middle_classfy}',
+                       classfy = '{classfy}',
+                       modify_id = '{user_id}',
+                       modify_date = now()
+                 WHERE course_id = '{course_id}';
+            """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id)
+
+            print 'advanced addinfo update --------- ', query2
+            cur.execute(query2)
+
+
+def course_difficult_degree(request, course_key_string):
+    difficult_degree = None
+    from django.db import connections
+    with connections['default'].cursor() as cur:
+        query = '''
+          SELECT
+                detail_code, detail_name, detail_ename
+            FROM code_detail
+           WHERE group_code = '007'
+           AND   use_yn = 'Y'
+           AND   delete_yn = 'N'
+           ORDER BY detail_code asc
+        '''
+        cur.execute(query)
+        rows = cur.fetchall()
+        difficult_degree = {}
+        difficult_degree['degree_list'] = rows
+        cur.close()
+    return difficult_degree
+
 
 @login_required
 @ensure_csrf_cookie
@@ -1336,12 +1545,14 @@ def advanced_settings_handler(request, course_key_string):
 
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             need_lock = course_need_lock(request, course_key_string)
+            difficult_degree_list = course_difficult_degree(request, course_key_string)
             advanced_dict = CourseMetadata.fetch(course_module)
             advanced_dict['need_lock'] = need_lock
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,
                 'advanced_dict': advanced_dict,
+                'difficult_degree_list': difficult_degree_list,
                 'advanced_settings_url': reverse_course_url('advanced_settings_handler', course_key),
                 'is_staff': {"is_staff": 'true'} if request.user.is_staff is True else {"is_staff": 'false'}
             })

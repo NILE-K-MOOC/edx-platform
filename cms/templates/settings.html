@@ -34,7 +34,7 @@ from openedx.core.djangolib.markup import HTML, Text
 </%block>
 
 <%block name="requirejs">
-require(["js/factories/settings"], function(SettingsFactory) {
+require(["js/factories/settings", "js/vendor/tinymce/js/tinymce/tinymce.full.min", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min"], function(SettingsFactory) {
 SettingsFactory(
 "${details_url | n, js_escaped_string}",
 ${show_min_grade_warning | n, dump_js_escaped_json}
@@ -61,7 +61,252 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <h2 class="title-2">${_("Basic Information")}</h2>
                         <span class="tip">${_("The nuts and bolts of your course")}</span>
                     </header>
+                    <style>
+                        ul.tabs {
+                            margin: 0;
+                            padding: 0;
+                            float: left;
+                            list-style: none;
+                            height: 32px;
+                            width: 100%;
+                            font-family:"dotum";
+                            font-size:12px;
+                        }
+                        ul.info_tabs {
+                            margin: 0;
+                            padding: 0;
+                            float: left;
+                            list-style: none;
+                            height: 32px;
+                            border-bottom: 1px solid #eee;
+                            border-left: 1px solid #eee;
+                            width: 100%;
+                            font-family:"dotum";
+                            font-size:12px;
+                        }
+                        ul.tabs li {
+                            float: left;
+                            text-align:center;
+                            cursor: pointer;
+                            width:16.15%;
+                            height: 31px;
+                            line-height: 31px;
+                            border: 1px solid #eee;
+                            border-left: none;
+                            font-weight: bold;
+                            background: #fafafa;
+                            overflow: hidden;
+                            position: relative;
+                        }
+                        ul.info_tabs li {
+                            float: left;
+                            text-align:center;
+                            cursor: pointer;
+                            width:16.55%;
+                            height: 25px;
+                            line-height: 25px;
+                            border-left: none;
+                            font-weight: bold;
+                            background: #fafafa;
+                            overflow: hidden;
+                            position: relative;
+                        }
+                        ul.tabs li.active {
+                            color: #333;
+                            background: #ffbe60;
+                        }
+                        ul.info_tabs li.active {
+                            color: #5B7484;
+                            background: #AAAAAA;
+                            border-bottom: 1px solid black;
+                        }
+                        .tab_container {
+                            border-top: none;
+                            clear: both;
+                            float: left;
+                            width: 96.3%;
+                            background: #fafafa;
+                        }
+                        .tab_content {
+                            overflow:scroll;
+                            width: 100%;
+                            padding: 5px;
+                            font-size: 12px;
+                            display: none;
+                            height: 400px;
+                            border-left:1px solid #eee;
+                        }
+                        .tab_container .tab_content ul {
+                            width:100%;
+                            margin:0px;
+                            padding:0px;
+                        }
+                        .tab_container .tab_content ul li {
+                            padding:5px;
+                            list-style:none;
+                        }
+                         #container {
+                            background-color: #fafafa;
+                            width: 100%;
+                            margin: 0 auto;
+                        }
+                        .input_area {
+                            width:98% !important;
+                        }
+                        .input_text {
+                            width:99% !important;
+                        }
+                        th, td {
+                            border: 1px solid grey;
+                            padding: 2px;
+                            text-align: left;
+                        }
+                        td {
+                            text-align: center;
+                            vertical-align: middle;
+                        }
+                        #layer_input {
+                            padding:3px;
+                            padding-left: 25px;
+                            position: absolute !important;
+                            top:30%;
+                            left:20%;
+                            width: 60%;
+                            background-color: #fafafa;
+                            height: 500px;
+                        }
+                        #mask {
+                            position:absolute;
+                            left:0;
+                            top:0;
+                            z-index:90;
+                            background-color:#000;
+                            display: none;
+                        }
 
+
+                    </style>
+                    <a href="javascript:mask_click();"><div id="mask"></div></a>
+                    <div style="display: none;" id="layer_input">
+                        <div id="course_info_text" style="display: none">${course_info_text}</div>
+                        <div id="container">
+                            <ul class="tabs">
+                                <li class="active" rel="tab1">강좌소개</li>
+                                <li rel="tab2">강좌계획</li>
+                                <li rel="tab3">강좌운영진소개</li>
+                                <li rel="tab4">강좌수강정보</li>
+                                <li rel="tab5">FaQ</li>
+                                <li rel="tab6">사용자추가</li>
+                            </ul>
+                        <div class="tab_container">
+                            <div id="tab1" class="tab_content">
+                                <label for="name">수업내용/목표</label>
+                                <textarea class="input_area" id="tab1_1" style="height:150px"></textarea>
+                                <br>
+                                <label for="name">홍보영상/예시강의</label>
+                                <textarea class="input_area" id="tab1_2" style="height:100px"></textarea>
+                            </div>
+                                <div id="tab2" class="tab_content">
+                                    <textarea class="tiny" id="tab2_1"></textarea>
+                                </div>
+                                <div id="tab3" class="tab_content">
+                                    <div align="right" style="width:100%">
+                                        <a style="background-color: #AAAAAA;" href="javascript:info_add1();" class="remove-item" id="info_add1"><span class="modify-icon"></span>추가</a>
+                                        <a style="background-color: #AAAAAA;" href="javascript:info_del1();" class="remove-item" id="info_del1"><span class="modify-icon"></span>삭제</a>
+                                        <a style="background-color: #AAAAAA; display: none" href="javascript:info_add2();" class="remove-item" id="info_add2"><span class="modify-icon"></span>추가</a>
+                                        <a style="background-color: #AAAAAA; display: none" href="javascript:info_del2();" class="remove-item" id="info_del2"><span class="modify-icon"></span>삭제</a>
+                                    </div>
+                                    <ul class="info_tabs">
+                                        <li class="active" rel="info_tab1">교수자</li>
+                                        <li rel="info_tab2">강좌지원팀</li>
+                                        <div id="info_div1" style="width: 100%">
+                                            <table border="1" style="width: 100%" id="info_table1" class="tab3_1">
+                                               <tr>
+                                                  <th rowspan="2" style="width: 3%"></th>
+                                                  <th>사진 url</th>
+                                                  <th rowspan="2" style="vertical-align: middle"> 교수자 약력</th>
+                                               </tr>
+                                               <tr>
+                                                   <th>교수자 명</th>
+                                               </tr>
+                                               <tr>
+                                                   <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
+                                                   <td><input type="text" class="input_text tab3_1_1"></td>
+                                                   <td rowspan="2"><textarea class="input_area tab3_1_3"></textarea></td>
+                                               </tr>
+                                               <tr>
+                                                  <td><input type="text" class="input_text tab3_1_2"></td>
+                                               </tr>
+                                               <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div id="info_div2" style="display: none; width: 100%">
+                                            <table border="1" style="width: 100%;" id="info_table2" class="tab3_2">
+                                               <tr>
+                                                  <th rowspan="2" style="width: 3%"></th>
+                                                  <th>사진 url</th>
+                                                  <th rowspan="2" style="vertical-align: middle"> 지원팀 약력</th>
+                                               </tr>
+                                               <tr>
+                                                   <th>지원팀 명</th>
+                                               </tr>
+                                               <tr>
+                                                   <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
+                                                   <td><input type="text" class="input_text tab3_2_1"></td>
+                                                   <td rowspan="2"><textarea class="input_area tab3_2_3"></textarea></td>
+                                               </tr>
+                                               <tr>
+                                                  <td><input type="text" class="input_text tab3_2_2"></td>
+                                               </tr>
+                                               <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </ul>
+                                </div>
+                                <div id="tab4" class="tab_content">
+                                    <label for="name">이수/평가정보</label>
+                                    <textarea class="input_area" id="tab4_1" style="height:70px"></textarea>
+                                    <br>
+                                    <label for="name">강좌수준 및 선수요건</label>
+                                    <textarea class="input_area" id="tab4_2" style="height:70px"></textarea>
+                                    <br>
+                                    <label for="name">교재 및 참고문헌</label>
+                                    <textarea class="input_area" id="tab4_3" style="height:50px"></textarea>
+                                </div>
+                                <div id="tab5" class="tab_content">
+                                    <div align="right" style="width:100%">
+                                        <a style="background-color: #AAAAAA;" href="javascript:faq_add();" class="remove-item"><span class="modify-icon"></span>추가</a>
+                                        <a style="background-color: #AAAAAA;" href="javascript:faq_del();" class="remove-item"><span class="modify-icon"></span>삭제</a>
+                                    </div>
+                                    <div>
+                                        <table border="1" style="width: 100%" id="faq_table" class="tab5_1">
+                                           <tr>
+                                              <th rowspan="2" style="width: 3%"></th>
+                                              <th>질문</th>
+                                           </tr>
+                                           <tr>
+                                               <th>답변</th>
+                                           </tr>
+                                           <tr>
+                                               <td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td>
+                                               <td><input type="text" class="input_text tab5_1_1"></td>
+                                           </tr>
+                                           <tr>
+                                              <td><textarea class="input_area tab5_1_2"></textarea></td>
+                                           </tr>
+                                           <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="tab6" class="tab_content">
+                                    <textarea class="tiny" id = "tab6_1"></textarea>
+                                </div>
+                                <div style="width: 101.152%; background-color: #fafafa;" bor>
+                                    <a id="save_input" style="margin-left: 45%; background-color: #AAAAAA" href="javascript:hide_input();" class="remove-item"><span class="modify-icon"></span>적용</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <ol class="list-input">
                         <li class="field text is-not-editable" id="field-course-organization">
                             <label for="course-organization">${_("Organization")}</label>
@@ -274,7 +519,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     </header>
                     <ol class="list-input">
                         <li class="field" id="field-course-language">
-                            <label for="course-language">${_("Course Language")}</label>
+                            <label for="동">${_("Course Language")}</label>
                             <select id="course-language">
                                 <option value="" selected> -</option>
                                 % for lang, label in language_options:
@@ -283,6 +528,168 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             </select>
                             <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
                         </li>
+                        <li class="field" id="field-course-language selectdiv">
+                            <label for="동">강좌레벨(학습단계 선택)</label>
+                            <select class="select difficult-degree" id="selectfixid">
+                                <option value="">강좌레벨</option>
+                            </select>
+                            <span class="tip tip-stacked">강좌레벨을 선택하세요.</span>
+                        </li>
+                        <li class="field" id="field-course-language">
+                            <label for="course-language">교수자명</label>
+                            <input type="text" id = "teacher_name" value="${teacher_name}">
+                            <span class="tip tip-stacked">교수자가 복수인 경우 “,” 로 구분해서 입력(예: 홍길동, 임꺽정)</span>
+                            <div style="display: none">
+                                <div id="addinfo_course_id" >${lms_link_for_about_page}</div>
+                                <div id="addinfo_user_id" >${user.id}</div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                % endif
+                % for dgree in difficult_degree_list:
+                    <%
+                    for key, val in difficult_degree_list.items():
+                        print val, key
+                        print val[0]
+                        print val[1]
+                        print val[2]
+
+                        print val[0][0]
+                        print val[0][1]
+
+                        print val[1][0]
+                        print val[1][1]
+
+                        print val[2][0]
+                        print val[2][1]
+
+                        pstr = """var degree = {'category':[{'code':'""" + val[0][0] + """', 'gettext': '""" + val[0][1] + """'}, """
+                        pstr += """{'code':'""" + val[1][0] + """', 'gettext': '""" + val[1][1] + """'}, """
+                        pstr += """{'code':'""" + val[2][0] + """', 'gettext': '""" + val[2][1] + """'},]};"""
+                    %>
+
+                <script type="text/javascript">
+                    ${ pstr | n, trim }
+
+                    var degree_js = function(){
+                        var key = 0;
+                        var difficult_degree_id = document.getElementById("selectfixid");
+                        removeOptions(difficult_degree_id);
+                        input_difficult_degree(difficult_degree_id, 'category');
+                        var idx = $("#txtfixid").val();
+                        if (idx == '"1"') {
+                            $("#selectfixid").val("1");
+                        } else if (idx == '"2"') {
+                            $("#selectfixid").val("2");
+                        } else if (idx == '"3"') {
+                            $("#selectfixid").val("3");
+                        } else {
+                            $("#selectfixid").val("null");
+                        }
+                    }
+                    var input_difficult_degree = function(selectbox,p_info){
+                        //console.log("run settings_advanced.html javascript calling input_difficult_degree");
+                        var option = document.createElement("option");
+                        option.text = "강좌레벨";
+                        option.value = null;
+                        selectbox.appendChild(option);
+                        for(key in degree[p_info]){
+                            var row = degree[p_info][key];
+                            var option = document.createElement("option");
+                            option.text = row.gettext;
+                            option.value = row.code;
+                            selectbox.appendChild(option);
+                        }
+                    }
+                    var removeOptions = function(selectbox){
+                    //console.log("run settings_advanced.html javascript calling removeOptions");
+                        var i;
+                        for(i=selectbox.options.length-1;i>=0;i--){
+                            selectbox.remove(i);
+                        }
+                    }
+
+
+                </script>
+                % endfor
+                % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
+                <hr class="divide"/>
+
+                <div class="group-settings requirements">
+                    <header>
+                        <h2 class="title-2">${_("Requirements")}</h2>
+                        <span class="tip">${_("Expectations of the students taking this course")}</span>
+                    </header>
+
+                    <ol class="list-input">
+
+                        <!-- 주간 학습 권장 시간 화면 수정 -->
+                        % if about_page_editable:
+                        <li class="field text" id="field-course-effort" style="width: 100%;">
+                            <!--
+                            <label for="course-effort">${_("Hours of Effort per Week")}</label>
+                            -->
+                            <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
+
+                            <div>
+
+                                <div style="width: 200px; float: left;">
+                                    <span class="tip tip-inline" style="font-size: 14px;"><b>주간 학습 권장 시간</b></span><br/>
+                                    <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
+                                        style="float: left; padding: 10px;">시간</span>
+                                    <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
+                                        style="float: left; padding: 10px;">분</span>
+                                </div>
+
+                                <div style="width: 120px; float: left;">
+                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 주차</b></span><br/>
+                                    <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
+                                        style="float: left; padding: 10px;">주차</span>
+                                </div>
+
+                                <div style="width: 140px; float: left;">
+                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습시간</b></span><br/>
+                                    <input type="text" class="short time" id="Calculated" style="text-align: right; width: 105px; float: left; border: 0px; background: #fff;" disabled/>
+                                </div>
+
+                                <br/>
+
+                            </div>
+                            <br/>
+                            <br/>
+
+                            <span class="tip tip-inline">- 주간 학습 권장 시간 : 매주 해당 강좌의 학습에 필요한 권장 학습시간을 입력 바랍니다.</span><br/>
+                            <span class="tip tip-inline">- 총 주차 : 강좌를 구성하는 총 주차수를 입력 바랍니다. 중간/기말고사가 포함된 강좌의 경우 각 1주로 산정하여 주차수를 입력합니다.</span><br/>
+                            <span class="tip tip-inline">(예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))</span><br/>
+                            <span class="tip tip-inline">- 총 학습시간 : 주간 학습 권장 시간과 총 주차 입력 시, 총 학습시간이 자동 산출됩니다.</span><br/>
+                            <span class="tip tip-inline">(예 : 30시간 = 2시간(주간 학습 권장 시간) × 15주차(총 주차))</span>
+
+                            <br/>
+                            <br/>
+
+
+                            <!-- 강좌 영상들의 총 재생 시간 입력 -->
+                            <!--
+                            <label for="course-effort"><b>총 동영상 학습 시간</b></label>
+                            -->
+
+                            <div>
+                                <span class="tip tip-inline" style="font-size: 14px;"><b>총 동영상 재생 시간</b></span><br/>
+                                <input type="text" class="short time" id="course-video-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span style="float: left; padding: 10px;">시간</span>
+                                <input type="text" class="short time" id="course-video-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
+                                    style="float: left; padding: 10px;">분</span>
+                                <br/><br/>
+                            </div>
+                            <span class="tip tip-inline">각 주차별 동영상 재생 시간의 총 합계를 입력 바랍니다. 강의 내용과 무관한 동영상은(예: 홍보동영상) 제외합니다.</span>
+                            <br/>
+
+
+                        </li>
+                        % endif
+
+
+
                     </ol>
                 </div>
                 % endif
@@ -294,7 +701,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <span class="tip">${_("Information for prospective students")}</span>
                     </header>
                     <ol class="list-input">
-
                         % if enable_extended_course_details:
                         <li class="field text" id="field-course-title">
                             <label for="course-title">${_("Course Title")}</label>
@@ -330,12 +736,132 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <li class="field text" id="field-course-overview">
                             <label for="course-overview">${_("Course Overview")}</label>
                             <textarea class="tinymce text-editor" id="course-overview"></textarea>
+
                   <span class="tip tip-stacked">${
                     Text(_("Introductions, prerequisites, FAQs that are used on {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
                       a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
                           a_link_end=HTML("</a>")
                     )}</span>
+                            % if modi_over == True:
+                            <a id="modify" href="javascript:show_input();" style="float: right; background-color: #AAAAAA" class="remove-item"><span class="modify-icon"></span>수정</a>
+                            <div id = modi_check></div>
+                            <script>
+                                console.log($('#modi_check').val())
+                            </script>
+                            % endif
                         </li>
+
+                        <script>
+                            function wrapWindowByMask(){
+                                var maskHeight = $(document).height();
+                                var maskWidth = $(window).width();
+                                $('#mask').css({'width':maskWidth,'height':maskHeight});
+                                $('#mask').fadeIn(1000);
+                                $('#mask').fadeTo("slow",0.8);
+                            };
+
+                            console.log('${lms_link_for_about_page}');
+                            console.log('${user.id}');
+
+
+                            function mask_click() {
+                                $('#mask').hide();
+                                $('#layer_input').hide();
+                            };
+
+                            function info_add1() {
+                              $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_1_1"></td><td rowspan="2"><textarea class="input_area tab3_1_3"></textarea></td></tr><tr><td><input type="text" class="input_text tab3_1_2"></td></tr>');
+                            };
+
+                            function info_del1(){
+                                $("#info_table1 input[type=checkbox]:checked").each(function () {
+                                    $(this).parent().parent().next().remove();
+                                    $(this).parent().parent().remove();
+                                });
+                            };
+
+                            function info_add2() {
+                              $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_2_1"></td><td rowspan="2"><textarea class="input_area tab3_2_3"></textarea></td></tr><tr><td><input type="text" class="input_text tab3_2_2"></td></tr>');
+                            };
+
+                            function info_del2(){
+                                $("#info_table2 input[type=checkbox]:checked").each(function () {
+                                    $(this).parent().parent().next().remove();
+                                    $(this).parent().parent().remove();
+                                });
+                            };
+
+                            function faq_add() {
+                              $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab5_1_1"></td></tr><tr><td><textarea class="input_area tab5_1_2"></textarea></td></tr>');
+                            };
+
+                            function faq_del(){
+                                $("#faq_table input[type=checkbox]:checked").each(function () {
+                                    $(this).parent().parent().next().remove();
+                                    $(this).parent().parent().remove();
+                                });
+                            };
+
+                            function hide_input() {
+                                $('#mask').hide();
+                                $('#layer_input').css("display","none");
+                                $("#save_input").click(function(){
+
+                                });
+
+                            };
+
+                            function show_input() {
+                                $('#course_info_text').html(($('#course-overview').val()));
+                                $('#course-overview').html($('#course-overview').val());
+                                $('#tab1_1').val($('#course_info_text #Tab1_1').text());
+                                $('#tab1_2').val($('#course_info_text #Tab1_2').html());
+                                tinyMCE.get('tab2_1').setContent($('#course_info_text #Tab2_1').html());
+                                $('#tab4_1').val($('#course_info_text #Tab4_1').html());
+                                $('#tab4_2').val($('#course_info_text #Tab4_2').html());
+                                $('#tab4_3').val($('#course_info_text #Tab4_3').html());
+                                tinyMCE.get('tab6_1').setContent($('#course_info_text #Tab6_1').html());
+
+
+                                $('.professor').each(function() {
+                                    if($('.professor').size() != 0 ) {
+                                        if($('.tab3_1_1').val() == '' && $('.tab3_1_2').val() == '' && $('.tab3_1_3').val() == ''){
+                                            $('.tab3_1_3').parent().parent().next().remove();
+                                            $('.tab3_1_3').parent().parent().remove();
+                                        }
+                                        if($('.professor').size() != $('.tab3_1_1').size()){
+                                            $('#info_table1 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_1_1" value="'+$(this).find('img').attr('src')+'"></td><td rowspan="2"><textarea class="input_area tab3_1_3">'+$(this).find('dd').text()+'</textarea></td></tr><tr><td><input type="text" class="input_text tab3_1_2" value="'+$(this).find('dt').text()+'"></td></tr>');
+                                        }
+                                    }
+                                });
+
+                                $('.staff').each(function() {
+                                    if($('.staff').size() != 0 ) {
+                                        if($('.tab3_2_1').val() == '' && $('.tab3_2_2').val() == '' && $('.tab3_2_3').val() == ''){
+                                            $('.tab3_2_3').parent().parent().next().remove();
+                                            $('.tab3_2_3').parent().parent().remove();
+                                        }
+                                        if($('.staff').size() != $('.tab3_2_1').size()){
+                                            $('#info_table2 > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab3_2_1" value="'+$(this).find('img').attr('src')+'"></td><td rowspan="2"><textarea class="input_area tab3_2_3">'+$(this).find('dd').text()+'</textarea></td></tr><tr><td><input type="text" class="input_text tab3_2_2" value="'+$(this).find('dt').text()+'"></td></tr>');
+                                        }
+                                    }
+                                });
+
+                                $('.question').each(function() {
+                                    if($('.question').size() != 0) {
+                                        if($('.tab5_1_1').val() == '' && $('.tab5_1_2').val() == ''){
+                                            $('.tab5_1_1').parent().parent().next().remove();
+                                            $('.tab5_1_1').parent().parent().remove();
+                                        }
+                                        if($('.question').size() != $('.tab5_1_1').size()) {
+                                            $('#faq_table > tbody:last').append('<tr><td rowspan="2"><input type="checkbox" name="faq_cbx" align="center"></td><td><input type="text" class="input_text tab5_1_1" value="'+$(this).find('h4').text()+'"></td></tr><tr><td><textarea class="input_area tab5_1_2">'+$(this).find('p').text()+'</textarea></td></tr>');
+                                        }
+                                    }
+                                });
+                                $('#layer_input').css("display","block");
+                                wrapWindowByMask();
+                            };
+                        </script>
                         % endif
 
                         <li class="field image" id="field-course-image">
@@ -498,84 +1024,45 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         </button>
                     </div>
                 </div>
+
                 % endif
 
-                % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
+
+
+                % if self_paced_enabled:
+
                 <hr class="divide"/>
 
-                <div class="group-settings requirements">
+                <div class="group-settings pacing">
                     <header>
-                        <h2 class="title-2">${_("Requirements")}</h2>
-                        <span class="tip">${_("Expectations of the students taking this course")}</span>
+                        <h2 class="title-2">${_("Course Pacing")}</h2>
+                        <span class="tip">${_("Set the pacing for this course")}</span>
                     </header>
+                    <span class="msg" id="course-pace-toggle-tip"></span>
 
                     <ol class="list-input">
-
-                        <!-- 주간 학습 권장 시간 화면 수정 -->
-                        % if about_page_editable:
-                        <li class="field text" id="field-course-effort" style="width: 100%;">
-                            <!--
-                            <label for="course-effort">${_("Hours of Effort per Week")}</label>
-                            -->
-                            <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
-
-                            <div>
-
-                                <div style="width: 200px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>주간 학습 권장 시간</b></span><br/>
-                                    <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">시간</span>
-                                    <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">분</span>
-                                </div>
-
-                                <div style="width: 120px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 주차</b></span><br/>
-                                    <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">주차</span>
-                                </div>
-
-                                <div style="width: 140px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습시간</b></span><br/>
-                                    <input type="text" class="short time" id="Calculated" style="text-align: right; width: 105px; float: left; border: 0px; background: #fff;" disabled/>
-                                </div>
-
-                                <br/>
-
-                            </div>
-                            <br/>
-                            <br/>
-
-                            <span class="tip tip-inline">- 주간 학습 권장 시간 : 매주 해당 강좌의 학습에 필요한 권장 학습시간을 입력 바랍니다.</span><br/>
-                            <span class="tip tip-inline">- 총 주차 : 강좌를 구성하는 총 주차수를 입력 바랍니다. 중간/기말고사가 포함된 강좌의 경우 각 1주로 산정하여 주차수를 입력합니다.</span><br/>
-                            <span class="tip tip-inline">(예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))</span><br/>
-                            <span class="tip tip-inline">- 총 학습시간 : 주간 학습 권장 시간과 총 주차 입력 시, 총 학습시간이 자동 산출됩니다.</span><br/>
-                            <span class="tip tip-inline">(예 : 30시간 = 2시간(주간 학습 권장 시간) × 15주차(총 주차))</span>
-
-                            <br/>
-                            <br/>
-
-
-                            <!-- 강좌 영상들의 총 재생 시간 입력 -->
-                            <!--
-                            <label for="course-effort"><b>총 동영상 학습 시간</b></label>
-                            -->
-
-                            <div>
-                                <span class="tip tip-inline" style="font-size: 14px;"><b>총 동영상 재생 시간</b></span><br/>
-                                <input type="text" class="short time" id="course-video-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span style="float: left; padding: 10px;">시간</span>
-                                <input type="text" class="short time" id="course-video-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
-                                    style="float: left; padding: 10px;">분</span>
-                                <br/><br/>
-                            </div>
-                            <span class="tip tip-inline">각 주차별 동영상 재생 시간의 총 합계를 입력 바랍니다. 강의 내용과 무관한 동영상은(예: 홍보동영상) 제외합니다.</span>
-                            <br/>
-
-
+                        <li class="field">
+                            <input type="radio" class="field-radio" name="self-paced" id="course-pace-instructor-paced" value="false"/>
+                            <label class="course-pace-label" for="course-pace-instructor-paced">Instructor-Paced</label>
+                            <span class="tip">${_("Instructor-paced courses progress at the pace that the course author sets. You can configure release dates for course content and due dates for assignments.")}</span>
                         </li>
-                        % endif
+                        <li class="field">
+                            <input type="radio" class="field-radio" name="self-paced" id="course-pace-self-paced" value="true"/>
+                            <label class="course-pace-label" for="course-pace-self-paced">Self-Paced</label>
+                            <span class="tip">${_("Self-paced courses do not have release dates for course content or due dates for assignments. Learners can complete course material at any time before the course end date.")}</span>
+                        </li>
+                    </ol>
+                </div>
 
+                % endif
+                <hr class="divide"/>
 
+                <div class="group-settings course_info">
+                    <header>
+                        <h2 class="title-2">관련강좌정보</h2>
+                        <span class="tip">관련강좌정보를 선택하세요.</span>
+                    </header>
+                    <ol class="list-input">
                         % if is_prerequisite_courses_enabled:
                         <li class="field field-select" id="field-pre-requisite-course">
                             <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
@@ -620,34 +1107,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         % endif
                     </ol>
                 </div>
-                % endif
 
-                % if self_paced_enabled:
-
-                <hr class="divide"/>
-
-                <div class="group-settings pacing">
-                    <header>
-                        <h2 class="title-2">${_("Course Pacing")}</h2>
-                        <span class="tip">${_("Set the pacing for this course")}</span>
-                    </header>
-                    <span class="msg" id="course-pace-toggle-tip"></span>
-
-                    <ol class="list-input">
-                        <li class="field">
-                            <input type="radio" class="field-radio" name="self-paced" id="course-pace-instructor-paced" value="false"/>
-                            <label class="course-pace-label" for="course-pace-instructor-paced">Instructor-Paced</label>
-                            <span class="tip">${_("Instructor-paced courses progress at the pace that the course author sets. You can configure release dates for course content and due dates for assignments.")}</span>
-                        </li>
-                        <li class="field">
-                            <input type="radio" class="field-radio" name="self-paced" id="course-pace-self-paced" value="true"/>
-                            <label class="course-pace-label" for="course-pace-self-paced">Self-Paced</label>
-                            <span class="tip">${_("Self-paced courses do not have release dates for course content or due dates for assignments. Learners can complete course material at any time before the course end date.")}</span>
-                        </li>
-                    </ol>
-                </div>
-
-                % endif
 
                 % if settings.FEATURES.get("LICENSING", False):
                 <hr class="divide"/>
@@ -665,11 +1125,15 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         <li class="field text" id="field-course-license">
                             <div id="course-license-selector"></div>
                         </li>
+
                     </ol>
+
+
                 </div>
                 % endif
             </form>
         </div>
+
         <div class="content-supplementary" role="complementary">
             <div class="bit">
                 <h3 class="title-3">${_("How are these settings used?")}</h3>

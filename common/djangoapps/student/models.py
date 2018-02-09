@@ -21,9 +21,7 @@ import logging
 from pytz import UTC
 from urllib import urlencode
 import uuid
-
 import analytics
-
 from config_models.models import ConfigurationModel
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -47,7 +45,6 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from simple_history.models import HistoricalRecords
 from track import contexts
 from xmodule_django.models import CourseKeyField, NoneToEmptyManager
-
 from lms.djangoapps.badges.utils import badges_enabled
 from certificates.models import GeneratedCertificate
 from course_modes.models import CourseMode
@@ -61,12 +58,12 @@ from util.query import use_read_replica_if_available
 from util.milestones_helpers import is_entrance_exams_enabled
 from django.db import connection
 
-
 UNENROLL_DONE = Signal(providing_args=["course_enrollment", "skip_refund"])
 ENROLL_STATUS_CHANGE = Signal(providing_args=["event", "user", "course_id", "mode", "cost", "currency"])
 log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: disable=invalid-name
+
 
 # enroll status changed events - signaled to email_marketing.  See email_marketing.tasks for more info
 
@@ -88,6 +85,7 @@ class EnrollStatusChange(object):
     paid_start = 'paid_start'
     # complete a paid course purchase
     paid_complete = 'paid_complete'
+
 
 UNENROLLED_TO_ALLOWEDTOENROLL = 'from unenrolled to allowed to enroll'
 ALLOWEDTOENROLL_TO_ENROLLED = 'from allowed to enroll to enrolled'
@@ -168,8 +166,8 @@ def anonymous_id_for_user(user, course_id, save=True):
     #     hasher.update(settings.SECRET_KEY)
 
     # if not row or row[0] > '20161221':
-        #hasher.update(settings.SECRET_KEY)
-        # pass
+    # hasher.update(settings.SECRET_KEY)
+    # pass
 
     hasher.update(unicode(user.id))
     if course_id:
@@ -226,8 +224,8 @@ def user_by_anonymous_id(uid):
     except ObjectDoesNotExist:
         return None
 
-def user_by_anonymous_id_dict(course_id):
 
+def user_by_anonymous_id_dict(course_id):
     # return None
 
     """
@@ -266,6 +264,7 @@ def user_by_anonymous_id_dict(course_id):
         anonymous_dict[digest] = anonymous_user_id
     # print anonymous_dict
     return anonymous_dict
+
 
 class UserStanding(models.Model):
     """
@@ -680,11 +679,10 @@ class PasswordHistory(models.Model):
         """
 
         if not (PasswordHistory.is_student_password_reuse_restricted() or
-                PasswordHistory.is_staff_password_reuse_restricted() or
-                PasswordHistory.is_password_reset_frequency_restricted() or
-                PasswordHistory.is_staff_forced_password_reset_enabled() or
-                PasswordHistory.is_student_forced_password_reset_enabled()):
-
+                    PasswordHistory.is_staff_password_reuse_restricted() or
+                    PasswordHistory.is_password_reset_frequency_restricted() or
+                    PasswordHistory.is_staff_forced_password_reset_enabled() or
+                    PasswordHistory.is_student_forced_password_reset_enabled()):
             return
 
         self.user = user
@@ -1513,6 +1511,229 @@ class CourseEnrollment(models.Model):
     def enrollments_for_user(cls, user):
         return cls.objects.filter(user=user, is_active=1)
 
+    @classmethod
+    def enrollments_for_user_ing(cls, user):
+        return cls.objects.raw('''
+            SELECT a.*
+              FROM student_courseenrollment a, course_overviews_courseoverview b
+             WHERE     a.course_id = b.id
+                   AND now() <= b.end
+                   and a.is_active = 1
+                   AND a.user_id = %s;
+        ''', [user.id])
+
+    @classmethod
+    def enrollments_for_user_end(cls, user):
+        return cls.objects.raw('''
+              SELECT a.*
+                FROM student_courseenrollment      a
+                     LEFT JOIN certificates_generatedcertificate c
+                        ON     a.user_id = c.user_id
+                           AND a.course_id = c.course_id
+                           AND c.status = 'downloadable',
+                     course_overviews_courseoverview b
+               WHERE a.course_id = b.id AND now() > b.end AND a.user_id = %s
+            ORDER BY c.created_date DESC, a.created DESC;
+        ''', [user.id])
+
+
+    @classmethod
+    def enrollments_for_user_interest(cls, user):
+        return cls.objects.raw('''
+                  SELECT b.interest_id          id,
+                         b.user_id,
+                         a.id                   course_id,
+                         b.created,
+                         if(b.use_yn = 'Y', 1, 0) is_active,
+                         'honor'                mode,
+                         c.created
+                    FROM (SELECT org,
+                                 display_number_with_default,
+                                 id,
+                                 effort,
+                                 (SELECT Count(*)
+                                    FROM edxapp.course_overviews_courseoverview bb
+                                   WHERE     aa.org = bb.org
+                                         AND aa.display_number_with_default =
+                                                bb.display_number_with_default
+                                         AND aa.start >= bb.start)
+                                    AS rank,
+                                    start
+                            FROM edxapp.course_overviews_courseoverview aa) a
+                         JOIN interest_course b
+                            ON     a.org = b.org
+                               AND a.display_number_with_default =
+                                      b.display_number_with_default
+                               AND b.use_yn = 'Y'
+                               AND b.user_id = %s
+                         LEFT JOIN student_courseenrollment c
+                            ON a.id = c.course_id AND b.user_id = c.user_id
+                   WHERE a.rank = 1
+                ORDER BY a.start DESC;
+        ''', [user.id])
+    # ----------------------------------------------------------------------------- 맹일희 부장 추가 (추천강좌)
+    @classmethod
+    def enrollments_for_user_propose(cls, course_ids):
+
+        qry = '''
+            SELECT 1 as id
+                  , '5' as user_id
+                  , a.id as course_id
+                  , 'Y' as is_active
+                  , 'honor' as  mode
+                  , a.created
+              FROM course_overviews_courseoverview a
+             WHERE id in ({course_ids})
+             and   now() <= a.end
+             order by a.id asc;
+        '''.format(course_ids=course_ids)
+
+        return cls.objects.raw(qry)
+
+    @classmethod
+    def enrollments_for_user_propose_score(cls, user):
+
+        qry = '''
+                select
+                    course.id as id
+                    , display_number_with_default
+                    , org
+                    , if(sce.id is null,'N','Y') regist_yn
+                    , sum(regist_cnt*IFNULL(ELT(FIELD(rnum1,1,2,3),0.5,0.3,0.2),0)) as score
+                    , '' as mclassfy
+                    , 0 as mclassfy_count
+                    , 0.00 as count_rate
+                    , 0.00 as weight_value
+                    , 0.00 as score_value
+                from (
+                      SELECT id
+                           , CASE
+                                WHEN @V_A1 = display_number_with_default and @V_B=org THEN @RNUM1 := @RNUM1 + 1
+                                ELSE @RNUM1 :=1  END AS RNUM1
+                           , @V_A1 := display_number_with_default as display_number_with_default
+                           , @V_B := org as org
+                      FROM course_overviews_courseoverview
+                           , (SELECT @V_A1 := '0',@V_B := '0', @RNUM1 := 0) A
+                      where enrollment_start <=  now()
+                      order by org, display_number_with_default, start desc
+                ) course
+                join (
+                    select
+                        standard_day
+                        , honor_acc_apply_cnt - honor_acc_cancel_cnt + audit_acc_apply_cnt - audit_acc_cancel_cnt  as regist_cnt
+                        , CASE WHEN @V_A2 = course_id   THEN @RNUM2 := @RNUM2 + 1   ELSE @RNUM2 := 1  END AS RNUM2
+                        , @V_A2 := course_id as course_id
+                    from daily_course_regist ,
+                        (SELECT @V_A2 := '0',  @RNUM2 := 0) B
+                    order by course_id, standard_day desc
+                ) regist on regist.course_id = course.id  and regist.rnum2 = 1
+                 left outer join student_courseenrollment  sce
+                            on sce.user_id = %s
+                                and GET_STRING_INDEX(mid(sce.course_id,11,100),'+',0) = course.org
+                                and GET_STRING_INDEX(sce.course_id,'+',1) = course.display_number_with_default
+                where rnum1<=3
+                group by display_number_with_default, org
+                order by score desc ;
+            '''
+
+        cursor = connection.cursor()
+        cursor.execute(qry, [user.id])
+        row = cursor.fetchall()
+        return row
+
+    @classmethod
+    def enrollments_for_user_propose_score_pick(cls, user):
+        qry = '''
+                select
+                      newcouse.id
+                    , finaldata.classfy
+                    , finaldata.middle_classfy
+                    , finaldata.display_number_with_default
+                    , finaldata.org
+                    , fscore
+                from
+                (
+                    select
+                          course.classfy
+                        , course.middle_classfy
+                        , display_number_with_default, org
+                        , sum(regist_cnt * IFNULL(ELT(FIELD(rnum1, 1, 2, 3), 0.5, 0.3, 0.1), 0)) * (ifnull(rate * 2, 0) + 1)  as fscore
+                    from
+                    (
+                        SELECT
+                              coa.classfy
+                            , coa.middle_classfy
+                            , id
+                            , CASE WHEN @V_A1 = display_number_with_default and @V_B = org THEN @RNUM1:= @RNUM1 + 1 ELSE @RNUM1 := 1 END AS RNUM1
+                            , @V_A1 := display_number_with_default as display_number_with_default
+                            , @V_B := org as org
+                        FROM course_overviews_courseoverview
+                                join(SELECT @V_A1 := '0', @V_B := '0', @RNUM1:= 0) A
+                                left outer join course_overview_addinfo as coa on coa.course_id = course_overviews_courseoverview.id
+                        where enrollment_start <= now()
+                        order by org, display_number_with_default, start desc
+                    ) course
+                join(
+                    select standard_day
+                        , honor_acc_apply_cnt - honor_acc_cancel_cnt + audit_acc_apply_cnt - audit_acc_cancel_cnt  as regist_cnt
+                        , CASE WHEN @V_A2 = course_id THEN @RNUM2 := @RNUM2 + 1 ELSE @RNUM2 := 1 END AS RNUM2
+                        , @V_A2 := course_id as course_id
+                    from daily_course_regist,
+                        (SELECT @V_A2:= '0', @RNUM2 := 0  ) B
+                    order by course_id, standard_day desc
+                ) regist on regist.course_id = course.id and regist.rnum2 = 1
+                left outer join(
+                    select
+                          classfy
+                        , middle_classfy
+                        , round(count(sce.course_id) / total, 4) as rate
+                    from student_courseenrollment sce
+                            join course_overview_addinfo coa on coa.course_id = sce.course_id
+                            join(
+                                select count(*) total
+                                from student_courseenrollment  tmp
+                                where tmp.user_id = '''+str(user.id)+'''
+                            ) b
+                    where sce.user_id = '''+str(user.id)+'''
+                    group by classfy, middle_classfy
+                    ) userReg
+                        on userReg.classfy = course.classfy and userReg.middle_classfy = course.middle_classfy
+                    where rnum1 <= 3
+                group by classfy, middle_classfy, display_number_with_default, org
+                order by fscore desc
+                limit 30
+                ) finaldata
+                join
+                (
+                    select id, display_number_with_default, org
+                    from
+                    (
+                          SELECT
+                              coa.classfy
+                            , coa.middle_classfy
+                            , id
+                            , CASE WHEN @V_A1 = display_number_with_default and @V_B = org THEN @RNUM1 := @RNUM1 + 1 ELSE @RNUM1 := 1 END AS RNUM1
+                            , @V_A1 := display_number_with_default as display_number_with_default
+                            , @V_B := org as org
+                        FROM course_overviews_courseoverview
+                            join(SELECT @V_A1:= '0', @V_B := '0', @RNUM1 := 0) A
+                            left outer join course_overview_addinfo as coa on coa.course_id = course_overviews_courseoverview.id
+                        where enrollment_start <= now()
+                    ) aa
+                    where RNUM1 = 1
+                ) newcouse
+                on newcouse.display_number_with_default = finaldata.display_number_with_default
+                    and newcouse.org = finaldata.org
+            order by rand() limit 10;
+        '''
+
+        cursor = connection.cursor()
+        cursor.execute(qry)
+        row = cursor.fetchall()
+        return row
+    # ----------------------------------------------------------------------------- 맹일희 부장 추가 (추천강좌)
+
+
     def is_paid_course(self):
         """
         Returns True, if course is paid
@@ -1865,6 +2086,7 @@ def remove_user_from_group(user, group):
     utg.users.remove(User.objects.get(username=user))
     utg.save()
 
+
 DEFAULT_GROUPS = {
     'email_future_courses': 'Receive e-mails about future MITx courses',
     'email_helpers': 'Receive e-mails about how to help with MITx',
@@ -1899,6 +2121,7 @@ def create_comments_service_user(user):
             exc_info=True
         )
 
+
 # Define login and logout handlers here in the models file, instead of the views file,
 # so that they are more likely to be loaded when a Studio user brings up the Studio admin
 # page to login.  These are currently the only signals available, so we need to continue
@@ -1929,7 +2152,7 @@ def log_successful_logout(sender, request, user, **kwargs):  # pylint: disable=u
 
 @receiver(user_logged_in)
 @receiver(user_logged_out)
-def enforce_single_login(sender, request, user, signal, **kwargs):    # pylint: disable=unused-argument
+def enforce_single_login(sender, request, user, signal, **kwargs):  # pylint: disable=unused-argument
     """
     Sets the current session id in the user profile,
     to prevent concurrent logins.
@@ -2099,7 +2322,7 @@ class EntranceExamConfiguration(models.Model):
     skip_entrance_exam = models.BooleanField(default=True)
 
     class Meta(object):
-        unique_together = (('user', 'course_id'), )
+        unique_together = (('user', 'course_id'),)
 
     def __unicode__(self):
         return "[EntranceExamConfiguration] %s: %s (%s) = %s" % (
@@ -2155,6 +2378,7 @@ class LanguageProficiency(models.Model):
     /edx-platform/openedx/core/djangoapps/user_api/accounts/views.py or its associated api method
     (update_account_settings) so that the events are emitted.
     """
+
     class Meta(object):
         unique_together = (('code', 'user_profile'),)
 
@@ -2206,7 +2430,7 @@ class CourseEnrollmentAttribute(models.Model):
         attributes = [
             cls(enrollment=enrollment, namespace=data['namespace'], name=data['name'], value=data['value'])
             for data in data_list
-        ]
+            ]
         cls.objects.bulk_create(attributes)
 
     @classmethod
@@ -2235,7 +2459,7 @@ class CourseEnrollmentAttribute(models.Model):
                 "value": attribute.value,
             }
             for attribute in cls.objects.filter(enrollment=enrollment)
-        ]
+            ]
 
 
 class EnrollmentRefundConfiguration(ConfigurationModel):
@@ -2276,7 +2500,7 @@ class UserAttribute(TimeStampedModel):
 
     class Meta(object):
         # Ensure that at most one value exists for a given user/name.
-        unique_together = (('user', 'name',), )
+        unique_together = (('user', 'name',),)
 
     user = models.ForeignKey(User, related_name='attributes')
     name = models.CharField(max_length=255, help_text=_("Name of this user attribute."), db_index=True)

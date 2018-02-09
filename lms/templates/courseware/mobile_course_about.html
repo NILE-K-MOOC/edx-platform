@@ -9,7 +9,7 @@ from openedx.core.lib.courses import course_image_url
 
 %>
 
-<%inherit file="..//mobile_main.html" />
+<%inherit file="../mobile_main.html" />
 <%block name="headextra">
   ## OG (Open Graph) title and description added below to give social media info to display
   ## (https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content#tags)
@@ -25,10 +25,8 @@ from openedx.core.lib.courses import course_image_url
   <script type="text/javascript">
   (function() {
     $(".register").click(function(event) {
-        %if not user.is_authenticated():
-        %endif
         $("#class_enroll_form").submit();
-      event.preventDefault();
+        event.preventDefault();
     });
 
     % if can_add_course_to_cart:
@@ -139,7 +137,77 @@ from openedx.core.lib.courses import course_image_url
                 ${course.display_name_with_default_escaped}
 ##                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
+               <div style="float: right; right: 0; position: absolute; margin-right: 20px;">
+                   % if (flag == 1):
+                   <a id="interest_btn_d" onclick="modi()"><i style="color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
+                   <a id="interest_btn_i" onclick="add()"><i style="display:none; color:red;" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   % else :
+                   <a id="interest_btn_d" onclick="modi()"><i style="display:none; color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
+                   <a id="interest_btn_i" onclick="add()"><i style="color:red" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
+                   % endif
+               </div>
+              <script>
+                  if ( '${login_status}' == 'x') {
+                      $('#interest_btn_d').hide();
+                      $('#interest_btn_i').hide();
+                  }
+                  function add() {
+
+                      try {
+                            var user_id = '${user.id}';
+                            var course_id = '${course.id}';
+                            var action = 'add';
+
+                            $.post("/courses/interest", {
+                                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                                user_id : user_id,
+                                course_id: course_id,
+                                method : action,
+                            }).done(function (data) {
+
+                            }).fail(function (error) {
+                                alert('error = ' + error.responseJSON);
+                            });
+                        } catch (e) {
+                            alert(e);
+                        }
+                  }
+
+                  function modi() {
+                      try {
+                            var user_id = '${user.id}';
+                            var course_id = '${course.id}';
+                            var action = 'modi';
+
+                            $.post("/courses/interest", {
+                                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                                user_id : user_id,
+                                course_id: course_id,
+                                method : action,
+                            }).done(function (data) {
+
+                            }).fail(function (error) {
+                                alert('error = ' + error.responseJSON);
+                            });
+                        } catch (e) {
+                            alert(e);
+                        }
+                  }
+
+
+                  function change_i(id) {
+                      if (id == 'nomal') {
+                        document.getElementById('empty').style.display = '';
+                        document.getElementById('nomal').style.display = 'none';
+                      }
+                      else if (id == 'empty') {
+                        document.getElementById('nomal').style.display = '';
+                        document.getElementById('empty').style.display = 'none';
+                      }
+                  }
+              </script>
             </div>
+
             <br>
             <!--<div>
                 ${short_description['short_description']}
@@ -229,6 +297,9 @@ from openedx.core.lib.courses import course_image_url
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
       </div>
+      <!-- review -->
+      <%include file="course_review_about.html" />
+      <!-- review -->
   </div>
 
     <div class="course-sidebar">
@@ -303,10 +374,48 @@ from openedx.core.lib.courses import course_image_url
           </li>
           % endif
 ##           % if get_course_about_section(request, course, "prerequisites"):
-##             <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
+##          <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
 ##           % endif
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
+            <!-- review -->
+            <li class="important-dates-item">
+                <span class="icon fa fa-info-circle" aria-hidden="true"></span>
+                <p class="important-dates-item-title">rating</p>
+                <span class="important-dates-item-text prerequisites">
+                % if course_total == 0:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".000"></div>
+                </td>
+                % endif
+                % if course_total == 1:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".200"></div>
+                </td>
+                % endif
+                % if course_total == 2:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".400"></div>
+                </td>
+                % endif
+                % if course_total == 3:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".600"></div>
+                </td>
+                % endif
+                % if course_total == 4:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".800"></div>
+                </td>
+                % endif
+                % if course_total == 5:
+                <td class ="review_star">
+                    <div class="start-ratings-css" title=".1000"></div>
+                </td>
+                % endif
+                </span>
+            </li>
+            <!-- review -->
         </ol>
     </div>
 

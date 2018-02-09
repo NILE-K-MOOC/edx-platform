@@ -9,6 +9,7 @@ To enable this feature, set in a settings.py:
 This was taken from StackOverflow (http://stackoverflow.com/questions/14830669/how-to-expire-django-session-in-5minutes)
 """
 from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.contrib import auth
 
@@ -30,16 +31,11 @@ class SessionInactivityTimeout(object):
 
         timeout_in_seconds = getattr(settings, "SESSION_INACTIVITY_TIMEOUT_IN_SECONDS", None)
 
-        if 'ISREMEMBER' in request.session and timeout_in_seconds:
+        if 'ISREMEMBER' in request.session:
             timeout_in_seconds = 604800
 
         # Do we have this feature enabled?
         if timeout_in_seconds:
-
-            print 'user[ {user} ] timeout_in_seconds = {timeout_in_seconds}'.format(
-                user=request.user.id,
-                timeout_in_seconds=timeout_in_seconds
-            )
 
             # what time is it now?
             utc_now = datetime.utcnow()
@@ -61,3 +57,8 @@ class SessionInactivityTimeout(object):
                     return
 
             request.session[LAST_TOUCH_KEYNAME] = utc_now
+
+            print 'user[ {user} ] timeout_in_seconds = {timeout_in_seconds}'.format(
+                user=request.user.id,
+                timeout_in_seconds=timeout_in_seconds
+            )

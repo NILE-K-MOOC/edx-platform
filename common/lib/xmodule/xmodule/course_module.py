@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django module container for classes and operations related to the "Course Module" content type
 """
@@ -270,6 +271,28 @@ class CourseFields(object):
     middle_classfy = String(
         help=_("Select Section name"),
         default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    # Maeng Ilhee add
+    classfysub = String(
+        help=_("융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    middle_classfysub = String(
+        help=_("융복합 분류인 경우 최대 3개 추가입력 가능"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    difficult_degree = String(
+        help=_("Y 또는 N을 입력합니다. Y를 입력하면 청강모드를 사용합니다."),
+        default="N",
         display_name=_("Section"),
         scope=Scope.settings
     )

@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 """
 Helper functions for the account/profile Python APIs.
 This is NOT part of the public API.
@@ -12,6 +13,10 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponseBadRequest
 from django.utils.encoding import force_text
 from django.utils.functional import Promise
+
+from django.db import connections
+from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
 
 LOGGER = logging.getLogger(__name__)
 
@@ -413,11 +418,86 @@ def shim_student_view(view_func, check_logged_in=False):
                     )
                 )
 
-        # Call the original view to generate a response.
-        # We can safely modify the status code or content
-        # of the response, but to be safe we won't mess
-        # with the headers.
-        response = view_func(request)
+        # ------------------------------------------------------------------------------ 멀티사이트 로직 시작 [s]
+        insert_lock = 0 # <----------- 변수 초기화
+        error_lock = 0 # <------------ 변수 초기화
+        duplication_lock = 0 # <------ 변수 초기화
+
+        edx_useremail = request.POST['email'] # <----------------------- 로직에 이메일은 무조건 날라온다 (null exception 안남)
+        try:
+            edx_userobject = User.objects.get(email=edx_useremail) # <-- 잘못된 이메일이 날라오면 여기서 오류 (null exception)
+        except BaseException:
+            edx_userobject = None # <----------------------------------- 객체가 없을 경우 (null exception 처리)
+
+        if edx_userobject != None:
+            edx_userid = edx_userobject.id        # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
+            edx_useremail = edx_userobject.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
+
+        print "==========================================> what"
+        if 'multisite_userid' in request.session and 'org' in request.session: # <- 멀티사이트가 아닐 경우 (null exception 처리)
+            multisite_userid = request.session['multisite_userid']
+            multisite_org = request.session['org']
+
+            print "==========================================>"
+            print "multisite_userid = ", multisite_userid
+            print "multisite_org = ", multisite_org
+            print "==========================================>"
+
+            # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [s]
+            with connections['default'].cursor() as cur:
+                sql = '''
+                    SELECT b.email
+                      FROM multisite_member AS a
+                      JOIN auth_user AS b
+                      ON a.user_id = b.id
+                      JOIN multisite as c
+                      ON a.site_id = c.site_id
+                     WHERE a.org_user_id = {0} and c.site_code = '{1}';
+                '''.format(multisite_userid, multisite_org)
+                cur.execute(sql)
+                rows = cur.fetchall()
+            # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
+                try:
+                    cnt = rows[0][0] # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
+                except BaseException:
+                    cnt = 0          # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
+
+            # ----- 멀티사이트 멤버 테이블에 이메일이 있는 경우 로직 [s]
+            if cnt != 0:
+                # 다른 이메일 경우 테이블에 insert 수행하지 않으며, 경고메세지를 위해 이메일을 보안함
+                if rows[0][0] != edx_useremail:
+                    user_email = rows[0][0]
+                    user_email_dic = user_email.split('@')
+                    user_email = user_email_dic[0][0] + user_email_dic[0][1] + '********@' + user_email_dic[1]
+
+                    error_lock = 1  # 경고메세지 변경 플래그
+                    insert_lock = 1 # insert 방지 플래그
+
+                    request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed@' # 로그인 세션 등록을 방지하기 위한 코드
+
+                # 같은 이메일이 경우 테이블에 insert만 수행하지 않게 만든다.
+                elif rows[0][0] == edx_useremail:
+                    insert_lock = 1 # insert 방지 플래그
+            # ----- 멀티사이트 멤버 테이블에 이메일이 있는 경우 로직 [e]
+
+            # insert 방지 플래그가 설정되지 않은 경우 멀티사이트멤버 테이블에 데이터를 insert 한다.
+            if insert_lock == 0:
+                with connections['default'].cursor() as cur:
+                    sql = '''
+                        insert into multisite_member(site_id, user_id, org_user_id, regist_id)
+                        select site_id, {1}, {2}, {1}
+                        from multisite
+                        where site_code = '{0}'
+                    '''.format(multisite_org, edx_userid, multisite_userid)
+                    try:
+                        cur.execute(sql) # <--------------------------- 다른 사번으로 이미 등록된 이메일을 등록하려고 시도하는 경우 (에러)
+                    except BaseException:
+                        duplication_lock = 1 # <----------------------- 경고메세지 변경 플래그
+                        request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed' # 로그인 세션 등록을 방지하기 위한 코드
+
+        # ------------------------------------------------------------------------------ 멀티사이트 로직 종료 [e]
+
+        response = view_func(request) # <--------------------- 로그인 세션 올리는 부분
 
         # Most responses from this view are JSON-encoded
         # dictionaries with keys "success", "value", and
@@ -452,10 +532,19 @@ def shim_student_view(view_func, check_logged_in=False):
         # We check whether the user attribute is set to make
         # it easier to test this without necessarily running
         # the request through authentication middleware.
+
+        # ------------------------------------------------------------------------------ 멀티사이트 로직 종료 [s]
+        if 'multisite_userid' in request.session and 'org' in request.session: # <- 멀티사이트가 아닐 경우 (null exception 처리)
+            if error_lock == 1:
+                msg = "이미 등록되어 있는 사용자 입니다. {0}".format(user_email)
+            if duplication_lock == 1:
+                msg = "다른 사번으로 이미 등록되어 있는 사용자 입니다."
+        # ------------------------------------------------------------------------------ 멀티사이트 로직 종료 [e]
+
         is_authenticated = (
-            getattr(request, 'user', None) is not None
-            and request.user.is_authenticated()
+            getattr(request, 'user', None) is not None and request.user.is_authenticated()
         )
+
         if check_logged_in and not is_authenticated:
             # If we get a 403 status code from the student view
             # this means we've successfully authenticated with a
@@ -491,5 +580,4 @@ def shim_student_view(view_func, check_logged_in=False):
         # This is really important, since the student views set cookies
         # that are used elsewhere in the system (such as the marketing site).
         return response
-
     return _inner

@@ -1,0 +1,20 @@
+<div class="pop-wrap" id="#_id" style="width: #_widthpx; height: #_heightpx; float: left; z-index: 9999; border: 1px solid #e5e5e5; position: relative">
+    <div class="area" style="background-color: #fff;">
+        <img src="/static/images/test_upload/#_attatch_file_name" usemap="image_map#_id" style="width: #_img_widthpx; height: #_img_heightpx">
+
+        <map name="image_map#_id">
+            #_exist
+            #_not_exist
+        </map>
+    </div>
+    <div style="text-align: right;/* display: inline-block; */width: 100%;z-index: 9999;position: relative; background-color: #fff">
+            <label onclick="closeWin('checkbox#_id', '#_id', '#_hidden');">
+                <input id="checkbox#_id" name="checkbox#_id" type="checkbox" style="vertical-align: middle;">
+                <span style="font-style:normal; font-size:13px;"><b>#_hidden_day &nbsp;&nbsp;</b></span>
+            </label>
+                <span style="text-align: right;"><a href="javascript:popClose('#_id');" title="닫기"
+                                                    style="color: inherit;">[
+                    닫기 ]</a></span>
+        </div>
+</div>
+

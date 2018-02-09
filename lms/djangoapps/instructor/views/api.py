@@ -108,6 +108,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 import urllib
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from openedx.core.djangoapps.log_action import views as admin_view
+from bson.son import SON
 
 log = logging.getLogger(__name__)
 
@@ -1468,7 +1469,7 @@ def add_users_to_cohorts(request, course_id):
             object_id=0,
             object_repr='add_users_to_cohorts[course_id:%s]' % (course_id),
             action_flag=ADDITION,
-            change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+            change_message=admin_view.get_meta_json(self=None, request=request, count=0)
         )
 
     except (FileValidationException, PermissionDenied) as err:
@@ -2002,6 +2003,315 @@ def get_anon_ids(request, course_id):  # pylint: disable=unused-argument
     )
 
     return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-anon-ids.csv', header, rows)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
+    print 'get_contents_stat called'
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.
+    course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+    overview = CourseOverview.objects.get(id=course_id)
+
+    from pymongo import MongoClient
+    with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        db = client.cs_comments_service_development
+
+        # cursor = db.contents.find({'course_id': str(course_id)})
+        cursor = db.contents.aggregate([
+            {'$match':
+                {
+                    'course_id': str(course_id)
+                }
+            },
+            {'$group':
+                {
+                    '_id': "$author_id",
+                    'count0': {'$sum': 1},
+                    'count1': {'$sum': {'$cond': [{'$eq': ['$_type', 'CommentThread'], '$eq': ['$thread_type', 'discussion']}, 1, 0]}},
+                    'count2': {'$sum': {'$cond': [{'$eq': ['$_type', 'CommentThread'], '$eq': ['$thread_type', 'question']}, 1, 0]}},
+                    'count3': {'$sum': {'$cond': [{'$ne': ['$_type', 'CommentThread']}, 1, 0]}}
+                }
+            },
+            {'$sort':
+                 SON([('count0', -1), ('count1', -1), ('count2', -1), ('count3', -1)])
+             }
+        ])
+
+        # 과정명, course_id, 영문ID, email, 성명, 게시글 수
+        header = ['강좌 명', '강좌 아이디', '아이디', '이메일', '성명', '총 글수', '게시글 수', '질문글 수', '댓글 수']
+        rows = list()
+
+        print cursor['result']
+
+        overview = CourseOverview.objects.get(id=course_id)
+        for c in cursor['result']:
+            student = User.objects.select_related('profile').get(id=c['_id'])
+            rows.append([overview.display_name, str(course_id), student.username, student.email, student.profile.name, c['count0'], c['count1'], c['count2'], c['count3']])
+
+    # add log_action : get_contents_stat
+
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=,
+    #     object_id=0,
+    #     object_repr='get_contents_stat[course_id:%s]' % str(course_id),
+    #     action_flag=ADDITION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    # )
+
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_stat.csv', header, rows)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@require_level('staff')
+def get_contents_view(request, course_id):  # pylint: disable=unused-argument
+    print 'get_contents_view called'
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.
+    course_id = SlashSeparatedCourseKey.from_deprecated_string(course_id)
+
+    import cStringIO
+    import gzip
+    import traceback
+
+    def get_compressed_text(value):
+        try:
+            val = value.encode('utf').decode('base64')
+            zbuf = cStringIO.StringIO(val)
+            zfile = gzip.GzipFile(fileobj=zbuf)
+            ret = zfile.read()
+            zfile.close()
+        except Exception as e:
+            print traceback.format_exc()
+            ret = value
+        return ret
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+    overview = CourseOverview.objects.get(id=course_id)
+
+    discussion_dict = {}
+
+    from django.db import connections
+    from bson.objectid import ObjectId
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT course_id, discussion_id_map_json
+              FROM course_structures_coursestructure
+             WHERE course_id = '{course_id}';
+        '''.format(course_id=str(course_id))
+        cur.execute(query)
+        c_id, compressed_text = cur.fetchone()
+        discussion_dict = json.loads(get_compressed_text(compressed_text))
+
+        print discussion_dict
+
+    discussion_info = {}
+
+    dict_id = dict()
+    dict_type = dict()
+    dict_name = dict()
+
+    from pymongo import MongoClient
+    with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+        c = c_id.split('+')[1]
+        r = c_id.split('+')[2]
+        db = client.edxapp
+        active_version = db.modulestore.active_versions.find_one({'course': c, 'run': r})
+        pb = active_version.get('versions').get('published-branch')
+        structure = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+        if not structure or not structure.has_key('blocks'):
+            raise Exception('Not Exists Blocks')
+
+        blocks = db.modulestore.structures.find_one({'_id': ObjectId(pb)}).get('blocks')
+
+        for block in blocks:
+            block_id = block.get('block_id')
+            block_type = block.get('block_type')
+            display_name = block.get('fields')['display_name'] if 'display_name' in block.get('fields') else ''
+            children = block.get('fields')['children'] if 'children' in block.get('fields') else ''
+
+            dict_type[block_id] = block_type
+
+            # 불필요한 내용을 제외
+            if block_type in ['about', 'video', 'problem']:
+                continue
+
+            # block 별 display_name 을 지정
+            if block_id and display_name:
+                dict_name[block_id] = display_name
+
+            # 자식이 부모를 가르키는 dict 를 생성
+            for _type, _id in children:
+                if _id in dict_id:
+                    continue
+                dict_id[_id] = block_id
+
+        for block in blocks:
+            block_type = block.get('block_type')
+            block_id = block.get('block_id')
+
+            if block_type == 'discussion':
+                field = block.get('fields')
+
+                fields = {}
+
+                check_id = block_id
+                display_name = ''
+                while check_id in dict_id and check_id in dict_name:
+                    if dict_type[check_id] in ['chapter', 'sequential', 'vertical']:
+                        display_name = dict_name[check_id] + ' > ' + display_name
+                    check_id = dict_id[check_id]
+
+                if display_name:
+                    fields.update({
+                        'display_name': display_name
+                    })
+
+                if field.has_key('discussion_category'):
+                    fields.update({
+                        'discussion_category': field['discussion_category']
+                    })
+
+                if field.has_key('discussion_target'):
+                    fields.update({
+                        'discussion_target': field['discussion_target']
+                    })
+                discussion_info.update({block_id: fields})
+
+        db = client.cs_comments_service_development
+
+        cursor = db.contents.find({'course_id': c_id}).sort('created_at', -1)
+
+        comment_threads = list()
+        comment_depth_0 = list()
+        comment_depth_1 = list()
+
+        for c in cursor:
+            if c['_type'] == 'CommentThread':
+                comment_threads.append(c)
+            elif 'depth' not in c or c['depth'] == 0:
+                comment_depth_0.append(c)
+            else:
+                comment_depth_1.append(c)
+
+                # if comment_count > 0:
+                #     comment_depth_0 = db.contents.find({'comment_thread_id': ObjectId(c['_id'])}).sort('created_at', -1)
+                #     child_count = comment_depth_0['child_count'] if 'child_count' in comment_depth_0 else 0
+
+                # print 'child_count:', child_count
+
+        # 과정명, course_id, 영문ID, email, 성명, 게시글 수
+        header = ['연번', '강좌 명', '강좌 아이디', '경로', '웹 주소 (클릭시 이동)', '아이디', '이메일', '성명', '게시글제목', '구분', '게시글내용', '등록일자']
+        _rows = list()
+
+        for c in comment_threads:
+            c['type'] = '본문'
+            c['web'] = '=HYPERLINK(\"' + 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']]) + '\")'
+
+            commentable_id = c['commentable_id']
+            comment_depth_0_cnt = c['comment_count'] if 'comment_count' in c else 0
+
+            discussion_name = ''
+            discussion_category = ''
+            discussion_target = ''
+
+            if commentable_id in discussion_dict:
+                temp_str = discussion_dict[commentable_id]
+                bid = temp_str[temp_str.rfind('@') + 1:]
+                tdict = discussion_info[bid]
+                if 'display_name' in tdict:
+                    discussion_name = tdict['display_name']
+                if 'discussion_category' in tdict:
+                    discussion_category = tdict['discussion_category']
+                if 'discussion_target' in tdict:
+                    discussion_target = tdict['discussion_target']
+
+            else:
+                pass
+
+            c['discussion_name'] = discussion_name
+            c['discussion_category'] = discussion_category
+            c['discussion_target'] = discussion_target
+
+            _rows.append(c)
+
+            if comment_depth_0_cnt > 0:
+                comment_id = c['_id']
+
+                for c1 in comment_depth_0:
+                    if c1['comment_thread_id'] == comment_id:
+                        parent_id = c1['_id']
+                        c1['type'] = ' 댓글'
+                        c1['title'] = c['title']
+                        child_count = c1['child_count'] if 'child_count' in c1 else 0
+                        c1['web'] = '=HYPERLINK(\"' + 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']]) + '\")'
+                        c1['discussion_name'] = discussion_name
+                        c1['discussion_category'] = discussion_category
+                        c1['discussion_target'] = discussion_target
+                        _rows.append(c1)
+                        # comment_depth_0.remove(c1)
+
+                        if child_count > 0:
+                            for c2 in comment_depth_1:
+                                if c2['parent_id'] == parent_id:
+                                    c2['type'] = '  코멘트'
+                                    c2['title'] = c['title']
+                                    c2['web'] = '=HYPERLINK(\"' + 'http://' + settings.SITE_NAME + reverse('single_thread', args=[c['course_id'], c['context'], c['_id']]) + '\")'
+                                    c2['discussion_name'] = discussion_name
+                                    c2['discussion_category'] = discussion_category
+                                    c2['discussion_target'] = discussion_target
+                                    _rows.append(c2)
+                                    # comment_depth_1.remove(c2)
+
+        overview = CourseOverview.objects.get(id=course_id)
+        rows = list()
+        # print '----------------> ', settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), len(_rows)
+
+        for index, t in enumerate(_rows):
+            student = User.objects.select_related('profile').get(id=t['author_id'])
+            rows.append([index + 1, overview.display_name, str(course_id), t['discussion_name'], t['web'], student.username, student.email, student.profile.name, t['title'], t['type'], t['body'],
+                         t['created_at'].strftime('%Y/%m/%d %H:%I')])
+
+    # add log_action : get_contents_view
+
+    # LogEntry.objects.log_action(
+    #     user_id=request.user.pk,
+    #     content_type_id=,
+    #     object_id=0,
+    #     object_repr='get_contents_view[course_id:%s]' % str(course_id),
+    #     action_flag=ADDITION,
+    #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    # )
+
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_view.csv', header, rows)
+
+
+def csv_response(filename, header, rows):
+    """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(unicode(filename).encode('utf-8'))
+    writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+    # In practice, there should not be non-ascii data in this query,
+    # but trying to do the right thing anyway.
+
+    encoded = [unicode(s).encode('utf-8') for s in header]
+    writer.writerow(encoded)
+    for row in rows:
+        encoded = [unicode(s).encode('utf-8') for s in row]
+        writer.writerow(encoded)
+
+    response.content = unicode(response.content, 'utf-8').encode('utf-8-sig')
+    return response
 
 
 @require_POST
