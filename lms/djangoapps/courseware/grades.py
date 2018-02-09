@@ -637,7 +637,7 @@ def get_score(user, block, scores_client, submissions_scores_cache):
             return (None, None)
 
     # ------------------------------ video check DEBUG temp
-    if not block.weight:
+    if 'weight' not in block.fields:
         block.weight = 1
     # ------------------------------ video check DEBUG temp
 
