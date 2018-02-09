@@ -142,9 +142,22 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 $('#Tab6_1').html(tinyMCE.get('tab6_1').getContent());
 
                 this.model.set('overview', $('#course_info_text').html());
+                $('.action-primary').click(function() {
+                    //$('.CodeMirror').text($('#course_info_text').html());
+                    //this.codeMirrorize(null, $('#course-overview')[0]);
+                    //render(this.codeMirrorize(null, $('#course-overview')[0]));
+                    $('.CodeMirror').each(function() {
+                        $(this).css('display','none');
+                    });
+                    var edit = CodeMirror.fromTextArea(document.getElementById("course-overview"), {
+                        lineNumbers: true,
+                        lineWrapping: true,
+                        readOnly: true
+                      });
+                    edit.setValue($('#course_info_text').html());
+                });
             },
             initialize: function (options) {
-
                 $(function () {
                     $(".tab_content").hide();
                     $(".tab_content:first").show();
