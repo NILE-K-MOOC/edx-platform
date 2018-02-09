@@ -142,7 +142,7 @@ def login_page(request):
 
     #tmp
     code1 = 'error'
-    code2 = 'error'
+    code2 = 'error1'
 
     if code1 == 'error' and code2 == 'error' :
         return redirect(full_url)

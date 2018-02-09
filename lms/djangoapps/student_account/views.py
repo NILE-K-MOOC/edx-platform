@@ -235,7 +235,7 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # tmp
     code1 = 'error'
-    code2 = 'error'
+    code2 = 'error1'
 
     if code1 == 'error' and code2 == 'error' :
         log.info("redirect(full_url)")
