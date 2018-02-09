@@ -1,15 +1,58 @@
 <%! from django.utils.translation import ugettext as _ %>
-<%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">시리즈강좌</%block>
-<%inherit file="../main.html" />
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head dir="ltr">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<%block name="header_extras"></%block>
+      <link rel="stylesheet" href="/static/certificates/css/main-ltr.css" type="text/css" media="all" / >
+      <link rel="stylesheet" href="/static/css/vendor/font-awesome.css" type="text/css" media="all" / >
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-68431198-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+</head>
+
+<div id="fb-root"></div>
+<div class="wrapper-banner wrapper-banner-user">
+    <section class="banner banner-user">
+        <div class="message message-block message-notice">
+            <h2 class="message-title hd-5 emphasized">시리즈 교육 인쇄 페이지입니다</h2>
+            <div class="wrapper-copy-and-actions">
+                <p class="message-copy copy copy-base emphasized">아래의 버튼을 눌러 인쇄할 수 있습니다</p>
+                <div class="message-actions">
+                    <h3 class="sr-only">강좌 이수증을 인쇄하거나 공유하기</h3>
+
+
+
+                    <button class="action action-print btn-inverse btn-small" id="action-print-view" OnClick="window.print();">
+                        <span class="icon fa fa-print" aria-hidden="true"></span>
+                        시리즈 교육 확인증 인쇄하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 
 <style>
+    .wrapper-banner-user{
+        margin-top: 0px;
+    }
 .section_frame_container{
     display:inline-block;
     width:100%;
-    padding-top: 40px;
     padding-bottom: 100px;
 }
 .real_main_title{
@@ -53,8 +96,6 @@
 }
 #copy_btn{
     float:right;
-    position:relative;
-    bottom: 40px;
     color: #FFFFFF;
 }
 .section_2{
@@ -133,26 +174,12 @@ table, th, td {
 </style>
 
 <script>
-function print(printArea)
-{
-		win = window.open();
-		self.focus();
-		win.document.open();
-		win.document.write('<html><head><title></title><style>');
-		win.document.write('.section_a,.section_b{float:left}.section_3,.section_4{padding-right:20px;padding-left:20px}.section_3,.section_4,.section_b,.section_bb{padding-left:20px}.section_frame_container{display:inline-block;width:100%;padding-top:40px;padding-bottom:100px}.real_main_title{font-size:180%;margin-top:20px;margin-bottom:50px;border-bottom:solid 1px #DDD;padding-bottom:40px;font-weight:700}.section_1{display:inline-block;width:100%;margin-bottom:10px}.series_img{width:250px;height:150px}.section_b{padding-top:15px}.series_title{margin-bottom:20px;font-size:150%;font-weight:700;width:500px}.section_2,.section_3,.section_4{width:100%;display:inline-block;margin-top:10px}.series_target{margin-bottom:6px;font-size:80%}.series_goal{font-size:80%}#copy_btn{float:right;position:relative;bottom:40px;color:#FFF}.section_2{margin-bottom:10px;padding:20px;border-top:solid #CCC 0;border-bottom:solid #CCC 1px}.course_intro_title{margin-bottom:10px;font-size:100%;font-weight:700}.course_intro_content{font-size:80%}.pagerLink{text-decoration:none!important}.series_img_inner{width:180px;height:100px}.section_5{display:inline-block;width:100%;margin-top:10px}.section_bb{float:left;padding-top:5px}.series_a,.series_b,.series_c{width:300px;margin-bottom:2px;font-size:80%}.series_d{width:500px;margin-bottom:10px;font-size:120%;font-weight:700}');
-		win.document.write('</style></haed><body>');
-		win.document.write(printArea);
- 		win.document.write('</body></html>');
-		win.document.close();
-		win.print();
-		win.close();
-}
-$(document).ready(function(){
-    print(document.getElementById('printArea').innerHTML);
-});
 </script>
 
-<section class="container" id="printArea">
+
+<main id="printArea" class="accomplishment accomplishment-main">
+
+
 <div class="section_frame_container" id="printArea">
     <div class="real_main_title">${_('Series Education Certificate')}</div>
     % if main_list:
@@ -209,4 +236,6 @@ $(document).ready(function(){
 
     </div>
 </div>
-</section>
+
+
+</main>

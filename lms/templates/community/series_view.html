@@ -146,7 +146,8 @@ function print(printArea)
     function move(){
         var index = '${id}';
         var url = "/series_print/" + index;
-        $(location).attr('href',url);
+        window.open(url, "_blank");
+        //$(location).attr('href',url);
     }
 </script>
 
