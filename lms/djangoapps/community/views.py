@@ -459,7 +459,7 @@ def series_view(request, id):
                      ON v1.org = v2.org
                         AND v1.display_number_with_default = v2.display_number_with_default
                    LEFT JOIN edxapp.code_detail AS d
-                          ON v2.org = d.detail_code
+                          ON v2.org = d.detail_code AND d.group_code = 003
             WHERE  series_seq = {}
         '''.format(id)
         cur.execute(query)
