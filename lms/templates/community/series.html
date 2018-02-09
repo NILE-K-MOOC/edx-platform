@@ -59,22 +59,6 @@
     padding-bottom: 40px;
     font-weight: bold;
 }
-@media screen and (max-width: 1600px) and (min-width: 1200px) {
-    .section_container{
-        padding-top: 40px;
-        padding-bottom: 100px;
-        padding-right: 10%;
-        padding-left: 10%;
-    }
-}
-@media screen and (max-width: 1200px) and (min-width: 800px) {
-.section_container{
-        padding-top: 40px;
-        padding-bottom: 100px;
-        padding-right: 3%;
-        padding-left: 3%;
-    }
-}
 
 @media screen and (max-width: 770px) and (min-width: 0px) {
     .series_img{
@@ -99,7 +83,7 @@
 }
 </style>
 
-<div class="section_container">
+<section class="container">
 
 <div class="real_main_title">${_('Series Course')}</div>
 
@@ -115,3 +99,5 @@
 </div>
 </div>
 % endfor
+
+</section>

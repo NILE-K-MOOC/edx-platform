@@ -169,14 +169,21 @@ from student.helpers import (
                     <div class = "wrapper-action-more" style="margin:0px 0px 0px 0px">
                         <a href="${course_target}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
                     % else :
-                    <div class = "wrapper-action-more" style="margin:-46px 0px 0px 0px">
-                        <a href="${course_target}" class="enter-course" data-course-key="${enrollment.course_id}" style="width: 125.05px">${_('View Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
+                        % if (status_flag != 'propose') :
+                        <div class = "wrapper-action-more" style="margin:-46px 0px 0px 0px">
+                            <a href="${course_target}" class="enter-course" data-course-key="${enrollment.course_id}" style="width: 125.05px">${_('View Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
+                        % endif
                     % endif
                     </div>
 
-                    % if (status_flag != 'interest') :
+                    % if (status_flag != 'interest' and status_flag != 'propose') :
                     <div class = "wrapper-action-more" style="margin:0px 0px 0px 0px">
                         <a href="courses/${course_overview}/discussion/forum/users/${user.id}" class="enter-course">내게시글보기</a>
+                    </div>
+                    % endif
+                    % if (status_flag == 'propose') :
+                    <div class = "wrapper-action-more" style="margin:0px 0px 0px 0px">
+                        <a href="courses/${enrollment.course_id}/about" class="enter-course">강좌정보</a>
                     </div>
                     % endif
                 % else:
@@ -232,7 +239,7 @@ from student.helpers import (
             % endif
 
 
-            % if not course_overview.has_ended() and status_flag != 'interest':
+            % if not course_overview.has_ended() and status_flag != 'interest' and status_flag != 'propose':
             <div class="wrapper-action-more" data-course-key="${enrollment.course_id}">
               <button type="button" class="action action-more" id="actions-dropdown-link-${dashboard_index}" aria-haspopup="true" aria-expanded="false" aria-controls="actions-dropdown-${dashboard_index}" data-course-number="${course_overview.number}" data-course-name="${course_overview.display_name_with_default}" data-dashboard-index="${dashboard_index}" >
                 <span class="sr">${_('Course options for')}</span>

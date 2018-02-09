@@ -11,8 +11,6 @@
     width:100%;
     padding-top: 40px;
     padding-bottom: 100px;
-    padding-right: 20%;
-    padding-left: 20%;
 }
 .real_main_title{
     font-size:180%;
@@ -54,8 +52,6 @@
 }
 #copy_btn{
     float:right;
-    position:relative;
-    bottom: 40px;
     color: #FFFFFF;
 }
 .section_2{
@@ -127,26 +123,7 @@
     font-size:120%;
     font-weight: bold;
 }
-@media screen and (max-width: 1600px) and (min-width: 1200px) {
-    .section_frame_container{
-        display:inline-block;
-        width:100%;
-        padding-top: 40px;
-        padding-bottom: 100px;
-        padding-right: 10%;
-        padding-left: 10%;
-    }
-}
-@media screen and (max-width: 1200px) and (min-width: 800px) {
-    .section_frame_container{
-        display:inline-block;
-        width:100%;
-        padding-top: 40px;
-        padding-bottom: 100px;
-        padding-right: 3%;
-        padding-left: 3%;
-    }
-}
+
 </style>
 
 <script>
@@ -169,11 +146,12 @@ function print(printArea)
     function move(){
         var index = '${id}';
         var url = "/series_print/" + index;
-        $(location).attr('href',url);
+        window.open(url, "_blank");
+        //$(location).attr('href',url);
     }
 </script>
 
-<div class="section_frame_container" id="printArea">
+<section class="container" id="printArea">
     <div class="real_main_title">${_('Series Course')}</div>
     % if main_list:
     <div class="section_1">
@@ -182,7 +160,6 @@ function print(printArea)
         </div>
         <div class="section_b">
             <div class="series_title">${main_list[0]}</div>
-            <button class="btn-brand" id="copy_btn" OnClick="move()">${_('Print')}</button>
             <div class="series_target">${_('Series ID')} : ${main_list[1]}</div>
         </div>
     </div>
@@ -192,6 +169,8 @@ function print(printArea)
         <div class="course_intro_content">${main_list[2]}</div>
     </div>
     % endif
+
+    <button class="btn-brand" id="copy_btn" OnClick="move()">${_('Print')}</button>
 
     <div class="section_3">
             <div class="course_intro_title">${_('Course List')}</div>
@@ -217,4 +196,4 @@ function print(printArea)
         </div>
         % endfor
     </div>
-</div>
+</section>

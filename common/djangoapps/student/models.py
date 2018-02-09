@@ -1584,9 +1584,13 @@ class CourseEnrollment(models.Model):
                   , a.created
               FROM course_overviews_courseoverview a
              WHERE id in ({course_ids})
-             and   now() <= a.end
              order by a.id asc;
         '''.format(course_ids=course_ids)
+
+        # and   now() <= a.end
+        #print('-------------------------------------')
+        #print(qry)
+        #print('-------------------------------------')
 
         return cls.objects.raw(qry)
 
