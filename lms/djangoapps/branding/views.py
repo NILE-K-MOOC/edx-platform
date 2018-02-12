@@ -647,6 +647,56 @@ def multisite_index(request, org):
         return redirect(reverse("signin_user"))
 
     return student.views.multisite_index(request, user=request.user)
+
+def multisite_api(request):
+
+    user_id = request.POST.get('user_id')
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            SELECT site_code, org_user_id
+            FROM multisite_member AS a
+            JOIN multisite AS b
+            ON a.site_id = b.site_id
+            WHERE user_id = {user_id}
+        '''.format(user_id = user_id)
+
+        print sql
+
+        cur.execute(sql)
+        rows = cur.fetchall()
+
+    print "------------------------> for s"
+    for row in rows:
+        print row[0]
+        print row[1]
+    print "------------------------> for e"
+
+    print "------------------------> hello s"
+    print "user_id = ", user_id
+    print "------------------------> hello e"
+
+    return JsonResponse({'return':rows})
+
+def multisite_delete_api(request):
+
+    user_id = request.POST.get('user_id')
+    org = request.POST.get('org')
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            delete a
+            from multisite_member as a
+            join multisite as b
+            on a.site_id = b.site_id
+            where b.site_code = '{org}' and a.user_id = '{user_id}'
+        '''.format(org = org, user_id = user_id)
+
+        print sql
+
+        cur.execute(sql)
+
+    return JsonResponse({'return':'success'})
 #==================================================================================================> 멀티사이트 종료
 
 
