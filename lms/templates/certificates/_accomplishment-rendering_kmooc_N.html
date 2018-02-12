@@ -142,7 +142,11 @@ h5{margin:0;}
                 <h1>이 수 증</h1>
 
                 <h5 class="ce-t-gray">성명</h5>
+                % if nice_check_flag == 0:
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+                %else:
+                <h4 class="ce-txt-second">${accomplishment_copy_name} (본인인증회원)</h4>
+                %endif
 
                 <h5 class="ce-t-gray">교육과정</h5>
                 <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
@@ -253,7 +257,12 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <h1>CRETIFICATE</h1>
 
                 <h5 class="ce-t-gray">NAME</h5>
+
+                % if nice_check_flag == 0:
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+                %else:
+                <h4 class="ce-txt-second">${accomplishment_copy_name} (identification member)</h4>
+                %endif
 
                 <h5 class="ce-t-gray">COURSE</h5>
                 <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
