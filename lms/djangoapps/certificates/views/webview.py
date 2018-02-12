@@ -50,6 +50,7 @@ from bson.objectid import ObjectId
 from maeps.views import MaFpsTail
 from edxmako.shortcuts import render_to_string
 import commands
+from django.conf import settings
 log = logging.getLogger(__name__)
 
 
@@ -240,6 +241,10 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['created_date'] = created_date
     context['start_date'] = start_date
     context['end_date'] = end_date
+
+    static_url = "http://"+settings.ENV_TOKENS.get('LMS_BASE')
+
+    context['static_url'] = static_url
 
 
     cur = con.cursor()
