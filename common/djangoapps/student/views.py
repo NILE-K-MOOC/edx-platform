@@ -3216,7 +3216,6 @@ def modi_course_period(request):
             addinfo_user_id = request.POST.get('addinfo_user_id')
             addinfo_course_id = request.POST.get('addinfo_course_id')
             course_period = request.POST.get('course_period')
-            course_period = int(course_period)
 
             if (1 <=course_period <=6):
                 course_period = 'S'
