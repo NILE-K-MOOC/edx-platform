@@ -42,31 +42,38 @@
                         user_id: user_id
                     })
                     .done(function( data ) {
-                        var arr = data.return
-                        console.log(arr[0]);
-                        console.log(arr[1]);
-                        console.log(arr[0][0]);
-                        console.log(arr[0][1]);
 
-                        for(var i=0; i<arr.length; i++){
-                            console.log(arr[i][0]);
-                            console.log(arr[i][1]);
-
-                            var html = ''+
-                            '<div class="a" id="'+ arr[i][0] +'" style="margin-right: 20px; margin-bottom:50px; background-color:#dde4e8; width:30%; padding:20px; position:none; float:left;">\n'+
-                                '<div class="b" style="font-weight: bold; text-align: center;margin-bottom: 20px;">\n'+
-                                  arr[i][0] + '\n'+
-                                '</div>\n'+
-                                '<div class="c" style="text-align: center;margin-bottom: 20px;font-size: 75%;">\n'+
-                                  '해당 기관에 연동된 사번은 ' + arr[i][1] + '입니다\n'+
-                                '</div>\n'+
-                                '<button onclick="multisite(this)" type="button" class="btn multisite" id="' + arr[i][0] + '" style="border: 1px solid #0079bc;width: 100%;">연동 해제</button>\n'+
-                            '</div>\n'+
-
-                            '<div class="line">\n'+
-                            '</div>';
-
+                        if(data.return == 'zero'){
+                            var html = '<div class="multisite_inner" style="font-size: 90%;margin-bottom: 50px;">멀티사이트에 연동 된 계정이 존재하지 않습니다</div>';
                             $('.multisite_inner').append(html);
+                        }
+                        else{
+                            var arr = data.return
+                            console.log(arr[0]);
+                            console.log(arr[1]);
+                            console.log(arr[0][0]);
+                            console.log(arr[0][1]);
+
+                            for(var i=0; i<arr.length; i++){
+                                console.log(arr[i][0]);
+                                console.log(arr[i][1]);
+
+                                var html = ''+
+                                '<div class="a" id="'+ arr[i][0] +'" style="margin-right: 20px; margin-bottom:50px; background-color:#dde4e8; width:30%; padding:20px; position:none; float:left;">\n'+
+                                    '<div class="b" style="font-weight: bold; text-align: center;margin-bottom: 20px;">\n'+
+                                      arr[i][0] + '\n'+
+                                    '</div>\n'+
+                                    '<div class="c" style="text-align: center;margin-bottom: 20px;font-size: 75%;">\n'+
+                                      '해당 기관에 연동된 사번은 ' + arr[i][1] + '입니다\n'+
+                                    '</div>\n'+
+                                    '<button onclick="multisite(this)" type="button" class="btn multisite" id="' + arr[i][0] + '" style="border: 1px solid #0079bc;width: 100%;">연동 해제</button>\n'+
+                                '</div>\n'+
+
+                                '<div class="line">\n'+
+                                '</div>';
+
+                                $('.multisite_inner').append(html);
+                            }
                         }
                     });
 

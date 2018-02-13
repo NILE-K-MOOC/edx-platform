@@ -666,11 +666,8 @@ def multisite_api(request):
         cur.execute(sql)
         rows = cur.fetchall()
 
-    print "------------------------> for s"
-    for row in rows:
-        print row[0]
-        print row[1]
-    print "------------------------> for e"
+    if len(rows) == 0:
+        return JsonResponse({'return':'zero'})
 
     print "------------------------> hello s"
     print "user_id = ", user_id
