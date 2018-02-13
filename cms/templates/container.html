@@ -50,7 +50,29 @@ from openedx.core.djangolib.markup import HTML, Text
 </%block>
 
 <%block name="content">
+<script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+<style>
+    .arrow_box {
+      display: none;
+      position: absolute;
+      z-index: 9;
+      padding: 7px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      background: #333;
+      color: #fff;
+      left: 210px;
+      width: 170px;
+      margin-top: 5px;
+      font-size:13px;
+    }
 
+    a:hover + p.arrow_box {
+      display: block;
+    }
+
+</style>
 
 <div class="wrapper-mast wrapper">
     <header class="mast has-actions has-navigation has-subtitle">
@@ -77,6 +99,11 @@ from openedx.core.djangolib.markup import HTML, Text
             <h3 class="sr">${_("Page Actions")}</h3>
             <ul>
                 % if is_unit_page:
+                    <li class="action-item action-editor nav-item">
+                        <a href="javascript:OpenLatexEditor('testbox','html','')" class="button">
+                            <span class="action-button-text">수식편집</span>
+                        </a><p class="arrow_box">수식편집기는 새창에서 열립니다.</p>
+                    </li>
                     <li class="action-item action-view nav-item">
                         <a href="${published_preview_link}" class="button button-view action-button is-disabled" aria-disabled="true" rel="external" title="${_('Open the courseware in the LMS')}">
                             <span class="action-button-text">${_("View Live Version")}</span>

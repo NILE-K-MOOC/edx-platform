@@ -169,8 +169,8 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             padding:3px;
                             padding-left: 25px;
                             position: absolute !important;
-                            top:30%;
                             left:20%;
+                            top:50%;
                             width: 60%;
                             background-color: #fafafa;
                             height: 500px;
@@ -858,7 +858,11 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                         }
                                     }
                                 });
+
                                 $('#layer_input').css("display","block");
+                                var aa = ($(document).scrollTop() - (window.innerHeight/2)) ;
+                                var y = 200;
+                                $('#layer_input').css("top",(aa+y)+"px");
                                 wrapWindowByMask();
                             };
                         </script>
