@@ -3,7 +3,7 @@
 body {
 	margin-top: 50px;
 	font-size: 12px;
-	font-family:'맑은고딕' 'NanumGothic', 'MalgunGothic';
+	font-family:'NanumGothic', 'MalgunGothic';
 }
 
 .container {
@@ -12,11 +12,9 @@ body {
 	margin: 0 auto;
 }
 
-/* 상단 이미지 영역 */
 #header {
 	margin: 0 auto;
 	position: relative;
-	magin
 }
 
 #top_img{
@@ -45,13 +43,11 @@ a img {
 }
 
 
-/* 상단 멘트 */
 #comment{
 	font-size: 11px;
 	font-weight: bold;
 }
 
-/* 하단 영역  */
 #footer {
 	position: relative;
 	clear: both;
@@ -111,34 +107,28 @@ hr{
 	height: 50px;
 }
 
-/* OS분류 */
 #OS {
 	width: 100px;
 }
 
-/* OS지원범위  */
 #supportOS {
 	width: 150px;
 }
 
-/* 브라우져 지원범위 */
 #supportBS {
 	width: 350px;
 }
 
-/* 지원범위 td */
 .supportBStd{
 	text-align: left;
 	padding-left: 10px;
 	letter-spacing: 1px;
 }
 
-/* 설치상태 */
 #installStatus {
 	width: 100px;
 }
 
-/* 다운로드 버튼 */
 .btn_download {
 	background-image: url("../images/btn_download.png");
 	display: inline-block;
@@ -147,7 +137,7 @@ hr{
 	cursor: pointer;
 	position: relative;
 }
-/* 미지원 문구 */
+
 .notSupport{
 	display: none;
 	color: red;
@@ -156,7 +146,6 @@ hr{
 	display: none;
 }
 
-/* 설치여부  */
 .intallFlag {
 	color: red;
 }
