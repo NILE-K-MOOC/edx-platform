@@ -147,7 +147,7 @@ from student.helpers import (
         <div class="wrapper-course-actions" style="width: 50% !important;">
           <div class="course-actions">
             % if show_courseware_link:
-              % if course_overview.has_ended():
+              % if course_overview.has_ended() and status_flag != 'interest':
                 % if not is_course_blocked:
                   <div class = "wrapper-action-more" style="margin:-46px 0px 0px 0px">
                     <a href="${course_target}" class="enter-course archived" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">${course_overview.display_name_with_default}</span></a>
@@ -166,8 +166,14 @@ from student.helpers import (
                     <div class = "wrapper-action-more" style="margin:-46px 0px 0px 0px">
                         <a onclick="del(this, '${course_overview}')" class="enter-course">관심삭제</a>
                     </div>
+
                     <div class = "wrapper-action-more" style="margin:0px 0px 0px 0px">
+                        % if (enrollment.is_enrolled):
                         <a href="${course_target}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Course')}<span class="sr">${course_overview.display_name_with_default}</span></a>
+                        % else :
+                        <% about_url = course_target.replace('info','about') %>
+                        <a href="${about_url}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Course')}<span class="sr">${course_overview.display_name_with_default}</span></a>
+                        % endif
                     % else :
                         % if (status_flag != 'propose') :
                         <div class = "wrapper-action-more" style="margin:-46px 0px 0px 0px">
