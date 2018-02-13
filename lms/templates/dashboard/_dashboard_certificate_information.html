@@ -27,7 +27,7 @@ elif cert_status['status'] == 'notpassing':
 else:
     status_css_class = 'course-status-processing'
 %>
-% if status_flag != 'interest' :
+% if status_flag != 'interest' and status_flag != 'propose':
     <div class="message message-status ${status_css_class} is-shown">
     % if cert_status['status'] == 'processing':
       <p class="message-copy">${_("Final course details are being wrapped up at this time. Your final standing will be available shortly.")}</p>
