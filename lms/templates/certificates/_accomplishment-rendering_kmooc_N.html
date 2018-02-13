@@ -49,7 +49,7 @@ ul, .list-bulleted{
 .content {
     padding: 25px;
     border: 4px solid #6c6f73;
-    height: 267mm;
+    height: 255mm;
 	position:relative;
 }
 
@@ -91,7 +91,7 @@ h5{margin:0;}
 .t-center h5{text-align:center; font-size:11px;}
 
 .ce-bg{
-	background:url(/static/images/bg.png) no-repeat;
+	background:url(${static_url}/static/images/bg.png) no-repeat;
 	width: 643px;
     height: 232px;
     display: inline-block;
@@ -106,7 +106,7 @@ h5{margin:0;}
 .content h2 {font-size:20px;}
 .ce-txt-second {margin-top: 0px; font-size: 20px;}
 
-.ce-center-txt1{text-align: center; width: 249px; margin: 0 auto;}
+.ce-center-txt1{text-align: center; width: 249px; margin: 0 auto; margin-bottom: 20px;}
 .ce-center-txt2{text-align:center; margin-bottom: 50px;}
 
 .sign-area{ display:inline-block;}
@@ -117,6 +117,12 @@ h5{margin:0;}
 .ce-logo-area{display:inline-block; width:100%;}
 .ce-logo1{float:left;}
 .ce-logo2{float:right; margin-top: 21px;}
+#k_box1{
+    margin-bottom: 66px;
+}
+#e_box1{
+    margin-bottom: 66px;
+}
 </style>
 
 
@@ -131,7 +137,7 @@ h5{margin:0;}
             <div class="ce-bg"></div>
 
             <div class="ribbon">
-                <img src="/static/images/ribbon.png"/>
+                <img src="${static_url}/static/images/ribbon.png"/>
             </div>
 
             <div class="content">
@@ -142,7 +148,11 @@ h5{margin:0;}
                 <h1>이 수 증</h1>
 
                 <h5 class="ce-t-gray">성명</h5>
+                % if nice_check_flag == 0:
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+                %else:
+                <h4 class="ce-txt-second">${accomplishment_copy_name} (본인인증회원)</h4>
+                %endif
 
                 <h5 class="ce-t-gray">교육과정</h5>
                 <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
@@ -159,7 +169,7 @@ h5{margin:0;}
                 <h5 class="ce-t-gray">점수</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
-                <h2 class="ce-center-txt1">위 과정을 성실히 이수하여<br> 이 증서를 수여 합니다.<br><br></h2>
+                <h2 class="ce-center-txt1">위 과정을 성실히 이수하여<br> 이 증서를 수여 합니다.</h2>
                 <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
 
                 <div class="sign-none" style="display:none;">사인이 없을때</div>
@@ -206,7 +216,7 @@ h5{margin:0;}
                         <img src="${organization_logo.url}" alt="${platform_name}">
                     % endif
                     </div>
-                    <div class="ce-logo2"><img src="/static/images/logo2.png" alt="국평원"></div>
+                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
                 </div>
             </div>
         </div>
@@ -242,7 +252,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
             <div class="ce-bg"></div>
 
             <div class="ribbon">
-                <img src="/static/images/ribbon.png"/>
+                <img src="${static_url}/static/images/ribbon.png"/>
             </div>
 
             <div class="content">
@@ -253,7 +263,12 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <h1>CRETIFICATE</h1>
 
                 <h5 class="ce-t-gray">NAME</h5>
+
+                % if nice_check_flag == 0:
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+                %else:
+                <h4 class="ce-txt-second">${accomplishment_copy_name} (identification member)</h4>
+                %endif
 
                 <h5 class="ce-t-gray">COURSE</h5>
                 <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
@@ -270,7 +285,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <h5 class="ce-t-gray">score</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
-                <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.<br><br></h2>
+                <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.</h2>
                 <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
 
                 <div class="sign-none" style="display:none;">사인이 없을때</div>
@@ -317,7 +332,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                         <img src="${organization_logo.url}" alt="${platform_name}">
                     % endif
                     </div>
-                    <div class="ce-logo2"><img src="/static/images/logo2.png" alt="국평원"></div>
+                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
                 </div>
             </div>
         </div>

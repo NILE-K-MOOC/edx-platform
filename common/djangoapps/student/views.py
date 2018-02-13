@@ -3216,14 +3216,18 @@ def modi_course_period(request):
             addinfo_user_id = request.POST.get('addinfo_user_id')
             addinfo_course_id = request.POST.get('addinfo_course_id')
             course_period = request.POST.get('course_period')
+            if (course_period == '' or course_period == None):
+                course_period = 0
             course_period = int(course_period)
-
+            course_period_index = ''
             if (1 <=course_period <=6):
-                course_period = 'S'
+                course_period_index = 'S'
             elif (7 <=course_period <=12):
-                course_period = 'M'
+                course_period_index = 'M'
             elif (13 <=course_period):
-                course_period = 'L'
+                course_period_index = 'L'
+            print 'course_period_index = ====='
+            print course_period_index
             course_index = addinfo_course_id.split(':')
             course_index2 = course_index[1].split('+')
 
@@ -3245,7 +3249,7 @@ def modi_course_period(request):
             cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
             cursor = cursors.get('versions').get('published-branch')
 
-            db.modulestore.structures.update({"_id":ObjectId("5a7179d656c02c49fd923630"), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period}});
+            db.modulestore.structures.update({"_id":ObjectId("5a7179d656c02c49fd923630"), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period_index}});
 
 
 
@@ -3272,7 +3276,7 @@ def modi_course_period(request):
                     UPDATE course_overview_addinfo
                        SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), course_period = '{1}'
                      WHERE course_id = '{2}';
-                """.format(addinfo_user_id, course_period, addinfo_course_id)
+                """.format(addinfo_user_id, course_period_index, addinfo_course_id)
                 cur.execute(query)
                 cur.execute('commit')
                 cur.close()
@@ -3291,7 +3295,7 @@ def modi_course_period(request):
                                     modify_id,
                                     modify_date)
                               VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
-                """.format(addinfo_course_id, course_period, addinfo_user_id, addinfo_user_id)
+                """.format(addinfo_course_id, course_period_index, addinfo_user_id, addinfo_user_id)
                 cur.execute(query)
                 cur.execute('commit')
                 cur.close()

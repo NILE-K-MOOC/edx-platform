@@ -134,7 +134,8 @@ str2dPosInkY = "0"                     # not use
 
 # CP, WM value Set    
 WMPARAM = "0^150^170^100"
-strCPParam = "r7QAAGFgrVmaLxIktIFQLlyMWBFmeeE20VgzUktM37bBf2HsVJNplUMScVoPcCahMF4wXg==" # support registered printer    
+# strCPParam = "r7QAAGFgrVmaLxIktIFQLlyMWBFmeeE20VgzUktM37bBf2HsVJNplUMScVoPcCahMF4wXg==" # support registered printer
+strCPParam = "r7QAAGFgrVmaLxIktIFQLlyMWBFmeeE20VgzUktM37bBf2HsVJNplUMScVoPcCahMF4xXjBeMF4wXjBe" # support registered printer
 strCPSubParam = "0^8^254^700^496"          # 0^8^265^528^264
 
 # Add Multi OS Set    

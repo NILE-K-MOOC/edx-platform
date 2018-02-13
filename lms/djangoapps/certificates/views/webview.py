@@ -49,7 +49,8 @@ from django.db import connections
 from bson.objectid import ObjectId
 from maeps.views import MaFpsTail
 from edxmako.shortcuts import render_to_string
-
+import commands
+from django.conf import settings
 log = logging.getLogger(__name__)
 
 
@@ -91,6 +92,46 @@ def _update_certificate_context(context, user_certificate, platform_name):
     """
     # Populate dynamic output values using the course/certificate data loaded above
     certificate_type = context.get('certificate_type')
+
+    nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
+
+    nice_authtype       = ''                           # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun       = 'N'                          # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize      = ''                           # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender         = ''                           # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq         = 'REQ0000000001'              # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+                                                       # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+
+    # nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    nice_returnurl      = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    # nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    nice_errorurl       = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+
+    nice_returnMsg      = ''
+
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
+                .format(len(nice_reqseq),nice_reqseq,
+                        len(nice_sitecode),nice_sitecode,
+                        len(nice_authtype),nice_authtype,
+                        len(nice_returnurl),nice_returnurl,
+                        len(nice_errorurl),nice_errorurl,
+                        len(nice_popgubun),nice_popgubun,
+                        len(nice_customize),nice_customize,
+                        len(nice_gender),nice_gender )
+
+    nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+    enc_data = commands.getoutput(nice_command)
+    context['enc_data'] = enc_data
+
+
+
+
+
+
+
 
     # Override the defaults with any mode-specific static values
     context['certificate_id_number'] = user_certificate.verify_uuid
@@ -162,7 +203,9 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
-
+    print course_id
+    print 'logo_index================='
+    print course_id.split('+')[0].split(':')[1]
     cur = con.cursor()
     query = """
             SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
@@ -201,6 +244,10 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['start_date'] = start_date
     context['end_date'] = end_date
 
+    static_url = "http://"+settings.ENV_TOKENS.get('LMS_BASE')
+
+    context['static_url'] = static_url
+
 
     cur = con.cursor()
     query = """
@@ -217,6 +264,25 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     course_index = course_id.split(':')
     course_index = course_index[1].split('+')
+
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+
+    cur = con.cursor()
+    query = """
+            SELECT count(*)
+              FROM auth_user_nicecheck
+             WHERE user_id = {0};
+            """.format(user_id)
+    cur.execute(query)
+    nice_check_flag = cur.fetchall()
+    cur.close()
+
+    context['nice_check_flag'] = nice_check_flag[0][0]
 
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
         db = client.edxapp

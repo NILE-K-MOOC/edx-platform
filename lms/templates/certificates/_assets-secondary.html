@@ -1,8 +1,29 @@
 <script type="text/javascript">
 
     document.getElementById("action-print-view").addEventListener("click", printView);
+    document.getElementById("action-check-view").addEventListener("click", checkView);
 
     function printView(event) {
+        if(!($('#checkbox1').is(':checked'))) {
+            $('#k_box1').remove();
+            $('#e_box1').remove();
+        }
+        if (!($('#checkbox2').is(':checked'))) {
+            $('#k_box2').remove();
+            $('#e_box2').remove();
+        }
+        if (!($('#checkbox3').is(':checked'))) {
+            $('#k_box3').remove();
+            $('#e_box3').remove();
+        }
+        if ($('input[type=radio][name=radio]:checked').val() == "K") {
+            $('#printArea_E').remove();
+        }
+        else if ($('input[type=radio][name=radio]:checked').val() == "E") {
+            $('#printArea_K').remove();
+        }
+
+
         var print_index = $('#certifi_print').html();
         //$.ajax({method: "POST", url: "/certificate_print", data:{print_index: print_index}});
         var frmPop= document.frmPopup;
@@ -13,7 +34,11 @@
         frmPop.target = 'popupView'; //window,open()의 두번째 인수와 같아야 하며 필수다.
         frmPop.print_index.value = print_index;
         frmPop.submit();
+    }
 
-
+    function checkView(event) {
+        window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        document.form2.target = "popupNICE";
+        document.form2.submit();
     }
 </script>
