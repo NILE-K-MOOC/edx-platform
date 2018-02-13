@@ -203,9 +203,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
-    print course_id
-    print 'logo_index================='
-    print course_id.split('+')[0].split(':')[1]
+    context['logo_index'] = course_id.split('+')[0].split(':')[1]
     cur = con.cursor()
     query = """
             SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';

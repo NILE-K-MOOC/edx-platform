@@ -211,11 +211,7 @@ h5{margin:0;}
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <div class="ce-logo1">
-                    % if organization_logo:
-                        <img src="${organization_logo.url}" alt="${platform_name}">
-                    % endif
-                    </div>
+                    <div class="ce-logo1"><img src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="로고이미지"></div>
                     <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
                 </div>
             </div>
@@ -224,9 +220,6 @@ h5{margin:0;}
     </body>
 </main>
 <div class="brDiv"></div>
-
-
-
 
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='../static_content.html'/>
