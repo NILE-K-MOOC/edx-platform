@@ -2756,7 +2756,7 @@ msgstr "답안이 저장되었습니다."
 msgid ""
 "Your answers have been saved but not graded. Click '{button_name}' to grade "
 "them."
-msgstr "답안이 저장되었지만 채점되지 않았습니다. '{button_name}' 을 클릭해 채점합니다."
+msgstr "답안이 제출되었지만 채점되지 않았습니다. 임시저장을 클릭해 채점합니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Refresh the page and make an attempt before resetting."
