@@ -106,7 +106,7 @@ h5{margin:0;}
 .content h2 {font-size:20px;}
 .ce-txt-second {margin-top: 0px; font-size: 20px;}
 
-.ce-center-txt1{text-align: center; width: 249px; margin: 0 auto; margin-bottom: 20px;}
+.ce-center-txt1{text-align: center; width: 330px; margin: 0 auto; margin-bottom: 20px;}
 .ce-center-txt2{text-align:center; margin-bottom: 50px;}
 
 .sign-area{ display:inline-block;}
@@ -122,6 +122,15 @@ h5{margin:0;}
 }
 #e_box1{
     margin-bottom: 66px;
+}
+.t-sign {
+    height: 26px;
+    width: 99px;
+}
+.ce-logo1 {
+    height: 35px;
+    width: 200px;
+    margin-top: 20px;
 }
 </style>
 
@@ -179,7 +188,7 @@ h5{margin:0;}
                     <div class="sign-area-depth2">
                         % for signatory in certificate_data.get('signatories', []):
                             <% cnt = 0 %>
-                            % for i in range(0, 10 - len(teacher_list)):
+                            % for i in range(0, 10 - len(certificate_data.get('signatories', []))):
                                 <div class="t-center">
                                     <h5></h5>
                                     <h5></h5>
@@ -192,26 +201,24 @@ h5{margin:0;}
                                     <div class="sign-area-depth1">
                                 %endif
                             %endfor
-                            % for teacher_name in teacher_list:
-                                <%
-                                teacher = teacher_name.split('(')
-                                title_k = signatory['title'].split('(')
-                                organization_k = signatory['organization'].split('(')
-                                %>
-                                    <div class="t-center">
-                                        <h5 class="t-sign">${teacher[0]}</h5>
-                                        <h5>${teacher[0]} ${title_k[0]}</h5>
-                                        <h5>${organization_k[0]}</h5>
-                                        <h5>${classfy_k}</h5>
-                                    </div>
-                            %endfor
+                            <%
+                            teacher = signatory['name'].split('(')
+                            title_k = signatory['title'].split('(')
+                            organization_k = signatory['organization'].split('(')
+                            %>
+                                <div class="t-center">
+                                    <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                    <h5>${teacher[0]} ${title_k[0]}</h5>
+                                    <h5>${organization_k[0]}</h5>
+                                    <h5>${classfy_k}</h5>
+                                </div>
                         % endfor
                         </div>
                     % endif
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <div class="ce-logo1"><img src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="로고이미지"></div>
+                    <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="로고이미지">
                     <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
                 </div>
             </div>
@@ -272,14 +279,14 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                         <li id="e_box2" style="display: none">Video duration : ${Play_h}hour ${Play_m}minute</li>
                         <li id="e_box3" style="display: none">Weekly learning time : ${Learning_h}hour ${Learning_m}minute</li>
                     </ul>
-                    <h5>※ The above information is course information, which may be different from the student's actual study information.</h5>
+                    <h5>※ It may be different from the actual learning information of the applicant.</h5>
                 </blockquote>
                 <div id="e_box1" style="visibility: hidden; margin-bottom: 66px">
                 <h5 class="ce-t-gray">score</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
                 <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.</h2>
-                <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
+                <h5 class="ce-center-txt2">${certificate_date_issued}</h5>
 
                 <div class="sign-none" style="display:none;">사인이 없을때</div>
 
@@ -288,7 +295,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                     <div class="sign-area-depth2">
                         % for signatory in certificate_data.get('signatories', []):
                             <% cnt = 0 %>
-                            % for i in range(0, 10 - len(teacher_list)):
+                            % for i in range(0, 10 - len(certificate_data.get('signatories', []))):
                                 <div class="t-center">
                                     <h5></h5>
                                     <h5></h5>
@@ -301,30 +308,24 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                                     <div class="sign-area-depth1">
                                 %endif
                             %endfor
-                            % for teacher_name in teacher_list:
-                                <%
-                                teacher = teacher_name.split('(')
-                                title_k = signatory['title'].split('(')
-                                organization_k = signatory['organization'].split('(')
-                                %>
-                                    <div class="t-center">
-                                        <h5 class="t-sign">${teacher[1].replace(')','')}</h5>
-                                        <h5>${teacher[1].replace(')','')} ${title_k[1].replace(')','')}</h5>
-                                        <h5>${organization_k[1].replace(')','')}</h5>
-                                        <h5>${classfy_e}</h5>
-                                    </div>
-                            %endfor
+                            <%
+                            teacher = signatory['name'].split('(')
+                            title_k = signatory['title'].split('(')
+                            organization_k = signatory['organization'].split('(')
+                            %>
+                                <div class="t-center">
+                                    <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                    <h5>${teacher[1].replace(')','')}</h5>
+                                    <h5>${organization_k[1].replace(')','')}</h5>
+                                    <h5>${classfy_e}</h5>
+                                </div>
                         % endfor
                         </div>
                     % endif
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <div class="ce-logo1">
-                    % if organization_logo:
-                        <img src="${organization_logo.url}" alt="${platform_name}">
-                    % endif
-                    </div>
+                    <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="로고이미지">
                     <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
                 </div>
             </div>

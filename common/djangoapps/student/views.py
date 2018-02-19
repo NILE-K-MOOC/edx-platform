@@ -3251,8 +3251,6 @@ def modi_course_period(request):
 
             db.modulestore.structures.update({"_id":ObjectId(cursor), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period_index}});
 
-
-
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                                   settings.DATABASES.get('default').get('USER'),

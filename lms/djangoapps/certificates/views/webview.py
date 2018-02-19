@@ -246,19 +246,28 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     context['static_url'] = static_url
 
+    course_index = course_id.split(':')
+    course_index2 = course_index[1].split('+')
 
-    cur = con.cursor()
-    query = """
-            SELECT teacher_name
-              FROM course_overview_addinfo
-             WHERE course_id = '{0}';
-            """.format(course_id)
-    cur.execute(query)
-    row = cur.fetchall()
-    cur.close()
-    teacher_list = row[0][0].split(',')
+    course_org = course_index2[0]
+    course_course = course_index2[1]
+    course_run = course_index2[2]
 
-    context['teacher_list'] = teacher_list
+    from django.db import connections
+    from pymongo import MongoClient
+    from bson.objectid import ObjectId
+    from django.utils.translation import ugettext_lazy as _
+    client = MongoClient('172.17.101.117', 27017)
+
+    # db = client.edxapp
+    # cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
+    # pb = cursors.get('versions').get('published-branch')
+    # certifi = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_type": "course"}}})
+    # signatories = certifi.get('blocks')[0].get('fields').get('certificates').get('certificates')[0].get('signatories')[0]
+    # teacher_name = signatories.get('name')
+    # title = signatories.get('title')
+    # organization = signatories.get('organization')
+    # signature_image_path = signatories.get('signature_image_path')
 
     course_index = course_id.split(':')
     course_index = course_index[1].split('+')
