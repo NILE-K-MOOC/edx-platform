@@ -1616,9 +1616,14 @@ class CourseEnrollment(models.Model):
                                 ELSE @RNUM1 :=1  END AS RNUM1
                            , @V_A1 := display_number_with_default as display_number_with_default
                            , @V_B := org as org
-                      FROM course_overviews_courseoverview
-                           , (SELECT @V_A1 := '0',@V_B := '0', @RNUM1 := 0) A
+                      FROM course_overviews_courseoverview coc
+                       join (SELECT @V_A1 := '0',@V_B := '0', @RNUM1 := 0) A
+                       left outer join course_overview_addinfo as coa
+                        on coa.course_id = coc.id
                       where enrollment_start <=  now()
+                        and not exists (
+                        select '1' from student_courseenrollment  tmp  where tmp.course_id = coc.id
+                        and tmp.user_id = %s )
                       order by org, display_number_with_default, start desc
                 ) course
                 join (
