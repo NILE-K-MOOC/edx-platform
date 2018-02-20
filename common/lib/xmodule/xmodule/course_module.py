@@ -290,13 +290,6 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
-    difficult_degree = String(
-        help=_("Y 또는 N을 입력합니다. Y를 입력하면 청강모드를 사용합니다."),
-        default="N",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
     linguistics = String(
         help=_("Select Section name"),
         default="all",
