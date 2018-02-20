@@ -3249,9 +3249,7 @@ def modi_course_period(request):
             cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
             cursor = cursors.get('versions').get('published-branch')
 
-            db.modulestore.structures.update({"_id":ObjectId("5a7179d656c02c49fd923630"), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period_index}});
-
-
+            db.modulestore.structures.update({"_id":ObjectId(cursor), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period_index}});
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
