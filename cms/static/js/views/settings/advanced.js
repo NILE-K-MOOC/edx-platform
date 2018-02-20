@@ -40,22 +40,19 @@ var AdvancedView = ValidatingView.extend({
         // iterate through model and produce key : value editor        // some disabled column for each property in model.get
         var self = this;
 
-        var v_source = [];
-        var v_result = [];
+        var v_source = _.sortBy(_.keys(this.model.attributes), function(key) { return self.model.get(key).display_name; });
+
+        //고급설정의 주제분류 순서 변경 적용건
+        /*
     	var v_compare = ["classfy", "middle_classfy", "classfysub", "middle_classfysub"];
-
-    	v_result = _.sortBy(_.keys(this.model.attributes), function(key) { return self.model.get(key).display_name; });
-        v_source = _.sortBy(_.keys(this.model.attributes));
-
         for (var v in v_compare) {
-            //console.log("data0 : "+ v_compare[v]);
             v_source.splice(v_source.indexOf(v_compare[v]),1);
         }
 
-        // 우선순위 항목 삽입
         for (var v = 0; v < v_compare.length; v++) {
             v_source.splice(v, 0, v_compare[v]);
         }
+        */
 
         _.each(v_source,
             function(key) {

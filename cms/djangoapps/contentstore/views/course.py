@@ -1563,14 +1563,14 @@ def advanced_settings_handler(request, course_key_string):
 
             need_lock_dict = {
                 'deprecated': False,
-                'display_name': '\xea\xb0\x95\xec\xa2\x8c\xec\x9e\xa0\xea\xb8\x88 \xec\x97\xac\xeb\xb6\x80',
+                'display_name': _("is_course_lock"),
                 'help': '',
                 'value': need_lock
             }
 
             audit_yn_dict = {
                 'deprecated': False,
-                'display_name': '\xec\xb2\xad\xea\xb0\x95\xeb\xaa\xa8\xeb\x93\x9c \xec\x97\xac\xeb\xb6\x80',
+                'display_name': _("audit_yn"),
                 'help': '',
                 'value': audit_yn
             }
