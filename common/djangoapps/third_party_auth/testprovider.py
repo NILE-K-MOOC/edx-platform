@@ -7,8 +7,8 @@ class OAuth2(BaseOAuth2):
 
     # callback name
     name = 'test'
-    AUTHORIZATION_URL = 'http://nhi.kr/login'
-    ACCESS_TOKEN_URL = 'http://nhi.kr/token'
+    AUTHORIZATION_URL = 'http://nhi.kr/oauth/login'
+    ACCESS_TOKEN_URL = 'http://nhi.kr/oauth/token'
     SCOPE_SEPARATOR = ','
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
@@ -40,7 +40,7 @@ class OAuth2(BaseOAuth2):
         """Loads user data from service"""
         print '::: test :::  user_data called!!'
 
-        str = self.get_json('http://nhi.kr/info', params={'access_token': access_token})
+        str = self.get_json('http://nhi.kr/oauth/info', params={'access_token': access_token})
 
         try:
             return str
@@ -51,8 +51,11 @@ class OAuth2(BaseOAuth2):
 
         print 'auth_complete called1'
         print self.ACCESS_TOKEN_URL
+        print '----------------------------------------- 1'
         print self.auth_complete_params()
+        print '----------------------------------------- 2'
         print self.auth_headers()
+        print '----------------------------------------- 3'
         print self.ACCESS_TOKEN_METHOD
         print 'auth_complete called2'
 
@@ -63,5 +66,7 @@ class OAuth2(BaseOAuth2):
             method=self.ACCESS_TOKEN_METHOD
         )
         self.process_error(response)
+
+        print '===================================>', response['access_token']
         return self.do_auth(response['access_token'], response=response,
                             *args, **kwargs)
