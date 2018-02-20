@@ -763,10 +763,26 @@ def memo_sync(request):
 @ensure_csrf_cookie
 def comm_list(request, section=None, curr_page=None):
     if request.is_ajax():
+
+        print "--------------------------> comm_list"
+
         page_size = request.POST.get('page_size')
         curr_page = request.POST.get('curr_page')
         search_con = request.POST.get('search_con')
         search_str = request.POST.get('search_str')
+
+        if search_str != '':
+            request.session['search_str'] = search_str
+
+        if search_str == '' and 'search_str' in request.session:
+            search_str = request.session['search_str']
+            del request.session['search_str']
+
+        print "--------------------> search_str [s]"
+        print "search_str = ", search_str
+        if 'search_str' in request.session:
+            print "request.session['search_str'] = ", request.session['search_str']
+        print "--------------------> search_str [e]"
 
         if search_str:
             if search_con == 'title':
@@ -844,6 +860,9 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
 @ensure_csrf_cookie
 def comm_tabs(request, head_title=None):
     if request.is_ajax():
+
+        print "----------------------------->"
+
         search_str = request.POST.get('search_str')
         head_title = request.POST.get('head_title')
 
@@ -892,7 +911,6 @@ def comm_file(request, file_id=None):
 
 
 def comm_notice(request):
-    logging.info("############# - start")
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
