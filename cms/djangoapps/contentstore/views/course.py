@@ -1592,11 +1592,28 @@ def advanced_settings_handler(request, course_key_string):
                 try:
                     # validate data formats and update the course module.
                     # Note: don't update mongo yet, but wait until after any tabs are changed
+                    params = request.json
+
                     is_valid, errors, updated_data = CourseMetadata.validate_and_update_from_json(
                         course_module,
-                        request.json,
+                        params,
                         user=request.user,
                     )
+
+                    try:
+                        audit_yn = params['audit_yn']['value']
+                        audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
+                        with connections['default'].cursor() as cur:
+                            query = """
+                                UPDATE course_overview_addinfo
+                                   SET audit_yn = '{audit_yn}'
+                                 WHERE course_id = '{course_id}';
+                            """.format(audit_yn=audit_yn, course_id=course_key_string)
+                            cur.execute(query)
+                    except Exception as e:
+                        is_valid = False
+                        errors.append({'message': 'audit_yn value is not collect', 'model': None})
+                        print e
 
                     if is_valid:
                         try:

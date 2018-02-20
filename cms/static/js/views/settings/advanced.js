@@ -59,11 +59,8 @@ var AdvancedView = ValidatingView.extend({
 
         _.each(v_source,
             function(key) {
-
                 if(key == 'need_lock')
                     return true;
-
-                console.log(key + ":" + self.renderTemplate(key, self.model.get(key)));
 
                 if (self.render_deprecated || !self.model.get(key).deprecated) {
                     HtmlUtils.append(listEle$, self.renderTemplate(key, self.model.get(key)));
@@ -185,7 +182,16 @@ var AdvancedView = ValidatingView.extend({
         // TODO one last verification scan:
         //    call validateKey on each to ensure proper format
         //    check for dupes
+
         var self = this;
+
+        //audit_yn value validate
+        var v = this.model.get('audit_yn').value;
+        if (v == 'Y' || v == 'y')
+            this.model.get('audit_yn').value = 'Y';
+        else
+            this.model.get('audit_yn').value = 'N';
+
         this.model.save({}, {
             success : function() {
                 self.render();
