@@ -246,6 +246,7 @@
                 } else {
                     this.toggleErrorMsg( true );
                 }
+
                 this.postFormSubmission();
             },
 

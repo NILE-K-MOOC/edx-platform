@@ -23,9 +23,8 @@
             submitButton: '.js-register',
 
             blur_validate: function(event){
-                console.log('blur event !!');
-                this.validate($(event.currentTarget));
-                this.submitForm();
+                console.log($(event.currentTarget).val());
+                console.log($(event.currentTarget).attr('name'));
             },
 
             preRender: function( data ) {
