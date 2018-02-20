@@ -281,8 +281,9 @@
             },
 
             validate: function( $el ) {
+                console.log($el);
                 return EdxUtilsValidate.validate( $el );
-            }
+            },
         });
     });
 }).call(this, define || RequireJS.define);

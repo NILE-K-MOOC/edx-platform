@@ -14,12 +14,18 @@
 
             events: {
                 'click .js-register': 'submitForm',
-                'click .login-provider': 'thirdPartyAuth'
+                'click .login-provider': 'thirdPartyAuth',
+                'blur input': 'blur_validate'
             },
 
             formType: 'register',
 
             submitButton: '.js-register',
+
+            blur_validate: function(event){
+                console.log('blur event !!');
+                this.validate($(event.currentTarget));
+            },
 
             preRender: function( data ) {
                 this.providers = data.thirdPartyAuth.providers || [];
