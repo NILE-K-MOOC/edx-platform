@@ -25,6 +25,7 @@
             blur_validate: function(event){
                 console.log('blur event !!');
                 this.validate($(event.currentTarget));
+                this.submitForm();
             },
 
             preRender: function( data ) {

@@ -801,8 +801,6 @@ def _create_or_rerun_course(request):
         fields['middle_classfy'] = middle_classfy
         middle_classfysub = request.json.get('middle_classfysub')
         fields['middle_classfysub'] = middle_classfysub
-        difficult_degree = request.json.get('difficult_degree')
-        fields['difficult_degree'] = difficult_degree
         linguistics = request.json.get('linguistics')
         fields['linguistics'] = linguistics
         course_period = request.json.get('course_period')
@@ -970,7 +968,6 @@ def _rerun_course(request, org, number, run, fields):
         fields['classfysub'] = source_course.classfysub
         fields['middle_classfy'] = source_course.middle_classfy
         fields['middle_classfysub'] = source_course.middle_classfysub
-        fields['difficult_degree'] = source_course.difficult_degree
         fields['linguistics'] = source_course.linguistics
         fields['course_period'] = source_course.course_period
     except Exception as e:

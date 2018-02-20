@@ -421,6 +421,11 @@ urlpatterns += (
         name='change_enrollment',
     ),
     url(
+        r'^enrollment_verifi',
+        'student.views.enrollment_verifi',
+        name='enrollment_verifi',
+    ),
+    url(
         r'^change_email_settings$',
         'student.views.change_email_settings',
         name='change_email_settings',
