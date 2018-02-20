@@ -7,25 +7,25 @@ import json
 import logging
 import random
 import string  # pylint: disable=deprecated-module
+import sys
+
+import MySQLdb as mdb
+import django.utils
+from ccx_keys.locator import CCXLocator
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.db import connections
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, Http404
 from django.shortcuts import redirect
-import django.utils
 from django.utils.translation import ugettext as _
-from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_http_methods, require_GET
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import Location
-from .component import (
-    ADVANCED_COMPONENT_TYPES,
-)
-from .item import create_xblock_info
-from .library import LIBRARIES_ENABLED
-from ccx_keys.locator import CCXLocator
+
 from contentstore import utils
 from contentstore.course_group_config import (
     COHORT_SCHEME,
@@ -67,9 +67,9 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.programs.utils import get_programs
 from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from openedx.core.lib.course_tabs import CourseTabPluginManager
 from openedx.core.lib.courses import course_image_url
-from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from student import auth
 from student.auth import has_course_author_access, has_studio_write_access, has_studio_read_access
 from student.roles import (
@@ -97,10 +97,11 @@ from xmodule.modulestore import EdxJSONEncoder
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
-import MySQLdb as mdb
-import sys
-from django.db import connections
-
+from .component import (
+    ADVANCED_COMPONENT_TYPES,
+)
+from .item import create_xblock_info
+from .library import LIBRARIES_ENABLED
 
 log = logging.getLogger(__name__)
 
@@ -1201,10 +1202,10 @@ def settings_handler(request, course_key_string):
             short_description_editable = settings.FEATURES.get('EDITABLE_SHORT_DESCRIPTION', True)
             self_paced_enabled = SelfPacedConfiguration.current().enabled
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
             query = """
                  SELECT teacher_name
@@ -1215,10 +1216,10 @@ def settings_handler(request, course_key_string):
             teacher_index = cur.fetchall()
             cur.close()
 
-            if(len(teacher_index) == 1):
+            if (len(teacher_index) == 1):
                 teacher_name = teacher_index[0][0]
             else:
-                teacher_name =""
+                teacher_name = ""
 
             cur = con.cursor()
             query = """
@@ -1230,9 +1231,9 @@ def settings_handler(request, course_key_string):
             created_check = cur.fetchall()
             cur.close()
 
-            if(created_check[0][0] == 1):
+            if (created_check[0][0] == 1):
                 modi_over = True
-            else :
+            else:
                 modi_over = False
 
             difficult_degree_list = course_difficult_degree(request, course_key_string)
@@ -1259,9 +1260,9 @@ def settings_handler(request, course_key_string):
                 'is_entrance_exams_enabled': is_entrance_exams_enabled(),
                 'self_paced_enabled': self_paced_enabled,
                 'enable_extended_course_details': enable_extended_course_details,
-                'course_info_text':course_info_text,
-                'modi_over':modi_over,
-                'difficult_degree_list':difficult_degree_list
+                'course_info_text': course_info_text,
+                'modi_over': modi_over,
+                'difficult_degree_list': difficult_degree_list
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
@@ -1505,8 +1506,6 @@ def _refresh_course_tabs(request, course_module):
 
 
 def course_difficult_degree(request, course_key_string):
-    difficult_degree = None
-    from django.db import connections
     with connections['default'].cursor() as cur:
         query = '''
           SELECT
@@ -1519,8 +1518,9 @@ def course_difficult_degree(request, course_key_string):
         '''
         cur.execute(query)
         rows = cur.fetchall()
-        difficult_degree = {}
-        difficult_degree['degree_list'] = rows
+        difficult_degree = {
+            'degree_list': rows
+        }
         cur.close()
     return difficult_degree
 
@@ -1547,7 +1547,36 @@ def advanced_settings_handler(request, course_key_string):
             need_lock = course_need_lock(request, course_key_string)
             difficult_degree_list = course_difficult_degree(request, course_key_string)
             advanced_dict = CourseMetadata.fetch(course_module)
-            advanced_dict['need_lock'] = need_lock
+
+            # difficult_degree setting
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT audit_yn
+                      FROM course_overview_addinfo
+                     WHERE course_id = '{course_id}';
+                """.format(course_id=course_key_string)
+                cur.execute(query)
+                audit_yn = cur.fetchone()[0]
+
+            if not audit_yn:
+                audit_yn = 'N'
+
+            need_lock_dict = {
+                'deprecated': False,
+                'display_name': '\xea\xb0\x95\xec\xa2\x8c\xec\x9e\xa0\xea\xb8\x88 \xec\x97\xac\xeb\xb6\x80',
+                'help': '',
+                'value': need_lock
+            }
+
+            audit_yn_dict = {
+                'deprecated': False,
+                'display_name': '\xec\xb2\xad\xea\xb0\x95\xeb\xaa\xa8\xeb\x93\x9c \xec\x97\xac\xeb\xb6\x80',
+                'help': '',
+                'value': audit_yn
+            }
+
+            advanced_dict['audit_yn'] = audit_yn_dict
+            advanced_dict['need_lock'] = need_lock_dict
 
             return render_to_response('settings_advanced.html', {
                 'context_course': course_module,

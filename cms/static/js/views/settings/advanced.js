@@ -42,7 +42,7 @@ var AdvancedView = ValidatingView.extend({
 
         var v_source = [];
         var v_result = [];
-    	var v_compare = ["classfy", "middle_classfy", "classfysub", "middle_classfysub", "difficult_degree"];
+    	var v_compare = ["classfy", "middle_classfy", "classfysub", "middle_classfysub"];
 
     	v_result = _.sortBy(_.keys(this.model.attributes), function(key) { return self.model.get(key).display_name; });
         v_source = _.sortBy(_.keys(this.model.attributes));
@@ -59,6 +59,12 @@ var AdvancedView = ValidatingView.extend({
 
         _.each(v_source,
             function(key) {
+
+                if(key == 'need_lock')
+                    return true;
+
+                console.log(key + ":" + self.renderTemplate(key, self.model.get(key)));
+
                 if (self.render_deprecated || !self.model.get(key).deprecated) {
                     HtmlUtils.append(listEle$, self.renderTemplate(key, self.model.get(key)));
                 }
@@ -180,10 +186,6 @@ var AdvancedView = ValidatingView.extend({
         //    call validateKey on each to ensure proper format
         //    check for dupes
         var self = this;
-        var x = this.model.get("difficult_degree");
-        if (x['value'].replace('"','').replace('"','') != $('#txtfixid').text().trim().replace('"','').replace('"','')) {
-            this.model.set('difficult_degree', {value: $('#txtfixid').text().trim()});
-        }
         this.model.save({}, {
             success : function() {
                 self.render();
