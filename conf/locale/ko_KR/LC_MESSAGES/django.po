@@ -30055,3 +30055,9 @@ msgstr "이동"
 msgid "Series Education Certificate"
 msgstr "시리즈 교육 확인증"
 
+msgid "is_course_lock"
+msgstr "강좌잠금 여부"
+
+msgid "audit_yn"
+msgstr "청강모드 여부"
+
