@@ -28,23 +28,56 @@
                 var target_value = $(event.currentTarget).val();
                 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 var email = target_value;
-
-                if (check_index == 'email' && !re.test(target_value)) {
-                    $('.email').remove();
-                    $('.submission-error h4').attr('class','hidden');
-                    $('.submission-error').removeClass('hidden');
-                    $('#'+target_id).attr('class','error');
-                    $('#'+target_id).prev().attr('class','error');
-                    $('.submission-error ul').append('<li class="error_flag email">이메일 주소 포맷이 잘 못 되었습니다.</li>');
+                if(check_index == 'email') {
+                    $.ajax({
+                        url: '/registration_check',
+                        type: 'POST',
+                        data: { email: $('#register-email').val() , username: undefined},
+                        success: function(errors) {
+                            if(typeof errors.success == 'undefined') {
+                                $('.email').remove();
+                                $('.submission-error h4').attr('class','hidden');
+                                $('.submission-error').removeClass('hidden');
+                                $('#'+target_id).attr('class','error');
+                                $('#'+target_id).prev().attr('class','error');
+                                $('.submission-error ul').append('<li class="error_flag email">'+errors.error+'</li>');
+                            }
+                        },
+                    });
                 }
-                else if(check_index == 'email' && target_value == '') {
+                if(check_index == 'username') {
+                    $.ajax({
+                        url: '/registration_check',
+                        type: 'POST',
+                        data: { email: undefined , username: $('#register-username').val()},
+                        success: function(errors) {
+                            if(typeof errors.success == 'undefined') {
+                                $('.username').remove();
+                                $('.submission-error h4').attr('class', 'hidden');
+                                $('.submission-error').removeClass('hidden');
+                                $('#' + target_id).attr('class', 'error');
+                                $('#' + target_id).prev().attr('class', 'error');
+                                $('.submission-error ul').append('<li class="error_flag username">' + errors.error + '</li>');
+                            }
+                        },
+                    });
+                }
+
+                if(check_index == 'email' && target_value == '') {
                     $('.email').remove();
                     $('.submission-error h4').attr('class','hidden');
                     $('.submission-error').removeClass('hidden');
                     $('#'+target_id).attr('class','error');
                     $('#'+target_id).prev().attr('class','error');
                     $('.submission-error ul').append('<li class="error_flag email">이메일(Email) 항목을 입력해 주십시요.</li>');
-
+                }
+                else if(check_index == 'email' && !re.test(target_value)) {
+                    $('.email').remove();
+                    $('.submission-error h4').attr('class','hidden');
+                    $('.submission-error').removeClass('hidden');
+                    $('#'+target_id).attr('class','error');
+                    $('#'+target_id).prev().attr('class','error');
+                    $('.submission-error ul').append('<li class="error_flag email">이메일 주소 포맷이 잘 못 되었습니다.</li>');
                 }
                 else if( check_index == 'email' ) {
                     $('#'+target_id).removeClass('error');
@@ -72,6 +105,14 @@
                     $('#'+target_id).prev().attr('class','error');
                     $('.submission-error ul').append('<li class="error_flag username">아이디(Username) 항목을 입력해 주십시요.</li>');
                 }
+                else if(check_index == 'username' && target_value.length < 2) {
+                    $('.username').remove();
+                    $('.submission-error h4').attr('class','hidden');
+                    $('.submission-error').removeClass('hidden');
+                    $('#'+target_id).attr('class','error');
+                    $('#'+target_id).prev().attr('class','error');
+                    $('.submission-error ul').append('<li class="error_flag username">아이디(Username) 항목은 적어도 2 개 이상의 문자를 입력해야 합니다.</li>');
+                }
                 else if(check_index == 'username') {
                     $('#'+target_id).removeClass('error');
                     $('#'+target_id).prev().removeClass('error');
@@ -92,6 +133,22 @@
                     }
 
                     $('.submission-error ul').append('<li class="error_flag password2">비밀번호(Password) 항목을 입력해 주십시요.</li>');
+                }
+                else if((check_index == 'password2' && target_value.length < 2) || (check_index == 'password' && target_value.length < 2)) {
+                    $('.password2').remove();
+                    $('.submission-error h4').attr('class','hidden');
+                    $('.submission-error').removeClass('hidden');
+                    $('.js-register').attr('disabled',true);
+                    if(check_index == 'password') {
+                        $('#'+target_id).addClass('error');
+                        $('#'+target_id).prev().addClass('error');
+                    }
+                    else if(check_index == 'password2') {
+                        $('#'+target_id).addClass('error');
+                        $('#'+target_id).prev().prev().addClass('error');
+                    }
+
+                    $('.submission-error ul').append('<li class="error_flag password2">비밀번호(Password) 항목은 적어도 2 개 이상의 문자를 입력해야 합니다.</li>');
                 }
 
                 else if ((check_index == 'password2' &&  $('#register-password').val() != target_value) || (check_index == 'password' &&  $('#register-password2').val() != target_value)){
