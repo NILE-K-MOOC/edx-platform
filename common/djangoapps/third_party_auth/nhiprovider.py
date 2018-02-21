@@ -8,6 +8,7 @@ class OAuth2(BaseOAuth2):
     name = 'nhi'
     AUTHORIZATION_URL = 'http://e-learning.nhi.go.kr/external/kmooc.do'
     ACCESS_TOKEN_URL = 'https://policy.nhi.go.kr/oauth2/token.do'
+    USER_INFO_URL = 'https://policy.nhi.go.kr/oauth2/token.do'
     SCOPE_SEPARATOR = ','
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
@@ -19,16 +20,18 @@ class OAuth2(BaseOAuth2):
     def get_user_details(self, response):
         """Return user details from Github account"""
         jsonString = dict()
-        jsonString['login'] = response.get('user_id')
+        jsonString['login'] = response.get('user_no')
         jsonString['email'] = response.get('email')
-        jsonString['name'] = response.get('name')
-        jsonString['id'] = response.get('id')
+        jsonString['name'] = response.get('user_nm')
+        jsonString['id'] = response.get('user_no')
 
         return json.loads(json.dumps(jsonString))
 
     def user_data(self, access_token, *args, **kwargs):
-        """Loads user data from service"""
-        str = self.get_json('https://policy.nhi.go.kr/oauth2/token.do', params={'access_token': access_token, 'grant_type': 'access_token_identify2'})
+        data = self.auth_complete_params()
+        str = self.get_json(self.USER_INFO_URL, method='POST',
+                            params={'access_token': access_token, 'grant_type': 'access_token_identify2', 'scope': 'http://sso.nhi.go.kr', 'client_id': data['client_id'], 'client_secret': data['client_secret'], 'client_ip': ''})
+        str['id'] = str['user_no']
 
         try:
             return str
@@ -46,6 +49,5 @@ class OAuth2(BaseOAuth2):
             method=self.ACCESS_TOKEN_METHOD
         )
 
-        # self.process_error(response)
         return self.do_auth(response['access_token'], response=response,
                             *args, **kwargs)
