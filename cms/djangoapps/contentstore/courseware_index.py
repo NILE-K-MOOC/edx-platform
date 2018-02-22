@@ -614,7 +614,6 @@ class CourseAboutSearchIndexer(object):
             'classfysub': course.classfysub,                    # Maeng Ilhee add
             'middle_classfy': course.middle_classfy,
             'middle_classfysub': course.middle_classfysub,      # mih add
-            'difficult_degree': course.difficult_degree,        # mih add
             'linguistics': course.linguistics,
             'course_period': course.course_period,
         }
