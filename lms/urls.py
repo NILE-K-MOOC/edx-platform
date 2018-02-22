@@ -183,6 +183,7 @@ if settings.FEATURES["ENABLE_COMBINED_LOGIN_REGISTRATION"]:
         url(r'^register$', 'student_account.views.login_and_registration_form',
             {'initial_mode': 'register'}, name="register_user"),
         url(r'^registration_gubn$', 'student_account.views.registration_gubn', name="registration_gubn"),
+        url(r'^registration_check$', 'student_account.views.registration_check', name="registration_check"),
         url(r'^agree$', 'student_account.views.agree', name="agree"),
         url(r'^agree_done$', 'student_account.views.agree_done', name="agree_done"),
         url(r'^parent_agree$', 'student_account.views.parent_agree', name="parent_agree"),
@@ -419,6 +420,11 @@ urlpatterns += (
         r'^change_enrollment$',
         'student.views.change_enrollment',
         name='change_enrollment',
+    ),
+    url(
+        r'^enrollment_verifi',
+        'student.views.enrollment_verifi',
+        name='enrollment_verifi',
     ),
     url(
         r'^change_email_settings$',

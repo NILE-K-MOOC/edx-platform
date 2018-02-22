@@ -2208,6 +2208,37 @@ def change_enrollment(request, check_access=True):
         return HttpResponseBadRequest(_("Enrollment action is invalid"))
 
 
+@transaction.non_atomic_requests
+@require_POST
+@outer_atomic(read_committed=True)
+def enrollment_verifi(request):
+    course_id = request.POST.get('course_id')
+    user_id = request.POST.get('user_id')
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+
+    cur = con.cursor()
+    query = """
+            INSERT INTO student_courseenrollment(user_id,
+                                                 course_id,
+                                                 created,
+                                                 is_active,
+                                                 mode)
+                 VALUES ('{0}',
+                         '{1}',
+                         now(),
+                         TRUE,
+                         'audit')
+       """.format(user_id, course_id)
+    cur.execute(query)
+    con.commit()
+
+    return HttpResponse()
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):  # pylint: disable=too-many-statements,unused-argument

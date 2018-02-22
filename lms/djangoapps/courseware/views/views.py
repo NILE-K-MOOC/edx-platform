@@ -1477,6 +1477,21 @@ def course_about(request, course_id):
         cur.close()
         pre_course = pre_course_index
 
+
+        cur = con.cursor()
+        query = """
+            SELECT audit_yn
+              FROM course_overview_addinfo
+             WHERE course_id = '{0}';
+        """.format(course_id)
+
+        cur.execute(query)
+        audit_index = cur.fetchall()
+        cur.close()
+        audit_flag = audit_index[0][0]
+
+
+
         context = {
             'course': course,
             'course_details': course_details,
@@ -1524,6 +1539,7 @@ def course_about(request, course_id):
             'login_status' : login_status,
             'flag' : flag,
             'pre_course':pre_course,
+            'audit_flag':audit_flag,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 

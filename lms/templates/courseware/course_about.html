@@ -455,6 +455,7 @@ a:hover + p.arrow_box {
             </div> -->
         </div>
         <div class="main-cta">
+
         %if user.is_authenticated() and registered:
           %if show_courseware_link:
             <a href="${course_target}">
@@ -480,8 +481,11 @@ a:hover + p.arrow_box {
         ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
         ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
         ## so that they can register and become a real user that can enroll.
-        % elif not is_shib_course and not can_enroll:
+        % elif not is_shib_course and not can_enroll and audit_flag == 'N':
           <span class="register disabled" style="float: right">${_("Enrollment is Closed")}</span>
+        % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
+          <a class="register" id="audit_mode" style="float: right">${_("Enrollment")}!</a>
+
         % elif not is_shib_course and course.start_date_is_still_default:
             <span class="register disabled" style="float: right">${_("Starting Soon")}</span>
 
@@ -673,6 +677,17 @@ a:hover + p.arrow_box {
             $( "#pre_course" ).change(function() {
                 location.href ='/courses/'+$( "#pre_course").val()+'/about';
             });
+
+            $("#audit_mode").click(function(event) {
+              $.post('/enrollment_verifi', {
+                    course_id: '${course.id}',
+                    user_id: '${user.id}'
+                },
+                function (data) {
+                    location.href = "/dashboard";
+                }
+            );
+          });
         </script>
 
       ## CourseTalk widget

@@ -37,7 +37,7 @@
                 console.log('initialize1');
 
                 console.log(data);
-
+                $('.js-register').attr('disabled',true);
                 this.model = data.model;
                 this.preRender( data );
 
@@ -227,7 +227,7 @@
             },
 
             submitForm: function( event ) {
-
+                $('.submission-error h4').removeClass('hidden');
                 var data = this.getFormData();
                 if (!_.isUndefined(event)) {
                     event.preventDefault();
@@ -281,8 +281,9 @@
             },
 
             validate: function( $el ) {
+                console.log($el);
                 return EdxUtilsValidate.validate( $el );
-            }
+            },
         });
     });
 }).call(this, define || RequireJS.define);

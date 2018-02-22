@@ -68,6 +68,7 @@ from pymongo import MongoClient
 from django.db import connections
 import ast
 import urllib
+from openedx.core.djangoapps.user_api.accounts.api import check_account_exists
 
 
 # def job():
@@ -370,6 +371,50 @@ def login_and_registration_form(request, initial_mode="login"):
     }
 
     return render_to_response('student_account/login_and_register.html', context)
+
+def registration_check(request):
+    data = request.POST.copy()
+    email = data.get('email')
+    username = data.get('username')
+
+    # Handle duplicate email/username
+    conflicts = check_account_exists(email=email, username=username)
+    check_index = len(conflicts)
+    if conflicts:
+        conflict_messages = {
+            "email": _(
+                # Translators: This message is shown to users who attempt to create a new
+                # account using an email address associated with an existing account.
+                u"It looks like {email_address} belongs to an existing account. "
+                u"Try again with a different email address."
+            ).format(email_address=email),
+            "username": _(
+                # Translators: This message is shown to users who attempt to create a new
+                # account using a username associated with an existing account.
+                u"It looks like {username} belongs to an existing account. "
+                u"Try again with a different username."
+            ).format(username=username),
+        }
+        errors = {
+            field: [{"user_message": conflict_messages[field]}]
+            for field in conflicts
+        }
+        # email = (errors['email'][0])['user_message']
+        # username = (errors['username'][0])['user_message']
+        print 'output index ==================='
+
+        for field in conflicts :
+            if field == 'email' :
+                errors = ((errors['email'][0])['user_message'])
+            if field == 'username' :
+                errors = ((errors['username'][0])['user_message'])
+
+        print 'output index ==================='
+        return JsonResponse({"error": errors})
+
+    response = JsonResponse({"success": True})
+    return response
+
 
 # -------------------- nice check -------------------- #
 @csrf_exempt
