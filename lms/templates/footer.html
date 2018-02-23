@@ -18,25 +18,7 @@ from branding.api import get_footer
             % endif
     >
 
-        <script type="text/javascript">
-            function fPopup(type) {
-                var w = 500;
-                var h = 700;
-                var url, name;
-
-                if (type == 'e') {
-                    url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=e&code=2017-R099';
-                    name = 'e';
-                } else {
-                    url = 'https://www.eprivacy.or.kr:40018/seal/mark.jsp?mark=i&code=2016-R053';
-                    name = 'i';
-                }
-                var x = (screen.availWidth / 2) - (w / 2);
-                var y = (screen.availHeight / 2) - (h / 2);
-                window.open(url, name, "toolbar=no,resizable=yes,scrollbars=yes,status=no,location=no,left=" + x + ",top=" + y + ",width=" + w + ",height=" + h);
-            }
-        </script>
-
+        <script type="text/javascript" src="https://www.eprivacy.or.kr:40018/seal/mark.js"></script>
         <div class="colophon">
             <!--
             <div class="wrapper-logo">
@@ -147,8 +129,8 @@ from branding.api import get_footer
 
                     <!-- <a href="#"><img alt="2016년 행복교육 정부3.0 우수사례 경진대회 동상" src="/static/images/gov_3_best.gif" style="width: 50px;"></a> -->
                     <a href="http://wa.or.kr/board/list.asp?BoardID=0006" target="_blank" title="새창으로 열림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크"/></a>
-                    <a href="javascript:fPopup('e');" title="새창으로 열림"><img src="/static/images/common/footer_icon04.png" alt="개인정보보호마크"/></a>
-                    <a href="javascript:fPopup('i');" title="새창으로 열림"><img src="/static/images/common/footer_icon05.png" alt="인터넷사이트안전마크"/></a>
+                    <a href="javascript:markPopupE('2017-R099');" title="새창으로 열림"><img src="https://www.eprivacy.or.kr:40018/seal/mark_e.gif" alt="개인정보보호마크" style="max-width: 50px; margin-top: 5px;"/></a>
+                    <a href="javascript:markPopupI('2018-R001');" title="새창으로 열림"><img src="https://www.eprivacy.or.kr:40018/seal/mark_i.gif" alt="인터넷사이트안전마크" style="max-width: 50px; margin-top: 5px;"/></a>
                 </div>
             </div>
         </div>
