@@ -13196,7 +13196,7 @@ msgstr "강좌 학점을 요구하기 위한 정보"
 
 #: lms/templates/courseware/progress.html
 msgid "display_name"
-msgstr "display_name"
+msgstr "표시될 이름"
 
 #: lms/templates/courseware/progress.html
 msgid "Verification Submitted"
@@ -30061,3 +30061,23 @@ msgstr "강좌잠금 여부"
 msgid "audit_yn"
 msgstr "청강모드 여부"
 
+msgid "Maximum score"
+msgstr "최고 점"
+
+msgid "Your score is"
+msgstr "점수: "
+
+msgid "Instructor comment"
+msgstr "교수자 코멘트: "
+
+msgid "K-MOOC Staff Graded Assignment"
+msgstr "K-MOOC 운영팀 평가 문항"
+
+msgid "Maximum grade score given to assignment by staff."
+msgstr "입력 가능한 최대 점수"
+
+msgid ""
+"Defines the number of points each problem is worth. "
+"If the value is not set, the problem is worth the sum of the "
+"option point values."
+msgstr "각 문제의 가치가있는 점수의 수를 정의합니다. 값을 설정하지 않으면 문제는 옵션 포인트 값의 합계가됩니다."
