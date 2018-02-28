@@ -73,12 +73,7 @@ from django.template.defaultfilters import escapejs
                     </button>
                     %endif
 
-                    %if badge:
-                    <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
-                        <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
-                        ${_("Add to Mozilla Backpack")}
-                    </button>
-                    %endif
+
                     <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
                     <input type="radio" name="radio" checked="checked" value="K"> 한국어
                     <input type="radio" name="radio" value="E"> 영어 <input type="text" id="e_name" style="color: black"><br>
@@ -96,6 +91,13 @@ from django.template.defaultfilters import escapejs
                     % if nice_check_flag == 0:
                         <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
                             본인인증
+                        </button>
+                    %endif
+
+                    %if badge:
+                        <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
+                            <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
+                            ${_("Add to Mozilla Backpack")}
                         </button>
                     %endif
 
