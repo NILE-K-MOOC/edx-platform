@@ -23,7 +23,7 @@ def certificate_print(request):
     strHtmlData = '''
             <HTML>
             <HEAD>
-            <TITLE>소득공제 사용금액 확인서</TITLE>
+            <TITLE>KMOOC 이수증</TITLE>
             <META http-equiv=Content-Type content="text/html; charset=utf-8">
             <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
             </HEAD>
@@ -33,11 +33,15 @@ def certificate_print(request):
             </HTML>
     '''.format(print_index=print_index)
 
+    strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
+
+
+    if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
+        strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
+
     print 'strHtmlData ---------------------------------------------- s'
     print strHtmlData
     print 'strHtmlData ---------------------------------------------- e'
-
-    strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
 
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
 

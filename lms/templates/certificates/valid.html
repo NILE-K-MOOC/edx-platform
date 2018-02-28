@@ -16,7 +16,6 @@
 </div>
 <script>
     $('input[type=radio][name=radio]').change(function() {
-        console.log('checked!!!!');
         if (this.value == 'K') {
             $('#printArea_K').css("display","");
             $('#printArea_E').css("display","none");
@@ -31,8 +30,8 @@
 
     $('#checkbox1').change(function() {
         if($(this).is(":checked")) {
-            $('#k_box1').css("visibility","")
-            $('#e_box1').css("visibility","")
+            $('#k_box1').css("visibility","visible")
+            $('#e_box1').css("visibility","visible")
         }else{
             $('#k_box1').css("visibility","hidden")
             $('#e_box1').css("visibility","hidden")
@@ -97,14 +96,11 @@
         }
     });
     $('#e_name').change(function() {
-        console.log($('#e_name').val())
-
         if (($('#e_name_text').text()).indexOf('(identification member)') >= 0){
             $('#e_name_text').text($('#e_name').val() + ' (identification member)');
         }
         else {
             $('#e_name_text').text($('#e_name').val());
         }
-
     });
 </script>
