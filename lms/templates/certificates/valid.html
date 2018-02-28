@@ -96,4 +96,15 @@
             }
         }
     });
+    $('#e_name').change(function() {
+        console.log($('#e_name').val())
+
+        if (($('#e_name_text').text()).indexOf('(identification member)') >= 0){
+            $('#e_name_text').text($('#e_name').val() + ' (identification member)');
+        }
+        else {
+            $('#e_name_text').text($('#e_name').val());
+        }
+
+    });
 </script>
