@@ -94,17 +94,17 @@ ul, .list-bulleted{
 h5{margin:0;}
 
 .t-center{
-    float:right;
     display:inline-block;
     margin-left: 34px;
     width:99px;
+	float: right;
 }
 .t-sign{
     margin-bottom: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid #333;
 }
-.t-center:last-child{
+.t-center:first-child{
     margin-left:0;
 }
 .t-center h5{
@@ -113,7 +113,7 @@ h5{margin:0;}
 }
 
 .ce-bg{
-	background:url(${static_url}/static/images/bg.png) no-repeat;
+	background:url(http://172.17.101.228:8000/static/images/bg.png) no-repeat;
 	width: 643px;
     height: 232px;
     display: inline-block;
@@ -151,9 +151,10 @@ h5{margin:0;}
 
 .sign-area{
     display:inline-block;
+	width:100%;
 }
 .sign-area-depth1, .sign-area-depth2{
-    display:inline-block;
+    display:block;
     height:80px;
     width: 100%;
 }
@@ -194,7 +195,6 @@ h5{margin:0;}
     margin-top: 20px;
 }
 </style>
-
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <main id="printArea_K" class="accomplishment accomplishment-main"
@@ -259,26 +259,26 @@ h5{margin:0;}
                                 %if cnt == 5:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    <%
+                                    teacher = signatory['name']
+                                    if teacher.find('(') == -1 :
+                                        teacher = teacher +'('+ teacher
+                                    teacher = teacher.split('(')
+                                    title_k = signatory['title'].split('(')
+
+                                    organization_k = signatory['organization']
+                                    if organization_k.find('(') == -1 :
+                                        organization_k = organization_k +'('+ organization_k
+                                    organization_k = organization_k.split('(')
+                                    %>
+                                    <div class="t-center">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <h5>${teacher[0]} ${title_k[0]}</h5>
+                                        <h5>${organization_k[0]}</h5>
+                                        <h5>${classfy_k}</h5>
+                                    </div>
                                 %endif
                             %endfor
-                            <%
-                            teacher = signatory['name']
-                            if teacher.find('(') == -1 :
-                                teacher = teacher +'('+ teacher
-                            teacher = teacher.split('(')
-                            title_k = signatory['title'].split('(')
-
-                            organization_k = signatory['organization']
-                            if organization_k.find('(') == -1 :
-                                organization_k = organization_k +'('+ organization_k
-                            organization_k = organization_k.split('(')
-                            %>
-                                <div class="t-center">
-                                    <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
-                                    <h5>${teacher[0]} ${title_k[0]}</h5>
-                                    <h5>${organization_k[0]}</h5>
-                                    <h5>${classfy_k}</h5>
-                                </div>
                         % endfor
                         </div>
                     % endif
@@ -365,25 +365,25 @@ h5{margin:0;}
                                 %if cnt == 5:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    <%
+                                    teacher = signatory['name']
+                                    if teacher.find('(') == -1 :
+                                        teacher = teacher +'('+ teacher
+                                    teacher = teacher.split('(')
+                                    title_k = signatory['title'].split('(')
+                                    organization_k = signatory['organization']
+                                    if organization_k.find('(') == -1 :
+                                        organization_k = organization_k +'('+ organization_k
+                                    organization_k = organization_k.split('(')
+                                    %>
+                                    <div class="t-center">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <h5>${teacher[1].replace(')','')}</h5>
+                                        <h5>${organization_k[1].replace(')','')}</h5>
+                                        <h5>${classfy_e}</h5>
+                                    </div>
                                 %endif
                             %endfor
-                            <%
-                            teacher = signatory['name']
-                            if teacher.find('(') == -1 :
-                                teacher = teacher +'('+ teacher
-                            teacher = teacher.split('(')
-                            title_k = signatory['title'].split('(')
-                            organization_k = signatory['organization']
-                            if organization_k.find('(') == -1 :
-                                organization_k = organization_k +'('+ organization_k
-                            organization_k = organization_k.split('(')
-                            %>
-                                <div class="t-center">
-                                    <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
-                                    <h5>${teacher[1].replace(')','')}</h5>
-                                    <h5>${organization_k[1].replace(')','')}</h5>
-                                    <h5>${classfy_e}</h5>
-                                </div>
                         % endfor
                         </div>
                     % endif
