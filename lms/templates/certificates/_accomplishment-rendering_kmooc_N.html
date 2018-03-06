@@ -5,6 +5,9 @@ accomplishment_course_title =  accomplishment_copy_course_name
 if certificate_data and certificate_data.get('course_title', ''):
     accomplishment_course_title =  certificate_data.get('course_title', '')
 course_mode_class = course_mode if course_mode else ''
+print 'Test~~~~'
+if accomplishment_course_title.find('(') == -1 :
+    accomplishment_course_title = accomplishment_course_title + '(' + accomplishment_course_title
 accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
 %>
 
@@ -202,9 +205,16 @@ h5{margin:0;}
                                 %endif
                             %endfor
                             <%
-                            teacher = signatory['name'].split('(')
+                            teacher = signatory['name']
+                            if teacher.find('(') == -1 :
+                                teacher = teacher +'('+ teacher
+                            teacher = teacher.split('(')
                             title_k = signatory['title'].split('(')
-                            organization_k = signatory['organization'].split('(')
+
+                            organization_k = signatory['organization']
+                            if organization_k.find('(') == -1 :
+                                organization_k = organization_k +'('+ organization_k
+                            organization_k = organization_k.split('(')
                             %>
                                 <div class="t-center">
                                     <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
@@ -230,13 +240,6 @@ h5{margin:0;}
 
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='../static_content.html'/>
-<%
-accomplishment_course_title =  accomplishment_copy_course_name
-if certificate_data and certificate_data.get('course_title', ''):
-    accomplishment_course_title =  certificate_data.get('course_title', '')
-course_mode_class = course_mode if course_mode else ''
-accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
-%>
 
 
 ## <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -252,7 +255,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
             <div class="ce-bg"></div>
 
             <div class="ribbon">
-                <img src="${static_url}/static/images/ribbon.png"/>
+                <img src="${static_url}/static/images/e_ribbon.png"/>
             </div>
 
             <div class="content">
@@ -265,9 +268,9 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <h5 class="ce-t-gray">NAME</h5>
 
                 % if nice_check_flag == 0:
-                <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+                <h4 class="ce-txt-second"><p id="e_name_text">${accomplishment_copy_name}</p></h4>
                 %else:
-                <h4 class="ce-txt-second">${accomplishment_copy_name} (identification member)</h4>
+                <h4 class="ce-txt-second"><p id="e_name_text">${accomplishment_copy_name} (identification member)</p></h4>
                 %endif
 
                 <h5 class="ce-t-gray">COURSE</h5>
@@ -309,9 +312,15 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                                 %endif
                             %endfor
                             <%
-                            teacher = signatory['name'].split('(')
+                            teacher = signatory['name']
+                            if teacher.find('(') == -1 :
+                                teacher = teacher +'('+ teacher
+                            teacher = teacher.split('(')
                             title_k = signatory['title'].split('(')
-                            organization_k = signatory['organization'].split('(')
+                            organization_k = signatory['organization']
+                            if organization_k.find('(') == -1 :
+                                organization_k = organization_k +'('+ organization_k
+                            organization_k = organization_k.split('(')
                             %>
                                 <div class="t-center">
                                     <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
@@ -326,7 +335,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <!-- 로고 -->
                 <div class="ce-logo-area">
                     <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="로고이미지">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
+                    <div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="국평원"></div>
                 </div>
             </div>
         </div>
