@@ -2098,6 +2098,10 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
     from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
     overview = CourseOverview.objects.get(id=course_id)
 
+    print 'mongo info --------------------------------------- s'
+    print settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'), str(course_id)
+    print 'mongo info --------------------------------------- e'
+
     from pymongo import MongoClient
     with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
         db = client.cs_comments_service_development
@@ -2151,10 +2155,10 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
 
                         comment_depth_0.remove(c1)
 
-        rows = list()
+        rows2 = list()
         for t in rows:
             student = User.objects.select_related('profile').get(id=t['author_id'])
-            rows.append([str(course_id), student.username, student.email, student.profile.name, t['title'], t['body'], t['created_at']])
+            rows2.append([str(course_id), student.username, student.email, student.profile.name, t['title'], t['body'], t['created_at']])
 
     # add log_action : get_contents_view
 
@@ -2167,7 +2171,7 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
     #     change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
     # )
 
-    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_view.csv', header, rows)
+    return csv_response(course_id.to_deprecated_string().replace('/', '-') + '-student_contents_view.csv', header, rows2)
 
 
 @require_POST
