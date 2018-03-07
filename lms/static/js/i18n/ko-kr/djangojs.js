@@ -1882,6 +1882,8 @@
     "Use a timed exam to limit the time learners can spend on problems in this subsection. Learners must submit answers before the time expires. You can allow additional time for individual learners through the Instructor Dashboard.": "\uc2dc\uac04\uc774 \uc9c0\uc815\ub41c \uc2dc\ud5d8\uc744 \uc0ac\uc6a9\ud558\uc5ec \uc2dc\ud5d8 \uc2dc\uac04\uc744 \uc81c\ud55c \ud558\uc2ed\uc2dc\uc624\u002e \ud559\uc2b5\uc790\ub294 \uc2dc\uac04\uc774 \ub9cc\ub8cc\ub418\uae30 \uc804\uc5d0 \uc751\ub2f5\uc744 \uc81c\ucd9c\ud574\uc57c\ud569\ub2c8\ub2e4\u002e",
     "Select a time allotment for the exam. If it is over 24 hours, type in the amount of time. You can grant individual learners extra time to complete the exam through the Instructor Dashboard.": "\uc2dc\ud5d8\uc5d0 \ub300\ud55c \uc2dc\uac04 \uc120\ud0dd\u0028\uc785\ub825\u0029\ud558\uc2ed\uc2dc\uc624\u002e \uad50\uc218\uc790 \ub300\uc2dc \ubcf4\ub4dc\ub97c \ud1b5\ud574 \uac1c\ubcc4 \ud559\uc2b5\uc790\uc5d0\uac8c \ucd94\uac00 \uc2dc\uac04\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4\u002e",
     "By default, submitted exams are available for review after the due date has passed. Select this option to keep exams hidden after that date.": "\uc2dc\ud5d8\uc740 \ub9c8\uac10\uc77c \uc774\ud6c4 \uac80\ud1a0\uac00 \uac00\ub2a5\ud569\ub2c8\ub2e4\u002e \uc81c\ucd9c \uae30\ud55c \uc774\ud6c4\uc5d0 \uc2dc\ud5d8\uc744 \uc228\uae30\ub824\uba74\uc774 \uc635\uc158\uc744 \uc120\ud0dd\ud558\uc2ed\uc2dc\uc624\u002e",
+    "No exam results found.": "\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
+    //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
 
     "": "\uc5c6\uc74c"
   };
