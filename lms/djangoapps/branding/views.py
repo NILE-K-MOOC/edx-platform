@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.views.decorators.cache import cache_control
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponseRedirect
 from django.utils import translation
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
