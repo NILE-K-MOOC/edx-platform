@@ -29,6 +29,8 @@
                 console.log((this.options.sections).length);
                 console.log('check 1 --------------------------- e');
 
+                console.log("tab_gubun---------------> ", tab_gubun);
+
                 if(tab_gubun == 1){
 
                     var subject = '<div class="account-settings-sections" id="tmp"><h3 class="section-header" title="check_title_멀티사이트 연동 계정">멀티사이트 연동 계정</h3></div>' +
@@ -76,30 +78,6 @@
                             }
                         }
                     });
-
-                    /*
-                    var html = ''+
-                        '<div class="a" style="margin-right: 20px; margin-bottom:50px; background-color:#dde4e8; width:30%; padding:20px; position:none; float:left;">\n'+
-                            '<div class="b" style="font-weight: bold; text-align: center;margin-bottom: 20px;">\n'+
-                              '네이버\n'+
-                            '</div>\n'+
-                            '<div class="c" style="text-align: center;margin-bottom: 20px;">\n'+
-                              '해당 기관에 연동된 이메일은 93immm@naver.com 입니다\n'+
-                            '</div>\n'+
-                            '<button type="button" class="btn" style="border: 1px solid #0079bc;width: 100%;">연동 해제</button>\n'+
-                        '</div>\n'+
-
-                        '<div class="line">\n'+
-                        '</div>';
-
-
-                    $('.multisite_inner').append(html);
-                    $('.multisite_inner').append(html);
-                    $('.multisite_inner').append(html);
-                    $('.multisite_inner').append(html);
-                    $('.multisite_inner').append(html);
-                    $('.multisite_inner').append(html);
-                    */
                 }
                 if(tab_gubun == 2) {
                     $('#tmp').remove();
