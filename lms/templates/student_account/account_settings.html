@@ -33,13 +33,41 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 </form>
 <!-- nice check -->
 
+<script>
+function multisite(obj){
+    msg = "정말 계정 연동을 해제하시겠습니까?";
+    if (confirm(msg)!=0) {
+        var org = $(obj).attr('id');
+        var user_id = $('#user_id').text();
+
+        $.post( "/multisite_delete_api", {
+            org: org,
+            user_id: user_id
+        })
+        .done(function( data ) {
+            if(data.return == 'success' ){
+                var tmp = '#' + org;
+                $(tmp).remove();
+                //alert("success");
+            }
+        });
+    }
+    else {
+
+    }
+
+
+
+}
+</script>
+
 <!-- nice check test-->
 <div id='user_gender' style='display: none;'>${user_gender}</div>
 <div id='user_birthday' style='display: none;'>${user_birthday}</div>
 <div id='user_name' style='display: none;'>${user_name}</div>
 <div id='nice_check' style='display: none;'>${nice_check}</div>
+<div id='user_id' style='display: none;'>${user.id}</div>
 <!-- nice check test-->
-
 
 <%block name="headextra">
     <%static:css group='style-course'/>

@@ -30,7 +30,12 @@ from status.status import get_site_status_msg
 % endif
 
 <%block>
+<script type="text/javascript">
+var ex = document.referer;
+</script>
+
 <%
+
 try:
     course_id = course.id
 except:
@@ -48,6 +53,10 @@ site_status_msg = get_site_status_msg(course_id)
 % endif
 </%block>
 
+<!-- memo script (start) -->
+
+<!-- memo script (end) -->
+
 <header id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
 
@@ -64,6 +73,12 @@ site_status_msg = get_site_status_msg(course_id)
             % endif
 
             <ul class="right list-inline">
+
+                % if user.id:
+                <li class="left item">
+                    <a href="/memo">${_('MEMO')}(<font id="cnt" color="#0080ff"></font>)</a>
+                </li>
+                % endif
 
                 <li class="left item">
                     <a href="/">HOME</a>
@@ -109,45 +124,57 @@ site_status_msg = get_site_status_msg(course_id)
                 </%block>
             </a>
         </h1>
+            % if 'org' in request.session and request.session['org'] != 'kmooc':
+                <a href="/multisite/${'org' in request.session and request.session['org']}">
+                    % if request.session['logo_img'] != None:
+                    <img style='width:170px; height:44px; margin-top: 15px;' src="/static/images/multisite/${request.session['logo_img']}" alt=""/>
+                    % endif
+                    % if request.session['logo_img'] == None:
+                    <img style='width:170px; height:44px; margin-top: 15px;' src="/static/images/multisite/nonimage.png" alt=""/>
+                    % endif
+                </a>
+            % endif
 
         <ol class="right nav-global list-inline" id="gnb">
             % if user.is_authenticated():
-            <li class="item nav-global-01" data-hidden="w"><a href="/logout">${_("Sign Out")}</a></li>
-            <li class="item nav-global-01" data-hidden="w"><a href="/dashboard"  style="background: #f2f2f2 !important; color: #333 !important;">${_("Dashboard")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/logout">${_("Sign Out")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/dashboard"  style="background: #f2f2f2 !important; color: #333 !important;">${_("Dashboard")}</a></li>
             % else:
-            <li class="item nav-global-01" data-hidden="w"><a href="/login">${_("Log In")}</a></li>
-            <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}">${_("Register")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/login">${_("Log In")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}">${_("Register")}</a></li>
             % endif
 
-
-            <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
-            <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
-            <li class="item nav-global-03"><a href="/courses">${_("Courses")}</a></li>
-            % if LANGUAGE_CODE != 'en':
-            <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
+            % if 'org' in request.session and request.session['org'] != 'kmooc':
+                <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             % endif
-                <ul class="dropdown-menu">
-                    <li id="menu1"><a href="/comm_list/N">공지사항</a></li>
-                    <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
-                    <li id="menu3"><a href="/comm_list/R">자료실</a></li>
-                    <li id="menu4"><a href="/comm_tabs/kmooc_f/">Q&A</a></li>
-                    <!--
-                    <li id="menu1"><a href="/comm_notice">공지사항</a></li>
-                    <li id="menu2"><a href="/comm_k_news">K-MOOC 뉴스</a></li>
-                    <li id="menu3"><a href="/comm_repository">자료실</a></li>
-                    <li id="menu4"><a href="/comm_faq/1/">Q&A</a></li>
-                    -->
-                </ul>
-            </li>
+
+            % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
+                <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
+                <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
+                <li class="item nav-global-03"><a href="/courses?pagepos=l">${_("Courses")}</a></li>
+                <!--<li class="item nav-global-03"><a href="/series">${_('Series Course')}</a></li>-->
+                % if LANGUAGE_CODE != 'en':
+                <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
+                % endif
+                    <ul class="dropdown-menu">
+                        <li id="menu1"><a href="/comm_list/N">공지사항</a></li>
+                        <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
+                        <li id="menu3"><a href="/comm_list/R">자료실</a></li>
+                        <li id="menu4"><a href="/comm_tabs/kmooc_f/">Q&A</a></li>
+                    </ul>
+                </li>
+            % endif
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
-            <li class="item search-global">
-                <div class="gnb-search-box">
-                    <form method="get" action="/courses">
-                    <input type="text" title="검색어를 입력하세요" name="search_query" type="text" placeholder="${_("Search for a course")}" title="강좌 찾기" aria-label="강좌 찾기"/>
-                    <input type="image" src="/static/images/common/search-submit.gif" alt="검색" aria-label="검색" title="검색">
-                    </form>
-                </div>
-            </li>
+            % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
+                <li class="item search-global">
+                    <div class="gnb-search-box">
+                        <form method="get" action="/courses">
+                        <input type="text" title="검색어를 입력하세요" name="search_query" type="text" placeholder="${_("Search for a course")}" title="강좌 찾기" aria-label="강좌 찾기"/>
+                        <input type="image" src="/static/images/common/search-submit.gif" alt="검색" aria-label="검색" title="검색">
+                        </form>
+                    </div>
+                </li>
+            % endif
         </ol>
 
     </nav>

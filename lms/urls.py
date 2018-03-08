@@ -31,6 +31,16 @@ urlpatterns = (
     url(r'^nicecheckplus_error$', 'student_account.views.nicecheckplus_error', name="nicecheckplus_error"),  # fail url
     # ---------- nice check end ---------- #
 
+    # ---------- multi site ---------- #
+    url(r'^multisite/(?P<org>.*?)/$', 'branding.views.multisite_index', name="multisite_index"),
+    url(r'^multisite_api$', 'branding.views.multisite_api', name="multisite_api"),
+    url(r'^multisite_delete_api$', 'branding.views.multisite_delete_api', name="multisite_delete_api"),
+
+    # MULTISITE TEST
+    url(r'^multisite_test/(?P<org>.*?)$', 'branding.views.multisite_test', name="multisite_test"),  # ko index
+    url(r'^multisite_test2$', 'branding.views.multisite_test2', name="multisite_test2"),  # ko index
+    # ---------- multi site ---------- #
+
     url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),

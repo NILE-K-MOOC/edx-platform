@@ -3,6 +3,7 @@
 Student Views
 """
 import datetime
+from django.utils.timezone import UTC as UTC2
 import logging
 import uuid
 import json
@@ -107,6 +108,7 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 import re
+from django.core.serializers.json import DjangoJSONEncoder
 import traceback
 from courseware import grades
 from courseware.courses import (
@@ -120,6 +122,14 @@ from util.views import ensure_valid_course_key
 from pymongo import MongoClient
 import MySQLdb as mdb
 from django.db import connections
+from django.db.models import Q
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+from bson import ObjectId
+import operator
+import random
+
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -144,6 +154,377 @@ def csrf_token(context):
         return ''
     return (u'<div style="display:none"><input type="hidden"'
             ' name="csrfmiddlewaretoken" value="%s" /></div>' % (token))
+
+def common_course_status(startDt, endDt):
+    # input
+    # case - 1
+    # startDt = 2016-12-19 00:00:00
+    # endDt   = 2017-02-10 23:00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    # case - 2
+    # startDt = 2016-12-19 00:00:00+00:00
+    # endDt   = 2017-02-10 23:00:00+00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    # import
+    from datetime import datetime
+    from django.utils.timezone import UTC as UTC2
+
+    startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
+    startDt = startDt.split('-')
+    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]),
+                       int(startDt[5]))
+
+    if endDt != None or endDt == '':
+        endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
+        endDt = endDt.split('-')
+        endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
+
+    # making nowDt
+    nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
+    nowDt = nowDt.split('-')
+    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
+
+    # logic
+    if startDt is None or startDt == '' or endDt is None or endDt == '':
+        status = 'none'
+    elif nowDt < startDt:
+        status = 'ready'
+    elif startDt <= nowDt <= endDt:
+        status = 'ing'
+    elif endDt < nowDt:
+        status = 'end'
+    else:
+        status = 'none'
+
+    # return status
+    return status
+
+
+# -------------------- multi site -------------------- #
+def multisite_index(request, extra_context=None, user=AnonymousUser()):
+    if extra_context is None:
+        extra_context = {}
+    user = request.user
+
+    # import
+    from xmodule.modulestore.django import modulestore
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+
+    # session check
+    site_code = request.session.get('org')
+
+    # multisite - get site code query
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT site_id
+            FROM   edxapp.multisite
+            WHERE  site_code = '{0}'
+        """.format(site_code)
+        cur.execute(query)
+        result_table = cur.fetchall()
+    try:
+        site_id = result_table[0][0]
+    except BaseException:
+        site_id = None
+        course_list = []
+
+    if site_id != None:
+
+        # list init
+        course_list = []
+        module_store = modulestore()
+
+        # get search data
+        if request.GET.get('search_query') != None:
+
+            search_name = str(request.GET.get('search_query'))
+
+            # multisite - get site id query
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT course_id
+                    FROM   edxapp.multisite_course AS a
+                           join(SELECT *
+                                FROM   (SELECT id,
+                                               display_name,
+                                               start,
+                                               end,
+                                               enrollment_start,
+                                               enrollment_end,
+                                               CASE
+                                                 WHEN start > Now() THEN 1
+                                                 WHEN Now() BETWEEN start AND end THEN 2
+                                                 WHEN end < Now() THEN 3
+                                                 ELSE 4
+                                               END AS order1
+                                        FROM   course_overviews_courseoverview
+                                        WHERE  1 = 1
+                                               AND Lower(id) NOT LIKE '%demo%'
+                                               AND Lower(id) NOT LIKE '%nile%'
+                                               AND Lower(id) NOT LIKE '%test%') t1
+                                ORDER  BY order1,
+                                          enrollment_start DESC,
+                                          start DESC,
+                                          enrollment_end DESC,
+                                          end DESC,
+                                          display_name) AS b
+                             ON a.course_id = b.id
+                    WHERE  site_id = {0}
+                           AND display_name LIKE '%{1}%';
+                """.format(site_id, search_name)
+                cur.execute(query)
+                result_table = cur.fetchall()
+
+            for item in result_table:
+                ci = item[0]
+                ci = ci.split(':')
+                data_ci = ci[1]
+                data_ci = data_ci.split('+')
+                c_org = data_ci[0]
+                c_course = data_ci[1]
+                c_name = data_ci[2]
+                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                course_list.append(course_overviews)
+
+            # multisite - make course status
+            for c in course_list:
+                c.status = common_course_status(c.start, c.end)
+
+            context = {'courses': course_list}
+
+        # base logic
+        else:
+            # multisite - get site id query
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT course_id
+                    FROM   edxapp.multisite_course AS a
+                           join(SELECT *
+                                FROM   (SELECT id,
+                                               display_name,
+                                               start,
+                                               end,
+                                               enrollment_start,
+                                               enrollment_end,
+                                               CASE
+                                                 WHEN start > Now() THEN 1
+                                                 WHEN Now() BETWEEN start AND end THEN 2
+                                                 WHEN end < Now() THEN 3
+                                                 ELSE 4
+                                               END AS order1
+                                        FROM   course_overviews_courseoverview
+                                        WHERE  1 = 1
+                                               AND Lower(id) NOT LIKE '%demo%'
+                                               AND Lower(id) NOT LIKE '%nile%'
+                                               -- AND Lower(id) NOT LIKE '%test%') t1
+                                               ) t1
+                                ORDER  BY order1,
+                                          enrollment_start DESC,
+                                          start DESC,
+                                          enrollment_end DESC,
+                                          end DESC,
+                                          display_name) AS b
+                             ON a.course_id = b.id
+                             WHERE  site_id = {0};
+                """.format(site_id)
+                cur.execute(query)
+                result_table = cur.fetchall()
+
+            #mongo
+            client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+
+            for item in result_table:
+                course_lock = 0
+                ci = item[0]
+                ci = ci.split(':')
+                data_ci = ci[1]
+                data_ci = data_ci.split('+')
+                c_org = data_ci[0]
+                c_course = data_ci[1]
+                c_name = data_ci[2]
+
+                db = client["edxapp"]
+                cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
+                if cursor:
+                    pb = cursor.get('versions').get('published-branch')
+                    cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+                    blocks = cursor.get('blocks')
+                    for block in blocks:
+                        if block.get('block_type') and block.get('block_id'):
+                            if block.get('block_type') == 'course' and block.get('block_id') == 'course':
+                                if block.get('fields').get('catalog_visibility'):
+                                    if block.get('fields').get('catalog_visibility') == 'none':
+                                        course_lock = 1
+
+                if course_lock == 0:
+                    multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                    course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                    course_list.append(course_overviews)
+
+            # multisite - make course status
+            for c in course_list:
+                status = common_course_status(c.start, c.end)
+                c.status = status
+
+            context = {'courses': course_list}
+
+    for item in course_list:
+        print item
+
+    context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
+    context['show_partners'] = configuration_helpers.get_value('show_partners', True)
+    context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
+    youtube_video_id = configuration_helpers.get_value('homepage_promo_video_youtube_id', "your-youtube-id")
+    context['homepage_promo_video_youtube_id'] = youtube_video_id
+    context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
+    context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+
+    total_list = []
+    cur = con.cursor()
+    query = """
+            (  SELECT board_id,
+                 CASE
+                     WHEN head_title = 'noti_n' THEN '[공지]'
+                     WHEN head_title = 'advert_n' THEN '[공고]'
+                     WHEN head_title = 'guide_n' THEN '[안내]'
+                     WHEN head_title = 'event_n' THEN '[이벤트]'
+                     WHEN head_title = 'etc_n' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
+                FROM tb_board
+               WHERE section = 'N'
+               and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+        union all
+            (  SELECT board_id,
+                 CASE
+                     WHEN head_title = 'k_news_k' THEN '[K-MOOC소식]'
+                     WHEN head_title = 'report_k' THEN '[보도자료]'
+                     WHEN head_title = 'u_news_k' THEN '[대학뉴스]'
+                     WHEN head_title = 'support_k' THEN '[서포터즈이야기]'
+                     WHEN head_title = 'n_new_k' THEN '[NILE소식]'
+                     WHEN head_title = 'etc_k' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
+                     subject,
+                     mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
+                FROM tb_board
+               WHERE section = 'K'
+               and use_yn = 'Y'
+            ORDER BY mod_date DESC
+                limit 4)
+        union all
+            (  SELECT board_id,
+                 CASE
+                     WHEN head_title = 'publi_r' THEN '[홍보자료]'
+                     WHEN head_title = 'data_r' THEN '[자료집]'
+                     WHEN head_title = 'repo_r' THEN '[보고서]'
+                     WHEN head_title = 'etc_r' THEN '[기타]'
+                     ELSE ''
+                 END
+                     head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     ''
+                FROM tb_board
+               WHERE section = 'R'
+               and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+        union all
+            (  SELECT board_id,
+                 CASE
+                      WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+                      WHEN head_title = 'regist_f ' THEN '[회원가입]'
+                      WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+                      WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+                      WHEN head_title = 'course_f ' THEN '[강좌수강]'
+                      WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+                      WHEN head_title = 'tech_f ' THEN '[기술적문제]'
+                      ELSE ''
+                   END
+                      head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     head_title
+                FROM tb_board
+               WHERE section = 'F'
+                 and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+        union all
+            (  SELECT board_id,
+                     '' head_title,
+                     subject,
+                     content,
+                     SUBSTRING(reg_date, 1, 11),
+                     section,
+                     head_title
+                FROM tb_board
+               WHERE section = 'M'
+                 and use_yn = 'Y'
+            ORDER BY mod_date DESC
+               limit 4)
+
+    """
+
+    index_list = []
+    cur.execute(query)
+    row = cur.fetchall()
+    for i in row:
+        value_list = []
+        value_list.append(i[0])
+        value_list.append(i[1])
+        value_list.append(i[2])
+        s = i[3]
+        text = re.sub('<[^>]*>', '', s)
+        text = re.sub('&nbsp;', '', text)
+        text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
+        text1 = re.sub('/home/project/management/home/static/upload/', '', text)
+        # text1 = re.sub('/manage/home/static/excel/notice_file/', '', text)
+        text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
+        # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
+        value_list.append(text[0:200])
+        value_list.append(i[4])
+        value_list.append(i[5])
+        value_list.append(i[6])
+        value_list.append(text1)
+        index_list.append(value_list)
+
+    context['index_list'] = index_list
+    context.update(extra_context)
+
+    print context
+
+    return render_to_response('multisite_index.html', context)
+
+
+# -------------------- multi site -------------------- #
 
 
 # NOTE: This view is not linked to directly--it is called from

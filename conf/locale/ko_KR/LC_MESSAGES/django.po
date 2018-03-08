@@ -2756,7 +2756,7 @@ msgstr "답안이 저장되었습니다."
 msgid ""
 "Your answers have been saved but not graded. Click '{button_name}' to grade "
 "them."
-msgstr "답안이 저장되었지만 채점되지 않았습니다. '{button_name}' 을 클릭해 채점합니다."
+msgstr "답안이 제출되었지만 채점되지 않았습니다. 임시저장을 클릭해 채점합니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Refresh the page and make an attempt before resetting."
@@ -4494,7 +4494,7 @@ msgstr "기본"
 msgid ""
 "The URL for your video. This can be a YouTube URL or a link to an .mp4, "
 ".ogg, or .webm video file hosted elsewhere on the Internet."
-msgstr "video URL 입니다. YouTube URL 이나 mp4, ogg, .webm 파일을 링크시키세요."
+msgstr "video URL 입니다. mp4, ogg, .webm 파일을 링크시키세요.(YouTube URL 불가)"
 
 #: common/lib/xmodule/xmodule/video_module/video_module.py
 msgid "Default Video URL"
@@ -5270,7 +5270,7 @@ msgstr "{platform_name} 연락"
 
 #: lms/djangoapps/certificates/views/webview.py
 msgid "{platform_name} acknowledges the following student accomplishment"
-msgstr "{platform_name}은 다음과 같이 학습자의 강좌 이수 결과를 제공합니다.."
+msgstr "{platform_name}은 다음과 같이 학습자의 강좌 이수 결과를 제공합니다."
 
 #: lms/djangoapps/certificates/views/webview.py
 msgid ""
@@ -9995,7 +9995,7 @@ msgstr "강좌 종료일"
 
 #: cms/templates/settings.html lms/templates/courseware/course_about.html
 msgid "Requirements"
-msgstr "학습 시간 및 선수 강좌"
+msgstr "강좌 학습 시간"
 
 #: cms/templates/studio_xblock_wrapper.html lms/templates/help_modal.html
 #: lms/templates/module-error.html
@@ -13196,7 +13196,7 @@ msgstr "강좌 학점을 요구하기 위한 정보"
 
 #: lms/templates/courseware/progress.html
 msgid "display_name"
-msgstr "display_name"
+msgstr "표시될 이름"
 
 #: lms/templates/courseware/progress.html
 msgid "Verification Submitted"
@@ -13454,6 +13454,9 @@ msgstr "개강 - {start_date}"
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Coming Soon"
 msgstr "준비중입니다."
+
+msgid "Course duration - {start_date}"
+msgstr "강좌 기간 - {start_date}"
 
 #: lms/templates/dashboard/_dashboard_course_listing.html
 msgid "Starts - {start_date}"
@@ -14814,10 +14817,6 @@ msgid "Click to download a CSV of anonymized student IDs:"
 msgstr "익명 학습자 아이디를 CSV 파일로 다운로드하기"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
-msgid "Get Student Anonymized IDs CSV"
-msgstr "익명 학습자 아이디 CSV 파일"
-
-#: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Click to download a CSV of about student contents:"
 msgstr "게시판 게시글 CSV 파일 다운로드"
 
@@ -14828,6 +14827,10 @@ msgstr "게시글 통계 CSV 파일"
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Get Student contents file CSV"
 msgstr "게시글 내용 CSV 파일"
+
+#: lms/templates/instructor/instructor_dashboard_2/data_download.html
+msgid "Get Student Anonymized IDs CSV"
+msgstr "익명 학습자 아이디 CSV 파일"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 #: lms/templates/instructor/instructor_dashboard_2/e-commerce.html
@@ -20036,7 +20039,7 @@ msgstr "강사 추가"
 
 #: cms/templates/settings.html
 msgid "Expectations of the students taking this course"
-msgstr "효과적인 학습을 위해 학습 시간 및 선수 강좌를 입력합니다."
+msgstr "효과적인 학습을 위해 학습 시간 입력합니다."
 
 #: cms/templates/settings.html
 msgid "Hours of Effort per Week"
@@ -28424,6 +28427,12 @@ msgstr "개강일"
 msgid "univ_name"
 msgstr "대학명"
 
+msgid "Previous Courses"
+msgstr "이전 강좌"
+
+msgid "Current Course"
+msgstr "현재 강좌"
+
 #: river
 msgid "All"
 msgstr "전체"
@@ -28442,6 +28451,12 @@ msgstr "개강예정"
 
 msgid "end"
 msgstr "종료"
+
+msgid "interest"
+msgstr "관심강좌"
+
+msgid "propose"
+msgstr "추천강좌"
 
 msgid "none"
 msgstr "미정"
@@ -30001,5 +30016,68 @@ msgstr "강좌 홈"
 msgid "Effort time must have value"
 msgstr "권장 학습 시간은 필수 입력입니다."
 
+msgid "course info"
+msgstr "강좌 정보"
+
+msgid "review"
+msgstr "리뷰"
+
+msgid "write"
+msgstr "글쓰기"
+
+msgid "MEMO"
+msgstr "쪽지"
+
+msgid "Series Course"
+msgstr "시리즈 강좌"
+
+msgid "Course Introduction"
+msgstr "강좌 소개"
+
+msgid "Course List"
+msgstr "대상 강좌 목록"
+
+msgid "Print"
+msgstr "인쇄"
+
+msgid "Series ID"
+msgstr "시리즈 ID"
+
+msgid "enrollment"
+msgstr "수강신청일"
+
+msgid "start"
+msgstr "개강일"
+
 msgid "move"
 msgstr "이동"
+
+msgid "Series Education Certificate"
+msgstr "시리즈 교육 확인증"
+
+msgid "is_course_lock"
+msgstr "강좌잠금 여부"
+
+msgid "audit_yn"
+msgstr "청강모드 여부"
+
+msgid "Maximum score"
+msgstr "최고 점"
+
+msgid "Your score is"
+msgstr "점수: "
+
+msgid "Instructor comment"
+msgstr "교수자 코멘트: "
+
+msgid "K-MOOC Staff Graded Assignment"
+msgstr "K-MOOC 운영팀 평가 문항"
+
+msgid "Maximum grade score given to assignment by staff."
+msgstr "입력 가능한 최대 점수"
+
+msgid ""
+"Defines the number of points each problem is worth. "
+"If the value is not set, the problem is worth the sum of the "
+"option point values."
+msgstr "각 문제의 가치가있는 점수의 수를 정의합니다. 값을 설정하지 않으면 문제는 옵션 포인트 값의 합계가됩니다."
