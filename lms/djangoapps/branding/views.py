@@ -199,8 +199,10 @@ def decrypt(key, _iv, enc):
 
 
 #==================================================================================================> 멀티사이트 시작
-@ensure_csrf_cookie
+
 def multisite_index(request, org):
+
+    logging.info('hello world')
 
     org = org.replace("/comm_list_json","") # <---- bugfix
 
@@ -415,7 +417,7 @@ def multisite_index(request, org):
         site_url = return_table[0][1]
 
     except BaseException:
-        org = 'kmooc'
+        #org = 'kmooc'
         logo_img = ''
         site_url = ''
     # ----- i want data query ----- #
@@ -424,6 +426,13 @@ def multisite_index(request, org):
     request.session['org'] = org
     request.session['logo_img'] = logo_img
     request.session['site_url'] = site_url
+
+    logging.info("multisite_userid = " + request.session['multisite_userid'])
+    logging.info("status = " + request.session['status'])
+    logging.info("status_org = " + request.session['status_org'])
+    logging.info("org = " + request.session['org'])
+    logging.info("logo_img = " + request.session['logo_img'])
+    logging.info("site_url = " + request.session['site_url'])
 
     # basic logic
     if request.user.is_authenticated():
