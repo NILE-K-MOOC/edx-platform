@@ -17,6 +17,7 @@ var DetailsView = ValidatingView.extend({
         "change select" : "updateModel",
         'click .remove-course-introduction-video' : "removeVideo",
         'focus #course-overview' : "codeMirrorize",
+        'focus #field-course-overview' : "codeMirrorizeTest",
         'mouseover .timezone' : "updateTime",
         // would love to move to a general superclass, but event hashes don't inherit in backbone :-(
         'focus :input' : "inputFocus",
@@ -185,8 +186,16 @@ var DetailsView = ValidatingView.extend({
         DateUtils.setupDatePicker('enrollment_start', this);
         DateUtils.setupDatePicker('enrollment_end', this);
 
+        console.log(this.model.get('course_summary_template'));
+        console.log('main.js render check ------------------------- 1');
+        console.log($('#course-overview').val());
+        console.log('main.js render check ------------------------- 2');
         this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
+        console.log($('#course-overview').val());
+        console.log('main.js render check ------------------------- 3');
         this.codeMirrorize(null, $('#course-overview')[0]);
+        console.log($('#course-overview').val());
+        console.log('main.js render check ------------------------- 4');
 
         if (this.model.get('title') !== '') {
             this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
@@ -550,7 +559,16 @@ var DetailsView = ValidatingView.extend({
         }
     },
     codeMirrors : {},
+    codeMirrorizeTest: function (e, forcedTarget) {
+        console.log('check codeMirrorizeTest - s');
+        console.log(this.model);
+        console.log('check codeMirrorizeTest - e');
+
+    },
     codeMirrorize: function (e, forcedTarget) {
+
+        console.log('forcedTarget2: ' + forcedTarget);
+
         var thisTarget;
         if (forcedTarget) {
             thisTarget = forcedTarget;

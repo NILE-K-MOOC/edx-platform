@@ -7,25 +7,23 @@ import json
 import logging
 import random
 import string  # pylint: disable=deprecated-module
+
+import MySQLdb as mdb
+import django.utils
+from ccx_keys.locator import CCXLocator
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, Http404
 from django.shortcuts import redirect
-import django.utils
 from django.utils.translation import ugettext as _
-from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_http_methods, require_GET
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import Location
-from .component import (
-    ADVANCED_COMPONENT_TYPES,
-)
-from .item import create_xblock_info
-from .library import LIBRARIES_ENABLED
-from ccx_keys.locator import CCXLocator
+
 from contentstore import utils
 from contentstore.course_group_config import (
     COHORT_SCHEME,
@@ -67,9 +65,9 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.programs.utils import get_programs
 from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from openedx.core.lib.course_tabs import CourseTabPluginManager
 from openedx.core.lib.courses import course_image_url
-from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from student import auth
 from student.auth import has_course_author_access, has_studio_write_access, has_studio_read_access
 from student.roles import (
@@ -97,7 +95,11 @@ from xmodule.modulestore import EdxJSONEncoder
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
-import MySQLdb as mdb
+from .component import (
+    ADVANCED_COMPONENT_TYPES,
+)
+from .item import create_xblock_info
+from .library import LIBRARIES_ENABLED
 
 log = logging.getLogger(__name__)
 
@@ -1144,6 +1146,18 @@ def settings_handler(request, course_key_string):
                 # 강좌 상세 내용 조회시 강좌 생성일 및 이수증 생성일을 조회하여 같이 전달
                 course_details = CourseDetails.fetch(course_key)
                 course_details.need_lock = course_need_lock(request, course_key)
+                course_summary_template = ""
+                try:
+                    f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
+                    while True:
+                        line = f.readline()
+                        if not line: break
+                        course_summary_template += str(line)
+                    f.close()
+                except:
+                    pass
+
+                course_details.overview = course_summary_template
 
                 return JsonResponse(
                     course_details,
