@@ -5,7 +5,6 @@ accomplishment_course_title =  accomplishment_copy_course_name
 if certificate_data and certificate_data.get('course_title', ''):
     accomplishment_course_title =  certificate_data.get('course_title', '')
 course_mode_class = course_mode if course_mode else ''
-print 'Test~~~~'
 if accomplishment_course_title.find('(') == -1 :
     accomplishment_course_title = accomplishment_course_title + '(' + accomplishment_course_title
 accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
@@ -32,8 +31,14 @@ h1, h2, h3, h4, h5 {
     -moz-box-sizing: border-box;
 }
 
-ul{border-left: 3px solid #333; padding-left: 15px; font-size:14px;}
-ul li{list-style:none;}
+ul{
+    border-left: 3px solid #333;
+    padding-left: 15px;
+    font-size:14px;
+}
+ul li{
+    list-style:none;
+}
 
 .paper {
     width: 210mm;
@@ -88,13 +93,27 @@ ul, .list-bulleted{
 
 h5{margin:0;}
 
-.t-center{display:inline-block; float:right; margin-left: 34px; width:99px;}
-.t-sign{margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #333;}
-.t-center:last-child{margin-left:0;}
-.t-center h5{text-align:center; font-size:11px;}
+.t-center{
+    display:inline-block;
+    margin-left: 34px;
+    width:99px;
+	float: right;
+}
+.t-sign{
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #333;
+}
+.t-center:first-child{
+    margin-left:0;
+}
+.t-center h5{
+    text-align:center;
+    font-size:11px;
+}
 
 .ce-bg{
-	background:url(${static_url}/static/images/bg.png) no-repeat;
+	background:url(http://172.17.101.228:8000/static/images/bg.png) no-repeat;
 	width: 643px;
     height: 232px;
     display: inline-block;
@@ -103,27 +122,67 @@ h5{margin:0;}
     left: 68px;
 }
 
-.ce-t-gray{color:#959595;}
+.ce-t-gray{
+    color:#959595;
+}
 
-.content h1 {font-size:50px; margin-bottom: 80px; margin-top: 40px;}
-.content h2 {font-size:20px;}
-.ce-txt-second {margin-top: 0px; font-size: 20px;}
+.content h1 {
+    font-size:50px;
+    margin-bottom: 80px;
+    margin-top: 40px;
+}
+.content h2 {
+    font-size:20px;
+}
+.ce-txt-second {
+    margin-top: 0px;
+    font-size: 20px;
+}
 
-.ce-center-txt1{text-align: center; width: 330px; margin: 0 auto; margin-bottom: 20px;}
-.ce-center-txt2{text-align:center; margin-bottom: 50px;}
+.ce-center-txt1{
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.ce-center-txt2{
+    text-align:center;
+    margin-bottom: 50px;
+}
 
-.sign-area{ display:inline-block;}
-.sign-area-depth1, .sign-area-depth2{display:inline-block; height:80px;}
-.sign-none{ height:171px; display:inline-block; text-indent:-9999px; overflow:hidden;}
+.sign-area{
+    display:inline-block;
+	width:100%;
+}
+.sign-area-depth1, .sign-area-depth2{
+    display:block;
+    height:80px;
+    width: 100%;
+}
+.sign-none{
+    height:171px;
+    display:inline-block;
+    text-indent:-9999px;
+    overflow:hidden;
+}
 
 /* logo */
-.ce-logo-area{display:inline-block; width:100%;}
-.ce-logo1{float:left;}
-.ce-logo2{float:right; margin-top: 21px;}
+.ce-logo-area{
+    display:inline-block;
+    width:100%;
+}
+.ce-logo1{
+    float:left;
+}
+.ce-logo2{
+    float:right;
+    margin-top: 21px;
+}
 #k_box1{
+    visibility: hidden;
     margin-bottom: 66px;
 }
 #e_box1{
+    visibility: hidden;
     margin-bottom: 66px;
 }
 .t-sign {
@@ -137,8 +196,6 @@ h5{margin:0;}
 }
 </style>
 
-
-##
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <main id="printArea_K" class="accomplishment accomplishment-main"
       style="">
@@ -177,7 +234,7 @@ h5{margin:0;}
                     </ul>
                     <h5>※ 위 정보는 강좌 정보로, 이수자의 실제 학습 정보와는 상이할 수 있습니다.</h5>
                 </blockquote>
-                <div id="k_box1" style="visibility: hidden; margin-bottom: 66px">
+                <div id="k_box1" style="">
                 <h5 class="ce-t-gray">점수</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
@@ -202,26 +259,26 @@ h5{margin:0;}
                                 %if cnt == 5:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    <%
+                                    teacher = signatory['name']
+                                    if teacher.find('(') == -1 :
+                                        teacher = teacher +'('+ teacher
+                                    teacher = teacher.split('(')
+                                    title_k = signatory['title'].split('(')
+
+                                    organization_k = signatory['organization']
+                                    if organization_k.find('(') == -1 :
+                                        organization_k = organization_k +'('+ organization_k
+                                    organization_k = organization_k.split('(')
+                                    %>
+                                    <div class="t-center">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <h5>${teacher[0]} ${title_k[0]}</h5>
+                                        <h5>${organization_k[0]}</h5>
+                                        <h5>${classfy_k}</h5>
+                                    </div>
                                 %endif
                             %endfor
-                            <%
-                            teacher = signatory['name']
-                            if teacher.find('(') == -1 :
-                                teacher = teacher +'('+ teacher
-                            teacher = teacher.split('(')
-                            title_k = signatory['title'].split('(')
-
-                            organization_k = signatory['organization']
-                            if organization_k.find('(') == -1 :
-                                organization_k = organization_k +'('+ organization_k
-                            organization_k = organization_k.split('(')
-                            %>
-                                <div class="t-center">
-                                    <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
-                                    <h5>${teacher[0]} ${title_k[0]}</h5>
-                                    <h5>${organization_k[0]}</h5>
-                                    <h5>${classfy_k}</h5>
-                                </div>
                         % endfor
                         </div>
                     % endif
@@ -236,7 +293,6 @@ h5{margin:0;}
     </div>
     </body>
 </main>
-<div class="brDiv"></div>
 
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='../static_content.html'/>
@@ -309,25 +365,25 @@ h5{margin:0;}
                                 %if cnt == 5:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    <%
+                                    teacher = signatory['name']
+                                    if teacher.find('(') == -1 :
+                                        teacher = teacher +'('+ teacher
+                                    teacher = teacher.split('(')
+                                    title_k = signatory['title'].split('(')
+                                    organization_k = signatory['organization']
+                                    if organization_k.find('(') == -1 :
+                                        organization_k = organization_k +'('+ organization_k
+                                    organization_k = organization_k.split('(')
+                                    %>
+                                    <div class="t-center">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <h5>${teacher[1].replace(')','')}</h5>
+                                        <h5>${organization_k[1].replace(')','')}</h5>
+                                        <h5>${classfy_e}</h5>
+                                    </div>
                                 %endif
                             %endfor
-                            <%
-                            teacher = signatory['name']
-                            if teacher.find('(') == -1 :
-                                teacher = teacher +'('+ teacher
-                            teacher = teacher.split('(')
-                            title_k = signatory['title'].split('(')
-                            organization_k = signatory['organization']
-                            if organization_k.find('(') == -1 :
-                                organization_k = organization_k +'('+ organization_k
-                            organization_k = organization_k.split('(')
-                            %>
-                                <div class="t-center">
-                                    <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
-                                    <h5>${teacher[1].replace(')','')}</h5>
-                                    <h5>${organization_k[1].replace(')','')}</h5>
-                                    <h5>${classfy_e}</h5>
-                                </div>
                         % endfor
                         </div>
                     % endif
@@ -342,4 +398,3 @@ h5{margin:0;}
     </div>
     </body>
 </main>
-<div class="brDiv"></div>
