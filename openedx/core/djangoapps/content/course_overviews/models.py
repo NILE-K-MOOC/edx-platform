@@ -478,9 +478,6 @@ class CourseOverview(TimeStampedModel):
 
     @classmethod
     def get_all_courses(cls, org=None, filter_=None):
-        print 'get_all_courses.org ::: ', org
-        print 'get_all_courses.filter ::: ', filter_
-
         """
         Returns all CourseOverview objects in the database.
 
@@ -546,19 +543,6 @@ class CourseOverview(TimeStampedModel):
                 course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:100]
             else:
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
-
-        if course_overviews:
-            print 'len(course_overviews):', len(course_overviews)
-
-        # if org:
-        #     # In rare cases, courses belonging to the same org may be accidentally assigned
-        #     # an org code with a different casing (e.g., Harvardx as opposed to HarvardX).
-        #     # Case-insensitive exact matching allows us to deal with this kind of dirty data.
-        #     course_overviews = course_overviews.filter(org__iexact=org)
-        #     print 'course_overviews == ',course_overviews
-        #
-        # if filter_:
-        #     course_overviews = course_overviews.filter(**filter_)
 
         return course_overviews
 
