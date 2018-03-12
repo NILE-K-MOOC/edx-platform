@@ -327,14 +327,64 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         % endif
 
                         % if about_page_editable:
-                        <li class="field text" id="field-course-overview">
+                        <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
                             <label for="course-overview">${_("Course Overview")}</label>
                             <textarea class="tinymce text-editor" id="course-overview"></textarea>
-                  <span class="tip tip-stacked">${
+                  <span class="tip tip-stacked" style="float: left; margin-top: 7px;">${
                     Text(_("Introductions, prerequisites, FAQs that are used on {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
                       a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
                           a_link_end=HTML("</a>")
                     )}</span>
+
+                            <!-- 입력 양식 제공 버튼 -->
+                            <button type="button" class="action course-overview-template" id="course-overview-template" style="float: right;width: 20%;margin: 15px 0 0 0;padding: 10px 20px;font-size: 1.2rem;line-height: 1.776rem;transition: all 0.15s;text-align: center;border-radius: 5px;border: 1px solid #66c5f0;background-color: transparent;color: #66c5f0;">
+                                수정
+                            </button>
+
+                            <!-- 강좌 개요 입력 폼 -->
+                            <style>
+                                .overview-modal{
+                                    position: fixed !important;
+                                    top: 40% !important;
+                                    left: 10% !important;
+                                    width: 80% !important;
+                                    min-width: 400px !important;
+                                }
+
+                            </style>
+                            <div>
+                               <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
+                                  <div class="modal-window-overlay"></div>
+                                  <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1" aria-labelledby="modal-window-title" style="top: 2084.5px; left: 325px;">
+                                     <div class="assetupload-modal">
+                                        <div class="modal-header">
+                                           <h2 id="modal-window-title" class="title modal-window-title">강좌 대표 이미지를 업로드하세요.</h2>
+                                           <ul class="editor-modes action-list action-modes">
+                                           </ul>
+                                        </div>
+                                        <div class="modal-content">
+                                           <form class="upload-dialog" method="POST" action="/assets/course-v1:new+01+01/" enctype="multipart/form-data">
+                                              <p id="dialog-assetupload-description" class="message">파일은 JPEG 혹은 PNG 포맷이어야 합니다.</p>
+                                              <input type="file" name="file">
+                                              <div class="status-upload">
+                                              </div>
+                                           </form>
+                                        </div>
+                                        <div class="modal-actions">
+                                           <h3 class="sr">액션</h3>
+                                           <ul>
+                                              <li class="action-item">
+                                                 <a href="#" class="button action-primary action-upload disabled">업로드</a>
+                                              </li>
+                                              <li class="action-item">
+                                                 <a href="#" class="button  action-cancel">취소</a>
+                                              </li>
+                                           </ul>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
                         </li>
                         % endif
 

@@ -17,11 +17,14 @@ var DetailsView = ValidatingView.extend({
         "change select" : "updateModel",
         'click .remove-course-introduction-video' : "removeVideo",
         'focus #course-overview' : "codeMirrorize",
-        'focus #field-course-overview' : "codeMirrorizeTest",
         'mouseover .timezone' : "updateTime",
         // would love to move to a general superclass, but event hashes don't inherit in backbone :-(
         'focus :input' : "inputFocus",
         'blur :input' : "inputUnfocus",
+
+        //'focus #field-course-overview' : "updateOverview",
+        'click .course-overview-template': "showOverviewLayer",
+
         'click .action-upload-image': "uploadImage",
         'click .add-course-learning-info': "addLearningFields",
         'click .add-course-instructor-info': "addInstructorFields",
@@ -91,8 +94,6 @@ var DetailsView = ValidatingView.extend({
 
     },
     setEffort:function(){
-        console.log('setEffort called');
-
         var hh = $("#course-effort-hh").val();
         var mm = $("#course-effort-mm").val();
         var week = $("#course-effort-week").val();
@@ -112,27 +113,23 @@ var DetailsView = ValidatingView.extend({
             mm = "00";
         }
 
-        //if(!video_hh || video_hh == null || video_hh == ""){
-        //    video_hh = "00";
-        //}
-        //
-        //if(!video_mm || video_mm == null || video_mm == ""){
-        //    video_mm = "00";
-        //}
-
-        if(hh.length == 1)
+        if(hh && hh.length == 1)
             hh = "0" + hh;
-        if(mm.length == 1)
+        if(mm && mm.length == 1)
             mm = "0" + mm;
-
+        if(week && week.length == 1)
+            week = "0" + week;
         if(video_hh && video_hh.length == 1)
             video_hh = "0" + video_hh;
         if(video_mm && video_mm.length == 1)
             video_mm = "0" + video_mm;
 
-        $("#course-effort-hh").val(hh);
-        $("#course-effort-mm").val(mm);
-
+        if(hh)
+            $("#course-effort-hh").val(hh);
+        if(mm)
+            $("#course-effort-mm").val(mm);
+        if(week)
+            $("#course-effort-week").val(week);
         if(video_hh)
             $("#course-video-hh").val(video_hh);
         if(video_mm)
@@ -178,6 +175,9 @@ var DetailsView = ValidatingView.extend({
     },
 
     render: function() {
+        console.log("render start --- s");
+        console.log(this.model.get('overview'));
+        console.log("render start --- e");
         // Clear any image preview timeouts set in this.updateImagePreview
         clearTimeout(this.imageTimer);
 
@@ -186,16 +186,8 @@ var DetailsView = ValidatingView.extend({
         DateUtils.setupDatePicker('enrollment_start', this);
         DateUtils.setupDatePicker('enrollment_end', this);
 
-        console.log(this.model.get('course_summary_template'));
-        console.log('main.js render check ------------------------- 1');
-        console.log($('#course-overview').val());
-        console.log('main.js render check ------------------------- 2');
         this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
-        console.log($('#course-overview').val());
-        console.log('main.js render check ------------------------- 3');
         this.codeMirrorize(null, $('#course-overview')[0]);
-        console.log($('#course-overview').val());
-        console.log('main.js render check ------------------------- 4');
 
         if (this.model.get('title') !== '') {
             this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
@@ -559,15 +551,29 @@ var DetailsView = ValidatingView.extend({
         }
     },
     codeMirrors : {},
-    codeMirrorizeTest: function (e, forcedTarget) {
-        console.log('check codeMirrorizeTest - s');
-        console.log(this.model);
-        console.log('check codeMirrorizeTest - e');
+    updateOverview: function () {
+        console.log("codeMirrorizeTest called2");
+        this.model.set('overview', '<h3>Hello, World!!!!</h3>');
+        this.render();
+    },
+    showOverviewLayer: function(event) {
+        event.preventDefault();
 
+        var self = this;
+        var modal = new FileUploadDialog({
+            model: upload,
+            onSuccess: function(response) {
+                var options = {};
+                options[image_key] = response.asset.display_name;
+                options[image_path_key] = response.asset.url;
+                self.model.set(options);
+                self.render();
+                $(selector).attr('src', self.model.get(image_path_key));
+            }
+        });
+        modal.show();
     },
     codeMirrorize: function (e, forcedTarget) {
-
-        console.log('forcedTarget2: ' + forcedTarget);
 
         var thisTarget;
         if (forcedTarget) {
@@ -598,6 +604,10 @@ var DetailsView = ValidatingView.extend({
                         cachethis.setAndValidate(field, newVal);
                     }
             });
+
+        }else{
+            $("#field-course-overview .CodeMirror").remove();
+            CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true});
         }
     },
 

@@ -103,6 +103,11 @@ class CourseDetails(object):
         """
         course_key = course_descriptor.id
         course_details = cls(course_key.org, course_key.course, course_key.run)
+
+        print 'course_details check --- s1'
+        print course_details.overview
+        print 'course_details check --- e1'
+
         course_details.start_date = course_descriptor.start
         course_details.end_date = course_descriptor.end
         course_details.enrollment_start = course_descriptor.enrollment_start
@@ -130,6 +135,10 @@ class CourseDetails(object):
             value = cls.fetch_about_attribute(course_key, attribute)
             if value is not None:
                 setattr(course_details, attribute, value)
+
+        print 'course_details check --- s2'
+        print course_details.overview
+        print 'course_details check --- e2'
 
         return course_details
 

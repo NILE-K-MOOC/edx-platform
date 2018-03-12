@@ -1146,18 +1146,6 @@ def settings_handler(request, course_key_string):
                 # 강좌 상세 내용 조회시 강좌 생성일 및 이수증 생성일을 조회하여 같이 전달
                 course_details = CourseDetails.fetch(course_key)
                 course_details.need_lock = course_need_lock(request, course_key)
-                course_summary_template = ""
-                try:
-                    f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
-                    while True:
-                        line = f.readline()
-                        if not line: break
-                        course_summary_template += str(line)
-                    f.close()
-                except:
-                    pass
-
-                course_details.overview = course_summary_template
 
                 return JsonResponse(
                     course_details,
