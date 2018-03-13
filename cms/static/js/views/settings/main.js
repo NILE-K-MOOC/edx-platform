@@ -23,12 +23,15 @@ var DetailsView = ValidatingView.extend({
         'blur :input' : "inputUnfocus",
 
         //'focus #field-course-overview' : "updateOverview",
-        'click .course-overview-template': "showOverviewLayer",
+        'click .toggleOverviewLayer': "toggleLayer",
+        'click #createOverview': "createOverview",
+        'click .tabs>div': "tabChange",
 
         'click .action-upload-image': "uploadImage",
         'click .add-course-learning-info': "addLearningFields",
         'click .add-course-instructor-info': "addInstructorFields",
 
+        //setEffort event 관련
         'blur #course-effort-hh': "setEffort",
         'blur #course-effort-mm': "setEffort",
         'blur #course-video-hh': "setEffort",
@@ -42,11 +45,8 @@ var DetailsView = ValidatingView.extend({
     },
 
     initialize : function(options) {
-        //console.log('model check s --------------------------------');
-        //console.log(this.model);
-        //console.log('model check e --------------------------------');
-
         options = options || {};
+
         // fill in fields
         this.$el.find("#course-language").val(this.model.get('language'));
         this.$el.find("#course-organization").val(this.model.get('org'));
@@ -159,21 +159,27 @@ var DetailsView = ValidatingView.extend({
         if(video && video != "")
             val = val + "#" + video;
 
-        console.log('value..s---------------------------------------------');
-        console.log(hh + " " + typeof(hh));
-        console.log(mm + " " + typeof(mm));
-        console.log(week + " " + typeof(week));
-        console.log(video + " " + typeof(video));
-        console.log(val + " " + typeof(val));
-        console.log('value..e---------------------------------------------');
-
-
         $("#course-effort").val(val);
-        console.log("course-effort value is = " + $("#course-effort").val());
-
         $("#course-effort").trigger("change");
     },
+    createOverview: function(event){
+        event.preventDefault();
+        console.log('createOverview click');
 
+        //make html source
+
+        $("#overviewEditLayer").toggle();
+    },
+    toggleLayer: function(event){
+        event.preventDefault();
+        $("#overviewEditLayer").toggle();
+    },
+    tabChange: function(event){
+        event.preventDefault();
+        var t = event.currentTarget.getAttribute('data-target');
+        $("#overviewEditLayer div[id^='overview-tab']").hide();
+        $("#" + t).show();
+    },
     render: function() {
         console.log("render start --- s");
         console.log(this.model.get('overview'));
@@ -558,20 +564,8 @@ var DetailsView = ValidatingView.extend({
     },
     showOverviewLayer: function(event) {
         event.preventDefault();
+        console.log("showOverviewLayer called2");
 
-        var self = this;
-        var modal = new FileUploadDialog({
-            model: upload,
-            onSuccess: function(response) {
-                var options = {};
-                options[image_key] = response.asset.display_name;
-                options[image_path_key] = response.asset.url;
-                self.model.set(options);
-                self.render();
-                $(selector).attr('src', self.model.get(image_path_key));
-            }
-        });
-        modal.show();
     },
     codeMirrorize: function (e, forcedTarget) {
 

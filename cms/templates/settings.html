@@ -337,47 +337,120 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     )}</span>
 
                             <!-- 입력 양식 제공 버튼 -->
-                            <button type="button" class="action course-overview-template" id="course-overview-template" style="float: right;width: 20%;margin: 15px 0 0 0;padding: 10px 20px;font-size: 1.2rem;line-height: 1.776rem;transition: all 0.15s;text-align: center;border-radius: 5px;border: 1px solid #66c5f0;background-color: transparent;color: #66c5f0;">
+                            <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn" style="float: right;width: 20%;margin: 15px 0 0 0;padding: 10px 20px;font-size: 1.2rem;line-height: 1.776rem;transition: all 0.15s;text-align: center;border-radius: 5px;border: 1px solid #66c5f0;background-color: transparent;color: #66c5f0;">
                                 수정
                             </button>
 
                             <!-- 강좌 개요 입력 폼 -->
                             <style>
+                                .modal-window-overlay{
+                                    display: block;
+                                }
+
                                 .overview-modal{
+                                    display: block;
                                     position: fixed !important;
-                                    top: 40% !important;
+                                    top: 30% !important;
                                     left: 10% !important;
                                     width: 80% !important;
                                     min-width: 400px !important;
                                 }
 
+                                .tabs{
+                                    width: 100%;
+                                }
+
+                                .tabs div{
+                                    float: left;
+                                    border: 1px solid #ccc;
+                                    width: calc(100% / 6 - 2px);
+                                    text-align: center;
+                                    background-color: #eee;
+                                    -webkit-border-radius: 5px 5px 0 0;
+                                    -moz-border-radius: 5px 5px 0 0;
+                                    border-radius: 5px 5px 0 0;
+                                    padding: 5px 0;
+                                }
+
+                                .tabs div.on{
+                                    border: 1px solid #009fe6;
+                                    background-color: #009fe6;
+                                    color: #fff;
+                                }
+
+                                .tabs div:hover, .toggleOverviewLayerBtn:hover{
+                                    background-color: #36B4E8 !important;
+                                    color: #fff !important;
+                                    transition: background-color 0.25s ease-in-out 0s;
+                                    cursor: pointer !important;
+                                }
+
+                                .overview-layer-popup textarea{
+                                    height: 200px !important;
+                                }
+
+                                .overview-layer-popup .modal-content{
+                                    min-height: 270px;
+                                }
                             </style>
-                            <div>
+
+                            <div id="overviewEditLayer" style="display: none;">
                                <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
                                   <div class="modal-window-overlay"></div>
-                                  <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1" aria-labelledby="modal-window-title" style="top: 2084.5px; left: 325px;">
-                                     <div class="assetupload-modal">
+                                  <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
+                                     <div class="overview-layer-popup">
                                         <div class="modal-header">
-                                           <h2 id="modal-window-title" class="title modal-window-title">강좌 대표 이미지를 업로드하세요.</h2>
+                                           <h2 id="modal-window-title" class="title modal-window-title">강좌 개요 입력 양식.</h2>
                                            <ul class="editor-modes action-list action-modes">
                                            </ul>
                                         </div>
                                         <div class="modal-content">
-                                           <form class="upload-dialog" method="POST" action="/assets/course-v1:new+01+01/" enctype="multipart/form-data">
-                                              <p id="dialog-assetupload-description" class="message">파일은 JPEG 혹은 PNG 포맷이어야 합니다.</p>
-                                              <input type="file" name="file">
-                                              <div class="status-upload">
-                                              </div>
-                                           </form>
+                                           <ol class="list-input">
+                                               <li class="field text" id="field-course-short-description">
+                                                  <div class="tabs">
+                                                      <div data-target="overview-tab1" class="on">강좌소개</div>
+                                                      <div data-target="overview-tab2">강좌계획</div>
+                                                      <div data-target="overview-tab3">강좌운영진소개</div>
+                                                      <div data-target="overview-tab4">강좌수강정보</div>
+                                                      <div data-target="overview-tab5">FAQ</div>
+                                                      <div data-target="overview-tab6">사용자추가</div>
+                                                  </div>
+                                                  <div id="overview-tab1">
+                                                    <textarea class="text">1</textarea>
+                                                  </div>
+
+                                                  <div id="overview-tab2" style="display: none;">
+                                                    <textarea class="text">2</textarea>
+                                                  </div>
+
+                                                  <div id="overview-tab3" style="display: none;">
+                                                    <textarea class="text">3</textarea>
+                                                  </div>
+
+                                                  <div id="overview-tab4" style="display: none;">
+                                                    <textarea class="text">4</textarea>
+                                                  </div>
+
+                                                  <div id="overview-tab5" style="display: none;">
+                                                    <textarea class="text">5</textarea>
+                                                  </div>
+
+                                                  <div id="overview-tab6" style="display: none;">
+                                                    <textarea class="text">6</textarea>
+                                                  </div>
+
+                                                  <span class="tip tip-stacked">항목별로 양식을 입력후 적용을 누르면 기본 양식의 HTML 이 작성됩니다.</span>
+                                               </li>
+                                           </ol>
                                         </div>
                                         <div class="modal-actions">
                                            <h3 class="sr">액션</h3>
                                            <ul>
                                               <li class="action-item">
-                                                 <a href="#" class="button action-primary action-upload disabled">업로드</a>
+                                                 <a href="#" class="button action-primary" id="createOverview">적용</a>
                                               </li>
                                               <li class="action-item">
-                                                 <a href="#" class="button  action-cancel">취소</a>
+                                                 <a href="#" class="button  action-cancel toggleOverviewLayer">취소</a>
                                               </li>
                                            </ul>
                                         </div>
