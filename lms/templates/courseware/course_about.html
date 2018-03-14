@@ -111,6 +111,10 @@ from openedx.core.lib.courses import course_image_url
 </%block>
 
 <%block name="pagetitle">${course.display_name_with_default_escaped}</%block>
+<!-- 강좌 개요가 공통양식이면 기본 css 를 추가 -->
+% if common_overview_template == 'Y':
+    <link rel="stylesheet" type="text/css" href="/static/css/common-overview-template.css" />
+% endif
 
 <section class="course-info">
   <header class="course-profile">
@@ -338,7 +342,7 @@ from openedx.core.lib.courses import course_image_url
   </div>
 
   </div>
-</div>
+</div><a href="#video-modal" class="media" rel="leanModal">
 
 ## Need to put this hidden form on the page so that the registration button works.
 ## Since it's no harm to display a hidden form, we display it with the most permissive conditional

@@ -34,7 +34,7 @@ from openedx.core.djangolib.markup import HTML, Text
 </%block>
 
 <%block name="requirejs">
-require(["js/factories/settings"], function(SettingsFactory) {
+require(["js/factories/settings", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min", "js/vendor/tinymce/js/tinymce/tinymce.full.min", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min"], function(SettingsFactory) {
 SettingsFactory(
 "${details_url | n, js_escaped_string}",
 ${show_min_grade_warning | n, dump_js_escaped_json}
@@ -358,6 +358,8 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 
                                 .tabs{
                                     width: 100%;
+                                    clear: both;
+                                    overflow: auto;
                                 }
 
                                 .tabs div{
@@ -385,12 +387,21 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                     cursor: pointer !important;
                                 }
 
-                                .overview-layer-popup textarea{
-                                    height: 200px !important;
-                                }
-
                                 .overview-layer-popup .modal-content{
                                     min-height: 270px;
+                                }
+
+                                .overview-contents{
+                                    display: none;
+                                }
+                                .overview-contents.on{
+                                    display: block;
+                                }
+                                .overview-contents p{
+                                    margin: 15px 0 0 0;
+                                }
+                                .overview-contents textarea:nth-child(1){
+                                    min-height: 100px !important;
                                 }
                             </style>
 
@@ -415,27 +426,31 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                       <div data-target="overview-tab5">FAQ</div>
                                                       <div data-target="overview-tab6">사용자추가</div>
                                                   </div>
-                                                  <div id="overview-tab1">
-                                                    <textarea class="text">1</textarea>
+                                                  <div id="overview-tab1" class="overview-contents on">
+                                                    <p>수업내용/목표</p>
+                                                    <textarea class="text" rows="3">1</textarea>
+
+                                                    <p>홍보영상/예시강의</p>
+                                                    <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
                                                   </div>
 
-                                                  <div id="overview-tab2" style="display: none;">
-                                                    <textarea class="text">2</textarea>
+                                                  <div id="overview-tab2" class="overview-contents">
+                                                    <textarea class="text" id="textarea2">2</textarea>
                                                   </div>
 
-                                                  <div id="overview-tab3" style="display: none;">
+                                                  <div id="overview-tab3" class="overview-contents">
                                                     <textarea class="text">3</textarea>
                                                   </div>
 
-                                                  <div id="overview-tab4" style="display: none;">
+                                                  <div id="overview-tab4" class="overview-contents">
                                                     <textarea class="text">4</textarea>
                                                   </div>
 
-                                                  <div id="overview-tab5" style="display: none;">
+                                                  <div id="overview-tab5" class="overview-contents">
                                                     <textarea class="text">5</textarea>
                                                   </div>
 
-                                                  <div id="overview-tab6" style="display: none;">
+                                                  <div id="overview-tab6" class="overview-contents">
                                                     <textarea class="text">6</textarea>
                                                   </div>
 

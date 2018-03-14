@@ -23,7 +23,7 @@ var DetailsView = ValidatingView.extend({
         'blur :input' : "inputUnfocus",
 
         //'focus #field-course-overview' : "updateOverview",
-        'click .toggleOverviewLayer': "toggleLayer",
+        'click .toggleOverviewLayer': "toggleOverviewLayer",
         'click #createOverview': "createOverview",
         'click .tabs>div': "tabChange",
 
@@ -92,6 +92,9 @@ var DetailsView = ValidatingView.extend({
             model: this.model
         });
 
+        //overviewLayer setting
+        console.log('tinyMCE init.');
+        tinyMCE.get('textarea2');
     },
     setEffort:function(){
         var hh = $("#course-effort-hh").val();
@@ -170,7 +173,7 @@ var DetailsView = ValidatingView.extend({
 
         $("#overviewEditLayer").toggle();
     },
-    toggleLayer: function(event){
+    toggleOverviewLayer: function(event){
         event.preventDefault();
         $("#overviewEditLayer").toggle();
     },
@@ -181,9 +184,9 @@ var DetailsView = ValidatingView.extend({
         $("#" + t).show();
     },
     render: function() {
-        console.log("render start --- s");
-        console.log(this.model.get('overview'));
-        console.log("render start --- e");
+        //console.log("render start --- s");
+        //console.log(this.model.get('overview'));
+        //console.log("render start --- e");
         // Clear any image preview timeouts set in this.updateImagePreview
         clearTimeout(this.imageTimer);
 

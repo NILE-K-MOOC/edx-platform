@@ -1,0 +1,198 @@
+/*************************0. Overall***************************/
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?v=4.3.0");
+  src: url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?#iefix&v=4.3.0") format('embedded-opentype'),
+       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.97493d3f11c0.woff2?v=4.3.0") format('woff2'),
+       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.d9ee23d59d0e.woff?v=4.3.0") format('woff'),
+       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.706450d7bba6.ttf?v=4.3.0") format('truetype'),
+       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.2980083682e9.svg?v=4.3.0#fontawesomeregular") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+#course-info section{line-height:160%; width: 98%;margin-top:40px}
+#course-info article{padding-top:10px;padding-left:15px}
+#course-info h2,h3{font-weight:bold; font-family: "Nanum Gothic","Open Sans";}
+#course-info h2{font-size: 1.4rem; margin: 1.25rem 0 0.28rem 0;}
+#course-info h3{font-size: 1.1rem; margin: 0.25rem 0 0.25rem 0;}
+#course-info .article_contents{padding-left:10px;}
+#course-info p{text-indent: 1rem; text-align: justify;}
+
+table caption{display: none}
+
+/*Bullet image*/
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-size: inherit;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-rendering: auto;
+    transform: translate(0px, -1.5px);
+    width: 30px;
+
+  }
+
+.fa-chevron-down:before {  content: "\f078";}
+.fa-institution:before,.fa-bank:before,.fa-university:before {  content: "\f19c";}
+.fa-mortar-board:before,.fa-graduation-cap:before {  content: "\f19d";}
+.fa-video-camera:before {  content: "\f03d";}
+.fa-edit:before,.fa-pencil-square-o:before {  content: "\f044";}
+.fa-mortar-board:before,.fa-graduation-cap:before {  content: "\f19d";}
+.fa-envelope-o:before {  content: "\f003";}
+.fa-group:before,.fa-users:before {  content: "\f0c0";}
+.fa-align-left:before {  content: "\f036";}
+.fa-toggle-right:before,.fa-caret-square-o-right:before {  content: "\f152";}
+.fa-calendar:before {  content: "\f073";}
+.fa-user:before {  content: "\f007";}
+.fa-angle-double-right:before {  content: "\f101";}
+.fa-info-circle:before {  content: "\f05a";}
+.fa-book:before {  content: "\f02d";}
+.fa-sort-amount-desc:before {  content: "\f161";}
+.fa-question-circle:before {  content: "\f059";}
+
+
+/*youtube*/
+.youtubewrap {
+    position: relative;
+    max-width: 100%;
+    height: auto;
+    padding-bottom: 56.25% !important;
+    padding-top:5px;
+    overflow:hidden;
+  }
+.youtubewrap iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+
+.subtitle_box {
+    overflow-y: scroll;
+    height: 6rem;
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid #cbcbcb;
+}
+
+.subtitle_section {
+    overflow: hidden;
+    line-height: 1rem;
+    font-size: small;
+}
+.subtitle_section p{ text-indent: 0rem;}
+
+/*************************2.Course-plan ***************************/
+
+.syllabus input {display: none;}
+
+
+#toggle + label {
+  position:relative;
+  cursor:pointer;
+  padding:10px;
+  background: rgba(27, 114, 204, 0.8);
+  border-radius: 3px;
+  padding: 8px 10px;
+  color: #FFF;
+  line-height:20px;
+  font-size:12px;
+  text-align:center;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  transition:all 500ms ease;
+  display:block;
+  font-family:"Helvetica Neue", Helvetica, Sans-serif;
+  font-style: normal;
+  overflow: hidden;
+}
+#toggle + label:after {
+  content:"강좌계획표 펼치기"
+}
+
+#toggle:checked ~ .syllabus_table {
+
+  top: 0;
+  visibility: visible;
+  position:relative;
+  transition: visibility 1s, opacity 1s
+
+}
+
+
+#toggle:checked + label {
+  background:#aaa;
+}
+
+#toggle:checked + label:after {
+  content:"강좌계획표 닫기"
+}
+
+
+.syllabus_table {
+margin-top:20px;
+background:#fff;
+position: absolute;
+visibility: hidden;
+left: 0;
+width: 100%;
+overflow: hidden;
+box-sizing: border-box;
+}
+.syllabus_table h1 {
+  color:#FFF;
+}
+
+
+.syllabus_table table{width:100%; background-color:#ffffff;font-size:13px;border-spacing:0; border-collapse:collapse;border:1px solid #c8c8c8; }
+.syllabus_table table th{padding:10px 10px;border-left:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8; background-color:#eeeeee}
+.syllabus_table table td{padding:10px 10px;border-right:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8;line-height:140%; }
+.syllabus_table table td.bgcolor{background-color:#dcdcdc}
+.syllabus_table table td.cts{text-align:center; max-width:10%}
+
+
+
+/*************************3.Course-staff ***************************/
+
+.staff{width:100%; margin-bottom: 0px;}
+.staff div{display:inline-block; zoom:1; *display:inline;line-height:180%}
+.staff div img{width:100%;height:auto}
+.staff div dt i{width: 17px}
+.staff div dd{margin: 0;}
+.staff .teacher_image{    width: 200px;     max-width: 33%;    min-width: 150px;}
+.staff .ta_image{         width: 150px;     max-width: 23%;    min-width: 100px;}
+.staff .staff_descript{ vertical-align:top; padding-left:10px;}
+.staff .staff_descript dl,dl{margin :0;}
+
+
+
+
+.grade_table {
+margin-top:20px;
+background:#fff;
+left: 0;
+width: 100%;
+overflow: hidden;
+box-sizing: border-box;
+}
+
+.grade_table table{width:100%; background-color:#ffffff;font-size:13px;border-spacing:0; border-collapse:collapse;border:1px solid #c8c8c8; }
+.grade_table table th{padding:10px 10px;border-left:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8; background-color:#eeeeee}
+.grade_table table td{padding:10px 10px;border-right:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8;line-height:140%; }
+.grade_table table td.bgcolor{background-color:#dcdcdc}
+.grade_table table td.cts{text-align:center; max-width:10%}
+
+
+/*************************5.faq ***************************/
+.faq .question{margin-bottom: 0px;}
+.faq .question h4 {margin :0.1rem 0 0.2rem 0 ;}
+

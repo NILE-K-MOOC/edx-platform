@@ -921,7 +921,8 @@ def course_about(request, course_id):
             'classfy_name': classfy_name,
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
-            'enroll_edate': enroll_edate
+            'enroll_edate': enroll_edate,
+            'common_overview_template': 'Y'
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
