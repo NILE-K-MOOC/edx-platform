@@ -23,44 +23,44 @@ from openedx.core.djangolib.markup import HTML, Text
 <script language="Javascript">
 
 
-function popClose(id){
-    $("#" + id).hide();
-}
-
-function setCookie( name, value, expiredays ) {
-    var todayDate = new Date();
-
-    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-}
-
-function closeWin(check, id, hidden_day) {
-    if ($("#" + check).is(":checked")){
-        setCookie( id , "done" , hidden_day);
+    function popClose(id){
+        $("#" + id).hide();
     }
-    $("#" + id).css("display" , "none");
-}
 
-cookiedata = document.cookie;
+    function setCookie( name, value, expiredays ) {
+        var todayDate = new Date();
 
-$("#layerPopupArea .pop_content").each(function() {
-    var content_id = $(this).attr("id");
-    $("#"+content_id).html($("#"+content_id).text());
-});
+        todayDate.setDate( todayDate.getDate() + Number(expiredays) );
+        document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
 
-var leng = '${max_pop}';
-leng = Number(leng);
-for (var i = 1; i<=leng; i++) {
-    if (cookiedata.indexOf(i +"=done") < 0) {
+    function closeWin(check, id, hidden_day) {
+        if ($("#" + check).is(":checked")){
+            setCookie( id , "done" , hidden_day);
+        }
+        $("#" + id).css("display" , "none");
+    }
+
+    cookiedata = document.cookie;
+
+    $("#layerPopupArea .pop_content").each(function() {
+        var content_id = $(this).attr("id");
+        $("#"+content_id).html($("#"+content_id).text());
+    });
+
+    var leng = '${max_pop}';
+    leng = Number(leng);
+    for (var i = 1; i<=leng; i++) {
+        if (cookiedata.indexOf(i +"=done") < 0) {
         %if LANG == 'en':
             $("#" + i).css("display" , "none");
         %else:
             $("#" + i).css("display" , "''");
         %endif
-} else {
-    $("#" + i).css("display" , "none");
-}
-}
+        } else {
+            $("#" + i).css("display" , "none");
+        }
+    }
 
 </script>
 
@@ -70,53 +70,31 @@ for (var i = 1; i<=leng; i++) {
     <section class="home">
         <!-- [s] main top -->
         <header>
-            <div class="header-slider">
-                <div class="slider-back">
-                    <div class="outer-wrapper">
-                        <div class="title">
-                            <div class="heading-group">
-                                % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>미래를 여는 최고의 강좌</h1>
-                                <p>K-MOOC, Top Quality Courses</p><br/>
-                                    <p>for Your Future</p>
-                                % else:
-                                <h1>K-MOOC, Top Quality Courses <br/>
-                                    for Your Future</h1>
-                                % endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-back">
-                    <div class="outer-wrapper animation-title-appear">
-                        <div class="title">
-                            <div class="heading-group">
-                                % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>누구에게나 열린 평생교육</h1>
-                                <p>A Lifelong Open Education</p><br/>
-                                <p>for Everyone</p>
-                                % else:
-                                <h1>A Lifelong Open Education<br/>for Everyone</h1>
-                                % endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-back">
-                    <div class="outer-wrapper">
-                        <div class="title">
-                            <div class="heading-group">
-                                % if LANGUAGE_CODE == 'ko-kr':
-                                <h1>오늘의 필요를 위한 학습</h1>
-                                <p>Just-in-time Learning for Today</p>
-                                % else:
-                                <h1>Just-in-time Learning for Today</h1>
-                                % endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+            <div class="ttbg" style="max-width: 100%; height:495px; ">
+                <div class="ttbg1">
+			<span class="k-bannner-txt">
+                % if LANGUAGE_CODE == 'ko-kr':
+                        <h1>미래를 여는 최고의 강좌</h1>
+			            <h3>K-MOOC, Top Quality Courses for Your Future</h3>
+                % else:
+                        <h3>K-MOOC, Top Quality Courses for Your Future</h3>
+                % endif
+
+			</span>
+
+			<div class="mserch_area">
+                <input class="mserch_input" type="text" placeholder="어떤 강좌를 학습하고 싶으세요?" aria-label="어떤 강좌를 학습하고 싶으세요?">
+			<span class="mserch_btnarea">
+			<button class="mserch_btn" type="button"><img src="/static/images/icon-search.png" alt="search"></button>
+			</span>
             </div>
+
+            </div>
+                    <div class="ttbg2">
+                        <img src="/static/images/css/main_top_bg2.png" alt="나무"/>
+                    </div>
+                </div>
         </header>
         <!-- [e] main top -->
 
@@ -160,7 +138,7 @@ for (var i = 1; i<=leng; i++) {
                     <li class="university-listing-item"><a href="/school/ACEk"><img src="/static/images/univ/logo01_ACEk.png" alt="ACE"></a></li>
                     <li class="university-listing-item"><a href="/school/CKk"><img src="/static/images/univ/logo01_CKk.png" alt="CK"></a></li>
                     <li class="university-listing-item"><a href="/school/COREk"><img src="/static/images/univ/logo01_COREk.png" alt="CORE"></a></li>
-                  % else:
+                    % else:
                     <li class="university-listing-item"><a href="/school/KonkukK"><img src="/static/images/univ_e/logo01_KONKUK_e.png" alt="KONKUK UNIVERSITY"></a></li>
                     <li class="university-listing-item"><a href="/school/KYUNGNAMUNIVk"><img src="/static/images/univ_e/logo01_KYUNGNAMUNIVk_e.png" alt="KYUNGNAM UNIVERSITY"></a></li>
                     <li class="university-listing-item"><a href="/school/KSUk"><img src="/static/images/univ_e/logo01_KYUNGSUNG_e.jpg" alt="KYUNGSUNG UNIVERSITY"></a></li>
@@ -195,13 +173,16 @@ for (var i = 1; i<=leng; i++) {
                     <li class="university-listing-item"><a href="/school/ACEk"><img src="/static/images/univ_e/logo01_ACEk_e.png" alt="ACE"></a></li>
                     <li class="university-listing-item"><a href="/school/CKk"><img src="/static/images/univ_e/logo01_CKk_e.png" alt="CK"></a></li>
                     <li class="university-listing-item"><a href="/school/COREk"><img src="/static/images/univ_e/logo01_COREk_e.png" alt="CORE"></a></li>
-                  % endif
+                    % endif
 
                 </ul>
                 <a href="/schools" class="univ-more">전체보기</a>
             </section>
         </section>
         <!-- [e] university list -->
+
+        <!-- community-container-wrap s -->
+        <div class="community-container-wrap">
 
         <!-- [s] course list -->
         <section class="courses-container full" id="main-contents05">
@@ -285,6 +266,9 @@ for (var i = 1; i<=leng; i++) {
         </section>
         <!-- [e] major course list -->
 
+            </div>
+        <!-- community-container-wrap e -->
+
         <!-- [s] my course -->
         <section class="my-course-container" id="main-contents03">
             <h2 class="main-title">< ${_("Find Courses for me")} ></h2>
@@ -364,12 +348,12 @@ for (var i = 1; i<=leng; i++) {
                                     </h3>
                                     <time>${list[4]}</time>
                                     <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-                                   <!-- <time>${list[4]}</time> -->
+                                    <!-- <time>${list[4]}</time> -->
                                 </a>
                             </div>
                         </div>
                         % endif
-                    % endfor
+                        % endfor
                     </div>
                     <div align="right" class="btns">
                         <a class="btn-neutral" href="comm_notice" style="margin-top: 20px;" title="공지사항 더보기">더보기</a>
@@ -400,20 +384,20 @@ for (var i = 1; i<=leng; i++) {
                 </div> -->
                 <div class="grid-container grid-manual community" id="community02">
                     <div class="row">
-                    % for list in index_list :
+                        % for list in index_list :
                         % if list[5] == 'K':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
                             <div class="community-item">
                                 <a href="/comm_view/${list[0]}/">
-                                <h3 style="background-image: url(${list[3]}); background-size: 100% 100%;" title="${list[7]}">
-                                </h3>
+                                    <h3 style="background-image: url(${list[3]}); background-size: 100% 100%;" title="${list[7]}">
+                                    </h3>
                                     <time>${list[4]}</time>
                                     <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
                                 </a>
                             </div>
                         </div>
                         % endif
-                    % endfor
+                        % endfor
                     </div>
                     <div align="right" class="btns">
                         <a class="btn-neutral" href="comm_k_news" style="margin-top: 20px;" title="K-MOOC 뉴스 더보기">더보기</a>
@@ -424,7 +408,7 @@ for (var i = 1; i<=leng; i++) {
                 <a href="#community03" title="자료실">자료실</a>
                 <div class="grid-container grid-manual community" id="community03">
                     <div class="row">
-                    % for list in index_list :
+                        % for list in index_list :
                         % if list[5] == 'R':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
                             <div class="community-item">
@@ -439,7 +423,7 @@ for (var i = 1; i<=leng; i++) {
                             </div>
                         </div>
                         % endif
-                    % endfor
+                        % endfor
                     </div>
                     <div align="right" class="btns">
                         <a class="btn-neutral" href="comm_repository" style="margin-top: 20px;" title="자료실 더보기">더보기</a>
@@ -450,7 +434,7 @@ for (var i = 1; i<=leng; i++) {
                 <a href="#community04" title="Q&A">Q&A</a>
                 <div class="grid-container grid-manual community" id="community04">
                     <div class="row">
-                    % for list in index_list :
+                        % for list in index_list :
                         % if list[5] == 'F':
                         <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
                             <div class="community-item">
@@ -466,7 +450,7 @@ for (var i = 1; i<=leng; i++) {
                             </div>
                         </div>
                         % endif
-                    % endfor
+                        % endfor
                     </div>
                     <div align="right" class="btns">
                         <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;" title="Q&A 더보기">더보기</a>
@@ -483,21 +467,21 @@ for (var i = 1; i<=leng; i++) {
 
 
 % if show_homepage_promo_video:
-  <section id="video-modal" class="modal home-page-video-modal video-modal" title="비디오">
+<section id="video-modal" class="modal home-page-video-modal video-modal" title="비디오">
     <div class="inner-wrapper">
-      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+        <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
     </div>
-  </section>
+</section>
 % endif
 
 <%block name="js_extra">
-   <script type="text/javascript">
-        $(window).load(function() {
-            if(getParameterByName('next')) {
-                $('#login').trigger("click");
-            }
-        });
-   </script>
+<script type="text/javascript">
+    $(window).load(function() {
+        if(getParameterByName('next')) {
+            $('#login').trigger("click");
+        }
+    });
+</script>
 </%block>
 
 <!-- sidebar -->
@@ -514,11 +498,11 @@ for (var i = 1; i<=leng; i++) {
 </nav>
 
 <script type="text/javascript">
-$(function(){
-	$(".smooth-move").on("click", function(event){
-        event.preventDefault();
-        var hashbang = $("#"+$(this).data("hashbang")).offset();
-        $('html, body').stop().animate({scrollTop: hashbang.top-110}, 'slow');
-	});
-})
+    $(function(){
+        $(".smooth-move").on("click", function(event){
+            event.preventDefault();
+            var hashbang = $("#"+$(this).data("hashbang")).offset();
+            $('html, body').stop().animate({scrollTop: hashbang.top-110}, 'slow');
+        });
+    })
 </script>
