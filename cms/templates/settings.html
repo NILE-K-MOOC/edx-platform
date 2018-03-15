@@ -43,6 +43,14 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 </%block>
 
 <%block name="content">
+<script>
+
+    function test111(){
+        console.log('test111 called');
+        tinyMCE.get('text2').setContent('<h3>Hello, World!</h3>');
+    }
+</script>
+
 <div class="wrapper-mast wrapper">
     <header class="mast has-subtitle">
         <h1 class="page-header">
@@ -435,7 +443,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                   </div>
 
                                                   <div id="overview-tab2" class="overview-contents">
-                                                    <textarea class="text" id="textarea2">2</textarea>
+                                                    <textarea class="text" id="text2">2</textarea>
                                                   </div>
 
                                                   <div id="overview-tab3" class="overview-contents">

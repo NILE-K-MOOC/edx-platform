@@ -2143,6 +2143,10 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
             login(request, user)
             if request.POST.get('remember') == 'true':
                 request.session['ISREMEMBER'] = True
+
+                # test
+                # request.session.set_expiry(10)
+
                 request.session.set_expiry(604800)
                 log.debug("Setting user session to never expire")
             else:

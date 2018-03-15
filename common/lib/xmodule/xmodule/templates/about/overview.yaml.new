@@ -1,0 +1,263 @@
+---
+metadata:
+    display_name: overview
+
+data:
+    <section class="about">
+        <h2><i class="fa fa-university"></i>강좌 소개</h2>
+        <article>
+            <h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3>
+            <div class="article_contents">
+                이 강좌의 수업내용/목표 에 대한 내용이 표시됩니다.
+            </div>
+        </article>
+        <article>
+            <h3><i class="fa fa-video-camera"></i>홍보영상/예시강의</h3>
+            <div class="article_contents">
+                <div class="youtubewrap">
+                    <iframe title="홍보영상/예시강의" src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                </div>
+            </div>
+        </article>
+    </section>
+    <section class="course-plan">
+        <h2><i class="fa fa-calendar"></i>강좌 계획</h2>
+        <article class="syllabus">
+            <div class="article_contents">
+                <input type="checkbox" name="toggle" id="toggle" />
+                <label for="toggle"></label>
+                <div class="syllabus_table">
+                    <table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서">
+                        <caption>강의계획서</caption>
+                        <colgroup>
+                            <col width="5%" />
+                            <col width="30%" />
+                            <col width="" />
+                            <col width="15%" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>
+                                    주차
+                                </th>
+                                <th>
+                                    주차명
+                                </th>
+                                <th>
+                                    차시명
+                                </th>
+                                <th>
+                                    과제
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2" class="cts">
+                                    1
+                                </td>
+                                <td rowspan="2">
+                                    주차1
+                                </td>
+                                <td>
+                                    차시1
+                                </td>
+                                <td class="cts">
+                                    퀴즈1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    차시2
+                                </td>
+                                <td class="cts">
+                                    토론
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cts">
+                                    2
+                                </td>
+                                <td>
+                                    주차2
+                                </td>
+                                <td>
+                                    차시1
+                                </td>
+                                <td class="cts">
+                                    토론
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="bgcolor cts">
+                                    중간시험
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cts">
+                                    3
+                                </td>
+                                <td>
+                                    주차3
+                                </td>
+                                <td>
+                                    차시1
+                                </td>
+                                <td class="cts">
+                                    상호평가
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="cts bgcolor">
+                                    기말시험
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </article>
+    </section>
+    <section class="course-staff">
+        <h2><i class="fa fa-group (alias)"></i>강좌운영진 소개</h2>
+        <article>
+            <h3><i class="fa fa-user"></i>교수자</h3>
+            <article class="staff">
+                <div class="teacher_image">
+                    <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
+                </div>
+                <div class="staff_descript">
+                    <dl>
+                        <dt>
+                         <i class="fa fa-angle-double-right"></i>대표교수  &#58; 홍길동 교수
+                      </dt>
+                        <dd>현) 한국대학교 컴퓨터공학부 교수</dd>
+                        <dd>학력&#58; 한국대학교. 컴퓨터공학 박사</dd>
+                        <dd>전) S기업 연구원</dd>
+                        <dd>전) 한국대학교 연구원</dd>
+                    </dl>
+                </div>
+            </article>
+            <article class="staff">
+                <div class="teacher_image">
+                    <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
+                </div>
+                <div class="staff_descript">
+                    <dl>
+                        <dt>
+                         <i class="fa fa-angle-double-right"></i>대표교수  &#58; 홍길동 교수
+                      </dt>
+                        <dd>현) 한국대학교 컴퓨터공학부 교수</dd>
+                        <dd>학력&#58; 한국대학교. 컴퓨터공학 박사</dd>
+                        <dd>전) S기업 연구원</dd>
+                        <dd>전) 한국대학교 연구원</dd>
+                    </dl>
+                </div>
+            </article>
+        </article>
+        <article>
+            <h3><i class="fa fa-user"></i>강좌지원팀</h3>
+            <article class="staff">
+                <div class="ta_image">
+                    <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
+                </div>
+                <div class="staff_descript">
+                    <dl>
+                        <dt>
+                         <i class="fa fa-angle-double-right"></i>학습 지원  김조교
+                      </dt>
+                        <dd>한국대학교 컴퓨터공학부 박사과정</dd>
+                        <dd>E-mail&#58;
+                            <a href="mailto:rbigui@mail.ulsan.ac.kr" target="_top" alt="mailto send rbigui@mail.ulsan.ac.kr"> ta@ko.ac.kr</a>
+                        </dd>
+                    </dl>
+                </div>
+            </article>
+            <article class="staff">
+                <div class="ta_image">
+                    <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
+                </div>
+                <div class="staff_descript">
+                    <dl>
+                        <dt>
+                         <i class="fa fa-angle-double-right"></i>운영 지원 &#58; 김조교
+                      </dt>
+                        <dd>한국대학교 컴퓨터공학부 박사과정</dd>
+                        <dd>E-mail&#58;
+                            <a href="mailto:rbigui@mail.ulsan.ac.kr" target="_top" alt="mailto send rbigui@mail.ulsan.ac.kr"> ta@ko.ac.kr</a>
+                        </dd>
+                    </dl>
+                </div>
+            </article>
+        </article>
+    </section>
+    <section class="info">
+        <h2><i class="fa fa-info-circle"></i>강좌 수강 정보</h2>
+        <article>
+            <h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3>
+            <div class="grade_table">
+                <table summary="이수/평가정보">
+                    <caption>이수/평가정보</caption>
+                    <colgroup>
+                        <col width="5%" />
+                        <col width="30%" />
+                        <col width="" />
+                        <col width="15%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>
+                                주차
+                            </th>
+                            <th>
+                                주차명
+                            </th>
+                            <th>
+                                차시명
+                            </th>
+                            <th>
+                                과제
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                주차1
+                            </td>
+                            <td>
+                                차시1
+                            </td>
+                            <td>
+                                퀴즈1
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        <article>
+            <h3><i class="fa fa-sort-amount-desc"></i>강좌 수준 및 선수요건</h3>
+            <p>이 강좌는 유익한 내용이 다수 포함되어 있습니다.
+            </p>
+        </article>
+        <article>
+            <h3><i class="fa fa-book"></i>교재 및 참고문헌</h3>
+            <p>이 강좌는 여러가지 참고자료가 많이 있습니다.
+            </p>
+        </article>
+    </section>
+    <section class="faq">
+        <h2><i class="fa fa-question-circle"></i>자주 묻는 질문</h2>
+        <article class="question">
+            <h4>Q1. 강좌 교재가 따로 있나요?</h4>
+            <p>네. 있습니다.</p>
+        </article>
+        <article class="question">
+            <h4>Q2. 강좌 교재가 따로 있나요?</h4>
+            <p>네. 있습니다.</p>
+        </article>
+    </section>

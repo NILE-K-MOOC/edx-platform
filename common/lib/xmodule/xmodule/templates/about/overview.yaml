@@ -8,7 +8,7 @@ data: |
       <h2><i class="fa fa-university"></i>강좌 소개</h2>
       <article>
         <h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3>
-        <div class="article_contents">
+        <div class="article_contents goal">
         이 강좌의 수업내용/목표 에 대한 내용이 표시됩니다.
         </div>
       </article>
@@ -16,7 +16,7 @@ data: |
         <h3><i class="fa fa-video-camera"></i>홍보영상/예시강의</h3>
         <div class="article_contents">
           <div class="youtubewrap">
-            <iframe title="홍보영상/예시강의" src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" frameborder="0" allowfullscreen scrolling="no"></iframe>
+            <iframe class="video" title="홍보영상/예시강의" src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" frameborder="0" allowfullscreen scrolling="no"></iframe>
           </div>
         </div>
       </article>
@@ -28,7 +28,7 @@ data: |
           <input type="checkbox" name="toggle" id="toggle"/>
           <label for="toggle"></label>
           <div class="syllabus_table">
-            <table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서">
+            <table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서" border="1" cellspacing="0" cellpadding="0">
               <caption>강의계획서</caption>
               <colgroup>
                 <col width="5%"/>
@@ -165,7 +165,7 @@ data: |
       <article>
         <h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3>
         <div class="grade_table">
-                <table summary="이수/평가정보">
+                <table summary="이수/평가정보" border="1" cellspacing="0" cellpadding="0">
                     <caption>이수/평가정보</caption>
                     <colgroup>
                         <col width="5%" />

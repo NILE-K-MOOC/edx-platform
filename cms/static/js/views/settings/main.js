@@ -91,10 +91,53 @@ var DetailsView = ValidatingView.extend({
             el: $(".course-instructor-details-fields"),
             model: this.model
         });
+    },
+    overviewLayerSetting: function(){
+        //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
+        var ov = $.parseHTML(this.model.get('overview'));
+        var goal = $(ov).find(".goal:eq(0)").html();
+        var vurl = $(ov).find(".video:eq(0)").attr("src");
+        var syllabus = $(ov).find(".syllabus_table:eq(0)");
 
-        //overviewLayer setting
-        console.log('tinyMCE init.');
-        tinyMCE.get('textarea2');
+        //syllabus table 에 에디터의 크기조절을 위한 속성 추가
+        syllabus.find("table").attr("style", "width: 100%;");
+
+        $("#overview-tab1 textarea").text(goal);
+        $("#overview-tab1 input").val(vurl);
+        //tinyMCE.get('text2').setContent('<h3>Hello, World!</h3>');
+        //tinymce.activeEditor.setContent('<h3>Hello, World!</h3>');
+        test111();
+        //$("#overview-tab2 textarea").text(syllabus.html());
+    },
+    tinymceInit: function (selector) {
+        tinymce.init({
+            selector: selector,
+            menubar: false,
+            statusbar: false,
+            plugins: "codemirror, table, link, image",
+            codemirror: {
+                path: "" + baseUrl + "/js/vendor"
+            },
+            toolbar_items_size: 'small',
+            extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
+            toolbar: "fontselect | fontsizeselect | bold italic underline forecolor wrapAsCode | table link | bullist numlist outdent indent blockquote | link unlink image | code",
+            resize: true,
+            fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+            min_height: 300,
+            setup: function (ed) {
+                ed.on('click', function (e) {
+                    tinymce.execCommand('mceFocus', false, '.new-update-form:eq(0) textarea');
+                });
+            },
+            block_formats: interpolate("%(paragraph)s=p;%(preformatted)s=pre;%(heading3)s=h3;%(heading4)s=h4;%(heading5)s=h5;%(heading6)s=h6", {
+                paragraph: gettext("Paragraph"),
+                preformatted: gettext("Preformatted"),
+                heading3: gettext("Heading 3"),
+                heading4: gettext("Heading 4"),
+                heading5: gettext("Heading 5"),
+                heading6: gettext("Heading 6")
+            }, true),
+        });
     },
     setEffort:function(){
         var hh = $("#course-effort-hh").val();
@@ -176,10 +219,27 @@ var DetailsView = ValidatingView.extend({
     toggleOverviewLayer: function(event){
         event.preventDefault();
         $("#overviewEditLayer").toggle();
+
+        if($("#overviewEditLayer").is(":visible")){
+            //overviewLayer setting
+            console.log('tinyMCE init.');
+            //tinyMCE.get('textarea2');
+            this.overviewLayerSetting();
+            this.tinymceInit('#overview-tab2 textarea');
+            this.tinymceInit('#overview-tab6 textarea');
+
+            $("body").bind("mousewheel", function() {
+                return false;
+            });
+        }else{
+            $("body").unbind("mousewheel");
+        }
     },
     tabChange: function(event){
         event.preventDefault();
         var t = event.currentTarget.getAttribute('data-target');
+        $(".tabs>div").removeClass("on")
+        $(event.target).addClass("on");
         $("#overviewEditLayer div[id^='overview-tab']").hide();
         $("#" + t).show();
     },
