@@ -105,8 +105,6 @@ var DetailsView = ValidatingView.extend({
             model: this.model
         });
 
-        //개발용 탭 초기화
-        $(".tabs div:eq(2)").click();
         $("input:radio[name='staff-type']").click(function(){
             if($(this).val() == 'instructor'){
                 $("#course-instructor").show();
@@ -116,6 +114,9 @@ var DetailsView = ValidatingView.extend({
                 $("#course-ta").show();
             }
         });
+
+        //개발용 탭 초기화
+        //$(".tabs div:eq(2)").click();
 
     },
     addStaffItem: function(event){
