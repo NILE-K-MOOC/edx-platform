@@ -41,10 +41,22 @@ var DetailsView = ValidatingView.extend({
         'change #course-effort-mm': "setEffort",
         'change #course-video-hh': "setEffort",
         'change #course-video-mm': "setEffort",
-        'change #course-effort-week': "setEffort"
+        'change #course-effort-week': "setEffort",
+
+        //강좌 운영진 소개의 추가 및 삭제 이벤트
+        'click #overview-tab3 .remove-item': "delStaffItem",
+        'click #overview-tab3 .add-item': "addStaffItem",
+
+        //FAQ 추가 및 삭제 이벤트
+        'click #overview-tab5 .remove-item': "delQuestionItem",
+        'click #overview-tab5 .add-item': "addQuestionItem",
+
     },
 
     initialize : function(options) {
+        //강좌 운영진 추가 기본 템플릿 초기화
+        this.staff_row_template = $("#course-instructor").clone();
+        this.question_row_template = $("#course-question").clone();
 
         options = options || {};
 
@@ -95,32 +107,84 @@ var DetailsView = ValidatingView.extend({
 
         //개발용 탭 초기화
         $(".tabs div:eq(2)").click();
+        $("input:radio[name='staff-type']").click(function(){
+            if($(this).val() == 'instructor'){
+                $("#course-instructor").show();
+                $("#course-ta").hide();
+            }else{
+                $("#course-instructor").hide();
+                $("#course-ta").show();
+            }
+        });
 
     },
-    addStaff: function(){
-        //강좌 운영진을 추가
+    addStaffItem: function(event){
+        event.preventDefault();
+        $("#course-instructor").append($(this.staff_row_template).html());
     },
-    delStaff: function(){
-        //강좌 운영진을 삭제
+    delStaffItem: function(event){
+        event.preventDefault();
+        $(event.currentTarget).parent().parent().remove();
+    },
+    addQuestionItem: function(event){
+        event.preventDefault();
+        $("#course-question").append($(this.question_row_template).html());
+    },
+    delQuestionItem: function(event){
+        event.preventDefault();
+        $(event.currentTarget).parent().parent().remove();
     },
     overviewLayerSetting: function(){
         //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
         var regex = /<br\s*[\/]?>/gi;
+
+        // overview object
         var ov = $.parseHTML(this.model.get('overview'));
+        // 수업내용/목표
         var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "\n");
+        // 홍보영상/예시강의
         var vurl = $(ov).find(".video:eq(0)").attr("src");
+        // 강좌 계획
         var syllabus = $(ov).find(".syllabus_table:eq(0)");
+        // 강좌운영진
         var team = $(ov).find(".course-staff:eq(0)").html();
+        // 이수/평가정보
+        var evaluation = $(ov).find(".grade_table:eq(0)");
+        // 강좌 수준 및 선수요건
+        var level = $(ov).find("#course-level").html().replace(regex, "\n");
+        // 교재 및 참고문헌
+        var reference = $(ov).find("#course-reference").html().replace(regex, "\n");
+        // FAQ
+        var faq = $(ov).find(".faq article");
+        // 사용자 추가 내용
+        var user_content = $(ov).find(".user_add").html();
 
-        //syllabus table 에 에디터의 크기조절을 위한 속성 추가
+        // ------------------------------------------------
+        //syllabus table 에 에디터 안에서의 크기조절을 위한 속성 추가
         syllabus.find("table").attr("style", "width: 100%;");
+        evaluation.find("table").attr("style", "width: 100%;");
+        // ------------------------------------------------
 
+        // debug s
+        console.log('overviewLayerSetting --- s');
+        console.log(goal);
+        console.log(vurl);
+        console.log(syllabus.html());
+        console.log('overviewLayerSetting --- e');
+        // debug e
+
+        //tinymce 에디터 사용시 getContent 함수 이용을 위해 textarea 의 아이디를 지정하요 사용
         $("#overview-tab1 textarea").text(goal);
         $("#overview-tab1 input").val(vurl);
-        $("#overview-tab2 textarea").text(syllabus.html());
+        $("#course_plan").text(syllabus.html());
+        $("#grade_table").text(evaluation.html());
+
+        $("#overview-tab4 textarea:eq(1)").text(level);
+        $("#overview-tab4 textarea:eq(2)").text(reference);
 
         this.tinymceInit('#course_plan');
         this.tinymceInit('#user_content');
+        this.tinymceInit('#grade_table');
 
         //tinymce.get('course_plan').setContent(syllabus.html());
 
@@ -234,18 +298,148 @@ var DetailsView = ValidatingView.extend({
         $(ov).find(".video:eq(0)").attr("src", $("#course-sample-video-url").val());
         $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
 
+        // 강좌운영진
+        $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영진 소개</h2>");
+        $("#course-instructor li").each(function(){
+            var staff_photo = $(this).find("#staff-photo").val();
+            var staff_name = $(this).find("#staff-name").val();
+
+            if(staff_name === "")
+                return true;
+
+            var careers = $(this).find("textarea").val().split(/\n/g);
+            var careers_text = "";
+
+            for (var i=0; i<careers.length;i++){
+                if(careers[i])
+                    careers_text += "<dd>" + careers[i] + "</dd>";
+            }
+
+            var staff_template = "" +
+            "<article>" +
+            "	<h3><i class='fa fa-user'></i>교수자</h3>" +
+            "	<article class='staff'>" +
+            "		<div class='teacher_image'>" +
+            "			<img src='" + staff_photo + "' align='left' alt=''>" +
+            "		</div>" +
+            "		<div class='staff_descript'>" +
+            "			<dl>" +
+            "				<dt>" +
+            "				 <i class='fa fa-angle-double-right'></i>대표교수 : " + staff_name + " 교수" +
+            "			  </dt>" +
+            "				" + careers_text +
+            "			</dl>" +
+            "		</div>" +
+            "	</article>" +
+            "</article>";
+
+            $(ov).find(".course-staff:eq(0)").append(staff_template);
+        });
+
+        $("#course-ta li").each(function(){
+            var staff_photo = $(this).find("#staff-photo").val();
+            var staff_name = $(this).find("#staff-name").val();
+
+            if(staff_name === "")
+                return true;
+
+            var careers = $(this).find("textarea").val().split(/\n/g);
+            var careers_text = "";
+
+            for (var i=0; i<careers.length;i++){
+                if(careers[i])
+                    careers_text += "<dd>" + careers[i] + "</dd>";
+            }
+
+            var staff_template = "" +
+            "<article>" +
+            "	<h3><i class='fa fa-user'></i>강좌지원팀</h3>" +
+            "	<article class='staff'>" +
+            "		<div class='ta_image'>" +
+            "			<img src='" + staff_photo + "' align='left' alt=''>" +
+            "		</div>" +
+            "		<div class='staff_descript'>" +
+            "			<dl>" +
+            "				<dt>" +
+            "				 <i class='fa fa-angle-double-right'></i>학습 지원 : " + staff_name+
+            "			  </dt>" +
+            "				" + careers_text +
+            "			</dl>" +
+            "		</div>" +
+            "	</article>" +
+            "</article>";
+
+            $(ov).find(".course-staff:eq(0)").append(staff_template);
+        });
+
+        // 이수/평가정보
+        var grade_table = $.parseHTML(tinymce.get('grade_table').getContent());
+
+        //make html source
+        $(ov).find(".grade_table:eq(0)").html($('<table>').append(grade_table).html());
+
+        // 강좌 수준 및 선수요건
+        $(ov).find("#course-level:eq(0)").html($("#overview-tab4 textarea:eq(1)").val().replace(/\n/g, "<br>"));
+
+        // 교재 및 참고문헌
+        $(ov).find("#course-reference:eq(0)").html($("#overview-tab4 textarea:eq(2)").val().replace(/\n/g, "<br>"));
+
+        // FAQ
+        $(ov).find(".faq:eq(0)").html("<h2><i class=\"fa fa-question-circle\"></i>자주 묻는 질문</h2>");
+        $("#course-question li").each(function(){
+            var question = $(this).find("#faq-question").val();
+            var answer = $(this).find("#faq-answer").val();
+
+            console.log('question: ' + question);
+            console.log('answer: ' + answer);
+
+            var template = "" +
+            "<article class='question'>" +
+            "	<h4>" + question + "</h4>" +
+            "	<p>" + answer + "</p>" +
+            "</article>";
+            $(ov).find(".faq:eq(0)").append(template);
+        });
+
+        // 사용자 추가 내용
+        $(ov).find(".user_add:eq(0)").html($("#user_content").val().replace(/\n/g, "<br>"));
+
         //this.model.set('overview', '<div id="course-info">' + $("<div>").append($(ov).clone()).html() + '</div>');
-        this.model.set('overview', $("<div>").append($(ov).clone()).html());
+
+        var html_format_options = {
+          "indent":"yes",
+          "indent-spaces":2,
+          "wrap":80,
+          "markup":true,
+          "output-xml":false,
+          "numeric-entities":false,
+          "quote-marks":false,
+          "quote-nbsp":false,
+          "show-body-only":true,
+          "quote-ampersand":false,
+          "break-before-br":false,
+          "uppercase-tags":false,
+          "uppercase-attributes":false,
+          "drop-font-tags":false,
+          "tidy-mark":false,
+          "drop-empty-elements": false
+        }
+
+        var html = $("<div>").append($(ov).clone()).html();
+        var result = tidy_html5(html, html_format_options);
+
+        this.model.set('overview', result);
         $("#overviewEditLayer").toggle();
         this.render();
 
     },
     toggleOverviewLayer: function(event){
         event.preventDefault();
-
         $("#overviewEditLayer").toggle();
-
         if($("#overviewEditLayer").is(":visible")){
+            var top = parseInt($(window).scrollTop());
+            $(".overview-modal").prop("style", "top: " + (top - 50) + "px;");
+
             this.overviewLayerSetting();
         }
     },
