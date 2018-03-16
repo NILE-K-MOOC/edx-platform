@@ -93,9 +93,9 @@
     height:100px;
 }
 .section_5{
-    display:inline-block;
-    width:100%;
-    margin-top:10px;
+    display: inline-block;
+    width: 100%;
+    margin-top: 35px;
 }
 .section_bb{
     float:left;
@@ -122,6 +122,14 @@
     margin-bottom:10px;
     font-size:120%;
     font-weight: bold;
+}
+.siz-date {
+    padding: 3px;
+    border: 1px solid #ccc;
+    margin-right: 7px;
+    display: inline-block;
+    width: 70px;
+    text-align: center;
 }
 
 </style>
@@ -172,10 +180,9 @@ function print(printArea)
 
     <button class="btn-brand" id="copy_btn" OnClick="move()">${_('Print')}</button>
 
-    <div class="section_3">
-            <div class="course_intro_title">${_('Course List')}</div>
+    <div class="section_3"  style="border-bottom: 2px solid #ccc; margin-top: 55px;">
+            <div class="course_intro_title" style="font-size: 23px; padding-bottom: 10px;">${_('Course List')}</div>
     </div>
-
 
     <div class="section_4">
         % if len(sub_list) == 0:
@@ -183,17 +190,18 @@ function print(printArea)
         % endif
 
         % for item in sub_list:
-        <div class="section_5">
+        <div class="section_5" style="margin-top: 35px;">
                 <div class="section_a">
-                    <img class="series_img_inner" src="${item[1]}"/>
+                    <img class="series_img_inner" src="${item[1]}" style="width:190px; height: 125px;"/>
                 </div>
                 <div class="section_bb">
                     <a class="pagerLink" href="/courses/${item[0]}/about"><div class="series_d">${item[2]}</div></a>
-                    <div class="series_a">${item[3]}</div>
-                    <div class="series_b">${_('enrollment')} : ${item[5]} - ${item[6]}</div>
-                    <div class="series_c">${_('start')} : ${item[7]} - ${item[8]}</div>
+                    <div class="series_a" style=" margin-bottom: 15px; font-weight: bold;">${item[3]}</div>
+                    <div class="series_b" style=" margin-bottom: 8px;"><span class="siz-date">${_('enrollment')}</span> ${item[5]} - ${item[6]}</div>
+                    <div class="series_c"><span class="siz-date">${_('start')}</span> ${item[7]} - ${item[8]}</div>
                 </div>
         </div>
         % endfor
     </div>
 </section>
+</div>
