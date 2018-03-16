@@ -45,6 +45,7 @@ var DetailsView = ValidatingView.extend({
     },
 
     initialize : function(options) {
+
         options = options || {};
 
         // fill in fields
@@ -91,27 +92,43 @@ var DetailsView = ValidatingView.extend({
             el: $(".course-instructor-details-fields"),
             model: this.model
         });
+
+        //개발용 탭 초기화
+        $(".tabs div:eq(2)").click();
+
+    },
+    addStaff: function(){
+        //강좌 운영진을 추가
+    },
+    delStaff: function(){
+        //강좌 운영진을 삭제
     },
     overviewLayerSetting: function(){
         //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
+        var regex = /<br\s*[\/]?>/gi;
         var ov = $.parseHTML(this.model.get('overview'));
-        var goal = $(ov).find(".goal:eq(0)").html();
+        var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "\n");
         var vurl = $(ov).find(".video:eq(0)").attr("src");
         var syllabus = $(ov).find(".syllabus_table:eq(0)");
+        var team = $(ov).find(".course-staff:eq(0)").html();
 
         //syllabus table 에 에디터의 크기조절을 위한 속성 추가
         syllabus.find("table").attr("style", "width: 100%;");
 
         $("#overview-tab1 textarea").text(goal);
         $("#overview-tab1 input").val(vurl);
-        //tinyMCE.get('text2').setContent('<h3>Hello, World!</h3>');
-        //tinymce.activeEditor.setContent('<h3>Hello, World!</h3>');
-        test111();
-        //$("#overview-tab2 textarea").text(syllabus.html());
+        $("#overview-tab2 textarea").text(syllabus.html());
+
+        this.tinymceInit('#course_plan');
+        this.tinymceInit('#user_content');
+
+        //tinymce.get('course_plan').setContent(syllabus.html());
+
     },
     tinymceInit: function (selector) {
         tinymce.init({
             selector: selector,
+            entity_encoding: 'raw',
             menubar: false,
             statusbar: false,
             plugins: "codemirror, table, link, image",
@@ -209,30 +226,27 @@ var DetailsView = ValidatingView.extend({
         $("#course-effort").trigger("change");
     },
     createOverview: function(event){
-        event.preventDefault();
-        console.log('createOverview click');
+        var course_plan = $.parseHTML(tinymce.get('course_plan').getContent());
 
         //make html source
+        var ov = $.parseHTML(this.model.get('overview'));
+        $(ov).find(".goal:eq(0)").html($("#overview-tab1 textarea").val().replace(/\n/g, "<br>"));
+        $(ov).find(".video:eq(0)").attr("src", $("#course-sample-video-url").val());
+        $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
 
+        //this.model.set('overview', '<div id="course-info">' + $("<div>").append($(ov).clone()).html() + '</div>');
+        this.model.set('overview', $("<div>").append($(ov).clone()).html());
         $("#overviewEditLayer").toggle();
+        this.render();
+
     },
     toggleOverviewLayer: function(event){
         event.preventDefault();
+
         $("#overviewEditLayer").toggle();
 
         if($("#overviewEditLayer").is(":visible")){
-            //overviewLayer setting
-            console.log('tinyMCE init.');
-            //tinyMCE.get('textarea2');
             this.overviewLayerSetting();
-            this.tinymceInit('#overview-tab2 textarea');
-            this.tinymceInit('#overview-tab6 textarea');
-
-            $("body").bind("mousewheel", function() {
-                return false;
-            });
-        }else{
-            $("body").unbind("mousewheel");
         }
     },
     tabChange: function(event){
@@ -242,6 +256,11 @@ var DetailsView = ValidatingView.extend({
         $(event.target).addClass("on");
         $("#overviewEditLayer div[id^='overview-tab']").hide();
         $("#" + t).show();
+    },
+    isEditable: function(){
+        //수정 가능조건 확인후 직접 수정 또는 템플릿 이용 구분
+        return true;
+
     },
     render: function() {
         //console.log("render start --- s");
@@ -649,6 +668,7 @@ var DetailsView = ValidatingView.extend({
         }
 
         if (!this.codeMirrors[thisTarget.id]) {
+
             var cachethis = this;
             var field = this.selectorToField[thisTarget.id];
             this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
@@ -661,6 +681,10 @@ var DetailsView = ValidatingView.extend({
                         cachethis.setAndValidate(field, newVal);
                     }
             });
+
+            //codeMirror readOnly set
+            if(this.isEditable())
+                this.codeMirrors[thisTarget.id].setOption("readOnly", true);
 
         }else{
             $("#field-course-overview .CodeMirror").remove();

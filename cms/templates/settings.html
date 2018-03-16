@@ -43,13 +43,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 </%block>
 
 <%block name="content">
-<script>
-
-    function test111(){
-        console.log('test111 called');
-        tinyMCE.get('text2').setContent('<h3>Hello, World!</h3>');
-    }
-</script>
 
 <div class="wrapper-mast wrapper">
     <header class="mast has-subtitle">
@@ -345,7 +338,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     )}</span>
 
                             <!-- 입력 양식 제공 버튼 -->
-                            <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn" style="float: right;width: 20%;margin: 15px 0 0 0;padding: 10px 20px;font-size: 1.2rem;line-height: 1.776rem;transition: all 0.15s;text-align: center;border-radius: 5px;border: 1px solid #66c5f0;background-color: transparent;color: #66c5f0;">
+                            <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
                                 수정
                             </button>
 
@@ -357,7 +350,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 
                                 .overview-modal{
                                     display: block;
-                                    position: fixed !important;
+                                    position: absolute !important;
                                     top: 30% !important;
                                     left: 10% !important;
                                     width: 80% !important;
@@ -411,9 +404,24 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 .overview-contents textarea:nth-child(1){
                                     min-height: 100px !important;
                                 }
+
+                                .toggleOverviewLayerBtn{
+                                    float: right;
+                                    width: 20%;
+                                    margin: 15px 0 0 0;
+                                    padding: 10px 20px;
+                                    font-size: 1.2rem;
+                                    line-height: 1.776rem;
+                                    transition: all 0.15s;
+                                    text-align: center;
+                                    border-radius: 5px;
+                                    border: 1px solid #66c5f0;
+                                    background-color: transparent;
+                                    color: #66c5f0;
+                                }
                             </style>
 
-                            <div id="overviewEditLayer" style="display: none;">
+                            <div id="overviewEditLayer" style="display: block;">
                                <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
                                   <div class="modal-window-overlay"></div>
                                   <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
@@ -436,30 +444,129 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                   </div>
                                                   <div id="overview-tab1" class="overview-contents on">
                                                     <p>수업내용/목표</p>
-                                                    <textarea class="text" rows="3">1</textarea>
+                                                    <textarea class="text"></textarea>
 
                                                     <p>홍보영상/예시강의</p>
                                                     <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
                                                   </div>
 
                                                   <div id="overview-tab2" class="overview-contents">
-                                                    <textarea class="text" id="text2">2</textarea>
+                                                    <textarea class="text" id="course_plan">2</textarea>
                                                   </div>
 
                                                   <div id="overview-tab3" class="overview-contents">
-                                                    <textarea class="text">3</textarea>
+                                                    <div style="overflow: auto;">
+
+                                                        <!-- 스태프 추가 s -->
+                                                        <section class="group-settings assignment-types">
+                                                          <header>
+                                                             <div style="float: left; width: 45%; margin-top: 20px;">
+                                                                <label style="float: left; width: 100px; font-size: 15px;">
+                                                                    <input type="radio" name="staff-type" value="instructor" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" checked="checked"/> 교수자
+                                                                </label>
+                                                                <label style="float: left; width: 100px; font-size: 15px;">
+                                                                    <input type="radio" name="staff-type" value="instructor" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" /> TA
+                                                                </label>
+                                                            </div>
+                                                          </header>
+
+                                                          <!-- 교수자 목록 s -->
+                                                          <ol class="list-input course-grading-assignment-list enum" id="course-instructor">
+                                                            <li class="field-group course-grading-assignment-list-item">
+                                                                <div style="width: 34%; float: left;">
+                                                                  <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                    <label for="staff-photo1">사진 URL</label>
+                                                                    <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
+                                                                    <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
+                                                                  </div>
+
+                                                                <br/>
+
+                                                                  <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                    <label for="staff-name">성명</label>
+                                                                    <input type="text" class="short" id="staff-name" value="" placeholder="홍길동">
+                                                                    <span class="tip tip-stacked">표시될 이름</span>
+                                                                  </div>
+                                                                </div>
+                                                                <div style="width: 64%; float: right;">
+                                                                  <div style="width: 100%;">
+                                                                    <label for="staff-career">약력</label>
+                                                                    <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
+                                                                    <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
+                                                                  </div>
+                                                                </div>
+
+                                                              <div class="actions">
+                                                                <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                              </div>
+                                                            </li>
+                                                          </ol>
+                                                          <!-- 교수자 목록 e -->
+
+
+                                                          <!-- TA 목록 s -->
+                                                          <ol class="list-input course-grading-assignment-list enum" id="course-ta" style="display: none;">
+                                                            <li class="field-group course-grading-assignment-list-item">
+                                                                <div style="width: 34%; float: left;">
+                                                                  <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                    <label for="staff-photo1">사진 URL</label>
+                                                                    <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
+                                                                    <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
+                                                                  </div>
+
+                                                                  <br/>
+
+                                                                  <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                    <label for="staff-name">성명</label>
+                                                                    <input type="text" class="short" id="staff-name" value="" placeholder="홍길동">
+                                                                    <span class="tip tip-stacked">표시될 이름</span>
+                                                                  </div>
+                                                                </div>
+
+                                                                <div style="width: 64%; float: right;">
+                                                                  <div style="width: 100%;">
+                                                                    <label for="staff-career">약력</label>
+                                                                    <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
+                                                                    <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
+                                                                  </div>
+                                                                </div>
+
+                                                              <div class="actions">
+                                                                <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                              </div>
+                                                            </li>
+                                                          </ol>
+                                                          <!-- TA 목록 e -->
+
+                                                          <div class="actions">
+                                                            <a href="#" class="new-button">
+                                                              <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
+                                                            </a>
+                                                          </div>
+                                                        </section>
+                                                        <!-- 스태프 추가 e -->
+
+                                                    </div>
+
                                                   </div>
 
                                                   <div id="overview-tab4" class="overview-contents">
-                                                    <textarea class="text">4</textarea>
+                                                    <p>이수/평가정보</p>
+                                                    <textarea class="text"></textarea>
+
+                                                    <p>강좌수준 및 선수요건</p>
+                                                    <textarea class="text"></textarea>
+
+                                                    <p>교재 및 참고문헌</p>
+                                                    <textarea class="text"></textarea>
                                                   </div>
 
                                                   <div id="overview-tab5" class="overview-contents">
-                                                    <textarea class="text">5</textarea>
+                                                    <textarea class="text"></textarea>
                                                   </div>
 
                                                   <div id="overview-tab6" class="overview-contents">
-                                                    <textarea class="text">6</textarea>
+                                                    <textarea class="text" id="user_content"></textarea>
                                                   </div>
 
                                                   <span class="tip tip-stacked">항목별로 양식을 입력후 적용을 누르면 기본 양식의 HTML 이 작성됩니다.</span>
