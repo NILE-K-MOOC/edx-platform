@@ -187,13 +187,21 @@ def login(request, user, backend=None):
 from Crypto.Cipher import AES
 from base64 import b64decode
 from base64 import b64encode
+#def decrypt(key, _iv, enc):
+#    BLOCK_SIZE = 16  # Bytes
+#    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+#    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+#    enc = b64decode(enc)
+#    iv = _iv
+#    cipher = AES.new(key, AES.MODE_CBC, iv)
+#    return unpad(cipher.decrypt(enc)).decode('utf8')
+
 def decrypt(key, _iv, enc):
     BLOCK_SIZE = 16  # Bytes
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
     unpad = lambda s: s[:-ord(s[len(s) - 1:])]
     enc = b64decode(enc)
-    iv = _iv
-    cipher = AES.new(key, AES.MODE_CBC, iv)
+    cipher = AES.new(key, AES.MODE_CBC, _iv)
     return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
@@ -287,12 +295,16 @@ def multisite_index(request, org):
                 # 암호화 데이터 복호화 로직
                 if request.GET.get('encStr'):
                     encStr = request.GET.get('encStr')
+                    encStr = encStr.replace(' ', '+') #inpadding error fix
 
                     print "-------------------------------> encStr s"
+                    print "key = ", key
+                    print "iv = ", iv
                     print "encStr = ", encStr
                     print "-------------------------------> encStr e"
 
-                    raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
+                    #raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
+                    raw_data = decrypt(key, key, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
                     raw_data = raw_data.split('&')
 
                     print "-------------------------------> encStr s"
