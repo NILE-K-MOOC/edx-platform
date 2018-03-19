@@ -132,6 +132,9 @@ def get_course_and_check_access(course_key, user, depth=0):
     if not has_studio_read_access(user, course_key):
         raise PermissionDenied()
     course_module = modulestore().get_course(course_key, depth=depth)
+
+    print 'check: ', _(course_module.display_org_with_default)
+
     return course_module
 
 

@@ -808,13 +808,8 @@ if (
               <div class="course-metadata">
                 <span class="course-org metadata-item">
                   <span class="label">${_("Organization:")}</span>
-                  %for org_index in org_list[0] :
-                    %if org_index[0] == course_info['org'] :
-                        <span class="value">${org_index[1]}</span>
+                        <span class="value">${_(course_info['org'])}</span>
                         </span>
-                    %endif
-                  %endfor
-
                 <span class="course-org metadata-item">
                     <span class="value">${course_info['org']}</span>
                 </span>
