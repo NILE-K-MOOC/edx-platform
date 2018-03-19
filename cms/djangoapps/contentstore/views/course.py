@@ -555,9 +555,10 @@ def course_listing(request):
                       charset='utf8')
     cur = con.cursor()
     query = """
-        SELECT detail_code, detail_name
-          FROM code_detail
-         WHERE group_code = 003;
+          SELECT detail_code, detail_name
+            FROM code_detail
+           WHERE group_code = 003
+        ORDER BY detail_name;
     """
     cur.execute(query)
     org_index = cur.fetchall()
@@ -1208,7 +1209,7 @@ def settings_handler(request, course_key_string):
                               charset='utf8')
             cur = con.cursor()
             query = """
-                 SELECT teacher_name
+                 SELECT IFNULL(teacher_name, '')
                   FROM course_overview_addinfo
                  WHERE course_id = '{0}';
             """.format(course_key)
