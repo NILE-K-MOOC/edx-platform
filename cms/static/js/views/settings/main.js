@@ -315,7 +315,7 @@ var DetailsView = ValidatingView.extend({
         $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
 
         // 강좌운영진
-        $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영진 소개</h2>");
+        var staff_templates = "";
         $("#course-instructor li").each(function(){
             var staff_photo = $(this).find("#staff-photo").val();
             var staff_name = $(this).find("#staff-name").val();
@@ -349,7 +349,7 @@ var DetailsView = ValidatingView.extend({
             "	</article>" +
             "</article>";
 
-            $(ov).find(".course-staff:eq(0)").append(staff_template);
+            staff_templates += staff_template;
         });
 
         $("#course-ta li").each(function(){
@@ -385,8 +385,14 @@ var DetailsView = ValidatingView.extend({
             "	</article>" +
             "</article>";
 
-            $(ov).find(".course-staff:eq(0)").append(staff_template);
+            staff_templates += staff_template;
+
         });
+
+        if(staff_templates){
+            $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영진 소개</h2>");
+            $(ov).find(".course-staff:eq(0)").append(staff_template);
+        }
 
         // 이수/평가정보
         var grade_table = $.parseHTML(tinymce.get('grade_table').getContent());
@@ -401,17 +407,23 @@ var DetailsView = ValidatingView.extend({
         $(ov).find("#course-reference:eq(0)").html($("#overview-tab4 textarea:eq(2)").val().replace(/\n/g, "<br>"));
 
         // FAQ
-        $(ov).find(".faq:eq(0)").html("<h2><i class=\"fa fa-question-circle\"></i>자주 묻는 질문</h2>");
+        var faqs = "";
+
         $("#course-question li").each(function(){
             var question = $(this).find("#faq-question").val();
             var answer = $(this).find("#faq-answer").val();
-            var template = "" +
+            var faq = "" +
             "<article class='question'>" +
             "	<h4>" + question + "</h4>" +
             "	<p>" + answer + "</p>" +
             "</article>";
-            $(ov).find(".faq:eq(0)").append(template);
+            faqs += faq;
         });
+
+        if(faqs){
+            $(ov).find(".faq:eq(0)").html("<h2><i class=\"fa fa-question-circle\"></i>자주 묻는 질문</h2>");
+            $(ov).find(".faq:eq(0)").append(faqs);
+        }
 
         // 사용자 추가 내용
         $(ov).find(".user_add:eq(0)").html($("#user_content").val().replace(/\n/g, "<br>"));
