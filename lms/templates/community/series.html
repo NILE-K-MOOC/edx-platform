@@ -7,20 +7,19 @@
 
 <style>
 .series_img{
-    width:250px;
-    height:150px;
+    width: 230px;
+    height: 130px;
 }
 .section_frame_outer {
-    border-top: solid #DDDDDD 3px;
-    padding-top:20px;
-    display:inline-block;
-    width:100%;
+    padding-top: 20px;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 20px;
 }
 .section_frame_inner{
-    border: #DDDDDD 1px solid;
-    padding-top:5px;
-    display:inline-block;
-    width:100%;
+    display: inline-block;
+    width: 100%;
 }
 .section_a{
     float:left;
@@ -32,8 +31,8 @@
     padding: 20px;
 }
 .series_title{
-    margin-bottom:60px;
-    font-size:150%;
+    margin-bottom: 30px;
+    /* font-size: 130%; */
     font-weight: bold;
 }
 .series_target{
@@ -59,6 +58,7 @@
     padding-bottom: 40px;
     font-weight: bold;
 }
+.section_frame_outer:list-child {border-bottom:0px;}
 
 @media screen and (max-width: 770px) and (min-width: 0px) {
     .series_img{
@@ -94,7 +94,7 @@
         <img class="series_img" src="/static/series/${item[3]}.${item[4]}"/>
     </div>
     <div class="section_b">
-        <a class="pagerLink" href="/series_view/${item[0]}"><div class="series_title">${item[1]}</div></a>
+        <a class="pagerLink" href="/series_view/${item[0]}"><div class="series_title">${item[1]}</div><p>내용</p></a>
     </div>
 </div>
 </div>
