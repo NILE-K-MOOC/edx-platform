@@ -814,13 +814,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
                            attatch_file_name,
                            width,
                            height,
-                           image_map,
                            CASE
                               WHEN hidden_day = '1' THEN '1'
                               WHEN hidden_day = '7' THEN '7'
                               WHEN hidden_day = '0' THEN '999999'
                            END
-                           hidden_day
+                           hidden_day,
+                           image_map
                       FROM popup
                       JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
                      WHERE popup_id = {0};
