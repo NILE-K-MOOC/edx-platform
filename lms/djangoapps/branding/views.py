@@ -187,13 +187,21 @@ def login(request, user, backend=None):
 from Crypto.Cipher import AES
 from base64 import b64decode
 from base64 import b64encode
+#def decrypt(key, _iv, enc):
+#    BLOCK_SIZE = 16  # Bytes
+#    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+#    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+#    enc = b64decode(enc)
+#    iv = _iv
+#    cipher = AES.new(key, AES.MODE_CBC, iv)
+#    return unpad(cipher.decrypt(enc)).decode('utf8')
+
 def decrypt(key, _iv, enc):
     BLOCK_SIZE = 16  # Bytes
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
     unpad = lambda s: s[:-ord(s[len(s) - 1:])]
     enc = b64decode(enc)
-    iv = _iv
-    cipher = AES.new(key, AES.MODE_CBC, iv)
+    cipher = AES.new(key, AES.MODE_CBC, _iv)
     return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
@@ -289,12 +297,16 @@ def multisite_index(request, org):
                 # 암호화 데이터 복호화 로직
                 if request.GET.get('encStr'):
                     encStr = request.GET.get('encStr')
+                    encStr = encStr.replace(' ','+')
 
                     print "-------------------------------> encStr s"
+                    print "key = ", key
+                    print "iv = ", iv
                     print "encStr = ", encStr
                     print "-------------------------------> encStr e"
 
-                    raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
+                    #raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
+                    raw_data = decrypt(key, key, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
                     raw_data = raw_data.split('&')
 
                     print "-------------------------------> encStr s"
@@ -427,12 +439,14 @@ def multisite_index(request, org):
     request.session['logo_img'] = logo_img
     request.session['site_url'] = site_url
 
+    """
     logging.info("multisite_userid = " + request.session['multisite_userid'])
     logging.info("status = " + request.session['status'])
     logging.info("status_org = " + request.session['status_org'])
     logging.info("org = " + request.session['org'])
     logging.info("logo_img = " + request.session['logo_img'])
     logging.info("site_url = " + request.session['site_url'])
+    """
 
     # basic logic
     if request.user.is_authenticated():
@@ -440,6 +454,8 @@ def multisite_index(request, org):
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
             pass
+
+
     if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
         from external_auth.views import ssl_login
         if not request.GET.get('next'):
@@ -447,6 +463,8 @@ def multisite_index(request, org):
             req_new['next'] = reverse('dashboard')
             request.GET = req_new
         return ssl_login(request)
+
+
     enable_mktg_site = configuration_helpers.get_value(
         'ENABLE_MKTG_SITE',
         settings.FEATURES.get('ENABLE_MKTG_SITE', False)
