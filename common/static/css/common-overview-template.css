@@ -194,5 +194,5 @@ box-sizing: border-box;
 
 /*************************5.faq ***************************/
 .faq .question{margin-bottom: 0px;}
-.faq .question h4 {margin :0.1rem 0 0.2rem 0 ;}
+.faq .question h4 {margin :0.1rem 0 0.2rem 0; font-weight: bold; font-size: 1.1rem;}
 

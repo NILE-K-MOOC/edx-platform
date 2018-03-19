@@ -407,6 +407,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                 }
 
                                 .toggleOverviewLayerBtn{
+                                    display: none;
                                     float: right;
                                     width: 20%;
                                     margin: 15px 0 0 0;
@@ -448,11 +449,15 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                       <div data-target="overview-tab6">사용자추가</div>
                                                   </div>
                                                   <div id="overview-tab1" class="overview-contents on">
-                                                    <p>수업내용/목표</p>
-                                                    <textarea class="text"></textarea>
+                                                    <div>
+                                                      <p>수업내용/목표</p>
+                                                      <textarea class="text"></textarea>
+                                                    </div>
 
-                                                    <p>홍보영상/예시강의</p>
-                                                    <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
+                                                    <div>
+                                                      <p>홍보영상/예시강의</p>
+                                                      <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
+                                                    </div>
                                                   </div>
 
                                                   <div id="overview-tab2" class="overview-contents">
@@ -484,15 +489,14 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                                     <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
                                                                     <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
                                                                   </div>
-
-                                                                <br/>
-
+                                                                  <br/>
                                                                   <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
                                                                     <label for="staff-name">성명</label>
                                                                     <input type="text" class="short" id="staff-name" value="" placeholder="홍길동">
                                                                     <span class="tip tip-stacked">표시될 이름</span>
                                                                   </div>
                                                                 </div>
+
                                                                 <div style="width: 64%; float: right;">
                                                                   <div style="width: 100%;">
                                                                     <label for="staff-career">약력</label>
@@ -507,7 +511,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                             </li>
                                                           </ol>
                                                           <!-- 교수자 목록 e -->
-
 
                                                           <!-- TA 목록 s -->
                                                           <ol class="list-input course-grading-assignment-list enum" id="course-ta" style="display: none;">

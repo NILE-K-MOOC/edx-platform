@@ -54,10 +54,6 @@ var DetailsView = ValidatingView.extend({
     },
 
     initialize : function(options) {
-        //강좌 운영진 추가 기본 템플릿 초기화
-        this.staff_row_template = $("#course-instructor").clone();
-        this.question_row_template = $("#course-question").clone();
-
         options = options || {};
 
         // fill in fields
@@ -115,8 +111,9 @@ var DetailsView = ValidatingView.extend({
             }
         });
 
-        //개발용 탭 초기화
-        //$(".tabs div:eq(2)").click();
+        //강좌 운영진 추가 기본 템플릿 초기화
+        this.staff_row_template = $("#course-instructor").clone();
+        this.question_row_template = $("#course-question").clone();
 
     },
     addStaffItem: function(event){
@@ -136,6 +133,7 @@ var DetailsView = ValidatingView.extend({
         $(event.currentTarget).parent().parent().remove();
     },
     overviewLayerSetting: function(){
+        console.log('overviewLayerSetting called ...');
         //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
         var regex = /<br\s*[\/]?>/gi;
 
@@ -166,22 +164,18 @@ var DetailsView = ValidatingView.extend({
         evaluation.find("table").attr("style", "width: 100%;");
         // ------------------------------------------------
 
-        // debug s
-        console.log('overviewLayerSetting --- s');
-        console.log(goal);
-        console.log(vurl);
-        console.log(syllabus.html());
-        console.log('overviewLayerSetting --- e');
-        // debug e
-
         //tinymce 에디터 사용시 getContent 함수 이용을 위해 textarea 의 아이디를 지정하요 사용
-        $("#overview-tab1 textarea").text(goal);
-        $("#overview-tab1 input").val(vurl);
-        $("#course_plan").text(syllabus.html());
-        $("#grade_table").text(evaluation.html());
+        console.log('goal start --- s');
+        console.log(goal.trim());
+        console.log('goal start --- e');
 
-        $("#overview-tab4 textarea:eq(1)").text(level);
-        $("#overview-tab4 textarea:eq(2)").text(reference);
+        $("#overview-tab1 textarea").val(goal.trim());
+        $("#overview-tab1 input").val(vurl.trim());
+        $("#course_plan").val(syllabus.html());
+        $("#grade_table").val(evaluation.html());
+
+        $("#overview-tab4 textarea:eq(1)").val(level.trim());
+        $("#overview-tab4 textarea:eq(2)").val(reference.trim());
 
         this.tinymceInit('#course_plan');
         this.tinymceInit('#user_content');
@@ -290,7 +284,28 @@ var DetailsView = ValidatingView.extend({
         $("#course-effort").val(val);
         $("#course-effort").trigger("change");
     },
+    overviewLayerVaidate: function(){
+        $(".overview-modal").find(".message-error").remove();
+
+        if($("#overview-tab1 textarea").val() == ""){
+            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
+            return false;
+        }
+
+        if($("#course-sample-video-url").val() == ""){
+            $(this).after("<span class='message-error'>홍보영상/예시강의 의 내용을 입력해주세요.</span>");
+            return false;
+        }
+
+        return true;
+    },
     createOverview: function(event){
+        event.preventDefault();
+
+        if(!this.overviewLayerVaidate()){
+            return;
+        }
+
         var course_plan = $.parseHTML(tinymce.get('course_plan').getContent());
 
         //make html source
@@ -325,7 +340,7 @@ var DetailsView = ValidatingView.extend({
             "		</div>" +
             "		<div class='staff_descript'>" +
             "			<dl>" +
-            "				<dt>" +
+            "			  <dt>" +
             "				 <i class='fa fa-angle-double-right'></i>대표교수 : " + staff_name + " 교수" +
             "			  </dt>" +
             "				" + careers_text +
@@ -390,10 +405,6 @@ var DetailsView = ValidatingView.extend({
         $("#course-question li").each(function(){
             var question = $(this).find("#faq-question").val();
             var answer = $(this).find("#faq-answer").val();
-
-            console.log('question: ' + question);
-            console.log('answer: ' + answer);
-
             var template = "" +
             "<article class='question'>" +
             "	<h4>" + question + "</h4>" +
@@ -426,7 +437,7 @@ var DetailsView = ValidatingView.extend({
           "drop-empty-elements": false
         }
 
-        var html = $("<div>").append($(ov).clone()).html();
+        var html = $("<div>").attr("id", "course-info").append($(ov).clone()).html();
         var result = tidy_html5(html, html_format_options);
 
         this.model.set('overview', result);
@@ -453,14 +464,14 @@ var DetailsView = ValidatingView.extend({
         $("#" + t).show();
     },
     isEditable: function(){
-        //수정 가능조건 확인후 직접 수정 또는 템플릿 이용 구분
-        return true;
+        console.log("isEditable --- s");
+        console.log($("#course-overview").val().includes("course-info"));
+        console.log("isEditable --- e");
 
+        //수정 가능조건 확인후 직접 수정 또는 템플릿 이용 구분
+        return $("#course-overview").val().includes("course-info");
     },
     render: function() {
-        //console.log("render start --- s");
-        //console.log(this.model.get('overview'));
-        //console.log("render start --- e");
         // Clear any image preview timeouts set in this.updateImagePreview
         clearTimeout(this.imageTimer);
 
@@ -540,10 +551,6 @@ var DetailsView = ValidatingView.extend({
 
         var time = $("#course-effort").val();
         if(time){
-            //console.log("time1 --> " + time);
-            //console.log("time2 --> " + time.length);
-            //console.log("time3 --> " + time.indexOf("@"));
-            //console.log("time4 --> " + time.indexOf("#"));
 
             if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
                 var arr1 = time.split("@");
@@ -835,13 +842,11 @@ var DetailsView = ValidatingView.extend({
     },
     codeMirrors : {},
     updateOverview: function () {
-        console.log("codeMirrorizeTest called2");
         this.model.set('overview', '<h3>Hello, World!!!!</h3>');
         this.render();
     },
     showOverviewLayer: function(event) {
         event.preventDefault();
-        console.log("showOverviewLayer called2");
 
     },
     codeMirrorize: function (e, forcedTarget) {
@@ -863,7 +868,6 @@ var DetailsView = ValidatingView.extend({
         }
 
         if (!this.codeMirrors[thisTarget.id]) {
-
             var cachethis = this;
             var field = this.selectorToField[thisTarget.id];
             this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
@@ -876,14 +880,12 @@ var DetailsView = ValidatingView.extend({
                         cachethis.setAndValidate(field, newVal);
                     }
             });
+        }
 
-            //codeMirror readOnly set
-            if(this.isEditable())
-                this.codeMirrors[thisTarget.id].setOption("readOnly", true);
-
-        }else{
+        if(this.isEditable()){
             $("#field-course-overview .CodeMirror").remove();
-            CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true});
+            CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true});
+            $(".toggleOverviewLayerBtn").show();
         }
     },
 
