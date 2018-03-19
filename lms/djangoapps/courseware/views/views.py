@@ -261,19 +261,6 @@ def haewoondaex(request, org):
     log.info(f1)
     courses_list = get_courses(user, org=org, filter_=f1)
 
-    print '1 s ---------------------------------'
-    for c in courses_list:
-        print c.id
-    print '1 e ---------------------------------'
-
-    # courses_list2 = get_courses_by_org(request.user, org)
-    #
-    # print '2 s ---------------------------------'
-
-    # for c2 in courses_list2:
-    #     print c2.id
-    # print '2 e ---------------------------------'
-
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
     return render_to_response(

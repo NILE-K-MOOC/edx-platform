@@ -4374,3 +4374,6 @@ button.button-primary.login-provider {
     background-color: #fff;
 }
 
+.proctoring-wrapper h3 {
+    padding: 0 30px;
+}

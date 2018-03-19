@@ -1553,10 +1553,7 @@ def advanced_settings_handler(request, course_key_string):
                      WHERE course_id = '{course_id}';
                 """.format(course_id=course_key_string)
                 cur.execute(query)
-                audit_yn = cur.fetchone()[0]
-
-            if not audit_yn:
-                audit_yn = 'N'
+                audit_yn = cur.fetchone()[0] if cur.rowcount else 'N'
 
             need_lock_dict = {
                 'deprecated': False,
@@ -1582,6 +1579,7 @@ def advanced_settings_handler(request, course_key_string):
                 'advanced_settings_url': reverse_course_url('advanced_settings_handler', course_key),
                 'is_staff': {"is_staff": 'true'} if request.user.is_staff is True else {"is_staff": 'false'}
             })
+
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
             if request.method == 'GET':
                 return JsonResponse(CourseMetadata.fetch(course_module))

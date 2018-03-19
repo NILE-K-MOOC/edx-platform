@@ -13196,7 +13196,7 @@ msgstr "강좌 학점을 요구하기 위한 정보"
 
 #: lms/templates/courseware/progress.html
 msgid "display_name"
-msgstr "display_name"
+msgstr "표시될 이름"
 
 #: lms/templates/courseware/progress.html
 msgid "Verification Submitted"
@@ -15997,7 +15997,7 @@ msgstr "금액 설정"
 #: lms/templates/instructor/instructor_dashboard_2/special_exams.html
 #: lms/templates/instructor/instructor_dashboard_2/proctoring.html
 msgid "Allowance Section"
-msgstr "Allowance Section"
+msgstr "추가 설정 목록"
 
 #: lms/templates/instructor/instructor_dashboard_2/special_exams.html
 msgid "Student Special Exam Attempts"
@@ -25266,13 +25266,16 @@ msgstr "{username} 학습자를 삭제합니다."
 #: test_root/staticfiles/coffee/fixtures/timed-examination-preference-editor.underscore
 #: test_root/staticfiles/templates/timed-examination-preference-editor.underscore
 msgid "Set as a Special Exam"
-msgstr ""
+msgstr "특별 시험 설정"
 
 #: cms/templates/js/timed-examination-preference-editor.underscore
 #: test_root/staticfiles/coffee/fixtures/timed-examination-preference-editor.underscore
 #: test_root/staticfiles/templates/timed-examination-preference-editor.underscore
 msgid "Timed"
-msgstr ""
+msgstr "시간 제한"
+
+msgid "Hide Exam After Due Date"
+msgstr "지정일 이후 시험 숨김"
 
 #: cms/templates/js/timed-examination-preference-editor.underscore
 #: test_root/staticfiles/coffee/fixtures/timed-examination-preference-editor.underscore
@@ -25625,28 +25628,28 @@ msgstr ""
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 msgid "Add a New Allowance"
-msgstr ""
+msgstr "설정 추가"
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 msgid "Special Exam"
-msgstr ""
+msgstr "특별 시험"
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 msgid "Exam Type"
-msgstr ""
+msgstr "시험 유형"
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 #: test_root/staticfiles/proctoring/templates/course_allowances.underscore
 msgid "Allowance Type"
-msgstr ""
+msgstr "추가 유형"
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 msgid "Additional Time (minutes)"
-msgstr ""
+msgstr "추가 시간 (분)"
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 msgid "minutes"
-msgstr ""
+msgstr "분"
 
 #: test_root/staticfiles/proctoring/templates/add-new-allowance.underscore
 msgid "Username or Email"
@@ -25654,32 +25657,32 @@ msgstr ""
 
 #: test_root/staticfiles/proctoring/templates/course_allowances.underscore
 msgid "Allowances"
-msgstr ""
+msgstr "설정"
 
 #: test_root/staticfiles/proctoring/templates/course_allowances.underscore
 msgid "Add Allowance"
-msgstr ""
+msgstr "추가"
 
 #: test_root/staticfiles/proctoring/templates/course_allowances.underscore
 #: test_root/staticfiles/proctoring/templates/student-proctored-exam-attempts.underscore
 msgid "Exam Name"
-msgstr ""
+msgstr "시험 명"
 
 #: test_root/staticfiles/proctoring/templates/course_allowances.underscore
 msgid "Allowance Value"
-msgstr ""
+msgstr "혀용 값"
 
 #: test_root/staticfiles/proctoring/templates/student-proctored-exam-attempts.underscore
 msgid "Time Limit"
-msgstr ""
+msgstr "시간 제한"
 
 #: test_root/staticfiles/proctoring/templates/student-proctored-exam-attempts.underscore
 msgid "Started At"
-msgstr ""
+msgstr "시작 시각"
 
 #: test_root/staticfiles/proctoring/templates/student-proctored-exam-attempts.underscore
 msgid "Completed At"
-msgstr ""
+msgstr "완료 시각"
 
 #: test_root/staticfiles/templates/instructor/instructor_dashboard_2/certificate-white-list.underscore
 msgid ""
@@ -30061,3 +30064,23 @@ msgstr "강좌잠금 여부"
 msgid "audit_yn"
 msgstr "청강모드 여부"
 
+msgid "Maximum score"
+msgstr "최고 점"
+
+msgid "Your score is"
+msgstr "점수: "
+
+msgid "Instructor comment"
+msgstr "교수자 코멘트: "
+
+msgid "K-MOOC Staff Graded Assignment"
+msgstr "K-MOOC 운영팀 평가 문항"
+
+msgid "Maximum grade score given to assignment by staff."
+msgstr "입력 가능한 최대 점수"
+
+msgid ""
+"Defines the number of points each problem is worth. "
+"If the value is not set, the problem is worth the sum of the "
+"option point values."
+msgstr "각 문제의 가치가있는 점수의 수를 정의합니다. 값을 설정하지 않으면 문제는 옵션 포인트 값의 합계가됩니다."
