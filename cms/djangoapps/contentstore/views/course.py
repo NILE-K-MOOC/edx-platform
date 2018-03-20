@@ -545,8 +545,6 @@ def course_listing(request):
     courses = _remove_in_process_courses(courses, in_process_course_actions)
     in_process_course_actions = [format_in_process_course_view(uca) for uca in in_process_course_actions]
 
-    org_list = []
-
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
@@ -562,7 +560,7 @@ def course_listing(request):
     """
     cur.execute(query)
     org_index = cur.fetchall()
-    org_list.append(list(org_index))
+    org_list = list(org_index)
     cur.close()
     return render_to_response('index.html', {
         'courses': courses,
