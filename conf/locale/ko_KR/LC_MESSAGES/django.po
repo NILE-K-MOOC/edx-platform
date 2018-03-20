@@ -547,7 +547,7 @@ msgstr "저작권 보호 정책"
 
 #: lms/templates/navigation.html
 msgid "About Us"
-msgstr "K-MOOC란?"
+msgstr "K-MOOC 소개"
 
 msgid "Participating Institutions"
 msgstr "대학목록"

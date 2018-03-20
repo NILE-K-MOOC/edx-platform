@@ -71,6 +71,27 @@ $( document ).ready(function() {
         }
     }).done(function(data) {
         $('#cnt').html(data.cnt);
+        var memo_list = data.memo_list;
+        var memo_link = '#';
+
+        if(data.cnt > 0){
+            for(var i = 0 ; i < memo_list.length ; i++){
+                if(memo_list[i].memo_gubun != '1'){
+                    memo_link = 'http://' + memo_list[i].contents;
+                } else {
+                    memo_link = '/memo_view/'+memo_list[i].memo_id;
+                }
+                $("#memo_row").append('<a href="'+memo_link+'" id=link_'+i+'>');
+                $("#link_"+i).append('<div class="b3" id="memo_data_'+i+'">');
+                $("#memo_data_"+i).append('<div class="b4"><span>'+ memo_list[i].title + '</span></div>');
+                $("#memo_data_"+i).append('<div class="b5"><span style="color:#999;">'+ memo_list[i].memo_date + '</span></div>');
+                $("#link_"+i).append('</div>');
+                $("#memo_row").append('</a>');
+            }
+        } else {
+            $("#memo_row").remove();
+        }
+
     });
 });
 </script>
@@ -81,9 +102,6 @@ $( document ).ready(function() {
 
         <div class="header-util" title="${static.get_platform_name()}">
             % if static.get_platform_name() != "K-MOOC":
-            <script>
-                $(".header-global").css("background", "url('/static/images/css/bg_header_dev.gif')");
-            </script>
             <ul class="left list-inline">
                 <li class="left item" style="line-height: 30px;">
                     DEV
@@ -91,11 +109,29 @@ $( document ).ready(function() {
             </ul>
             % endif
 
-            <ul class="right list-inline">
+            <ul class="right list-inline" style="margin-right: 60px; margin-top: 5px;">
+                <!-- app s -->
+                <li class="left item">
+                    <a title="앱 스토어로 새창으로 열림" href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" style="padding: 3px 0px;">
+                        <img alt="app store" src="/static/images/common/ios_app.png">
+                    </a>
+                </li>
+                <li class="left item">
+                    <a title="구글 플레이 새창으로 열림" href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 3px 4px;">
+                        <img alt="google play" src="/static/images/common/google_app.png">
+                    </a>
+                </li>
+                <!-- app e -->
 
                 % if user.id:
                 <li class="left item">
-                    <a href="/memo">${_('MEMO')}(<font id="cnt" color="#0080ff"></font>)</a>
+                    <a href="/memo" class="b1">
+                        <img src="/static/images/mail.png">
+                        <i style="text-style: normal; margin-left: 5px;" id="cnt"></i>
+                        <div class="b2" id="memo_row">
+
+                        </div>
+                    </a>
                 </li>
                 % endif
 
@@ -139,7 +175,7 @@ $( document ).ready(function() {
             </button>
             <a href="/">
                 <%block name="navigation_logo">
-                <img src="/static/images/common/logo_top.png" alt="KMOOC"/>
+                <img src="/static/images/common/logo_top.png" alt="K-MOOC"/>
                 </%block>
             </a>
         </h1>
@@ -175,7 +211,7 @@ $( document ).ready(function() {
                 % if LANGUAGE_CODE != 'en':
                 <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
                 % endif
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="width: 120px;">
                         <li id="menu1"><a href="/comm_list/N">공지사항</a></li>
                         <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
                         <li id="menu3"><a href="/comm_list/R">자료실</a></li>
@@ -184,6 +220,8 @@ $( document ).ready(function() {
                 </li>
             % endif
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
+
+            <!--
             % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
                 <li class="item search-global">
                     <div class="gnb-search-box">
@@ -194,6 +232,7 @@ $( document ).ready(function() {
                     </div>
                 </li>
             % endif
+            -->
         </ol>
 
     </nav>

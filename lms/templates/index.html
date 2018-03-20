@@ -64,15 +64,34 @@ from openedx.core.djangolib.markup import HTML, Text
 
 </script>
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
+<script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
+<style>
+    .ui-autocomplete {
+            max-height: 150px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+        }
+    @media (max-width: 720px) {
+        .ui-autocomplete {
+            max-height: 120%;
+        }
+    }
+</style>
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
         <!-- [s] main top -->
         <header>
-
             <div class="ttbg" style="max-width: 100%; height:495px; ">
-                <div class="ttbg1">
+                <div class="grid-container grid-manual">
+                    <div class="row">
+                        <div class="col col-12 sm-col-6">
+                            <div class="ttbg1" id="main-contents-search">
 			<span class="k-bannner-txt">
                 % if LANGUAGE_CODE == 'ko-kr':
                         <h1>미래를 여는 최고의 강좌</h1>
@@ -82,21 +101,288 @@ from openedx.core.djangolib.markup import HTML, Text
                 % endif
 
 			</span>
+                                <form method="get" action="/courses">
+                                    <div class="msearch_area">
 
-			<div class="mserch_area">
-                <input class="mserch_input" type="text" placeholder="어떤 강좌를 학습하고 싶으세요?" aria-label="어떤 강좌를 학습하고 싶으세요?">
-			<span class="mserch_btnarea">
-			<button class="mserch_btn" type="button"><img src="/static/images/icon-search.png" alt="search"></button>
+                                        <input class="msearch_input" type="text" name="search_query" placeholder="어떤 강좌를 학습하고 싶으세요?" aria-label="어떤 강좌를 학습하고 싶으세요?">
+			<span class="msearch_btnarea">
+			<button class="msearch_btn" type="submit"><img src="/static/images/icon-search.png" alt="search"></button>
 			</span>
-            </div>
-
-            </div>
-                    <div class="ttbg2">
-                        <img src="/static/images/css/main_top_bg2.png" alt="나무"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col col-12 sm-col-6">
+                            <div class="ttbg2">
+                                <img src="/static/images/css/main_top_bg2.png" alt="나무"/>
+                            </div>
+                            <div class="col col-12 sm-col-6">
+                            </div>
+                        </div>
                     </div>
-                </div>
         </header>
         <!-- [e] main top -->
+        % if LANGUAGE_CODE == 'ko-kr':
+        <!-- [s] my course -->
+        <section class="my-course-container" id="main-contents03" style="padding-top: 10px; padding-bottom: 0;">
+            <!--<h2 class="main-title">< ${_("Find Courses for me")} ></h2>-->
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-6" id="main-contents08" style="padding-left: 0; padding-right: 0;">
+
+                        <div class="slider">
+                            <div class="slide_viewer">
+                                <div class="slide_group" style="left: 0px;">
+
+                                    % if popzone_list:
+                                    <div class="slide" style="display: block; left: 0px;">
+                                        <a href="${popzone_list[0]['link_url']}" target="${popzone_list[0]['link_target']}">
+                                            <img src="${popzone_list[0]['image_file']}" alt="${popzone_list[0]['title']}">
+                                            <input type="hidden" value="${popzone_list[0]['title']}" id="pop_title0">
+                                        </a>
+                                    </div>
+                                    % for pop in popzone_list[1:]:
+                                    <div class="slide" style="display: none; left: 0px;">
+                                        <a href="${pop['link_url']}" target="${pop['link_target']}">
+                                            <img src="${pop['image_file']}" alt="${pop['title']}">
+                                            <input type="hidden" value="${pop['title']}" id="pop_title${loop.index + 1}">
+                                        </a>
+                                    </div>
+                                    % endfor
+                                    % else:
+                                    <div class="slide" style="display: block; left: 0px;">
+                                        <img src="/static/images/css/s_bg1.jpg">
+                                    </div>
+                                    % endif
+                                </div>
+
+                                <div class="slide_buttons">
+                                </div>
+
+                                <div class="directional_nav">
+                                    <div class="previous_btn" title="Previous">
+                                        <svg x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66" style="background: #333;" >
+                                            <g>
+                                                <g>
+
+                                                    <path fill="#ffffff" d="M25.43,33.243L14.628,22.429c-0.433-0.432-0.433-1.132,0-1.564L25.43,10.051c0.432-0.432,1.132-0.432,1.563,0	c0.431,0.431,0.431,1.132,0,1.564L16.972,21.647l10.021,10.035c0.432,0.433,0.432,1.134,0,1.564	c-0.215,0.218-0.498,0.323-0.78,0.323C25.929,33.569,25.646,33.464,25.43,33.243z"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <div class="next_btn" title="Next">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66" style="background: #333;">
+                                            <g>
+                                                <g style="background:#efefef;">
+
+                                                    <path fill="#ffffff" d="M18.022,33.569c 0.282,0-0.566-0.105-0.781-0.323c-0.432-0.431-0.432-1.132,0-1.564l10.022-10.035 			L17.241,11.615c 0.431-0.432-0.431-1.133,0-1.564c0.432-0.432,1.132-0.432,1.564,0l10.803,10.814c0.433,0.432,0.433,1.132,0,1.564 L18.805,33.243C18.59,33.464,18.306,33.569,18.022,33.569z"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div><!-- End // .directional_nav -->
+
+                            </div>
+                        </div>
+
+                        <!--<div class="my-course-item">
+                            <h3>
+                                <img src="/static/images/main/my_course_01.png" alt=""><br/>
+                                <p>${_("Opening Status")}</p>
+                            </h3>
+                            <div class="btns">
+                                <a href="/courses?range=t" title="개강예정">${_("Starting Soon")}</a>
+                                <a href="/courses?range=i" title="진행 강좌">${_("Current")}</a>
+                                <a href="/courses?range=e" title="종료 강좌">${_("Finish")}</a>
+                            </div>
+                        </div>-->
+                    </div>
+
+
+                    <div class="col col-12 sm-col-6" style="padding-right: 0;">
+
+                        <!-- 커뮤니티 최신 4개 s -->
+                        <div class=" sm-col-6" style="padding-left: 0;">
+                            <div class="info-area">
+                                <div class="info-top-area">
+                                    <span class="t-txt">안내</span>
+                                    <span class="t-more"><a href="/comm_list/N/">+</a></span>
+                                </div>
+
+                                <div class="info-body-area">
+                                    <ul>
+                                        <%
+                                        idx = 0
+                                        %>
+                                        % for list in index_list :
+                                        % if list[5] != 'F':
+                                        <%
+                                        idx += 1
+                                        %>
+                                        % if idx <= 4:
+                                        <li>
+                                            <div class="info-list-area">
+                                                <a href="/comm_view/${list[5]}/1/${list[0]}">
+                                                    <i>${list[1]}</i>&nbsp;${list[2]}
+                                                </a>
+                                            </div>
+                                        </li>
+                                        % endif
+                                        % endif
+                                        % endfor
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 커뮤니티 최신 4개 e -->
+
+                        <!-- 자주하는 질문 s -->
+                        <div class=" sm-col-6" style="padding-right: 0;">
+                            <div class="info-area">
+                                <div class="info-top-area">
+                                    <span class="t-txt">자주하는 질문</span>
+                                    <span class="t-more"><a href="/comm_tabs/kmooc_f/">+</a></span>
+                                </div>
+
+                                <div class="info-body-area">
+                                    <ul>
+                                        % for list in index_list :
+                                        % if list[5] == 'F':
+                                        <li>
+                                            <div class="info-list-area">
+                                                <a href="/comm_tabs/${list[6]}/">
+                                                    <i>${list[1]}</i>&nbsp;${list[2]}
+                                                </a>
+                                            </div>
+                                        </li>
+                                        % endif
+                                        % endfor
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 자주하는 질문 e -->
+
+                    </div>
+
+                    <!--
+                    <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
+                        <div class="my-course-item middle">
+                            <h3>
+                                <img src="/static/images/main/my_course_02.png" alt=""><br/>
+                                <p>${_("Period of Studing")}</p>
+                            </h3>
+                            <div class="btns">
+                                <a href="/courses?course_period=S">${_("Short (1~6 weeks)")}</a>
+                                <a href="/courses?course_period=M">${_("Middle (7~12 weeks)")}</a>
+                                <a href="/courses?course_period=L">${_("Long (over 13 weeks)")}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
+                        <div class="my-course-item">
+                            <h3>
+                                <img src="/static/images/main/my_course_03.png" alt=""><br/>
+                                <p>${_("Language")}</p>
+                            </h3>
+                            <div class="btns">
+                                <a href="/courses?language=ko">${_("Korean")}</a>
+                                <a href="/courses?language=en">${_("English")}</a>
+                                -->
+
+                    <!--
+                    <a href="">${_("Chiness")}</a>
+                    -->
+                </div>
+            </div>
+        </section>
+        % endif
+        <!-- [e] my course -->
+
+
+        <!-- [s] course list -->
+        <section class="courses-container full" id="main-contents05" style="padding: 10px;">
+
+            <div style="padding: 0px 10px;">
+                <!-- community-container-wrap s -->
+                <div class="community-container-wrap" id="main-contents07">
+                    <!-- [s] major course list -->
+                    <a href="/courses?term=hum" class="on" title="전체">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab1.png" alt="">
+                        </i>
+                        ${_("All")}
+                    </a>
+                    <div class="grid-container grid-manual community" id="community00">
+                        <section class="courses-container full">
+                            <%include file="${courses_list}" />
+                        </section>
+                    </div>
+                    <a href="/courses?term=hum">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab2.png" alt="">
+                        </i>
+                        ${_("Humanities")}
+                    </a>
+                    <a href="/courses?term=social">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab3.png" alt="">
+                        </i>
+                        ${_("Social Sciences")}
+                    </a>
+                    <a href="/courses?term=edu">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab4.png" alt="">
+                        </i>
+                        ${_("Education")}
+                    </a>
+                    <a href="/courses?term=eng">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab5.png" alt="">
+                        </i>
+                        ${_("Engineering")}
+                    </a>
+                    <a href="/courses?term=nat">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab6.png" alt="">
+                        </i>
+                        ${_("Natural Sciences")}
+                    </a>
+                    <a href="/courses?term=med">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab7.png" alt="">
+                        </i>
+                        ${_("Medical Sciences")}
+                    </a>
+                    <a href="/courses?term=art">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab8.png" alt="">
+                        </i>
+                        ${_("Arts & Physical")}
+                    </a>
+                    <a href="/courses?term=intg">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab9.png" alt="">
+                        </i>
+                        ${_("Interdisciplinary")}
+                    </a>
+                    <a href="/courses" title="강좌 더보기">
+                        <i style="margin-right: 5px;">
+                            <img src="/static/images/main/main_tab10.png" alt="">
+                        </i>
+                        ${_("More")}
+                    </a>
+                    <!-- [e] major course list -->
+
+                    <!-- <h2 class="main-title">${_("Available courses")}</h2> -->
+
+                </div>
+                <!-- community-container-wrap e -->
+            </div>
+        </section>
+        <!-- [e] course list -->
+
 
         <!-- [s] university list -->
         <section class="university-container" id="main-contents01">
@@ -176,291 +462,9 @@ from openedx.core.djangolib.markup import HTML, Text
                     % endif
 
                 </ul>
-                <a href="/schools" class="univ-more">전체보기</a>
             </section>
         </section>
         <!-- [e] university list -->
-
-        <!-- community-container-wrap s -->
-        <div class="community-container-wrap">
-
-        <!-- [s] course list -->
-        <section class="courses-container full" id="main-contents05">
-            <!-- <h2 class="main-title">${_("Available courses")}</h2> -->
-            <%include file="${courses_list}" />
-        </section>
-        <!-- [e] course list -->
-
-
-        <!-- [s] major course list -->
-        <section class="major-course-container" id="main-contents02">
-            <h2 class="main-title" style="margin-bottom: 20px;">< ${_("Courses by Subject")} ></h2>
-            <div class="grid-container grid-manual">
-                <div class="row">
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=hum">
-                                <img src="/static/images/main/course_01.png" alt="">
-                                <p>${_("Humanities")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=social">
-                                <img src="/static/images/main/course_02.png" alt="">
-                                <p>${_("Social Sciences")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=edu">
-                                <img src="/static/images/main/course_03.png" alt="">
-                                <p>${_("Education")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=eng">
-                                <img src="/static/images/main/course_04.png" alt="">
-                                <p>${_("Engineering")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=nat">
-                                <img src="/static/images/main/course_05.png" alt="">
-                                <p>${_("Natural Sciences")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=med">
-                                <img src="/static/images/main/course_06.png" alt="">
-                                <p>${_("Medical Sciences")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?term=art">
-                                <img src="/static/images/main/course_07.png" alt="">
-                                <p>${_("Arts & Physical")}</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                        <div class="major-course-item">
-                            <a href="/courses?linguistics=Y">
-                                <img src="/static/images/main/course_08.png" alt="">
-                                <p>${_("Korean Studies")}</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- [e] major course list -->
-
-            </div>
-        <!-- community-container-wrap e -->
-
-        <!-- [s] my course -->
-        <section class="my-course-container" id="main-contents03">
-            <h2 class="main-title">< ${_("Find Courses for me")} ></h2>
-            <div class="grid-container grid-manual">
-                <div class="row">
-                    <div class="col col-12 sm-col-6 md-col-4  lg-col-4">
-                        <div class="my-course-item">
-                            <h3>
-                                <img src="/static/images/main/my_course_01.png" alt=""><br/>
-                                <p>${_("Opening Status")}</p>
-                            </h3>
-                            <div class="btns">
-                                <a href="/courses?range=t" title="개강예정">${_("Starting Soon")}</a>
-                                <a href="/courses?range=i" title="진행 강좌">${_("Current")}</a>
-                                <a href="/courses?range=e" title="종료 강좌">${_("Finish")}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
-                        <div class="my-course-item middle">
-                            <h3>
-                                <img src="/static/images/main/my_course_02.png" alt=""><br/>
-                                <p>${_("Period of Studing")}</p>
-                            </h3>
-                            <div class="btns">
-                                <a href="/courses?course_period=S">${_("Short (1~6 weeks)")}</a>
-                                <a href="/courses?course_period=M">${_("Middle (7~12 weeks)")}</a>
-                                <a href="/courses?course_period=L">${_("Long (over 13 weeks)")}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-12 sm-col-6 md-col-4 lg-col-4">
-                        <div class="my-course-item">
-                            <h3>
-                                <img src="/static/images/main/my_course_03.png" alt=""><br/>
-                                <p>${_("Language")}</p>
-                            </h3>
-                            <div class="btns">
-                                <a href="/courses?language=ko">${_("Korean")}</a>
-                                <a href="/courses?language=en">${_("English")}</a>
-                                <!--
-                                <a href="">${_("Chiness")}</a>
-                                -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- [e] my course -->
-
-
-        % if LANGUAGE_CODE == 'ko-kr':
-        <!-- [s] community list -->
-        <section class="community-container" id="main-contents06" title="커뮤니티">
-            <h2 class="main-title"></h2>
-            <div class="community-container-wrap">
-                <!-- community 00 -->
-                <a href="#community00" class="on" title="전체">전체</a>
-                <div class="grid-container grid-manual community" id="community00">
-                    <div class="row" id="total">
-                    </div>
-                </div>
-                <!--// community 00 -->
-                <!-- community 01 -->
-                <a href="#community01" title="공지사항">공지사항</a>
-                <div class="grid-container grid-manual community" id="community01">
-                    <div class="row">
-                        % for list in index_list :
-                        % if list[5] == 'N':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-                                    <!-- <time>${list[4]}</time> -->
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                        % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_notice" style="margin-top: 20px;" title="공지사항 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 01 -->
-                <!-- community 02 -->
-                <a href="#community02" title="K-MOOC 뉴스">K-MOOC 뉴스</a>
-                <!-- <div class="grid-container grid-manual community" id="community02">
-                    <div class="row">
-                    % for list in index_list :
-                        % if list[5] == 'K':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3">
-                            <div class="community-item">
-                                <a href="/comm_k_news_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <p class="summary">${list[3]}</p>
-                                    <time>${list[4]}</time>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                    % endfor
-                    </div>
-                </div> -->
-                <div class="grid-container grid-manual community" id="community02">
-                    <div class="row">
-                        % for list in index_list :
-                        % if list[5] == 'K':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_view/${list[0]}/">
-                                    <h3 style="background-image: url(${list[3]}); background-size: 100% 100%;" title="${list[7]}">
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px; font-size: 20px; font-weight: 700">${list[1]}<br/>${list[2]}</p>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                        % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_k_news" style="margin-top: 20px;" title="K-MOOC 뉴스 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 02 -->
-                <!-- community 03 -->
-                <a href="#community03" title="자료실">자료실</a>
-                <div class="grid-container grid-manual community" id="community03">
-                    <div class="row">
-                        % for list in index_list :
-                        % if list[5] == 'R':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_view/${list[0]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px;  margin-bottom: 0px;">${list[3]}...</p>
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                        % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="comm_repository" style="margin-top: 20px;" title="자료실 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 03 -->
-                <!-- community 04 -->
-                <a href="#community04" title="Q&A">Q&A</a>
-                <div class="grid-container grid-manual community" id="community04">
-                    <div class="row">
-                        % for list in index_list :
-                        % if list[5] == 'F':
-                        <div class="col col-12 sm-col-6 md-col-4  lg-col-3 tab">
-                            <div class="community-item">
-                                <a href="/comm_tabs/${list[6]}/">
-                                    <h3>
-                                        <strong class="category">${list[1]}</strong>
-                                        <p>${list[2]}</p>
-                                    </h3>
-                                    <time>${list[4]}</time>
-                                    <p class="summary" style="height: 150px; margin-bottom: 0px;">${list[3]}...</p>
-
-                                </a>
-                            </div>
-                        </div>
-                        % endif
-                        % endfor
-                    </div>
-                    <div align="right" class="btns">
-                        <a class="btn-neutral" href="/comm_faq/1/" style="margin-top: 20px;" title="Q&A 더보기">더보기</a>
-                    </div>
-                </div>
-                <!--// community 04 -->
-            </div>
-        </section>
-        <!-- [e] community list -->
-        % endif
 
     </section>
 </main>
@@ -487,12 +491,12 @@ from openedx.core.djangolib.markup import HTML, Text
 <!-- sidebar -->
 <nav class="main-sticky-box">
     <ul class="main-sticky">
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents-search">${_("Course Search")}</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("University List")}</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents05">${_("Available Courses")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents02">${_("Courses by Subject")}</a></li>
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents03">${_("Find Courses for me")}</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents07">${_("Courses by Subject")}</a></li>
         % if LANGUAGE_CODE == 'ko-kr':
-        <li><a href="#" class="smooth-move" data-hashbang="main-contents06">커뮤니티</a></li>
+        <li><a href="#" class="smooth-move" data-hashbang="main-contents08">커뮤니티</a></li>
         % endif
     </ul>
 </nav>

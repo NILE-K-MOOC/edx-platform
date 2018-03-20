@@ -630,7 +630,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      content,
                      SUBSTRING(reg_date, 1, 11),
                      section,
-                     ''
+                     '',
+                     mod_date
                 FROM tb_board
                WHERE section = 'N'
                and use_yn = 'Y'
@@ -652,7 +653,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
                      SUBSTRING(reg_date, 1, 11),
                      section,
-                     ''
+                     '',
+                     mod_date
                 FROM tb_board
                WHERE section = 'K'
                and use_yn = 'Y'
@@ -672,7 +674,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      content,
                      SUBSTRING(reg_date, 1, 11),
                      section,
-                     ''
+                     '',
+                     mod_date
                 FROM tb_board
                WHERE section = 'R'
                and use_yn = 'Y'
@@ -695,7 +698,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      content,
                      SUBSTRING(reg_date, 1, 11),
                      section,
-                     head_title
+                     head_title,
+                     mod_date
                 FROM tb_board
                WHERE section = 'F'
                  and use_yn = 'Y'
@@ -708,12 +712,14 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      content,
                      SUBSTRING(reg_date, 1, 11),
                      section,
-                     head_title
+                     head_title,
+                     mod_date
                 FROM tb_board
                WHERE section = 'M'
                  and use_yn = 'Y'
             ORDER BY mod_date DESC
                limit 4)
+        ORDER BY mod_date DESC;
     """
 
     index_list = []
@@ -814,13 +820,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
                            attatch_file_name,
                            width,
                            height,
-                           image_map,
                            CASE
                               WHEN hidden_day = '1' THEN '1'
                               WHEN hidden_day = '7' THEN '7'
                               WHEN hidden_day = '0' THEN '999999'
                            END
-                           hidden_day
+                           hidden_day,
+                           image_map
                       FROM popup
                       JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
                      WHERE popup_id = {0};
@@ -930,11 +936,45 @@ def index(request, extra_context=None, user=AnonymousUser()):
     max_pop = cur.fetchall()
     cur.close()
 
+    # popup zone s --------------------------------------------------
+    popupzone_query = """
+          SELECT seq,
+                 title,
+                 ifnull(concat(attach_file_path, '/', attatch_file_name), '')
+                    image_file,
+                 link_url,
+                 link_target
+            FROM popupzone a LEFT JOIN tb_board_attach b ON a.image_file = b.attatch_id
+           WHERE     concat(start_date, start_time) <=
+                     date_format(now(), '%Y%m%d%H%i%s')
+                 AND concat(end_date, end_time) >= date_format(now(), '%Y%m%d%H%i%s')
+        ORDER BY end_date ASC, start_date ASC;
+    """
+    cur = con.cursor()
+    cur.execute(popupzone_query)
+    popzone = cur.fetchall()
+
+    popzone_list = list()
+    for zone in popzone:
+        popzone_dict = dict()
+        popzone_dict['title'] = zone[1]
+        image_idx = zone[2].find('/static')
+        if image_idx == -1:
+            popzone_dict['image_file'] = zone[2]
+        else:
+            popzone_dict['image_file'] = zone[2][image_idx:]
+        popzone_dict['link_url'] = zone[3]
+        popzone_dict['link_target'] = zone[4]
+
+        popzone_list.append(popzone_dict)
+
+    # popup zone e ----------------------------------------------------
 
     extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
     context.update(extra_context)
     extra_context['max_pop'] = str(max_pop[0][0])
+    extra_context['popzone_list'] = popzone_list
     context.update(extra_context)
 
     return render_to_response('index.html', context)
@@ -1087,6 +1127,25 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
             # Else, include the enrollment.
             else:
                 yield enrollment
+
+
+@csrf_exempt
+def course_search_list(request):
+    if request.is_ajax():
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT DISTINCT display_name
+                  FROM course_overviews_courseoverview;
+            '''
+            cur.execute(query)
+            course_tup = cur.fetchall()
+            course_list = list()
+            for course in course_tup:
+                course_list.append(course[0])
+            print course_list
+
+            return JsonResponse({'course_search_list': course_list})
+    pass
 
 
 def _cert_info(user, course_overview, cert_status, course_mode):  # pylint: disable=unused-argument

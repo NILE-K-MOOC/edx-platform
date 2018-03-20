@@ -9,7 +9,7 @@
       <section class="courses" style="padding-bottom: 0;">
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-          %for course in courses[:settings.HOMEPAGE_COURSE_MAX]:
+          %for course in courses[:8]:
           <li class="courses-listing-item">
               <%include file="course.html" args="course=course" />
           </li>
@@ -26,9 +26,7 @@
     % endif
     % endif
 
-    <div class="btn-list-more">
-        <a href="/courses" title="강좌 더보기">${_("More")}</a>
-    </div>
+
 
   </section>
 <!-- </section> -->
