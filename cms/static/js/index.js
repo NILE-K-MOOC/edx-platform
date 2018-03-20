@@ -228,6 +228,9 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var onReady = function () {
+
+            console.log('js/index.js onReady');
+
             $('.new-course-button').bind('click', addNewCourse);
             $('.new-library-button').bind('click', addNewLibrary);
 

@@ -545,24 +545,18 @@ def course_listing(request):
     courses = _remove_in_process_courses(courses, in_process_course_actions)
     in_process_course_actions = [format_in_process_course_view(uca) for uca in in_process_course_actions]
 
-    sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-    cur = con.cursor()
-    query = """
-          SELECT detail_code, detail_name
-            FROM code_detail
-           WHERE group_code = 003
-        ORDER BY detail_name;
-    """
-    cur.execute(query)
-    org_index = cur.fetchall()
-    org_list = list(org_index)
-    cur.close()
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT detail_code, detail_name
+              FROM code_detail
+             WHERE group_code = 003;
+        """
+        cur.execute(query)
+        org_index = cur.fetchall()
+        org_list = list(org_index)
+
     return render_to_response('index.html', {
+        'course_names': [c.get('display_name') for c in courses],
         'courses': courses,
         'in_process_course_actions': in_process_course_actions,
         'libraries_enabled': LIBRARIES_ENABLED,
