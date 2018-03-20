@@ -35,7 +35,7 @@
         % if course_discovery_enabled:
         <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
           <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
-          <form class="wrapper-search-input">
+          <form class="wrapper-search-input" style="z-index: 999;">
             <label for="discovery-input" class="sr">${_('Search for a course')}</label>
             <input id="discovery-input" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
             <button type="submit" class="button postfix discovery-submit" title="${_('Search')}" data-test="check1">
@@ -92,8 +92,67 @@
 </main>
 
 % if course_discovery_enabled:
-    <script type="text/javascript">
-        $(function () {
+<style>
+    .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+        }
+</style>
+<script type="text/javascript">
+    $(function () {
+        var discovery_parent = $("#discovery-input").parent();
+
+        $.ajax({
+            url: '/course_search_list',
+        }).done(function (data) {
+            var search_arr = data.course_search_list;
+            var $elem = $("#discovery-input").autocomplete({
+                        source: search_arr,
+                        appendTo: discovery_parent,
+                        matchContains: true,
+                        open: function(event, ui) {
+                            console.log(this);
+                            $(this).autocomplete("widget").css({
+                                "width": "100%",
+                                "position": "absolute",
+                                "z-index": 1001
+                            });
+                            $(this).autocomplete("widget").children('li').css({
+                                "margin-top": "10px",
+                                "margin-left": "10px",
+                                "font-family": '"Nanum Gothic","Open Sans"',
+                                "color": 'block',
+                                //"font-weight": 'bold',
+                                "font-style": 'normal',
+                                "font-size": '15px'
+
+                            });
+                        },
+                        focus: function(event, ui) {
+                            return false;
+                            //event.preventDefault();
+                        }
+                    }),
+                    elemAutocomplete = $elem.data("ui-autocomplete") || $elem.data("autocomplete");
+            if (elemAutocomplete) {
+                elemAutocomplete._renderItem = function (ul, item) {
+                    var newText = String(item.value).replace(
+                            new RegExp(this.term, "gi"),
+                            "<span class='ui-state-highlight' style='border: #4587c2; color: #4587c2; font-weight: 900'>$&</span>");
+
+                    return $("<li></li>")
+                            .data("item.autocomplete", item)
+                            .append("<a>" + newText + "</a>")
+                            .appendTo(ul);
+                };
+            }
+        });
+
+
             var ua = window.navigator.userAgent;
             var msie = ua.indexOf("MSIE ");
             $(function(){

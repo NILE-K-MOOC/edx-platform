@@ -64,7 +64,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
 </script>
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
 <script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
 <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
 <style>
@@ -102,7 +102,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
 			</span>
                                 <form method="get" action="/courses">
-                                    <div class="msearch_area">
+                                    <div class="msearch_area" style="z-index: 999;">
 
                                         <input class="msearch_input" type="text" name="search_query" placeholder="어떤 강좌를 학습하고 싶으세요?" aria-label="어떤 강좌를 학습하고 싶으세요?">
 			<span class="msearch_btnarea">

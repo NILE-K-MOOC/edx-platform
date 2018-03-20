@@ -16,7 +16,7 @@ $(document).ready(function () {
                         "width": "100%",
                         "opacity": 0.7,
                         "position": "absolute",
-                        "z-index": 1
+                        "z-index": 1000
                     });
                     $(this).autocomplete("widget").children('li').css({
                         "margin-top": "10px",
