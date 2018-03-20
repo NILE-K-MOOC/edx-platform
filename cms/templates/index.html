@@ -236,8 +236,8 @@ if (
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
                   <select onchange="check_2level();" class="new-course-org" id="new-course-org" name="new-course-org">
                     <option value="">대학선택</option>
-                    %for org_index in org_list[0] :
-                        <option value="${org_index[0]}">${org_index[0]}(${org_index[1]})</option>
+                    %for code, name in org_list :
+                        <option value="${code}">${name}(${code})</option>
                     %endfor
                   </select>
 
@@ -817,13 +817,8 @@ if (
               <div class="course-metadata">
                 <span class="course-org metadata-item">
                   <span class="label">${_("Organization:")}</span>
-                  %for org_index in org_list[0] :
-                    %if org_index[0] == course_info['org'] :
-                        <span class="value">${org_index[1]}</span>
+                        <span class="value">${_(course_info['org'])}</span>
                         </span>
-                    %endif
-                  %endfor
-
                 <span class="course-org metadata-item">
                     <span class="value">${course_info['org']}</span>
                 </span>
