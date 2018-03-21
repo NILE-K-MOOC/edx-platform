@@ -827,9 +827,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      WHERE popup_id = {0};
                     """.format(index[0])
                 cur.execute(query)
-                print 'indexI.html Test ================='
-                print query
-                print 'indexI.html Test ================='
                 row = cur.fetchall()
                 cur.close()
                 map_list = []
