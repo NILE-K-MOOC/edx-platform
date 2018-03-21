@@ -55,6 +55,7 @@ def memo(request):
                     cnt = rows[0][0]
                 except BaseException:
                     cnt = 0
+
             return JsonResponse({"cnt": cnt})
 
         # 2.2 메모 내부 삭제 클릭 시 로직
@@ -757,7 +758,35 @@ def memo_sync(request):
                     cnt = rows[0][0]
                 except BaseException:
                     cnt = 0
-            return JsonResponse({"cnt": cnt})
+
+                query2 = """
+                      SELECT title,
+                             contents,
+                             memo_gubun,
+                             date_format(ifnull(modify_date, regist_date), '%m.%d') memo_date,
+                             memo_id
+                        FROM memo
+                       WHERE read_date IS NULL AND receive_id = {user_id}
+                    ORDER BY memo_id DESC
+                       LIMIT 0, 10;
+                """.format(user_id=user_id)
+
+                cur.execute(query2)
+                memo_data = cur.fetchall()
+                memo_list = []
+                for memo in memo_data:
+                    memo_row = dict()
+                    memo_row['title'] = memo[0]
+                    memo_row['contents'] = memo[1]
+                    memo_row['memo_gubun'] = memo[2]
+                    memo_row['memo_date'] = memo[3]
+                    memo_row['memo_id'] = memo[4]
+
+                    memo_list.append(memo_row)
+
+                print query2
+
+            return JsonResponse({"cnt": cnt, "memo_list": memo_list})
 
 
 @ensure_csrf_cookie
