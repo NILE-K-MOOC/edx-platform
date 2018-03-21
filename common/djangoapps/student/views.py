@@ -820,12 +820,16 @@ def index(request, extra_context=None, user=AnonymousUser()):
                               WHEN hidden_day = '0' THEN '999999'
                            END
                            hidden_day,
-                           image_map
+                           image_map,
+                           attatch_file_ext
                       FROM popup
                       JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
                      WHERE popup_id = {0};
                     """.format(index[0])
                 cur.execute(query)
+                print 'indexI.html Test ================='
+                print query
+                print 'indexI.html Test ================='
                 row = cur.fetchall()
                 cur.close()
                 map_list = []
@@ -851,6 +855,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                         popup_index = popup_index.replace("#_img_width", str(index[9]))
                         popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
                         popup_index = popup_index.replace("#_hidden", str(index[10]))
+                        popup_index = popup_index.replace("#_attatch_file_ext", str(index[12]))
                         if (len(index[11]) == 1):
                             map_str = """
                                     <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
@@ -866,12 +871,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                             popup_index = popup_index.replace("#_not_exist", "")
                             popup_index = popup_index.replace("#_exist", map_str)
                     f.close()
-                    print 'IMAGE -------'
-                    print popup_index
 
 
         elif (index[1] == '1'):
-            print('index1.html')
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index1.html", 'r')
             while True:
                 line = f.readline()
@@ -889,7 +891,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 popup_index = popup_index.replace("#_hidden", str(index[10]))
             f.close()
         elif (index[1] == '2'):
-            print('index2.html')
             f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index2.html", 'r')
             while True:
                 line = f.readline()
