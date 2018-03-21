@@ -5,7 +5,11 @@
 
 <%block name="header_extras"></%block>
 <script src="${static.url('js/script/faq_request.js')}" charset="utf-8"></script>
-
+<style>
+    .board-write dd input[type='text'] {
+        background: none;
+    }
+</style>
 <section class="container">
     <!-- [s] board write -->
     <h2 id="main">${_("Contact us by email")}</h2>
@@ -23,17 +27,17 @@
                     <div style="padding: 10px;">
                         <!-- ${_("If you would like an answer, please enter your e-mail address correctly.")}<br> -->
                     </div>
-
+                    <input type="hidden" value="${head_title}" id="title_val">
                     <select id="search_con" style="height: 35px; min-width: 100px!important;" title="질문 선택">
-                        <option id="null">${_("Please choose your inquiry.")}</option>
-                        <option id="kmooc_f">${_("About K-MOOC")}</option>
-                        <option id="regist_f">${_("About membership")}</option>
-                        <option id="login_f">${_("About sign-in and account")}</option>
-                        <option id="enroll_f">${_("About enrollment/cancel")}</option>
-                        <option id="course_f">${_("About course registration")}</option>
-                        <option id="certi_f">${_("About grade/certificates")}</option>
-                        <option id="tech_f">${_("About technical problems")}</option>
-                        <option id="mobile_f">${_("About mobile problems")}</option>
+                        <option id="null" value="null">${_("Please choose your inquiry.")}</option>
+                        <option id="kmooc_f" value="kmooc_f">${_("About K-MOOC")}</option>
+                        <option id="regist_f" value="regist_f">${_("About membership")}</option>
+                        <option id="login_f" value="login_f">${_("About sign-in and account")}</option>
+                        <option id="enroll_f" value="enroll_f">${_("About enrollment/cancel")}</option>
+                        <option id="course_f" value="course_f">${_("About course registration")}</option>
+                        <option id="certi_f" value="certi_f">${_("About grade/certificates")}</option>
+                        <option id="tech_f" value="tech_f">${_("About technical problems")}</option>
+                        <option id="mobile_f" value="mobile_f">${_("About mobile problems")}</option>
                     </select>
                     <input type="text"  id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력">@
                     <input type="text" style="height: 35px; min-width: 200px !important;" id="email_txt" aria-label="이메일 도메인 입력" title="이메일 도메인 입력" disabled>

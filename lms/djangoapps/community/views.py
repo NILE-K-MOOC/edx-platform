@@ -825,11 +825,40 @@ def comm_list(request, section=None, curr_page=None):
         all_pages = p.num_pages
         curr_data = p.page(curr_page)
 
-        context = {
-            'total_cnt': total_cnt,
-            'all_pages': all_pages,
-            'curr_data': [model_to_dict(o) for o in curr_data.object_list],
-        }
+        with connections['default'].cursor() as cur:
+            board_list = list()
+            for board_data in curr_data.object_list:
+                board_dict = dict()
+                board_dict['board_id'] = board_data.board_id
+                board_dict['content'] = board_data.content
+                board_dict['head_title'] = board_data.head_title
+                board_dict['mod_date'] = board_data.mod_date
+                board_dict['odby'] = board_data.odby
+                board_dict['reg_date'] = board_data.reg_date
+                board_dict['section'] = board_data.section
+                board_dict['subject'] = board_data.subject
+                board_dict['use_yn'] = board_data.use_yn
+
+                query = '''
+                    SELECT count(attatch_id)
+                      FROM tb_board_attach
+                     WHERE board_id = {board_id} AND del_yn = 'N';
+                '''.format(board_id=board_data.board_id)
+                cur.execute(query)
+                cnt = cur.fetchone()[0]
+
+                if cnt != 0:
+                    board_dict['attach_file'] = 'Y'
+                else:
+                    board_dict['attach_file'] = 'N'
+
+                board_list.append(board_dict)
+
+            context = {
+                'total_cnt': total_cnt,
+                'all_pages': all_pages,
+                'curr_data': board_list,
+            }
 
         return JsonResponse(context)
     else:
@@ -1228,7 +1257,7 @@ def comm_faq(request, head_title):
     return render_to_response('community/comm_faq.html', context)
 
 
-def comm_faqrequest(request):
+def comm_faqrequest(request, head_title=None):
     if request.is_ajax():
         data = json.dumps('fail')
         if request.GET['method'] == 'request':
@@ -1303,7 +1332,7 @@ def comm_faqrequest(request):
             data = json.dumps('success')
         return HttpResponse(data, 'application/json')
 
-    return render_to_response('community/comm_faqrequest.html')
+    return render_to_response('community/comm_faqrequest.html', {'head_title': head_title})
 
 
 def replace_all(string):

@@ -7,7 +7,12 @@ ${page_title}
 
 <%block name="header_extras"></%block>
 <script src="${static.url('js/script/comm_view.js')}" charset="utf-8"></script>
-
+<style>
+    li p {
+    display: inline-block;
+    margin-bottom:  0px;
+    }
+</style>
 <section class="container">
     <h2 title="${page_title}" id="main">${page_title}</h2>
     <!-- [s] board view -->
@@ -15,8 +20,8 @@ ${page_title}
         <ul>
             <li class="title">
                 <h3 id="title" title="제목">${board.subject}</h3>
-                <time id="reg_date" style="bottom: 30px;" title="작성일">작성일[등록일] : ${board.reg_date.strftime('%Y/%m/%d %H:%M')}</time>
-                <time id="mod_date" style="bottom: 15px;" title="수정일">수정일 : ${board.mod_date.strftime('%Y/%m/%d %H:%M')}</time>
+                <time id="reg_date" style="bottom: 30px; margin-right: 5px;" title="작성일">작성일 : ${board.reg_date.strftime('%Y/%m/%d')}</time>
+                <time id="mod_date" style="bottom: 15px; margin-right: 5px;" title="수정일">수정일 : ${board.mod_date.strftime('%Y/%m/%d')}</time>
             </li>
 
             <li class="contents" id="context" title="내용">
@@ -24,10 +29,10 @@ ${page_title}
             </li>
 
             % if board.files:
-            <li class="file-list" title="첨부파일" id="file_li">
-                <h5>파일명: </h5>
+            <li class="file-list" title="첨부파일" id="file_li" style="display: inline-block; margin: 10px 5px 10px 5px;">
+                <h5 style="display: inline-block;">파일명: </h5>
                 % for file in board.files:
-                <p><a href="/comm_file/${file.attatch_id}">${file.attatch_file_name}</a></p>
+                <p><a href="/comm_file/${file.attatch_id}" style="margin-left: 5px; display: inline-block; background: #e8e8e8; padding: 9px 10px; margin-bottom: 0px; color: #4e4e4e;">${file.attatch_file_name}</a></p>
                 % endfor
             </li>
             % endif
