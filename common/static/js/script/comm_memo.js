@@ -17,6 +17,8 @@ $(document).ready(function () {
         if (e.keyCode == 13)
             search(1);
     });
+
+    $(".board-search-box").append('<div style="float: left; margin-top: 20px; margin-left: 5px;">쪽지는 발송일로부터 6개월이 지나면 자동 삭제됩니다.</div>');
 });
 
 Date.prototype.yyyymmdd = function () {
@@ -75,10 +77,10 @@ function search(page_no) {
                 var red_date = new Date(data[i].read_date);
 
                 if(data[i].read_date == null){
-                    var out_red_date = '미조회';
+                    var out_red_date = '<img style="height: 15px; width: 20px;" src="/static/images/memo.png"/>';
                 }
                 else{
-                    var out_red_date = red_date.yyyymmdd();
+                    var out_red_date = '<img style="height: 15px; width: 20px;" src="/static/images/memo_open.png"/>';
                 }
 
                 console.log("-------------------> red date s");
@@ -97,12 +99,18 @@ function search(page_no) {
                 else if(data[i].memo_gubun == '4') {
                     gubun = '게시판팔로우';
                 }
+                var memo_link = '#';
 
                 html += "<li class='tbody'>";
                 html += "   <span class='check'>" + '<input type="checkbox" class="check_all" id="' + data[i].memo_id + '"/>' + "</span>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='gubun'>" + gubun + "</span>";
-                html += "   <span class='title'><a href='/memo_view/" + data[i].memo_id + "'>" + data[i].title + " </a>";
+                if (data[i].memo_gubun != '1'){
+                    memo_link = 'http://' + data[i].contents;
+                } else {
+                    memo_link = '/memo_view/'+data[i].memo_id;
+                }
+                html += "   <span class='title'><a href='" + memo_link + "'>" + data[i].title + " </a>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;'/>"
                 html += "   </span>";
