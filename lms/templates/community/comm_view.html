@@ -27,7 +27,9 @@ ${page_title}
             <li class="file-list" title="첨부파일" id="file_li">
                 <h5>파일명: </h5>
                 % for file in board.files:
+                 % if file.del_yn == 'N' :
                 <p><a href="/comm_file/${file.attatch_id}">${file.attatch_file_name}</a></p>
+                 %endif
                 % endfor
             </li>
             % endif
