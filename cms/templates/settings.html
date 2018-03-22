@@ -270,7 +270,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     % endif
                 </div>
 
-                % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
+                 % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
                 <hr class="divide"/>
 
                 <div class="group-settings requirements necessary">
@@ -345,6 +345,49 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         </li>
                         % endif
 
+
+                        % if is_prerequisite_courses_enabled:
+                        <li class="field field-select" id="field-pre-requisite-course">
+                            <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
+                            <select class="input" id="pre-requisite-course">
+                                <option value="">${_("None")}</option>
+                                % for course_info in sorted(possible_pre_requisite_courses, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
+                                <option value="${course_info['course_key']}">${course_info['display_name']}</option>
+                                % endfor
+                            </select>
+                            <span class="tip tip-inline">${_("Course that students must complete before beginning this course")}</span>
+                            <button type="submit" class="sr" name="submit" value="submit">${_("set pre-requisite course")}</button>
+                        </li>
+                        % endif
+                        % if is_entrance_exams_enabled:
+                        <li>
+                            <h3 id="heading-entrance-exam">${_("Entrance Exam")}</h3>
+
+                            <div class="show-data">
+                                <div class="heading">
+                                    <input type="checkbox" id="entrance-exam-enabled"/>
+                                    <label for="entrance-exam-enabled">${_("Require students to pass an exam before beginning the course.")}</label>
+                                </div>
+                                <div class="div-grade-requirements" hidden="hidden">
+                                    <p><span class="tip tip-inline">
+                            ${Text(_("You can now view and author your course entrance exam from the {link_start}Course Outline{link_end}.")).format(
+                              link_start=HTML("<a href='{course_handler_url}'>").format(course_handler_url=course_handler_url),
+                                        link_end=HTML("</a>")
+                            )}</span></p>
+
+                                    <p>
+
+                                    <h3>${_("Grade Requirements")}</h3></p>
+                                    <p>
+
+                                    <div><input type="text" id="entrance-exam-minimum-score-pct" aria-describedby="min-score-format"><span id="min-score-format"
+                                                                                                                                           class="tip tip-inline">${_(" %")}</span></div>
+                                    </p>
+                                    <p><span class="tip tip-inline">${_("The score student must meet in order to successfully complete the entrance exam. ")}</span></p>
+                                </div>
+                            </div>
+                        </li>
+                        % endif
                     </ol>
                 </div>
                 % endif
@@ -431,7 +474,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         //console.log("run settings_advanced.html javascript calling input_difficult_degree");
                         var option = document.createElement("option");
                         option.text = "-미선택-";
-                        option.value = "";
+                        option.value = null;
                         selectbox.appendChild(option);
                         for(key in degree[p_info]){
                             var row = degree[p_info][key];
@@ -963,127 +1006,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                 </div>
                 % endif
 
-                % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
-                <hr class="divide"/>
 
-                <div class="group-settings requirements">
-                    <header>
-                        <h2 class="title-2">${_("Requirements")}</h2>
-                        <span class="tip">${_("Expectations of the students taking this course")}</span>
-                    </header>
-
-                    <ol class="list-input">
-
-                        <!-- 주간 학습 권장 시간 화면 수정 -->
-                        % if about_page_editable:
-                        <li class="field text" id="field-course-effort" style="width: 100%;">
-                            <!--
-                            <label for="course-effort">${_("Hours of Effort per Week")}</label>
-                            -->
-                            <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
-
-                            <div>
-
-                                <div style="width: 200px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>주간 학습 권장 시간</b></span><br/>
-                                    <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">시간</span>
-                                    <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">분</span>
-                                </div>
-
-                                <div style="width: 120px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 주차</b></span><br/>
-                                    <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">주차</span>
-                                </div>
-
-                                <div style="width: 140px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습시간</b></span><br/>
-                                    <input type="text" class="short time" id="Calculated" style="text-align: right; width: 105px; float: left; border: 0px; background: #fff;" disabled/>
-                                </div>
-
-                                <br/>
-
-                            </div>
-                            <br/>
-                            <br/>
-
-                            <span class="tip tip-inline">- 주간 학습 권장 시간 : 매주 해당 강좌의 학습에 필요한 권장 학습시간을 입력 바랍니다.</span><br/>
-                            <span class="tip tip-inline">- 총 주차 : 강좌를 구성하는 총 주차수를 입력 바랍니다. 중간/기말고사가 포함된 강좌의 경우 각 1주로 산정하여 주차수를 입력합니다.</span><br/>
-                            <span class="tip tip-inline">(예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))</span><br/>
-                            <span class="tip tip-inline">- 총 학습시간 : 주간 학습 권장 시간과 총 주차 입력 시, 총 학습시간이 자동 산출됩니다.</span><br/>
-                            <span class="tip tip-inline">(예 : 30시간 = 2시간(주간 학습 권장 시간) × 15주차(총 주차))</span>
-
-                            <br/>
-                            <br/>
-
-
-                            <!-- 강좌 영상들의 총 재생 시간 입력 -->
-                            <!--
-                            <label for="course-effort"><b>총 동영상 학습 시간</b></label>
-                            -->
-
-                            <div>
-                                <span class="tip tip-inline" style="font-size: 14px;"><b>총 동영상 재생 시간</b></span><br/>
-                                <input type="text" class="short time" id="course-video-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span style="float: left; padding: 10px;">시간</span>
-                                <input type="text" class="short time" id="course-video-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
-                                    style="float: left; padding: 10px;">분</span>
-                                <br/><br/>
-                            </div>
-                            <span class="tip tip-inline">각 주차별 동영상 재생 시간의 총 합계를 입력 바랍니다. 강의 내용과 무관한 동영상은(예: 홍보동영상) 제외합니다.</span>
-                            <br/>
-
-
-                        </li>
-                        % endif
-
-
-                        % if is_prerequisite_courses_enabled:
-                        <li class="field field-select" id="field-pre-requisite-course">
-                            <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
-                            <select class="input" id="pre-requisite-course">
-                                <option value="">${_("None")}</option>
-                                % for course_info in sorted(possible_pre_requisite_courses, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
-                                <option value="${course_info['course_key']}">${course_info['display_name']}</option>
-                                % endfor
-                            </select>
-                            <span class="tip tip-inline">${_("Course that students must complete before beginning this course")}</span>
-                            <button type="submit" class="sr" name="submit" value="submit">${_("set pre-requisite course")}</button>
-                        </li>
-                        % endif
-                        % if is_entrance_exams_enabled:
-                        <li>
-                            <h3 id="heading-entrance-exam">${_("Entrance Exam")}</h3>
-
-                            <div class="show-data">
-                                <div class="heading">
-                                    <input type="checkbox" id="entrance-exam-enabled"/>
-                                    <label for="entrance-exam-enabled">${_("Require students to pass an exam before beginning the course.")}</label>
-                                </div>
-                                <div class="div-grade-requirements" hidden="hidden">
-                                    <p><span class="tip tip-inline">
-                            ${Text(_("You can now view and author your course entrance exam from the {link_start}Course Outline{link_end}.")).format(
-                              link_start=HTML("<a href='{course_handler_url}'>").format(course_handler_url=course_handler_url),
-                                        link_end=HTML("</a>")
-                            )}</span></p>
-
-                                    <p>
-
-                                    <h3>${_("Grade Requirements")}</h3></p>
-                                    <p>
-
-                                    <div><input type="text" id="entrance-exam-minimum-score-pct" aria-describedby="min-score-format"><span id="min-score-format"
-                                                                                                                                           class="tip tip-inline">${_(" %")}</span></div>
-                                    </p>
-                                    <p><span class="tip tip-inline">${_("The score student must meet in order to successfully complete the entrance exam. ")}</span></p>
-                                </div>
-                            </div>
-                        </li>
-                        % endif
-                    </ol>
-                </div>
-                % endif
 
                 % if self_paced_enabled:
 

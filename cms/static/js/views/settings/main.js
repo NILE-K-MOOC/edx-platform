@@ -45,7 +45,6 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'change #teacher_name': "modi_teacher_name",
                 'change #selectfixid': "modi_course_level",
 
-
                 //강좌 운영진 소개의 추가 및 삭제 이벤트
                 'click #overview-tab3 .remove-item': "delStaffItem",
                 'click #overview-tab3 .add-item': "addStaffItem",
@@ -55,20 +54,21 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
                 'click #overview-tab5 .add-item': "addQuestionItem",
 
             },
-            modi_course_level: function (e) {
+            modi_course_level: function (e){
                 this.model.set('course_level', $('#selectfixid').val());
-                var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/", "").replace("/about", "");
+                var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
                 var addinfo_user_id = $('#addinfo_user_id').text();
-                var course_level = $('#selectfixid').val();
+                var course_level =$('#selectfixid').val();
 
                 $.post("/modi_course_level", {
                     csrfmiddlewaretoken: $.cookie('csrftoken'),
                     addinfo_course_id: addinfo_course_id,
                     addinfo_user_id: addinfo_user_id,
                     course_level: course_level,
-                    method: 'addinfo',
+                    method : 'addinfo',
                 });
             },
+
             modi_teacher_name: function (e) {
 
                 this.model.set('modi_teacher_name', 'modi_teacher_name');
@@ -318,6 +318,25 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
 
                 $("#course-effort").val(val);
                 $("#course-effort").trigger("change");
+
+                var addinfo_course_id = $('#addinfo_course_id').text().replace("//localhost:8000/courses/","").replace("/about","");
+                var addinfo_user_id = $('#addinfo_user_id').text();
+                var course_period = $("#course-effort-week").val();
+
+
+                console.log('Test Index ==============')
+                console.log(addinfo_course_id)
+                console.log(addinfo_user_id)
+                console.log(course_period)
+                console.log('Test Index ==============')
+
+                $.post("/modi_course_period", {
+                    csrfmiddlewaretoken: $.cookie('csrftoken'),
+                    addinfo_course_id: addinfo_course_id,
+                    addinfo_user_id: addinfo_user_id,
+                    course_period: course_period,
+                    method : 'addinfo',
+                });
             },
             overviewLayerVaidate: function () {
                 $(".overview-modal").find(".message-error").remove();
