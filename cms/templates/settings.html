@@ -270,7 +270,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     % endif
                 </div>
 
-                 % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
+                % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
                 <hr class="divide"/>
 
                 <div class="group-settings requirements necessary">
@@ -474,7 +474,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         //console.log("run settings_advanced.html javascript calling input_difficult_degree");
                         var option = document.createElement("option");
                         option.text = "-미선택-";
-                        option.value = null;
+                        option.value = "";
                         selectbox.appendChild(option);
                         for(key in degree[p_info]){
                             var row = degree[p_info][key];
@@ -1005,8 +1005,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                     </div>
                 </div>
                 % endif
-
-
 
                 % if self_paced_enabled:
 
