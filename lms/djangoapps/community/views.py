@@ -924,8 +924,12 @@ def comm_tabs(request, head_title=None):
         search_str = request.POST.get('search_str')
         head_title = request.POST.get('head_title')
 
-        if search_str:
-            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        if head_title == 'total_f' and not search_str:
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').order_by('odby', '-reg_date')
+        # elif head_title == 'total_f' and search_str:
+        #     comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        elif search_str:
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
             comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
 

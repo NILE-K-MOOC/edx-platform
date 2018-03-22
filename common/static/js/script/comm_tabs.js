@@ -9,10 +9,12 @@ $(document).ready(function () {
 
     $("#search").keyup(function (e) {
         if (e.keyCode == 13)
-            search($(".faq-tab a.on").data('value'));
+        //search($(".faq-tab a.on").data('value'));
+            search('total_f');
     });
     $("#search_btn").click(function () {
-        search($(".faq-tab a.on").data('value'));
+        //search($(".faq-tab a.on").data('value'));
+        search('total_f');
     });
 
     $("#question").click(function(){
@@ -46,7 +48,6 @@ function search(head_title) {
             }
             $(".faq-list").html(html);
 
-
             view_content();
 
         },
@@ -55,6 +56,7 @@ function search(head_title) {
 
 function tab_click() {
     $(".faq-tab a").click(function () {
+        $("#search").val('');
         search($(this).data('value'));
         sel_title = $(this).data('value');
     });

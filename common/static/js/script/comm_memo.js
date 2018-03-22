@@ -77,10 +77,10 @@ function search(page_no) {
                 var red_date = new Date(data[i].read_date);
 
                 if(data[i].read_date == null){
-                    var out_red_date = '미조회';
+                    var out_red_date = '<img style="height: 15px; width: 20px;" src="/static/images/memo.png"/>';
                 }
                 else{
-                    var out_red_date = red_date.yyyymmdd();
+                    var out_red_date = '<img style="height: 15px; width: 20px;" src="/static/images/memo_open.png"/>';
                 }
 
                 console.log("-------------------> red date s");
