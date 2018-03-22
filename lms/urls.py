@@ -108,7 +108,7 @@ urlpatterns = (
 
     # Course API
     url(r'^api/courses/', include('course_api.urls')),
- 
+
     # ----- api request ----- #
     url(r'^api/happy', 'branding.views.course_api', name="course_api"),
     # ----- api request ----- #
@@ -169,6 +169,9 @@ urlpatterns = (
     url(r'^memo$', 'community.views.memo', name='memo'),
     url(r'^memo_view/(?P<memo_id>.*?)/$', 'community.views.memo_view', name='memo_view'),
     url(r'^memo_sync$', 'community.views.memo_sync', name='memo'),
+
+    # course_list
+    url(r'^course_search_list$', 'student.views.course_search_list', name='course_list'),
 )
 
 urlpatterns += (
