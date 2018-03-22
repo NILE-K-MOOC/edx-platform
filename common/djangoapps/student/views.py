@@ -124,6 +124,7 @@ import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
 import sys
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 from bson import ObjectId
@@ -333,7 +334,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 cur.execute(query)
                 result_table = cur.fetchall()
 
-            #mongo
+            # mongo
             client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
 
             for item in result_table:
@@ -928,7 +929,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     max_pop = cur.fetchall()
     cur.close()
 
-
     extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
     context.update(extra_context)
@@ -1034,7 +1034,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
             # I'll get middle_classfy data from mongodb
             where_display_number.append(enrollment_row[3])  # 운영기본번호
             where_org.append(enrollment_row[4])  # org 코드
-            propose_course_list.append(enrollment_row[0])   # 강좌아이디
+            propose_course_list.append(enrollment_row[0])  # 강좌아이디
 
         print "-----------------------> s"
         print "propose_course_list = ", propose_course_list
@@ -1050,7 +1050,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
             n = n + 1
 
         if len(propose_course_list) == 0:
-            course_ids = "''" #<--- null except
+            course_ids = "''"  # <--- null except
 
         enrollments = CourseEnrollment.enrollments_for_user_propose(course_ids)
     else:
@@ -1528,7 +1528,7 @@ def dashboard(request):
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     if request.is_ajax():
         status = request.POST.get('status')
-        #print 'status:', status
+        # print 'status:', status
 
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
     else:
@@ -1639,8 +1639,8 @@ def dashboard(request):
 
     # sort the enrollment pairs by the enrollment date
     # course_enrollments.sort(key=lambda x: x.created, reverse=True)
-    #print 'cert_statuses:'
-    #print cert_statuses
+    # print 'cert_statuses:'
+    # print cert_statuses
 
     course_type1 = []
     course_type2 = []
@@ -2237,6 +2237,7 @@ def enrollment_verifi(request):
 
     return HttpResponse()
 
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):  # pylint: disable=too-many-statements,unused-argument
@@ -2311,9 +2312,9 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         email = request.POST['email']
         password = request.POST['password']
 
-        #-------------------------------------------------------- TEST
-        #email = 'redukyo@gmail.com'
-        #-------------------------------------------------------- TEST
+        # -------------------------------------------------------- TEST
+        # email = 'redukyo@gmail.com'
+        # -------------------------------------------------------- TEST
 
         try:
             user = User.objects.get(email=email)
@@ -2389,9 +2390,9 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
     if not third_party_auth_successful:
         try:
             user = authenticate(username=username, password=password, request=request)
-            #----------------------------------------------------------------------------- TEST
-            #user = User.objects.get(email='redukyo@gmail.com')
-            #----------------------------------------------------------------------------- TEST
+            # ----------------------------------------------------------------------------- TEST
+            # user = User.objects.get(email='redukyo@gmail.com')
+            # ----------------------------------------------------------------------------- TEST
         # this occurs when there are too many attempts from the same IP address
         except RateLimitException:
             return JsonResponse({
@@ -2458,7 +2459,7 @@ def login_user(request, error=""):  # pylint: disable=too-many-statements,unused
         try:
             # We do not log here, because we have a handler registered
             # to perform logging on successful logins.
-            login(request, user) #<--------------------------------------------------- 의심구간
+            login(request, user)  # <--------------------------------------------------- 의심구간
             if request.POST.get('remember') == 'true':
                 request.session['ISREMEMBER'] = True
                 request.session.set_expiry(604800)
@@ -3130,10 +3131,10 @@ def modi_teacher_name(request):
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
             query = """
                     SELECT count(*)
@@ -3145,7 +3146,7 @@ def modi_teacher_name(request):
             ctn = count[0][0]
             cur.close()
 
-            if(ctn == 1):
+            if (ctn == 1):
                 cur = con.cursor()
                 query = """
                     UPDATE course_overview_addinfo
@@ -3156,7 +3157,7 @@ def modi_teacher_name(request):
                 cur.execute('commit')
                 cur.close()
                 data = json.dumps('success')
-            elif(ctn == 0):
+            elif (ctn == 0):
                 cur = con.cursor()
                 query = """
                         INSERT INTO course_overview_addinfo(course_id,
@@ -3190,10 +3191,10 @@ def modi_course_level(request):
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
             query = """
                     SELECT count(*)
@@ -3205,7 +3206,7 @@ def modi_course_level(request):
             ctn = count[0][0]
             cur.close()
 
-            if(ctn == 1):
+            if (ctn == 1):
                 cur = con.cursor()
                 query = """
                     UPDATE course_overview_addinfo
@@ -3216,7 +3217,7 @@ def modi_course_level(request):
                 cur.execute('commit')
                 cur.close()
                 data = json.dumps('success')
-            elif(ctn == 0):
+            elif (ctn == 0):
                 cur = con.cursor()
                 query = """
                         INSERT INTO course_overview_addinfo(course_id,
@@ -3238,6 +3239,7 @@ def modi_course_level(request):
             return HttpResponse(data, 'application/json')
         return HttpResponse('success', 'application/json')
 
+
 @csrf_exempt
 def modi_course_period(request):
     if request.method == 'POST':
@@ -3249,11 +3251,11 @@ def modi_course_period(request):
                 course_period = 0
             course_period = int(course_period)
             course_period_index = ''
-            if (1 <=course_period <=6):
+            if (1 <= course_period and course_period <= 6):
                 course_period_index = 'S'
-            elif (7 <=course_period <=12):
+            elif (7 <= course_period and course_period <= 12):
                 course_period_index = 'M'
-            elif (13 <=course_period):
+            elif (13 <= course_period):
                 course_period_index = 'L'
             print 'course_period_index = ====='
             print course_period_index
@@ -3263,7 +3265,6 @@ def modi_course_period(request):
             course_org = course_index2[0]
             course_course = course_index2[1]
             course_run = course_index2[2]
-
 
             from django.db import connections
             from pymongo import MongoClient
@@ -3275,17 +3276,19 @@ def modi_course_period(request):
 
             db = client.edxapp
             # cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
-            cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
+            cursors = db.modulestore.active_versions.find_one(
+                {"org": course_org, "course": course_course, "run": course_run})
             cursor = cursors.get('versions').get('published-branch')
 
-            db.modulestore.structures.update({"_id":ObjectId(cursor), "blocks.block_id" :"course" },{"$set":{"blocks.$.fields.course_period":course_period_index}});
+            db.modulestore.structures.update({"_id": ObjectId(cursor), "blocks.block_id": "course"},
+                                             {"$set": {"blocks.$.fields.course_period": course_period_index}});
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
             query = """
                     SELECT count(*)
@@ -3297,7 +3300,7 @@ def modi_course_period(request):
             ctn = count[0][0]
             cur.close()
 
-            if(ctn == 1):
+            if (ctn == 1):
                 cur = con.cursor()
                 query = """
                     UPDATE course_overview_addinfo
@@ -3308,7 +3311,7 @@ def modi_course_period(request):
                 cur.execute('commit')
                 cur.close()
                 data = json.dumps('success')
-            elif(ctn == 0):
+            elif (ctn == 0):
                 cur = con.cursor()
                 query = """
                         INSERT INTO course_overview_addinfo(course_id,
@@ -3330,6 +3333,7 @@ def modi_course_period(request):
             print query
             return HttpResponse(data, 'application/json')
         return HttpResponse('success', 'application/json')
+
 
 def auto_auth(request):
     """
