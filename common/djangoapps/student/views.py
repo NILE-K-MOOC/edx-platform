@@ -935,7 +935,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     max_pop = cur.fetchall()
     cur.close()
 
-<<<<<<< HEAD
     # popup zone s --------------------------------------------------
     popupzone_query = """
           SELECT seq,
@@ -970,8 +969,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # popup zone e ----------------------------------------------------
 
-=======
->>>>>>> nile/dev_cgh
     extra_context['popup_index'] = popup_index
     # Insert additional context for use in the template
     context.update(extra_context)
