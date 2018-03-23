@@ -1475,7 +1475,10 @@ def course_about(request, course_id):
         cur.execute(query)
         audit_index = cur.fetchall()
         cur.close()
-        audit_flag = audit_index[0][0]
+        if len(audit_index) != 0:
+            audit_flag = audit_index[0][0]
+        else:
+            audit_flag = 'N'
 
 
 
