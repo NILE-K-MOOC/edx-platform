@@ -59,7 +59,7 @@
 
                         _(obj.terms).each(function (count, term) {
 
-                            //console.log("1 _(obj.terms).each --------" + "term:" + term + ", count:" + count);
+                            console.log("1 _(obj.terms).each --------" + "term:" + term + ", count:" + count);
 
                             if (term.match(/^SKP.*/)) {
                                 count2 += count;
@@ -94,7 +94,7 @@
                     } else {
                         _(obj.terms).each(function (count, term) {
                             //classfy and middle_classfy count
-                            //console.log("2 _(obj.terms).each --------" + "term:" + term + ", count:" + count);
+                            console.log("2 _(obj.terms).each --------" + "term:" + term + ", count:" + count);
 
                             //facet_row_temp[key] = term;
                             //facet_row_temp_set[term] = count;
@@ -163,7 +163,7 @@
                                 if (facet_row_set[key]['term'] == facet_row_set[key1]['term']){
                                     exist_flag = true;
                                 }
-                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == ''){
+                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == 'all' || facet_row_set[key]['term'] == ''){
                                     exist_in_flag = false;
                                 }
                             }
@@ -177,7 +177,7 @@
                                 if (facet_row_set[key]['term'] == facet_row_set[key1]['term']){
                                     exist_flag = true;
                                 }
-                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == ''){
+                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == 'all' || facet_row_set[key]['term'] == ''){
                                     exist_in_flag = false;
                                 }
                             }
