@@ -22,10 +22,28 @@
         <% var nice_check = $('#nice_check').text() %>
         <% if (id === 'gender' && nice_check === 'yes') { %>
             <% var user_gender = $('#user_gender').text() %>
-            <b><%= user_gender %></b>
+
+            <select disabled name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>" style="background-color: #eee;">
+            <% if (showBlankOption) { %>
+                <option value=""></option>
+            <% } %>
+            <% _.each(selectOptions, function(selectOption) { %>
+                <option value="<%- selectOption[0] %>"><%- selectOption[1] %></option>
+            <% }); %>
+            </select>
+
         <% } else if (id === 'year_of_birth' && nice_check === 'yes') { %>
             <% var user_birthday = $('#user_birthday').text() %>
-            <b><%= user_birthday %></b>
+
+            <select disabled name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>" style="background-color: #eee;">
+            <% if (showBlankOption) { %>
+                <option value=""></option>
+            <% } %>
+            <% _.each(selectOptions, function(selectOption) { %>
+                <option value="<%- selectOption[0] %>"><%- selectOption[1] %></option>
+            <% }); %>
+            </select>
+
         <% } else { %>
         <select name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>">
             <% if (showBlankOption) { %>
