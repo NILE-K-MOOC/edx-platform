@@ -158,8 +158,15 @@
               method="post" enctype="multipart/form-data">
             <a href="#" class="choose-file-button">${_("Choose File")}</a>
             <input type="file" class="file-input" name="file" multiple>
+            <a href="javascript:pop_close();" style="margin-left: 30px;" class="button">${_('close')}</a>
         </form>
     </div>
+    <script>
+        function pop_close() {
+            $('.upload-modal').hide();
+            $('.modal-cover').hide();
+        }
+    </script>
 </div>
 % else :
 <div class="upload-modal modal">

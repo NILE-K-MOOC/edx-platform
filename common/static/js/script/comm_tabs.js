@@ -2,16 +2,23 @@
  * Created by dev on 2016. 11. 8..
  * Modiffy by redukyo on 2018. 1. 2.
  */
+var sel_title = '';
 $(document).ready(function () {
     tab_click();
     view_content();
 
     $("#search").keyup(function (e) {
         if (e.keyCode == 13)
-            search($(".faq-tab a.on").data('value'));
+        //search($(".faq-tab a.on").data('value'));
+            search('total_f');
     });
     $("#search_btn").click(function () {
-        search($(".faq-tab a.on").data('value'));
+        //search($(".faq-tab a.on").data('value'));
+        search('total_f');
+    });
+
+    $("#question").click(function(){
+        location.href = '/comm_faqrequest/' + sel_title;
     });
 });
 
@@ -41,7 +48,6 @@ function search(head_title) {
             }
             $(".faq-list").html(html);
 
-
             view_content();
 
         },
@@ -50,7 +56,9 @@ function search(head_title) {
 
 function tab_click() {
     $(".faq-tab a").click(function () {
+        $("#search").val('');
         search($(this).data('value'));
+        sel_title = $(this).data('value');
     });
 }
 

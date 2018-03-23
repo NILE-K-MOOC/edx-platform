@@ -3,7 +3,8 @@
  */
 
 $(document).ready(function(){
-
+    var sel_title = $("#title_val").val();
+    $("#search_con").val(sel_title).attr('selected', 'selected');
 });
 
 $(document).on('change', '#sel_email', function(){

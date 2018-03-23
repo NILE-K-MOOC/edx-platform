@@ -29,8 +29,11 @@ function DiscussionInlineBlock(runtime, element) {
 setTimeout(function(){
     if($(".discussion-show.control-button")){
         $(".discussion-show.control-button").each(function(){
-            if(!$(this).hasClass("shown"))
-                this.click();
+
+            // 게시판 내용을 자동으로 클릭하는 이벤트.
+            // 화면간의 이동이 발생하여 비활성화함.
+            //if(!$(this).hasClass("shown"))
+            //    this.click();
         });
     }
 }, 500);

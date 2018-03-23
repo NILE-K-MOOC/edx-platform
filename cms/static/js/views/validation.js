@@ -24,6 +24,8 @@ var ValidatingView = BaseView.extend({
     save_message: gettext("Your changes will not take effect until you save your progress."),
     error_title: gettext("You've made some changes, but there are some errors"),
     error_message: gettext("Please address the errors on this page first, and then save your progress."),
+    empty_title: gettext("필수값을 입력하지 않아 수정사항을 저장할 수 없습니다."),
+    empty_message: gettext("필수값을 입력한 다음 진도를 저장하십시요."),
 
     events : {
         "change input" : "clearValidationErrors",
@@ -47,8 +49,20 @@ var ValidatingView = BaseView.extend({
         $('.wrapper-notification-warning').addClass('wrapper-notification-warning-w-errors');
         $('.action-save').addClass('is-disabled');
         // TODO: (pfogg) should this text fade in/out on change?
-        $('#notification-warning-title').text(this.error_title);
-        $('#notification-warning-description').text(this.error_message);
+        var check_index = 0;
+        $('.necessary input').each(function() {
+            if($(this).val() == '') {
+                check_index = 1;
+            }
+        });
+        if(check_index == 0) {
+            $('#notification-warning-title').text(this.error_title);
+            $('#notification-warning-description').text(this.error_message);
+        }
+        else {
+            $('#notification-warning-title').text(this.empty_title);
+            $('#notification-warning-description').text(this.empty_message);
+        }
     },
 
     clearValidationErrors : function() {

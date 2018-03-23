@@ -29455,7 +29455,7 @@ msgid "About mobile problems"
 msgstr "모바일앱 관련"
 
 msgid "Send email"
-msgstr "이메일 발송"
+msgstr "이메일 보내기"
 
 msgid "Memo"
 msgstr "내용"

@@ -128,8 +128,6 @@ var AdvancedView = ValidatingView.extend({
             lineNumbers: false,
             lineWrapping: false});
         cm.on('change', function(instance, changeobj) {
-
-
                 instance.save();
                 // this event's being called even when there's no change :-(
                 if (instance.getValue() !== oldValue) {
