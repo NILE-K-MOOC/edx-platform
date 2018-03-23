@@ -3243,11 +3243,19 @@ def modi_teacher_name(request):
 
 @csrf_exempt
 def modi_course_level(request):
+    print '?????????????????????????????'
     if request.method == 'POST':
         if request.POST['method'] == 'addinfo':
+            print 'modi_course_level!!!!!!'
             addinfo_user_id = request.POST.get('addinfo_user_id')
             addinfo_course_id = request.POST.get('addinfo_course_id')
             course_level = request.POST.get('course_level')
+
+            print 'modi_course_level index ========='
+            print addinfo_user_id
+            print addinfo_course_id
+            print course_level
+            print 'modi_course_level index ========='
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -3339,9 +3347,6 @@ def modi_course_period(request):
             cursors = db.modulestore.active_versions.find_one(
                 {"org": course_org, "course": course_course, "run": course_run})
             cursor = cursors.get('versions').get('published-branch')
-            print 'cursor============'
-            print cursor
-            print 'cursor============'
             db.modulestore.structures.update({"_id": ObjectId(cursor), "blocks.block_id": "course"},
                                              {"$set": {"blocks.$.fields.course_period": course_period_index}})
 

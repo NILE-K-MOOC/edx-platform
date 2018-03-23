@@ -57,11 +57,17 @@ var DetailsView = ValidatingView.extend({
 
     },
     modi_course_level: function (e){
+        this.model.set('course_level', $('#selectfixid').val());
         $('.action-primary').click(function() {
-            this.model.set('course_level', $('#selectfixid').val());
             var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
             var addinfo_user_id = $('#addinfo_user_id').text();
             var course_level = $('#selectfixid').val();
+
+            console.log('?????????????')
+            console.log(addinfo_course_id)
+            console.log(addinfo_user_id)
+            console.log(course_level)
+            console.log('?????????????')
 
             $.post("/modi_course_level", {
                 csrfmiddlewaretoken: $.cookie('csrftoken'),
@@ -91,6 +97,44 @@ var DetailsView = ValidatingView.extend({
 
 
     initialize : function(options) {
+        $(function () {
+            $(".tab_content").hide();
+            $(".tab_content:first").show();
+            $("ul.tabs li").click(function () {
+                $("ul.tabs li").removeClass("active").css("color", "#333").css("background-color", "#fafafa");
+                $(this).addClass("active").css("color", "darkred").css("background-color", "#ffbe60");
+                $(".tab_content").hide()
+                var activeTab = $(this).attr("rel");
+                $("#" + activeTab).fadeIn()
+            });
+            degree_js();
+            $("ul.info_tabs li").click(function () {
+
+                if ($(this).text() == '교수자') {
+                    $('#info_add1').css("display", "inline-block");
+                    $('#info_del1').css("display", "inline-block");
+                    $('#info_add2').css("display", "none");
+                    $('#info_del2').css("display", "none");
+                    $('#info_div1').css("display", "inline-block");
+                    $('#info_div2').css("display", "none");
+                }
+
+                else if ($(this).text() == '강좌지원팀') {
+                    $('#info_add1').css("display", "none");
+                    $('#info_del1').css("display", "none");
+                    $('#info_add2').css("display", "inline-block");
+                    $('#info_del2').css("display", "inline-block");
+                    $('#info_div1').css("display", "none");
+                    $('#info_div2').css("display", "inline-block");
+                }
+
+                $("ul.info_tabs li").removeClass("active").css("color", "#333").css("background-color", "#fafafa");
+                $(this).addClass("active").css("color", "#5B7484").css("background-color", "#AAAAAA");
+                var activeTab = $(this).attr("rel");
+                $("#" + activeTab).fadeIn()
+            });
+        });
+
         options = options || {};
 
         // fill in fields
@@ -549,6 +593,7 @@ var DetailsView = ValidatingView.extend({
         DateUtils.setupDatePicker('enrollment_end', this);
 
         this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
+        this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
         this.codeMirrorize(null, $('#course-overview')[0]);
 
         if (this.model.get('title') !== '') {
@@ -733,6 +778,7 @@ var DetailsView = ValidatingView.extend({
         'enrollment_start' : 'enrollment-start',
         'enrollment_end' : 'enrollment-end',
         'overview' : 'course-overview',
+        'course_level':'selectfixid',
         'title': 'course-title',
         'subtitle': 'course-subtitle',
         'duration': 'course-duration',
@@ -749,7 +795,8 @@ var DetailsView = ValidatingView.extend({
         'course_settings_learning_fields': 'course-settings-learning-fields',
         'add_course_learning_info': 'add-course-learning-info',
         'add_course_instructor_info': 'add-course-instructor-info',
-        'course_learning_info': 'course-learning-info'
+        'course_learning_info': 'course-learning-info',
+        'selectfixid': 'selectfixid'
     },
 
     addLearningFields: function() {

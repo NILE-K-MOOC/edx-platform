@@ -450,6 +450,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         pstr += """{'code':'""" + val[2][0] + """', 'gettext': '""" + val[2][1] + """'},]};"""
                     %>
 
+
                 <script type="text/javascript">
                     ${ pstr | n, trim }
 
@@ -466,9 +467,9 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         } else if (idx == '"3"') {
                             $("#selectfixid").val("3");
                         } else {
-                            $("#selectfixid").val("null");
+                            $("#selectfixid").val("");
                         }
-
+                        $("#selectfixid option:eq(0)").prop("selected", true);
                     }
                     var input_difficult_degree = function(selectbox,p_info){
                         //console.log("run settings_advanced.html javascript calling input_difficult_degree");
@@ -476,7 +477,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         option.text = "-미선택-";
                         option.value = "";
                         selectbox.appendChild(option);
-                        for(key in degree[p_info]){
+                        for(key in degree[p_info]) {
                             var row = degree[p_info][key];
                             var option = document.createElement("option");
                             option.text = row.gettext;
@@ -494,8 +495,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                         }
 
                     }
-
-
                 </script>
                 % endfor
 
