@@ -163,7 +163,7 @@
                                 if (facet_row_set[key]['term'] == facet_row_set[key1]['term']){
                                     exist_flag = true;
                                 }
-                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == ''){
+                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == 'all' || facet_row_set[key]['term'] == ''){
                                     exist_in_flag = false;
                                 }
                             }
@@ -177,7 +177,7 @@
                                 if (facet_row_set[key]['term'] == facet_row_set[key1]['term']){
                                     exist_flag = true;
                                 }
-                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == ''){
+                                if (facet_row_set[key]['term'] == 'null' || facet_row_set[key]['term'] == 'all' || facet_row_set[key]['term'] == ''){
                                     exist_in_flag = false;
                                 }
                             }
