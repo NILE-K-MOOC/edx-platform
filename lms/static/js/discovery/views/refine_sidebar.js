@@ -224,8 +224,25 @@ define([
                         return;
                     }
 
-                    if (options.length > 0) {
-                        return this.renderFacet(facetKey, options);
+                     if (options.length > 0) {
+                        if(facetKey === 'org'){
+                            var options2 = [];
+                            _.map(options, function(option) {
+                                option.attributes.name = gettext(option.attributes.term);
+                                options2.push(option);
+                            });
+
+                            //기관명으로 정렬
+                            options2.sort(function(a, b){
+                                return a.attributes.name.localeCompare(b.attributes.name);
+                            });
+
+                            return this.renderFacet(facetKey, options2);
+                        }else{
+                            return this.renderFacet(facetKey, options);
+
+                        }
+
                     }
                 }, this)
             );
