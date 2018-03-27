@@ -18,7 +18,7 @@
     <%- gettext(name) %>
     </div>
     <span class="count">
-        <span class="count-number"><%- count %></span>
+        <span class="count-number">(<%- count %>)</span>
     </span>
 </option>
 <% } %>

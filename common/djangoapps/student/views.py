@@ -1134,7 +1134,8 @@ def course_search_list(request):
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT DISTINCT display_name
-                  FROM course_overviews_courseoverview;
+                  FROM course_overviews_courseoverview
+                 ORDER BY display_name;
             '''
             cur.execute(query)
             course_tup = cur.fetchall()
