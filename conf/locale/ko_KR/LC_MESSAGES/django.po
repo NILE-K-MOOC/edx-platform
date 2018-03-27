@@ -116,16 +116,16 @@ msgstr "검색하기 쉽도록 게시물에 주제를 추가합니다."
 #: lms/templates/instructor/instructor_dashboard_2/generate_registarion_codes_modal.html
 #: cms/templates/temp-course-landing.html
 msgid "Email"
-msgstr "이메일(Email)"
+msgstr "이메일"
 
 #: lms/djangoapps/instructor/views/legacy.py
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Full name"
-msgstr "이름(Full name)"
+msgstr "이름"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Public username"
-msgstr "아이디(Username)"
+msgstr "아이디"
 
 #: openedx/core/djangoapps/user_api/views.py cms/templates/login.html
 #: cms/templates/register.html lms/templates/login.html
@@ -135,7 +135,7 @@ msgstr "아이디(Username)"
 #: themes/stanford-style/lms/templates/register-form.html
 #: lms/templates/student_account/account.underscore
 msgid "Password"
-msgstr "비밀번호(Password)"
+msgstr "비밀번호"
 
 #: lms/djangoapps/instructor_task/tasks_helper.py
 #: openedx/core/djangoapps/user_api/views.py lms/templates/register.html
@@ -144,7 +144,7 @@ msgstr "비밀번호(Password)"
 #: lms/djangoapps/instructor/views/api.py lms/templates/register-form.html
 #: themes/stanford-style/lms/templates/register-form.html
 msgid "Country"
-msgstr "국가(Country)"
+msgstr "국가"
 
 #: lms/djangoapps/instructor/views/api.py
 #: lms/djangoapps/instructor_task/tasks_helper.py
@@ -152,26 +152,26 @@ msgstr "국가(Country)"
 #: lms/templates/signup_modal.html lms/templates/register-form.html
 #: themes/stanford-style/lms/templates/register-form.html
 msgid "Gender"
-msgstr "성별(Gender)"
+msgstr "성별"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Highest level of education completed"
-msgstr "최종 학력(Highest level of education completed)"
+msgstr "최종 학력"
 
 #: openedx/core/djangoapps/user_api/views.py
 msgid "Tell us why you're interested in {platform_name}"
 msgstr ""
-"{platform_name} 가입목적 (Purpose of becoming a member)"
+"{platform_name} 가입목적"
 
 #: lms/djangoapps/instructor_task/tasks_helper.py lms/templates/register.html
 #: lms/templates/register-form.html
 #: themes/stanford-style/lms/templates/register-form.html
 msgid "Year of Birth"
-msgstr "출생연도(Year of Birth)"
+msgstr "출생연도"
 
 #: openedx/core/djangoapps/user_api/views.py lms/templates/signup_modal.html
 msgid "Year of birth"
-msgstr "출생연도(Year of birth)"
+msgstr "출생연도"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
@@ -29119,7 +29119,7 @@ msgstr "탈퇴하기"
 
 #msgstr "계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. 확인 버튼 클릭 후 자동으로 로그아웃 됩니다."
 msgid "Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically."
-msgstr "회원가입을 축하합니다! 수강신청을 위해서는 가입하신 메일주소로 발송된 메일을 확인하셔야 합니다. (확인 버튼을 누르시면 자동으로 로그아웃 됩니다)"
+msgstr "회원가입을 축하합니다! 수강신청을 위해서는 가입하신 메일주소로 발송된 메일을 확인하셔야 합니다. /n \n/n \n/n \n/n \n(확인 버튼을 누르시면 자동으로 로그아웃 됩니다)"
 
 msgid "You have to agree to the instructions."
 msgstr "안내 사항을 동의하세요"
