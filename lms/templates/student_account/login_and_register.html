@@ -74,6 +74,10 @@
         console.log("이 페이지 ${data['initial_mode']}");
         console.log("${data['initial_mode']}")
     })
+    var checkUnload = true;
+    $(window).on("beforeunload", function(){
+        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    })
 </script>
 
 <div class="section-bkg-wrapper">
