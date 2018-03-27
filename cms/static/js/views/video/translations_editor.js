@@ -71,13 +71,39 @@ function($, _, AbstractEditor, FileUpload, UploadDialog) {
 
                 dropdown = document.createElement('select');
                 dropdown.options.add(new Option());
+
                 _.each(this.model.get('languages'), function(lang, index) {
                     var option = new Option();
 
-                    option.setAttribute('name', lang.code);
-                    option.value = lang.code;
-                    option.text = lang.label;
-                    dropdown.options.add(option);
+                    if(lang.code == 'ko') {
+                        option.setAttribute('name', lang.code);
+                        option.value = lang.code;
+                        option.text = gettext(lang.label);
+
+                        dropdown.options.add(option);
+
+                        //console.log("lang.code-----------------------------------------------> monitor s");
+                        //console.log("lang.code = " + lang.code);
+                        //console.log("lang.label = " + lang.label);
+                        //console.log("lang.code-----------------------------------------------> monitor e");
+                    }
+                });
+
+                _.each(this.model.get('languages'), function(lang, index) {
+                    var option = new Option();
+
+                    if(lang.code != 'ko'){
+                        option.setAttribute('name', lang.code);
+                        option.value = lang.code;
+                        option.text = gettext(lang.label);
+
+                        dropdown.options.add(option);
+
+                        //console.log("lang.code-----------------------------------------------> monitor s");
+                        //console.log("lang.code = " + lang.code);
+                        //console.log("lang.label = " + lang.label);
+                        //console.log("lang.code-----------------------------------------------> monitor e");
+                    }
                 });
 
                 return disableOptions(dropdown, values);
