@@ -7,11 +7,25 @@ $(document).ready(function () {
     }).done(function (data) {
         var search_arr = data.course_search_list;
         var $elem = $(".msearch_input").autocomplete({
-                source: search_arr,
+                //source: search_arr,
+                source: function (request, response) {
+                    var term = $.ui.autocomplete.escapeRegex(request.term)
+                        , startsWithMatcher = new RegExp("^" + term, "i")
+                        , startsWith = $.grep(search_arr, function(value) {
+                        return startsWithMatcher.test(value.label || value.value || value);
+                    })
+                        , containsMatcher = new RegExp(term, "i")
+                        , contains = $.grep(search_arr, function (value) {
+                        return $.inArray(value, startsWith) < 0 &&
+                            containsMatcher.test(value.label || value.value || value);
+                    });
+
+                    response(startsWith.concat(contains));
+                },
                 appendTo: ".msearch_area",
                 matchContains: true,
+                sortResults: false,
                 open: function(event, ui) {
-                    console.log(this);
                     $(this).autocomplete("widget").css({
                         "width": "100%",
                         "opacity": 0.7,
@@ -25,7 +39,12 @@ $(document).ready(function () {
                         "color": 'block',
                         //"font-weight": 'bold',
                         "font-style": 'normal',
-                        "font-size": '15px'
+                        "font-size": '15px',
+                        'text-align': '-webkit-match-parent',
+                        'white-space': 'nowrap',
+                        'text-overflow': 'ellipsis',
+                        'max-width': '100%',
+                        'overflow': 'hidden'
 
                     });
                 },

@@ -7,6 +7,20 @@ var cur_page = "";
 var start_page = 1;
 
 $(document).ready(function () {
+
+    //-- 문서가 로드 될때마다 hash 체크
+    checkForHash();
+    $("#comm_link").live("click", function(e) {
+        var local_currentPage = $("#curr_page").val();
+        var str_hash = local_currentPage;
+        var search_str = $("#search_search").val();
+        var search_con = $("#search_con").val();
+
+        console.log(str_hash);
+        document.location.hash = '#' + str_hash + '^' + search_str + ':' + search_con;
+    });
+
+
     //alert('community list');
     search($("#curr_page").val());
 
@@ -29,6 +43,27 @@ Date.prototype.yyyymmdd = function () {
         (dd > 9 ? '' : '0') + dd
     ].join('');
 };
+
+
+function checkForHash() {
+
+    if(document.location.hash) {
+//hash 가 있다면 ^ 를 구분자로 하나씩 string을 추출하여 각각 페이지정보를 가져옵니다.
+        var str_hash = document.location.hash;
+        str_hash = str_hash.replace("#","");
+        var search_data = str_hash.split('^')[1];
+        var search_str = search_data.split(':')[0];
+        var search_con = search_data.split(':')[1];
+        str_hash = str_hash.replace(search_data, "");
+        str_hash = str_hash.replace('^', "");
+
+        $("#search_search").val(search_str);
+        $("#search_con").val(search_con);
+        search(str_hash);
+    }
+}
+
+
 
 function search(page_no) {
 
@@ -116,7 +151,7 @@ function search(page_no) {
 
                 html += "<li class='tbody'>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
-                html += "   <span class='title'><a href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
+                html += "   <span class='title'><a id='comm_link' href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
                 if (attach_file == 'Y')
                     html += "<img style='margin-right: 5px;' src='/static/images/Clip.png'/>";
                 if (reg_date > yesterday)
