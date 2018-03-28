@@ -663,14 +663,17 @@ a:hover + p.arrow_box {
             });
 
             $("#audit_mode").click(function(event) {
-              $.post('/enrollment_verifi', {
-                    course_id: '${course.id}',
-                    user_id: '${user.id}'
-                },
-                function (data) {
-                    location.href = "/dashboard";
+                var login_check = '${user.id}';
+                if( login_check != 'None') {
+                    $.post('/enrollment_verifi', {
+                            course_id: '${course.id}',
+                            user_id: '${user.id}'
+                        },
+                        function (data) {
+                            location.href = "/dashboard";
+                        }
+                    );
                 }
-            );
           });
         </script>
 
