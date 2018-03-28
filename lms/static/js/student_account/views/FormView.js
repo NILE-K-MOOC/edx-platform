@@ -150,7 +150,6 @@
 
                     //target 인자가 있으면 단건 처리
                     if (target) {
-                        console.log('단건 처리 1');
                         var obj = {},
                             $form = this.$form,
                             $el,
@@ -168,13 +167,14 @@
                                 $label.removeClass('error');
                             } else {
                                 errors.push(test.message);
+                                $("input").removeClass('error');
+                                $("label").removeClass('error');
                                 $el.addClass('error');
                                 $label.addClass('error');
                             }
                         }
 
                     } else {
-                        console.log('복수 처리');
                         var obj = {},
                             $form = this.$form,
                             elements = $form[0].elements,
@@ -238,7 +238,7 @@
                     }, 'slow');
 
                     // Focus on first error field
-                    this.focusFirstError();
+                    //this.focusFirstError();
                 },
 
                 /* Allows extended views to add non-form attributes
@@ -249,22 +249,32 @@
                 },
 
                 submitForm: function (event, target) {
-
-                    console.log('submitForm::: ' + target);
-
                     $('.submission-error h4').removeClass('hidden');
                     var data = this.getFormData(target);
                     if (!_.isUndefined(event)) {
                         event.preventDefault();
                     }
 
+                    // target set
+                    if(target){
+                        console.log('target setting 1');
+                        data['target'] = target;
+                    }else{
+                        console.log('target setting 2');
+                        this.model.set({'target':''});
+                    }
+
+                    console.log('javascript is_regist value check --- s');
+                    console.log($("#is_regist").val());
+                    console.log('javascript is_regist value check --- e');
+
+                    // set is_regist
+                    data['is_regist'] = $("#is_regist").val();
+
                     this.toggleDisableButton(true);
 
                     if (!_.compact(this.errors).length) {
                         data = this.setExtraData(data);
-                        console.log('data.model --- s');
-                        console.log(data);
-                        console.log('data.model --- e');
                         this.model.set(data);
                         this.model.save();
                         this.toggleErrorMsg(false);

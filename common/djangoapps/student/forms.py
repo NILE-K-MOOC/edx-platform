@@ -130,7 +130,7 @@ class AccountCreationForm(forms.Form):
         error_messages={
             "required": _EMAIL_INVALID_MSG,
             "invalid": _EMAIL_INVALID_MSG,
-            "max_length": _("Email cannot be more than %(limit_value)s characters long"),
+            "max_length": _("Email cannot be more than %(limit_value)s characters long 1"),
         }
     )
     password = forms.CharField(
@@ -179,6 +179,7 @@ class AccountCreationForm(forms.Form):
             "city": _("A city is required"),
             "country": _("A country is required")
         }
+
         for field_name, field_value in extra_fields.items():
             if field_name not in self.fields:
                 if field_name == "honor_code":
@@ -226,6 +227,7 @@ class AccountCreationForm(forms.Form):
         return password
 
     def clean_email(self):
+        print 'def clean_email called'
         """ Enforce email restrictions (if applicable) """
         email = self.cleaned_data["email"]
         if settings.REGISTRATION_EMAIL_PATTERNS_ALLOWED is not None:

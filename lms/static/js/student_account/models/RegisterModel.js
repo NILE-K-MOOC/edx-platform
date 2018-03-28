@@ -14,7 +14,9 @@
                 gender: '',
                 year_of_birth: '',
                 mailing_address: '',
-                goals: ''
+                goals: '',
+                target: '',
+                is_regist: false
             },
             ajaxType: '',
             urlRoot: '',
@@ -29,13 +31,6 @@
                     data = {},
                     courseId = $.url( '?course_id' );
 
-                console.log('index Test =========================')
-                console.log(method)
-                console.log(model.urlRoot)
-                console.log(model.ajaxType)
-
-                console.log('index Test =========================')
-
                 // If there is a course ID in the query string param,
                 // send that to the server as well so it can be included
                 // in analytics events.
@@ -45,17 +40,6 @@
 
                 // Include all form fields and analytics info in the data sent to the server
                 $.extend( data, model.attributes);
-
-                //test data
-                //data = {
-                //    'email': email_index,
-                //    'name': name_index,
-                //    'username': username_index,
-                //    'password': password_index,
-                //    'password2': password_index
-                //}
-                //
-                data['test'] = 'Y';
 
                 $.ajax({
                     url: model.urlRoot,

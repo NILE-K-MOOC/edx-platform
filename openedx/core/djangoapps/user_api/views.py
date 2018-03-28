@@ -338,21 +338,32 @@ class RegistrationView(APIView):
             data["terms_of_service"] = data["honor_code"]
 
         try:
-            print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
-            print request
-            print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
-            print data
-            print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+            print 'is_regist check ------------------- s'
+            print data['is_regist']
+            print 'is_regist check ------------------- e'
 
+
+            if data['is_regist'] is False:
+                raise
             user = create_account_with_params(request, data)
         except ValidationError as err:
+
             # Should only get non-field errors from this function
             assert NON_FIELD_ERRORS not in err.message_dict
             # Only return first error for each field
-            errors = {
-                field: [{"user_message": error} for error in error_list]
-                for field, error_list in err.message_dict.items()
-            }
+
+            if 'target' in data and data['target']:
+                print 'check target in data ----- s'
+                print data['target']
+                print 'check target in data ----- e'
+                errors = {
+                    field: [{"user_message": error} for error in error_list] for field, error_list in [(data['target'], err.message_dict[data['target']])]
+                }
+            else:
+                errors = {
+                    field: [{"user_message": error} for error in error_list] for field, error_list in err.message_dict.items()
+                }
+
             return JsonResponse(errors, status=400)
 
         response = JsonResponse({"success": True})

@@ -3435,13 +3435,6 @@ def auto_auth(request):
     is_superuser = request.GET.get('superuser', None)
     course_id = request.GET.get('course_id', None)
     redirect_to = request.GET.get('redirect_to', None)
-    is_ok = True
-    print '========================='
-    print username
-    if username == '':
-        print username
-        username = unique_name
-        is_ok = False
 
     # mode has to be one of 'honor'/'professional'/'verified'/'audit'/'no-id-professional'/'credit'
     enrollment_mode = request.GET.get('enrollment_mode', 'honor')
@@ -3455,10 +3448,10 @@ def auto_auth(request):
 
     form = AccountCreationForm(
         data={
-            # 'username': username,
+            'username': username,
             'email': email,
-            # 'password': password,
-            # 'name': full_name,
+            'password': password,
+            'name': full_name,
         },
         tos_required=False
     )
