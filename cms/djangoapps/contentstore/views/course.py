@@ -1478,10 +1478,15 @@ def _refresh_course_tabs(request, course_module):
         """.format(course_id=course_id)
 
         cur.execute(query)
+        print "--------------------------------> course.py s"
+        print query
+        print "--------------------------------> course.py e"
         old_classfy_data = cur.fetchall()
-        old_classfy = old_classfy_data[0][0]
-        old_middle_classfy = old_classfy_data[0][1]
-        print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
+
+        if len(old_classfy_data) != 0:
+            old_classfy = old_classfy_data[0][0]
+            old_middle_classfy = old_classfy_data[0][1]
+            print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
 
     with connections['default'].cursor() as cur:
         if classfy != old_classfy or middle_classfy != old_middle_classfy:
