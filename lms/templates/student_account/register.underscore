@@ -67,7 +67,7 @@
 
     <%= context.fields %>
 
-    <button disabled type="submit" class="action action-primary action-update js-register register-button"><%- gettext("Create your account") %></button>
+    <button type="submit" class="action action-primary action-update js-register register-button"><%- gettext("Create your account") %></button>
     <p class="note">* <%- gettext("Required field") %></p>
     <div class="status submission-error hidden" aria-live="polite">
         <h4 class="message-title"><%- gettext("We couldn't create your account.") %></h4>
