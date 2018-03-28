@@ -33,7 +33,6 @@
                 submitButton: '',
 
                 initialize: function (data) {
-
                     this.model = data.model;
                     this.preRender(data);
 

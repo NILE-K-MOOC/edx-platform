@@ -338,11 +338,11 @@ class RegistrationView(APIView):
             data["terms_of_service"] = data["honor_code"]
 
         try:
-            # print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
-            # print request
-            # print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
-            # print data
-            # print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+            print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+            print request
+            print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+            print data
+            print '::::::::::::::::::::::::::::::::::::::::::::::::::::::'
 
             user = create_account_with_params(request, data)
         except ValidationError as err:
