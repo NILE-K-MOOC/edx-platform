@@ -28,8 +28,10 @@ from openedx.core.lib.courses import course_image_url
 ##         alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
         %if not user.is_authenticated():
             alert('${_("You need to register to enrollment.")}');
+            location.href = "/login";
         %endif
         $("#class_enroll_form").submit();
+        location.href = "/login";
       event.preventDefault();
     });
 
@@ -94,7 +96,8 @@ from openedx.core.lib.courses import course_image_url
           location.href = xhr.responseText;
         }
       } else if (xhr.status == 403) {
-          location.href = "${reverse('register_user')}?course_id=${course.id | u}&enrollment_action=enroll";
+          //location.href = "${reverse('register_user')}?course_id=${course.id | u}&enrollment_action=enroll";
+          location.href = "/login";
       } else {
         $('#register_error').html(
             (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
