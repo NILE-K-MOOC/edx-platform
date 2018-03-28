@@ -1448,7 +1448,7 @@ def _refresh_course_tabs(request, course_module):
             tabs.append(CourseTab.from_json(tab_panel))
         elif not tab_enabled and has_tab:
             tabs.remove(tab_panel)
-
+    print '()*()*()*)(*)(*)(*)(*)('
     course_tabs = copy.copy(course_module.tabs)
 
     # Additionally update any tabs that are provided by non-dynamic course views
@@ -1540,7 +1540,6 @@ def advanced_settings_handler(request, course_key_string):
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
-
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             need_lock = course_need_lock(request, course_key_string)
             difficult_degree_list = course_difficult_degree(request, course_key_string)
