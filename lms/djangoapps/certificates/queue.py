@@ -407,7 +407,7 @@ class XQueueCertInterface(object):
 
         # case student_courseenrollment audit mode
         if CourseEnrollment.objects.filter(user=student, course_id=course_id, mode='audit').exists():
-            cert.status = status.restricted
+            cert.status = status.audit_passing
             cert.save()
 
             LOGGER.info(
