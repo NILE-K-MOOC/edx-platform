@@ -342,8 +342,7 @@ class RegistrationView(APIView):
             print data['is_regist']
             print 'is_regist check ------------------- e'
 
-
-            if data['is_regist'] is False:
+            if data['is_regist'] == 'false':
                 raise
             user = create_account_with_params(request, data)
         except ValidationError as err:

@@ -73,6 +73,9 @@
     $(document).ready(function(){
         console.log("이 페이지 ${data['initial_mode']}");
         console.log("${data['initial_mode']}")
+        setInterval(function() {
+            $('.register-button').attr('disabled', false);
+        }, 500)
     })
     %if data['initial_mode'] == 'login':
         console.log('login page');
