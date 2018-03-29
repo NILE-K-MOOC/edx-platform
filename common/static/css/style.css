@@ -4,6 +4,12 @@
 	max-width:75rem;
 }
 
+.password-password {
+	border-bottom: double #c8c8c8;
+	margin-bottom: 30px;
+	padding-bottom: 30px;
+}
+
 .header-global {
 	background:url(/static/images/css/bg_header.png) top repeat-x; height:110px;
 	position:fixed;left:0;top:0;width:100%;z-index:200;
