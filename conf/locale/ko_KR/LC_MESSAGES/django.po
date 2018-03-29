@@ -1495,7 +1495,7 @@ msgstr "기타/응답 불가"
 
 #: common/djangoapps/student/models.py
 msgid "Doctorate"
-msgstr "박사"
+msgstr "박사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Master's or professional degree"
@@ -1503,31 +1503,31 @@ msgstr "석사 또는 전문대학원 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Bachelor's degree"
-msgstr "학사"
+msgstr "학사 학위 소지(=대학교 졸업)"
 
 #: common/djangoapps/student/models.py
 msgid "Associate degree"
-msgstr "전문학사"
+msgstr "전문학사 학위 소지(=전문대학 졸업)"
 
 #: common/djangoapps/student/models.py
 msgid "Secondary/high school"
-msgstr "고등학교"
+msgstr "고등학교 졸업 / 대학교 재학"
 
 #: common/djangoapps/student/models.py
 msgid "Junior secondary/junior high/middle school"
-msgstr "중학교"
+msgstr "중학교 졸업 / 고등학교 재학"
 
 #: common/djangoapps/student/models.py
 msgid "Elementary/primary school"
-msgstr "초등학교"
+msgstr "초등학교 졸업 / 중학교 재학"
 
 #: common/djangoapps/student/models.py
 msgid "No Formal Education"
-msgstr "정식 교육을 받지 않음"
+msgstr "정식 교육 경험 없음"
 
 #: common/djangoapps/student/models.py
 msgid "Other Education"
-msgstr "기타 형태의 교육을 받음"
+msgstr "기타 형태 교육 이수"
 
 #: common/djangoapps/student/models.py
 msgid "{platform_name} Honor Code Certificate for {course_name}"
@@ -16430,8 +16430,11 @@ msgid ""
 "{email_start}{email}{email_end} with instructions for activating your "
 "account. If you don't receive this message, check your spam folder."
 msgstr ""
-"한가지 단계가 남았습니다: 강좌 수강 등록 전에 계정을 활성화해야 합니다. {email_start}{email}{email_end} 에 "
-"계정 활성화 안내문을 담은 이메일을 보냈습니다. 이메일이 도착하지 않았다면 스팸메일 폴더를 확인해보세요."
+"이제 K-MOOC회원가입을 위한 마지막 단계만 남았습니다! \n"
+"\n"
+" 가입하신 이메일( {email_start}{email}{email_end} ) 로 이메일이 발송되었으니 확인해주세요. \n"
+"\n"
+" 이 메일을 확인하셔야 수강신청 등 서비스 이용이 가능합니다."
 
 #: lms/templates/registration/activation_complete.html
 msgid "Activation Complete!"

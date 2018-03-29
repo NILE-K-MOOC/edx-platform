@@ -2721,7 +2721,6 @@ def _do_create_account(form, custom_form=None):
 
     if errors:
         raise ValidationError(errors)
-
     user = User(
         username=form.cleaned_data["username"],
         email=form.cleaned_data["email"],
@@ -2864,7 +2863,9 @@ def create_account_with_params(request, params):
                            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
                        )
                    )
-
+    print 'rnshek Test =========='
+    print params
+    print 'rnshek Test =========='
     form = AccountCreationForm(
         data=params,
         extra_fields=extra_fields,
@@ -2874,12 +2875,19 @@ def create_account_with_params(request, params):
         tos_required=tos_required,
     )
     custom_form = get_registration_extension_form(data=params)
+    print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    print params['is_regist'] == 'false'
+
 
     # Perform operations within a transaction that are critical to account creation
     with transaction.atomic():
         # first, create the account
         (user, profile, registration) = _do_create_account(form, custom_form)
-
+        print '(user, profile, registration)==============='
+        print (user, profile, registration)
+        print '(user, profile, registration)==============='
+        if params['is_regist'] == 'false':
+            (user, profile, registration) = None
         # next, link the account with social auth, if provided via the API.
         # (If the user is using the normal register page, the social auth pipeline does the linking, not this code)
         if should_link_with_social_auth:
@@ -2912,7 +2920,6 @@ def create_account_with_params(request, params):
 
     # Perform operations that are non-critical parts of account creation
     preferences_api.set_user_preference(user, LANGUAGE_KEY, get_language())
-
     if settings.FEATURES.get('ENABLE_DISCUSSION_EMAIL_DIGEST'):
         try:
             enable_notifications(user)
