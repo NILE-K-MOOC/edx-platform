@@ -43,7 +43,7 @@ from openedx.core.djangolib.markup import HTML
   </div>
 </div>
 <script>
-    $(window).mousemove(function () {
+    setInterval(function () {
         $('.show').each(function() {
             $(this).parent().parent().find('label').each(function() {
                 if($(this).attr('class') == 'choicegroup_correct') {
@@ -58,5 +58,5 @@ from openedx.core.djangolib.markup import HTML
                 }
             });
         });
-    })
+    },300);
 </script>
