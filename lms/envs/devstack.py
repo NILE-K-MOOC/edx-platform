@@ -143,7 +143,6 @@ PASSWORD_COMPLEXITY = {
     "DIGITS": 1
 }
 
-
 ########################### Milestones #################################
 FEATURES['MILESTONES_APP'] = True
 

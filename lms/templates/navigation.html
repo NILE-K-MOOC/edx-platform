@@ -252,12 +252,8 @@ $( document ).ready(function() {
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".nav-global-04")
-                .mouseenter(function(){
-                    $(this).find("div").show();
-        })
-                .mouseleave(function(){
-                    $(this).find("div").hide();
+        $('.nav-global-04').hover(function() {
+            $(this).children('ul').stop(true, false, true).slideToggle(500);
         });
 
 

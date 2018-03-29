@@ -23,7 +23,7 @@ from branding.api import get_footer
                 <nav class="nav-colophon">
                     <ol>
                         <li class="nav-colophon-01"><a href="/agreement">${_("Terms of Use")}</a></li>
-                        <li class="nav-colophon-02"><a href="/Privacy-Policy" style="color: #0088d0;">${_("Privacy Statement")}</a></li>
+                        <li class="nav-colophon-02"><a href="/Privacy-Policy" style="color: #0088d0;"><b>${_("Privacy Statement")}</b></a></li>
                         % if LANGUAGE_CODE == 'ko-kr':
                         <li class="nav-colophon-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
                         % endif
@@ -117,8 +117,8 @@ from branding.api import get_footer
         </div>
 
         <div class="col col-12" style="width: 100%; display: inline-block;">
-            <p class="copyright">Copyright(c)2016. 국가평생교육진흥원 (National Institute For Lifelong Education. All right reserved)</p>
-            <p title="(04520) 서울특별시 중구 청계천로 14 (무교동 77)">${_("14, Cheonggyecheon-ro, Jung-gu, Seoul, Republic of Korea (04520)")} E-mail:&nbsp; <a href="mailto:kmooc@nile.or.kr" style="color: #0088d0;">kmooc@nile.or.kr</a>
+            <p class="copyright" style="color: #eee">Copyright(c)2016. 국가평생교육진흥원 (National Institute For Lifelong Education. All right reserved)</p>
+            <p title="(04520) 서울특별시 중구 청계천로 14 (무교동 77)" style="color: #eee">${_("14, Cheonggyecheon-ro, Jung-gu, Seoul, Republic of Korea (04520)")} E-mail:&nbsp; <a href="mailto:kmooc@nile.or.kr" style="color: #0088d0;">kmooc@nile.or.kr</a>
             </p>
         </div>
 

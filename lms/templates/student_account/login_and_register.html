@@ -72,7 +72,7 @@
 <script>
     $(document).ready(function(){
         console.log("이 페이지 ${data['initial_mode']}");
-        console.log("${data['initial_mode']}");
+        console.log("${data['initial_mode']}")
     })
     %if data['initial_mode'] == 'login':
         console.log('login page');
@@ -84,7 +84,7 @@
         })
     %endif
 </script>
-
+<input type="hidden" id="is_regist" value="false"/>
 <div class="section-bkg-wrapper">
     <main id="main" aria-label="Content" tabindex="-1">
         <div id="login-and-registration-container" class="login-register" />

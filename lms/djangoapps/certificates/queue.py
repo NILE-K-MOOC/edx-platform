@@ -405,6 +405,24 @@ class XQueueCertInterface(object):
             )
             return cert
 
+        # case student_courseenrollment audit mode
+        if CourseEnrollment.objects.filter(user=student, course_id=course_id, mode='audit').exists():
+            cert.status = status.audit_passing
+            cert.save()
+
+            LOGGER.info(
+                (
+                    u"Student %s is in the embargoed country restricted "
+                    u"list, so their certificate status has been set to '%s' "
+                    u"for the course '%s'. "
+                    u"No certificate generation task was sent to the XQueue."
+                ),
+                student.id,
+                cert.status,
+                unicode(course_id)
+            )
+            return cert
+
         # Finally, generate the certificate and send it off.
         return self._generate_cert(cert, course, student, grade_contents, template_pdf, generate_pdf)
 

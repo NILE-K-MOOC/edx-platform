@@ -1827,9 +1827,6 @@
     "YonseiWK": "\uC5F0\uC138\uB300\uD559\uAD50\u0028\uC6D0\uC8FC\u0029",
     "HansungK": "\uD55C\uC131\uB300\uD559\uAD50",
     "CKUk": "\uAC00\uD1A8\uB9AD\uAD00\uB3D9\uB300\uD559\uAD50",
-    "English": "\uc601\uc5b4",
-    "Korean": "\ud55c\uad6d\uc5b4",
-    "Chinese": "\uc911\uad6d\uc5b4",
     "language": "\uc5b8\uc5b4",
     "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
     "Add a response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
@@ -1884,8 +1881,12 @@
     "By default, submitted exams are available for review after the due date has passed. Select this option to keep exams hidden after that date.": "\uc2dc\ud5d8\uc740 \ub9c8\uac10\uc77c \uc774\ud6c4 \uac80\ud1a0\uac00 \uac00\ub2a5\ud569\ub2c8\ub2e4\u002e \uc81c\ucd9c \uae30\ud55c \uc774\ud6c4\uc5d0 \uc2dc\ud5d8\uc744 \uc228\uae30\ub824\uba74\uc774 \uc635\uc158\uc744 \uc120\ud0dd\ud558\uc2ed\uc2dc\uc624\u002e",
     "No exam results found.": "\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
     //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
+    "": "\uc5c6\uc74c",
 
-    "": "\uc5c6\uc74c"
+    // Language code
+    "English": "\uc601\uc5b4",
+    "Korean": "\ud55c\uad6d\uc5b4",
+    "Chinese": "\uc911\uad6d\uc5b4",
   };
 
   django.gettext = function (msgid) {
