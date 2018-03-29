@@ -3469,7 +3469,10 @@ def auto_auth(request):
     # If successful, this will return a tuple containing
     # the new user object.
     try:
-        user, profile, reg = _do_create_account(form)
+        if is_ok:
+            user, profile, reg = _do_create_account(form)
+        else:
+            raise
     except (AccountValidationError, ValidationError):
         # Attempt to retrieve the existing user.
         user = User.objects.get(username=username)

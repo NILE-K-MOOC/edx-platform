@@ -24,7 +24,7 @@
                    template: _.template( '<li><%= content %></li>' ),
 
                     msg: {
-                        email: gettext("The email address you've provided isn't formatted correctly."),
+                        email: gettext("The email address you've provided isn't formatted correctly.123"),
                         min: gettext("%(field)s must have at least %(count)d characters."),
                         max: gettext("%(field)s can only contain up to %(count)d characters."),
                         required: gettext("Please enter your %(field)s."),
@@ -151,27 +151,27 @@
                             customMsg;
 
                         _.each( tests, function( value, key ) {
-                            if ( !value ) {
-                                label = _fn.validate.getLabel( $el.attr('id') );
-                                customMsg = $el.data('errormsg-' + key) || false;
-
-                                // If the field has a custom error msg attached, use it
-                                if ( customMsg ) {
-                                    content = customMsg;
-                                } else {
-                                    context = {field: label};
-
-                                    if ( key === 'min' ) {
-                                        context.count = parseInt( $el.attr('minlength'), 10 );
-                                    } else if ( key === 'max' ) {
-                                        context.count = parseInt( $el.attr('maxlength'), 10 );
-                                    }
-
-                                    content = _.sprintf( _fn.validate.msg[key], context );
-                                }
-
-                                txt.push( _fn.validate.template( {content: content} ) );
-                            }
+                            //if ( !value ) {
+                            //    label = _fn.validate.getLabel( $el.attr('id') );
+                            //    customMsg = $el.data('errormsg-' + key) || false;
+                            //
+                            //    // If the field has a custom error msg attached, use it
+                            //    if ( customMsg ) {
+                            //        content = customMsg;
+                            //    } else {
+                            //        context = {field: label};
+                            //
+                            //        if ( key === 'min' ) {
+                            //            context.count = parseInt( $el.attr('minlength'), 10 );
+                            //        } else if ( key === 'max' ) {
+                            //            context.count = parseInt( $el.attr('maxlength'), 10 );
+                            //        }
+                            //
+                            //        content = _.sprintf( _fn.validate.msg[key], context );
+                            //    }
+                            //
+                            //    txt.push( _fn.validate.template( {content: content} ) );
+                            //}
                         });
 
                         return txt.join(' ');
