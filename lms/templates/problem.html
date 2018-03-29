@@ -43,5 +43,20 @@ from openedx.core.djangolib.markup import HTML
   </div>
 </div>
 <script>
-    $('.test_check').css('display','inline-block');
+    $(window).mousemove(function () {
+        $('.show').each(function() {
+            $(this).parent().parent().find('label').each(function() {
+                if($(this).attr('class') == 'choicegroup_correct') {
+                    $('.test_check').css('display','inline-block');
+                }
+            });
+        });
+        $('.check').each(function() {
+            $(this).parent().parent().find('label').each(function() {
+                if($(this).attr('class') == 'choicegroup_correct') {
+                    $('.test_check').css('display','inline-block');
+                }
+            });
+        });
+    })
 </script>
