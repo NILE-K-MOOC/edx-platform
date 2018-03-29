@@ -164,12 +164,50 @@
                     test = {};
 
                 for ( i=0; i<len; i++ ) {
-
                     $el = $( elements[i] );
                     $label = $form.find('label[for=' + $el.attr('id') + ']');
                     key = $el.attr('name') || false;
 
                     if ( key ) {
+                        test = this.validate( elements[i] );
+                        if ( test.isValid ) {
+                            obj[key] = $el.attr('type') === 'checkbox' ? $el.is(':checked') : $el.val();
+                            $el.removeClass('error');
+                            $label.removeClass('error');
+                        } else {
+                            errors.push( test.message );
+                            $el.addClass('error');
+                            $label.addClass('error');
+                        }
+                    }
+                }
+
+                this.errors = _.uniq( errors );
+
+                return obj;
+            },
+
+        getFormData_blur: function(target) {
+                var obj = {},
+                    $form = this.$form,
+                    elements = $form[0].elements,
+                    i,
+                    len = elements.length,
+                    $el,
+                    $label,
+                    key = '',
+                    errors = [],
+                    test = {},
+                    target = target;
+
+
+                for ( i=0; i<len; i++ ) {
+
+                    $el = $( elements[i] );
+                    $label = $form.find('label[for=' + $el.attr('id') + ']');
+                    key = $el.attr('name') || false;
+
+                    if ( key == target ) {
                         test = this.validate( elements[i] );
                         if ( test.isValid ) {
                             obj[key] = $el.attr('type') === 'checkbox' ? $el.is(':checked') : $el.val();
@@ -226,13 +264,13 @@
                 return data;
             },
 
-            submitForm: function( event ) {
+            submitForm: function( event, target ) {
+                $(window).unbind("beforeunload");
                 $('.submission-error h4').removeClass('hidden');
-                var data = this.getFormData();
+                var data = this.getFormData(target);
                 if (!_.isUndefined(event)) {
                     event.preventDefault();
                 }
-
                 this.toggleDisableButton(true);
 
                 if ( !_.compact(this.errors).length ) {

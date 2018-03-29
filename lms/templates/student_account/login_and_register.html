@@ -72,8 +72,17 @@
 <script>
     $(document).ready(function(){
         console.log("이 페이지 ${data['initial_mode']}");
-        console.log("${data['initial_mode']}")
+        console.log("${data['initial_mode']}");
     })
+    %if data['initial_mode'] == 'login':
+        console.log('login page');
+    %else:
+        var checkUnload = true;
+        $(window).on("beforeunload", function(){
+            $( ".js-register").bind( "click" );
+            if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+        })
+    %endif
 </script>
 
 <div class="section-bkg-wrapper">

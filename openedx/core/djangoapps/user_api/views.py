@@ -377,10 +377,12 @@ class RegistrationView(APIView):
         # a field on the registration form meant to hold the user's email address.
         email_placeholder = _(u"username@domain.com")
 
+        email_instructions = _(u"Please use your most frequently used e-mails to activate your account, log in, and change your password.")
         form_desc.add_field(
             "email",
             field_type="email",
             label=email_label,
+            instructions=email_instructions,
             placeholder=email_placeholder,
             restrictions={
                 "min_length": EMAIL_MIN_LENGTH,

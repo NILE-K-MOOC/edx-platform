@@ -3335,21 +3335,29 @@ def modi_course_period(request):
             course_course = course_index2[1]
             course_run = course_index2[2]
 
-            from django.db import connections
-            from pymongo import MongoClient
-            from bson.objectid import ObjectId
             from django.utils.translation import ugettext_lazy as _
             from django.http import JsonResponse
-            import json
-            client = MongoClient('172.17.101.117', 27017)
+            from cms.djangoapps.contentstore.views.course import get_course_and_check_access, CourseMetadata, _refresh_course_tabs
 
-            db = client.edxapp
-            # cursors = db.modulestore.active_versions.find({"run": {"$ne": "library"}}, {"_id": 0, "versions.published-branch": 1, "org": 1, "course": 1, "run": 1})
-            cursors = db.modulestore.active_versions.find_one(
-                {"org": course_org, "course": course_course, "run": course_run})
-            cursor = cursors.get('versions').get('published-branch')
-            db.modulestore.structures.update({"_id": ObjectId(cursor), "blocks.block_id": "course"},
-                                             {"$set": {"blocks.$.fields.course_period": course_period_index}})
+            course_key = CourseKey.from_string(addinfo_course_id)
+            course_module = get_course_and_check_access(course_key, request.user)
+
+            params = {
+                'course_period': {
+                'deprecated': False,
+                'display_name': '\xec\xa3\xbc\xec\xa0\x9c',
+                'help': u'Select Period of Studing',
+                'value': course_period_index
+              }
+            }
+            course_module = get_course_and_check_access(course_key, request.user)
+            CourseMetadata.validate_and_update_from_json(
+                course_module,
+                params,
+                user=request.user,
+            )
+            _refresh_course_tabs(request, course_module)
+            modulestore().update_item(course_module, request.user.id)
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
