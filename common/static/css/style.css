@@ -494,8 +494,8 @@ a, span, p {color:inherit;}
 .university-listing li[data-hidden] {display:none;}
 
 .university-list-contents .bx-controls-direction a {display:block;width:16px;height:16px;text-indent:-999em;overflow:hidden;background:url(/static/images/css/icon_arrow.png) no-repeat;position:absolute;}
-.university-list-contents .bx-controls-direction a.bx-prev {background-position:left top;top:-30px;right:65px;}
-.university-list-contents .bx-controls-direction a.bx-next {background-position:right top;top:-30px;right:35px;}
+.university-list-contents .bx-controls-direction a.bx-prev {background-position:left top;top:-30px;right:65px;background:url(/static/images/left.png) no-repeat;}
+.university-list-contents .bx-controls-direction a.bx-next {background-position:right top;top:-30px;right:35px;background:url(/static/images/right.png) no-repeat;}
 
 /*.university-list-contents .bx-controls-direction a.bx-prev {background-position:left top;top:33px;left:0px;background:url(/static/images/left.png) no-repeat;}*/
 /*.university-list-contents .bx-controls-direction a.bx-next {background-position:right top;top:33px;right:0px;background:url(/static/images/right.png) no-repeat;}*/
