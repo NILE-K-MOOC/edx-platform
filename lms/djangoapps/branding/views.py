@@ -490,6 +490,12 @@ def multisite_index(request, org):
                     print "encStr = ", encStr
                     print "-------------------------------> encStr e"
 
+                    encStr = encStr.replace(' ','+')
+
+                    print "-------------------------------> encStr s"
+                    print "after encStr = ", encStr
+                    print "-------------------------------> encStr e"
+
                     raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
                     raw_data = raw_data.split('&')
 
