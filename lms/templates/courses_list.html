@@ -1,4 +1,4 @@
-<%page expression_filter="h"/>
+<%page args="classfy=None" expression_filter="h"/>
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
@@ -9,10 +9,17 @@
       <section class="courses" style="padding-bottom: 0;">
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-          %for course in courses[:8]:
+            <% idx = 0 %>
+          %for course in courses:
+          % if course.classfy == classfy or classfy == 'course_all':
+            <% idx += 1 %>
           <li class="courses-listing-item">
               <%include file="course.html" args="course=course" />
           </li>
+            % if idx == 8:
+            <% break %>
+            % endif
+          % endif
         %endfor
         </ul>
       </section>

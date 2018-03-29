@@ -13,6 +13,7 @@ from openedx.core.djangolib.markup import HTML, Text
 <div id="layerPopupArea" class="layerPopupArea">
     ${ popup_index }
 </div>
+
 <script>
     var popup_index = $('#layerPopupArea').text();
     $('#layerPopupArea').html(popup_index);
@@ -65,7 +66,7 @@ from openedx.core.djangolib.markup import HTML, Text
 </script>
 
 
-<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
+<!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
 <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
 <style>
     .ui-autocomplete {
@@ -88,7 +89,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <section class="home">
         <!-- [s] main top -->
         <header>
-            <div class="ttbg" style="max-width: 100%; height:495px; ">
+            <div class="ttbg" style="max-width: 100%; height:310px; ">
                 <div class="grid-container grid-manual">
                     <div class="row">
                         <div class="col col-12 sm-col-6">
@@ -102,10 +103,10 @@ from openedx.core.djangolib.markup import HTML, Text
                 % endif
 
 			</span>
-                                <form method="get" action="/courses">
+                                <form method="get" id="main_form" action="/courses">
                                     <div class="msearch_area" style="z-index: 999;">
 
-                                        <input class="msearch_input" type="text" name="search_query" placeholder="어떤 강좌를 학습하고 싶으세요?" aria-label="어떤 강좌를 학습하고 싶으세요?">
+                                        <input class="msearch_input" type="text" name="search_query" placeholder="${_('Find Courses')}" aria-label="${_('Find Courses')}">
 			<span class="msearch_btnarea">
 			<button class="msearch_btn" type="submit"><img src="/static/images/icon-search.png" alt="search"></button>
 			</span>
@@ -309,71 +310,124 @@ from openedx.core.djangolib.markup import HTML, Text
                 <!-- community-container-wrap s -->
                 <div class="community-container-wrap" id="main-contents07">
                     <!-- [s] major course list -->
-                    <a href="/courses?term=hum" class="on" title="전체">
+                    <a href="#" class="on main-tab" title="전체" id="course_all">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab1.png" alt="">
                         </i>
                         ${_("All")}
                     </a>
-                    <div class="grid-container grid-manual community" id="community00">
-                        <section class="courses-container full">
-                            <%include file="${courses_list}" />
-                        </section>
-                    </div>
-                    <a href="/courses?term=hum">
+
+                    <a href="#" class="main-tab" id="hum">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab2.png" alt="">
                         </i>
                         ${_("Humanities")}
                     </a>
-                    <a href="/courses?term=social">
+
+                    <a href="#" class="main-tab" id="social">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab3.png" alt="">
                         </i>
-                        ${_("Social Sciences")}
+                        ${_("Social")}
                     </a>
-                    <a href="/courses?term=edu">
+
+                    <a href="#" class="main-tab" id="edu">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab4.png" alt="">
                         </i>
                         ${_("Education")}
                     </a>
-                    <a href="/courses?term=eng">
+
+                    <a href="#" class="main-tab" id="eng">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab5.png" alt="">
                         </i>
                         ${_("Engineering")}
                     </a>
-                    <a href="/courses?term=nat">
+
+                    <a href="#" class="main-tab" id="nat">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab6.png" alt="">
                         </i>
-                        ${_("Natural Sciences")}
+                        ${_("Natural")}
                     </a>
-                    <a href="/courses?term=med">
+
+                    <a href="#" class="main-tab" id="med">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab7.png" alt="">
                         </i>
-                        ${_("Medical Sciences")}
+                        ${_("Medical")}
                     </a>
-                    <a href="/courses?term=art">
+
+                    <a href="#" class="main-tab" id="art">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab8.png" alt="">
                         </i>
-                        ${_("Arts & Physical")}
+                        ${_("Arts&Physical")}
                     </a>
-                    <a href="/courses?term=intg">
+
+                    <a href="#" class="main-tab" id="intg">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab9.png" alt="">
                         </i>
-                        ${_("Interdisciplinary")}
+                        ${_("Interdiscip.")}
                     </a>
+
                     <a href="/courses" title="강좌 더보기">
                         <i style="margin-right: 5px;">
                             <img src="/static/images/main/main_tab10.png" alt="">
                         </i>
                         ${_("More")}
                     </a>
+
+                    <div class="grid-container grid-manual community course-classfy" id="course_all" style="display: block">
+                        <section class="courses-container full" id="course_all">
+                            <%include file="${courses_list}" args="classfy='course_all'"/>
+                        </section>
+                    </div>
+
+                    <div class="grid-container grid-manual community course-classfy" id="hum">
+                        <section class="courses-container full" id="hum">
+                            <%include file="${courses_list}" args="classfy='hum'"/>
+                        </section>
+                    </div>
+
+                    <div class="grid-container grid-manual community course-classfy" id="social">
+                        <section class="courses-container full" id="social">
+                            <%include file="${courses_list}" args="classfy='social'"/>
+                        </section>
+                    </div>
+                    <div class="grid-container grid-manual community course-classfy" id="edu">
+                        <section class="courses-container full" id="edu">
+                            <%include file="${courses_list}" args="classfy='edu'"/>
+                        </section>
+                    </div>
+                    <div class="grid-container grid-manual community course-classfy" id="eng">
+                        <section class="courses-container full" id="eng">
+                            <%include file="${courses_list}" args="classfy='eng'"/>
+                        </section>
+                    </div>
+                    <div class="grid-container grid-manual community course-classfy" id="nat">
+                        <section class="courses-container full" id="nat">
+                            <%include file="${courses_list}" args="classfy='nat'"/>
+                        </section>
+                    </div>
+                    <div class="grid-container grid-manual community course-classfy" id="med">
+                        <section class="courses-container full" id="med">
+                            <%include file="${courses_list}" args="classfy='med'"/>
+                        </section>
+                    </div>
+                    <div class="grid-container grid-manual community course-classfy" id="art">
+                        <section class="courses-container full" id="art">
+                            <%include file="${courses_list}" args="classfy='art'"/>
+                        </section>
+                    </div>
+                    <div class="grid-container grid-manual community course-classfy" id="intg">
+                        <section class="courses-container full" id="intg">
+                            <%include file="${courses_list}" args="classfy='intg'"/>
+                        </section>
+                    </div>
+
                     <!-- [e] major course list -->
 
                     <!-- <h2 class="main-title">${_("Available courses")}</h2> -->
@@ -463,6 +517,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     % endif
 
                 </ul>
+                <a href="/schools" class="univ-more">전체보기</a>
             </section>
         </section>
         <!-- [e] university list -->
@@ -491,6 +546,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <!-- sidebar -->
 <nav class="main-sticky-box">
+    <div><img src="/static/images/left-ch-img.png"></div>
     <ul class="main-sticky">
         <li><a href="#" class="smooth-move" data-hashbang="main-contents-search">${_("Course Search")}</a></li>
         <li><a href="#" class="smooth-move" data-hashbang="main-contents01">${_("University List")}</a></li>

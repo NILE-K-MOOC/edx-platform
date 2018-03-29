@@ -35,6 +35,16 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$(".main-tab").click(function (e) {
+		e.preventDefault();
+		$(".main-tab").removeClass("on");
+		$(this).addClass("on");
+		var cla_id = $(this).attr('id');
+		$(".course-classfy").css({'display': 'none'});
+		$(".course-classfy#" + cla_id).css({'display': 'block'});
+
+	});
+
 	$('.slider').each(function() {
 		var $this = $(this);
 		var $group = $this.find('.slide_group');
@@ -169,7 +179,7 @@ $(window).load(function() {
 			minSlides: 5,
 			maxSlides: 5,
 			slideMargin: 0,
-			slideWidth : 230
+			slideWidth : 250
 		});
 	}
 });
@@ -179,12 +189,12 @@ function resize() {
 	if(window_W<=768) {
 		univ_bx.reloadSlider({
 			pager : false,
-			auto : true,
+			auto : false,
 			controls : true,
 			minSlides: 3,
 			maxSlides: 3,
 			slideMargin: 0,
-			slideWidth : 200
+			slideWidth : 250
 		});
 	} else if(window_W>768) {
 		univ_bx.reloadSlider({
@@ -194,7 +204,7 @@ function resize() {
 			minSlides: 5,
 			maxSlides: 5,
 			slideMargin: 0,
-			slideWidth : 230
+			slideWidth : 250
 		});
 	}
 }

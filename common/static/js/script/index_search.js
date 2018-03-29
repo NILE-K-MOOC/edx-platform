@@ -68,4 +68,13 @@ $(document).ready(function () {
         }
     });
 
+
+    var select_search = "";
+    $('.msearch_input').on('autocompleteselect', function (e, ui) {
+        select_search = '"' + ui.item.value + '"';
+        $(".msearch_input").val(select_search);
+        $("#main_form").submit();
+        console.log('You selected: ' + ui.item.value);
+    });
+
 });

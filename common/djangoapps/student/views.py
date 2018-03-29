@@ -584,7 +584,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     if user and user.is_staff:
         pass
     else:
-        courses = courses[:8]
+        # courses = courses[:8]
+        courses = courses
 
     context = {'courses': courses}
 

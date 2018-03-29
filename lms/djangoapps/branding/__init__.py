@@ -16,6 +16,7 @@ from openedx.core.djangoapps.content.course_overviews.models import CourseOvervi
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from datetime import datetime
 from django.utils.timezone import UTC as UTC2
+from django.db import connections
 
 
 def get_visible_courses(org=None, filter_=None):
@@ -47,10 +48,23 @@ def get_visible_courses(org=None, filter_=None):
 
     # courses = sorted(courses, key=lambda course: course.number)
 
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT course_id, ifnull(classfy, '')
+              FROM course_overviews_courseoverview a
+                   JOIN course_overview_addinfo b ON a.id = b.course_id
+             WHERE delete_yn = 'N' AND a.enrollment_start IS NOT NULL;
+        """
+        cur.execute(query)
+        course_tup = cur.fetchall()
+        cur.close()
+
     # Add Course Status
     for c in courses:
         # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
-
+        for cour in course_tup:
+            if str(c.id) == cour[0]:
+                c.classfy = cour[1]
         if c.start is None or c.start == '' or c.end is None or c.end == '':
             c.status = 'none'
         elif datetime.now(UTC2()) < c.start:
