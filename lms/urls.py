@@ -173,6 +173,7 @@ urlpatterns = (
 
     # course_list
     url(r'^course_search_list$', 'student.views.course_search_list', name='course_list'),
+
 )
 
 urlpatterns += (
