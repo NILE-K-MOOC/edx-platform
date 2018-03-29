@@ -36,18 +36,12 @@ from openedx.core.djangolib.markup import HTML
     <button class="show"><span class='sr'>${_('Toggle Answer Visibility')}</span><span class="show-label">${_('Show Answer')}</span></button>
     % endif
     % if attempts_allowed :
-    <div class="submission_feedback" aria-live="polite">
+    <div class="submission_feedback test_check" aria-live="polite" style="display: none">
         ${_('answer!')}
     </div>
     % endif
   </div>
 </div>
 <script>
-    //$('.check').click(function() {
-      //  $(this).parent().parent().find('label').each(function() {
-        //    if($(this).attr("class")=='choicegroup_correct') {
-          //      $(this).parent().parent().parent().parent().parent().parent().find('.submission_feedback').show().css('border','solid 2px red');
-            //}
-        //});
-    //})
+    $('.test_check').css('display','inline-block');
 </script>

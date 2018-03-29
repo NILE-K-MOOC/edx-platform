@@ -71,7 +71,7 @@ PROBLEM_DICT = {
             'choice_type': 'radio',
             'choices': [False, False, True, False],
             'choice_names': ['Choice 1', 'Choice 2', 'Choice 3', 'Choice 4']},
-        'correct': ['label.choicegroup_correct', 'span.correct'],
+        'correct': ['label.choicegroup_correct', 'span.correctasdfsfa'],
         'incorrect': ['label.choicegroup_incorrect', 'span.incorrect'],
         'unanswered': ['span.unanswered']},
 
