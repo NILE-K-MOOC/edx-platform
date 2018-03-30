@@ -28,9 +28,8 @@ $(document).ready(function () {
                 open: function(event, ui) {
                     $(this).autocomplete("widget").css({
                         "width": "100%",
-                        "opacity": 0.7,
                         "position": "absolute",
-                        "z-index": 1000
+                        //"z-index": "1000 !important;"
                     });
                     $(this).autocomplete("widget").children('li').css({
                         "margin-top": "10px",
@@ -50,7 +49,6 @@ $(document).ready(function () {
                 },
                 focus: function(event, ui) {
                     return false;
-                    //event.preventDefault();
                 }
             }),
             elemAutocomplete = $elem.data("ui-autocomplete") || $elem.data("autocomplete");
@@ -67,7 +65,6 @@ $(document).ready(function () {
             };
         }
     });
-
 
     var select_search = "";
     $('.msearch_input').on('autocompleteselect', function (e, ui) {
