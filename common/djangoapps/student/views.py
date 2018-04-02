@@ -205,6 +205,7 @@ def common_course_status(startDt, endDt):
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
+
     if extra_context is None:
         extra_context = {}
     user = request.user
@@ -238,9 +239,15 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         module_store = modulestore()
 
         # get search data
-        if request.GET.get('search_query') != None:
+        if 'msearch' in request.session and request.session['msearch'] != '':
 
-            search_name = str(request.GET.get('search_query'))
+            msearch = request.session['msearch']
+            msearch = msearch.replace('/comm_list_json', '')
+            msearch = msearch.replace('comm_list_json', '')
+
+            print "---------------------------------> msearch [s]"
+            print msearch
+            print "---------------------------------> msearch [e]"
 
             # multisite - get site id query
             with connections['default'].cursor() as cur:
@@ -274,7 +281,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                              ON a.course_id = b.id
                     WHERE  site_id = {0}
                            AND display_name LIKE '%{1}%';
-                """.format(site_id, search_name)
+                """.format(site_id, msearch)
+
+                print query
+
                 cur.execute(query)
                 result_table = cur.fetchall()
 

@@ -398,7 +398,20 @@ def decrypt(key, _iv, enc):
 
 #==================================================================================================> 멀티사이트 시작
 @ensure_csrf_cookie
-def multisite_index(request, org):
+def multisite_index(request, org, msearch=None):
+
+    print "def multisite_index(request, org, msearch=None):"
+    print "msearch = ", msearch
+
+    if msearch == '' or msearch == None:
+        print "---------------------------------------->1"
+        if 'msearch' in request.session:
+            if request.session['msearch'] == '' or request.session['msearch'] == None:
+                del request.session['msearch']
+                print "---------------------------------------->2"
+    else:
+        request.session['msearch'] = msearch
+        print "---------------------------------------->3"
 
     org = org.replace("/comm_list_json","") # <---- bugfix
 

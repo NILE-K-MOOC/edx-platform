@@ -29,7 +29,7 @@ urlpatterns = (
     url(r'^$', 'branding.views.index', name="root"),
 
     # ---------- multi site ---------- #
-    url(r'^multisite/(?P<org>.*?)/$', 'branding.views.multisite_index', name="multisite_index"),
+    url(r'^multisite/(?P<org>.*?)/(?P<msearch>.*?)$', 'branding.views.multisite_index', name="multisite_index"),
     url(r'^multisite_api$', 'branding.views.multisite_api', name="multisite_api"),
     url(r'^multisite_delete_api$', 'branding.views.multisite_delete_api', name="multisite_delete_api"),
 
