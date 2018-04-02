@@ -70,14 +70,14 @@ from openedx.core.djangolib.markup import HTML, Text
 <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
 <style>
     .ui-autocomplete {
-            max-height: 105px;
-            min-height: 35px;
-            overflow-y: auto;
-            /* prevent horizontal scrollbar */
-            overflow-x: hidden;
-            /* add padding to account for vertical scrollbar */
-            padding-right: 20px;
-        }
+        max-height: 105px;
+        min-height: 35px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }
     @media (max-width: 725px) {
         .ui-autocomplete {
             max-height: 85px;
@@ -133,6 +133,8 @@ from openedx.core.djangolib.markup import HTML, Text
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
         </header>
         <!-- [e] main top -->
         % if LANGUAGE_CODE == 'ko-kr':
