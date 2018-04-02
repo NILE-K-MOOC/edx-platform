@@ -608,7 +608,7 @@ a, span, p {color:inherit;}
 
 .board-list .tbody .title a i {font-weight: bold; font-style: normal;}
 
-.main-sticky-box {position:fixed;right:10px;top:45%;z-index:51;}
+.main-sticky-box {position:fixed;right:10px;top:45%;z-index:400;}
 .main-sticky-box li {margin-top:10px;}
 .main-sticky-box a {display:block;text-align:center;font-size:0.875rem;line-height:37px;background:#fff;border:solid 1px #ccc;background:#f2f2f2;color:#333;width:150px;} /** 20161216 **/
 .main-sticky-box a:hover {background:#646464;color:#fff;width:150px;}
@@ -1472,9 +1472,9 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 .ttbg { /*background: url('/static/images/css/main_top_bg.png') repeat;*/background: #fff;}
 .ttbg1 {    position: relative;
     left: 0;
-    top: 72px;
+    top: 35px;
     display: block;
-    z-index: 2;
+    z-index: 300;
     padding: 0px 30px;}
 .ttbg2 {width: 323px;
     height: 495px;
@@ -1619,7 +1619,7 @@ height:2000px;
 
 @media (max-width: 768px) {
 	.ttbg1 {
-		top: 102px;
+		top: 50px;
 	}
 
 	.ttbg1 .k-bannner-txt h1 {
@@ -1636,12 +1636,17 @@ height:2000px;
 	}
 .home>header{height: 305px;}
 }
+
 @media (max-width: 640px) {
-.ttbg2 {
-   top: 16px;
-    width: 301px;
+	.ttbg2 {
+		top: 16px;
+		width: 301px;
+	}
+	.ttbg1 {
+		top: 65px;
+	}
 }
-}
+
 
 @media (max-width: 479px) {
 .ttbg2 {
@@ -1685,7 +1690,9 @@ height:2000px;
 .ttbg{height: 421px;}
 
 .ttbg1{}
-.ttbg2{}
+.ttbg2{
+	left: -9px;
+}
 
 }
 
@@ -1845,3 +1852,10 @@ a.slide_btn {
 
 
 /* ============tab============== */
+
+
+.ui-autocomplete {
+	z-index: 2147483647 !important;
+	opacity: 1;
+}
+
