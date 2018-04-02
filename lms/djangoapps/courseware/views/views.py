@@ -1131,6 +1131,12 @@ def mobile_course_about(request, course_id):
 
         #######################################################################
 
+        #print "---------------------------> hello world [s]"
+        #print "course_link = ", course_link
+        #print "---------------------------> hello world [e]"
+
+        course_link = course_link.replace('/about', '&email_opt_in=true')
+
         context = {
             'course': course,
             'course_details': course_details,
