@@ -400,6 +400,15 @@ def decrypt(key, _iv, enc):
 @ensure_csrf_cookie
 def multisite_index(request, org, msearch=None):
 
+    if org.find("'") != -1\
+            or org.find("'") != -1\
+            or org.find("+") != -1\
+            or org.find("(") != -1\
+            or org.find(")") != -1\
+            or org.find("%") != -1\
+            or org.find("database") != -1:
+        return redirect('/multisite_error/')
+
     print "def multisite_index(request, org, msearch=None):"
     print "msearch = ", msearch
 
@@ -486,6 +495,7 @@ def multisite_index(request, org, msearch=None):
         if in_url != out_url:
             print "---------------------------------->s"
             request.session['status'] = 'fail'
+            return redirect('/multisite_error/')
             print "request.session['status'] = ", request.session['status']
             print "---------------------------------->e"
 
@@ -544,6 +554,7 @@ def multisite_index(request, org, msearch=None):
 
                     if java_calltime + timedelta(seconds=60) < python_calltime:
                         request.session['status'] = 'fail'
+                        return redirect('/multisite_error/')
                         print "######################## fail logic - 1"
                         print " ---------------------------> status s inner time"
                         print request.session['status']
@@ -559,6 +570,7 @@ def multisite_index(request, org, msearch=None):
 
                     if org != orgid:
                         request.session['status'] = 'fail'
+                        return redirect('/multisite_error/')
                         print "######################## fail logic - 2"
                         print " ---------------------------> status s inner org"
                         print request.session['status']
@@ -751,6 +763,14 @@ def multisite_test2(request):
         'referer': request.session['referer']
     }
     return render_to_response("multisite_test.html", context)
+
+
+def multisite_error(request):
+
+    print "------------------------------> good"
+    context = {}
+
+    return render_to_response("multisite_error.html", context)
 #==================================================================================================> 멀티사이트 테스트 종료
 
 
