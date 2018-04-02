@@ -122,9 +122,11 @@ $(document).ready(function() {
 		});
 
 		$.each($slides, function(index) {
-			var $button = $('<a class="slide_btn" id=zone'+index+'>'+$("#pop_title"+index).val()+'</a>');
-
-
+			if(index == 0){
+				var $button = $('');
+			}else{
+				var $button = $('<a class="slide_btn" id=zone'+index+'>'+$("#pop_title"+index).val()+'</a>');
+			}
 
 			if (index === currentIndex) {
 				$button.addClass('active');
