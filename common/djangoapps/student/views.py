@@ -1136,6 +1136,7 @@ def course_search_list(request):
             query = '''
                 SELECT DISTINCT display_name
                   FROM course_overviews_courseoverview
+                  WHERE catalog_visibility = 'both'
                  ORDER BY display_name;
             '''
             cur.execute(query)
