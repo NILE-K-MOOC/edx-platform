@@ -1728,6 +1728,7 @@ class CourseEnrollment(models.Model):
                             join(SELECT @V_A1:= '0', @V_B := '0', @RNUM1 := 0) A
                             left outer join course_overview_addinfo as coa on coa.course_id = course_overviews_courseoverview.id
                         where enrollment_start <= now()
+                        and catalog_visibility='both'
                     ) aa
                     where RNUM1 = 1
                 ) newcouse
