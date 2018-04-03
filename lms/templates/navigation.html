@@ -206,7 +206,7 @@ $( document ).ready(function() {
 
             % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
                 % if LANGUAGE_CODE != 'en':
-            <li class="item nav-global-04"><a href="javascript:void(0)" data-hover-label='${_("Community")}'><span class="effect_label">${_("Community")}</span></a>
+            <li class="item nav-global-04"><a href="#" class="hover" data-hover-label='${_("Community")}'><span class="effect_label">${_("Community")}</span></a>
                 <ul class="dropdown-menu" style="width: 120px;">
                         <li id="menu1"><a href="/comm_list/N">공지사항</a></li>
                         <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
@@ -215,10 +215,10 @@ $( document ).ready(function() {
                     </ul>
                 </li>
                 % endif
-            <li class="item nav-global-01"><a href="/about" data-hover-label='${_("About Us")}' class="hover18"><span class="effect_label">${_("About Us")}</span></a></li>
-            <li class="item nav-global-03"><a href="/courses?pagepos=l" data-hover-label='${_("Courses")}'><span class="effect_label">${_("Courses")}</span></a></li>
-            <li class="item nav-global-03"><a href="/series" data-hover-label="${_('Series Course')}"><span class="effect_label">${_('Series Course')}</span></a></li>
-            <li class="item nav-global-02"><a href="/schools" data-hover-label='${_("Participating Institutions")}'><span class="effect_label">${_("Participating Institutions")}</span></a></li>
+            <li class="item nav-global-01"><a href="/about" data-hover-label='${_("About Us")}'  class="hover"><span class="effect_label">${_("About Us")}</span></a></li>
+            <li class="item nav-global-03"><a href="/courses?pagepos=l" data-hover-label='${_("Courses")}' class="hover"><span class="effect_label">${_("Courses")}</span></a></li>
+            <li class="item nav-global-03"><a href="/series" data-hover-label="${_('Series Course')}" class="hover"><span class="effect_label">${_('Series Course')}</span></a></li>
+            <li class="item nav-global-02"><a href="/schools" data-hover-label='${_("Participating Institutions")}' class="hover"><span class="effect_label">${_("Participating Institutions")}</span></a></li>
 
             % endif
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
@@ -253,11 +253,10 @@ $( document ).ready(function() {
 <%include file="help_modal.html"/>
 
 <script type="text/javascript">
+    var window_W = 0;
     $(document).ready(function(){
-        $('.nav-global-04').hover(function() {
-            $(this).children('ul').stop(true, false, true).slideToggle(500);
-        });
-
+        window_W = $(window).width();
+	    nav_resize();
 
         $(".language a").click(function(){
             var href = $(this).attr("href");
@@ -266,4 +265,22 @@ $( document ).ready(function() {
         });
 
     });
+    function nav_resize() {
+        window_W = $(window).width();
+        if(window_W<=768) {
+            $('.nav-global-04').unbind('click mouseenter mouseleave hover');
+            $('.nav-global-04').on('click',function(){
+                event.preventDefault();
+                $('.header-global .nav-global .dropdown-menu').toggle();
+            });
+        } else {
+            $('.nav-global-04').on('click', function() {
+                event.preventDefault();
+                var link_hover = $(this).children('a');
+                $(this).children('.dropdown-menu').toggle(0, function(){
+                    $(link_hover).blur();
+                });
+            });
+        }
+    }
 </script>
