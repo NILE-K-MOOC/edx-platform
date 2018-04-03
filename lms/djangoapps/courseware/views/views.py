@@ -1464,6 +1464,15 @@ def course_about(request, course_id):
         cur.close()
         pre_course = pre_course_index
 
+        # 청강 - course.end < today
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_end = course.end
+        course_end_val = course_end.strptime(str(course_end)[0:10], "%Y-%m-%d").date()
+        time_compare = 'N'
+        if today_val > course_end_val:
+            time_compare = 'Y'
+
+
         cur = con.cursor()
         query = """
             SELECT audit_yn
@@ -1474,7 +1483,7 @@ def course_about(request, course_id):
         cur.execute(query)
         audit_index = cur.fetchall()
         cur.close()
-        if len(audit_index) != 0:
+        if len(audit_index) != 0 and time_compare == 'Y':
             audit_flag = audit_index[0][0]
         else:
             audit_flag = 'N'
