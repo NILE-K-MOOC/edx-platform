@@ -341,6 +341,14 @@ box-sizing: border-box;
 a:hover + p.arrow_box {
   display: block;
 }
+
+.audit {
+        color: #fff !important;
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+    background-image: none !important;
+    text-shadow: none !important;
+}
 </style>
 <section class="course-info">
   <header class="course-profile">
@@ -487,7 +495,7 @@ a:hover + p.arrow_box {
         % elif not is_shib_course and not can_enroll and audit_flag == 'N':
           <span class="register disabled" style="float: right">${_("Enrollment is Closed")}</span>
         % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-          <a class="register" id="audit_mode" style="float: right">${_("Enrollment")}!</a>
+          <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>
 
         % elif not is_shib_course and course.start_date_is_still_default:
             <span class="register disabled" style="float: right">${_("Starting Soon")}</span>

@@ -151,14 +151,14 @@ from openedx.core.djangolib.markup import HTML, Text
 
                                     % if popzone_list:
                                     <div class="slide" style="display: block; left: 0px;">
-                                        <a href="${popzone_list[0]['link_url']}" target="${popzone_list[0]['link_target']}">
+                                        <a href="${popzone_list[0]['link_url']}" class="11232ssss" target="${popzone_list[0]['link_target']}">
                                             <img src="${popzone_list[0]['image_file']}" alt="${popzone_list[0]['title']}">
                                             <input type="hidden" value="${popzone_list[0]['title']}" id="pop_title0">
                                         </a>
                                     </div>
                                     % for pop in popzone_list[1:]:
                                     <div class="slide" style="display: none; left: 0px;">
-                                        <a href="${pop['link_url']}" target="${pop['link_target']}">
+                                        <a href="${pop['link_url']}" class="3223221aa" target="${pop['link_target']}">
                                             <img src="${pop['image_file']}" alt="${pop['title']}">
                                             <input type="hidden" value="${pop['title']}" id="pop_title${loop.index + 1}">
                                         </a>
