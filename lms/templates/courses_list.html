@@ -1,4 +1,4 @@
-<%page args="classfy=None" expression_filter="h"/>
+<%page expression_filter="h"/>
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
@@ -6,20 +6,13 @@
   <section class="highlighted-courses">
 
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-      <section class="courses" style="padding-bottom: 0;">
+      <section class="courses">
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-            <% idx = 0 %>
-          %for course in courses:
-          % if course.classfy == classfy or classfy == 'course_all':
-            <% idx += 1 %>
+          %for course in courses[:settings.HOMEPAGE_COURSE_MAX]:
           <li class="courses-listing-item">
               <%include file="course.html" args="course=course" />
           </li>
-            % if idx == 8:
-            <% break %>
-            % endif
-          % endif
         %endfor
         </ul>
       </section>
@@ -33,7 +26,9 @@
     % endif
     % endif
 
-
+    <div class="btn-list-more">
+        <a href="/courses" title="강좌 더보기">${_("More")}</a>
+    </div>
 
   </section>
 <!-- </section> -->

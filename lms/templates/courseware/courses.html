@@ -1,241 +1,145 @@
 <%!
-import json
-from django.utils.translation import ugettext as _
-from openedx.core.djangolib.js_utils import dump_js_escaped_json
+  import json
+  from django.utils.translation import ugettext as _
+  from openedx.core.djangolib.js_utils import dump_js_escaped_json
 %>
 <%inherit file="../main.html" />
 <%
-course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+  course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
 %>
 
 <%namespace name='static' file='../static_content.html'/>
 
 % if course_discovery_enabled:
 <%block name="header_extras">
-% for template_name in ["course_card", "filter_bar", "filter", "facet", "facet_option"]:
-<script type="text/template" id="${template_name}-tpl">
-    <%static:include path="discovery/${template_name}.underscore" />
-</script>
-% endfor
-<%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
-DiscoveryFactory(
-${course_discovery_meanings | n, dump_js_escaped_json},
-getParameterByName('search_query')
-);
-</%static:require_module>
+  % for template_name in ["course_card", "filter_bar", "filter", "facet", "facet_option"]:
+  <script type="text/template" id="${template_name}-tpl">
+      <%static:include path="discovery/${template_name}.underscore" />
+  </script>
+  % endfor
+  <%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
+    DiscoveryFactory(
+      ${course_discovery_meanings | n, dump_js_escaped_json},
+      getParameterByName('search_query')
+    );
+  </%static:require_module>
 </%block>
 % endif
 
 <%block name="pagetitle">${_("Courses")}</%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
+          <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
     <section class="find-courses">
-        <section class="courses-container">
-            % if course_discovery_enabled:
-            <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
-                <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
-                <form class="wrapper-search-input" style="z-index: 999; align-items: stretch; display: flex;">
-                    <label for="discovery-input" class="sr">${_('Search for a course')}</label>
-                    <input id="discovery-input" style="position:  relative; padding-right: 12px;" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
-                    <button type="submit" class="button postfix discovery-submit" style="position:  relative;" title="${_('Search')}" data-test="check1">
-                        <img src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="${_('Search')}" />
-                        <!--
-                        <span class="icon fa fa-search" aria-hidden="true"></span>
-                        <div aria-live="polite" aria-relevant="all">
-                          <div id="loading-indicator" class="loading-spinner hidden">
-                            <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
-                            <span class="sr">${_('Loading')}</span>
-                          </div>
-                        </div>
-                        -->
-                    </button>
-                </form>
-            </div>
+      <section class="courses-container">
+        % if course_discovery_enabled:
+        <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
+          <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
+          <form class="wrapper-search-input">
+            <label for="discovery-input" class="sr">${_('Search for a course')}</label>
+            <input id="discovery-input" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
+            <button type="submit" class="button postfix discovery-submit" title="${_('Search')}" data-test="check1">
+                <img src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="${_('Search')}" />
+              <!--
+              <span class="icon fa fa-search" aria-hidden="true"></span>
+              <div aria-live="polite" aria-relevant="all">
+                <div id="loading-indicator" class="loading-spinner hidden">
+                  <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
+                  <span class="sr">${_('Loading')}</span>
+                </div>
+              </div>
+              -->
+            </button>
+          </form>
+        </div>
 
-            <div id="filter-bar" class="filters hide-phone is-collapsed">
-            </div>
-            % endif
+        <div id="filter-bar" class="filters hide-phone is-collapsed">
+        </div>
+        % endif
 
-            <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
-                <ul class="courses-listing">
-                    %for course in courses:
-                    <li class="courses-listing-item">
-                        <%include file="../course.html" args="course=course" />
-                    </li>
-                    %endfor
-                </ul>
-            </div>
-            <script>
+        <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
+          <ul class="courses-listing">
+            %for course in courses:
+            <li class="courses-listing-item">
+              <%include file="../course.html" args="course=course" />
+            </li>
+            %endfor
+          </ul>
+        </div>
 
-            </script>
-            % if course_discovery_enabled:
-            <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
-                <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
-                <section class="course-facets-list">
-                    <h3 class="header-facet">${_('Opening Status')}</h3>
-                    <div id="sel_status">
-                        <select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}">
-                            <option value="">${_('All')}</option>
-                            <option value="i">${_('ing')}</option>
-                            <option value="t">${_('ready')}</option>
-                            <option value="e">${_('end')}</option>
-                        </select>
-                    </div>
-                </section>
-                <section class="search-facets-lists">
-                </section>
-            </aside>
-            % endif
-        </section>
+
+        % if course_discovery_enabled:
+        <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
+          <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+            <section class="course-facets-list">
+                <h3 class="header-facet">${_('Opening Status')}</h3>
+                <div id="sel_status">
+                <select class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}">
+                    <option value="">${_('All')}</option>
+                    <option value="i">${_('ing')}</option>
+                    <option value="t">${_('ready')}</option>
+                    <option value="e">${_('end')}</option>
+                </select>
+                </div>
+            </section>
+          <section class="search-facets-lists">
+          </section>
+        </aside>
+        % endif
+
+      </section>
     </section>
 </main>
 
 % if course_discovery_enabled:
-<style>
-    .ui-autocomplete {
-        max-height: 200px;
-        overflow-y: auto;
-        /* prevent horizontal scrollbar */
-        overflow-x: hidden;
-        /* add padding to account for vertical scrollbar */
-        padding-right: 20px;
-        min-height: 35px;
-    }
-</style>
-<script type="text/javascript">
-    $(function () {
-        var discovery_parent = $("#discovery-input").parent();
-
-        $.ajax({
-            url: '/course_search_list',
-        }).done(function (data) {
-            var search_arr = data.course_search_list;
-            var $elem = $("#discovery-input").autocomplete({
-                        source: function (request, response) {
-                            var term = $.ui.autocomplete.escapeRegex(request.term)
-                                    , startsWithMatcher = new RegExp("^" + term, "i")
-                                    , startsWith = $.grep(search_arr, function(value) {
-                                return startsWithMatcher.test(value.label || value.value || value);
-                            })
-                                    , containsMatcher = new RegExp(term, "i")
-                                    , contains = $.grep(search_arr, function (value) {
-                                return $.inArray(value, startsWith) < 0 &&
-                                        containsMatcher.test(value.label || value.value || value);
-                            });
-
-                            response(startsWith.concat(contains));
-                        },
-                        sortResults: false,
-                        appendTo: discovery_parent,
-                        matchContains: true,
-                        open: function(event, ui) {
-                            console.log(this);
-                            $(this).autocomplete("widget").css({
-                                "width": "100%",
-                                "position": "absolute",
-                                "z-index": 1001
-                            });
-                            $(this).autocomplete("widget").children('li').css({
-                                "margin-top": "10px",
-                                "margin-left": "10px",
-                                "font-family": '"Nanum Gothic","Open Sans"',
-                                "color": 'block',
-                                //"font-weight": 'bold',
-                                "font-style": 'normal',
-                                "font-size": '15px',
-                                'text-align': '-webkit-match-parent',
-                                'white-space': 'nowrap',
-                                'text-overflow': 'ellipsis',
-                                'max-width': '100%',
-                                'overflow': 'hidden'
-
-                            });
-                        },
-                        focus: function(event, ui) {
-                            return false;
-                            //event.preventDefault();
-                        }
-                    }),
-                    elemAutocomplete = $elem.data("ui-autocomplete") || $elem.data("autocomplete");
-            if (elemAutocomplete) {
-                elemAutocomplete._renderItem = function (ul, item) {
-                    var newText = String(item.value).replace(
-                            new RegExp(this.term, "gi"),
-                            "<span class='ui-state-highlight' style='border: #4587c2; color: #4587c2; font-weight: 900'>$&</span>");
-
-                    return $("<li></li>")
-                            .data("item.autocomplete", item)
-                            .append("<a>" + newText + "</a>")
-                            .appendTo(ul);
-                };
-            }
-
-            var select_search = "";
-            $('.msearch_input').on('autocompleteselect', function (e, ui) {
-                select_search = '"' + ui.item.value + '"';
-                $(".msearch_input").val(select_search);
-                $("#main_form").submit();
-                console.log('You selected: ' + ui.item.value);
+    <script type="text/javascript">
+        $(function () {
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            $(function(){
+                if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                    $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+                }
             });
-        });
-
-
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf("MSIE ");
-        $(function(){
-            if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+            $(document).on('click', '#go1', function(){
+                var url= '/courses';
+                var list_val = $('.course-facets-select option:selected').val();
+                if(list_val){
+                    url = url + '?range=' + list_val;
+                    document.location.href = url;
+                }else{
+                    alert('개강상태를 선택하세요.');
+                }
+            });
+            $(".course-facets-select").change(function () {
+                var url = '/courses';
+                var list_val = $(this).val();
+                if (list_val){
+                    url = url + '?range=' + list_val;
+                }
+                if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+                }else{
+                    location.href = url;
+                }
+            });
+            var p_range = getTermParameter("range");
+            if(p_range != undefined){
+                if(p_range == 'i'|| p_range == 'e' || p_range == 't'){
+					$(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
+				}
             }
-        });
-
-        $(document).on('click', '#go1', function(){
-            var url= '/courses';
-            var list_val = $('.course-facets-select option:selected').val();
-            if(list_val){
-                url = url + '?range=' + list_val;
-                url = url + '&pagepos=l';
-                document.location.href = url;
-            }else{
-                alert('개강상태를 선택하세요.');
-            }
-
-        });
-
-        $(".course-facets-select").change(function () {
-            var url = '/courses';
-            var list_val = $(this).val();
-            if (list_val){
-                url = url + '?range=' + list_val;
-                url = url + '&pagepos=l';
-            }
-            if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-            }else{
-                location.href = url;
-            }
-        });
-
-        var p_range = getTermParameter("range");
-        if(p_range != undefined){
-            if(p_range == 'i'|| p_range == 'e' || p_range == 't'){
-                $(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
+          });
+        var getTermParameter = function (sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
             }
         }
-    });
-
-    var getTermParameter = function (sParam) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    }
-</script>
+    </script>
 % endif
