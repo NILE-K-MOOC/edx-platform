@@ -269,7 +269,6 @@ class RegistrationView(APIView):
                     options=getattr(field, 'choices', None), error_messages=field.error_messages,
                     include_default_option=field_options.get('include_default_option'),
                 )
-
         # Extra fields configured in Django settings
         # may be required, optional, or hidden
         for field_name in self.EXTRA_FIELDS:
@@ -278,7 +277,6 @@ class RegistrationView(APIView):
                     form_desc,
                     required=self._is_field_required(field_name)
                 )
-
         return HttpResponse(form_desc.to_json(), content_type="application/json")
 
     @method_decorator(csrf_exempt)
@@ -336,15 +334,13 @@ class RegistrationView(APIView):
         # for TOS, privacy policy, etc.
         if data.get("honor_code") and "terms_of_service" not in data:
             data["terms_of_service"] = data["honor_code"]
-
         try:
             print 'is_regist check ------------------- s'
             print data['is_regist']
             print 'is_regist check ------------------- e'
 
-
-            if data['is_regist'] is False:
-                raise
+            # if data['is_regist'] == 'false':
+            #    raise ValidationError
             user = create_account_with_params(request, data)
         except ValidationError as err:
 
