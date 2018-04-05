@@ -54,47 +54,7 @@ site_status_msg = get_site_status_msg(course_id)
 </%block>
 
 <!-- memo script (start) -->
-<script>
-$( document ).ready(function() {
-    var user_id = "${user.id if user.is_authenticated() else ''}";
 
-    if (!user_id)
-        return;
-
-    $.ajax({
-        url : '/memo_sync',
-        type: "POST",
-        data : {
-            sync_memo : 'sync_memo',
-            user_id : user_id,
-            csrfmiddlewaretoken: '${ csrf_token }'
-        }
-    }).done(function(data) {
-        $('#cnt').html(data.cnt);
-        var memo_list = data.memo_list;
-        var memo_link = '#';
-
-        if(data.cnt > 0){
-            for(var i = 0 ; i < memo_list.length ; i++){
-                if(memo_list[i].memo_gubun != '1'){
-                    memo_link = 'http://' + memo_list[i].contents;
-                } else {
-                    memo_link = '/memo_view/'+memo_list[i].memo_id;
-                }
-                $("#memo_row").append('<a href="'+memo_link+'" id=link_'+i+'>');
-                $("#link_"+i).append('<div class="b3" id="memo_data_'+i+'">');
-                $("#memo_data_"+i).append('<div class="b4"><span>'+ memo_list[i].title + '</span></div>');
-                $("#memo_data_"+i).append('<div class="b5"><span style="color:#999;">'+ memo_list[i].memo_date + '</span></div>');
-                $("#link_"+i).append('</div>');
-                $("#memo_row").append('</a>');
-            }
-        } else {
-            $("#memo_row").remove();
-        }
-
-    });
-});
-</script>
 <!-- memo script (end) -->
 
 <header id="global-navigation" class="header-global ${"slim" if course else ""}" >
@@ -102,6 +62,9 @@ $( document ).ready(function() {
 
         <div class="header-util" title="${static.get_platform_name()}">
             % if static.get_platform_name() != "K-MOOC":
+            <script>
+                $(".header-global").css("background", "url('/static/images/css/bg_header_dev.gif')");
+            </script>
             <ul class="left list-inline">
                 <li class="left item" style="line-height: 30px;">
                     DEV
@@ -109,18 +72,14 @@ $( document ).ready(function() {
             </ul>
             % endif
 
-            <ul class="right list-inline" style="margin-right: 60px; margin-top: 5px;">
+            <ul class="right list-inline">
 
                 % if user.id:
+                <!--
                 <li class="left item">
-                    <a href="/memo" class="b1">
-                        <img src="/static/images/mail.png">
-                        <i style="text-style: normal; margin-left: 5px;" id="cnt"></i>
-                        <div class="b2" id="memo_row">
-
-                        </div>
-                    </a>
+                    <a href="/memo">${_('MEMO')}(<font id="cnt" color="#0080ff"></font>)</a>
                 </li>
+                -->
                 % endif
 
                 <li class="left item">
@@ -150,19 +109,6 @@ $( document ).ready(function() {
                 </li>
                 -->
 
-                 <!-- app s -->
-                <li class="left item" style="margin-left: 10px;">
-                    <a title="앱 스토어로 새창으로 열림" href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" style="padding: 3px 0px;">
-                        <img alt="app store" src="/static/images/common/ios_app.png">
-                    </a>
-                </li>
-                <li class="left item">
-                    <a title="구글 플레이 새창으로 열림" href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 3px 4px;">
-                        <img alt="google play" src="/static/images/common/google_app.png">
-                    </a>
-                </li>
-                <!-- app e -->
-
                 <li class="left language">
                     <a href="/en" class="${'on' if LANGUAGE_CODE == 'en' else ''}">ENG</a><a href="/ko" class="${'on' if LANGUAGE_CODE == 'ko-kr' else ''}">KOR</a>
                 </li>
@@ -176,7 +122,7 @@ $( document ).ready(function() {
             </button>
             <a href="/">
                 <%block name="navigation_logo">
-                <img src="/static/images/common/logo_top.png" alt="K-MOOC"/>
+                <img src="/static/images/common/logo_top.png" alt="KMOOC"/>
                 </%block>
             </a>
         </h1>
@@ -201,29 +147,26 @@ $( document ).ready(function() {
             % endif
 
             % if 'org' in request.session and request.session['org'] != 'kmooc':
-                <li class="item nav-global-01"><a href="/about" data-hover-label='${_("About Us")}'><span class="effect_label">${_("About Us")}</span></a></li>
+                <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
             % endif
 
             % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
+                <li class="item nav-global-01"><a href="/about">${_("About Us")}</a></li>
+                <li class="item nav-global-02"><a href="/schools">${_("University List")}</a></li>
+                <li class="item nav-global-03"><a href="/courses?pagepos=l">${_("Courses")}</a></li>
+                <!--<li class="item nav-global-03"><a href="/series">${_('Series Course')}</a></li>-->
                 % if LANGUAGE_CODE != 'en':
-            <li class="item nav-global-04"><a href="#" class="hover" data-hover-label='${_("Community")}'><span class="effect_label">${_("Community")}</span></a>
-                <ul class="dropdown-menu" style="width: 120px;">
+                <li class="item nav-global-04"><a href="#" onclick="$(this).next().toggle();return false;">${_("Community")}</a>
+                % endif
+                    <ul class="dropdown-menu">
                         <li id="menu1"><a href="/comm_list/N">공지사항</a></li>
                         <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
                         <li id="menu3"><a href="/comm_list/R">자료실</a></li>
-                        <li id="menu4"><a href="/comm_tabs/kmooc_f/">FAQ</a></li>
+                        <li id="menu4"><a href="/comm_tabs/kmooc_f/">Q&A</a></li>
                     </ul>
                 </li>
-                % endif
-            <li class="item nav-global-01"><a href="/about" data-hover-label='${_("About Us")}'  class="hover"><span class="effect_label">${_("About Us")}</span></a></li>
-            <li class="item nav-global-03"><a href="/courses?pagepos=l" data-hover-label='${_("Courses")}' class="hover"><span class="effect_label">${_("Courses")}</span></a></li>
-            <li class="item nav-global-03"><a href="/series" data-hover-label="${_('Series Course')}" class="hover"><span class="effect_label">${_('Series Course')}</span></a></li>
-            <li class="item nav-global-02"><a href="/schools" data-hover-label='${_("Participating Institutions")}' class="hover"><span class="effect_label">${_("Participating Institutions")}</span></a></li>
-
             % endif
             <li class="item nav-global-05" data-hidden="w"><a href="#" onclick="$(this).parents('ol.nav-global').hide();return false;">${_("Close")}</a></li>
-
-            <!--
             % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
                 <li class="item search-global">
                     <div class="gnb-search-box">
@@ -234,7 +177,6 @@ $( document ).ready(function() {
                     </div>
                 </li>
             % endif
-            -->
         </ol>
 
     </nav>
@@ -253,34 +195,18 @@ $( document ).ready(function() {
 <%include file="help_modal.html"/>
 
 <script type="text/javascript">
-    var window_W = 0;
     $(document).ready(function(){
-        window_W = $(window).width();
-	    nav_resize();
-
+        $(".nav-global-04")
+                .mouseenter(function(){
+                    $(this).find("div").show();
+        })
+                .mouseleave(function(){
+                    $(this).find("div").hide();
+        });
         $(".language a").click(function(){
             var href = $(this).attr("href");
             href = href + "?next="+document.location.pathname;
             $(this).attr("href", href);
         });
-
     });
-    function nav_resize() {
-        window_W = $(window).width();
-        if(window_W<=768) {
-            $('.nav-global-04').unbind('click mouseenter mouseleave hover');
-            $('.nav-global-04').on('click',function(){
-                event.preventDefault();
-                $('.header-global .nav-global .dropdown-menu').toggle();
-            });
-        } else {
-            $('.nav-global-04').on('click', function() {
-                event.preventDefault();
-                var link_hover = $(this).children('a');
-                $(this).children('.dropdown-menu').toggle(0, function(){
-                    $(link_hover).blur();
-                });
-            });
-        }
-    }
 </script>
