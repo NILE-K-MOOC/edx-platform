@@ -275,7 +275,6 @@ $( document ).ready(function() {
             });
         } else {
             $('.nav-global-04').on('click', function() {
-                event.preventDefault();
                 var link_hover = $(this).children('a');
                 $(this).children('.dropdown-menu').toggle(0, function(){
                     $(link_hover).blur();
