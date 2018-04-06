@@ -27,7 +27,7 @@ from django.core.urlresolvers import reverse
                 % if course.audit_yn == 'Y':
                 <span class="course-status over">${_(course.status)}(${_("audit course")})11${course.audit_yn}</span>
                 % else:
-                <span class="course-status over">${_(course.status)}11${course.audit_yn}</span>
+                <span class="course-status over">${_(course.status)}</span>
                 % endif
 
                 <span class="course-title" style="height: 3.4em; !important;">${course.display_name}</span>

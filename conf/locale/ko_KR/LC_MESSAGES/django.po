@@ -28456,7 +28456,7 @@ msgid "study_date"
 msgstr "개강일"
 
 msgid "univ_name"
-msgstr "대학명"
+msgstr "운영기관"
 
 msgid "Previous Courses"
 msgstr "이전 강좌"

@@ -490,7 +490,7 @@ a, span, p {color:inherit;}
 .university-listing:after {content:"";display:table;clear:both;}
 .university-listing li {float:left;width:20%;text-align:center;margin:0;padding:0;}
 .university-listing li img {max-height:100%;max-width:100%;}
-.university-listing li > a {display:block;border:solid 1px #cfcdcf;border-top:0;border-left:0;height:88px;padding:14px 10px 0 10px;box-sizing:border-box;}
+.university-listing li > a {display:block;border:solid 1px #cfcdcf;border-top:0;border-left:0;height:88px;padding:15px 10px 15px 10px;box-sizing:border-box;}
 .university-listing li:nth-child(5n+1) {border-left:solid 1px #cfcdcf;}
 .university-listing li[data-hidden] {display:none;}
 
