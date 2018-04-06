@@ -20,7 +20,6 @@
                 });
 
                 dispatcher.listenTo(form, 'search', function (query) {
-
                     var term = search.getTermParameter('term');
                     var mterm = search.getTermParameter('mterm');
                     var linguistics = search.getTermParameter('linguistics');
@@ -29,7 +28,6 @@
 
                     filters.reset();
                     form.showLoadingIndicator();
-
                     if (term) {
                         filters.add({type: 'classfy', query: term, name: gettext(term)});
                         search.refineSearch(filters.getTerms());

@@ -5,7 +5,6 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 %>
 <%page args="course" expression_filter="h"/>
-
 <article class="course ${course.status}" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="opacity: ${'0.5' if course.has_ended() else '1'}" >
     <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
     <!--
@@ -25,7 +24,12 @@ from django.core.urlresolvers import reverse
         </header>
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
+                % if course.audit_yn == 'Y':
+                <span class="course-status over">${_(course.status)}(${_("audit course")})11${course.audit_yn}</span>
+                % else:
                 <span class="course-status over">${_(course.status)}</span>
+                % endif
+
                 <span class="course-title" style="height: 3.4em; !important;">${course.display_name}</span>
             </h2>
             <div class="course-date" aria-hidden="true" style="position: absolute;">

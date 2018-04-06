@@ -54,12 +54,12 @@ cert_name_long = settings.CERT_NAME_LONG
     }
 
     .sub-end {
-        margin: 10px 0 10px 153px;
+        margin: 10px 0 10px 225px;
         display: none;
     }
 
     .sub-interest {
-        margin: 10px 0 10px 293px;
+        margin: 10px 0 10px 335px;
         display: none;
     }
 
@@ -99,16 +99,19 @@ cert_name_long = settings.CERT_NAME_LONG
                 <h2 class="header-courses">${_("My Courses")}</h2>
 
                 <nav class="faq-tab">
-                    <a href="#" class="on" data-status="ing" title="진행중">${_("ing")}
+                    <a href="#" class="on" data-status="ing" title="진행중">${_("ing course")}
                         <div class="progress"></div>
                     </a>
-                    <a href="#" data-status="end" title="완료">${_("end")}
+                    <a href="#" data-status="audit" title="청강강좌">${_("Audit Course")}
+                        <div class="progress"></div>
+                    </a>
+                    <a href="#" data-status="end" title="완료">${_("complete/end Course")}
                         <div class="progress"></div>
                     </a>
                     <a href="#" data-status="interest" title="관심강좌">${_("interest")}
                         <div class="progress"></div>
                     </a>
-                    <a href="#" data-status="propose" title="추천강좌">${_("propose")}
+                    <a href="#" data-status="propose" title="추천강좌">${_("propose(Beta)")}
                         <div class="progress"></div>
                     </a>
                 </nav>
@@ -170,6 +173,7 @@ cert_name_long = settings.CERT_NAME_LONG
             xhr = $.post("/dashboard", {
                 "status": status
             }, function (data) {
+                console.log(data);
                 $(e.target).find(".progress").stop().animate({
                     width: "100%"
                 }, 50, function () {
