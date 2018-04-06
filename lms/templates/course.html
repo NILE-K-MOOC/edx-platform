@@ -25,7 +25,12 @@ from django.core.urlresolvers import reverse
         </header>
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
-                <span class="course-status over">${_(course.status)}</span>
+                % if course.audit_yn == 'Y':
+                <span class="course-status over">${_(course.status)}(${_("audit course")})11${course.audit_yn}</span>
+                % else:
+                <span class="course-status over">${_(course.status)}11${course.audit_yn}</span>
+                % endif
+
                 <span class="course-title" style="height: 3.4em; !important;">${course.display_name}</span>
             </h2>
             <div class="course-date" aria-hidden="true" style="position: absolute;">

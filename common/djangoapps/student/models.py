@@ -1525,15 +1525,41 @@ class CourseEnrollment(models.Model):
     @classmethod
     def enrollments_for_user_end(cls, user):
         return cls.objects.raw('''
-              SELECT a.*
-                FROM student_courseenrollment      a
-                     LEFT JOIN certificates_generatedcertificate c
-                        ON     a.user_id = c.user_id
-                           AND a.course_id = c.course_id
-                           AND c.status = 'downloadable',
-                     course_overviews_courseoverview b
-               WHERE a.course_id = b.id AND now() > b.end AND a.user_id = %s
-            ORDER BY c.created_date DESC, a.created DESC;
+                    SELECT a.*
+                    FROM student_courseenrollment a
+                         LEFT JOIN certificates_generatedcertificate c
+                            ON     a.user_id = c.user_id
+                               AND a.course_id = c.course_id
+                               AND c.status = 'downloadable'
+                         JOIN course_overview_addinfo d ON a.course_id = d.course_id,
+                         course_overviews_courseoverview b
+                   WHERE     a.course_id = b.id
+                         AND now() > b.end
+                         AND a.user_id = %s
+                         AND a.is_active = 1
+                         AND a.created <= b.enrollment_end
+                ORDER BY c.created_date DESC, a.created DESC;
+
+        ''', [user.id])
+
+    @classmethod
+    def enrollments_for_user_audit(cls, user):
+        return cls.objects.raw('''
+                  SELECT a.*
+                    FROM student_courseenrollment a
+                         LEFT JOIN certificates_generatedcertificate c
+                            ON     a.user_id = c.user_id
+                               AND a.course_id = c.course_id
+                               AND c.status = 'downloadable'
+                         JOIN course_overview_addinfo d ON a.course_id = d.course_id,
+                         course_overviews_courseoverview b
+                   WHERE     a.course_id = b.id
+                         AND now() > b.end
+                         AND a.user_id = %s
+                         AND a.is_active = 1
+                         AND d.audit_yn = 'Y'
+                         AND a.created > b.end
+                ORDER BY c.created_date DESC, a.created DESC;
         ''', [user.id])
 
 
