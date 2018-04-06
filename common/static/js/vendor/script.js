@@ -122,7 +122,7 @@ $(document).ready(function() {
 		});
 
 		$.each($slides, function(index) {
-			if(index == 0){
+			if(index.length == 0){
 				var $button = $('');
 			}else{
 				var $button = $('<a class="slide_btn" id=zone'+index+'>'+$("#pop_title"+index).val()+'</a>');

@@ -16,6 +16,9 @@ from microsite_configuration import microsite
 cert_name_short = settings.CERT_NAME_SHORT
 cert_name_long = settings.CERT_NAME_LONG
 %>
+% if status_flag == 'propose':
+<h3 style='font-family: "Nanum Gothic","Open Sans"; margin-left: 5px; margin-bottom: 30px;'><b>학습자님이 관심 있어 하실만한 강좌를 추천해 드립니다.(기존 수강/청강 신청 강좌 및 강좌 전반 인기도 기반)</b></h3>
+% endif
 
 % if len(course_enrollments) > 0:
 <ul class="listing-courses" id="default_course">

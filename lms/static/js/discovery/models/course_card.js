@@ -19,7 +19,8 @@ define(['backbone'], function (Backbone) {
             image_url: '',
             org: '',
             id: '',
-            status: ''
+            status: '',
+            audit_yn: '',
         }
     });
 
