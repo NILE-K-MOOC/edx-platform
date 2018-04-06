@@ -308,14 +308,6 @@ var DetailsView = ValidatingView.extend({
             return;
         }
 
-        if(!hh || hh == null || hh == ""){
-            hh = "00";
-        }
-
-        if(!mm || mm == null || mm == ""){
-            mm = "00";
-        }
-
         if(hh && hh.length == 1)
             hh = "0" + hh;
         if(mm && mm.length == 1)
