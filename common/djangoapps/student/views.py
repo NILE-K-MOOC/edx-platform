@@ -1070,6 +1070,8 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
     elif status == 'end':
         enrollments = CourseEnrollment.enrollments_for_user_end(user)
+    elif status == 'audit':
+        enrollments = CourseEnrollment.enrollments_for_user_audit(user)
     elif status == 'interest':
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     elif status == 'propose':

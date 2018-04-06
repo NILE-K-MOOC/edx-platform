@@ -7974,8 +7974,9 @@ msgid "Total Enrolled"
 msgstr "총 등록생 수 "
 
 #: lms/djangoapps/shoppingcart/reports.py
+#: lms/templates/courseware/course_about.html
 msgid "Audit Enrollment"
-msgstr "Audit Enrollment"
+msgstr "청강신청하기"
 
 #: lms/djangoapps/shoppingcart/reports.py
 msgid "Honor Code Enrollment"
@@ -8102,7 +8103,7 @@ msgstr "CyberSource를 통해 직접 환불이 이루어집니다."
 #: lms/templates/support/enrollment.html
 #: lms/templates/courseware/legacy_instructor_dashboard.html
 msgid "Enrollment"
-msgstr "수강신청"
+msgstr "수강신청하기"
 
 #: lms/djangoapps/support/views/index.py
 msgid "View and update learner enrollments."
@@ -12776,6 +12777,13 @@ msgstr "{b_start}동기부여: {b_end} 강좌를 마치고 자신에게 추가 �
 #: common/templates/course_modes/choose.html
 msgid "Audit This Course"
 msgstr "이 강좌 청강"
+
+msgid "Audit Course"
+msgstr "청강강좌"
+
+#: lms/templates/course.html
+msgid "audit course"
+msgstr "청강가능"
 
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
@@ -28462,6 +28470,12 @@ msgstr "전체"
 msgid "ing"
 msgstr "진행중"
 
+msgid "ing course"
+msgstr "수강강좌"
+
+msgid "complete/end Course"
+msgstr "이수/종료강좌"
+
 msgid "ing(ing)"
 msgstr "진행중(수강신청 가능)"
 
@@ -28477,8 +28491,8 @@ msgstr "종료"
 msgid "interest"
 msgstr "관심강좌"
 
-msgid "propose"
-msgstr "추천강좌"
+msgid "propose(Beta)"
+msgstr "추천강좌(Beta)"
 
 msgid "none"
 msgstr "미정"
