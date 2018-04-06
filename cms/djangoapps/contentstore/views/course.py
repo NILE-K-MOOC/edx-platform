@@ -549,7 +549,8 @@ def course_listing(request):
         query = """
             SELECT detail_code, detail_name
               FROM code_detail
-             WHERE group_code = 003;
+             WHERE group_code = 003
+             ORDER BY detail_name;
         """
         cur.execute(query)
         org_index = cur.fetchall()
