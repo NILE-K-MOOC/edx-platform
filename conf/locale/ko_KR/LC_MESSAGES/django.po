@@ -1503,11 +1503,11 @@ msgstr "석사 또는 전문대학원 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Bachelor's degree"
-msgstr "학사 학위 소지(=대학교 졸업)"
+msgstr "학사 학위 소지(대학교 졸업)"
 
 #: common/djangoapps/student/models.py
 msgid "Associate degree"
-msgstr "전문학사 학위 소지(=전문대학 졸업)"
+msgstr "전문학사 학위 소지(전문대학 졸업)"
 
 #: common/djangoapps/student/models.py
 msgid "Secondary/high school"
