@@ -24,7 +24,7 @@ strServerName = ""
 iServerPort = 80
 strDomain = ""     # 127.0.0.1:8000
     
-# setting the MA_FPSFM & setting the .matmp file  #    
+# setting the MA_FPSFM & setting the .matmp file  #
 iUseNas = 1        # 1: Not use FM 0: Use FM
 iQuickSet = 1      # 1: Use QuickUrl, 2: Use Service Check
 

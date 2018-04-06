@@ -71,6 +71,13 @@ from openedx.core.djangolib.markup import HTML, Text
     a:hover + p.arrow_box {
       display: block;
     }
+    .equation {
+        color: #fff !important;
+        background-color: #218838 !important;
+        border-color: #1e7e34 !important;
+        background-image: none !important;
+        text-shadow: none !important;
+    }
 
 </style>
 
@@ -100,7 +107,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <ul>
                 % if is_unit_page:
                     <li class="action-item action-editor nav-item">
-                        <a href="javascript:OpenLatexEditor('testbox','html','')" class="button">
+                        <a href="javascript:OpenLatexEditor('testbox','html','')" class="button equation">
                             <span class="action-button-text">수식편집</span>
                         </a><p class="arrow_box">수식편집기는 새창에서 열립니다.</p>
                     </li>
