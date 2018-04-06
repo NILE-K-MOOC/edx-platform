@@ -1232,6 +1232,27 @@ def settings_handler(request, course_key_string):
 
             difficult_degree_list = course_difficult_degree(request, course_key_string)
 
+            print "------------------------------------>"
+            course_lang = settings.ALL_LANGUAGES
+
+            course_lang_tmp = []
+            course_lang_tmp.append([u'ko', u'Korean'])
+            course_lang_tmp.append([u'en', u'English'])
+            course_lang_tmp.append([u'zh_HANS', u'Simplified Chinese'])
+            course_lang_tmp.append([u'zh_HANT', u'Traditional Chinese'])
+            for lang in course_lang:
+                if lang == 'en':
+                    pass
+                elif lang == 'zh_HANS':
+                    pass
+                elif lang == 'zh_HANT':
+                    pass
+                elif lang == 'en':
+                    pass
+                else:
+                    course_lang_tmp.append(lang)
+            print "------------------------------------>"
+
             settings_context = {
                 'context_course': course_module,
                 'teacher_name': teacher_name,
@@ -1245,7 +1266,8 @@ def settings_handler(request, course_key_string):
                 'short_description_editable': short_description_editable,
                 'upload_asset_url': upload_asset_url,
                 'course_handler_url': reverse_course_url('course_handler', course_key),
-                'language_options': settings.ALL_LANGUAGES,
+                #'language_options': settings.ALL_LANGUAGES,
+                'language_options': course_lang_tmp,
                 'credit_eligibility_enabled': credit_eligibility_enabled,
                 'is_credit_course': False,
                 'show_min_grade_warning': False,
