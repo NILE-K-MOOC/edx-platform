@@ -277,7 +277,7 @@ if (
                 </li>
 
                   <li class="field select required" id="field-classfy">
-                    <label for="new-course-">${_("Classification")}</label>
+                    <label for="new-course-classfy">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
                         <option value="">강좌 대분류 선택</option>
                         <option value="hum">인문계열</option>
@@ -384,12 +384,14 @@ if (
         </form>
       </div>
       <script type="text/javascript">
-          function check_2level() {
+          var check_2level = function(){
+              var level_1 = document.getElementById("new-course-org").options[document.getElementById("new-course-org").selectedIndex].value;
+              var level_2 = $('#new-course-number').val();
               $.ajax({
                     url: '/level_Verifi/',
                     data: {
-                        level_1: $('#new-course-org').val(),
-                        level_2: $('#new-course-number').val()
+                        level_1: level_1,
+                        level_2: level_2
                 }
                 }).done(function (data) {
                     if(data != '0') {

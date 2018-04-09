@@ -11,13 +11,13 @@ define(["jquery", "gettext", "common/js/components/utils/view_utils", "js/views/
 
             CreateUtilsFactory.call(this, selectors, classes, keyLengthViolationMessage, keyFieldSelectors, nonEmptyCheckFieldSelectors);
 
-            this.setupOrgAutocomplete = function(){
-                $.getJSON('/organizations', function (data) {
-                    $(selectors.org).autocomplete({
-                        source: data
-                    });
-                });
-            };
+            //this.setupOrgAutocomplete = function(){
+            //    $.getJSON('/organizations', function (data) {
+            //        $(selectors.org).autocomplete({
+            //            source: data
+            //        });
+            //    });
+            //};
 
             this.create = function (courseInfo, errorHandler) {
                 $.postJSON(
