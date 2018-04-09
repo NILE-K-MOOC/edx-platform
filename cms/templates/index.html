@@ -229,7 +229,7 @@ if (
                   <label for="new-course-org">${_("Organization")}</label>
                   ## Translators: This is an example for the name of the organization sponsoring a course, seen when filling out the form to create a new course. The organization name cannot contain spaces.
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
-                  <select onchange="check_2level();" class="new-course-org" id="new-course-org" name="new-course-org">
+                  <select class="new-course-org" id="new-course-org" name="new-course-org" onchange="check_2level();">
                     <option value="">대학선택</option>
                     %for code, name in org_list :
                         <option value="${code}">${name}(${code})</option>
@@ -249,7 +249,7 @@ if (
                   ## Translators: This is an example for the number used to identify a course,
                   ## seen when filling out the form to create a new course. The number here is
                   ## short for "Computer Science 101". It can contain letters but cannot contain spaces.
-                  <input onchange="check_2level();" onkeyup="this.onchange();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
+                  <input onchange="check_2level();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
                   <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
                       br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
@@ -272,7 +272,7 @@ if (
                 </li>
 
                   <li class="field select required" id="field-classfy">
-                    <label for="new-course-">${_("Classification")}</label>
+                    <label for="new-course-classfy">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
                         <option value="">강좌 대분류 선택</option>
                         <option value="hum">인문계열</option>
@@ -379,12 +379,14 @@ if (
         </form>
       </div>
       <script type="text/javascript">
-          function check_2level() {
+          var check_2level = function(){
+              var level_1 = document.getElementById("new-course-org").options[document.getElementById("new-course-org").selectedIndex].value;
+              var level_2 = $('#new-course-number').val();
               $.ajax({
                     url: '/level_Verifi/',
                     data: {
-                        level_1: $('#new-course-org').val(),
-                        level_2: $('#new-course-number').val()
+                        level_1: level_1,
+                        level_2: level_2
                 }
                 }).done(function (data) {
                     if(data != '0') {
@@ -399,7 +401,7 @@ if (
                         $('#new-course-number').parent().attr("class","field text required");
                     }
                 });
-          }
+          };
 
           var bcate = [
                 {'category':
