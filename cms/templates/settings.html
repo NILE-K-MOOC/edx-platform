@@ -404,7 +404,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             <select id="course-language">
                                 <option value="" selected>-미선택-</option>
                                 % for lang, label in language_options:
-                                <option value="${lang}">${label}</option>
+                                <option value="${lang}">${_(label)}</option>
                                 % endfor
                             </select>
                             <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
