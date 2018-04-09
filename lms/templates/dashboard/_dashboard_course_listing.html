@@ -35,7 +35,17 @@ from student.helpers import (
 
 <%namespace name='static' file='../static_content.html'/>
 
-
+<style>
+    .actions-dropdown-list {
+        margin-top: -130px !important;
+    }
+    .actions-dropdown-list:before {
+        content: none !important;
+    }
+    .actions-dropdown-list:after {
+        border: none !important;
+    }
+</style>
 
 <li class="course-item">
   % if settings.FEATURES.get('ENABLE_VERIFIED_CERTIFICATES'):
