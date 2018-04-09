@@ -166,8 +166,12 @@ def MaSetVariable(request):
     strProtocolName = request._get_scheme()
     strHost = request.get_host()
     strSplitHost = strHost.split(":")
-    strServerName = strSplitHost[0]
-    iServerPort = int(strSplitHost[1])   
+    if len(strSplitHost) == 2:
+        strServerName = strSplitHost[0]
+        iServerPort = int(strSplitHost[1])
+    else:
+        strServerName = strSplitHost[0]
+        iServerPort = 80
     
     strDomain = strProtocolName + "://" + strHost
     strDownURL = strDomain + strSubDownURL
