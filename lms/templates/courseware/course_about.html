@@ -25,13 +25,12 @@ from openedx.core.lib.courses import course_image_url
   <script type="text/javascript">
   (function() {
     $(".register").click(function(event) {
-##         alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
         %if not user.is_authenticated():
             alert('${_("You need to register to enrollment.")}');
             location.href = "/login";
         %endif
         $("#class_enroll_form").submit();
-        location.href = "/login";
+        //location.href = "/login";
       event.preventDefault();
     });
 
@@ -348,6 +347,13 @@ a:hover + p.arrow_box {
     border-color: #1e7e34 !important;
     background-image: none !important;
     text-shadow: none !important;
+    box-shadow: none !important;
+}
+.swal-button--cancel {
+    color: #555 !important;
+    background-color: #efefef !important;
+    background-image: none !important;
+    text-shadow: none !important;
 }
 
 </style>
@@ -642,17 +648,29 @@ a:hover + p.arrow_box {
 
             $("#audit_mode").click(function(event) {
                 var login_check = '${user.id}';
-                if( login_check != 'None') {
-                    $.post('/enrollment_verifi', {
-                            course_id: '${course.id}',
-                            user_id: '${user.id}'
-                        },
-                        function (data) {
-                            location.href = "/dashboard";
-                        }
-                    );
-                }
-          });
+                %if user.is_authenticated():
+                swal("본 강좌는 운영기간이 종료되어 청강신청만 가능합니다. 청강자는 동영상 등 강좌콘텐츠에는 접근 가능하지만, 강좌 운영진(교수자, TA)의 학습지원과 이수증은 받을 수 없습니다. 청강신청하시겠습니까?",
+                        {
+                            buttons: {
+                                cancel: "신청하지 않기",
+                                confirm: {text: "신청하기", className: "audit"}
+                            }
+                        }).then(function (isConfirm) {
+                    if (isConfirm == true) {
+                        $.post('/enrollment_verifi', {
+                                    course_id: '${course.id}',
+                                    user_id: '${user.id}'
+                                },
+                                function (data) {
+                                    location.href = "/dashboard";
+                                }
+                        );
+                    } else {
+                        return;
+                    }
+                });
+                %endif
+            });
         </script>
 
       ## CourseTalk widget
