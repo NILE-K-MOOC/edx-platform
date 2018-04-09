@@ -257,7 +257,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     from pymongo import MongoClient
     from bson.objectid import ObjectId
     from django.utils.translation import ugettext_lazy as _
-    client = MongoClient('172.17.101.117', 27017)
+    client = MongoClient('127.0.0.1', 27017)
 
     # db = client.edxapp
     # cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
