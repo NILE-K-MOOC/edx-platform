@@ -1324,7 +1324,7 @@ def course_about(request, course_id):
         d_day = (course_start_val - today_val)
 
         if d_day.days > 0:
-            day = {'day': '/ D-' + str(d_day.days)}
+            day = {'day': 'D-' + str(d_day.days)}
         else:
             day = {'day': ''}
 
@@ -1404,8 +1404,8 @@ def course_about(request, course_id):
                 enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
                 enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
             else:
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y.%m.%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y.%m.%d")}
         else:
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}
@@ -1488,7 +1488,16 @@ def course_about(request, course_id):
         else:
             audit_flag = 'N'
 
-
+        cur = con.cursor()
+        query = """
+            SELECT ifnull(effort, '00:00@0#00:00')
+              FROM course_overviews_courseoverview
+             WHERE id = '{course_id}'
+        """.format(course_id=course_id)
+        cur.execute(query)
+        effort = cur.fetchall()[0][0]
+        cur.close()
+        effort_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else ''
 
         context = {
             'course': course,
@@ -1526,18 +1535,19 @@ def course_about(request, course_id):
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
             # --- REVIEW CONTEXT --- #
-            'review_list' : review_list,
-            'review_email' : review_email,
-            'course_id' : course_id,
-            'already_list' : already_list,
-            'enroll_list' : enroll_list,
-            'course_org' : course_org,
-            'course_number' : course_number,
-            'course_total' : course_total,
-            'login_status' : login_status,
-            'flag' : flag,
-            'pre_course':pre_course,
-            'audit_flag':audit_flag,
+            'review_list': review_list,
+            'review_email': review_email,
+            'course_id': course_id,
+            'already_list': already_list,
+            'enroll_list': enroll_list,
+            'course_org': course_org,
+            'course_number': course_number,
+            'course_total': course_total,
+            'login_status': login_status,
+            'flag': flag,
+            'pre_course': pre_course,
+            'audit_flag': audit_flag,
+            'effort_week': effort_week,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
@@ -2064,8 +2074,8 @@ def mobile_course_about(request, course_id):
                 enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
                 enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
             else:
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y.%m.%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y.%m.%d")}
         else:
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}

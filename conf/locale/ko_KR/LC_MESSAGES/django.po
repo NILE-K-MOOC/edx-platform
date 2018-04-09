@@ -1819,7 +1819,7 @@ msgstr "%Y년%B%d일 %A %H:%M"
 
 #: common/djangoapps/util/date_utils.py
 msgid "SHORT_DATE_FORMAT"
-msgstr "%Y년%b%d일"
+msgstr "%Y.%m.%d"
 
 #: common/djangoapps/util/date_utils.py
 msgid "TIME_FORMAT"
@@ -28457,6 +28457,12 @@ msgstr "개강일"
 
 msgid "univ_name"
 msgstr "운영기관"
+
+msgid "Course Week"
+msgstr "총 주차"
+
+msgid "week"
+msgstr "주"
 
 msgid "Previous Courses"
 msgstr "이전 강좌"

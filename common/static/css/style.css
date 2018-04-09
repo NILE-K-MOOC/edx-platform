@@ -1859,3 +1859,8 @@ a.slide_btn {
 	z-index: 2147483647 !important;
 	opacity: 1;
 }
+
+span.important-dates-item-text.start-date {
+	font-size: 0.9rem;
+}
+

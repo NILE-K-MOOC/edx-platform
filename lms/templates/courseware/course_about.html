@@ -566,6 +566,7 @@ a:hover + p.arrow_box {
         <ol class="important-dates">
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
+            <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Week")}</p><span class="important-dates-item-text prerequisites">${_(effort_week)}${_("week")}</span></li>
                       % if get_course_about_section(request, course, "effort"):
             <li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><p class="important-dates-item-title">${_("Estimated Effort")}</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
           % endif
@@ -640,7 +641,7 @@ a:hover + p.arrow_box {
             </li>
           <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default | h}</span></li>
           % if not course.start_date_is_still_default:
-            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()} ${day['day']}~<br>${course.end_datetime_text()}</span></li>
+            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}<br>${day['day']}</span></li>
           % endif
             ## We plan to ditch end_date (which is not stored in course metadata),
             ## but for backwards compatibility, show about/end_date blob if it exists.
@@ -650,7 +651,7 @@ a:hover + p.arrow_box {
               <li class="important-dates-item">
                   <span class="icon fa fa-calendar" aria-hidden="true"></span>
                   <p class="important-dates-item-title">${_("Course Registration Period")}</p>
-                  <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}~<br>${enroll_edate['enroll_edate']}</span>
+                  <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}~${enroll_edate['enroll_edate']}</span>
               </li>
           % endif
 
