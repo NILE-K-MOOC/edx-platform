@@ -13,7 +13,7 @@ strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
 # strMAServerIP = "127.0.0.1"
-strMAServerIP = "127.0.0.1"
+strMAServerIP = "203.235.44.153"
 iMAServerPort = 18000
 iCellBlockCount = "15"
 iCellBlockRow = "2"
