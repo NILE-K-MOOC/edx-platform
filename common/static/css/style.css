@@ -1342,3 +1342,9 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 #global-navigation {
 	background-color: #fff;
 }
+
+
+span.important-dates-item-text.start-date {
+	font-size: 0.9rem;
+}
+
