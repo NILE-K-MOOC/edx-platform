@@ -23,38 +23,33 @@ from openedx.core.djangolib.markup import HTML, Text
         <!-- text type -->
         % if platform_name == 'K-MOOC':
         <p style="text-align: left; font-weight: bold; margin-top: 5px;" data-test="${platform_name}">
-            안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
-            다음과 같이 서버점검이 진행될 예정입니다.<br/>
-            아래 기간 동안 K-MOOC서비스가 일시 중단될 예정이오니 강좌 수강에 참고하여 주시기 바랍니다.<br/>
-            <br/>
-                <b style="color: blue;">
-                ㅇ 일정 : 2018. 1. 12(금) 21:00 ~ 1. 13(토) 21:00<br/>
-                ㅇ 대상 : K-MOOC 사이트 ( http://www.kmooc.kr )<br/>
-                </b>
-            <br/>
-            사이트 이용이 제한되어 불편하시겠지만 양해 부탁드립니다.<br/>
-            더욱 향상된 서비스를 제공할 수 있도록 최선을 다하겠습니다.<br/>
-            감사합니다.<br/>
+            제목 : `18.4. K-MOOC 플랫폼 업데이트 작업 안내<br>
+            <br>
+            안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br>
+            <br>
+            4월 한달여간 K-MOOC dev 사이트(wwwdev.kmoocs.kr, studiodev.kmoocs.kr)<br>에 대한 업데이트가 순차적으로 진행될 예정입니다.<br>
+            *추후 운영사이트(kmooc.kr,studio.kmooc.kr)에도 반영될 예정<br>
+            <br>
+            수정 및 신규 기능에 대해서는 곧 자세하게 안내될 예정입니다.<br>
+            최고의 강좌를 개발하고 운영할 수 있는 환경을 제공해드릴 수 있도록 최선을 다하겠습니다.<br>
+            감사합니다.<br>
+            <br>
+            K-MOOC운영팀 드림<br>
         </p>
         % else:
         <p style="text-align: left; font-weight: bold; margin-top: 5px;" data-test="${platform_name}">
-            안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
-            다음과 같이 서버점검이 진행될 예정입니다.<br/>
-            <br/>
-                <b style="color: blue;">
-                    ㅇ 일정 : 2018. 1. 12(금) 21:00 ~ 1. 13(토) 21:00<br/>
-                    ㅇ 대상 : K-MOOC 운영사이트 ( http://www.kmooc.kr , http://studio.kmooc.kr/)<br/>
-                    *개발사이트(http://wwwdev.kmoocs.kr/, http://studiodev.kmoocs.kr/ )는 중단없이 이용 가능함<br/>
-                </b>
-            <br/>
-            해당 기간 동안 K-MOOC서비스가 일시 중단될 예정이오니 강좌 수강에 참고하여 주시기 바랍니다.<br/>
-            특히, 중간/기말고사, 퀴즈, 과제 등 제출 기한이 있는 강좌의 경우,<br/>
-            학습자가 참여하시는 데 차질이 없도록 학습자 대상 공지 및 마감일 연장 등을 고려해주시면 감사하겠습니다.<br/>
-            <br/>
-            사이트 이용이 제한되어 불편하시겠지만 양해 부탁드립니다.<br/>
-            보다 향상된 서비스를 제공할 수 있도록 최선을 다하겠습니다.<br/>
-            감사합니다.<br/>
-            <br/>
+            제목 : `18.4. K-MOOC 플랫폼 업데이트 작업 안내<br>
+            <br>
+            안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br>
+            <br>
+            4월 한달여간 K-MOOC dev 사이트(wwwdev.kmoocs.kr, studiodev.kmoocs.kr)<br>에 대한 업데이트가 순차적으로 진행될 예정입니다.<br>
+            *추후 운영사이트(kmooc.kr,studio.kmooc.kr)에도 반영될 예정<br>
+            <br>
+            수정 및 신규 기능에 대해서는 곧 자세하게 안내될 예정입니다.<br>
+            최고의 강좌를 개발하고 운영할 수 있는 환경을 제공해드릴 수 있도록 최선을 다하겠습니다.<br>
+            감사합니다.<br>
+            <br>
+            K-MOOC운영팀 드림<br>
         </p>
         % endif
 
@@ -114,7 +109,7 @@ function closeWin2() {
 }
 cookiedata = document.cookie;
 popupDate = new Date();
-targetDate1 = new Date(2018, 0, 13);
+targetDate1 = new Date(2019, 1, 13);
 targetDate2 = new Date(2017, 11, 22);
 console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
 if (

@@ -1232,6 +1232,27 @@ def settings_handler(request, course_key_string):
 
             difficult_degree_list = course_difficult_degree(request, course_key_string)
 
+            print "------------------------------------>"
+            course_lang = settings.ALL_LANGUAGES
+
+            course_lang_tmp = []
+            course_lang_tmp.append([u'ko', u'Korean'])
+            course_lang_tmp.append([u'en', u'English'])
+            course_lang_tmp.append([u'zh_HANS', u'Simplified Chinese'])
+            course_lang_tmp.append([u'zh_HANT', u'Traditional Chinese'])
+            for lang in course_lang:
+                if lang == 'en':
+                    pass
+                elif lang == 'zh_HANS':
+                    pass
+                elif lang == 'zh_HANT':
+                    pass
+                elif lang == 'en':
+                    pass
+                else:
+                    course_lang_tmp.append(lang)
+            print "------------------------------------>"
+
             settings_context = {
                 'context_course': course_module,
                 'teacher_name': teacher_name,
