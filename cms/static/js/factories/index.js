@@ -2,20 +2,6 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
     'use strict';
     return function (courseNames) {
 
-        console.log('courseNames --- s');
-        console.log(courseNames);
-        console.log('courseNames --- e');
-
-        $("#cms_text").off().unbind().autocomplete({
-                source: courseNames,
-                minLength: 0
-            })
-            .data("ui-autocomplete")._renderItem = function (ul, item) {
-            return $("<div>")
-                .data("ui-autocomplete-item", item)
-                .append("<span>" + item.label + "</span>")
-                .appendTo(ul);
-        };
 
         console.log($("#cms_text").size());
 
@@ -43,7 +29,7 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
                 if (course_tag.indexOf(cms_text) == -1) {
                     $('.course-item').eq(i).hide()
                 }
-                console.log(course_tag);
+                //console.log(course_tag);
             }
 
             if (cms_text == "" || cms_text == null) {
@@ -52,12 +38,15 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
                 }
             }
         }
-
-        $("input").keydown(function (event) {
-            if (event.which === 13) {
+        $("*").keydown(function (event) {
+             if (event.which === 13 && $("#cms_text").is(":focus") == true) {
+                console.log("event call start");
                 studio_search();
-            }
-        });
+                console.log("event call end");
+                $("#cms_text").blur();
+             }
+         });
+
 
         $('#cms_search').click(function (event) {
             studio_search();
