@@ -19,7 +19,6 @@ body {
     background-color: #ddd;
 	font-family:'malgun gothic', 맑은 고딕 !important;
 }
-
 h1, h2, h3, h4, h5, h6, .hd-1, .hd-2, .accomplishment-rendering .accomplishment-statement-lead, .hd-3, .hd-4, .hd-5, .hd-6{
     line-height: inherit !important;
 }
@@ -30,7 +29,6 @@ h1, h2, h3, h4, h5 {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-
 ul{
     border-left: 3px solid #333;
     padding-left: 15px;
@@ -39,7 +37,6 @@ ul{
 ul li{
     list-style:none;
 }
-
 .paper {
     width: 210mm;
     min-height: 297mm;
@@ -53,14 +50,12 @@ ul li{
 ul, .list-bulleted{
     margin-left: 0px !important;
 }
-
 .content {
     padding: 25px;
     border: 4px solid #6c6f73;
     height: 255mm;
 	position:relative;
 }
-
 @page {
     size: A4;
     margin: 0;
@@ -82,7 +77,6 @@ ul, .list-bulleted{
         page-break-after: always;
     }
 }
-
 .ribbon{
 	display: inline-block;
     position: absolute;
@@ -90,9 +84,7 @@ ul, .list-bulleted{
     z-index: 10;
     top: 0px;
 }
-
 h5{margin:0;}
-
 .t-center{
     display:inline-block;
     margin-left: 34px;
@@ -111,7 +103,6 @@ h5{margin:0;}
     text-align:center;
     font-size:11px;
 }
-
 .ce-bg{
 	background:url(${static_url}/static/images/bg.png) no-repeat;
 	width: 643px;
@@ -121,11 +112,9 @@ h5{margin:0;}
     top: 393px;
     left: 68px;
 }
-
 .ce-t-gray{
     color:#959595;
 }
-
 .content h1 {
     font-size:50px;
     margin-bottom: 80px;
@@ -138,7 +127,6 @@ h5{margin:0;}
     margin-top: 0px;
     font-size: 20px;
 }
-
 .ce-center-txt1{
     text-align: center;
     margin: 0 auto;
@@ -148,7 +136,6 @@ h5{margin:0;}
     text-align:center;
     margin-bottom: 50px;
 }
-
 .sign-area{
     display:inline-block;
 	width:100%;
@@ -164,7 +151,6 @@ h5{margin:0;}
     text-indent:-9999px;
     overflow:hidden;
 }
-
 /* logo */
 .ce-logo-area{
     display:inline-block;
@@ -272,7 +258,7 @@ h5{margin:0;}
                                     organization_k = organization_k.split('(')
                                     %>
                                     <div class="t-center">
-                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="서명">
                                         <h5>${teacher[0]} ${title_k[0]}</h5>
                                         <h5>${organization_k[0]}</h5>
                                         <h5>${classfy_k}</h5>
@@ -285,8 +271,8 @@ h5{margin:0;}
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="로고이미지">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
+                    <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">
+                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="교수자 서명"></div>
                 </div>
             </div>
         </div>
@@ -299,9 +285,7 @@ h5{margin:0;}
 
 
 ## <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script>
 
-</script>
 
 <main id="printArea_E" class="accomplishment accomplishment-main" style="display: none">
     <body>
@@ -344,7 +328,7 @@ h5{margin:0;}
                 <h5 class="ce-t-gray">score</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
-                <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.</h2>
+                <h2 class="ce-center-txt1">This certificate will be awarded<br>by completing the above course.</h2>
                 <h5 class="ce-center-txt2">${certificate_date_issued}</h5>
 
                 <div class="sign-none" style="display:none;">사인이 없을때</div>
@@ -377,7 +361,7 @@ h5{margin:0;}
                                     organization_k = organization_k.split('(')
                                     %>
                                     <div class="t-center">
-                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="sign">
                                         <h5>${teacher[1].replace(')','')}</h5>
                                         <h5>${organization_k[1].replace(')','')}</h5>
                                         <h5>${classfy_e}</h5>
@@ -390,7 +374,7 @@ h5{margin:0;}
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="로고이미지">
+                    <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">
                     <div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="국평원"></div>
                 </div>
             </div>
@@ -398,3 +382,10 @@ h5{margin:0;}
     </div>
     </body>
 </main>
+<script>
+    $("img").error(function () {
+        var alt_index = $(this).attr("alt")
+        var class_index = $(this).attr("class")
+        $(this).replaceWith("<p class="+class_index+">" + alt_index + "</p>");
+    });
+</script>

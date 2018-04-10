@@ -51,6 +51,7 @@ from maeps.views import MaFpsTail
 from edxmako.shortcuts import render_to_string
 import commands
 from django.conf import settings
+
 log = logging.getLogger(__name__)
 
 
@@ -93,45 +94,38 @@ def _update_certificate_context(context, user_certificate, platform_name):
     # Populate dynamic output values using the course/certificate data loaded above
     certificate_type = context.get('certificate_type')
 
-    nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
-    nice_authtype       = ''                           # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
-    nice_popgubun       = 'N'                          # Y : 취소버튼 있음 / N : 취소버튼 없음
-    nice_customize      = ''                           # 없으면 기본 웹페이지 / Mobile : 모바일페이지
-    nice_gender         = ''                           # 없으면 기본 선택화면, 0: 여자, 1: 남자
-    nice_reqseq         = 'REQ0000000001'              # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
-                                                       # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun = 'N'  # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+    # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
     # nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
-    nice_returnurl      = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     # nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
-    nice_errorurl       = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    nice_errorurl = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
 
-    nice_returnMsg      = ''
+    nice_returnMsg = ''
 
-    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}'\
-                .format(len(nice_reqseq),nice_reqseq,
-                        len(nice_sitecode),nice_sitecode,
-                        len(nice_authtype),nice_authtype,
-                        len(nice_returnurl),nice_returnurl,
-                        len(nice_errorurl),nice_errorurl,
-                        len(nice_popgubun),nice_popgubun,
-                        len(nice_customize),nice_customize,
-                        len(nice_gender),nice_gender )
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
+        .format(len(nice_reqseq), nice_reqseq,
+                len(nice_sitecode), nice_sitecode,
+                len(nice_authtype), nice_authtype,
+                len(nice_returnurl), nice_returnurl,
+                len(nice_errorurl), nice_errorurl,
+                len(nice_popgubun), nice_popgubun,
+                len(nice_customize), nice_customize,
+                len(nice_gender), nice_gender)
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
     enc_data = commands.getoutput(nice_command)
     context['enc_data'] = enc_data
-
-
-
-
-
-
-
 
     # Override the defaults with any mode-specific static values
     context['certificate_id_number'] = user_certificate.verify_uuid
@@ -190,6 +184,7 @@ def _update_certificate_context(context, user_certificate, platform_name):
         tos_url=context.get('company_tos_url'),
         verified_cert_url=context.get('company_verified_certificate_url'))
 
+
 def _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id):
     """
     Updates context dictionary with basic info required before rendering simplest
@@ -206,6 +201,22 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['logo_index'] = course_id.split('+')[0].split(':')[1]
     cur = con.cursor()
     query = """
+            SELECT detail_name, detail_Ename
+              FROM code_detail
+             WHERE group_code = 003 AND detail_code = '{0}';
+             """.format(context['logo_index'])
+    cur.execute(query)
+    org_name = cur.fetchall()
+    cur.close()
+
+    if (len(org_name) == 0):
+        context['org_name_k'] = context['logo_index']
+        context['org_name_e'] = context['logo_index']
+    else:
+        context['org_name_k'] = org_name[0][0]
+        context['org_name_e'] = org_name[0][1]
+    cur = con.cursor()
+    query = """
             SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
             """.format(course_id)
     cur.execute(query)
@@ -213,11 +224,29 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     cur.close()
     start_date = row[0][1]
     end_date = row[0][2]
-    row = row[0][0].replace('#', '+').replace('@', '+')
-    effort_index = row.split('+')
-    if (len(effort_index) == 3):
-        time = effort_index[0].split(':')
-        all_time = ((int(time[0]) * 60) + int(time[1])) * int(effort_index[1])
+    effort = row[0][0]
+    course_effort = effort.split('@')[0] if effort and '@' in effort else '-'
+    course_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else '-'
+    course_video = effort.split('#')[1] if effort and '#' in effort else '-'
+
+    if (course_effort == '-' or course_week == '-'):
+        context['Learning_h'] = '-'
+        context['Learning_m'] = '-'
+    else:
+        time = course_effort.split(':')
+        all_time = ((int(time[0]) * 60) + int(time[1])) * int(course_week)
+        Learning_m = str(all_time % 60)
+        if len(Learning_m) == 1:
+            Learning_m = Learning_m + '0'
+        context['Learning_h'] = str(all_time / 60)
+        context['Learning_m'] = Learning_m
+    if (course_video == '-'):
+        context['Play_h'] = '-'
+        context['Play_m'] = '-'
+    else:
+        Play_time = course_video.split(':')
+        context['Play_h'] = Play_time[0]
+        context['Play_m'] = Play_time[1]
 
     cur = con.cursor()
     query = """
@@ -226,23 +255,16 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     cur.execute(query)
     row = cur.fetchall()
     cur.close()
+
     grade = int(float(row[0][0]) * 100)
     created_date = row[0][1]
-    Play_time = effort_index[2].split(':')
-    Learning_m = str(all_time % 60)
-    if len(Learning_m) == 1:
-        Learning_m = Learning_m + '0'
 
-    context['Play_h'] = Play_time[0]
-    context['Play_m'] = Play_time[1]
-    context['Learning_h'] = str(all_time/60)
-    context['Learning_m'] = Learning_m
     context['grade'] = str(grade)
     context['created_date'] = created_date
     context['start_date'] = start_date
     context['end_date'] = end_date
 
-    static_url = "http://"+settings.ENV_TOKENS.get('LMS_BASE')
+    static_url = "http://" + settings.ENV_TOKENS.get('LMS_BASE')
 
     context['static_url'] = static_url
 
@@ -272,7 +294,6 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     course_index = course_id.split(':')
     course_index = course_index[1].split('+')
 
-
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
@@ -291,9 +312,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     context['nice_check_flag'] = nice_check_flag[0][0]
 
-    with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
+    with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                                             settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get(
+                                                                     'port')) as client:
         db = client.edxapp
-        cursor = db.modulestore.active_versions.find_one({'org': course_index[0], 'course': course_index[1], 'run': course_index[2]})
+        cursor = db.modulestore.active_versions.find_one(
+            {'org': course_index[0], 'course': course_index[1], 'run': course_index[2]})
         pb = cursor.get('versions').get('published-branch')
         cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
         blocks = cursor.get('blocks')
@@ -312,15 +336,15 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
              WHERE detail_code = '{0}';
             """.format(classfy)
     cur.execute(query)
-    classfy = cur.fetchall()
+    classfy_index = cur.fetchall()
     cur.close()
 
-    if len(classfy) == 0:
-        context['classfy_k'] = 'null'
-        context['classfy_e'] = 'null'
+    if len(classfy_index) == 0:
+        context['classfy_k'] = classfy
+        context['classfy_e'] = classfy
     else:
-        context['classfy_k'] = classfy[0][0]
-        context['classfy_e'] = classfy[0][1]
+        context['classfy_k'] = classfy_index[0][0]
+        context['classfy_e'] = classfy_index[0][1]
 
     # Update the view context with the default ConfigurationModel settings
     context.update(configuration.get('default', {}))
@@ -641,7 +665,7 @@ def _update_organization_context(context, course):
     partner_short_name = course.display_organization if course.display_organization else course.org
     organizations = organization_api.get_course_organizations(course_id=course.id)
     if organizations:
-         #TODO Need to add support for multiple organizations, Currently we are interested in the first one.
+        # TODO Need to add support for multiple organizations, Currently we are interested in the first one.
         organization = organizations[0]
         partner_long_name = organization.get('name', partner_long_name)
         partner_short_name = organization.get('short_name', partner_short_name)

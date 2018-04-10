@@ -34,7 +34,9 @@ def certificate_print(request):
     '''.format(print_index=print_index)
 
     strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
-
+    strHtmlData1 = strHtmlData.split('<script>')
+    strHtmlData2 = strHtmlData1[1].split('</script>')
+    strHtmlData = strHtmlData1[0] + strHtmlData2[1]
 
     if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
         strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
