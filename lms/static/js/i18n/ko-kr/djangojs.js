@@ -269,6 +269,7 @@
     "Automatic": "\uc790\ub3d9",
     "Available to Grade": "\ucc44\uc810\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "Average": "\ubcf4\ud1b5",
+    "AUDIT COURSE": "\uCCAD\uAC15\uAC00\uB2A5",
     "Back to Dashboard": "\ub300\uc2dc\ubcf4\ub4dc\ub85c \ub3cc\uc544 \uac00\uc138\uc694.",
     "Back to problem list": "\ubb38\uc81c \ubaa9\ub85d\uc73c\ub85c \ubcf5\uadc0",
     "Back to sign in": "\ub85c\uadf8\uc778\uc73c\ub85c \ub3cc\uc544\uac00\uae30",
