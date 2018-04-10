@@ -45,7 +45,7 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
                 console.log("event call end");
                 $("#cms_text").blur();
              }
-         });
+        });
 
 
         $('#cms_search').click(function (event) {
