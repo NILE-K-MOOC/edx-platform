@@ -245,13 +245,11 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['Play_m'] = '-'
     else:
         Play_time = course_video.split(':')
-        if (Play_time[0] == ''):
+        if (Play_time[0] == '' or Play_time[1] == ''):
             context['Play_h'] = '-'
-        else:
-            context['Play_h'] = Play_time[0]
-        if (Play_time[1] == ''):
             context['Play_m'] = '-'
         else:
+            context['Play_h'] = Play_time[0]
             context['Play_m'] = Play_time[1]
 
     cur = con.cursor()
