@@ -28877,6 +28877,9 @@ msgstr "인문"
 msgid "Social"
 msgstr "사회"
 
+msgid "Social Sciences"
+msgstr "사회"
+
 msgid "Education"
 msgstr "교육"
 
@@ -28886,10 +28889,19 @@ msgstr "공학"
 msgid "Natural"
 msgstr "자연"
 
+msgid "Natural Sciences"
+msgstr "자연"
+
 msgid "Medical"
 msgstr "의약"
 
+msgid "Medical Sciences"
+msgstr "의약"
+
 msgid "Arts&Physical"
+msgstr "예체능"
+
+msgid "Arts & Physical"
 msgstr "예체능"
 
 msgid "Interdisciplinary"
