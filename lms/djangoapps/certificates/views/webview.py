@@ -228,12 +228,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     course_effort = effort.split('@')[0] if effort and '@' in effort else '-'
     course_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else '-'
     course_video = effort.split('#')[1] if effort and '#' in effort else '-'
+    time = course_effort.split(':')
 
-    if (course_effort == '-' or course_week == '-'):
+    if (course_effort == '-' or course_week == '-' or time[0] == '' or time[1] == ''):
         context['Learning_h'] = '-'
         context['Learning_m'] = '-'
     else:
-        time = course_effort.split(':')
         all_time = ((int(time[0]) * 60) + int(time[1])) * int(course_week)
         Learning_m = str(all_time % 60)
         if len(Learning_m) == 1:
