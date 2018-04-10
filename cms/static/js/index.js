@@ -178,7 +178,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             e.preventDefault();
 
             if (CreateLibraryUtils.hasInvalidRequiredFields()) {
-                return;.
+                return;
             }
 
             var $newLibraryForm = $(this).closest('#create-library-form');

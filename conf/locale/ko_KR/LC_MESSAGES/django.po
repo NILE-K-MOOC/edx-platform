@@ -1499,27 +1499,27 @@ msgstr "박사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Master's or professional degree"
-msgstr "석사 또는 전문대학원 학위 소지"
+msgstr "석사 / 전문대학원 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Bachelor's degree"
-msgstr "학사 학위 소지(대학교 졸업)"
+msgstr "학사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Associate degree"
-msgstr "전문학사 학위 소지(전문대학 졸업)"
+msgstr "전문학사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Secondary/high school"
-msgstr "고등학교 졸업 / 대학교 재학"
+msgstr "고등학교 졸업 (대학교 재학)"
 
 #: common/djangoapps/student/models.py
 msgid "Junior secondary/junior high/middle school"
-msgstr "중학교 졸업 / 고등학교 재학"
+msgstr "중학교 졸업 (고등학교 재학)"
 
 #: common/djangoapps/student/models.py
 msgid "Elementary/primary school"
-msgstr "초등학교 졸업 / 중학교 재학"
+msgstr "초등학교 졸업 (중학교 재학)"
 
 #: common/djangoapps/student/models.py
 msgid "No Formal Education"
@@ -1819,7 +1819,7 @@ msgstr "%Y년%B%d일 %A %H:%M"
 
 #: common/djangoapps/util/date_utils.py
 msgid "SHORT_DATE_FORMAT"
-msgstr "%Y년%b%d일"
+msgstr "%Y.%m.%d"
 
 #: common/djangoapps/util/date_utils.py
 msgid "TIME_FORMAT"
@@ -28456,6 +28456,12 @@ msgstr "개강일"
 
 msgid "univ_name"
 msgstr "운영기관"
+
+msgid "Course Week"
+msgstr "총 주차"
+
+msgid "week"
+msgstr "주"
 
 msgid "Previous Courses"
 msgstr "이전 강좌"

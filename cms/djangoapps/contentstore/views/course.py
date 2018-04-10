@@ -928,7 +928,7 @@ def create_new_course_in_store(store, user, org, number, run, fields):
 
     # Set default language from settings and enable web certs
     fields.update({
-        'language': getattr(settings, 'DEFAULT_COURSE_LANGUAGE', 'en'),
+        'language': getattr(settings, 'DEFAULT_COURSE_LANGUAGE', 'ko'),
         'cert_html_view_enabled': True,
     })
 
@@ -1266,7 +1266,8 @@ def settings_handler(request, course_key_string):
                 'short_description_editable': short_description_editable,
                 'upload_asset_url': upload_asset_url,
                 'course_handler_url': reverse_course_url('course_handler', course_key),
-                'language_options': settings.ALL_LANGUAGES,
+                #'language_options': settings.ALL_LANGUAGES,
+                'language_options': course_lang_tmp,
                 'credit_eligibility_enabled': credit_eligibility_enabled,
                 'is_credit_course': False,
                 'show_min_grade_warning': False,

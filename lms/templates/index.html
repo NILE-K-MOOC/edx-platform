@@ -23,33 +23,35 @@ from openedx.core.djangolib.markup import HTML, Text
         <!-- text type -->
         % if platform_name == 'K-MOOC':
         <p style="text-align: left; font-weight: bold; margin-top: 5px;" data-test="${platform_name}">
-            제목 : `18.4. K-MOOC 플랫폼 업데이트 작업 안내<br>
+            <`18.4. K-MOOC 플랫폼 업데이트 안내><br>
             <br>
             안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br>
             <br>
-            4월 한달여간 K-MOOC dev 사이트(wwwdev.kmoocs.kr, studiodev.kmoocs.kr)<br>에 대한 업데이트가 순차적으로 진행될 예정입니다.<br>
-            *추후 운영사이트(kmooc.kr,studio.kmooc.kr)에도 반영될 예정<br>
+            4월 한 달 여간 K-MOOC dev 사이트(wwwdev.kmoocs.kr, studiodev.kmoocs.kr)에 대한 업데이트가<br>
+            순차적으로 진행될 예정입니다.<br>
+            *추후 운영사이트(kmooc.kr,studio.kmooc.kr)에도 동일하게 반영될 예정<br>
             <br>
             수정 및 신규 기능에 대해서는 곧 자세하게 안내될 예정입니다.<br>
             최고의 강좌를 개발하고 운영할 수 있는 환경을 제공해드릴 수 있도록 최선을 다하겠습니다.<br>
             감사합니다.<br>
             <br>
-            K-MOOC운영팀 드림<br>
+            -K-MOOC운영팀 드림-<br>
         </p>
         % else:
         <p style="text-align: left; font-weight: bold; margin-top: 5px;" data-test="${platform_name}">
-            제목 : `18.4. K-MOOC 플랫폼 업데이트 작업 안내<br>
+            <`18.4. K-MOOC 플랫폼 업데이트 안내><br>
             <br>
             안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br>
             <br>
-            4월 한달여간 K-MOOC dev 사이트(wwwdev.kmoocs.kr, studiodev.kmoocs.kr)<br>에 대한 업데이트가 순차적으로 진행될 예정입니다.<br>
-            *추후 운영사이트(kmooc.kr,studio.kmooc.kr)에도 반영될 예정<br>
+            4월 한 달 여간 K-MOOC dev 사이트(wwwdev.kmoocs.kr, studiodev.kmoocs.kr)에 대한 업데이트가<br>
+            순차적으로 진행될 예정입니다.<br>
+            *추후 운영사이트(kmooc.kr,studio.kmooc.kr)에도 동일하게 반영될 예정<br>
             <br>
             수정 및 신규 기능에 대해서는 곧 자세하게 안내될 예정입니다.<br>
             최고의 강좌를 개발하고 운영할 수 있는 환경을 제공해드릴 수 있도록 최선을 다하겠습니다.<br>
             감사합니다.<br>
             <br>
-            K-MOOC운영팀 드림<br>
+            -K-MOOC운영팀 드림-<br>
         </p>
         % endif
 

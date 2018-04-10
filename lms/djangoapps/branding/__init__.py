@@ -50,7 +50,7 @@ def get_visible_courses(org=None, filter_=None):
 
     with connections['default'].cursor() as cur:
         query = """
-            SELECT course_id, ifnull(classfy, ''), b.audit_yn
+            SELECT course_id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N')
               FROM course_overviews_courseoverview a
                    JOIN course_overview_addinfo b ON a.id = b.course_id
              WHERE delete_yn = 'N' AND a.enrollment_start IS NOT NULL;

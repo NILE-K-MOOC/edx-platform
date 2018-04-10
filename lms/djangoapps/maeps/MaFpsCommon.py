@@ -13,7 +13,7 @@ strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
 # strMAServerIP = "127.0.0.1"
-strMAServerIP = "172.17.101.231"
+strMAServerIP = "203.235.44.153"
 iMAServerPort = 18000
 iCellBlockCount = "15"
 iCellBlockRow = "2"
@@ -166,8 +166,12 @@ def MaSetVariable(request):
     strProtocolName = request._get_scheme()
     strHost = request.get_host()
     strSplitHost = strHost.split(":")
-    strServerName = strSplitHost[0]
-    iServerPort = int(strSplitHost[1])   
+    if len(strSplitHost) == 2:
+        strServerName = strSplitHost[0]
+        iServerPort = int(strSplitHost[1])
+    else:
+        strServerName = strSplitHost[0]
+        iServerPort = 80
     
     strDomain = strProtocolName + "://" + strHost
     strDownURL = strDomain + strSubDownURL
