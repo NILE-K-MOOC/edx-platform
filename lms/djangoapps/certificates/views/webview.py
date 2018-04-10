@@ -245,8 +245,14 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['Play_m'] = '-'
     else:
         Play_time = course_video.split(':')
-        context['Play_h'] = Play_time[0]
-        context['Play_m'] = Play_time[1]
+        if (Play_time[0] == ''):
+            context['Play_h'] = '-'
+        else:
+            context['Play_h'] = Play_time[0]
+        if (Play_time[1] == ''):
+            context['Play_m'] = '-'
+        else:
+            context['Play_m'] = Play_time[1]
 
     cur = con.cursor()
     query = """
@@ -314,7 +320,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
                                                              settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get(
-                                                                     'port')) as client:
+                                                                 'port')) as client:
         db = client.edxapp
         cursor = db.modulestore.active_versions.find_one(
             {'org': course_index[0], 'course': course_index[1], 'run': course_index[2]})
