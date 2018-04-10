@@ -51,9 +51,8 @@ def get_visible_courses(org=None, filter_=None):
     with connections['default'].cursor() as cur:
         query = """
             SELECT course_id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N')
-              FROM course_overviews_courseoverview a
-                   JOIN course_overview_addinfo b ON a.id = b.course_id
-             WHERE delete_yn = 'N' AND a.enrollment_start IS NOT NULL;
+            FROM course_overviews_courseoverview a
+            LEFT JOIN course_overview_addinfo b ON a.id = b.course_id
         """
         cur.execute(query)
         course_tup = cur.fetchall()
@@ -65,7 +64,10 @@ def get_visible_courses(org=None, filter_=None):
         for cour in course_tup:
             if str(c.id) == cour[0]:
                 c.classfy = cour[1]
-                c.audit_yn = cour[2]
+                try:
+                    c.audit_yn = cour[2]
+                except BaseException:
+                    c.audit_yn = 'N'
         if c.start is None or c.start == '' or c.end is None or c.end == '':
             c.status = 'none'
         elif datetime.now(UTC2()) < c.start:
