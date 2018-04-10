@@ -2,30 +2,17 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
     'use strict';
     return function (courseNames) {
 
+        // DEBUG
         console.log('courseNames --- s');
         console.log(courseNames);
         console.log('courseNames --- e');
 
-        $("#cms_text").off().unbind().autocomplete({
-                source: courseNames,
-                minLength: 0
-            })
-            .data("ui-autocomplete")._renderItem = function (ul, item) {
-            return $("<div>")
-                .data("ui-autocomplete-item", item)
-                .append("<span>" + item.label + "</span>")
-                .appendTo(ul);
-        };
+        // 검색 자동 완성 (bug)
+        $("#cms_text").autocomplete({
+                source: courseNames
+        });
 
-        console.log($("#cms_text").size());
-
-        //console.log('courseNames --- s');
-        //console.log(courseNames);
-        //console.log('courseNames --- e');
-
-
-        // showing/hiding creation rights UI
-
+        // 강좌 검색 핵심 함수
         function studio_search() {
             var cms_text = $('#cms_text').val();
             var cnt = $('.course-item').length;
@@ -39,11 +26,9 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
 
             for (var i = 0; i < cnt; i++) {
                 var course_tag = $('.course-item').eq(i).children('.course-link').children('.course-title').text();
-                //if(cms_text != course_tag){
                 if (course_tag.indexOf(cms_text) == -1) {
                     $('.course-item').eq(i).hide()
                 }
-                console.log(course_tag);
             }
 
             if (cms_text == "" || cms_text == null) {
@@ -53,16 +38,22 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
             }
         }
 
-        $("input").keydown(function (event) {
-            if (event.which === 13) {
+        // 강좌 엔터 시 검색 이벤트
+        $("*").keydown(function (event) {
+            if (event.which === 13 && $("#cms_text").is(":focus") == true) {
+                console.log("event call start");
                 studio_search();
+                console.log("event call end");
+                $("#cms_text").blur();
             }
         });
 
+        // 강좌 클릭 시 검색 이벤트
         $('#cms_search').click(function (event) {
             studio_search();
         });
 
+        // -------------------------------------------------------> EDX 기존 로직 [s]
         $('.show-creationrights').click(function (e) {
             e.preventDefault();
             $(this)
@@ -98,13 +89,6 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
                 .find('.label')
                 .text('Submitting Your Request');
         });
-
-        console.log('js/factories/index.js loaded 1  : ' + new Date());
-        $("#cms_text").off().unbind();
-        console.log('event remove done');
-        $("#cms_text").autocomplete({
-            source: courseNames
-        });
-        console.log('js/factories/index.js loaded 2  : ' + new Date());
+        // -------------------------------------------------------> EDX 기존 로직 [e]
     };
 });

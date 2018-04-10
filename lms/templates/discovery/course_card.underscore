@@ -17,7 +17,11 @@
         </header>
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
-                <span class="course-status over"><%- gettext(status) %></span>
+                <% if (course_end == 'Y' && audit_yn == 'Y') { %>
+                    <span class="course-status over"><%- gettext(status) %>(<%- gettext("AUDIT COURSE") %>)</span>
+                <% } else { %>
+                    <span class="course-status over"><%- gettext(status) %></span>
+                <% } %>
                 <span class="course-title"><%- content.display_name %></span>
             </h2>
             <div class="course-date" aria-hidden="true">

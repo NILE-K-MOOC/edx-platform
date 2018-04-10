@@ -597,6 +597,18 @@ def index(request, extra_context=None, user=AnonymousUser()):
         # courses = courses[:8]
         courses = courses
 
+    """
+    for cc in courses:
+        print "-----------------------------> [DEBUG s]"
+        print cc.id
+        print cc.audit_yn
+        print "-----------------------------> [DEBUG e]"
+
+    print "---------------------------------> LAST s"
+    print "courses = ", courses
+    print "---------------------------------> LAST e"
+    """
+
     context = {'courses': courses}
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')

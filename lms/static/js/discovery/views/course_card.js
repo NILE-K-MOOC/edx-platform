@@ -67,6 +67,11 @@ define([
             var nDate = formatDateFull(new Date());
             var sDate = formatDateFull(new Date(data.start));
             var eDate = formatDateFull(new Date(data.end));
+            if (eDate != null && nDate > eDate) {
+                data.course_end = 'Y';
+            } else {
+                data.course_end = 'N';
+            }
 
             if (sDate == null || eDate == null) {
                 data.status = 'none';
