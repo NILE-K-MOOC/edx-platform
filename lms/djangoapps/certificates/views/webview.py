@@ -315,8 +315,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     classfy = cur.fetchall()
     cur.close()
 
-    context['classfy_k'] = classfy[0][0]
-    context['classfy_e'] = classfy[0][1]
+    if len(classfy) == 0:
+        context['classfy_k'] = 'null'
+        context['classfy_e'] = 'null'
+    else:
+        context['classfy_k'] = classfy[0][0]
+        context['classfy_e'] = classfy[0][1]
 
     # Update the view context with the default ConfigurationModel settings
     context.update(configuration.get('default', {}))
