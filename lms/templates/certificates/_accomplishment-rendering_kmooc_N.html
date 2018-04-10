@@ -272,7 +272,7 @@ h5{margin:0;}
                                     organization_k = organization_k.split('(')
                                     %>
                                     <div class="t-center">
-                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="서명">
                                         <h5>${teacher[0]} ${title_k[0]}</h5>
                                         <h5>${organization_k[0]}</h5>
                                         <h5>${classfy_k}</h5>
@@ -285,8 +285,8 @@ h5{margin:0;}
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="로고이미지">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국평원"></div>
+                    <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">
+                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="교수자 서명"></div>
                 </div>
             </div>
         </div>
@@ -299,9 +299,7 @@ h5{margin:0;}
 
 
 ## <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script>
 
-</script>
 
 <main id="printArea_E" class="accomplishment accomplishment-main" style="display: none">
     <body>
@@ -344,7 +342,7 @@ h5{margin:0;}
                 <h5 class="ce-t-gray">score</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
-                <h2 class="ce-center-txt1">This certificate will be awarded by completing the above course.</h2>
+                <h2 class="ce-center-txt1">This certificate will be awarded<br>by completing the above course.</h2>
                 <h5 class="ce-center-txt2">${certificate_date_issued}</h5>
 
                 <div class="sign-none" style="display:none;">사인이 없을때</div>
@@ -377,7 +375,7 @@ h5{margin:0;}
                                     organization_k = organization_k.split('(')
                                     %>
                                     <div class="t-center">
-                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="국평원">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="sign">
                                         <h5>${teacher[1].replace(')','')}</h5>
                                         <h5>${organization_k[1].replace(')','')}</h5>
                                         <h5>${classfy_e}</h5>
@@ -390,7 +388,7 @@ h5{margin:0;}
                 </div>
                 <!-- 로고 -->
                 <div class="ce-logo-area">
-                    <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="로고이미지">
+                    <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">
                     <div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="국평원"></div>
                 </div>
             </div>
@@ -398,3 +396,10 @@ h5{margin:0;}
     </div>
     </body>
 </main>
+<script>
+    $("img").error(function () {
+        var alt_index = $(this).attr("alt")
+        var class_index = $(this).attr("class")
+        $(this).replaceWith("<p class="+class_index+">" + alt_index + "</p>");
+    });
+</script>
