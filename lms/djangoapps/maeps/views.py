@@ -33,8 +33,19 @@ def certificate_print(request):
             </HTML>
     '''.format(print_index=print_index)
 
+    script_del = '''
+    <script>
+        $("img").error(function () {
+            var alt_index = $(this).attr("alt")
+            var class_index = $(this).attr("class")
+            $(this).replaceWith("<p class="+class_index+">" + alt_index + "</p>");
+        });
+    </script>
+    '''
     strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
-
+    strHtmlData1 = strHtmlData.split('<script>')
+    strHtmlData2 = strHtmlData1[1].split('</script>')
+    strHtmlData = strHtmlData1[0] + strHtmlData2[1]
 
     if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
         strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
