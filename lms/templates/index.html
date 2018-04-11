@@ -23,9 +23,9 @@ from openedx.core.djangolib.markup import HTML, Text
         <!-- text type -->
         % if platform_name == 'K-MOOC':
         <p style="text-align: left; font-weight: bold; margin-top: 5px;" data-test="${platform_name}">
-            <a href="http://naver.me/5f0qC64W" target="_blank">
+            <!--<a href="http://naver.me/5f0qC64W" target="_blank">-->
             <img src="/static/images/popup_service.jpg" alt="사이트 만족도 조사 완료">
-            </a>
+            <!--</a>-->
             <!--
             안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
             다음과 같이 서버점검이 진행될 예정입니다.<br/>
@@ -43,9 +43,9 @@ from openedx.core.djangolib.markup import HTML, Text
         </p>
         % else:
         <p style="text-align: left; font-weight: bold; margin-top: 5px;" data-test="${platform_name}">
-            <a href="http://naver.me/5f0qC64W" target="_blank">
+            <!--<a href="http://naver.me/5f0qC64W" target="_blank">-->
             <img src="/static/images/popup_service.jpg" alt="사이트 만족도 조사 완료">
-            </a>
+            <!--</a>-->
             <!--
             안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
             다음과 같이 서버점검이 진행될 예정입니다.<br/>
@@ -129,7 +129,7 @@ function closeWin2() {
 cookiedata = document.cookie;
 
 popupDate = new Date();
-targetDate1 = new Date(2018, 6, 6);
+targetDate1 = new Date(2017, 6, 6);
 targetDate2 = new Date(2017, 11, 22);
 
 console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
