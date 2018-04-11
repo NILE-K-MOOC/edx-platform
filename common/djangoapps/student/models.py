@@ -1537,7 +1537,7 @@ class CourseEnrollment(models.Model):
                          AND now() > b.end
                          AND a.user_id = %s
                          AND a.is_active = 1
-                         AND a.created <= b.enrollment_end
+                         AND a.created <= b.end
                 ORDER BY c.created_date DESC, a.created DESC;
         ''', [user.id])
 
