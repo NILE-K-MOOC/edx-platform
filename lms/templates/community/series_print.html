@@ -35,7 +35,7 @@
 
 
 
-                    <button class="action action-print btn-inverse btn-small" id="action-print-view" OnClick="window.print();">
+                    <button class="action action-print btn-inverse btn-small" id="action-print-view">
                         <span class="icon fa fa-print" aria-hidden="true"></span>
                         시리즈 교육 확인증 인쇄하기
                     </button>
@@ -172,14 +172,33 @@ table, th, td {
     padding:5px;
 }
 </style>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    document.getElementById("action-print-view").addEventListener("click", print_series);
+    function print_series(event) {
+        var print_index = $('#print_index').html();
+        //$.ajax({method: "POST", url: "/certificate_print", data:{print_index: print_index}});
+        var frmPop= document.frmPopup;
+        var url = '/maeps/series_print';
+        window.open('','print_series','옵션');
 
-<script>
+        frmPop.action = url;
+        frmPop.target = 'print_series'; //window,open()의 두번째 인수와 같아야 하며 필수다.
+        frmPop.print_index.value = print_index;
+        frmPop.submit();
+    }
 </script>
-
-
+<form name="frmPopup" method="POST">
+    <input type="hidden" name="print_index">
+</form>
+<div id = "print_index">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            padding:5px;
+        }
+    </style>
 <main id="printArea" class="accomplishment accomplishment-main">
-
-
 <div class="section_frame_container" id="printArea">
     <div class="real_main_title">${_('Series Education Certificate')}</div>
     % if main_list:
@@ -232,10 +251,7 @@ table, th, td {
                 % endfor
             </table>
         </div>
-
-
     </div>
 </div>
-
-
 </main>
+</div>
