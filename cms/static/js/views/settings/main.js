@@ -361,13 +361,6 @@ var DetailsView = ValidatingView.extend({
         var addinfo_user_id = $('#addinfo_user_id').text();
         var course_period = $("#course-effort-week").val();
 
-
-        console.log('Test Index ==============')
-        console.log(addinfo_course_id)
-        console.log(addinfo_user_id)
-        console.log(course_period)
-        console.log('Test Index ==============')
-
         $.post("/modi_course_period", {
             csrfmiddlewaretoken: $.cookie('csrftoken'),
             addinfo_course_id: addinfo_course_id,
