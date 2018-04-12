@@ -1555,7 +1555,7 @@ class CourseEnrollment(models.Model):
                          AND a.is_active = 1
                          AND d.audit_yn = 'Y'
                          AND a.mode = 'audit'
-                ORDER BY c.created_date DESC, a.created DESC;
+                ORDER BY a.created DESC;
         ''', [user.id])
 
 
