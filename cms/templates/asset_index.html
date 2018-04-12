@@ -14,6 +14,21 @@
     path_info = request.path_info
     path_info_split = path_info.split('/')
 %>
+<style>
+    .close {
+        border-radius: 3px;
+        padding: 10px 20px 12px;
+        transition: background-color 0.15s,box-shadow 0.15s;
+        box-shadow: 0 1px 0 rgba(255,255,255,0.3) inset, 0 0 0 transparent;
+        display: inline-block;
+        color: #fff !important;
+        background-color: #4c4c4c !important;
+        border-color: black !important;
+        background-image: none !important;
+        text-shadow: none !important;
+    }
+</style>
+
 % if path_info_split[1] == 'assets':
     ${_("Files & Uploads")}
 % else:
@@ -158,8 +173,15 @@
               method="post" enctype="multipart/form-data">
             <a href="#" class="choose-file-button">${_("Choose File")}</a>
             <input type="file" class="file-input" name="file" multiple>
+            <a href="javascript:pop_close();" style="margin-left: 30px;" class ="close">${_('close')}</a>
         </form>
     </div>
+    <script>
+        function pop_close() {
+            $('.upload-modal').hide();
+            $('.modal-cover').hide();
+        }
+    </script>
 </div>
 % else :
 <div class="upload-modal modal">
