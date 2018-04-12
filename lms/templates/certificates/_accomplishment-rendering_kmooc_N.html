@@ -217,7 +217,7 @@ h5{margin:0!important;}
 
             <div class="content">
 
-                <h5>인증번호 : ${certificate_id_number}</h5>
+                <h5>발급번호 : ${certificate_id_number}</h5>
                 <h5>출력일시 : ${created_date}</h5>
 
                 <h1>이 수 증</h1>
@@ -229,19 +229,19 @@ h5{margin:0!important;}
                 <h4 class="ce-txt-second">${accomplishment_copy_name} ( <img class="check_img" src="/static/images/correct-icon.png"> 실명인증됨)</h4>
                 %endif
 
-                <h5 class="ce-t-gray">교육과정</h5>
+                <h5 class="ce-t-gray">강좌명</h5>
                 <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
                 <blockquote>
                     <ul>
                         <li>강 좌 번 호 : (${course_id})</li>
-                        <li>교 육 기 간 : ${start_date} ~ ${end_date}</li>
-                        <li id="k_box2" >총동영상시간 : ${Play_h}시간 ${Play_m}분</li>
-                        <li id="k_box3" >학습권장시간 : ${Learning_h}시간 ${Learning_m}분</li>
+                        <li>운 영 기 간 : ${start_date} ~ ${end_date}</li>
+                        <li id="k_box2" >총 동영상 재생시간 : ${Play_h}시간 ${Play_m}분</li>
+                        <li id="k_box3" >총 학습권장시간 : ${Learning_h}시간 ${Learning_m}분</li>
                     </ul>
                     <h6>※ 위 정보는 강좌 정보로, 이수자의 실제 학습 정보와는 상이할 수 있습니다.</h6>
                 </blockquote>
                 <div id="k_box1" style="">
-                <h5 class="ce-t-gray">점수</h5>
+                <h5 class="ce-t-gray">성적</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
                 <h2 class="ce-center-txt1">위 과정을 성실히 이수하여<br> 이 증서를 수여 합니다.</h2>
@@ -292,7 +292,7 @@ h5{margin:0!important;}
                 <!-- 로고 -->
                 <div class="ce-logo-area">
                     <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="교수자 서명"></div>
+                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국가평생교육진흥원"></div>
                 </div>
             </div>
         </div>
@@ -333,19 +333,19 @@ h5{margin:0!important;}
                 <h4 class="ce-txt-second"><p id="e_name_text">${accomplishment_copy_name} ( <img class="check_img" src="/static/images/correct-icon.png"> verified real-name)</p></h4>
                 %endif
 
-                <h5 class="ce-t-gray">COURSE</h5>
+                <h5 class="ce-t-gray">COURSE NAME</h5>
                 <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
                 <blockquote>
                     <ul>
                         <li>Course number : (${course_id})</li>
-                        <li>Education period : ${start_date} ~ ${end_date}</li>
-                        <li id="e_box2">Video duration : ${Play_h}hour ${Play_m}minute</li>
-                        <li id="e_box3">Weekly learning time : ${Learning_h}hour ${Learning_m}minute</li>
+                        <li>Course dates : ${start_date} ~ ${end_date}</li>
+                        <li id="e_box2">Total video duration : ${Play_h}hour ${Play_m}minute</li>
+                        <li id="e_box3">Recommended learning time : ${Learning_h}hour ${Learning_m}minute</li>
                     </ul>
                     <h6>※ It may be different from the actual learning information of the applicant.</h6>
                 </blockquote>
                 <div id="e_box1" style="visibility: hidden; margin-bottom: 66px">
-                <h5 class="ce-t-gray">score</h5>
+                <h5 class="ce-t-gray">SCORE</h5>
                 <h4 class="ce-txt-second">${grade}</h4>
                 </div>
                 <h2 class="ce-center-txt1">This certificate will be awarded<br>by completing the above course.</h2>
@@ -392,10 +392,10 @@ h5{margin:0!important;}
                         </div>
                     % endif
                 </div>
-                <!-- 로고 -->
+                <!— 로고 —>
                 <div class="ce-logo-area">
                     <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="국평원"></div>
+                    <div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="NILE"></div>
                 </div>
             </div>
         </div>
