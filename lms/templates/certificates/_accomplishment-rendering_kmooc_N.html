@@ -196,6 +196,10 @@ h5{margin:0!important;}
     width: 200px!important;
     margin-top: 20px!important;
 }
+.check_img {
+    height: 20px;
+    width: 14px;
+}
 </style>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -222,7 +226,7 @@ h5{margin:0!important;}
                 % if nice_check_flag == 0:
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
                 %else:
-                <h4 class="ce-txt-second">${accomplishment_copy_name} (본인인증회원)</h4>
+                <h4 class="ce-txt-second">${accomplishment_copy_name} ( <img class="check_img" src="/static/images/correct-icon.png"> 본인인증 확인)</h4>
                 %endif
 
                 <h5 class="ce-t-gray">교육과정</h5>
@@ -326,7 +330,7 @@ h5{margin:0!important;}
                 % if nice_check_flag == 0:
                 <h4 class="ce-txt-second"><p id="e_name_text">${accomplishment_copy_name}</p></h4>
                 %else:
-                <h4 class="ce-txt-second"><p id="e_name_text">${accomplishment_copy_name} (identification member)</p></h4>
+                <h4 class="ce-txt-second"><p id="e_name_text">${accomplishment_copy_name} ( <img class="check_img" src="/static/images/correct-icon.png"> identification confirm)</p></h4>
                 %endif
 
                 <h5 class="ce-t-gray">COURSE</h5>
