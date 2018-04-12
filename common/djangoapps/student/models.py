@@ -1519,7 +1519,8 @@ class CourseEnrollment(models.Model):
              WHERE     a.course_id = b.id
                    AND now() <= b.end
                    and a.is_active = 1
-                   AND a.user_id = %s;
+                   AND a.user_id = %s
+            ORDER BY b.start DESC;
         ''', [user.id])
 
     @classmethod
@@ -1537,7 +1538,7 @@ class CourseEnrollment(models.Model):
                          AND now() > b.end
                          AND a.user_id = %s
                          AND a.is_active = 1
-                         AND a.created <= b.enrollment_end
+                         AND a.mode != 'audit'
                 ORDER BY c.created_date DESC, a.created DESC;
         ''', [user.id])
 
@@ -1546,10 +1547,6 @@ class CourseEnrollment(models.Model):
         return cls.objects.raw('''
                   SELECT a.*
                     FROM student_courseenrollment a
-                         LEFT JOIN certificates_generatedcertificate c
-                            ON     a.user_id = c.user_id
-                               AND a.course_id = c.course_id
-                               AND c.status = 'downloadable'
                          JOIN course_overview_addinfo d ON a.course_id = d.course_id,
                          course_overviews_courseoverview b
                    WHERE     a.course_id = b.id
@@ -1557,7 +1554,7 @@ class CourseEnrollment(models.Model):
                          AND a.user_id = %s
                          AND a.is_active = 1
                          AND d.audit_yn = 'Y'
-                         AND a.created > b.end
+                         AND a.mode = 'audit'
                 ORDER BY c.created_date DESC, a.created DESC;
         ''', [user.id])
 
@@ -1580,7 +1577,7 @@ class CourseEnrollment(models.Model):
                                    WHERE     aa.org = bb.org
                                          AND aa.display_number_with_default =
                                                 bb.display_number_with_default
-                                         AND aa.start >= bb.start)
+                                         AND aa.start <= bb.start)
                                     AS rank,
                                     start
                             FROM edxapp.course_overviews_courseoverview aa) a
