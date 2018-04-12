@@ -1588,7 +1588,7 @@ def advanced_settings_handler(request, course_key_string):
             audit_yn_dict = {
                 'deprecated': False,
                 'display_name': _("audit_yn"),
-                'help': '',
+                'help': u'Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다.',
                 'value': audit_yn
             }
 

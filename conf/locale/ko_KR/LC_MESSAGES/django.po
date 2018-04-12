@@ -30120,7 +30120,7 @@ msgid "is_course_lock"
 msgstr "강좌잠금 여부"
 
 msgid "audit_yn"
-msgstr "청강모드 여부"
+msgstr "청강허용 여부"
 
 msgid "Maximum score"
 msgstr "최고 점"
