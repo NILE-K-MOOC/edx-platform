@@ -201,6 +201,22 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['logo_index'] = course_id.split('+')[0].split(':')[1]
     cur = con.cursor()
     query = """
+            SELECT plain_data
+              FROM auth_user_nicecheck
+             WHERE user_id = '{0}';
+             """.format(user_id)
+    cur.execute(query)
+    plain_data = cur.fetchall()
+    cur.close()
+    import ast
+    nice_dict = ast.literal_eval(plain_data[0][0])
+    user_name = nice_dict['UTF8_NAME']
+    user_name = urllib.unquote(user_name).decode('utf8')
+    context['user_name'] = user_name
+
+
+    cur = con.cursor()
+    query = """
             SELECT detail_name, detail_Ename
               FROM code_detail
              WHERE group_code = 003 AND detail_code = '{0}';
