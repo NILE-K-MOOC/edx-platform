@@ -1519,7 +1519,8 @@ class CourseEnrollment(models.Model):
              WHERE     a.course_id = b.id
                    AND now() <= b.end
                    and a.is_active = 1
-                   AND a.user_id = %s;
+                   AND a.user_id = %s
+            ORDER BY b.start DESC;
         ''', [user.id])
 
     @classmethod
@@ -1537,7 +1538,7 @@ class CourseEnrollment(models.Model):
                          AND now() > b.end
                          AND a.user_id = %s
                          AND a.is_active = 1
-                         AND a.created <= b.end
+                         AND a.mode != 'audit'
                 ORDER BY c.created_date DESC, a.created DESC;
 
         ''', [user.id])
@@ -1558,7 +1559,7 @@ class CourseEnrollment(models.Model):
                          AND a.user_id = %s
                          AND a.is_active = 1
                          AND d.audit_yn = 'Y'
-                         AND a.created > b.end
+                         AND a.mode = 'audit'
                 ORDER BY c.created_date DESC, a.created DESC;
         ''', [user.id])
 
