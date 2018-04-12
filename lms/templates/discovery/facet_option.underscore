@@ -1,4 +1,4 @@
-<% if (facet != "org"){ %>
+<% if (facet != "org" && term != "all"){ %>
     <li>
      <button data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" class="facet-option discovery-button <%- selected ? 'selected' : '' %>">
          <div style="width:95%;overflow:hidden;text-overflow:ellipsis;float:left;">
