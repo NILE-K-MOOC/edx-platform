@@ -249,6 +249,7 @@
                 },
 
                 submitForm: function (event, target) {
+                    $(window).unbind("beforeunload");
                     $('.submission-error h4').removeClass('hidden');
                     var data = this.getFormData(target);
                     if (!_.isUndefined(event)) {
