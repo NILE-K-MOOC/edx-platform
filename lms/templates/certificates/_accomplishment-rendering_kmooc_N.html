@@ -96,8 +96,8 @@ h5{margin:0!important;}
 
 .t-center{
     display:inline-block!important;
-    margin-left: 34px!important;
-    width:99px!important;
+    margin-left: 45px!important;
+    width:130px!important;
 	float: right!important;
 }
 .t-sign{
@@ -106,7 +106,7 @@ h5{margin:0!important;}
     border-bottom: 1px solid #333;
 }
 .t-center:first-child{
-    margin-left:0!important;
+    margin-right:35px;
 }
 .t-center h5{
     text-align:center!important;
@@ -148,7 +148,7 @@ h5{margin:0!important;}
 }
 .ce-center-txt2{
     text-align:center!important;
-    margin-bottom: 50px!important;
+    margin-bottom: 20px!important;
 }
 
 .sign-area{
@@ -159,6 +159,9 @@ h5{margin:0!important;}
     display:block!important;
     height:80px!important;
     width: 100%!important;
+}
+.sign-area-depth2{
+    margin-bottom: 10px;
 }
 .sign-none{
     display:inline-block!important;
@@ -189,7 +192,7 @@ h5{margin:0!important;}
 }
 .t-sign {
     height: 26px!important;
-    width: 99px!important;
+    width: 130px!important;
 }
 .ce-logo1 {
     height: 35px!important;
@@ -252,9 +255,8 @@ h5{margin:0!important;}
                 <div class="sign-area">
                     % if certificate_data:
                     <div class="sign-area-depth2">
-                        % for signatory in certificate_data.get('signatories', []):
                             <% cnt = 0 %>
-                            % for i in range(0, 10 - len(certificate_data.get('signatories', []))):
+                            % for i in range(0, 8 - len(certificate_data.get('signatories', []))):
                                 <div class="t-center">
                                     <h5></h5>
                                     <h5></h5>
@@ -262,9 +264,10 @@ h5{margin:0!important;}
                                     <h5></h5>
                                 </div>
                                 <% cnt = cnt + 1%>
-                                %if cnt == 5:
+                                %if cnt == 4:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    % for signatory in certificate_data.get('signatories', []):
                                     <%
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
@@ -283,9 +286,9 @@ h5{margin:0!important;}
                                         <h5>${organization_k[0]}</h5>
                                         <h5>${classfy_k}</h5>
                                     </div>
+                                    % endfor
                                 %endif
                             %endfor
-                        % endfor
                         </div>
                     % endif
                 </div>
@@ -356,9 +359,8 @@ h5{margin:0!important;}
                 <div class="sign-area">
                     % if certificate_data:
                     <div class="sign-area-depth2">
-                        % for signatory in certificate_data.get('signatories', []):
                             <% cnt = 0 %>
-                            % for i in range(0, 10 - len(certificate_data.get('signatories', []))):
+                            % for i in range(0, 8 - len(certificate_data.get('signatories', []))):
                                 <div class="t-center">
                                     <h5></h5>
                                     <h5></h5>
@@ -366,9 +368,10 @@ h5{margin:0!important;}
                                     <h5></h5>
                                 </div>
                                 <% cnt = cnt + 1%>
-                                %if cnt == 5:
+                                %if cnt == 4:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    % for signatory in certificate_data.get('signatories', []):
                                     <%
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
@@ -386,8 +389,8 @@ h5{margin:0!important;}
                                         <h5>${organization_k[1].replace(')','')}</h5>
                                         <h5>${classfy_e}</h5>
                                     </div>
+                                    %endfor
                                 %endif
-                            %endfor
                         % endfor
                         </div>
                     % endif
