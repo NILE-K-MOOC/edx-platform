@@ -231,6 +231,10 @@ define([
                                 option.attributes.name = gettext(option.attributes.term);
                                 options2.push(option);
                             });
+                            console.log('Test Index ========')
+                            console.log(options)
+                            console.log(options2)
+                            console.log('Test Index ========')
 
                             //기관명으로 정렬
                             options2.sort(function(a, b){
