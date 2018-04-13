@@ -2,16 +2,15 @@
     <%- gettext(displayName) %>
 </h3>
 
-
 <% if (name == "org"){ %>
-    <select style="width:100%" data-facet="<%- name %>" class="facet-list collapse">
+    <select style="width:100%; height: 27px;" data-facet="<%- name %>" class="course-facets-select">
         <option value="">전체</option>
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </select>
 <% } %>
 
 <% if (name != "org"){ %>
-    <ul style="width:100%" data-facet="<%- name %>" class="facet-list collapse">
+    <ul style="width:100%; height: 27px;" data-facet="<%- name %>" class="course-facets-select">
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </ul>
     <% if (listIsHuge) { %>
