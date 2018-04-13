@@ -630,15 +630,6 @@ a:hover + p.arrow_box {
 
 
             <!-- review -->
-            <li class="important-dates-item">
-            <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Previous Courses")}</p>
-            <select id="pre_course" style="float: right">
-                <option value="${course.id}">${_("Current Course")}</option>
-                % for course_index in pre_course:
-                    <option value="${course_index[1]}">${course_index[0]}</option>
-                % endfor
-            </select>
-            </li>
         </ol>
     </div>
         <script>
