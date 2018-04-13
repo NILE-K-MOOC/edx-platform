@@ -96,8 +96,8 @@ h5{margin:0!important;}
 
 .t-center{
     display:inline-block!important;
-    margin-left: 34px!important;
-    width:99px!important;
+    margin-left: 45px!important;
+    width:130px!important;
 	float: right!important;
 }
 .t-sign{
@@ -106,7 +106,7 @@ h5{margin:0!important;}
     border-bottom: 1px solid #333;
 }
 .t-center:first-child{
-    margin-left:0!important;
+    margin-right:35px;
 }
 .t-center h5{
     text-align:center!important;
@@ -148,7 +148,7 @@ h5{margin:0!important;}
 }
 .ce-center-txt2{
     text-align:center!important;
-    margin-bottom: 50px!important;
+    margin-bottom: 20px!important;
 }
 
 .sign-area{
@@ -159,6 +159,9 @@ h5{margin:0!important;}
     display:block!important;
     height:80px!important;
     width: 100%!important;
+}
+.sign-area-depth2{
+    margin-bottom: 10px;
 }
 .sign-none{
     display:inline-block!important;
@@ -189,11 +192,11 @@ h5{margin:0!important;}
 }
 .t-sign {
     height: 26px!important;
-    width: 99px!important;
+    width: 130px!important;
 }
 .ce-logo1 {
-    height: 35px!important;
-    width: 200px!important;
+    height: 60px!important;
+    width: 180px!important;
     margin-top: 20px!important;
 }
 .check_img {
@@ -233,12 +236,12 @@ h5{margin:0!important;}
                 <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
                 <blockquote>
                     <ul>
-                        <li>강 좌 번 호 : (${course_id})</li>
+                        <li>강 좌 번 호 : ${course_id}</li>
                         <li>운 영 기 간 : ${start_date} ~ ${end_date}</li>
                         <li id="k_box2" >총 동영상 재생시간 : ${Play_h}시간 ${Play_m}분</li>
                         <li id="k_box3" >총 학습권장시간 : ${Learning_h}시간 ${Learning_m}분</li>
                     </ul>
-                    <h6>※ 위 정보는 강좌 정보로, 이수자의 실제 학습 정보와는 상이할 수 있습니다.</h6>
+                    <h6>※ 위 정보는 강좌 운영 정보로, 이수자의 실제 학습이력과는 상이할 수 있습니다.</h6>
                 </blockquote>
                 <div id="k_box1" style="">
                 <h5 class="ce-t-gray">성적</h5>
@@ -252,9 +255,8 @@ h5{margin:0!important;}
                 <div class="sign-area">
                     % if certificate_data:
                     <div class="sign-area-depth2">
-                        % for signatory in certificate_data.get('signatories', []):
                             <% cnt = 0 %>
-                            % for i in range(0, 10 - len(certificate_data.get('signatories', []))):
+                            % for i in range(0, 8 - len(certificate_data.get('signatories', []))):
                                 <div class="t-center">
                                     <h5></h5>
                                     <h5></h5>
@@ -262,9 +264,10 @@ h5{margin:0!important;}
                                     <h5></h5>
                                 </div>
                                 <% cnt = cnt + 1%>
-                                %if cnt == 5:
+                                %if cnt == 4:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    % for signatory in certificate_data.get('signatories', []):
                                     <%
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
@@ -283,9 +286,9 @@ h5{margin:0!important;}
                                         <h5>${organization_k[0]}</h5>
                                         <h5>${classfy_k}</h5>
                                     </div>
+                                    % endfor
                                 %endif
                             %endfor
-                        % endfor
                         </div>
                     % endif
                 </div>
@@ -337,12 +340,12 @@ h5{margin:0!important;}
                 <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
                 <blockquote>
                     <ul>
-                        <li>Course number : (${course_id})</li>
+                        <li>Course number : ${course_id}</li>
                         <li>Course dates : ${start_date} ~ ${end_date}</li>
                         <li id="e_box2">Total video duration : ${Play_h}hour ${Play_m}minute</li>
                         <li id="e_box3">Recommended learning time : ${Learning_h}hour ${Learning_m}minute</li>
                     </ul>
-                    <h6>※ It may be different from the actual learning information of the applicant.</h6>
+                    <h6>※ Above information is course meta data, so could be different from the actual learning history of the learner.</h6>
                 </blockquote>
                 <div id="e_box1" style="visibility: hidden; margin-bottom: 66px">
                 <h5 class="ce-t-gray">SCORE</h5>
@@ -356,9 +359,8 @@ h5{margin:0!important;}
                 <div class="sign-area">
                     % if certificate_data:
                     <div class="sign-area-depth2">
-                        % for signatory in certificate_data.get('signatories', []):
                             <% cnt = 0 %>
-                            % for i in range(0, 10 - len(certificate_data.get('signatories', []))):
+                            % for i in range(0, 8 - len(certificate_data.get('signatories', []))):
                                 <div class="t-center">
                                     <h5></h5>
                                     <h5></h5>
@@ -366,9 +368,10 @@ h5{margin:0!important;}
                                     <h5></h5>
                                 </div>
                                 <% cnt = cnt + 1%>
-                                %if cnt == 5:
+                                %if cnt == 4:
                                     </div>
                                     <div class="sign-area-depth1">
+                                    % for signatory in certificate_data.get('signatories', []):
                                     <%
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
@@ -386,8 +389,8 @@ h5{margin:0!important;}
                                         <h5>${organization_k[1].replace(')','')}</h5>
                                         <h5>${classfy_e}</h5>
                                     </div>
+                                    %endfor
                                 %endif
-                            %endfor
                         % endfor
                         </div>
                     % endif
