@@ -24,6 +24,8 @@ from contentstore.utils import reverse_course_url, reverse_library_url, reverse_
 from models.settings.course_grading import CourseGradingModel
 from util.milestones_helpers import is_entrance_exams_enabled
 
+import logging
+
 __all__ = ['event']
 
 # Note: Grader types are used throughout the platform but most usages are simply in-line
@@ -37,8 +39,10 @@ GRADER_TYPES = {
     "FINAL_EXAM": "Final Exam"
 }
 
-
 def event(request):
+
+    print "----------------------------> def event"
+    logging.info('----------------------------> def event')
     '''
     A noop to swallow the analytics call so that cms methods don't spook and poor developers looking at
     console logs don't get distracted :-)
