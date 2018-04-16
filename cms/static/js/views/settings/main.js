@@ -334,15 +334,18 @@ var DetailsView = ValidatingView.extend({
 
         if(hh && mm && week){
             // 총 이수시간 계산 및 표시
-            var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
-            if(total_time.toString().indexOf(".") > 0){
-                var arr = total_time.toString().split(".");
-                var hour = arr[0];
-                var minute = Math.round(Number(arr[1]) / 10 * 60).toString().substr(0, 2);
+            //var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
+            var total_min = (((Number(hh) * 60) + Number(mm)) * Number(week));
+            var real_hour = Math.floor(total_min/60);
+            var real_min = total_min%60;
 
-                $("#Calculated").val(hour + "시간 " + minute + "분");
-            }else{
-                $("#Calculated").val(total_time + "시간");
+            console.log("real_min = " + real_min);
+
+            if(real_min == 0){
+                $("#Calculated").val(real_hour + "시간 ");
+            }
+            else{
+                $("#Calculated").val(real_hour + "시간 " + real_min + "분");
             }
         }
 
