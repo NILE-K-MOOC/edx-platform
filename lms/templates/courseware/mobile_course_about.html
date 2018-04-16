@@ -273,7 +273,7 @@ from openedx.core.lib.courses import course_image_url
             else:
               href_class = "register"
           %>
-          <a href="${course_link}" class="${href_class}" style="float: right">
+          <a href="${course_link}" class="${href_class}" style="float: right; font-size: 90%;">
 ##           <a href="${reg_href}" class="${href_class}" style="float: right">
 ##             ${_("Enroll in {course_name}").format(course_name=course.display_number_with_default) | h}
                 ${_("Enrollment")}
@@ -297,9 +297,6 @@ from openedx.core.lib.courses import course_image_url
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
       </div>
-      <!-- review -->
-      <%include file="course_review_about.html" />
-      <!-- review -->
   </div>
 
     <div class="course-sidebar">
@@ -378,44 +375,7 @@ from openedx.core.lib.courses import course_image_url
 ##           % endif
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
-            <!-- review -->
-            <li class="important-dates-item">
-                <span class="icon fa fa-info-circle" aria-hidden="true"></span>
-                <p class="important-dates-item-title">rating</p>
-                <span class="important-dates-item-text prerequisites">
-                % if course_total == 0:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".000"></div>
-                </td>
-                % endif
-                % if course_total == 1:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".200"></div>
-                </td>
-                % endif
-                % if course_total == 2:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".400"></div>
-                </td>
-                % endif
-                % if course_total == 3:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".600"></div>
-                </td>
-                % endif
-                % if course_total == 4:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".800"></div>
-                </td>
-                % endif
-                % if course_total == 5:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".1000"></div>
-                </td>
-                % endif
-                </span>
-            </li>
-            <!-- review -->
+
         </ol>
     </div>
 
