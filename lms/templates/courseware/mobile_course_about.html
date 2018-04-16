@@ -24,10 +24,21 @@ from openedx.core.lib.courses import course_image_url
   % endif
   <script type="text/javascript">
   (function() {
+
     $(".register").click(function(event) {
+        %if not user.is_authenticated():
+        %endif
         $("#class_enroll_form").submit();
-        event.preventDefault();
+      event.preventDefault();
     });
+
+      $(".main-cta a").click(function(){
+          var url = $(this).prop("href");
+          console.debug('url check ---------------------------------------- s');
+          console.debug(url);
+          console.debug('url check ---------------------------------------- e');
+          //document.location.href = url;
+      });
 
     % if can_add_course_to_cart:
       add_course_complete_handler = function(jqXHR, textStatus) {
@@ -137,77 +148,7 @@ from openedx.core.lib.courses import course_image_url
                 ${course.display_name_with_default_escaped}
 ##                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
-               <div style="float: right; right: 0; position: absolute; margin-right: 20px;">
-                   % if (flag == 1):
-                   <a id="interest_btn_d" onclick="modi()"><i style="color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
-                   <a id="interest_btn_i" onclick="add()"><i style="display:none; color:red;" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
-                   % else :
-                   <a id="interest_btn_d" onclick="modi()"><i style="display:none; color:red;" onclick="change_i('nomal')" id ="nomal" class="fa fa-heart fa-3x"  aria-hidden="true"></i></a>
-                   <a id="interest_btn_i" onclick="add()"><i style="color:red" onclick="change_i('empty')" id ="empty" class="fa fa-heart-o fa-3x"  aria-hidden="true"></i></a>
-                   % endif
-               </div>
-              <script>
-                  if ( '${login_status}' == 'x') {
-                      $('#interest_btn_d').hide();
-                      $('#interest_btn_i').hide();
-                  }
-                  function add() {
-
-                      try {
-                            var user_id = '${user.id}';
-                            var course_id = '${course.id}';
-                            var action = 'add';
-
-                            $.post("/courses/interest", {
-                                csrfmiddlewaretoken: $.cookie('csrftoken'),
-                                user_id : user_id,
-                                course_id: course_id,
-                                method : action,
-                            }).done(function (data) {
-
-                            }).fail(function (error) {
-                                alert('error = ' + error.responseJSON);
-                            });
-                        } catch (e) {
-                            alert(e);
-                        }
-                  }
-
-                  function modi() {
-                      try {
-                            var user_id = '${user.id}';
-                            var course_id = '${course.id}';
-                            var action = 'modi';
-
-                            $.post("/courses/interest", {
-                                csrfmiddlewaretoken: $.cookie('csrftoken'),
-                                user_id : user_id,
-                                course_id: course_id,
-                                method : action,
-                            }).done(function (data) {
-
-                            }).fail(function (error) {
-                                alert('error = ' + error.responseJSON);
-                            });
-                        } catch (e) {
-                            alert(e);
-                        }
-                  }
-
-
-                  function change_i(id) {
-                      if (id == 'nomal') {
-                        document.getElementById('empty').style.display = '';
-                        document.getElementById('nomal').style.display = 'none';
-                      }
-                      else if (id == 'empty') {
-                        document.getElementById('nomal').style.display = '';
-                        document.getElementById('empty').style.display = 'none';
-                      }
-                  }
-              </script>
             </div>
-
             <br>
             <!--<div>
                 ${short_description['short_description']}
@@ -273,9 +214,7 @@ from openedx.core.lib.courses import course_image_url
             else:
               href_class = "register"
           %>
-          <a href="${course_link}" class="${href_class}" style="float: right">
-##           <a href="${reg_href}" class="${href_class}" style="float: right">
-##             ${_("Enroll in {course_name}").format(course_name=course.display_number_with_default) | h}
+          <a href="${course_link}" class="find-courses" target="_self" style="float: right">
                 ${_("Enrollment")}
           </a>
           <div id="register_error"></div>
@@ -297,9 +236,6 @@ from openedx.core.lib.courses import course_image_url
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
       </div>
-      <!-- review -->
-
-      <!-- review -->
   </div>
 
     <div class="course-sidebar">
@@ -374,13 +310,10 @@ from openedx.core.lib.courses import course_image_url
           </li>
           % endif
 ##           % if get_course_about_section(request, course, "prerequisites"):
-##          <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
+##             <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
 ##           % endif
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
             <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
-            <!-- review -->
-
-            <!-- review -->
         </ol>
     </div>
 
@@ -410,23 +343,4 @@ from openedx.core.lib.courses import course_image_url
 
   </div>
 </div>
-
-## Need to put this hidden form on the page so that the registration button works.
-## Since it's no harm to display a hidden form, we display it with the most permissive conditional
-## which is when the student is not registered.
-%if active_reg_button or is_shib_course:
-  <div style="display: none;">
-    <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
-      <fieldset class="enroll_fieldset">
-        <legend class="sr">${_("Enroll")}</legend>
-        <input name="course_id" type="hidden" value="${course.id | h}">
-        <input name="enrollment_action" type="hidden" value="enroll">
-      </fieldset>
-      <div class="submit">
-        <input name="submit" type="submit" value="${_('enroll')}">
-      </div>
-    </form>
-  </div>
-%endif
-
 <%include file="../video_modal.html" />
