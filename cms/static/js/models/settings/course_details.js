@@ -135,7 +135,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-effort-hh").val()) {
-                    errors.effort = gettext("Chapters must have value");
+                    errors.effort = gettext("Effort time must have values");
                     //$("#course-effort-week").focus();
                 }
                 if ((
@@ -143,7 +143,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-effort-mm").val()) {
-                    errors.effort = gettext("Chapters must have value");
+                    errors.effort = gettext("Effort time must have values");
                     //$("#course-effort-week").focus();
                 }
                 if ((

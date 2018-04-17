@@ -302,7 +302,10 @@ var DetailsView = ValidatingView.extend({
         var week = $("#course-effort-week").val();
         var video_hh = $("#course-video-hh").val();
         var video_mm = $("#course-video-mm").val();
-
+        if (mm > 60) {
+            $("#course-effort-mm").val('');
+            return false;
+        }
         console.log("---------------------------> DEBUG [s]");
         console.log("hh = " + hh);
         console.log("mm = " + mm);
