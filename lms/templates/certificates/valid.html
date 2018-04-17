@@ -4,9 +4,9 @@
 % if user.is_authenticated() and user.id == int(accomplishment_user_id):
 <%include file="_accomplishment-banner.html" />
 % endif
-<%include file="_accomplishment-introduction.html" />
+<!--<%include file="_accomplishment-introduction.html" />-->
 <div id="certifi_print">
-<%include file="_accomplishment-rendering_kmooc_N.html" />
+    <%include file="_accomplishment-rendering_kmooc_N.html" />
 </div>
 <div class="wrapper-about">
     <aside role="complementary" class="about" aria-label="About edX Certificates">
@@ -17,88 +17,99 @@
 <script>
     $('#checkbox2').attr("checked", "checked");
     $('#checkbox3').attr("checked", "checked");
+    $('#checkbox4').attr("checked", "checked");
     /*$('input[type=radio][name=radio]').change(function() {
-        if (this.value == 'K') {
-            $('#printArea_K').css("display","");
-            $('#printArea_E').css("display","none");
-        }
-        else if (this.value == 'E') {
-            $('#printArea_K').css("display","none");
-            $('#printArea_E').css("display","");
-        }
-    });
-    */
+     if (this.value == 'K') {
+     $('#printArea_K').css("display","");
+     $('#printArea_E').css("display","none");
+     }
+     else if (this.value == 'E') {
+     $('#printArea_K').css("display","none");
+     $('#printArea_E').css("display","");
+     }
+     });
+     */
     $('#textbox1').val($(this).is(':checked'));
 
-    $('#checkbox1').change(function() {
-        if($(this).is(":checked")) {
-            $('#k_box1').css("visibility","visible")
-            $('#e_box1').css("visibility","visible")
-        }else{
-            $('#k_box1').css("visibility","hidden")
-            $('#e_box1').css("visibility","hidden")
+    $('#checkbox1').change(function () {
+        if ($(this).is(":checked")) {
+            $('#k_box1').css("visibility", "visible")
+            $('#e_box1').css("visibility", "visible")
+        } else {
+            $('#k_box1').css("visibility", "hidden")
+            $('#e_box1').css("visibility", "hidden")
         }
     });
-    $('#checkbox2').change(function() {
-        if($(this).is(":checked")) {
-            if($('#checkbox3').is(":checked")) {
-                $('#k_box2').css("display","")
-                $('#e_box2').css("display","")
-                $('#k_box1').css("margin-bottom","20px")
-                $('#e_box1').css("margin-bottom","20px")
-            }
-            else{
-                $('#k_box2').css("display","")
-                $('#e_box2').css("display","")
-                $('#k_box1').css("margin-bottom","43px")
-                $('#e_box1').css("margin-bottom","43px")
-            }
-        }else{
-            if($('#checkbox3').is(":checked")) {
-                $('#k_box2').css("display","none")
-                $('#e_box2').css("display","none")
-                $('#k_box1').css("margin-bottom","43px")
-                $('#e_box1').css("margin-bottom","43px")
+    $('#checkbox2').change(function () {
+        if ($(this).is(":checked")) {
+            if ($('#checkbox3').is(":checked")) {
+                $('#k_box2').css("display", "")
+                $('#e_box2').css("display", "")
+                $('#k_box1').css("margin-bottom", "20px")
+                $('#e_box1').css("margin-bottom", "20px")
             }
             else {
-                $('#k_box2').css("display","none")
-                $('#e_box2').css("display","none")
-                $('#k_box1').css("margin-bottom","66px")
-                $('#e_box1').css("margin-bottom","66px")
+                $('#k_box2').css("display", "")
+                $('#e_box2').css("display", "")
+                $('#k_box1').css("margin-bottom", "43px")
+                $('#e_box1').css("margin-bottom", "43px")
             }
-        }
-    });
-    $('#checkbox3').change(function() {
-        if($(this).is(":checked")) {
-            if($('#checkbox2').is(":checked")) {
-                $('#k_box3').css("display","")
-                $('#e_box3').css("display","")
-                $('#k_box1').css("margin-bottom","20px")
-                $('#e_box1').css("margin-bottom","20px")
+        } else {
+            if ($('#checkbox3').is(":checked")) {
+                $('#k_box2').css("display", "none")
+                $('#e_box2').css("display", "none")
+                $('#k_box1').css("margin-bottom", "43px")
+                $('#e_box1').css("margin-bottom", "43px")
             }
             else {
-                $('#k_box3').css("display","")
-                $('#e_box3').css("display","")
-                $('#k_box1').css("margin-bottom","43px")
-                $('#e_box1').css("margin-bottom","43px")
-            }
-        }else{
-            if($('#checkbox2').is(":checked")) {
-                $('#k_box3').css("display","none")
-                $('#e_box3').css("display","none")
-                $('#k_box1').css("margin-bottom","43px")
-                $('#e_box1').css("margin-bottom","43px")
-            }
-            else {
-                $('#k_box3').css("display","none")
-                $('#e_box3').css("display","none")
-                $('#k_box1').css("margin-bottom","66px")
-                $('#e_box1').css("margin-bottom","66px")
+                $('#k_box2').css("display", "none")
+                $('#e_box2').css("display", "none")
+                $('#k_box1').css("margin-bottom", "66px")
+                $('#e_box1').css("margin-bottom", "66px")
             }
         }
     });
-    $('#e_name').change(function() {
-        if (($('#e_name_text').text()).indexOf('(identification member)') >= 0){
+    $('#checkbox3').change(function () {
+        if ($(this).is(":checked")) {
+            if ($('#checkbox2').is(":checked")) {
+                $('#k_box3').css("display", "")
+                $('#e_box3').css("display", "")
+                $('#k_box1').css("margin-bottom", "20px")
+                $('#e_box1').css("margin-bottom", "20px")
+            }
+            else {
+                $('#k_box3').css("display", "")
+                $('#e_box3').css("display", "")
+                $('#k_box1').css("margin-bottom", "43px")
+                $('#e_box1').css("margin-bottom", "43px")
+            }
+        } else {
+            if ($('#checkbox2').is(":checked")) {
+                $('#k_box3').css("display", "none")
+                $('#e_box3').css("display", "none")
+                $('#k_box1').css("margin-bottom", "43px")
+                $('#e_box1').css("margin-bottom", "43px")
+            }
+            else {
+                $('#k_box3').css("display", "none")
+                $('#e_box3').css("display", "none")
+                $('#k_box1').css("margin-bottom", "66px")
+                $('#e_box1').css("margin-bottom", "66px")
+            }
+        }
+    });
+    $('#checkbox4').change(function () {
+        if ($(this).is(":checked")) {
+            $('#k_box4').css("display", "")
+            $('#e_box4').css("display", "")
+        }
+        else {
+            $('#k_box4').css("display", "none")
+            $('#e_box4').css("display", "none")
+        }
+    });
+    $('#e_name').change(function () {
+        if (($('#e_name_text').text()).indexOf('(identification member)') >= 0) {
             $('#e_name_text').text($('#e_name').val() + ' (identification member)');
         }
         else {

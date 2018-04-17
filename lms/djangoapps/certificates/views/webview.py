@@ -248,6 +248,8 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     course_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else '-'
     course_video = effort.split('#')[1] if effort and '#' in effort else '-'
     time = course_effort.split(':')
+    context['course_week'] = course_week
+    context['course_effort'] = course_effort
 
     if (course_effort == '-' or course_week == '-' or time[0] == '' or time[1] == ''):
         context['Learning_h'] = '-'
@@ -270,6 +272,13 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         else:
             context['Play_h'] = Play_time[0]
             context['Play_m'] = Play_time[1]
+    if (course_effort == '-'):
+        context['course_effort_h'] = '-'
+        context['course_effort_m'] = '-'
+    else:
+        course_effort_index = course_effort.split(':')
+        context['course_effort_h'] = course_effort_index[0]
+        context['course_effort_m'] = course_effort_index[1]
 
     cur = con.cursor()
     query = """
