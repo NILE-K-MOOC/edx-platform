@@ -27,8 +27,9 @@ h1, h2, h3, h4, h5 {
     font-weight: 800!important;
 }
 h6 {
-    font-size: 12.5px;
-    margin-bottom: 3px;
+    font-size: 13.5px!important;
+    margin-bottom: 3px!important;
+    margin-top: 0px!important;
 }
 * {
     box-sizing: border-box!important;
@@ -60,7 +61,7 @@ ul, .list-bulleted{
 .content {
     padding: 25px!important;
     border: 4px solid #6c6f73!important;
-    height: 100%!important;
+    height: 90%!important;
     width: 100%!important;
 	position:relative!important;
 }
@@ -100,9 +101,13 @@ h5{margin:0!important;}
 
 .t-center{
     display:inline-block!important;
-    margin-left: 45px!important;
-    width:130px!important;
-	float: right!important;
+    margin-left: 3px!important;
+    width:180px!important;
+	float: left!important;
+}
+.t-center_empty {
+    width: 0px !important;
+    margin: 0px !important;
 }
 .t-sign{
     margin-bottom: 5px;
@@ -110,7 +115,7 @@ h5{margin:0!important;}
     border-bottom: 1px solid #333;
 }
 .t-center:first-child{
-    margin-right:35px;
+    margin-left:3px;
 }
 .t-center h5{
     text-align:center!important;
@@ -118,13 +123,13 @@ h5{margin:0!important;}
 }
 
 .ce-bg{
-	background:url(${static_url}/static/images/bg.png) no-repeat!important;
+	background:url(${static_url}/static/images/bg2.png) no-repeat!important;
 	width: 643px!important;
     height: 232px!important;
     display: inline-block!important;
     position: absolute!important;
     top: 393px!important;
-    left: 68px!important;
+    left: 100px!important;
 }
 
 .ce-t-gray{
@@ -149,6 +154,7 @@ h5{margin:0!important;}
     text-align: center!important;
     margin: 0 auto!important;
     margin-bottom: 20px!important;
+    margin-top: -70px!important;
 }
 .ce-center-txt2{
     text-align:center!important;
@@ -158,11 +164,14 @@ h5{margin:0!important;}
 .sign-area{
     display:inline-block!important;
 	width:100%!important;
+    margin-bottom: -80px;
 }
-.sign-area-depth1, .sign-area-depth2{
+.sign-area-depth1, .sign-area-depth2, .sign-area-depth0{
     display:block!important;
     height:80px!important;
     width: 100%!important;
+    float: left!important;
+    margin-top: 20px;
 }
 .sign-area-depth2{
     margin-bottom: 10px;
@@ -196,16 +205,16 @@ h5{margin:0!important;}
 }
 .t-sign {
     height: 26px!important;
-    width: 130px!important;
+    width: 180px!important;
 }
 .ce-logo1 {
     height: 60px!important;
-    width: 180px!important;
+    width: auto!important;
     margin-top: 20px!important;
 }
 .check_img {
-    height: 20px;
-    width: 14px;
+    height: 20px!important;
+    width: 14px!important;
 }
 </style>
 
@@ -233,7 +242,7 @@ h5{margin:0!important;}
                 % if nice_check_flag == 0:
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
                 %else:
-                <h4 class="ce-txt-second">${user_name} ( <img class="check_img" src="/static/images/correct-icon.png"> 실명인증됨)</h4>
+                <h4 class="ce-txt-second">${user_name} ( <img class="check_img" src="/static/images/correct-icon.png"> 본인인증됨)</h4>
                 %endif
 
                 <h5 class="ce-t-gray">강좌명</h5>
@@ -241,12 +250,16 @@ h5{margin:0!important;}
                 <blockquote>
                     <ul>
                         <li>강 좌 번 호 : ${course_id}</li>
-                        <li>운 영 기 간 : ${start_date} ~ ${end_date}</li>
+                        <%
+                            start_date_index = start_date.split(' ')
+                            end_date_index = end_date.split(' ')
+                        %>
+                        <li>운 영 기 간 : ${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~ ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}</li>
                         <li id="k_box2" >총 동영상 재생시간 : ${Play_h}시간 ${Play_m}분</li>
-                        <li id="k_box3" >총 학습권장시간 : ${Learning_h}시간 ${Learning_m}분</li>
+                        <li id="k_box3" >총 주차 : ${course_week} 주</li>
+                        <li id="k_box4" >주간 학습권장시간 : ${course_effort_h}시간 ${course_effort_m}분</li>
                     </ul>
-                    <h6>※ 총 동영상 재생시간이란 강좌에 포함된 동영상의 총 재생시간을 의미함(홍보동영상 등 강의 내용과 무관한 동영상은 제외)</h6>
-                    <h6>※ 총 학습권장시간이란 강좌 내 동영상 시청, 과제 및 시험 제출, 토론 참여 등 학습활동 전반을 이행하는데 필요한 총 시간을 의미함</h6>
+
                 </blockquote>
                 <div id="k_box1" style="">
                 <h5 class="ce-t-gray">성적</h5>
@@ -261,19 +274,30 @@ h5{margin:0!important;}
                     % if certificate_data:
                     <div class="sign-area-depth2">
                             <% cnt = 0 %>
-                            % for i in range(0, 8 - len(certificate_data.get('signatories', []))):
-                                <div class="t-center">
+                            % for i in range(0, 10):
+                                <% cnt = cnt + 1%>
+                                %if i < 10 - len(certificate_data.get('signatories', [])):
+                                <div class="t-center_empty">
                                     <h5></h5>
                                     <h5></h5>
                                     <h5></h5>
                                     <h5></h5>
                                 </div>
-                                <% cnt = cnt + 1%>
-                                %if cnt == 4:
+                                    %if cnt == 5:
                                     </div>
                                     <div class="sign-area-depth1">
-                                    % for signatory in certificate_data.get('signatories', []):
+                                    %endif
+                                %elif i >= 10 - len(certificate_data.get('signatories', [])):
+                                    %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                    %elif cnt == 9:
+                                    </div>
+                                    <div class="sign-area-depth0">
+                                    %endif
                                     <%
+                                    signatory_index = i - len(certificate_data.get('signatories', []))
+                                    signatory = certificate_data.get('signatories', [])[signatory_index]
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
                                         teacher = teacher +'('+ teacher
@@ -291,7 +315,6 @@ h5{margin:0!important;}
                                         <h5>${organization_k[0]}</h5>
                                         <h5>${classfy_k}</h5>
                                     </div>
-                                    % endfor
                                 %endif
                             %endfor
                         </div>
@@ -300,9 +323,11 @@ h5{margin:0!important;}
                 <!-- 로고 -->
                 <div class="ce-logo-area">
                     <img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국가평생교육진흥원"></div>
+                    <!--<div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국가평생교육진흥원"></div>-->
                 </div>
             </div>
+            <h6>※ 총 동영상 재생시간 : 강의내용과 관련된 동영상 재생시간</h6>
+            <h6>※ 주간 학습권장시간 : 주별 강좌 내 동영상 시청, 과제 및 시험 제출, 토론 참여 등 학습활동 전반을 이행하는데 필요한 시간</h6>
         </div>
     </div>
     </body>
@@ -317,7 +342,6 @@ h5{margin:0!important;}
 
 <main id="printArea_E" class="accomplishment accomplishment-main" style="display: none">
     <body>
-
     <div>
         <div class="paper">
             <div class="ce-bg"></div>
@@ -346,11 +370,11 @@ h5{margin:0!important;}
                 <blockquote>
                     <ul>
                         <li>Course number : ${course_id}</li>
-                        <li>Course dates : ${start_date} ~ ${end_date}</li>
+                        <li>Course dates : ${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~ ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}</li>
                         <li id="e_box2">Total video duration : ${Play_h}hour ${Play_m}minute</li>
-                        <li id="e_box3">Recommended learning time : ${Learning_h}hour ${Learning_m}minute</li>
+                        <li id="e_box3">Total week : ${course_week} weeks</li>
+                        <li id="e_box4">Recommended learning time : ${course_effort_h}hour ${course_effort_m}minute</li>
                     </ul>
-                    <h6>※ Above information is course meta data, so could be different from the actual learning history of the learner.</h6>
                 </blockquote>
                 <div id="e_box1" style="visibility: hidden; margin-bottom: 66px">
                 <h5 class="ce-t-gray">SCORE</h5>
@@ -365,19 +389,30 @@ h5{margin:0!important;}
                     % if certificate_data:
                     <div class="sign-area-depth2">
                             <% cnt = 0 %>
-                            % for i in range(0, 8 - len(certificate_data.get('signatories', []))):
-                                <div class="t-center">
+                            % for i in range(0, 10):
+                                <% cnt = cnt + 1%>
+                                %if i < 10 - len(certificate_data.get('signatories', [])):
+                                <div class="t-center_empty">
                                     <h5></h5>
                                     <h5></h5>
                                     <h5></h5>
                                     <h5></h5>
                                 </div>
-                                <% cnt = cnt + 1%>
-                                %if cnt == 4:
+                                    %if cnt == 5:
                                     </div>
                                     <div class="sign-area-depth1">
-                                    % for signatory in certificate_data.get('signatories', []):
+                                    %endif
+                                %elif i >= 10 - len(certificate_data.get('signatories', [])):
+                                    %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                    %elif cnt == 9:
+                                    </div>
+                                    <div class="sign-area-depth0">
+                                    %endif
                                     <%
+                                    signatory_index = i - len(certificate_data.get('signatories', []))
+                                    signatory = certificate_data.get('signatories', [])[signatory_index]
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
                                         teacher = teacher +'('+ teacher
@@ -394,18 +429,18 @@ h5{margin:0!important;}
                                         <h5>${organization_k[1].replace(')','')}</h5>
                                         <h5>${classfy_e}</h5>
                                     </div>
-                                    %endfor
                                 %endif
-                        % endfor
+                            %endfor
                         </div>
                     % endif
                 </div>
                 <!— 로고 —>
                 <div class="ce-logo-area">
                     <img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">
-                    <div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="NILE"></div>
+                    <!--<div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="NILE"></div>-->
                 </div>
             </div>
+            <h6>※ Above information is course meta data, so could be different from the actual learning history of the learner.</h6>
         </div>
     </div>
     </body>
