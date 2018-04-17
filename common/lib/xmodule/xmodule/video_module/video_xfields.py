@@ -32,7 +32,7 @@ class VideoFields(object):
     lock = Float(
         help=_("score control"),
         scope=Scope.user_state,
-        default=0.0
+        default=1.0
     )
 
     #### video progress check ####
