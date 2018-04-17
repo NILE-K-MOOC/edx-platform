@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 XFields for video module.
 """
@@ -16,8 +17,8 @@ class VideoFields(object):
     #### video progress check ####
 
     has_score = Boolean(
-        help=_("Assign score"),
-        display_name=_("Progress check"),
+        help=_("If you set the value to 'True', the video progress check is enabled."),
+        display_name=_("Enable video progress check"),
         scope=Scope.settings,
         default=False
     )
@@ -31,7 +32,7 @@ class VideoFields(object):
     lock = Float(
         help=_("score control"),
         scope=Scope.user_state,
-        default=0.0
+        default=1.0
     )
 
     #### video progress check ####

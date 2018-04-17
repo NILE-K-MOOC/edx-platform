@@ -30029,7 +30029,11 @@ msgstr "공개 날짜"
 msgid "You can save your progress and return to complete your response at any time before the due date"
 msgstr "현재 상태를 저장 후, 마감일 전까지 언제든 답변을 완성할 수 있습니다."
 
+msgid "Enable video progress check"
+msgstr "동영상 진도체크 활성화"
 
+msgid "If you set the value to 'True', the video progress check is enabled."
+msgstr "'True'로 값을 설정할 경우 동영상 진도체크가 활성화 됩니다."
 
 #-------------------------------------------------------------------------------------------------------
 

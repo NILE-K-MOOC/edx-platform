@@ -163,12 +163,12 @@
                                         dataType: 'json',
                                         data: data,
                                         success: function(msg){
-                                            if ((avgPoint > 95) && (score_mode == true) && (seek_mode == false)){
-                                                alert("video completed")
+                                            if ((avgPoint > 90) && (score_mode == true) && (seek_mode == false)){
+                                                //alert("video completed");
                                             }
                                         },
                                         error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                            alert("video check error");
+                                            //alert("video check error");
                                         }
                                 });
                         }

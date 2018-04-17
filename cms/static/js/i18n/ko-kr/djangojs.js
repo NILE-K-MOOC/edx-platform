@@ -1892,6 +1892,9 @@
     "English": "\uc601\uc5b4",
     "Korean": "\ud55c\uad6d\uc5b4",
     "Chinese": "\uc911\uad6d\uc5b4",
+
+    "Enable video progress check": "\ub3d9\uc601\uc0c1 \uc9c4\ub3c4\uccb4\ud06c \ud65c\uc131\ud654",
+    "If you set the value to 'True', the video progress check is enabled.": "\u0027\u0054\u0072\u0075\u0065\u0027\ub85c \uac12\uc744 \uc124\uc815\ud560 \uacbd\uc6b0 \ub3d9\uc601\uc0c1 \uc9c4\ub3c4\uccb4\ud06c\uac00 \ud65c\uc131\ud654 \ub429\ub2c8\ub2e4\u002e",
   };
 
   django.gettext = function (msgid) {
