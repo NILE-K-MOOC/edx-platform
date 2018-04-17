@@ -309,19 +309,6 @@ var DetailsView = ValidatingView.extend({
         console.log("week = " + week);
         console.log("---------------------------> DEBUG [e]");
 
-        if(hh == ''){
-            //$("#course-effort").trigger("change");
-            return false;
-        }
-        if(mm == ''){
-            //$("#course-effort").trigger("change");
-            return false;
-        }
-        if(week == ''){
-            //$("#course-effort").trigger("change");
-            return false;
-        }
-
         if(hh && hh.length == 1)
             hh = "0" + hh;
         if(mm && mm.length == 1)
@@ -394,23 +381,6 @@ var DetailsView = ValidatingView.extend({
         });
     },
     overviewLayerVaidate: function(){
-        var hh = $("#course-effort-hh").val();
-        var mm = $("#course-effort-mm").val();
-        var week = $("#course-effort-week").val();
-
-        if(hh == ''){
-            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
-            return false;
-        }
-        if(mm == ''){
-            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
-            return false;
-        }
-        if(week == ''){
-            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
-            return false;
-        }
-
         $(".overview-modal").find(".message-error").remove();
 
         if($("#overview-tab1 textarea").val() == ""){

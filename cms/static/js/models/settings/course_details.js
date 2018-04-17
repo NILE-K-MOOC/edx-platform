@@ -134,6 +134,22 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
+                    newattrs.enrollment_end != null) && !$("#course-effort-hh").val()) {
+                    errors.effort = gettext("Chapters must have value");
+                    //$("#course-effort-week").focus();
+                }
+                if ((
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null &&
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null) && !$("#course-effort-mm").val()) {
+                    errors.effort = gettext("Chapters must have value");
+                    //$("#course-effort-week").focus();
+                }
+                if ((
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null &&
+                    newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-video-hh").val()) {
                     errors.effort = gettext("Video time must have value");
                     //$("#course-video-mm").focus();
