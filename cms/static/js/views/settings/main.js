@@ -303,9 +303,23 @@ var DetailsView = ValidatingView.extend({
         var video_hh = $("#course-video-hh").val();
         var video_mm = $("#course-video-mm").val();
 
-        if(isNaN(hh) || isNaN(mm)|| isNaN(week)){
-            $("#course-effort").trigger("change");
-            return;
+        console.log("---------------------------> DEBUG [s]");
+        console.log("hh = " + hh);
+        console.log("mm = " + mm);
+        console.log("week = " + week);
+        console.log("---------------------------> DEBUG [e]");
+
+        if(hh == ''){
+            //$("#course-effort").trigger("change");
+            return false;
+        }
+        if(mm == ''){
+            //$("#course-effort").trigger("change");
+            return false;
+        }
+        if(week == ''){
+            //$("#course-effort").trigger("change");
+            return false;
         }
 
         if(hh && hh.length == 1)
@@ -380,6 +394,23 @@ var DetailsView = ValidatingView.extend({
         });
     },
     overviewLayerVaidate: function(){
+        var hh = $("#course-effort-hh").val();
+        var mm = $("#course-effort-mm").val();
+        var week = $("#course-effort-week").val();
+
+        if(hh == ''){
+            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
+            return false;
+        }
+        if(mm == ''){
+            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
+            return false;
+        }
+        if(week == ''){
+            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
+            return false;
+        }
+
         $(".overview-modal").find(".message-error").remove();
 
         if($("#overview-tab1 textarea").val() == ""){
