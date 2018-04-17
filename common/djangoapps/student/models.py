@@ -1520,6 +1520,7 @@ class CourseEnrollment(models.Model):
                    AND now() <= b.end
                    and a.is_active = 1
                    AND a.user_id = %s
+                   AND a.mode != 'audit'
             ORDER BY b.start DESC;
         ''', [user.id])
 
