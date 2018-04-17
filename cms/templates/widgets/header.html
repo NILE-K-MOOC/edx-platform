@@ -42,7 +42,7 @@
             if settings.FEATURES.get("CERTIFICATES_HTML_VIEW") and context_course.cert_html_view_enabled:
                 certificates_url = reverse('contentstore.views.certificates.certificates_list_handler', kwargs={'course_key_string': unicode(course_key)})
       %>
-      <h2 class="info-course">
+      <h2 class="info-course" style="width: 33%;">
         <span class="sr">${_("Current Course:")}</span>
 
         <a class="course-link" href="${index_url}">

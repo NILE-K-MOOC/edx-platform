@@ -263,7 +263,7 @@ if (
                   <li class="field select required" id="field-classfy">
                     <label for="new-course-classfy">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -277,11 +277,11 @@ if (
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
 
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" onchange="middle_classfy_sub(1)">
-                        <option value="">강좌 중분류 선택</option>
+                        <option value="">중분류 선택</option>
                     </select>
                     <br>
                     <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">주 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -297,7 +297,7 @@ if (
                     </select>
 
                     <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">보조 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -312,7 +312,7 @@ if (
                     </select>
 
                     <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">보조 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -502,7 +502,7 @@ if (
         var input_middle_classfy = function(selectbox, m_info){
 
             var option = document.createElement("option");
-            option.text = "강좌 중분류 선택";
+            option.text = "중분류 선택";
             option.value = null;
 
             selectbox.appendChild(option);
@@ -567,7 +567,7 @@ if (
         }
         var input_middle_classfy_sub = function(selectbox, m_info){
             var option = document.createElement("option");
-            option.text = "강좌 중분류 선택";
+            option.text = "중분류 선택";
             option.value = null;
             selectbox.appendChild(option);
             for(key in mcate[m_info]){
