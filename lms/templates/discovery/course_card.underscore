@@ -18,7 +18,8 @@
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
                 <% if (course_end == 'Y' && audit_yn == 'Y') { %>
-                    <span class="course-status over"><%- gettext(status) %>(<%- gettext("AUDIT COURSE") %>)</span>
+                    <!--<span class="course-status over"><%- gettext(status) %>(<%- gettext("AUDIT COURSE") %>)</span>-->
+                    <span class="course-status over"><%- gettext(status) %></span>
                 <% } else { %>
                     <span class="course-status over"><%- gettext(status) %></span>
                 <% } %>

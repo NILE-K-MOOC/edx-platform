@@ -501,10 +501,11 @@ a:hover + p.arrow_box {
         ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
         ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
         ## so that they can register and become a real user that can enroll.
-        % elif not is_shib_course and not can_enroll and audit_flag == 'N':
+        ##% elif not is_shib_course and not can_enroll and audit_flag == 'N':
+        % elif not is_shib_course and not can_enroll:
           <span class="register disabled" style="float: right">${_("Enrollment is Closed")}</span>
-        % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-          <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>
+        ##% elif not is_shib_course and not can_enroll and audit_flag == 'Y':
+        <!--  <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>-->
         % elif not is_shib_course and course.start_date_is_still_default:
             <span class="register disabled" style="float: right">${_("Starting Soon")}</span>
 
