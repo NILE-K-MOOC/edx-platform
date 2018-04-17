@@ -14,7 +14,7 @@ $(document).ready(function(){
             $(this).css({'pointer-events': 'none'});
             setTimeout(function () {
                 $(down_link).attr('href', down_path);
-                $(down_link).removeAttr('style');
+                //$(down_link).removeAttr('style');
             }, 5000);
         });
     }
