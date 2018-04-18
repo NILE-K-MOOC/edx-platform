@@ -968,7 +968,7 @@ def comm_file(request, file_id=None):
 
     response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % str(filename).encode('utf-8')
+    response['Content-Disposition'] = 'attachment; filename=%s' % str(filename).encode('euc-kr')
     return response
 
 
