@@ -13,56 +13,56 @@ strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
 # strMAServerIP = "127.0.0.1"
-strMAServerIP = "172.17.101.231"
-# strMAServerIP = "203.235.44.153"
+strMAServerIP = "203.235.44.153"
+# strMAServerIP = "172.17.101.231"
 iMAServerPort = 18000
 iCellBlockCount = "15"
 iCellBlockRow = "2"
 
-# client value set #  
+# client value set #
 strProtocolName = ""
 strServerName = ""
 iServerPort = 80
 strDomain = ""     # 127.0.0.1:8000
-    
+
 # setting the MA_FPSFM & setting the .matmp file  #
 iUseNas = 1        # 1: Not use FM 0: Use FM
 iQuickSet = 1      # 1: Use QuickUrl, 2: Use Service Check
 
 # iUseNas:0 -> Setting FM ServerIp, ServerPort
-# strFileServerIp = InetAddress.getLocalHost().getHostAddress();    
-# int iFileServerPort                    = 18430;        
+# strFileServerIp = InetAddress.getLocalHost().getHostAddress();
+# int iFileServerPort                    = 18430;
 
 # iUseNas:1 -> set meta temp directory
 strCurrentPath = "/static/markany"                 # ex) getServletContext().getRealPath("") + "/product/install/MarkAny";
 strDownFolder = "/var/tmp";                    # metafile location        # log
 strPrtDatDownFolder = strCurrentPath + "/bin/";         # dat
 
-# setting Install Page    
+# setting Install Page
 iUseInstallPage = 1    # 1: Use install page 0: download exe directly
 strInstallFilePath = strCurrentPath + "/bin/Setup_ePageSafer.exe"
 strInstallFileName = "Setup_ePageSafer.exe"
 
-# setting the was file       
+# setting the was file
 strUrlHome = "/maeps"
 strPyHome = strUrlHome
 
 strDownURL = ""
-strPrtDatDownURL = ""  
+strPrtDatDownURL = ""
 strSessionCheck = ""
 strInstallCheck = ""
 strIePopupURL = ""
-strSessionURL = ""  
+strSessionURL = ""
 
 strSubDownURL = strPyHome+ "/Mafndown?fn="
-strSubPrtDatDownURL = strPyHome+ "/Mafndown?prtdat=MaPrintInfoEPSmain.dat"  
+strSubPrtDatDownURL = strPyHome+ "/Mafndown?prtdat=MaPrintInfoEPSmain.dat"
 strSubSessionCheck = strPyHome+ "/MaSessionCheck"
 strSubInstallCheck = strPyHome+ "/MaSessionCheck_Install"
 strSubIePopupURL = strPyHome+ "/MaIePopup"
-strSubSessionURL = strPyHome+ "/MaSetInstall?param=" + strSignature + strPVersion  
+strSubSessionURL = strPyHome+ "/MaSetInstall?param=" + strSignature + strPVersion
 
-# setting the web file  
-strWebHome = "/static/markany"  
+# setting the web file
+strWebHome = "/static/markany"
 strJsWebHome = strWebHome + "/js"
 strImagePath = strWebHome + "/images"
 strSudongInstallURL = strPyHome + "/MaInstallPage"
@@ -72,9 +72,9 @@ strPrintURL = ""         # new String("bak.jsp")     # printparam
 strPrintParam = ""       # new String("?EndPrint=1") # printurl
 
 strSilentOption = ""     # silent
-strDataFileName = "";   
+strDataFileName = "";
 
-# Client option set    
+# Client option set
 PSSTRING = ""
 PSSTRING2 = ""
 FAQURL = "1"
@@ -92,12 +92,12 @@ strScope = "2";                     # 1 : binary, 2 : BASE64, 3 : compress binar
 strWidthHeight = "1"                # 1 : portrait , 2 : landscape
 strFolder = iCellBlockCount + "^" + iCellBlockRow + "^"     # 2D CellCount:2D CellRow
 strErrorFilePath = ""                                       # not use
-strPrintCount = "1"                                         # printable count       
+strPrintCount = "1"                                         # printable count
 
-# Add Client option set    
+# Add Client option set
 SHRINKTOFIT = "1"                       # auto shrink print
 FIXEDSIZE = "0"                         # fix windows size
-strPrtProtocol = "http"                 # request.getScheme()  
+strPrtProtocol = "http"                 # request.getScheme()
 PRTAFTEREXIT = "0"                      # After print close
 NO2DBARCODE = "0"                       # Print no barcode
 strCPParams =  ""                       # Set copydetector : CopyDetector count^CD1_X^CD1_Y^CD2_X^CD2_Y...(4^3^38^5^90^108^49^108^102)
@@ -109,20 +109,20 @@ ZOOMINCONTENT = "100"                   # zoom function
 strPrinterZoom = "^ZOOM=110.0"          # "^ZOOM=110.0"; Linux
 CPFONTNAME= "yN641bjFwffDvA=="          # Human_magic "yN641bXVsdnH7LXltvPAzg=="; Human_dungun_headline "SFmw37DttfE="; //HY_Gothic
 
-# Add Client option set 20170613    
-CBFONOFF = "1"                          # Use CBF flag (default : 1 , not use : 0) 
+# Add Client option set 20170613
+CBFONOFF = "1"                          # Use CBF flag (default : 1 , not use : 0)
 CBFPERMISSION = ""                      # Not use
 CBFDIRECTORY = ""                       # Add CBF Directory // C:\\MarkAny^C:\\test
 CBFPRPOCESS = ""                        # CBF except process // notepad.exe
- 
-# Add Client option set 201700627    
+
+# Add Client option set 201700627
 strHIDECD = "0"
 
 # WaterMark - Option
 strWmImagePath = "/"
-strWmPosStartX = "160"                 # mm 
+strWmPosStartX = "160"                 # mm
 strWmPosStartY = "250"                 # mm
-strWmPosEndX = "0"                     # 0:final page 1:first page, 2:all page 
+strWmPosEndX = "0"                     # 0:final page 1:first page, 2:all page
 strWmPosEndY = "260"                   # not use
 # strWmKey == "0", Not use watermark
 strWmKey = "0"
@@ -131,15 +131,15 @@ strWmKey = "0"
 str2dPosLajerX = "100"                 # mm
 str2dPosLajerY = "270"                 # mm
 str2dPosInkX = "0"                     # not use
-str2dPosInkY = "0"                     # not use    
+str2dPosInkY = "0"                     # not use
 
-# CP, WM value Set    
+# CP, WM value Set
 WMPARAM = "0^150^170^100"
 # strCPParam = "r7QAAGFgrVmaLxIktIFQLlyMWBFmeeE20VgzUktM37bBf2HsVJNplUMScVoPcCahMF4wXg==" # support registered printer
 strCPParam = "r7QAAGFgrVmaLxIktIFQLlyMWBFmeeE20VgzUktM37bBf2HsVJNplUMScVoPcCahMF4xXjBeMF4wXjBe" # support registered printer
 strCPSubParam = "0^8^254^700^496"          # 0^8^265^528^264
 
-# Add Multi OS Set    
+# Add Multi OS Set
 strCPLoc = ""                           # w1^h1^w2^h2
 strLowCPLoc = ""                        # w1^h1^w2^h2
 str2DBarcodeLoc = ""                    # w^h
@@ -158,39 +158,37 @@ def MaSetVariable(request):
     global strSessionCheck
     global strInstallCheck
     global strSessionURL
-    
+
     global tototoday
     global strPrtProtocol
     global PRINTERUPDATE
     global strHIDECD
-    
+
     strProtocolName = request._get_scheme()
     strHost = request.get_host()
     strSplitHost = strHost.split(":")
-
     if len(strSplitHost) == 2:
         strServerName = strSplitHost[0]
         iServerPort = int(strSplitHost[1])
     else:
         strServerName = strSplitHost[0]
         iServerPort = 80
-    
+
     strDomain = strProtocolName + "://" + strHost
     strDownURL = strDomain + strSubDownURL
-    strPrtDatDownURL = strDomain + strSubPrtDatDownURL  
+    strPrtDatDownURL = strDomain + strSubPrtDatDownURL
     strSessionCheck = strDomain + strSubSessionCheck
     strInstallCheck = strDomain + strSubInstallCheck
     strIePopupURL = strDomain + strSubIePopupURL
     strSessionURL = strDomain + strSubSessionURL
 
-    now = datetime.datetime.now()    
+    now = datetime.datetime.now()
     tototoday = now.strftime("%Y%m%d%H%M%S")
-        
-    strPrtProtocol = strProtocolName 
-    
+
+    strPrtProtocol = strProtocolName
+
     PRINTERUPDATE = base64.standard_b64encode(strPrtDatDownURL)
-    
+
     if strFunctionGubun == "OM":
         strHIDECD = "1"
-
 

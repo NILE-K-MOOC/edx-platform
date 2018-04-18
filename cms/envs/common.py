@@ -1082,7 +1082,7 @@ MAX_ASSET_UPLOAD_FILE_SIZE_URL = ""
 ENTRANCE_EXAM_MIN_SCORE_PCT = 50
 
 ### Default language for a new course
-DEFAULT_COURSE_LANGUAGE = "en"
+DEFAULT_COURSE_LANGUAGE = "ko"
 
 # Specify XBlocks that should be treated as advanced problems. Each entry is a
 # dict:

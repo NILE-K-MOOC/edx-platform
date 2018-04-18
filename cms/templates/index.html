@@ -51,23 +51,7 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
     <!--popup K-mooc(1)-->
     <div id="popupWrap_1" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px;">
-            안녕하세요. 국가평생교육진흥원 K-MOOC진흥본부입니다.<br/>
-            다음과 같이 서버점검이 진행될 예정입니다.<br/>
-            <br/>
-                <b style="color: blue;">
-                    ㅇ 일정 : 2018. 1. 12(금) 21:00 ~ 1. 13(토) 21:00<br/>
-                    ㅇ 대상 : K-MOOC 운영사이트 ( http://www.kmooc.kr , http://studio.kmooc.kr/)<br/>
-                    *개발사이트(http://wwwdev.kmoocs.kr/, http://studiodev.kmoocs.kr/ )는 중단없이 이용 가능함<br/>
-                </b>
-            <br/>
-            해당 기간 동안 K-MOOC서비스가 일시 중단될 예정이오니 강좌 수강에 참고하여 주시기 바랍니다.<br/>
-            특히, 중간/기말고사, 퀴즈, 과제 등 제출 기한이 있는 강좌의 경우,<br/>
-            학습자가 참여하시는 데 차질이 없도록 학습자 대상 공지 및 마감일 연장 등을 고려해주시면 감사하겠습니다.<br/>
-            <br/>
-            사이트 이용이 제한되어 불편하시겠지만 양해 부탁드립니다.<br/>
-            보다 향상된 서비스를 제공할 수 있도록 최선을 다하겠습니다.<br/>
-            감사합니다.<br/>
-            <br/>
+            <img src="/static/images/popup_service2.jpg" alt="사이트 만족도 조사 완료">
         </p>
 
         <!-- close area -->
@@ -126,7 +110,7 @@ function closeWin2() {
 cookiedata = document.cookie;
 
 popupDate = new Date();
-targetDate = new Date(2018, 0, 13);
+targetDate = new Date(2018, 1, 13);
 
 
 
@@ -234,7 +218,7 @@ if (
                   <label for="new-course-org">${_("Organization")}</label>
                   ## Translators: This is an example for the name of the organization sponsoring a course, seen when filling out the form to create a new course. The organization name cannot contain spaces.
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
-                  <select onchange="check_2level();" class="new-course-org" id="new-course-org" name="new-course-org">
+                  <select class="new-course-org" id="new-course-org" name="new-course-org" onchange="check_2level();">
                     <option value="">대학선택</option>
                     %for code, name in org_list :
                         <option value="${code}">${name}(${code})</option>
@@ -254,7 +238,7 @@ if (
                   ## Translators: This is an example for the number used to identify a course,
                   ## seen when filling out the form to create a new course. The number here is
                   ## short for "Computer Science 101". It can contain letters but cannot contain spaces.
-                  <input onchange="check_2level();" onkeyup="this.onchange();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
+                  <input onchange="check_2level();" class="new-course-number" id="new-course-number" type="text" name="new-course-number" required placeholder="${_('e.g. CS101')}" aria-describedby="tip-new-course-number tip-error-new-course-number" />
                   <span class="tip" id="tip-new-course-number">${Text(_("The unique number that identifies your course within your organization.{br} {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
                       br=HTML('<br/>'),
                       strong_start=HTML('<strong>'),
@@ -279,7 +263,7 @@ if (
                   <li class="field select required" id="field-classfy">
                     <label for="new-course-classfy">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -293,11 +277,11 @@ if (
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
 
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" onchange="middle_classfy_sub(1)">
-                        <option value="">강좌 중분류 선택</option>
+                        <option value="">중분류 선택</option>
                     </select>
                     <br>
                     <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">주 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -313,7 +297,7 @@ if (
                     </select>
 
                     <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">보조 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -328,7 +312,7 @@ if (
                     </select>
 
                     <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
-                        <option value="">강좌 대분류 선택</option>
+                        <option value="">보조 대분류 선택</option>
                         <option value="hum">인문계열</option>
                         <option value="social">사회계열</option>
                         <option value="edu">교육계열</option>
@@ -406,7 +390,7 @@ if (
                         $('#new-course-number').parent().attr("class","field text required");
                     }
                 });
-          }
+          };
 
           var bcate = [
                 {'category':
@@ -518,7 +502,7 @@ if (
         var input_middle_classfy = function(selectbox, m_info){
 
             var option = document.createElement("option");
-            option.text = "강좌 중분류 선택";
+            option.text = "중분류 선택";
             option.value = null;
 
             selectbox.appendChild(option);
@@ -583,7 +567,7 @@ if (
         }
         var input_middle_classfy_sub = function(selectbox, m_info){
             var option = document.createElement("option");
-            option.text = "강좌 중분류 선택";
+            option.text = "중분류 선택";
             option.value = null;
             selectbox.appendChild(option);
             for(key in mcate[m_info]){

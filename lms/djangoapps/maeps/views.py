@@ -33,6 +33,15 @@ def certificate_print(request):
             </HTML>
     '''.format(print_index=print_index)
 
+    script_del = '''
+    <script>
+        $("img").error(function () {
+            var alt_index = $(this).attr("alt")
+            var class_index = $(this).attr("class")
+            $(this).replaceWith("<p class="+class_index+">" + alt_index + "</p>");
+        });
+    </script>
+    '''
     strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
     strHtmlData1 = strHtmlData.split('<script>')
     strHtmlData2 = strHtmlData1[1].split('</script>')
@@ -50,34 +59,6 @@ def certificate_print(request):
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
-
-@csrf_exempt
-def series_print(request):
-    print_index = request.POST.get('print_index')
-
-    strHtmlData = '''
-            <HTML>
-            <HEAD>
-            <TITLE>KMOOC 시리즈강좌</TITLE>
-            <META http-equiv=Content-Type content="text/html; charset=utf-8">
-            <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
-            </HEAD>
-            <BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
-            {print_index}
-            </BODY>
-            </HTML>
-    '''.format(print_index=print_index)
-
-    strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
-
-    print 'strHtmlData ---------------------------------------------- s'
-    print strHtmlData
-    print 'strHtmlData ---------------------------------------------- e'
-
-    strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-
-    response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
-    return response
 
 @csrf_exempt
 def index(request):

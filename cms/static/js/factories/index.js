@@ -3,14 +3,16 @@ define(['jquery.form', 'js/index', 'xmodule_js/common_static/js/vendor/jquery-ui
     return function (courseNames) {
 
         // DEBUG
-        console.log('courseNames --- s');
-        console.log(courseNames);
-        console.log('courseNames --- e');
+        //console.log('courseNames --- s');
+        //console.log(courseNames);
+        //console.log('courseNames --- e');
 
         // 검색 자동 완성 (bug)
+        /*
         $("#cms_text").autocomplete({
                 source: courseNames
         });
+        */
 
         // 강좌 검색 핵심 함수
         function studio_search() {

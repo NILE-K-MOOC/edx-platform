@@ -1535,18 +1535,18 @@ def course_about(request, course_id):
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
             # --- REVIEW CONTEXT --- #
-            'review_list': review_list,
-            'review_email': review_email,
-            'course_id': course_id,
-            'already_list': already_list,
-            'enroll_list': enroll_list,
-            'course_org': course_org,
-            'course_number': course_number,
-            'course_total': course_total,
-            'login_status': login_status,
-            'flag': flag,
-            'pre_course': pre_course,
-            'audit_flag': audit_flag,
+            'review_list' : review_list,
+            'review_email' : review_email,
+            'course_id' : course_id,
+            'already_list' : already_list,
+            'enroll_list' : enroll_list,
+            'course_org' : course_org,
+            'course_number' : course_number,
+            'course_total' : course_total,
+            'login_status' : login_status,
+            'flag' : flag,
+            'pre_course':pre_course,
+            'audit_flag':audit_flag,
             'effort_week': effort_week,
         }
         inject_coursetalk_keys_into_context(context, course_key)
@@ -1918,6 +1918,8 @@ def mobile_course_about(request, course_id):
 
         course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
         course_link = course_link.replace("/info", "&email_opt_in=true")
+        course_link = course_link.replace('/about', '&email_opt_in=true')
+
         show_courseware_link = bool(
             (
                 has_access(request.user, 'load', course) and
@@ -2074,8 +2076,8 @@ def mobile_course_about(request, course_id):
                 enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
                 enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
             else:
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y.%m.%d")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y.%m.%d")}
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
         else:
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}

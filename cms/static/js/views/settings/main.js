@@ -302,11 +302,15 @@ var DetailsView = ValidatingView.extend({
         var week = $("#course-effort-week").val();
         var video_hh = $("#course-video-hh").val();
         var video_mm = $("#course-video-mm").val();
-
-        if(isNaN(hh) || isNaN(mm)|| isNaN(week)){
-            $("#course-effort").trigger("change");
-            return;
+        if (mm > 60) {
+            $("#course-effort-mm").val('');
+            return false;
         }
+        console.log("---------------------------> DEBUG [s]");
+        console.log("hh = " + hh);
+        console.log("mm = " + mm);
+        console.log("week = " + week);
+        console.log("---------------------------> DEBUG [e]");
 
         if(hh && hh.length == 1)
             hh = "0" + hh;
@@ -334,15 +338,18 @@ var DetailsView = ValidatingView.extend({
 
         if(hh && mm && week){
             // 총 이수시간 계산 및 표시
-            var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
-            if(total_time.toString().indexOf(".") > 0){
-                var arr = total_time.toString().split(".");
-                var hour = arr[0];
-                var minute = Math.round(Number(arr[1]) / 10 * 60).toString().substr(0, 2);
+            //var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
+            var total_min = (((Number(hh) * 60) + Number(mm)) * Number(week));
+            var real_hour = Math.floor(total_min/60);
+            var real_min = total_min%60;
 
-                $("#Calculated").val(hour + "시간 " + minute + "분");
-            }else{
-                $("#Calculated").val(total_time + "시간");
+            console.log("real_min = " + real_min);
+
+            if(real_min == 0){
+                $("#Calculated").val(real_hour + "시간 ");
+            }
+            else{
+                $("#Calculated").val(real_hour + "시간 " + real_min + "분");
             }
         }
 
@@ -360,6 +367,13 @@ var DetailsView = ValidatingView.extend({
         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
         var addinfo_user_id = $('#addinfo_user_id').text();
         var course_period = $("#course-effort-week").val();
+
+
+        console.log('Test Index ==============')
+        console.log(addinfo_course_id)
+        console.log(addinfo_user_id)
+        console.log(course_period)
+        console.log('Test Index ==============')
 
         $.post("/modi_course_period", {
             csrfmiddlewaretoken: $.cookie('csrftoken'),
@@ -982,11 +996,11 @@ var DetailsView = ValidatingView.extend({
             });
         }
 
-        if(this.isEditable()){
-            $("#field-course-overview .CodeMirror").remove();
-            CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true});
-            $(".toggleOverviewLayerBtn").show();
-        }
+        //if(this.isEditable()){
+        //    $("#field-course-overview .CodeMirror").remove();
+        //    CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true});
+        //    $(".toggleOverviewLayerBtn").show();
+        //}
     },
 
     revertView: function() {

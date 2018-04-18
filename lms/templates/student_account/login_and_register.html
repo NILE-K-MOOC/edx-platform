@@ -73,6 +73,7 @@
     $(document).ready(function(){
         console.log("이 페이지 ${data['initial_mode']}");
         console.log("${data['initial_mode']}")
+        setTimeout(country_korea,1000); // 1초 후 start를 재귀호출한다.
         setInterval(function() {
             if( $('#register-password').val() == $('#register-password2').val()){
                 $('.register-button').attr('disabled', false);
@@ -80,8 +81,15 @@
             else {
                 $('.register-button').attr('disabled', true);
             }
-        }, 100)
-    })
+        }, 500)
+    });
+
+    function country_korea(){
+        if($.trim($("label[for='register-country']").text())=='국가'){
+            $("option[value='KR']").text('대한민국');
+        }
+    }
+
     %if data['initial_mode'] == 'login':
         console.log('login page');
     %else:

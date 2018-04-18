@@ -201,6 +201,25 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['logo_index'] = course_id.split('+')[0].split(':')[1]
     cur = con.cursor()
     query = """
+            SELECT plain_data
+              FROM auth_user_nicecheck
+             WHERE user_id = '{0}';
+             """.format(user_id)
+    cur.execute(query)
+    plain_data = cur.fetchall()
+    cur.close()
+    import ast
+    if (len(plain_data) == 0):
+        context['user_name'] = ''
+    else:
+        nice_dict = ast.literal_eval(plain_data[0][0])
+        user_name = nice_dict['UTF8_NAME']
+        user_name = urllib.unquote(user_name).decode('utf8')
+        context['user_name'] = user_name
+
+
+    cur = con.cursor()
+    query = """
             SELECT detail_name, detail_Ename
               FROM code_detail
              WHERE group_code = 003 AND detail_code = '{0}';
@@ -229,6 +248,8 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     course_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else '-'
     course_video = effort.split('#')[1] if effort and '#' in effort else '-'
     time = course_effort.split(':')
+    context['course_week'] = course_week
+    context['course_effort'] = course_effort
 
     if (course_effort == '-' or course_week == '-' or time[0] == '' or time[1] == ''):
         context['Learning_h'] = '-'
@@ -251,6 +272,13 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         else:
             context['Play_h'] = Play_time[0]
             context['Play_m'] = Play_time[1]
+    if (course_effort == '-'):
+        context['course_effort_h'] = '-'
+        context['course_effort_m'] = '-'
+    else:
+        course_effort_index = course_effort.split(':')
+        context['course_effort_h'] = course_effort_index[0]
+        context['course_effort_m'] = course_effort_index[1]
 
     cur = con.cursor()
     query = """
@@ -283,7 +311,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     from pymongo import MongoClient
     from bson.objectid import ObjectId
     from django.utils.translation import ugettext_lazy as _
-    client = MongoClient('172.17.101.117', 27017)
+    client = MongoClient('127.0.0.1', 27017)
 
     # db = client.edxapp
     # cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
@@ -318,7 +346,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
                                                              settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get(
-                                                                 'port')) as client:
+                                                                     'port')) as client:
         db = client.edxapp
         cursor = db.modulestore.active_versions.find_one(
             {'org': course_index[0], 'course': course_index[1], 'run': course_index[2]})

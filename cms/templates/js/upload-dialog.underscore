@@ -1,5 +1,5 @@
 <form class="upload-dialog" method="POST" action="<%- url %>" enctype="multipart/form-data">
-        <p id="dialog-assetupload-description" class="message"><%- message %></p>
+
         <input type="file" name="file" <% if(error && error.attributes && error.attributes.selectedFile) {%>class="error"<% } %> />
 
         <div class="status-upload">
@@ -27,5 +27,7 @@
             <% } %>
 
         </div>
+        <p style = "margin-bottom: 3px;" id="dialog-assetupload-description" class="message"><%- message %></p>
+        <p style = "margin-bottom: 3px;" id="dialog-assetupload-description" class="message">강좌 대표이미지는 가로 290 x 세로 188 사이즈를 권장합니다</p>
     </div>
 </form>
