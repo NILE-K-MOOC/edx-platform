@@ -803,6 +803,11 @@ def _create_or_rerun_course(request):
         course_period = request.json.get('course_period')
         fields['course_period'] = course_period
 
+        # 한국학 null 방어 코드 ------- #
+        if linguistics != 'Y':
+            linguistics = 'N'
+        # 한국학 null 방어 코드 ------- #
+
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
         # # TODO get rid of defining wiki slug in this org/course/run specific way and reconcile
