@@ -612,7 +612,11 @@ a:hover + p.arrow_box {
 
           <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default | h}</span></li>
           % if not course.start_date_is_still_default:
-            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}<br><p style="float: right; margin: 0;">(${day['day']})</p></span></li>
+            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
+                % if day['day']:
+                <br><p style="float: right; margin: 0;">(${day['day']})</p>
+                % endif
+                </span></li>
           % endif
             ## We plan to ditch end_date (which is not stored in course metadata),
             ## but for backwards compatibility, show about/end_date blob if it exists.
