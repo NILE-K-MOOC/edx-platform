@@ -296,7 +296,7 @@ h5{margin:0!important;}
                                     <div class="sign-area-depth0">
                                     %endif
                                     <%
-                                    signatory_index = i - len(certificate_data.get('signatories', []))
+                                    signatory_index = len(certificate_data.get('signatories', [])) - (10-i)
                                     signatory = certificate_data.get('signatories', [])[signatory_index]
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
@@ -411,7 +411,7 @@ h5{margin:0!important;}
                                     <div class="sign-area-depth0">
                                     %endif
                                     <%
-                                    signatory_index = i - len(certificate_data.get('signatories', []))
+                                    signatory_index = len(certificate_data.get('signatories', [])) - (10-i)
                                     signatory = certificate_data.get('signatories', [])[signatory_index]
                                     teacher = signatory['name']
                                     if teacher.find('(') == -1 :
