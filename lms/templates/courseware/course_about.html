@@ -387,15 +387,17 @@ a:hover + p.arrow_box {
                 ${course.display_name_with_default_escaped}
 ##                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
+               <!--
                <div style="float: right; right: 0; position: absolute; margin-right: 20px;">
-                   % if (flag == 1):
+                   ##% if (flag == 1):
                    <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="color:#3e7bc0; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 삭제</p>
                    <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="display:none; color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 추가</p>
-                   % else :
+                   ##% else :
                    <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 삭제</p>
                    <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 추가</p>
-                   % endif
+                   ##% endif
                </div>
+               -->
               <script>
                   if ( '${login_status}' == 'x') {
                       $('#interest_btn_d').hide();
@@ -560,9 +562,7 @@ a:hover + p.arrow_box {
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
       </div>
-      <!-- review -->
-      <%include file="course_review_about.html" />
-      <!-- review -->
+
   </div>
 
     <div class="course-sidebar">
@@ -609,46 +609,10 @@ a:hover + p.arrow_box {
 ##           % if get_course_about_section(request, course, "prerequisites"):
 ##          <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
 ##           % endif
-            <!-- review -->
-            <li class="important-dates-item">
-                <span class="icon fa fa-info-circle" aria-hidden="true"></span>
-                <p class="important-dates-item-title">rating</p>
-                <span class="important-dates-item-text prerequisites">
-                % if course_total == 0:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".000"></div>
-                </td>
-                % endif
-                % if course_total == 1:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".200"></div>
-                </td>
-                % endif
-                % if course_total == 2:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".400"></div>
-                </td>
-                % endif
-                % if course_total == 3:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".600"></div>
-                </td>
-                % endif
-                % if course_total == 4:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".800"></div>
-                </td>
-                % endif
-                % if course_total == 5:
-                <td class ="review_star">
-                    <div class="start-ratings-css" title=".1000"></div>
-                </td>
-                % endif
-                </span>
-            </li>
+
           <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default | h}</span></li>
           % if not course.start_date_is_still_default:
-            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}<br>${day['day']}</span></li>
+            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}<br><p style="float: right; margin: 0;">(${day['day']})</p></span></li>
           % endif
             ## We plan to ditch end_date (which is not stored in course metadata),
             ## but for backwards compatibility, show about/end_date blob if it exists.
@@ -709,8 +673,6 @@ a:hover + p.arrow_box {
 
                     });
                 %endif
-
-
             });
         </script>
 
