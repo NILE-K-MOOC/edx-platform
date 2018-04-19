@@ -220,13 +220,19 @@ data: |
     <section class="faq">
         <h2><i class="fa fa-question-circle"></i>자주 묻는 질문</h2>
         <article class="question">
-            <h4>Q1. 강좌 교재가 따로 있나요?</h4>
+            <h4><i class='fa fa-chevron-right'></i>강좌 교재가 따로 있나요?</h4>
             <p>네. 있습니다.</p>
         </article>
         <article class="question">
-            <h4>Q2. 강좌 교재가 따로 있나요?</h4>
+            <h4><i class='fa fa-chevron-right'></i>강좌 교재가 따로 있나요?</h4>
             <p>네. 있습니다.</p>
         </article>
     </section>
-    <section class="user_add"></section>
+    <section class="user_add">
+    <h2><i class="fa fa-plus-circle"></i>사용자 추가</h2>
+    <article class="question">
+        <h3><i class='fa fa-chevron-right'></i>사용자 추가 제목</h3>
+        <p>사용자 추가 내용</p>
+    </article><br>
+    </section>
     </div>

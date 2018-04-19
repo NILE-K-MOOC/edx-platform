@@ -237,7 +237,7 @@ var DetailsView = ValidatingView.extend({
         // FAQ
         var faq = $(ov).find(".faq article");
         // 사용자 추가 내용
-        var user_content = $(ov).find(".user_add").html();
+        var user_content = $(ov).find(".user_add:eq(0)");
 
         // ------------------------------------------------
         //syllabus table 에 에디터 안에서의 크기조절을 위한 속성 추가
@@ -254,13 +254,14 @@ var DetailsView = ValidatingView.extend({
         $("#overview-tab1 input").val(vurl.trim());
         $("#course_plan").val(syllabus.html());
         $("#grade_table").val(evaluation.html());
+        $("#user_content").val(user_content.html());
 
         $("#overview-tab4 textarea:eq(1)").val(level.trim());
         $("#overview-tab4 textarea:eq(2)").val(reference.trim());
 
         this.tinymceInit('#course_plan');
-        this.tinymceInit('#user_content');
         this.tinymceInit('#grade_table');
+        this.tinymceInit('#user_content');
 
         //tinymce.get('course_plan').setContent(syllabus.html());
 
@@ -490,7 +491,7 @@ var DetailsView = ValidatingView.extend({
 
         if(staff_templates){
             $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영진 소개</h2>");
-            $(ov).find(".course-staff:eq(0)").append(staff_template);
+            $(ov).find(".course-staff:eq(0)").append(staff_templates);
         }
 
         // 이수/평가정보
@@ -513,7 +514,7 @@ var DetailsView = ValidatingView.extend({
             var answer = $(this).find("#faq-answer").val();
             var faq = "" +
             "<article class='question'>" +
-            "	<h4>" + question + "</h4>" +
+            "	<h4><i class='fa fa-chevron-right'></i>" + question + "</h4>" +
             "	<p>" + answer + "</p>" +
             "</article>";
             faqs += faq;
@@ -525,7 +526,15 @@ var DetailsView = ValidatingView.extend({
         }
 
         // 사용자 추가 내용
-        $(ov).find(".user_add:eq(0)").html($("#user_content").val().replace(/\n/g, "<br>"));
+        //$(ov).find(".user_add:eq(0)").html($("#user_content").val().replace(/\n/g, "<br>"));
+        var user_add_index = tinymce.get('user_content').getContent();
+        console.log('Test user_add_index ===============');
+        console.log(user_add_index);
+        user_add_index = user_add_index.replace(/<h2>/gi, '<h2><i class="fa fa-plus-circle"></i>');
+        user_add_index = user_add_index.replace(/<h3>/gi, '<h3><i class="fa fa-chevron-right"></i>');
+        console.log(user_add_index);
+        console.log('Test user_add_index ===============');
+        $(ov).find(".user_add:eq(0)").html($.parseHTML(user_add_index));
 
         //this.model.set('overview', '<div id="course-info">' + $("<div>").append($(ov).clone()).html() + '</div>');
 
