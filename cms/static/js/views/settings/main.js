@@ -1005,11 +1005,11 @@ var DetailsView = ValidatingView.extend({
             });
         }
 
-        if(this.isEditable()){
-            $("#field-course-overview .CodeMirror").remove();
-            CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true});
-            $(".toggleOverviewLayerBtn").show();
-        }
+        //if(this.isEditable()){
+        //    $("#field-course-overview .CodeMirror").remove();
+        //    CodeMirror.fromTextArea(thisTarget, {mode: "text/html", lineNumbers: true, lineWrapping: true, readOnly: true});
+        //    $(".toggleOverviewLayerBtn").show();
+        //}
     },
 
     revertView: function() {
