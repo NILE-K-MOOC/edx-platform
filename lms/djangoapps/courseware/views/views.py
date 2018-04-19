@@ -1422,10 +1422,10 @@ def course_about(request, course_id):
 
         sys.setdefaultencoding('utf-8')
         con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                              settings.DATABASES.get('default').get('USER'),
-                              settings.DATABASES.get('default').get('PASSWORD'),
-                              settings.DATABASES.get('default').get('NAME'),
-                              charset='utf8')
+                          settings.DATABASES.get('default').get('USER'),
+                          settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'),
+                          charset='utf8')
         cur = con.cursor()
         query = """
             SELECT id
@@ -1467,10 +1467,11 @@ def course_about(request, course_id):
         # 청강 - course.end < today
         today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
         course_end = course.end
-        course_end_val = course_end.strptime(str(course_end)[0:10], "%Y-%m-%d").date()
         time_compare = 'N'
-        if today_val > course_end_val:
-            time_compare = 'Y'
+        if course_end is not None:
+            course_end_val = course_end.strptime(str(course_end)[0:10], "%Y-%m-%d").date()
+            if today_val > course_end_val:
+                time_compare = 'Y'
 
 
         cur = con.cursor()
