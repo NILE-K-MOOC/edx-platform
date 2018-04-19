@@ -497,7 +497,7 @@ class CourseOverview(TimeStampedModel):
                 org = org.replace('k', '')
                 if filter_:
                     course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end',
-                                                                                                                                                                                                 'display_name')[:100]
+                                                                                                                                                                                                 'display_name')
                 else:
                     course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
