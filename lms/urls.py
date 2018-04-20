@@ -29,6 +29,8 @@ urlpatterns = (
 
     url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
 
+    url(r'^xxx_aup$', 'branding.views.xxx_aup', name="xxx_aup"),
+
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),

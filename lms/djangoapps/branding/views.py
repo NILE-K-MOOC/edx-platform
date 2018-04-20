@@ -43,6 +43,13 @@ def get_course_enrollments(user):
     return site_enrollments
 
 
+from student.models import UserProfile
+def xxx_aup(request):
+
+    uuu_id = request.GET.get('uuu_id')
+    user_profile = UserProfile.objects.get(user_id=uuu_id)
+    return JsonResponse({'result':user_profile.name})
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def index(request):
