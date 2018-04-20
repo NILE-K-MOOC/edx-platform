@@ -1469,7 +1469,7 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 
 .home>header {height: 310px; border-bottom: 1px solid #eee;}
 
-.ttbg { /*background: url('/static/images/css/main_top_bg.png') repeat;*/background: #fff;}
+.ttbg { background: #fff url('/static/images/css/main_bg.png') repeat center 100%;}
 .ttbg1 {    position: relative;
     left: 0;
     top: 35px;
