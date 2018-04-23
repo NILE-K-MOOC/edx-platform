@@ -185,7 +185,7 @@ def _update_certificate_context(context, user_certificate, platform_name):
         verified_cert_url=context.get('company_verified_certificate_url'))
 
 
-def _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id):
+def _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id, preview_mode=None):
     """
     Updates context dictionary with basic info required before rendering simplest
     certificate templates.
@@ -280,16 +280,20 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['course_effort_h'] = course_effort_index[0]
         context['course_effort_m'] = course_effort_index[1]
 
-    cur = con.cursor()
-    query = """
-            SELECT grade, date_format(now(), '%Y.%m.%d  %h:%i') FROM certificates_generatedcertificate where course_id = '{0}' and user_id = '{1}';
-            """.format(course_id, user_id)
-    cur.execute(query)
-    row = cur.fetchall()
-    cur.close()
+    if preview_mode:
+        grade = 100
+        created_date = datetime.now().strftime('%Y.%m.%d %H:%M')
+    else:
+        cur = con.cursor()
+        query = """
+                SELECT grade, date_format(now(), '%Y.%m.%d  %h:%i') FROM certificates_generatedcertificate where course_id = '{0}' and user_id = '{1}';
+                """.format(course_id, user_id)
+        cur.execute(query)
+        row = cur.fetchall()
+        cur.close()
 
-    grade = int(float(row[0][0]) * 100)
-    created_date = row[0][1]
+        grade = int(float(row[0][0]) * 100)
+        created_date = row[0][1]
 
     context['grade'] = str(grade)
     context['created_date'] = created_date
@@ -311,7 +315,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     from pymongo import MongoClient
     from bson.objectid import ObjectId
     from django.utils.translation import ugettext_lazy as _
-    client = MongoClient('127.0.0.1', 27017)
+    # client = MongoClient('127.0.0.1', 27017)
 
     # db = client.edxapp
     # cursors = db.modulestore.active_versions.find_one({"org": course_org, "course": course_course, "run": course_run})
@@ -743,7 +747,7 @@ def render_html_view(request, user_id, course_id):
     configuration = CertificateHtmlViewConfiguration.get_config()
     # Create the initial view context, bootstrapping with Django settings and passed-in values
     context = {}
-    _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id)
+    _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id, preview_mode)
     invalid_template_path = 'certificates/invalid.html'
 
     # Kick the user back to the "Invalid" screen if the feature is disabled
