@@ -51,19 +51,9 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
     <!--popup K-mooc(1)-->
     <div id="popupWrap_1" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px;">
-            제목 : <b>네트워크망 점검에 따른 사이트 중단 안내</b><br>
-            <br>
-            내용 :<br>
-            안녕하세요, K-MOOC 운영팀입니다.<br>
-            K-MOOC 홈페이지가 일시 중단될 예정이오니<br>
-            방문자 여러분들께서는 이 점을 숙지하시고 홈페이지 이용에 차질이 없으시길 바랍니다.<br>
-            <br>
-              ㅇ 일정 : 2018년 4월 21일(토) 오전 3시 ~ 6시(약 3시간)<br>
-              ㅇ 대상 : K-MOOC 사이트, 모바일 앱<br>
-            <br>
-            사이트 이용이 제한되어 불편하시겠지만 양해 부탁드립니다.<br>
-            더욱 향상된 서비스를 제공할 수 있도록 최선을 다하겠습니다.<br>
-            감사합니다.<br>
+            <a href="http://www.kmooc.kr/comm_view/N/1/242" target="_sub">
+            <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@popup_series.png" alt="2018" style="max-width: 800px;" />
+            </a>
         </p>
 
         <!-- close area -->
@@ -80,7 +70,9 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
     <!--popup K-mooc(2)-->
     <div id="popupWrap_2" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: {{ 'none' if LANG == 'en' else 'block' }};">
-             <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@kmooc_update_banner.jpg" alt="">
+            <a href="http://www.kmooc.kr/comm_view/N/1/242" target="_sub">
+            <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@popup_series.png" alt="2018" style="max-width: 800px;" />
+            </a>
         </p>
 
         <div style="text-align: right; display: {{ 'none' if LANG == 'en' else 'block' }};">
@@ -122,7 +114,7 @@ function closeWin2() {
 cookiedata = document.cookie;
 
 popupDate = new Date();
-targetDate = new Date(2018, 3, 1); // Date(2018, 3, 20) -> 2018년 4월 20일에 팝업이 내려감
+targetDate = new Date(2018, 3, 28); // Date(2018, 3, 20) -> 2018년 4월 20일에 팝업이 내려감
 
 
 
