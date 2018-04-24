@@ -211,12 +211,14 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     import ast
     if (len(plain_data) == 0):
         context['user_name'] = ''
+        context['birth_date'] = ''
     else:
         nice_dict = ast.literal_eval(plain_data[0][0])
         user_name = nice_dict['UTF8_NAME']
+        birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
-
+        context['birth_date'] = birth_date[0:4]
 
     cur = con.cursor()
     query = """
@@ -784,6 +786,12 @@ def render_html_view(request, user_id, course_id):
     # If we do not have an active certificate, we'll need to send the user to the "Invalid" screen
     # Passing in the 'preview' parameter, if specified, will return a configuration, if defined
     active_configuration = get_active_web_certificate(course, preview_mode)
+    print 'active_configuration = get_active_web_certificate(course, preview_mode)'
+    print course
+    print preview_mode
+    print active_configuration
+    print 'active_configuration = get_active_web_certificate(course, preview_mode)'
+
     if active_configuration is None:
         log.info(
             "Invalid cert: course %s does not have an active configuration. User id: %d",
