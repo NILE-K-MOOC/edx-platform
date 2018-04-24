@@ -20,16 +20,17 @@
     $('#checkbox2').attr("checked", "checked");
     $('#checkbox3').attr("checked", "checked");
     $('#checkbox4').attr("checked", "checked");
-    /*$('input[type=radio][name=radio]').change(function() {
-     if (this.value == 'K') {
-     $('#printArea_K').css("display","");
-     $('#printArea_E').css("display","none");
-     }
-     else if (this.value == 'E') {
-     $('#printArea_K').css("display","none");
-     $('#printArea_E').css("display","");
-     }
-     });
+
+    $('input[type=radio][name=radio]').change(function() {
+        if (this.value == 'K') {
+            $('#printArea_K').css("display","");
+            $('#printArea_E').css("display","none");
+        }
+        else if (this.value == 'E') {
+            $('#printArea_K').css("display","none");
+            $('#printArea_E').css("display","");
+        }
+    });
 
     $('#textbox1').val($(this).is(':checked'));
 
@@ -118,5 +119,4 @@
             $('#e_name_text').text($('#e_name').val());
         }
     });
-    */
 </script>
