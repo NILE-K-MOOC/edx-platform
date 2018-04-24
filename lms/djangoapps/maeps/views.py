@@ -172,7 +172,7 @@ def certificate_print(request):
                 height:70px!important;
                 width: 100%!important;
                 float: left!important;
-                margin-top: 18px;
+                margin-top: 10px;
             }
             .sign-area-depth2{
                 margin-bottom: 10px;
@@ -203,7 +203,7 @@ def certificate_print(request):
                 margin-bottom: 0px!important;
             }
             .t-sign {
-                height: 26px!important;
+                height: 34px!important;
                 width: 160px!important;
             }
             .ce-logo1 {
@@ -263,7 +263,8 @@ def certificate_print(request):
     print_index_css = print_index_css.replace('${static_url}', static_url)
 
     print_index = ''
-    f = open("/edx/app/edxapp/edx-platform/lms/templates/certificates/_accomplishment-rendering_kmooc_N.html", 'r')
+    f = open("/edx/app/edxapp/edx-platform/lms/templates/certificates/_accomplishment-rendering_kmooc_N_print.html",
+             'r')
     while True:
         certificate_index = f.readline()
         if not certificate_index: break
