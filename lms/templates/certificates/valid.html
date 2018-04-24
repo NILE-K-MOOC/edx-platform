@@ -4,10 +4,12 @@
 % if user.is_authenticated() and user.id == int(accomplishment_user_id):
 <%include file="_accomplishment-banner.html" />
 % endif
-<!--<%include file="_accomplishment-introduction.html" />-->
-<div id="certifi_print">
-    <%include file="_accomplishment-rendering_kmooc_N.html" />
-</div>
+% if 'hide_index'==0 :
+    <%include file="_accomplishment-introduction.html" />
+    <div id="certifi_print">
+        <%include file="_accomplishment-rendering_kmooc_N.html" />
+    </div>
+% endif
 <div class="wrapper-about">
     <aside role="complementary" class="about" aria-label="About edX Certificates">
         <%include file="_about-edx.html" />
@@ -18,17 +20,18 @@
     $('#checkbox2').attr("checked", "checked");
     $('#checkbox3').attr("checked", "checked");
     $('#checkbox4').attr("checked", "checked");
+
     $('input[type=radio][name=radio]').change(function() {
-     if (this.value == 'K') {
-     $('#printArea_K').css("display","");
-     $('#printArea_E').css("display","none");
-     }
-     else if (this.value == 'E') {
-     $('#printArea_K').css("display","none");
-     $('#printArea_E').css("display","");
-     }
-     });
-     
+        if (this.value == 'K') {
+            $('#printArea_K').css("display","");
+            $('#printArea_E').css("display","none");
+        }
+        else if (this.value == 'E') {
+            $('#printArea_K').css("display","none");
+            $('#printArea_E').css("display","");
+        }
+    });
+
     $('#textbox1').val($(this).is(':checked'));
 
     $('#checkbox1').change(function () {

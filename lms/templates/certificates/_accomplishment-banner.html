@@ -26,14 +26,21 @@ from django.template.defaultfilters import escapejs
               window.open('${linked_in_url}');
           });
       });
-
       function popupWindow(url, title, width, height) {
           // popup a window at center of the screen.
           var left = (screen.width/2)-(width/2);
           var top = (screen.height/2)-(height/2);
           return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width='+width+', height='+height+', top='+top+', left='+left);
       }
-
+      function e_name_check(value) {
+          var check_index = value;
+          if (check_index == 'K') {
+              $('#e_name').css("display","none");
+          }
+          if (check_index == 'E'){
+              $('#e_name').css("display","inline-block");
+          }
+      }
   </script>
 </%block>
 <div id="fb-root"></div>
@@ -76,13 +83,13 @@ from django.template.defaultfilters import escapejs
 
 
                     <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
-                    <input type="radio" name="radio" checked="checked" value="K"> 한국어
-                    <input type="radio" name="radio" value="E"> 영어 <input type="text" id="e_name" style="color: black"><br>
+                    <input type="radio" name="radio" checked="checked" value="K" onclick="e_name_check(this.value)"> 한국어
+                    <input type="radio" name="radio" value="E" onclick="e_name_check(this.value)"> 영어 &nbsp;<input type="text" id="e_name" placeholder="영어이름을 넣어주세요." style="color: black; display: none"><br>
 
                     <span>추가표기사항</span>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
-                    <input type="checkbox" id ="checkbox2"> 동영상 재생시간
                     <input type="checkbox" id ="checkbox3"> 총 주차
                     <input type="checkbox" id ="checkbox4"> 주간 학습권장시간
+                    <input type="checkbox" id ="checkbox2"> 동영상 재생시간
                     <input type="checkbox" id ="checkbox1"> 성적
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -102,10 +109,43 @@ from django.template.defaultfilters import escapejs
                             ${_("Add to Mozilla Backpack")}
                         </button>
                     %endif
+                    <!-- 이수증 -->
+
 
                     <form name="frmPopup" method="POST">
-                        <input type="hidden" name="print_index">
+                        <input type="hidden" name="language_flag">
+                        <input type="hidden" name="checkbox1">
+                        <input type="hidden" name="checkbox2">
+                        <input type="hidden" name="checkbox3">
+                        <input type="hidden" name="checkbox4">
+                        <input type="hidden" name="static_url">
+                        <input type="hidden" name="certificate_id_number">
+                        <input type="hidden" name="created_date">
+                        <input type="hidden" name="nice_check_flag">
+                        <input type="hidden" name="accomplishment_copy_name">
+                        <input type="hidden" name="user_name">
+                        <input type="hidden" name="birth_date">
+                        <input type="hidden" name="accomplishment_course_title">
+                        <input type="hidden" name="course_id">
+                        <input type="hidden" name="start_date">
+                        <input type="hidden" name="end_date">
+                        <input type="hidden" name="Play_h">
+                        <input type="hidden" name="Play_m">
+                        <input type="hidden" name="course_week">
+                        <input type="hidden" name="course_effort_h">
+                        <input type="hidden" name="course_effort_m">
+                        <input type="hidden" name="grade">
+                        <input type="hidden" name="certificate_date_issued2">
+                        <input type="hidden" name="certificate_date_issued">
+                        <input type="hidden" name="classfy_k">
+                        <input type="hidden" name="classfy_e">
+                        <input type="hidden" name="logo_index">
+                        <input type="hidden" name="org_name_k">
+                        <input type="hidden" name="org_name_e">
+                        <input type="hidden" name="e_name">
                     </form>
+
+                    <!-- 이수증 -->
 
                     <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
                         <input type="hidden" name="m" value="checkplusSerivce">

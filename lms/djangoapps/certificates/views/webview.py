@@ -211,11 +211,14 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     import ast
     if (len(plain_data) == 0):
         context['user_name'] = ''
+        context['birth_date'] = ''
     else:
         nice_dict = ast.literal_eval(plain_data[0][0])
         user_name = nice_dict['UTF8_NAME']
+        birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
+        context['birth_date'] = birth_date[0:4]
 
 
     cur = con.cursor()

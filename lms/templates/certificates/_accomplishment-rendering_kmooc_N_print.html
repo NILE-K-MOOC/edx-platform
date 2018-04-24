@@ -1,0 +1,93 @@
+<main id="printArea_K" class="accomplishment accomplishment-main">
+    <body>
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+            <div class="ribbon">
+                <img src="${static_url}/static/images/ribbon.png"/>
+            </div>
+            <div class="content">
+                <h5>발급번호 : ${certificate_id_number}</h5>
+                <h5>출력일시 : ${created_date}</h5>
+                <h1 class="k_h1">이 수 증</h1>
+                <h5 class="ce-t-gray">성명</h5>
+                ${nice_check_flag}
+                <h5 class="ce-t-gray">강좌명</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>강 좌 번 호 : ${course_id}</li>
+                        <li>운 영 기 간 : ${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~ ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}</li>
+                        ${k_box3}
+                        ${k_box4}
+                        ${k_box2}
+                    </ul>
+                </blockquote>
+
+                <div id="k_box1">
+                ${k_box1}
+                </div>
+                <h2 class="ce-center-txt1">위 과정을 성실히 이수하여<br> 이 증서를 수여 합니다.</h2>
+                <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+                <div class="sign-area">
+                    ${certificate_data_index}
+                </div>
+                <div class="ce-logo-area">
+                    ${logo_area}
+                </div>
+            </div>
+            <h6>※ 총 동영상 재생시간 : 강의내용과 관련된 동영상 재생시간</h6>
+            <h6>※ 주간 학습권장시간 : 주별 강좌 내 동영상 시청, 과제 및 시험 제출, 토론 참여 등 학습활동 전반을 이행하는데 필요한 시간</h6>
+        </div>
+    </div>
+    </body>
+</main>
+
+<!-- language_flag -->
+
+<main id="printArea_E" class="accomplishment accomplishment-main">
+    <body>
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+            <div class="ribbon">
+                <img src="${static_url}/static/images/e_ribbon.png"/>
+            </div>
+            <div class="content">
+                <h5>Certificate no. : ${certificate_id_number}</h5>
+                <h5>Printed on : ${created_date}</h5>
+                <h1 class="e_h1">Certificate of Completion</h1>
+                <h5 class="ce-t-gray">NAME</h5>
+                ${nice_check_flag}
+                <h5 class="ce-t-gray">Course Title</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>Course no. : ${course_id}</li>
+                        <li>Course dates : ${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~ ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}</li>
+                        ${e_box3}
+                        ${e_box4}
+                        ${e_box2}
+                    </ul>
+                </blockquote>
+
+                <div id="e_box1">
+                ${e_box1}
+                </div>
+                ${nice_check_flag2}
+                <h5 class="ce-center-txt2">${certificate_date_issued}</h5>
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+                <div class="sign-area">
+                    ${certificate_data_index}
+                </div>
+                <div class="ce-logo-area">
+                    ${logo_area}
+                </div>
+            </div>
+            <h6>※ Total hours of video instruction : video duration related with course contents</h6>
+            <h6>※ Recommended weekly commitment : Estimated hours for doing weekly learning activities like video, assignments and group discussions</h6>
+        </div>
+    </div>
+    </body>
+</main>
