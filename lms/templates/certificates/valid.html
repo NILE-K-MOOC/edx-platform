@@ -15,7 +15,11 @@
     </aside>
 </div>
 <script>
-    /*$('input[type=radio][name=radio]').change(function() {
+    $('#checkbox2').attr("checked", "checked");
+    $('#checkbox3').attr("checked", "checked");
+    $('#checkbox4').attr("checked", "checked");
+
+    $('input[type=radio][name=radio]').change(function() {
         if (this.value == 'K') {
             $('#printArea_K').css("display","");
             $('#printArea_E').css("display","none");
@@ -25,7 +29,7 @@
             $('#printArea_E').css("display","");
         }
     });
-    */
+
     $('#textbox1').val($(this).is(':checked'));
 
     $('#checkbox1').change(function() {
@@ -95,8 +99,18 @@
             }
         }
     });
-    $('#e_name').change(function() {
-        if (($('#e_name_text').text()).indexOf('(identification member)') >= 0){
+    $('#checkbox4').change(function () {
+        if ($(this).is(":checked")) {
+            $('#k_box4').css("display", "")
+            $('#e_box4').css("display", "")
+        }
+        else {
+            $('#k_box4').css("display", "none")
+            $('#e_box4').css("display", "none")
+        }
+    });
+    $('#e_name').change(function () {
+        if (($('#e_name_text').text()).indexOf('(identification member)') >= 0) {
             $('#e_name_text').text($('#e_name').val() + ' (identification member)');
         }
         else {
