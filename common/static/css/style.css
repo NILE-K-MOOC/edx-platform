@@ -346,12 +346,12 @@ a, span, p {color:inherit;}
 /* effect*/
 .header-global .wrapper-header .nav-global.list-inline .item > a.hover:after {
 	/*content: '' attr(data-hover-label) '';*/
-  /*position: absolute;*/
-  /*left: 0;*/
-  /*top: 0;*/
-  /*opacity: 0;*/
-  /*transform: translate3d(0, 140%, 0);*/
-  /*transition: transform .2s cubic-bezier(.86, .6, .08, 1.01), opacity .2s ease-in;*/
+	/*position: absolute;*/
+	/*left: 0;*/
+	/*top: 0;*/
+	/*opacity: 0;*/
+	/*transform: translate3d(0, 140%, 0);*/
+	/*transition: transform .2s cubic-bezier(.86, .6, .08, 1.01), opacity .2s ease-in;*/
 	color: #4587c2;
 }
 
@@ -369,7 +369,7 @@ a, span, p {color:inherit;}
 .header-global .wrapper-header .nav-global.list-inline .item > a.hover:hover:after,
 .header-global .wrapper-header .nav-global.list-inline .item > a.hover:focus:after {
 	/*transform: translate3d(0, 0, 0);*/
-  	/*opacity: 1;*/
+	/*opacity: 1;*/
 	color: #4587c2;
 }
 
@@ -381,11 +381,10 @@ a, span, p {color:inherit;}
 
 .effect_label{
 	/*transform: translate3d(0, 0, 0);*/
-  /*transition-property: transform;*/
-  /*transition-duration: .3s;*/
-  /*transition-timing-function: cubic-bezier(.86, .6, .08, 1.01);*/
+	/*transition-property: transform;*/
+	/*transition-duration: .3s;*/
+	/*transition-timing-function: cubic-bezier(.86, .6, .08, 1.01);*/
 }
-
 
 .header-global .m-gnb {display:none;}
 .header-global .wrapper-header .list-inline.nav-global li.item[data-hidden="w"] {display:none;}
@@ -848,10 +847,10 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 /*.api-download > a, .api-download > a:hover {font-weight:700;color:#f03421;padding-right:27px;background:url(/static/images/css/icon_down.png) right center no-repeat;display:inline-block;margin:10px 0 5px 0;}*/
 .api-download > .down{font-weight:700;color:#f03421;padding-right:27px;background:url(/static/images/css/icon_down.png) right center no-repeat;display:inline-block;margin:10px 0 5px 0;}
 
-.kmooc-tab {border-bottom:solid 3px #03b3e4;}
+.kmooc-tab {border-bottom:solid 3px #4587c2;}
 .kmooc-tab:after {content:"";display:block;clear:both;}
-.kmooc-tab > a {display:inline-block;line-height:50px;font-weight:700;color:#03b3e4;background:#eeecec;font-size:1.375em;width:230px;text-align:center;}
-.kmooc-tab > a.on {background:#03b3e4;color:#fff;}
+.kmooc-tab > a {display:inline-block;line-height:50px;font-weight:700;color:#4587c2;background:#eeecec;font-size:1.375em;width:230px;text-align:center;}
+.kmooc-tab > a.on {background:#4587c2;color:#fff;}
 .kmooc-box {margin-bottom:50px;}
 .kmooc-block {margin-top:50px;}
 .kmooc-block h3 {font-size:1.438em;font-weight:700;font-family:"Nanum Gothic";position:relative;padding-top:10px;}
@@ -1477,7 +1476,7 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
 
 .home>header {height: 310px; border-bottom: 1px solid #eee;}
 
-.ttbg { background: #fff url('/static/images/css/main_bg.png') repeat center 100%;}
+.ttbg { background: #fff url('/static/images/css/main_bg1.png') repeat center 100%;}
 .ttbg1 {    position: relative;
     left: 0;
     top: 35px;
