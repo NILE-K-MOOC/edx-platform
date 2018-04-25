@@ -30093,6 +30093,12 @@ msgstr "글쓰기"
 msgid "MEMO"
 msgstr "쪽지"
 
+msgid "Notification"
+msgstr "알림"
+
+msgid "NOTIFICATION"
+msgstr "알림"
+
 msgid "Series Course"
 msgstr "시리즈 강좌"
 

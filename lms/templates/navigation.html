@@ -272,15 +272,20 @@ $( document ).ready(function() {
     function nav_resize() {
         window_W = $(window).width();
         if(window_W<=768) {
-            $('.nav-global-04').unbind('click mouseenter mouseleave hover');
-            $('.nav-global-04').on('click',function(){
-                event.preventDefault();
-                $('.header-global .nav-global .dropdown-menu').toggle();
+            //$('.nav-global-04').unbind('click mouseenter mouseleave hover');
+            $(".nav-global-04").toggle(function () {
+                $(".comm_a").children('span').removeAttr('style', 'color');
+                $(this).find("ul").show();
+            }, function () {
+                $(this).find("ul").hide();
+                //$(".comm_a").trigger('mouseout');
+                $(".comm_a").children('span').css({'color': '#373737'});
             });
+
         } else {
             $('.nav-global-04').hover(function() {
-            $(this).children('ul').stop(true, false, true).slideToggle(500);
-        });
+                $(this).children('ul').stop(true, false, true).slideToggle(500);
+            });
 
             /*
             $('.nav-global-04').on('click', function() {

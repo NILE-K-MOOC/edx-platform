@@ -103,7 +103,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <div class="ttbg" style="max-width: 100%; height:310px; ">
                 <div class="grid-container grid-manual" style="height: 100%">
                     <div class="row" style="height: 100%;">
-                        <img src="/static/images/css/main_bg2.png" style="position: absolute; margin-top: 30px; margin-left: 317px;">
+                        <img src="/static/images/css/main_bg2.png" class="main_ptn">
                         <div class="col col-12 sm-col-6">
                             <div class="ttbg1" id="main-contents-search">
 			<span class="k-bannner-txt">
@@ -152,14 +152,14 @@ from openedx.core.djangolib.markup import HTML, Text
 
                                     % if popzone_list:
                                     <div class="slide" style="display: block; left: 0px;">
-                                        <a href="${popzone_list[0]['link_url']}" class="11232ssss" target="${popzone_list[0]['link_target']}">
+                                        <a href="${popzone_list[0]['link_url']}" target="${popzone_list[0]['link_target']}">
                                             <img src="${popzone_list[0]['image_file']}" alt="${popzone_list[0]['title']}">
                                             <input type="hidden" value="${popzone_list[0]['title']}" id="pop_title0">
                                         </a>
                                     </div>
                                     % for pop in popzone_list[1:]:
                                     <div class="slide" style="display: none; left: 0px;">
-                                        <a href="${pop['link_url']}" class="3223221aa" target="${pop['link_target']}">
+                                        <a href="${pop['link_url']}" target="${pop['link_target']}">
                                             <img src="${pop['image_file']}" alt="${pop['title']}">
                                             <input type="hidden" value="${pop['title']}" id="pop_title${loop.index + 1}">
                                         </a>
@@ -217,9 +217,138 @@ from openedx.core.djangolib.markup import HTML, Text
                     </div>
 
 
+                    <script type="text/javascript">
+
+                        function openCity(evt, cityName) {
+                            // Declare all variables
+                            var i, tabcontent, tablinks;
+
+                            // Get all elements with class="tabcontent" and hide them
+                            tabcontent = document.getElementsByClassName("tabcontent");
+                            for (i = 0; i < tabcontent.length; i++) {
+                                tabcontent[i].style.display = "none";
+                            }
+
+                            // Get all elements with class="tablinks" and remove the class "active"
+                            tablinks = document.getElementsByClassName("tablinks");
+                            for (i = 0; i < tablinks.length; i++) {
+                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                            }
+
+                            // Show the current tab, and add an "active" class to the link that opened the tab
+                            document.getElementById(cityName).style.display = "block";
+                            evt.currentTarget.className += " active";
+                        }
+                    </script>
+
+
                     <div class="col col-12 sm-col-6" style="padding-right: 0;">
 
-                        <!-- 커뮤니티 최신 4개 s -->
+                        <div class="tab2">
+                            <button class="tablinks active" onclick="openCity(event, 'comm_all')">전체</button>
+                            <button class="tablinks" onclick="openCity(event, 'news')">K-MOOC 뉴스</button>
+                            <button class="tablinks" onclick="openCity(event, 'notice')">공지사항</button>
+                            <button class="tablinks" onclick="openCity(event, 'ref')">자료실</button>
+                            <button class="tablinks" onclick="openCity(event, 'faq')">FAQ</button>
+                        </div>
+
+                        <div id="comm_all" class="tabcontent">
+                            <div class="tabcontent-depth1">
+                                <ul>
+                                    <%
+                                    idx = 0
+                                    %>
+                                    % for list in index_list :
+
+                                    <%
+                                    idx += 1
+                                    %>
+                                    % if idx <= 6:
+                                    <li class="comm_all">
+                                        % if list[5] != 'F':
+                                        <a href="/comm_view/${list[5]}/1/${list[0]}">
+                                            <p><i>${list[1]}</i>&nbsp;${list[2]}</p>
+                                        </a>
+                                        % else:
+                                        <a href="/comm_tabs/${list[6]}/">
+                                            <p><i>${list[1]}</i>&nbsp;${list[2]}</p>
+                                        </a>
+                                        % endif
+                                    </li>
+                                    % endif
+                                    % endfor
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="news" class="tabcontent" style="display: none;">
+                            <div class="tabcontent-depth1">
+                                <ul>
+                                    % for list in index_list :
+                                    % if list[5] == 'K':
+                                    <li>
+                                        <a href="/comm_view/${list[5]}/1/${list[0]}">
+                                            <p><i>${list[1]}</i>&nbsp;${list[2]}</p>
+                                        </a>
+                                    </li>
+                                    % endif
+                                    % endfor
+                                </ul>
+                                <div class="tabcontent-depth1-more"><a href="/comm_list/K/">+ 더보기</a></div>
+                            </div>
+                        </div>
+
+                        <div id="notice" class="tabcontent" style="display: none;">
+                            <div class="tabcontent-depth1">
+                                <ul>
+                                    % for list in index_list :
+                                    % if list[5] == 'N':
+                                    <li>
+                                        <a href="/comm_view/${list[5]}/1/${list[0]}">
+                                            <p><i>${list[1]}</i>&nbsp;${list[2]}</p>
+                                        </a>
+                                    </li>
+                                    % endif
+                                    % endfor
+                                </ul>
+                                <div class="tabcontent-depth1-more"><a href="/comm_list/N/">+ 더보기</a></div>
+                            </div>
+                        </div>
+
+                        <div id="ref" class="tabcontent" style="display: none;">
+                            <div class="tabcontent-depth1">
+                                <ul>
+                                    % for list in index_list :
+                                    % if list[5] == 'R':
+                                    <li>
+                                        <a href="/comm_view/${list[5]}/1/${list[0]}">
+                                            <p><i>${list[1]}</i>&nbsp;${list[2]}</p>
+                                        </a>
+                                    </li>
+                                    % endif
+                                    % endfor
+                                </ul>
+                                <div class="tabcontent-depth1-more"><a href="/comm_list/R/">+ 더보기</a></div>
+                            </div>
+                        </div>
+
+                        <div id="faq" class="tabcontent" style="display: none;">
+                            <div class="tabcontent-depth1">
+                                <ul>
+                                    % for list in index_list :
+                                    % if list[5] == 'F':
+                                    <li>
+                                        <a href="/comm_tabs/${list[6]}/">
+                                            <p><i>${list[1]}</i>&nbsp;${list[2]}</p>
+                                        </a>
+                                    </li>
+                                    % endif
+                                    % endfor
+                                </ul>
+                                <div class="tabcontent-depth1-more"><a href="/comm_tabs/kmooc_f/">+ 더보기</a></div>
+                            </div>
+                        </div>
+
+                        <!-- 커뮤니티 최신 4개 s
                         <div class=" sm-col-6" style="padding-left: 0;">
                             <div class="info-area">
                                 <div class="info-top-area">
@@ -254,7 +383,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         </div>
                         <!-- 커뮤니티 최신 4개 e -->
 
-                        <!-- 자주하는 질문 s -->
+                        <!-- 자주하는 질문 s
                         <div class=" sm-col-6" style="padding-right: 0;">
                             <div class="info-area">
                                 <div class="info-top-area">
@@ -581,5 +710,5 @@ from openedx.core.djangolib.markup import HTML, Text
             var hashbang = $("#"+$(this).data("hashbang")).offset();
             $('html, body').stop().animate({scrollTop: hashbang.top-110}, 'slow');
         });
-    })
+    });
 </script>
