@@ -1627,7 +1627,8 @@ def mobile_course_about(request, course_id):
         # 작성한 리뷰의 아이디와 등록시간을 구하는 로직
         with connections['default'].cursor() as cur:
             sql = '''
-                SELECT reg_time, id
+                SELECT DATE_FORMAT(reg_time, "%Y/%m/%d %H:%m:%s") as reg_time,
+                       id
                 FROM   edxapp.course_review
                 WHERE  course_id like 'course-v1:{0}+{1}+%'
                        AND user_id IN (SELECT id
@@ -1809,7 +1810,7 @@ def mobile_course_about(request, course_id):
                au.username,
                cr.content,
                cr.point,
-               cr.reg_time,
+               DATE_FORMAT(cr.reg_time, "%Y/%m/%d %H:%m:%s") as reg_time,
                Sum(CASE
                      WHEN good_bad = 'g' THEN 1
                      ELSE 0
@@ -1844,10 +1845,10 @@ def mobile_course_about(request, course_id):
                au.username,
                cr.content,
                cr.point,
-               cr.reg_time
-        FROM   edxapp.course_review AS cr
-               JOIN edxapp.auth_user AS au
-                 ON au.id = cr.user_id
+               DATE_FORMAT(cr.reg_time, "%Y/%m/%d %H:%m:%s") as reg_time
+          FROM course_review AS cr
+          JOIN auth_user AS au
+          ON au.id = cr.user_id
         WHERE  au.email = '{0}'
                AND course_id LIKE 'course-v1:{1}+{2}+%'
         '''.format(review_email, course_org, course_number)
@@ -1916,10 +1917,6 @@ def mobile_course_about(request, course_id):
             course_target = reverse('info', args=[course.id.to_deprecated_string()])
         else:
             course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
-
-        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
-        course_link = course_link.replace("/info", "&email_opt_in=true")
-        course_link = course_link.replace('/about', '&email_opt_in=true')
 
         show_courseware_link = bool(
             (
@@ -1997,7 +1994,7 @@ def mobile_course_about(request, course_id):
         d_day = (course_start_val - today_val)
 
         if d_day.days > 0:
-            day = {'day': '/ D-' + str(d_day.days)}
+            day = {'day': 'D-' + str(d_day.days)}
         else:
             day = {'day': ''}
 
@@ -2077,8 +2074,8 @@ def mobile_course_about(request, course_id):
                 enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
                 enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
             else:
-                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y년%-m월%d일")}
-                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y년%-m월%d일")}
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y.%m.%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y.%m.%d")}
         else:
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}
@@ -2095,10 +2092,10 @@ def mobile_course_about(request, course_id):
 
         sys.setdefaultencoding('utf-8')
         con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                              settings.DATABASES.get('default').get('USER'),
-                              settings.DATABASES.get('default').get('PASSWORD'),
-                              settings.DATABASES.get('default').get('NAME'),
-                              charset='utf8')
+                          settings.DATABASES.get('default').get('USER'),
+                          settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'),
+                          charset='utf8')
         cur = con.cursor()
         query = """
             SELECT id
@@ -2121,6 +2118,57 @@ def mobile_course_about(request, course_id):
             flag_index = cur.fetchall()
             cur.close()
             flag = flag_index[0][0]
+
+        cur = con.cursor()
+        query = """
+            SELECT concat(Date_format(start, '%Y/%m/%d'),
+                    '~',
+                    Date_format(end, '%Y/%m/%d')),
+                     id
+              FROM course_overviews_courseoverview
+             WHERE org = '{0}' AND display_number_with_default = '{1}' AND id NOT IN ('{2}')
+             ORDER BY start DESC;
+        """.format(course_org, course_number, overview)
+        cur.execute(query)
+        pre_course_index = cur.fetchall()
+        cur.close()
+        pre_course = pre_course_index
+
+        # 청강 - course.end < today
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_end = course.end
+        time_compare = 'N'
+        if course_end is not None:
+            course_end_val = course_end.strptime(str(course_end)[0:10], "%Y-%m-%d").date()
+            if today_val > course_end_val:
+                time_compare = 'Y'
+
+
+        cur = con.cursor()
+        query = """
+            SELECT audit_yn
+              FROM course_overview_addinfo
+             WHERE course_id = '{0}';
+        """.format(course_id)
+
+        cur.execute(query)
+        audit_index = cur.fetchall()
+        cur.close()
+        if len(audit_index) != 0 and time_compare == 'Y':
+            audit_flag = audit_index[0][0]
+        else:
+            audit_flag = 'N'
+
+        cur = con.cursor()
+        query = """
+            SELECT ifnull(effort, '00:00@0#00:00')
+              FROM course_overviews_courseoverview
+             WHERE id = '{course_id}'
+        """.format(course_id=course_id)
+        cur.execute(query)
+        effort = cur.fetchall()[0][0]
+        cur.close()
+        effort_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else ''
 
         context = {
             'course': course,
@@ -2168,7 +2216,9 @@ def mobile_course_about(request, course_id):
             'course_total' : course_total,
             'login_status' : login_status,
             'flag' : flag,
-            'course_link' : course_link,
+            'pre_course':pre_course,
+            'audit_flag':audit_flag,
+            'effort_week': effort_week,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
