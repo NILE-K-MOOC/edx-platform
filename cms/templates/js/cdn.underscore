@@ -27,6 +27,8 @@
                     state_msg = '동영상 인코딩 개시'
                 }else if(portable_url == 'F'){
                     state_msg = '동영상 인코딩 실패'
+                }else if(portable_url == 'I'){
+                    state_msg = '동영상 인코딩 진행중'
                 }else{
 
                     if(url == 'E'){
@@ -38,7 +40,6 @@
                     }
                 }
 
-                //console.log(url, display_name, asset_type, thumbnail, external_url,portable_url);
 
                 var trans = trans_state(url, display_name, asset_type, thumbnail, external_url, portable_url)
                 %>
