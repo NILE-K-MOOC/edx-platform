@@ -355,6 +355,11 @@ a, span, p {color:inherit;}
 	color: #4587c2;
 }
 
+.header-global .wrapper-header .nav-global.list-inline .item > a.comm_a:hover,
+.header-global .wrapper-header .nav-global.list-inline .item > a.comm_a:hover .effect_labe{
+	color: #4587c2;
+}
+
 .header-global .wrapper-header .nav-global.list-inline .item > a.hover:hover:after,
 .header-global .wrapper-header .nav-global.list-inline .item > a.hover:hover .effect_label{
 	/*transition-duration: .4s;*/
