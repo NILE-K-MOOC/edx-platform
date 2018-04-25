@@ -1918,6 +1918,10 @@ def mobile_course_about(request, course_id):
         else:
             course_target = reverse('about_course', args=[course.id.to_deprecated_string()])
 
+        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_link = course_link.replace("/info", "&email_opt_in=true")
+        course_link = course_link.replace('/about', '&email_opt_in=true')
+
         show_courseware_link = bool(
             (
                 has_access(request.user, 'load', course) and
@@ -2219,6 +2223,7 @@ def mobile_course_about(request, course_id):
             'pre_course':pre_course,
             'audit_flag':audit_flag,
             'effort_week': effort_week,
+            'course_link' : course_link,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
