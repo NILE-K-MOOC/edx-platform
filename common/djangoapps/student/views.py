@@ -557,7 +557,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
     f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
-                                     'enrollment_start__lte': datetime.datetime.now()}
+                                     'enrollment_start__lte': datetime.datetime.now(), 'start__lte': datetime.datetime(2029, 12, 31, 23, 59, 59)}
     log.info(f1)
     courses1 = get_courses(user, filter_=f1)
 
