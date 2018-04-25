@@ -638,7 +638,7 @@ def _track_certificate_events(request, context, course, user, user_certificate):
         })
 
 
-def _render_certificate_template(request, context, course, user_certificate):
+def _render_certificate_template(request, context, course, user_certificate, preview_mode=None):
     """
     Picks appropriate certificate templates and renders it.
     """
@@ -654,7 +654,7 @@ def _render_certificate_template(request, context, course, user_certificate):
             )
             context = RequestContext(request, context)
             return HttpResponse(template.render(context))
-
+    context['preview_mode'] = preview_mode
     return render_to_response("certificates/valid.html", context)
 
     # strHtmlData = render_to_string('certificates/valid.html', context)
@@ -837,4 +837,4 @@ def render_html_view(request, user_id, course_id):
 
     # FINALLY, render appropriate certificate
 
-    return _render_certificate_template(request, context, course, user_certificate)
+    return _render_certificate_template(request, context, course, user_certificate, preview_mode)
