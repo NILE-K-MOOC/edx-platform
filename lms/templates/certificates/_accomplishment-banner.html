@@ -93,25 +93,25 @@ from django.template.defaultfilters import escapejs
                     <input type="checkbox" id ="checkbox4"> 주간 학습권장시간
                     <input type="checkbox" id ="checkbox2"> 동영상 재생시간
                     <input type="checkbox" id ="checkbox1"> 성적
-
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button class="action action-print btn-inverse btn-small" id="action-print-view">
-                        <span class="icon fa fa-print" aria-hidden="true"></span>
-                        ${_("Print Certificate")}
-                    </button>
-                    % if nice_check_flag == 0:
-                        <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
-                            본인인증하기
+                    % if not preview_mode:
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="action action-print btn-inverse btn-small" id="action-print-view">
+                            <span class="icon fa fa-print" aria-hidden="true"></span>
+                            ${_("Print Certificate")}
                         </button>
-                    %endif
+                        % if nice_check_flag == 0:
+                            <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
+                                본인인증하기
+                            </button>
+                        %endif
 
-                    %if badge:
-                        <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
-                            <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
-                            ${_("Add to Mozilla Backpack")}
-                        </button>
+                        %if badge:
+                            <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
+                                <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
+                                ${_("Add to Mozilla Backpack")}
+                            </button>
+                        %endif
                     %endif
-                    <!-- 이수증 -->
 
 
                     <form name="frmPopup" method="POST">
@@ -146,8 +146,6 @@ from django.template.defaultfilters import escapejs
                         <input type="hidden" name="org_name_e">
                         <input type="hidden" name="e_name">
                     </form>
-
-                    <!-- 이수증 -->
 
                     <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
                         <input type="hidden" name="m" value="checkplusSerivce">

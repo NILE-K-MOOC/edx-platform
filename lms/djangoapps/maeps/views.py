@@ -281,7 +281,7 @@ def certificate_print(request):
             print_index = print_index.replace('${k_box3}', '')
         if (checkbox4 == 'true'):
             print_index = print_index.replace('${k_box4}',
-                                              '<li id="k_box4" >주간 학습권장시간 : ${course_effort_h}시간 ${course_effort_m}분</li>')
+                                              '<li id="k_box4" >주간 학습 권장시간 : ${course_effort_h}시간 ${course_effort_m}분</li>')
         else:
             print_index = print_index.replace('${k_box4}', '')
         if (checkbox2 == 'true'):
@@ -335,7 +335,7 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('common/static/images/univ/logo01_' + logo_index + '_e.png')):
+        if (os.path.isfile('common/static/images/univ_e/logo01_' + logo_index + '_e.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
         else:
@@ -480,6 +480,9 @@ def certificate_print(request):
     if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
         strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
+    print 'Test Index ==============='
+    print strEncodeHtmlData
+    print 'Test Index ==============='
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
