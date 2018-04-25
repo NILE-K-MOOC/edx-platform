@@ -356,7 +356,7 @@ a, span, p {color:inherit;}
 }
 
 .header-global .wrapper-header .nav-global.list-inline .item > a.comm_a:hover,
-.header-global .wrapper-header .nav-global.list-inline .item > a.comm_a:hover .effect_labe{
+.header-global .wrapper-header .nav-global.list-inline .item > a.comm_a:hover .effect_label {
 	color: #4587c2;
 }
 
@@ -1491,8 +1491,17 @@ button.button-primary.login-provider{padding: 0 0 0 37px;}
     float: right;}
 .ttbg2 img {width:100%; height:auto;}
 
+.main_ptn {
+	position: absolute; margin-top: 30px; margin-left: 317px;
+}
 
-/*  main_serch  */
+@media (max-width: 815px) {
+	.main_ptn {
+		display: none;
+	}
+}
+
+/*  main_search  */
 .msearch_area {
     position: relative;
     display: flex;
@@ -1874,5 +1883,126 @@ span.important-dates-item-text.start-date {
 	border-top: 1px solid lightgrey;
 	padding-top: 30px;
 	margin-top: 30px;
+}
+
+
+/* ----------------main-----------------*/
+.tab2 {
+    float: left;
+    background-color: #fff;
+    width: 30%;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab2 button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 14.5px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    background-image: none;
+    text-shadow: none;
+    box-shadow: none;
+
+}
+
+/* Change background color of buttons on hover */
+.tab2 button:hover {
+    background-color: #ddd;
+	background-image:none !important;
+	color:#fff;
+}
+
+/* Create an active/current "tab button" class */
+.tab2 button.active {
+    background-color: #4587c2 !important;
+	color:#fff;
+	box-shadow:none !important;
+	border:none !important;
+}
+
+.tab2 button:focus {
+        outline: none !important;
+	}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 15px;
+    border: 1px solid #eee;
+    width: 70%;
+    height: 225px;
+}
+
+
+.tabcontent-depth1 {}
+.tabcontent-depth1 ul {margin-bottom: 10px; margin-left: 0;}
+.tabcontent-depth1 ul li {
+	list-style:none;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 98%;
+	margin-bottom: 15px;
+}
+
+.tabcontent-depth1 ul li.comm_all {
+	margin-bottom: 18px;
+}
+
+.tabcontent-depth1 a i {
+font-weight: bold;
+    font-style: normal;
+}
+
+.tabcontent-depth1 a p {
+	margin-bottom: 2px;
+}
+
+ .tabcontent-depth1 ul li:last-child{margin-bottom:15px;}
+
+ .tabcontent-depth1-more a{
+	display: inline-block;
+    width: 100%;
+    border: 1px solid #eee;
+    padding: 9px;
+    text-align: center;
+    cursor: pointer;
+ }
+
+  @media (max-width: 1006px){
+.tab2 button { padding: 13px 15px;}
+
+}
+
+ @media (max-width: 815px){
+.tab2 button {font-size: 15px; padding: 13px 15px;}
+
+}
+ @media (max-width: 705px){
+.tab2 button { padding: 13px 15px;}
+
+}
+
+ @media (max-width: 691px){
+.tab2 button {font-size: 15px; padding: 13px 5px;}
+
+}
+
+ @media (max-width: 647px){
+.tab2 button {padding: 13px 5px;}
+
+}
+
+ @media (max-width: 529px){
+.tab2 button {font-size: 12px;
+	padding: 14.5px 5px;}
+
 }
 

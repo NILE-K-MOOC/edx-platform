@@ -715,7 +715,7 @@ def memo(request):
         pass
 
         context = {
-            'page_title': 'Memo'
+            'page_title': 'Notification'
         }
 
         return render_to_response('community/comm_memo.html', context)
