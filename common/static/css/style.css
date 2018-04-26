@@ -1905,7 +1905,7 @@ span.important-dates-item-text.start-date {
     text-align: center;
     cursor: pointer;
     transition: 0.3s;
-    border-radius: 0;
+    border-radius: 5px;
     background-image: none;
     text-shadow: none;
     box-shadow: none;
@@ -1937,6 +1937,7 @@ span.important-dates-item-text.start-date {
 	border:none !important;
 	border-bottom: 1.5px solid #fff !important;
 	border-top: 1.5px solid #fff !important;
+	border-radius: 5px;
 }
 
 .tab2 button.active:first-child {
@@ -1958,6 +1959,7 @@ span.important-dates-item-text.start-date {
 	border: 1.5px solid #4587c2;
 	width: 70%;
 	height: 225px;
+	border-radius: 5px;
 }
 
 
@@ -1983,6 +1985,10 @@ span.important-dates-item-text.start-date {
 
 .tabcontent-depth1 a p {
 	margin-bottom: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 98%;
 }
 
 .tabcontent-depth1 ul li:last-child{margin-bottom:15px;}
