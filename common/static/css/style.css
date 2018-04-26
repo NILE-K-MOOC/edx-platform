@@ -1896,11 +1896,11 @@ span.important-dates-item-text.start-date {
 /* Style the buttons that are used to open the tab content */
 .tab2 button {
     display: block;
-    background-color: inherit;
+    background-color: #f2f2f2;
     color: black;
-    padding: 14.5px 16px;
+    padding: 13.25px 16px;
     width: 100%;
-    border: none;
+    border: 1.5px solid #fff;
     outline: none;
     text-align: center;
     cursor: pointer;
@@ -1909,14 +1909,24 @@ span.important-dates-item-text.start-date {
     background-image: none;
     text-shadow: none;
     box-shadow: none;
+	border-right: 4px solid #fff;
+	border-left: none;
+}
 
+.tab2 button:first-child {
+	border-top: none;
+}
+
+.tab2 button:last-child {
+	border-bottom: none;
 }
 
 /* Change background color of buttons on hover */
 .tab2 button:hover {
     background-color: #ddd;
 	background-image:none !important;
-	color:#fff;
+	/*color:#fff;*/
+	font-weight: bold;
 }
 
 /* Create an active/current "tab button" class */
@@ -1925,6 +1935,16 @@ span.important-dates-item-text.start-date {
 	color:#fff;
 	box-shadow:none !important;
 	border:none !important;
+	border-bottom: 1.5px solid #fff !important;
+	border-top: 1.5px solid #fff !important;
+}
+
+.tab2 button.active:first-child {
+	border-top: none !important;
+}
+
+.tab2 button.active:last-child {
+	border-bottom: none !important;
 }
 
 .tab2 button:focus {
@@ -1933,11 +1953,11 @@ span.important-dates-item-text.start-date {
 
 /* Style the tab content */
 .tabcontent {
-    float: left;
-    padding: 15px;
-    border: 1px solid #eee;
-    width: 70%;
-    height: 225px;
+	float: left;
+	padding: 15px;
+	border: 1.5px solid #4587c2;
+	width: 70%;
+	height: 225px;
 }
 
 
@@ -1946,9 +1966,9 @@ span.important-dates-item-text.start-date {
 .tabcontent-depth1 ul li {
 	list-style:none;
 	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 98%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 98%;
 	margin-bottom: 15px;
 }
 
@@ -1957,52 +1977,62 @@ span.important-dates-item-text.start-date {
 }
 
 .tabcontent-depth1 a i {
-font-weight: bold;
-    font-style: normal;
+	font-weight: bold;
+	font-style: normal;
 }
 
 .tabcontent-depth1 a p {
 	margin-bottom: 2px;
 }
 
- .tabcontent-depth1 ul li:last-child{margin-bottom:15px;}
+.tabcontent-depth1 ul li:last-child{margin-bottom:15px;}
 
- .tabcontent-depth1-more a{
+.tabcontent-depth1-more a{
 	display: inline-block;
-    width: 100%;
-    border: 1px solid #eee;
-    padding: 9px;
-    text-align: center;
-    cursor: pointer;
- }
+	width: 100%;
+	border: 1px solid #eee;
+	padding: 9px;
+	text-align: center;
+	cursor: pointer;
+}
 
-  @media (max-width: 1006px){
-.tab2 button { padding: 13px 15px;}
+@media (max-width: 1034px){
+	.tab2 button {
+		padding: 13.3px 15px;
+		font-size: 13px;
+	}
+}
+
+@media (max-width: 890px){
+	.tab2 button {font-size: 13px; padding: 13.3px 5px;}
+
+}
+@media (max-width: 768px){
+	.tab2 button { padding: 11.8px 15px;}
 
 }
 
- @media (max-width: 815px){
-.tab2 button {font-size: 15px; padding: 13px 15px;}
-
-}
- @media (max-width: 705px){
-.tab2 button { padding: 13px 15px;}
+@media (max-width: 681px){
+	.tab2 button {padding: 11.8px 5px;}
 
 }
 
- @media (max-width: 691px){
-.tab2 button {font-size: 15px; padding: 13px 5px;}
+@media (max-width: 545px){
+	.tab2 button {font-size: 11px; padding: 11.8px 0;}
 
 }
 
- @media (max-width: 647px){
-.tab2 button {padding: 13px 5px;}
+@media (max-width: 480px){
+	.tab2 button {padding: 13.4px 5px; font-size: 13px;}
 
 }
 
- @media (max-width: 529px){
-.tab2 button {font-size: 12px;
-	padding: 14.5px 5px;}
+@media (max-width: 390px){
+	.tab2 button {padding: 13.4px 5px; font-size: 11px;}
 
+}
+
+@media (max-width: 348px){
+	.tab2 button {padding: 13.4px 0;}
 }
 
