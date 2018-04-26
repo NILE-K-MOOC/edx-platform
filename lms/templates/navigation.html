@@ -289,9 +289,16 @@ $( document ).ready(function() {
             $(".nav-global-04").toggle(function () {
                 $(".comm_a").children('span').removeAttr('style', 'color');
                 $(this).find("ul").show();
-            }, function () {
-                $(this).find("ul").hide();
-                $(".comm_a").children('span').css({'color': '#636363'});
+            }, function (e) {
+                var target = e.target;
+                if(!target.className && target.tagName == 'A'){
+                    $(".nav-global-04").off('click');
+                    location.href = target.href;
+                } else {
+                    $(this).find("ul").hide();
+                    $(".comm_a").children('span').css({'color': '#636363'});
+                }
+
             });
         } else {
             $('.nav-global-04').hover(function() {
