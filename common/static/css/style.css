@@ -586,7 +586,7 @@ a, span, p {color:inherit;}
 .community-container-wrap {max-width:75rem;margin:0 auto;position:relative; padding: 10px; padding-top:45px; border: 1px solid #eee;}
 /*20170116*/
 /*.community-container-wrap > a {position:absolute;top:0;width:20%;line-height:40px;text-align:center;color:#fff;background:#9aa1a4;border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 17px;font-weight: 700;}*/
-.community-container-wrap > a {position:absolute;top:0;width:10%;line-height:50px;text-align:center;color:#333; border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 15px; border-bottom:1px solid #dcdadc; text-decoration:none; border-left: 0px;}
+.community-container-wrap > a {position:absolute;top:0;width:10%;line-height:50px;text-align:center;color:#333; border-left:solid 1px #eef1f2;box-sizing:border-box;font-size: 15px; border-bottom:1px solid #dcdadc; text-decoration:none; border-left: 0px; font-weight: bold;}
 .community-container-wrap > a:nth-of-type(1) {left:0;border-left:0;}
 .community-container-wrap > a:nth-of-type(2) {left:10%;}
 .community-container-wrap > a:nth-of-type(3) {left:20%;}
@@ -1911,6 +1911,8 @@ span.important-dates-item-text.start-date {
     box-shadow: none;
 	border-right: 4px solid #fff;
 	border-left: none;
+	font-weight: bold;
+	font-family: "Nanum Gothic","Open Sans";
 }
 
 .tab2 button:first-child {
