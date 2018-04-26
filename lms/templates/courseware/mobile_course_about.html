@@ -387,15 +387,15 @@ a:hover + p.arrow_box {
                 ${course.display_name_with_default_escaped}
 ##                 <a href="#">${course.display_org_with_default | h}</a>
               </h1>
-               <div style="float: right; right: 0; position: absolute; margin-right: 20px;">
-                   % if (flag == 1):
+               <!--<div style="float: right; right: 0; position: absolute; margin-right: 20px;">
+                   ##% if (flag == 1):
                    <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="color:#3e7bc0; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 삭제</p>
                    <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="display:none; color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 추가</p>
-                   % else :
+                   ##% else :
                    <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 삭제</p>
                    <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box">관심강좌 추가</p>
-                   % endif
-               </div>
+                   ##% endif
+               </div>-->
               <script>
                   if ( '${login_status}' == 'x') {
                       $('#interest_btn_d').hide();
