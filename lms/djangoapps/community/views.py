@@ -733,7 +733,7 @@ def memo_view(request, memo_id=None):
         memo.files = Memo.objects.filter(memo_id=memo_id)
 
     context = {
-        'page_title': 'Memo',
+        'page_title': 'Notification',
         'memo': memo
     }
 
