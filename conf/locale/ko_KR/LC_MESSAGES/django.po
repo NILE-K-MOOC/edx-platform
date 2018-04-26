@@ -30150,3 +30150,6 @@ msgid ""
 "If the value is not set, the problem is worth the sum of the "
 "option point values."
 msgstr "각 문제의 가치가있는 점수의 수를 정의합니다. 값을 설정하지 않으면 문제는 옵션 포인트 값의 합계가됩니다."
+
+msgid "K-MOOC Notification"
+msgstr "K-MOOC 알림"

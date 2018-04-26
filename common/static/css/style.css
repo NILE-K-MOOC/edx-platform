@@ -476,7 +476,7 @@ a, span, p {color:inherit;}
     .associate-icon > div:nth-child(1){margin-top:15px;}
 }
 
-.header-global .nav-global .dropdown-menu {position:absolute;left:0;top:60px;width:100%;background:#fff;z-index:99;border-radius:0 0 10px 10px;padding:10px 0;margin:0;display:none;border:solid 1px #ebebeb;border-top:0;text-align: center;}
+.header-global .nav-global .dropdown-menu {position:absolute;left:-10px;top:60px;width:100%;background:#fff;z-index:99;border-radius:0 0 10px 10px;padding:10px 0;margin:0;display:none;border:solid 1px #ebebeb;border-top:0;text-align: center;}
 .header-global .nav-global .dropdown-menu li {display:block;margin:0;}
 .header-global .nav-global .dropdown-menu li a {padding:10px;color:#333;font-size:0.875rem;display:block;}
 .header-global .nav-global .dropdown-menu li a:hover, .header-global .nav-global .dropdown-menu li a.on {color:#fff;background:#000;}
@@ -1905,7 +1905,7 @@ span.important-dates-item-text.start-date {
     text-align: center;
     cursor: pointer;
     transition: 0.3s;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
     background-image: none;
     text-shadow: none;
     box-shadow: none;
@@ -1937,7 +1937,7 @@ span.important-dates-item-text.start-date {
 	border:none !important;
 	border-bottom: 1.5px solid #fff !important;
 	border-top: 1.5px solid #fff !important;
-	border-radius: 5px;
+	border-radius: 5px 0 0 5px;
 }
 
 .tab2 button.active:first-child {
@@ -1959,7 +1959,7 @@ span.important-dates-item-text.start-date {
 	border: 1.5px solid #4587c2;
 	width: 70%;
 	height: 225px;
-	border-radius: 5px;
+	border-radius: 0 5px 5px 0;
 }
 
 
