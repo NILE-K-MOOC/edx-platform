@@ -1499,27 +1499,27 @@ msgstr "박사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Master's or professional degree"
-msgstr "석사 또는 전문대학원 학위 소지"
+msgstr "석사 / 전문대학원 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Bachelor's degree"
-msgstr "학사 학위 소지(대학교 졸업)"
+msgstr "학사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Associate degree"
-msgstr "전문학사 학위 소지(전문대학 졸업)"
+msgstr "전문학사 학위 소지"
 
 #: common/djangoapps/student/models.py
 msgid "Secondary/high school"
-msgstr "고등학교 졸업 / 대학교 재학"
+msgstr "고등학교 졸업 (대학교 재학)"
 
 #: common/djangoapps/student/models.py
 msgid "Junior secondary/junior high/middle school"
-msgstr "중학교 졸업 / 고등학교 재학"
+msgstr "중학교 졸업 (고등학교 재학)"
 
 #: common/djangoapps/student/models.py
 msgid "Elementary/primary school"
-msgstr "초등학교 졸업 / 중학교 재학"
+msgstr "초등학교 졸업 (중학교 재학)"
 
 #: common/djangoapps/student/models.py
 msgid "No Formal Education"
@@ -12772,19 +12772,18 @@ msgid ""
 "complete the course"
 msgstr "{b_start}동기부여: {b_end} 강좌를 마치고 자신에게 추가 인센티브를 주세요."
 
-#: lms/templates/dashboard.html
+#: lms/templates/course_modes/choose.html
+#: themes/edx.org/lms/templates/course_modes/choose.html
+#: common/templates/course_modes/choose.html
+msgid "Audit This Course"
+msgstr "이 강좌 청강"
+
 msgid "Audit Course"
 msgstr "청강강좌"
 
 #: lms/templates/course.html
 msgid "audit course"
 msgstr "청강가능"
-
-#: lms/templates/course_modes/choose.html
-#: themes/edx.org/lms/templates/course_modes/choose.html
-#: common/templates/course_modes/choose.html
-msgid "Audit This Course"
-msgstr "이 강좌 청강"
 
 #: lms/templates/course_modes/choose.html
 #: themes/edx.org/lms/templates/course_modes/choose.html
@@ -28498,9 +28497,6 @@ msgstr "종료"
 msgid "interest"
 msgstr "관심강좌"
 
-msgid "propose"
-msgstr "추천강좌"
-
 msgid "propose(Beta)"
 msgstr "추천강좌(Beta)"
 
@@ -29282,6 +29278,18 @@ msgstr "회원 탈퇴시 까지"
 
 # templates/index.html
 
+msgid "Enable video progress check"
+msgstr "동영상 진도체크 활성화"
+
+msgid "If you set the value to 'True', the video progress check is enabled."
+msgstr "'True'로 값을 설정할 경우 동영상 진도체크가 활성화 됩니다."
+
+msgid "Notification"
+msgstr "알림"
+
+msgid "NOTIFICATION"
+msgstr "알림"
+
 msgid "Viewing all"
 msgstr "전체보기"
 
@@ -30029,11 +30037,7 @@ msgstr "공개 날짜"
 msgid "You can save your progress and return to complete your response at any time before the due date"
 msgstr "현재 상태를 저장 후, 마감일 전까지 언제든 답변을 완성할 수 있습니다."
 
-msgid "Enable video progress check"
-msgstr "동영상 진도체크 활성화"
 
-msgid "If you set the value to 'True', the video progress check is enabled."
-msgstr "'True'로 값을 설정할 경우 동영상 진도체크가 활성화 됩니다."
 
 #-------------------------------------------------------------------------------------------------------
 
@@ -30092,12 +30096,6 @@ msgstr "글쓰기"
 
 msgid "MEMO"
 msgstr "쪽지"
-
-msgid "Notification"
-msgstr "알림"
-
-msgid "NOTIFICATION"
-msgstr "알림"
 
 msgid "Series Course"
 msgstr "시리즈 강좌"
