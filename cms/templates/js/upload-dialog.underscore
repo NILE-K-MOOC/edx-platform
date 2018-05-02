@@ -28,6 +28,7 @@
 
         </div>
         <p style = "margin-bottom: 3px;" id="dialog-assetupload-description" class="message"><%- message %></p>
-        <p style = "margin-bottom: 3px;" id="dialog-assetupload-description" class="message">강좌 대표이미지는 가로 290 x 세로 188 사이즈를 권장합니다</p>
+        <p style = "margin-bottom: 3px; display:none;" id="dialog-assetupload-description" class="message sumnail_error_text1">강좌 대표이미지는 가로 326 x 세로 200 사이즈를 권장합니다</p>
+        <p style = "margin-bottom: 3px; display:none; color: red;" id="dialog-assetupload-description" class="message sumnail_error_text2">강좌 대표이미지는 100kb 이하로 업로드 해야합니다</p>
     </div>
 </form>

@@ -40,7 +40,36 @@ define(["jquery", "underscore", "gettext", "js/views/modals/base_modal", "jquery
                 if (selectedFile && isValid) {
                     $(oldInput).removeClass("error");
                     this.$('input[type=file]').replaceWith(oldInput);
+
+                    //console.log("uploads.js --------> 1");
+                    //console.log("selectedFile -> "+selectedFile);
+                    //console.log("selectedFile.size -> "+selectedFile.size);
+                    //console.log("oldInput -> "+oldInput);
+
                     this.$('.action-upload').removeClass('disabled');
+
+                    //console.log("--------------------> DDD");
+                    //console.log(this);
+                    //console.log(this.model.attributes['title']);
+                    //console.log("--------------------> DDD");
+
+                    // adding logic ---------------------------------------------> s
+                    if (this.model.attributes['title'] == '강좌 대표 이미지를 업로드하세요.' || this.model.attributes['title'] == 'Upload your course image.'){
+                        if(selectedFile.size > 100000 ){
+                            console.log("selectedFile.size < 100000 ---------> start");
+                            this.$('.action-upload').addClass('disabled');
+                            this.$('.sumnail_error_text2').show();
+                            this.$('.sumnail_error_text1').show();
+                            console.log("selectedFile.size < 100000 ---------> end");
+                        }
+                        else {
+                            this.$('.action-upload').removeClass('disabled');
+                            this.$('.sumnail_error_text2').hide();
+                            this.$('.sumnail_error_text1').show();
+                        }
+                    }
+                    // adding logic ---------------------------------------------> e
+
                 } else {
                     this.$('.action-upload').addClass('disabled');
                 }

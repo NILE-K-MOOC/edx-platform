@@ -1097,6 +1097,11 @@ var DetailsView = ValidatingView.extend({
             }
         });
         modal.show();
+
+        // adding logic ---------------------------------------------> s
+        $('.sumnail_error_text1').show();
+        // adding logic ---------------------------------------------> e
+
     },
 
     handleLicenseChange: function() {
