@@ -425,7 +425,10 @@ def certificate_print(request):
                 if teacher.find('(') == -1:
                     teacher = teacher + '(' + teacher
                 teacher = teacher.split('(')
-                title_k = signatory['title'].split('(')
+                title_k = signatory['title']
+                if signatory['title'].find('(') == -1:
+                    title_k = title_k + '(' + title_k
+                title_k = title_k.split('(')
                 organization_k = signatory['organization']
                 if organization_k.find('(') == -1:
                     organization_k = organization_k + '(' + organization_k
@@ -442,7 +445,7 @@ def certificate_print(request):
                     certificate_data_index += '''
                     <div class="t-center">
                         <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
-                        <h5>${teacher[1]}</h5>
+                        <h5>${teacher[1]} ${title_k[1]}</h5>
                         <h5>${organization_k[1]}</h5>
                     </div>
                     '''
@@ -450,7 +453,8 @@ def certificate_print(request):
                                                                         signatory['signature_image_path'])
                 certificate_data_index = certificate_data_index.replace('${teacher[0]}', teacher[0])
                 certificate_data_index = certificate_data_index.replace('${teacher[1]}', teacher[1].replace(')', ''))
-                certificate_data_index = certificate_data_index.replace('${title_k[0]}', title_k[0])
+                certificate_data_index = certificate_data_index.replace('${title_k[0]}', title_k[0].replace(')', ''))
+                certificate_data_index = certificate_data_index.replace('${title_k[1]}', title_k[1].replace(')', ''))
                 certificate_data_index = certificate_data_index.replace('${organization_k[0]}', organization_k[0])
                 certificate_data_index = certificate_data_index.replace('${organization_k[1]}',
                                                                         organization_k[1].replace(')', ''))
@@ -480,9 +484,9 @@ def certificate_print(request):
     if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
         strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-    print 'Test Index ==============='
+    print 'certificattion ==================='
     print strEncodeHtmlData
-    print 'Test Index ==============='
+    print 'certificattion ==================='
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
