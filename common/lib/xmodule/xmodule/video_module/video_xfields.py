@@ -16,12 +16,12 @@ class VideoFields(object):
 
     #### video progress check ####
 
-    has_score = Boolean(
-        help=_("If you set the value to 'True', the video progress check is enabled."),
-        display_name=_("Enable video progress check"),
-        scope=Scope.settings,
-        default=False
-    )
+    #has_score = Boolean(
+    #    help=_("If you set the value to 'True', the video progress check is enabled."),
+    #    display_name=_("Enable video progress check"),
+    #    scope=Scope.settings,
+    #    default=False
+    #)
 
     seek_enable = Boolean(
         help=_("progress bar control"),
