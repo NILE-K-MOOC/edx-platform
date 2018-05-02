@@ -71,14 +71,14 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
     <div id="popupWrap_2" class="layerPupup">
         <p style="text-align: left; font-weight: bold; margin-top: 5px; display: {{ 'none' if LANG == 'en' else 'block' }};">
             <a href="http://www.kmooc.kr/comm_view/N/1/246" target="_sub">
-            <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@ppp2.PNG" alt="2018" style="max-width: 800px;" />
+            <img src="http://www.kmooc.kr/asset-v1:KMOOC+DEMOk+2015_1+type@asset+block@ppp2.PNG" alt="2018" style="max-width: 800px; width:465px;" />
             </a>
         </p>
 
         <div style="text-align: right; display: {{ 'none' if LANG == 'en' else 'block' }};">
             <label onclick="closeWin2();">
                 <input id="chkbox_2" name="chkbox_2" type="checkbox" style="vertical-align: middle;">
-                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '오늘 하루 열지 않음'} &nbsp;&nbsp;</b></span>
+                <span style="font-style:normal; font-size:13px;"><b>${'Close this window for next 24 hours' if LANG == 'en' else '다시 열지 않음'} &nbsp;&nbsp;</b></span>
             </label>
 
             <span><a href="javascript:popClose('popupWrap_2');" title="닫기">[ ${'close' if LANG == 'en' else '닫기'} ]</a></span>

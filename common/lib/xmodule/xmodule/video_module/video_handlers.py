@@ -78,8 +78,8 @@ class VideoStudentViewHandlers(object):
             current_time = float(current_time_string)
 
             # DEBUG
-            print "total_time = ", total_time
-            print "current_time = ", current_time
+            log.info("total_time -> ", total_time)
+            log.info("current_time -> ", current_time)
 
             try:
                 avg = current_time/total_time
@@ -88,24 +88,20 @@ class VideoStudentViewHandlers(object):
 
             avg_progess = (round(avg*100)/100)
 
-            if avg_progess > 0.90 :
+            if avg_progess > 0.95 :
                 avg_progess = 1
-                self.lock = 0
 
             # DEBUG
-            print "avg_progess = ", avg_progess
-            print "self.lock = ", self.lock
-
+            log.info("avg_progess -> ", avg_progess)
 
         if dispatch == 'save_user_state':
             if 'saved_video_position' in data.keys():
-                if self.lock == 0:
-                    print "--------------------------------> OK [s]"
-                    self._publish_grade(1, avg_progess)
-                    print "--------------------------------> OK [e]"
-                    if avg_progess == 1:
-                        self.seek_enable = True
-                        #self.lock = 1
+                pass
+                #if self.lock == 0:
+                #    self._publish_grade(1, avg_progess)
+                #    if avg_progess == 1:
+                #        self.seek_enable = True
+                #        self.lock = 1
             for key in data:
                 if key in accepted_keys:
                     if key in conversions:
