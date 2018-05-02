@@ -1150,6 +1150,8 @@ def course_search_list(request):
                 SELECT DISTINCT display_name
                   FROM course_overviews_courseoverview
                   WHERE catalog_visibility = 'both'
+                   AND enrollment_start IS NOT NULL
+                   AND start < '2030-01-01'
                  ORDER BY display_name;
             '''
             cur.execute(query)
