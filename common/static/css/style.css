@@ -402,11 +402,13 @@ a, span, p {color:inherit;}
 .header-global .wrapper-header .list-inline .item.user > a {padding:0 12px 0 24px;}
 .header-global .wrapper-header .list-inline .item.user > a:before {content:"";display:block;width:19px;height:19px;background:url(/static/images/css/user.png) left top no-repeat;position:absolute;left:0;top:50%;margin-top:-9px;}
 .header-global .wrapper-header .list-inline .item.user > a:after {content:"";display:block;width:6px;height:19px;background:url(/static/images/css/user.png) right top no-repeat;position:absolute;right:0;top:50%;margin-top:-10px;}
-.header-global .wrapper-header .list-inline .item.user.on {background:#e3e3e3;}
-.header-global .wrapper-header .list-inline .item.user.on > a {color:#666;}
-.header-global .wrapper-header .list-inline .item.user.on > a:before {background-position:left -20px;}
-.header-global .wrapper-header .list-inline .item.user.on > a:after {background-position:right -20px;}
-.header-global .wrapper-header .list-inline .item.user .dropdown-menu {border:solid 1px #e4e4e4;background:#fff;left:0;padding:0;border-radius:0;box-shadow:none;}
+.header-global .wrapper-header .list-inline .item.user.on {/*background:#e3e3e3;*/}
+.header-global .wrapper-header .list-inline .item.user.on > a {/*color:#666;*/}
+/*.header-global .wrapper-header .list-inline .item.user.on > a:before {background-position:left -20px;}*/
+/*.header-global .wrapper-header .list-inline .item.user.on > a:after {background-position:right -20px;}*/
+.header-global .wrapper-header .list-inline .item.user.on > a:before {content:"";display:block;width:19px;height:19px;background:url(/static/images/css/user.png) left top no-repeat;position:absolute;left:0;top:50%;margin-top:-9px;}
+.header-global .wrapper-header .list-inline .item.user.on > a:after {content:"";display:block;width:6px;height:19px;background:url(/static/images/css/user.png) right top no-repeat;position:absolute;right:0;top:50%;margin-top:-10px;}
+.header-global .wrapper-header .list-inline .item.user .dropdown-menu {border:solid 1px #e4e4e4;background:#fff;left:0;padding:0;border-radius:0;box-shadow:none;margin-top: 9px;}
 .header-global .wrapper-header .list-inline .item.user .dropdown-menu li {border-top:solid 1px #e4e4e4;margin:0;padding:0;}
 .header-global .wrapper-header .list-inline .item.user .dropdown-menu li:first-child {border-top:0;}
 .header-global .wrapper-header .list-inline .item.user .dropdown-menu li > a {display:block;padding:10px;font-size:0.875rem;border-radius:0;margin:0;color:#222;line-height:1em;}
