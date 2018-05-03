@@ -951,7 +951,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     popupzone_query = """
           SELECT seq,
                  title,
-                 ifnull(concat(attach_file_path, '/', attatch_file_name), '')
+                 ifnull(concat('/static/file_upload/', attatch_file_name, '.', attatch_file_ext), '')
                     image_file,
                  link_url,
                  link_target
