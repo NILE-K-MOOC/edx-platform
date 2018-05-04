@@ -103,8 +103,8 @@ function closeWin2() {
 }
 cookiedata = document.cookie;
 popupDate = new Date();
-targetDate1 = new Date(2018, 4, 5); // Date(2018, 3, 20) -> 2018년 4월 20일에 팝업이 내려감
-targetDate2 = new Date(2018, 4, 5);
+targetDate1 = new Date(2018, 1, 5); // Date(2018, 3, 20) -> 2018년 4월 20일에 팝업이 내려감
+targetDate2 = new Date(2018, 1, 5);
 console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
 if (
         (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
