@@ -205,7 +205,6 @@ def common_course_status(startDt, endDt):
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
-
     if extra_context is None:
         extra_context = {}
     user = request.user
@@ -557,7 +556,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
     f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
-                                     'enrollment_start__lte': datetime.datetime.now(), 'start__lte': datetime.datetime(2029, 12, 31)}
+                                     'enrollment_start__lte': datetime.datetime.now(),
+                                     'start__lte': datetime.datetime(2029, 12, 31)}
     log.info(f1)
     courses1 = get_courses(user, filter_=f1)
 
@@ -848,6 +848,12 @@ def index(request, extra_context=None, user=AnonymousUser()):
                 cur.execute(query)
                 row = cur.fetchall()
                 cur.close()
+                print 'image popup Test ============'
+                print str(index[8])
+                print str(index[9])
+                print str(index[8]) == '0'
+                print str(index[9]) == '0'
+                print 'image popup Test ============'
                 map_list = []
                 for p in row:
                     image_map = p[10]
@@ -866,10 +872,14 @@ def index(request, extra_context=None, user=AnonymousUser()):
                         popup_index = popup_index.replace("#_link_target", str(index[4]))
                         popup_index = popup_index.replace("#_hidden_day", str(index[5]))
                         popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
-                        popup_index = popup_index.replace("#_width", str(index[8]))
-                        popup_index = popup_index.replace("#_height", str(index[9]))
-                        popup_index = popup_index.replace("#_img_width", str(index[9]))
-                        popup_index = popup_index.replace("#_img_height", str(index[9] - 27))
+                        if str(index[8]) == '0':
+                            popup_index = popup_index.replace("#_img_width", 'min-width:' + str(index[8]) + 'px')
+                        else:
+                            popup_index = popup_index.replace("#_img_width", 'width:' + str(index[8]) + 'px')
+                        if str(index[9]) == '0':
+                            popup_index = popup_index.replace("#_img_height", 'min-height:' + str(index[9]) + 'px')
+                        else:
+                            popup_index = popup_index.replace("#_img_height", 'height:' + str(index[9] - 27) + 'px')
                         popup_index = popup_index.replace("#_hidden", str(index[10]))
                         popup_index = popup_index.replace("#_attatch_file_ext", str(index[12]))
                         if (len(index[11]) == 1):
@@ -2895,7 +2905,6 @@ def create_account_with_params(request, params):
     print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     print params['is_regist'] == 'false'
 
-
     # Perform operations within a transaction that are critical to account creation
     with transaction.atomic():
         # first, create the account
@@ -3361,18 +3370,19 @@ def modi_course_period(request):
 
             from django.utils.translation import ugettext_lazy as _
             from django.http import JsonResponse
-            from cms.djangoapps.contentstore.views.course import get_course_and_check_access, CourseMetadata, _refresh_course_tabs
+            from cms.djangoapps.contentstore.views.course import get_course_and_check_access, CourseMetadata, \
+                _refresh_course_tabs
 
             course_key = CourseKey.from_string(addinfo_course_id)
             course_module = get_course_and_check_access(course_key, request.user)
 
             params = {
                 'course_period': {
-                'deprecated': False,
-                'display_name': '\xec\xa3\xbc\xec\xa0\x9c',
-                'help': u'Select Period of Studing',
-                'value': course_period_index
-              }
+                    'deprecated': False,
+                    'display_name': '\xec\xa3\xbc\xec\xa0\x9c',
+                    'help': u'Select Period of Studing',
+                    'value': course_period_index
+                }
             }
             course_module = get_course_and_check_access(course_key, request.user)
             CourseMetadata.validate_and_update_from_json(
