@@ -125,7 +125,7 @@ $(document).ready(function() {
 			if(index.length == 0){
 				var $button = $('');
 			}else{
-				var $button = $('<a class="slide_btn" id=zone'+index+'>'+$("#pop_title"+index).val()+'</a>');
+				var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around;"><a class="slide_btn" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
 			}
 
 			if (index === currentIndex) {

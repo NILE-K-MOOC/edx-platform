@@ -1796,7 +1796,8 @@ height:2000px;
     z-index: 5;
     bottom: 45px;
     display: flex;
-    justify-content: space-between;
+	/*width: 100%;*/
+    justify-content: space-around;
     height: 45px;
     background: rgba(0,0,0,0.3);
     padding: 0 40px;
@@ -1807,7 +1808,9 @@ height:2000px;
 	white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 80%;
+	width: 80%;
     overflow: hidden;
+	position: absolute;
 }
 
 a.slide_btn {
