@@ -1,6 +1,8 @@
 var window_W = 0;
 
 $(document).ready(function() {
+	var agent = navigator.userAgent.toLowerCase();
+
 	console.log("script.js :: document.ready !");
 	window_W = $(window).width();
 	$(window).resize(resize);
@@ -125,7 +127,14 @@ $(document).ready(function() {
 			if(index.length == 0){
 				var $button = $('');
 			}else{
-				var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around;"><a class="slide_btn" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+				if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around;"><a class="slide_btn" style="position: relative;" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+				} else if ((agent.indexOf("safari") != -1)){
+					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around;"><a class="slide_btn" style="left: 0;" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+				}
+				else {
+					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around;"><a class="slide_btn" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+				}
 			}
 
 			if (index === currentIndex) {
