@@ -1174,6 +1174,18 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 .container .discussion-body, .container .discussion-module, .container .discussion-user-threads {margin:0 auto;max-width:1200px;}
 section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
+@media (max-width: 1515px) {
+	.layerPopupArea {
+		left: 50px !important;
+	}
+}
+
+@media (max-width: 1315px) {
+	.layerPopupArea {
+		left: 5px !important;
+	}
+}
+
 @media (max-width: 1200px) {
 	body.view-in-course .container {padding:0 10px;}
 	body.view-in-course .wrapper-course-material, body.view-in-course .wrapper-preview-menu {padding:0 10px;}
@@ -1192,7 +1204,6 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
 	.layerPopupArea {
 		top: 63px !important;
-		left: 30px !important;
 	}
 }
 
