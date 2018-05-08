@@ -1,4 +1,4 @@
-var FaceBook = (function() {
+/*var FaceBook = (function() {
     var _args = {};
 
     return {
@@ -29,4 +29,4 @@ var FaceBook = (function() {
             });
         }
     };
-}());
+}());*/
