@@ -72,7 +72,7 @@ from openedx.core.djangolib.markup import HTML, Text
     a:hover + p.arrow_box {
       display: block;
     }
-    .equation {
+    #formula_editor {
         color: #fff !important;
         background-color: #218838 !important;
         border-color: #1e7e34 !important;
@@ -109,7 +109,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <ul>
                 % if is_unit_page:
                     <li class="action-item action-editor nav-item">
-                        <a href="javascript:OpenLatexEditor('testbox','html','')" class="button equation">
+                        <a href="javascript:OpenLatexEditor('testbox','html','')" class="button equation" id="formula_editor">
                             <span class="action-button-text">수식편집기</span>
                         </a><p class="arrow_box">수식 입력을 위한 편집기가 새창으로 열립니다.<br>편집기를 통해 수식을 만드신 후, 이를 복사하여<br> <span>\(</span> .. <span>\)</span>로 감싸서 구성요소 안에 입력하시면 됩니다.</p>
                     </li>
