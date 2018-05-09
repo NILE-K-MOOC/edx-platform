@@ -1,4 +1,4 @@
-<article class="course <%- status %>" role="region" aria-label="<%- content.display_name %>">
+<article class="course <%- status  %> <% if (audit_yn == 'Y') { %> audit<% } %>" role="region" aria-label="<%- content.display_name %>">
     <a href="/courses/<%- course %>/about">
         <header class="course-image">
             <div class="cover-image">
@@ -18,7 +18,7 @@
         </header>
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
-                <% if (course_end == 'Y' && audit_yn == 'Y') { %>
+                <% if (status == 'end' && audit_yn == 'Y') { %>
                     <span class="course-status over"><%- gettext(status) %>(<%- gettext("AUDIT COURSE") %>)</span>
                 <% } else { %>
                     <span class="course-status over"><%- gettext(status) %></span>
