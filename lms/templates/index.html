@@ -81,6 +81,21 @@ from openedx.core.djangolib.markup import HTML, Text
 </div>
 
 <script language="Javascript">
+
+
+$( document ).ready(function() {
+    $( ".slide_viewer" ).hover(function() {
+        $('#arrow_box_left').css("background-color", "#333");
+        $('#arrow_box_right').css("background-color", "#333");
+    },
+    function(){
+        $('#arrow_box_left').css("background-color", "");
+        $('#arrow_box_right').css("background-color", "");
+    });
+});
+
+
+
 function popClose(id){
     $("#" + id).hide();
 }
@@ -288,7 +303,7 @@ if (
 
                                 <div class="directional_nav">
                                     <div class="previous_btn" title="Previous">
-                                        <svg x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66" style="background: #333;" >
+                                        <svg id="arrow_box_left" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66">
                                             <g>
                                                 <g>
 
@@ -298,7 +313,7 @@ if (
                                         </svg>
                                     </div>
                                     <div class="next_btn" title="Next">
-                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66" style="background: #333;">
+                                        <svg id="arrow_box_right" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66">
                                             <g>
                                                 <g style="background:#efefef;">
 
