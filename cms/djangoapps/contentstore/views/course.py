@@ -817,8 +817,24 @@ def _create_or_rerun_course(request):
         fields.update(definition_data)
 
         if 'source_course_key' in request.json:
+            # 기존 강좌의 청강 허용여부
+            try:
+                with connections['default'].cursor() as cur:
+                    query = '''
+                        SELECT ifnull(audit_yn, 'Y')
+                          FROM course_overview_addinfo
+                         WHERE course_id = '{course_id}';
+                    '''.format(course_id=request.json['source_course_key'])
+                    cur.execute(query)
+                    audit_yn = cur.fetchone() if cur.rowcount else 'Y'
+                    fields.update({'audit_yn': audit_yn[0]})
+
+            except Exception as e:
+                print e
+
             return _rerun_course(request, org, course, run, fields)
         else:
+            fields.update({'audit_yn': u'Y'})
             return _create_new_course(request, org, course, run, fields)
 
     except DuplicateCourseError:
