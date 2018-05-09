@@ -16958,6 +16958,9 @@ msgstr "검토"
 msgid "Confirmation"
 msgstr "확인"
 
+msgid "Go to the course introduction"
+msgstr "강좌소개 페이지이동"
+
 #: lms/templates/static_templates/404.html
 msgid ""
 "The page that you were looking for was not found. Go back to the "
