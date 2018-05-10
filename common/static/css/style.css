@@ -2080,3 +2080,7 @@ span.important-dates-item-text.start-date {
 	.tab2 button {padding: 13.4px 0;}
 }
 
+button#intro_shot {
+	border: none !important;
+	box-shadow: inset 0 1px 0 0 #fff !important;
+}
