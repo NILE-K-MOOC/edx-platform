@@ -106,10 +106,10 @@ def _update_certificate_context(context, user_certificate, platform_name):
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    # nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
-    nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
-    # nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
-    nice_errorurl = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    nice_returnurl      = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
+    # nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl       = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    # nice_errorurl = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
 
     nice_returnMsg = ''
 
