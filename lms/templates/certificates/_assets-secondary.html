@@ -12,7 +12,9 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
 <script type="text/javascript">
 
     document.getElementById("action-print-view").addEventListener("click", printView);
-    document.getElementById("action-check-view").addEventListener("click", checkView);
+    if( $('#action-check-view').size() == 1) {
+        document.getElementById("action-check-view").addEventListener("click", checkView);
+    }
 
     function printView(event) {
         var frmPop= document.frmPopup;
