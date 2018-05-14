@@ -819,7 +819,7 @@ def comm_list(request, section=None, curr_page=None):
             else:
                 comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-odby', '-reg_date')
         p = Paginator(comm_list, page_size)
         total_cnt = p.count
         all_pages = p.num_pages
