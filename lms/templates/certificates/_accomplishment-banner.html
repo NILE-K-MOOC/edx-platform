@@ -7,7 +7,7 @@ from django.template.defaultfilters import escapejs
   <%static:js group='certificates_wv'/>
   <script type="text/javascript">
       $(document).ready(function() {
-          FaceBook.init({"facebook_app_id": '${facebook_app_id}'});
+          //FaceBook.init({"facebook_app_id": '${facebook_app_id}'});
           $.ajaxSetup({
               headers: {
               },
@@ -100,9 +100,9 @@ from django.template.defaultfilters import escapejs
                             ${_("Print Certificate")}
                         </button>
                         % if nice_check_flag == 0:
-                            <!--<button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
+                            <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
                                 본인인증하기
-                            </button>-->
+                            </button>
                         %endif
 
                         %if badge:

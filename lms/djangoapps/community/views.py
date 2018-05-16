@@ -819,7 +819,7 @@ def comm_list(request, section=None, curr_page=None):
             else:
                 comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-reg_date')
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-odby', '-reg_date')
         p = Paginator(comm_list, page_size)
         total_cnt = p.count
         all_pages = p.num_pages
@@ -881,6 +881,39 @@ def comm_list(request, section=None, curr_page=None):
 
 @ensure_csrf_cookie
 def comm_view(request, section=None, curr_page=None, board_id=None):
+
+    #print "board_id -> ", board_id
+
+    if section == 'N':
+        page_title = '공지사항'
+    elif section == 'K':
+        page_title = 'K-MOOC 뉴스'
+    elif section == 'R':
+        page_title = '자료실'
+    else:
+        return None
+
+    context = {
+        'page_title': page_title
+    }
+
+    # 게시판 삭제 기능 유효성 체크 [s]
+    with connections['default'].cursor() as cur:
+        query = '''
+            select count(board_id)
+            FROM tb_board
+            where board_id = '{board_id}'
+            and use_yn = 'D'
+        '''.format(board_id=board_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+    #print "value -> ", rows[0][0]
+
+    if rows[0][0] == 1:
+        return render_to_response('community/comm_null.html', context)
+    # 게시판 삭제 기능 유효성 체크 [e]
+
     if board_id is None:
         return redirect('/')
 

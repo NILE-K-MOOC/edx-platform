@@ -550,6 +550,7 @@ def course_listing(request):
             SELECT detail_code, detail_name
               FROM code_detail
              WHERE group_code = 003
+             AND USE_YN = 'Y'
              ORDER BY detail_name;
         """
         cur.execute(query)

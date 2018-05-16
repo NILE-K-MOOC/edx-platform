@@ -40,8 +40,8 @@ strPrtDatDownFolder = strCurrentPath + "/bin/";         # dat
 
 # setting Install Page
 iUseInstallPage = 1    # 1: Use install page 0: download exe directly
-strInstallFilePath = strCurrentPath + "/bin/Setup_ePageSafer_2.5.1.26.exe"
-strInstallFileName = "Setup_ePageSafer_2.5.1.26.exe"
+strInstallFilePath = strCurrentPath + "/bin/Setup_ePageSafer.exe"
+strInstallFileName = "Setup_ePageSafer.exe"
 
 # setting the was file
 strUrlHome = "/maeps"

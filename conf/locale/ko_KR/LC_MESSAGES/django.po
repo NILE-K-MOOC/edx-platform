@@ -16959,7 +16959,7 @@ msgid "Confirmation"
 msgstr "확인"
 
 msgid "Go to the course introduction"
-msgstr "강좌소개 페이지이동"
+msgstr "소개페이지 살펴보기"
 
 #: lms/templates/static_templates/404.html
 msgid ""
