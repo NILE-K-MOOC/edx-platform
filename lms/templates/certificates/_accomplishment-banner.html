@@ -94,11 +94,22 @@ from django.template.defaultfilters import escapejs
                     <input type="checkbox" id ="checkbox2"> 동영상 재생시간
                     <input type="checkbox" id ="checkbox1"> 성적
                     % if not preview_mode:
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        % if survey_check == 0:
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfnOX3jh-aYME4NLL5pNuD4YXs09DhgtkWI2YIGt9ydTjJClg/viewform?usp=pp_url&entry.1080638018=K-MOOC+%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0&entry.303748662=uoneway" target="_blank"><button class="action action-print btn-inverse btn-small" style="margin: 0px">
+                            설문조사하기
+                        </button></a>
+                        <input type="text" name="survey_code" id="survey_code" placeholder="설문코드입력" style="color: black; margin: 0px; width: 90px">
+                        <button class="action action-print btn-inverse btn-small" id="survey_code_check" style="margin: 0px 0px 3px 0px; padding: 3.5px">
+                        코드인증
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        % else:
                         <button class="action action-print btn-inverse btn-small" id="action-print-view">
                             <span class="icon fa fa-print" aria-hidden="true"></span>
                             ${_("Print Certificate")}
                         </button>
+                        %endif
                         % if nice_check_flag == 0:
                             <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
                                 본인인증하기
@@ -112,8 +123,6 @@ from django.template.defaultfilters import escapejs
                             </button>
                         %endif
                     %endif
-
-
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="language_flag">
                         <input type="hidden" name="checkbox1">

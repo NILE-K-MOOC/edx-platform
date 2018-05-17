@@ -14,6 +14,47 @@ from . import mapreprocessor
 from xmodule.modulestore.django import modulestore
 from certificates.api import get_active_web_certificate
 from opaque_keys.edx.keys import CourseKey
+import MySQLdb as mdb
+from django.conf import settings
+from django.http import HttpResponse, JsonResponse
+
+@csrf_exempt
+def servey_check(request):
+    survey_code = request.POST.get('survey_code')
+    course_id = request.POST.get('course_id')
+    user_id = request.POST.get('user_id')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+
+    cur = con.cursor()
+    query = """
+            SELECT detail_code
+              FROM code_detail
+             WHERE group_code = 999;
+            """
+    cur.execute(query)
+    servey_check_code = cur.fetchall()
+
+    check_flag = 'false'
+    if(survey_code.strip() == servey_check_code[0][0].strip()):
+        query = """
+            INSERT INTO survey_check(course_id, regist_id, regist_date)
+            VALUES ('{0}', '{1}', now());
+            """.format(course_id, user_id)
+        cur.execute(query)
+        print 'insert query ========='
+        print query
+        print 'insert query ========='
+        con.commit()
+
+        check_flag = 'true'
+    else:
+        check_flag = 'false'
+
+    return JsonResponse({'return':check_flag})
 
 
 @csrf_exempt

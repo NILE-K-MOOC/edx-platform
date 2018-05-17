@@ -346,9 +346,19 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
             """.format(user_id)
     cur.execute(query)
     nice_check_flag = cur.fetchall()
+
+    query = """
+            SELECT count(*)
+            FROM survey_check
+            where course_id = '{0}' and regist_id = {1};
+            """.format(course_id, user_id)
+    cur.execute(query)
+    survey_check = cur.fetchall()
     cur.close()
 
     context['nice_check_flag'] = nice_check_flag[0][0]
+    context['survey_check'] = survey_check[0][0]
+    context['user_id'] = user_id
 
     with connections['default'].cursor() as cur, MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
                                                              settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get(
