@@ -64,7 +64,7 @@
 				<section class="agree-frm-box">
 					<h3>${_("Terms and conditions for use")} ${_("(Essential)")}</h3>
                     %if _("Agree") == "Agree" :
-<textarea readonly="readonly" title="Terms and conditions for use(Essential)">
+<div>
 Chapter 1 General Rule
 
 Article 1 (Purpose)
@@ -181,9 +181,9 @@ Article 17 (Exemption from Responsibility)
 Article 18 (Competent Court)
   The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.
   The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.
-                    </textarea>
+</div>
                     % else :
-                    <textarea readonly="readonly" title="이용약관 동의(필수)">
+<div>
 제1장 총칙
 
 제1조 (목적)
@@ -307,7 +307,8 @@ Article 18 (Competent Court)
 제18조 (관할법원)
     '서비스' 이용과 관련하여 소송이 제기될 경우 'NILE'의 소재지를 관할하는 법원 또는 대한민국의 민사소송법에 따른 법원을 관할법원으로 합니다.
     본 약관의 해석과 적용 및 본 약관과 관련한 분쟁의 해결에는 대한민국법이 적용됩니다.
-        			</textarea>
+</div>
+<!-- hello world [s] -->
                         % endif
 
 					<div class="agree-chk">
@@ -319,7 +320,7 @@ Article 18 (Competent Court)
 				<section class="agree-frm-box">
 					<h3>개인정보 수집 및 이용 동의 (필수)</h3>
                     %if _("Agree") == "Agree" :
-<textarea readonly="readonly" title="Terms and conditions for use(Essential)">
+<div>
 Chapter 1 General Rule
 
 Article 1 (Purpose)
@@ -436,9 +437,9 @@ Article 17 (Exemption from Responsibility)
 Article 18 (Competent Court)
   The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.
   The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.
-                    </textarea>
+</div>
                     % else :
-                    <textarea readonly="readonly" title="개인정보 수집 및 이용 동의 (필수)">
+<div>
 1. 개인정보의 수집 및 이용 목적
 
   가. 서비스 제공 및 개선
@@ -467,7 +468,7 @@ Article 18 (Competent Court)
 
 4. 동의를 거부할 권리 고지 및 동의 거부에 따른 불이익
   이용자는 진흥원에서 필수로 수집하는 개인정보에 대해 동의를 거부할 권리가 있으며, 필수항목에 대한 동의 거부 시에는 회원가입 및 이용이 제한됩니다.
-        			</textarea>
+</div>
                         % endif
 
 					<div class="agree-chk">
@@ -480,7 +481,7 @@ Article 18 (Competent Court)
 				<section class="agree-frm-box">
 					<h3>개인정보 수집 및 이용 동의 (선택)</h3>
                     %if _("Agree") == "Agree" :
-                    <textarea readonly="readonly" title="Privacy policy(Essential)">
+<div>
 1. Purpose of Collection and Use of Personal Information
 
  The K-MOOC homepage collects personal information for the following purposes. The collected personal information will not be used for any purpose other than the following purposes and will be subject to prior consent if the purpose of use is changed.
@@ -514,9 +515,9 @@ Article 18 (Competent Court)
 4. The fact that you have the right to refuse consent and the disadvantage of denying consent
 
  The user has the right to refuse consent to the personal information collected on the K-MOOC homepage. If you refuse to accept the required items, membership will be restricted.
-                    </textarea>
+</div>
                         %else :
-                    <textarea readonly="readonly" title="개인정보 수집 및 이용 동의(필수)">
+<div>
 1. 선택적 개인정보의 수집 및 이용 목적
   서비스 제공 및 개선을 위한 학습결과 산출 및 관련 정보 제공, 서비스 개선 방향 도출을 위한 통계 산출 및 진흥원 연구 수행 등을 목적으로 개인정보를 처리합니다.
 
@@ -529,7 +530,7 @@ Article 18 (Competent Court)
 
 4. 동의를 거부할 권리 고지 및 동의 거부에 따른 불이익
   이용자는 위 선택 개인정보 수집 및 이용목적에 대하여 동의를 거부하고 회원가입 시 입력하지 않으실 수 있으며, 이 경우에도 기본적인 서비스는 이용 가능합니다.
-        			</textarea>
+</div>
 
                         %endif
 					<div class="agree-chk">
@@ -543,7 +544,7 @@ Article 18 (Competent Court)
 				<section class="agree-frm-box">
 					<h3>홍보·설문 관련 정보 수신 동의 (선택)</h3>
                     %if _("Agree") == "Agree" :
-                    <textarea readonly="readonly" title="Privacy policy(option)">
+<div>
 1. Purpose of collecting optional personal information
 
  In K-MOOC homepage member enrollment, providing related services such as providing convenience and lecture guidance when a member requests the confirmation of information.
@@ -562,9 +563,9 @@ Article 18 (Competent Court)
 4. Veto and disadvantage
 
  The customer who requests usages can refuse to agree with the purpose of the optional personal information and use. When a customer does not enter the optional information, there is no restriction on the use of the basic service. However, if you need additional information on the optional information, we can not provide the service. In addition, we do not collect sensitive personal information (race, ideology and creed, political tendencies, criminal records, medical information, etc.) that may be of concern to basic human rights violations.
-                        </textarea>
+</div>
                         %else:
-                    <textarea readonly="readonly" title="개인정보 수집 및 이용 동의(선택)">
+<div>
 1. 홍보·설문을 위한 개인정보 이용 목적
   서비스 홍보 및 설문 실시를 위한 연락 등을 목적으로 개인정보를 이용합니다.
 
@@ -575,7 +576,7 @@ Article 18 (Competent Court)
 
 4. 거부권 및 불이익
   이용자는 홍보·설문 관련 정보 수신에 동의를 거부하실 수 있으며 이 경우에도 기본적인 서비스 이용 제한은 없으나 관련 이벤트 참여 및 경품 수령 등에 제한이 있을 수 있습니다.
-        			</textarea>
+</div>
 
                         %endif
 					<div class="agree-chk">
