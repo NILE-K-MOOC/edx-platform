@@ -474,6 +474,7 @@ def _update_course_context(request, context, course, platform_name):
     course_title_from_cert = context['certificate_data'].get('course_title', '')
     accomplishment_copy_course_name = course_title_from_cert if course_title_from_cert else course.display_name
     context['accomplishment_copy_course_name'] = accomplishment_copy_course_name
+    context['accomplishment_copy_course_name_incoding'] = (accomplishment_copy_course_name).decode('utf8')
     course_number = course.display_coursenumber if course.display_coursenumber else course.number
     context['course_number'] = course_number
     if context['organization_long_name']:
