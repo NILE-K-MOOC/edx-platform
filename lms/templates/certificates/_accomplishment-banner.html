@@ -106,7 +106,7 @@ from django.template.defaultfilters import escapejs
                         <script>
                             $(document).ready(function(){
                                swal({
-                                   html: '본 강좌의 이수증 출력을 위해서는 우선 강좌 만족도 설문에 응답해주셔야 합니다.<br><b style="color: red;">설문에 응답 후 나오는 코드를 아래 칸에 입력해주세요.</b>',
+                                   html: '본 강좌 이수증을 출력하시기 전에 강좌 만족도 설문에 <br>응답해주세요.<br><b style="color: red;">설문 응답 후 마지막 페이지에 나오는 코드를 꼭 저장하시고 <br>이수증출력창에 입력해주세요.</b>',
                                    title: '${accomplishment_copy_course_name} 강좌를 성공적으로\n이수하신것을 축하드립니다!',
                                    //text: '',
                                    type: 'info',
@@ -121,9 +121,9 @@ from django.template.defaultfilters import escapejs
                                });
                             });
                         </script>
-                        <input type="text" name="survey_code" id="survey_code" placeholder="설문코드입력" style="color: black; margin: 0px; width: 90px">
-                        <button class="action action-print btn-inverse btn-small" id="survey_code_check" style="margin: 0px 0px 3px 0px; padding: 3.5px">
-                        코드인증
+                        <input type="text" name="survey_code" id="survey_code" placeholder="  설문응답완료코드 넣기" style="color: black; margin: 0px; width: 165px; height: 43px; border-radius: 5px;">
+                        <button class="action action-print btn-inverse btn-small" id="survey_code_check" style="margin: 0px 0px 3px 0px;">
+                        확인
                         </button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         % else:
