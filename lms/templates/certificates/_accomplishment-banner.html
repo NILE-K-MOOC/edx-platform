@@ -5,6 +5,8 @@ from django.template.defaultfilters import escapejs
 <%namespace name='static' file='../static_content.html'/>
 <%block name="js_extra">
   <%static:js group='certificates_wv'/>
+  <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+<script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
   <script type="text/javascript">
       $(document).ready(function() {
           //FaceBook.init({"facebook_app_id": '${facebook_app_id}'});
@@ -94,11 +96,42 @@ from django.template.defaultfilters import escapejs
                     <input type="checkbox" id ="checkbox2"> 동영상 재생시간
                     <input type="checkbox" id ="checkbox1"> 성적
                     % if not preview_mode:
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        % if survey_check == 0:
+                        <style>
+                            #swal2-content {
+                                text-align: unset !important;
+                            }
+                        </style>
+                        <script>
+                            $(document).ready(function(){
+                               swal({
+                                   html: '본 강좌 이수증을 출력하시기 전에 강좌 만족도 설문에 <br>응답해주세요.<br><b style="color: red;">설문 응답 후 마지막 페이지에 나오는 코드를 꼭 저장하시고 <br>이수증출력창에 입력해주세요.</b>',
+                                   title: '${accomplishment_copy_course_name} 강좌를 성공적으로\n이수하신것을 축하드립니다!',
+                                   //text: '',
+                                   type: 'info',
+                                   confirmButtonText: '설문 응답하러 가기',
+                                   //closeOnClickOutside: false,
+                                   //closeOnEsc: false,
+                                   allowOutsideClick: false,
+                                   allowEscapeKey: false,
+                               }).then(function (data) {
+                                   var openNewWindow = window.open("about:blank");
+                                   openNewWindow.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSfnOX3jh-aYME4NLL5pNuD4YXs09DhgtkWI2YIGt9ydTjJClg/viewform?usp=pp_url&entry.1080638018=K-MOOC+%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0&entry.303748662=uoneway';
+                               });
+                            });
+                        </script>
+                        <input type="text" name="survey_code" id="survey_code" placeholder="  설문응답완료코드 넣기" style="color: black; margin: 0px; width: 165px; height: 43px; border-radius: 5px;">
+                        <button class="action action-print btn-inverse btn-small" id="survey_code_check" style="margin: 0px 0px 3px 0px;">
+                        확인
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        % else:
                         <button class="action action-print btn-inverse btn-small" id="action-print-view">
                             <span class="icon fa fa-print" aria-hidden="true"></span>
                             ${_("Print Certificate")}
                         </button>
+                        %endif
                         % if nice_check_flag == 0:
                             <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
                                 본인인증하기
@@ -112,8 +145,6 @@ from django.template.defaultfilters import escapejs
                             </button>
                         %endif
                     %endif
-
-
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="language_flag">
                         <input type="hidden" name="checkbox1">

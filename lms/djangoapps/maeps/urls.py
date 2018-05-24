@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'MaInstallPage', views.MaInstallPage, name='MaInstallPage'),
     url(r'certificate_print$', 'maeps.views.certificate_print', name='certificate_print'),
     url(r'series_print$', 'maeps.views.series_print', name='series_print'),
+    url(r'servey_check$', 'maeps.views.servey_check', name='servey_check'),
 ]
