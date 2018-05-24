@@ -584,6 +584,7 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("catalog_visibility", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
 
         AboutInfo("difficult_degree", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("audit_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
     @classmethod
