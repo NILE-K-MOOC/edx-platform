@@ -10,10 +10,32 @@ if accomplishment_course_title.find('(') == -1 :
 accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
 %>
 <script type="text/javascript">
-
-    document.getElementById("action-print-view").addEventListener("click", printView);
+    if( $('#action-print-view').size() == 1) {
+        document.getElementById("action-print-view").addEventListener("click", printView);
+    }
     if( $('#action-check-view').size() == 1) {
         document.getElementById("action-check-view").addEventListener("click", checkView);
+    }
+    if( $('#survey_code_check').size() == 1) {
+        document.getElementById("survey_code_check").addEventListener("click", servey_check);
+    }
+
+    function servey_check(event){
+        var survey_code = $('#survey_code').val();
+        $.post("/maeps/servey_check", {
+            survey_code: survey_code,
+            course_id: '${course_id}',
+            user_id: '${user_id}',
+        })
+        .done(function (data) {
+            if(data.return == 'true') {
+                location.reload();
+                alert("설문에 응답해주셔서 감사합니다! 이제 이수증을 출력하실 수 있습니다")
+            }
+            if(data.return == 'false'){
+                alert("코드가 다릅니다. 다시 한번 확인하세요")
+            }
+        });
     }
 
     function printView(event) {
