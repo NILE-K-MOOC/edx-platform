@@ -28498,7 +28498,7 @@ msgid "end"
 msgstr "종료"
 
 msgid "end & audit course"
-msgstr "종료(청강가능 강좌 포함)"
+msgstr "종료(청강가능)"
 
 msgid "interest"
 msgstr "관심강좌"
