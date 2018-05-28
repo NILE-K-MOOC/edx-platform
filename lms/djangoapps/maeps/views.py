@@ -344,7 +344,7 @@ def certificate_print(request):
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
         if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/logo01_' + logo_index + '.png')):
             print_index = print_index.replace('${logo_area}',
-                                              '<img class="ce-logo1" src="/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
+                                              '<img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_k + '</p></b>')
     elif language_flag == 'E':
@@ -378,7 +378,7 @@ def certificate_print(request):
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
         if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/logo01_' + logo_index + '_e.png')):
             print_index = print_index.replace('${logo_area}',
-                                              '<img class="ce-logo1" src="/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
+                                              '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_e + '</p></b>')
     print_index = print_index.replace('${certificate_id_number}', certificate_id_number)
