@@ -342,7 +342,7 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('/static/images/univ/logo01_' + logo_index + '.png')):
+        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/logo01_' + logo_index + '.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
         else:
@@ -376,7 +376,7 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('/static/images/univ_e/logo01_' + logo_index + '_e.png')):
+        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/logo01_' + logo_index + '_e.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
         else:
@@ -525,9 +525,9 @@ def certificate_print(request):
     if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
         strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-    print 'certificattion ==================='
-    print strEncodeHtmlData
-    print 'certificattion ==================='
+    print 'strHtmlData ---------------------------------------------- s'
+    print strHtmlData
+    print 'strHtmlData ---------------------------------------------- e'
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
