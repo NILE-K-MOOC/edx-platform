@@ -342,7 +342,7 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('common/static/images/univ/logo01_' + logo_index + '.png')):
+        if (os.path.isfile(static_url+'/static/images/univ/logo01_' + logo_index + '.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
         else:
@@ -376,7 +376,7 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('common/static/images/univ_e/logo01_' + logo_index + '_e.png')):
+        if (os.path.isfile(static_url+'/static/images/univ_e/logo01_' + logo_index + '_e.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
         else:
