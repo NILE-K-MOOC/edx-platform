@@ -34,11 +34,12 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         })
         .done(function (data) {
             if(data.return == 'true') {
-                location.reload();
+                //location.reload();
                 swal({
                     type: 'success',
                     title: '강좌만족도 설문에 응답해주셔서 감사합니다!\n 이제 이수증을 출력해보세요.',
                     customClass: 'swal-wide2',
+                    confirmButtonText: '확인',
                 })
             }
             if(data.return == 'false'){
@@ -46,6 +47,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                     type: 'error',
                     title: '응답완료코드가 맞지 않습니다.\n 강좌만족도 응답 후 마지막 페이지에서 \n보이는 코드를 다시 한번 확인해주세요.',
                     customClass: 'swal-wide2',
+                    confirmButtonText: '확인',
                 })
             }
         });
