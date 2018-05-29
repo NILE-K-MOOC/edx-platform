@@ -9,6 +9,11 @@ if accomplishment_course_title.find('(') == -1 :
     accomplishment_course_title = accomplishment_course_title + '(' + accomplishment_course_title
 accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
 %>
+<style>
+    .swal-wide2{
+        width:600px !important;
+    }
+</style>
 <script type="text/javascript">
     if( $('#action-print-view').size() == 1) {
         document.getElementById("action-print-view").addEventListener("click", printView);
@@ -30,10 +35,18 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         .done(function (data) {
             if(data.return == 'true') {
                 location.reload();
-                alert("강좌만족도 설문에 응답해주셔서 감사합니다! 이제 이수증을 출력해보세요.")
+                swal({
+                    type: 'success',
+                    title: '강좌만족도 설문에 응답해주셔서 감사합니다!\n 이제 이수증을 출력해보세요.',
+                    customClass: 'swal-wide2',
+                })
             }
             if(data.return == 'false'){
-                alert("응답완료코드가 맞지 않습니다. 강좌만족도 응답 후 마지막 페이지에서 보이는 코드를 다시 한번 확인해주세요.")
+                swal({
+                    type: 'error',
+                    title: '응답완료코드가 맞지 않습니다.\n 강좌만족도 응답 후 마지막 페이지에서 \n보이는 코드를 다시 한번 확인해주세요.',
+                    customClass: 'swal-wide2',
+                })
             }
         });
     }
