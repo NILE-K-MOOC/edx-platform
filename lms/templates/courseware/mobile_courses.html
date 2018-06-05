@@ -249,6 +249,7 @@ getParameterByName('search_query')
                             <option value="">${_('All')}</option>
                             <option value="i">${_('ing')}</option>
                             <option value="t">${_('ready')}</option>
+                            <option value="a">${_('end & audit course')}</option>
                             <option value="e">${_('end')}</option>
                         </select>
                     </div>
@@ -326,7 +327,7 @@ getParameterByName('search_query')
 
         var p_range = getTermParameter("range");
         if (p_range != undefined) {
-            if (p_range == 'i' || p_range == 'e' || p_range == 't') {
+            if (p_range == 'i' || p_range == 'e' || p_range == 't' || p_range == 'a') {
                 $(".course-facets-select option[value=" + p_range + "]").attr("selected", "selected");
             }
         }
