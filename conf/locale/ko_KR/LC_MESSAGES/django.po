@@ -2531,7 +2531,7 @@ msgstr "종료(정답을 맞히거나 더 이상 응답이 불가능한 경우)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Correct or Past Due"
-msgstr "정답 제출 \/ 응답 가능 기한이 지난 후"
+msgstr "정답 제출 / 응답 가능 기한이 지난 후"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Past Due"
