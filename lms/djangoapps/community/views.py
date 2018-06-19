@@ -2196,6 +2196,22 @@ def comm_list_json(request):
 
     return HttpResponse(data, 'application/json')
 
+def cert_survey(request):
+
+    hello = request.GET['hello']
+
+    print "before = ", hello
+
+    hello = hello.split('/certificates/')
+    hello = hello[1]
+
+    print "after = ", hello
+
+    context={}
+    context['hello']=hello
+
+    return render_to_response("community/cert_survey.html",context)
+
 # def dormant_mail(request):
 #     email_list = []
 #     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),

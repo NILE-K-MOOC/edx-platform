@@ -172,6 +172,8 @@ urlpatterns = (
     url(r'^memo$', 'community.views.memo', name='memo'),
     url(r'^memo_view/(?P<memo_id>.*?)/$', 'community.views.memo_view', name='memo_view'),
     url(r'^memo_sync$', 'community.views.memo_sync', name='memo'),
+    # survey url -----
+    url(r'^cert_survey/$', 'community.views.cert_survey', name='cert_survey'),
 
     # course_list
     url(r'^course_search_list$', 'student.views.course_search_list', name='course_list'),
@@ -646,6 +648,7 @@ urlpatterns += (
     url(r'^schools/?$', 'courseware.views.views.schools', name="schools"),
     url(r'^cert_check/?$', 'courseware.views.views.cert_check', name="cert_check"),
     url(r'^cert_check_id/?$', 'courseware.views.views.cert_check_id', name="cert_check_id"),
+
 
     # url(r'^school/haewoondaex?$', 'courseware.views.haewoondaex', name="school"),
     url(r'^school/(?P<org>.*?)$', 'courseware.views.views.haewoondaex', name="school"),

@@ -1,0 +1,44 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">공지사항</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+
+
+<section class="container">
+    <h2 title="설문조사" id="main">설문조사</h2>
+    <div class="input-group">
+        <form id="selform" method="POST" action="javascript:alert('Success')" onsubmit="return validate()">
+            <h1>질문1</h1>
+            <label><input type="radio" id="color1" name="color" value="1"  /> Yellow </label>
+            <br><br>
+            <label><input type="radio" id="color2" name="color" value="2"  /> Red </label>
+            <br><br>
+            <label><input type="radio" id="color3" name="color" value="3"  /> Blue </label>
+            <br><br>
+            <h1>질문2</h1>
+            <br><br>
+            <label><input type="radio" id="size1" name="size" value="1" /> Small </label>
+            <br><br>
+            <label><input type="radio" id="size2" name="size" value="2" /> Medium</label>
+            <br><br>
+            <label><input type="radio" id="size3" name="size" value="3" /> Large</label>
+            <br><br>
+            <p>
+
+                <input name="saveForm" type="submit" id="saveForm" />
+                <a class="btn"
+                   href="/certificates/${hello}"
+                   target="_blank"
+                   title="링크는 강좌 이수증을 웹으로 보게 될것입니다.">
+                    이수증 보기</a>
+        </form>
+    </div>
+</section>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+
+
