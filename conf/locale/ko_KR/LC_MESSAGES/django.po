@@ -81,7 +81,7 @@ msgid "You are registered for this course"
 msgstr "수강중입니다."
 
 msgid "Blank Common Problem"
-msgstr "입력되지 않은 일반문제"
+msgstr "템플릿 없는 일반문제"
 
 #: lms/templates/courseware/course_about.html
 msgid "I just registered for {number} {title} through {account}: {url}"
@@ -182,7 +182,7 @@ msgstr "{strong_start}주의{strong_end}: 학습자 데이터의 보안을 위�
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid ""
 "Number of enrollees (instructors, staff members, and students) by track"
-msgstr "등록 인원 (교수자, 운영팀, 학습자)"
+msgstr "등록유형별 등록자 수(강좌운영팀 포함)"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -218,7 +218,7 @@ msgid ""
 "Instructors are the core administration of your course. Instructors can add "
 "and remove course staff, as well as administer discussion access."
 msgstr ""
-"교수자 권한을 가진 팀원은 강좌 운영팀이 할 수 있는 모든 작업을 할 수 있고, 팀 구성원을 관리하기 위해 운영팀, 교수자, 토의 "
+"교수자 권한을 가진 팀원은 강좌운영팀이 할 수 있는 모든 작업을 할 수 있고, 팀 구성원을 관리하기 위해 운영팀, 교수자, 토의 "
 "조정자, 베타테스터 권한을 추가하거나 삭제할 수 있습니다."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
@@ -226,7 +226,7 @@ msgid ""
 "Beta testers can see course content before the rest of the students. They "
 "can make sure that the content works, but have no additional privileges."
 msgstr ""
-"베타테스터는 다른 학습자에 앞서 강좌의 내용를 볼 수 있습니다. 베타 테스터는 무리 없이 이용가능한지 확인하지만 추가 권한은 없습니다."
+"베타테스터는 다른 학습자에 앞서 강좌의 내용를 볼 수 있습니다. 베타테스터는 무리 없이 이용가능한지 확인하지만 추가 권한은 없습니다."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -286,11 +286,11 @@ msgstr "권한 없음"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Staff and instructors"
-msgstr "강좌 운영팀 및 교수자"
+msgstr "강좌운영팀 및 교수자"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "All (students, staff and instructors)"
-msgstr "전체 (학습자, 강좌 운영팀 및 교수자)"
+msgstr "전체 (학습자, 강좌운영팀 및 교수자)"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid ""
@@ -402,31 +402,31 @@ msgid "Drag and Drop"
 msgstr "드래그 앤 드롭"
 
 msgid "Problem with Adaptive Hint"
-msgstr "응답맞춤형 힌트가 있는 문제"
+msgstr "Python 사용자 정의 문제(힌트)"
 
 msgid "Molecular Structure"
-msgstr "분자 구조"
-
-msgid "Custom Javascript Display and Grading"
 msgstr "사용자정의 Javascript 문제"
 
+msgid "Custom Javascript Display and Grading"
+msgstr "Javascript 사용자 정의 문제"
+
 msgid "Custom Python-Evaluated Input"
-msgstr "사용자정의 Python 계산 문제"
+msgstr "Python 사용자 정의 문제"
 
 msgid "Checkboxes with Hints and Feedback"
-msgstr "힌트가 있는 체크박스"
+msgstr "체크박스(힌트)"
 
 msgid "Dropdown with Hints and Feedback"
-msgstr "힌트가 있는 드롭다운"
+msgstr "드롭다운(힌트)"
 
 msgid "Multiple Choice with Hints and Feedback"
-msgstr "힌트가 있는 선다형문항"
+msgstr "선다형(힌트)"
 
 msgid "Numerical Input with Hints and Feedback"
-msgstr "힌트가 있는 수치 입력"
+msgstr "수치 입력(힌트)"
 
 msgid "Text Input with Hints and Feedback"
-msgstr "힌트가 있는 텍스트 입력"
+msgstr "텍스트 입력(힌트)"
 
 #: openassessment/templates/openassessmentblock/response/oa_response.html
 msgid "Enter your response to the question."
@@ -483,7 +483,7 @@ msgstr "평가하기"
 
 #: venvs/edxapp/src/edx-sga/edx_sga/templates/staff_graded_assignment/show.html
 msgid "Staff Graded Assignment"
-msgstr "운영팀 평가 문항"
+msgstr "교수자 채점 과제(파일제출)"
 
 #: lms/templates/staff_problem_info.html
 msgid "Staff Debug"
@@ -2246,7 +2246,7 @@ msgstr "체크박스"
 #: common/lib/capa/capa/responsetypes.py
 #: cms/templates/widgets/problem-edit.html
 msgid "Multiple Choice"
-msgstr "선다형 문항"
+msgstr "선다형"
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Do not use shuffle and answer-pool at the same time"
@@ -2380,7 +2380,7 @@ msgstr "외부 채점자"
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Math Expression Input"
-msgstr "수학 공식 입력"
+msgstr "수식 입력"
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Invalid input: {bad_input} not permitted in answer."
@@ -2402,7 +2402,7 @@ msgstr "유효하지 않은 입력:  '{bad_input}' 을 공식으로 분석할 �
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Circuit Schematic Builder"
-msgstr "회로도 작성 도구"
+msgstr "회로도"
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Error in evaluating SchematicResponse. The error was: {error_msg}"
@@ -2410,7 +2410,7 @@ msgstr "회로도 평가에 오류가 발생했습니다. 오류 내용: {error_
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "Image Mapped Input"
-msgstr "이미지 맵 입력"
+msgstr "이미지 맵"
 
 #: common/lib/capa/capa/responsetypes.py
 msgid "error grading {image_input_id} (input={user_input})"
@@ -2471,7 +2471,7 @@ msgstr "상단에 가로로 나타나는 웹페이지의 명칭입니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Blank Advanced Problem"
-msgstr "입력되지 않은 고급 문제 "
+msgstr "템플릿 없는 고급문제"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/combined_open_ended_module.py
@@ -2482,14 +2482,14 @@ msgstr "학습자들이 이 문제 풀기에 시도한 횟수 "
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 #: common/lib/xmodule/xmodule/combined_open_ended_module.py
 msgid "Maximum Attempts"
-msgstr "문제 풀이 최대 횟수"
+msgstr "응답 가능 횟수"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
 "Defines the number of times a student can try to answer this problem. If the"
 " value is not set, infinite attempts are allowed."
 msgstr ""
-"학습자가 이 문제에 답할 수 있는 최대 횟수를 정해주십시오. 이 값이 설정되지 않을 경우, 횟수의 제한 없이 응답이 허용됩니다."
+"학습자가 이 문제에 답을 제출할 수 있는 최대 횟수를 입력해주세요. 값을 입력하지 않을 경우, 무제한으로 답 제출이 가능하게 됩니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/combined_open_ended_module.py
@@ -2505,13 +2505,13 @@ msgstr "마감일 이후 추가 제출이 허용되는 시한"
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 #: lms/templates/problem.html
 msgid "Show Answer"
-msgstr "정답 보기"
+msgstr "정답 공개 조건"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
 "Defines when to show the answer to the problem. A default value can be set "
 "in Advanced Settings."
-msgstr "언제 답을 볼 수 있게 할 지 설정해주십시오. 기본값 설정은 고급 설정에서 가능합니다."
+msgstr "학습자가 언제 정답을 확인할 수 있도록 허용할 지 선택해주세요. 기본값 설정은 고급 설정에서 가능합니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Always"
@@ -2519,27 +2519,27 @@ msgstr "항상"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Answered"
-msgstr "응답"
+msgstr "응답 시(초기화 시 비공개)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Attempted"
-msgstr "문제 풀이"
+msgstr "응답 시도 시(초기화해도 공개지속)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Finished"
-msgstr "종료되었습니다"
+msgstr "종료(정답을 맞히거나 더 이상 응답이 불가능한 경우)"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Correct or Past Due"
-msgstr "정답 입력시 또는 기한 경과 후"
+msgstr "정답 제출 / 응답 가능 기한이 지난 후"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Past Due"
-msgstr "기한 경과 후"
+msgstr "응답 가능 기한이 지난 후"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Never"
-msgstr "절대 표시하지 않음"
+msgstr "사용하지 않음"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Whether to force the save button to appear on the page"
@@ -2547,35 +2547,35 @@ msgstr "페이지에 저장 버튼이 나타나도록 할 것인지 여부"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Show Reset Button"
-msgstr "초기화 버튼 보이기"
+msgstr "응답 시도 횟수 초기화 허용 여부"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
 "Determines whether a 'Reset' button is shown so the user may reset their "
 "answer. A default value can be set in Advanced Settings."
 msgstr ""
-"학습자가 답을 다시 입력할 수 있도록, '초기화' 버튼을 보이게 할 것인지 정해주십시오. 기본값 설정은 고급 설정에서 가능합니다."
+"학습자가 답을 다시 제출할 수 있도록, '초기화' 버튼을 보이게 할 것인지 정해주세요. 일반적으로 ‘응답 가능 횟수’를 설정해놓은 경우 본 값을 허용하지 않습니다. 본 값에 대한 기본값을 설정하려면 고급 설정을 이용하세요."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 msgid "Randomization"
-msgstr "문제 변수 무작위 설정"
+msgstr "변수 랜덤 설정"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
 "Defines when to randomize the variables specified in the associated Python "
 "script. For problems that do not randomize values, specify \"Never\". "
 msgstr ""
-"Python 스크립트로 명시된 변수들을 언제 임의 추출할 지 정합니다. 값 임의 추출이 되지 않는 문제들은, \"Never\"를 "
-"입력하세요."
+"Python 사용자 정의 문제에서 변수를 사용한 경우, 어느 경우에 변수를 무작위 추출하여 새로운 문제를 보여줄 지 정해주세요. 랜덤 변수를 사용하지 않는 일반 문제의 경우는 \"사용하지 않음\"을 "
+"선택하세요."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "On Reset"
-msgstr "초기화 가능"
+msgstr "초기화"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Per Student"
-msgstr "학습자 별"
+msgstr "학습자 별로 다르게 추출"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/discussion_module.py
@@ -2609,25 +2609,25 @@ msgstr "마지막 제출시간 "
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Timer Between Attempts"
-msgstr "다음 시도까지 지연 시간"
+msgstr "응답 대기 시간"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
 "Seconds a student must wait between submissions for a problem with multiple "
 "attempts."
-msgstr "다음 문제의 답 제출까지 학습자가 대기해야 하는 시간"
+msgstr "학습자는 한 번 답을 제출 후, 입력된 시간(초) 만큼 지난 후에야 다음 응답을 제출할 수 있게 됩니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/combined_open_ended_module.py
 #: common/lib/xmodule/xmodule/peer_grading_module.py
 msgid "Problem Weight"
-msgstr "문제의 가중치"
+msgstr "문제 가중치"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
 "Defines the number of points each problem is worth. If the value is not set,"
 " each response field in the problem is worth one point."
-msgstr "각 문제의 점수를 정해주십시오. 점수가 정해지지 않으면, 1점으로 처리됩니다."
+msgstr "입력한 가중치가 높을 수록. 동일 소주제 내에 들어있는 다른 문제와 비교해서 높은 점수 비율로 반영됩니다. 값이 입력되지 않으면, 기본 가중치 1을 가지게 됩니다."
 
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/combined_open_ended_module.py
