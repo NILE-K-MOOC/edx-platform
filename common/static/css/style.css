@@ -2084,3 +2084,8 @@ button#intro_shot {
 	border: none !important;
 	box-shadow: inset 0 1px 0 0 #fff !important;
 }
+
+.course-wrapper .course-content .vert-mod .vert>.xblock-student_view {
+	border-bottom: none;
+    padding-bottom: 10px;
+}
