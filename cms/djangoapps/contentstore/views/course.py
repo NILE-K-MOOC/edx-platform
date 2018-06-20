@@ -952,6 +952,18 @@ def create_new_course_in_store(store, user, org, number, run, fields):
     fields.update({
         'language': getattr(settings, 'DEFAULT_COURSE_LANGUAGE', 'ko'),
         'cert_html_view_enabled': True,
+        'advanced_modules':[
+             "google-document",
+             "google-calendar",
+             "edx_sga",
+             "kmooc_sga",
+             "poll",
+             "survey",
+             "library_content",
+             "word_cloud",
+             "drag-and-drop-v2",
+             "done"
+        ],
     })
 
     # raise Exception(str(fields))
