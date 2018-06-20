@@ -9,32 +9,80 @@
 
 <section class="container">
     <h2 title="설문조사" id="main">설문조사</h2>
-    <div class="input-group">
-        <form id="selform" method="POST" action="javascript:alert('Success')" onsubmit="return validate()">
-            <h1>질문1</h1>
-            <label><input type="radio" id="color1" name="color" value="1"  /> Yellow </label>
-            <br><br>
-            <label><input type="radio" id="color2" name="color" value="2"  /> Red </label>
-            <br><br>
-            <label><input type="radio" id="color3" name="color" value="3"  /> Blue </label>
-            <br><br>
-            <h1>질문2</h1>
-            <br><br>
-            <label><input type="radio" id="size1" name="size" value="1" /> Small </label>
-            <br><br>
-            <label><input type="radio" id="size2" name="size" value="2" /> Medium</label>
-            <br><br>
-            <label><input type="radio" id="size3" name="size" value="3" /> Large</label>
-            <br><br>
-            <p>
+    <div class="survey_group">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"colspan="2">구분</th>
+                    <th scope="col"colspan="5">
+                        전혀 그렇지 않다 <-------------------->   매우 그렇다
+                        <br>
+                        <!--(strongly disagree) <--------------------2>(strongly agree)[번역용]-->
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table-active">
 
-                <input name="saveForm" type="submit" id="saveForm" />
-                <a class="btn"
-                   href="/certificates/${hello}"
-                   target="_blank"
-                   title="링크는 강좌 이수증을 웹으로 보게 될것입니다.">
-                    이수증 보기</a>
-        </form>
+                    <td>강의내용</td>
+                    <td>Q1.강좌내용 구성은 체계적이고 이해하기 쉽게 구성되어 있다. </td>
+                    <td><label><input type="radio" id="Q1_1" name="Q1" value="1" /> 1 </label></td>
+                    <td><label><input type="radio" id="Q1_2" name="Q1" value="2" /> 2 </label></td>
+                    <td><label><input type="radio" id="Q1_3" name="Q1" value="3" /> 3 </label></td>
+                    <td><label><input type="radio" id="Q1_4" name="Q1" value="4" /> 4 </label></td>
+                    <td><label><input type="radio" id="Q1_5" name="Q1" value="5" /> 5 </label></td>
+                </tr>
+                <tr>
+
+                    <td>교수</td>
+                    <td>Q2.교수자는 이해하기 쉽게 강의 내용을 전달하였다.</td>
+                    <td><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
+                    <td><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
+                    <td><label><input type="radio" id="Q2_3" name="Q2" value="3" /> 3 </label></td>
+                    <td><label><input type="radio" id="Q2_4" name="Q2" value="4" /> 4 </label></td>
+                    <td><label><input type="radio" id="Q2_5" name="Q2" value="5" /> 5 </label></td>
+                </tr>
+                <tr>
+
+                    <td>강의운영</td>
+                    <td>Q3.담당 교수나 조교 등 운영팀은 질문이나 문의사항에 신속하고 적절하게 대응하였다.</td>
+                    <td><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
+                    <td><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
+                    <td><label><input type="radio" id="Q3_3" name="Q3" value="3" /> 3 </label></td>
+                    <td><label><input type="radio" id="Q3_4" name="Q3" value="4" /> 4 </label></td>
+                    <td><label><input type="radio" id="Q3_5" name="Q3" value="5" /> 5 </label></td>
+                </tr>
+                <tr>
+
+                    <td>전반적 만족도</td>
+                    <td>Q4.강좌는 전반적으로 만족스러웠다.</td>
+                    <td><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
+                    <td><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
+                    <td><label><input type="radio" id="Q4_3" name="Q4" value="3" /> 3 </label></td>
+                    <td><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
+                    <td><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
+                </tr>
+                <tr>
+
+                    <td>이수증 활용도</td>
+                    <td>Q5.K-MOOC 이수증이 왜 필요한가?</td>
+                    <td><label><input type="radio" id="Q5_1" name="Q5" value="1" /> 1 </label></td>
+                    <td><label><input type="radio" id="Q5_2" name="Q5" value="2" /> 2 </label></td>
+                    <td><label><input type="radio" id="Q5_3" name="Q5" value="3" /> 3 </label></td>
+                    <td><label><input type="radio" id="Q5_4" name="Q5" value="4" /> 4 </label></td>
+                    <td><label><input type="text" id="Q5_5" name="Q5"  /><br>기타 </label></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <input name="saveForm" type="submit" id="saveForm" />
+            <a class="btn"
+               href="/certificates/${hello}"
+               target="_blank"
+               title="링크는 강좌 이수증을 웹으로 보게 될것입니다.">
+                이수증 보기</a>
+
     </div>
 </section>
 
