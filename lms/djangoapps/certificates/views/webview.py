@@ -470,6 +470,7 @@ def _update_course_context(request, context, course, platform_name):
     """
     Updates context dictionary with course info.
     """
+
     context['full_course_image_url'] = request.build_absolute_uri(course_image_url(course))
     course_title_from_cert = context['certificate_data'].get('course_title', '')
     accomplishment_copy_course_name = course_title_from_cert if course_title_from_cert else course.display_name
@@ -803,11 +804,6 @@ def render_html_view(request, user_id, course_id):
     # If we do not have an active certificate, we'll need to send the user to the "Invalid" screen
     # Passing in the 'preview' parameter, if specified, will return a configuration, if defined
     active_configuration = get_active_web_certificate(course, preview_mode)
-    print 'active_configuration = get_active_web_certificate(course, preview_mode)'
-    print course
-    print preview_mode
-    print active_configuration
-    print 'active_configuration = get_active_web_certificate(course, preview_mode)'
 
     if active_configuration is None:
         log.info(

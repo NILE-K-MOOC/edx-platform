@@ -35,20 +35,45 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         .done(function (data) {
             if(data.return == 'true') {
                 //location.reload();
-                swal({
-                    type: 'success',
-                    title: '강좌만족도 설문에 응답해주셔서 감사합니다!\n 이제 이수증을 출력해보세요.',
-                    customClass: 'swal-wide2',
-                    confirmButtonText: '확인',
-                })
+                if ($('title').text() == 'BUFSk 001 인증서 | Your Platform Name Here'){
+                    swal({
+                        type: 'success',
+                        title: '강좌만족도 설문에 응답해주셔서 감사합니다!\n 이제 이수증을 출력해보세요.',
+                        customClass: 'swal-wide2',
+                        confirmButtonText: '확인',
+                    }).then(function(isConfirm) {
+                        location.reload();
+                    });
+                }
+                else {
+                    swal({
+                        type: 'success',
+                        title: 'sucess! click on request a certificate.',
+                        customClass: 'swal-wide2',
+                        confirmButtonText: 'Confirm',
+                    }).then(function(isConfirm) {
+                        location.reload();
+                    });
+                }
+
             }
-            if(data.return == 'false'){
-                swal({
-                    type: 'error',
-                    title: '응답완료코드가 맞지 않습니다.\n 강좌만족도 응답 후 마지막 페이지에서 \n보이는 코드를 다시 한번 확인해주세요.',
-                    customClass: 'swal-wide2',
-                    confirmButtonText: '확인',
-                })
+            else if(data.return == 'false'){
+                if ($('title').text() == 'BUFSk 001 인증서 | Your Platform Name Here') {
+                    swal({
+                        type: 'error',
+                        title: '응답완료코드가 맞지 않습니다.\n 강좌만족도 응답 후 마지막 페이지에서 \n보이는 코드를 다시 한번 확인해주세요.',
+                        customClass: 'swal-wide2',
+                        confirmButtonText: '확인',
+                    })
+                }
+                else {
+                    swal({
+                        type: 'error',
+                        title: 'wrong! check your completion code.',
+                        customClass: 'swal-wide2',
+                        confirmButtonText: 'Confirm',
+                    })
+                }
             }
         });
     }
