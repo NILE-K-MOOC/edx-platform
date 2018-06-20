@@ -4414,7 +4414,7 @@ msgid "Status: unsubmitted"
 msgstr "상태: 미제출"
 
 #. Translators: this is a message from the raw HTML editor displayed in the
-#. browser when a user needs to edit HTML
+#. browser when a user needs to edit HTMLㅊ
 #: common/lib/xmodule/xmodule/js/src/html/edit.js
 msgid "Paragraph"
 msgstr "단락"
@@ -10659,7 +10659,7 @@ msgstr "오류가 발생했습니다."
 msgid ""
 "The combined length of the organization, course number, and course run "
 "fields cannot be more than <%=limit%> characters."
-msgstr "기관, 강좌번호 및 강좌 차수 영역를 합해서 <%=limit%>자를 넘을 수 없습니다."
+msgstr "기관번호, 강좌번호, 강좌별 운영번호를 합한 강좌 ID는 <%=limit%>자를 넘을 수 없습니다."
 
 #: cms/static/js/views/utils/create_library_utils.js
 msgid ""
