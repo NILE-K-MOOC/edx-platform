@@ -400,6 +400,7 @@ def decrypt(key, _iv, enc):
 @ensure_csrf_cookie
 def multisite_index(request, org, msearch=None):
 
+    # sql inject
     if org.find("'") != -1\
             or org.find("'") != -1\
             or org.find("+") != -1\
@@ -409,30 +410,24 @@ def multisite_index(request, org, msearch=None):
             or org.find("database") != -1:
         return redirect('/multisite_error/')
 
-    print "def multisite_index(request, org, msearch=None):"
+    # what the fuck?
+    print "--------------------------> DEBUG 1 [s]"
     print "msearch = ", msearch
+    print "--------------------------> DEBUG 1 [e]"
 
     if msearch == '' or msearch == None:
-        print "---------------------------------------->1"
         if 'msearch' in request.session:
             if request.session['msearch'] == '' or request.session['msearch'] == None:
                 del request.session['msearch']
-                print "---------------------------------------->2"
     else:
         request.session['msearch'] = msearch
-        print "---------------------------------------->3"
 
-    org = org.replace("/comm_list_json","") # <---- bugfix
+    # bugfix
+    org = org.replace("/comm_list_json","")
 
-    print "--------------------------> org s"
+    print "--------------------------> DEBUG 2 [s]"
     print "org = ", org
-    print request.session #u'gzc3na70yjpgc1wgga2xc96ns17q6enw'
-    print "--------------------------> org e"
-
-    print "---------------------> request.GET.get('pass')"
-    if request.GET.get('pass'):
-        print request.GET.get('pass')
-    print "---------------------> request.GET.get('pass')"
+    print "--------------------------> DEBUG 2 [e]"
 
     if 'status' not in request.session or request.session['status'] != 'success':
         request.session['status'] = None
@@ -440,9 +435,9 @@ def multisite_index(request, org, msearch=None):
     if 'status_org' in request.session and request.session['status_org'] != org:
         request.session['status'] = 'fail'
 
-    print "=============================> xxx"
+    print "--------------------------> DEBUG 3 [s]"
     print request.session['status']
-    print "=============================> xxx"
+    print "--------------------------> DEBUG 3 [e]"
 
     if 'social_auth_last_login_backend' in request.session:
         request.session['status'] = 'success'
@@ -465,9 +460,9 @@ def multisite_index(request, org, msearch=None):
             key = rows[0][2]
             iv = rows[0][2]
 
-        print "---------------------------------->s"
+        print "--------------------------> DEBUG 4 [s]"
         print "login_type = ", login_type
-        print "---------------------------------->e"
+        print "--------------------------> DEBUG 4 [e]"
 
         # 공통 로직 (URL 체크)
         if 'HTTP_REFERER' in request.META:
@@ -475,9 +470,9 @@ def multisite_index(request, org, msearch=None):
         else:
             in_url = ''
 
-        print "---------------------------------->s"
+        print "--------------------------> DEBUG 5 [s]"
         print 'in_url (before) = ', in_url
-        print "---------------------------------->e"
+        print "--------------------------> DEBUG 5 [e]"
 
         in_url = in_url.replace('http://',"")
         in_url = in_url.replace('www.',"")
@@ -485,46 +480,44 @@ def multisite_index(request, org, msearch=None):
         out_url = out_url.replace('http://',"")
         out_url = out_url.replace('http://',"")
 
-        print "---------------------------------->s"
+        print "--------------------------> DEBUG 6 [s]"
         print 'in_url (after) = ', in_url
-        print "---------------------------------->e"
-        print "---------------------------------->s"
+        print "--------------------------> DEBUG 6 [e]"
+        print "--------------------------> DEBUG 7 [s]"
         print 'out_url (after) = ', out_url
-        print "---------------------------------->e"
+        print "--------------------------> DEBUG 7 [e]"
 
         if in_url != out_url:
-            print "---------------------------------->s"
+            print "--------------------------> DEBUG 8 [s]"
             request.session['status'] = 'fail'
             return redirect('/multisite_error/')
             print "request.session['status'] = ", request.session['status']
-            print "---------------------------------->e"
+            print "--------------------------> DEBUG 8 [e]"
 
         # URL이 일치하면 타는 로직
         else:
-            print "URL check 종료 ---------------------------->"
-
             # 파라미터 전송 타입
             if login_type == 'P':
                 # 암호화 데이터 복호화 로직
                 if request.GET.get('encStr'):
                     encStr = request.GET.get('encStr')
 
-                    print "-------------------------------> encStr s"
+                    print "--------------------------> DEBUG 9 [s]"
                     print "encStr = ", encStr
-                    print "-------------------------------> encStr e"
+                    print "--------------------------> DEBUG 9 [e]"
 
                     encStr = encStr.replace(' ','+')
 
-                    print "-------------------------------> encStr s"
+                    print "--------------------------> DEBUG 10 [s]"
                     print "after encStr = ", encStr
-                    print "-------------------------------> encStr e"
+                    print "--------------------------> DEBUG 10 [e]"
 
                     raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
                     raw_data = raw_data.split('&')
 
-                    print "-------------------------------> encStr s"
+                    print "--------------------------> DEBUG 11 [s]"
                     print "raw_data = ", raw_data
-                    print "-------------------------------> encStr e"
+                    print "--------------------------> DEBUG 11 [e]"
 
                     t1 = raw_data[0].split('=')
                     t2 = raw_data[1].split('=')
@@ -545,39 +538,31 @@ def multisite_index(request, org, msearch=None):
                     java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
                     python_calltime = datetime.utcnow() + timedelta(hours=9)
 
-                    print "----------------------------- call time check s"
+                    print "--------------------------> DEBUG 12 [s]"
                     print "java_calltime = ",java_calltime
                     print "python_calltime = ",python_calltime
-                    print "----------------------------- call time check e"
-
-                    #(datetime.utcnow() + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+                    print "--------------------------> DEBUG 12 [e]"
 
                     if java_calltime + timedelta(seconds=60) < python_calltime:
                         request.session['status'] = 'fail'
+                        print "############################## fail 1"
                         return redirect('/multisite_error/')
-                        print "######################## fail logic - 1"
-                        print " ---------------------------> status s inner time"
-                        print request.session['status']
-                        print " ---------------------------> status e inner time"
 
-                    print "--------------------------->"
+                    print "--------------------------> DEBUG 13 [s]"
                     print "calltime ja = ", java_calltime
                     print "calltime py = ", python_calltime
                     print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
                     print "userid = ", userid
                     print "orgid = ", orgid
-                    print "--------------------------->"
+                    print "--------------------------> DEBUG 14 [s]"
 
                     if org != orgid:
                         request.session['status'] = 'fail'
+                        print "############################## fail 2"
                         return redirect('/multisite_error/')
-                        print "######################## fail logic - 2"
-                        print " ---------------------------> status s inner org"
-                        print request.session['status']
-                        print " ---------------------------> status e inner org"
 
                     if request.session['status'] != 'fail':
-                        print "------------------------------------==========> success"
+                        print "############################## success"
                         request.session['multisite_userid'] = userid
                         request.session['status'] = 'success'
                         request.session['status_org'] = org
@@ -597,25 +582,14 @@ def multisite_index(request, org, msearch=None):
                             cur.execute(sql)
                             rows = cur.fetchall()
 
-                        print "----------------------------========> rows s"
                         print rows
-                        print len(rows)
-                        print "----------------------------========> rows e"
 
                         if len(rows) != 0:
                             from django.contrib.auth.models import User
                             user = User.objects.get(pk=rows[0][0])
 
-                            print "********************************* s"
-                            print user.pk
-                            print "********************************* s"
-
                             user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
                             login(request, user)
-
-                        print " ---------------------------> status s inner last"
-                        print request.session['status']
-                        print " ---------------------------> status e inner last"
 
             elif login_type == 'O':
                 print "------------------> O"
