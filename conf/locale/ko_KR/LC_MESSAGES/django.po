@@ -30159,3 +30159,7 @@ msgstr "각 문제의 가치가있는 점수의 수를 정의합니다. 값을 �
 
 msgid "K-MOOC Notification"
 msgstr "K-MOOC 알림"
+
+#: cms/templates/widgets/header.html
+msgid "CDN Uploads"
+msgstr "동영상 업로드"
