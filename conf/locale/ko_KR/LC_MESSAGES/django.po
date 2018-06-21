@@ -2505,7 +2505,7 @@ msgstr "마감일 이후 추가 제출이 허용되는 시한"
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 #: lms/templates/problem.html
 msgid "Show Answer"
-msgstr "정답 공개 조건"
+msgstr "정답 보기"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
