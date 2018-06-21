@@ -5,14 +5,15 @@
 
 <%block name="header_extras"></%block>
 
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
 <script>
     $( document ).ready(function() {
         console.log("Ready!");
+        var course_id = '${course_id}';
+        course_id = course_id.replace(/ /gi, "+");
+        alert(course_id);
+
         $("#Q5_text").hide();
 
 
@@ -33,14 +34,8 @@
             $("#Q5_text").hide();
         })
         $("#Q5_5").click(function() {
-            console.log("a--------------------------");
             $("#Q5_text").show();
-            //$("#Q5_5").attr("checked".false);
-            console.log("b--------------------------");
         })
-
-
-        console.log("c--------------------------");
 
     });
 
@@ -86,8 +81,10 @@
         }
 
         if($("input:radio[name='Q5']").is(":checked") == true){
+            var Q5 = $(':radio[name="Q5"]:checked').val();
             var Q5_text = $("#Q5_text").val();
-            lock=1;
+
+            lock=1; alert(Q5);
         }
         else{
             swal("입력 오류", "5번 설문을 입력해주세요", "info");
@@ -96,7 +93,6 @@
         }
 
         if(lock != 0){
-            alert(11);
             $.ajax({
                         url: "/cert_survey/",
                         type: "POST",
@@ -106,29 +102,33 @@
                             Q2: Q2,
                             Q3: Q3,
                             Q4: Q4,
+                            Q5: Q5,
                             Q5_text: Q5_text,
+                            'user_id':'${user_id}',
+                            'course_id':course_id,
                         },
                     })
             .done(function (data) {
-                            if (data.return == 'success') {
-                                swal({
-                                  title: "수정 완료",
-                                  text: "강좌 수정이 완료되었습니다",
-                                  icon: "success",
-                                  button: "확인",
-                                })
-                                .then(function(value) {
-                                    $(location).attr('href',"/certificates/${hello}");
-                                });
-                            }
-                        });
+                        if (data.return == 'success') {
+                            swal({
+                                title: "완 료",
+                                text: "설문은 수정하실수없습니다",
+                                icon: "success",
+                                buttons: true,
+                                dangerMode: false,
+                            })
+                                    .then(function (value) {
+                                        if (value) {
+                                            $(location).attr('href',"/certificates/${hello}");
+                                        } else {
+                                            return
+                                        }
+                                    });
 
 
+                        }
+                    })
         }
-        alert(lock);
-
-        alert("submit!->"+Q1+Q2+Q3+Q4+Q5_text);
-
     }
 
 </script>
@@ -149,6 +149,8 @@
     }
     .sv_menu1, .sv_menu2{
         border: 2px solid #d2d0d0 !important;
+        text-align: center !important;
+        vertical-align: middle !important;
     }
     .cert{
         font-family: "Nanum Gothic" !important;
@@ -165,6 +167,10 @@
         border-radius: .25rem!important;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
     }
+    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5{
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
 
 </style>
 
@@ -174,7 +180,7 @@
         <table class="table" >
             <thead>
             <tr>
-                <th colspan="2" class="sv_menu1">구분</th>
+                <th colspan="2" class="sv_menu1">구 분</th>
                 <th colspan="5" class="sv_menu2">
                     전혀 그렇지 않다 < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp;>   매우 그렇다
                     <br>
@@ -185,7 +191,7 @@
             <tbody>
             <tr class="q1_tr">
 
-                <td>강의내용</td>
+                <td class="sv_Q1">강의내용</td>
                 <td>Q1.강좌내용 구성은 체계적이고 이해하기 쉽게 구성되어 있다. </td>
                 <td><label><input type="radio" id="Q1_1" name="Q1" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q1_2" name="Q1" value="2" /> 2 </label></td>
@@ -195,7 +201,7 @@
             </tr>
             <tr class="q2_tr">
 
-                <td>교수</td>
+                <td class="sv_Q2">교수</td>
                 <td>Q2.교수자는 이해하기 쉽게 강의 내용을 전달하였다.</td>
                 <td><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
@@ -205,7 +211,7 @@
             </tr>
             <tr class="q3_tr">
 
-                <td>강의운영</td>
+                <td class="sv_Q3">강의운영</td>
                 <td>Q3.담당 교수나 조교 등 운영팀은 질문이나 문의사항에 신속하고 적절하게 대응하였다.</td>
                 <td><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
@@ -215,7 +221,7 @@
             </tr>
             <tr class="q4_tr">
 
-                <td>전반적 만족도</td>
+                <td class="sv_Q4">전반적 만족도</td>
                 <td>Q4.강좌는 전반적으로 만족스러웠다.</td>
                 <td><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
@@ -225,14 +231,14 @@
             </tr>
             <tr class="q5_tr">
 
-                <td>이수증 활용도</td>
+                <td class="sv_Q5">이수증 활용도</td>
                 <td>Q5.K-MOOC 이수증이 왜 필요한가?</td>
                 <td colspan="5" class="cert">
-                    <label><input type="radio" id="Q5_1" name="Q5" value="1. 자기만족을 위한 취득"/> 자기만족을 위한 취득 </label><br>
-                    <label><input type="radio" id="Q5_2" name="Q5" value="2. 학점취득을 위한 대학 제출"/> 학점취득을 위한 대학 제출 </label><br>
-                    <label><input type="radio" id="Q5_3" name="Q5" value="3. 교육훈련 시간 인정을 위한 직장 제출"/> 교육훈련 시간 인정을 위한 직장 제출 </label><br>
-                    <label><input type="radio" id="Q5_4" name="Q5" value="4. 취업준비"/> 취업준비 </label><br>
-                    <label><input type="radio" id="Q5_5" name="Q5" value="5."/> 기타
+                    <label><input type="radio" id="Q5_1" name="Q5" value="자기만족을 위한 취득"/> 자기만족을 위한 취득 </label><br>
+                    <label><input type="radio" id="Q5_2" name="Q5" value="학점취득을 위한 대학 제출"/> 학점취득을 위한 대학 제출 </label><br>
+                    <label><input type="radio" id="Q5_3" name="Q5" value="교육훈련 시간 인정을 위한 직장 제출"/> 교육훈련 시간 인정을 위한 직장 제출 </label><br>
+                    <label><input type="radio" id="Q5_4" name="Q5" value="취업준비"/> 취업준비 </label><br>
+                    <label><input type="radio" id="Q5_5" name="Q5" value="기타"/> 기타
                         <textarea id="Q5_text" name="Q5_input" class="form-control"></textarea>
                     </label>
                 </td>
@@ -248,7 +254,7 @@
            title="제출과 동시에 이수증을 웹으로 보게 될것입니다."
             style="float: right; font-size: 25px;">
             제출</a>-->
-        <button onclick="btn_survey_submit()" type="button" style="float: right; font-size: 25px;" class="btn btn-outline-primary"title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">제 출</button>
+        <button onclick="btn_survey_submit()" type="button" style="float: right; font-size: 19px;" class="btn btn-outline-primary" title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">제출하기</button>
     </div>
 </section>
 
