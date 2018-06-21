@@ -2196,7 +2196,24 @@ def comm_list_json(request):
 
     return HttpResponse(data, 'application/json')
 
+
 def cert_survey(request):
+
+    if request.is_ajax():
+
+        Q1 = request.POST.get('Q1')
+        Q2 = request.POST.get('Q2')
+        Q3 = request.POST.get('Q3')
+        Q4 = request.POST.get('Q4')
+        Q5_text = request.POST.get('Q5_text')
+        print "Q1-------->",Q1
+        print "Q2-------->",Q2
+        print "Q3-------->",Q3
+        print "Q4-------->",Q4
+        print "Q5_text-------->",Q5_text
+
+        return JsonResponse({"return": "success"})
+
 
     hello = request.GET['hello']
 
