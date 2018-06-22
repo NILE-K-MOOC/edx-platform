@@ -2216,9 +2216,25 @@ def cert_survey(request):
         print "Q3-------->",Q3
         print "Q4-------->",Q4
         print "Q5-------->",Q5
-        print "Q5_text-------->",Q5_text
         print "user_id-------->",user_id
         print "course_id-------->",course_id
+
+        """
+        with connections['default'].cursor() as cur:
+            query = '''
+                  INSERT INTO edxapp.survey_result
+                              (course_id,
+                              question_01,
+                              question_02,
+                              question_03,
+                              question_04,
+                              question_05,
+                              regist_id)
+                  VALUES (course_id,Q1,Q2,Q3,Q4,Q5,user_id)
+            '''.format(Q1,Q2,Q3,Q4,Q5,course_id,user_id)
+            print "query ===============",query
+            cur.execute(query)
+            """
 
         return JsonResponse({"return": "success"})
 
