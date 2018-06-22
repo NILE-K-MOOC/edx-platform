@@ -2199,43 +2199,6 @@ def comm_list_json(request):
 
 def cert_survey(request):
 
-    hello = request.GET['hello']
-    course_id = request.GET['course_id']
-    user_id = request.GET['user_id']
-    course_id2 = request.GET['course_id']
-    print "before = ", hello
-
-    hello = hello.split('/certificates/')
-    hello = hello[1]
-    course_id = course_id
-    user_id=user_id
-
-    course_id2 = course_id2.replace(" ", "+")
-
-    print "user_id = ",user_id
-    print "course_id = ",course_id
-    print "certificates = ", hello
-
-    context={}
-    context['hello']=hello
-    context['course_id']=course_id
-    context['user_id']=user_id
-
-    with connections['default'].cursor() as cur:
-            query = '''
-                select course_id, regist_id
-                from survey_result
-                where course_id= '{course_id}' and regist_id='{regist_id}'
-            '''.format(course_id=course_id2,regist_id=user_id)
-            cur.execute(query)
-            rows = cur.fetchall()
-
-    print "설문 검증 쿼리",query
-
-    if len(rows) !=0 :
-        return redirect('/certificates/'+hello)
-
-
     if request.is_ajax():
 
         Q1 = request.POST.get('Q1')
@@ -2245,15 +2208,13 @@ def cert_survey(request):
         Q5 = request.POST.get('Q5')
         user_id = request.POST.get('user_id')
         course_id = request.POST.get('course_id')
-
-
-        print "Q1-------->",Q1
-        print "Q2-------->",Q2
-        print "Q3-------->",Q3
-        print "Q4-------->",Q4
-        print "Q5-------->",Q5
-        print "user_id-------->",user_id
-        print "course_id-------->",course_id
+        #print "Q1-------->",Q1
+        #print "Q2-------->",Q2
+        #print "Q3-------->",Q3
+        #print "Q4-------->",Q4
+        #print "Q5-------->",Q5
+        #print "user_id-------->",user_id
+        #print "course_id-------->",course_id
 
         with connections['default'].cursor() as cur:
             query = '''
@@ -2267,13 +2228,47 @@ def cert_survey(request):
                               regist_id)
                   VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{regist_id}')
             '''.format(course_id=course_id,question_01=Q1,question_02=Q2,question_03=Q3,question_04=Q4,question_05=Q5,regist_id=user_id)
-            print "query ===============",query
+
+            #print "query ===============",query
             cur.execute(query)
 
         return JsonResponse({"return": "success","course_id":course_id,"question_01":Q1,"question_02":Q2,"question_03":Q3,'question_04':Q4,'question_05':Q5,'regist_id':user_id})
 
+    hello = request.GET['hello']
+    course_id = request.GET['course_id']
+    user_id = request.GET['user_id']
+    course_id2 = request.GET['course_id']
+    #print "before = ", hello
 
+    hello = hello.split('/certificates/')
+    hello = hello[1]
+    course_id = course_id
+    user_id=user_id
 
+    course_id2 = course_id2.replace(" ", "+")
+
+    #print "user_id = ",user_id
+    #print "course_id = ",course_id
+    #print "certificates = ", hello
+
+    with connections['default'].cursor() as cur:
+            query = '''
+                select course_id, regist_id
+                from survey_result
+                where course_id= '{course_id}' and regist_id='{regist_id}'
+            '''.format(course_id=course_id2,regist_id=user_id)
+            cur.execute(query)
+            rows = cur.fetchall()
+
+    #print "설문 검증 쿼리====>",query
+
+    if len(rows) !=0 :
+        return redirect('/certificates/'+hello)
+
+    context={}
+    context['hello']=hello
+    context['course_id']=course_id
+    context['user_id']=user_id
 
     return render_to_response("community/cert_survey.html",context)
 

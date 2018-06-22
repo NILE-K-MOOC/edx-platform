@@ -104,42 +104,43 @@
         }
 
         if(lock != 0){
-            $.ajax({
-                        url: "/cert_survey/",
-                        type: "POST",
-                        datatype:"json",
-                        data: {
-                            Q1: Q1,
-                            Q2: Q2,
-                            Q3: Q3,
-                            Q4: Q4,
-                            Q5: Q5,
-                            'user_id':'${user_id}',
-                            'course_id':course_id,
-                        },
-                    })
-                    .done(function (data) {
-                        if (data.return == 'success') {
-                            swal({
-                                title: "완 료",
-                                text: "설문은 수정하실수없습니다",
-                                icon: "success",
-                                buttons: true,
-                                dangerMode: false,
-                            })
-                                .then(function (value) {
-                                    if (value) {
-                                        $(location).attr('href',"/certificates/${hello}");
-                                    } else {
-                                        return
-                                    }
-                                })
-                        }
-                        else if(data.return == 'fail'){
-                            $(location).attr('href',"/certificates/${hello}");
-                        }
+            swal({
+                title: "완 료",
+                text: "설문은 수정하실수없습니다",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            })
+                    .then(function (value) {
+                        if (value) {
+                            $.ajax({
+                                        url: "/cert_survey/",
+                                        type: "POST",
+                                        datatype:"json",
+                                        data: {
+                                            Q1: Q1,
+                                            Q2: Q2,
+                                            Q3: Q3,
+                                            Q4: Q4,
+                                            Q5: Q5,
+                                            'user_id':'${user_id}',
+                                            'course_id':course_id,
+                                        },
+                                    })
+                                    .done(function (data) {
+                                        if (data.return == 'success') {
+                                            $(location).attr('href',"/certificates/${hello}");
+                                        }
+                                        else if(data.return == 'fail'){
+                                            return
+                                        }
 
+                                    })
+                        } else {
+                            return
+                        }
                     })
+
         }
     }
 
