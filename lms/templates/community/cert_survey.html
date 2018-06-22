@@ -118,7 +118,7 @@
                             'course_id':course_id,
                         },
                     })
-            .done(function (data) {
+                    .done(function (data) {
                         if (data.return == 'success') {
                             swal({
                                 title: "완 료",
@@ -127,16 +127,18 @@
                                 buttons: true,
                                 dangerMode: false,
                             })
-                                    .then(function (value) {
-                                        if (value) {
-                                            $(location).attr('href',"/certificates/${hello}");
-                                        } else {
-                                            return
-                                        }
-                                    });
-
-
+                                .then(function (value) {
+                                    if (value) {
+                                        $(location).attr('href',"/certificates/${hello}");
+                                    } else {
+                                        return
+                                    }
+                                })
                         }
+                        else if(data.return == 'fail'){
+                            $(location).attr('href',"/certificates/${hello}");
+                        }
+
                     })
         }
     }
@@ -192,7 +194,7 @@
             <tr>
                 <th colspan="2" class="sv_menu1">구 분</th>
                 <th colspan="5" class="sv_menu2">
-                    전혀 그렇지 않다 < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp;>   매우 그렇다
+                    전혀 그렇지 않다 < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; >   매우 그렇다
                     <br>
                     <!--(strongly disagree) <--------------------2>(strongly agree)[번역용]-->
                 </th>
