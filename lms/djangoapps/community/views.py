@@ -2206,7 +2206,6 @@ def cert_survey(request):
         Q3 = request.POST.get('Q3')
         Q4 = request.POST.get('Q4')
         Q5 = request.POST.get('Q5')
-        Q5_text = request.POST.get('Q5_text')
         user_id = request.POST.get('user_id')
         course_id = request.POST.get('course_id')
 
@@ -2219,7 +2218,7 @@ def cert_survey(request):
         print "user_id-------->",user_id
         print "course_id-------->",course_id
 
-        """
+
         with connections['default'].cursor() as cur:
             query = '''
                   INSERT INTO edxapp.survey_result
@@ -2230,17 +2229,17 @@ def cert_survey(request):
                               question_04,
                               question_05,
                               regist_id)
-                  VALUES (course_id,Q1,Q2,Q3,Q4,Q5,user_id)
-            '''.format(Q1,Q2,Q3,Q4,Q5,course_id,user_id)
+                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{regist_id}')
+            '''.format(course_id=course_id,question_01=Q1,question_02=Q2,question_03=Q3,question_04=Q4,question_05=Q5,regist_id=user_id)
             print "query ===============",query
             cur.execute(query)
-            """
 
-        return JsonResponse({"return": "success"})
+
+        return JsonResponse({"return": "success","course_id":course_id,"question_01":Q1,"question_02":Q2,"question_03":Q3,'question_04':Q4,'question_05':Q5,'regist_id':user_id})
 
 
     hello = request.GET['hello']
-    course_id=request.GET['course_id']
+    course_id = request.GET['course_id']
     user_id = request.GET['user_id']
 
     print "before = ", hello
@@ -2252,7 +2251,7 @@ def cert_survey(request):
 
     print "user_id = ",user_id
     print "course_id = ",course_id
-    print "after = ", hello
+    print "certificates = ", hello
 
     context={}
     context['hello']=hello

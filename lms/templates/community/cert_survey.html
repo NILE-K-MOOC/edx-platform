@@ -10,9 +10,8 @@
 <script>
     $( document ).ready(function() {
         console.log("Ready!");
-        var course_id = '${course_id}';
+        course_id = '${course_id}';
         course_id = course_id.replace(/ /gi, "+");
-
         $("#Q5_text").hide();
 
 
@@ -49,7 +48,6 @@
 
 
     function btn_survey_submit(){
-
         var lock = 0;
         if($("input:radio[name='Q1']").is(":checked") == true){
             var Q1 = $(':radio[name="Q1"]:checked').val();
@@ -106,7 +104,6 @@
         }
 
         if(lock != 0){
-            alert(course_id);
             $.ajax({
                         url: "/cert_survey/",
                         type: "POST",
