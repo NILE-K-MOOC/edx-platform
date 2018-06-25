@@ -17715,7 +17715,7 @@ msgstr "세부사항  &amp; 일정"
 #: test_root/staticfiles/coffee/fixtures/grading-editor.underscore
 #: test_root/staticfiles/templates/grading-editor.underscore
 msgid "Grading"
-msgstr "과제 평가"
+msgstr "평가 기준"
 
 #: cms/templates/certificates.html cms/templates/group_configurations.html
 #: cms/templates/manage_users.html cms/templates/settings.html
@@ -28405,13 +28405,16 @@ msgid "Survey"
 msgstr "설문"
 
 msgid "Randomized Content Block"
-msgstr "무작위 콘텐츠 블럭"
+msgstr "문제 은행"
 
 msgid "Google Calendar"
 msgstr "Google 캘린더"
 
 msgid "Google Document"
 msgstr "Google 문서"
+
+msgid "Word Cloud"
+msgstr "워드 클라우드"
 
 msgid ""
 "The calendar view that students see by default. A student can change this "
@@ -29113,7 +29116,7 @@ msgid "This certificate will be awarded by faithfully completing the above cours
 msgstr "위 과정을 성실히 이수하여 이 증서를 수여합니다."
 
 msgid "Completion date"
-msgstr "이수일자"
+msgstr "완료여부 확인 문제"
 
 # templates/student_account/remove_account.html
 
@@ -30146,7 +30149,7 @@ msgid "Instructor comment"
 msgstr "교수자 코멘트: "
 
 msgid "K-MOOC Staff Graded Assignment"
-msgstr "K-MOOC 운영팀 평가 문항"
+msgstr "교수자 채점 과제(클릭)"
 
 msgid "Maximum grade score given to assignment by staff."
 msgstr "입력 가능한 최대 점수"
