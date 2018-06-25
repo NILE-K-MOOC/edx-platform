@@ -1322,7 +1322,7 @@
     "The cohort cannot be added": "\ud559\uc2b5 \uc9d1\ub2e8\uc774 \ucd94\uac00\ub420 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "The cohort cannot be saved": "\ud559\uc2b5 \uc9d1\ub2e8\uc774 \uc800\uc7a5\ub420 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "The combined length of the organization and library code fields cannot be more than <%=limit%> characters.": " \uae30\uad00 \uc774\ub984\uacfc \ucf58\ud150\uce20 \ubcf4\uad00\ud568 \ucf54\ub4dc\ub97c \ud569\uce5c \uae38\uc774\uac00  <%=limit%>\uc790\ub97c \ub118\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
-    "The combined length of the organization, course number, and course run fields cannot be more than <%=limit%> characters.": "\uAE30\uAD00\uBC88\uD638, \uAC15\uC88C\uBC88\uD638, \uAC15\uC88C\uBCC4 \uC6B4\uC601\uBC88\uD638\uB97C \uD569\uD55C \uAC15\uC88C ID\uB294  <%=limit%>\uC790\uB97C \uB118\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.",
+    "The combined length of the organization, course number, and course run fields cannot be more than <%=limit%> characters.": "\uae30\uad00, \uac15\uc88c\ubc88\ud638 \ubc0f \uac15\uc88c \ucc28\uc218 \uc601\uc5ed\ub97c \ud569\ud574\uc11c <%=limit%>\uc790\ub97c \ub118\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "The country that team members primarily identify with.": "\ud300 \uad6c\uc131\uc6d0 \ub300\ubd80\ubd84\uc758 \uad6d\uac00 ",
     "The course end date must be later than the course start date.": "\uc885\uac15\uc77c\uc740 \uac1c\uac15\uc77c \ubcf4\ub2e4 \uc774\ud6c4\uac00 \ub418\uc5b4\uc57c \ud569\ub2c8\ub2e4.",
     "The course must have an assigned effort time.": "\uac15\uc88c\ub294 \ud560\ub2f9\ub41c \uc8fc\uac04\ud559\uc2b5\uad8c\uc7a5\uc2dc\uac04\uc774 \uc788\uc5b4\uc57c \ud569\ub2c8\ub2e4.",
