@@ -29116,6 +29116,9 @@ msgid "This certificate will be awarded by faithfully completing the above cours
 msgstr "위 과정을 성실히 이수하여 이 증서를 수여합니다."
 
 msgid "Completion date"
+msgstr "이수일자"
+
+msgid "Completion"
 msgstr "완료여부 확인 문제"
 
 # templates/student_account/remove_account.html
