@@ -28413,7 +28413,7 @@ msgstr "Google 캘린더"
 msgid "Google Document"
 msgstr "Google 문서"
 
-msgid "Word Cloud"
+msgid "Word cloud"
 msgstr "워드 클라우드"
 
 msgid ""
