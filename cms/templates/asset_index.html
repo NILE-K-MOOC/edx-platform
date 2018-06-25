@@ -96,7 +96,12 @@
         var pathname = $(location).attr('pathname');
         arrPathname = pathname.split('/');
         if (arrPathname[1] == 'cdn'){
-            $('#update_type').text(gettext('CDN Upload'));
+            if( $('.subtitle').text() == '콘텐츠'){
+                $('#update_type').text('동영상 업로드');
+            }
+            else{
+                $('#update_type').text("CDN Upload");
+            }
         }
 
 

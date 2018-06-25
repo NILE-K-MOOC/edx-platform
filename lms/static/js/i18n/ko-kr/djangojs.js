@@ -1455,6 +1455,9 @@
     "Turn on closed captioning" : "\uc790\ub9c9 \uc0ac\uc6a9",
     "Turn on transcripts" : "\uc790\ub9c9 \ucf1c\uae30",
     "Type": "\uc885\ub958",
+
+    "CDN Upload": "\u0043\u0044\u004e \u0055\u0070\u006c\u006f\u0061\u0064",
+
     "Unable to retrieve data, please try again later.": "\ub370\uc774\ud130\ub97c \uac80\uc0c9\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4, \ub098\uc911\uc5d0 \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "unanswered question": "\ub2f5\ubcc0\uc774 \uc54a\ub41c \uc9c8\ubb38",
     "Unavailable metric display.": "\uc774\uc6a9\ud560 \uc218 \uc5c6\ub294 \ud45c\ub85c \ud45c\uc2dc",
