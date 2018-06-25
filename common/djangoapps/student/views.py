@@ -251,7 +251,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             # multisite - get site id query
             with connections['default'].cursor() as cur:
                 query = """
-                    SELECT course_id
+                    SELECT course_id, b.audit_yn
                     FROM   edxapp.multisite_course AS a
                            join(SELECT *
                                 FROM   (SELECT id,
@@ -265,8 +265,11 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                                  WHEN Now() BETWEEN start AND end THEN 2
                                                  WHEN end < Now() THEN 3
                                                  ELSE 4
-                                               END AS order1
-                                        FROM   course_overviews_courseoverview
+                                               END AS order1,
+                                               i2.audit_yn
+                                        FROM   course_overviews_courseoverview as i1
+                                        join course_overview_addinfo as i2
+                                        on i1.id = i2.course_id
                                         WHERE  1 = 1
                                                AND Lower(id) NOT LIKE '%demo%'
                                                AND Lower(id) NOT LIKE '%nile%'
@@ -278,7 +281,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                           end DESC,
                                           display_name) AS b
                              ON a.course_id = b.id
-                    WHERE  site_id = {0}
+                    WHERE  site_id = '{0}'
                            AND display_name LIKE '%{1}%';
                 """.format(site_id, msearch)
 
@@ -297,6 +300,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_name = data_ci[2]
                 multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                 course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                course_overviews.audit_yn = item[1]
                 course_list.append(course_overviews)
 
             # multisite - make course status
@@ -310,7 +314,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             # multisite - get site id query
             with connections['default'].cursor() as cur:
                 query = """
-                    SELECT course_id
+                    SELECT course_id, b.audit_yn
                     FROM   edxapp.multisite_course AS a
                            join(SELECT *
                                 FROM   (SELECT id,
@@ -324,13 +328,15 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                                  WHEN Now() BETWEEN start AND end THEN 2
                                                  WHEN end < Now() THEN 3
                                                  ELSE 4
-                                               END AS order1
-                                        FROM   course_overviews_courseoverview
+                                               END AS order1,
+                                               i2.audit_yn
+                                        FROM   course_overviews_courseoverview as i1
+                                        join course_overview_addinfo as i2
+                                        on i1.id = i2.course_id
                                         WHERE  1 = 1
                                                AND Lower(id) NOT LIKE '%demo%'
                                                AND Lower(id) NOT LIKE '%nile%'
-                                               -- AND Lower(id) NOT LIKE '%test%') t1
-                                               ) t1
+                                               AND Lower(id) NOT LIKE '%test%') t1
                                 ORDER  BY order1,
                                           enrollment_start DESC,
                                           start DESC,
@@ -338,8 +344,11 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                           end DESC,
                                           display_name) AS b
                              ON a.course_id = b.id
-                             WHERE  site_id = {0};
+                             WHERE  site_id = '{0}';
                 """.format(site_id)
+
+                print query
+
                 cur.execute(query)
                 result_table = cur.fetchall()
 
@@ -367,11 +376,13 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                         if block.get('block_type') == 'course' and block.get('block_id') == 'course':
                             if block.get('fields').get('catalog_visibility'):
                                 if block.get('fields').get('catalog_visibility') == 'none':
-                                    course_lock = 1
+                                    pass
+                                    #course_lock = 1
 
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                     course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                    course_overviews.audit_yn = item[1]
                     course_list.append(course_overviews)
 
             # multisite - make course status
