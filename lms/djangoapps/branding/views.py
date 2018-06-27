@@ -594,6 +594,7 @@ def multisite_index(request, org, msearch=None):
 
                         user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
                         login(request, user)
+                        print "login login login login login login login"
 
         elif login_type == 'O':
             print "------------------> O"

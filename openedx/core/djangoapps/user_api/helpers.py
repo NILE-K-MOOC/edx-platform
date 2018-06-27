@@ -485,11 +485,12 @@ def shim_student_view(view_func, check_logged_in=False):
                 with connections['default'].cursor() as cur:
                     sql = '''
                         insert into multisite_member(site_id, user_id, org_user_id, regist_id)
-                        select site_id, {1}, {2}, {1}
+                        select site_id, {1}, '{2}', {1}
                         from multisite
                         where site_code = '{0}'
                     '''.format(multisite_org, edx_userid, multisite_userid)
                     try:
+                        print sql
                         cur.execute(sql) # <--------------------------- 다른 사번으로 이미 등록된 이메일을 등록하려고 시도하는 경우 (에러)
                     except BaseException:
                         duplication_lock = 1 # <----------------------- 경고메세지 변경 플래그
