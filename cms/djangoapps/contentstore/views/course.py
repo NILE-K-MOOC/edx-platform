@@ -963,6 +963,7 @@ def create_new_course_in_store(store, user, org, number, run, fields):
              "word_cloud",
              "drag-and-drop-v2",
              "done"
+
         ],
     })
 

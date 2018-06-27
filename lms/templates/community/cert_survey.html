@@ -1,40 +1,273 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">공지사항</%block>
+<%block name="pagetitle">설문조사</%block>
 <%inherit file="../main.html" />
 
 <%block name="header_extras"></%block>
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
+<script>
+    $( document ).ready(function() {
+        console.log("Ready!");
+        course_id = '${course_id}';
+        course_id = course_id.replace(/ /gi, "+");
+        $("#Q5_text").hide();
+
+
+        $("#Q5_1").click(function() {
+            $("#Q5_text").val("");
+            $("#Q5_text").hide();
+            $("#Q5_5").prop("checked", false);
+        })
+        $("#Q5_2").click(function() {
+            $("#Q5_text").val("");
+            $("#Q5_text").hide();
+            $("#Q5_5").prop("checked", false);
+        })
+        $("#Q5_3").click(function() {
+            $("#Q5_text").val("");
+            $("#Q5_text").hide();
+            $("#Q5_5").prop("checked", false);
+        })
+        $("#Q5_4").click(function() {
+            $("#Q5_text").val("");
+            $("#Q5_text").hide();
+            $("#Q5_5").prop("checked", false);
+        })
+        $("#Q5_5").click(function() {
+            $("#Q5_text").show();
+            $("#Q5_1").prop("checked", false);
+            $("#Q5_2").prop("checked", false);
+            $("#Q5_3").prop("checked", false);
+            $("#Q5_4").prop("checked", false);
+        })
+
+    });
+
+
+
+    function btn_survey_submit(){
+        var lock = 0;
+        if($("input:radio[name='Q1']").is(":checked") == true){
+            var Q1 = $(':radio[name="Q1"]:checked').val();
+
+        }
+        else{
+            swal("입력 오류", "1번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q2']").is(":checked") == true){
+            var Q2 = $(':radio[name="Q2"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "2번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q3']").is(":checked") == true){
+            var Q3 = $(':radio[name="Q3"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "3번 설문을 입력해주세요", "info");
+            return false;
+        }
+
+        if($("input:radio[name='Q4']").is(":checked") == true){
+            var Q4 = $(':radio[name="Q4"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "4번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q5_text']").is(":checked") == true){
+
+            var Q5 = $("#Q5_text").val();
+
+            lock=1;
+        }
+        else if ($("input:radio[name='Q5']").is(":checked") == true){
+
+            var Q5 = $(':radio[name="Q5"]:checked').val();
+
+            lock=1;
+        }
+        else{
+            swal("입력 오류", "5번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if(lock != 0){
+            swal({
+                title: "완 료",
+                text: "설문은 수정하실수없습니다",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            })
+                    .then(function (value) {
+                        if (value) {
+                            $.ajax({
+                                        url: "/cert_survey/",
+                                        type: "POST",
+                                        datatype:"json",
+                                        data: {
+                                            Q1: Q1,
+                                            Q2: Q2,
+                                            Q3: Q3,
+                                            Q4: Q4,
+                                            Q5: Q5,
+                                            'user_id':'${user_id}',
+                                            'course_id':course_id,
+                                        },
+                                    })
+                                    .done(function (data) {
+                                        if (data.return == 'success') {
+                                            $(location).attr('href',"/certificates/${hello}");
+                                        }
+                                        else if(data.return == 'fail'){
+                                            return
+                                        }
+
+                                    })
+                        } else {
+                            return
+                        }
+                    })
+
+        }
+    }
+
+</script>
+<style>
+    .table{
+        border-collapse: collapse !important;
+        vertical-align: middle !important;
+
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    tr{
+        vertical-align: middle !important;
+        padding: 20px !important;
+    }
+    td{
+        vertical-align: middle !important;
+        padding: 20px !important;
+    }
+    .sv_menu1, .sv_menu2{
+        border: 2px solid #d2d0d0 !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+    .cert{
+        font-family: "Nanum Gothic" !important;
+    }
+    .form-control {
+        width: 100% !important;
+        padding: .375rem .75rem !important;
+        font-size: 1rem !important;
+        line-height: 1.5!important;
+        color: #495057!important;
+        background-color: #fff!important;
+        background-clip: padding-box !important;
+        border: 1px solid #ced4da!important;
+        border-radius: .25rem!important;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+    }
+    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5{
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+</style>
 
 <section class="container">
-    <h2 title="설문조사" id="main">설문조사</h2>
-    <div class="input-group">
-        <form id="selform" method="POST" action="javascript:alert('Success')" onsubmit="return validate()">
-            <h1>질문1</h1>
-            <label><input type="radio" id="color1" name="color" value="1"  /> Yellow </label>
-            <br><br>
-            <label><input type="radio" id="color2" name="color" value="2"  /> Red </label>
-            <br><br>
-            <label><input type="radio" id="color3" name="color" value="3"  /> Blue </label>
-            <br><br>
-            <h1>질문2</h1>
-            <br><br>
-            <label><input type="radio" id="size1" name="size" value="1" /> Small </label>
-            <br><br>
-            <label><input type="radio" id="size2" name="size" value="2" /> Medium</label>
-            <br><br>
-            <label><input type="radio" id="size3" name="size" value="3" /> Large</label>
-            <br><br>
-            <p>
+    <h2 title="이수자대상 만족도 조사" id="main">이수자대상 만족도 조사</h2>
+    <div class="survey_group">
+        <table class="table" >
+            <thead>
+            <tr>
+                <th colspan="2" class="sv_menu1">구 분</th>
+                <th colspan="5" class="sv_menu2">
+                    전혀 그렇지 않다 < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; >   매우 그렇다
+                    <br>
+                    <!--(strongly disagree) <--------------------2>(strongly agree)[번역용]-->
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="q1_tr">
 
-                <input name="saveForm" type="submit" id="saveForm" />
-                <a class="btn"
-                   href="/certificates/${hello}"
-                   target="_blank"
-                   title="링크는 강좌 이수증을 웹으로 보게 될것입니다.">
-                    이수증 보기</a>
-        </form>
+                <td class="sv_Q1">강의내용</td>
+                <td>Q1.강좌내용 구성은 체계적이고 이해하기 쉽게 구성되어 있다. </td>
+                <td><label><input type="radio" id="Q1_1" name="Q1" value="1" /> 1 </label></td>
+                <td><label><input type="radio" id="Q1_2" name="Q1" value="2" /> 2 </label></td>
+                <td><label><input type="radio" id="Q1_3" name="Q1" value="3" /> 3 </label></td>
+                <td><label><input type="radio" id="Q1_4" name="Q1" value="4" /> 4 </label></td>
+                <td><label><input type="radio" id="Q1_5" name="Q1" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q2_tr">
+
+                <td class="sv_Q2">교수</td>
+                <td>Q2.교수자는 이해하기 쉽게 강의 내용을 전달하였다.</td>
+                <td><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
+                <td><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
+                <td><label><input type="radio" id="Q2_3" name="Q2" value="3" /> 3 </label></td>
+                <td><label><input type="radio" id="Q2_4" name="Q2" value="4" /> 4 </label></td>
+                <td><label><input type="radio" id="Q2_5" name="Q2" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q3_tr">
+
+                <td class="sv_Q3">강의운영</td>
+                <td>Q3.담당 교수나 조교 등 운영팀은 질문이나 문의사항에 신속하고 적절하게 대응하였다.</td>
+                <td><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
+                <td><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
+                <td><label><input type="radio" id="Q3_3" name="Q3" value="3" /> 3 </label></td>
+                <td><label><input type="radio" id="Q3_4" name="Q3" value="4" /> 4 </label></td>
+                <td><label><input type="radio" id="Q3_5" name="Q3" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q4_tr">
+
+                <td class="sv_Q4">전반적 만족도</td>
+                <td>Q4.강좌는 전반적으로 만족스러웠다.</td>
+                <td><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
+                <td><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
+                <td><label><input type="radio" id="Q4_3" name="Q4" value="3" /> 3 </label></td>
+                <td><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
+                <td><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q5_tr">
+
+                <td class="sv_Q5">이수증 활용도</td>
+                <td>Q5.K-MOOC 이수증이 왜 필요한가?</td>
+                <td colspan="5" class="cert">
+                    <label><input type="radio" id="Q5_1" name="Q5" value="자기만족을 위한 취득"/> 자기만족을 위한 취득 </label><br>
+                    <label><input type="radio" id="Q5_2" name="Q5" value="학점취득을 위한 대학 제출"/> 학점취득을 위한 대학 제출 </label><br>
+                    <label><input type="radio" id="Q5_3" name="Q5" value="교육훈련 시간 인정을 위한 직장 제출"/> 교육훈련 시간 인정을 위한 직장 제출 </label><br>
+                    <label><input type="radio" id="Q5_4" name="Q5" value="취업준비"/> 취업준비 </label><br>
+                    <label><input type="radio" id="Q5_5" name="Q5_text" value="기타"/> 기타
+                        <textarea id="Q5_text" name="Q5" class="form-control"></textarea>
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+        <!--<a class="btn"
+           href="/certificates/${hello}"
+           target="_blank"
+           title="제출과 동시에 이수증을 웹으로 보게 될것입니다."
+            style="float: right; font-size: 25px;">
+            제출</a>-->
+        <button onclick="btn_survey_submit()" type="button" style="float: right; font-size: 19px;" class="btn btn-outline-primary" title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">제출하기</button>
     </div>
 </section>
 

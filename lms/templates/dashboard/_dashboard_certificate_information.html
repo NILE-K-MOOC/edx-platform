@@ -1,4 +1,4 @@
-<%page expression_filter="h" args="cert_status, course_overview, enrollment, reverify_link" />
+<%page expression_filter="h" args="cert_status, course_overview, enrollment, reverify_link, user" />
 
 <%!
 from django.utils.translation import ugettext as _
@@ -68,15 +68,22 @@ else:
           % elif cert_status['show_download_url'] and cert_status.get('show_cert_web_view', False):
             <li class="action action-certificate" data-check1="${cert_status}">
                 <!-- 여기가 이수증 보기 버튼 입니다..조호영. -->
-
             % if cert_status.get('survey', 'complete') == 'complete':
+                <!--
                 <a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"
                    title="${_('This link will open the certificate web view')}">
-                   ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
+                   ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>-->
+
                 <!--<a class="btn" href="/cert_survey?hello=${cert_status['cert_web_view_url']}" target="_blank"
                    title="${_('This link will open the certificate web view')}">
                     survey
                 </a>-->
+
+
+                <a class="btn" href="/cert_survey?hello=${cert_status['cert_web_view_url']}&course_id=${course_overview.id}&user_id=${user.id}" target="_blank"
+                   title="${_('This link will open the certificate web view')}">
+                    ${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}</a>
+
 
             % elif 'survey_url' in cert_status:
 
