@@ -478,6 +478,7 @@ def multisite_index(request, org, msearch=None):
 
         in_url = in_url.replace('http://',"")
         in_url = in_url.replace('www.',"")
+        request.session['in_url'] = in_url
 
         out_url = out_url.replace('http://',"")
         out_url = out_url.replace('http://',"")
