@@ -427,7 +427,6 @@ def multisite_index(request, org, msearch=None):
 
     print "--------------------------> DEBUG 2 [s]"
     print "org = ", org
-    logging.info("org = ", org)
     print "--------------------------> DEBUG 2 [e]"
 
     if 'status' not in request.session or request.session['status'] != 'success':
@@ -463,7 +462,6 @@ def multisite_index(request, org, msearch=None):
 
         print "--------------------------> DEBUG 4 [s]"
         print "login_type = ", login_type
-        logging.info("login_type = ", login_type)
         print "--------------------------> DEBUG 4 [e]"
 
         # 공통 로직 (URL 체크)
@@ -482,21 +480,20 @@ def multisite_index(request, org, msearch=None):
 
         out_url = out_url.replace('http://',"")
         out_url = out_url.replace('http://',"")
+        request.session['out_url'] = out_url
 
         print "--------------------------> DEBUG 6 [s]"
         print 'in_url (after) = ', in_url
-        logging.info('in_url (after) = ', in_url)
         print "--------------------------> DEBUG 6 [e]"
         print "--------------------------> DEBUG 7 [s]"
         print 'out_url (after) = ', out_url
-        logging.info('out_url (after) = ', out_url)
         print "--------------------------> DEBUG 7 [e]"
 
 
         if in_url.find(out_url) == -1:
             print "--------------------------> DEBUG 8 [s]"
             request.session['status'] = 'fail'
-            logging.info('-----------------------------------> multisite: URL FAIL')
+            request.session['multisiteDebug'] = 'url check fail'
             print "request.session['status'] = ", request.session['status']
             return redirect('/multisite_error/')
             print "--------------------------> DEBUG 8 [e]"
@@ -511,14 +508,12 @@ def multisite_index(request, org, msearch=None):
 
                     print "--------------------------> DEBUG 9 [s]"
                     print "encStr = ", encStr
-                    logging.info("encStr = ", encStr)
                     print "--------------------------> DEBUG 9 [e]"
 
                     encStr = encStr.replace(' ','+')
 
                     print "--------------------------> DEBUG 10 [s]"
                     print "after encStr = ", encStr
-                    logging.info("after encStr = ", encStr)
                     print "--------------------------> DEBUG 10 [e]"
 
                     raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
@@ -526,7 +521,6 @@ def multisite_index(request, org, msearch=None):
 
                     print "--------------------------> DEBUG 11 [s]"
                     print "raw_data = ", raw_data
-                    logging.info("raw_data = ", raw_data)
                     print "--------------------------> DEBUG 11 [e]"
 
                     t1 = raw_data[0].split('=')
@@ -551,14 +545,13 @@ def multisite_index(request, org, msearch=None):
                     print "--------------------------> DEBUG 12 [s]"
                     print "java_calltime = ",java_calltime
                     print "python_calltime = ",python_calltime
-                    logging.info("java_calltime = ",java_calltime)
-                    logging.info("python_calltime = ",python_calltime)
                     print "--------------------------> DEBUG 12 [e]"
 
                     if java_calltime + timedelta(seconds=60) < python_calltime:
                         request.session['status'] = 'fail'
-                        logging.info("python_calltime = ",python_calltime)
-                        logging.info('-----------------------------------> multisite: Time error')
+                        request.session['java_calltime'] = java_calltime
+                        request.session['python_calltime'] = python_calltime
+                        request.session['multisiteDebug'] = 'time check fail'
                         return redirect('/multisite_error/')
 
                     print "--------------------------> DEBUG 13 [s]"
@@ -572,15 +565,15 @@ def multisite_index(request, org, msearch=None):
                     if org != orgid:
                         request.session['status'] = 'fail'
                         print "############################## fail 2"
-                        logging.info('-----------------------------------> multisite: org error')
+                        request.session['multisiteDebug'] = 'org <-> orgid fail'
                         return redirect('/multisite_error/')
 
                     if request.session['status'] != 'fail':
                         print "############################## success"
+                        request.session['multisiteDebug'] = 'success'
                         request.session['multisite_userid'] = userid
                         request.session['status'] = 'success'
                         request.session['status_org'] = org
-                        logging.info('-----------------------------------> multisite: success')
 
                         with connections['default'].cursor() as cur:
                             sql = '''
@@ -593,7 +586,6 @@ def multisite_index(request, org, msearch=None):
                             '''.format(org, userid)
 
                             print sql
-                            logging.info(sql)
 
                             cur.execute(sql)
                             rows = cur.fetchall()
