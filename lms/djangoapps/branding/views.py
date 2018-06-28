@@ -500,114 +500,113 @@ def multisite_index(request, org, msearch=None):
                 return redirect('/multisite_error/')
                 print "--------------------------> DEBUG 8 [e]"
 
-            # URL이 일치하면 타는 로직
-            else:
-                # 파라미터 전송 타입
-                if login_type == 'P':
-                    # 암호화 데이터 복호화 로직
-                    if request.GET.get('encStr'):
-                        encStr = request.GET.get('encStr')
+        # URL이 일치하면 타는 로직
+        # 파라미터 전송 타입
+        if login_type == 'P':
+            # 암호화 데이터 복호화 로직
+            if request.GET.get('encStr'):
+                encStr = request.GET.get('encStr')
 
-                        print "--------------------------> DEBUG 9 [s]"
-                        print "encStr = ", encStr
-                        print "--------------------------> DEBUG 9 [e]"
+                print "--------------------------> DEBUG 9 [s]"
+                print "encStr = ", encStr
+                print "--------------------------> DEBUG 9 [e]"
 
-                        encStr = encStr.replace(' ','+')
+                encStr = encStr.replace(' ','+')
 
-                        print "--------------------------> DEBUG 10 [s]"
-                        print "after encStr = ", encStr
-                        print "--------------------------> DEBUG 10 [e]"
+                print "--------------------------> DEBUG 10 [s]"
+                print "after encStr = ", encStr
+                print "--------------------------> DEBUG 10 [e]"
 
-                        raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
-                        raw_data = raw_data.split('&')
+                raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
+                raw_data = raw_data.split('&')
 
-                        print "--------------------------> DEBUG 11 [s]"
-                        print "raw_data = ", raw_data
-                        print "--------------------------> DEBUG 11 [e]"
+                print "--------------------------> DEBUG 11 [s]"
+                print "raw_data = ", raw_data
+                print "--------------------------> DEBUG 11 [e]"
 
-                        t1 = raw_data[0].split('=')
-                        t2 = raw_data[1].split('=')
-                        t3 = raw_data[2].split('=')
-                        calltime = t1[1]
-                        userid = t2[1]
-                        orgid = t3[1]
+                t1 = raw_data[0].split('=')
+                t2 = raw_data[1].split('=')
+                t3 = raw_data[2].split('=')
+                calltime = t1[1]
+                userid = t2[1]
+                orgid = t3[1]
 
-                        calltime = str(calltime)
+                calltime = str(calltime)
 
-                        t_a = int(calltime[0:4])
-                        t_b = int(calltime[4:6])
-                        t_c = int(calltime[6:8])
-                        t_d = int(calltime[8:10])
-                        t_e = int(calltime[10:12])
-                        t_f = int(calltime[12:14])
+                t_a = int(calltime[0:4])
+                t_b = int(calltime[4:6])
+                t_c = int(calltime[6:8])
+                t_d = int(calltime[8:10])
+                t_e = int(calltime[10:12])
+                t_f = int(calltime[12:14])
 
-                        java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
-                        python_calltime = datetime.utcnow() + timedelta(hours=9)
+                java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
+                python_calltime = datetime.utcnow() + timedelta(hours=9)
 
-                        print "--------------------------> DEBUG 12 [s]"
-                        print "java_calltime = ",java_calltime
-                        print "python_calltime = ",python_calltime
-                        print "--------------------------> DEBUG 12 [e]"
+                print "--------------------------> DEBUG 12 [s]"
+                print "java_calltime = ",java_calltime
+                print "python_calltime = ",python_calltime
+                print "--------------------------> DEBUG 12 [e]"
 
-                        if java_calltime + timedelta(seconds=60) < python_calltime:
-                            request.session['status'] = 'fail'
-                            request.session['java_calltime'] = java_calltime
-                            request.session['python_calltime'] = python_calltime
-                            request.session['multisiteDebug'] = 'time check fail'
-                            return redirect('/multisite_error/')
+                if java_calltime + timedelta(seconds=60) < python_calltime:
+                    request.session['status'] = 'fail'
+                    request.session['java_calltime'] = java_calltime
+                    request.session['python_calltime'] = python_calltime
+                    request.session['multisiteDebug'] = 'time check fail'
+                    return redirect('/multisite_error/')
 
-                        print "--------------------------> DEBUG 13 [s]"
-                        print "calltime ja = ", java_calltime
-                        print "calltime py = ", python_calltime
-                        print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
-                        print "userid = ", userid
-                        print "orgid = ", orgid
-                        print "--------------------------> DEBUG 14 [s]"
+                print "--------------------------> DEBUG 13 [s]"
+                print "calltime ja = ", java_calltime
+                print "calltime py = ", python_calltime
+                print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
+                print "userid = ", userid
+                print "orgid = ", orgid
+                print "--------------------------> DEBUG 14 [s]"
 
-                        if org != orgid:
-                            request.session['status'] = 'fail'
-                            print "############################## fail 2"
-                            request.session['multisiteDebug'] = 'org <-> orgid fail'
-                            return redirect('/multisite_error/')
+                if org != orgid:
+                    request.session['status'] = 'fail'
+                    print "############################## fail 2"
+                    request.session['multisiteDebug'] = 'org <-> orgid fail'
+                    return redirect('/multisite_error/')
 
-                        if request.session['status'] != 'fail':
-                            print "############################## success"
-                            request.session['multisiteDebug'] = 'success'
-                            request.session['multisite_userid'] = userid
-                            request.session['status'] = 'success'
-                            request.session['status_org'] = org
+                if request.session['status'] != 'fail':
+                    print "############################## success"
+                    request.session['multisiteDebug'] = 'success'
+                    request.session['multisite_userid'] = userid
+                    request.session['status'] = 'success'
+                    request.session['status_org'] = org
 
-                            with connections['default'].cursor() as cur:
-                                sql = '''
-                                    SELECT user_id
-                                    FROM multisite_member as a
-                                    join multisite as b
-                                    on a.site_id = b.site_id
-                                    where site_code = '{0}'
-                                    and org_user_id = '{1}'
-                                '''.format(org, userid)
+                    with connections['default'].cursor() as cur:
+                        sql = '''
+                            SELECT user_id
+                            FROM multisite_member as a
+                            join multisite as b
+                            on a.site_id = b.site_id
+                            where site_code = '{0}'
+                            and org_user_id = '{1}'
+                        '''.format(org, userid)
 
-                                print sql
+                        print sql
 
-                                cur.execute(sql)
-                                rows = cur.fetchall()
+                        cur.execute(sql)
+                        rows = cur.fetchall()
 
-                            print rows
+                    print rows
 
-                            if len(rows) != 0:
-                                from django.contrib.auth.models import User
-                                user = User.objects.get(pk=rows[0][0])
+                    if len(rows) != 0:
+                        from django.contrib.auth.models import User
+                        user = User.objects.get(pk=rows[0][0])
 
-                                user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
-                                login(request, user)
-                                print "login login login login login login login"
+                        user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                        login(request, user)
+                        print "login login login login login login login"
 
-                elif login_type == 'O':
-                    print "------------------> O"
-                    print "------------------> O"
-                    print "------------------> O"
-                    url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
-                    return HttpResponseRedirect(url)
+        elif login_type == 'O':
+            print "------------------> O"
+            print "------------------> O"
+            print "------------------> O"
+            url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+            return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
