@@ -492,117 +492,128 @@ def multisite_index(request, org, msearch=None):
         logging.info('out_url (after) = ', out_url)
         print "--------------------------> DEBUG 7 [e]"
 
-        # 파라미터 전송 타입
-        if login_type == 'P':
-            # 암호화 데이터 복호화 로직
-            if request.GET.get('encStr'):
-                encStr = request.GET.get('encStr')
 
-                print "--------------------------> DEBUG 9 [s]"
-                print "encStr = ", encStr
-                logging.info("encStr = ", encStr)
-                print "--------------------------> DEBUG 9 [e]"
+        if in_url.find(out_url) == -1:
+            print "--------------------------> DEBUG 8 [s]"
+            request.session['status'] = 'fail'
+            logging.info('-----------------------------------> multisite: URL FAIL')
+            print "request.session['status'] = ", request.session['status']
+            return redirect('/multisite_error/')
+            print "--------------------------> DEBUG 8 [e]"
 
-                encStr = encStr.replace(' ','+')
+        # URL이 일치하면 타는 로직
+        else:
+            # 파라미터 전송 타입
+            if login_type == 'P':
+                # 암호화 데이터 복호화 로직
+                if request.GET.get('encStr'):
+                    encStr = request.GET.get('encStr')
 
-                print "--------------------------> DEBUG 10 [s]"
-                print "after encStr = ", encStr
-                logging.info("after encStr = ", encStr)
-                print "--------------------------> DEBUG 10 [e]"
+                    print "--------------------------> DEBUG 9 [s]"
+                    print "encStr = ", encStr
+                    logging.info("encStr = ", encStr)
+                    print "--------------------------> DEBUG 9 [e]"
 
-                raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
-                raw_data = raw_data.split('&')
+                    encStr = encStr.replace(' ','+')
 
-                print "--------------------------> DEBUG 11 [s]"
-                print "raw_data = ", raw_data
-                logging.info("raw_data = ", raw_data)
-                print "--------------------------> DEBUG 11 [e]"
+                    print "--------------------------> DEBUG 10 [s]"
+                    print "after encStr = ", encStr
+                    logging.info("after encStr = ", encStr)
+                    print "--------------------------> DEBUG 10 [e]"
 
-                t1 = raw_data[0].split('=')
-                t2 = raw_data[1].split('=')
-                t3 = raw_data[2].split('=')
-                calltime = t1[1]
-                userid = t2[1]
-                orgid = t3[1]
+                    raw_data = decrypt(key, iv, encStr) #<--------------- 복호화 제대로 안됬을 때 예외 처리
+                    raw_data = raw_data.split('&')
 
-                calltime = str(calltime)
+                    print "--------------------------> DEBUG 11 [s]"
+                    print "raw_data = ", raw_data
+                    logging.info("raw_data = ", raw_data)
+                    print "--------------------------> DEBUG 11 [e]"
 
-                t_a = int(calltime[0:4])
-                t_b = int(calltime[4:6])
-                t_c = int(calltime[6:8])
-                t_d = int(calltime[8:10])
-                t_e = int(calltime[10:12])
-                t_f = int(calltime[12:14])
+                    t1 = raw_data[0].split('=')
+                    t2 = raw_data[1].split('=')
+                    t3 = raw_data[2].split('=')
+                    calltime = t1[1]
+                    userid = t2[1]
+                    orgid = t3[1]
 
-                java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
-                python_calltime = datetime.utcnow() + timedelta(hours=9)
+                    calltime = str(calltime)
 
-                print "--------------------------> DEBUG 12 [s]"
-                print "java_calltime = ",java_calltime
-                print "python_calltime = ",python_calltime
-                logging.info("java_calltime = ",java_calltime)
-                logging.info("python_calltime = ",python_calltime)
-                print "--------------------------> DEBUG 12 [e]"
+                    t_a = int(calltime[0:4])
+                    t_b = int(calltime[4:6])
+                    t_c = int(calltime[6:8])
+                    t_d = int(calltime[8:10])
+                    t_e = int(calltime[10:12])
+                    t_f = int(calltime[12:14])
 
-                if java_calltime + timedelta(seconds=60) < python_calltime:
-                    request.session['status'] = 'fail'
+                    java_calltime = datetime(t_a, t_b, t_c, t_d, t_e, t_f)
+                    python_calltime = datetime.utcnow() + timedelta(hours=9)
+
+                    print "--------------------------> DEBUG 12 [s]"
+                    print "java_calltime = ",java_calltime
+                    print "python_calltime = ",python_calltime
+                    logging.info("java_calltime = ",java_calltime)
                     logging.info("python_calltime = ",python_calltime)
-                    logging.info('-----------------------------------> multisite: Time error')
-                    return redirect('/multisite_error/')
+                    print "--------------------------> DEBUG 12 [e]"
 
-                print "--------------------------> DEBUG 13 [s]"
-                print "calltime ja = ", java_calltime
-                print "calltime py = ", python_calltime
-                print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
-                print "userid = ", userid
-                print "orgid = ", orgid
-                print "--------------------------> DEBUG 14 [s]"
+                    if java_calltime + timedelta(seconds=60) < python_calltime:
+                        request.session['status'] = 'fail'
+                        logging.info("python_calltime = ",python_calltime)
+                        logging.info('-----------------------------------> multisite: Time error')
+                        return redirect('/multisite_error/')
 
-                if org != orgid:
-                    request.session['status'] = 'fail'
-                    print "############################## fail 2"
-                    logging.info('-----------------------------------> multisite: org error')
-                    return redirect('/multisite_error/')
+                    print "--------------------------> DEBUG 13 [s]"
+                    print "calltime ja = ", java_calltime
+                    print "calltime py = ", python_calltime
+                    print "calltime ja + 1 = ", java_calltime + timedelta(seconds=60)
+                    print "userid = ", userid
+                    print "orgid = ", orgid
+                    print "--------------------------> DEBUG 14 [s]"
 
-                if request.session['status'] != 'fail':
-                    print "############################## success"
-                    request.session['multisite_userid'] = userid
-                    request.session['status'] = 'success'
-                    request.session['status_org'] = org
-                    logging.info('-----------------------------------> multisite: success')
+                    if org != orgid:
+                        request.session['status'] = 'fail'
+                        print "############################## fail 2"
+                        logging.info('-----------------------------------> multisite: org error')
+                        return redirect('/multisite_error/')
 
-                    with connections['default'].cursor() as cur:
-                        sql = '''
-                            SELECT user_id
-                            FROM multisite_member as a
-                            join multisite as b
-                            on a.site_id = b.site_id
-                            where site_code = '{0}'
-                            and org_user_id = '{1}'
-                        '''.format(org, userid)
+                    if request.session['status'] != 'fail':
+                        print "############################## success"
+                        request.session['multisite_userid'] = userid
+                        request.session['status'] = 'success'
+                        request.session['status_org'] = org
+                        logging.info('-----------------------------------> multisite: success')
 
-                        print sql
-                        logging.info(sql)
+                        with connections['default'].cursor() as cur:
+                            sql = '''
+                                SELECT user_id
+                                FROM multisite_member as a
+                                join multisite as b
+                                on a.site_id = b.site_id
+                                where site_code = '{0}'
+                                and org_user_id = '{1}'
+                            '''.format(org, userid)
 
-                        cur.execute(sql)
-                        rows = cur.fetchall()
+                            print sql
+                            logging.info(sql)
 
-                    print rows
+                            cur.execute(sql)
+                            rows = cur.fetchall()
 
-                    if len(rows) != 0:
-                        from django.contrib.auth.models import User
-                        user = User.objects.get(pk=rows[0][0])
+                        print rows
 
-                        user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
-                        login(request, user)
-                        print "login login login login login login login"
+                        if len(rows) != 0:
+                            from django.contrib.auth.models import User
+                            user = User.objects.get(pk=rows[0][0])
 
-        elif login_type == 'O':
-            print "------------------> O"
-            print "------------------> O"
-            print "------------------> O"
-            url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
-            return HttpResponseRedirect(url)
+                            user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                            login(request, user)
+                            print "login login login login login login login"
+
+            elif login_type == 'O':
+                print "------------------> O"
+                print "------------------> O"
+                print "------------------> O"
+                url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+                return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
