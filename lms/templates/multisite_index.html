@@ -23,14 +23,24 @@ from openedx.core.djangolib.markup import HTML, Text
         }
     % endif
 
-    //alert(status);
+    $( document ).ready(function() {
+        $("input[name=search_query]").keydown(function (key) {
 
-    //
-    //window.history.back();
+            if(key.keyCode == 13){
+                 msearch_btn();
+            }
 
-    function msearch_btn(){
-        var msearch_input = $('.msearch_input').val();
-        //alert(msearch_input);
+        });
+    });
+
+    function msearch_btn(mode){
+        if(mode === 'init'){
+            var msearch_input = '';
+        }
+        else{
+            var msearch_input = $('.msearch_input').val();
+        }
+
         % if 'org' in request.session and request.session['org'] != 'kmooc':
         window.location.replace("/org/${request.session['org']}/"+msearch_input);
         % endif
@@ -63,7 +73,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
                                         <input class="msearch_input" type="text" name="search_query" placeholder="${_('Find Courses')}" aria-label="${_('Find Courses')}">
 			<span class="msearch_btnarea">
-			<button onclick="msearch_btn()" class="msearch_btn" type="submit"><img src="/static/images/icon-search.png" alt="search"></button>
+			    <button onclick="msearch_btn()" class="msearch_btn" type="submit"><img src="/static/images/icon-search.png" alt="search"></button>
+                <button onclick="msearch_btn('init')" class="msearch_btn" type="submit"><div style="color:#ffffff">검색 초기화</div></button>
 			</span>
                                     </div>
                                 <!--</form>-->
