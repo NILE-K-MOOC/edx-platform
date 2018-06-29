@@ -30169,3 +30169,45 @@ msgstr "K-MOOC 알림"
 #: cms/templates/widgets/header.html
 msgid "CDN Uploads"
 msgstr "동영상 업로드"
+
+
+#이수증 설문조사
+msgid "The contents of this course were well designed, organized and appropriate."
+msgstr "강좌내용 구성은 체계적이고 이해하기 쉽게 구성되어 있다."
+
+msgid "The instructor presented content in an organized manner."
+msgstr "교수자는 이해하기 쉽게 강의 내용을 전달하였다."
+
+msgid "The instructor or TA responded effectively to my questions."
+msgstr "담당 교수나 조교 등 운영팀은 질문이나 문의사항에 신속하고 적절하게 대응하였다."
+
+msgid "The course as a whole was excellent."
+msgstr "강좌는 전반적으로 만족스러웠다."
+
+msgid "the purpose of using K-MOOC certificates"
+msgstr "K-MOOC 이수증 발급 목적"
+
+msgid "Earn for self-satisfaction"
+msgstr "자기만족을 위한 취득"
+
+msgid "Submit to colleges for earning credit toward academic degree"
+msgstr "학점취득을 위한 대학 제출"
+
+msgid "Submit to companies for required employee training"
+msgstr "교육훈련 시간 인정을 위한 직장 제출"
+
+msgid "Improve candidacy for a new job"
+msgstr "취업준비"
+
+msgid "other"
+msgstr "기타"
+
+msgid "strongly disagree"
+msgstr "전혀 그렇지 않다"
+
+msgid "strongly agree"
+msgstr "매우 그렇다"
+
+
+
+

@@ -184,6 +184,10 @@
         text-align: center !important;
         vertical-align: middle !important;
     }
+    * {
+    font-family: "Nanum Gothic","Open Sans" !important;
+        font-style: normal !important;
+    }
 
 </style>
 
@@ -195,7 +199,7 @@
             <tr>
                 <th colspan="2" class="sv_menu1">구 분</th>
                 <th colspan="5" class="sv_menu2">
-                    전혀 그렇지 않다 < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; >   매우 그렇다
+                    ${_("strongly disagree")} < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; >   ${_("strongly agree")}
                     <br>
                     <!--(strongly disagree) <--------------------2>(strongly agree)[번역용]-->
                 </th>
@@ -205,7 +209,7 @@
             <tr class="q1_tr">
 
                 <td class="sv_Q1">강의내용</td>
-                <td>Q1.강좌내용 구성은 체계적이고 이해하기 쉽게 구성되어 있다. </td>
+                <td>Q1.${_("The contents of this course were well designed, organized and appropriate.")}</td>
                 <td><label><input type="radio" id="Q1_1" name="Q1" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q1_2" name="Q1" value="2" /> 2 </label></td>
                 <td><label><input type="radio" id="Q1_3" name="Q1" value="3" /> 3 </label></td>
@@ -215,7 +219,7 @@
             <tr class="q2_tr">
 
                 <td class="sv_Q2">교수</td>
-                <td>Q2.교수자는 이해하기 쉽게 강의 내용을 전달하였다.</td>
+                <td>Q2.${_("The instructor presented content in an organized manner.")}</td>
                 <td><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
                 <td><label><input type="radio" id="Q2_3" name="Q2" value="3" /> 3 </label></td>
@@ -225,7 +229,7 @@
             <tr class="q3_tr">
 
                 <td class="sv_Q3">강의운영</td>
-                <td>Q3.담당 교수나 조교 등 운영팀은 질문이나 문의사항에 신속하고 적절하게 대응하였다.</td>
+                <td>Q3.${_("The instructor or TA responded effectively to my questions.")}</td>
                 <td><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
                 <td><label><input type="radio" id="Q3_3" name="Q3" value="3" /> 3 </label></td>
@@ -235,7 +239,7 @@
             <tr class="q4_tr">
 
                 <td class="sv_Q4">전반적 만족도</td>
-                <td>Q4.강좌는 전반적으로 만족스러웠다.</td>
+                <td>Q4.${_("The course as a whole was excellent.")}</td>
                 <td><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
                 <td><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
                 <td><label><input type="radio" id="Q4_3" name="Q4" value="3" /> 3 </label></td>
@@ -245,13 +249,13 @@
             <tr class="q5_tr">
 
                 <td class="sv_Q5">이수증 활용도</td>
-                <td>Q5.K-MOOC 이수증이 왜 필요한가?</td>
+                <td>Q5.${_("the purpose of using K-MOOC certificates")}</td>
                 <td colspan="5" class="cert">
-                    <label><input type="radio" id="Q5_1" name="Q5" value="자기만족을 위한 취득"/> 자기만족을 위한 취득 </label><br>
-                    <label><input type="radio" id="Q5_2" name="Q5" value="학점취득을 위한 대학 제출"/> 학점취득을 위한 대학 제출 </label><br>
-                    <label><input type="radio" id="Q5_3" name="Q5" value="교육훈련 시간 인정을 위한 직장 제출"/> 교육훈련 시간 인정을 위한 직장 제출 </label><br>
-                    <label><input type="radio" id="Q5_4" name="Q5" value="취업준비"/> 취업준비 </label><br>
-                    <label><input type="radio" id="Q5_5" name="Q5_text" value="기타"/> 기타
+                    <label style="f"><input type="radio" id="Q5_1" name="Q5" value="${_("Earn for self-satisfaction")}"/> ${_("Earn for self-satisfaction")} </label><br>
+                    <label><input type="radio" id="Q5_2" name="Q5" value="${_("Submit to colleges for earning credit toward academic degree")}"/> ${_("Submit to colleges for earning credit toward academic degree")} </label><br>
+                    <label><input type="radio" id="Q5_3" name="Q5" value="${_("Submit to companies for required employee training")}"/> ${_("Submit to companies for required employee training")} </label><br>
+                    <label><input type="radio" id="Q5_4" name="Q5" value="${_("Improve candidacy for a new job")}"/> ${_("Improve candidacy for a new job")} </label><br>
+                    <label><input type="radio" id="Q5_5" name="Q5_text" value="${_("other")}"/> ${_("other")}
                         <textarea id="Q5_text" name="Q5" class="form-control"></textarea>
                     </label>
                 </td>
