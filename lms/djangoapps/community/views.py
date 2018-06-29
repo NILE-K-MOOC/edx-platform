@@ -2262,8 +2262,8 @@ def cert_survey(request):
 
     #print "설문 검증 쿼리====>",query
 
-    # if len(rows) !=0 :
-    #     return redirect('/certificates/'+hello)
+    if len(rows) !=0 :
+        return redirect('/certificates/'+hello)
 
     context={}
     context['hello']=hello
