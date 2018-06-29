@@ -611,7 +611,7 @@ def multisite_index(request, org, msearch=None):
     # ----- i want data query ----- #
     with connections['default'].cursor() as cur:
         sql = '''
-            SELECT b.attatch_file_name, a.site_url
+            SELECT concat(b.attatch_file_name, '.', attatch_file_ext) as attatch_file_name, a.site_url
             FROM   multisite as a
             join tb_board_attach as b
             on a.logo_img = attatch_id
