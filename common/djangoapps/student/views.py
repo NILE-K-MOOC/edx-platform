@@ -205,9 +205,6 @@ def common_course_status(startDt, endDt):
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
-
-    context = {}
-
     if extra_context is None:
         extra_context = {}
     user = request.user
