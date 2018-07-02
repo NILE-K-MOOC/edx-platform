@@ -12,4 +12,11 @@ else
   echo "user_pw is $2"
 fi
 
-sudo -u www-data /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings aws create_user -p $2 -e $1
+if [ -z "$3" ]
+then
+  echo "user_name is null"
+else
+  echo "user_name is $2"
+fi
+
+sudo -u www-data /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings aws create_user -p $2 -e $1 -u $3
