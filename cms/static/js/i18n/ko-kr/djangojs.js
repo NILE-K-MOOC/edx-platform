@@ -1198,6 +1198,7 @@
     "Sign in with %(providerName)s": "%(providerName)s\ub85c \ub85c\uadf8\uc778 ",
     "Sign in with Institution/Campus Credentials": "\uae30\uad00 \uc544\uc774\ub514\ub85c \ub85c\uadf8\uc778\ud569\ub2c8\ub2e4.",
     "Sign in": "\ub85c\uadf8\uc778",
+    "Multisite Sign in": "\uae30\uad00\uc5f0\uacc4 \ub85c\uadf8\uc778",
     "Signatory field(s) has invalid data.": "\uc11c\uba85\uc778 \ud544\ub4dc(\ub4e4)\uc5d0 \uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \ub370\uc774\ud130\uac00 \uc788\uc2b5\ub2c8\ub2e4.",
     "Signatory name should not be more than 40 characters long.": "\uc11c\uba85\uc778\uc758 \uc774\ub984\uc740 40\uc790 \uc774\ub0b4\ub85c \ud574\uc57c \ud569\ub2c8\ub2e4.",
     "Signatory Name": "\uc11c\uba85\uc778 \uc774\ub984",

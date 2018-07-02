@@ -105,4 +105,95 @@
     <main id="main" aria-label="Content" tabindex="-1">
         <div id="login-and-registration-container" class="login-register" />
     </main>
+    % if 'status' in request.session:
+        % if request.session['status'] == 'success':
+        <div style="display:none" id="multisite">true</div>
+        % elif request.session['status'] != 'success':
+        <div style="display:none" id="multisite">false</div>
+        % endif
+    % elif 'status' not in request.session:
+        <div style="display:none" id="multisite">false</div>
+    % endif
 </div>
+
+<style>
+
+.multi {
+    color: #fff !important;
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+    background-image: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+.swal-button--cancel {
+    color: #555 !important;
+    background-color: #efefef !important;
+    background-image: none !important;
+    text-shadow: none !important;
+}
+</style>
+
+<script>
+
+/*
+// enter key event
+setTimeout(function() {
+    $("input[name=password]").keydown(function (key) {
+        if(key.keyCode == 13){
+            multisite_btn();
+        }
+    });
+
+    $('.swal-button--confirm').keydown(function (key) {
+        if(key.keyCode == 13){
+            // ...
+        }
+    });
+}, 1000);
+*/
+
+// login button click event
+function multisite_btn(){
+
+    % if 'status_org' in request.session:
+        var org = '${request.session["status_org"]}';
+    % elif 'status_org' not in request.session:
+        var org = '[기관명]';
+    % endif
+
+    swal("본 K-MOOC계정으로 로그인 시\n 소속기관 계정과 연동되어, 추후 해당 K-MOOC 계정으로 수행한 학습이력이 소속기관으로 전달되게 됩니다. 동의하시겠습니까? \n(동의하지 않을 시, 계정 연동이 취소됩니다)",
+        {
+            buttons: {
+                cancel: "동의하지 않음",
+                confirm: {text: "동의", className: "multi"}
+            }
+        }).then(function (isConfirm) {
+    if (isConfirm == true) {
+
+        $.post('/user_api/v1/account/login_session/', {
+                    email: $('#login-email').val(),
+                    password: $('#login-password').val(),
+                    remember: false,
+                    target: '',
+                    is_regist: false
+        })
+        .done(function(data){
+            location.href = "/dashboard";
+        })
+        .fail(function() {
+            swal("로그인 실패 (이메일과 비밀번호를 확인해주세요)",
+            {
+                buttons: {
+                    cancel: "확인",
+                }
+            })
+        });
+
+    } else {
+        return;
+    }
+
+    });
+}
+</script>
