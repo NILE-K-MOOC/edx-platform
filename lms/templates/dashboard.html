@@ -105,10 +105,7 @@ cert_name_long = settings.CERT_NAME_LONG
 
                 <nav class="faq-tab">
                     % if 'status' in request.session:
-                        <a href="#" data-status="ing" title="진행중">${_("ing course")}
-                            <div class="progress"></div>
-                        </a>
-                        <a href="#" class="on" data-status="audit" title="청강강좌">${_("Audit Course")}
+                        <a href="#" class="on" data-status="ing" title="진행중">${_("ing course")}
                             <div class="progress"></div>
                         </a>
                     % else:
@@ -310,11 +307,8 @@ banner.showMessage(${redirect_message | n, dump_js_escaped_json})
 
                 <div class="empty-dashboard-message">
                     <p>${_("You are not enrolled in any courses yet.")}</p>
-                    % if 'org' in request.session and request.session['org'] != 'kmooc':
-                    <a href="/org/${'org' in request.session and request.session['org']}">
-                        ${_("Explore courses")}
-                    </a>
-                    % elif settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+
+                    % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
                     <a href="${marketing_link('COURSES')}">
                         ${_("Explore courses")}
                     </a>

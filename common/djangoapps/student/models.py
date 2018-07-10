@@ -1525,6 +1525,33 @@ class CourseEnrollment(models.Model):
         ''', [user.id])
 
     @classmethod
+    def enrollments_for_user_multi(cls, user):
+        return cls.objects.raw('''
+            select t1.id, t1.user_id, t1.course_id, t1.created, t1.is_active, t1.mode
+            from (
+            SELECT a.*, b.start
+              FROM student_courseenrollment a, course_overviews_courseoverview b
+             WHERE     a.course_id = b.id
+                   AND now() <= b.end
+                   and a.is_active = 1
+                   AND a.user_id = {user_id}
+                   AND a.mode != 'audit'
+            union
+            SELECT a.*, a.created
+                FROM student_courseenrollment a
+                     JOIN course_overview_addinfo d ON a.course_id = d.course_id,
+                     course_overviews_courseoverview b
+               WHERE     a.course_id = b.id
+                     AND now() > b.end
+                     AND a.user_id = {user_id}
+                     AND a.is_active = 1
+                     AND d.audit_yn = 'Y'
+                     AND a.mode = 'audit'
+            ) t1
+            order by mode, start desc;
+        '''.format(user_id=user.id))
+
+    @classmethod
     def enrollments_for_user_end(cls, user):
         return cls.objects.raw('''
                   SELECT a.*

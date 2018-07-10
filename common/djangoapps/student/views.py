@@ -1074,7 +1074,7 @@ def reverification_info(statuses):
     return reverifications
 
 
-def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
+def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, multisiteStatus=None):
     """
     Given a user, return a filtered set of his or her course enrollments.
 
@@ -1089,7 +1089,12 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None):
         on the user's dashboard.
     """
     if not status:
-        enrollments = CourseEnrollment.enrollments_for_user_ing(user)
+        if multisiteStatus == True:
+            enrollments = CourseEnrollment.enrollments_for_user_multi(user)
+        else:
+            enrollments = CourseEnrollment.enrollments_for_user_ing(user)
+
+
     elif status == 'end':
         enrollments = CourseEnrollment.enrollments_for_user_end(user)
     elif status == 'audit':
@@ -1624,14 +1629,23 @@ def dashboard(request):
     # longer exist (because the course IDs have changed). Still, we don't delete those
     # enrollments, because it could have been a data push snafu.
 
+    if 'status' in request.session:
+        multisiteStatus = True
+        status = None
+    else:
+        multisiteStatus = False
+        status = None
+
+    print "multisiteStatus = ", multisiteStatus
+
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     if request.is_ajax():
         status = request.POST.get('status')
         # print 'status:', status
-
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
     else:
-        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set))
+        print "this is fucking logic"
+        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status, multisiteStatus))
 
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
