@@ -2245,20 +2245,58 @@ def cert_survey(request):
     course_id = course_id
     user_id=user_id
 
+    print "course_id = ",course_id
+
     course_id2 = course_id2.replace(" ", "+")
 
-    #print "user_id = ",user_id
-    #print "course_id = ",course_id
-    #print "certificates = ", hello
+    with connections['default'].cursor() as cur:
+        query = '''
+                select display_name
+                from course_overviews_courseoverview
+                where id = '{course_id}';
+            '''.format(course_id=course_id2)
+        cur.execute(query)
+        display_name = cur.fetchall()
+
+    # print "course_id2", course_id2
+    # print "display_name = ",display_name
 
     with connections['default'].cursor() as cur:
-            query = '''
+        query = '''
+                select course_id,min(created_date)
+                from certificates_generatedcertificate
+                where course_id ='{course_id}'
+                group by course_id;
+            '''.format(course_id=course_id2)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+    from django.utils import timezone
+    base_time = datetime.datetime(2018, 7, 11, 00, 00, 00, tzinfo=timezone.utc)
+
+    # print "gggg---g",base_time
+    # print "rows---",rows[0][1]
+    # print "user_id = ",user_id
+    # print "certificates = ", hello
+
+    if base_time > rows[0][1]:
+        print "trus"
+        return redirect('/certificates/'+hello)
+
+    else:
+        print "false"
+        pass
+
+
+
+    with connections['default'].cursor() as cur:
+        query = '''
                 select course_id, regist_id
                 from survey_result
                 where course_id= '{course_id}' and regist_id='{regist_id}'
             '''.format(course_id=course_id2,regist_id=user_id)
-            cur.execute(query)
-            rows = cur.fetchall()
+        cur.execute(query)
+        rows = cur.fetchall()
 
     #print "설문 검증 쿼리====>",query
 
@@ -2269,6 +2307,7 @@ def cert_survey(request):
     context['hello']=hello
     context['course_id']=course_id
     context['user_id']=user_id
+    context['display_name']= display_name[0][0]
 
     return render_to_response("community/cert_survey.html",context)
 
