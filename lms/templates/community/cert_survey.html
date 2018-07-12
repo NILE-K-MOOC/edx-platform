@@ -185,14 +185,26 @@
         vertical-align: middle !important;
     }
     * {
-    font-family: "Nanum Gothic","Open Sans" !important;
+        font-family: "Nanum Gothic","Open Sans" !important;
         font-style: normal !important;
     }
-
+    #main {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    #sub_main {
+        border-bottom: solid 1px #e0e0e0;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+    }
+    #Q5_text{
+        width: 380px !important;
+    }
 </style>
 
 <section class="container">
-    <h2 title="이수자대상 만족도 조사" id="main">이수자대상 만족도 조사</h2>
+    <h2 title="이수자대상 만족도 조사" id="main" > ${ display_name } 강좌 ${_("Satisfaction Survey")}</h2>
+    <div class="article_contents goal" id="sub_main" > &nbsp; ${_("Congratulations to earn a certificate! Please enter your satisfaction regarding this course.")} <br> &nbsp; ${_("If you submit your satisfaction, you can view your certificate.")}<br> </div>
     <div class="survey_group">
         <table class="table" >
             <thead>
