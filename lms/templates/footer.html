@@ -8,7 +8,7 @@
 <% footer = get_footer(is_secure=is_secure) %>
 <%namespace name='static' file='static_content.html'/>
 
-<div class="wrapper wrapper-footer">
+<div class="wrapper wrapper-footer" style='background-color: #565656;'>
   <footer id="footer-openedx" class="grid-container"
     ## When rendering the footer through the branding API,
     ## the direction may not be set on the parent element,
@@ -28,12 +28,12 @@
             ## can be included in the footer on other sites
             ## (e.g. a blog or marketing front-end) to provide a consistent
             ## user experience.  See the branding app for details.
-            <img alt="organization logo" src="/static/images/logo.png">
+            <div style="color: #ffffff;margin-top: 25px;">LG Electronics Inc.</div>
         </p>
       </div>
 
       ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-      <p class="copyright">COPYRIGHT©2017 LG ELECTRONICS. ALL RIGHT RESERVED</p>
+      <p class="copyright" style='color:#ffffff; margin-bottom:30px;'>COPYRIGHT©2017 LG ELECTRONICS. ALL RIGHT RESERVED</p>
 
       <nav class="nav-legal" aria-label="${_('Legal')}">
         <ul>
@@ -49,7 +49,7 @@
     <div class="footer-about-openedx">
       <p>
         <a href="${footer['openedx_link']['url']}">
-          <img src="${footer['openedx_link']['image']}" alt="${footer['openedx_link']['title']}" width="140" />
+          <img style='margin-top:55px;' src="${footer['openedx_link']['image']}" alt="${footer['openedx_link']['title']}" width="140" />
         </a>
       </p>
     </div>

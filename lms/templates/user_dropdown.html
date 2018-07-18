@@ -14,6 +14,14 @@ from django.utils.translation import ugettext as _
 from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_urls_for_user
 %>
 
+<style>
+.header-global .primary>a:hover, .header-global .primary>a:focus, .header-global .primary>a:active {
+    background: none;
+    text-decoration: none;
+}
+
+</style>
+
 % if uses_pattern_library:
     <div class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu">
         <a href="${reverse('dashboard')}" class="menu-title">
@@ -48,13 +56,13 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
                 username = self.real_user.username
                 profile_image_url = get_profile_image_urls_for_user(self.real_user)['medium']
                 %>
-                <img class="user-image-frame" src="${profile_image_url}" alt="">
+                <img class="user-image-frame" src="/static/images/profile_icon.png" alt="">
                 <div class="label-username">${self.real_user.profile.name}</div>
             </a>
         </li>
         <li class="primary">
             <div role="group" aria-label="User menu" class="user-menu">
-                <button class="dropdown" aria-expanded="false"><span class="sr">${_("More options dropdown")}</span><span class="fa fa-sort-desc" aria-hidden="true"></span></button>
+                <button style='background-color: #ae0139; color: #ffffff;' class="dropdown" aria-expanded="false"><span class="sr">${_("More options dropdown")}</span><span class="fa fa-sort-desc" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu" aria-label="More Options" role="menu">
                     ${navigation_dropdown_menu_links()}
                     <li class="item"><a href="${reverse('logout')}" role="menuitem" class="dropdown-menuitem">${_("Sign Out")}</a></li>
