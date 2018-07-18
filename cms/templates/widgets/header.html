@@ -6,12 +6,26 @@
   from django.utils.translation import ugettext as _
   from contentstore.context_processors import doc_url
 %>
-<div class="wrapper-header wrapper" id="view-top">
-  <header class="primary" role="banner">
 
-    <div class="wrapper wrapper-l">
+<style>
+.wrapper-header .nav-dd{
+    background: none;
+    border-color: #dddddd;
+    color: #ffffff;
+}
+
+.wrapper-header .nav-dd .title .fa-caret-down {
+    opacity: 1;
+}
+</style>
+
+<div class="wrapper-header wrapper" id="view-top" style='background-color: #ae0139;'>
+  <header class="primary" role="banner" style='background-color: #ae0139;'>
+
+    <div class="wrapper wrapper-l" style='background-color: #ae0139;'>
       <h1 class="branding">
-          <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+          <!--<img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />-->
+          <div style='color: #ffffff;'>LearningNet</div>
       </h1>
 
       % if context_course:
@@ -36,8 +50,9 @@
       <h2 class="info-course">
         <span class="sr">${_("Current Course:")}</span>
         <a class="course-link" href="${index_url}">
-          <span class="course-org">${context_course.display_org_with_default}</span><span class="course-number">${context_course.display_number_with_default}</span>
-          <span class="course-title" title="${context_course.display_name_with_default}">${context_course.display_name_with_default}</span>
+          <span style='color:#ffffff' class="course-org">${context_course.display_org_with_default}</span>
+          <span style='color:#ffffff' class="course-number">${context_course.display_number_with_default}</span>
+          <span style='color:#ffffff' class="course-title" title="${context_course.display_name_with_default}">${context_course.display_name_with_default}</span>
         </a>
       </h2>
 
@@ -186,7 +201,7 @@
       % endif
     </div>
 
-    <div class="wrapper wrapper-r">
+    <div class="wrapper wrapper-r" style='background-color: #ae0139;'>
       % if static.show_language_selector():
         <% languages = static.get_released_languages() %>
         % if len(languages) > 1:
