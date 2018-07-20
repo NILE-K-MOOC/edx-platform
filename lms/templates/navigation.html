@@ -49,7 +49,7 @@ site_status_msg = get_site_status_msg(course_id)
 </%block>
   <header style="background-color: #ae0139" id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
-    <h1 class="logo">
+    <h1 class="logo" style='border-right: solid 1px #ffffff;'>
         <%block name="navigation_logo">
         <%
         logo_url = get_enterprise_customer_logo_url(request)
@@ -58,7 +58,7 @@ site_status_msg = get_site_status_msg(course_id)
             logo_url = branding_api.get_logo_url(is_secure)
             logo_size = ''
         %>
-            <div style="color: #ffffff; font-size: 70%;">Study room</div>
+            <div style="color: #ffffff; font-size: 70%; ">Study room</div>
         </%block>
     </h1>
 
