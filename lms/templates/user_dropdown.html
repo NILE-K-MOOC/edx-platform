@@ -20,6 +20,15 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
     text-decoration: none;
 }
 
+.header-global.slim h1.logo:before {
+    content: "";
+    display: block;
+    height: 35px;
+    position: absolute;
+    right: 3px;
+    top: 0;
+    width: 0px;
+}
 </style>
 
 % if uses_pattern_library:
@@ -56,8 +65,8 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
                 username = self.real_user.username
                 profile_image_url = get_profile_image_urls_for_user(self.real_user)['medium']
                 %>
-                <img class="user-image-frame" src="/static/images/profile_icon.png" alt="">
-                <div class="label-username">${self.real_user.profile.name}</div>
+                <img style='width: 25px;margin-top: 10px;' class="user-image-frame" src="/static/images/profile_icon.png" alt="">
+                <div style='color:#ffffff' class="label-username">${self.real_user.profile.name}</div>
             </a>
         </li>
         <li class="primary">
