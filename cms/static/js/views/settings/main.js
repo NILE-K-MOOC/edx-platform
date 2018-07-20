@@ -193,13 +193,19 @@ var DetailsView = ValidatingView.extend({
         });
 
         //강좌 운영진 추가 기본 템플릿 초기화
-        this.staff_row_template = $("#course-instructor").clone();
+        this.instructor_row_template = $("#course-instructor").clone();
+        this.ta_row_template = $("#course-ta").clone();
         this.question_row_template = $("#course-question").clone();
 
     },
     addStaffItem: function(event){
         event.preventDefault();
-        $("#course-instructor").append($(this.staff_row_template).html());
+        // 교수자와 TA 분리하여 입력란 추가되도록 수정
+        if($("#course-ta").css('display') == 'none'){
+            $("#course-instructor").append($(this.instructor_row_template).html());
+        } else {
+            $("#course-ta").append($(this.ta_row_template).html());
+        }
     },
     delStaffItem: function(event){
         event.preventDefault();
