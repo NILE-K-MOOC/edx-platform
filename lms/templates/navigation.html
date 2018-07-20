@@ -29,6 +29,12 @@ from util.enterprise_helpers import get_enterprise_customer_logo_url
     </%block>
 % endif
 
+<style>
+.header-global.slim h2{
+    width: 30%;
+}
+</style>
+
 <%block>
 <%
 try:
@@ -49,7 +55,7 @@ site_status_msg = get_site_status_msg(course_id)
 </%block>
   <header style="background-color: #ae0139" id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
-    <h1 class="logo" style='border-right: solid 1px #ffffff;'>
+    <h1 class="logo" style='border-right: solid 1px #ffffff;margin-top: -10px;padding-top: 10px;padding-bottom: 10px;'>
         <%block name="navigation_logo">
         <%
         logo_url = get_enterprise_customer_logo_url(request)
