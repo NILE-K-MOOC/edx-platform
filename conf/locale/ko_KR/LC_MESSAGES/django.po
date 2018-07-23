@@ -15376,7 +15376,7 @@ msgstr "이 주제에서, 개별 학습자에게 특정 학습활동의 과제 �
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid ""
 "Specify the {platform_name} email address or username of a student here:"
-msgstr "여기에 {platform_name} 이메일 주소 혹은 학습자의 아이디를 입력합니다."
+msgstr "여기에 {platform_name} 학습자 이메일/아이디 입력:"
 
 #: lms/templates/instructor/instructor_dashboard_2/extensions.html
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html

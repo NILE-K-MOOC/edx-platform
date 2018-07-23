@@ -10257,7 +10257,7 @@ msgstr ""
 
 #: cms/static/js/views/instructor_info.js cms/static/js/views/settings/main.js
 msgid "Files must be in JPEG or PNG format."
-msgstr "파일은 JPEG 혹은 PNG 포맷이어야 합니다."
+msgstr "JPEG 혹은 PNG 포맷의 100KB 이하 이미지 파일만 업로드 가능합니다."
 
 #: cms/static/js/views/license.js cms/templates/js/license-selector.underscore
 #: test_root/staticfiles/coffee/fixtures/license-selector.underscore
