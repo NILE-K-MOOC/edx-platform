@@ -322,7 +322,7 @@ def certificate_print(request):
             print_index = print_index.replace('${k_box3}', '')
         if (checkbox4 == 'true'):
             print_index = print_index.replace('${k_box4}',
-                                              '<li id="k_box4" >주간 학습 권장시간 : ${course_effort_h}시간 ${course_effort_m}분</li>')
+                                              '<li id="k_box4" >총 학습인정시간 : ${course_effort_h}시간 ${course_effort_m}분</li>')
         else:
             print_index = print_index.replace('${k_box4}', '')
         if (checkbox2 == 'true'):

@@ -303,10 +303,18 @@ var DetailsView = ValidatingView.extend({
         var week = $("#course-effort-week").val();
         var video_hh = $("#course-video-hh").val();
         var video_mm = $("#course-video-mm").val();
+        var Calculated = $("#Calculated").val();
         if (mm > 60) {
             $("#course-effort-mm").val('');
             return false;
         }
+        if (Calculated>66){
+            $("#Calculated").val('');
+            return false;
+        }
+        $('.numbersOnly').keyup(function () {
+            this.value = this.value.replace(/[^0-9]/g,'');
+        });
         console.log("---------------------------> DEBUG [s]");
         console.log("hh = " + hh);
         console.log("mm = " + mm);
@@ -346,12 +354,12 @@ var DetailsView = ValidatingView.extend({
 
             console.log("real_min = " + real_min);
 
-            if(real_min == 0){
-                $("#Calculated").val(real_hour + "시간 ");
-            }
-            else{
-                $("#Calculated").val(real_hour + "시간 " + real_min + "분");
-            }
+            //if(real_min == 0){
+            //    $("#Calculated").val(real_hour + "시간 ");
+            //}
+            //else{
+            //    $("#Calculated").val(real_hour + "시간 " + real_min + "분");
+            //}
         }
 
         var val = hh + ":" + mm;
