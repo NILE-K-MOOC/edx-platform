@@ -3247,6 +3247,7 @@ def modi_teacher_name(request):
             addinfo_user_id = request.POST.get('addinfo_user_id')
             addinfo_course_id = request.POST.get('addinfo_course_id')
             teacher_name = request.POST.get('teacher_name')
+            total_study_time = request.POST.get('total_study_time')
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -3269,9 +3270,9 @@ def modi_teacher_name(request):
                 cur = con.cursor()
                 query = """
                     UPDATE course_overview_addinfo
-                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), teacher_name = '{1}'
+                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), teacher_name = '{1}',total_study_time='{3}'
                      WHERE course_id = '{2}';
-                """.format(addinfo_user_id, teacher_name, addinfo_course_id)
+                """.format(addinfo_user_id, teacher_name, addinfo_course_id,total_study_time)
                 cur.execute(query)
                 cur.execute('commit')
                 cur.close()
@@ -3288,9 +3289,10 @@ def modi_teacher_name(request):
                                     regist_id,
                                     regist_date,
                                     modify_id,
-                                    modify_date)
-                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
-                """.format(addinfo_course_id, teacher_name, addinfo_user_id, addinfo_user_id)
+                                    modify_date,
+                                    total_study_time)
+                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now(),'{4}');
+                """.format(addinfo_course_id, teacher_name, addinfo_user_id, addinfo_user_id,total_study_time)
                 cur.execute(query)
                 cur.execute('commit')
                 cur.close()
@@ -3374,6 +3376,7 @@ def modi_course_period(request):
             addinfo_user_id = request.POST.get('addinfo_user_id')
             addinfo_course_id = request.POST.get('addinfo_course_id')
             course_period = request.POST.get('course_period')
+            total_study_time = request.POST.get('total_study_time')
             if (course_period == '' or course_period == None):
                 course_period = 0
             course_period = int(course_period)
@@ -3424,6 +3427,7 @@ def modi_course_period(request):
                               settings.DATABASES.get('default').get('PASSWORD'),
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
+
             cur = con.cursor()
             query = """
                     SELECT count(*)
@@ -3439,9 +3443,9 @@ def modi_course_period(request):
                 cur = con.cursor()
                 query = """
                     UPDATE course_overview_addinfo
-                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), course_period = '{1}'
+                       SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), course_period = '{1}',total_study_time = '{3}'
                      WHERE course_id = '{2}';
-                """.format(addinfo_user_id, course_period_index, addinfo_course_id)
+                """.format(addinfo_user_id, course_period_index, addinfo_course_id,total_study_time)
                 cur.execute(query)
                 cur.execute('commit')
                 cur.close()
@@ -3458,9 +3462,10 @@ def modi_course_period(request):
                                     regist_id,
                                     regist_date,
                                     modify_id,
-                                    modify_date)
-                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
-                """.format(addinfo_course_id, course_period_index, addinfo_user_id, addinfo_user_id)
+                                    modify_date,
+                                    total_study_time)
+                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now(),'{4}');
+                """.format(addinfo_course_id, course_period_index, addinfo_user_id, addinfo_user_id,total_study_time)
                 cur.execute(query)
                 cur.execute('commit')
                 cur.close()

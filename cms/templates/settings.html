@@ -307,7 +307,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 
                                 <div style="width: 160px; float: left;">
                                     <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습인정시간</b></span><br/>
-                                    <input type="text" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" class="short time numbersOnly" id="Calculated" style="IME-MODE:disabled; text-align: right; width: 105px; float: left; border: 0px; background: #fff;" /><span style="float: left; padding: 10px;">시간</span>
+                                    <input type="text" class="short time" id="Calculated" value="${Calculated}" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; text-align: right; width: 105px; float: left; border: 0px; background: #fff;" /><span style="float: left; padding: 10px;">시간</span>
                                 </div>
 
                                 <br/>
