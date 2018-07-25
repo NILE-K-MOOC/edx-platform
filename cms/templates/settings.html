@@ -44,7 +44,6 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 </%block>
 
 <%block name="content">
-
 <div class="wrapper-mast wrapper">
     <header class="mast has-subtitle">
         <h1 class="page-header">
@@ -547,11 +546,13 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                       a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
                           a_link_end=HTML("</a>")
                     )}</span>
-
+                            % if edit_check == 'N':
                             <!-- 입력 양식 제공 버튼 -->
                             <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
                                 수정
                             </button>
+                            % endif
+                            <input type="hidden" id="course_edit_check" value="${edit_check}">
 
                             <!-- 강좌 개요 입력 폼 -->
                             <style>
@@ -634,8 +635,9 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                     color: #66c5f0;
                                 }
 
-                                .mce-panel {
-                                    border: 0px solid #b2b2b2;
+                                .CodeMirror-scroll {
+                                    pointer-events: none;
+                                    opacity: 0.6;
                                 }
                             </style>
 

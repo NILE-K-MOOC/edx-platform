@@ -54,7 +54,47 @@ var DetailsView = ValidatingView.extend({
         'change #teacher_name': "modi_teacher_name",
         'change #selectfixid': "modi_course_level",
 
-
+        //강좌소개 HTML 직접 수정 확인 이벤트
+        'click #edit_check': "course_editor_html",
+    },
+    course_editor_html: function(e){
+        swal({
+            html: 'HTML을 직접 수정하시면 K-MOOC에서 제공하는 양식으로 수정이 불가합니다.<br>그래도 수정을 진행하시겠습니까?',
+            title: '',
+            //text: '',
+            type: 'warning',
+            //confirmButtonText: '확인',
+            focusConfirm: false,
+            showCancelButton: true,
+            cancelButtonText: '취소',
+            confirmButtonText: '확인',
+            reverseButtons: true,
+            //closeOnClickOutside: false,
+            //closeOnEsc: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        }).then(function (check) {
+            if(check.value == true){
+                var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
+                var addinfo_user_id = $('#addinfo_user_id').text();
+                $(".toggleOverviewLayerBtn").css({'display': 'none'});
+                $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
+                $.post("/modi_course_about", {
+                    csrfmiddlewaretoken: $.cookie('csrftoken'),
+                    addinfo_course_id: addinfo_course_id,
+                    addinfo_user_id: addinfo_user_id,
+                }).done(function(data){
+                    if(data.status == 'success'){
+                        $(".CodeMirror").prop('id', '');
+                    }
+                });
+                console.log(check);
+            } else {
+                return;
+            }
+            // var openNewWindow = window.open("about:blank");
+            //openNewWindow.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSfnOX3jh-aYME4NLL5pNuD4YXs09DhgtkWI2YIGt9ydTjJClg/viewform?usp=pp_url&entry.1080638018=K-MOOC+%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0&entry.303748662=uoneway';
+        });
     },
     modi_course_level: function (e){
         this.model.set('course_level', $('#selectfixid').val());
@@ -761,6 +801,14 @@ var DetailsView = ValidatingView.extend({
             $("#course-language").attr("disabled", true).css("background", "#ccc");
             $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
 
+        }
+
+        var course_edit_check = $("#course_edit_check").val();
+        if(course_edit_check == 'Y'){
+            $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
+            $(".CodeMirror").removeProp('id');
+        }else {
+            $(".CodeMirror").prop('id', 'edit_check');
         }
 
         /*
