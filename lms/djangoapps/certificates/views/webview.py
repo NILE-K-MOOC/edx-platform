@@ -236,6 +236,18 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     else:
         context['org_name_k'] = org_name[0][0]
         context['org_name_e'] = org_name[0][1]
+
+    #----이수증 query--
+    cur = con.cursor()
+    query ="""
+        select total_study_time
+        FROM course_overview_addinfo
+        where course_id= '{0}'
+    """.format(course_id)
+    cur.execute(query)
+    rows = cur.fetchall()
+    cert_effort = rows[0][0]
+
     cur = con.cursor()
     query = """
             SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
@@ -274,13 +286,14 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         else:
             context['Play_h'] = Play_time[0]
             context['Play_m'] = Play_time[1]
-    if (course_effort == '-'):
+
+    if (cert_effort is None):
         context['course_effort_h'] = '-'
         context['course_effort_m'] = '-'
     else:
-        course_effort_index = course_effort.split(':')
-        context['course_effort_h'] = course_effort_index[0]
-        context['course_effort_m'] = course_effort_index[1]
+        course_effort_index = cert_effort
+        context['course_effort_h'] = course_effort_index
+        context['course_effort_m'] = ''
 
     if preview_mode:
         grade = 100

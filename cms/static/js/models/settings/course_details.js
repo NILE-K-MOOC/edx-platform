@@ -53,7 +53,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) &&
-                    (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#course-effort-week").val()))
+                    (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#course-effort-week").val()))
                 ) {
                     if (isNaN($("#course-effort-hh").val())) {
 
@@ -61,6 +61,9 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     } else if (isNaN($("#course-effort-mm").val())) {
 
                         $("#course-effort-mm").focus();
+                    } else if (isNaN($("#Calculated").val())) {
+
+                        $("#Calculated").focus();
                     }
                     errors.effort = gettext("Effort time must have number");
                 }
@@ -78,6 +81,10 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 if ($("#course-effort-week").val() && isNaN($("#course-effort-week").val())) {
                     $("#course-effort-week").focus();
                     errors.effort = gettext("Chapters must have number");
+                }
+                 if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
+                    $("#Calculated").focus();
+                    errors.effort = gettext("Calculated time must have number");
                 }
 
                 newattrs = DateUtils.convertDateStringsToObjects(

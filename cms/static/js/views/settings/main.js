@@ -37,11 +37,13 @@ var DetailsView = ValidatingView.extend({
         'blur #course-video-hh': "setEffort",
         'blur #course-video-mm': "setEffort",
         'blur #course-effort-week': "setEffort",
+        'blur #Calculated': "setEffort",
         'change #course-effort-hh': "setEffort",
         'change #course-effort-mm': "setEffort",
         'change #course-video-hh': "setEffort",
         'change #course-video-mm': "setEffort",
         'change #course-effort-week': "setEffort",
+        'change #Calculated': "setEffort",
 
         //강좌 운영진 소개의 추가 및 삭제 이벤트
         'click #overview-tab3 .remove-item': "delStaffItem",
@@ -52,6 +54,7 @@ var DetailsView = ValidatingView.extend({
         'click #overview-tab5 .add-item': "addQuestionItem",
 
         'change #teacher_name': "modi_teacher_name",
+        'change #Calculated': "modi_teacher_name",
         'change #selectfixid': "modi_course_level",
 
 
@@ -84,12 +87,14 @@ var DetailsView = ValidatingView.extend({
             var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
             var addinfo_user_id = $('#addinfo_user_id').text();
             var teacher_name = $('#teacher_name').val();
+            var total_study_time = $('#Calculated').val();
 
             $.post("/modi_teacher_name", {
                 csrfmiddlewaretoken: $.cookie('csrftoken'),
                 addinfo_course_id: addinfo_course_id,
                 addinfo_user_id: addinfo_user_id,
                 teacher_name: teacher_name,
+                total_study_time:total_study_time,
                 method : 'addinfo',
             });
         });
@@ -298,12 +303,14 @@ var DetailsView = ValidatingView.extend({
         });
     },
     setEffort:function(){
+        console.log("dddddd");
         var hh = $("#course-effort-hh").val();
         var mm = $("#course-effort-mm").val();
         var week = $("#course-effort-week").val();
         var video_hh = $("#course-video-hh").val();
         var video_mm = $("#course-video-mm").val();
         var Calculated = $("#Calculated").val();
+
         if (mm > 60) {
             $("#course-effort-mm").val('');
             return false;
@@ -312,7 +319,7 @@ var DetailsView = ValidatingView.extend({
             $("#Calculated").val('');
             return false;
         }
-        $('.numbersOnly').keyup(function () {
+        $('#Calculated').keyup(function () {
             this.value = this.value.replace(/[^0-9]/g,'');
         });
         console.log("---------------------------> DEBUG [s]");
@@ -342,25 +349,26 @@ var DetailsView = ValidatingView.extend({
             $("#course-video-hh").val(video_hh);
         if(video_mm)
             $("#course-video-mm").val(video_mm);
-
+        if(Calculated)
+             $("#Calculated").val(Calculated);
         var video = video_hh + ":" + video_mm;
 
-        if(hh && mm && week){
-            // 총 이수시간 계산 및 표시
-            //var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
-            var total_min = (((Number(hh) * 60) + Number(mm)) * Number(week));
-            var real_hour = Math.floor(total_min/60);
-            var real_min = total_min%60;
-
-            console.log("real_min = " + real_min);
-
-            //if(real_min == 0){
-            //    $("#Calculated").val(real_hour + "시간 ");
-            //}
-            //else{
-            //    $("#Calculated").val(real_hour + "시간 " + real_min + "분");
-            //}
-        }
+        //if(hh && mm && week){
+        //    // 총 이수시간 계산 및 표시
+        //    //var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
+        //    var total_min = (((Number(hh) * 60) + Number(mm)) * Number(week));
+        //    var real_hour = Math.floor(total_min/60);
+        //    var real_min = total_min%60;
+        //
+        //    console.log("real_min = " + real_min);
+        //
+        //    if(real_min == 0){
+        //        $("#Calculated").val(real_hour + "시간 ");
+        //    }
+        //    else{
+        //        $("#Calculated").val(real_hour + "시간 " + real_min + "분");
+        //    }
+        //}
 
         var val = hh + ":" + mm;
 
@@ -373,15 +381,18 @@ var DetailsView = ValidatingView.extend({
         $("#course-effort").val(val);
         $("#course-effort").trigger("change");
 
+
         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
         var addinfo_user_id = $('#addinfo_user_id').text();
         var course_period = $("#course-effort-week").val();
+        var total_study_time = $("#Calculated").val();
 
 
         console.log('Test Index ==============')
         console.log(addinfo_course_id)
         console.log(addinfo_user_id)
         console.log(course_period)
+        console.log(total_study_time)
         console.log('Test Index ==============')
 
         $.post("/modi_course_period", {
@@ -389,6 +400,7 @@ var DetailsView = ValidatingView.extend({
             addinfo_course_id: addinfo_course_id,
             addinfo_user_id: addinfo_user_id,
             course_period: course_period,
+            total_study_time:total_study_time,
             method : 'addinfo',
         });
     },
@@ -728,9 +740,9 @@ var DetailsView = ValidatingView.extend({
                 var hour = arr[0];
                 var minute = Math.round(Number(arr[1]) / 10 * 60).toString().substr(0, 2);
 
-                $("#Calculated").val(hour + "시간 " + minute + "분");
+                //$("#Calculated").val(hour + "시간 " + minute + "분");
             }else{
-                $("#Calculated").val(total_time + "시간");
+               // $("#Calculated").val(total_time + "시간");
             }
         }
 

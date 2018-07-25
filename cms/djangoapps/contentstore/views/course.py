@@ -1250,6 +1250,21 @@ def settings_handler(request, course_key_string):
             else:
                 teacher_name = ""
 
+            #---총 학습인정시간
+            cur = con.cursor()
+            query = """
+                 SELECT IFNULL(total_study_time, '')
+                  FROM course_overview_addinfo
+                 WHERE course_id = '{0}';
+            """.format(course_key)
+            cur.execute(query)
+            Calculated_index = cur.fetchall()
+            cur.close()
+            if (len(Calculated_index) == 1):
+                Calculated = Calculated_index[0][0]
+            else:
+                Calculated = ""
+
             cur = con.cursor()
             query = """
                  SELECT count(*)
@@ -1313,7 +1328,8 @@ def settings_handler(request, course_key_string):
                 'enable_extended_course_details': enable_extended_course_details,
                 'course_info_text': course_info_text,
                 'modi_over': modi_over,
-                'difficult_degree_list': difficult_degree_list
+                'difficult_degree_list': difficult_degree_list,
+                'Calculated': Calculated
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
