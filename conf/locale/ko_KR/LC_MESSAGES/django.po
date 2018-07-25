@@ -19906,7 +19906,7 @@ msgstr "강좌를 에 대한 짧은 소개"
 msgid ""
 "Appears on the course catalog page when students roll over the course name. "
 "Limit to ~150 characters"
-msgstr "강좌를 대표할 수 있는 키워드를 쉼표(,)로 구분하여 150자 이내로 입력해주세요. 해당 키워드로 검색한 학습자에게 본 강좌가 노출되게 됩니다.
+msgstr "강좌를 대표할 수 있는 키워드를 쉼표(,)로 구분하여 150자 이내로 입력해주세요. 해당 키워드로 검색한 학습자에게 본 강좌가 노출되게 됩니다."
 
 #: cms/templates/settings.html
 msgid "Course Overview"
