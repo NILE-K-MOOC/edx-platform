@@ -29,12 +29,6 @@ from util.enterprise_helpers import get_enterprise_customer_logo_url
     </%block>
 % endif
 
-<style>
-.header-global.slim h2{
-    width: 30%;
-}
-</style>
-
 <%block>
 <%
 try:
@@ -64,7 +58,7 @@ site_status_msg = get_site_status_msg(course_id)
             logo_url = branding_api.get_logo_url(is_secure)
             logo_size = ''
         %>
-        <div style="color: #ffffff; font-size: 70%;">Study room</div>
+        <div style="color: #ffffff; font-size: 1.8rem; padding-right: 20px;">Study room</div>
         </%block>
     </h1>
 

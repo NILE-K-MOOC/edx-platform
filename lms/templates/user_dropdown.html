@@ -29,17 +29,22 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
     top: 0;
     width: 0px;
 }
+
+.header-global.slim .wrapper-header .wrapper-user-menu {
+    margin-top: 5px;
+}
+
 </style>
 
 % if uses_pattern_library:
-    <div class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu">
-        <a href="${reverse('dashboard')}" class="menu-title">
+    <div class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu" style="color:#ffffff">
+        <a href="${reverse('dashboard')}" class="menu-title" style="color:#ffffff">
             <span class="sr-only">${_("Dashboard for:")}</span>
             <%
             username = self.real_user.username
             profile_image_url = get_profile_image_urls_for_user(self.real_user)['medium']
             %>
-            <img class="menu-image" src="${profile_image_url}" alt="">
+            <img class="menu-image" src='/static/images/profile_icon.png' alt="" style='width: 30px;height: 25px;'>
             ${self.real_user.profile.name}
         </a>
         <div role="group" aria-label="User menu" class="user-menu">
