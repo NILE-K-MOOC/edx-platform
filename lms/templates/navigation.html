@@ -97,6 +97,20 @@ $( document ).ready(function() {
 </script>
 <!-- memo script (end) -->
 
+% if static.get_platform_name() != "K-MOOC":
+<style>
+.header-global{
+    background: url(/static/images/css/bg_header_dev.png) top repeat-x;
+}
+.header-global .header-util{
+    background: #8ab63f;
+}
+.header-global .wrapper-header .language{
+    background: #8ab63f;
+}
+</style>
+% endif:
+
 <header id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
 
