@@ -316,11 +316,17 @@ var DetailsView = ValidatingView.extend({
             return false;
         }
         if (Calculated>66){
+            alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
+
             $("#Calculated").val('');
+
             return false;
         }
         $('#Calculated').keyup(function () {
+
+            console.log("66x");
             this.value = this.value.replace(/[^0-9]/g,'');
+
         });
         console.log("---------------------------> DEBUG [s]");
         console.log("hh = " + hh);

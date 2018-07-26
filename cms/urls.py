@@ -63,7 +63,7 @@ urlpatterns = patterns(
 # User creation and updating views
 urlpatterns += patterns(
     '',
-
+    url(r'^file_down/(?P<file_id>.*?)/$', 'student.views.file_down', name='file_down'),
     url(r'^create_account$', 'student.views.create_account', name='create_account'),
     url(r'^modi_teacher_name', 'student.views.modi_teacher_name', name='modi_teacher_name'),
     url(r'^modi_course_level', 'student.views.modi_course_level', name='modi_course_level'),

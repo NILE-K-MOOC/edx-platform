@@ -84,7 +84,9 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 }
                  if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
                     $("#Calculated").focus();
-                    errors.effort = gettext("Calculated time must have number");
+                    //errors.effort = gettext("Total recognized learning hours must have number");
+                    errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
+
                 }
 
                 newattrs = DateUtils.convertDateStringsToObjects(

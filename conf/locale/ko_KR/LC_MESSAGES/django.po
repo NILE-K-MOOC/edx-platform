@@ -30217,3 +30217,7 @@ msgstr "이수를 축하드립니다! 보다 더 좋은 강좌제공을 위해 �
 msgid "Satisfaction Survey"
 msgstr "만족도 조사"
 
+msgid "Total recognized learning hours must have number"
+msgstr "총 학습인정시간 에는 숫자만 입력 가능합니다"
+
+
