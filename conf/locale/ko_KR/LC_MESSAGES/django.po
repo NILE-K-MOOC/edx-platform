@@ -188,7 +188,7 @@ msgstr "등록유형별 등록자 수(강좌운영팀 포함)"
 msgid ""
 "Note: Users must have an activated {platform_name} account before they can "
 "be enrolled as a beta tester."
-msgstr "{strong_start}※주의{strong_end}: 이용자는 베타테스터로 등록되기 전에 {platform_name} 계정이 있어야 합니다."
+msgstr "※주의 : 이용자는 베타테스터로 등록되기 전에 {platform_name} 계정이 있어야 합니다."
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Administration List Management"
@@ -273,7 +273,7 @@ msgstr "권한 없음"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Staff and instructors"
-msgstr "강좌관리자 및 운영자"
+msgstr "강좌 관리자 및 운영자"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "All (students, staff and instructors)"
@@ -285,7 +285,7 @@ msgid ""
 "Before you send your email, review the text carefully and send it to "
 "yourself first, so that you can preview the formatting and make sure "
 "embedded images and links work correctly."
-msgstr "모든 학습자에게 이메일을 발송하기 전에 먼저 자신에게 이메일을 발송한 후, 입력한 텍스트와 이미지, 링크 등이 제대로 입력됐는지 확인하세요. {strong_start}※주의{strong_end}: 너무 잦은 이메일 발송은 학습자를 오히려 강좌에서 이탈하게 만들 수 있습니다."
+msgstr "모든 학습자에게 이메일을 발송하기 전에 먼저 자신에게 이메일을 발송한 후, 입력한 텍스트와 이미지, 링크 등이 제대로 입력됐는지 확인하세요. ※주의 : 너무 잦은 이메일 발송은 학습자를 오히려 강좌에서 이탈하게 만들 수 있습니다."
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid ""
@@ -6543,7 +6543,7 @@ msgstr "({coupon_id})  쿠폰이 성공적으로 업데이트되었습니다."
 
 #: lms/djangoapps/instructor/views/instructor_dashboard.py
 msgid "Instructor"
-msgstr "강좌관리자"
+msgstr "교수자"
 
 #: lms/djangoapps/instructor/views/instructor_dashboard.py
 msgid ""
@@ -14787,7 +14787,7 @@ msgstr "종강 여부"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Number of sections:"
-msgstr "강좌 내 주제 수:"
+msgstr "강좌 주차 수:"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Grade Cutoffs:"
@@ -14810,7 +14810,7 @@ msgid ""
 "exams and problem sets), and can be changed on the 'Grading' page (under "
 "'Settings') in Studio."
 msgstr ""
-"○강좌 평가 기준(Studio 내 '평가 기준' 메뉴에서 변경 가능)"
+"○강좌 평가 기준(평가기준을 변경하려면, Studio 내 '평가 기준' 메뉴를 이용하세요)"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Grading Configuration"
@@ -14855,7 +14855,7 @@ msgstr ""
 msgid ""
 "Please be patient and do not click these buttons multiple times. Clicking "
 "these buttons multiple times will significantly slow the generation process."
-msgstr "{strong_start}※주의{strong_end}: 버튼을 여러번 클릭하지 마세요. 보고서 생성 속도가 느려집니다."
+msgstr "※주의 : 버튼을 여러번 클릭하지 마세요. 보고서 생성 속도가 느려집니다."
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid ""
@@ -15359,7 +15359,7 @@ msgstr "이 주제에서, 개별 학습자에게 특정 학습활동의 과제 �
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid ""
 "Specify the {platform_name} email address or username of a student here:"
-msgstr "여기에 {platform_name} 이메일 주소 혹은 학습자의 아이디를 입력합니다."
+msgstr "○ 대상 학습자의 {platform_name} 이메일 또는 아이디 입력하기 : "
 
 #: lms/templates/instructor/instructor_dashboard_2/extensions.html
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
@@ -15528,7 +15528,7 @@ msgid ""
 "For analytics about your course, go to "
 "{link_start}{analytics_dashboard_name}{link_end}."
 msgstr ""
-"{link_start}{analytics_dashboard_name}{link_end}을 이용하면, 강좌에 등록한 학습자들의 강좌 내 행태를 세밀하게 확인할 수 있습니다."
+"{link_start}{analytics_dashboard_name}{link_end}을 통해, 강좌에 등록한 학습자들의 강좌 내 행태를 세밀하게 확인해보세>요!"
 
 #: lms/templates/instructor/instructor_dashboard_2/instructor_dashboard_2.html
 msgid "Instructor Dashboard"
@@ -15650,11 +15650,11 @@ msgstr "베타테스터 제외"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Course Team Management"
-msgstr "강좌운영팀 관리"
+msgstr "강좌 운영팀 관리"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Select a course team role:"
-msgstr "강좌운영팀 역할 선택:"
+msgstr "강좌 운영팀 역할 선택:"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Getting available lists..."
@@ -15678,12 +15678,12 @@ msgstr "강좌운영자는 강좌콘텐츠 수정, 학습자 수강등록/취소
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Staff"
-msgstr "강좌운영자 추가"
+msgstr "강좌 운영자 추가"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 #: lms/templates/courseware/legacy_instructor_dashboard.html
 msgid "Admin"
-msgstr "강좌관리자"
+msgstr "강좌 관리자"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid ""
@@ -15697,7 +15697,7 @@ msgstr ""
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Add Admin"
-msgstr "강좌관리자 추가"
+msgstr "강좌 관리자 추가"
 
 #: lms/templates/instructor/instructor_dashboard_2/membership.html
 msgid "Beta Testers"
@@ -15871,7 +15871,7 @@ msgstr "나"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Staff and admins"
-msgstr "강좌운영팀(관리자, 운영자)"
+msgstr "강좌 운영팀(관리자, 운영자)"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "All Learners"
@@ -15899,7 +15899,7 @@ msgstr "학습집단:"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Staff and Administrators"
-msgstr "강좌운영팀(관리자, 운영자)"
+msgstr "강좌 운영팀(관리자, 운영자)"
 
 #: lms/templates/instructor/instructor_dashboard_2/send_email.html
 msgid "Message:"
@@ -15999,7 +15999,7 @@ msgstr "학습자 성적 보고서"
 msgid ""
 "Click here to view the gradebook for enrolled students. This feature is only"
 " visible to courses with a small number of total enrolled students."
-msgstr "등록된 학습자의 성적 보고서를 보기 위해 여기를 클릭하세요. 전체 등록된 학생의 일부만 이 성적 보고서를 볼 수 있습니다."
+msgstr "○ 학습자 성적보고서 보기(등록자수 200명 이하 강좌만 가능)"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "View Gradebook"
@@ -16011,11 +16011,11 @@ msgstr "학습자별 성적 살펴보기"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Click this link to view the student's progress page:"
-msgstr "학습자의 진도 페이지를 보려면 이 링크를 클릭하세요."
+msgstr "○ 학습자 진도페이지 보기: "
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Student Progress Page"
-msgstr "학습자 진도 페이지"
+msgstr "학습자 진도 페이지 보기"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Student-specific grade adjustment"
@@ -16033,7 +16033,7 @@ msgstr "문제 위치 "
 msgid ""
 "You must provide the complete location of the problem. In the Staff Debug "
 "viewer, the location looks like this:"
-msgstr "문제 위치는 해당 문제 오른쪽 아래 ‘운영팀을 위한 디버그 정보’의 ‘location = ’ 옆에 나오는 'block‘으로 시작하는 문자열을 의미합니다. 예를 들어 다음과 같습니다."
+msgstr "문제 위치는 학습자사이트(LMS)의 해당 문제 화면 오른쪽 아래 ‘운영팀을 위한 디버그 정보’의 ‘location = ’ 옆에 나오는 'block‘으로 시작하는 문자열을 의미합니다. 예를 들어 다음과 같습니다."
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Next, select an action to perform for the given user and problem:"
@@ -16054,11 +16054,11 @@ msgid ""
 " the 'Pending Tasks' table. To see status for all tasks submitted for this "
 "problem and student, click on this button:"
 msgstr ""
-"작업 진행 상태는 '보류중인 작업목록' 에 나타납니다. 상기 문제와 학습자와 관련하여 수행된 모든 작업 상태를 보려면 이 버튼을 클릭하세요."
+"작업 진행 상태는 '보류중인 작업목록' 에 나타납니다. 위와 관련하여 수행된 모든 작업 상태를 보려면 아래 버튼을 클릭하세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Show Background Task History for Student"
-msgstr "해당 학습자의 문제에 대한 작업 이력 보기"
+msgstr "해당 학습자 및 문제 관련 작업 이력 보기"
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Entrance Exam Adjustment"
@@ -16123,11 +16123,11 @@ msgid ""
 "appear in a table on the Course Info tab. To see status for all tasks "
 "submitted for this problem, click on this button"
 msgstr ""
-"작업 진행 상태는 '보류중인 작업목록' 에 나타납니다. 상기 문제와 학습자와 관련하여 수행된 모든 작업 상태를 보려면 이 버튼을 클릭하세요."
+"작업 진행 상태는 '보류중인 작업목록' 에 나타납니다. 위와 관련하여 수행된 모든 작업 상태를 보려면 아래 버튼을 클릭하세요."
 
 #: lms/templates/instructor/instructor_dashboard_2/student_admin.html
 msgid "Show Background Task History for Problem"
-msgstr "해당 문제에 대한 작업 이력 보기"
+msgstr "해당 문제 관련 작업 이력 보기"
 
 #: lms/templates/learner_dashboard/program_details.html
 msgid "Program Details"
