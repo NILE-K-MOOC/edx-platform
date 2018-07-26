@@ -62,7 +62,7 @@ var DetailsView = ValidatingView.extend({
     },
     course_editor_html: function(e){
         swal({
-            html: 'HTML을 직접 수정하시면 <b>K-MOOC에서 제공하는 양식</b>으로 <br>수정이 불가합니다.<br>그래도 수정을 진행하시겠습니까?',
+            html: 'HTML을 직접 수정하시면 이 후 <b>강좌소개페이지 에디터</b>를 통한 <br>수정이 불가합니다.<br>그래도 수정을 진행하시겠습니까?',
             title: '',
             //text: '',
             type: 'warning',
@@ -362,11 +362,15 @@ var DetailsView = ValidatingView.extend({
             return false;
         }
         if (Calculated>66){
+            alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
+
             $("#Calculated").val('');
+
             return false;
         }
         $('#Calculated').keyup(function () {
             this.value = this.value.replace(/[^0-9]/g,'');
+
         });
         console.log("---------------------------> DEBUG [s]");
         console.log("hh = " + hh);
