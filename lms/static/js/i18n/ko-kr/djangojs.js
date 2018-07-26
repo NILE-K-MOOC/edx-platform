@@ -552,7 +552,7 @@
     "The following users are no longer enrolled in the course:": "\ub2e4\uc74c \uc0ac\uc6a9\uc790\ub4e4\uc740 \uc774 \uac15\uc88c\uc5d0 \ub354\uc774\uc0c1 \ub4f1\ub85d\ub418\uc5b4 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4:", 
     "The following warnings were generated:": "\ub2e4\uc74c \uacbd\uace0\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4:", 
     "The grading process is still running. Refresh the page to see updates.": "\ucc44\uc810\uc774 \uc9c4\ud589\uc911\uc785\ub2c8\ub2e4. \uc5c5\ub370\uc774\ud2b8 \uacb0\uacfc\ub97c \ubcf4\uae30 \uc704\ud574 \ub2e4\uc2dc \ubd88\ub7ec\uc624\uae30\ub97c \ud558\uc2ed\uc2dc\uc624.", 
-    "The language used throughout this site. This site is currently available in a limited number of languages.": "K-MOOC\uc5d0\uc11c \uc0ac\uc6a9\ud560 \uc5b8\uc5b4\ub97c \uc120\ud0dd\ud558\uc138\uc694. ", 
+    "The language used throughout this site. This site is currently available in a limited number of languages.": "Study room\uc5d0\uc11c \uc0ac\uc6a9\ud560 \uc5b8\uc5b4\ub97c \uc120\ud0dd\ud558\uc138\uc694. ",
     "The name that identifies you throughout {platform_name}. You cannot change your username.": "{platform_name}\uc5d0\uc11c \uc4f0\uac8c \ub418\ub294 \uc774\ub984\uc785\ub2c8\ub2e4. \ubcc0\uacbd\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ", 
     "The selected content group does not exist": "\uc120\ud0dd\ub41c \ucf58\ud150\uce20 \uadf8\ub8f9\uc774 \uc874\uc7ac\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.", 
     "The thread you selected has been deleted. Please select another thread.": "\uc120\ud0dd\ud55c \uac8c\uc2dc\ubb3c\uc740 \uc0ad\uc81c\ub418\uc5c8\uc2b5\ub2c8\ub2e4. \ub2e4\ub978 \uac8c\uc2dc\ubb3c\uc744 \uc120\ud0dd\ud558\uc138\uc694.", 
