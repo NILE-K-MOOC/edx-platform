@@ -1270,7 +1270,7 @@ def settings_handler(request, course_key_string):
             cur = con.cursor()
 
             course_edit_query = '''
-                SELECT ifnull(course_edit, 'Y')
+                SELECT ifnull(user_edit, 'Y')
                 FROM course_overview_addinfo
                 WHERE course_id = '{course_id}'
             '''.format(course_id=course_key)

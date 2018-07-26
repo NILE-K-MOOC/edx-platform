@@ -3389,7 +3389,7 @@ def modi_course_about(request):
         if cnt == 1:
             query = '''
                 UPDATE course_overview_addinfo
-                SET course_edit = 'Y', modify_id = '{modify_id}', modify_date = now()
+                SET user_edit = 'Y', modify_id = '{modify_id}', modify_date = now()
                 WHERE course_id = '{course_id}'
             '''.format(course_id=course_id, modify_id=user_id)
         else:
@@ -3399,7 +3399,7 @@ def modi_course_about(request):
                                     create_year,
                                     course_no,
                                     delete_yn,
-                                    course_edit,
+                                    user_edit,
                                     regist_id,
                                     regist_date,
                                     modify_id,
