@@ -320,6 +320,7 @@ var DetailsView = ValidatingView.extend({
             return false;
         }
         if (Calculated_mm > 59) {
+            alert("60분을 초과하여 입력하실수 없습니다");
             $("#Calculated_mm").val('');
             return false;
         }
