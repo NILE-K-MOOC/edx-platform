@@ -53,7 +53,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) &&
-                    (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#course-effort-week").val()))
+                    (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#Calculated_mm").val()) || isNaN($("#course-effort-week").val()))
                 ) {
                     if (isNaN($("#course-effort-hh").val())) {
 
@@ -82,8 +82,14 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     $("#course-effort-week").focus();
                     errors.effort = gettext("Chapters must have number");
                 }
-                 if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
+                if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
                     $("#Calculated").focus();
+                    //errors.effort = gettext("Total recognized learning hours must have number");
+                    errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
+
+                }
+                if ($("#Calculated_mm").val() && isNaN($("#Calculated_mm").val())) {
+                    $("#Calculated_mm").focus();
                     //errors.effort = gettext("Total recognized learning hours must have number");
                     errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
 

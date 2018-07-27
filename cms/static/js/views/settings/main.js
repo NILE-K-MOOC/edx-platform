@@ -38,12 +38,14 @@ var DetailsView = ValidatingView.extend({
         'blur #course-video-mm': "setEffort",
         'blur #course-effort-week': "setEffort",
         'blur #Calculated': "setEffort",
+        'blur #Calculated_mm': "setEffort",
         'change #course-effort-hh': "setEffort",
         'change #course-effort-mm': "setEffort",
         'change #course-video-hh': "setEffort",
         'change #course-video-mm': "setEffort",
         'change #course-effort-week': "setEffort",
         'change #Calculated': "setEffort",
+        'change #Calculated_mm': "setEffort",
 
         //강좌 운영진 소개의 추가 및 삭제 이벤트
         'click #overview-tab3 .remove-item': "delStaffItem",
@@ -55,6 +57,7 @@ var DetailsView = ValidatingView.extend({
 
         'change #teacher_name': "modi_teacher_name",
         'change #Calculated': "modi_teacher_name",
+        'change #Calculated_mm': "modi_teacher_name",
         'change #selectfixid': "modi_course_level",
 
 
@@ -87,7 +90,7 @@ var DetailsView = ValidatingView.extend({
             var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
             var addinfo_user_id = $('#addinfo_user_id').text();
             var teacher_name = $('#teacher_name').val();
-            var total_study_time = $('#Calculated').val();
+            var total_study_time = $('#Calculated').val() +'+'+ $('#Calculated_mm').val();
 
             $.post("/modi_teacher_name", {
                 csrfmiddlewaretoken: $.cookie('csrftoken'),
@@ -310,23 +313,32 @@ var DetailsView = ValidatingView.extend({
         var video_hh = $("#course-video-hh").val();
         var video_mm = $("#course-video-mm").val();
         var Calculated = $("#Calculated").val();
+        var Calculated_mm = $("#Calculated_mm").val();
 
         if (mm > 60) {
             $("#course-effort-mm").val('');
             return false;
         }
+        if (Calculated_mm > 59) {
+            $("#Calculated_mm").val('');
+            return false;
+        }
+        if(Calculated>65 && Calculated_mm < 60){
+            alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
+            $("#Calculated").val('');
+            $("#Calculated_mm").val('');
+            return false;
+        }
         if (Calculated>66){
             alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
-
             $("#Calculated").val('');
-
             return false;
         }
         $('#Calculated').keyup(function () {
-
-            console.log("66x");
             this.value = this.value.replace(/[^0-9]/g,'');
-
+        });
+        $('#Calculated_mm').keyup(function () {
+            this.value = this.value.replace(/[^0-9]/g,'');
         });
         console.log("---------------------------> DEBUG [s]");
         console.log("hh = " + hh);
@@ -357,6 +369,9 @@ var DetailsView = ValidatingView.extend({
             $("#course-video-mm").val(video_mm);
         if(Calculated)
              $("#Calculated").val(Calculated);
+        if(Calculated_mm)
+             $("#Calculated_mm").val(Calculated_mm);
+
         var video = video_hh + ":" + video_mm;
 
         //if(hh && mm && week){
@@ -391,7 +406,15 @@ var DetailsView = ValidatingView.extend({
         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
         var addinfo_user_id = $('#addinfo_user_id').text();
         var course_period = $("#course-effort-week").val();
-        var total_study_time = $("#Calculated").val();
+        var Calculated_mmm = '';
+        if ($("#Calculated_mm").val()==''){
+            Calculated_mmm = '00';
+        }
+        else{
+            Calculated_mmm = $("#Calculated_mm").val();
+        }
+
+        var total_study_time = $("#Calculated").val()+'+'+ Calculated_mmm;
 
 
         console.log('Test Index ==============')
