@@ -32,7 +32,8 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 entrance_exam_minimum_score_pct: '50',
                 learning_info: [],
                 instructor_info: {},
-                need_lock: 0
+                need_lock: 0,
+                Calculated:''
             },
 
             validate: function (newattrs) {
@@ -42,7 +43,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 // A bit funny in that the video key validation is asynchronous; so, it won't stop the validation.
                 var errors = {};
 
-                if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null) && (newattrs.effort == null || newattrs.effort == "")) {
+                if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.Calculated != null) && (newattrs.effort == null || newattrs.effort == "")) {
                     $("#course-effort").focus();
                     errors.effort = gettext("Effort time must have value");
                 }
@@ -52,7 +53,8 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
-                    newattrs.enrollment_end != null) &&
+                    newattrs.enrollment_end != null &&
+                    newattrs.Calculated != null) &&
                     (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#Calculated_mm").val()) || isNaN($("#course-effort-week").val()))
                 ) {
                     if (isNaN($("#course-effort-hh").val())) {
@@ -104,6 +106,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 }
 
                 //Add Condition
+
                 if (newattrs.end_date === null) {
                     errors.end_date = gettext("The course must have an assigned end date.");
                 }
@@ -137,6 +140,14 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     // TODO check if key points to a real video using google's youtube api
                 }
 
+                if ((
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null &&
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null) && !$("#Calculated").val()) {
+                    errors.effort = gettext("Calculated must have value");
+                    //$("#course-effort-week").focus();
+                }
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
