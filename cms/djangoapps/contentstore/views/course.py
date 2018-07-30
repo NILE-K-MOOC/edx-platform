@@ -1274,13 +1274,21 @@ def settings_handler(request, course_key_string):
             cur.execute(query)
             Calculated_index = cur.fetchall()
             cur.close()
-            if (Calculated_index[0][0] == 1 or Calculated_index[0][0] != ''):
-                Calculated_a = Calculated_index[0][0]
-                Calculated_hh = Calculated_a.split('+')[0]
-                Calculated_mm = Calculated_a.split('+')[1]
-            else:
-                Calculated_hh = ""
-                Calculated_mm = ""
+
+            # 15 what...? (bug)
+            try:
+                if (Calculated_index[0][0] == 1 or Calculated_index[0][0] != ''):
+                    Calculated_a = Calculated_index[0][0]
+                    Calculated_hh = Calculated_a.split('+')[0]
+                    Calculated_mm = Calculated_a.split('+')[1]
+                else:
+                    Calculated_hh = ""
+                    Calculated_mm = ""
+            except BaseException:
+                Calculated_a = ''
+                Calculated_hh = ''
+                Calculated_mm = ''
+            # 15 what...? (bug)
 
             cur = con.cursor()
             query = """
