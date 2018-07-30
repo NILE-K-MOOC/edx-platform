@@ -248,6 +248,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     rows = cur.fetchall()
     cert_effort = rows[0][0]
 
+
     cur = con.cursor()
     query = """
             SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
@@ -291,9 +292,10 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['course_effort_h'] = '-'
         context['course_effort_m'] = '-'
     else:
-        course_effort_index = cert_effort
-        context['course_effort_h'] = course_effort_index
-        context['course_effort_m'] = ''
+        cert_effort_hh = cert_effort.split('+')[0]
+        cert_effort_mm = cert_effort.split('+')[1]
+        context['course_effort_h'] = cert_effort_hh
+        context['course_effort_m'] = cert_effort_mm
 
     if preview_mode:
         grade = 100

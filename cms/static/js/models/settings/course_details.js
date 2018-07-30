@@ -32,7 +32,8 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 entrance_exam_minimum_score_pct: '50',
                 learning_info: [],
                 instructor_info: {},
-                need_lock: 0
+                need_lock: 0,
+                Calculated:''
             },
 
             validate: function (newattrs) {
@@ -42,7 +43,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 // A bit funny in that the video key validation is asynchronous; so, it won't stop the validation.
                 var errors = {};
 
-                if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null) && (newattrs.effort == null || newattrs.effort == "")) {
+                if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.Calculated != null) && (newattrs.effort == null || newattrs.effort == "")) {
                     $("#course-effort").focus();
                     errors.effort = gettext("Effort time must have value");
                 }
@@ -52,8 +53,9 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
-                    newattrs.enrollment_end != null) &&
-                    (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#course-effort-week").val()))
+                    newattrs.enrollment_end != null &&
+                    newattrs.Calculated != null) &&
+                    (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#Calculated_mm").val()) || isNaN($("#course-effort-week").val()))
                 ) {
                     if (isNaN($("#course-effort-hh").val())) {
 
@@ -82,10 +84,16 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     $("#course-effort-week").focus();
                     errors.effort = gettext("Chapters must have number");
                 }
-                 if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
+                if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
                     $("#Calculated").focus();
                     //errors.effort = gettext("Total recognized learning hours must have number");
                     errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
+                }
+                if ($("#Calculated_mm").val() && isNaN($("#Calculated_mm").val())) {
+                    $("#Calculated_mm").focus();
+                    //errors.effort = gettext("Total recognized learning hours must have number");
+                    errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
+
                 }
 
                 newattrs = DateUtils.convertDateStringsToObjects(
@@ -97,6 +105,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 }
 
                 //Add Condition
+
                 if (newattrs.end_date === null) {
                     errors.end_date = gettext("The course must have an assigned end date.");
                 }
@@ -130,6 +139,14 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                     // TODO check if key points to a real video using google's youtube api
                 }
 
+                if ((
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null &&
+                    newattrs.end_date != null &&
+                    newattrs.enrollment_end != null) && !$("#Calculated").val()) {
+                    errors.effort = gettext("Calculated must have value");
+                    //$("#course-effort-week").focus();
+                }
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
