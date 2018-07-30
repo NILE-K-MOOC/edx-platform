@@ -274,7 +274,7 @@ var DetailsView = ValidatingView.extend({
         // 수업내용/목표
         var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "\n");
         // 홍보영상/예시강의
-        var vurl = $(ov).find(".video:eq(0)").attr("src");
+        var vurl = $(ov).find(".video source:eq(0)").attr("src");
         // 강좌 계획
         var syllabus = $(ov).find(".syllabus_table:eq(0)");
         // 강좌운영진
@@ -295,6 +295,11 @@ var DetailsView = ValidatingView.extend({
         syllabus.find("table").attr("style", "width: 100%;");
         evaluation.find("table").attr("style", "width: 100%;");
         // ------------------------------------------------
+
+        //홍보영상
+        console.log('video url s ==============================')
+        console.log($(ov).find(".video source:eq(0)").attr("src"));
+        console.log('video url e ==============================')
 
         //tinymce 에디터 사용시 getContent 함수 이용을 위해 textarea 의 아이디를 지정하요 사용
         console.log('goal start --- s');
@@ -349,7 +354,6 @@ var DetailsView = ValidatingView.extend({
         });
     },
     setEffort:function(){
-        console.log("dddddd");
         var hh = $("#course-effort-hh").val();
         var mm = $("#course-effort-mm").val();
         var week = $("#course-effort-week").val();

@@ -16,7 +16,9 @@ data: |
         <h3><i class="fa fa-video-camera"></i>홍보영상/예시강의</h3>
         <div class="article_contents">
           <div class="youtubewrap">
-            <iframe class="video" title="홍보영상/예시강의" src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" frameborder="0" allowfullscreen scrolling="no"></iframe>
+            <video class="video" title="홍보영상/예시강의" width="100%" height="100%" controls>
+              <source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" type="video/mp4">
+            </video>
           </div>
         </div>
       </article>
