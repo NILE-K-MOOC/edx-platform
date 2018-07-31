@@ -47,6 +47,31 @@ DiscussionBoardFactory({
 
 <%include file="../courseware/course_navigation.html" args="active_page='discussion'" />
 
+<style>
+    #div_logo{
+        font-size: 1.8rem;
+        padding-right: 20px;
+        font-family: 'Dosis', sans-serif;
+        font-weight: bold;
+    }
+
+    .tab a{
+        color: #5e5e5e;
+    }
+    .course-name{
+        font-weight: bold;
+    }
+    #discussion_header{
+        margin-top: 3px;
+    }
+    .copyright{
+        font-weight: bold;
+    }
+    #lg_inc{
+        font-weight: bold;
+    }
+</style>
+
 <%block name="content">
 <section class="discussion discussion-board container" id="discussion-container"
          data-course-id="${course_id}"

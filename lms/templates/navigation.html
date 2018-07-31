@@ -38,6 +38,21 @@ except:
     course_id = None
 site_status_msg = get_site_status_msg(course_id)
 %>
+
+<style>
+#div_logo{
+    font-size: 1.6rem;
+}
+.user-image-frame{
+    width: 30px;
+    height: 25px;
+    margin-top: 2px;
+}
+.label-username{
+    font-weight: 400;
+}
+</style>
+
 % if site_status_msg:
 <div class="site-status">
   <div class="inner-wrapper">
@@ -49,7 +64,7 @@ site_status_msg = get_site_status_msg(course_id)
 </%block>
   <header style="background-color: #ae0139" id="global-navigation" class="header-global ${"slim" if course else ""}" >
     <nav class="wrapper-header" aria-label="${_('Global')}">
-    <h1 class="logo" style='border-right: solid 1px #ffffff'>
+    <h1 class="logo" style='border-right: solid 1px #ffffff' id="lms_logo">
         <%block name="navigation_logo">
         <%
         logo_url = get_enterprise_customer_logo_url(request)
@@ -58,12 +73,12 @@ site_status_msg = get_site_status_msg(course_id)
             logo_url = branding_api.get_logo_url(is_secure)
             logo_size = ''
         %>
-        <div style="color: #ffffff; font-size: 1.8rem; padding-right: 20px;">Study room</div>
+        <div id='div_logo' style="color: #ffffff;">Study room</div>
         </%block>
     </h1>
 
     % if course:
-      <h2 style='margin-top: 14px;' class="course-header"><span class="provider"></span>
+      <h2 id='lg_cn' class="course-header"><span class="provider"></span>
         <span class="course-number"></span>
         <%
         display_name = course.display_name_with_default
