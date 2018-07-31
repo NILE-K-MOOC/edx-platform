@@ -18,6 +18,49 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 
 <%block name="pagetitle">${_("Account Settings")}</%block>
 
+<link href="https://fonts.googleapis.com/css?family=Dosis:300" rel="stylesheet">
+
+<style>
+    .header-global{
+        height: 70px;
+    }
+    #div_logo{
+        padding-right: 20px;
+        font-size: 1.6rem;
+        margin-top: -4px;
+    }
+    .menu-title{
+        font-weight: 300;
+    }
+    .label-username{
+        font-weight: 400;
+    }
+    .user-image-frame{
+        width: 30px;
+        height: 25px;
+        margin-top: -4px;
+    }
+    li .primary {
+        margin-top: -4px;
+    }
+    #user_link{
+        margin-top: -7px;
+        box-shadow: none;
+    }
+    #user_menu{
+        margin-top: 5px;
+    }
+    .wrapper-footer{
+        padding-top: 30px;
+        padding-left: 60px;
+        padding-bottom: 60px;
+        padding-right: 60px;
+    }
+    #lg_inc{
+        margin-bottom: 40px;
+    }
+</style>
+
 % if duplicate_provider:
     <section>
         <%include file='/dashboard/_dashboard_third_party_error.html' />

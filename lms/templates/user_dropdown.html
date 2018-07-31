@@ -14,30 +14,9 @@ from django.utils.translation import ugettext as _
 from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_urls_for_user
 %>
 
-<style>
-.header-global .primary>a:hover, .header-global .primary>a:focus, .header-global .primary>a:active {
-    background: none;
-    text-decoration: none;
-}
-
-.header-global.slim h1.logo:before {
-    content: "";
-    display: block;
-    height: 35px;
-    position: absolute;
-    right: 3px;
-    top: 0;
-    width: 0px;
-}
-
-.header-global.slim .wrapper-header .wrapper-user-menu {
-    margin-top: 5px;
-}
-
-</style>
 
 % if uses_pattern_library:
-    <div class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu" style="color:#ffffff">
+    <div id='discussion_header' class="wrapper-user-menu dropdown-menu-container logged-in js-header-user-menu" style="color:#ffffff">
         <a href="${reverse('dashboard')}" class="menu-title" style="color:#ffffff">
             <span class="sr-only">${_("Dashboard for:")}</span>
             <%
@@ -64,18 +43,18 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
 % else:
     <ol class="user">
         <li class="primary">
-            <a href="/account/settings" class="user-link">
+            <a href="/account/settings" class="user-link" id="user_link">
                 <span class="sr">${_("Dashboard for:")}</span>
                 <%
                 username = self.real_user.username
                 profile_image_url = get_profile_image_urls_for_user(self.real_user)['medium']
                 %>
-                <img style='width: 25px;margin-top: 10px;' class="user-image-frame" src="/static/images/profile_icon.png" alt="">
+                <img style='margin-top: 10px;' class="user-image-frame" src="/static/images/profile_icon.png" alt="">
                 <div style='color:#ffffff' class="label-username">${self.real_user.profile.name}</div>
             </a>
         </li>
         <li class="primary">
-            <div role="group" aria-label="User menu" class="user-menu">
+            <div role="group" aria-label="User menu" class="user-menu" id="user_menu">
                 <button style='background-color: #ae0139; color: #ffffff;' class="dropdown" aria-expanded="false"><span class="sr">${_("More options dropdown")}</span><span class="fa fa-sort-desc" aria-hidden="true"></span></button>
                 <ul class="dropdown-menu" aria-label="More Options" role="menu">
                     ${navigation_dropdown_menu_links()}
