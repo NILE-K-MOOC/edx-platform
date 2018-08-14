@@ -374,10 +374,14 @@ var DetailsView = ValidatingView.extend({
             $("#Calculated_mm").val('');
             return false;
         }
-        if(Calculated>65 && Calculated_mm < 60){
+        if(Calculated>66 && Calculated_mm < 60){
             alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
             $("#Calculated").val('');
             $("#Calculated_mm").val('');
+            return false;
+        }
+        if(Calculated == 66){
+            $("#Calculated_mm").val('00');
             return false;
         }
         if (Calculated>66){
