@@ -282,12 +282,117 @@ var DetailsView = ValidatingView.extend({
         var syllabus = $(ov).find(".syllabus_table:eq(0)");
         // 강좌운영진
         var team = $(ov).find(".course-staff:eq(0)").html();
+        console.log('team ================================================');
+        console.log(team);
+        console.log('team ================================================');
+
+
+        var professor_len = $(ov).find("article.professor");
+        var professor_html = '';
+        for(var j = 0 ; j < professor_len.length ; j++){
+            var staff1 = $(ov).find("article.professor:eq("+j+") img").prop('src');
+            var staff2 = $(ov).find("article.professor:eq("+j+") .staff_descript i.staff-name").text();
+            var staff3 = '';
+            $(ov).find("article.professor:eq("+j+") .staff_descript dd").each(function() {
+                staff3 += $(this).text().trim() + '\n';
+            });
+
+            console.log('professor check ---------------------------------------------------');
+            console.log('staff1: ' + staff1);
+            console.log('staff2: ' + staff2);
+            console.log('staff3: ' + staff3);
+            console.log('professor check ---------------------------------------------------');
+
+            professor_html += '' +
+                    '<li class="field-group course-grading-assignment-list-item">' +
+                    '<div style="width: 34%; float: left;">' +
+                    '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
+                    '<label for="staff-photo">사진 URL</label>' +
+                    '<input type="text" class="long" id="staff-photo" value="'+ staff1 +'" placeholder="http://example.com/photo.jpg">' +
+                    '<span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>' +
+                    '</div>' +
+                    '<br>' +
+                    '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
+                    '<label for="staff-name">성명</label>' +
+                    '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="홍길동">' +
+                    '<span class="tip tip-stacked">표시될 이름</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div style="width: 64%; float: right;">'+
+                    '<div style="width: 100%;">'+
+                    '<label for="staff-career">약력</label>'+
+                    '<textarea id="staff-career" style="width: 96%; height: 135px;">'+ staff3 +'</textarea>'+
+                    '<span class="tip tip-stacked">화면에 표시될 경력 사항</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="actions">'+
+                    '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>'+
+                    '</div>'+
+                    '</li>';
+
+
+            console.log(professor_html);
+
+        }
+        if(professor_len.length != 0)
+            $("#course-instructor").html(professor_html);
+
+        var staff_len = $(ov).find("article.staff");
+        var staff_html = '';
+        for(var j = 0 ; j < staff_len.length ; j++){
+            var staff1 = $(ov).find("article.staff:eq("+j+") img").prop('src');
+            var staff2 = $(ov).find("article.staff:eq("+j+") .staff_descript i.staff-name").text();
+            var staff3 = '';
+            $(ov).find("article.staff:eq("+j+") .staff_descript dd").each(function() {
+                staff3 += $(this).text().trim() + '\n';
+            });
+
+            console.log('staff check ---------------------------------------------------');
+            console.log('staff1: ' + staff1);
+            console.log('staff2: ' + staff2);
+            console.log('staff3: ' + staff3);
+            console.log('staff check ---------------------------------------------------');
+
+            staff_html += '' +
+                    '<li class="field-group course-grading-assignment-list-item">' +
+                    '<div style="width: 34%; float: left;">' +
+                    '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
+                    '<label for="staff-photo">사진 URL</label>' +
+                    '<input type="text" class="long" id="staff-photo" value="'+ staff1 +'" placeholder="http://example.com/photo.jpg">' +
+                    '<span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>' +
+                    '</div>' +
+                    '<br>' +
+                    '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
+                    '<label for="staff-name">성명</label>' +
+                    '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="홍길동">' +
+                    '<span class="tip tip-stacked">표시될 이름</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div style="width: 64%; float: right;">'+
+                    '<div style="width: 100%;">'+
+                    '<label for="staff-career">약력</label>'+
+                    '<textarea id="staff-career" style="width: 96%; height: 135px;">'+ staff3 +'</textarea>'+
+                    '<span class="tip tip-stacked">화면에 표시될 경력 사항</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="actions">'+
+                    '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>'+
+                    '</div>'+
+                    '</li>';
+
+            console.log(staff_html);
+
+        }
+        if(staff_len.length != 0)
+            $("#course-ta").html(staff_html);
+
         // 이수/평가정보
         var evaluation = $(ov).find(".grade_table:eq(0)");
         // 강좌 수준 및 선수요건
-        var level = $(ov).find("#course-level").html().replace(regex, "\n");
+        //var level = $(ov).find("#course-level").html().replace(regex, "\n");
+        var level = $(ov).find("#course-level").html().replace(regex, "");
         // 교재 및 참고문헌
-        var reference = $(ov).find("#course-reference").html().replace(regex, "\n");
+        var reference = $(ov).find("#course-reference").html().replace(regex, "");
         // FAQ
         var faq = $(ov).find(".faq article");
         // 사용자 추가 내용
@@ -314,7 +419,6 @@ var DetailsView = ValidatingView.extend({
         $("#course_plan").val(syllabus.html());
         $("#grade_table").val(evaluation.html());
         $("#user_content").val(user_content.html());
-
         $("#overview-tab4 textarea:eq(1)").val(level.trim());
         $("#overview-tab4 textarea:eq(2)").val(reference.trim());
 
@@ -411,6 +515,10 @@ var DetailsView = ValidatingView.extend({
             video_hh = "0" + video_hh;
         if(video_mm && video_mm.length == 1)
             video_mm = "0" + video_mm;
+        if(Calculated && Calculated.length == 1)
+            Calculated = "0" + Calculated;
+        if(Calculated_mm && Calculated_mm.length == 1)
+            Calculated_mm = "0" + Calculated_mm;
 
         if(hh)
             $("#course-effort-hh").val(hh);
@@ -538,14 +646,14 @@ var DetailsView = ValidatingView.extend({
             var staff_template = "" +
             "<article>" +
             "	<h3><i class='fa fa-user'></i>교수자</h3>" +
-            "	<article class='staff'>" +
+            "	<article class='professor'>" +
             "		<div class='teacher_image'>" +
             "			<img src='" + staff_photo + "' align='left' alt=''>" +
             "		</div>" +
             "		<div class='staff_descript'>" +
             "			<dl>" +
             "			  <dt>" +
-            "				 <i class='fa fa-angle-double-right'></i>대표교수 : " + staff_name + " 교수" +
+            "				 <i class='fa fa-angle-double-right'></i>대표교수 : <i class='staff-name'>" + staff_name + "</i> 교수" +
             "			  </dt>" +
             "				" + careers_text +
             "			</dl>" +
@@ -581,7 +689,7 @@ var DetailsView = ValidatingView.extend({
             "		<div class='staff_descript'>" +
             "			<dl>" +
             "				<dt>" +
-            "				 <i class='fa fa-angle-double-right'></i>학습 지원 : " + staff_name+
+            "				 <i class='fa fa-angle-double-right'></i>학습 지원 : <i class='staff-name'>" + staff_name+ "</i>" +
             "			  </dt>" +
             "				" + careers_text +
             "			</dl>" +
@@ -663,7 +771,9 @@ var DetailsView = ValidatingView.extend({
 
         var html = $("<div>").attr("id", "course-info").append($(ov).clone()).html();
         var result = tidy_html5(html, html_format_options);
-
+        console.log('last ++++++++++++++++++++++++++++++++++++++++=');
+        console.log(result);
+        console.log('last ++++++++++++++++++++++++++++++++++++++++=');
         this.model.set('overview', result);
         $("#overviewEditLayer").toggle();
         this.render();
