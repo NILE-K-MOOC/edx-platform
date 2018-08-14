@@ -165,50 +165,58 @@ data: |
     <section class="info">
       <h2><i class="fa fa-info-circle"></i>강좌 수강 정보</h2>
       <article>
-        <h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3>
         <div class="grade_table">
-                <table summary="이수/평가정보" border="1" cellspacing="0" cellpadding="0">
-                    <caption>이수/평가정보</caption>
-                    <colgroup>
-                        <col width="5%" />
-                        <col width="30%" />
-                        <col width="" />
-                        <col width="15%" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>
-                                주차
-                            </th>
-                            <th>
-                                주차명
-                            </th>
-                            <th>
-                                차시명
-                            </th>
-                            <th>
-                                과제
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                주차1
-                            </td>
-                            <td>
-                                차시1
-                            </td>
-                            <td>
-                                퀴즈1
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+          <table style="width: 100%;" border="1" summary="이수/평가정보" cellspacing="0" cellpadding="0">
+            <caption>이수/평가정보</caption>
+            <colgroup>
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  과제명
+                </th>
+                <th>
+                  퀴즈
+                </th>
+                <th>
+                  토론
+                </th>
+                <th>
+                  중간고사
+                </th>
+                <th>
+                  기말고사
+                </th>
+              </tr>
+            </thead>
+            <tbody style="text-align: center;">
+              <tr>
+                <td style="font-weight: bold;">
+                  반영비율
+                </td>
+                <td>
+                  %
+                </td>
+                <td>
+                  %
+                </td>
+                <td>
+                  %
+                </td>
+                <td>
+                  %
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>※&nbsp;총 60% 이상 점수 획득 시, 이수증을 발급받을 수 있습니다.</p>
+        </div>
       </article>
       <article>
         <h3><i class="fa fa-sort-amount-desc"></i>강좌 수준 및 선수요건</h3>
