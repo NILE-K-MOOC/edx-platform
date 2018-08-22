@@ -306,8 +306,8 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
 
                                 <div style="width: 200px; float: left;">
                                     <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습인정시간</b></span><br/>
-                                        <input type="text" class="short time" id="Calculated" value="${Calculated_hh}" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; text-align: right; width: 55px; float: left; border: 0px; background: #fff;" /><span style="float: left; padding: 10px;">시간</span>
-                                        <input type="text" class="short time" id="Calculated_mm" value="${Calculated_mm}" placeholder="MM" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; text-align: right; width: 55px; float: left; border: 0px; background: #fff;" /><span style="float: left; padding: 10px;">분</span>
+                                        <input type="text" class="short time" id="Calculated" value="${Calculated_hh}" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">시간</span>
+                                        <input type="text" class="short time" id="Calculated_mm" value="${Calculated_mm}" placeholder="MM" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">분</span>
                                 </div>
 
                                 <br/>
@@ -550,7 +550,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                             % if edit_check == 'N':
                             <!-- 입력 양식 제공 버튼 -->
                             <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
-                                에디터로 수정하기
+                                에디터로 수정하기(베타)
                             </button>
                             % endif
                             <input type="hidden" id="course_edit_check" value="${edit_check}">
@@ -661,10 +661,10 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                <li class="field text" id="field-course-short-description">
                                                   <div class="tabs">
                                                       <div data-target="overview-tab1" class="on">강좌소개</div>
-                                                      <div data-target="overview-tab2">강좌계획</div>
-                                                      <div data-target="overview-tab3">강좌운영진소개</div>
+                                                      <div data-target="overview-tab2">강좌운영계획</div>
+                                                      <div data-target="overview-tab3">강좌운영팀소개</div>
                                                       <div data-target="overview-tab4">강좌수강정보</div>
-                                                      <div data-target="overview-tab5">FAQ</div>
+                                                      <div data-target="overview-tab5">자주묻는질문</div>
                                                       <div data-target="overview-tab6">사용자추가</div>
                                                   </div>
                                                   <div id="overview-tab1" class="overview-contents on">
@@ -674,7 +674,7 @@ ${show_min_grade_warning | n, dump_js_escaped_json}
                                                     </div>
 
                                                     <div>
-                                                      <p>홍보영상/예시강의</p>
+                                                      <p>홍보/예시 영상</p>
                                                       <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
                                                     </div>
                                                   </div>

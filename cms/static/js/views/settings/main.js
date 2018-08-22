@@ -275,7 +275,7 @@ var DetailsView = ValidatingView.extend({
         // overview object
         var ov = $.parseHTML(this.model.get('overview'));
         // 수업내용/목표
-        var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "\n");
+        var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "");
         // 홍보영상/예시강의
         var vurl = $(ov).find(".video source:eq(0)").attr("src");
         // 강좌 계획
@@ -605,7 +605,7 @@ var DetailsView = ValidatingView.extend({
         }
 
         if($("#course-sample-video-url").val() == ""){
-            $(this).after("<span class='message-error'>홍보영상/예시강의 의 내용을 입력해주세요.</span>");
+            $(this).after("<span class='message-error'>홍보/예시 영상의 내용을 입력해주세요.</span>");
             return false;
         }
 
@@ -653,7 +653,7 @@ var DetailsView = ValidatingView.extend({
             "		<div class='staff_descript'>" +
             "			<dl>" +
             "			  <dt>" +
-            "				 <i class='fa fa-angle-double-right'></i>대표교수 : <i class='staff-name'>" + staff_name + "</i> 교수" +
+            "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name + "</i> 교수" +
             "			  </dt>" +
             "				" + careers_text +
             "			</dl>" +
@@ -689,7 +689,7 @@ var DetailsView = ValidatingView.extend({
             "		<div class='staff_descript'>" +
             "			<dl>" +
             "				<dt>" +
-            "				 <i class='fa fa-angle-double-right'></i>학습 지원 : <i class='staff-name'>" + staff_name+ "</i>" +
+            "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name+ "</i>" +
             "			  </dt>" +
             "				" + careers_text +
             "			</dl>" +
@@ -702,7 +702,7 @@ var DetailsView = ValidatingView.extend({
         });
 
         if(staff_templates){
-            $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영진 소개</h2>");
+            $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영팀 소개</h2>");
             $(ov).find(".course-staff:eq(0)").append(staff_templates);
         }
 

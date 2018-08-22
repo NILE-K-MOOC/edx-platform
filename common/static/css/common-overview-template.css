@@ -21,7 +21,7 @@
 #course-info .article_contents{padding-left:10px;}
 #course-info p{text-align: justify;}
 
-table caption{display: none}
+table caption{/*display: none*/}
 
 /*Bullet image*/
 .fa {
@@ -177,7 +177,7 @@ box-sizing: border-box;
 
 
 .grade_table {
-margin-top:20px;
+margin-top:0px;
 background:#fff;
 left: 0;
 width: 100%;

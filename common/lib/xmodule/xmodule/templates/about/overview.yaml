@@ -13,10 +13,10 @@ data: |
         </div>
       </article>
       <article>
-        <h3><i class="fa fa-video-camera"></i>홍보영상/예시강의</h3>
+        <h3><i class="fa fa-video-camera"></i>홍보/예시 영상</h3>
         <div class="article_contents">
           <div class="youtubewrap">
-            <video class="video" title="홍보영상/예시강의" width="100%" height="100%" controls>
+            <video class="video" title="홍보/예시 영상" width="100%" height="100%" controls>
               <source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" type="video/mp4">
             </video>
           </div>
@@ -24,7 +24,7 @@ data: |
       </article>
     </section>
     <section class="course-plan">
-      <h2><i class="fa fa-calendar"></i>강좌 계획</h2>
+      <h2><i class="fa fa-calendar"></i>강좌 운영 계획</h2>
       <article class="syllabus">
         <div class="article_contents">
           <input type="checkbox" name="toggle" id="toggle"/>
@@ -122,7 +122,7 @@ data: |
       </article>
     </section>
     <section class="course-staff">
-        <h2><i class="fa fa-group (alias)"></i>강좌운영진 소개</h2>
+        <h2><i class="fa fa-group (alias)"></i>강좌운영팀 소개</h2>
         <article>
             <h3><i class="fa fa-user"></i>교수자</h3>
             <article class="professor">
@@ -132,7 +132,7 @@ data: |
                 <div class="staff_descript">
                     <dl>
                         <dt>
-                         <i class="fa fa-angle-double-right"></i>대표교수 : <i class="staff-name">홍길동</i> 교수
+                         <i class="fa fa-angle-double-right"></i><i class="staff-name">홍길동</i> 교수
                       </dt>
                         <dd>현) 한국대학교 컴퓨터공학부 교수</dd>
                         <dd>학력: 한국대학교. 컴퓨터공학 박사</dd>
@@ -151,7 +151,7 @@ data: |
                 <div class="staff_descript">
                     <dl>
                         <dt>
-                         <i class="fa fa-angle-double-right"></i>학습 지원 : <i class="staff-name">김조교</i>
+                         <i class="fa fa-angle-double-right"></i><i class="staff-name">김조교</i>
                       </dt>
                         <dd>한국대학교 컴퓨터공학부 박사과정</dd>
                         <dd>E-mail :
