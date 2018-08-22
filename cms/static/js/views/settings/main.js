@@ -56,8 +56,6 @@ var DetailsView = ValidatingView.extend({
         'click #overview-tab5 .add-item': "addQuestionItem",
 
         'change #teacher_name': "modi_teacher_name",
-        'change #Calculated': "modi_teacher_name",
-        'change #Calculated_mm': "modi_teacher_name",
         'change #selectfixid': "modi_course_level",
 
         //강좌소개 HTML 직접 수정 확인 이벤트
@@ -130,14 +128,12 @@ var DetailsView = ValidatingView.extend({
             var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
             var addinfo_user_id = $('#addinfo_user_id').text();
             var teacher_name = $('#teacher_name').val();
-            var total_study_time = $('#Calculated').val() +'+'+ $('#Calculated_mm').val();
 
             $.post("/modi_teacher_name", {
                 csrfmiddlewaretoken: $.cookie('csrftoken'),
                 addinfo_course_id: addinfo_course_id,
                 addinfo_user_id: addinfo_user_id,
                 teacher_name: teacher_name,
-                total_study_time:total_study_time,
                 method : 'addinfo',
             });
         });
@@ -560,6 +556,8 @@ var DetailsView = ValidatingView.extend({
 
         var video = video_hh + ":" + video_mm;
 
+        var calculated_total = Calculated + ':' + Calculated_mm;
+
         //if(hh && mm && week){
         //    // 총 이수시간 계산 및 표시
         //    //var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
@@ -585,6 +583,10 @@ var DetailsView = ValidatingView.extend({
         if(video && video != "")
             val = val + "#" + video;
 
+        if(calculated_total && calculated_total != ""){
+            val = val + "$" + calculated_total;
+        }
+
         $("#course-effort").val(val);
         $("#course-effort").trigger("change");
 
@@ -600,14 +602,10 @@ var DetailsView = ValidatingView.extend({
             Calculated_mmm = $("#Calculated_mm").val();
         }
 
-        var total_study_time = $("#Calculated").val()+'+'+ Calculated_mmm;
-
-
         console.log('Test Index ==============')
         console.log(addinfo_course_id)
         console.log(addinfo_user_id)
         console.log(course_period)
-        console.log(total_study_time)
         console.log('Test Index ==============')
 
         $.post("/modi_course_period", {
@@ -615,7 +613,6 @@ var DetailsView = ValidatingView.extend({
             addinfo_course_id: addinfo_course_id,
             addinfo_user_id: addinfo_user_id,
             course_period: course_period,
-            total_study_time:total_study_time,
             method : 'addinfo',
         });
     },
@@ -910,17 +907,20 @@ var DetailsView = ValidatingView.extend({
         var time = $("#course-effort").val();
         if(time){
 
-            if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
+            if(time.indexOf("@") > 0 && time.indexOf("#") > 0 && time.indexOf("$")){
                 var arr1 = time.split("@");
                 var arr2 = arr1[0].split(":");
                 var week = arr1[1].split("#")[0];
-                var arr3 = arr1[1].split("#")[1].split(":");
+                var arr3 = arr1[1].split("#")[1].split("$")[0].split(":");
+                var arr4 = arr1[1].split("$")[1].split(":");
 
                 $("#course-effort-hh").val(arr2[0]);
                 $("#course-effort-mm").val(arr2[1]);
                 $("#course-effort-week").val(week);
                 $("#course-video-hh").val(arr3[0]);
                 $("#course-video-mm").val(arr3[1]);
+                $("#Calculated").val(arr4[0]);
+                $("#Calculated_mm").val(arr4[1]);
             }else if(time.indexOf("@") > 0){
                 var arr1 = time.split("@");
                 var arr2 = arr1[0].split(":");
