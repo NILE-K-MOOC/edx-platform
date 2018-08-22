@@ -24,6 +24,11 @@ from openedx.core.lib.courses import course_image_url
   % endif
   <script type="text/javascript">
   (function() {
+
+    $(".youtubewrap").bind('contextmenu', function (e) {
+      return false;
+    });
+
     $(".register").click(function(event) {
 
         %if not user.is_authenticated():
