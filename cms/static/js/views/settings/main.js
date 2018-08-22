@@ -648,10 +648,9 @@ var DetailsView = ValidatingView.extend({
 
         // 강좌운영진
         var staff_templates = "";
-        $("#course-instructor li").each(function(){
+        $("#course-instructor li").each(function(index){
             var staff_photo = $(this).find("#staff-photo").val();
             var staff_name = $(this).find("#staff-name").val();
-
             if(staff_name === "")
                 return true;
 
@@ -662,29 +661,32 @@ var DetailsView = ValidatingView.extend({
                 if(careers[i])
                     careers_text += "<dd>" + careers[i] + "</dd>";
             }
-
             var staff_template = "" +
-            "<article>" +
-            "	<h3><i class='fa fa-user'></i>교수자</h3>" +
-            "	<article class='professor'>" +
-            "		<div class='teacher_image'>" +
-            "			<img src='" + staff_photo + "' align='left' alt=''>" +
-            "		</div>" +
-            "		<div class='staff_descript'>" +
-            "			<dl>" +
-            "			  <dt>" +
-            "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name + "</i> 교수" +
-            "			  </dt>" +
-            "				" + careers_text +
-            "			</dl>" +
-            "		</div>" +
-            "	</article>" +
-            "</article>";
+                "<article>";
+            if(index == 0){
+                staff_template += "	<h3><i class='fa fa-user'></i>교수자</h3>";
+
+            }
+            staff_template += "" +
+                "	<article class='professor'>" +
+                "		<div class='teacher_image'>" +
+                "			<img src='" + staff_photo + "' align='left' alt=''>" +
+                "		</div>" +
+                "		<div class='staff_descript'>" +
+                "			<dl>" +
+                "			  <dt>" +
+                "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name + "</i> 교수" +
+                "			  </dt>" +
+                "				" + careers_text +
+                "			</dl>" +
+                "		</div>" +
+                "	</article>" +
+                "</article>";
 
             staff_templates += staff_template;
         });
 
-        $("#course-ta li").each(function(){
+        $("#course-ta li").each(function(index){
             var staff_photo = $(this).find("#staff-photo").val();
             var staff_name = $(this).find("#staff-name").val();
 
@@ -700,22 +702,26 @@ var DetailsView = ValidatingView.extend({
             }
 
             var staff_template = "" +
-            "<article>" +
-            "	<h3><i class='fa fa-user'></i>강좌지원팀</h3>" +
-            "	<article class='staff'>" +
-            "		<div class='ta_image'>" +
-            "			<img src='" + staff_photo + "' align='left' alt=''>" +
-            "		</div>" +
-            "		<div class='staff_descript'>" +
-            "			<dl>" +
-            "				<dt>" +
-            "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name+ "</i>" +
-            "			  </dt>" +
-            "				" + careers_text +
-            "			</dl>" +
-            "		</div>" +
-            "	</article>" +
-            "</article>";
+                "<article>";
+
+            if(index == 0){
+                staff_template += "	<h3><i class='fa fa-user'></i>강좌지원팀</h3>";
+            }
+            staff_template += "" +
+                "	<article class='staff'>" +
+                "		<div class='ta_image'>" +
+                "			<img src='" + staff_photo + "' align='left' alt=''>" +
+                "		</div>" +
+                "		<div class='staff_descript'>" +
+                "			<dl>" +
+                "				<dt>" +
+                "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name+ "</i>" +
+                "			  </dt>" +
+                "				" + careers_text +
+                "			</dl>" +
+                "		</div>" +
+                "	</article>" +
+                "</article>";
 
             staff_templates += staff_template;
 
