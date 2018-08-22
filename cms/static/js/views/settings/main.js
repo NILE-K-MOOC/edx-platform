@@ -276,6 +276,8 @@ var DetailsView = ValidatingView.extend({
         var ov = $.parseHTML(this.model.get('overview'));
         // 수업내용/목표
         var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "");
+        goal = this.textareaTrim(goal);
+
         // 홍보영상/예시강의
         var vurl = $(ov).find(".video source:eq(0)").attr("src");
         // 강좌 계획
@@ -391,8 +393,10 @@ var DetailsView = ValidatingView.extend({
         // 강좌 수준 및 선수요건
         //var level = $(ov).find("#course-level").html().replace(regex, "\n");
         var level = $(ov).find("#course-level").html().replace(regex, "");
+        level = this.textareaTrim(level);
         // 교재 및 참고문헌
         var reference = $(ov).find("#course-reference").html().replace(regex, "");
+        reference = this.textareaTrim(reference);
         // FAQ
         var faq = $(ov).find(".faq article");
         // 사용자 추가 내용
@@ -411,7 +415,7 @@ var DetailsView = ValidatingView.extend({
 
         //tinymce 에디터 사용시 getContent 함수 이용을 위해 textarea 의 아이디를 지정하요 사용
         console.log('goal start --- s');
-        console.log(goal.trim());
+        console.log(goal);
         console.log('goal start --- e');
 
         $("#overview-tab1 textarea").val(goal.trim());
@@ -428,6 +432,25 @@ var DetailsView = ValidatingView.extend({
 
         //tinymce.get('course_plan').setContent(syllabus.html());
 
+    },
+    textareaTrim: function(text){
+        // textarea에서 공백 처리
+        var text_lines = text.split('\n');
+        var return_txt = 'text firse line';
+        for(var i = 0 ; i < text_lines.length; i++){
+            //alert(goal_lines[i]);
+            if(text_lines[i].trim() != ''){
+                //alert('ok');
+                return_txt += text_lines[i].trim() + '\n';
+            } else if(i == text_lines.length -1){
+                return_txt += text_lines[i].trim();
+            } else {
+                return_txt += '\n';
+            }
+        }
+        return_txt = return_txt.replace('text firse line\n', '');
+
+        return return_txt;
     },
     tinymceInit: function (selector) {
         tinymce.init({
