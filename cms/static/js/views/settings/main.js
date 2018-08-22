@@ -432,7 +432,7 @@ var DetailsView = ValidatingView.extend({
     textareaTrim: function(text){
         // textarea에서 공백 처리
         var text_lines = text.split('\n');
-        var return_txt = 'text firse line';
+        var return_txt = 'text   first line';
         for(var i = 0 ; i < text_lines.length; i++){
             //alert(goal_lines[i]);
             if(text_lines[i].trim() != ''){
@@ -444,7 +444,7 @@ var DetailsView = ValidatingView.extend({
                 return_txt += '\n';
             }
         }
-        return_txt = return_txt.replace('text firse line\n', '');
+        return_txt = return_txt.replace(/text   first line\n/g, '').replace(/text   first line/g, '');
 
         return return_txt;
     },
