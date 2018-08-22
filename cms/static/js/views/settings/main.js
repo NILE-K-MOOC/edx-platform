@@ -9,6 +9,8 @@ define(["js/views/validation", "codemirror", "underscore", "jquery", "jquery.ui"
 var DetailsView = ValidatingView.extend({
     // Model class is CMS.Models.Settings.CourseDetails
     events : {
+        "keypress input" : "submitDisable",
+        "keypress select" : "submitDisable",
         "input input" : "updateModel",
         "input textarea" : "updateModel",
         // Leaving change in as fallback for older browsers
@@ -1094,6 +1096,11 @@ var DetailsView = ValidatingView.extend({
             );
 
         $(e.currentTarget).attr('title', currentTimeText);
+    },
+    submitDisable: function (e) {
+        if(e.keyCode == 13){
+            e.preventDefault();
+        }
     },
     updateModel: function(event) {
         var value;
