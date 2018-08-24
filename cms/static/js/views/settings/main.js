@@ -929,7 +929,18 @@ var DetailsView = ValidatingView.extend({
                 $("#course-video-mm").val(arr3[1]);
                 $("#Calculated").val(arr4[0]);
                 $("#Calculated_mm").val(arr4[1]);
-            }else if(time.indexOf("@") > 0){
+            } else if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
+                var arr1 = time.split("@");
+                var arr2 = arr1[0].split(":");
+                var week = arr1[1].split("#")[0];
+                var arr3 = arr1[1].split("#")[1].split(":");
+
+                $("#course-effort-hh").val(arr2[0]);
+                $("#course-effort-mm").val(arr2[1]);
+                $("#course-effort-week").val(week);
+                $("#course-video-hh").val(arr3[0]);
+                $("#course-video-mm").val(arr3[1]);
+            } else if(time.indexOf("@") > 0){
                 var arr1 = time.split("@");
                 var arr2 = arr1[0].split(":");
                 var week = arr1[1];
