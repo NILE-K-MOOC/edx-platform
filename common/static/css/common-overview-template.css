@@ -21,7 +21,7 @@
 #course-info .article_contents{padding-left:10px;}
 #course-info p{text-align: justify;}
 
-table caption{/*display: none*/}
+table caption{display: none}
 
 /*Bullet image*/
 .fa {
