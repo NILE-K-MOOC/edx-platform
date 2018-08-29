@@ -621,16 +621,6 @@ var DetailsView = ValidatingView.extend({
     overviewLayerVaidate: function(){
         $(".overview-modal").find(".message-error").remove();
 
-        if($("#overview-tab1 textarea").val() == ""){
-            $("#overview-tab1 textarea").after($("<span class='message-error'>음이 아닌 정수를 입력하세요.</span>"));
-            return false;
-        }
-
-        if($("#course-sample-video-url").val() == ""){
-            $(this).after("<span class='message-error'>홍보/예시 영상의 내용을 입력해주세요.</span>");
-            return false;
-        }
-
         return true;
     },
     createOverview: function(event){
@@ -645,7 +635,7 @@ var DetailsView = ValidatingView.extend({
         //make html source
         var ov = $.parseHTML(this.model.get('overview'));
         $(ov).find(".goal:eq(0)").html($("#overview-tab1 textarea").val().replace(/\n/g, "<br>"));
-        $(ov).find(".video:eq(0)").attr("src", $("#course-sample-video-url").val());
+        $(ov).find(".video source:eq(0)").attr("src", $("#course-sample-video-url").val());
         $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
 
         // 강좌운영진
