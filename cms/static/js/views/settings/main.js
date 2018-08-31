@@ -308,7 +308,7 @@ var DetailsView = ValidatingView.extend({
                     staff3 += $(this).html().trim();
                 }
             });
-            staff3 = this.textareaTrim(staff3);
+            //staff3 = this.textareaTrim(staff3);
             console.log('professor check ---------------------------------------------------');
             console.log('staff1: ' + staff1);
             console.log('staff2: ' + staff2);
@@ -355,14 +355,14 @@ var DetailsView = ValidatingView.extend({
             var staff1 = $(ov).find("article.staff:eq("+j+") img").prop('src');
             var staff2 = $(ov).find("article.staff:eq("+j+") .staff_descript i.staff-name").text();
             var staff3 = '';
-            var row_len =  $(ov).find("article.professor:eq("+j+") .staff_descript dd").length;
+            var staff_row_len =  $(ov).find("article.staff:eq("+j+") .staff_descript dd").length;
             $(ov).find("article.staff:eq("+j+") .staff_descript dd").each(function(idx) {
-                if(idx != row_len -1)
+                if(idx != staff_row_len -1)
                     staff3 += $(this).html().trim() + '\n';
-                else if(idx == row_len -1)
+                else if(idx == staff_row_len -1)
                     staff3 += $(this).html().trim();
             });
-            staff3 = this.textareaTrim(staff3);
+            //staff3 = this.textareaTrim(staff3);
             console.log('staff check ---------------------------------------------------');
             console.log('staff1: ' + staff1);
             console.log('staff2: ' + staff2);
