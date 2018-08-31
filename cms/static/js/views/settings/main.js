@@ -303,12 +303,12 @@ var DetailsView = ValidatingView.extend({
             var row_len =  $(ov).find("article.professor:eq("+j+") .staff_descript dd").length;
             $(ov).find("article.professor:eq("+j+") .staff_descript dd").each(function(idx) {
                 if(idx != row_len -1)
-                    staff3 += $(this).text().trim() + '\n';
+                    staff3 += $(this).html().trim() + '\n';
                 else if(idx == row_len -1){
-                    staff3 += $(this).text().trim();
+                    staff3 += $(this).html().trim();
                 }
             });
-
+            staff3 = this.textareaTrim(staff3);
             console.log('professor check ---------------------------------------------------');
             console.log('staff1: ' + staff1);
             console.log('staff2: ' + staff2);
@@ -358,11 +358,11 @@ var DetailsView = ValidatingView.extend({
             var row_len =  $(ov).find("article.professor:eq("+j+") .staff_descript dd").length;
             $(ov).find("article.staff:eq("+j+") .staff_descript dd").each(function(idx) {
                 if(idx != row_len -1)
-                    staff3 += $(this).text().trim() + '\n';
+                    staff3 += $(this).html().trim() + '\n';
                 else if(idx == row_len -1)
-                    staff3 += $(this).text().trim();
+                    staff3 += $(this).html().trim();
             });
-
+            staff3 = this.textareaTrim(staff3);
             console.log('staff check ---------------------------------------------------');
             console.log('staff1: ' + staff1);
             console.log('staff2: ' + staff2);
@@ -688,8 +688,8 @@ var DetailsView = ValidatingView.extend({
         $("#course-instructor li").each(function(index){
             var staff_photo = $(this).find("#staff-photo").val();
             var staff_name = $(this).find("#staff-name").val();
-            if(staff_name === "")
-                return true;
+            //if(staff_name === "")
+                //return true;
             var careers = $(this).find("textarea").val().split(/\n/g);
             console.log('careers txt start -----------------');
             console.log(careers);
@@ -734,8 +734,8 @@ var DetailsView = ValidatingView.extend({
             var staff_photo = $(this).find("#staff-photo").val();
             var staff_name = $(this).find("#staff-name").val();
 
-            if(staff_name === "")
-                return true;
+            //if(staff_name === "")
+                //return true;
 
             var careers = $(this).find("textarea").val().split(/\n/g);
             var careers_text = "";

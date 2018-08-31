@@ -6,1090 +6,1101 @@
 
 <%namespace name='static' file='static_content.html'/>
 <%!
-import urllib
-from django.utils.translation import ugettext as _
-from contentstore import utils
-from openedx.core.djangolib.js_utils import (
+    import urllib
+    from django.utils.translation import ugettext as _
+    from contentstore import utils
+    from openedx.core.djangolib.js_utils import (
 dump_js_escaped_json, js_escaped_string
 )
-from openedx.core.djangolib.markup import HTML, Text
+    from openedx.core.djangolib.markup import HTML, Text
 %>
 
 <%block name="header_extras">
-<script src='http://lovasoa.github.io/tidy-html5/tidy.js'></script>
-% for template_name in ["basic-modal", "modal-button", "upload-dialog", "license-selector", "course-settings-learning-fields", "course-instructor-details"]:
-<script type="text/template" id="${template_name}-tpl">
+    <script src='http://lovasoa.github.io/tidy-html5/tidy.js'></script>
+    % for template_name in ["basic-modal", "modal-button", "upload-dialog", "license-selector", "course-settings-learning-fields", "course-instructor-details"]:
+        <script type="text/template" id="${template_name}-tpl">
     <%static:include path="js/${template_name}.underscore" />
 </script>
-% endfor
+    % endfor
 </%block>
 
 <%block name="jsextra">
-<link rel="stylesheet" type="text/css" href="${static.url('js/vendor/timepicker/jquery.timepicker.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${static.url('js/vendor/timepicker/jquery.timepicker.css')}"/>
 
-<script type="text/javascript">
-    window.CMS = window.CMS || {};
-    CMS.URL = CMS.URL || {};
-    CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
-</script>
+    <script type="text/javascript">
+        window.CMS = window.CMS || {};
+        CMS.URL = CMS.URL || {};
+        CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
+    </script>
 </%block>
 
 <%block name="requirejs">
-require(["js/factories/settings", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min", "js/vendor/tinymce/js/tinymce/tinymce.full.min", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min"], function(SettingsFactory) {
-SettingsFactory(
-"${details_url | n, js_escaped_string}",
-${show_min_grade_warning | n, dump_js_escaped_json}
-);
-});
+    require(["js/factories/settings", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min", "js/vendor/tinymce/js/tinymce/tinymce.full.min", "js/vendor/tinymce/js/tinymce/jquery.tinymce.min"], function(SettingsFactory) {
+    SettingsFactory(
+    "${details_url | n, js_escaped_string}",
+    ${show_min_grade_warning | n, dump_js_escaped_json}
+    );
+    });
 </%block>
 
 <%block name="content">
-<div class="wrapper-mast wrapper">
-    <header class="mast has-subtitle">
-        <h1 class="page-header">
-            <small class="subtitle">${_("Settings")}</small>
-            <span class="sr">&gt; </span>${_("Schedule & Details")}
-        </h1>
-    </header>
-</div>
+    <div class="wrapper-mast wrapper">
+        <header class="mast has-subtitle">
+            <h1 class="page-header">
+                <small class="subtitle">${_("Settings")}</small>
+                <span class="sr">&gt; </span>${_("Schedule & Details")}
+            </h1>
+        </header>
+    </div>
 
-<div class="wrapper-content wrapper">
-    <div class="content">
-        <div class="content-primary">
-            <form id="settings_details" class="settings-details" method="post" action="">
-                <div class="group-settings basic">
-                    <header>
-                        <h2 class="title-2">${_("Basic Information")}</h2>
-                        <span class="tip">${_("The nuts and bolts of your course")}</span>
-                    </header>
+    <div class="wrapper-content wrapper">
+        <div class="content">
+            <div class="content-primary">
+                <form id="settings_details" class="settings-details" method="post" action="">
+                    <div class="group-settings basic">
+                        <header>
+                            <h2 class="title-2">${_("Basic Information")}</h2>
+                            <span class="tip">${_("The nuts and bolts of your course")}</span>
+                        </header>
 
-                    <ol class="list-input">
-                        <li class="field text is-not-editable" id="field-course-organization">
-                            <label for="course-organization">${_("Organization")}</label>
-                            <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
-                                   class="long" id="course-organization" readonly/>
-                        </li>
-
-                        <li class="field text is-not-editable" id="field-course-number">
-                            <label for="course-number">${_("Course Number")}</label>
-                            <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
-                                   class="short" id="course-number" readonly>
-                        </li>
-
-                        <li class="field text is-not-editable" id="field-course-name">
-                            <label for="course-name">${_("Course Run")}</label>
-                            <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
-                                   class="long" id="course-name" readonly/>
-                        </li>
-                    </ol>
-
-                    % if about_page_editable:
-                    <div class="note note-promotion note-promotion-courseURL has-actions">
-                        <h3 class="title">${_("Course Summary Page")} <span class="tip">${_("(for student enrollment and access)")}</span></h3>
-
-                        <div class="copy">
-                            <%
-                            link_for_about_page = ("https:" if is_secure else "http:") + lms_link_for_about_page
-                            %>
-                            <p><a class="link-courseURL" rel="external" href="${link_for_about_page}">${link_for_about_page}</a></p>
-                        </div>
-
-                        <ul class="list-actions">
-                            <li class="action-item">
-                                <%
-                                email_subject = urllib.quote(_("Enroll in {course_display_name}").format(course_display_name = context_course.display_name_with_default).encode("utf-8"))
-                                email_body = urllib.quote(_('The course "{course_display_name}", provided by {platform_name}, is open for enrollment. Please navigate to this course at{link_for_about_page} to enroll.').format(course_display_name = context_course.display_name_with_default,platform_name = settings.PLATFORM_NAME,link_for_about_page = link_for_about_page).encode("utf-8"))
-                                %>
-                                <a title="${_('Send a note to students via email')}"
-                                   href="mailto:someone@domain.com?Subject=${email_subject}&body=${email_body}" class="action action-primary">
-                                    <span class="icon fa fa-envelope-o icon-inline" aria-hidden="true"></span>${_("Invite your students")}</a>
+                        <ol class="list-input">
+                            <li class="field text is-not-editable" id="field-course-organization">
+                                <label for="course-organization">${_("Organization")}</label>
+                                <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                                       class="long" id="course-organization" readonly/>
                             </li>
-                        </ul>
+
+                            <li class="field text is-not-editable" id="field-course-number">
+                                <label for="course-number">${_("Course Number")}</label>
+                                <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                                       class="short" id="course-number" readonly>
+                            </li>
+
+                            <li class="field text is-not-editable" id="field-course-name">
+                                <label for="course-name">${_("Course Run")}</label>
+                                <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                                       class="long" id="course-name" readonly/>
+                            </li>
+                        </ol>
+
+                        % if about_page_editable:
+                            <div class="note note-promotion note-promotion-courseURL has-actions">
+                                <h3 class="title">${_("Course Summary Page")} <span class="tip">${_("(for student enrollment and access)")}</span></h3>
+
+                                <div class="copy">
+                                    <%
+                                        link_for_about_page = ("https:" if is_secure else "http:") + lms_link_for_about_page
+                                    %>
+                                    <p><a class="link-courseURL" rel="external" href="${link_for_about_page}">${link_for_about_page}</a></p>
+                                </div>
+
+                                <ul class="list-actions">
+                                    <li class="action-item">
+                                        <%
+                                            email_subject = urllib.quote(_("Enroll in {course_display_name}").format(course_display_name = context_course.display_name_with_default).encode("utf-8"))
+                                            email_body = urllib.quote(_('The course "{course_display_name}", provided by {platform_name}, is open for enrollment. Please navigate to this course at{link_for_about_page} to enroll.').format(course_display_name = context_course.display_name_with_default,platform_name = settings.PLATFORM_NAME,link_for_about_page = link_for_about_page).encode("utf-8"))
+                                        %>
+                                        <a title="${_('Send a note to students via email')}"
+                                           href="mailto:someone@domain.com?Subject=${email_subject}&body=${email_body}" class="action action-primary">
+                                            <span class="icon fa fa-envelope-o icon-inline" aria-hidden="true"></span>${_("Invite your students")}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        % endif
+
+                        % if not about_page_editable:
+                            <div class="notice notice-incontext notice-workflow">
+                                <h3 class="title">${_("Promoting Your Course with {platform_name}").format(platform_name=settings.PLATFORM_NAME)}</h3>
+
+                                <div class="copy">
+                                    <p>${_(
+                                    'Your course summary page will not be viewable until your course '
+                                    'has been announced. To provide content for the page and preview '
+                                    'it, follow the instructions provided by your Program Manager.')}
+                                    </p>
+                                </div>
+                            </div>
+                        % endif
                     </div>
-                    % endif
+                    <hr class="divide"/>
 
-                    % if not about_page_editable:
-                    <div class="notice notice-incontext notice-workflow">
-                        <h3 class="title">${_("Promoting Your Course with {platform_name}").format(platform_name=settings.PLATFORM_NAME)}</h3>
+                    % if credit_eligibility_enabled and is_credit_course:
+                        <div class="group-settings basic">
+                            <header>
+                                <h2 class="title-2">${_("Course Credit Requirements")}</h2>
+                                <span class="tip">${_("Steps required to earn course credit")}</span>
+                            </header>
+                            <span class="header-help tip">A requirement appears in this list when you publish the unit that contains the requirement.</span>
 
-                        <div class="copy">
-                            <p>${_(
-                                'Your course summary page will not be viewable until your course '
-                                'has been announced. To provide content for the page and preview '
-                                'it, follow the instructions provided by your Program Manager.')}
-                            </p>
+                            % if credit_requirements:
+                                <ol class="list-input">
+                                    % if 'grade' in credit_requirements:
+                                        <li class="field text is-not-editable" id="credit-minimum-passing-grade">
+                                            <label>${_("Minimum Grade")}</label>
+                                            % for requirement in credit_requirements['grade']:
+                                                <label for="${requirement['name']}" class="sr">${_("Minimum Grade")}</label>
+                                                <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                                                       class="long" id="${requirement['name']}" value="${'{0:.0f}%'.format(float(requirement['criteria']['min_grade'] or 0)*100)}" readonly/>
+                                            % endfor
+                                        </li>
+                                    % endif
+
+                                    % if 'proctored_exam' in credit_requirements:
+                                        <li class="field text is-not-editable" id="credit-proctoring-requirements">
+                                            <label>${_("Successful Proctored Exam")}</label>
+                                            % for requirement in credit_requirements['proctored_exam']:
+                                                <label for="${requirement['name']}" class="sr">${_('Proctored Exam {number}').format(number=loop.index+1)}</label>
+                                                <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                                                       class="long" id="${requirement['name']}" value="${requirement['display_name']}" readonly/>
+                                            % endfor
+                                        </li>
+                                    % endif
+
+                                    % if 'reverification' in credit_requirements:
+                                        <li class="field text is-not-editable" id="credit-reverification-requirements">
+                                            <label>${_("ID Verification")}</label>
+                                            % for requirement in credit_requirements['reverification']:
+                                                <label for="${requirement['name']}" class="sr">${_('In-Course Reverification {number}').format(number=loop.index+1)}</label>
+                                                <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                                                       class="long" id="${requirement['name']}" value="${requirement['display_name']}" readonly/>
+                                            % endfor
+                                        </li>
+                                    % endif
+                                </ol>
+                            % else:
+                                <p>No credit requirements found.</p>
+                            % endif
                         </div>
-                    </div>
+                        <hr class="divide"/>
                     % endif
-                </div>
-                <hr class="divide"/>
-
-                % if credit_eligibility_enabled and is_credit_course:
-                <div class="group-settings basic">
-                    <header>
-                        <h2 class="title-2">${_("Course Credit Requirements")}</h2>
-                        <span class="tip">${_("Steps required to earn course credit")}</span>
-                    </header>
-                    <span class="header-help tip">A requirement appears in this list when you publish the unit that contains the requirement.</span>
-
-                    % if credit_requirements:
-                    <ol class="list-input">
-                        % if 'grade' in credit_requirements:
-                        <li class="field text is-not-editable" id="credit-minimum-passing-grade">
-                            <label>${_("Minimum Grade")}</label>
-                            % for requirement in credit_requirements['grade']:
-                            <label for="${requirement['name']}" class="sr">${_("Minimum Grade")}</label>
-                            <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
-                                   class="long" id="${requirement['name']}" value="${'{0:.0f}%'.format(float(requirement['criteria']['min_grade'] or 0)*100)}" readonly/>
-                            % endfor
-                        </li>
-                        % endif
-
-                        % if 'proctored_exam' in credit_requirements:
-                        <li class="field text is-not-editable" id="credit-proctoring-requirements">
-                            <label>${_("Successful Proctored Exam")}</label>
-                            % for requirement in credit_requirements['proctored_exam']:
-                            <label for="${requirement['name']}" class="sr">${_('Proctored Exam {number}').format(number=loop.index+1)}</label>
-                            <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
-                                   class="long" id="${requirement['name']}" value="${requirement['display_name']}" readonly/>
-                            % endfor
-                        </li>
-                        % endif
-
-                        % if 'reverification' in credit_requirements:
-                        <li class="field text is-not-editable" id="credit-reverification-requirements">
-                            <label>${_("ID Verification")}</label>
-                            % for requirement in credit_requirements['reverification']:
-                            <label for="${requirement['name']}" class="sr">${_('In-Course Reverification {number}').format(number=loop.index+1)}</label>
-                            <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
-                                   class="long" id="${requirement['name']}" value="${requirement['display_name']}" readonly/>
-                            % endfor
-                        </li>
-                        % endif
-                    </ol>
-                    % else:
-                    <p>No credit requirements found.</p>
-                    % endif
-                </div>
-                <hr class="divide"/>
-                % endif
 
 
 
-                <div class="group-settings schedule necessary">
-                    <header>
-                        <h2 class="title-2">${_('Course Schedule')}</h2>
-                        <span class="tip">${_('Dates that control when your course can be viewed')}</span>
-                    </header>
+                    <div class="group-settings schedule necessary">
+                        <header>
+                            <h2 class="title-2">${_('Course Schedule')}</h2>
+                            <span class="tip">${_('Dates that control when your course can be viewed')}</span>
+                        </header>
 
-                    <ol class="list-input">
-                        <li class="field-group field-group-course-start" id="course-start">
-                            <div class="field date" id="field-course-start-date">
-                                <label for="course-start-date">${_("Course Start Date")}</label>
-                                <input type="text" class="start-date date start datepicker" id="course-start-date" placeholder="MM/DD/YYYY" autocomplete="off"/>
-                                <span class="tip tip-stacked">${_("First day the course begins")}</span>
-                            </div>
+                        <ol class="list-input">
+                            <li class="field-group field-group-course-start" id="course-start">
+                                <div class="field date" id="field-course-start-date">
+                                    <label for="course-start-date">${_("Course Start Date")}</label>
+                                    <input type="text" class="start-date date start datepicker" id="course-start-date" placeholder="MM/DD/YYYY" autocomplete="off"/>
+                                    <span class="tip tip-stacked">${_("First day the course begins")}</span>
+                                </div>
 
-                            <div class="field time" id="field-course-start-time">
-                                <label for="course-start-time">${_("Course Start Time")}</label>
-                                <input type="text" class="time start timepicker" id="course-start-time" value="" placeholder="HH:MM" autocomplete="off"/>
-                                <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
-                            </div>
-                        </li>
+                                <div class="field time" id="field-course-start-time">
+                                    <label for="course-start-time">${_("Course Start Time")}</label>
+                                    <input type="text" class="time start timepicker" id="course-start-time" value="" placeholder="HH:MM" autocomplete="off"/>
+                                    <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
+                                </div>
+                            </li>
 
-                        <li class="field-group field-group-course-end" id="course-end">
-                            <div class="field date" id="field-course-end-date">
-                                <label for="course-end-date">${_("Course End Date")}</label>
-                                <input type="text" class="end-date date end" id="course-end-date" placeholder="MM/DD/YYYY" autocomplete="off"/>
-                                <span class="tip tip-stacked">${_("Last day your course is active")}</span>
-                            </div>
+                            <li class="field-group field-group-course-end" id="course-end">
+                                <div class="field date" id="field-course-end-date">
+                                    <label for="course-end-date">${_("Course End Date")}</label>
+                                    <input type="text" class="end-date date end" id="course-end-date" placeholder="MM/DD/YYYY" autocomplete="off"/>
+                                    <span class="tip tip-stacked">${_("Last day your course is active")}</span>
+                                </div>
 
-                            <div class="field time" id="field-course-end-time">
-                                <label for="course-end-time">${_("Course End Time")}</label>
-                                <input type="text" class="time end" id="course-end-time" value="" placeholder="HH:MM" autocomplete="off"/>
-                                <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
-                            </div>
-                        </li>
-                    </ol>
+                                <div class="field time" id="field-course-end-time">
+                                    <label for="course-end-time">${_("Course End Time")}</label>
+                                    <input type="text" class="time end" id="course-end-time" value="" placeholder="HH:MM" autocomplete="off"/>
+                                    <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
+                                </div>
+                            </li>
+                        </ol>
 
-                    <ol class="list-input">
-                        <li class="field-group field-group-enrollment-start" id="enrollment-start">
-                            <div class="field date" id="field-enrollment-start-date">
-                                <label for="course-enrollment-start-date">${_("Enrollment Start Date")}</label>
-                                <input type="text" class="start-date date start" id="course-enrollment-start-date" placeholder="MM/DD/YYYY" autocomplete="off"/>
-                                <span class="tip tip-stacked">${_("First day students can enroll")}</span>
-                            </div>
+                        <ol class="list-input">
+                            <li class="field-group field-group-enrollment-start" id="enrollment-start">
+                                <div class="field date" id="field-enrollment-start-date">
+                                    <label for="course-enrollment-start-date">${_("Enrollment Start Date")}</label>
+                                    <input type="text" class="start-date date start" id="course-enrollment-start-date" placeholder="MM/DD/YYYY" autocomplete="off"/>
+                                    <span class="tip tip-stacked">${_("First day students can enroll")}</span>
+                                </div>
 
-                            <div class="field time" id="field-enrollment-start-time">
-                                <label for="course-enrollment-start-time">${_("Enrollment Start Time")}</label>
-                                <input type="text" class="time start" id="course-enrollment-start-time" value="" placeholder="HH:MM" autocomplete="off"/>
-                                <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
-                            </div>
-                        </li>
-                        <%
-                        enrollment_end_readonly = HTML("readonly aria-readonly=\"true\"") if not enrollment_end_editable else ""
-                        enrollment_end_editable_class = "is-not-editable" if not enrollment_end_editable else ""
-                        %>
-                        <li class="field-group field-group-enrollment-end" id="enrollment-end">
-                            <div class="field date ${enrollment_end_editable_class}" id="field-enrollment-end-date">
-                                <label for="course-enrollment-end-date">${_("Enrollment End Date")}</label>
-                                <input type="text" class="end-date date end" id="course-enrollment-end-date" placeholder="MM/DD/YYYY" autocomplete="off" ${enrollment_end_readonly}/>
+                                <div class="field time" id="field-enrollment-start-time">
+                                    <label for="course-enrollment-start-time">${_("Enrollment Start Time")}</label>
+                                    <input type="text" class="time start" id="course-enrollment-start-time" value="" placeholder="HH:MM" autocomplete="off"/>
+                                    <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
+                                </div>
+                            </li>
+                            <%
+                                enrollment_end_readonly = HTML("readonly aria-readonly=\"true\"") if not enrollment_end_editable else ""
+                                enrollment_end_editable_class = "is-not-editable" if not enrollment_end_editable else ""
+                            %>
+                            <li class="field-group field-group-enrollment-end" id="enrollment-end">
+                                <div class="field date ${enrollment_end_editable_class}" id="field-enrollment-end-date">
+                                    <label for="course-enrollment-end-date">${_("Enrollment End Date")}</label>
+                                    <input type="text" class="end-date date end" id="course-enrollment-end-date" placeholder="MM/DD/YYYY" autocomplete="off" ${enrollment_end_readonly}/>
                 <span class="tip tip-stacked">
                   ${_("Last day students can enroll.")}
                 % if not enrollment_end_editable:
-                  ${_("Contact your edX Partner Manager to update these settings.")}
+                                                                           ${_("Contact your edX Partner Manager to update these settings.")}
                 % endif
                 </span>
-                            </div>
+                                </div>
 
-                            <div class="field time ${enrollment_end_editable_class}" id="field-enrollment-end-time">
-                                <label for="course-enrollment-end-time">${_("Enrollment End Time")}</label>
-                                <input type="text" class="time end" id="course-enrollment-end-time" value="" placeholder="HH:MM" autocomplete="off" ${enrollment_end_readonly}/>
-                                <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
-                            </div>
-                        </li>
-                    </ol>
+                                <div class="field time ${enrollment_end_editable_class}" id="field-enrollment-end-time">
+                                    <label for="course-enrollment-end-time">${_("Enrollment End Time")}</label>
+                                    <input type="text" class="time end" id="course-enrollment-end-time" value="" placeholder="HH:MM" autocomplete="off" ${enrollment_end_readonly}/>
+                                    <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
+                                </div>
+                            </li>
+                        </ol>
 
-                    % if not about_page_editable:
-                    <div class="notice notice-incontext notice-workflow">
-                        <h3 class="title">${_("These Dates Are Not Used When Promoting Your Course")}</h3>
+                        % if not about_page_editable:
+                            <div class="notice notice-incontext notice-workflow">
+                                <h3 class="title">${_("These Dates Are Not Used When Promoting Your Course")}</h3>
 
-                        <div class="copy">
-                            <p>${Text(_(
-                                'These dates impact {strong_start}when your courseware can be viewed{strong_end}, '
-                                'but they are {strong_start}not the dates shown on your course summary page{strong_end}. '
-                                'To provide the course start and registration dates as shown on your course '
-                                'summary page, follow the instructions provided by your Program Manager.'
-                                )).format(
-                                strong_start=HTML('<strong>'),
+                                <div class="copy">
+                                    <p>${Text(_(
+                                    'These dates impact {strong_start}when your courseware can be viewed{strong_end}, '
+                                    'but they are {strong_start}not the dates shown on your course summary page{strong_end}. '
+                                    'To provide the course start and registration dates as shown on your course '
+                                    'summary page, follow the instructions provided by your Program Manager.'
+                                    )).format(
+                                    strong_start=HTML('<strong>'),
                                     strong_end=HTML('</strong>')
-                                )}</p>
-                        </div>
+                                    )}</p>
+                                </div>
+                            </div>
+                        % endif
                     </div>
-                    % endif
-                </div>
 
-                % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
-                <hr class="divide"/>
+                    % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
+                        <hr class="divide"/>
 
-                <div class="group-settings requirements necessary">
-                    <header>
-                        <h2 class="title-2">${_("Requirements")}</h2>
-                        <span class="tip">${_("Expectations of the students taking this course")}</span>
-                    </header>
+                        <div class="group-settings requirements necessary">
+                            <header>
+                                <h2 class="title-2">${_("Requirements")}</h2>
+                                <span class="tip">${_("Expectations of the students taking this course")}</span>
+                            </header>
 
-                    <ol class="list-input">
+                            <ol class="list-input">
 
-                        <!-- 주간 학습 권장 시간 화면 수정 -->
-                        % if about_page_editable:
-                        <li class="field text" id="field-course-effort" style="width: 100%;">
-                            <!--
+                                <!-- 주간 학습 권장 시간 화면 수정 -->
+                                % if about_page_editable:
+                                    <li class="field text" id="field-course-effort" style="width: 100%;">
+                                        <!--
                             <label for="course-effort">${_("Hours of Effort per Week")}</label>
                             -->
-                            <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
+                                        <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
 
-                            <div>
+                                        <div>
 
-                                <div style="width: 200px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>주간 학습 권장 시간</b></span><br/>
-                                    <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">시간</span>
-                                    <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">분</span>
-                                </div>
+                                            <div style="width: 200px; float: left;">
+                                                <span class="tip tip-inline" style="font-size: 14px;"><b>주간 학습 권장 시간</b></span><br/>
+                                                <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
+                                                    style="float: left; padding: 10px;">시간</span>
+                                                <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
+                                                    style="float: left; padding: 10px;">분</span>
+                                            </div>
 
-                                <div style="width: 120px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 주차</b></span><br/>
-                                    <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
-                                        style="float: left; padding: 10px;">주차</span>
-                                </div>
+                                            <div style="width: 120px; float: left;">
+                                                <span class="tip tip-inline" style="font-size: 14px;"><b>총 주차</b></span><br/>
+                                                <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
+                                                    style="float: left; padding: 10px;">주차</span>
+                                            </div>
 
-                                <div style="width: 200px; float: left;">
-                                    <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습인정시간</b></span><br/>
-                                        <input type="text" class="short time" id="Calculated" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">시간</span>
-                                        <input type="text" class="short time" id="Calculated_mm" placeholder="MM" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">분</span>
-                                </div>
+                                            <div style="width: 200px; float: left;">
+                                                <span class="tip tip-inline" style="font-size: 14px;"><b>총 학습인정시간</b></span><br/>
+                                                <input type="text" class="short time" id="Calculated" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">시간</span>
+                                                <input type="text" class="short time" id="Calculated_mm" placeholder="MM" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">분</span>
+                                            </div>
 
-                                <br/>
+                                            <br/>
 
-                            </div>
-                            <br/>
-                            <br/>
+                                        </div>
+                                        <br/>
+                                        <br/>
 
-                            <span class="tip tip-inline">- 주간 학습 권장 시간 : 매주 해당 강좌의 학습에 필요한 권장 학습시간을 입력 바랍니다.</span><br/>
-                            <span class="tip tip-inline">- 총 주차 : 강좌를 구성하는 총 주차수를 입력 바랍니다. 중간/기말고사가 포함된 강좌의 경우 각 1주로 산정하여 주차수를 입력합니다.</span><br/>
-                            <span class="tip tip-inline">(예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))</span><br/>
-                            <span class="tip tip-inline">- 총 학습인정시간 :  '<a href="/file_down/677">총 학습인정시간 산출지침</a>'에 따라 최대 66시간 이내로 산정</span><br/>
-                            <span class="tip tip-inline">※ 이수증에 출력되는 정보로 산출사항에 대한 증빙과 동일한 수치 입력 필요</span>
+                                        <span class="tip tip-inline">- 주간 학습 권장 시간 : 매주 해당 강좌의 학습에 필요한 권장 학습시간을 입력 바랍니다.</span><br/>
+                                        <span class="tip tip-inline">- 총 주차 : 강좌를 구성하는 총 주차수를 입력 바랍니다. 중간/기말고사가 포함된 강좌의 경우 각 1주로 산정하여 주차수를 입력합니다.</span><br/>
+                                        <span class="tip tip-inline">(예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))</span><br/>
+                                        <span class="tip tip-inline">- 총 학습인정시간 :  '<a href="/file_down/677">총 학습인정시간 산출지침</a>'에 따라 최대 66시간 이내로 산정</span><br/>
+                                        <span class="tip tip-inline">※ 이수증에 출력되는 정보로 산출사항에 대한 증빙과 동일한 수치 입력 필요</span>
 
-                            <br/>
-                            <br/>
-
-
-                            <!-- 강좌 영상들의 총 재생 시간 입력 -->
-                            <!--
-                            <label for="course-effort"><b>총 동영상 학습 시간</b></label>
-                            -->
-
-                            <div>
-                                <span class="tip tip-inline" style="font-size: 14px;"><b>총 동영상 재생 시간</b></span><br/>
-                                <input type="text" class="short time" id="course-video-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span style="float: left; padding: 10px;">시간</span>
-                                <input type="text" class="short time" id="course-video-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
-                                    style="float: left; padding: 10px;">분</span>
-                                <br/><br/>
-                            </div>
-                            <span class="tip tip-inline">각 주차별 동영상 재생 시간의 총 합계를 입력 바랍니다. 강의 내용과 무관한 동영상은(예: 홍보동영상) 제외합니다.</span>
-                            <br/>
+                                        <br/>
+                                        <br/>
 
 
-                        </li>
-                        % endif
+                                        <!-- 강좌 영상들의 총 재생 시간 입력 -->
+                                        <!--
+                                        <label for="course-effort"><b>총 동영상 학습 시간</b></label>
+                                        -->
+
+                                        <div>
+                                            <span class="tip tip-inline" style="font-size: 14px;"><b>총 동영상 재생 시간</b></span><br/>
+                                            <input type="text" class="short time" id="course-video-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span style="float: left; padding: 10px;">시간</span>
+                                            <input type="text" class="short time" id="course-video-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
+                                                style="float: left; padding: 10px;">분</span>
+                                            <br/><br/>
+                                        </div>
+                                        <span class="tip tip-inline">각 주차별 동영상 재생 시간의 총 합계를 입력 바랍니다. 강의 내용과 무관한 동영상은(예: 홍보동영상) 제외합니다.</span>
+                                        <br/>
 
 
-                        % if is_prerequisite_courses_enabled:
-                        <li class="field field-select" id="field-pre-requisite-course">
-                            <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
-                            <select class="input" id="pre-requisite-course">
-                                <option value="">${_("None")}</option>
-                                % for course_info in sorted(possible_pre_requisite_courses, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
-                                <option value="${course_info['course_key']}">${course_info['display_name']}</option>
-                                % endfor
-                            </select>
-                            <span class="tip tip-inline">${_("Course that students must complete before beginning this course")}</span>
-                            <button type="submit" class="sr" name="submit" value="submit">${_("set pre-requisite course")}</button>
-                        </li>
-                        % endif
-                        % if is_entrance_exams_enabled:
-                        <li>
-                            <h3 id="heading-entrance-exam">${_("Entrance Exam")}</h3>
-
-                            <div class="show-data">
-                                <div class="heading">
-                                    <input type="checkbox" id="entrance-exam-enabled"/>
-                                    <label for="entrance-exam-enabled">${_("Require students to pass an exam before beginning the course.")}</label>
-                                </div>
-                                <div class="div-grade-requirements" hidden="hidden">
-                                    <p><span class="tip tip-inline">
-                            ${Text(_("You can now view and author your course entrance exam from the {link_start}Course Outline{link_end}.")).format(
-                              link_start=HTML("<a href='{course_handler_url}'>").format(course_handler_url=course_handler_url),
-                                        link_end=HTML("</a>")
-                            )}</span></p>
-
-                                    <p>
-
-                                    <h3>${_("Grade Requirements")}</h3></p>
-                                    <p>
-
-                                    <div><input type="text" id="entrance-exam-minimum-score-pct" aria-describedby="min-score-format"><span id="min-score-format"
-                                                                                                                                           class="tip tip-inline">${_(" %")}</span></div>
-                                    </p>
-                                    <p><span class="tip tip-inline">${_("The score student must meet in order to successfully complete the entrance exam. ")}</span></p>
-                                </div>
-                            </div>
-                        </li>
-                        % endif
-                    </ol>
-                </div>
-                % endif
-
-                % if about_page_editable:
-                <div class="group-settings course_details">
-                    <header>
-                        <h2 class="title-2">${_('Course Details')}</h2>
-                        <span class="tip">${_('Provide useful information about your course')}</span>
-                    </header>
-                    <ol class="list-input">
-                        <li class="field" id="field-course-language">
-                            <label for="course-language">${_("Course Language")}</label>
-                            <select id="course-language">
-                                <option value="" selected>-미선택-</option>
-                                % for lang, label in language_options:
-                                <option value="${lang}">${_(label)}</option>
-                                % endfor
-                            </select>
-                            <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
-                        </li>
-                        <li class="field" id="field-course-language selectdiv">
-                            <label for="동">강좌 난이도</label>
-                            <select class="select difficult-degree" id="selectfixid">
-                                <option value="">-미선택-</option>
-                            </select>
-                            <span class="tip tip-stacked">강좌 내용의 어려운 수준을 선택하세요.</span>
-                        </li>
-                        <li class="field" id="field-course-language">
-                            <label for="course-language">교수자명</label>
-                            <input type="text" id = "teacher_name" value="${teacher_name}" placeholder="예: 홍길동, 임꺽정">
-                            <span class="tip tip-stacked">교수자가 복수인 경우 콤마(,) 로 구분해서 입력해주세요(예: 홍길동, 임꺽정)</span>
-                            <div style="display: none">
-                                <div id="addinfo_course_id" >${lms_link_for_about_page}</div>
-                                <div id="addinfo_user_id" >${user.id}</div>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-                % endif
-                % for dgree in difficult_degree_list:
-                    <%
-                    for key, val in difficult_degree_list.items():
-                        print val, key
-                        print val[0]
-                        print val[1]
-                        print val[2]
-
-                        print val[0][0]
-                        print val[0][1]
-
-                        print val[1][0]
-                        print val[1][1]
-
-                        print val[2][0]
-                        print val[2][1]
-
-                        pstr = """var degree = {'category':[{'code':'""" + val[0][0] + """', 'gettext': '""" + val[0][1] + """'}, """
-                        pstr += """{'code':'""" + val[1][0] + """', 'gettext': '""" + val[1][1] + """'}, """
-                        pstr += """{'code':'""" + val[2][0] + """', 'gettext': '""" + val[2][1] + """'},]};"""
-                    %>
+                                    </li>
+                                % endif
 
 
-                <script type="text/javascript">
-                    ${ pstr | n, trim }
+                                % if is_prerequisite_courses_enabled:
+                                    <li class="field field-select" id="field-pre-requisite-course">
+                                        <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
+                                        <select class="input" id="pre-requisite-course">
+                                            <option value="">${_("None")}</option>
+                                            % for course_info in sorted(possible_pre_requisite_courses, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
+                                                <option value="${course_info['course_key']}">${course_info['display_name']}</option>
+                                            % endfor
+                                        </select>
+                                        <span class="tip tip-inline">${_("Course that students must complete before beginning this course")}</span>
+                                        <button type="submit" class="sr" name="submit" value="submit">${_("set pre-requisite course")}</button>
+                                    </li>
+                                % endif
+                                % if is_entrance_exams_enabled:
+                                    <li>
+                                        <h3 id="heading-entrance-exam">${_("Entrance Exam")}</h3>
 
-                    var degree_js = function(){
-                        var key = 0;
-                        var difficult_degree_id = document.getElementById("selectfixid");
-                        removeOptions(difficult_degree_id);
-                        input_difficult_degree(difficult_degree_id, 'category');
-                        var idx = $("#txtfixid").val();
-                        if (idx == '"1"') {
-                            $("#selectfixid").val("1");
-                        } else if (idx == '"2"') {
-                            $("#selectfixid").val("2");
-                        } else if (idx == '"3"') {
-                            $("#selectfixid").val("3");
-                        } else {
-                            $("#selectfixid").val("");
-                        }
-                        $("#selectfixid option:eq(0)").prop("selected", true);
-                    }
-                    var input_difficult_degree = function(selectbox,p_info){
-                        //console.log("run settings_advanced.html javascript calling input_difficult_degree");
-                        var option = document.createElement("option");
-                        option.text = "-미선택-";
-                        option.value = "";
-                        selectbox.appendChild(option);
-                        for(key in degree[p_info]) {
-                            var row = degree[p_info][key];
-                            var option = document.createElement("option");
-                            option.text = row.gettext;
-                            option.value = row.code;
-                            selectbox.appendChild(option);
-                        }
-                        $("#selectfixid option:eq(0)").prop("selected", true);
+                                        <div class="show-data">
+                                            <div class="heading">
+                                                <input type="checkbox" id="entrance-exam-enabled"/>
+                                                <label for="entrance-exam-enabled">${_("Require students to pass an exam before beginning the course.")}</label>
+                                            </div>
+                                            <div class="div-grade-requirements" hidden="hidden">
+                                                <p><span class="tip tip-inline">
+                                                    ${Text(_("You can now view and author your course entrance exam from the {link_start}Course Outline{link_end}.")).format(
+                                                    link_start=HTML("<a href='{course_handler_url}'>").format(course_handler_url=course_handler_url),
+                                                    link_end=HTML("</a>")
+                                                    )}</span></p>
 
-                    }
-                    var removeOptions = function(selectbox){
-                    //console.log("run settings_advanced.html javascript calling removeOptions");
-                        var i;
-                        for(i=selectbox.options.length-1;i>=0;i--){
-                            selectbox.remove(i);
-                        }
+                                                <p>
 
-                    }
-                </script>
-                % endfor
+                                                <h3>${_("Grade Requirements")}</h3></p>
+                                                <p>
+
+                                                <div><input type="text" id="entrance-exam-minimum-score-pct" aria-describedby="min-score-format"><span id="min-score-format"
+                                                                                                                                                       class="tip tip-inline">${_(" %")}</span></div>
+                                                </p>
+                                                <p><span class="tip tip-inline">${_("The score student must meet in order to successfully complete the entrance exam. ")}</span></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                % endif
+                            </ol>
+                        </div>
+                    % endif
+
+                    % if about_page_editable:
+                        <div class="group-settings course_details">
+                            <header>
+                                <h2 class="title-2">${_('Course Details')}</h2>
+                                <span class="tip">${_('Provide useful information about your course')}</span>
+                            </header>
+                            <ol class="list-input">
+                                <li class="field" id="field-course-language">
+                                    <label for="course-language">${_("Course Language")}</label>
+                                    <select id="course-language">
+                                        <option value="" selected>-미선택-</option>
+                                        % for lang, label in language_options:
+                                            <option value="${lang}">${_(label)}</option>
+                                        % endfor
+                                    </select>
+                                    <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language.")}</span>
+                                </li>
+                                <li class="field" id="field-course-language selectdiv">
+                                    <label for="동">강좌 난이도</label>
+                                    <select class="select difficult-degree" id="selectfixid">
+                                        <option value="">-미선택-</option>
+                                    </select>
+                                    <span class="tip tip-stacked">강좌 내용의 어려운 수준을 선택하세요.</span>
+                                </li>
+                                <li class="field" id="field-course-language">
+                                    <label for="course-language">교수자명</label>
+                                    <input type="text" id = "teacher_name" value="${teacher_name}" placeholder="예: 홍길동, 임꺽정">
+                                    <span class="tip tip-stacked">교수자가 복수인 경우 콤마(,) 로 구분해서 입력해주세요(예: 홍길동, 임꺽정)</span>
+                                    <div style="display: none">
+                                        <div id="addinfo_course_id" >${lms_link_for_about_page}</div>
+                                        <div id="addinfo_user_id" >${user.id}</div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    % endif
+                    % for dgree in difficult_degree_list:
+                        <%
+                        for key, val in difficult_degree_list.items():
+                            print val, key
+                            print val[0]
+                            print val[1]
+                            print val[2]
+
+                            print val[0][0]
+                            print val[0][1]
+
+                            print val[1][0]
+                            print val[1][1]
+
+                            print val[2][0]
+                            print val[2][1]
+
+                            pstr = """var degree = {'category':[{'code':'""" + val[0][0] + """', 'gettext': '""" + val[0][1] + """'}, """
+                            pstr += """{'code':'""" + val[1][0] + """', 'gettext': '""" + val[1][1] + """'}, """
+                            pstr += """{'code':'""" + val[2][0] + """', 'gettext': '""" + val[2][1] + """'},]};"""
+                        %>
 
 
-                <hr class="divide"/>
-                <div class="group-settings marketing">
-                    <header>
-                        <h2 class="title-2">${_("Introducing Your Course")}</h2>
-                        <span class="tip">${_("Information for prospective students")}</span>
-                    </header>
-                    <ol class="list-input">
+                        <script type="text/javascript">
+                                ${ pstr | n, trim }
 
-                        % if enable_extended_course_details:
-                        <li class="field text" id="field-course-title">
-                            <label for="course-title">${_("Course Title")}</label>
-                            <input type="text" id="course-title" data-display-name="${context_course.display_name}">
-                            <span class="tip tip-stacked">${_("Displayed as title on the course details page. Limit to 50 characters.")}</span>
-                        </li>
-                        <li class="field text" id="field-course-subtitle">
-                            <label for="course-subtitle">${_("Course Subtitle")}</label>
-                            <input type="text" id="course-subtitle">
-                            <span class="tip tip-stacked">${_("Displayed as subtitle on the course details page. Limit to 150 characters.")}</span>
-                        </li>
-                        <li class="field text" id="field-course-duration">
-                            <label for="course-duration">${_("Course Duration")}</label>
-                            <input type="text" id="course-duration">
-                            <span class="tip tip-stacked">${_("Displayed on the course details page. Limit to 50 characters.")}</span>
-                        </li>
-                        <li class="field text" id="field-course-description">
-                            <label for="course-description">${_("Course Description")}</label>
-                            <textarea class="text" id="course-description"></textarea>
-                            <span class="tip tip-stacked">${_("Displayed on the course details page. Limit to 1000 characters.")}</span>
-                        </li>
-                        % endif
+                            var degree_js = function(){
+                                var key = 0;
+                                var difficult_degree_id = document.getElementById("selectfixid");
+                                removeOptions(difficult_degree_id);
+                                input_difficult_degree(difficult_degree_id, 'category');
+                                var idx = $("#txtfixid").val();
+                                if (idx == '"1"') {
+                                    $("#selectfixid").val("1");
+                                } else if (idx == '"2"') {
+                                    $("#selectfixid").val("2");
+                                } else if (idx == '"3"') {
+                                    $("#selectfixid").val("3");
+                                } else {
+                                    $("#selectfixid").val("");
+                                }
+                                $("#selectfixid option:eq(0)").prop("selected", true);
+                            }
+                            var input_difficult_degree = function(selectbox,p_info){
+                                //console.log("run settings_advanced.html javascript calling input_difficult_degree");
+                                var option = document.createElement("option");
+                                option.text = "-미선택-";
+                                option.value = "";
+                                selectbox.appendChild(option);
+                                for(key in degree[p_info]) {
+                                    var row = degree[p_info][key];
+                                    var option = document.createElement("option");
+                                    option.text = row.gettext;
+                                    option.value = row.code;
+                                    selectbox.appendChild(option);
+                                }
+                                $("#selectfixid option:eq(0)").prop("selected", true);
 
-                        % if short_description_editable:
-                        <li class="field text" id="field-course-short-description">
-                            <label for="course-short-description">${_("Course Short Description")}</label>
-                            <textarea class="text" id="course-short-description"></textarea>
-                            <span class="tip tip-stacked">${_("Appears on the course catalog page when students roll over the course name. Limit to ~150 characters")}</span>
-                        </li>
-                        % endif
+                            }
+                            var removeOptions = function(selectbox){
+                                //console.log("run settings_advanced.html javascript calling removeOptions");
+                                var i;
+                                for(i=selectbox.options.length-1;i>=0;i--){
+                                    selectbox.remove(i);
+                                }
 
-                        % if about_page_editable:
-                        <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
-                            <label for="course-overview">${_("Course Overview")}</label>
-                            <textarea class="tinymce text-editor" id="course-overview"></textarea>
+                            }
+                        </script>
+                    % endfor
+
+
+                    <hr class="divide"/>
+                    <div class="group-settings marketing">
+                        <header>
+                            <h2 class="title-2">${_("Introducing Your Course")}</h2>
+                            <span class="tip">${_("Information for prospective students")}</span>
+                        </header>
+                        <ol class="list-input">
+
+                            % if enable_extended_course_details:
+                                <li class="field text" id="field-course-title">
+                                    <label for="course-title">${_("Course Title")}</label>
+                                    <input type="text" id="course-title" data-display-name="${context_course.display_name}">
+                                    <span class="tip tip-stacked">${_("Displayed as title on the course details page. Limit to 50 characters.")}</span>
+                                </li>
+                                <li class="field text" id="field-course-subtitle">
+                                    <label for="course-subtitle">${_("Course Subtitle")}</label>
+                                    <input type="text" id="course-subtitle">
+                                    <span class="tip tip-stacked">${_("Displayed as subtitle on the course details page. Limit to 150 characters.")}</span>
+                                </li>
+                                <li class="field text" id="field-course-duration">
+                                    <label for="course-duration">${_("Course Duration")}</label>
+                                    <input type="text" id="course-duration">
+                                    <span class="tip tip-stacked">${_("Displayed on the course details page. Limit to 50 characters.")}</span>
+                                </li>
+                                <li class="field text" id="field-course-description">
+                                    <label for="course-description">${_("Course Description")}</label>
+                                    <textarea class="text" id="course-description"></textarea>
+                                    <span class="tip tip-stacked">${_("Displayed on the course details page. Limit to 1000 characters.")}</span>
+                                </li>
+                            % endif
+
+                            % if short_description_editable:
+                                <li class="field text" id="field-course-short-description">
+                                    <label for="course-short-description">${_("Course Short Description")}</label>
+                                    <textarea class="text" id="course-short-description"></textarea>
+                                    <span class="tip tip-stacked">${_("Appears on the course catalog page when students roll over the course name. Limit to ~150 characters")}</span>
+                                </li>
+                            % endif
+
+                            % if about_page_editable:
+                                <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
+                                    <label for="course-overview">${_("Course Overview")}</label>
+                                    <textarea class="tinymce text-editor" id="course-overview"></textarea>
                   <span class="tip tip-stacked" style="float: left; margin-top: 7px;">${
                     Text(_("Introductions, prerequisites, FAQs that are used on {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
-                      a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
-                          a_link_end=HTML("</a>")
-                    )}</span>
-                            % if edit_check == 'N':
-                            <!-- 입력 양식 제공 버튼 -->
-                            <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
-                                에디터로 수정하기(베타)
-                            </button>
+                  a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
+                  a_link_end=HTML("</a>")
+                  )}</span>
+                                    % if edit_check == 'N':
+                                        <!-- 입력 양식 제공 버튼 -->
+                                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                                            에디터로 수정하기(베타)
+                                        </button>
+                                    % endif
+                                    <input type="hidden" id="course_edit_check" value="${edit_check}">
+
+                                    <!-- 강좌 개요 입력 폼 -->
+                                    <style>
+                                        .modal-window-overlay{
+                                            display: block;
+                                        }
+
+                                        .overview-modal{
+                                            display: block;
+                                            position: absolute !important;
+                                            left: 10% !important;
+                                            width: 80% !important;
+                                            min-width: 400px !important;
+                                            overflow-y: scroll;
+                                            max-height: 800px;
+                                        }
+
+                                        .tabs{
+                                            width: 100%;
+                                            clear: both;
+                                            overflow: auto;
+                                        }
+
+                                        .tabs div{
+                                            float: left;
+                                            border: 1px solid #ccc;
+                                            width: calc(100% / 6 - 2px);
+                                            text-align: center;
+                                            background-color: #eee;
+                                            -webkit-border-radius: 5px 5px 0 0;
+                                            -moz-border-radius: 5px 5px 0 0;
+                                            border-radius: 5px 5px 0 0;
+                                            padding: 5px 0;
+                                        }
+
+                                        .tabs div.on{
+                                            border: 1px solid #009fe6;
+                                            background-color: #009fe6;
+                                            color: #fff;
+                                        }
+
+                                        .tabs div:hover, .toggleOverviewLayerBtn:hover{
+                                            background-color: #36B4E8 !important;
+                                            color: #fff !important;
+                                            transition: background-color 0.25s ease-in-out 0s;
+                                            cursor: pointer !important;
+                                        }
+
+                                        .overview-layer-popup .modal-content{
+                                            min-height: 270px;
+                                        }
+
+                                        .overview-contents{
+                                            display: none;
+                                            margin: 20px 0;
+                                        }
+                                        .overview-contents.on{
+                                            display: block;
+                                        }
+                                        .overview-contents p{
+                                            margin: 15px 0 0 0;
+                                        }
+                                        .overview-contents textarea:nth-child(1){
+                                            min-height: 100px !important;
+                                        }
+
+                                        .toggleOverviewLayerBtn{
+                                            display: block;
+                                            float: right;
+                                            width: 20%;
+                                            margin: 15px 0 0 0;
+                                            padding: 10px 20px;
+                                            font-size: 1.2rem;
+                                            line-height: 1.776rem;
+                                            transition: all 0.15s;
+                                            text-align: center;
+                                            border-radius: 5px;
+                                            border: 1px solid #66c5f0;
+                                            background-color: transparent;
+                                            color: #66c5f0;
+                                        }
+
+                                        .CodeMirror-scroll {
+                                            pointer-events: none;
+                                            opacity: 0.6;
+                                        }
+
+                                        .swal2-popup {
+                                            font-size: 1.7rem;
+                                        }
+                                    </style>
+
+                                    <div id="overviewEditLayer" style="display: none;">
+                                        <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
+                                            <div class="modal-window-overlay"></div>
+                                            <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
+                                                <div class="overview-layer-popup">
+                                                    <div class="modal-header">
+                                                        <h2 id="modal-window-title" class="title modal-window-title">강좌소개페이지 에디터</h2>
+                                                        <ul class="editor-modes action-list action-modes">
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-content">
+                                                        <ol class="list-input">
+                                                            <li class="field text" id="field-course-short-description">
+                                                                <div class="tabs">
+                                                                    <div data-target="overview-tab1" class="on">강좌소개</div>
+                                                                    <div data-target="overview-tab2">강좌운영계획</div>
+                                                                    <div data-target="overview-tab3">강좌운영팀소개</div>
+                                                                    <div data-target="overview-tab4">강좌수강정보</div>
+                                                                    <div data-target="overview-tab5">자주묻는질문</div>
+                                                                    <div data-target="overview-tab6">사용자추가</div>
+                                                                </div>
+                                                                <div id="overview-tab1" class="overview-contents on">
+                                                                    <div>
+                                                                        <p>수업내용/목표</p>
+                                                                        <textarea class="text"></textarea>
+                                                                        <span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p>홍보/예시 영상</p>
+                                                                        <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
+                                                                        <span class="tip tip-stacked">K-MOOC Studio에서 업로드한 동영상 URL을 입력해주세요(유튜브 URL은 사용이 불가합니다).</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div id="overview-tab2" class="overview-contents">
+                                                                    <textarea id="course_plan"></textarea>
+                                                                    <div style="padding-top: 15px"><span class="tip tip-stacked">텍스트 에디터를 이용하여 내용을 작성하세요.</span>
+                                                                        <span class="tip tip-stacked">※에디터 이용이 어렵다면, '워드'에서 작성한 표를 복사·붙여넣기 하여 사용해보세요.</span></div>
+                                                                </div>
+
+                                                                <div id="overview-tab3" class="overview-contents">
+                                                                    <div style="overflow: auto;">
+
+                                                                        <!-- 스태프 추가 s -->
+                                                                        <section class="group-settings assignment-types">
+                                                                            <header>
+                                                                                <div style="float: left; width: 45%;">
+                                                                                    <label style="float: left; width: 85px; font-size: 15px;">
+                                                                                        <input type="radio" name="staff-type" value="instructor" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" checked="checked"/> 교수자
+                                                                                    </label>
+                                                                                    <label style="float: left; width: 85px; font-size: 15px;">
+                                                                                        <input type="radio" name="staff-type" value="ta" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" /> TA
+                                                                                    </label>
+                                                                                </div>
+                                                                            </header>
+
+                                                                            <!-- 교수자 목록 s -->
+                                                                            <ol class="list-input course-grading-assignment-list enum" id="course-instructor">
+                                                                                <li class="field-group course-grading-assignment-list-item">
+                                                                                    <div style="width: 34%; float: left;">
+                                                                                        <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                                            <label for="staff-photo">사진 URL</label>
+                                                                                            <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
+                                                                                            <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
+                                                                                        </div>
+                                                                                        <br/>
+                                                                                        <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                                            <label for="staff-name">성명</label>
+                                                                                            <input type="text" class="short" id="staff-name" value="" placeholder="교수">
+                                                                                            <span class="tip tip-stacked">표시될 이름</span>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div style="width: 64%; float: right;">
+                                                                                        <div style="width: 100%;">
+                                                                                            <label for="staff-career">약력</label>
+                                                                                            <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
+                                                                                            <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="actions">
+                                                                                        <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ol>
+                                                                            <!-- 교수자 목록 e -->
+
+                                                                            <!-- TA 목록 s -->
+                                                                            <ol class="list-input course-grading-assignment-list enum" id="course-ta" style="display: none;">
+                                                                                <li class="field-group course-grading-assignment-list-item">
+                                                                                    <div style="width: 34%; float: left;">
+                                                                                        <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                                            <label for="staff-photo1">사진 URL</label>
+                                                                                            <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
+                                                                                            <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
+                                                                                        </div>
+
+                                                                                        <br/>
+
+                                                                                        <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                                            <label for="staff-name">성명</label>
+                                                                                            <input type="text" class="short" id="staff-name" value="" placeholder="조교">
+                                                                                            <span class="tip tip-stacked">표시될 이름</span>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div style="width: 64%; float: right;">
+                                                                                        <div style="width: 100%;">
+                                                                                            <label for="staff-career">약력</label>
+                                                                                            <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
+                                                                                            <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="actions">
+                                                                                        <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ol>
+                                                                            <!-- TA 목록 e -->
+
+                                                                            <div class="actions">
+                                                                                <a href="#" class="new-button add-item">
+                                                                                    <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
+                                                                                </a>
+                                                                            </div>
+                                                                        </section>
+                                                                        <!-- 스태프 추가 e -->
+
+                                                                    </div>
+
+                                                                    <div style="padding-top: 15px"><span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span></div>
+                                                                </div>
+
+                                                                <div id="overview-tab4" class="overview-contents">
+                                                                    <p>이수/평가정보</p>
+                                                                    <textarea class="text" id="grade_table"></textarea>
+                                                                    <span class="tip tip-stacked">텍스트 에디터를 이용하여 내용을 작성하세요.</span>
+                                                                    <span class="tip tip-stacked">※에디터 이용이 어렵다면, '워드'에서 작성한 표를 복사·붙여넣기 하여 사용해보세요.</span>
+                                                                    <p>강좌수준 및 선수요건</p>
+                                                                    <textarea class="text"></textarea>
+
+                                                                    <p>교재 및 참고문헌</p>
+                                                                    <textarea class="text"></textarea>
+                                                                    <div style="padding-top: 15px"><span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span></div>
+                                                                </div>
+                                                                <div id="overview-tab5" class="overview-contents">
+                                                                    <section class="group-settings assignment-types">
+                                                                        <header>
+                                                                            <div style="float: left; width: 45%; margin-top: 20px;">
+
+                                                                            </div>
+                                                                        </header>
+
+                                                                        <!-- FAQ s -->
+                                                                        <ol class="list-input course-grading-assignment-list enum" id="course-question">
+                                                                            <li class="field-group course-grading-assignment-list-item">
+                                                                                <div>
+                                                                                    <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                                        <label for="faq-question">질문</label>
+                                                                                        <input type="text" class="long" id="faq-question" value="" placeholder="강좌 교재가 따로 있나요?">
+                                                                                    </div>
+
+                                                                                    <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                                        <label for="faq-answer">답변</label>
+                                                                                        <input type="text" class="short" id="faq-answer" value="" placeholder="네. 있습니다.">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="actions">
+                                                                                    <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ol>
+                                                                        <!-- FAQ e -->
+
+                                                                        <div class="actions">
+                                                                            <a href="#" class="new-button add-item">
+                                                                                <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
+                                                                            </a>
+                                                                        </div>
+                                                                    </section>
+                                                                    <div style="padding-top: 45px"><span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span></div>
+                                                                </div>
+
+                                                                <div id="overview-tab6" class="overview-contents">
+                                                                    <textarea class="text" id="user_content"></textarea>
+                                                                    <div style="padding-top: 15px"><span class="tip tip-stacked">각 운영기관에서 추가하고자 하는 메뉴를 자유롭게 추가하실 수 있습니다.</span>
+                                                                    <span class="tip tip-stacked">단 기본으로 입력되어 있는 값(제목, 소제목, 내용)을 삭제하지 않고 원하시는 텍스트로 수정하는 방식으로 입력하셔야 다른 메뉴와 동일한 형태로 학습자 화면에서 보여지게 됩니다.</span></div>
+                                                                </div>
+
+                                                                <!--<span class="tip tip-stacked">항목별로 양식을 입력후 적용을 누르면 기본 양식의 HTML 이 작성됩니다.</span>-->
+                                                            </li>
+                                                        </ol>
+                                                    </div>
+                                                    <div class="modal-actions">
+                                                        <h3 class="sr">액션</h3>
+                                                        <ul>
+                                                            <li class="action-item">
+                                                                <a href="#" class="button action-primary" id="createOverview">적용</a>
+                                                            </li>
+                                                            <li class="action-item">
+                                                                <a href="#" class="button  action-cancel toggleOverviewLayer">취소</a>
+                                                            </li>
+                                                            <li class="action-item">
+                                                                <span class="tip tip-stacked">[적용]버튼을 누른 후, 화면 아래에 뜨는 [Save Changes]를 클릭하셔야 적용됩니다. 적용 후 실제 학습자 화면에 반영되기 까지 최대 10분의 시간이 걸릴 수 있습니다.</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
                             % endif
-                            <input type="hidden" id="course_edit_check" value="${edit_check}">
 
-                            <!-- 강좌 개요 입력 폼 -->
-                            <style>
-                                .modal-window-overlay{
-                                    display: block;
-                                }
+                            <li class="field image" id="field-course-image">
+                                <label for="course-image-url">${_("Course Card Image")}</label>
 
-                                .overview-modal{
-                                    display: block;
-                                    position: absolute !important;
-                                    left: 10% !important;
-                                    width: 80% !important;
-                                    min-width: 400px !important;
-                                    overflow-y: scroll;
-                                    max-height: 800px;
-                                }
-
-                                .tabs{
-                                    width: 100%;
-                                    clear: both;
-                                    overflow: auto;
-                                }
-
-                                .tabs div{
-                                    float: left;
-                                    border: 1px solid #ccc;
-                                    width: calc(100% / 6 - 2px);
-                                    text-align: center;
-                                    background-color: #eee;
-                                    -webkit-border-radius: 5px 5px 0 0;
-                                    -moz-border-radius: 5px 5px 0 0;
-                                    border-radius: 5px 5px 0 0;
-                                    padding: 5px 0;
-                                }
-
-                                .tabs div.on{
-                                    border: 1px solid #009fe6;
-                                    background-color: #009fe6;
-                                    color: #fff;
-                                }
-
-                                .tabs div:hover, .toggleOverviewLayerBtn:hover{
-                                    background-color: #36B4E8 !important;
-                                    color: #fff !important;
-                                    transition: background-color 0.25s ease-in-out 0s;
-                                    cursor: pointer !important;
-                                }
-
-                                .overview-layer-popup .modal-content{
-                                    min-height: 270px;
-                                }
-
-                                .overview-contents{
-                                    display: none;
-                                    margin: 20px 0;
-                                }
-                                .overview-contents.on{
-                                    display: block;
-                                }
-                                .overview-contents p{
-                                    margin: 15px 0 0 0;
-                                }
-                                .overview-contents textarea:nth-child(1){
-                                    min-height: 100px !important;
-                                }
-
-                                .toggleOverviewLayerBtn{
-                                    display: block;
-                                    float: right;
-                                    width: 20%;
-                                    margin: 15px 0 0 0;
-                                    padding: 10px 20px;
-                                    font-size: 1.2rem;
-                                    line-height: 1.776rem;
-                                    transition: all 0.15s;
-                                    text-align: center;
-                                    border-radius: 5px;
-                                    border: 1px solid #66c5f0;
-                                    background-color: transparent;
-                                    color: #66c5f0;
-                                }
-
-                                .CodeMirror-scroll {
-                                    pointer-events: none;
-                                    opacity: 0.6;
-                                }
-
-                                .swal2-popup {
-                                    font-size: 1.7rem;
-                                }
-                            </style>
-
-                            <div id="overviewEditLayer" style="display: none;">
-                               <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
-                                  <div class="modal-window-overlay"></div>
-                                  <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
-                                     <div class="overview-layer-popup">
-                                        <div class="modal-header">
-                                           <h2 id="modal-window-title" class="title modal-window-title">강좌소개페이지 에디터</h2>
-                                           <ul class="editor-modes action-list action-modes">
-                                           </ul>
-                                        </div>
-                                        <div class="modal-content">
-                                           <ol class="list-input">
-                                               <li class="field text" id="field-course-short-description">
-                                                  <div class="tabs">
-                                                      <div data-target="overview-tab1" class="on">강좌소개</div>
-                                                      <div data-target="overview-tab2">강좌운영계획</div>
-                                                      <div data-target="overview-tab3">강좌운영팀소개</div>
-                                                      <div data-target="overview-tab4">강좌수강정보</div>
-                                                      <div data-target="overview-tab5">자주묻는질문</div>
-                                                      <div data-target="overview-tab6">사용자추가</div>
-                                                  </div>
-                                                  <div id="overview-tab1" class="overview-contents on">
-                                                    <div>
-                                                      <p>수업내용/목표</p>
-                                                      <textarea class="text"></textarea>
-                                                    </div>
-
-                                                    <div>
-                                                      <p>홍보/예시 영상</p>
-                                                      <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
-                                                    </div>
-                                                  </div>
-
-                                                  <div id="overview-tab2" class="overview-contents">
-                                                    <textarea id="course_plan"></textarea>
-                                                  </div>
-
-                                                  <div id="overview-tab3" class="overview-contents">
-                                                    <div style="overflow: auto;">
-
-                                                        <!-- 스태프 추가 s -->
-                                                        <section class="group-settings assignment-types">
-                                                          <header>
-                                                             <div style="float: left; width: 45%;">
-                                                                <label style="float: left; width: 85px; font-size: 15px;">
-                                                                    <input type="radio" name="staff-type" value="instructor" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" checked="checked"/> 교수자
-                                                                </label>
-                                                                <label style="float: left; width: 85px; font-size: 15px;">
-                                                                    <input type="radio" name="staff-type" value="ta" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" /> TA
-                                                                </label>
-                                                            </div>
-                                                          </header>
-
-                                                          <!-- 교수자 목록 s -->
-                                                          <ol class="list-input course-grading-assignment-list enum" id="course-instructor">
-                                                            <li class="field-group course-grading-assignment-list-item">
-                                                                <div style="width: 34%; float: left;">
-                                                                  <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
-                                                                    <label for="staff-photo">사진 URL</label>
-                                                                    <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
-                                                                    <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
-                                                                  </div>
-                                                                  <br/>
-                                                                  <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
-                                                                    <label for="staff-name">성명</label>
-                                                                    <input type="text" class="short" id="staff-name" value="" placeholder="교수">
-                                                                    <span class="tip tip-stacked">표시될 이름</span>
-                                                                  </div>
-                                                                </div>
-
-                                                                <div style="width: 64%; float: right;">
-                                                                  <div style="width: 100%;">
-                                                                    <label for="staff-career">약력</label>
-                                                                    <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
-                                                                    <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
-                                                                  </div>
-                                                                </div>
-
-                                                              <div class="actions">
-                                                                <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
-                                                              </div>
-                                                            </li>
-                                                          </ol>
-                                                          <!-- 교수자 목록 e -->
-
-                                                          <!-- TA 목록 s -->
-                                                          <ol class="list-input course-grading-assignment-list enum" id="course-ta" style="display: none;">
-                                                            <li class="field-group course-grading-assignment-list-item">
-                                                                <div style="width: 34%; float: left;">
-                                                                  <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
-                                                                    <label for="staff-photo1">사진 URL</label>
-                                                                    <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
-                                                                    <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
-                                                                  </div>
-
-                                                                  <br/>
-
-                                                                  <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
-                                                                    <label for="staff-name">성명</label>
-                                                                    <input type="text" class="short" id="staff-name" value="" placeholder="조교">
-                                                                    <span class="tip tip-stacked">표시될 이름</span>
-                                                                  </div>
-                                                                </div>
-
-                                                                <div style="width: 64%; float: right;">
-                                                                  <div style="width: 100%;">
-                                                                    <label for="staff-career">약력</label>
-                                                                    <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
-                                                                    <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
-                                                                  </div>
-                                                                </div>
-
-                                                              <div class="actions">
-                                                                <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
-                                                              </div>
-                                                            </li>
-                                                          </ol>
-                                                          <!-- TA 목록 e -->
-
-                                                          <div class="actions">
-                                                            <a href="#" class="new-button add-item">
-                                                              <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
-                                                            </a>
-                                                          </div>
-                                                        </section>
-                                                        <!-- 스태프 추가 e -->
-
-                                                    </div>
-
-                                                  </div>
-
-                                                  <div id="overview-tab4" class="overview-contents">
-                                                    <p>이수/평가정보</p>
-                                                    <textarea class="text" id="grade_table"></textarea>
-
-                                                    <p>강좌수준 및 선수요건</p>
-                                                    <textarea class="text"></textarea>
-
-                                                    <p>교재 및 참고문헌</p>
-                                                    <textarea class="text"></textarea>
-                                                  </div>
-
-                                                  <div id="overview-tab5" class="overview-contents">
-                                                    <section class="group-settings assignment-types">
-                                                          <header>
-                                                             <div style="float: left; width: 45%; margin-top: 20px;">
-
-                                                            </div>
-                                                          </header>
-
-                                                          <!-- FAQ s -->
-                                                          <ol class="list-input course-grading-assignment-list enum" id="course-question">
-                                                            <li class="field-group course-grading-assignment-list-item">
-                                                                <div>
-                                                                  <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
-                                                                    <label for="faq-question">질문</label>
-                                                                    <input type="text" class="long" id="faq-question" value="" placeholder="강좌 교재가 따로 있나요?">
-                                                                  </div>
-
-                                                                  <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
-                                                                    <label for="faq-answer">답변</label>
-                                                                    <input type="text" class="short" id="faq-answer" value="" placeholder="네. 있습니다.">
-                                                                  </div>
-                                                                </div>
-                                                                <div class="actions">
-                                                                  <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
-                                                                </div>
-                                                            </li>
-                                                          </ol>
-                                                          <!-- FAQ e -->
-
-                                                          <div class="actions">
-                                                            <a href="#" class="new-button add-item">
-                                                              <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
-                                                            </a>
-                                                          </div>
-                                                        </section>
-                                                  </div>
-
-                                                  <div id="overview-tab6" class="overview-contents">
-                                                    <textarea class="text" id="user_content"></textarea>
-                                                  </div>
-
-                                                  <span class="tip tip-stacked">항목별로 양식을 입력후 적용을 누르면 기본 양식의 HTML 이 작성됩니다.</span>
-                                               </li>
-                                           </ol>
-                                        </div>
-                                        <div class="modal-actions">
-                                           <h3 class="sr">액션</h3>
-                                           <ul>
-                                              <li class="action-item">
-                                                 <a href="#" class="button action-primary" id="createOverview">적용</a>
-                                              </li>
-                                              <li class="action-item">
-                                                 <a href="#" class="button  action-cancel toggleOverviewLayer">취소</a>
-                                              </li>
-                                           </ul>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                        </li>
-
-                        % endif
-
-                        <li class="field image" id="field-course-image">
-                            <label for="course-image-url">${_("Course Card Image")}</label>
-
-                            <div class="current current-course-image">
-                                % if context_course.course_image:
-                    <span class="wrapper-course-image">
+                                <div class="current current-course-image">
+                                    % if context_course.course_image:
+                                        <span class="wrapper-course-image">
                       <img class="course-image" id="course-image" src="${course_image_url}" alt="${_('Course Card Image')}"/>
                     </span>
 
                     <span class="msg msg-help">
-                    ${Text(_("You can manage this image along with all of your other {a_link_start}files and uploads{a_link_end}")).format(
-                      a_link_start=HTML("<a href='{upload_asset_url}'>").format(upload_asset_url=upload_asset_url),
+                        ${Text(_("You can manage this image along with all of your other {a_link_start}files and uploads{a_link_end}")).format(
+                        a_link_start=HTML("<a href='{upload_asset_url}'>").format(upload_asset_url=upload_asset_url),
                         a_link_end=HTML("</a>")
-                      )}
+                        )}
                     </span>
 
-                                % else:
-                    <span class="wrapper-course-image">
+                                    % else:
+                                        <span class="wrapper-course-image">
                       <img class="course-image placeholder" id="course-image" src="${course_image_url}" alt="${_('Course Card Image')}"/>
                     </span>
-                                <span class="msg msg-empty">${_("Your course currently does not have an image. Please upload one (JPEG or PNG format, and minimum suggested dimensions are 375px wide by 200px tall)")}</span>
-                                % endif
-                            </div>
-
-                            <div class="wrapper-input">
-                                <div class="input">
-                                    ## Translators: This is the placeholder text for a field that requests the URL for a course image
-                                    <input type="text" dir="ltr" class="long new-course-image-url" id="course-image-url" value="" placeholder="${_(" Your course image URL")}" autocomplete="off" />
-                                    <span class="tip tip-stacked">${_("Please provide a valid path and name to your course image (Note: only JPEG or PNG format supported)")}</span>
+                                        <span class="msg msg-empty">${_("Your course currently does not have an image. Please upload one (JPEG or PNG format, and minimum suggested dimensions are 375px wide by 200px tall)")}</span>
+                                    % endif
                                 </div>
-                                <button type="button" class="action action-upload-image" id="upload-course-image">${_("Upload Course Card Image")}</button>
-                            </div>
-                        </li>
 
-                        % if enable_extended_course_details:
-                        <li class="field image" id="field-banner-image">
-                            <label for="banner-image-url">${_("Course Banner Image")}</label>
+                                <div class="wrapper-input">
+                                    <div class="input">
+                                        ## Translators: This is the placeholder text for a field that requests the URL for a course image
+                                        <input type="text" dir="ltr" class="long new-course-image-url" id="course-image-url" value="" placeholder="${_(" Your course image URL")}" autocomplete="off" />
+                                        <span class="tip tip-stacked">${_("Please provide a valid path and name to your course image (Note: only JPEG or PNG format supported)")}</span>
+                                    </div>
+                                    <button type="button" class="action action-upload-image" id="upload-course-image">${_("Upload Course Card Image")}</button>
+                                </div>
+                            </li>
 
-                            <div class="current current-course-image">
-                                % if context_course.banner_image:
-                    <span class="wrapper-course-image">
+                            % if enable_extended_course_details:
+                                <li class="field image" id="field-banner-image">
+                                    <label for="banner-image-url">${_("Course Banner Image")}</label>
+
+                                    <div class="current current-course-image">
+                                        % if context_course.banner_image:
+                                            <span class="wrapper-course-image">
                       <img class="course-image" id="banner-image" src="${banner_image_url}" alt="${_('Course Banner Image')}"/>
                     </span>
 
                     <span class="msg msg-help">
-                    ${Text(_("You can manage this image along with all of your other {a_link_start}files and uploads{a_link_end}")).format(
-                      a_link_start=HTML("<a href='{upload_asset_url}'>").format(upload_asset_url=upload_asset_url),
+                        ${Text(_("You can manage this image along with all of your other {a_link_start}files and uploads{a_link_end}")).format(
+                        a_link_start=HTML("<a href='{upload_asset_url}'>").format(upload_asset_url=upload_asset_url),
                         a_link_end=HTML("</a>")
-                      )}
+                        )}
                     </span>
 
-                                % else:
-                    <span class="wrapper-course-image">
+                                        % else:
+                                            <span class="wrapper-course-image">
                       <img class="course-image placeholder" id="banner-image" src="${banner_image_url}" alt="${_('Course Banner Image')}"/>
                     </span>
-                                <span class="msg msg-empty">${_("Your course currently does not have an image. Please upload one (JPEG or PNG format, and minimum suggested dimensions are 1440px wide by 400px tall)")}</span>
-                                % endif
-                            </div>
+                                            <span class="msg msg-empty">${_("Your course currently does not have an image. Please upload one (JPEG or PNG format, and minimum suggested dimensions are 1440px wide by 400px tall)")}</span>
+                                        % endif
+                                    </div>
 
-                            <div class="wrapper-input">
-                                <div class="input">
-                                    ## Translators: This is the placeholder text for a field that requests the URL for a course banner image
-                                    <input type="text" dir="ltr" class="long new-course-image-url" id="banner-image-url" value="" placeholder="${_(" Your banner image URL")}" autocomplete="off" />
-                                    <span class="tip tip-stacked">${_("Please provide a valid path and name to your banner image (Note: only JPEG or PNG format supported)")}</span>
-                                </div>
-                                <button type="button" class="action action-upload-image" id="upload-banner-image">${_("Upload Course Banner Image")}</button>
-                            </div>
-                        </li>
+                                    <div class="wrapper-input">
+                                        <div class="input">
+                                            ## Translators: This is the placeholder text for a field that requests the URL for a course banner image
+                                            <input type="text" dir="ltr" class="long new-course-image-url" id="banner-image-url" value="" placeholder="${_(" Your banner image URL")}" autocomplete="off" />
+                                            <span class="tip tip-stacked">${_("Please provide a valid path and name to your banner image (Note: only JPEG or PNG format supported)")}</span>
+                                        </div>
+                                        <button type="button" class="action action-upload-image" id="upload-banner-image">${_("Upload Course Banner Image")}</button>
+                                    </div>
+                                </li>
 
-                        <li class="field image" id="field-video-thumbnail-image">
-                            <label for="video-thumbnail-image-url">${_("Course Video Thumbnail Image")}</label>
+                                <li class="field image" id="field-video-thumbnail-image">
+                                    <label for="video-thumbnail-image-url">${_("Course Video Thumbnail Image")}</label>
 
-                            <div class="current current-course-image">
-                                % if context_course.video_thumbnail_image:
-                    <span class="wrapper-course-image">
+                                    <div class="current current-course-image">
+                                        % if context_course.video_thumbnail_image:
+                                            <span class="wrapper-course-image">
                       <img class="course-image" id="video-thumbnail-image" src="${video_thumbnail_image_url}" alt="${_('Video Thumbnail Image')}"/>
                     </span>
 
                     <span class="msg msg-help">
-                    ${Text(_("You can manage this image along with all of your other {a_link_start}files and uploads{a_link_end}")).format(
-                      a_link_start=HTML("<a href='{upload_asset_url}'>").format(upload_asset_url=upload_asset_url),
+                        ${Text(_("You can manage this image along with all of your other {a_link_start}files and uploads{a_link_end}")).format(
+                        a_link_start=HTML("<a href='{upload_asset_url}'>").format(upload_asset_url=upload_asset_url),
                         a_link_end=HTML("</a>")
-                      )}
+                        )}
                     </span>
 
-                                % else:
-                    <span class="wrapper-course-image">
+                                        % else:
+                                            <span class="wrapper-course-image">
                       <img class="course-image placeholder" id="video-thumbnail-image" src="${video_thumbnail_image_url}" alt="${_('Video Thumbnail Image')}"/>
                     </span>
-                                <span class="msg msg-empty">${_("Your course currently does not have a video thumbnail image. Please upload one (JPEG or PNG format, and minimum suggested dimensions are 375px wide by 200px tall)")}</span>
-                                % endif
-                            </div>
+                                            <span class="msg msg-empty">${_("Your course currently does not have a video thumbnail image. Please upload one (JPEG or PNG format, and minimum suggested dimensions are 375px wide by 200px tall)")}</span>
+                                        % endif
+                                    </div>
 
-                            <div class="wrapper-input">
-                                <div class="input">
-                                    ## Translators: This is the placeholder text for a field that requests the URL for a course video thumbnail image
-                                    <input type="text" dir="ltr" class="long new-course-image-url" id="video-thumbnail-image-url" value="" placeholder="${_(" Your video thumbnail image URL")}"
-                                    autocomplete="off" />
-                                    <span class="tip tip-stacked">${_("Please provide a valid path and name to your video thumbnail image (Note: only JPEG or PNG format supported)")}</span>
-                                </div>
-                                <button type="button" class="action action-upload-image" id="upload-video-thumbnail-image">${_("Upload Video Thumbnail Image")}</button>
-                            </div>
-                        </li>
-                        % endif
+                                    <div class="wrapper-input">
+                                        <div class="input">
+                                            ## Translators: This is the placeholder text for a field that requests the URL for a course video thumbnail image
+                                            <input type="text" dir="ltr" class="long new-course-image-url" id="video-thumbnail-image-url" value="" placeholder="${_(" Your video thumbnail image URL")}"
+                                                   autocomplete="off" />
+                                            <span class="tip tip-stacked">${_("Please provide a valid path and name to your video thumbnail image (Note: only JPEG or PNG format supported)")}</span>
+                                        </div>
+                                        <button type="button" class="action action-upload-image" id="upload-video-thumbnail-image">${_("Upload Video Thumbnail Image")}</button>
+                                    </div>
+                                </li>
+                            % endif
 
-                        % if about_page_editable:
-                        <li class="field video" id="field-course-introduction-video">
-                            <label for="course-introduction-video">${_("Course Introduction Video")}</label>
+                            % if about_page_editable:
+                                <li class="field video" id="field-course-introduction-video">
+                                    <label for="course-introduction-video">${_("Course Introduction Video")}</label>
 
-                            <div class="input input-existing">
-                                <div class="current current-course-introduction-video">
-                                    <iframe width="618" height="350" title="${_('Course Introduction Video')}" src="" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                                <div class="actions">
-                                    <a href="#" class="remove-item remove-course-introduction-video remove-video-data"><span class="delete-icon"></span>${_("Delete Current Video")}</a>
-                                </div>
-                            </div>
+                                    <div class="input input-existing">
+                                        <div class="current current-course-introduction-video">
+                                            <iframe width="618" height="350" title="${_('Course Introduction Video')}" src="" frameborder="0" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="actions">
+                                            <a href="#" class="remove-item remove-course-introduction-video remove-video-data"><span class="delete-icon"></span>${_("Delete Current Video")}</a>
+                                        </div>
+                                    </div>
 
-                            <div class="input">
-                                ## Translators: This is the placeholder text for a field that requests a YouTube video ID for a course video
-                                <input type="text" dir="ltr" class="long new-course-introduction-video add-video-data" id="course-introduction-video" value="" placeholder="${_(" your YouTube video's ID")}" autocomplete="off" />
-                                <span class="tip tip-stacked">${_("Enter your YouTube video's ID (along with any restriction parameters)")}</span>
-                            </div>
-                        </li>
-                        % endif
-                    </ol>
-                </div>
-
-                % if enable_extended_course_details:
-                <hr class="divide"/>
-                <div class="group-settings course-learning-info">
-                    <header>
-                        <h2 class="title-2">${_("Learning Outcomes")}</h2>
-                        <span class="tip">${_("Add the learning outcomes for this course")}</span>
-                    </header>
-                    <ol class="list-input enum">
-                        <li class="course-settings-learning-fields"></li>
-                    </ol>
-                    <div class="actions">
-                        <button type="button" class="action action-primary button new-button add-course-learning-info">
-                            <span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>${_("Add Learning Outcome")}
-                        </button>
+                                    <div class="input">
+                                        ## Translators: This is the placeholder text for a field that requests a YouTube video ID for a course video
+                                        <input type="text" dir="ltr" class="long new-course-introduction-video add-video-data" id="course-introduction-video" value="" placeholder="${_(" your YouTube video's ID")}" autocomplete="off" />
+                                        <span class="tip tip-stacked">${_("Enter your YouTube video's ID (along with any restriction parameters)")}</span>
+                                    </div>
+                                </li>
+                            % endif
+                        </ol>
                     </div>
-                </div>
 
-                <hr class="divide"/>
-                <div class="group-settings instructor-types">
-                    <header>
-                        <h2 class="title-2">${_("Instructors")}</h2>
-                        <span class="tip">${_("Add details about the instructors for this course")}</span>
-                    </header>
-                    <ol class="list-input enum">
-                        <li class="course-instructor-details-fields"></li>
-                    </ol>
-                    <div class="actions">
-                        <button type="button" class="action action-primary button new-button add-course-instructor-info">
-                            <span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>${_("Add Instructor")}
-                        </button>
-                    </div>
-                </div>
-                % endif
+                    % if enable_extended_course_details:
+                        <hr class="divide"/>
+                        <div class="group-settings course-learning-info">
+                            <header>
+                                <h2 class="title-2">${_("Learning Outcomes")}</h2>
+                                <span class="tip">${_("Add the learning outcomes for this course")}</span>
+                            </header>
+                            <ol class="list-input enum">
+                                <li class="course-settings-learning-fields"></li>
+                            </ol>
+                            <div class="actions">
+                                <button type="button" class="action action-primary button new-button add-course-learning-info">
+                                    <span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>${_("Add Learning Outcome")}
+                                </button>
+                            </div>
+                        </div>
 
-                % if self_paced_enabled:
+                        <hr class="divide"/>
+                        <div class="group-settings instructor-types">
+                            <header>
+                                <h2 class="title-2">${_("Instructors")}</h2>
+                                <span class="tip">${_("Add details about the instructors for this course")}</span>
+                            </header>
+                            <ol class="list-input enum">
+                                <li class="course-instructor-details-fields"></li>
+                            </ol>
+                            <div class="actions">
+                                <button type="button" class="action action-primary button new-button add-course-instructor-info">
+                                    <span class="icon fa fa-plus icon-inline" aria-hidden="true"></span>${_("Add Instructor")}
+                                </button>
+                            </div>
+                        </div>
+                    % endif
 
-                <hr class="divide"/>
+                    % if self_paced_enabled:
 
-                <div class="group-settings pacing">
-                    <header>
-                        <h2 class="title-2">${_("Course Pacing")}</h2>
-                        <span class="tip">${_("Set the pacing for this course")}</span>
-                    </header>
-                    <span class="msg" id="course-pace-toggle-tip"></span>
+                        <hr class="divide"/>
 
-                    <ol class="list-input">
-                        <li class="field">
-                            <input type="radio" class="field-radio" name="self-paced" id="course-pace-instructor-paced" value="false"/>
-                            <label class="course-pace-label" for="course-pace-instructor-paced">Instructor-Paced</label>
-                            <span class="tip">${_("Instructor-paced courses progress at the pace that the course author sets. You can configure release dates for course content and due dates for assignments.")}</span>
-                        </li>
-                        <li class="field">
-                            <input type="radio" class="field-radio" name="self-paced" id="course-pace-self-paced" value="true"/>
-                            <label class="course-pace-label" for="course-pace-self-paced">Self-Paced</label>
-                            <span class="tip">${_("Self-paced courses do not have release dates for course content or due dates for assignments. Learners can complete course material at any time before the course end date.")}</span>
-                        </li>
-                    </ol>
-                </div>
+                        <div class="group-settings pacing">
+                            <header>
+                                <h2 class="title-2">${_("Course Pacing")}</h2>
+                                <span class="tip">${_("Set the pacing for this course")}</span>
+                            </header>
+                            <span class="msg" id="course-pace-toggle-tip"></span>
 
-                % endif
+                            <ol class="list-input">
+                                <li class="field">
+                                    <input type="radio" class="field-radio" name="self-paced" id="course-pace-instructor-paced" value="false"/>
+                                    <label class="course-pace-label" for="course-pace-instructor-paced">Instructor-Paced</label>
+                                    <span class="tip">${_("Instructor-paced courses progress at the pace that the course author sets. You can configure release dates for course content and due dates for assignments.")}</span>
+                                </li>
+                                <li class="field">
+                                    <input type="radio" class="field-radio" name="self-paced" id="course-pace-self-paced" value="true"/>
+                                    <label class="course-pace-label" for="course-pace-self-paced">Self-Paced</label>
+                                    <span class="tip">${_("Self-paced courses do not have release dates for course content or due dates for assignments. Learners can complete course material at any time before the course end date.")}</span>
+                                </li>
+                            </ol>
+                        </div>
 
-                % if settings.FEATURES.get("LICENSING", False):
-                <hr class="divide"/>
+                    % endif
 
-                <div class="group-settings license">
-                    <header>
-                        <h2 class="title-2">${_("Course Content License")}</h2>
-                        ## Translators: At the course settings, the editor is able to select the default course content license.
-                        ## The course content will have this license set, some assets can override the license with their own.
+                    % if settings.FEATURES.get("LICENSING", False):
+                        <hr class="divide"/>
+
+                        <div class="group-settings license">
+                            <header>
+                                <h2 class="title-2">${_("Course Content License")}</h2>
+                                ## Translators: At the course settings, the editor is able to select the default course content license.
+                                ## The course content will have this license set, some assets can override the license with their own.
                         ## In the form, the license selector for course content is described using the following string:
                         <span class="tip">${_("Select the default license for course content")}</span>
-                    </header>
+                            </header>
 
-                    <ol class="list-input">
-                        <li class="field text" id="field-course-license">
-                            <div id="course-license-selector"></div>
-                        </li>
-                    </ol>
-                </div>
-                % endif
-            </form>
-        </div>
-        <div class="content-supplementary" role="complementary">
-            <div class="bit">
-                <h3 class="title-3">${_("How are these settings used?")}</h3>
-
-                <p>${_("Your course's schedule determines when students can enroll in and begin a course.")}</p>
-
-                <p>${_("Other information from this page appears on the About page for your course. This information includes the course overview, course image, introduction video, and estimated time requirements. Students use About pages to choose new courses to take.")}</p>
+                            <ol class="list-input">
+                                <li class="field text" id="field-course-license">
+                                    <div id="course-license-selector"></div>
+                                </li>
+                            </ol>
+                        </div>
+                    % endif
+                </form>
             </div>
+            <div class="content-supplementary" role="complementary">
+                <div class="bit">
+                    <h3 class="title-3">${_("How are these settings used?")}</h3>
 
-            <div class="bit">
-                % if context_course:
-                <%
-                course_team_url = utils.reverse_course_url('course_team_handler', context_course.id)
-                grading_config_url = utils.reverse_course_url('grading_handler', context_course.id)
-                advanced_config_url = utils.reverse_course_url('advanced_settings_handler', context_course.id)
-                %>
-                <h3 class="title-3">${_("Other Course Settings")}</h3>
-                <nav class="nav-related" aria-label="${_('Other Course Settings')}">
-                    <ul>
-                        <li class="nav-item"><a href="${grading_config_url}">${_("Grading")}</a></li>
-                        <li class="nav-item"><a href="${course_team_url}">${_("Course Team")}</a></li>
-                        <li class="nav-item"><a href="${utils.reverse_course_url('group_configurations_list_handler', context_course.id)}">${_("Group Configurations")}</a></li>
-                        <li class="nav-item"><a href="${advanced_config_url}">${_("Advanced Settings")}</a></li>
-                    </ul>
-                </nav>
-                % endif
+                    <p>${_("Your course's schedule determines when students can enroll in and begin a course.")}</p>
+
+                    <p>${_("Other information from this page appears on the About page for your course. This information includes the course overview, course image, introduction video, and estimated time requirements. Students use About pages to choose new courses to take.")}</p>
+                </div>
+
+                <div class="bit">
+                    % if context_course:
+                    <%
+                        course_team_url = utils.reverse_course_url('course_team_handler', context_course.id)
+                        grading_config_url = utils.reverse_course_url('grading_handler', context_course.id)
+                        advanced_config_url = utils.reverse_course_url('advanced_settings_handler', context_course.id)
+                    %>
+                        <h3 class="title-3">${_("Other Course Settings")}</h3>
+                        <nav class="nav-related" aria-label="${_('Other Course Settings')}">
+                            <ul>
+                                <li class="nav-item"><a href="${grading_config_url}">${_("Grading")}</a></li>
+                                <li class="nav-item"><a href="${course_team_url}">${_("Course Team")}</a></li>
+                                <li class="nav-item"><a href="${utils.reverse_course_url('group_configurations_list_handler', context_course.id)}">${_("Group Configurations")}</a></li>
+                                <li class="nav-item"><a href="${advanced_config_url}">${_("Advanced Settings")}</a></li>
+                            </ul>
+                        </nav>
+                    % endif
+                </div>
             </div>
         </div>
     </div>
-</div>
 </%block>
