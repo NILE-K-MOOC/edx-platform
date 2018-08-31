@@ -263,7 +263,14 @@ var DetailsView = ValidatingView.extend({
     },
     delQuestionItem: function(event){
         event.preventDefault();
-        $(event.currentTarget).parent().parent().remove();
+        console.log($(event.currentTarget).parent().parent().parent().find('li').length);
+        var faq_len = $(event.currentTarget).parent().parent().parent().find('li').length;
+        if(faq_len > 1){
+            $(event.currentTarget).parent().parent().remove();
+        } else {
+            $(event.currentTarget).parent().parent().parent().find('li:eq(0) #faq-question').val('');
+            $(event.currentTarget).parent().parent().parent().find('li:eq(0) #faq-answer').val('');
+        }
     },
     overviewLayerSetting: function(){
         console.log('overviewLayerSetting called ...');
@@ -293,8 +300,13 @@ var DetailsView = ValidatingView.extend({
             var staff1 = $(ov).find("article.professor:eq("+j+") img").prop('src');
             var staff2 = $(ov).find("article.professor:eq("+j+") .staff_descript i.staff-name").text();
             var staff3 = '';
-            $(ov).find("article.professor:eq("+j+") .staff_descript dd").each(function() {
-                staff3 += $(this).text().trim() + '\n';
+            var row_len =  $(ov).find("article.professor:eq("+j+") .staff_descript dd").length;
+            $(ov).find("article.professor:eq("+j+") .staff_descript dd").each(function(idx) {
+                if(idx != row_len -1)
+                    staff3 += $(this).text().trim() + '\n';
+                else if(idx == row_len -1){
+                    staff3 += $(this).text().trim();
+                }
             });
 
             console.log('professor check ---------------------------------------------------');
@@ -314,7 +326,7 @@ var DetailsView = ValidatingView.extend({
                     '<br>' +
                     '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
                     '<label for="staff-name">성명</label>' +
-                    '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="홍길동">' +
+                    '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="교수">' +
                     '<span class="tip tip-stacked">표시될 이름</span>' +
                     '</div>' +
                     '</div>' +
@@ -343,8 +355,12 @@ var DetailsView = ValidatingView.extend({
             var staff1 = $(ov).find("article.staff:eq("+j+") img").prop('src');
             var staff2 = $(ov).find("article.staff:eq("+j+") .staff_descript i.staff-name").text();
             var staff3 = '';
-            $(ov).find("article.staff:eq("+j+") .staff_descript dd").each(function() {
-                staff3 += $(this).text().trim() + '\n';
+            var row_len =  $(ov).find("article.professor:eq("+j+") .staff_descript dd").length;
+            $(ov).find("article.staff:eq("+j+") .staff_descript dd").each(function(idx) {
+                if(idx != row_len -1)
+                    staff3 += $(this).text().trim() + '\n';
+                else if(idx == row_len -1)
+                    staff3 += $(this).text().trim();
             });
 
             console.log('staff check ---------------------------------------------------');
@@ -364,7 +380,7 @@ var DetailsView = ValidatingView.extend({
                     '<br>' +
                     '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
                     '<label for="staff-name">성명</label>' +
-                    '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="홍길동">' +
+                    '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="조교">' +
                     '<span class="tip tip-stacked">표시될 이름</span>' +
                     '</div>' +
                     '</div>' +
@@ -397,6 +413,35 @@ var DetailsView = ValidatingView.extend({
         reference = this.textareaTrim(reference);
         // FAQ
         var faq = $(ov).find(".faq article");
+        var faq_form = '';
+        // FAQ 데이터 출력
+        $(faq).each(function(){
+            var question = $(this).find("h4").text().trim();
+            var answer = $(this).find("p").text().trim();
+            faq_form +=  '' +
+                    '<li class="field-group course-grading-assignment-list-item">' +
+                    '<div>' +
+                    '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
+                    '<label for="faq-question">질문</label>' +
+                    '<input type="text" class="long" id="faq-question" value="' + question + '" placeholder="강좌 교재가 따로 있나요?">' +
+                    '</div>' +
+                    '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
+                    '<label for="faq-answer">답변</label>' +
+                    '<input type="text" class="short" id="faq-answer" value="' + answer + '" placeholder="네. 있습니다.">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="actions">' +
+                    '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>' +
+                    '</div>' +
+                    '</li>';
+        });
+        console.log('faq_form s ===================================');
+        console.log(faq_form);
+        console.log('faq_form e ===================================');
+        if(faq.length != 0){
+            $("#overview-tab5 ol#course-question").html(faq_form);
+        }
+
         // 사용자 추가 내용
         var user_content = $(ov).find(".user_add:eq(0)");
 
@@ -645,13 +690,20 @@ var DetailsView = ValidatingView.extend({
             var staff_name = $(this).find("#staff-name").val();
             if(staff_name === "")
                 return true;
-
             var careers = $(this).find("textarea").val().split(/\n/g);
+            console.log('careers txt start -----------------');
+            console.log(careers);
+            console.log('careers txt end -----------------');
             var careers_text = "";
 
             for (var i=0; i<careers.length;i++){
-                if(careers[i])
+                if(i != careers.length -1 && careers[i] != ''){
                     careers_text += "<dd>" + careers[i] + "</dd>";
+                } else if(i == careers.length -1 && careers[careers.length -1] != ''){
+                    careers_text += "<dd>" + careers[i] + "</dd>";
+                } else {
+                    careers_text += "<dd><br></dd>"
+                }
             }
             var staff_template = "" +
                 "<article>";
@@ -689,8 +741,13 @@ var DetailsView = ValidatingView.extend({
             var careers_text = "";
 
             for (var i=0; i<careers.length;i++){
-                if(careers[i])
+                if(i != careers.length -1 && careers[i] != ''){
                     careers_text += "<dd>" + careers[i] + "</dd>";
+                } else if(i == careers.length -1 && careers[careers.length -1] != ''){
+                    careers_text += "<dd>" + careers[i] + "</dd>";
+                } else {
+                    careers_text += "<dd><br></dd>"
+                }
             }
 
             var staff_template = "" +

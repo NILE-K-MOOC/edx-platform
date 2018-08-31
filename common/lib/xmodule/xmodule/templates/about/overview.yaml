@@ -132,12 +132,12 @@ data: |
                 <div class="staff_descript">
                     <dl>
                         <dt>
-                         <i class="fa fa-angle-double-right"></i><i class="staff-name">홍길동</i> 교수
+                         <i class="fa fa-angle-double-right"></i><i class="staff-name"></i> 교수
                       </dt>
-                        <dd>현) 한국대학교 컴퓨터공학부 교수</dd>
-                        <dd>학력: 한국대학교. 컴퓨터공학 박사</dd>
+                        <dd>현) 한국대학교 전산학과 교수</dd>
                         <dd>전) S기업 연구원</dd>
-                        <dd>전) 한국대학교 연구원</dd>
+                        <dd>한국대학교. 컴퓨터공학 박사</dd>
+                        <dd>E-mail: abc@example.com</dd>
                     </dl>
                 </div>
             </article>
@@ -151,11 +151,10 @@ data: |
                 <div class="staff_descript">
                     <dl>
                         <dt>
-                         <i class="fa fa-angle-double-right"></i><i class="staff-name">김조교</i>
+                         <i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i>
                       </dt>
-                        <dd>한국대학교 컴퓨터공학부 박사과정</dd>
-                        <dd>E-mail :
-                            <a href="mailto:rbigui@mail.ulsan.ac.kr" target="_top" alt="mailto send rbigui@mail.ulsan.ac.kr">ta@ko.ac.kr</a>
+                        <dd>한국대학교 전산학 박사과정</dd>
+                        <dd>E-mail : <a href="mailto:abc@example.com" target="_top" alt="mailto send abc@example.com">abc@example.com</a>
                         </dd>
                     </dl>
                 </div>
