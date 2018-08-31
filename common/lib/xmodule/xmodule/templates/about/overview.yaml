@@ -154,8 +154,7 @@ data: |
                          <i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i>
                       </dt>
                         <dd>한국대학교 전산학 박사과정</dd>
-                        <dd>E-mail : <a href="mailto:abc@example.com" target="_top" alt="mailto send abc@example.com">abc@example.com</a>
-                        </dd>
+                        <dd>E-mail : abc@example.com</dd>
                     </dl>
                 </div>
             </article>
