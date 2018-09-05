@@ -905,11 +905,12 @@ var DetailsView = ValidatingView.extend({
         var time = $("#course-effort").val();
         if(time){
 
-            if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
+            if(time.indexOf("@") > 0 && time.indexOf("#") > 0 && time.indexOf("$") > 0){
+                alert(111);
                 var arr1 = time.split("@");
                 var arr2 = arr1[0].split(":");
                 var week = arr1[1].split("#")[0];
-                var arr3 = arr1[1].split("#")[1].split(":");
+                var arr3 = arr1[1].split("#")[1].split("$")[0].split(":");
 
                 $("#course-effort-hh").val(arr2[0]);
                 $("#course-effort-mm").val(arr2[1]);
