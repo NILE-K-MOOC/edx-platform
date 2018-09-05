@@ -13,16 +13,18 @@ data: |
         </div>
       </article>
       <article>
-        <h3><i class="fa fa-video-camera"></i>홍보영상/예시강의</h3>
+        <h3><i class="fa fa-video-camera"></i>홍보/예시 영상</h3>
         <div class="article_contents">
           <div class="youtubewrap">
-            <iframe class="video" title="홍보영상/예시강의" src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" frameborder="0" allowfullscreen scrolling="no"></iframe>
+            <video class="video" title="홍보/예시 영상" width="100%" height="100%" controls controlsList="nodownload">
+              <source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" type="video/mp4">
+            </video>
           </div>
         </div>
       </article>
     </section>
     <section class="course-plan">
-      <h2><i class="fa fa-calendar"></i>강좌 계획</h2>
+      <h2><i class="fa fa-calendar"></i>강좌 운영 계획</h2>
       <article class="syllabus">
         <div class="article_contents">
           <input type="checkbox" name="toggle" id="toggle"/>
@@ -120,22 +122,22 @@ data: |
       </article>
     </section>
     <section class="course-staff">
-        <h2><i class="fa fa-group (alias)"></i>강좌운영진 소개</h2>
+        <h2><i class="fa fa-group (alias)"></i>강좌운영팀 소개</h2>
         <article>
             <h3><i class="fa fa-user"></i>교수자</h3>
-            <article class="staff">
+            <article class="professor">
                 <div class="teacher_image">
                     <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
                 </div>
                 <div class="staff_descript">
                     <dl>
                         <dt>
-                         <i class="fa fa-angle-double-right"></i>대표교수 : 홍길동 교수
+                         <i class="fa fa-angle-double-right"></i><i class="staff-name"></i> 교수
                       </dt>
-                        <dd>현) 한국대학교 컴퓨터공학부 교수</dd>
-                        <dd>학력: 한국대학교. 컴퓨터공학 박사</dd>
+                        <dd>현) 한국대학교 전산학과 교수</dd>
                         <dd>전) S기업 연구원</dd>
-                        <dd>전) 한국대학교 연구원</dd>
+                        <dd>한국대학교. 컴퓨터공학 박사</dd>
+                        <dd>E-mail: abc@example.com</dd>
                     </dl>
                 </div>
             </article>
@@ -149,12 +151,10 @@ data: |
                 <div class="staff_descript">
                     <dl>
                         <dt>
-                         <i class="fa fa-angle-double-right"></i>학습 지원 : 김조교
+                         <i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i>
                       </dt>
-                        <dd>한국대학교 컴퓨터공학부 박사과정</dd>
-                        <dd>E-mail :
-                            <a href="mailto:rbigui@mail.ulsan.ac.kr" target="_top" alt="mailto send rbigui@mail.ulsan.ac.kr">ta@ko.ac.kr</a>
-                        </dd>
+                        <dd>한국대학교 전산학 박사과정</dd>
+                        <dd>E-mail: abc@example.com</dd>
                     </dl>
                 </div>
             </article>
@@ -163,50 +163,61 @@ data: |
     <section class="info">
       <h2><i class="fa fa-info-circle"></i>강좌 수강 정보</h2>
       <article>
-        <h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3>
+        <h3>
+          <i class="fa fa-graduation-cap"></i>이수/평가정보
+        </h3>
         <div class="grade_table">
-                <table summary="이수/평가정보" border="1" cellspacing="0" cellpadding="0">
-                    <caption>이수/평가정보</caption>
-                    <colgroup>
-                        <col width="5%" />
-                        <col width="30%" />
-                        <col width="" />
-                        <col width="15%" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>
-                                주차
-                            </th>
-                            <th>
-                                주차명
-                            </th>
-                            <th>
-                                차시명
-                            </th>
-                            <th>
-                                과제
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                주차1
-                            </td>
-                            <td>
-                                차시1
-                            </td>
-                            <td>
-                                퀴즈1
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+          <table style="width: 100%;" border="1" summary="이수/평가정보" cellspacing="0" cellpadding="0">
+            <caption>이수/평가정보</caption>
+            <colgroup>
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  과제명
+                </th>
+                <th>
+                  퀴즈
+                </th>
+                <th>
+                  토론
+                </th>
+                <th>
+                  중간고사
+                </th>
+                <th>
+                  기말고사
+                </th>
+              </tr>
+            </thead>
+            <tbody style="text-align: center;">
+              <tr>
+                <td style="font-weight: bold;">
+                  반영비율
+                </td>
+                <td>
+                  %
+                </td>
+                <td>
+                  %
+                </td>
+                <td>
+                  %
+                </td>
+                <td>
+                  %
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <b>※&nbsp;총 60% 이상 점수 획득 시, 이수증을 발급받을 수 있습니다.</b>
+        </div>
       </article>
       <article>
         <h3><i class="fa fa-sort-amount-desc"></i>강좌 수준 및 선수요건</h3>
@@ -229,10 +240,10 @@ data: |
         </article>
     </section>
     <section class="user_add">
-    <h2><i class="fa fa-plus-circle"></i>사용자 추가</h2>
+    <h2><i class="fa fa-plus-circle"></i>제목</h2>
     <article class="question">
-        <h3><i class='fa fa-chevron-right'></i>사용자 추가 제목</h3>
-        <p>사용자 추가 내용</p>
+        <h3><i class='fa fa-chevron-right'></i>소제목</h3>
+        <p>내용</p>
     </article><br>
     </section>
     </div>

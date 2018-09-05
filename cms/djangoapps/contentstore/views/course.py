@@ -1063,6 +1063,18 @@ def _rerun_course(request, org, number, run, fields):
 
         with connections['default'].cursor() as cur:
             query = """
+                SELECT user_edit
+                  FROM course_overview_addinfo
+                 WHERE course_id = '{course_id}'
+            """.format(course_id=source_course_key)
+            print query
+            cur.execute(query)
+            rerun_edit = cur.fetchall()[0][0]
+
+            user_edit = rerun_edit if rerun_edit is not None else 'Y'
+
+        with connections['default'].cursor() as cur:
+            query = """
                 INSERT INTO course_overview_addinfo(course_id,
                                                     create_year,
                                                     course_no,
@@ -1070,7 +1082,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy)
+                                                    classfy,
+                                                    user_edit)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1081,12 +1094,12 @@ def _rerun_course(request, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
-
-            cur.execute(query)
+                             '{classfy}',
+                             '{user_edit}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, user_edit=user_edit)
 
             print 'rerun_course insert -------------- ', query
+            cur.execute(query)
 
     except Exception as e:
         print e
@@ -1267,6 +1280,18 @@ def settings_handler(request, course_key_string):
 
             difficult_degree_list = course_difficult_degree(request, course_key_string)
 
+            cur = con.cursor()
+
+            course_edit_query = '''
+                SELECT ifnull(user_edit, 'Y')
+                FROM course_overview_addinfo
+                WHERE course_id = '{course_id}'
+            '''.format(course_id=course_key)
+            cur.execute(course_edit_query)
+            edit_check = cur.fetchall()[0][0]
+
+            cur.close()
+
             print "------------------------------------>"
             course_lang = settings.ALL_LANGUAGES
 
@@ -1291,6 +1316,7 @@ def settings_handler(request, course_key_string):
             settings_context = {
                 'context_course': course_module,
                 'teacher_name': teacher_name,
+                'edit_check': edit_check,
                 'course_locator': course_key,
                 'lms_link_for_about_page': utils.get_lms_link_for_about_page(course_key),
                 'course_image_url': course_image_url(course_module, 'course_image'),
@@ -1313,7 +1339,7 @@ def settings_handler(request, course_key_string):
                 'enable_extended_course_details': enable_extended_course_details,
                 'course_info_text': course_info_text,
                 'modi_over': modi_over,
-                'difficult_degree_list': difficult_degree_list
+                'difficult_degree_list': difficult_degree_list,
             }
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
