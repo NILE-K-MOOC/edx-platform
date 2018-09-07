@@ -181,6 +181,8 @@ class CourseFields(object):
 
     audit_yn = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y', scope=Scope.settings)
 
+    user_edit = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다."), default=u'N', scope=Scope.settings)
+
     wiki_slug = String(help=_("Slug that points to the wiki for this course"), scope=Scope.content)
     enrollment_start = Date(help=_("Date that enrollment for this class is opened"), scope=Scope.settings)
     enrollment_end = Date(help=_("Date that enrollment for this class is closed"), scope=Scope.settings)

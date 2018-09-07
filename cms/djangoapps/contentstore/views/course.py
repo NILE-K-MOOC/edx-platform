@@ -103,6 +103,9 @@ from .component import (
 from .item import create_xblock_info
 from .library import LIBRARIES_ENABLED
 
+from pymongo import MongoClient
+from bson import ObjectId
+
 log = logging.getLogger(__name__)
 
 __all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Verifi',
@@ -835,7 +838,7 @@ def _create_or_rerun_course(request):
 
             return _rerun_course(request, org, course, run, fields)
         else:
-            fields.update({'audit_yn': u'Y'})
+            fields.update({'audit_yn': u'Y', 'user_edit': u'N'})
             return _create_new_course(request, org, course, run, fields)
 
     except DuplicateCourseError:
@@ -1002,6 +1005,7 @@ def _rerun_course(request, org, number, run, fields):
         fields['middle_classfysub'] = source_course.middle_classfysub
         fields['linguistics'] = source_course.linguistics
         fields['course_period'] = source_course.course_period
+        fields['user_edit'] = source_course.user_edit
     except Exception as e:
         print e
 
@@ -1063,18 +1067,6 @@ def _rerun_course(request, org, number, run, fields):
 
         with connections['default'].cursor() as cur:
             query = """
-                SELECT user_edit
-                  FROM course_overview_addinfo
-                 WHERE course_id = '{course_id}'
-            """.format(course_id=source_course_key)
-            print query
-            cur.execute(query)
-            rerun_edit = cur.fetchall()[0][0]
-
-            user_edit = rerun_edit if rerun_edit is not None else 'Y'
-
-        with connections['default'].cursor() as cur:
-            query = """
                 INSERT INTO course_overview_addinfo(course_id,
                                                     create_year,
                                                     course_no,
@@ -1082,8 +1074,7 @@ def _rerun_course(request, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy,
-                                                    user_edit)
+                                                    classfy)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1094,9 +1085,8 @@ def _rerun_course(request, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}',
-                             '{user_edit}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, user_edit=user_edit)
+                             '{classfy}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -1281,17 +1271,29 @@ def settings_handler(request, course_key_string):
 
             difficult_degree_list = course_difficult_degree(request, course_key_string)
 
-            cur = con.cursor()
+            edit_check = 'Y'
 
-            course_edit_query = '''
-                SELECT ifnull(user_edit, 'Y')
-                FROM course_overview_addinfo
-                WHERE course_id = '{course_id}'
-            '''.format(course_id=course_key)
-            cur.execute(course_edit_query)
-            edit_check = cur.fetchall()[0][0]
+            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                 settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            db = client.edxapp
 
-            cur.close()
+            course_id = str(course_key)
+            org = course_id.split('+')[0][10:]
+            cid = course_id.split('+')[1]
+            run = course_id.split('+')[2]
+
+            cursor_active_versions = db.modulestore.active_versions.find_one({'course': cid, 'run': run, 'org': org})
+            pb = cursor_active_versions.get('versions').get('published-branch')
+
+            print "modi_course_about > pb = ", pb
+
+            structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+            blocks = structures_data.get('blocks')
+
+            for block in blocks:
+                if block['block_type'] == 'course':
+                    edit_check = block['fields']['user_edit']
 
             print "------------------------------------>"
             course_lang = settings.ALL_LANGUAGES

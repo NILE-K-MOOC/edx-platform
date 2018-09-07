@@ -3381,47 +3381,29 @@ def modi_course_level(request):
 
 def modi_course_about(request):
     if request.method == 'POST':
+        client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                 settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+        db = client.edxapp
+
         course_id = request.POST.get('addinfo_course_id')
-        user_id = request.POST.get('addinfo_user_id')
-        con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                      settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'),
-                      charset='utf8')
-        cur = con.cursor()
+        org = course_id.split('+')[0][10:]
+        cid = course_id.split('+')[1]
+        run = course_id.split('+')[2]
 
-        cnt_query = '''
-            select count(*)
-            from course_overview_addinfo
-            where course_id = '{course_id}';
-        '''.format(course_id=course_id)
-        cur.execute(cnt_query)
-        cnt = cur.fetchall()[0][0]
+        cursor_active_versions = db.modulestore.active_versions.find_one({'course': cid, 'run': run, 'org': org})
+        pb = cursor_active_versions.get('versions').get('published-branch')
 
-        if cnt == 1:
-            query = '''
-                UPDATE course_overview_addinfo
-                SET user_edit = 'Y', modify_id = '{modify_id}', modify_date = now()
-                WHERE course_id = '{course_id}'
-            '''.format(course_id=course_id, modify_id=user_id)
-        else:
-            query = '''
-                INSERT INTO course_overview_addinfo(course_id,
-                                    create_type,
-                                    create_year,
-                                    course_no,
-                                    delete_yn,
-                                    user_edit,
-                                    regist_id,
-                                    regist_date,
-                                    modify_id,
-                                    modify_date)
-                              VALUES('{0}','001', YEAR(now()),'1','{1}','N', 'Y','{2}',now(),'{3}',now());
-            '''.format(course_id,  user_id, user_id)
+        print "modi_course_about > pb = ", pb
 
-        print 'modi_course_about query ==== > ', query
-        cur.execute(query)
-        cur.execute('commit')
+        structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+        blocks = structures_data.get('blocks')
+
+        for block in blocks:
+            if block['block_type'] == 'course':
+                block['fields']['user_edit'] = 'Y'
+
+        db.modulestore.structures.replace_one({'_id': ObjectId(pb)}, structures_data)
 
         return JsonResponse({'status': 'success'})
 

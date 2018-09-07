@@ -208,6 +208,10 @@ class CourseDetails(object):
             dirty = True
             descriptor.start = converted
 
+        if 'user_edit' in jsondict and jsondict['user_edit'] != descriptor.user_edit:
+            descriptor.user_edit = jsondict['user_edit']
+            dirty = True
+
         if 'end_date' in jsondict:
             converted = date.from_json(jsondict['end_date'])
         else:
