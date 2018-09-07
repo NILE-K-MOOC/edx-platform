@@ -17,6 +17,7 @@ var DetailsView = ValidatingView.extend({
         "change input" : "updateModel",
         "change textarea" : "updateModel",
         "change select" : "updateModel",
+        "change #course_edit_check": "updateModel",
         'click .remove-course-introduction-video' : "removeVideo",
         'focus #course-overview' : "codeMirrorize",
         'mouseover .timezone' : "updateTime",
@@ -87,6 +88,8 @@ var DetailsView = ValidatingView.extend({
                     addinfo_user_id: addinfo_user_id,
                 }).done(function (data) {
                     if (data.status == 'success') {
+                        $("#course_edit_check").val("Y");
+                        $("#course_edit_check").trigger('change');
                         $(".CodeMirror").prop('id', '');
                     }
                 });
@@ -275,6 +278,7 @@ var DetailsView = ValidatingView.extend({
 
         // overview object
         var ov = $.parseHTML(this.model.get('overview'));
+
         // 수업내용/목표
         var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "");
         goal = this.textareaTrim(goal);
@@ -799,6 +803,7 @@ var DetailsView = ValidatingView.extend({
     },
     toggleOverviewLayer: function(event){
         event.preventDefault();
+
         $("#overviewEditLayer").toggle();
         if($("#overviewEditLayer").is(":visible")){
             var top = parseInt($(window).scrollTop());
@@ -906,11 +911,21 @@ var DetailsView = ValidatingView.extend({
         if(time){
 
             if(time.indexOf("@") > 0 && time.indexOf("#") > 0 && time.indexOf("$") > 0){
-                alert(111);
                 var arr1 = time.split("@");
                 var arr2 = arr1[0].split(":");
                 var week = arr1[1].split("#")[0];
                 var arr3 = arr1[1].split("#")[1].split("$")[0].split(":");
+
+                $("#course-effort-hh").val(arr2[0]);
+                $("#course-effort-mm").val(arr2[1]);
+                $("#course-effort-week").val(week);
+                $("#course-video-hh").val(arr3[0]);
+                $("#course-video-mm").val(arr3[1]);
+            }else if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
+                var arr1 = time.split("@");
+                var arr2 = arr1[0].split(":");
+                var week = arr1[1].split("#")[0];
+                var arr3 = arr1[1].split("#")[1].split(":");
 
                 $("#course-effort-hh").val(arr2[0]);
                 $("#course-effort-mm").val(arr2[1]);
@@ -990,8 +1005,8 @@ var DetailsView = ValidatingView.extend({
 
         }
 
-        var course_edit_check = $("#course_edit_check").val();
-        if(course_edit_check == 'Y'){
+        var user_edit = $("#course_edit_check").val();
+        if(user_edit == 'Y'){
             $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
             $(".CodeMirror").removeProp('id');
         }else {
@@ -1044,7 +1059,8 @@ var DetailsView = ValidatingView.extend({
         'add_course_learning_info': 'add-course-learning-info',
         'add_course_instructor_info': 'add-course-instructor-info',
         'course_learning_info': 'course-learning-info',
-        'selectfixid': 'selectfixid'
+        'selectfixid': 'selectfixid',
+        'user_edit': 'course_edit_check',
     },
 
     addLearningFields: function() {
@@ -1093,6 +1109,7 @@ var DetailsView = ValidatingView.extend({
     updateModel: function(event) {
         var value;
         var index = event.currentTarget.getAttribute('data-index');
+
         switch (event.currentTarget.id) {
         case 'course-learning-info-' + index:
             value = $(event.currentTarget).val();
@@ -1172,6 +1189,7 @@ var DetailsView = ValidatingView.extend({
             break;
         case 'course-language':
         case 'course-effort':
+        case 'course_edit_check':
         case 'course-title':
         case 'course-subtitle':
         case 'course-duration':
