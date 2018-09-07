@@ -11968,7 +11968,7 @@ msgstr "종강일"
 
 #: lms/templates/courseware/course_about.html
 msgid "Estimated Effort"
-msgstr "주간 학습 권장 시간"
+msgstr "주간 학습권장시간"
 
 #: lms/templates/courseware/course_about.html
 msgid "Prerequisites"

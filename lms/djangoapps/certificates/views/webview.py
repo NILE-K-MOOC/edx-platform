@@ -248,7 +248,10 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     effort = row[0][0]
     course_effort = effort.split('@')[0] if effort and '@' in effort else '-'
     course_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else '-'
-    course_video = effort.split('#')[1] if effort and '#' in effort else '-'
+    if '$' in effort:
+        course_video = effort.split('#')[1].split('$')[0] if effort and '#' in effort else '-'
+    else:
+        course_video = effort.split('#')[1] if effort and '#' in effort else '-'
     time = course_effort.split(':')
     context['course_week'] = course_week
     context['course_effort'] = course_effort

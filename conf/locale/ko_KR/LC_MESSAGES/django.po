@@ -12890,7 +12890,7 @@ msgstr "종강일"
 
 #: lms/templates/courseware/course_about.html
 msgid "Estimated Effort"
-msgstr "주간 학습 권장 시간"
+msgstr "주간 학습권장시간"
 
 #: lms/templates/courseware/course_about.html
 msgid "Prerequisites"
@@ -20077,7 +20077,7 @@ msgstr "효과적인 학습을 위해 학습 시간 입력합니다."
 
 #: cms/templates/settings.html
 msgid "Hours of Effort per Week"
-msgstr "주간 학습 권장 시간"
+msgstr "주간 학습권장시간"
 
 #: cms/templates/settings.html
 msgid "Time spent on all course work"
@@ -29580,7 +29580,7 @@ msgid "Linguistics"
 msgstr "한국학 여부"
 
 msgid "Effort time must be number"
-msgstr "주간 학습 권장 시간은 숫자이여야 합니다."
+msgstr "주간 학습권장시간은 숫자이여야 합니다."
 
 msgid "View certificates.(Not finished Poll)"
 msgstr "이수증 보기(설문 미완료)"
@@ -30221,3 +30221,5 @@ msgstr "이수를 축하드립니다! 보다 더 좋은 강좌제공을 위해 �
 msgid "Satisfaction Survey"
 msgstr "만족도 조사"
 
+msgid "Total recognized learning hours must have number"
+msgstr "학습인정시간 에는 숫자만 입력 가능합니다"

@@ -108,6 +108,7 @@ from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 import re
+import os
 from django.core.serializers.json import DjangoJSONEncoder
 import traceback
 from courseware import grades
@@ -3237,6 +3238,16 @@ def create_account(request, post_override=None):
         'redirect_url': redirect_url,
     })
     set_logged_in_cookies(request, response, user)
+    return response
+
+
+@csrf_exempt
+def file_down(request, file_id=None):
+    if not file or not os.path.exists('/edx/var/edxapp/staticfiles/file_upload/total_study_time.hwp'):
+        pass
+    response = HttpResponse(open('/edx/var/edxapp/staticfiles/file_upload/total_study_time.hwp', 'rb'), content_type='application/force-download')
+
+    response['Content-Disposition'] = 'attachment; filename=%s' % str('한국형_온라인_공개강좌(K-MOOC)_학습인정시간_기준(_18.9.).hwp')
     return response
 
 
