@@ -1067,18 +1067,6 @@ def _rerun_course(request, org, number, run, fields):
 
         with connections['default'].cursor() as cur:
             query = """
-                SELECT user_edit
-                  FROM course_overview_addinfo
-                 WHERE course_id = '{course_id}'
-            """.format(course_id=source_course_key)
-            print query
-            cur.execute(query)
-            rerun_edit = cur.fetchall()[0][0]
-
-            user_edit = rerun_edit if rerun_edit is not None else 'Y'
-
-        with connections['default'].cursor() as cur:
-            query = """
                 INSERT INTO course_overview_addinfo(course_id,
                                                     create_year,
                                                     course_no,
@@ -1086,8 +1074,7 @@ def _rerun_course(request, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy,
-                                                    user_edit)
+                                                    classfy)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1098,9 +1085,8 @@ def _rerun_course(request, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}',
-                             '{user_edit}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, user_edit=user_edit)
+                             '{classfy}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
