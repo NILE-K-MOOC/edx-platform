@@ -524,9 +524,14 @@ def multisite_index(request, org, msearch=None):
                 print "raw_data = ", raw_data
                 print "--------------------------> DEBUG 11 [e]"
 
-                t1 = raw_data[0].split('=')
-                t2 = raw_data[1].split('=')
-                t3 = raw_data[2].split('=')
+                try:
+                    t1 = raw_data[0].split('=')
+                    t2 = raw_data[1].split('=')
+                    t3 = raw_data[2].split('=')
+                except BaseException:
+                    request.session['status'] = 'fail'
+                    request.session['multisiteDebug'] = 'decrypt error'
+                    return redirect('/multisite_error/')
                 calltime = t1[1]
                 userid = t2[1]
                 orgid = t3[1]
