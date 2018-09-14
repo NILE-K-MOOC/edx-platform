@@ -206,6 +206,9 @@ def common_course_status(startDt, endDt):
 
 # -------------------- multi site -------------------- #
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
+
+    context = {}
+
     if extra_context is None:
         extra_context = {}
     user = request.user
@@ -3243,11 +3246,11 @@ def create_account(request, post_override=None):
 
 @csrf_exempt
 def file_down(request, file_id=None):
-    if not file or not os.path.exists('/edx/var/edxapp/staticfiles/file_upload/total_study_time.hwp'):
+    if not file or not os.path.exists('/edx/var/edxapp/staticfiles/file_upload/total_study_time.pdf'):
         pass
-    response = HttpResponse(open('/edx/var/edxapp/staticfiles/file_upload/total_study_time.hwp', 'rb'), content_type='application/force-download')
+    response = HttpResponse(open('/edx/var/edxapp/staticfiles/file_upload/total_study_time.pdf', 'rb'), content_type='application/force-download')
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % str('총_학습인정시간_산출지침_안내.hwp')
+    response['Content-Disposition'] = 'attachment; filename=%s' % str('한국형_온라인_공개강좌(K-MOOC)_학습인정시간_기준(_18.9.).pdf')
     return response
 
 

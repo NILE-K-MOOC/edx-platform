@@ -1293,7 +1293,8 @@ def settings_handler(request, course_key_string):
 
             for block in blocks:
                 if block['block_type'] == 'course':
-                    edit_check = block['fields']['user_edit']
+                    if 'user_edit' in block['fields']:
+                        edit_check = block['fields']['user_edit']
 
             print "------------------------------------>"
             course_lang = settings.ALL_LANGUAGES

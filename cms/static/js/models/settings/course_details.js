@@ -87,12 +87,12 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
                     $("#Calculated").focus();
                     //errors.effort = gettext("Total recognized learning hours must have number");
-                    errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
+                    errors.effort = gettext("학습인정시간에는 숫자만 입력 가능합니다");
                 }
                 if ($("#Calculated_mm").val() && isNaN($("#Calculated_mm").val())) {
                     $("#Calculated_mm").focus();
                     //errors.effort = gettext("Total recognized learning hours must have number");
-                    errors.effort = gettext("총 학습인정시간에는 숫자만 입력 가능합니다");
+                    errors.effort = gettext("학습인정시간에는 숫자만 입력 가능합니다");
 
                 }
 

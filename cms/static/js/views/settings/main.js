@@ -547,18 +547,18 @@ var DetailsView = ValidatingView.extend({
             $("#Calculated_mm").val('');
             return false;
         }
-        if(Calculated>66 && Calculated_mm < 60){
-            alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
+        if(Calculated>50 && Calculated_mm < 60){
+            alert("학습인정시간은 50시간 이내만 입력 가능합니다");
             $("#Calculated").val('');
             $("#Calculated_mm").val('');
             return false;
         }
-        if(Calculated == 66){
+        if(Calculated == 50){
             $("#Calculated_mm").val('00');
             return false;
         }
-        if (Calculated>66){
-            alert("총 학습인정시간은 66시간 이내만 입력 가능합니다");
+        if (Calculated>50){
+            alert("학습인정시간은 50시간 이내만 입력 가능합니다");
             $("#Calculated").val('');
             return false;
         }
@@ -694,9 +694,6 @@ var DetailsView = ValidatingView.extend({
             //if(staff_name === "")
                 //return true;
             var careers = $(this).find("textarea").val().split(/\n/g);
-            console.log('careers txt start -----------------');
-            console.log(careers);
-            console.log('careers txt end -----------------');
             var careers_text = "";
 
             for (var i=0; i<careers.length;i++){
@@ -849,9 +846,7 @@ var DetailsView = ValidatingView.extend({
 
         var html = $("<div>").attr("id", "course-info").append($(ov).clone()).html();
         var result = tidy_html5(html, html_format_options);
-        console.log('last ++++++++++++++++++++++++++++++++++++++++=');
-        console.log(result);
-        console.log('last ++++++++++++++++++++++++++++++++++++++++=');
+
         this.model.set('overview', result);
         $("#overviewEditLayer").toggle();
         this.render();
@@ -1054,12 +1049,12 @@ var DetailsView = ValidatingView.extend({
                 -강좌 불러오기 메뉴 비활성화(내보내기는 가능하게 그대로 둠)
             * */
 
-            $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
-            $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
-            $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
-            $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
-            $("#course-language").attr("disabled", true).css("background", "#ccc");
-            $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
+            // $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
+            // $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
+            // $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
+            // $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
+            // $("#course-language").attr("disabled", true).css("background", "#ccc");
+            // $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
 
         }
 
