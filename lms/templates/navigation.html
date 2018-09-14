@@ -40,17 +40,25 @@ site_status_msg = get_site_status_msg(course_id)
 %>
 
 <style>
-#div_logo{
-    font-size: 1.6rem;
-}
-.user-image-frame{
-    width: 30px;
-    height: 25px;
-    margin-top: 2px;
-}
-.label-username{
-    font-weight: 400;
-}
+  #div_logo{
+      font-size: 1.6rem;
+      font-weight: bold;
+  }
+  .user-image-frame{
+      width: 30px;
+      height: 25px;
+      margin-top: 2px;
+  }
+  .label-username{
+      font-weight: 400;
+  }
+  .user-link{
+    width: 40px;
+    background-color: inherit;
+  }
+  .header-global .primary>a:hover, .header-global .primary>a:focus, .header-global .primary>a:active {
+    background: none;
+  }
 </style>
 
 % if site_status_msg:
