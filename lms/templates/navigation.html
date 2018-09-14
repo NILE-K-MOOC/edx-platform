@@ -39,10 +39,12 @@ except:
 site_status_msg = get_site_status_msg(course_id)
 %>
 
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto" rel="stylesheet">
 <style>
   #div_logo{
       font-size: 1.6rem;
       font-weight: bold;
+      font-family: 'Roboto', sans-serif;
   }
   .user-image-frame{
       width: 30px;
@@ -50,14 +52,29 @@ site_status_msg = get_site_status_msg(course_id)
       margin-top: 2px;
   }
   .label-username{
-      font-weight: 400;
+    font-weight: 400;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 80px;
+    text-overflow: ellipsis;
   }
   .user-link{
-    width: 40px;
-    background-color: inherit;
+    margin-top: 0px;
+    min-width: 140px;
+    box-shadow: none;
   }
   .header-global .primary>a:hover, .header-global .primary>a:focus, .header-global .primary>a:active {
     background: none;
+  }
+  .course-header .course-name{
+    font-weight: nomal;
+  }
+  .header-global .wrapper-header {
+    min-width: 650px;
+  }
+  .header-global.slim h2 {
+    width: 30%;
   }
 </style>
 
