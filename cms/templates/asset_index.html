@@ -240,7 +240,8 @@
                 //runtimes: 'flash,html4,html5,silverlight',
                 runtimes: 'html5,browserplus,silverlight,flash,gears,html4',
                 //chunk_size : '64kb',
-                chunk_size: '2048kb',
+                // chunk_size: '2048kb',
+                chunk_size: '5MB',
                 // MME General settings
                 url: mme_host + "/upload_mov",
                 file_data_name: "uploadFile",
@@ -252,6 +253,7 @@
                         {title: "Image files", extensions: "mov,mp4,avi,mpeg,wmv,mkv,m4v"}
                     ]
                 },
+                % if settings.PLATFORM_NAME == 'K-MOOC Studio':
                 multipart_params: {
                     //추가 파라미터
                     'vprofile': '1280x720',
@@ -259,6 +261,15 @@
                     'course_id': course_id,
                     'service_sort': 'S'
                 },
+                % else:
+                multipart_params: {
+                    //추가 파라미터
+                    'vprofile': '1280x720',
+                    'aprofile': 'stereoSQ',
+                    'course_id': course_id,
+                    'service_sort': 'D'
+                },
+                % endif
                 flash_swf_url: 'js/Moxie.swf',
                 silverlight_xap_url: 'js/Moxie.xap',
                 init: {
