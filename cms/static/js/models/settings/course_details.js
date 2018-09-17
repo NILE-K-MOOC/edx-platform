@@ -17,6 +17,7 @@ define(["backbone", "underscore", "gettext", "js/models/validation_helpers", "js
                 duration: "",
                 description: "",
                 short_description: "",
+                user_edit: "",
                 overview: "",
                 intro_video: null,
                 effort: 0,	// an int or null,

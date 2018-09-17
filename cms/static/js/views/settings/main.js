@@ -1160,6 +1160,8 @@ var DetailsView = ValidatingView.extend({
         }
     },
     updateModel: function(event) {
+        //user_edit mongo 값으로 설정
+        this.model.set('user_edit', $("#course_edit_check").val());
         var value;
         var index = event.currentTarget.getAttribute('data-index');
         switch (event.currentTarget.id) {
