@@ -452,7 +452,7 @@ def shim_student_view(view_func, check_logged_in=False):
                       ON a.user_id = b.id
                       JOIN multisite as c
                       ON a.site_id = c.site_id
-                     WHERE a.org_user_id = {0} and c.site_code = '{1}';
+                     WHERE a.org_user_id = '{0}' and c.site_code = '{1}';
                 '''.format(multisite_userid, multisite_org)
                 cur.execute(sql)
                 rows = cur.fetchall()
