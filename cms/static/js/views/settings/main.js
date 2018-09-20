@@ -555,7 +555,8 @@ var DetailsView = ValidatingView.extend({
         }
         if(Calculated == 50){
             $("#Calculated_mm").val('00');
-            $("#Calculated_mm").prop('disabled', 'disabled');
+            Calculated_mm = $("#Calculated_mm").val();
+            $("#Calculated_mm").attr('disabled', 'disabled');
             // return false;
         }
         else {
@@ -606,8 +607,10 @@ var DetailsView = ValidatingView.extend({
             $("#course-video-mm").val(video_mm);
         if(Calculated)
              $("#Calculated").val(Calculated);
-        if(Calculated_mm)
-             $("#Calculated_mm").val(Calculated_mm);
+        if(Calculated_mm){
+
+          $("#Calculated_mm").val(Calculated_mm);
+        }
 
         var video = video_hh + ":" + video_mm;
 
