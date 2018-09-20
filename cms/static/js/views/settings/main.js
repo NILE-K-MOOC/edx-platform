@@ -555,8 +555,13 @@ var DetailsView = ValidatingView.extend({
         }
         if(Calculated == 50){
             $("#Calculated_mm").val('00');
-            return false;
+            $("#Calculated_mm").prop('disabled', 'disabled');
+            // return false;
         }
+        else {
+            $("#Calculated_mm").removeAttr('disabled');
+        }
+
         if (Calculated>50){
             alert("학습인정시간은 50시간 이내만 입력 가능합니다");
             $("#Calculated").val('');

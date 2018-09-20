@@ -211,6 +211,8 @@ class CourseDetails(object):
         if 'user_edit' in jsondict and 'user_edit' != '' and jsondict['user_edit'] != descriptor.user_edit:
             descriptor.user_edit = jsondict['user_edit']
             dirty = True
+        elif 'user_edit' in jsondict and 'user_edit' != '' and jsondict['user_edit'] == descriptor.user_edit:
+            dirty = True
         else:
             descriptor.user_edit = 'Y'
             dirty = True
