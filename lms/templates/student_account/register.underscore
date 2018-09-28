@@ -86,12 +86,13 @@
 
 <script>
 $(document).ready(function(){
-    <% if (context.currentProvider and currentProvider == 'naver') { %>
-        $(".password-password").hide();
-        var pwd = randomPassword();
-        $("#register-password").val(pwd);
-        $("#register-password2").val(pwd);
-    <% } %>
+        var provideer_text = $(".register-form p.message-copy").text();
+        if(provideer_text.indexOf("naver") != -1){
+            $(".password-password").hide();
+            var pwd = randomPassword();
+            $("#register-password").val(pwd);
+            $("#register-password2").val(pwd);
+        }
 });
 
 function randomPassword() {
