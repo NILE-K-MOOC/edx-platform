@@ -83,3 +83,26 @@
     </div>
     <button class="nav-btn form-toggle" data-type="login"><%- gettext("Sign in") %></button>
 </div>
+
+<script>
+$(document).ready(function(){
+    <% if (context.currentProvider and currentProvider == 'naver') { %>
+        $(".password-password").hide();
+        var pwd = randomPassword();
+        $("#register-password").val(pwd);
+        $("#register-password2").val(pwd);
+    <% } %>
+});
+
+function randomPassword() {
+    var ran = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*()=+";
+    var str_len = 12;
+    var pwd = '';
+    for (var i=0; i<str_len; i++) {
+        var rnum = Math.floor(Math.random() * ran.length);
+        pwd += ran.substring(rnum,rnum+1);
+    }
+
+    return pwd;
+}
+</script>
