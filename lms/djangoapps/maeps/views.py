@@ -695,7 +695,7 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
             iSessionCheck = 1
 
     if iRetCode == 0:
-        if iRetOsCheck == 1:
+        if iRetOsCheck <= 4:
             # Windows OS
             strAddData += "#META_SIZE=" + str(iAMetaDataSize)
             strAddData += "#CPPARAM=" + MaFpsCommon.strCPParam
