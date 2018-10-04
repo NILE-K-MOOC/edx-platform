@@ -74,6 +74,7 @@ class CourseDetails(object):
         self.self_paced = None
         self.learning_info = []
         self.instructor_info = []
+        self.user_edit = ""  # user_edit
 
     @classmethod
     def fetch_about_attribute(cls, course_key, attribute):
@@ -120,6 +121,7 @@ class CourseDetails(object):
         course_details.self_paced = course_descriptor.self_paced
         course_details.learning_info = course_descriptor.learning_info
         course_details.instructor_info = course_descriptor.instructor_info
+        course_details.user_edit = course_descriptor.user_edit
 
         course_details.classfy = course_descriptor.classfy
 
@@ -208,10 +210,10 @@ class CourseDetails(object):
             dirty = True
             descriptor.start = converted
 
-        if 'user_edit' in jsondict and 'user_edit' != '' and jsondict['user_edit'] != descriptor.user_edit:
+        if 'user_edit' in jsondict and jsondict['user_edit'] != '' and jsondict['user_edit'] != descriptor.user_edit:
             descriptor.user_edit = jsondict['user_edit']
             dirty = True
-        elif 'user_edit' in jsondict and 'user_edit' != '' and jsondict['user_edit'] == descriptor.user_edit:
+        elif 'user_edit' in jsondict and jsondict['user_edit'] != '' and jsondict['user_edit'] == descriptor.user_edit:
             dirty = True
         else:
             descriptor.user_edit = 'Y'
