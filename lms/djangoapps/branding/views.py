@@ -26,8 +26,9 @@ from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
 
 import os
-import kotechseed128
+import common.kotechseed128 as kotechseed128
 import requests
+from django.contrib.auth import login as django_login
 from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
@@ -35,8 +36,8 @@ log = logging.getLogger(__name__)
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests
-@cache_if_anonymous()
 def index(request):
+    #@cache_if_anonymous()
     """
     Redirects to main page -- info page if user authenticated, or marketing if not
     """
@@ -47,19 +48,34 @@ def index(request):
     MOBIS_SSO_CHECK_URL = 'http://mobis.benecafe.co.kr/login/mobis/sso/OpenCommLogin.jsp'
     MOBIS_BASE_URL = 'http://www.mobis.co.kr'
     MOBIS_EMAIL = "mobis.co.kr"
+    MOBIS_DB_USR = 'IMIF_SWA'
+    MOBIS_DB_PWD = 'Swa$2018'
+    MOBIS_DB_SID = 'imdb'
+    MOBIS_DB_IP = '10.10.163.73'
+    MOBIS_DB_PORT = '1521'
     pass_chk = True
     chk = False
     upk = ['', '']
 
-    #test
-    request.session['mobis_usekey'] = '12345'
-    request.session['mobis_memid']  = '67890'
+    user_nm = u''
+    #_email = "staff@example.com"
+    #user = User.objects.get(email=_email)
+    #user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+    #django_login(request, user)
+
+    #request.session['mobis_usekey'] = ''
+    #request.session['mobis_memid'] = ''
 
     if not request.user.is_authenticated:
         try:
             if 1 == 1:
                 usekey = request.GET.get('usekey')  # usekey : emp_no (ex: 2018092011)
                 memid = request.GET.get('memid')    # memid  : emp_no (ex: 2018092011)
+
+                if usekey == None or memid == None:
+                    logging.info('usekey None error %s', 'views.py 70 line')
+                    return redirect(MOBIS_BASE_URL)
+
                 usekey = usekey.replace(' ', '+')
                 memid = memid.replace(' ', '+')
 
@@ -74,10 +90,10 @@ def index(request):
                 seed128 = kotechseed128.SEED()
 
                 #base64
-                print ('usekey:', usekey, 'memid:', memid)
+                #print ('usekey:', usekey, 'memid:', memid)
 
-                request.session['mobis_usekey'] = '12345'
-                request.session['mobis_memid'] = '67890'
+                request.session['mobis_usekey'] = usekey
+                request.session['mobis_memid'] = memid
 
                 decdata = seed128.make_usekey_decryption(1, usekey, memid)
 
@@ -88,7 +104,6 @@ def index(request):
                 seqky = decdata[0]    # usekey
                 seqid = decdata[1]    # emp_no
                 seqid = seqid.replace('\x00', '')
-
 
                 # seed encryption
                 if seqid != None:
@@ -126,73 +141,62 @@ def index(request):
                     # if not exist on auth_user model, insert
                     if len(o1) == 0:
 
-                        import cx_Oracle
-                        import uuid
-
-                        PORT_NUMBER = 1521
-
-                        dsn = cx_Oracle.makedsn("oracle11g", PORT_NUMBER, "XE")
-                        db = cx_Oracle.connect("scott", "tiger", dsn)
-                        #con = cx_Oracle.connect("system/oracle@localhost:1521")
-                        cur = db.cursor()
-
-                        # get one row
-                        query = """
-                                    select
-                                         USER_ID
-                                        ,USER_NM
-                                        ,DUTY_CD
-                                        ,DUTY_NM_HOME
-                                        ,DEPT_CD
-                                        ,DEPT_NM
-                                        ,USER_GRADE_CODE
-                                        ,JW_NM_HOME
-                                    from VW_HISTORY_RSUM
-                                    where USER_ID = \'{seqid}\'
-                                    and   ROWNUM = 1
-                                """.format(seqid=seqid)
-
-                        #query = """select USER_ID, USER_NM, DUTY_CD, DUTY_NM_HOME, DEPT_CD, DEPT_NM, USER_GRADE_CODE, JW_NM_HOME from VW_HISTORY_RSUM where USER_ID = \'{seqid}\' and   ROWNUM = 1""".format(seqid=seqid)
-                        cur.execute(query)
-                        # rows = cur.fetchone()
-
-                        results = []
+                        # account exists_check
+                        rt = user_ora_exists_check(seqid)
                         exists_chk = False
-                        for row in cur.fetchall():
-                            results.append(row)
+                        # element count check
+                        if len(rt) > 0:
+                            user_nm = unicode(rt[0][1])     #USER_NM
                             exists_chk = True
-
-                        #cursor and connection close
-                        cur.close()
-                        db.close()
 
                         # not exist user on Mobis emp master view
                         if not exists_chk:
                             return redirect(MOBIS_BASE_URL)
 
+                        import uuid
                         # 32 bytes password
                         _uuid = uuid.uuid4().__str__()
                         _uuid = _uuid.replace('-', '')
 
                         #devstack
-                        q = """sudo -u edxapp /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_user -p {pw} -e {email} -u {username}""".format(pw=_uuid, email=_email, username=seqid)
+                        #q = """sudo -u edxapp /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_user -p {pw} -e {email} -u {username}""".format(pw=_uuid, email=_email, username=seqid)
+                        #q = """sudo -u edxapp /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_user -p edx -e {email} -u {username}""".format(email=_email, username=seqid)
+                        q = """sudo -u edxapp /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings=devstack_docker create_user -p edx -e {email} -u {username}""".format(email='mih2@example.com', username='mih2')
                         #native
                         #q = """sudo -u edxapp /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings=aws create_user -p {pw} -e {email} -u {username}""".format(pw=_uuid, email=_email, username=seqid)
-                        #q = """sudo -u edxapp /edx/bin/python.edxapp /edx/bin/manage.edxapp lms create_user -p {pw} -e {email} -u {username} --settings=aws""".format(pw=_uuid, email=_email, username=seqid)
                         print("shell running: ", q)
+                        logging.info('shell running: %s', q)
                         os.system(q)
+                        # mysql connect
+                        # auth_user update
+                        user_info_update(user_nm, _email)
+                    #else:
+                    #    pass
+
+                    # login id is email : 2018091201@mobis.co.kr
+                    # user = User.objects.get(email='staff@example.com')
+
+                    # test
+                    try:
+                        request.session['mobis_usekey'] = request.session.get('mobis_usekey', '')
+                        request.session['mobis_memid'] = request.session.get('mobis_memid', '')
+                    except KeyError as e:
+                        request.session['mobis_usekey'] = ''
+                        request.session['mobis_memid'] = ''
+
+                    #_email = "staff@example.com"
+                    user = User.objects.get(email=_email)
+                    user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                    django_login(request, user)
+
                 else:
                     return redirect(MOBIS_BASE_URL)
-            else:
-                pass
         except Exception as e:
-            print str(e)
-            raise
-
-        # login id is email : 2018091201@mobis.co.kr
-        #user = User.objects.get(email='staff@example.com')
-        user = User.objects.get(email=_email)
-        user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+            print 'error------------->', e
+            logging.info('Error: %s', e)
+            request.session['mobis_usekey'] = ''
+            request.session['mobis_memid'] = ''
+            return redirect(MOBIS_BASE_URL)
 
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has
@@ -236,6 +240,117 @@ def index(request):
     #  we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
     return student.views.index(request, user=request.user)
+
+
+def user_ora_exists_check(seqid):
+
+    import cx_Oracle as ora
+
+    try:
+        db = None
+        cur = None
+        results = []
+
+        dsn = ora.makedsn("oracle11g", 1521, "XE")
+        db = ora.connect("scott", "tiger", dsn)
+        # con = cx_Oracle.connect("system/oracle@localhost:1521")
+        cur = db.cursor()
+
+        # get one row
+        query = """
+                    SELECT
+                         USER_ID
+                        ,NVL(USER_NM,'') USER_NM
+                        ,DUTY_CD
+                        ,DUTY_NM_HOME
+                        ,DEPT_CD
+                        ,NVL(DEPT_NM,'') DEPT_NM
+                        ,USER_GRADE_CODE
+                        ,NVL(JW_NM_HOME,'') JW_NM_HOME
+                    FROM VW_HISTORY_SWA
+                    WHERE USER_ID = \'{seqid}\'
+                    AND   ROWNUM = 1
+                """.format(seqid=seqid)
+
+        # WFUSER.VW_HISTORY_SWA
+        print 'query ---------------------->', query
+        logging.info('query: %s', query)
+        cur.execute(query)
+
+        for row in cur.fetchall():
+            results.append(row)
+
+        return results
+
+    except ora.DatabaseError as e:
+        print e
+        logging.info('Oracle SQL: %s', e)
+
+    finally:
+        # cursor and connection close
+        if cur is not None:
+            cur.close()
+        if db is not None:
+            db.close()
+
+
+def user_info_update(user_nm, email):
+
+    import MySQLdb as mdb
+
+    con = None
+
+    # MySQL Connection 연결
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                     settings.DATABASES.get('default').get('USER'),
+                     settings.DATABASES.get('default').get('PASSWORD'),
+                     settings.DATABASES.get('default').get('NAME'),
+                     charset='utf8')
+
+    #con = mdb.connect(host='localhost', user='root', passwd='', db='edxapp', charset='utf8')
+
+    try:
+        # Connection 으로부터 Cursor 생성
+        cur = con.cursor()
+
+        # SQL문 실행
+        user_id = 0
+
+        sql = """
+              select id from auth_user where email = \'{email}\'
+              """.format(email=email)
+        cur.execute(sql)
+
+        # 데이타 Fetch
+        rows = cur.fetchall()
+        exists_flag = False
+        for row in rows:
+            user_id = row[0]
+            exists_flag = True
+            break
+
+        if exists_flag:
+            sql = """
+                  update auth_userprofile set name = \'{user_nm}\' where user_id = {user_id}
+                  """.format(user_nm=user_nm, user_id=user_id)
+            cur.execute(sql)
+            con.commit()
+            print cur.rowcount, "record(s) affected"
+            logging.info("%d record(s) affected", cur.rowcount)
+        else:
+            print "0 record(s) affected"
+            logging.info("%s record(s) affected", '0')
+
+    except mdb.Error, e:
+        print e
+        logging.info('MySQL: %s', e)
+
+    finally:
+        # Connection 닫기
+        if cur is not None:
+            cur.close()
+        if con is not None:
+            con.close()
 
 def getSession(request):
     #using id check session
