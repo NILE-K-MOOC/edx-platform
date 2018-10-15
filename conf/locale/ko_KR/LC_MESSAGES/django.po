@@ -832,6 +832,36 @@ msgstr "중앙대학교"
 msgid "HANDONG GLOBAL UNIVERSITY"
 msgstr "한동대학교"
 
+msgid "KangwonK"
+msgstr "강원대학교"
+
+msgid "KYCU"
+msgstr "건양사이버대학교"
+
+msgid "KWU"
+msgstr "광운대학교"
+
+msgid "DSU"
+msgstr "동서대학교"
+
+msgid "BDUk"
+msgstr "부산디지털대학교"
+
+msgid "CUFS"
+msgstr "사이버한국외국어대학교"
+
+msgid "WHSUK"
+msgstr "원광보건대학교"
+
+msgid "INU"
+msgstr "인천대학교"
+
+msgid "HUFS"
+msgstr "한국외국어대학교"
+
+msgid "HYCUK"
+msgstr "한양사이버대학교"
+
 #: lms/templates/course.html
 msgid "Starting Soon"
 msgstr "개강 예정"

@@ -1320,7 +1320,7 @@ def settings_handler(request, course_key_string):
             settings_context = {
                 'context_course': course_module,
                 'teacher_name': teacher_name,
-                'edit_check': edit_check,
+                'user_edit': edit_check,
                 'course_locator': course_key,
                 'lms_link_for_about_page': utils.get_lms_link_for_about_page(course_key),
                 'course_image_url': course_image_url(course_module, 'course_image'),
