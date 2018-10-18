@@ -862,6 +862,24 @@ msgstr "한국외국어대학교"
 msgid "HYCUK"
 msgstr "한양사이버대학교"
 
+msgid "SJCU"
+msgstr "세종사이버대학교"
+
+msgid "CUK"
+msgstr "고려사이버대학교"
+
+msgid "SCU"
+msgstr "서울사이버대학교"
+
+msgid "semyung"
+msgstr "세명대학교"
+
+msgid "KOICA"
+msgstr "한국국제협력단"
+
+msgid "DEU"
+msgstr "동의대학교"
+
 #: lms/templates/course.html
 msgid "Starting Soon"
 msgstr "개강 예정"
