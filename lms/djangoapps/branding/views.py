@@ -610,7 +610,7 @@ def multisite_index(request, org, msearch=None):
             print "------------------> O"
             print "------------------> O"
             print "------------------> O"
-            url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+            url = 'http://kmooc.kr/auth/login/nec/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
             return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
