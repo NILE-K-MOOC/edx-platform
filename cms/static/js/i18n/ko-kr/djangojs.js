@@ -1853,6 +1853,7 @@
     "YonseiWK": "\uC5F0\uC138\uB300\uD559\uAD50\u0028\uC6D0\uC8FC\u0029",
     "HansungK": "\uD55C\uC131\uB300\uD559\uAD50",
     "CKUk": "\uAC00\uD1A8\uB9AD\uAD00\uB3D9\uB300\uD559\uAD50",
+    "professor": "\uAD50\uC218",
     "language": "\uc5b8\uc5b4",
     "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
     "Add a response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
