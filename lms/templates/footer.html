@@ -44,6 +44,7 @@ from branding.api import get_footer
                                 <option value="http://www.nile.or.kr/">${_("NILE")}</option>
                                 <option value="http://www.all.go.kr">${_("Lifelong Learning Account")}</option>
                                 <option value="http://www.lifelongedu.go.kr/">${_("Lifelong Learning Portal")}</option>
+                                <option value="http://www.matchup.kr//">${_("Match Up")}</option>
                             </select>
                             <!--<input id="go" class="btn-neutral" type="button" title="새창으로 열림" value='${_("move")}' style="border: solid 0px">-->
                         </div>
@@ -58,11 +59,11 @@ from branding.api import get_footer
                             });
                             $(document).on('change', '#related_site', function () {
                                 var url = $('#related_site option:selected').val();
-                                if (url != '관련사이트') {
+                                if (url != '관련사이트' && url != 'Related sites') {
                                     //document.location.href = url;
                                     window.open(url, "", "");
                                 } else {
-                                    alert('관련사이트를 선택하세요.');
+                                    //alert('관련사이트를 선택하세요.');
                                 }
 
                             });
