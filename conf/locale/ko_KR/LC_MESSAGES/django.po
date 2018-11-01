@@ -29376,6 +29376,9 @@ msgstr "평생학습계좌제"
 msgid "Lifelong Learning Portal"
 msgstr "늘배움"
 
+msgid "Match Up"
+msgstr "매치업"
+
 msgid "ACE : Advancement of College Education"
 msgstr "학부교육 선도대학 육성사업"
 
