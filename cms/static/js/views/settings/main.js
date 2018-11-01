@@ -722,7 +722,7 @@ var DetailsView = ValidatingView.extend({
             staff_template += "" +
                 "	<article class='professor'>" +
                 "		<div class='teacher_image'>" +
-                "			<img src='" + staff_photo + "' align='left' alt=''>" +
+                "			<img src='" + staff_photo + "' align='left' alt='" + staff_name + " " + gettext("professor") + "'>" +
                 "		</div>" +
                 "		<div class='staff_descript'>" +
                 "			<dl>" +
@@ -767,7 +767,7 @@ var DetailsView = ValidatingView.extend({
             staff_template += "" +
                 "	<article class='staff'>" +
                 "		<div class='ta_image'>" +
-                "			<img src='" + staff_photo + "' align='left' alt=''>" +
+                "			<img src='" + staff_photo + "' align='left' alt='" + staff_name + "'>" +
                 "		</div>" +
                 "		<div class='staff_descript'>" +
                 "			<dl>" +
