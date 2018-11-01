@@ -50,15 +50,7 @@ define([
         render: function () {
             var data = _.clone(this.model.attributes);
 
-            data.start = formatDate(new Date(data.start));
-            data.enrollment_start = formatDate(new Date(data.enrollment_start));
-
-            if (data.end)
-                data.end = formatDate(new Date(data.end));
-            else
-                data.end = null;
-
-            //console.log(data);
+            // console.log(data);
 
             //var nDate = formatDate(new Date());
             //var sDate = formatDate(new Date(data.start));
@@ -67,6 +59,11 @@ define([
             var nDate = formatDateFull(new Date());
             var sDate = formatDateFull(new Date(data.start));
             var eDate = formatDateFull(new Date(data.end));
+
+            data.start = formatDate(new Date(data.start));
+            data.enrollment_start = formatDate(new Date(data.enrollment_start));
+            data.end = formatDate(new Date(data.end));
+
             if (eDate != null && nDate > eDate) {
                 data.course_end = 'Y';
             } else {
