@@ -880,6 +880,13 @@ msgstr "한국국제협력단"
 msgid "DEU"
 msgstr "동의대학교"
 
+msgid "XuetangX"
+msgstr "XuetangX"
+
+msgid "FUNMOOC"
+msgstr "FUN-MOOC"
+
+
 #: lms/templates/course.html
 msgid "Starting Soon"
 msgstr "개강 예정"
@@ -30240,5 +30247,6 @@ msgstr "만족도 조사"
 
 msgid "Total recognized learning hours must have number"
 msgstr "학습인정시간에는 숫자만 입력 가능합니다"
+
 
 
