@@ -203,6 +203,8 @@ def instructor_dashboard_2(request, course_id):
 
     certificate_invalidations = CertificateInvalidation.get_certificate_invalidations(course_key)
 
+    # print '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', check_assessment(course.wiki_slug)
+
     context = {
         'course': course,
         'studio_url': get_studio_url(course, 'course'),
@@ -701,7 +703,7 @@ def check_assessment(active_versions_key):
     cursor = db.modulestore.structures.find({'_id': assessmentId})
     for document in cursor:
         blocks = document.get('blocks')
-        print blocks
+        # print blocks
     cursor.close()
     client.close()
     is_assessment = False
@@ -725,7 +727,7 @@ def check_assessment_ing(course_course, course_run):
          WHERE term_id = '{course_run}' AND class_id = '{course_course}';
     """.format(course_run=course_run, course_course=course_course)
 
-    print 'check_assessment_ing QUERY1: ', query
+    # print 'check_assessment_ing QUERY1: ', query
 
     query2 = """
         SELECT a.uri
@@ -738,7 +740,7 @@ def check_assessment_ing(course_course, course_run):
                AND term_id = '{course_run}';
     """.format(course_course=course_course, course_run=course_run)
 
-    print 'check_assessment_ing QUERY2: ', query2
+    # print 'check_assessment_ing QUERY2: ', query2
 
     query3 = """
        SELECT item_type
@@ -770,8 +772,8 @@ def check_assessment_ing(course_course, course_run):
     copy_cnt += cur.rowcount
     cur.close()
     con.close()
-    print copy_cnt
-    print 'cur_rowcount :::  ', cur_rowcount, '     ----------    cur_rowcount2 ::: ',  cur_rowcount2
+    # print copy_cnt
+    # print 'cur_rowcount :::  ', cur_rowcount, '     ----------    cur_rowcount2 ::: ',  cur_rowcount2
     if (cur_rowcount > 0 and (copy_cnt == cur_rowcount)) or (cur_rowcount > 0 and cur_rowcount2 == 0):
         return True
     else:
@@ -779,7 +781,7 @@ def check_assessment_ing(course_course, course_run):
 
 
 def check_assessment_done(course_course, course_run):
-    print 'check_assessment_done'
+    # print 'check_assessment_done'
     with connections['default'].cursor() as cur:
         query = """
             SELECT count(uri)
@@ -788,7 +790,7 @@ def check_assessment_done(course_course, course_run):
               AND term_id = '{course_run}';
         """.format(course_course=course_course, course_run=course_run)
 
-        print 'check_assessment_done query : ', query
+        # print 'check_assessment_done query : ', query
         cur.execute(query)
         result = cur.fetchone()
         if result[0] == 0:
@@ -802,7 +804,7 @@ def check_assessment_done(course_course, course_run):
              AND term_id = '{course_run}';
         """.format(course_course=course_course, course_run=course_run)
 
-        print 'check_assessment_done query2 :', query2
+        # print 'check_assessment_done query2 :', query2
 
         cur.execute(query2)
         result = cur.fetchone()
@@ -826,87 +828,105 @@ def return_course(course_id):
 
 
 def get_assessment_info(course):
-    accessment_info = {}
+    reload(sys)
 
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
-                      settings.DATABASES.get('default').get('NAME'))
+    course_id = str(course.id)
+    course = course_id.split('+')[1]
+    run = course_id.split('+')[2]
 
     client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
     db = client.edxapp
-    # org = str(course.wiki_slug).split('.')
-
-    query = '''
-        SELECT start, end FROM course_overviews_courseoverview WHERE id = '{course_id}';
-    '''.format(course_id=course.id)
-
-    print 'date query --------    ', course.display_name, '\n', course.id, '\n', query
-
-    cur = con.cursor()
-    cur.execute(query)
-    course_date = cur.fetchone()
-
-    start_course = datetime.datetime.strftime(course_date[0], '%Y-%m-%dT%H:%M:%S')
-    end_course = datetime.datetime.strftime(course_date[1], '%Y-%m-%dT%H:%M:%S')
-
-    cur.close()
-
-    cursor = db.modulestore.active_versions.find({'search_targets.wiki_slug': course.wiki_slug})
+    cursor = db.modulestore.active_versions.find({"course": course, "run": run})
     for document in cursor:
         published_branch = document.get('versions').get('published-branch')
     cursor.close()
     cursor = db.modulestore.structures.find_one({'_id': published_branch})
+    blocks = cursor.get("blocks")
 
-    dict1 = {}
-    dict2 = {}
+    course_start = \
+        [block.get("fields")['start'] if 'start' in block.get("fields") else None for block in cursor.get("blocks") if
+         block.get("block_type") == "course"][0]
+    course_end = [block.get("fields")['end'] if 'end' in block.get("fields") else None for block in cursor.get("blocks") if
+                  block.get("block_type") == "course"][0]
 
-    # 1. 강좌 종료일 확인
-    course_end = [block.get("fields")['end'] if 'end' in block.get("fields") else None for block in cursor.get("blocks") if block.get("block_type") == "course"][0]
-    course_start = [block.get("fields")['start'] if 'start' in block.get("fields") else None for block in cursor.get("blocks") if block.get("block_type") == "course"][0]
+    items = [block.get("block_id") for block in cursor.get("blocks") if block.get("block_type") in ["openassessment", "edx_sga"]]
+    values = ""
+    display_name = ""
+    start = ""
+    due = ""
 
-    # 2. edx_sga, ora 확인
-    ora_sga_list = [block.get("block_id") for block in cursor.get("blocks") if block.get("block_type") in ['edx_sga', 'openassessment']]
-    print 'ora_sga_list:', ora_sga_list
+    for item in items:
+        for block in blocks:
+            if item == block.get("block_id"):
+                display_name = block.get("fields")["display_name"] if "display_name" in block.get("fields") else None
+                start = datetime.datetime.strptime(block.get("fields")["submission_start"][:19], "%Y-%m-%dT%H:%M:%S") if "submission_start" in block.get("fields") else None
+                due = datetime.datetime.strptime(block.get("fields")["submission_due"][:19], "%Y-%m-%dT%H:%M:%S") if "submission_due" in block.get("fields") else None
 
-    # * ora 의 경우 submission_start, submission_due 값이 존재 하므로 해당 값을 dict2 로 셋팅. 단, 강좌종료일 보다 앞서야함.
-    for block in cursor.get("blocks"):
-        if block.get("block_type") == "openassessment" and "submission_due" in block.get("fields"):
-            submission_due = datetime.datetime.strptime(block.get("fields")["submission_due"][:19], "%Y-%m-%dT%H:%M:%S")
-            submission_start = datetime.datetime.strptime(block.get("fields")["submission_start"][:19], "%Y-%m-%dT%H:%M:%S") if block.get('fields').has_key('submission_start') else course_start
-            ora_display_name = block.get('fields')['display_name'] if block.get('fields').has_key('display_name') else 'No Title'
-            dict2['submission_start'] = submission_start
-            dict2['submission_due'] = submission_due if submission_due < course_end else course_end
-            dict2['ora_display_name'] = ora_display_name
+        if not display_name or not due:
 
-    # 3. vertical 에서 해당 xblock 을 포함하는지 확인
-    for block_id in ora_sga_list:
-        for block in cursor.get("blocks"):
-            if block.get("block_type") == 'vertical':
-                children = block.get("fields")["children"] if "children" in block.get("fields") else list()
-                for child in children:
-                    if block_id == child[1]:
-                        dict1[block.get("block_id")] = block_id
-                        break
+            for b in blocks:
+                if b.get("block_type") == "vertical":
+                    children = b.get("fields")["children"]
 
-    # 4. sequential 에서 vertical 을 포함하는지 확인
-    for key, value in dict1.items():
-        for block in cursor.get("blocks"):
-            if block.get("block_type") == 'sequential':
-                children = block.get("fields")["children"] if "children" in block.get("fields") else list()
-                for child in children:
-                    if key == child[1] and not dict2.has_key(dict1[key]):
-                        dict2['start'] = start_course
-                        dict2['due'] = block.get("fields")["due"] if "due" in block.get("fields") else end_course
-                        sga_display_name = block.get('fields')['display_name'] if block.get('fields').has_key('display_name') or block.get('fields')['display_name'] is None or block.get('fields')['display_name'] == "" else 'SGA file'
-                        dict2['sga_display_name'] = sga_display_name
-                        break
+                    for c in children:
+                        if item == c[1]:
+                            v_id = b.get("block_id")
+                            break
 
-    print 'dict2:', dict2
+            for b in blocks:
+                if b.get("block_type") == "sequential":
+                    children = b.get("fields")["children"]
 
-    accessment_info = {'ora_display_name': ora_display_name if dict2.has_key('ora_display_name') else '', 'submission_start': dict2['submission_start'] if dict2.has_key('submission_start') else '',
-                       'submission_due': dict2['submission_due'] if dict2.has_key('submission_due') else '', 'sga_display_name': sga_display_name if dict2.has_key('sga_display_name') else '',
-                       'start': dict2['start'] if dict2.has_key('start') else '', 'due': dict2['due'] if dict2.has_key('due') else ''}
+                    for c in children:
+                        if v_id == c[1]:
+                            if not display_name:
+                                display_name = b.get("fields")["display_name"] if "display_name" in b.get("fields") else ""
 
-    return accessment_info
+                            if not start:
+                                start = b.get("fields")["start"] if "start" in b.get("fields") else ""
+
+                            if not due:
+                                due = b.get("fields")["due"] if "due" in b.get("fields") else ""
+
+        if not start or start < course_start:
+            start = course_start
+
+        if not due or course_end < due:
+            due = course_end
+
+        values += """
+                ('{course_id}', '{item}', '{display_name}', '{start}', '{due}'),""".format(
+            course_id=course_id,
+            item=item,
+            display_name=display_name,
+            start=start,
+            due=due
+        )
+
+    # connections 객체를 사용하면 autocommit 이 안됨..
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
+    cur = con.cursor()
+
+    with con:
+        cur.execute("set names utf8")
+        query = """
+            INSERT INTO tb_tmp_info 
+                        (course_id, 
+                         block_id, 
+                         display_name, 
+                         start,
+                         due) 
+            VALUES {values}        
+        """.format(values=values[:-1])
+
+        # print 'query -------------------------------------------------------------- sss'
+        # print query
+        # print 'query -------------------------------------------------------------- eee'
+
+        cur.execute(query)
+
+    cur.close()
+    con.close()
 
 
 def course_block_id(published_branch, children_id, sga_id):
@@ -936,7 +956,6 @@ def create_temp_answer(course_id):
     query = "delete from tb_tmp_answer where course_id = '" + course_id + "'"
     cur = con.cursor()
     cur.execute(query)
-    print 'query :::', query
 
     query1 = """
         SELECT item_type,
@@ -971,7 +990,7 @@ def create_temp_answer(course_id):
             else:
                 answer = 'no_answer'
 
-            log.info(u'item_type == %s, answer == %s' % (item_type, answer))
+            # log.info(u'item_type == %s, answer == %s' % (item_type, answer))
 
             # answer = answer.decode('unicode_escape')
             # answer = answer.encode('utf-8')
@@ -1001,10 +1020,10 @@ def create_temp_answer(course_id):
 def copykiller(request, course_id):
     reload(sys)
     sys.setdefaultencoding('utf-8')
-    print course_id
+    # print course_id
 
     course = return_course(course_id)
-    assessment_info = get_assessment_info(course)
+    get_assessment_info(course)
     create_temp_answer(course_id)
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'), settings.DATABASES.get('default').get('PASSWORD'),
@@ -1031,21 +1050,21 @@ def copykiller(request, course_id):
                                   attach_file_name,
                                   attach_file_path)
             SELECT submission_uuid,
-                   year(curdate())                year_id,
-                   concat(year(curdate()), '년') year_name,
-                  '{course_run}'                   term_id,
-                  '{course_run}'                   term_name,
-                  '{course_course}'                class_id,
-                  '{course_display_name}'          class_name,
-                   a.item_id                          report_id,
-                  '{ora_display_name}'             report_name,
+                   Year(i.start)                                         year_id, 
+                   Concat(Year(i.start), '년')                          year_name,
+                    '{course_run}'                   term_id,
+                    '{course_run}'                   term_name, 
+                   i.display_number_with_default                         class_id, 
+                   i.display_name                                        class_name, 
+                   h.block_id                                            report_id, 
+                   h.display_name                                        report_name,
                    c.username                     student_id,
                    d.name                         student_name,
                    c.id                           student_number,
-                   DATE_FORMAT('{submission_start}', '%Y%m%d%H%i%s')                start_date,
-                   DATE_FORMAT('{submission_due}', '%Y%m%d%H%i%s')                end_date,
+                   Date_format(ifnull(h.start, i.start), '%Y%m%d%H%i%s')                  start_date, 
+                   Date_format(ifnull(h.due, i.end), '%Y%m%d%H%i%s')     end_date,
                    DATE_FORMAT(completed_at, '%Y%m%d%H%i%s')                   submit_date,
-                   '{ora_display_name}'        title,
+                   h.display_name        title,
                    e.raw_answer                   content,
                    if(
                       LOCATE('"file_key":', g.raw_answer) = 0,
@@ -1072,32 +1091,37 @@ def copykiller(request, course_id):
                    JOIN submissions_studentitem f ON a.student_id = f.student_id
                    JOIN submissions_submission g
                       ON f.id = g.student_item_id AND a.submission_uuid = g.uuid
-             WHERE     completed_at IS NOT NULL
+                   JOIN tb_tmp_info h 
+                     ON a.course_id = h.course_id 
+                        AND h.block_id = Substring_index(a.item_id, '@', -1) 
+                   JOIN course_overviews_courseoverview i 
+                     ON a.course_id = i.id
+             WHERE     grading_completed_at IS NOT NULL
                    AND a.item_id NOT LIKE '%DEMOk%'
                    AND a.course_id = '{course_id}'
                    AND g.attempt_number = (SELECT max(attempt_number)
                                              FROM submissions_submission
                                             WHERE student_item_id = f.id)
             UNION ALL
-            SELECT b.uuid,
-               year(curdate())                                       year_id,
-               concat(year(curdate()), '년')                        year_name,
-               '{course_run}'                   term_id,
-                  '{course_run}'                   term_name,
-                  '{course_course}'                class_id,
-                  '{course_display_name}'          class_name,
-               item_id                                               report_id,
-               '{sga_display_name}'                                           report_name,
-               e.username                                            student_id,
-               f.name                                                student_name,
-               e.id                                                  student_number,
-               DATE_FORMAT('{start}', '%Y%m%d%H%i%s')    start_date,
-               DATE_FORMAT('{due}', '%Y%m%d%H%i%s')    end_date,
-               DATE_FORMAT(submitted_at, '%Y%m%d%H%i%s')             submit_date,
-               ''                                                    title,
-               ''                                                    content,
-               SUBSTRING(d.raw_answer, instr(d.raw_answer, ':') + 1) attach_file_name,
-               concat('/edx/var/edxapp/media',
+            SELECT b.uuid, 
+                   Year(h.start)                                         year_id, 
+                   Concat(Year(h.start), '년')                          year_name, 
+                    '{course_run}'                   term_id,
+                    '{course_run}'                   term_name, 
+                   h.display_number_with_default                         class_id, 
+                   h.display_name                                        class_name, 
+                   g.block_id                                            report_id, 
+                   g.display_name                                        report_name, 
+                   e.username                                            student_id, 
+                   f.NAME                                                student_name, 
+                   e.id                                                  student_number, 
+                   Date_format(ifnull(g.start, h.start), '%Y%m%d%H%i%s') start_date, 
+                   Date_format(ifnull(g.due, h.end), '%Y%m%d%H%i%s')     end_date, 
+                   Date_format(submitted_at, '%Y%m%d%H%i%s')             submit_date, 
+                   ''                                                    title, 
+                   ''                                                    content, 
+                   Substring(d.raw_answer, Instr(d.raw_answer, ':') + 1) attach_file_name, 
+                   concat('/edx/var/edxapp/media',
                       '/',
                       '{course_org}',
                       '/',
@@ -1106,37 +1130,45 @@ def copykiller(request, course_id):
                       substring_index(item_id, '@', -1),
                       '/',
                       SUBSTRING_INDEX(d.raw_answer, ':', 1),
-                      SUBSTRING(d.raw_answer, instr(d.raw_answer, '.')))
-                  attach_file_path
-          FROM submissions_studentitem a
-               JOIN submissions_submission b ON a.id = b.student_item_id
-               JOIN student_anonymoususerid c ON a.student_id = c.anonymous_user_id
-               JOIN tb_tmp_answer d ON a.course_id = d.course_id AND b.uuid = d.uuid
-               JOIN auth_user e ON c.user_id = e.id
-               JOIN auth_userprofile f ON c.user_id = f.user_id AND e.id = f.user_id
-         WHERE     a.course_id = '{course_id}'
-               AND a.item_type = 'sga'
-               AND b.attempt_number = (SELECT max(attempt_number)
-                                         FROM submissions_submission
-                                        WHERE student_item_id = a.id)
+                      SUBSTRING(d.raw_answer, instr(d.raw_answer, '.'))) attach_file_path 
+            FROM   submissions_studentitem a 
+                   JOIN submissions_submission b 
+                     ON a.id = b.student_item_id 
+                   JOIN student_anonymoususerid c 
+                     ON a.student_id = c.anonymous_user_id 
+                   JOIN tb_tmp_answer d 
+                     ON a.course_id = d.course_id 
+                        AND b.uuid = d.uuid 
+                   JOIN auth_user e 
+                     ON c.user_id = e.id 
+                   JOIN auth_userprofile f 
+                     ON c.user_id = f.user_id 
+                        AND e.id = f.user_id 
+                   JOIN tb_tmp_info g 
+                     ON d.course_id = g.course_id 
+                        AND g.block_id = Substring_index(item_id, '@', -1) 
+                   JOIN course_overviews_courseoverview h 
+                     ON g.course_id = h.id 
+            WHERE  a.course_id = '{course_id}' 
+                   AND a.item_type = 'sga' 
+                   AND b.attempt_number = (SELECT Max(attempt_number) 
+                                           FROM   submissions_submission 
+                                           WHERE  student_item_id = a.id)             
     """.format(course_run=str(course.id.run), course_course=str(course.id.course),
-               course_display_name=str(course.display_name),
-               ora_display_name=str(assessment_info['ora_display_name']),
-               submission_start=str(assessment_info['submission_start']),
-               submission_due=str(assessment_info['submission_due']), course_id=str(course_id),
-               sga_display_name=str(assessment_info['sga_display_name']), start=str(assessment_info['start']),
-               due=str(assessment_info['due']), course_org=str(course.id.org))
+               course_display_name=str(course.display_name), course_org=str(course.id.org), course_id=str(course.id))
 
     query1 = "delete from tb_tmp_answer where 1=1"
+    query2 = "delete from tb_tmp_info where 1=1"
 
-    print 'query =', query
-    print 'query1 = ', query1
+    # print 'query =', query
+    # print 'query1 = ', query1
 
     with con:
         cur = con.cursor()
         cur.execute("set names utf8")
         cur.execute(query)
         cur.execute(query1)
+        cur.execute(query2)
 
     response_data = {}
     response_data['result'] = 'success'
@@ -1164,7 +1196,7 @@ def get_copykiller_result(request, course_id):
     query += "and concat(class_id, '+', term_id) = '" + course_id[course_id.index('+') + 1:] + "'"
     query += "order by assessment_no, student_id "
 
-    print 'get_copykiller_result query :', query
+    # print 'get_copykiller_result query :', query
 
     log.info(u'get_copykiller_result query:', query)
     cur.execute(query)
