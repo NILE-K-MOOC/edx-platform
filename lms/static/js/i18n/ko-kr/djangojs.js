@@ -1853,6 +1853,7 @@
     "YonseiWK": "\uC5F0\uC138\uB300\uD559\uAD50\u0028\uC6D0\uC8FC\u0029",
     "HansungK": "\uD55C\uC131\uB300\uD559\uAD50",
     "CKUk": "\uAC00\uD1A8\uB9AD\uAD00\uB3D9\uB300\uD559\uAD50",
+    "professor": "\uAD50\uC218",
     "language": "\uc5b8\uc5b4",
     "Related to: %(courseware_title_linked)s": "\uad00\ub828 \uc0ac\ud56d\u003a %(courseware_title_linked)s",
     "Add a response:": "\ub2f5\ubcc0 \ucd94\uac00\ud558\uae30",
@@ -1908,7 +1909,10 @@
     "Select a time allotment for the exam. If it is over 24 hours, type in the amount of time. You can grant individual learners extra time to complete the exam through the Instructor Dashboard.": "\uc2dc\ud5d8\uc5d0 \ub300\ud55c \uc2dc\uac04 \uc120\ud0dd\u0028\uc785\ub825\u0029\ud558\uc2ed\uc2dc\uc624\u002e \uad50\uc218\uc790 \ub300\uc2dc \ubcf4\ub4dc\ub97c \ud1b5\ud574 \uac1c\ubcc4 \ud559\uc2b5\uc790\uc5d0\uac8c \ucd94\uac00 \uc2dc\uac04\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4\u002e",
     "By default, submitted exams are available for review after the due date has passed. Select this option to keep exams hidden after that date.": "\uc2dc\ud5d8\uc740 \ub9c8\uac10\uc77c \uc774\ud6c4 \uac80\ud1a0\uac00 \uac00\ub2a5\ud569\ub2c8\ub2e4\u002e \uc81c\ucd9c \uae30\ud55c \uc774\ud6c4\uc5d0 \uc2dc\ud5d8\uc744 \uc228\uae30\ub824\uba74\uc774 \uc635\uc158\uc744 \uc120\ud0dd\ud558\uc2ed\uc2dc\uc624\u002e",
     "No exam results found.": "\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
-    //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
+    "FUNMOOC":"\u0046\u0055\u004e\u002d\u004d\u004f\u004f\u0043",
+    "XuetangX":"\u0058\u0075\u0065\u0074\u0061\u006e\u0067\u0058",
+
+      //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
     "": "\uc5c6\uc74c",
 
     // Language code

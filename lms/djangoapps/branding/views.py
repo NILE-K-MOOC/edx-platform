@@ -31,6 +31,7 @@ from bson import ObjectId
 import re
 from datetime import datetime
 from datetime import timedelta
+from django.views.decorators.csrf import csrf_exempt
 
 log = logging.getLogger(__name__)
 
@@ -397,9 +398,11 @@ def decrypt(key, _iv, enc):
 
 
 #==================================================================================================> 멀티사이트 시작
+
+@csrf_exempt
 @ensure_csrf_cookie
 def multisite_index(request, org, msearch=None):
-
+    print "debug"
     # sql inject
     if org.find("'") != -1\
             or org.find("'") != -1\
@@ -489,6 +492,7 @@ def multisite_index(request, org, msearch=None):
         print 'out_url (after) = ', out_url
         print "--------------------------> DEBUG 7 [e]"
 
+
         if out_url == 'passkey':
             pass
         else:
@@ -504,8 +508,18 @@ def multisite_index(request, org, msearch=None):
         # 파라미터 전송 타입
         if login_type == 'P':
             # 암호화 데이터 복호화 로직
-            if request.GET.get('encStr'):
-                encStr = request.GET.get('encStr')
+
+            # if request.GET.get('encStr'):
+            #     print "GET!",request.GET.get('encStr')
+            # elif request.POST.get('encStr'):
+            #     print "POST!",request.POST.get('encStr') , "/", request.GET.get('encStr')
+
+                if request.GET.get('encStr') == '' or request.GET.get('encStr') == None:
+                    encStr = request.POST.get('encStr')
+
+                elif request.POST.get('encStr') == '' or request.POST.get('encStr') == None:
+                    encStr = request.GET.get('encStr')
+
 
                 print "--------------------------> DEBUG 9 [s]"
                 print "encStr = ", encStr
@@ -610,7 +624,7 @@ def multisite_index(request, org, msearch=None):
             print "------------------> O"
             print "------------------> O"
             print "------------------> O"
-            url = 'http://dev.kr/auth/login/google-plus/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
+            url = 'http://kmooc.kr/auth/login/nec/?auth_entry=login&next=%2Fmultisite%2F'+org+'%2F'
             return HttpResponseRedirect(url)
 
     # ----- i want data query ----- #
