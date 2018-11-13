@@ -1057,12 +1057,12 @@ var DetailsView = ValidatingView.extend({
                 -강좌 불러오기 메뉴 비활성화(내보내기는 가능하게 그대로 둠)
             * */
 
-            // $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
-            // $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
-            // $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
-            // $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
-            // $("#course-language").attr("disabled", true).css("background", "#ccc");
-            // $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
+            $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
+            $("#course-language").attr("disabled", true).css("background", "#ccc");
+            $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
 
         }
 
