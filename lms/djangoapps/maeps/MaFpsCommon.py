@@ -13,7 +13,7 @@ strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
 # strMAServerIP = "127.0.0.1"
-strMAServerIP = "203.235.44.153"
+strMAServerIP = "203.235.44.154"
 #strMAServerIP = "172.17.101.228"
 iMAServerPort = 18000
 iCellBlockCount = "15"
@@ -35,7 +35,7 @@ iQuickSet = 1      # 1: Use QuickUrl, 2: Use Service Check
 
 # iUseNas:1 -> set meta temp directory
 strCurrentPath = "/static/markany"                 # ex) getServletContext().getRealPath("") + "/product/install/MarkAny";
-strDownFolder = "/var/tmp";                    # metafile location        # log
+strDownFolder = "/var/tmp/matmp";                    # metafile location        # log
 strPrtDatDownFolder = strCurrentPath + "/bin/";         # dat
 
 # setting Install Page
