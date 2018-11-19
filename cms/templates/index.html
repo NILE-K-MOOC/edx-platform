@@ -223,7 +223,7 @@ if (
                   ## Translators: This is an example for the name of the organization sponsoring a course, seen when filling out the form to create a new course. The organization name cannot contain spaces.
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
                   <select class="new-course-org" id="new-course-org" name="new-course-org" onchange="check_2level();">
-                    <option value="">대학선택</option>
+                    <option value="">${_("Select Institute")}</option>
                     %for code, name in org_list :
                         <option value="${code}">${name}(${code})</option>
                     %endfor
@@ -267,67 +267,67 @@ if (
                   <li class="field select required" id="field-classfy">
                     <label for="new-course-classfy">${_("Classification")}</label>
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
-                        <option value="">대분류 선택</option>
-                        <option value="hum">인문계열</option>
-                        <option value="social">사회계열</option>
-                        <option value="edu">교육계열</option>
-                        <option value="eng">공학계열</option>
-                        <option value="nat">자연계열</option>
-                        <option value="med">의약계열</option>
-                        <option value="art">예체능계열</option>
-                        <option value="intd">융ㆍ복합계열</option>
+                        <option value="">${_("Select main category")}</option>
+                        <option value="hum">${_("Humanities")}</option>
+                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="edu">${_("Education")}</option>
+                        <option value="eng">${_("Engineering")}</option>
+                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="med">${_("Medical Sciences & Pharmacy")}</option>
+                        <option value="art">${_("Arts & Physical Education")}</option>
+                        <option value="intd">${_("fusion & convergence")}</option>
                     </select>
 
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
 
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" onchange="middle_classfy_sub(1)">
-                        <option value="">중분류 선택</option>
+                        <option value="">${_("Select sub category")}</option>
                     </select>
                     <br>
                     <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
-                        <option value="">주 대분류 선택</option>
-                        <option value="hum">인문계열</option>
-                        <option value="social">사회계열</option>
-                        <option value="edu">교육계열</option>
-                        <option value="eng">공학계열</option>
-                        <option value="nat">자연계열</option>
-                        <option value="med">의약계열</option>
-                        <option value="art">예체능계열</option>
-                        <option value="intd">융ㆍ복합계열</option>
+                        <option value="">${_("Select main category")}</option>
+                        <option value="hum">${_("Humanities")}</option>
+                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="edu">${_("Education")}</option>
+                        <option value="eng">${_("Engineering")}</option>
+                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="med">${_("Medical Sciences & Pharmacy")}</option>
+                        <option value="art">${_("Arts & Physical Education")}</option>
+                        <option value="intd">${_("fusion & convergence")}</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
-                        <option value="">융합 분류 선택1</option>
+                        <option value="">${_("Select fusion & convergence category")}</option>
                     </select>
 
                     <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
-                        <option value="">보조 대분류 선택</option>
-                        <option value="hum">인문계열</option>
-                        <option value="social">사회계열</option>
-                        <option value="edu">교육계열</option>
-                        <option value="eng">공학계열</option>
-                        <option value="nat">자연계열</option>
-                        <option value="med">의약계열</option>
-                        <option value="art">예체능계열</option>
+                        <option value="">${_("Select main category")}</option>
+                        <option value="hum">${_("Humanities")}</option>
+                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="edu">${_("Education")}</option>
+                        <option value="eng">${_("Engineering")}</option>
+                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="med">${_("Medical Sciences & Pharmacy")}</option>
+                        <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
-                        <option value="">융합 분류 선택2</option>
+                        <option value="">${_("Select fusion & convergence category")}</option>
                     </select>
 
                     <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
-                        <option value="">보조 대분류 선택</option>
-                        <option value="hum">인문계열</option>
-                        <option value="social">사회계열</option>
-                        <option value="edu">교육계열</option>
-                        <option value="eng">공학계열</option>
-                        <option value="nat">자연계열</option>
-                        <option value="med">의약계열</option>
-                        <option value="art">예체능계열</option>
+                        <option value="">${_("Select main category")}</option>
+                        <option value="hum">${_("Humanities")}</option>
+                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="edu">${_("Education")}</option>
+                        <option value="eng">${_("Engineering")}</option>
+                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="med">${_("Medical Sciences & Pharmacy")}</option>
+                        <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
-                        <option value="">융합 분류 선택3</option>
+                        <option value="">${_("Select fusion & convergence category")}</option>
                     </select>
                     <input class="new-course-org" id="new-course-classfy-sub" type="hidden" name=new-course-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <input class="new-course-org" id="new-course-middle-classfy-sub" type="hidden" name=new-course-middle-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
@@ -340,9 +340,9 @@ if (
                 <li class="field select required" id="field-category">
                     <label for="new-course-">${_("Linguistics")}</label>
                     <select class="new-course-linguistics" id="new-course-linguistics" name="new-course-linguistics">
-                        <option value="">한국학여부 선택</option>
-                        <option value="Y">한국학</option>
-                        <option value="N">그외</option>
+                        <option value="">${_("Select Linguistics")}</option>
+                        <option value="Y">${_("Korean studies")}</option>
+                        <option value="N">${_("Others")}</option>
                     </select>
                     <span class="tip" id="tip-new-course-linguistics">'한국' 관련 강좌의 경우 한국학을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-linguistics"></span>
@@ -396,88 +396,89 @@ if (
                 });
           };
 
-          var bcate = [
+        var bcate = [
                 {'category':
-                        {'code': 'hum', 'gettext': '인문계열'}
-
+                        {'code': 'hum', 'gettext': gettext("Humanities")}
                 },
                 {'category':
-                        {'code': 'social', 'gettext': '사회계열'}
+                        {'code': 'social', 'gettext': gettext("Social Sciences")}
                 },
                 {'category':
-                        {'code': 'edu', 'gettext': '교육계열'}
+                        {'code': 'edu', 'gettext': gettext("Education")}
                 },
                 {'category':
-                        {'code': 'eng', 'gettext': '공학계열'}
+                        {'code': 'eng', 'gettext': gettext("Engineering")}
                 },
                 {'category':
-                        {'code': 'nat', 'gettext': '자연계열'}
+                        {'code': 'nat', 'gettext': gettext("Natural Sciences")}
                 },
                 {'category':
-                        {'code': 'med', 'gettext': '의약계열'}
+                        {'code': 'med', 'gettext': gettext("Medical Sciences & Pharmacy")}
                 },
                 {'category':
-                        {'code': 'art', 'gettext': '예체능계'}
+                        {'code': 'art', 'gettext': gettext("Arts & Physical Education")}
                 },
                 {'category':
-                        {'code': 'intd', 'gettext': '융ㆍ복합'}
+                        {'code': 'intd', 'gettext': gettext("Fusion & Convergence")}
                 },
         ];
 
         var mcate = {
                 'hum':[
-                                {'gettext': '언어ㆍ문학', 'code': 'lang'},
-                                {'gettext': '인문과학', 'code': 'husc'}
+                                {'gettext': gettext("Linguistics & Literature"), 'code': 'lang'},
+                                {'gettext': gettext("Humanities"), 'code': 'husc'}
                         ],
                 'social':[
-                                {'gettext': '경영ㆍ경제', 'code': 'busn'},
-                                {'gettext': '법률', 'code': 'law'},
-                                {'gettext': '사회과학', 'code': 'scsc'}
+                                {'gettext': gettext("Business Administration & Economics"), 'code': 'busn'},
+                                {'gettext': gettext("Law"), 'code': 'law'},
+                                {'gettext': gettext("Social Sciences"), 'code': 'scsc'}
                         ],
                 'edu':[
-                                {'gettext': '교육일반', 'code': 'enor'},
-                                {'gettext': '유아교육', 'code': 'ekid'},
-                                {'gettext': '특수교육', 'code': 'espc'},
-                                {'gettext': '초등교육', 'code': 'elmt'},
-                                {'gettext': '중등교육', 'code': 'emdd'}
+                                {'gettext': gettext("General Education"), 'code': 'enor'},
+                                {'gettext': gettext("Early Childhood Education"), 'code': 'ekid'},
+                                {'gettext': gettext("Special Education"), 'code': 'espc'},
+                                {'gettext': gettext("Elementary Education"), 'code': 'elmt'},
+                                {'gettext': gettext("Secondary Education"), 'code': 'emdd'}
                         ],
                 'eng':[
-                                {'gettext': '건축', 'code': 'cons'},
-                                {'gettext': '토목ㆍ도시', 'code': 'civi'},
-                                {'gettext': '교통ㆍ운송', 'code': 'traf'},
-                                {'gettext': '기계ㆍ금속', 'code': 'mach'},
-                                {'gettext': '전기ㆍ전자', 'code': 'elec'},
-                                {'gettext': '정밀ㆍ에너지', 'code': 'deta'},
-                                {'gettext': '소재ㆍ재료', 'code': 'matr'},
-                                {'gettext': '컴퓨터ㆍ통신', 'code': 'comp'},
-                                {'gettext': '산업', 'code': 'indu'},
-                                {'gettext': '화공', 'code': 'cami'},
-                                {'gettext': '기타', 'code': 'other'}
+                                {'gettext': gettext("Architecture"), 'code': 'cons'},
+                                {'gettext': gettext("Civil Construction & Urban Engineering"), 'code': 'civi'},
+                                {'gettext': gettext("Transportation"), 'code': 'traf'},
+                                {'gettext': gettext("Mechanical & Metallurgical Engineering"), 'code': 'mach'},
+                                {'gettext': gettext("Electricity & Electronics"), 'code': 'elec'},
+                                {'gettext': gettext("Precision & Energy"), 'code': 'deta'},
+                                {'gettext': gettext("Materials"), 'code': 'matr'},
+                                {'gettext': gettext("Computers & Communication"), 'code': 'comp'},
+                                {'gettext': gettext("Industrial Engineering"), 'code': 'indu'},
+                                {'gettext': gettext("Chemical Engineering"), 'code': 'cami'},
+                                {'gettext': gettext("Others"), 'code': 'other'}
                         ],
                 'nat':[
-                                {'gettext': '농림ㆍ수산', 'code': 'agri'},
-                                {'gettext': '생물ㆍ화학ㆍ환경', 'code': 'bio'},
-                                {'gettext': '생활과학', 'code': 'life'},
-                                {'gettext': '수학ㆍ물리ㆍ천문ㆍ지리', 'code': 'math'}
+                                {'gettext': gettext("Agriculture & Fisheries"), 'code': 'agri'},
+                                {'gettext': gettext("Biology, Chemistry & Environmental Science"), 'code': 'bio'},
+                                {'gettext': gettext("Living Science"), 'code': 'life'},
+                                {'gettext': gettext("Mathematics, Physics, Astronomy & Geography"), 'code': 'math'}
                         ],
                 'med':[
-                                {'gettext': '의료', 'code': 'metr'},
-                                {'gettext': '간호', 'code': 'nurs'},
-                                {'gettext': '약학', 'code': 'phar'},
-                                {'gettext': '치료ㆍ보건', 'code': 'heal'}
+                                {'gettext': gettext("Medical Science"), 'code': 'metr'},
+                                {'gettext': gettext("Nursing"), 'code': 'nurs'},
+                                {'gettext': gettext("Pharmacy"), 'code': 'phar'},
+                                {'gettext': gettext("Therapeutics & Public Health"), 'code': 'heal'}
                         ],
                 'art':[
-                                {'gettext': '디자인', 'code': 'dsgn'},
-                                {'gettext': '응용예술','code': 'appl'},
-                                {'gettext': '무용ㆍ체육','code': 'danc'},
-                                {'gettext': '미술ㆍ조형', 'code': 'form'},
-                                {'gettext': '연극ㆍ영화', 'code': 'play'},
-                                {'gettext': '음악', 'code': 'musc'},
+                                {'gettext': gettext("Design"), 'code': 'dsgn'},
+                                {'gettext': gettext("Applied Arts"),'code': 'appl'},
+                                {'gettext': gettext("Dancing & Physical Education"),'code': 'danc'},
+                                {'gettext': gettext("FineArts & Formative Arts"), 'code': 'form'},
+                                {'gettext': gettext("Drama & Cinema"), 'code': 'play'},
+                                {'gettext': gettext("Music"), 'code': 'musc'},
                         ],
                 'intd':[
-                                {'gettext': '융ㆍ복합', 'code': 'intd_m'},
+                                {'gettext': gettext("Fusion & Convergence"), 'code': 'intd_m'},
                         ]
         };
+
+
 
         var middle_classfy = function(p){
             var bcate_val;
@@ -496,9 +497,6 @@ if (
                   bcate_val = document.getElementById("new-course-classfy-sub3").options[document.getElementById("new-course-classfy-sub3").selectedIndex].value;
                   middle_classfy_id = document.getElementById("new-course-middle-classfy-sub3");
             }
-            //console.log("--------------------------------------------");
-            //console.log("bcate selected : "+bcate_val);
-            //console.log("--------------------------------------------");
             removeOptions(middle_classfy_id);
             input_middle_classfy(middle_classfy_id, bcate_val);
         }
@@ -506,7 +504,7 @@ if (
         var input_middle_classfy = function(selectbox, m_info){
 
             var option = document.createElement("option");
-            option.text = "중분류 선택";
+            option.text = '${_("Select sub category")}'; //중분류 선택
             option.value = null;
 
             selectbox.appendChild(option);
@@ -571,7 +569,7 @@ if (
         }
         var input_middle_classfy_sub = function(selectbox, m_info){
             var option = document.createElement("option");
-            option.text = "중분류 선택";
+            option.text = '${_("Select sub category")}'; //중분류 선택
             option.value = null;
             selectbox.appendChild(option);
             for(key in mcate[m_info]){

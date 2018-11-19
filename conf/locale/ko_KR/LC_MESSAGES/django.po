@@ -30259,5 +30259,115 @@ msgstr "만족도 조사"
 msgid "Total recognized learning hours must have number"
 msgstr "학습인정시간에는 숫자만 입력 가능합니다"
 
+#: cms/templates/index.html
+#msgid "Select Organization"
+#msgstr "기관 선택"
 
+msgid "Select Institute"
+msgstr "기관 선택"
 
+msgid "Select main category"
+msgstr "대분류 선택"
+
+msgid "Select sub category"
+msgstr "중분류 선택"
+
+msgid "Select Linguistics"
+msgstr "한국학여부 선택"
+
+msgid "Korean studies"
+msgstr "한국학"
+
+msgid "Others"
+msgstr "그 외"
+
+msgid "Select fusion & convergence category"
+msgstr "융합 분류 선택"
+
+#msgid "Humanities"
+#msgstr "인문"
+
+#msgid "Social Sciences"
+#msgstr "사회"
+
+#msgid "Education"
+#msgstr "교육"
+
+#msgid "Engineering"
+#msgstr "공학"
+
+#msgid "Natural Sciences"
+#msgstr "자연"
+
+msgid "Medical Sciences & Pharmacy"
+msgstr "의약"
+
+msgid "Arts & Physical Education"
+msgstr "예체능"
+
+msgid "fusion & convergence"
+msgstr "융ㆍ복합"
+
+#: cms/templates/settings.html
+msgid "Recommended weekly commitment Effort per week"
+msgstr "주간 학습권장시간"
+
+msgid "Total no. of weeks Length"
+msgstr "총 주차"
+
+msgid "Accredited learning time"
+msgstr "학습인정시간"
+
+msgid "hours, minutes, weeks"
+msgstr "시간, 분, 주차"
+
+msgid "hours"
+msgstr "시간"
+
+#msgid "minutes"
+#msgstr "분"
+
+msgid "weeks"
+msgstr "주차"
+
+msgid "- Weekly Study : Estimated hours for doing weekly learning activities like video, assignments and group discussions"
+msgstr "- 주간 학습권장시간 : 해당 강좌를 충실히 학습하기 위해 필요한 주별 평균 권장 학습시간"
+
+msgid "- Length : No. of weeks including mid-term/final tests weeks"
+msgstr "- 총 주차 : 중간/기말고사를 포함한 총 주차수 (예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))"
+
+msgid "- Accredited learning time: The accredited amount of time students are actively involved in the learning process"
+msgstr "- 학습인정시간 : 본 강좌 이수자에게 인정되는 학습시간으로 해당 강좌의 동영상, 과제, 시험, 퀴즈, 토론 등의 시간을 포함"
+
+msgid "Up to 50 hours for 13 weeks course according to 'Accredited learning time Guide'"
+msgstr "'학습인정시간 산출지침'에 따라 13주차 기준 최대 50시간 이내로 산정"
+
+msgid "Video Duration"
+msgstr "총 동영상시간"
+
+msgid "Video Duration : Total video duration related with course contents"
+msgstr "총 동영상시간: 강의 내용과 관련된 동영상 재생 시간의 총 합계 ※ 강의 내용과 무관한 홍보동영상 등은 제외"
+
+#msgid "Course difficulty"
+#msgstr "강좌 난이도"
+
+msgid "Not applicable"
+msgstr "미선택"
+
+msgid "beginner"
+msgstr "교양"
+
+msgid "intermediate"
+msgstr "전공기초"
+
+msgid "advanced"
+msgstr "전공심화"
+
+msgid "Name of Lecturer"
+msgstr "교수자명"
+
+msgid "EX. Albert Einstein, Marie Curie"
+msgstr "예: 홍길동, 임꺽정"
+
+msgid "Please insert a comma (,) between Lecturers"
+msgstr "교수자가 복수인 경우 콤마(,) 로 구분해서 입력해주세요(예: 홍길동, 임꺽정)"
