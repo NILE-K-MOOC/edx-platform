@@ -30295,10 +30295,10 @@ msgid "fusion & convergence"
 msgstr "융ㆍ복합"
 
 #: cms/templates/settings.html
-msgid "Recommended weekly commitment"
+msgid "Recommended weekly commitment Effort per week"
 msgstr "주간 학습권장시간"
 
-msgid "Total no. of weeks"
+msgid "Total no. of weeks Length"
 msgstr "총 주차"
 
 msgid "Accredited learning time"
@@ -30316,10 +30316,10 @@ msgstr "시간"
 msgid "weeks"
 msgstr "주차"
 
-msgid "- Recommended weekly commitment : Estimated hours for doing weekly learning activities like video, assignments and group discussions"
+msgid "- Weekly Study : Estimated hours for doing weekly learning activities like video, assignments and group discussions"
 msgstr "- 주간 학습권장시간 : 해당 강좌를 충실히 학습하기 위해 필요한 주별 평균 권장 학습시간"
 
-msgid "- Total no. of weeks : No. of weeks including mid-term/final tests weeks"
+msgid "- Length : No. of weeks including mid-term/final tests weeks"
 msgstr "- 총 주차 : 중간/기말고사를 포함한 총 주차수 (예 : 15주차 = 13주(강의) + 1주(중간고사) + 1주(기말고사))"
 
 msgid "- Accredited learning time: The accredited amount of time students are actively involved in the learning process"
@@ -30328,17 +30328,17 @@ msgstr "- 학습인정시간 : 본 강좌 이수자에게 인정되는 학습시
 msgid "Up to 50 hours for 13 weeks course according to 'Accredited learning time Guide'"
 msgstr "'학습인정시간 산출지침'에 따라 13주차 기준 최대 50시간 이내로 산정"
 
-msgid "Total hours of video instruction"
+msgid "Video Duration"
 msgstr "총 동영상시간"
 
-msgid "Total hours of video instruction: Total video duration related with course contents"
+msgid "Video Duration : Total video duration related with course contents"
 msgstr "총 동영상시간: 강의 내용과 관련된 동영상 재생 시간의 총 합계 ※ 강의 내용과 무관한 홍보동영상 등은 제외"
 
-msgid "Course difficulty"
-msgstr "강좌 난이도"
+#msgid "Course difficulty"
+#msgstr "강좌 난이도"
 
-#msgid "Not selected"
-#msgstr "미선택"
+msgid "Not applicable"
+msgstr "미선택"
 
 msgid "beginner"
 msgstr "교양"

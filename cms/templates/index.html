@@ -223,7 +223,7 @@ if (
                   ## Translators: This is an example for the name of the organization sponsoring a course, seen when filling out the form to create a new course. The organization name cannot contain spaces.
                   ## Translators: "e.g. UniversityX or OrganizationX" is a placeholder displayed when user put no data into this field.
                   <select class="new-course-org" id="new-course-org" name="new-course-org" onchange="check_2level();">
-                    <option value="">${_("Select Organization")}</option>
+                    <option value="">${_("Select Institute")}</option>
                     %for code, name in org_list :
                         <option value="${code}">${name}(${code})</option>
                     %endfor
