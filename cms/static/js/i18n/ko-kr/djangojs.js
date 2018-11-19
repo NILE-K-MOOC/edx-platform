@@ -1911,6 +1911,9 @@
     "No exam results found.": "\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
     "FUNMOOC":"\u0046\u0055\u004e\u002d\u004d\u004f\u004f\u0043",
     "XuetangX":"\u0058\u0075\u0065\u0074\u0061\u006e\u0067\u0058",
+    "ANU":"\uc548\ub3d9\ub300\ud559\uad50",
+    "BUFS_ICFL":"\ubd80\uc0b0\uc678\uad6d\uc5b4\ub300\ud559\uad50",
+    "KangNamUK":"\uac15\ub0a8\ub300\ud559\uad50",
 
       //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
     "": "\uc5c6\uc74c",

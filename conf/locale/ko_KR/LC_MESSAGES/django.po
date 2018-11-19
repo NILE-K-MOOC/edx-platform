@@ -886,6 +886,17 @@ msgstr "XuetangX"
 msgid "FUNMOOC"
 msgstr "FUN-MOOC"
 
+msgid "ANU"
+msgstr "안동대학교"
+
+msgid "BUFS_ICFL"
+msgstr "부산외국어대학교"
+
+msgid "KangNamUK"
+msgstr "강남대학교"
+
+
+
 
 #: lms/templates/course.html
 msgid "Starting Soon"
