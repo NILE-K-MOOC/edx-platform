@@ -504,7 +504,7 @@ if (
         var input_middle_classfy = function(selectbox, m_info){
 
             var option = document.createElement("option");
-            option.text = "중분류 선택";
+            option.text = '${_("Select sub category")}'; //중분류 선택
             option.value = null;
 
             selectbox.appendChild(option);
@@ -569,7 +569,7 @@ if (
         }
         var input_middle_classfy_sub = function(selectbox, m_info){
             var option = document.createElement("option");
-            option.text = "중분류 선택";
+            option.text = '${_("Select sub category")}'; //중분류 선택
             option.value = null;
             selectbox.appendChild(option);
             for(key in mcate[m_info]){
