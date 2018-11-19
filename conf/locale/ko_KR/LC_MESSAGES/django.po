@@ -30249,7 +30249,10 @@ msgid "Total recognized learning hours must have number"
 msgstr "학습인정시간에는 숫자만 입력 가능합니다"
 
 #: cms/templates/index.html
-msgid "Select Organization"
+#msgid "Select Organization"
+#msgstr "기관 선택"
+
+msgid "Select Institute"
 msgstr "기관 선택"
 
 msgid "Select main category"
