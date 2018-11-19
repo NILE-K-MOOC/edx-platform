@@ -342,9 +342,10 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/logo01_' + logo_index + '.png')):
+        if os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/cert/logo01_' + logo_index + '.png'):
+            cert_logo = logo_index.lower()
             print_index = print_index.replace('${logo_area}',
-                                              '<img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
+                                              '<img class="ce-logo1" src="${static_url}/static/images/univ/cert/logo01_${cert_logo}.png" alt="${org_name_k}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_k + '</p></b>')
     elif language_flag == 'E':
@@ -377,9 +378,10 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/logo01_' + logo_index + '_e.png')):
+        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/cert_e/logo01_' + logo_index + '_e.png')):
+            cert_logo_e = logo_index.lower()
             print_index = print_index.replace('${logo_area}',
-                                              '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
+                                              '<img class="ce-logo1" src="${static_url}/static/images/univ_e/cert_e/logo01_${cert_logo_e}_e.png" alt="${org_name_e}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_e + '</p></b>')
     print_index = print_index.replace('${certificate_id_number}', certificate_id_number)
@@ -995,3 +997,5 @@ def MaMakeCookie(request):
     request.session.modified = True
 
     return response
+
+
