@@ -512,12 +512,17 @@
                     return tmp;
                 }();
 
-                return _.template($('#post-user-display-template').html())({
+                var ret_html = _.template($('#post-user-display-template').html())({
                     username: return_name || null,
                     user_url: this.model.get('user_url'),
                     is_community_ta: this.model.get('community_ta_authored'),
                     is_staff: this.model.get('staff_authored')
                 });
+
+                var start = ret_html.indexOf('username"');
+                var bugfix = ret_html.slice(0, start) + 'username">'+ return_name +'</a>';
+
+                return bugfix;
             };
 
             DiscussionContentShowView.prototype.getEndorserDisplay = function() {
