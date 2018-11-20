@@ -288,24 +288,24 @@ dump_js_escaped_json, js_escaped_string
                             -->
                                         <input type="hidden" class="short time" id="course-effort" placeholder="HH:MM"/>
 
-                                        <div>
+                                        <div style="width: 100%; float: left;">
 
-                                            <div style="width: 200px; float: left;">
-                                                <span class="tip tip-inline" style="font-size: 14px;"><b>${_("Recommended weekly commitment Effort per week")}</b></span><br/>
+                                            <div style="width: 250px; float: left;">
+                                                <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Recommended weekly commitment Effort per week")}</b></span><br/>
                                                 <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
                                                     style="float: left; padding: 10px;">${_("hours")}</span>
                                                 <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
                                                     style="float: left; padding: 10px;">${_("minutes")}</span>
                                             </div>
 
-                                            <div style="width: 120px; float: left;">
-                                                <span class="tip tip-inline" style="font-size: 14px;"><b>${_("Total no. of weeks Length")}</b></span><br/>
+                                            <div style="width: 150px; float: left;">
+                                                <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Total no. of weeks Length")}</b></span><br/>
                                                 <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
                                                     style="float: left; padding: 10px;">${_("weeks")}</span>
                                             </div>
 
-                                            <div style="width: 200px; float: left;">
-                                                <span class="tip tip-inline" style="font-size: 14px;"><b>${_("Accredited learning time")}</b></span><br/>
+                                            <div style="float: left;">
+                                                <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Accredited learning time")}</b></span><br/>
                                                 <input type="text" class="short time" id="Calculated" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">${_("hours")}</span>
                                                 <input type="text" class="short time" id="Calculated_mm" placeholder="MM" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">${_("minutes")}</span>
                                             </div>
