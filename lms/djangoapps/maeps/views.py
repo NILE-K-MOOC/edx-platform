@@ -17,6 +17,11 @@ from opaque_keys.edx.keys import CourseKey
 import MySQLdb as mdb
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+import logging
+
+
+log = logging.getLogger(__name__)
+
 
 @csrf_exempt
 def servey_check(request):
@@ -531,6 +536,9 @@ def certificate_print(request):
     print 'strHtmlData ---------------------------------------------- s'
     print strHtmlData
     print 'strHtmlData ---------------------------------------------- e'
+    
+    log.info(strHtmlData)
+
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
