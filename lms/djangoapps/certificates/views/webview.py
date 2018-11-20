@@ -199,6 +199,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
     context['logo_index'] = course_id.split('+')[0].split(':')[1]
+    context['cert_logo'] = context['logo_index'].lower()
     cur = con.cursor()
     query = """
             SELECT plain_data
