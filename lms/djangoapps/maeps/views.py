@@ -17,6 +17,11 @@ from opaque_keys.edx.keys import CourseKey
 import MySQLdb as mdb
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+import logging
+
+
+log = logging.getLogger(__name__)
+
 
 @csrf_exempt
 def servey_check(request):
@@ -301,6 +306,8 @@ def certificate_print(request):
     org_name_e = request.POST.get('org_name_e')
     e_name = request.POST.get('e_name')
 
+    cert_logo = logo_index.lower()
+
     print_index_css = print_index_css.replace('${static_url}', static_url)
 
     print_index = ''
@@ -342,9 +349,10 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/logo01_' + logo_index + '.png')):
+        if os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/cert/logo01_' + cert_logo + '.png'):
+
             print_index = print_index.replace('${logo_area}',
-                                              '<img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
+                                              '<img class="ce-logo1" src="${static_url}/static/images/univ/cert/logo01_${cert_logo}.png" alt="${org_name_k}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_k + '</p></b>')
     elif language_flag == 'E':
@@ -377,9 +385,9 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
-        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/logo01_' + logo_index + '_e.png')):
+        if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/cert_e/logo01_' + cert_logo + '_e.png')):
             print_index = print_index.replace('${logo_area}',
-                                              '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
+                                              '<img class="ce-logo1" src="${static_url}/static/images/univ_e/cert_e/logo01_${cert_logo}_e.png" alt="${org_name_e}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_e + '</p></b>')
     print_index = print_index.replace('${certificate_id_number}', certificate_id_number)
@@ -509,6 +517,9 @@ def certificate_print(request):
     print_index = print_index.replace('${org_name_k}', org_name_k)
     print_index = print_index.replace('${org_name_e}', org_name_e)
 
+    # 기관 로고
+    print_index = print_index.replace('${cert_logo}', cert_logo)
+
     print_index = print_index.replace('${static_url}', static_url)
     strHtmlData = print_index_css
     strHtmlData += '''
@@ -529,6 +540,7 @@ def certificate_print(request):
     print 'strHtmlData ---------------------------------------------- s'
     print strHtmlData
     print 'strHtmlData ---------------------------------------------- e'
+
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
@@ -995,3 +1007,5 @@ def MaMakeCookie(request):
     request.session.modified = True
 
     return response
+
+
