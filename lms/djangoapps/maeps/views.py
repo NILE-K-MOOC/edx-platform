@@ -541,8 +541,6 @@ def certificate_print(request):
     print strHtmlData
     print 'strHtmlData ---------------------------------------------- e'
 
-    log.info(strHtmlData)
-
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
