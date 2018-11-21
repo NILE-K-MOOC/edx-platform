@@ -9577,7 +9577,7 @@ msgstr "공란"
 
 #: cms/djangoapps/contentstore/views/course.py
 msgid "Course has been successfully reindexed."
-msgstr "강좌가 성공적으로 재인댁스가 이루어졌습니다."
+msgstr "강좌가 성공적으로 재인덱스가 이루어졌습니다."
 
 #: cms/djangoapps/contentstore/views/course.py
 #: cms/templates/js/course-outline.underscore
@@ -28908,11 +28908,14 @@ msgstr "전공별 강좌 보기"
 msgid "Humanities"
 msgstr "인문"
 
+msgid "Humanities Sciences"
+msgstr "인문과학"
+
 msgid "Social"
 msgstr "사회"
 
 msgid "Social Sciences"
-msgstr "사회"
+msgstr "사회과학"
 
 msgid "Education"
 msgstr "교육"
@@ -28924,13 +28927,13 @@ msgid "Natural"
 msgstr "자연"
 
 msgid "Natural Sciences"
-msgstr "자연"
+msgstr "자연과학"
 
 msgid "Medical"
 msgstr "의약"
 
 msgid "Medical Sciences"
-msgstr "의약"
+msgstr "의료"
 
 msgid "Arts&Physical"
 msgstr "예체능"
@@ -28955,6 +28958,9 @@ msgstr "개강상태"
 
 msgid "Finish"
 msgstr "종료 강좌"
+
+msgid "Select Period of studing"
+msgstr "학습기간 선택"
 
 msgid "Period of studing"
 msgstr "학습기간"
@@ -30270,7 +30276,7 @@ msgstr "한국학"
 msgid "Others"
 msgstr "그 외"
 
-msgid "Select fusion & convergence category"
+msgid "Select Fusion & Convergence category"
 msgstr "융합 분류 선택"
 
 #msgid "Humanities"
@@ -30294,11 +30300,11 @@ msgstr "의약"
 msgid "Arts & Physical Education"
 msgstr "예체능"
 
-msgid "fusion & convergence"
+msgid "Fusion & Convergence"
 msgstr "융ㆍ복합"
 
 #: cms/templates/settings.html
-msgid "Recommended weekly commitment Effort per week"
+msgid "Recommended commitment Effort per week"
 msgstr "주간 학습권장시간"
 
 msgid "Total no. of weeks Length"
@@ -30360,3 +30366,7 @@ msgstr "예: 홍길동, 임꺽정"
 
 msgid "Please insert a comma (,) between Lecturers"
 msgstr "교수자가 복수인 경우 콤마(,) 로 구분해서 입력해주세요(예: 홍길동, 임꺽정)"
+
+msgid "Select the difficulty level of the course."
+msgstr "강좌 내용의 어려운 수준을 선택하세요."
+

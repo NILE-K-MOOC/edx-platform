@@ -269,13 +269,13 @@ if (
                     <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
-                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="social">${_("Social")}</option>
                         <option value="edu">${_("Education")}</option>
                         <option value="eng">${_("Engineering")}</option>
-                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="nat">${_("Natural")}</option>
                         <option value="med">${_("Medical Sciences & Pharmacy")}</option>
                         <option value="art">${_("Arts & Physical Education")}</option>
-                        <option value="intd">${_("fusion & convergence")}</option>
+                        <option value="intd">${_("Fusion & Convergence")}</option>
                     </select>
 
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
@@ -287,47 +287,47 @@ if (
                     <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
-                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="social">${_("Social")}</option>
                         <option value="edu">${_("Education")}</option>
                         <option value="eng">${_("Engineering")}</option>
-                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="nat">${_("Natural")}</option>
                         <option value="med">${_("Medical Sciences & Pharmacy")}</option>
                         <option value="art">${_("Arts & Physical Education")}</option>
-                        <option value="intd">${_("fusion & convergence")}</option>
+                        <option value="intd">${_("Fusion & Convergence")}</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
-                        <option value="">${_("Select fusion & convergence category")}</option>
+                        <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
 
                     <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
-                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="social">${_("Social")}</option>
                         <option value="edu">${_("Education")}</option>
                         <option value="eng">${_("Engineering")}</option>
-                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="nat">${_("Natural")}</option>
                         <option value="med">${_("Medical Sciences & Pharmacy")}</option>
                         <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
-                        <option value="">${_("Select fusion & convergence category")}</option>
+                        <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
 
                     <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
-                        <option value="social">${_("Social Sciences")}</option>
+                        <option value="social">${_("Social")}</option>
                         <option value="edu">${_("Education")}</option>
                         <option value="eng">${_("Engineering")}</option>
-                        <option value="nat">${_("Natural Sciences")}</option>
+                        <option value="nat">${_("Natural")}</option>
                         <option value="med">${_("Medical Sciences & Pharmacy")}</option>
                         <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
                     <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
-                        <option value="">${_("Select fusion & convergence category")}</option>
+                        <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
                     <input class="new-course-org" id="new-course-classfy-sub" type="hidden" name=new-course-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <input class="new-course-org" id="new-course-middle-classfy-sub" type="hidden" name=new-course-middle-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
@@ -351,10 +351,10 @@ if (
                 <li class="field select required" id="field-category" style="display: none">
                     <label for="new-course-">${_("Period of Studing")}</label>
                     <select class="new-course-period" id="new-course-period" name="new-course-period">
-                        <option value=" ">학습기간 선택</option>
-                        <option value="S">단기(1~6 weeks)</option>
-                        <option value="M">중기(7~12 weeks)</option>
-                        <option value="L">장기(over 13 weeks)</option>
+                        <option value=" ">${_("Select Period of studing")}</option>
+                        <option value="S">${_("Short (1~6 weeks)")}</option>
+                        <option value="M">${_("Middle (7~12 weeks)")}</option>
+                        <option value="L">${_("Long (over 13 weeks)")}</option>
                    </select>
                     <span class="tip" id="tip-new-course-period">강좌의 주차를 기준으로 학습기간(단기/중기/장기)을 선택하여 주시기 바랍니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
@@ -401,7 +401,7 @@ if (
                         {'code': 'hum', 'gettext': gettext("Humanities")}
                 },
                 {'category':
-                        {'code': 'social', 'gettext': gettext("Social Sciences")}
+                        {'code': 'social', 'gettext': gettext("Social")}
                 },
                 {'category':
                         {'code': 'edu', 'gettext': gettext("Education")}
@@ -410,7 +410,7 @@ if (
                         {'code': 'eng', 'gettext': gettext("Engineering")}
                 },
                 {'category':
-                        {'code': 'nat', 'gettext': gettext("Natural Sciences")}
+                        {'code': 'nat', 'gettext': gettext("Natural")}
                 },
                 {'category':
                         {'code': 'med', 'gettext': gettext("Medical Sciences & Pharmacy")}
@@ -426,7 +426,7 @@ if (
         var mcate = {
                 'hum':[
                                 {'gettext': gettext("Linguistics & Literature"), 'code': 'lang'},
-                                {'gettext': gettext("Humanities"), 'code': 'husc'}
+                                {'gettext': gettext("Humanities Sciences"), 'code': 'husc'}
                         ],
                 'social':[
                                 {'gettext': gettext("Business Administration & Economics"), 'code': 'busn'},
