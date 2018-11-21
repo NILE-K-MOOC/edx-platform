@@ -371,6 +371,53 @@ a:hover + p.arrow_box {
     background-image: none !important;
     text-shadow: none !important;
 }
+
+.side-about {
+    box-sizing: border-box;
+    float: left;
+    height: 44px;
+    position: relative;
+    /*text-align: center;*/
+    width: 100%;
+    z-index: 2;
+    float: none;
+}
+
+.tooltip-side-about {
+    background-image: linear-gradient(-90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 100%);
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 4px;
+    box-shadow: 0 4px 25px 0 rgba(0,0,0,0.5);
+    box-sizing: border-box;
+    color: #fff;
+    float: right;
+    font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+    font-size: 0.9em;
+    /*font-style: italic;*/
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    padding: 6px 10px;
+    position: absolute;
+    /*text-align: center;*/
+    transition: all 0.15s ease-out 0s;
+    top: 65px;
+    width: 220px;
+}
+
+.side-about:hover .tooltip-side-about{
+    opacity: 1.0;
+    top: 56px;
+}
+
+.side-about .tooltip-side-about:hover, .tooltip-side-about:focus {
+    opacity: 0;
+}
+
+.important-dates-item span.icon {
+    text-align: left;
+}
+
 </style>
 <section class="course-info">
   <header class="course-profile">
@@ -582,12 +629,49 @@ a:hover + p.arrow_box {
         <%include file="course_about_sidebar_header.html" />
 
         <ol class="important-dates">
-            <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}</span></li>
-            <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span></li>
-            <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Week")}</p><span class="important-dates-item-text prerequisites">${_(effort_week)}${_("week")}</span></li>
-                      % if get_course_about_section(request, course, "effort"):
-            <li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><p class="important-dates-item-title">${_("Estimated Effort")}</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
-          % endif
+            <li class="important-dates-item">
+                    <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}(${_(middle_classfy_name)})</span>
+                </li>
+            <li class="important-dates-item">
+                <div class="side-about">
+                    <div class="tooltip-side-about">
+                        강좌 내용의 어려운 수준을 의미합니다. 교양, 전공기초, 전공심화 순으로 난이도가 증가합니다.
+                    </div>
+                <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p><span class="important-dates-item-text prerequisites">${_(course_level)}</span>
+                </div>
+            </li>
+            <li class="important-dates-item">
+                <div class="side-about">
+                    <div class="tooltip-side-about">
+                        강좌를 개발하고 운영하는 기관입니다. 컨소시엄으로 운영 시, 대표기관의 명칭이 나타납니다
+                    </div>
+                <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span>
+                </div>
+            </li>
+            <li class="important-dates-item">
+                <div class="side-about">
+                    <div class="tooltip-side-about">
+                        강좌의 구성 주차 수를 의미합니다.
+                        (강좌를 충실히 학습하기 위해 필요한 주당 학습시간을 의미합니다.)
+                    </div>
+                    <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Week")}</br>(주당 ${_("Estimated Effort")})</p>
+                    <span class="important-dates-item-text prerequisites">${_(effort_week)}${_("week")}<br>(주당 ${get_course_about_section(request, course, "effort")})</span>
+                </div>
+            </li>
+
+            <li class="important-dates-item">
+                <div class="side-about">
+                    <div class="tooltip-side-about">
+                        본 강좌 이수자에게 인정되는 학습시간으로 해당 강좌의 동영상, 과제, 시험, 퀴즈, 토론 등의 시간을 포함합니다.
+                        (강의 내용과 관련된 동영상 재생 시간의 총 합계입니다.)
+                    </div>
+                    <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span><p class="important-dates-item-title">${_("Accredited learning time")}</br>(${_("Video Duration")})</p>
+                    <span class="important-dates-item-text prerequisites">${_(study_time)}</br>(${get_course_about_section(request, course, "course_video")})</span>
+                </div>
+            </li>
+                      ##% if get_course_about_section(request, course, "effort"):
+            <!--<li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><span class="important-dates-item-text effort"></span></li>-->
+          ##% endif
 
 ## 사용자 : 주간 학습 권장 시간
 
@@ -621,27 +705,35 @@ a:hover + p.arrow_box {
 ##          <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
 ##           % endif
 
-          <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default | h}</span></li>
           % if not course.start_date_is_still_default:
-            <li class="important-dates-item"><span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
+            <li class="important-dates-item">
+                <div class="side-about">
+                    <div class="tooltip-side-about">
+                        수강신청이 가능한 기간으로 해당 기간 내에만 수강신청이 가능합니다.
+                    </div>
+                    <span class="icon fa fa-calendar" aria-hidden="true"></span>
+                    <p class="important-dates-item-title">${_("Course Registration Period")}</p>
+                    <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}~${enroll_edate['enroll_edate']}</span>
+                </div>
+            </li>
+          % endif
+
+          % if not course.start_date_is_still_default:
+            <li class="important-dates-item">
+                <div class="side-about">
+                    <div class="tooltip-side-about">
+                        강좌가 운영되고 교수지원이 이루어지는 기간입니다. 이수증은 강좌운영기간이 종료된 이후에 발급받을 수 있습니다.
+                    </div>
+                <span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
                 % if day['day']:
                 <br><p style="float: right; margin: 0;">(${day['day']})</p>
                 % endif
-                </span></li>
+                </span>
+                </div>
+            </li>
           % endif
             ## We plan to ditch end_date (which is not stored in course metadata),
             ## but for backwards compatibility, show about/end_date blob if it exists.
-
-
-          % if not course.start_date_is_still_default:
-              <li class="important-dates-item">
-                  <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                  <p class="important-dates-item-title">${_("Course Registration Period")}</p>
-                  <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}~${enroll_edate['enroll_edate']}</span>
-              </li>
-          % endif
-
-
 
 
         </ol>

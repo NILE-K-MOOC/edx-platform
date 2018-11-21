@@ -244,7 +244,7 @@ def get_course_about_section(request, course, section_key):
                         html = html.strip()[6:] + '주'
                 elif course_video:
                     if html.strip().find('#'):
-                        html = html.strip().split('#')[1].split(':')[0] + '시간 ' + html.strip().split('#')[1].split(':')[1] + '분'
+                        html = html.strip().split('#')[1].split('$')[0].split(':')[0] + '시간 ' + html.strip().split('#')[1].split('$')[0].split(':')[1] + '분'
                     else:
                         html = ''
 

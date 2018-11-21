@@ -1346,6 +1346,45 @@ def course_about(request, course_id):
             "intd": "Interdisciplinary",
         }
 
+        middle_classfy_dict = {
+            "lang": "Linguistics & Literature",
+            "husc": "Human Sciences",
+            "busn": "Business Administration & Economics",
+            "law": "Law",
+            "scsc": "Social Sciences",
+            "enor": "General Education",
+            "ekid": "Early Childhood Education",
+            "espc": "Special Education",
+            "elmt": "Elementary Education",
+            "emdd": "Secondary Education",
+            "cons": "Architecture",
+            "civi": "Civil Construction & Urban Engineering",
+            "traf": "Transportation",
+            "mach": "Mechanical & Metallurgical Engineering",
+            "elec": "Electricity & Electronics",
+            "deta": "Precision & Energy",
+            "matr": "Materials",
+            "comp": "Computers & Communication",
+            "indu": "Industrial Engineering",
+            "cami": "Chemical Engineering",
+            "other": "Others",
+            "agri": "Agriculture & Fisheries",
+            "bio": "Biology, Chemistry & Environmental Science",
+            "life": "Living Science",
+            "math": "Mathematics, Physics, Astronomy & Geography",
+            "metr": "Medical Science",
+            "nurs": "Nursing",
+            "phar": "Pharmacy",
+            "heal": "Therapeutics & Public Health",
+            "dsgn": "Design",
+            "appl": "Applied Arts",
+            "danc": "Dancing & Physical Education",
+            "form": "FineArts & Formative Arts",
+            "play": "Drama & Cinema",
+            "musc": "Music",
+            "intd_m": "Interdisciplinary",
+        }
+
         # if course_details.classfy != 'all':
         #     classfy_name = ClassDict[course_details.classfy]
         # else:
@@ -1357,6 +1396,11 @@ def course_about(request, course_id):
         else:
             classfy_name = classfy_dict[
                 course_details.classfy] if course_details.classfy in classfy_dict else course_details.classfy
+
+        if course_details.middle_classfy is None or course_details.middle_classfy == '':
+            middle_classfy_name = 'Etc'
+        else:
+            middle_classfy_name = middle_classfy_dict[course_details.middle_classfy] if course_details.middle_classfy in middle_classfy_dict else course_details.middle_classfy
 
         # univ name
         UnivDic = {
@@ -1492,8 +1536,20 @@ def course_about(request, course_id):
             audit_flag = 'N'
 
         cur = con.cursor()
+        query = '''
+            SELECT ifnull(b.detail_ename, '')
+              FROM course_overview_addinfo a
+                   LEFT JOIN code_detail b
+                      ON a.course_level = b.detail_code AND b.group_code = '007'
+             WHERE a.course_id = '{course_id}';
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        course_level = cur.fetchall()[0][0]
+        cur.close()
+
+        cur = con.cursor()
         query = """
-            SELECT ifnull(effort, '00:00@0#00:00')
+            SELECT ifnull(effort, '00:00@0#00:00$00:00')
               FROM course_overviews_courseoverview
              WHERE id = '{course_id}'
         """.format(course_id=course_id)
@@ -1501,6 +1557,7 @@ def course_about(request, course_id):
         effort = cur.fetchall()[0][0]
         cur.close()
         effort_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else ''
+        study_time = effort.split('$')[1].split(':')[0] + "시간 " + effort.split('$')[1].split(':')[1] + "분" if effort and '$' in effort else ''
 
         context = {
             'course': course,
@@ -1534,6 +1591,7 @@ def course_about(request, course_id):
             'short_description': short_description,
             # 'classfy' : classfy,
             'classfy_name': classfy_name,
+            'middle_classfy_name': middle_classfy_name,
             'univ_name': univ_name,
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
@@ -1551,6 +1609,8 @@ def course_about(request, course_id):
             'pre_course':pre_course,
             'audit_flag':audit_flag,
             'effort_week': effort_week,
+            'course_level': course_level,
+            'study_time': study_time,
         }
         inject_coursetalk_keys_into_context(context, course_key)
 
