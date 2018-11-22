@@ -24,8 +24,8 @@ var ValidatingView = BaseView.extend({
     save_message: gettext("Your changes will not take effect until you save your progress."),
     error_title: gettext("You've made some changes, but there are some errors"),
     error_message: gettext("Please address the errors on this page first, and then save your progress."),
-    empty_title: gettext("필수값을 입력하지 않아 수정사항을 저장할 수 없습니다."),
-    empty_message: gettext("필수값을 입력한 다음 진도를 저장하십시요."),
+    empty_title: gettext("Unable to save modifications because the required value is not entered."),
+    empty_message: gettext("Please input the required value and retry it."),
 
     events : {
         "change input" : "clearValidationErrors",
