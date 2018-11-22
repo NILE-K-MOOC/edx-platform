@@ -372,6 +372,9 @@ a:hover + p.arrow_box {
     text-shadow: none !important;
 }
 
+
+/*------------------- < tooltip ----------------------*/
+
 .side-about {
     box-sizing: border-box;
     float: left;
@@ -417,6 +420,8 @@ a:hover + p.arrow_box {
 .important-dates-item span.icon {
     text-align: left;
 }
+
+/*------------------- tooltip > ----------------------*/
 
 </style>
 <section class="course-info">
@@ -630,14 +635,14 @@ a:hover + p.arrow_box {
 
         <ol class="important-dates">
             <li class="important-dates-item">
-                    <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}(${_(middle_classfy_name)})</span>
-                </li>
+                <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}(${_(middle_classfy_name)})</span>
+            </li>
             <li class="important-dates-item">
                 <div class="side-about">
                     <div class="tooltip-side-about">
                         강좌 내용의 어려운 수준을 의미합니다. 교양, 전공기초, 전공심화 순으로 난이도가 증가합니다.
                     </div>
-                <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p><span class="important-dates-item-text prerequisites">${_(course_level)}</span>
+                    <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p><span class="important-dates-item-text prerequisites">${_(course_level)}</span>
                 </div>
             </li>
             <li class="important-dates-item">
@@ -645,7 +650,7 @@ a:hover + p.arrow_box {
                     <div class="tooltip-side-about">
                         강좌를 개발하고 운영하는 기관입니다. 컨소시엄으로 운영 시, 대표기관의 명칭이 나타납니다
                     </div>
-                <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span>
+                    <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span>
                 </div>
             </li>
             <li class="important-dates-item">
@@ -724,7 +729,7 @@ a:hover + p.arrow_box {
                     <div class="tooltip-side-about">
                         강좌가 운영되고 교수지원이 이루어지는 기간입니다. 이수증은 강좌운영기간이 종료된 이후에 발급받을 수 있습니다.
                     </div>
-                <span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
+                    <span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
                 % if day['day']:
                 <br><p style="float: right; margin: 0;">(${day['day']})</p>
                 % endif
