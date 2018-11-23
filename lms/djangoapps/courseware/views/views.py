@@ -1557,7 +1557,7 @@ def course_about(request, course_id):
         effort = cur.fetchall()[0][0]
         cur.close()
         effort_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else ''
-        study_time = effort.split('$')[1].split(':')[0] + "시간 " + effort.split('$')[1].split(':')[1] + "분" if effort and '$' in effort else ''
+        study_time = effort.split('$')[1].split(':')[0] + "시간 " + effort.split('$')[1].split(':')[1] + "분" if effort and '$' in effort else '-'
 
         context = {
             'course': course,
@@ -2292,7 +2292,7 @@ def mobile_course_about(request, course_id):
         cur.close()
         effort_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else ''
         study_time = effort.split('$')[1].split(':')[0] + "시간 " + effort.split('$')[1].split(':')[
-            1] + "분" if effort and '$' in effort else ''
+            1] + "분" if effort and '$' in effort else '-'
 
         context = {
             'course': course,

@@ -372,6 +372,39 @@ a:hover + p.arrow_box {
     text-shadow: none !important;
 }
 
+/*------------------- < about 관련 수정 ----------------*/
+
+.course-info .course-sidebar .important-dates li .important-dates-item-text {
+    float: left;
+}
+
+div.about-side-title {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+}
+
+div.about-side-text {
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    margin-top: 4px;
+}
+
+div.about-side-title p {
+    margin-bottom: 0;
+    margin-top: 4px;
+}
+
+.course-info .course-sidebar .important-dates li {
+    padding-bottom: 5px;
+}
+
+.course-info .course-sidebar header {
+    margin-bottom: 15px;
+}
+
+/*------------------- about 관련 수정 > ----------------*/
 
 /*------------------- < tooltip ----------------------*/
 
@@ -635,22 +668,42 @@ a:hover + p.arrow_box {
 
         <ol class="important-dates">
             <li class="important-dates-item">
-                <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p><span class="important-dates-item-text prerequisites">${_(classfy_name)}(${_(middle_classfy_name)})</span>
+                <div class="side-about">
+                    <div class="about-side-title">
+                        <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("major")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text prerequisites">${_(classfy_name)}</br>(${_(middle_classfy_name)})</span>
+                    </div>
+                </div>
             </li>
+
+            % if course_level != '':
             <li class="important-dates-item">
                 <div class="side-about">
                     <div class="tooltip-side-about">
                         강좌 내용의 어려운 수준을 의미합니다. 교양, 전공기초, 전공심화 순으로 난이도가 증가합니다.
                     </div>
-                    <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p><span class="important-dates-item-text prerequisites">${_(course_level)}</span>
+                    <div class="about-side-title">
+                        <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text prerequisites">${_(course_level)}</span>
+                    </div>
                 </div>
             </li>
+            % endif
             <li class="important-dates-item">
                 <div class="side-about">
                     <div class="tooltip-side-about">
                         강좌를 개발하고 운영하는 기관입니다. 컨소시엄으로 운영 시, 대표기관의 명칭이 나타납니다
                     </div>
-                    <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p><span class="important-dates-item-text prerequisites">${_(univ_name)}</span>
+                    <div class="about-side-title">
+                        <span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("univ_name")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text prerequisites">${_(univ_name)}</span>
+                    </div>
                 </div>
             </li>
             <li class="important-dates-item">
@@ -659,8 +712,12 @@ a:hover + p.arrow_box {
                         강좌의 구성 주차 수를 의미합니다.
                         (강좌를 충실히 학습하기 위해 필요한 주당 학습시간을 의미합니다.)
                     </div>
-                    <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Week")}</br>(주당 ${_("Estimated Effort")})</p>
-                    <span class="important-dates-item-text prerequisites">${_(effort_week)}${_("week")}<br>(주당 ${get_course_about_section(request, course, "effort")})</span>
+                    <div class="about-side-title">
+                        <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span><p class="important-dates-item-title" style="margin-top: -2px; letter-spacing: -2px;">${_("Course Week")}</br>(${_("Estimated Effort")})</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text prerequisites" style="margin-top: -3px;">${_(effort_week)}${_("week")}<br>(주당 ${get_course_about_section(request, course, "effort")})</span>
+                    </div>
                 </div>
             </li>
 
@@ -670,8 +727,12 @@ a:hover + p.arrow_box {
                         본 강좌 이수자에게 인정되는 학습시간으로 해당 강좌의 동영상, 과제, 시험, 퀴즈, 토론 등의 시간을 포함합니다.
                         (강의 내용과 관련된 동영상 재생 시간의 총 합계입니다.)
                     </div>
-                    <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span><p class="important-dates-item-title">${_("Accredited learning time")}</br>(${_("Video Duration")})</p>
-                    <span class="important-dates-item-text prerequisites">${_(study_time)}</br>(${get_course_about_section(request, course, "course_video")})</span>
+                    <div class="about-side-title">
+                        <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span><p class="important-dates-item-title" style="margin-top: -2px;">${_("Accredited learning time")}</br>(${_("Video Duration")})</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text prerequisites" style="margin-top: -3px;">${_(study_time)}</br>(${get_course_about_section(request, course, "course_video")})</span>
+                    </div>
                 </div>
             </li>
                       ##% if get_course_about_section(request, course, "effort"):
@@ -684,30 +745,42 @@ a:hover + p.arrow_box {
 
           %if course_price and (can_add_course_to_cart or is_cosmetic_price_enabled):
             <li class="important-dates-item">
-              <span class="icon fa fa-money" aria-hidden="true"></span>
-              <p class="important-dates-item-title">${_("Price")}</p>
-              <span class="important-dates-item-text">${course_price}</span>
+                <div class="side-about">
+                    <div class="about-side-title">
+                        <span class="icon fa fa-money" aria-hidden="true"></span>
+                        <p class="important-dates-item-title">${_("Price")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text">${course_price}</span>
+                    </div>
+                </div>
             </li>
           %endif
 
           % if pre_requisite_courses:
           <% prc_target = reverse('about_course', args=[unicode(pre_requisite_courses[0]['key'])]) %>
-          <li class="prerequisite-course important-dates-item">
-            <span class="icon fa fa-list-ul" aria-hidden="true"></span>
-            <p class="important-dates-item-title">${_("Prerequisites")}</p>
-            ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
-            <span class="important-dates-item-text pre-requisite"><a href="${prc_target}">${pre_requisite_courses[0]['display']}</a></span>
-            <p class="tip">
-            ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
-              link_start='<a href="{}">'.format(prc_target),
-              link_end='</a>',
-              prc_display=pre_requisite_courses[0]['display'],
-            )}
-            </p>
-          </li>
+            <li class="prerequisite-course important-dates-item">
+                <div class="side-about">
+                    <div class="about-side-title">
+                        <span class="icon fa fa-list-ul" aria-hidden="true"></span>
+                        <p class="important-dates-item-title">${_("Prerequisites")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
+                        <span class="important-dates-item-text pre-requisite"><a href="${prc_target}">${pre_requisite_courses[0]['display']}</a></span>
+                        <p class="tip">
+                            ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
+                            link_start='<a href="{}">'.format(prc_target),
+                            link_end='</a>',
+                            prc_display=pre_requisite_courses[0]['display'],
+                            )}
+                        </p>
+                    </div>
+                </div>
+            </li>
           % endif
 ##           % if get_course_about_section(request, course, "prerequisites"):
-##          <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
+##          <li class="important-dates-item"><div class="about-side-title"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p></div><div class="about-side-text"><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></div></li>
 ##           % endif
 
           % if not course.start_date_is_still_default:
@@ -716,9 +789,13 @@ a:hover + p.arrow_box {
                     <div class="tooltip-side-about">
                         수강신청이 가능한 기간으로 해당 기간 내에만 수강신청이 가능합니다.
                     </div>
-                    <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                    <p class="important-dates-item-title">${_("Course Registration Period")}</p>
-                    <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}~${enroll_edate['enroll_edate']}</span>
+                    <div class="about-side-title">
+                        <span class="icon fa fa-calendar" aria-hidden="true"></span>
+                        <p class="important-dates-item-title">${_("Course Registration Period")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text start-date">${enroll_sdate['enroll_sdate']}~${enroll_edate['enroll_edate']}</span>
+                    </div>
                 </div>
             </li>
           % endif
@@ -729,11 +806,16 @@ a:hover + p.arrow_box {
                     <div class="tooltip-side-about">
                         강좌가 운영되고 교수지원이 이루어지는 기간입니다. 이수증은 강좌운영기간이 종료된 이후에 발급받을 수 있습니다.
                     </div>
-                    <span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
+                    <div class="about-side-title">
+                        <span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p>
+                    </div>
+                    <div class="about-side-text">
+                        <span class="important-dates-item-text start-date">${course.start_datetime_text()}~${course.end_datetime_text()}
                 % if day['day']:
                 <br><p style="float: right; margin: 0;">(${day['day']})</p>
                 % endif
                 </span>
+                    </div>
                 </div>
             </li>
           % endif
