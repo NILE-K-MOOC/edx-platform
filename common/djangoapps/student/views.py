@@ -434,7 +434,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 FROM tb_board
                WHERE section = 'N'
                and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 4)
         union all
             (  SELECT board_id,
@@ -456,7 +456,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 FROM tb_board
                WHERE section = 'K'
                and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                 limit 4)
         union all
             (  SELECT board_id,
@@ -476,7 +476,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 FROM tb_board
                WHERE section = 'R'
                and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 4)
         union all
             (  SELECT board_id,
@@ -499,7 +499,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 FROM tb_board
                WHERE section = 'F'
                  and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 4)
         union all
             (  SELECT board_id,
@@ -512,7 +512,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 FROM tb_board
                WHERE section = 'M'
                  and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 4)
 
     """
@@ -655,14 +655,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      head_title,
                      subject,
                      content,
-                     SUBSTRING(reg_date, 1, 11),
+                     SUBSTRING(reg_date, 1, 11) reg_date,
                      section,
                      '',
-                     mod_date
+                     mod_date,
+                     odby
                 FROM tb_board
                WHERE section = 'N'
                and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 5)
         union all
             (  SELECT board_id,
@@ -678,14 +679,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      head_title,
                      subject,
                      mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
-                     SUBSTRING(reg_date, 1, 11),
+                     SUBSTRING(reg_date, 1, 11) reg_date,
                      section,
                      '',
-                     mod_date
+                     mod_date,
+                     odby
                 FROM tb_board
                WHERE section = 'K'
                and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                 limit 5)
         union all
             (  SELECT board_id,
@@ -699,14 +701,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      head_title,
                      subject,
                      content,
-                     SUBSTRING(reg_date, 1, 11),
+                     SUBSTRING(reg_date, 1, 11) reg_date,
                      section,
                      '',
-                     mod_date
+                     mod_date,
+                     odby
                 FROM tb_board
                WHERE section = 'R'
                and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 5)
         union all
             (  SELECT board_id,
@@ -721,33 +724,35 @@ def index(request, extra_context=None, user=AnonymousUser()):
                       WHEN head_title = 'mobile_f ' THEN '[모바일앱]'
                       ELSE ''
                    END
-                      head_title,
+                     head_title,
                      subject,
                      content,
-                     SUBSTRING(reg_date, 1, 11),
+                     SUBSTRING(reg_date, 1, 11) reg_date,
                      section,
                      head_title,
-                     mod_date
+                     mod_date,
+                     odby
                 FROM tb_board
                WHERE section = 'F'
                  and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 5)
         union all
             (  SELECT board_id,
                      '' head_title,
                      subject,
                      content,
-                     SUBSTRING(reg_date, 1, 11),
+                     SUBSTRING(reg_date, 1, 11) reg_date,
                      section,
                      head_title,
-                     mod_date
+                     mod_date,
+                     odby
                 FROM tb_board
                WHERE section = 'M'
                  and use_yn = 'Y'
-            ORDER BY mod_date DESC
+            ORDER BY odby DESC, reg_date DESC
                limit 5)
-        ORDER BY mod_date DESC;
+        ORDER BY odby DESC, reg_date DESC;
     """
 
     index_list = []
