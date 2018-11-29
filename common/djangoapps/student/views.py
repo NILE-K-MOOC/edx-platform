@@ -606,6 +606,10 @@ def index(request, extra_context=None, user=AnonymousUser()):
     courses = [c for c in courses if not c.has_ended()]
     log.info(u'len(courses) ::: %s', len(courses))
 
+    for c in courses:
+        if not hasattr(c, 'audit_yn'):
+            c.audit_yn = 'Y'
+
     if user and user.is_staff:
         pass
     else:
