@@ -226,6 +226,9 @@ def cmsdata(data):
         data['authList'][0]['autho_dept_name'] = "Service"
         data['authList'][0]['autho_company_dept_code'] = "300000"
         data['authList'][0]['autho_company_dept_name'] = "Service"
+    if data['authList'][0]['authogroup_id'] in ['G006']:
+        data['authList'][0]['autho_dept_code'] = data['authList'][0]['autho_company_dept_code']
+        data['authList'][0]['autho_dept_name'] = data['authList'][0]['autho_company_dept_name']
     return data
 
 @csrf_exempt
