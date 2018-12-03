@@ -1920,6 +1920,7 @@
     //"BUFS_ICFL":"\ubd80\uc0b0\uc678\uad6d\uc5b4\ub300\ud559\uad50",
     "KangNamUK":"\uac15\ub0a8\ub300\ud559\uad50",
     "DongdukK":"\ub3d9\ub355\uc5ec\uc790\ub300\ud559\uad50",
+    "AJOU":"\uc544\uc8fc\ub300\ud559\uad50",
 
     //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
     "": "\uc5c6\uc74c",
