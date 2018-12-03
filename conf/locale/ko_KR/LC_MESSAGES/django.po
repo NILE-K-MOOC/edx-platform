@@ -895,6 +895,8 @@ msgstr "부산외국어대학교"
 msgid "KangNamUK"
 msgstr "강남대학교"
 
+msgid "DongdukK"
+msgstr "동덕여자대학교"
 
 
 
