@@ -868,6 +868,10 @@ def _create_new_course(request, org, number, run, fields):
     Raises DuplicateCourseError if the course already exists
     """
     org_data = get_organization_by_short_name(org)
+
+    log.info("org: {org}, number: {number}, run: {run}, user: {user}".format(org=org, number=number, run=run, user=request.user))
+    log.info("fields: {fields}".format(fields=fields))
+
     if not org_data and organizations_enabled():
         return JsonResponse(
             {'error': _('You must link this course to an organization in order to continue. '
@@ -996,6 +1000,10 @@ def _rerun_course(request, org, number, run, fields):
     Returns the URL for the course listing page.
     """
     source_course_key = CourseKey.from_string(request.json.get('source_course_key'))
+
+    log.info("org: {org}, number: {number}, run: {run}, user: {user}".format(org=org, number=number, run=run,
+                                                                             user=request.user))
+    log.info("fields: {fields}".format(fields=fields))
 
     try:
         source_course = modulestore().get_course(source_course_key)
