@@ -125,6 +125,7 @@ import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
 import sys
+from django.template.loader import render_to_string, get_template
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -550,35 +551,33 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
 # -------------------- multi site -------------------- #
 
-# NOTE: This view is not linked to directly--it is called from
-# branding/views.py:index(), which is cached for anonymous users.
-# This means that it should always return the same thing for anon
-# users. (in particular, no switching based on query params allowed)
-def index(request, extra_context=None, user=AnonymousUser()):
-    """
-    Render the edX main page.
 
-    extra_context is used to allow immediate display of certain modal windows, eg signup,
-    as used by external_auth.
-    """
-
-    if extra_context is None:
-        extra_context = {}
+# 메인페이지에서 탭별 강좌를 가져오기위해 분리
+def course_tab(request, user=AnonymousUser()):
 
     user = request.user
 
-    # courses = get_courses(user)
-    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+    classfy = request.GET.get('classfy') if request.is_ajax() and request.GET.get('classfy') != 'course_all' else None
 
     f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
                                      'enrollment_start__lte': datetime.datetime.now(),
-                                     'start__lte': datetime.datetime(2029, 12, 31)}
+                                     'start__lte': datetime.datetime(2029, 12, 31),
+                                     'catalog_visibility': 'both',
+                                     'classfy': classfy}
+
+    if user.is_staff and classfy is not None:
+        f1 = {'classfy': classfy, 'end__gte': datetime.datetime.now()}
+
     log.info(f1)
+
     courses1 = get_courses(user, filter_=f1)
 
     f2 = {'enrollment_start__isnull': False} if user.is_staff else {'enrollment_start__isnull': False,
                                                                     'start__lte': datetime.datetime.now(),
-                                                                    'enrollment_start__lte': datetime.datetime.now()}
+                                                                    'enrollment_start__lte': datetime.datetime.now(),
+                                                                    'end__gte': datetime.datetime.now(),
+                                                                    'catalog_visibility': 'both',
+                                                                    'classfy': classfy}
     log.info(f2)
     courses2 = get_courses(user, filter_=f2)
 
@@ -604,17 +603,45 @@ def index(request, extra_context=None, user=AnonymousUser()):
     else:
         courses = courses1 + courses2
     courses = [c for c in courses if not c.has_ended()]
-    log.info(u'len(courses) ::: %s', len(courses))
 
     for c in courses:
         if not hasattr(c, 'audit_yn'):
             c.audit_yn = 'Y'
 
-    if user and user.is_staff:
-        pass
-    else:
-        # courses = courses[:8]
-        courses = courses
+    if request.GET.get('method') == 'tab_classfy':
+        context = {'courses': courses}
+        # context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
+
+        return render_to_response('courses_list.html', context, request=request)
+
+    return courses
+
+
+# NOTE: This view is not linked to directly--it is called from
+# branding/views.py:index(), which is cached for anonymous users.
+# This means that it should always return the same thing for anon
+# users. (in particular, no switching based on query params allowed)
+def index(request, extra_context=None, user=AnonymousUser(), classfy=None):
+    """
+    Render the edX main page.
+
+    extra_context is used to allow immediate display of certain modal windows, eg signup,
+    as used by external_auth.
+    """
+
+    user = request.user
+
+    if extra_context is None:
+        extra_context = {}
+
+    courses = course_tab(request, user=user)
+    log.info(u'len(courses) ::: %s', len(courses))
+
+    # if user and user.is_staff:
+    #     pass
+    # else:
+    #     # courses = courses[:8]
+    #     courses = courses
 
     context = {'courses': courses}
 

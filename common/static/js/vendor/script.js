@@ -43,8 +43,15 @@ $(document).ready(function() {
 		$(".main-tab").removeClass("on");
 		$(this).addClass("on");
 		var cla_id = $(this).attr('id');
-		$(".course-classfy").css({'display': 'none'});
-		$(".course-classfy#" + cla_id).css({'display': 'block'});
+
+		$.ajax({
+				url: '/course_tab/',
+				type: 'GET',
+				dataType: 'html',
+				data: {'classfy': cla_id, 'method': 'tab_classfy'}
+		}).done(function(data){
+			$('.course-classfy').hide().html(data).fadeIn('slow');
+		});
 
 	});
 

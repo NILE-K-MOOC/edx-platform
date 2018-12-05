@@ -27,6 +27,7 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = (
     '',
     url(r'^$', 'branding.views.index', name="root"),
+    url(r'^course_tab/$', 'student.views.course_tab', name="course_tab"),
 
     # ---------- multi site ---------- #
     url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', 'branding.views.multisite_index', name="multisite_index"),

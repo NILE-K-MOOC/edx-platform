@@ -819,7 +819,6 @@ def index(request):
     # we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
 
-
     return student.views.index(request, user=request.user)
 
 
