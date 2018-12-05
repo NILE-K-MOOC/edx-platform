@@ -609,7 +609,6 @@ def course_tab(request, user=AnonymousUser()):
 
     if request.GET.get('method') == 'tab_classfy':
         context = {'courses': courses}
-        # context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
 
         return render_to_response('courses_list.html', context, request=request)
 

@@ -546,9 +546,9 @@ class CourseOverview(TimeStampedModel):
                 classfy_query = 'where classfy = "{classfy}"'.format(classfy=classfy) if classfy != '' else ''
                 if 'classfy' in filter_:
                     del filter_['classfy']
-                course_overviews = CourseOverview.objects.all().extra(
-                    where=['id in (select id from course_overviews_courseoverview a join '
-                           'course_overview_addinfo b on a.id = b.course_id {classfy_query})'.format(
+                course_overviews = CourseOverview.objects.extra(
+                    where=['id in (select course_id from '
+                           'course_overview_addinfo {classfy_query})'.format(
                         classfy_query=classfy_query)]).filter(**filter_).order_by(
                     '-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')[:8]
             else:
