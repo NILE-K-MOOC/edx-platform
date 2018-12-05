@@ -125,7 +125,6 @@ import MySQLdb as mdb
 from django.db import connections
 from django.db.models import Q
 import sys
-from django.template.loader import render_to_string, get_template
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
