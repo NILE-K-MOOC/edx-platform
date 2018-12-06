@@ -901,6 +901,8 @@ msgstr "동덕여자대학교"
 msgid "AJOU"
 msgstr "아주대학교"
 
+msgid "YuhanUnivK"
+msgstr "유한대학교"
 
 
 #: lms/templates/course.html
