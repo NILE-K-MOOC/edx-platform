@@ -1922,6 +1922,7 @@
     "DongdukK":"\ub3d9\ub355\uc5ec\uc790\ub300\ud559\uad50",
     "AJOU":"\uc544\uc8fc\ub300\ud559\uad50",
     "YuhanUnivK":"\uc720\ud55c\ub300\ud559\uad50",
+    "NRF":"\ud55c\uad6d\uc5f0\uad6c\uc7ac\ub2e8",
 
     //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
     "": "\uc5c6\uc74c",
