@@ -907,6 +907,12 @@ msgstr "유한대학교"
 msgid "NRF"
 msgstr "한국연구재단"
 
+msgid "HNU"
+msgstr "한남대학교"
+
+msgid "KOHI"
+msgstr "한국보건복지인력개발원"
+
 
 #: lms/templates/course.html
 msgid "Starting Soon"
