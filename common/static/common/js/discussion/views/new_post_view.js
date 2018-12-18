@@ -143,18 +143,18 @@
                 url = DiscussionUtil.urlFor('create_thread', topicId);
 
                 //title
-                title = String(title).replace(/script/ig, '_script');
-                title = String(title).replace(/iframe/ig, '_iframe');
-                title = String(title).replace(/xmp/ig, '_xmp');
-                title = String(title).replace(/xml/ig, '_xml');
-                title = String(title).replace(/on/ig, '_on');
+                title = String(title).replace(/<script/ig, '_script');
+                title = String(title).replace(/<iframe/ig, '_iframe');
+                title = String(title).replace(/\.xmp/ig, '_xmp');
+                title = String(title).replace(/\.xml/ig, '_xml');
+                title = String(title).replace(/\.on/ig, '_on');
 
                 //body
-                body = String(body).replace(/script/ig, '_script');
-                body = String(body).replace(/iframe/ig, '_iframe');
-                body = String(body).replace(/xmp/ig, '_xmp');
-                body = String(body).replace(/xml/ig, '_xml');
-                body = String(body).replace(/on/ig, '_on');
+                body = String(body).replace(/<script/ig, '_script');
+                body = String(body).replace(/<iframe/ig, '_iframe');
+                body = String(body).replace(/\.xmp/ig, '_xmp');
+                body = String(body).replace(/\.xml/ig, '_xml');
+                body = String(body).replace(/\.on/ig, '_on');
 
                 return DiscussionUtil.safeAjax({
                     $elem: $(event.target),

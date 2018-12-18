@@ -184,11 +184,11 @@
                 url = this.model.urlFor('reply');
                 body = this.getWmdContent("comment-body");
 
-                body = String(body).replace(/script/ig, '_script');
-                body = String(body).replace(/iframe/ig, '_iframe');
-                body = String(body).replace(/xmp/ig, '_xmp');
-                body = String(body).replace(/xml/ig, '_xml');
-                body = String(body).replace(/on/ig, '_on');
+                body = String(body).replace(/<script/ig, '_script');
+                body = String(body).replace(/<iframe/ig, '_iframe');
+                body = String(body).replace(/\.xmp/ig, '_xmp');
+                body = String(body).replace(/\.xml/ig, '_xml');
+                body = String(body).replace(/\.on/ig, '_on');
 
                 if (!body.trim().length) {
                     return;
@@ -323,11 +323,11 @@
                     self = this;
                 newBody = this.editView.$(".edit-post-body textarea").val();
 
-                newBody = String(newBody).replace(/script/ig, '_script');
-                newBody = String(newBody).replace(/iframe/ig, '_iframe');
-                newBody = String(newBody).replace(/xmp/ig, '_xmp');
-                newBody = String(newBody).replace(/xml/ig, '_xml');
-                newBody = String(newBody).replace(/on/ig, '_on');
+                newBody = String(newBody).replace(/<script/ig, '_script');
+                newBody = String(newBody).replace(/<iframe/ig, '_iframe');
+                newBody = String(newBody).replace(/\.xmp/ig, '_xmp');
+                newBody = String(newBody).replace(/\.xml/ig, '_xml');
+                newBody = String(newBody).replace(/\.on/ig, '_on');
 
                 url = DiscussionUtil.urlFor('update_comment', this.model.id);
                 return DiscussionUtil.safeAjax({

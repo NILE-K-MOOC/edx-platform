@@ -378,11 +378,11 @@
                 url = this.model.urlFor('reply');
                 body = this.getWmdContent("reply-body");
 
-                body = String(body).replace(/script/ig, '_script');
-                body = String(body).replace(/iframe/ig, '_iframe');
-                body = String(body).replace(/xmp/ig, '_xmp');
-                body = String(body).replace(/xml/ig, '_xml');
-                body = String(body).replace(/on/ig, '_on');
+                body = String(body).replace(/<script/ig, '_script');
+                body = String(body).replace(/<iframe/ig, '_iframe');
+                body = String(body).replace(/\.xmp/ig, '_xmp');
+                body = String(body).replace(/\.xml/ig, '_xml');
+                body = String(body).replace(/\.on/ig, '_on');
 
                 if (!body.trim().length) {
                     return;
