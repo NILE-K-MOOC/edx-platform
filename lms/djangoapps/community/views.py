@@ -646,7 +646,7 @@ def series_view(request, id):
         for row in sub_list:
             effort_week = row[9].split('@')[1].split('#')[0] if row[9] and '@' in row[9] and '#' in row[9] else ''
             study_time = row[9].split('$')[1].split(':')[0] + "시간 " + row[9].split('$')[1].split(':')[
-                1] + "분" if effort and '$' in effort else '-'
+                1] + "분" if effort and '$' in effort else ' -  '
             learn_time = row[9].split('@')[0] if row[9] and '@' in row[9] else '0'
             course_video = '0'
             if row[9].find('#') != -1 and row[9].find('$') != -1:

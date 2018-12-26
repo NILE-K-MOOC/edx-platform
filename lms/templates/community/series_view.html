@@ -158,33 +158,24 @@ function move(){
     //$(location).attr('href',url);
 }
 
-function SetElements() {
-    setTimeout(function () {
-        frame = document.getElementById("about_iframe");
-        SetHeight();
-    });
+function setIframeHeight(id) {
+    var ifrm = document.getElementById(id);
+    var doc = ifrm.contentDocument? ifrm.contentDocument:
+        ifrm.contentWindow.document;
+    ifrm.style.visibility = 'hidden';
+    ifrm.style.height = "10px";
+    ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+    ifrm.style.visibility = 'visible';
 }
 
-function SetHeight() {
-    var fBody = frame.contentWindow || frame.contentDocument;
-    console.log(fBody);
-    if (fBody.document) fBody = fBody.document.body;
-    console.log('----------------------------');
-    console.log(fBody.scrollHeight);
-    console.log(fBody.clientHeight);
-    // alert("scrollHeight: " + fBody.scrollHeight);
-    // alert("clientHeight: " + fBody.clientHeight);
 
-    console.log('----------------------------');
-    frame.height = fBody.scrollHeight + fBody.clientHeight + 'px';
-    frame.width = '100%';
-    scrollTo(0,0);
-
+function getDocHeight(doc) {
+    doc = doc || document;
+    var body = doc.body, html = doc.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
 }
-
-function resizeIframe(obj) {
-    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-  }
 
 
 
@@ -196,9 +187,14 @@ $(document).ready(function(){
         var doc = $frame[0].contentWindow.document;
         var $body = $('body', doc);
         $body.html(data.note);
-        SetElements();
+        setTimeout(function(){
+            setIframeHeight('about_iframe');
+        }, 300);
     });
 
+    $(window).resize(function(){
+        setIframeHeight('about_iframe');
+    });
 
 });
 </script>
