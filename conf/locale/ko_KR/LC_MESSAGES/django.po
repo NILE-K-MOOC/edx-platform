@@ -30171,7 +30171,7 @@ msgid "MEMO"
 msgstr "쪽지"
 
 msgid "Series Course"
-msgstr "시리즈 강좌"
+msgstr "묶음강좌"
 
 msgid "Course Introduction"
 msgstr "강좌 소개"
@@ -30183,7 +30183,7 @@ msgid "Print"
 msgstr "인쇄"
 
 msgid "Series ID"
-msgstr "시리즈 ID"
+msgstr "묶음강좌 ID"
 
 msgid "enrollment"
 msgstr "수강신청일"
@@ -30195,7 +30195,7 @@ msgid "move"
 msgstr "이동"
 
 msgid "Series Education Certificate"
-msgstr "시리즈 교육 확인증"
+msgstr "묶음강좌 교육 확인증"
 
 msgid "is_course_lock"
 msgstr "강좌잠금 여부"

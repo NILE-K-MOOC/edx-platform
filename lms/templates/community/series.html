@@ -1,6 +1,6 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">공지사항</%block>
+<%block name="pagetitle">묶음강좌</%block>
 <%inherit file="../main.html" />
 
 <%block name="header_extras"></%block>
@@ -83,21 +83,79 @@
 }
 </style>
 
+<div>
+    <div class="series_bg_area">
+        <div class="series_bg_space">
+      <span  class="series_bg_title">
+      <h3>${_('Series Course')}</h3>
+      <h6>Bundle Course</h6>
+      </span>
+        </div>
+
+    </div>
+</div>
+
 <section class="container">
 
-<div class="real_main_title">${_('Series Course')}</div>
+    <div class="real_main_title">${_('Series Course')}</div>
 
-% for item in series_list:
-<div class="section_frame_outer">
-<div class="section_frame_inner">
-    <div class="section_a">
-        <img class="series_img" src="/static/series/${item[3]}.${item[4]}"/>
+    % for item in series_list:
+    <div class="section_frame_outer">
+        <div class="section_frame_inner">
+            <div class="float_left section_a1">
+                <img class="series_imges" src="/static/series/${item['attatch_file_name']}.${item['attatch_file_ext']}"/>
+            </div>
+            <div class="float_left section_a2">
+                <a class="pagerLink" href="/series_view/${item['series_seq']}"><div class="series_title">${item['series_name']}</div>
+                </a>
+                <span>${item['short_description']}</span>
+                <p class="university_area">
+                    <b>${item['detail_name']}</b>
+                </p>
+            </div>
+
+            <div class="section_a3">
+                <div class="r-list">
+                    <table>
+                        <tr>
+                            <td>
+                                <span class="siz">대표기관</span>
+                            </td>
+                            <td>
+                                <span>${item['detail_name']}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="siz">구성강좌수</span>
+                            </td>
+                            <td>
+                                <span>${item['series_cnt']}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--<div class="series_b_area">-->
+                <!--<span class="siz">학습인정시간(총 동영상시간</span>-->
+                <!--<span>13시간 30분(02시간 00분)</span>-->
+                <!--</div>-->
+                <!--<div class="series_b_area">-->
+                <!--<span class="siz">수강 신청 기간</span>-->
+                <!--<span>2018.12.05 ~ 2019.02.17</span>-->
+                <!--</div>-->
+                <!--<div class="series_b_area">-->
+                <!--<span class="siz">강좌 운영 기간</span>-->
+                <!--<span>2018.12.10 ~ 2019.02.17</span>-->
+                <!--</div>-->
+            </div>
+            ##% if item['logo_path'] != '':
+            ##<!--<img src="${item['logo_path']}" alt="${item['detail_name']}">-->
+            ##% else:
+            ##<!--<img alt="${item['detail_name']}">-->
+            ##% endif
+            <div></div>
+        </div>
     </div>
-    <div class="section_b">
-        <a class="pagerLink" href="/series_view/${item[0]}"><div class="series_title">${item[1]}</div><p>내용</p></a>
-    </div>
-</div>
-</div>
-% endfor
+    % endfor
 
 </section>
