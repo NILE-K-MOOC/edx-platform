@@ -172,6 +172,9 @@ function SetHeight() {
     console.log('----------------------------');
     console.log(fBody.scrollHeight);
     console.log(fBody.clientHeight);
+    // alert("scrollHeight: " + fBody.scrollHeight);
+    // alert("clientHeight: " + fBody.clientHeight);
+
     console.log('----------------------------');
     frame.height = fBody.scrollHeight + fBody.clientHeight + 'px';
     frame.width = '100%';
@@ -186,15 +189,15 @@ function resizeIframe(obj) {
 
 
 $(document).ready(function(){
-    // $.ajax({
-    //     url: 'about'
-    // }).done(function(data){
-    //     var $frame = $('#about_iframe');
-    //     var doc = $frame[0].contentWindow.document;
-    //     var $body = $('body', doc);
-    //     $body.html(data.note);
-    //     SetElements();
-    // });
+    $.ajax({
+        url: 'about'
+    }).done(function(data){
+        var $frame = $('#about_iframe');
+        var doc = $frame[0].contentWindow.document;
+        var $body = $('body', doc);
+        $body.html(data.note);
+        SetElements();
+    });
 
 
 });
@@ -270,7 +273,8 @@ $(document).ready(function(){
         <div class="course_intro_title">${_('Course Introduction')}</div>
         <div class="course_intro_content" id="series_about">
             <!--##<pre>${main_list[2]}</pre>-->
-            <iframe id="about_iframe" frameborder="0" scrolling="no" src="about" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
+            <!--<iframe id="about_iframe" frameborder="0" scrolling="no" src="about" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>-->
+            <iframe id="about_iframe" frameborder="0" scrolling="no" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
         </div>
     </div>
     % endif

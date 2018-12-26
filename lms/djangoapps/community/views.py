@@ -448,11 +448,12 @@ def series_about(request, id):
         cur.execute(query)
         note = cur.fetchone()
         context = {'note': str(note[0].encode("utf-8"))}
-        print context['note']
-
-        # get_course_about_section(request, course, "overview")
-        # render(request, 'community/series_about.html', context=context)
-        return render(request, 'community/series_about.html', context=context)
+        return JsonResponse({'note': str(note[0].encode("utf-8"))})
+        # print context['note']
+        #
+        # # get_course_about_section(request, course, "overview")
+        # # render(request, 'community/series_about.html', context=context)
+        # return render(request, 'community/series_about.html', context=context)
 
 
 def series_view(request, id):
