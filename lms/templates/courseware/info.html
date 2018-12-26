@@ -98,7 +98,7 @@ from openedx.core.djangolib.markup import HTML, Text
             }
 ##             'location.href = '/courses/${course_id}/about''
         </script>
-        <button id="intro_shot" class="btn-brand" style="width:100%; border-color: #4587c2; background: #4587c2; color: #fcfcfc; " type="button" onclick = "openInNewTab('/courses/${course_id}/about')";>${_('Go to the course introduction')}</button> 
+        <button id="intro_shot" class="btn-brand" title ="새창열림"style="width:100%; border-color: #4587c2; background: #4587c2; color: #fcfcfc; " type="button" onclick = "openInNewTab('/courses/${course_id}/about')";>${_('Go to the course introduction')}</button> 
 
         <!-- review -->
           % if SelfPacedConfiguration.current().enable_course_home_improvements:

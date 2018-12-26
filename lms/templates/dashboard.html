@@ -109,15 +109,21 @@ cert_name_long = settings.CERT_NAME_LONG
                             <div class="progress"></div>
                         </a>
                     % else:
-                        <a href="#" class="on" data-status="ing" title="진행중">${_("ing course")}
+                        <a href="#" class="on" data-status="ing" title="진행중">
+                          <h2 hidden>${_("ing course")}</h2>
+                          ${_("ing course")}
                             <div class="progress"></div>
                         </a>
-                        <a href="#" data-status="audit" title="청강강좌">${_("Audit Course")}
+                        <a href="#" data-status="audit" title="청강강좌">
+                          <h2 hidden>${_("Audit Course")}</h2>
+                          ${_("Audit Course")}
                             <div class="progress"></div>
                         </a>
                     % endif
 
-                    <a href="#" data-status="end" title="완료">${_("complete/end Course")}
+                    <a href="#" data-status="end" title="완료">
+                      <h2 hidden>${_("complete/end Course")}</h2>
+                      ${_("complete/end Course")}
                         <div class="progress"></div>
                     </a>
                     <!--
