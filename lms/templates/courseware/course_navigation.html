@@ -29,10 +29,13 @@ specific_student_selected = selected(not staff_selected and masquerade.user_name
 student_selected = selected(not staff_selected and not specific_student_selected and not masquerade_group_id)
 include_special_exams = settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and (course.enable_proctored_exams or course.enable_timed_exams)
 %>
-
+<script>
+    $(".focus").first().focus();
+</script>
 % if include_special_exams:
     <%static:js group='proctoring'/>
     % for template_name in ["proctored-exam-status"]:
+
         <script type="text/template" id="${template_name}-tpl">
             <%static:include path="courseware/${template_name}.underscore" />
         </script>

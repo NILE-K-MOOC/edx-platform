@@ -271,17 +271,17 @@ if (
 
                         <div class="slider main_slider">
                             <div class="slide_viewer">
-                                <div class="slide_group" style="left: 0px;">
+                                <div class="slide_group" style="left: 0px;" >
 
                                     % if popzone_list:
-                                    <div class="slide" style="display: block; left: 0px;">
+                                    <div class="slide" style="display: block; left: 0px;" tabindex="0">
                                         <a href="${popzone_list[0]['link_url']}" target="${popzone_list[0]['link_target']}">
                                             <img src="${popzone_list[0]['image_file']}" alt="${popzone_list[0]['title']}">
                                             <input type="hidden" value="${popzone_list[0]['title']}" id="pop_title0">
                                         </a>
                                     </div>
                                     % for pop in popzone_list[1:]:
-                                    <div class="slide" style="display: none; left: 0px;">
+                                    <div class="slide" style="display: none; left: 0px;" tabindex="0">
                                         <a href="${pop['link_url']}" target="${pop['link_target']}">
                                             <img src="${pop['image_file']}" alt="${pop['title']}">
                                             <input type="hidden" value="${pop['title']}" id="pop_title${loop.index + 1}">
@@ -289,7 +289,7 @@ if (
                                     </div>
                                     % endfor
                                     % else:
-                                    <div class="slide" style="display: block; left: 0px;">
+                                    <div class="slide" style="display: block; left: 0px;" tabindex="0">
                                         <a href="/about">
                                             <img src="/static/images/css/s_bg1.jpg" alt="${_('About Us')}">
                                         </a>
@@ -303,7 +303,7 @@ if (
 
                                 <div class="directional_nav">
                                     <div class="previous_btn" title="Previous">
-                                        <svg id="arrow_box_left" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66">
+                                        <svg id="arrow_box_left" alt="slide_left_button" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66" tabindex="0">
                                             <g>
                                                 <g>
 
@@ -312,8 +312,8 @@ if (
                                             </g>
                                         </svg>
                                     </div>
-                                    <div class="next_btn" title="Next">
-                                        <svg id="arrow_box_right" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66">
+                                    <div class="next_btn" title="Next" tabindex="0">
+                                        <svg id="arrow_box_right" alt="slide_right_button" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="65px" height="40px" viewBox="-11 -11.5 65 66">
                                             <g>
                                                 <g style="background:#efefef;">
 
@@ -368,13 +368,13 @@ if (
 
 
                     <div class="col col-12 sm-col-6" style="padding-right: 0;">
-
+                        <h1 hidden>커뮤니티 바로가기 탭</h1>
                         <div class="tab2">
-                            <button class="tablinks active" onclick="openCity(event, 'comm_all')">전체</button>
-                            <button class="tablinks" onclick="openCity(event, 'notice')">공지사항</button>
-                            <button class="tablinks" onclick="openCity(event, 'news')">K-MOOC 뉴스</button>
-                            <button class="tablinks" onclick="openCity(event, 'ref')">자료실</button>
-                            <button class="tablinks" onclick="openCity(event, 'faq')">FAQ</button>
+                            <button class="tablinks active" onclick="openCity(event, 'comm_all')"><h1 hidden>전체</h1><div>전체</div></button>
+                            <button class="tablinks" onclick="openCity(event, 'notice')"><h1 hidden>공지사항</h1><div>공지사항</div></button>
+                            <button class="tablinks" onclick="openCity(event, 'news')"><h1 hidden>K-MOOC 뉴스</h1><div>K-MOOC 뉴스</div></button>
+                            <button class="tablinks" onclick="openCity(event, 'ref')"><h1 hidden>자료실</h1><div>자료실</div></button>
+                            <button class="tablinks" onclick="openCity(event, 'faq')"><h1 hidden>FAQ</h1><div>FAQ</div></button>
                         </div>
 
                         <div id="comm_all" class="tabcontent">

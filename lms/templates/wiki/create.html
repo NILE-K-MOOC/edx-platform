@@ -23,7 +23,11 @@
   //]]>
   </script>
   {% endaddtoblock %}
-
+<style>
+    section.wiki label {
+      color: black;
+    }
+</style>
   <article class="main-article new-article">
 
     {% include "wiki/includes/editormedia.html" %}
@@ -41,7 +45,7 @@
             <span class="icon fa fa-circle-arrow-left" aria-hidden="true"></span>
             {% trans "Go back" %}
           </a>
-      </div>
+      </div>z
       {% include "wiki/includes/cheatsheet.html" %}
     </form>
 
