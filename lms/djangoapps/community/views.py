@@ -388,7 +388,7 @@ def series(request):
                    b.attach_file_path,
                    b.attatch_file_name,
                    attatch_file_ext,
-                   ifnull(c.detail_name, ''),
+                   ifnull(c.detail_name, '-'),
                    ifnull(a.short_description, ''),
                    ifnull(a.org, ''),
                    ifnull(series_cnt, 0)
@@ -486,19 +486,20 @@ def series_view(request, id):
                                display_number_with_default,
                                id,
                                effort,
-                               (SELECT Count(*)
-                                  FROM edxapp.course_overviews_courseoverview b
-                                 WHERE     a.org = b.org
-                                       AND a.display_number_with_default =
-                                              b.display_number_with_default
-                                       AND a.start >= b.start)
-                                  AS rank
+                               start
                           FROM edxapp.course_overviews_courseoverview a) ab
-                 WHERE     rank = 1
-                       AND (org, display_number_with_default) IN
-                              (SELECT org, display_number_with_default
-                                 FROM series_course
-                                WHERE series_seq = {0} AND delete_yn = 'N');
+                          JOIN
+                           (  SELECT max(start) AS max_start, m1.org, display_number_with_default
+                                FROM course_overviews_courseoverview m1
+                            GROUP BY m1.org, m1.display_number_with_default) max
+                              ON     ab.org = max.org
+                                 AND ab.display_number_with_default =
+                                     max.display_number_with_default
+                                 AND ab.start = max.max_start
+                 WHERE (ab.org, ab.display_number_with_default) IN
+                          (SELECT org, display_number_with_default
+                             FROM series_course
+                            WHERE series_seq = {0} AND delete_yn = 'N');
         '''.format(id)
         cur.execute(query)
         effort = cur.fetchall()
@@ -591,15 +592,31 @@ def series_view(request, id):
                    course_image_url,
                    course_name,
                    v1.org,
-                   detail_name AS univ,
-                   Date_format(enrollment_start, '%Y.%m.%d') AS enrollment_start,
-                   Date_format(enrollment_end, '%Y.%m.%d') AS enrollment_end,
-                   Date_format(start, '%Y.%m.%d') AS start,
-                   Date_format(end, '%Y.%m.%d') AS end,
+                   ifnull(detail_name, v1.org) AS univ,
+                   CASE
+                      WHEN start > now()
+                      THEN
+                         concat(Date_format(start, '`%y.%m.%d. '), '개강예정')
+                      WHEN start <= now() AND end > now()
+                      THEN
+                         concat(
+                            '진행중',
+                            Date_format(enrollment_end,
+                                        '(`%y.%m.%d. 수강신청마감)'))
+                      WHEN end <= now() AND audit_yn = 'N'
+                      THEN
+                         '종강됨'
+                      WHEN end <= now() AND audit_yn = 'Y'
+                      THEN
+                         '종강됨(청강가능)'
+                      ELSE
+                         '-'
+                   END AS course_status,
                    ifnull(effort, '00:00@0#00:00$00:00'),
                    ifnull(classfy, 'ETC') classfy,
                    ifnull(middle_classfy, 'ETC') middle_classfy,
-                   v2.short_description
+                   v2.short_description,
+                   ifnull(course_level, '') as course_level
               FROM edxapp.series_course AS v1
                    JOIN
                    (SELECT *
@@ -623,7 +640,12 @@ def series_view(request, id):
                                      effort,
                                      c.classfy,
                                      c.middle_classfy,
-                                     a.short_description
+                                     a.short_description,
+                                     (SELECT detail_ename
+                                        FROM code_detail
+                                       WHERE     detail_code = c.course_level
+                                             AND group_code = 007) AS course_level,
+                                     c.audit_yn
                                 FROM course_overviews_courseoverview a
                                      LEFT JOIN course_overview_addinfo c
                                         ON a.id = c.course_id,
@@ -641,25 +663,44 @@ def series_view(request, id):
         '''.format(id)
         cur.execute(query)
         rows = cur.fetchall()
-        sub_list = [list(row) for row in rows]
+        query_list = [list(row) for row in rows]
 
-        for row in sub_list:
-            effort_week = row[9].split('@')[1].split('#')[0] if row[9] and '@' in row[9] and '#' in row[9] else ''
-            study_time = row[9].split('$')[1].split(':')[0] + "시간 " + row[9].split('$')[1].split(':')[
-                1] + "분" if effort and '$' in effort else ' -  '
-            learn_time = row[9].split('@')[0] if row[9] and '@' in row[9] else '0'
+        sub_list = list()
+
+        for row in query_list:
+            effort_week = row[6].split('@')[1].split('#')[0] if row[6] and '@' in row[6] and '#' in row[6] else ''
+            study_time = row[6].split('$')[1].split(':')[0] + "시간 " + row[6].split('$')[1].split(':')[
+                1] + "분" if row[6] and '$' in row[6] else '-'
+            learn_time = row[6].split('@')[0] if row[6] and '@' in row[6] else '0'
             course_video = '0'
-            if row[9].find('#') != -1 and row[9].find('$') != -1:
-                course_video = row[9].split('#')[1].split('$')[0]
-            elif row[9].find('#') != -1 and row[9].find('$') == -1:
-                course_video = row[9].split('#')[1]
+            if row[6].find('#') != -1 and row[6].find('$') != -1:
+                course_video = row[6].split('#')[1].split('$')[0]
+            elif row[6].find('#') != -1 and row[6].find('$') == -1:
+                course_video = row[6].split('#')[1]
             row.insert(len(row), effort_week)
             row.insert(len(row), study_time)
             row.insert(len(row), learn_time)
             row.insert(len(row), course_video)
 
-            row[10] = classfy_dict[row[10]] if row[10] in classfy_dict or row[10] != 'ETC' else 'ETC'
-            row[11] = middle_classfy_dict[row[11]] if row[11] in middle_classfy_dict or row[11] != 'ETC' else 'ETC'
+            row[7] = classfy_dict[row[7]] if row[7] in classfy_dict or row[7] != 'ETC' else 'ETC'
+            row[8] = middle_classfy_dict[row[8]] if row[8] in middle_classfy_dict or row[8] != 'ETC' else 'ETC'
+
+            sub_dict = dict()
+            sub_dict['id'] = row[0]
+            sub_dict['course_image_url'] = row[1]
+            sub_dict['course_name'] = row[2]
+            sub_dict['org'] = row[3]
+            sub_dict['univ'] = row[4]
+            sub_dict['course_status'] = row[5]
+            sub_dict['classfy'] = row[7]
+            sub_dict['middle_classfy'] = row[8]
+            sub_dict['short_description'] = row[9]
+            sub_dict['course_level'] = row[10]
+            sub_dict['effort_week'] = effort_week
+            sub_dict['study_time'] = study_time
+            sub_dict['learn_time'] = learn_time
+            sub_dict['course_video'] = course_video
+            sub_list.append(sub_dict)
 
     context = {}
     context['id'] = id

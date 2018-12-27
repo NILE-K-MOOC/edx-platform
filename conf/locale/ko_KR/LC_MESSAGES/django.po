@@ -30177,7 +30177,7 @@ msgid "Course Introduction"
 msgstr "강좌 소개"
 
 msgid "Course List"
-msgstr "대상 강좌 목록"
+msgstr "구성 강좌 목록"
 
 msgid "Print"
 msgstr "인쇄"
