@@ -411,7 +411,6 @@ def series(request):
         rows = cur.fetchall()
         series_list = list()
     try:
-        univ_img = os.listdir('common/static/images/univ/cert')
         for row in rows:
             row_dict = dict()
             row_dict['series_seq'] = row[0]
@@ -424,11 +423,6 @@ def series(request):
             row_dict['org'] = row[7]
             row_dict['series_cnt'] = row[8]
             row_dict['logo_path'] = ''
-            for univ in univ_img:
-                img_name = univ if row[7] != '' and univ.find(row[7].lower()) != -1 and univ.find('01') != -1 else row[5]
-                img_path = '/static/images/univ/cert/' + img_name
-                if img_name != row[5]:
-                    row_dict['logo_path'] = img_path
             series_list.append(row_dict)
     except Exception as e:
         print e
