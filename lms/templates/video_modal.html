@@ -4,7 +4,9 @@
 <%namespace name='static' file='static_content.html'/>
 
 <div id="video-modal" class="modal video-modal">
+  <button onclick="video_close()" class="v_close" style="float: right;color: white; margin-top: -10px;" >X</button>
   <div class="inner-wrapper">
     ${get_course_about_section(request, course, "video")}
   </div>
 </div>
+

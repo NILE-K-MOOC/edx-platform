@@ -1971,7 +1971,7 @@ span.important-dates-item-text.start-date {
 .tab2 button.active {
     background-color: #4587c2 !important;
 	color:#fff;
-	box-shadow:none !important;
+	/*box-shadow:none;*/
 	border:none !important;
 	border-bottom: 1.5px solid #fff !important;
 	border-top: 1.5px solid #fff !important;

@@ -10,6 +10,7 @@
      *   - have an href= attribute identifying the id of the dialog element,
      *   - have rel='leanModal'.
      */
+
     leanModal: function(options) {
       var defaults = {
         top: 100,
@@ -40,10 +41,11 @@
             //Deleting the video (clone) prevents the odd back button behavior.
             var modal_clone = $(modal_id).clone(true, true);
             modal_clone.attr('id', 'modal_clone');
+            modal_clone.attr('tab-index', 0);
             $(modal_id).after(modal_clone);
             modal_id = '#modal_clone';
-          }
 
+          }
           $("#lean_overlay").click(function(e) {
             close_modal(modal_id, e);
           });
@@ -64,6 +66,7 @@
           $('#lean_overlay').fadeTo(200,o.overlay);
 
           $('iframe', modal_id).attr('src', $('iframe', modal_id).data('src'));
+          $('.modal video-modal').focus();
           if ($(modal_id).hasClass("email-modal")){
             $(modal_id).css({
               'width' : 80 + '%',
@@ -87,6 +90,7 @@
 
           $(modal_id).show().fadeTo(200,1);
           $(modal_id).find(".notice").hide().html("");
+          $(modal_id).focus();
           var notice = $(this).data('notice')
           if(notice !== undefined) {
             $notice = $(modal_id).find(".notice");
@@ -113,6 +117,7 @@
   });
 
   $(document).ready(function ($) {
+
     $("a[rel*=leanModal]").each(function () {
       $(this).leanModal({ top : 120, overlay: 1, closeButton: ".close-modal", position: 'absolute' });
       embed = $($(this).attr('href')).find('iframe')
@@ -124,3 +129,11 @@
     });
   });
 })(jQuery);
+
+function video_close() {
+  $("#lean_overlay").fadeOut(200);
+  // $('#lean_overlay').hide();
+  $('#modal_clone').hide();
+  $('.media').focus();
+
+  }

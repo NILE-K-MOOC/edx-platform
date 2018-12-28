@@ -86,10 +86,12 @@
                 if (bookmarked) {
                     this.$el.addClass('bookmarked');
                     this.$el.attr('aria-pressed', 'true');
+                    this.$el.attr('title', '북마크 선택');
                     this.$el.find('.bookmark-sr').text(this.srRemoveBookmarkText);
                 } else {
                     this.$el.removeClass('bookmarked');
                     this.$el.attr('aria-pressed', 'false');
+                    this.$el.attr('title', '북마크 해제');
                     this.$el.find('.bookmark-sr').text(this.srAddBookmarkText);
                 }
             },
