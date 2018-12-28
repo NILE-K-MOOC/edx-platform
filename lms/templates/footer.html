@@ -51,7 +51,7 @@ from branding.api import get_footer
                                 <h1 hidden>${_("Match Up")}</h1>
                                 <option value="http://www.matchup.kr/" title="새창 열림">${_("Match Up")}</option>
                             </select>
-                            <!--<input id="go" class="btn-neutral" type="button" title="새창으로 열림" value='${_("move")}' style="border: solid 0px">-->
+                            <input id="go" class="btn-neutral" type="button" title="새창으로 열림" value='${_("move")}' style="border: solid 0px">
                         </div>
                         <script>
                             var ua = window.navigator.userAgent;
@@ -62,7 +62,8 @@ from branding.api import get_footer
                                     //$('#rel_site_div').append('<input class="btn" type="button" id="go" value="이동" title="이동">');
                                 }
                             });
-                            $(document).on('change', '#related_site', function () {
+
+                            $(document).on('click', '#go', function () {
                                 var url = $('#related_site option:selected').val();
                                 if (url != '관련사이트' && url != 'Related sites') {
                                     //document.location.href = url;
