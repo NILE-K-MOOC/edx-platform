@@ -17,7 +17,7 @@
 .float_left{float:left;}
 .section_a1{margin-right: 25px;}
 .section_a2 {width: 100%; margin-right: 10px; padding-top: 5px;}
-.section_a2 span{
+.section_a2 p{
 	overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -25,6 +25,8 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     line-height: 19px;
+    
+    max-height: 3.6rem;
 }
 
 .section_a3{float: right; padding: 0px; width: 65%;}
@@ -57,6 +59,8 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
+
+    max-height: 1.6rem;
 }
 
 .bundle_subtxt{
