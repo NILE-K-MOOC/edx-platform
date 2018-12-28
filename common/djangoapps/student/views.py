@@ -607,12 +607,15 @@ def course_tab(request, user=AnonymousUser()):
         if not hasattr(c, 'audit_yn'):
             c.audit_yn = 'Y'
 
+    classfy = classfy if classfy is not None else 'All'
+
+    context = {'classfy': classfy,'courses': courses}
+
     if request.GET.get('method') == 'tab_classfy':
-        context = {'courses': courses}
 
         return render_to_response('courses_list.html', context, request=request)
 
-    return courses
+    return context
 
 
 # NOTE: This view is not linked to directly--it is called from
@@ -641,7 +644,7 @@ def index(request, extra_context=None, user=AnonymousUser(), classfy=None):
     #     # courses = courses[:8]
     #     courses = courses
 
-    context = {'courses': courses}
+    context = {'courses': courses['courses']}
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
@@ -663,6 +666,8 @@ def index(request, extra_context=None, user=AnonymousUser(), classfy=None):
 
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
+
+    context['classfy'] = courses['classfy']
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),

@@ -165,7 +165,9 @@ cert_name_long = settings.CERT_NAME_LONG
             </div>
 
             <div id="courses_target">
-
+                % if status_flag == None:
+                <h6 hidden>${_('ing course')}</h6>
+                % endif
 
 <%block name="js_extra">
 <script src="${static.url('js/commerce/credit.js')}"></script>

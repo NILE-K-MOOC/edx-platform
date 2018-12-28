@@ -7,6 +7,7 @@
 
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
       <section class="courses" style="padding-bottom: 0;">
+        <h6 hidden>${_(classfy)}</h6>
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
             <% idx = 0 %>
