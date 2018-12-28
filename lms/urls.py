@@ -146,6 +146,7 @@ urlpatterns = (
 
     # series course
     url(r'^series/$', 'community.views.series', name='series'),
+    url(r'^series_view/(?P<id>.*?)/about/$', 'community.views.series_about', name='series_about'),
     url(r'^series_view/(?P<id>.*?)/$', 'community.views.series_view', name='series_view'),
     url(r'^series_print/(?P<id>.*?)/$', 'community.views.series_print', name='series_print'),
     url(r'series_print$', 'maeps.views.series_print', name='series_print'),

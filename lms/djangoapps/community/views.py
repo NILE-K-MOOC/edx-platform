@@ -6,9 +6,10 @@ from django.conf import settings
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
 )
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import render_to_response
+from django.template.response import TemplateResponse
 from util.json_request import JsonResponse
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import MySQLdb as mdb
@@ -386,21 +387,71 @@ def series(request):
                    a.series_name,
                    b.attach_file_path,
                    b.attatch_file_name,
-                   attatch_file_ext
+                   attatch_file_ext,
+                   ifnull(c.detail_name, '-'),
+                   ifnull(a.short_description, ''),
+                   ifnull(a.org, ''),
+                   ifnull(series_cnt, 0)
               FROM edxapp.series AS a
                    LEFT JOIN edxapp.tb_board_attach AS b
                       ON a.sumnail_file_id = b.attatch_id
-             WHERE a.use_yn = 'Y' AND a.delete_yn = 'N'
+                   LEFT JOIN code_detail c
+                      ON a.org = c.detail_code AND group_code = '003'
+                   LEFT JOIN
+                   (  SELECT count(series_course_id) series_cnt,
+                             series_course_id,
+                             series_seq
+                        FROM series_course d
+                       WHERE delete_yn = 'N'
+                    GROUP BY d.series_seq) e
+                      ON a.series_seq = e.series_seq
+             WHERE a.use_yn = 'Y' AND a.delete_yn = 'N';
         '''
         cur.execute(query)
         rows = cur.fetchall()
+        series_list = list()
+    try:
+        for row in rows:
+            row_dict = dict()
+            row_dict['series_seq'] = row[0]
+            row_dict['series_name'] = row[1]
+            row_dict['attach_file_path'] = row[2]
+            row_dict['attatch_file_name'] = row[3]
+            row_dict['attatch_file_ext'] = row[4]
+            row_dict['detail_name'] = row[5]
+            row_dict['short_description'] = row[6]
+            row_dict['org'] = row[7]
+            row_dict['series_cnt'] = row[8]
+            row_dict['logo_path'] = ''
+            series_list.append(row_dict)
+    except Exception as e:
+        print e
 
     context = {}
-    context['series_list'] = rows
+    context['series_list'] = series_list
     return render_to_response('community/series.html', context)
 
 
+def series_about(request, id):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT note
+            FROM series
+            WHERE series_seq = {id};
+        '''.format(id=id)
+        cur.execute(query)
+        note = cur.fetchone()
+        context = {'note': str(note[0].encode("utf-8"))}
+        return JsonResponse({'note': str(note[0].encode("utf-8"))})
+        # print context['note']
+        #
+        # # get_course_about_section(request, course, "overview")
+        # # render(request, 'community/series_about.html', context=context)
+        # return render(request, 'community/series_about.html', context=context)
+
+
 def series_view(request, id):
+    print 'test'
     with connections['default'].cursor() as cur:
         query = '''
             SELECT a.series_name,
@@ -408,10 +459,14 @@ def series_view(request, id):
                a.note,
                b.attach_file_path,
                b.attatch_file_name,
-               attatch_file_ext
+               attatch_file_ext,
+               c.detail_name,
+               ifnull(a.short_description, '')
             FROM series as a
             LEFT JOIN tb_board_attach AS b
-            ON a.sumnail_file_id = b.attatch_id
+                ON a.sumnail_file_id = b.attatch_id
+            LEFT JOIN code_detail c
+                ON a.org = c.detail_code AND c.group_code = '003'
             WHERE  a.series_seq = {}
         '''.format(id)
         cur.execute(query)
@@ -420,58 +475,236 @@ def series_view(request, id):
 
     with connections['default'].cursor() as cur:
         query = '''
+            SELECT IFNULL(effort, 0) effort
+                  FROM (SELECT org,
+                               display_number_with_default,
+                               id,
+                               effort,
+                               start
+                          FROM edxapp.course_overviews_courseoverview a) ab
+                          JOIN
+                           (  SELECT max(start) AS max_start, m1.org, display_number_with_default
+                                FROM course_overviews_courseoverview m1
+                            GROUP BY m1.org, m1.display_number_with_default) max
+                              ON     ab.org = max.org
+                                 AND ab.display_number_with_default =
+                                     max.display_number_with_default
+                                 AND ab.start = max.max_start
+                 WHERE (ab.org, ab.display_number_with_default) IN
+                          (SELECT org, display_number_with_default
+                             FROM series_course
+                            WHERE series_seq = {0} AND delete_yn = 'N');
+        '''.format(id)
+        cur.execute(query)
+        effort = cur.fetchall()
+
+        week_time = 0
+        video_time = 0
+        study_time = 0
+
+        for e in effort:
+            if e[0].find('@') != -1 and e[0].find('#') != -1:
+                week = e[0].split('@')[1].split('#')[0]
+            elif e[0].find('@') != -1 and e[0].find('#') == -1:
+                week = e[0].split('@')[1]
+            else:
+                week = '0'
+            w_time = int(week)
+            study = e[0].split('$')[1] if e[0].find('$') != -1 else '0:0'
+            s_time = (int(study.split(':')[0]) * 60) + int(study.split(':')[1])
+            if e[0].find('#') != -1 and e[0].find('$') != -1:
+                video = e[0].split('#')[1].split('$')[0]
+            elif e[0].find('#') != -1 and e[0].find('$') == -1:
+                video = e[0].split('#')[1]
+            else:
+                video = '0:0'
+            v_time = (int(video.split(':')[0]) * 60) + int(video.split(':')[1])
+
+            week_time += w_time
+            study_time += s_time
+            video_time += v_time
+
+        week_total = str(week_time) + '주'
+        study_total = str(study_time // 60) + '시간 ' + str(study_time % 60) + '분'
+        video_total = str(video_time // 60) + '시간' + str(video_time % 60) + '분'
+
+        # classfy name
+        classfy_dict = {
+            # add classfy
+            "edu": "Education",
+            "hum": "Humanities",
+            "social": "Social Sciences",
+            "eng": "Engineering",
+            "nat": "Natural Sciences",
+            "med": "Medical Sciences",
+            "art": "Arts & Physical",
+            "intd": "Interdisciplinary",
+        }
+
+        middle_classfy_dict = {
+            "lang": "Linguistics & Literature",
+            "husc": "Human Sciences",
+            "busn": "Business Administration & Economics",
+            "law": "Law",
+            "scsc": "Social Sciences",
+            "enor": "General Education",
+            "ekid": "Early Childhood Education",
+            "espc": "Special Education",
+            "elmt": "Elementary Education",
+            "emdd": "Secondary Education",
+            "cons": "Architecture",
+            "civi": "Civil Construction & Urban Engineering",
+            "traf": "Transportation",
+            "mach": "Mechanical & Metallurgical Engineering",
+            "elec": "Electricity & Electronics",
+            "deta": "Precision & Energy",
+            "matr": "Materials",
+            "comp": "Computers & Communication",
+            "indu": "Industrial Engineering",
+            "cami": "Chemical Engineering",
+            "other": "Others",
+            "agri": "Agriculture & Fisheries",
+            "bio": "Biology, Chemistry & Environmental Science",
+            "life": "Living Science",
+            "math": "Mathematics, Physics, Astronomy & Geography",
+            "metr": "Medical Science",
+            "nurs": "Nursing",
+            "phar": "Pharmacy",
+            "heal": "Therapeutics & Public Health",
+            "dsgn": "Design",
+            "appl": "Applied Arts",
+            "danc": "Dancing & Physical Education",
+            "form": "FineArts & Formative Arts",
+            "play": "Drama & Cinema",
+            "musc": "Music",
+            "intd_m": "Interdisciplinary",
+        }
+
+    with connections['default'].cursor() as cur:
+        query = '''
             SELECT id,
                    course_image_url,
                    course_name,
                    v1.org,
-                   detail_name                               AS univ,
-                   Date_format(enrollment_start, '%Y/%m/%d') AS enrollment_start,
-                   Date_format(enrollment_end, '%Y/%m/%d')   AS enrollment_end,
-                   Date_format(start, '%Y/%m/%d')            AS start,
-                   Date_format(end, '%Y/%m/%d')              AS end
-            FROM   edxapp.series_course AS v1
-                   JOIN(SELECT *
-                        FROM   (SELECT id,
-                                       @org := a.org                            AS org,
-                                       display_number_with_default,
-                                       start,
-                                       end,
-                                       enrollment_start,
-                                       enrollment_end,
-                                       course_image_url,
-                                       CASE
-                                         WHEN a.org = @org
-                                              AND a.display_number_with_default = @course
-                                       THEN @rn
-                                         :=
-                                         @rn + 1
-                                         ELSE @rn := 1
-                                       end                                      AS rn,
-                                       @course := a.display_number_with_default AS course
-                                FROM   course_overviews_courseoverview a,
-                                       (SELECT @rn := 0,
-                                               @org := '',
-                                               @course := '') b
-                                WHERE  a.start < a.end
-                                ORDER  BY a.org,
-                                          a.display_number_with_default,
-                                          a.start DESC) t1
-                        WHERE  rn = 1) AS v2
-                     ON v1.org = v2.org
-                        AND v1.display_number_with_default = v2.display_number_with_default
+                   ifnull(detail_name, v1.org) AS univ,
+                   CASE
+                      WHEN start > now()
+                      THEN
+                         concat(Date_format(start, '`%y.%m.%d. '), '개강예정')
+                      WHEN start <= now() AND end > now()
+                      THEN
+                         concat(
+                            '진행중',
+                            Date_format(enrollment_end,
+                                        '(`%y.%m.%d. 수강신청마감)'))
+                      WHEN end <= now() AND audit_yn = 'N'
+                      THEN
+                         '종강됨'
+                      WHEN end <= now() AND audit_yn = 'Y'
+                      THEN
+                         '종강됨(청강가능)'
+                      ELSE
+                         '-'
+                   END AS course_status,
+                   ifnull(effort, '00:00@0#00:00$00:00'),
+                   ifnull(classfy, 'ETC') classfy,
+                   ifnull(middle_classfy, 'ETC') middle_classfy,
+                   v2.short_description,
+                   ifnull(course_level, '') as course_level
+              FROM edxapp.series_course AS v1
+                   JOIN
+                   (SELECT *
+                      FROM (  SELECT id,
+                                     @org := a.org AS org,
+                                     display_number_with_default,
+                                     start,
+                                     end,
+                                     enrollment_start,
+                                     enrollment_end,
+                                     course_image_url,
+                                     CASE
+                                        WHEN     a.org = @org
+                                             AND a.display_number_with_default = @course
+                                        THEN
+                                           @rn := @rn + 1
+                                        ELSE
+                                           @rn := 1
+                                     END AS rn,
+                                     @course := a.display_number_with_default AS course,
+                                     effort,
+                                     c.classfy,
+                                     c.middle_classfy,
+                                     a.short_description,
+                                     (SELECT detail_ename
+                                        FROM code_detail
+                                       WHERE     detail_code = c.course_level
+                                             AND group_code = 007) AS course_level,
+                                     c.audit_yn
+                                FROM course_overviews_courseoverview a
+                                     LEFT JOIN course_overview_addinfo c
+                                        ON a.id = c.course_id,
+                                     (SELECT @rn := 0, @org := '', @course := '') b
+                               WHERE a.start < a.end
+                            ORDER BY a.org, a.display_number_with_default, a.start DESC)
+                           t1
+                     WHERE rn = 1) AS v2
+                      ON     v1.org = v2.org
+                         AND v1.display_number_with_default =
+                             v2.display_number_with_default
                    LEFT JOIN edxapp.code_detail AS d
-                          ON v2.org = d.detail_code AND d.group_code = 003
-            WHERE  series_seq = {}
+                      ON v2.org = d.detail_code AND d.group_code = 003
+             WHERE series_seq = {};
         '''.format(id)
         cur.execute(query)
         rows = cur.fetchall()
-        sub_list = rows
+        query_list = [list(row) for row in rows]
+
+        sub_list = list()
+
+        for row in query_list:
+            effort_week = row[6].split('@')[1].split('#')[0] if row[6] and '@' in row[6] and '#' in row[6] else ''
+            study_time = row[6].split('$')[1].split(':')[0] + "시간 " + row[6].split('$')[1].split(':')[
+                1] + "분" if row[6] and '$' in row[6] else '-'
+            learn_time = row[6].split('@')[0] if row[6] and '@' in row[6] else '0'
+            course_video = '0'
+            if row[6].find('#') != -1 and row[6].find('$') != -1:
+                course_video = row[6].split('#')[1].split('$')[0]
+            elif row[6].find('#') != -1 and row[6].find('$') == -1:
+                course_video = row[6].split('#')[1]
+            row.insert(len(row), effort_week)
+            row.insert(len(row), study_time)
+            row.insert(len(row), learn_time)
+            row.insert(len(row), course_video)
+
+            row[7] = classfy_dict[row[7]] if row[7] in classfy_dict or row[7] != 'ETC' else 'ETC'
+            row[8] = middle_classfy_dict[row[8]] if row[8] in middle_classfy_dict or row[8] != 'ETC' else 'ETC'
+
+            sub_dict = dict()
+            sub_dict['id'] = row[0]
+            sub_dict['course_image_url'] = row[1]
+            sub_dict['course_name'] = row[2]
+            sub_dict['org'] = row[3]
+            sub_dict['univ'] = row[4]
+            sub_dict['course_status'] = row[5]
+            sub_dict['classfy'] = row[7]
+            sub_dict['middle_classfy'] = row[8]
+            sub_dict['short_description'] = row[9]
+            sub_dict['course_level'] = row[10]
+            sub_dict['effort_week'] = effort_week
+            sub_dict['study_time'] = study_time
+            sub_dict['learn_time'] = learn_time
+            sub_dict['course_video'] = course_video
+            sub_list.append(sub_dict)
 
     context = {}
     context['id'] = id
     context['main_list'] = main_list
     context['sub_list'] = sub_list
+    context['week_total'] = week_total
+    context['study_total'] = study_total
+    context['video_total'] = video_total
     return render_to_response('community/series_view.html', context)
+
 
 def series_print(request, id):
     with connections['default'].cursor() as cur:
