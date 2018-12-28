@@ -134,6 +134,7 @@ function video_close() {
   $("#lean_overlay").fadeOut(200);
   // $('#lean_overlay').hide();
   $('#modal_clone').hide();
+  $('#modal_clone').remove();
   $('.media').focus();
 
   }
