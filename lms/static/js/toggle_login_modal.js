@@ -36,6 +36,9 @@
           var modal_id = $(this).attr("href");
 
           if ($(modal_id).hasClass("video-modal")) {
+
+            console.log("modal_id: " + modal_id);
+
             //Video modals need to be cloned before being presented as a modal
             //This is because actions on the video get recorded in the history.
             //Deleting the video (clone) prevents the odd back button behavior.
@@ -44,6 +47,10 @@
             modal_clone.attr('tab-index', 0);
             $(modal_id).after(modal_clone);
             modal_id = '#modal_clone';
+
+            setTimeout(function(){
+              $("#modal_clone button").focus();
+            }, 500);
 
           }
           $("#lean_overlay").click(function(e) {
@@ -123,7 +130,7 @@
       embed = $($(this).attr('href')).find('iframe')
       if (embed.length > 0 && embed.attr('src')) {
         var sep = (embed.attr('src').indexOf("?") > 0) ? '&' : '?';
-        embed.data('src', embed.attr('src') + sep + 'autoplay=1&rel=0');
+        embed.data('src', embed.attr('src') + sep + 'autoplay=0&rel=0');
         embed.attr('src', '');
       }
     });
