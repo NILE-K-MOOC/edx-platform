@@ -202,7 +202,10 @@ cert_name_long = settings.CERT_NAME_LONG
                     $(".faq-tab .progress").css("width", "0%");
 
                     $(".faq-tab a").removeClass("on");
+                    $(".faq-tab a").removeAttr("alt","활성화");
                     $(e.target).addClass("on");
+                    $(e.target).attr("alt","활성화");
+
                     $("#courses_target").html(data);
 
                     var status = $(e.target).data("status");

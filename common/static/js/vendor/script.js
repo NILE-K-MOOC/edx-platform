@@ -63,7 +63,13 @@ $(document).ready(function() {
 		var currentIndex = 0;
 		var timeout;
 
+		$('.slide_group').hover(function () {
+			advance1();
+			setTimeout(function() {
+				advance();
+			}, 7000);
 
+        })
 		function move(newIndex) {
 			var animateLeft, slideLeft;
 
@@ -113,6 +119,16 @@ $(document).ready(function() {
 					move(0);
 				}
 			}, 4000);
+		}
+		function advance1() {
+			clearTimeout(timeout);
+			timeout = setTimeout(function() {
+				if (currentIndex < ($slides.length - 1)) {
+					move(currentIndex + 1);
+				} else {
+					move(0);
+				}
+			}, 5000000);
 		}
 
 		$('.next_btn').on('click', function() {
