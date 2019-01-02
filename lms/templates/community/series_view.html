@@ -1,6 +1,6 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">시리즈강좌</%block>
+<%block name="pagetitle">묶음강좌</%block>
 <%inherit file="../main.html" />
 
 <%block name="header_extras"></%block>
@@ -151,30 +151,120 @@ function print(printArea)
 		win.close();
 }
 */
-    function move(){
-        var index = '${id}';
-        var url = "/series_print/" + index;
-        window.open(url, "_blank");
-        //$(location).attr('href',url);
-    }
+function move(){
+    var index = '${id}';
+    var url = "/series_print/" + index;
+    window.open(url, "_blank");
+    //$(location).attr('href',url);
+}
+
+function setIframeHeight(id) {
+    var ifrm = document.getElementById(id);
+    var doc = ifrm.contentDocument? ifrm.contentDocument:
+        ifrm.contentWindow.document;
+    ifrm.style.visibility = 'hidden';
+    ifrm.style.height = "10px";
+    ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+    ifrm.style.visibility = 'visible';
+}
+
+
+function getDocHeight(doc) {
+    doc = doc || document;
+    var body = doc.body, html = doc.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+}
+
+
+
+$(document).ready(function(){
+    $.ajax({
+        url: 'about'
+    }).done(function(data){
+        var $frame = $('#about_iframe');
+        var doc = $frame[0].contentWindow.document;
+        var $body = $('body', doc);
+        $body.html(data.note);
+        setTimeout(function(){
+            setIframeHeight('about_iframe');
+        }, 300);
+    });
+
+    $(window).resize(function(){
+        setIframeHeight('about_iframe');
+    });
+
+});
 </script>
 
 <section class="container" id="printArea">
     <div class="real_main_title">${_('Series Course')}</div>
     % if main_list:
     <div class="section_1">
-        <div class="section_a">
-            <img class="series_img" src="/static/series/${main_list[4]}.${main_list[5]}"/>
-        </div>
-        <div class="section_b">
-            <div class="series_title">${main_list[0]}</div>
-            <div class="series_target">${_('Series ID')} : ${main_list[1]}</div>
+        <div class="section_frame_outer">
+            <div class="section_frame_inner">
+                <div class="float_left section_a1">
+                    <img class="series_imges" width="230px" height="130px" src="/static/series/${main_list[4]}.${main_list[5]}" alt="${main_list[1]}"/>
+                </div>
+                <div class="float_left section_a2">
+                    <div class="series_title">${main_list[0]}</div>
+                    <span class="bundle_subtxt">${main_list[7]}</span>
+                </div>
+
+                <div class="section_a3">
+                    <div class="r-list">
+                        <table>
+                            <tr>
+                                <td>
+                                    <span class="siz">대표기관</span>
+                                </td>
+                                <td>
+                                    <span>${main_list[6]}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="siz">총주차</span>
+                                </td>
+                                <td>
+                                    <span>${week_total}</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span class="siz">총 학습인정시간</span>
+                                </td>
+                                <td>
+                                    <span>${study_total}</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span class="siz">총 동영상시간</span>
+                                </td>
+                                <td>
+                                    <span>${video_total}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+
     <div class="section_2">
         <div class="course_intro_title">${_('Course Introduction')}</div>
-        <div class="course_intro_content">${main_list[2]}</div>
+        <div class="course_intro_content" id="series_about">
+            <!--##<pre>${main_list[2]}</pre>-->
+            <!--<iframe id="about_iframe" frameborder="0" scrolling="no" src="about" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>-->
+            <iframe id="about_iframe" frameborder="0" scrolling="no" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
+        </div>
     </div>
     % endif
 
@@ -186,22 +276,80 @@ function print(printArea)
 
     <div class="section_4">
         % if len(sub_list) == 0:
-            <div class="course_intro_content">현재 시리즈 강좌에 등록된 강좌가 없습니다</div>
+            <div class="course_intro_content">현재 묶음강좌에 등록된 강좌가 없습니다</div>
         % endif
-
         % for item in sub_list:
-        <div class="section_5" style="margin-top: 35px;">
-                <div class="section_a">
-                    <img class="series_img_inner" src="${item[1]}" style="width:190px; height: 125px;"/>
+        <div class="section_5">
+            <div class="section_frame_outer">
+                <div class="section_frame_inner">
+                    <div class="float_left section_a1">
+                        <img class="series_imges" src="${item['course_image_url']}"/>
+                    </div>
+                    <div class="float_left section_a2">
+                        <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank"><div class="series_title">${item['course_name']}</div></a>
+                        <span>${item['short_description']}</span>
+                    </div>
+                    <div class="section_a3">
+                        <div class="r-list">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="siz">분야</span>
+                                    </td>
+                                    <td>
+                                        <span>${_(item['classfy'])}(${_(item['middle_classfy'])})</span>
+                                    </td>
+                                </tr>
+
+                                % if item['course_level'] != '':
+                                <tr>
+                                    <td>
+                                        <span class="siz">난이도</span>
+                                    </td>
+                                    <td>
+                                        <span>${_(item['course_level'])}</span>
+                                    </td>
+                                </tr>
+                                % endif
+
+                                <tr>
+                                    <td>
+                                        <span class="siz">주차</span>
+                                    </td>
+                                    <td>
+                                        <span>${item['effort_week']}${_("week")}</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <span class="siz">학습인정시간</span>
+                                    </td>
+                                    <td>
+                                        <span>${item['study_time']}</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <span class="siz">개강상태</span>
+                                    </td>
+                                    <td>
+                                        <span>${item['course_status']}</span>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="section_bb">
-                    <a class="pagerLink" href="/courses/${item[0]}/about"><div class="series_d">${item[2]}</div></a>
-                    <div class="series_a" style=" margin-bottom: 15px; font-weight: bold;">${item[3]}</div>
-                    <div class="series_b" style=" margin-bottom: 8px;"><span class="siz-date">${_('enrollment')}</span> ${item[5]} - ${item[6]}</div>
-                    <div class="series_c"><span class="siz-date">${_('start')}</span> ${item[7]} - ${item[8]}</div>
-                </div>
+            </div>
         </div>
         % endfor
     </div>
+
+
+
 </section>
 </div>

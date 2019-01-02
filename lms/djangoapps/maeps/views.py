@@ -552,7 +552,7 @@ def series_print(request):
     strHtmlData = '''
             <HTML>
             <HEAD>
-            <TITLE>KMOOC 시리즈강좌</TITLE>
+            <TITLE>KMOOC 묶음강좌</TITLE>
             <META http-equiv=Content-Type content="text/html; charset=utf-8">
             <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
             </HEAD>
