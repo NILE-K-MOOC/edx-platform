@@ -37,12 +37,7 @@
     padding-top:15px;
     padding-left:20px;
 }
-.series_title{
-    margin-bottom:20px;
-    font-size:150%;
-    font-weight: bold;
-    width:500px;
-}
+
 .series_target{
     margin-bottom:6px;
     font-size:80%;
@@ -199,8 +194,18 @@ $(document).ready(function(){
 });
 </script>
 
+<div>
+    <div class="series_bg_area">
+        <div class="series_bg_space">
+      <span  class="series_bg_title">
+      <h3>${_('Series Course')}</h3>
+      </span>
+        </div>
+
+    </div>
+</div>
+
 <section class="container" id="printArea">
-    <div class="real_main_title">${_('Series Course')}</div>
     % if main_list:
     <div class="section_1">
         <div class="section_frame_outer">
@@ -287,10 +292,10 @@ $(document).ready(function(){
                     </div>
                     <div class="float_left section_a2">
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank"><div class="series_title">${item['course_name']}</div></a>
-                        <span>${item['short_description']}</span>
+                        <p class="s_list">${item['short_description']}</p>
                     </div>
-                    <div class="section_a3">
-                        <div class="r-list">
+                    <div class="section_a3 s_view">
+                        <div class="r-list s_view">
                             <table>
                                 <tr>
                                     <td>
