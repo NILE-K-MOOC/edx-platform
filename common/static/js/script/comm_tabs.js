@@ -32,7 +32,9 @@ function search(head_title) {
             $(".faq-list").html("");
 
             $(".faq-tab a").removeClass("on");
+            $(".faq-tab a").attr("title",head_title);
             $(".faq-tab a[data-value=" + head_title + "]").addClass("on");
+            $(".faq-tab a[data-value=" + head_title + "]").attr("title",head_title+" "+"활성화");
 
             if (data.length == 0) {
                 $(".faq-list").html("<div style='text-align: center'><h3>저장된 데이터가 없습니다.</h3></div>");
