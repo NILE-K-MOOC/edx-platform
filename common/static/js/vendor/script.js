@@ -186,7 +186,8 @@ $(window).load(function() {
 			mode : "fade",
 			auto : true,
 			controls : false,
-			speed : 1000
+			speed : 1000,
+			randomStart: true
 		});
 	}
 
@@ -198,7 +199,8 @@ $(window).load(function() {
 			minSlides: 5,
 			maxSlides: 5,
 			slideMargin: 0,
-			slideWidth : 250
+			slideWidth : 250,
+			infiniteLoop: false
 		});
 	}
 });

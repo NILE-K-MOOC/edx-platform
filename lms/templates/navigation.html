@@ -315,9 +315,15 @@ $( document ).ready(function() {
 
             });
         } else {
+
             $('.nav-global-04').hover(function() {
                 $(this).children('ul').stop(true, false, true).slideToggle(500);
-            });
+            }).keydown(function(e) {
+                //alert(e.keyCode);
+                if (e.keyCode ==13){
+                    $(this).children('ul').stop(true, false, true).slideToggle(500);
+                }
+            });;
 
             /*
             $('.nav-global-04').on('click', function() {
