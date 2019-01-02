@@ -23,40 +23,45 @@
 .section_a2 {width: 50%; margin-right: 10px;}
 
 .section_a2 p.s_list {
-    overflow: hidden;
     position: relative;
-    line-height: 1.2em;
-    max-height: 3.5em;
-    padding-right: 1em;
-    text-align: right;
-    margin-bottom: 20px;
-    font-size: 16px;
-
-}
-
-.section_a2 p.s_view {
-    height: 70px;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
     line-height: 25px;
-    display: inline-block;
-}
+    height: 75px;
 
-.section_a2 p.s_list:before {
-    content: '...';
-    position: absolute;
-    right: 0;
-    bottom: 0;
 }
 
 .section_a2 p.s_list:after {
-    content: '';
+    content: "";
+    text-align: right;
     position: absolute;
+    bottom: 0;
     right: 0;
-    width: 1em;
-    height: 1em;
-    margin-top: 0.2em;
+    width: 20%;
+    height: 25px;
+    line-height: 25px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 80%);
+}
+
+@supports (-webkit-line-clamp: 3) {
+    .section_a2 p.s_list {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        max-height:75px;
+        height: 75px;
+    }
+    .section_a2 p.s_list:after {
+        display: none;
+    }
+}
+
+.pagerLink:visited {
+    color: #575555;
 }
 
 .section_a3{float: right; padding: 0px;}
@@ -107,9 +112,6 @@
 .bundle_subtxt{
     overflow: inherit !important;
     text-overflow: inherit !important;
-    /*    display: inherit !important;
-        -webkit-box-orient: inherit !important;
-        word-wrap: inherit !important;*/
     line-height: 19px !important;
 }
 
