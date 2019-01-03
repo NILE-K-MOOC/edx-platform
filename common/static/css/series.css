@@ -24,6 +24,16 @@
 .section_a1{margin-right: 25px;}
 .section_a2 {width: 50%; margin-right: 10px;}
 
+.section_2_1 {
+    border-bottom: 2px solid #ccc;
+    margin-top: 55px;
+    padding: 0 20px;
+}
+
+.series_view_intro {
+    padding-bottom: 10px;
+}
+
 .section_a2 p.s_list {
     position: relative;
     overflow: hidden;

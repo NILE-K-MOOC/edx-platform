@@ -441,13 +441,7 @@ def series_about(request, id):
         '''.format(id=id)
         cur.execute(query)
         note = cur.fetchone()
-        context = {'note': str(note[0].encode("utf-8"))}
         return JsonResponse({'note': str(note[0].encode("utf-8"))})
-        # print context['note']
-        #
-        # # get_course_about_section(request, course, "overview")
-        # # render(request, 'community/series_about.html', context=context)
-        # return render(request, 'community/series_about.html', context=context)
 
 
 def series_view(request, id):
@@ -653,7 +647,7 @@ def series_view(request, id):
                              v2.display_number_with_default
                    LEFT JOIN edxapp.code_detail AS d
                       ON v2.org = d.detail_code AND d.group_code = 003
-             WHERE series_seq = {};
+             WHERE series_seq = {} AND v1.delete_yn = 'N';
         '''.format(id)
         cur.execute(query)
         rows = cur.fetchall()

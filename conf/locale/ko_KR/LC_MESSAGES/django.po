@@ -30176,6 +30176,9 @@ msgstr "묶음강좌"
 msgid "Course Introduction"
 msgstr "강좌 소개"
 
+msgid "Series Course Introduction"
+msgstr "묶음강좌 소개"
+
 msgid "Course List"
 msgstr "구성 강좌 목록"
 
