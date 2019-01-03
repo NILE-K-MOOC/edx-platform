@@ -1,7 +1,9 @@
 /* 배경 */
 .series_bg_area{width:100%; height: 180px; background: #2f59a3;}
+.series_bg_area.series_about {height: 100px;}
 .series_bg_area .series_bg_space{max-width: 75rem; margin: 0 auto; height: 180px;  background: url(/static/images/s_bg.jpg) no-repeat;}
 .series_bg_space .series_bg_title{margin-left: 40px; display: inline-block; margin-top: 56px;}
+.series_bg_title.series_about {margin-top: 30px;}
 .series_bg_title h3{
     font-size: 30px;
     margin: 0;
