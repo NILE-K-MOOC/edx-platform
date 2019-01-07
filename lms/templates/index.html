@@ -380,7 +380,7 @@ if (
                         </div>
 
                         <div id="comm_all" class="tabcontent">
-                            <h6 hidden>전체</h6>
+                            <h6 class="hidden_head">전체</h6>
                             <div class="tabcontent-depth1">
                                 <ul>
                                     <%
@@ -409,7 +409,7 @@ if (
                             </div>
                         </div>
                         <div id="news" class="tabcontent" style="display: none;">
-                            <h6 hidden>K-MOOC 뉴스</h6>
+                            <h6 class="hidden_head">K-MOOC 뉴스</h6>
                             <div class="tabcontent-depth1">
                                 <ul>
                                     % for list in index_list :
@@ -422,12 +422,12 @@ if (
                                     % endif
                                     % endfor
                                 </ul>
-                                <div class="tabcontent-depth1-more"><a href="/comm_list/K/">+ 더보기</a></div>
+                                <div class="tabcontent-depth1-more"><a href="/comm_list/K/"  title="K-MOOC 뉴스 더보기">+ 더보기</a></div>
                             </div>
                         </div>
 
                         <div id="notice" class="tabcontent" style="display: none;">
-                            <h6 hidden>공지사항</h6>
+                            <h6 class="hidden_head">공지사항</h6>
                             <div class="tabcontent-depth1">
                                 <ul>
                                     % for list in index_list :
@@ -440,12 +440,12 @@ if (
                                     % endif
                                     % endfor
                                 </ul>
-                                <div class="tabcontent-depth1-more"><a href="/comm_list/N/">+ 더보기</a></div>
+                                <div class="tabcontent-depth1-more"><a href="/comm_list/N/" title="공지사항 더보기">+ 더보기</a></div>
                             </div>
                         </div>
 
                         <div id="ref" class="tabcontent" style="display: none;">
-                            <h6 hidden>자료실</h6>
+                            <h6 class="hidden_head">자료실</h6>
                             <div class="tabcontent-depth1">
                                 <ul>
                                     % for list in index_list :
@@ -458,12 +458,12 @@ if (
                                     % endif
                                     % endfor
                                 </ul>
-                                <div class="tabcontent-depth1-more"><a href="/comm_list/R/">+ 더보기</a></div>
+                                <div class="tabcontent-depth1-more"><a href="/comm_list/R/" title="자료실 더보기">+ 더보기</a></div>
                             </div>
                         </div>
 
                         <div id="faq" class="tabcontent" style="display: none;">
-                            <h6 hidden>FAQ</h6>
+                            <h6 class="hidden_head">FAQ</h6>
                             <div class="tabcontent-depth1">
                                 <ul>
                                     % for list in index_list :
@@ -476,7 +476,7 @@ if (
                                     % endif
                                     % endfor
                                 </ul>
-                                <div class="tabcontent-depth1-more"><a href="/comm_tabs/kmooc_f/">+ 더보기</a></div>
+                                <div class="tabcontent-depth1-more"><a href="/comm_tabs/kmooc_f/" title="FAQ 더보기">+ 더보기</a></div>
                             </div>
                         </div>
 

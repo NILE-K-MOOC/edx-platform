@@ -2084,3 +2084,7 @@ button#intro_shot {
 	border: none !important;
 	box-shadow: inset 0 1px 0 0 #fff !important;
 }
+
+.hidden_head {
+	display:block; height: 0; width: 0; font-size: 0; line-height: 0; margin: 0; padding: 0; overflow:hidden;
+}
