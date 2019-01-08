@@ -321,11 +321,11 @@ $( document ).ready(function() {
             }).mouseleave(function(){
                 $(this).children('ul').stop().slideUp(500);
             }).keydown(function(e) {
-                //alert(e.keyCode);
-                if (e.keyCode ==13){
+                // alert(e.keyCode);
+                if (e.keyCode ==13 || (e.which == 13 & e.ctrlKey)){
                     $(this).children('ul').stop().slideToggle(500);
                 }
-            });;
+            });
 
             /*
             $('.nav-global-04').on('click', function() {

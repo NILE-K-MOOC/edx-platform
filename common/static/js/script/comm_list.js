@@ -155,7 +155,7 @@ function search(page_no) {
                 if (attach_file == 'Y')
                     html += "<img style='margin-right: 5px;' alt='첨부파일' src='/static/images/Clip.png'/>";
                 if (reg_date > yesterday)
-                    html += "<img src='/static/images/new.jpeg' height='15px;'/>";
+                    html += "<img src='/static/images/new.jpeg' height='15px;' alt='new'/>";
                 html += "   </span>";
                 html += "   <span class='date'>" + reg_date.yyyymmdd() + "</span>";
                 html += "</li>";
