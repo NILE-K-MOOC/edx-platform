@@ -173,6 +173,12 @@ $(document).ready(function() {
 		advance();
 	});
 
+	$('.tabcontent .tabcontent-depth1 li a').focus(function() {
+		$(this).parent('li').css('outline', '1px dashed #8b8b8b');
+	}).blur(function(){
+		$(this).parent('li').removeAttr('style');
+	});
+
 });
 
 
