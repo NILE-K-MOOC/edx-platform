@@ -316,28 +316,25 @@ $( document ).ready(function() {
             });
         } else {
             $('.nav-global-04').mouseenter(function(e){
-                e.preventDefault();
+                // e.preventDefault();
                 $(this).children('ul').stop().slideDown(500);
-                if($(this).children('ul.dropdown-menu').css('display') == 'none'){
-                }
             }).mouseleave(function(e){
                 if($(this).children('ul.dropdown-menu').css('display') != 'none'){
-                    e.preventDefault();
+                    // e.preventDefault();
                     $(this).children('ul').stop().slideUp(500);
                 }
                 $(this).children('a.comm_a').blur();
             }).keyup(function(e) {
-                if (e.keyCode ==13 || (e.which == 13 & e.ctrlKey)){
-                    $(this).children('ul').stop().slideToggle(500);
+                if (e.keyCode == 13){
+                    $(this).click();
+                    return false;
                 }
-            })
+            });
         }
     }
-
     function community_menu(event) {
-        var e = $.Event('keyup');
-        e.keyCode = 13;
         event.preventDefault();
-        $(this).trigger(e);
+        $('.nav-global-04').children('ul').stop().slideToggle(500);
+
     }
 </script>
