@@ -916,7 +916,7 @@ def course_about(request, course_id):
     #login check
     if not request.user.is_authenticated():
         login_status = 'x'
-
+    user_id = request.user.id
     course_key = CourseKey.from_string(course_id)
     course_id_str = str(course_id)
     index_org_start = course_id_str.find(':') + 1
@@ -1182,17 +1182,18 @@ def course_about(request, course_id):
 
         flag = 0
 
-        # if (login_status != 'x'):
-        #     cur = con.cursor()
-        #     query = """
-        #                 SELECT count(user_id)
-        #                   FROM interest_course
-        #                  WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
-        #             """.format(user_id[0][0], course_org, course_number)
-        #     cur.execute(query)
-        #     flag_index = cur.fetchall()
-        #     cur.close()
-        #     flag = flag_index[0][0]
+        if (login_status != 'x'):
+
+            cur = con.cursor()
+            query = """
+                        SELECT count(user_id)
+                          FROM interest_course
+                         WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+                    """.format(user_id, course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
 
         cur = con.cursor()
         query = """
@@ -1242,7 +1243,9 @@ def course_about(request, course_id):
                      WHERE a.course_id = '{course_id}';
                 '''.format(course_id=course_id)
         cur.execute(query)
-        course_level = cur.fetchall()[0][0]
+        course_level = cur.fetchall()
+        print "course_level",course_level
+        course_level = course_level[0][0]
         cur.close()
 
         cur = con.cursor()
