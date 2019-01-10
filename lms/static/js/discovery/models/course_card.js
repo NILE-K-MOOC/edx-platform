@@ -19,7 +19,7 @@
                 org: '',
                 org_kname: '',
                 org_ename: '',
-                teacher_name: ''.
+                teacher_name: '',
                 id: '',
                 status: '',
                 audit_yn: '',
