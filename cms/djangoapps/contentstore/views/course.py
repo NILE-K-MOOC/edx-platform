@@ -102,6 +102,8 @@ from django.db import connections
 from pymongo import MongoClient
 from bson import ObjectId
 
+
+
 log = logging.getLogger(__name__)
 
 __all__ = ['course_info_handler', 'course_handler', 'course_listing','level_Verifi',
@@ -1320,9 +1322,14 @@ def settings_handler(request, course_key_string):
             difficult_degree_list = course_difficult_degree(request, course_key_string)
 
             edit_check = 'Y'
+            m_password = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('password')
+            m_host = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host')
+            m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
 
-            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
-                                 settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            client = MongoClient(m_host,m_port)
+
+            client.admin.authenticate('edxapp', m_password, mechanism='SCRAM-SHA-1',source='edxapp')
+
             db = client.edxapp
 
             course_id = str(course_key)
