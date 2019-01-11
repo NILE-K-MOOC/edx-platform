@@ -276,7 +276,7 @@ if (
                                     % if popzone_list:
                                     <div class="slide" style="display: block; left: 0px;" tabindex="0">
                                         <h6 hidden>${popzone_list[0]['title']}</h6>
-                                        <a href="${popzone_list[0]['link_url']}" target="${popzone_list[0]['link_target']}">
+                                        <a href="${popzone_list[0]['link_url']}" target="${popzone_list[0]['link_target']}" title="${popzone_list[0]['title']}">
                                             <img src="${popzone_list[0]['image_file']}" alt="${popzone_list[0]['title']}">
                                             <input type="hidden" value="${popzone_list[0]['title']}" id="pop_title0">
                                         </a>
@@ -284,7 +284,7 @@ if (
                                     % for pop in popzone_list[1:]:
                                     <div class="slide" style="display: none; left: 0px;" tabindex="0">
                                         <h6 hidden>${pop['title']}</h6>
-                                        <a href="${pop['link_url']}" target="${pop['link_target']}">
+                                        <a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
                                             <img src="${pop['image_file']}" alt="${pop['title']}">
                                             <input type="hidden" value="${pop['title']}" id="pop_title${loop.index + 1}">
                                         </a>
