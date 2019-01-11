@@ -24,6 +24,21 @@ from openedx.core.lib.courses import course_image_url
   % endif
   <script type="text/javascript">
   (function() {
+      //웹 접근성 조치 190111
+      $("#main a").focus(function(){
+        var h = $(this).height();
+        var eh = $(this).offset().top;
+        var wh = $(document).scrollTop() + 110;
+
+        //console.log(h + ":" + eh + ":" + wh)
+        if(eh < wh){
+            $("html, body").animate({
+                scrollTop: eh - (110 + h)
+            }, 300);
+        }
+      });
+
+
 
     $(".youtubewrap").bind('contextmenu', function (e) {
       return false;
