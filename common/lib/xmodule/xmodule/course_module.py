@@ -368,25 +368,25 @@ class CourseFields(object):
         display_name=_("Section"),
         scope=Scope.settings
     )
-    #org_kname = String(
-    #    help=_("Select Section name"),
-    #    default="all",
-    #    display_name=_("org_kname"),
-    #    scope=Scope.settings
-    #)
-    #org_ename = String(
-    #    help=_("Select Section name"),
-    #    default="all",
-    #    display_name=_("org_ename"),
-    #    scope=Scope.settings
-    #)
-    #teacher_name = String(
-    #    help=_("Teacher name"),
-    #    default="all",
-    #    display_name=_("teacher_name"),
-    #    scope=Scope.settings
-    #)
-    # Il-Hee, Maeng addition end -------------------
+    org_kname = String(
+       help=_("Select Section name"),
+       default="all",
+       display_name=_("org_kname"),
+       scope=Scope.settings
+    )
+    org_ename = String(
+       help=_("Select Section name"),
+       default="all",
+       display_name=_("org_ename"),
+       scope=Scope.settings
+    )
+    teacher_name = String(
+       help=_("Teacher name"),
+       default="all",
+       display_name=_("teacher_name"),
+       scope=Scope.settings
+    )
+    # Il-Hee, Maeng addition end ------------------- <--error (org_kname, org_ename, teacher_name)
 
     course_edit_method = String(
         display_name=_("Course Editor"),
