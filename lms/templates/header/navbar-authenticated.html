@@ -272,8 +272,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
           type: "POST",
           data : {
               sync_memo : 'sync_memo',
-              user_id : user_id,
-              csrfmiddlewaretoken: '${ csrf_token }'
+              user_id : user_id
+              //csrfmiddlewaretoken: '${ csrf_token }'
           }
       }).done(function(data) {
           $('#cnt').html(data.cnt);
