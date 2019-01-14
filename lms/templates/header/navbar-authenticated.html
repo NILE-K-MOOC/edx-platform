@@ -88,7 +88,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
 
 
     <!--if show_dashboard_tabs 임시 fasle 조건 추가  18.12.18 jhy -->
-    % if show_dashboard_tabs == False:
+    <!--if show_dashboard_tabs 원상복구  19.01.14 jhy -->
+    % if show_dashboard_tabs:
     <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
         <a class="tab-nav-link" href="/about">${_("About Us")}</a>
       </div>
