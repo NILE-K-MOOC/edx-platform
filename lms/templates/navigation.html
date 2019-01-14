@@ -125,12 +125,12 @@ $( document ).ready(function() {
             <!-- app s -->
             <ul class="left list-inline" style="margin-bottom: 0; padding-top: 4px; margin-left: 15px;">
             <li class="left item" style="margin-left: 10px;">
-                    <a title="앱 스토어로 새창으로 열림" tabindex="1" href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" style="padding: 3px 0px;">
+                    <a title="앱 스토어로 새창으로 열림" tabindex="2" href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" style="padding: 3px 0px;">
                         <img alt="app store" src="/static/images/common/ios_app.png">
                     </a>
                 </li>
                 <li class="left item">
-                    <a title="구글 플레이 새창으로 열림" tabindex="1" href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 3px 4px;">
+                    <a title="구글 플레이 새창으로 열림" tabindex="2" href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" style="padding: 3px 4px;">
                         <img alt="google play" src="/static/images/common/google_app.png">
                     </a>
                 </li>
@@ -141,7 +141,7 @@ $( document ).ready(function() {
 
                 % if user.id:
                 <li class="left item" style="margin-right: 10px;">
-                    <a href="/memo" class="b1" tabindex="1">
+                    <a href="/memo" class="b1" tabindex="2">
                         <img src="/static/images/bell.png" alt="${_('K-MOOC Notification')}" title="${_('K-MOOC Notification')}">
                         <i style="text-style: normal; margin-left: 5px;" id="cnt"></i>
                         <div class="b2" id="memo_row">
@@ -166,11 +166,11 @@ $( document ).ready(function() {
                 <%include file="user_dropdown.html"/>
                 % else:
                 <li class="left item">
-                    <a href="/register${login_query()}" tabindex="1">${_("Register")}</a>
+                    <a href="/register${login_query()}" tabindex="2">${_("Register")}</a>
                 </li>
 
                 <li class="left item">
-                    <a href="/login" tabindex="1">${_("Log In")}</a>
+                    <a href="/login" tabindex="2">${_("Log In")}</a>
                 </li>
                 % endif
 
@@ -181,7 +181,7 @@ $( document ).ready(function() {
                 -->
 
                 <li class="left language">
-                    <a href="/en" tabindex="1" class="${'on' if LANGUAGE_CODE == 'en' else ''}">ENG</a><a href="/ko" tabindex="1" class="${'on' if LANGUAGE_CODE == 'ko-kr' else ''}">KOR</a>
+                    <a href="/en" tabindex="2" class="${'on' if LANGUAGE_CODE == 'en' else ''}">ENG</a><a href="/ko" tabindex="2" class="${'on' if LANGUAGE_CODE == 'ko-kr' else ''}">KOR</a>
                 </li>
 
             </ul>
@@ -191,14 +191,14 @@ $( document ).ready(function() {
             <button class="m-gnb">
                 <span>Menu</span>
             </button>
-            <a href="/" tabindex="1">
+            <a href="/" tabindex="2">
                 <%block name="navigation_logo">
                 <img src="/static/images/common/logo_top.png" alt="K-MOOC"/>
                 </%block>
             </a>
         </h1>
             % if 'org' in request.session and request.session['org'] != 'kmooc':
-                <a href="/org/${'org' in request.session and request.session['org']}" tabindex="1">
+                <a href="/org/${'org' in request.session and request.session['org']}" tabindex="2">
                     % if request.session['logo_img'] != None:
                     <img style='width:170px; height:44px; margin-top: 15px;' src="/static/file_upload/${request.session['logo_img']}" alt=""/>
                     % endif
@@ -210,26 +210,26 @@ $( document ).ready(function() {
 
         <ol class="right nav-global list-inline" id="gnb">
             % if user.is_authenticated():
-                <li class="item nav-global-01" data-hidden="w"><a href="/logout" tabindex="1">${_("Sign Out")}</a></li>
-                <li class="item nav-global-01" data-hidden="w"><a href="/dashboard" tabindex="1" style="background: #f2f2f2 !important; color: #333 !important;">${_("Dashboard")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/logout" tabindex="2">${_("Sign Out")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/dashboard" tabindex="2" style="background: #f2f2f2 !important; color: #333 !important;">${_("Dashboard")}</a></li>
             % else:
-                <li class="item nav-global-01" data-hidden="w"><a href="/login" tabindex="1">${_("Log In")}</a></li>
-                <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}" tabindex="1">${_("Register")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/login" tabindex="2">${_("Log In")}</a></li>
+                <li class="item nav-global-01" data-hidden="w"><a href="/register${login_query()}" tabindex="2">${_("Register")}</a></li>
             % endif
 
             % if 'org' in request.session and request.session['org'] != 'kmooc':
-                <li class="item nav-global-01"><a href="/about" data-hover-label='${_("About Us")}' tabindex="1"><span class="effect_label">${_("About Us")}</span></a></li>
+                <li class="item nav-global-01"><a href="/about" data-hover-label='${_("About Us")}' tabindex="2"><span class="effect_label">${_("About Us")}</span></a></li>
             % endif
 
             % if ('org' not in request.session) or ('org' in request.session and request.session['org'] == 'kmooc'):
-            <li class="item nav-global-01"><a href="/about" tabindex="1" data-hover-label='${_("About Us")}'  class="hover"><span class="effect_label">${_("About Us")}</span></a></li>
-            <li class="item nav-global-02"><a href="/schools" tabindex="1" data-hover-label='${_("Participating Institutions")}' class="hover"><span class="effect_label">${_("Participating Institutions")}</span></a></li>
-            <li class="item nav-global-03"><a href="/courses?pagepos=l" tabindex="1" data-hover-label='${_("Courses")}' class="hover"><span class="effect_label">${_("Courses")}</span></a></li>
+            <li class="item nav-global-01"><a href="/about" tabindex="2" data-hover-label='${_("About Us")}'  class="hover"><span class="effect_label">${_("About Us")}</span></a></li>
+            <li class="item nav-global-02"><a href="/schools" tabindex="2" data-hover-label='${_("Participating Institutions")}' class="hover"><span class="effect_label">${_("Participating Institutions")}</span></a></li>
+            <li class="item nav-global-03"><a href="/courses?pagepos=l" tabindex="2" data-hover-label='${_("Courses")}' class="hover"><span class="effect_label">${_("Courses")}</span></a></li>
             <!--
             <li class="item nav-global-03"><a href="/series" data-hover-label="${_('Series Course')}" class="hover"><span class="effect_label">${_('Series Course')}</span></a></li>
             -->
                 % if LANGUAGE_CODE != 'en':
-            <li class="item nav-global-04"><a href="#" class="comm_a" data-hover-label='${_("Community")}' onclick="community_menu(event)" tabindex="1"><span class="effect_label">${_("Community")}</span></a>
+            <li class="item nav-global-04"><a href="#" class="comm_a" data-hover-label='${_("Community")}' onclick="community_menu(event)" tabindex="2"><span class="effect_label">${_("Community")}</span></a>
                 <ul class="dropdown-menu" style="width: 120px;">
                         <li id="menu1"><a href="/comm_list/N" tabindex="2">공지사항</a></li>
                         <li id="menu2"><a href="/comm_list/K" tabindex="2">K-MOOC 뉴스</a></li>
