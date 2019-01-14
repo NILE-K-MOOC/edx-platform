@@ -63,6 +63,7 @@ $(document).ready(function() {
 		var currentIndex = 0;
 		var timeout;
 
+		/*
 		$('.slide_group').hover(function () {
 			advance1();
 			setTimeout(function() {
@@ -70,10 +71,12 @@ $(document).ready(function() {
 			}, 7000);
 
         })
+        */
+
 		function move(newIndex) {
 			var animateLeft, slideLeft;
 
-			advance();
+			//advance();
 
 			if ($group.is(':animated') || currentIndex === newIndex) {
 				return;
@@ -131,20 +134,26 @@ $(document).ready(function() {
 			}, 5000000);
 		}
 
-		$('.next_btn').on('click', function() {
-			if (currentIndex < ($slides.length - 1)) {
-				move(currentIndex + 1);
-			} else {
-				move(0);
+		$('.next_btn').on('click keydown', function(e) {
+
+			if(!e.keyCode || e.keyCode == 13){
+				if (currentIndex < ($slides.length - 1)) {
+					move(currentIndex + 1);
+				} else {
+					move(0);
+				}
 			}
 		});
 
-		$('.previous_btn').on('click', function() {
-			if (currentIndex !== 0) {
-				move(currentIndex - 1);
-			} else {
-				move(3);
-			}
+		$('.previous_btn').on('click keydown', function(e) {
+
+			if(!e.keyCode || e.keyCode == 13) {
+                if (currentIndex !== 0) {
+                    move(currentIndex - 1);
+                } else {
+                    move(3);
+                }
+            }
 		});
 
 		$.each($slides, function(index) {
@@ -152,12 +161,12 @@ $(document).ready(function() {
 				var $button = $('');
 			}else{
 				if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
-					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" style="position: relative;" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" style="position: relative;" id=zone'+index+' title="\'+$("#pop_title"+index).val()+\'"><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
 				} else if ((agent.indexOf("safari") != -1 && agent.indexOf("chrome") == -1)){
-					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" style="left: 0;" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" style="left: 0;" id=zone'+index+' title="\'+$("#pop_title"+index).val()+\'"><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
 				}
 				else {
-					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
+					var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" id=zone'+index+' title="'+$("#pop_title"+index).val()+'"><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
 				}
 			}
 
@@ -170,7 +179,7 @@ $(document).ready(function() {
 			bulletArray.push($button);
 		});
 
-		advance();
+		//advance();
 	});
 
 	$('.tabcontent .tabcontent-depth1 li a').focus(function() {

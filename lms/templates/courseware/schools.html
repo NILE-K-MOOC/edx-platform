@@ -2,9 +2,23 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
 
-##<%block name="pagetitle">참여기관 (${_("University List")})</%block>
-<title> 참여기관 </title>
+<%block name="pagetitle">${_("Participating Institutions")}</%block>
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $("#main a").focus(function(){
+            var eh = $(this).offset().top;
+            var wh = $(document).scrollTop() + 110;
 
+            if(eh < wh){
+                $("html, body").animate({
+                    scrollTop: eh - 200
+                }, 300);
+            }
+        });
+    });
+  </script>
+</%block>
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container">
         <!-- [s]  -->
