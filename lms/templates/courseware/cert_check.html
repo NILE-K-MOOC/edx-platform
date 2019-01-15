@@ -1,0 +1,80 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Contact")}</%block>
+
+<%block name="js_extra">
+    <script>
+        $(document).ready(function(){
+            $("#check").attr("href", "javascript:cert_check_id();");
+
+            $("#uuid").focus();
+            $("#uuid").keydown(function(e){
+                if(e.which == 13)
+                    cert_check_id();
+
+            });
+        });
+
+        function cert_check_id(){
+            $("#correct, #incorrect").hide();
+
+            var uuid = $("#uuid").val();
+            if(uuid == "" || uuid == null){
+                alert('${_("Enter your verification number your certificate")}');
+                $("#uuid").focus();
+                return;
+            }
+
+            $.post("/cert_check_id",
+                    {uuid: uuid},
+                    function(data){
+
+                        console.log('cert_check: '+ data);
+
+                        if(data[0]){
+                            $("#correct").show();
+                            console.log(data[0].certUrl);
+                            $("#showCert").attr("href",data[0].certUrl);
+                        }else if(!data){
+                            console.log("cert_check :: !data");
+                        }else{
+                            $("#incorrect").show();
+                        }
+            },"json");
+        }
+
+    </script>
+</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container">
+        <!-- [s] -->
+        <h2>${_("Completion date")}</h2>
+    
+        <section class="certification-box">
+            <div class="grid-container grid-manual">
+                <div class="row">
+                    <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
+                        <div class="certification-form">
+                            <p>${_("You can check the validity of the certifiate issued by K-MOOC")}</p>
+                            <p>${_("Please enter your authotification number at the top of your certificate")}</p>
+                            <form action="javascript:cert_check_id();">
+                                <input id="uuid" type="text" placeholder=${_("Please enter your authotification number at the top of your certificate")}>
+                                <input type="submit" value="${_('Verificating')}">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
+                        <div class="certification-img">
+                            <img src="/static/images/contents/certification.gif" alt='${_("Certificate Sample")}'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- [e]  -->
+    </section>
+</main>

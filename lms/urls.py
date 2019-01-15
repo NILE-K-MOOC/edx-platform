@@ -140,6 +140,17 @@ urlpatterns = [
     #interest_course
     url(r'^course_interest$', courseware_views.course_interest, name='course_interest'),
 
+    #footer-link
+    url(r'^cert_check/?$', courseware_views.cert_check, name="cert_check"),
+    url(r'^cert_check_id/?$', courseware_views.cert_check_id, name="cert_check_id"),
+    url(r'^Privacy-Policy/?$', courseware_views.privacy, name="privacy"),
+    url(r'^Privacy-Policy_old1/?$', courseware_views.privacy_old1, name="privacy_old1"),
+    url(r'^Privacy-Policy_old2/?$', courseware_views.privacy_old2, name="privacy_old2"),
+    url(r'^Privacy-Policy_old3/?$', courseware_views.privacy_old3, name="privacy_old3"),
+    url(r'^Privacy-Policy_old4/?$', courseware_views.privacy_old4, name="privacy_old4"),
+    url(r'^agreement/?$', courseware_views.agreement, name="agreement"),
+    url(r'^Copyright-Policy/?$', courseware_views.copyright, name="copyright"),
+
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
     url(r'^dashboard/?$', student_views.student_dashboard, name='dashboard'),
