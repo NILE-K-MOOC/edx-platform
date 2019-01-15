@@ -1,0 +1,323 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+## <%page expression_filter="h"/>
+## <%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Contact")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+
+    <section class="container rule">
+        <!-- [s]  -->
+        <h2>${_("K-MOOC Homepage Personal Information Processing Policy (Plan)")}</h2>
+        <section class="rule-box">
+            <p>
+                ${_(
+                       "The K-MOOC homepage (http://www.kmooc.kr, hereinafter referred to as the 'homepage') is a system run by the National Institute for Lifelong Education (hereinafter referred to as 'NILE'), a member institution of the Ministry of Education. All the personal information are collected, possessed and processed based on related laws and regulations."
+"The 'Personal Information Protection Act' provides general rules for the handling of such personal information, and on the homepage, personal information collected, possessed and processed in accordance with the provisions of this Act shall be used for proper execution of public works and protection of users' interests. We will treat it legally and properly.<br><br>"
+"In addition, the homepage respects the interests of users in handling personal information such as requests for viewing, correction, deletion, and suspension of personal information held by relevant laws and regulations, Users may file an administrative appeal as required by the Administrative Appeals Act with regard to the infringement of rights and interests in these laws and regulations.<br><br>"
+"○ This policy will be made public on the homepage after establishing it in accordance with Article 30 (Establishment and Disclosure of Personal Information Processing Policy) of the 「Personal Information Protection Act」.<br><br>"
+            )}
+            </p>
+##             <p>개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.</p>
+
+            <div class="table-box">
+                <table>
+                <caption>
+                        개인정보처리방침 항목
+                    </caption>
+                    <colgroup>
+                        <col width="50%"/>
+                        <col width="50%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="#no1">${_("Article 1 (Purpose of Personal Information Processing)")}</a><br/>
+                                <a href="#no2">${_("Article 2 (Retention Period of Personal Information Processing)")}</a><br/>
+                                <a href="#no3">${_("Article 3 (Providing Third Parties with Personal Information)")}</a><br/>
+                                <a href="#no4">${_("Article 4 (Consignment of Personal Information Processing)")}</a><br/>
+                                <a href="#no5">${_("Article 5 (Rights, Duties and Execution Methods of Information Subjects)")}</a><br/>
+                                <a href="#no6">${_("Article 6 (Personal Information Collection Items)")}</a><br/>
+                            </td>
+                            <td>
+                                <a href="#no7">${_("Article 7 (Matters Concerning the Installation, Operation and Rejection of Devices that Automatically Collect Personal Information)")}</a><br/>
+                                <a href="#no8">${_("Article 8 (Destruction of Personal Information)")}</a><br/>
+                                <a href="#no9">${_("Article 9 (Measures to Ensure the Safety of Personal Information)")}</a><br/>
+                                <a href="#no10">${_("Article 10 (Responsible Chief Officer for Personal Information Protection)")}</a><br/>
+                                <a href="#no11">${_("Article 11 (Request to View Personal Information)")}</a><br/>
+                                <a href="#no12">${_("Article 12 (Remedies for Rights and Interests Infringement)")}</a><br/>
+                                <a href="#no13">${_("Article 13 (Changes in Personal Information Processing Policy)")}</a><br/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 id="no1">${_("Article 1 (Purpose of Personal Information Processing)")}</h3>
+            <ol>
+                <li>${_("① The homepage handles personal information for the following purposes. The personal information being processed is not used for any purpose other than the following purposes, and if the purpose of use is changed, we will implement necessary measures such as receiving extra consent in accordance with Article 18 of the 「Personal Information Protection Act」.")}
+                    <ol>
+                        <li>
+                            ${_("1. Homepage membership sign up and management")}
+                            ${_("We process personal information for the following purposes: confirmation of the intention of membership sign up; confirmation of identity by providing membership service; maintenance and management of membership status; prevention of illegal use of service; confirmation of consent of a legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices/notification. ")}
+                        </li>
+                        <li>
+                            ${_("2. Civil petition processing")}<br>
+                            ${_("We process personal information for the purpose of confirming the identity of the complainant, confirming the complaint, contacting and notifying for the investigation, reporting the processing result, and improving and providing the service.")}
+                        </li>
+                    </ol>
+                </li>
+                <li>${_("② The purposes of processing personal information files registered and disclosed in accordance with Article 32 of the 「Personal Information Protection Act」 of the homepage are as follows.")}</li>
+            </ol>
+            <div class="table-box">
+                <table>
+                    <caption>개인정보 파일의 처리</caption>
+                    <colgroup>
+                        <col width="20%"/>
+                        <col width="13%"/>
+                        <col width="16%"/>
+                        <col width="auto"/>
+                        <col width="12%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">${_("File Name")}</th>
+                        <th scope="col">${_("Operating Basis")}</th>
+                        <th scope="col">${_("Purpose of Processing")}</th>
+                        <th scope="col">${_("Personal Information Items")}</th>
+                        <th scope="col">${_("Holding Period")}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ac">${_("K-MOOC homepage member information")}</td>
+                            <td class="ac">${_("Agreement of Information subject")}</td>
+                            <td class="ac">${_("Homepage membership sign up and management, civil petition processing")}</td>
+                            <td>
+                                ${_("- Required items : Email, actual name, ID, password, country, sex, the year of birth")}<br/>
+                                ${_("- Optional items : residence, the highest level of education, purpose of joining")}
+                            </td>
+                            <td class="ac">${_("Until membership withdrawal")}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>※ For more detailed disclosure of personal information file registration items, please use the search menu of personal information file list, Personal information protection comprehensive support portal (www.privacy.go.kr) of the Ministry of Government Administration and Home Affairs→ Personal information complaint → Request for personal information viewing →Personal information file list search menu.</p>
+
+
+            <h3 id="no2">${_("Article 2 (Retention Period of Personal Information Processing)")}</h3>
+            <p>① The homepage processes and retains personal information within the period of holding and using personal information according to laws and regulations, or the period of holding and using personal information that is agreed upon when collecting personal information from information subject.</p>
+            <p>② Please refer to the item ② of Article 1 of this Policy for the processing and retention period of each personal information. However, in the case of investigations or inquiries according to the violation of related laws and regulations, personal information shall be processed and retained until the end of the investigation or inquiries, and In the case of receivables and payables related to the use of the homepage, personal information is processed and retained until the settlement of the relevant receivables and payables.</p>
+
+
+            <h3 id="no3">${_("Article 3 (Providing Third Parties with Personal Information)")}</h3>
+            <p>In principle, the homepage processes your personal information within the scope specified in Article 1 (Purpose of Personal Information Processing), and does not process it beyond the original scope or give it to a third party without prior consent of the user. However, we will only provide personal information to third parties if they comply with Articles 17 and 18 of the 「Personal Information Protection Act, such as the consent of the information subject and special regulations of the law.</p>
+
+            <h3 id="no4">${_("Article 4 (Consignment of Personal Information Processing)")}</h3>
+            <ol>
+##                 <li>① The homepage consigns the following personal information processing tasks for a smooth personal information business processing.
+                    <a href="/static/data/K-MOOC 개인정보 처리업무 위탁 현황.pdf" target="_blank">
+                        <input type="button" value="Viewing personal information processing consignment status" title="Viewing personal information processing consignment status">
+                    </a>
+                </li>
+                <li>② When signing a consignment contract, The homepage specifies the items on the purpose of consignment business execution and the prohibition of personal information processing, technical and administrative protection measures, restriction of re-entrustment, management and supervision of fiduciary, and compensation for damages etc. in accordance with Article 25 of the "Personal Information Protection Act" in a document such as contract, and supervises whether the trustee handles personal information securely.</li>
+                <li>③ If the contents of the consignment service or the consignee change, we will disclose it through this personal information processing policy without delay.</li>
+            </ol>
+
+            <h3 id="no5">${_("Article 5 (Rights, Duties and Execution Methods of Information Subjects)")}</h3>
+            <ol>
+                <li>① Regarding The homepage, the information subject can exercise the right related with personal information protection of the following items at any time.
+                    <ul class="dash">
+                        <li>1. Request of viewing personal information<br/>
+                            The reading of personal information file of The homepage can be demanded according to Article 35 of "Personal Information Protection Act". However, pursuant to Article 35, Item 4 of the same Act, the following items may restrict the reading.
+                            <ul class="dash">
+                                <li>Reading is prohibited or restricted by law.</li>
+                                <li>If there is a risk of harming another person's life or body or there is a risk of unjustly infringing the property or other interests of another person.</li>
+                                <li>If a public institution causes serious disruption in the performance of any of the following businesses:
+                                    <ul class="dash">
+                                        <li> Tax levy collection or refund business</li>
+                                        <li> Business on grading or selecting enrollees at each level of schools in accordance with (The Law on Primary and Secondary Education) and (Higher Education Act), lifelong education facilities under (the Lifelong Education Act), and higher education institutions established by other laws</li>
+                                        <li> Business on the examination of academic ability and employment, qualification examination</li>
+                                        <li> Business on ongoing assessment or judgment on compensation and benefit calculation, etc.</li>
+                                        <li> Audit and investigation business in progress under other laws</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>2. Request of personal information correction and deletion<br/>
+                            The correction and deletion of personal information file of the homepage can be requested in accordance with Article 36 of "Personal Information Protection Act". However, in cases where the personal information is specified as the object of collection under other laws, it can not be requested to be deleted.
+                        </li>
+                        <li>3. Request to stop processing personal information<br/>
+                            According to Article 37 of "Personal Information Protection Act", the suspension of processing personal information file of The homepage can be demanded. However, when requesting suspension of personal information processing, the request for suspension of processing may be rejected pursuant to Article 37, Item 2 of the Act.
+                        </li>
+                    </ul>
+                </li>
+                <li>② The exercise of the rights under Item 1 may be done through written, e-mail or FAX according to Enforcement Ordinance Attached Sheet No. 8 of the Enforcement Regulations of the Personal Information Protection Act for The homepage. The homepage will take action without delay.</li>
+                <li>③ If the information subject has requested correction or deletion of personal information, NILE will not use or provide the personal information until the correction or deletion is completed.</li>
+                <li>④ The exercise of the rights under Item 1 may be done through the legal representative of the information subject or the agent who has been delegated. In this case, you must submit a power of attorney according to Attached Sheet No. 11 of the Enforcement Regulations of the 「Personal Information Protection Act」.</li>
+            </ol>
+
+
+            <h3 id="no6">${_("Article 6 (Personal Information Collection Items)")}</h3>
+            <ol>
+                <li>Please refer to Article 1 (2) of this policy for personal information items processed on The homepage. The following personal information items can be automatically generated and collected during the use of the Internet service.
+                    <ul class="dash">
+                        <li>IP address, cookies, service usage history, visit history, etc.</li>
+                    </ul>
+                </li>
+            </ol>
+
+
+            <h3 id="no7">${_("Article 7 (Matters Concerning the Installation, Operation and Rejection of Devices that Automatically Collect Personal Information)")}</h3>
+            <p>① We may install and operate cookies on The homepage. A cookie is a the information of a string of characters that a web server sends to a web browser to store and send back to the server when there is an additional request from the server. NILE only collects information collected through cookies from pop-up information, and does not collect any other information.</p>
+            <p>② The information subject can decide whether to allow or not to collect information by cookies through the security policy of web browser. You can determine the level of information gathered by the cookie by selecting [Internet Options] → [Security] → [Custom Level] from the [Tools] menu of your web browser. However, if you refuse to install cookies, there may be inconveniences or difficulties in using or providing services.</p>
+
+            <h3 id="no8">Article 8 (Destruction of Personal Information)</h3>
+            <ol>
+                <li>① If personal information becomes unnecessary, such as the elapse of the personal information retention period and achievement of the processing purpose, we will immediately destroy the personal information without any delay.</li>
+                <li>② If personal information has to be kept in accordance with other laws and regulations even though the period of holding personal information agreed with the information subject has elapsed or the purpose of processing has been accomplished, the personal information (or personal information file) may be stored in a separate database or we store it in a different storing place.</li>
+                <li>③ Procedures and methods of personal information destruction are as follows.
+                    <ul class="none">
+                        <li>1. Destruction procedure<br/>
+                            <ul class="none">
+                                <li>- NILE destroys personal information by establishing a destruction plan for personal information (or personal information files) that should be destroyed. </li>
+                                <li>- NILE shall select the personal information (or personal information file) that caused the reason for destruction, and destroy the personal information (or personal information file) with the approval of NILE's personal information protection chief officer. </li>
+                            </ul>
+                        </li>
+                        <li>2. Destruction method<br/>
+                            <ul class="none">
+                                <li>NILE destroys personal information recorded and stored in electronic file format so that it can not be played back. Personal information recorded or stored in paper documents is destroyed by burning or crushing through a crusher.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3 id="no9">${_("Article 9 (Measures to Ensure the Safety of Personal Information)")}</h3>
+            <ol>
+                <li>In accordance with Article 29 of the 「Personal Information Protection Act」, The homepage makes technical, administrative and physical measures necessary for securing safety as follows.</li>
+                <li>
+                    <ul class="none">
+                        <li>① Administrative measures : Establishment and implementation of internal management plan, regular staff training, etc.</li>
+                        <li>② Technical measures : Management of access rights such as personal information processing system, installation of access control system, encryption of unique identification information, security program installation</li>
+                        <li>③ Physical measures : Access control of computer equipment room, data storage room, etc.</li>
+                    </ul>
+                </li>
+            </ol>
+
+
+
+
+            <h3 id="no10">${_("Article 10 (Responsible Chief Officer for Personal Information Protection)")}</h3>
+            <p>① The homepage is responsible for the handling of personal information, and we have designated the chief officer responsible for personal information protection as follows for information subject's complaint handling and damage remedy of information related to personal information processing.</p>
+            <div class="table-box">
+                <table>
+                    <caption>개인정보 파일의 처리</caption>
+                    <colgroup>
+                        <col width="*"/>
+                        <col width="24%"/>
+                        <col width="24%"/>
+                        <col width="24%"/>
+                    </colgroup>
+                    <tr>
+                        <th scope="col" rowspan="2" class="gray" style="padding: 5px;">Personal Information Protection Chief Officer</th>
+                        <th scope="col" class="gray" style="padding: 5px;">Name</th>
+                        <th scope="col" class="gray" style="padding: 5px;">Position</th>
+                        <th scope="col" class="gray" style="padding: 5px;">Contact</th>
+                    </tr>
+                    <tr>
+                        <td class="ac">Heon-Joo Seo</td>
+                        <td class="ac">Chief of K-MOOC Promotion Headquarter</td>
+                        <td class="ac">hsuh70@nile.or.kr</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="col" rowspan="3" class="gray" style="padding: 5px;">Department in Charge for Personal Information Protection</th>
+                        <th scope="col" class="gray" style="padding: 5px;">Name of Department</th>
+                        <th scope="col" class="gray" style="padding: 5px;">Person in Charge</th>
+                        <th scope="col" class="gray" style="padding: 5px;">Contact</th>
+                    </tr>
+
+                    <tr>
+                        <td class="ac">Building & Operation Office of K-MOOC Promotion Headquarter</td>
+                        <td class="ac">Jae-Dong Joe</td>
+                        <td class="ac">tajdevil@nile.or.kr</td>
+                    </tr>
+
+                    <tr>
+                        <td class="ac">Building & Operation Office of K-MOOC Promotion Headquarter</td>
+                        <td class="ac">Min-Seon Yu</td>
+                        <td class="ac">msyoo@nile.or.kr<br/>02-3780-9996</td>
+                    </tr>
+                </table>
+            </div>
+            <p>② Information subject may inquire personal information protection chief office or department in change of personal information protection related inquiries, complaints processing, damages remedies, etc., when you use the service (or business) of The homepage.</p>
+
+
+            <h3 id="no11">${_("Article 11 (Request to View Personal Information)")}</h3>
+            <ol>
+                <li>① The information subject can request the reading of personal information pursuant to Article 35 of the 「Personal Information Protection Act」 in the 'Personal Information Protection Department'. The homepage will endeavor to promptly process personal information reading inquiries of information subject.</li>
+                <li>② In addition to the reading inquiry receipt and processing department of Item 1, the information subject can also request personal information reading through the website of the Comprehensive Support for Personal Information Portal (www.privacy.go.kr) of the Ministry of Government Administration and Home Affairs.
+                    <ul class="none">
+                        <li>▶ Comprehensive Support for Personal Information Portal of the Ministry of Government Administration and Home Affairs.→ Personal Information Civil Complaint → Requests for personal information reading (requires actual name authentication through IPIN)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3 id="no12">${_("Article 12 (Remedies for Rights and Interests Infringement)")}</h3>
+            <ol>
+                <li>The information subject can inquire of the following organizations about consultation and remedy on the damage of personal information infringement.</li>
+                <li>&lt;The following institutions are separate from NILE. Please contact them if you are not satisfied with The homepage's personal information complaints processing, damage relief results, or need further assistance.&gt;
+                    <ul class="dash">
+                        Personal Information Infringement Notification Center (operated by KISA)
+                        <li>Matter under the jurisdiction : Personal information infringement fact reporting, consultation application</li>
+                        <li>Homepage : privacy.kisa.or.kr</li>
+                        <li>Phone : (without area code) 118</li>
+                        <li>Address : (138-950) KISA Personal Information Infringement Reporting Center, 135 Joongdae-Ro, Songpa-Ku, Seoul</li>
+                    </ul>
+
+                    <ul class="dash">
+                        <li>Matter under the jurisdiction : Personal information dispute settlement application, collective dispute settlement (civil settlement)</li>
+                        <li>Homepage : privacy.kisa.or.kr</li>
+                        <li>Phone : (without area code) 118</li>
+                        <li>Address : (138-950) KISA Personal Information Infringement Reporting Center, 135 Joongdae-Ro, Songpa-Ku, Seoul</li>
+                    </ul>
+
+                    <ul class="none">
+                        <li>▶ Cyber Crime Division of Supreme Prosecutors' Office : 02-3480-3571 (www.spo.go.kr, cybercid@spo.go.kr)</li>
+                    </ul>
+
+                    <ul class="none">
+                        <li>▶ National Police Agency Cyber Terror Response Center : 1566-0112 (www.netan.go.kr) In addition, a person whose  rights or interests were infringed due to the disposition or omission of the public agency for the request of information subject to the reading, correcting, deleting, processing suspension of personal information may request administrative judgment as prescribed by the Administrative Appeals Acts.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3 id="no13">${_("Article 13 (Changes in Personal Information Processing Policy)")}</h3>
+            <ol>
+                <li>1. This policy is effective from November 28, 2016.</li>
+                <li>2. You can see our previous personal information processing policy below.
+                    <ul class="dash">
+                        <li><a href="/Privacy-Policy_old1">Apply 2015. 10. 14. ~ 2016. 6. 20. (Click)</a></li>
+                        <li><a href="/Privacy-Policy_old2">Apply 2016. 6. 21. ~ 2016. 11. 27. (Click)</a></li>
+                    </ul>
+                </li>
+            </ol>
+
+        </section>
+
+        <!-- [e]  -->
+    </section>
+
+</main>

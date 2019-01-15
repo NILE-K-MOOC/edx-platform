@@ -2398,7 +2398,109 @@ def course_review_gb(request):
                 return JsonResponse({"data":"false"})
 
 
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def agreement(request):
+    if _("Agree") == "Agree":
+        return render_to_response(
+            "courseware/agreement_en.html"
+        )
+    else:
+        return render_to_response(
+            "courseware/agreement.html"
+        )
 
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy(request):
+    if _("Agree") == "Agree":
+        return render_to_response(
+            "courseware/privacy_en.html"
+        )
+    else:
+        return render_to_response(
+            "courseware/privacy.html"
+        )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old1(request):
+    return render_to_response(
+        "courseware/privacy_old1.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old2(request):
+    return render_to_response(
+        "courseware/privacy_old2.html"
+    )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old3(request):
+    return render_to_response(
+        "courseware/privacy_old3.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old3(request):
+    return render_to_response(
+        "courseware/privacy_old3.html"
+    )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def privacy_old4(request):
+    return render_to_response(
+        "courseware/privacy_old4.html"
+    )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def copyright(request):
+    return render_to_response(
+        "courseware/copyright.html"
+    )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def cert_check(request):
+    return render_to_response("cert_check.html")
+
+def cert_check_id(request):
+    uuid = request.POST['uuid']
+
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+    query = """
+         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """';
+    """
+    print 'cert_check uuid, query', uuid, query
+
+    result = []
+    with con:
+        cur = con.cursor();
+        cur.execute("set names utf8")
+        cur.execute(query)
+        rows = cur.fetchall()
+        columns = [desc[0] for desc in cur.description]
+
+        for row in rows:
+            row = dict(zip(columns, row))
+            result.append(row)
+
+    cur.close()
+    con.close()
+
+    return HttpResponse(json.dumps(result))
 
 
 
