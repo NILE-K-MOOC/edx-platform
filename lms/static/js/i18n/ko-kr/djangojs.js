@@ -1060,7 +1060,7 @@
     "Please select a PDF file to upload.": "\uc5c5\ub85c\ub4dc\ud560 PDF \ud30c\uc77c\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     "Please verify that you have uploaded a valid image (PNG and JPEG).": "\uc801\ud569\ud55c \uc774\ubbf8\uc9c0 \ud615\uc2dd(PNG \ubc0f JPEG)\uc778\uc9c0 \ud655\uc778\ud574 \uc8fc\uc2ed\uc2dc\uc624.",
     "Please verify that your webcam is connected and that you have allowed your browser to access it.": "\uc6f9\ucea0\uc774 \uc5f0\uacb0\ub418\uc5b4 \uc788\ub294\uc9c0, \ube0c\ub77c\uc6b0\uc800\uac00 \uc561\uc138\uc2a4\ub97c \ud5c8\uc6a9\ud558\ub294\uc9c0 \ud655\uc778\ud558\uc138\uc694.",
-    "PNUk": "\ubd80\uc0b0\ub300\ud559\uad50",ㅍ
+    "PNUk": "\ubd80\uc0b0\ub300\ud559\uad50",
     "Poll": "\ud22c\ud45c",
     "Post a response:": "\uc751\ub2f5 \uac8c\uc2dc:",
     "post anonymously to classmates": "\uc218\uac15\ub3d9\ub8cc\ub4e4\uc5d0\uac8c \uc775\uba85\uc73c\ub85c \uac8c\uc2dc",
