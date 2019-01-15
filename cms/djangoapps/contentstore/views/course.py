@@ -554,15 +554,6 @@ def course_listing(request):
     user = request.user
     libraries = _accessible_libraries_iter(request.user, org) if LIBRARIES_ENABLED else []
 
-    #  Il-Hee, Maeng addition start -------------------------
-    programs_config = ProgramsApiConfig.current()
-    raw_programs = get_programs(request.user) if programs_config.is_studio_tab_enabled else []
-
-    # Sort programs alphabetically by name.
-    # TODO: Support ordering in the Programs API itself.
-    programs = sorted(raw_programs, key=lambda p: p['name'].lower())
-    #  Il-Hee, Maeng addition end -------------------------
-
     def format_in_process_course_view(uca):
         """
         Return a dict of the data which the view requires for each unsucceeded course
