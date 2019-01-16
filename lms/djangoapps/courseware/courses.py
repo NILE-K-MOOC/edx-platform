@@ -238,12 +238,12 @@ def get_course_about_section(request, course, section_key):
 
             if section_key == "effort":
                 if course_week:
-                    if html.strip().find('#'):
+                    if html.strip().find('#') != -1:
                         html = html.strip().split('#')[0]
                     else:
                         html = html.strip()[6:] + '주'
                 elif course_video:
-                    if html.strip().find('#'):
+                    if html.strip().find('#') != -1:
                         html = html.strip().split('#')[1].split('$')[0].split(':')[0] + '시간 ' + html.strip().split('#')[1].split('$')[0].split(':')[1] + '분'
                     else:
                         html = ''
