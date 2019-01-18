@@ -1163,6 +1163,13 @@ def course_about(request, course_id):
             enroll_sdate = {'enroll_sdate': ''}
             enroll_edate = {'enroll_edate': ''}
 
+        if course_details.end_date:
+            start = course_details.start_date.strftime("%Y.%m.%d")
+            end = course_details.end_date.strftime("%Y.%m.%d")
+        else:
+            start = course_details.start_date
+            end = ''
+
         # print "review_list = {}".format(review_list)
         # print "review_email = {}".format(review_email)
         print "course_id = {}".format(course_id)
@@ -1429,6 +1436,8 @@ def course_about(request, course_id):
             # 'course_link': course_link,
             'course_level': course_level,
             'study_time': study_time,
+            'start': start,
+            'end': end
         }
 
         return render_to_response('courseware/course_about.html', context)
