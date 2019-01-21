@@ -27296,3 +27296,42 @@ msgstr "배경 이미지 변경"
 msgid "Background"
 msgstr "배경"
 
+# 기존 번역과 겹쳐서 주석처리
+# msgid "All"
+# msgstr "전체"
+
+msgid "ing"
+msgstr "진행중"
+
+msgid "ing course"
+msgstr "수강강좌"
+
+msgid "complete/end Course"
+msgstr "이수/종료강좌"
+
+msgid "ing(ing)"
+msgstr "진행중(수강신청 가능)"
+
+msgid "ing(end)"
+msgstr "진행중(수강신청 마감)"
+
+msgid "ready"
+msgstr "개강예정"
+
+msgid "end"
+msgstr "종료"
+
+msgid "end & audit course"
+msgstr "종료(청강가능)"
+
+msgid "interest"
+msgstr "관심강좌"
+
+msgid "propose(Beta)"
+msgstr "추천강좌(Beta)"
+
+msgid "none"
+msgstr "미정"
+
+msgid "Audit Course"
+msgstr "청강강좌"

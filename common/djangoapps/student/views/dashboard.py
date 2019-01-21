@@ -732,7 +732,7 @@ def student_dashboard(request):
             course_type2.append(c)
 
         elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
-                UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
+                UTC) <= c.course.end and datetime.datetime.now(UTC) >= c.course.enrollment_end:
             c.status = 'ing(end)'
             course_type2.append(c)
 
