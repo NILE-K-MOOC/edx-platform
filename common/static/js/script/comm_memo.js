@@ -99,17 +99,24 @@ function search(page_no) {
                 else if(data[i].memo_gubun == '4') {
                     gubun = '게시판팔로우';
                 }
+                else if(data[i].memo_gubun == '5') {
+                    gubun = '신규개설알림';
+                }
+
                 var memo_link = '#';
 
                 html += "<li class='tbody'>";
                 html += "   <span class='check'>" + '<input type="checkbox" class="check_all" id="' + data[i].memo_id + '"/>' + "</span>";
                 html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='gubun'>" + gubun + "</span>";
+
                 if (data[i].memo_gubun != '1'){
                     memo_link = 'http://' + data[i].contents;
-                } else {
+                }
+                else {
                     memo_link = '/memo_view/'+data[i].memo_id;
                 }
+
                 html += "   <span class='title'><a href='" + memo_link + "'>" + data[i].title + " </a>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;'/>"
