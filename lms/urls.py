@@ -60,6 +60,9 @@ from util import views as util_views
 # community
 # from community.views import views as community_views
 from lms.djangoapps.community import views as community
+# markany
+from lms.djangoapps.maeps import views as maeps
+
 #lms/djangoapps/courseware/courses.py
 from courseware import courses as courses
 
@@ -105,6 +108,13 @@ urlpatterns = [
     url(r'^agree_done$', student_account_views.agree_done, name="agree_done"),
     url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
     url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
+
+    # series course
+    url(r'^series/$', community.series, name='series'),
+    url(r'^series_view/(?P<id>.*?)/about/$', community.series_about, name='series_about'),
+    url(r'^series_view/(?P<id>.*?)/$', community.series_view, name='series_view'),
+    url(r'^series_print/(?P<id>.*?)/$', community.series_print, name='series_print'),
+    url(r'series_print$', maeps.series_print, name='series_print'),
 
     # community url
     url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', community.comm_list, name='comm_list'),
