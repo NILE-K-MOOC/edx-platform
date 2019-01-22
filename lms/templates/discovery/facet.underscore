@@ -4,7 +4,7 @@
     </h3>
 
     <% if (name == "org"){ %>
-        <select style="width:100%" data-facet="<%- name %>" class="facet-list collapse">
+        <select style="width:100%" data-facet="<%- name %>" class="facet-list collapse" title="<%- gettext('Organization') %>">
             <option value="">전체</option>
             <%= HtmlUtils.ensureHtml(optionsHtml) %>
         </select>

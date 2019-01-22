@@ -105,6 +105,7 @@ $(document).ready(function(){
             $("#register-password").val(pwd);
             $("#register-password2").val(pwd);
         }
+        $('#register-password2').attr('title', '비밀번호 확인');
 });
 
 function randomPassword() {

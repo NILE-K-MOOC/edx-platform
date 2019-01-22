@@ -62,7 +62,10 @@ def render(request, template):
             context['page_header'] = mark_safe(page_header)
         if page_content:
             context['page_content'] = mark_safe(page_content)
-        result = render_to_response('static_templates/' + template, context, content_type=content_type)
+        if template == 'about.html' and request.LANGUAGE_CODE == 'en':
+            result = render_to_response('static_templates/' + 'about_en.html', context, content_type=content_type)
+        else:
+            result = render_to_response('static_templates/' + template, context, content_type=content_type)
         return result
     except TopLevelLookupException:
         raise Http404

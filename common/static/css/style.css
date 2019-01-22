@@ -586,7 +586,7 @@ a, span, p {color:inherit;}
 
 
 .main-title {font-size:2.188em;font-family:"Nanum Gothic";color:#000;text-align:center;}
-.fPoint {color:#00c2e5;}
+.fPoint {color: #126f9a;}
 
 /** 20161220 **/
 .btn-list-more {text-align:center;}
@@ -2091,4 +2091,8 @@ span.important-dates-item-text.start-date {
 button#intro_shot {
 	border: none !important;
 	box-shadow: inset 0 1px 0 0 #fff !important;
+}
+
+.hidden_head {
+	display:block; height: 0; width: 0; font-size: 0; line-height: 0; margin: 0; padding: 0; overflow:hidden;
 }

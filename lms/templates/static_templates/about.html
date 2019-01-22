@@ -2,7 +2,7 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("About")}</%block>
+<%block name="pagetitle">K-MOOC란?</%block>
 <%block name="js_extra">
 <script type="text/javascript">
     $(document).ready(function(){
@@ -114,23 +114,23 @@
         <div class="history-kmooc-block">
           <h4>2015</h4>
           <dl>
-            <dt>02</dt>
+            <dt style="color: #015a73;">02</dt>
             <dd>K-MOOC 시범운영을 위한 기본계획 수립 및 발표</dd>
-            <dt>04</dt>
+            <dt style="color: #015a73;">04</dt>
             <dd>K-MOOC 시범운영사업 공고 및 참여대학 선정(국내 10개 대학, 27개 강좌)</dd>
-            <dt>06~12</dt>
+            <dt style="color: #015a73;">06~12</dt>
             <dd>K-MOOC 서비스 운영을 위한 플랫폼 및 인프라 구축<br>
               ※ 초기 서비스 안정성, 콘텐츠의 국제적 호환성, 개발 기간 등을 고려하여 오픈소스 소프트웨어(Open edX)를 활용한 플랫폼 구축</dd>
-            <dt>10</dt>
+            <dt style="color: #015a73;">10</dt>
             <dd>한국형 온라인 공개강좌 ‘K-MOOC(www.kmooc.kr)’ 시범 개통</dd>
           </dl>
         </div>
         <div class="history-kmooc-block">
           <h4>2016</h4>
           <dl>
-            <dt>02</dt>
+            <dt style="color: #015a73;">02</dt>
             <dd>16년 K-MOOC 운영계획 수립</dd>
-            <dt>04~10</dt>
+            <dt style="color: #015a73;">04~10</dt>
             <dd>16년 무크대학 추가선정(10개교) 및 강좌 개발(국내 10개 대학)</dd>
           </dl>
         </div>
@@ -149,7 +149,7 @@
                 <p><img src="/static/images/contents/kmooc_using01.jpg" alt=""></p>
                 <p class="info-txt">
                   · 사전 수업준비 및 심화(보충)학습<br>
-                  · 전과 학생의 선수학급<br>
+                  · 전과 학생의 선수학습<br>
                   · 타 전공 및 관심 분야 학습
                 </p>
               </article>
@@ -158,7 +158,7 @@
               <article>
                 <h5>교수</h5>
                 <p><img src="/static/images/contents/kmooc_using02.jpg" alt=""></p>
-                <p class="info-txt">· 수업중 콘텐츠 황용<br>
+                <p class="info-txt">· 수업중 콘텐츠 활용<br>
                   · 플립드러닝을 통한 수업활동 다양화<br>
                   · 교수학습법 개선 및 우수교수법 적용 및 사례 확산
                 </p>
@@ -192,7 +192,7 @@
                 <p><img src="/static/images/contents/kmooc_using05.jpg" alt=""></p>
                 <p class="info-txt">
                   · 직장 내 재직자 훈련에 활용<br>
-                  · 최신 지식정보 트랜드 학습<br>
+                  · 최신 지식정보 트렌드 학습<br>
                   · 직업 업무 능력 개발
                 </p>
               </article>
@@ -203,7 +203,7 @@
                 <p><img src="/static/images/contents/kmooc_using06.jpg" alt=""></p>
                 <p class="info-txt">
                   · 창업 아이템 발굴 및 정보 활용<br>
-                  · 개인 취미 활동 등 자기개발 지원
+                  · 개인 취미 활동 등 자기계발 지원
                 </p>
               </article>
             </div>
@@ -227,7 +227,7 @@
       <div class="grid-container grid-manual kmooc border">
         <div class="row">
           <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
-            <img src="/static/images/contents/kmooc03.jpg" alt="Kmooc 소개 003">
+            <img src="/static/images/contents/kmooc03.jpg" alt="">
           </div>
           <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
             <p>한국형 무크(K-MOOC)는 교육부와 사업 주관기관인 국가평생교육진흥원 외에 한국교육학술정보원, 한국대학교육협의회, 한국교육방송공사(EBS) 등 관계기관과 참여대학간 긴밀한 협력을 통해 추진하고 있습니다.</p>
@@ -241,14 +241,14 @@
     <div class="kmooc-block">
       <h3>추진로드맵</h3>
       <div class="kmooc-roadmap">
-        <h4>
-          <img src="/static/images/contents/kmooc.jpg" alt="K-MOOC 추진로드맵">
+        <h4 style="background-color: #015a73;">
+          <img src="/static/images/contents/kmooc2.png" alt="K-MOOC">
           추진로드맵 <span>(2015.10 서비스 개통)</span></h4>
         <div class="kmooc-roadmap-block">
           <div class="grid-container grid-manual kmooc">
             <div class="row">
               <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
-                <img src="/static/images/contents/kmooc04.jpg" alt="Kmooc 소개 004">
+                <img src="/static/images/contents/kmooc04.jpg" alt="">
               </div>
               <div class="col col-12 sm-col-12 md-col-6  lg-col-6">
                 <p>사실은 그냥 앉아서 큰 돈 안들이고 세계 최고의 강의도 들을 수 있고, (중략) 아직 MOOC가 우리나라에서는 실천은 되지만 확산이 안되고 있기 때문에 여러 방면에서 활용도를 높일 필요가 있습니다.</p>
@@ -261,7 +261,7 @@
             <h5><strong>미래를 향해 성장하는 K-MOOC</strong></h5>
             <ol>
               <li>
-                <div>
+                <div style="background-color: #015a73;">
                   <strong>01</strong>
                   <p>2015년 ~2017년<br>도입 및 정착</p>
                 </div>
@@ -273,7 +273,7 @@
                 </div>
               </li>
               <li>
-                <div>
+                <div style="background-color: #015a73;">
                   <strong>03</strong>
                   <p>2021년 이후~<br>열린 고등교육<br>체제구축</p>
                 </div>
@@ -282,7 +282,7 @@
 
 
             <table caption="미래를 향해 성장하는 K-MOOC, 연혁표">
-              <caption class="blind">미래를 향해 성장하는 k-mooc 01 2015년~2017년 도입 및 정착 02 2018년~2020년 글로벌화 및 부가가치 창출 03 2021년 이후~ 열린 고등교육 체제구축 천략, 추진방향,개발강좌 수, 콘텐츠개발 연혁표</caption>
+              <caption class="blind" title="K-MOOC 연혁표">K-MOOC 연혁표 - 미래를 향해 성장하는 K-MOOC 2015년 이후 연혁 및 체제에 관한 Table</caption>
               <colgroup>
                 <col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%">
               </colgroup>
@@ -301,33 +301,33 @@
                 <th class="th-type02">구분</th>
                 <td class="td-type01">2015년</td>
                 <td class="td-type02">2016년</td>
-                <td class="td-type03">2017년</td>
+                <td class="td-type03" style="background-color: #015a73;">2017년</td>
                 <td class="td-type04">2018년 ~</td>
               </tr>
               <tr>
                 <th class="th-type01">전략</th>
                 <td class="td-type0102" colspan="2">플랫폼 구축 및 시범운영 (한국형 운영모델 개발)</td>
-                <td class="td-type03">한국형 모델 장착</td>
+                <td class="td-type03" style="background-color: #015a73;">한국형 모델 장착</td>
                 <td class="td-type04">한국형 모델 확산</td>
               </tr>
               <tr>
                 <th class="th-type01">추진방향</th>
                 <td class="td-type01">브랜드구축 - 인식확산</td>
                 <td class="td-type02">서비스 표준개발</td>
-                <td class="td-type03">서비스 활성화</td>
+                <td class="td-type03" style="background-color: #015a73;">서비스 활성화</td>
                 <td class="td-type04">글로벌화 (개방,자율참여)</td>
               </tr>
               <tr>
                 <th class="th-type01">개발강좌 수 <span>(누적)</span></th>
                 <td class="td-type01">27개 강좌</td>
                 <td class="td-type02">100개 강좌</td>
-                <td class="td-type03">300개 강좌</td>
+                <td class="td-type03" style="background-color: #015a73;">300개 강좌</td>
                 <td class="td-type04 color05">500개 강좌</td>
               </tr>
               <tr>
                 <th class="th-type01">콘텐츠 개발</th>
                 <td class="td-type0102" colspan="2">콘텐츠 다양화</td>
-                <td class="td-type03">콘텐츠 표준화</td>
+                <td class="td-type03" style="background-color: #015a73;">콘텐츠 표준화</td>
                 <td class="td-type04">콘텐츠 국제화</td>
               </tr>
               </tbody>
@@ -338,12 +338,12 @@
 
       <div class="kmooc-roadmap-img">
         <div class="roadmap-img">
-          <img src="/static/images/contents/kmooc_roadmap.jpg" alt="수요자 국민, 공급자 - 참여대학 경남대학교,경희대학교,교려대학교,대구대학교,서울대학교,성균관대학교,성신여자대학교,세종대학교,카이스트,한양대학교,인하대학교,연세대학교 등 참여대학 계속 확대
+          <img src="/static/images/contents/kmooc_roadmap2.jpg" alt="수요자 국민, 공급자 - 참여대학 경남대학교,경희대학교,교려대학교,대구대학교,서울대학교,성균관대학교,성신여자대학교,세종대학교,카이스트,한양대학교,인하대학교,연세대학교 등 참여대학 계속 확대
                     추진기관 - 교육부 : 사업기획 및 총괄 국가평생교육진흥원 : 사업위탁 받아 주관,시행 K-MOOC기획위원회 교육부, 관계기관, 참여대학 관련 전문가 주관기관 KERIS 국가평생교육진흥원 한국대학교육협의회 EBS">
         </div>
       </div>
     </div>
   </section>
-  <!—// 추진체계 —>
+  <!—- 추진체계 -—>
 
 </section>
