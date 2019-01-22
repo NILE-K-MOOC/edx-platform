@@ -167,7 +167,7 @@ console.log('8');
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-effort-hh").val()) {
-                    errors.effort = gettext("Time related information must have value");
+                    errors.effort = gettext("Recommended commitment Effort per week information must have value");
                     //$("#course-effort-week").focus();
                 }
                 if ((
@@ -175,7 +175,7 @@ console.log('8');
                     newattrs.enrollment_end != null &&
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null) && !$("#course-effort-mm").val()) {
-                    errors.effort = gettext("Time related information must have value");
+                    errors.effort = gettext("Recommended commitment Effort per week information must have value");
                     //errors.effort = gettext("Effort time must have values");
                     //$("#course-effort-week").focus();
                 }
