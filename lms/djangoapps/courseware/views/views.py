@@ -900,6 +900,7 @@ def course_interest(request):
         return HttpResponse('success', 'application/json')
 
 
+# 강좌 상태 반환 공통함수
 def get_course_status(start, end, now):
 
     if start is None or start == '' or end is None or end == '':
@@ -1406,35 +1407,39 @@ def course_about(request, course_id):
         payload['page_size'] = '20'
         payload['page_index'] = '0'
         headers['X-Requested-With'] = 'XMLHttpRequest'
-        r = requests.post(url, data=payload, headers=headers)
-        data = json.loads(r.text)
 
-        # 유사강좌 -> 데이터 파싱
-        similar_course = []
-        for result in data['results']:
-            course_dict = {}
-            course_id = result['_id']
-            image_url = result['data']['image_url']
-            org = result['data']['org']
-            display_name = result['data']['content']['display_name']
-            start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-            end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
-            now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
-            status = get_course_status(start, end, now)
+        try:
+            r = requests.post(url, data=payload, headers=headers)
+            data = json.loads(r.text)
 
-            # format change
-            start = start.strftime('%Y-%m-%d')
-            end = end.strftime('%Y-%m-%d')
+            # 유사강좌 -> 데이터 파싱
+            similar_course = []
+            for result in data['results']:
+                course_dict = {}
+                course_id = result['_id']
+                image_url = result['data']['image_url']
+                org = result['data']['org']
+                display_name = result['data']['content']['display_name']
+                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
+                status = get_course_status(start, end, now)
 
-            course_dict['course_id'] = course_id
-            course_dict['image_url'] = image_url
-            course_dict['org'] = org
-            course_dict['display_name'] = display_name
-            course_dict['start'] = start
-            course_dict['end'] = end
-            course_dict['status'] = status
-            similar_course.append(course_dict)
+                # format change
+                start = start.strftime('%Y-%m-%d')
+                end = end.strftime('%Y-%m-%d')
 
+                course_dict['course_id'] = course_id
+                course_dict['image_url'] = image_url
+                course_dict['org'] = org
+                course_dict['display_name'] = display_name
+                course_dict['start'] = start
+                course_dict['end'] = end
+                course_dict['status'] = status
+                similar_course.append(course_dict)
+        except BaseException:
+            similar_course = None
+            log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
 
         context = {
             'similar_course': similar_course, # 유사강좌

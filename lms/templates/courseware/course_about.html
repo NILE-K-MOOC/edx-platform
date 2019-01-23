@@ -666,17 +666,17 @@ div.about-side-title p {
   </%block>
 
 <style>
-  .similar_title{
+  .similar-title{
     font-size: 1.4rem;
     margin: 1.25rem 0 0.28rem 0;
     font-weight: bold;
     font-family: "Nanum Gothic","Open Sans";
     margin-bottom: 20px;
   }
-  .similar_container {
+  .similar-container {
     min-width: 750px;
   }
-  .similar_item {
+  .similar-item {
     border: solid 1px #cccccc;
     width: 200px;
     height: 200px;
@@ -686,50 +686,52 @@ div.about-side-title p {
     transition: 0.2s;
     float: left;
   }
-  .similar_item:hover {
+  .similar-item:hover {
     box-shadow: rgba(0, 0, 0, 0.14) 0px 8px 10px 0px, rgba(0, 0, 0, 0.15) 0px 4px 4px 0px;
   }
-  .item_img_size {
+  .similar-error {
+    padding: 20px;
+    color: red;
+    font-size: 12px;
+  }
+  .item-img-size {
     width: 200px;
     height: 97px;
   }
-  .item_status {
+  .item-status {
     background-color: #008800;
     text-align: right;
   }
-  .item_status_text {
+  .item-status-text {
     color: #ffffff;
     font-size: 10px;
     margin-right: 10px;
   }
-  .item_title {
+  .item-title {
     font-weight: bold;
     padding-top: 10px;
     padding-left: 10px;
     font-size: 12px;
   }
-  .item_date {
+  .item-date {
     font-size: 10px;
     padding-left: 10px;
   }
-  .item_org {
+  .item-org {
     font-size: 10px;
     padding-left: 10px;
     margin-top: -10px;
   }
-  .item_greenline {
+  .item-greenline {
     border: solid 1px #008800;
-  }
-  .float-clear {
-    clear: both;
   }
 
   @media screen and (max-width: 768px) {
-    .similar_item {
+    .similar-item {
       float: unset;
       margin-bottom: 20px;
     }
-    .similar_container{
+    .similar-container{
       min-width: unset;
       margin-bottom: 50px;
     }
@@ -750,35 +752,42 @@ div.about-side-title p {
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
 
-          <h2 class='similar_title'><i class="fa fa-star"></i>유사 강좌</h2>
+          <h2 class='similar-title'><i class="fa fa-star"></i>유사 강좌</h2>
 
-          <div class='similar_container'>
-              % for item in similar_course[1:4]:
-              <div class='similar_item'>
-                <div class='item_img'>
-                  <img class='item_img_size' src='${item["image_url"]}'>
-                </div>
+          <div class='similar-container'>
+              % if similar_course != None:
+                % for item in similar_course[1:4]:
+                <div class='similar-item'>
+                  <div class='item-img'>
+                    <img class='item-img-size' src='${item["image_url"]}'>
+                  </div>
 
-                <div class='item_status'>
-                  <div class='item_status_text'>${item['status']}</div>
-                </div>
+                  <div class='item-status'>
+                    <div class='item-status-text'>${item['status']}</div>
+                  </div>
 
-                <div class='item_title'>
-                  ${item['display_name']}
-                </div>
+                  <div class='item-title'>
+                    ${item['display_name']}
+                  </div>
 
-                <div class='item_date'>
-                  ${item['start']} ~ ${item['end']}
-                </div>
+                  <div class='item-date'>
+                    ${item['start']} ~ ${item['end']}
+                  </div>
 
-                <div class='item_org'>
-                  ${item['org']}
-                </div>
+                  <div class='item-org'>
+                    ${item['org']}
+                  </div>
 
-                <div class='item_greenline'>
+                  <div class='item-greenline'>
+                  </div>
                 </div>
-              </div>
-              % endfor
+                % endfor
+              % else:
+                <div class='similar-error'>
+                  유사강좌를 가져오는 중 문제가 발생했습니다<br>
+                  관리자에게 문의해주세요<br>
+                </div>
+              % endif
           </div>
 
       </div>
