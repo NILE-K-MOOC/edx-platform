@@ -1,0 +1,445 @@
+html{font-size:16px !important;}
+.kmooc-block h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: "Nanum Gothic";
+    position: relative;
+    padding-top: 10px;
+    text-align: center;
+  }
+.k-moocon{
+    height: auto;
+    margin-top: 5rem;
+    background-image: url(/static/images/about_img/bg_1.jpg);
+    background-repeat: no-repeat;
+    position: relative;
+}
+.k-moocon>div{
+    width: 100%;
+    font-size: 1.4rem;
+    color: #212121;
+    padding: 8rem 0 8rem 8rem;
+    font-weight: 600;
+    letter-spacing: -2px;
+}
+.k-moocon>img{
+    width: 30rem;
+    position: absolute;
+    bottom: 5px;
+    right: 0.5rem;
+}
+.k-int{
+    width: 100%;
+    height: auto;
+    display: block;
+    float: left;
+}
+.k-int h3{
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: "Nanum Gothic";
+    position: relative;
+    margin: 5rem 0 2rem 0;
+    text-align: center;
+}
+.k-int div{
+    width: 45%;
+    float: left;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px;
+}
+.kmbi{
+    background: #f5f5f5;
+    margin-top: 5rem;
+    width: 100%;
+    float: left;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #212121;
+    line-height: 2rem;
+}
+.kmbi h3{
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: "Nanum Gothic";
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 10px;
+}
+.kmbi h3:before{
+    content: "";
+    width: 5rem;
+    background: #448aff;
+    border-top: 5px solid #448aff;
+    margin: 0 auto 10px auto;
+    display: block;
+}
+.kmbi ul{
+    margin: 2rem 0;
+    padding: 0;
+}
+.kmbi ul li{
+    width: 50%;
+    display:block;
+    text-align: center;
+    float: left;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+.kmbi ul li img{
+    width: 90%;
+    max-width: 300px;
+}
+.kmbi>div{
+    margin: 3rem auto;
+    width: 160px;
+    height: 40px;
+    background: #448aff;
+    color: #fff;
+    line-height: 2.5rem;
+    border-radius: 2.5rem;
+    font-size: 16px;
+}
+.kmbi>div>a{
+    color: inherit;
+    text-decoration: none;
+}
+.mooc_vision{
+    width: 100%;
+    height: 0;
+    padding-top: calc(367 / 1205*100%);
+    float: left;
+    background: url(/static/images/about_img/about_vision.jpg) center center / cover no-repeat;
+    text-align: center;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: relative;
+}
+.mooc_vision h3:before{
+    content: "";
+    width: 5rem;
+    background: #fff;
+    border-top: 3px solid #fff;
+    margin: 0 auto 10px auto;
+    display: block;
+}
+.mooc_vision h3{
+    width: 100%;
+    font-size: 2rem;
+    color: #fff;
+    font-family: "Nanum Gothic";
+    font-weight: bold;
+    position: absolute;
+    top:50px;
+}
+.vision_box{
+    width: 100%;
+    position: absolute;
+    top: 150px;
+}
+.offkm{
+    width: 100%;
+    float: left;
+}
+.offkm>h3{
+    text-align: center;
+    height: 3rem;
+    font-size: 2rem;
+    font-family: "Nanum Gothic";
+    margin: 5rem 0 3rem 0;
+    font-weight: bold;
+    color: #424242;
+}
+.offkm>div{
+    width: 25%;
+    height: 350px;
+    float: left;
+    margin: 0 3%;
+    background: #fafafa;
+    box-shadow: 10px 10px 20px #8d8d8d;
+    position: relative;
+    text-align: center;
+}
+.offkm>div div.tape{
+    width: 33.3%;
+    height: 30px;
+    position: absolute;
+    top:-15px;
+    left:33.3%;
+
+}
+.offkm>div div.img{
+    width: 85%;
+    margin: 2rem auto 1rem;
+}
+.offkm>div div.img img{
+    width: 100%;
+    max-width: 260px;
+}
+.offkm>div>strong{
+    width: 85%;
+    margin: 0 auto 1rem auto;
+    display: block;
+    color: #212121;
+    font-size: 1.5rem;
+}
+.offkm>div>strong:after{
+
+}
+.offkm>div>p{
+    width: 85%;
+    margin: 0 auto;
+    color: #424242;
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+.appli{
+    width: 100%;
+    float: left;
+}
+.appli>h3{
+     text-align: center;
+    height: 3rem;
+    font-size: 2rem;
+    font-family: "Nanum Gothic";
+    margin: 5rem 0 3rem 0;
+    font-weight: bold;
+    color: #424242;
+}
+.appli>dl{
+    width: 33.3%;
+    float: left;
+    text-align: center;
+    margin-top: 6rem;
+    line-height: 1.2rem;
+}
+.appli>dl>dd{
+    width: 100%;
+    height: 10rem;
+    background: #3d7fff;
+    color: #fff;
+    float: left;
+    margin: 0;
+    }
+.appli>dl>dd>strong{
+    padding-top:1rem;
+    display: block;
+}
+.appli>dl>dd>strong:after{
+    content: "";
+    width: 15rem;
+    background: #fff;
+    border-top: 2px solid #fff;
+    display: block;
+    margin: 1rem auto;
+
+}
+.appli>dl>dd>p{
+    margin-top: 10px;
+}
+.futmooc{
+    text-align: center;
+}
+.futmooc h3{
+   text-align: center;
+    height: 3rem;
+    font-size: 2rem;
+    font-family: "Nanum Gothic";
+    margin: 5rem 0;
+    font-weight: bold;
+    color: #424242;
+}
+.futmooc ol{
+    width: 100%;
+    float: left;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+.futmooc ol li{
+    width: 24%;
+    background: #3574ff;
+    display: block;
+    float: left;
+    font-size: 1.2rem;
+    padding: 1.5rem 0;
+    font-weight: bold;
+    margin: 5px 5px 0 0;
+}
+.futmooc ol li ul{
+    margin: 0;
+    padding: 0;
+}
+.futmooc ol li ul li{
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    font-weight: normal;
+}
+.futmooc ol li ul li:nth-child(1){
+    padding-top: 1rem;
+}
+.progress{
+    width: 100%;
+    text-align: center;
+    float: left;
+}
+.progress h3{
+     text-align: center;
+    height: 3rem;
+    font-size: 2rem;
+    font-family: "Nanum Gothic";
+    margin: 5rem 0;
+    font-weight: bold;
+    color: #424242;
+}
+.kmooc-progress{
+    width: 30%;
+    float: left;
+}
+.kmooc-progress ol {
+    list-style:none;
+    margin:0 0 50px 0;
+    padding:0;
+}
+.kmooc-progress ol:after {
+    content:"";
+    display:block;
+    clear:both;
+}
+.kmooc-progress ol > li {
+    float:left;
+    width:80%;
+    text-align:Center;
+    position:relative;
+}
+/*.kmooc-progress ol > li:before {content:"";width:100%;height:1px;position:absolute;left:-50%;top:50%;border-top:dotted 1px #959595;}*/
+.kmooc-progress ol > li:first-child::before {
+    display:none;
+}
+.kmooc-progress ol > li > div {
+    display:inline-block;
+    width:206px;
+    height:206px;
+    border-radius:100%;
+    border: 10px solid #026300;
+    position:relative;
+    color:#424242;
+    z-index:2;
+}
+.kmooc-progress ol > li:nth-child(2) > div {
+    border: 10px solid #448aff;
+}
+.kmooc-progress ol > li:nth-child(3) > div {
+    border: 10px solid #3e1cae;
+}
+.kmooc-progress ol > li > div strong {
+    font-size:1.75rem;
+    display:block;
+    padding:3rem 0 2rem 0;
+}
+.kmooc-progress ol > li > div p {
+    margin:0;
+    line-height:1.2rem;
+    font-size:1rem;
+}
+.history{
+    width: 70%;
+    float: left;
+    box-sizing: border-box;
+}
+.history .hisyear{
+    width: 30%;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    float: left;
+}
+.history .hiscon{
+    width: 70%;
+    font-size: 1rem;
+    text-align: left;
+    border-left: 2px solid #448aff;
+    float: left;
+    padding: 0 0 4rem 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+.history .hiscon:before{
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background: #448aff;
+    display: block;
+    position: absolute;
+    left: -6px;
+}
+
+.kmbi a {
+    color: #fff;
+}
+
+.kmooc-block h3:before {
+    background: none;
+}
+
+@media (max-width: 1169px) {
+    .k-int div{font-size:15px;}
+
+}
+@media (max-width: 1109px) {
+    .k-moocon>img{display: none;}
+    .k-moocon>div{text-align: center;padding: 4rem 0;}
+   .k-int div{font-size:13px;}
+.mooc_vision h3{top:30px;}
+.vision_box{ top: 110px;}
+    .appli>dl{width: 50%;margin-top: 10px;}
+}
+@media (max-width: 989px){
+    .futmooc ol li{width: 49%;}
+}
+@media (max-width: 878px){
+   .k-int div{font-size:16px;width: 90%;}
+    .mooc_vision h3{font-size: 23px;top:23px;}
+    .vision_box{font-size: 14px;top: 83px;}
+    .offkm>div{width: 60;}
+}
+@media (max-width: 878px){
+    .offkm>div{width: 60%;margin: 20px 0 20px 20%;}
+    .kmooc-progress{width: 50%; margin-left: 25%;}
+    .kmooc-progress ol > li{margin-left: 10%;}
+    .history{width: 85%;margin-left: 7.5%;}
+}
+@media (max-width: 730px){
+   .kmooc-block h3{font-size: 1.6rem;}
+.mooc_vision h3{font-size: 19px;top:8px;}
+.vision_box{font-size: 12px;top: 50px;}
+}
+@media (max-width: 650px){
+    .mooc_vision{display: none;}
+    .appli>dl{width: 80%;margin: 10px 0 10px 10%;}
+}
+@media (max-width: 596px){
+   .kmooc-block h3{font-size: 1.3rem;}
+    .k-moocon>div{font-size: 1.2rem;}
+.k-int div{font-size:14px;}
+    .kmbi{font-size: 1rem;line-height: 1.5rem;}
+    .kmbi>p{margin-top: 5px;}
+    .futmooc ol li{width: 60%;margin-left: 20%;}
+    .futmooc ol li ul li{margin: 0;}
+    .history .hisyear{font-size: 1rem;}
+}
+@media (max-width: 496px){
+   .kmooc-block h3{font-size: 1.1rem;}
+    .k-moocon>div{font-size: 1.0rem;}
+    .k-int div{font-size:12px;}
+}
+@media (max-width: 428px){
+   .kmooc-block h3{font-size: 1rem;}
+    .k-moocon>div{font-size: 1.0rem;}
+
+}
