@@ -1393,18 +1393,20 @@ def course_about(request, course_id):
 
 
         # 유사강좌 -> 백엔드 로직 시작
-        url = 'http://127.0.0.1:18000/search/course_discovery/'
+        LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
+        url = 'http://' + LMS_BASE + '/search/course_discovery/'
 
         course_object = CourseOverview.get_from_id(course.id)
         course_display_name = course_object.display_name
 
         # 유사강좌 -> 엘라스틱 서치에 데이터 요청
         payload = {}
+        headers = {}
         payload['search_string'] = course_display_name
         payload['page_size'] = '20'
         payload['page_index'] = '0'
         headers['X-Requested-With'] = 'XMLHttpRequest'
-        r = requests.post(url, data = payload)
+        r = requests.post(url, data=payload, headers=headers)
         data = json.loads(r.text)
 
         # 유사강좌 -> 데이터 파싱
