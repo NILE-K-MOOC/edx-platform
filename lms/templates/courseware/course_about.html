@@ -28,7 +28,7 @@ from six import string_types
       $(".youtubewrap").bind('contextmenu', function (e) {
         return false;
       });
-      
+
     $(".register").click(function(event) {
       $("#class_enroll_form").submit();
       event.preventDefault();
@@ -628,7 +628,7 @@ div.about-side-title p {
           </a>
           <div id="register_error"></div>
         %else:
-          <% 
+          <%
             if ecommerce_checkout:
               reg_href = ecommerce_checkout_link
             else:
@@ -665,6 +665,77 @@ div.about-side-title p {
   </header>
   </%block>
 
+<style>
+  .similar_title{
+    font-size: 1.4rem;
+    margin: 1.25rem 0 0.28rem 0;
+    font-weight: bold;
+    font-family: "Nanum Gothic","Open Sans";
+    margin-bottom: 20px;
+  }
+  .similar_container {
+    min-width: 750px;
+  }
+  .similar_item {
+    border: solid 1px #cccccc;
+    width: 200px;
+    height: 200px;
+    margin-left: 20px;
+    margin-right: 2px;
+    cursor: pointer;
+    transition: 0.2s;
+    float: left;
+  }
+  .similar_item:hover {
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 8px 10px 0px, rgba(0, 0, 0, 0.15) 0px 4px 4px 0px;
+  }
+  .item_img_size {
+    width: 200px;
+    height: 97px;
+  }
+  .item_status {
+    background-color: #008800;
+    text-align: right;
+  }
+  .item_status_text {
+    color: #ffffff;
+    font-size: 10px;
+    margin-right: 10px;
+  }
+  .item_title {
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 12px;
+  }
+  .item_date {
+    font-size: 10px;
+    padding-left: 10px;
+  }
+  .item_org {
+    font-size: 10px;
+    padding-left: 10px;
+    margin-top: -10px;
+  }
+  .item_greenline {
+    border: solid 1px #008800;
+  }
+  .float-clear {
+    clear: both;
+  }
+
+  @media screen and (max-width: 768px) {
+    .similar_item {
+      float: unset;
+      margin-bottom: 20px;
+    }
+    .similar_container{
+      min-width: unset;
+      margin-bottom: 50px;
+    }
+  }
+</style>
+
   <div class="container">
 
 
@@ -678,10 +749,37 @@ div.about-side-title p {
 
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
-        <!-- 평점 작업 -->
 
-          <%include file="course_review.html" />
+          <h2 class='similar_title'><i class="fa fa-star"></i>유사 강좌</h2>
 
+          <div class='similar_container'>
+              % for item in similar_course[1:4]:
+              <div class='similar_item'>
+                <div class='item_img'>
+                  <img class='item_img_size' src='${item["image_url"]}'>
+                </div>
+
+                <div class='item_status'>
+                  <div class='item_status_text'>${item['status']}</div>
+                </div>
+
+                <div class='item_title'>
+                  ${item['display_name']}
+                </div>
+
+                <div class='item_date'>
+                  ${item['start']} ~ ${item['end']}
+                </div>
+
+                <div class='item_org'>
+                  ${item['org']}
+                </div>
+
+                <div class='item_greenline'>
+                </div>
+              </div>
+              % endfor
+          </div>
 
       </div>
     </div>
