@@ -102,7 +102,8 @@ urlpatterns = [
 
     #schools
     url(r'^schools/?$', courseware_views.schools, name="schools"),
-    url(r'^school/(?P<org>.*?)$', courseware_views.haewoondaex, name="school"),
+    url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
+    url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
 
     url(r'^agree$', student_account_views.agree, name="agree"),
     url(r'^agree_done$', student_account_views.agree_done, name="agree_done"),

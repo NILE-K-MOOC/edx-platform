@@ -2275,11 +2275,50 @@ def get_financial_aid_courses(user):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def schools(request):
+    if request.is_ajax():
+        with connections['default'].cursor() as cur:
+            lang = request.LANGUAGE_CODE
+            col = 'ifnull(org_intro, ""), b.detail_name,' if lang == 'ko-kr' else 'ifnull(org_intro_e, ""), b.detail_ename,'
+            q_where = 'a.logo_img' if lang == 'ko-kr' else 'a.logo_img_e'
+            query = '''
+                SELECT org_id,
+                       {col}
+                       start_year,
+                       ifnull(concat(c.attach_file_path, attach_org_name), '') logo_path
+                  FROM tb_org a
+                       JOIN code_detail b on a.org_id = b.detail_code and group_code = '003'
+                       LEFT JOIN tb_board_attach c ON {q_where} = c.attatch_id
+                 WHERE a.delete_yn = false AND c.del_yn = 'N' AND end_year = '9999'
+                    AND a.use_yn = true
+                 ORDER BY start_year;
+            '''.format(col=col, q_where=q_where)
+
+            cur.execute(query)
+            org_data = cur.fetchall()
+
+            org_list = list()
+            for org in org_data:
+                org_dict = dict()
+
+                org_dict['org_id'] = org[0]
+                org_dict['org_intro'] = org[1]
+                org_dict['org_name'] = org[2]
+                org_dict['start_year'] = org[3]
+                if org[1] != '':
+                    org_dict['logo_img'] = '<a href="/school/' + org[0] + '"><div class="logo_div"><img class="logo_img" alt="' + org[2] + '" src="' + org[4] + '"></div></a>'
+                else:
+                    org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org[2] + '" src="' + org[4] + '"></div>'
+
+                org_list.append(org_dict)
+
+            return JsonResponse({'org_list' : org_list})
+
     return render_to_response("courseware/schools.html")
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def haewoondaex(request, org):
+    lang = request.LANGUAGE_CODE
     user = request.user
 
     f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'enrollment_start__lte': datetime.now()}
@@ -2288,10 +2327,65 @@ def haewoondaex(request, org):
 
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
+    with connections['default'].cursor() as cur:
+        lang_subtitle = 'intro_subtitle,' if lang == 'ko-kr' else 'intro_subtitle_e,'
+        lang_on = 'a.top_img' if lang == 'ko-kr' else 'a.top_img_e'
+        lang_org_name = 'c.detail_name' if lang == 'ko-kr' else 'c.detail_ename'
+        query = '''
+            SELECT org_id,
+                   ifnull(concat(b.attach_file_path, attach_org_name), '') top_img,
+                   ifnull({lang_subtitle} {lang_org_name}),
+                   homepage,
+                   youtube,
+                   facebook,
+                   kakaostory,
+                   naverblog,
+                   instagram,
+                   {lang_org_name}
+              FROM tb_org a LEFT JOIN tb_board_attach b ON {lang_on} = b.attatch_id
+              JOIN code_detail c ON a.org_id = c.detail_code AND group_code = '003'
+             WHERE org_id = '{org}' AND a.delete_yn = FALSE AND a.use_yn = TRUE;
+        '''.format(lang_subtitle=lang_subtitle, lang_org_name=lang_org_name, lang_on=lang_on, org=org)
+
+        cur.execute(query)
+        org_data = cur.fetchone()
+
+        org_dict = dict()
+        org_dict['org_id'] = org_data[0]
+        org_dict['top_img'] = org_data[1]
+        org_dict['intro_subtitle'] = org_data[2]
+        org_dict['homepage'] = org_data[3]
+        org_dict['youtube'] = org_data[4]
+        org_dict['facebook'] = org_data[5]
+        org_dict['kakaostory'] = org_data[6]
+        org_dict['naverblog'] = org_data[7]
+        org_dict['instagram'] = org_data[8]
+        org_dict['org_name'] = org_data[9]
+
     return render_to_response(
-        "courseware/univ_intro_" + org + ".html",
-        {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings}
+        "courseware/univ_intro_base.html",
+        {'courses': courses_list, 'course_discovery_meanings': course_discovery_meanings,
+         'org_dict': org_dict}
     )
+
+
+def school_view(request, org):
+    lang = request.LANGUAGE_CODE
+    with connections['default'].cursor() as cur:
+        lang_intro = 'org_intro' if lang == 'ko-kr' else 'org_intro_e'
+        query = '''
+                    SELECT {lang_intro}
+                      FROM tb_org a
+                     WHERE org_id = '{org}' AND delete_yn = FALSE AND use_yn = TRUE;
+                '''.format(lang_intro=lang_intro, org=org)
+
+        print query
+
+        cur.execute(query)
+        intro_data = cur.fetchone()
+
+        return JsonResponse({'org_intro': intro_data})
+
 
 @login_required
 @require_POST

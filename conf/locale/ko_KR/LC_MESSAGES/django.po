@@ -27346,3 +27346,6 @@ msgstr "미정"
 
 msgid "Audit Course"
 msgstr "청강강좌"
+
+msgid "Present"
+msgstr "현재"

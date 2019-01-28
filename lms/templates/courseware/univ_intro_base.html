@@ -1,0 +1,106 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+<%inherit file="../main.html" />
+
+<%namespace name='static' file='../static_content.html'/>
+<%block name="pagetitle">${org_dict['org_name']}</%block>
+
+<script>
+    function setIframeHeight(id) {
+        var ifrm = document.getElementById(id);
+        var doc = ifrm.contentDocument? ifrm.contentDocument:
+            ifrm.contentWindow.document;
+        ifrm.style.visibility = 'hidden';
+        ifrm.style.height = "10px";
+        ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+        ifrm.style.visibility = 'visible';
+    }
+
+    function getDocHeight(doc) {
+        doc = doc || document;
+        var body = doc.body, html = doc.documentElement;
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight );
+        return height;
+    }
+
+    $(document).ready(function(){
+        var org = $('#org_id').val();
+        var school_url = '/school/' + org + '/view';
+        $.ajax({
+            url: school_url,
+        }).done(function(data){
+            console.log(data);
+            var $frame =  $('#org_intro');
+            var doc = $frame[0].contentWindow.document;
+            var $body = $('body', doc);
+            $body.html(data.org_intro);
+            setTimeout(function(){
+                setIframeHeight('org_intro');
+            }, 300);
+        });
+
+        $(window).resize(function(){
+            setIframeHeight('org_intro');
+        });
+    });
+</script>
+
+<section class="container full home" id="main">
+    <input type="hidden" id="org_id" value="${org_dict['org_id']}"/>
+    <!-- [s]  -->
+    <div class="univ-list-infotop">
+        % if org_dict['top_img'] != '':
+        <img src="${org_dict['top_img']}" alt="">
+        % endif
+    </div>
+
+    <section class="container univ">
+        <h2>${org_dict['intro_subtitle']}</h2>
+        <div class="univ-info">
+
+            <div class="sns-box">
+                % if org_dict['homepage'] is not None:
+                 <a target="_blank" href="${org_dict['homepage']}"><img src="/static/images/common/homepage.png" alt="${org_dict['org_name']} homepage" class="univSns"/></a>
+                % endif
+                % if org_dict['youtube'] is not None:
+                 <a target="_blank" href="${org_dict['youtube']}"><img src="/static/images/common/youtube.png" alt="youtube 공유하기" class="univSns"/></a>
+                % endif
+                % if org_dict['facebook'] is not None:
+                 <a target="_blank" href="${org_dict['facebook']}"><img src="/static/images/common/facebook.png" alt="facebook 공유하기" class="univSns"/></a>
+                % endif
+                % if org_dict['kakaostory'] is not None:
+                 <a target="_blank" href="${org_dict['kakaostory']}"><img src="/static/images/common/kakaostory.png" alt="kakaostory 공유하기" class="univSns"/></a>
+                % endif
+                % if org_dict['naverblog'] is not None:
+                 <a target="_blank" href="${org_dict['naverblog']}"><img src="/static/images/common/naver_blog.png" alt="naver blog 공유하기" class="univSns"/></a>
+                % endif
+                % if org_dict['instagram'] is not None:
+                 <a target="_blank" href="${org_dict['instagram']}"><img src="/static/images/common/instagram.png" alt="instagram 공유하기" class="univSns"/></a>
+                % endif
+            </div>
+            <iframe id="org_intro" frameborder="0" scrolling="no" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
+        </div>
+
+        <section class="courses-container">
+            <section class="courses${'' if course_discovery_enabled else ' no-course-discovery'}">
+                <ul class="courses-listing">
+                %if courses and len(courses) > 0:
+                    %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="../course.html" args="course=course" />
+                    </li>
+                    %endfor
+                %else:
+                    <div class="noCourse">※ ${_("There are currently no courses available.")}</div>
+                %endif
+                </ul>
+            </section>
+        </section>
+    </section>
+
+    <!-- [e]  -->
+</section>
