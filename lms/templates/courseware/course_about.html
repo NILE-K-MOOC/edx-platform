@@ -489,7 +489,7 @@ div.about-side-title p {
 
   <%block name="course_about_header">
   <header class="course-profile">
-    <div class="intro-inner-wrapper">
+    <div class="intro-inner-wrapper" style="margin-left: 50px; margin-right: 50px;">
       <div class="table">
       <section class="intro">
         <div class="heading-group">
@@ -649,14 +649,14 @@ div.about-side-title p {
       % if get_course_about_section(request, course, "video"):
       <a href="#video-modal" class="media" rel="leanModal">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" style="width: 356px; height: 220px;" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" style="height: 220px;" />
           <div class="play-intro"></div>
         </div>
       </a>
     %else:
       <div class="media">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지" style="width: 356px; height: 220px;" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지" style="height: 220px;" />
         </div>
       </div>
     % endif
