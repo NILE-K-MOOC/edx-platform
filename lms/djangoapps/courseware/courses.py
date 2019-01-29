@@ -281,6 +281,7 @@ def get_course_about_section(request, course, section_key):
 
     html_sections = {
         'short_description',
+        'teacher_name',
         'description',
         'key_dates',
         'video',
@@ -329,25 +330,26 @@ def get_course_about_section(request, course, section_key):
                     )
 
             if section_key == "effort":
-                if course_week:
-                    if html.strip().find('#'):
-                        html = html.strip().split('#')[0]
+                if html.__len__() > 5:
+                    if course_week:
+                        if html.strip().find('#'):
+                            html = html.strip().split('#')[0]
+                        else:
+                            html = html.strip()[6:] + '주'
+                    elif course_video:
+                        if html.strip().find('#'):
+                            html = html.strip().split('#')[1].split(':')[0] + '시간 ' + html.strip().split('#')[1].split(':')[1] + '분'
+                        else:
+                            html = ''
                     else:
-                        html = html.strip()[6:] + '주'
-                elif course_video:
-                    if html.strip().find('#'):
-                        html = html.strip().split('#')[1].split(':')[0] + '시간 ' + html.strip().split('#')[1].split(':')[1] + '분'
-                    else:
-                        html = ''
+                        html = html.strip()[:5]
 
+                        if ':' in html:
+                            html = html.split(':')[0] + '시간 ' + html.split(':')[1] + '분'
+                        else:
+                            html += '시간'
                 else:
-                    html = html.strip()[:5]
-
-                    if ':' in html:
-                        html = html.split(':')[0] + '시간 ' + html.split(':')[1] + '분'
-                    else:
-                        html += '시간'
-
+                    html = ''
             return html
 
         except ItemNotFoundError:

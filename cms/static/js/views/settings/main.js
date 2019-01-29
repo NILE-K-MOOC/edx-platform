@@ -1077,7 +1077,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var teacher_name = $('#teacher_name').val();
-
+console.log(teacher_name);
                     $.post("/modi_teacher_name", {
                         csrfmiddlewaretoken: $.cookie('csrftoken'),
                         addinfo_course_id: addinfo_course_id,
@@ -1110,6 +1110,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.$el.find('#' + this.fieldToSelectorMap.subtitle).val(this.model.get('subtitle'));
                 this.$el.find('#' + this.fieldToSelectorMap.duration).val(this.model.get('duration'));
                 this.$el.find('#' + this.fieldToSelectorMap.description).val(this.model.get('description'));
+
+                //교수자명
+                this.$el.find('#' + this.fieldToSelectorMap['teacher_name']).val(this.model.get('teacher_name'));
 
                 this.$el.find('#' + this.fieldToSelectorMap['short_description']).val(this.model.get('short_description'));
 
@@ -1310,6 +1313,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 duration: 'course-duration',
                 description: 'course-description',
                 about_sidebar_html: 'course-about-sidebar-html',
+                //교수자명
+                teacher_name: 'teacher_name',
                 short_description: 'course-short-description',
                 intro_video: 'course-introduction-video',
                 //강좌 난이도
@@ -1449,8 +1454,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     case 'course-title':
                     case 'course-subtitle':
                     case 'course-duration':
+                    case 'teacher_name':
                     case 'course-description':
                     case 'course-short-description':
+                        console.log(event);
                         this.setField(event);
                         break;
                     default: // Everything else is handled by datepickers and CodeMirror.

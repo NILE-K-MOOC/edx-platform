@@ -4,6 +4,10 @@ from config_models.models import ConfigurationModel
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+# Il-Hee, Maeng addition ----------------------
+from collections import namedtuple
+from urlparse import urljoin
+
 
 class ProgramsApiConfig(ConfigurationModel):
     """

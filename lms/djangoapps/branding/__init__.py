@@ -52,10 +52,15 @@ def get_visible_courses(org=None, filter_=None):
             SELECT a.id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N')
             FROM course_overviews_courseoverview a
             LEFT JOIN course_overview_addinfo b ON a.id = b.course_id
+            WHERE catalog_visibility = 'both'
         """
         cur.execute(query)
         course_tup = cur.fetchall()
         cur.close()
+
+    # catalog_visibility:Il-Hee, Maeng
+    courses = [c for c in courses if c.catalog_visibility == 'both']
+
     # Add Course Status
     for c in courses:
         # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end

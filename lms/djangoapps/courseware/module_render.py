@@ -1060,8 +1060,13 @@ def _invoke_xblock_handler(request, course_id, usage_id, handler, suffix, course
         nr_tx_name += "/{}".format(suffix) if (suffix and handler == "xmodule_handler") else ""
         set_monitoring_transaction_name(nr_tx_name, group="Python/XBlock/Handler")
 
+        if handler == "upload_url":
+            request.__setattr__("upload_url", "/edx/app/edxapp/edx-platform/fileupload")
+            # req = req.extend({"upload_url": "/edx/app/edxapp/edx-platform/fileupload"})
+
         tracking_context_name = 'module_callback_handler'
         req = django_to_webob_request(request)
+
         try:
             with tracker.get_tracker().context(tracking_context_name, tracking_context):
                 resp = instance.handle(handler, req, suffix)

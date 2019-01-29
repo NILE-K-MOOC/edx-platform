@@ -14,7 +14,8 @@ define(['js/views/validation',
             // Model class is CMS.Models.Settings.Advanced
             events: {
                 'focus :input': 'focusInput',
-                'blur :input': 'blurInput'
+                'blur :input': 'blurInput',
+                'change :input' : "selectInput"
                 // TODO enable/disable save based on validation (currently enabled whenever there are changes)
             },
             initialize: function() {
@@ -47,10 +48,21 @@ define(['js/views/validation',
                         }
                     });
 
-              var policyValues = listEle$.find('.json');
-                _.each(policyValues, this.attachJSONEditor, this);
+                if(self.model.get('need_lock') == 1){
+                    // some disabled column
+                }
+
+                var policyValues1= listEle$.find('.json');
+                //console.log("policyValues1:" + policyValues1.length + ":" + policyValues1 );
+                _.each(policyValues1, this.attachJSONEditor, this);
+
+                var policyValues2 = listEle$.find('.select');
+                //console.log("policyValues2:" + policyValues2.length + ":" + policyValues2 );
+                _.each(policyValues2, this.attachJSONInput, this);
+
                 return this;
             },
+
             attachJSONInput : function (input) {
                 //console.log('attachJSONInput : '+input);
                 var self = this;

@@ -57,6 +57,7 @@ from student.helpers import destroy_oauth_tokens, get_next_url_for_login_page
 from student.message_types import PasswordReset
 from student.models import UserProfile
 from student.views import register_user as old_register_view, signin_user as old_login_view
+import third_party_auth
 from third_party_auth import pipeline
 from third_party_auth.decorators import xframe_allow_whitelisted
 from util.bad_request_rate_limiter import BadRequestRateLimiter
@@ -65,8 +66,19 @@ from util.date_utils import strftime_localized
 from django.db import connections
 import ast
 import urllib
+import datetime
 from openedx.core.djangoapps.user_api.accounts.api import check_account_exists
+
+from django.contrib.auth import authenticate
 from util.json_request import JsonResponse
+from django.contrib.auth import logout
+
+# third_party_auth 설정 후 아래 커멘트를 열어준다.
+# from social.apps.django_app.default.models import UserSocialAuth
+from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_names, set_has_profile_image
+from openedx.core.djangoapps.profile_images.images import remove_profile_images
+from openedx.core.djangoapps.user_api.preferences.api import update_user_preferences
+from django.contrib.auth.models import User
 
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
@@ -164,8 +176,15 @@ def nicecheckplus(request):
     # ----- get user_id query ----- #
 
     # encode data
-    nice_sitecode       = 'AD521'                      # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd     = 'z0lWlstxnw0u'               # NICE로부터 부여받은 사이트 패스워드
+    # nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    # nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+
+    nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
+    nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
+
+    nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
+    nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     enc_data = request.POST.get('EncodeData')
     nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
@@ -692,7 +711,6 @@ def _get_form_descriptions(request):
         'registration': RegistrationFormFactory().get_registration_form(request).to_json()
     }
 
-
 def _get_extended_profile_fields():
     """Retrieve the extended profile fields from site configuration to be shown on the
        Account Settings page
@@ -830,6 +848,69 @@ def account_settings(request):
 
 @login_required
 @require_http_methods(['GET'])
+def account_settings_confirm(request):
+    """Render the current user's account settings page.
+
+    Args:
+        request (HttpRequest)
+
+    Returns:
+        HttpResponse: 200 if the page was sent successfully
+        HttpResponse: 302 if not logged in (redirect to login page)
+        HttpResponse: 405 if using an unsupported HTTP method
+
+    Example usage:
+
+        GET /account/settings
+
+    """
+
+    context = {
+        'correct': None
+    }
+
+    return render_to_response('student_account/account_settings_confirm.html', context)
+
+
+@login_required
+@require_http_methods(['POST'])
+def account_settings_confirm_check(request):
+    """Render the current user's account settings page.
+
+    Args:
+        request (HttpRequest)
+
+    Returns:
+        HttpResponse: 200 if the page was sent successfully
+        HttpResponse: 302 if not logged in (redirect to login page)
+        HttpResponse: 405 if using an unsupported HTTP method
+
+    Example usage:
+
+        GET /account/settings
+
+    """
+    print '********************'
+    print request.user.is_authenticated()
+    print '********************'
+    print request.user
+    print '********************'
+
+    user = authenticate(username=request.user, password=request.POST['passwd'], request=request)
+
+    if user is None:
+        request.session['passwdcheck'] = 'N'
+        return JsonResponse({
+            "success": False,
+        })
+    else:
+        request.session['passwdcheck'] = 'Y'
+        return JsonResponse({
+            "success": True,
+        })
+
+@login_required
+@require_http_methods(['GET'])
 def finish_auth(request):  # pylint: disable=unused-argument
     """ Following logistration (1st or 3rd party), handle any special query string params.
 
@@ -875,8 +956,15 @@ def account_settings_context(request):
     """
 
     # -------------------- nice core -------------------- #
-    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+    # nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    # nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+
+    nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
+    nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
+
+    nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
+    nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
     nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
@@ -885,8 +973,8 @@ def account_settings_context(request):
     nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    lms_base = 'localhost:18000'
+    lms_base = settings.ENV_TOKENS.get('NICE_RETURN_URL')
+    # lms_base = 'localhost:18000'
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
@@ -1067,3 +1155,84 @@ def account_settings_context(request):
         } for state in auth_states if state.provider.display_for_login or state.has_account]
 
     return context
+
+
+@login_required
+def remove_account_view(request):
+    return render_to_response('student_account/remove_account.html')
+
+
+@login_required
+def remove_account(request):
+    if request.user.is_authenticated():
+
+        try:
+
+            # user info delete in Mongo
+            # client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            # db = client.cs_comments_service_development
+            # user_cnt = db.users.find({"external_id": "%s" % request.user.id, "username": "%s" % request.user.username}).count()
+            #
+            # print 'user_cnt --> ', user_cnt
+            # if user_cnt > 0:
+            #     result = db.users.remove({"external_id": "%s" % request.user.id, "username": "%s" % request.user.username})
+            #     print 'deleted_count --------------------------> ', request.user.id, request.user.username, result
+
+            set_has_profile_image(request.user.username, False)
+            profile_image_names = get_profile_image_names(request.user.username)
+            remove_profile_images(profile_image_names)
+            account_privacy_setting = {u'account_privacy': u'private'}
+            update_user_preferences(request.user, account_privacy_setting, request.user.username)
+            find_user = User.objects.get(id=request.user.id)
+            ts = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
+            # find_user.is_active = False
+            # find_user.email = 'delete_' + request.user.email + ts
+
+            user_profile = UserProfile.objects.get(user_id=request.user.id)
+
+            # .get() = only result one
+            # third_party_auth 설정 후 아래 커멘트를 열어준다.
+            # user_socialauth = UserSocialAuth.objects.filter(user_id=request.user.id)
+
+            # print 'remove_account s -------------------------------------'
+            # print request.user.id
+            # print find_user
+            # print user_profile
+            # print 'remove_account e -------------------------------------'
+
+            uid = request.user.id
+
+            # find_user.username = str(uid)
+            find_user.first_name = str(uid)
+            find_user.last_name = str(uid)
+            find_user.email = 'delete_' + str(uid) + '@delete.' + ts
+            find_user.set_password(ts)
+            find_user.is_staff = False
+            find_user.is_active = False
+            find_user.is_superuser = False
+
+            user_profile.name = str(uid)
+            user_profile.language = ''
+            user_profile.location = ''
+            user_profile.meta = ''
+            user_profile.courseware = ''
+            user_profile.gender = None
+            user_profile.mailing_address = None
+            user_profile.year_of_birth = None
+            user_profile.level_of_education = None
+            user_profile.goals = None
+            user_profile.country = None
+            user_profile.city = None
+            user_profile.bio = None
+            user_profile.profile_image_uploaded_at = None
+
+            #find_user.save()
+            #user_profile.save()
+            #ser_socialauth.delete()
+
+            logout(request)
+        except Exception as e:
+            print e
+            pass
+
+    return redirect('/')

@@ -65,6 +65,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import JsonResponse
 
+from pymongo import MongoClient
+from bson import ObjectId
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 log = logging.getLogger("edx.student")
@@ -1166,7 +1169,7 @@ def modi_teacher_name(request):
                          WHERE course_id = '{2}';
                     """.format(addinfo_user_id, teacher_name, addinfo_course_id)
                     cur.execute(query)
-                    data = json.dumps('success')
+
             elif ctn == 0:
                 with connections['default'].cursor() as cur:
                     query = """
@@ -1184,7 +1187,36 @@ def modi_teacher_name(request):
                                   VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}',now());
                     """.format(addinfo_course_id, teacher_name, addinfo_user_id, addinfo_user_id)
                     cur.execute(query)
-                    data = json.dumps('success')
+
+
+            # insert or update the teacher_name in mongodb:Il-Hee, Maeng
+            # ------------------------------- add start ---------------------------------
+            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                 settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            db = client.edxapp
+
+            course_id = addinfo_course_id   # request.POST.get('addinfo_course_id')
+            org = course_id.split('+')[0][10:]
+            cid = course_id.split('+')[1]
+            run = course_id.split('+')[2]
+
+            cursor_active_versions = db.modulestore.active_versions.find_one({'course': cid, 'run': run, 'org': org})
+            pb = cursor_active_versions.get('versions').get('published-branch')
+
+            print "modi_teacher_name > pb = ", pb
+
+            structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+            blocks = structures_data.get('blocks')
+
+            for block in blocks:
+                if block['block_type'] == 'course':
+                    block['fields']['teacher_name'] = teacher_name
+
+            db.modulestore.structures.replace_one({'_id': ObjectId(pb)}, structures_data)
+            # ------------------------------- add end ---------------------------------
+            data = json.dumps('success')
+
             return HttpResponse(data, 'application/json')
 
         return HttpResponse('success', 'application/json')

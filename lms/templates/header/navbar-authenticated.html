@@ -267,13 +267,14 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
       if (!user_id)
           return;
 
+
       $.ajax({
           url : '/memo_sync',
           type: "POST",
           data : {
               sync_memo : 'sync_memo',
-              user_id : user_id,
-              csrfmiddlewaretoken: '${ csrf_token }'
+              user_id : user_id
+              //csrfmiddlewaretoken: '${ csrf_token }'
           }
       }).done(function(data) {
           $('#cnt').html(data.cnt);
@@ -299,7 +300,36 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
           }
 
       });
+
+      // memo polling processing:Il-Hee, Maeng start
+      (function poll() {
+        $.ajax({
+          url : '/memo_sync',
+            type: "POST",
+            data : {
+                sync_memo : 'sync_memo',
+                user_id : user_id,
+                csrfmiddlewaretoken: '${ csrf_token }'
+            },
+            dataType: 'json',
+            //success: function() {
+            //  console.log('success');
+            //},
+            timeout: 3000,
+            complete: setTimeout(function() { poll(); }, 1000*60*3)
+        }).done(function(data) {
+            $('#cnt').html(data.cnt);
+            //console.log('----->[%s]', data.cnt);
+          }
+        );
+
+      })();
+      // end
+
+
+
     });
+
     function nav_resize() {
         window_W = $(window).width();
         if(window_W<=768) {

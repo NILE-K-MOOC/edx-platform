@@ -16,13 +16,17 @@
 <%block name="header_extras">
 % for template_name in ["advanced_entry", "basic-modal", "modal-button", "validation-error-modal"]:
   <script type="text/template" id="${template_name}-tpl">
-    <%static:include path="js/${template_name}.underscore" />
+    <%static:include path="js/${template_name}.underscore" args="is_staff='true'" />
   </script>
 % endfor
 </%block>
 
 <%block name="requirejs">
     require(["js/factories/settings_advanced"], function(SettingsAdvancedFactory) {
+
+        var is_staff = ${is_staff['is_staff']};
+        window.is_staff = is_staff;
+
         SettingsAdvancedFactory(
             ${advanced_dict | n, dump_js_escaped_json},
             "${advanced_settings_url | n, js_escaped_string}"

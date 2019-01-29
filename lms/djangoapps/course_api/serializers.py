@@ -66,6 +66,7 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     name = serializers.CharField(source='display_name_with_default_escaped')
     number = serializers.CharField(source='display_number_with_default')
     org = serializers.CharField(source='display_org_with_default')
+    teacher_name = serializers.CharField()
     short_description = serializers.CharField()
     start = serializers.DateTimeField()
     start_display = serializers.CharField()

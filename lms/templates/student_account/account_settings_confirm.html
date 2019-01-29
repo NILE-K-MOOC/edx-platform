@@ -1,0 +1,84 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Contact")}</%block>
+
+<%block name="js_extra">
+    <script>
+        $(document).ready(function(){
+            %if correct == None:
+                $("#enterpwd").show();
+            %else:
+                $("#incorrect").show();
+            %endif
+
+            $("#check").attr("href", "javascript:password_check();");
+
+
+
+            $("#password").focus();
+            $("#password").keydown(function(e){
+                if(e.which == 13)
+                    password_check();
+
+            });
+        });
+
+        function password_check(){
+            var passwd = $("#password").val();
+            if(passwd == "" || passwd == null){
+                alert("${_('Please enter a password')}");
+                $("#password").focus();
+                return;
+            }
+
+            $.post("/account/settings_confirm_check",
+                    {passwd: passwd},
+                    function(data){
+                        console.log("data = " + data);
+                        if(data){
+                            document.location.href = "/account/settings";
+                        }else if(!data){
+                            alert("${_('The password is incorrect.')}");
+                        }else{
+                            alert("${_('Access path is abnormal.')}");
+                            document.location.href = "/";
+                        }
+            },"text");
+        }
+
+    </script>
+</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container rule">
+
+        <h2>${_("Confirm your password")}</h2>
+
+        <dl>
+            <dt>${_("We check password for your privacy.")}<br></dt>
+            <dt>${_("Please be careful your password.")}<br></dt>
+
+
+            <br/><br/>
+
+            <dt><input type="password" id="password" /></dt>
+
+            <dd>
+                <ul>
+                    <li id="incorrect" style="display:none;"><img style="width:12px" src="/static/images/incorrect-icon.png">&nbsp;<b>${_("The password is incorrect.")}</b></li>
+                    <li id="enterpwd" style="display:none;"><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Please enter a password")}</b></li>
+                </ul>
+            </dd>
+            <br/>
+            <a href="#" id="check"><input type="button" id="button" value="${_('Confirmation')}"/></a>
+        </dl>
+
+        <br/><br/><br/><br/><br/><br/><br/>
+
+    </section>
+</main>
+
+
+

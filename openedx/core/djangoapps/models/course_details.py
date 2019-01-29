@@ -22,6 +22,7 @@ ABOUT_ATTRIBUTES = [
     'subtitle',
     'duration',
     'description',
+    'teacher_name',
     'short_description',
     'overview',
     # course_level 추가
@@ -55,6 +56,7 @@ class CourseDetails(object):
         self.duration = ""
         self.description = ""
         self.short_description = ""
+        self.teacher_name = ""
         self.overview = ""  # html to render as the overview
         self.about_sidebar_html = ""
         self.intro_video = None  # a video pointer
@@ -249,6 +251,11 @@ class CourseDetails(object):
         if converted != descriptor.certificate_available_date:
             dirty = True
             descriptor.certificate_available_date = converted
+
+        if 'teacher_name' in jsondict:
+            descriptor.teacher_name = jsondict['teacher_name']
+        else:
+            descriptor.teacher_name = None
 
         if 'course_image_name' in jsondict and jsondict['course_image_name'] != descriptor.course_image:
             descriptor.course_image = jsondict['course_image_name']

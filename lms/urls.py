@@ -63,6 +63,8 @@ from lms.djangoapps.community import views as community
 #lms/djangoapps/courseware/courses.py
 from courseware import courses as courses
 
+from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
+
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     django_autodiscover()
     admin.site.site_header = _('LMS Administration')
@@ -81,9 +83,16 @@ urlpatterns = [
     url(r'^nicecheckplus_error$', student_account_views.nicecheckplus_error, name="nicecheckplus_error"),  # fail url
     # ---------- nice check end ---------- #
 
+
     # ---------- account_org_check ---------- #
     url(r'^org_check', student_account_views.org_check, name="org_check"),
     # ---------- account_org_check ---------- #
+
+    # ---------- remove account start ---------- #
+    url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
+    url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
+    # ---------- remove account end ---------- #
+
 
     # ---------- multi site ---------- #
     # url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', branding_views.multisite_index, name="multisite_index"),
@@ -258,9 +267,15 @@ if settings.FEATURES.get('ENABLE_OPENBADGES'):
         url(r'^api/badges/v1/', include('badges.api.urls', app_name='badges', namespace='badges_api')),
     ]
 
+#urlpatterns += [
+#    url(r'^openassessment/fileupload/', include('openassessment.fileupload.urls')),
+#]
+
 urlpatterns += [
-    url(r'^openassessment/fileupload/', include('openassessment.fileupload.urls')),
+    url(r'^openassessment/storage/', include('openassessment.fileupload.urls')),
 ]
+
+#urlpatterns += oraurlpatterns
 
 # sysadmin dashboard, to see what courses are loaded, to delete & load courses
 if settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD'):

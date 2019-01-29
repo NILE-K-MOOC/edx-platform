@@ -12,7 +12,7 @@ from .models import (
     LTIProviderConfig,
     OAuth2ProviderConfig,
     SAMLConfiguration,
-    SAMLProviderConfig
+    SAMLProviderConfig,
 )
 
 
@@ -48,6 +48,11 @@ class Registry(object):
     def enabled(cls):
         """Returns list of enabled providers."""
         return sorted(cls._enabled_providers(), key=lambda provider: provider.name)
+
+    @classmethod
+    def accepting_logins(cls):
+        """Returns list of providers that can be used to initiate logins currently"""
+        return [provider for provider in cls.enabled() if provider.accepts_logins]
 
     @classmethod
     def displayed_for_login(cls, tpa_hint=None):

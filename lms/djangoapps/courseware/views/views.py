@@ -5,8 +5,9 @@ Courseware views functions
 import json
 import logging
 import urllib
+import requests
 from collections import OrderedDict, namedtuple
-from datetime import datetime
+from datetime import datetime, date
 
 import analytics
 from django.conf import settings
@@ -799,7 +800,7 @@ def course_interest(request):
     if request.method == 'POST':
 
         if request.POST['method'] == 'add':
-    
+
             user_id = request.POST.get('user_id')
             org = request.POST.get('org')
             display_number_with_default = request.POST.get('display_number_with_default')
@@ -897,6 +898,24 @@ def course_interest(request):
             return HttpResponse(data, 'application/json')
 
         return HttpResponse('success', 'application/json')
+
+
+# 강좌 상태 반환 공통함수
+def get_course_status(start, end, now):
+
+    if start is None or start == '' or end is None or end == '':
+        status = 'none'
+    elif now < start:
+        status = 'ready'
+    elif start <= now <= end:
+        status = 'ing'
+    elif end < now:
+        status = 'end'
+    else:
+        status = 'none'
+
+    return status
+
 
 @ensure_csrf_cookie
 @ensure_valid_course_key
@@ -1373,7 +1392,57 @@ def course_about(request, course_id):
             else:
                 audit_flag = 'N'
 
+
+        # 유사강좌 -> 백엔드 로직 시작
+        LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
+        url = 'http://' + LMS_BASE + '/search/course_discovery/'
+
+        course_object = CourseOverview.get_from_id(course.id)
+        course_display_name = course_object.display_name
+
+        # 유사강좌 -> 엘라스틱 서치에 데이터 요청
+        payload = {}
+        headers = {}
+        payload['search_string'] = course_display_name
+        payload['page_size'] = '20'
+        payload['page_index'] = '0'
+        headers['X-Requested-With'] = 'XMLHttpRequest'
+
+        try:
+            r = requests.post(url, data=payload, headers=headers)
+            data = json.loads(r.text)
+
+            # 유사강좌 -> 데이터 파싱
+            similar_course = []
+            for result in data['results']:
+                course_dict = {}
+                course_id = result['_id']
+                image_url = result['data']['image_url']
+                org = result['data']['org']
+                display_name = result['data']['content']['display_name']
+                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
+                status = get_course_status(start, end, now)
+
+                # format change
+                start = start.strftime('%Y-%m-%d')
+                end = end.strftime('%Y-%m-%d')
+
+                course_dict['course_id'] = course_id
+                course_dict['image_url'] = image_url
+                course_dict['org'] = org
+                course_dict['display_name'] = display_name
+                course_dict['start'] = start
+                course_dict['end'] = end
+                course_dict['status'] = status
+                similar_course.append(course_dict)
+        except BaseException:
+            similar_course = None
+            log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
+
         context = {
+            'similar_course': similar_course, # 유사강좌
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,
@@ -2359,8 +2428,8 @@ def course_review_gb(request):
 
         with connections['default'].cursor() as cur:
             query = """
-                select good_bad 
-                from course_review_user 
+                select good_bad
+                from course_review_user
                 where review_id='{review_id}' and user_id = '{user_id}';
             """.format(review_id=review_id,user_id=user_id)
             cur.execute(query)
@@ -2386,7 +2455,7 @@ def course_review_gb(request):
             elif check[0][0] == gb:
                 with connections['default'].cursor() as cur:
                     query = """
-                        delete from edxapp.course_review_user 
+                        delete from edxapp.course_review_user
                         where review_id='{review_id}' and user_id = '{user_id}';
                     """.format(review_id=review_id, user_id=user_id)
                     cur.execute(query)
@@ -2501,6 +2570,3 @@ def cert_check_id(request):
     con.close()
 
     return HttpResponse(json.dumps(result))
-
-
-

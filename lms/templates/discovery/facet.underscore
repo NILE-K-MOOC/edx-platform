@@ -1,16 +1,26 @@
-<h3 class="header-facet">
-    <%- displayName %>
-</h3>
-<ul data-facet="<%- name %>" class="facet-list collapse">
-    <%= HtmlUtils.ensureHtml(optionsHtml) %>
-</ul>
-<% if (listIsHuge) { %>
-    <div class="toggle ">
-        <button class="show-more discovery-button">
-            <%- gettext("More") %>
-        </button>
-        <button class="show-less hidden discovery-button">
-            <%- gettext("Less") %>
-        </button>
-    </div>
+<% if ((displayName != 'org_ename') && (displayName != 'org_kname') && (displayName != 'teacher_name')) { %>
+    <h3 class="header-facet">
+        <%- gettext(displayName) %>
+    </h3>
+
+    <% if (name == "org"){ %>
+        <select style="width:100%" data-facet="<%- name %>" class="facet-list collapse">
+            <option value="">전체</option>
+            <%= HtmlUtils.ensureHtml(optionsHtml) %>
+        </select>
+    <% } else { %>
+        <ul style="width:100%" data-facet="<%- name %>" class="facet-list collapse">
+            <%= HtmlUtils.ensureHtml(optionsHtml) %>
+        </ul>
+        <% if (listIsHuge) { %>
+        <div class="toggle " style="border: 1px solid #eee; background: #F6F6F6; text-align: right;">
+            <button class="show-more discovery-button" id="<%- name %>">
+                <%- gettext("More") %>
+            </button>
+            <button class="show-less hidden discovery-button" id="<%- name %><%- name %>">
+                <%- gettext("Less") %>
+            </button>
+        </div>
+        <% } %>
+    <% } %>
 <% } %>

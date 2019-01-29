@@ -18,6 +18,7 @@ if(key == 'classfy'){
 	<div class="field is-not-editable text key" id="<%= key %>">
 		<h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
   </div>
+
   <div class="field text value">
     <label class="sr" for="<%= valueUniqueId %>"><%= display_name %></label>
     <% if((key == 'classfy' || key == 'middle_classfy' || key == 'classfysub' || key == 'middle_classfysub'||key =='difficult_degree' || key == 'linguistics' || key == 'course_period') && (window.is_staff != true)) { %>

@@ -543,6 +543,7 @@ class CourseAboutSearchIndexer(object):
     INDEX_NAME = CoursewareSearchIndexer.INDEX_NAME
 
     # List of properties to add to the index - each item in the list is an instance of AboutInfo object
+    # Il Hee, Maeng : addition
     ABOUT_INFORMATION_TO_INCLUDE = [
         AboutInfo("advertised_start", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("announcement", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
@@ -569,18 +570,18 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("enrollment_start", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("enrollment_end", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("org", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("org_kname", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("org_ename", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
         AboutInfo("modes", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_MODE),
         AboutInfo("language", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-
         AboutInfo("classfy", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("middle_classfy", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("linguistics", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("course_period", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("classfysub", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-
         AboutInfo("middle_classfysub", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("catalog_visibility", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
-
         AboutInfo("difficult_degree", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("audit_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
@@ -605,12 +606,16 @@ class CourseAboutSearchIndexer(object):
             'course': course_id,
             'content': {},
             'image_url': course_image_url(course),
+            # Il Hee, Maeng : addition, classfication with left menu
             'classfy': course.classfy,
-            'classfysub': course.classfysub,  # Maeng Ilhee add
+            'classfysub': course.classfysub,
             'middle_classfy': course.middle_classfy,
-            'middle_classfysub': course.middle_classfysub,  # mih add
+            'middle_classfysub': course.middle_classfysub,
             'linguistics': course.linguistics,
             'course_period': course.course_period,
+            'org_kname': None,
+            'org_ename': None,
+            'teacher_name': None,
         }
 
         # load data for all of the 'about' modules for this course into a dictionary

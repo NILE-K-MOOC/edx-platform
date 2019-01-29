@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import logging
 import math
@@ -265,26 +266,71 @@ def _get_displayname_search_filter_for_mongo(text_search):
     """
     Return a pymongo query dict for the given search string, using case insensitivity.
     """
-    print "_get_displayname_search_filter_for_mongo",text_search
+    print "_get_displayname_search_filter_for_mongo", text_search
     filters = []
 
-    text_search_tokens = text_search.split()
+    # text_search_tokens = text_search.split()
 
-    print "text_search_tokens",text_search_tokens
+    # for token in text_search_tokens:
+    #     escaped_token = re.escape(token)
+    #     # escaped_token
+    #     filters.append({
+    #         'displayname': {
+    #             '$regex': HangleConv(escaped_token),
+    #             '$options': 'i',
+    #         },
+    #     })
 
-    for token in text_search_tokens:
-        escaped_token = re.escape(token)
+    text_search_tokens = HangleConv(text_search)
 
-        filters.append({
-            'displayname': {
-                '$regex': escaped_token,
-                '$options': 'i',
-            },
-        })
-    print "filters",filters
+    filters.append({
+        'displayname': {
+            '$regex': text_search_tokens,
+            '$options': 'i',
+        },
+    })
+    print "filters", filters
     return {
         '$and': filters,
     }
+
+
+def isHangul(ch):
+    JAMO_START_LETTER = 44032
+    JAMO_END_LETTER = 55203
+    if ord(ch) >= JAMO_START_LETTER and ord(ch) <= JAMO_END_LETTER:
+        isHan = True
+    else:
+        isHan = False
+    return isHan
+
+
+def HangleConv(text):
+    result = ''
+    result_chr = b''
+    for ch in text:
+        if isHangul(ch):
+            char_s = ((ord(ch) - 0xAC00) / 28) / 21
+            char_m = ((ord(ch) - 0xAC00) / 28) % 21
+            char_e = ((ord(ch) - 0xAC00) % 28)
+            b1 = char_s + 0x1100
+            b2 = char_m + 0x1161
+            b3 = char_e + 0x11A8 - 1
+            # print b1, b2, b3, unichr(b1), unichr(b2), unichr(b3), unichr(b1)+unichr(b2)+unichr(b3)
+            if char_s != 0 and char_m != 0  and char_e != 0:
+                charToConv = ''.join(["\\u%04x" % (char_s + 0x1100)]) + ''.join(["\\u%04x" % (char_m + 0x1161)]) + ''.join(["\\u%04x" % (char_e + 0x11A8 - 1)])
+                result_chr = result_chr + unichr(b1)+unichr(b2)+unichr(b3)
+            if char_s != 0 and char_m != 0  and char_e == 0:
+                charToConv = ''.join(["\\u%04x" % (char_s + 0x1100)]) + ''.join(["\\u%04x" % (char_m + 0x1161)])
+                result_chr = result_chr + unichr(b1)+unichr(b2)
+            if char_s != 0 and char_m == 0  and char_e == 0:
+                charToConv = ''.join(["\\u%04x" % (char_s + 0x1100)])
+                result_chr = result_chr + unichr(b1)
+            result = result + charToConv
+            # print result_chr
+        else:
+            result_chr = result_chr + ch
+    return result_chr
 
 
 def _get_files_and_upload_type_filters():
