@@ -66,7 +66,7 @@ from django.db import connections
 import ast
 import urllib
 from openedx.core.djangoapps.user_api.accounts.api import check_account_exists
-
+from util.json_request import JsonResponse
 
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
@@ -95,7 +95,12 @@ def agree(request):
     else:
         return render_to_response('student_account/registration_gubn.html')
 
-
+@csrf_exempt
+def org_check(request):
+    if request.is_ajax():
+        org_check = request.POST['org_check']
+        request.session['org_value'] = request.POST['org_value']
+        return JsonResponse({"a":"b"})
 @ensure_csrf_cookie
 def agree_done(request):
     # print 'request.is_ajax = ', request.is_ajax
@@ -378,7 +383,7 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # print 'currentProvider:', provider_info['currentProvider']
     # add kocw logic
-
+    print "test"
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
         # print 'login_and_registration_form type 1'
@@ -462,10 +467,24 @@ def login_and_registration_form(request, initial_mode="login"):
             'message': message.message, 'tags': message.tags
         } for message in messages.get_messages(request) if 'account-activation' in message.tags
     ]
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT detail_code, detail_name
+              FROM code_detail
+             WHERE group_code = 003
+             AND USE_YN = 'Y'
+             ORDER BY detail_name;
+        """
+        cur.execute(query)
+        org_index = cur.fetchall()
+        org_list = list(org_index)
+        print org_list
 
     # Otherwise, render the combined login/registration page
     context = {
+        'org_list': org_list,
         'data': {
+
             'login_redirect_url': redirect_to,
             'initial_mode': initial_mode,
             'third_party_auth': _third_party_auth_context(request, redirect_to, third_party_auth_hint),
@@ -982,6 +1001,7 @@ def account_settings_context(request):
         'duplicate_provider': None,
         'nav_hidden': True,
         'fields': {
+            '92hoy': 'here',
             'country': {
                 'options': countries_list,
             }, 'gender': {

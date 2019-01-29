@@ -109,6 +109,7 @@ define(['backbone',
                 AjaxHelpers.respondWithJson(requests, {});  // Page viewed analytics event
 
                 var sectionsData = accountSettingsView.options.tabSections.aboutTabSections;
+                console.log("consolelog",sectionsData)
 
                 expect(sectionsData[0].fields.length).toBe(7);
 

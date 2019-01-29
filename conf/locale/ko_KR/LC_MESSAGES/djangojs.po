@@ -8805,6 +8805,7 @@ msgstr "계정 만들기"
 msgid "Support education research by providing additional information"
 msgstr "정보를 제공하여 교육 연구를 지원하세요"
 
+
 #: lms/templates/verify_student/enrollment_confirmation_step.underscore
 #, python-format
 msgid "Congratulations! You are now verified on %(platformName)s!"

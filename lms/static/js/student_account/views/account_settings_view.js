@@ -103,6 +103,7 @@
                     sections: tabSections,
                     el: '#' + tabName + '-tabpanel'
                 });
+                console.log("=========",accountSectionView)
 
                 accountSectionView.render();
             },

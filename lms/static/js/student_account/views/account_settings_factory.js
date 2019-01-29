@@ -29,6 +29,11 @@
             extendedProfileFields,
             displayAccountDeletion
         ) {
+
+            console.log('fieldsData --------------- s');
+            console.log(fieldsData);
+            console.log('fieldsData --------------- e');
+
             var $accountSettingsElement, userAccountModel, userPreferencesModel, aboutSectionsData,
                 accountsSectionData, ordersSectionData, accountSettingsView, showAccountSettingsPage,
                 showLoadingError, orderNumber, getUserField, userFields, timeZoneDropdownField, countryDropdownField,
