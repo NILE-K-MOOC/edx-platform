@@ -26,6 +26,7 @@ from django.db import connections
 
 log = logging.getLogger(__name__)
 
+
 def get_org_list(request):
 
     with connections['default'].cursor() as cur:
@@ -42,6 +43,7 @@ def get_org_list(request):
         org_count = len(org_list)
 
     return JsonResponse({'result':org_list, 'count':org_count})
+
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests

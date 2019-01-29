@@ -14,7 +14,7 @@ from django.http import HttpResponseForbidden
 from openedx.core.djangoapps.theming.helpers import get_current_request
 from six import text_type
 
-from student.models import User, UserProfile, Registration, email_exists_or_retired
+from student.models import User, UserProfile, Registration, email_exists_or_retired, TbAuthUserAddinfo
 from student import forms as student_forms
 from student import views as student_views
 from util.model_utils import emit_setting_changed_event
@@ -91,6 +91,18 @@ def get_account_settings(request, usernames=None, configuration=None, view=None)
             context={'request': request}
         ).data)
 
+    try:
+        serialized_users[0]['organization'] = TbAuthUserAddinfo.objects.get(user_id=requesting_user.id).org_id
+    except BaseException:
+        o1 = TbAuthUserAddinfo(
+            user_id=requesting_user.id,
+            private_info_use_yn=False,
+            event_join_yn=False,
+            org_set_date=datetime.datetime.now(),
+            regist_date=datetime.datetime.now(),
+            modify_date=datetime.datetime.now()
+        )
+        o1.save()
     return serialized_users
 
 
@@ -123,6 +135,26 @@ def update_account_settings(requesting_user, update, username=None):
         errors.UserAPIInternalError: the operation failed due to an unexpected error.
 
     """
+
+    if 'organization' in update:
+        try:
+            o1 = TbAuthUserAddinfo.objects.get(user_id=requesting_user.id)
+            o1.org_id = update[u'organization']
+            o1.org_set_date = datetime.datetime.now()
+            o1.modify_date = datetime.datetime.now()
+            o1.save()
+        except BaseException:
+            o1 = TbAuthUserAddinfo(
+                user_id=requesting_user.id,
+                private_info_use_yn=False,
+                event_join_yn=False,
+                org_id=update[u'organization'],
+                org_set_date=datetime.datetime.now(),
+                regist_date=datetime.datetime.now(),
+                modify_date=datetime.datetime.now()
+            )
+            o1.save()
+
     if username is None:
         username = requesting_user.username
 
