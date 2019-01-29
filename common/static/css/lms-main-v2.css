@@ -59,13 +59,13 @@
     outline: none;
     cursor: not-allowed;
 }
-[class^='wrapper'] {
-    width: 100%}
-[class^='wrapper']::after {
-    clear: both;
-    content: "";
-    display: table;
-}
+/*[class^='wrapper'] {*/
+    /*width: 100%}*/
+/*[class^='wrapper']::after {*/
+    /*clear: both;*/
+    /*content: "";*/
+    /*display: table;*/
+/*}*/
 .list-divided .item:last-child, ul .item:last-child, .list-bulleted .item:last-child, ol .item:last-child, .list-ordered .item:last-child, .list-inline .item:last-child, .list-grouped .item:last-child, .list .item:last-child, .list li:last-child, ol li:last-child, ul li:last-child, .list-divided:last-child, ul:last-child, .list-bulleted:last-child, ol:last-child, .list-ordered:last-child, .list-inline:last-child, .list-grouped:last-child, .list:last-child, .list-divided .item-complex:last-child, ul .item-complex:last-child, .list-bulleted .item-complex:last-child, ol .item-complex:last-child, .list-ordered .item-complex:last-child, .list-inline .item-complex:last-child, .list-grouped .item-complex:last-child, .list .item-complex:last-child {
     margin-bottom: 0;
     padding-bottom: 0;

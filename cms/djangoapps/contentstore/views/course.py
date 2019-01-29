@@ -612,7 +612,6 @@ def course_listing(request):
         org_list = list(org_index)
 
     return render_to_response(u'index.html', {
-        u'course_names': [c.get('display_name') for c in courses_iter],
         u'courses': active_courses,
         u'archived_courses': archived_courses,
         u'in_process_course_actions': in_process_course_actions,
