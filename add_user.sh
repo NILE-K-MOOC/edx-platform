@@ -19,4 +19,4 @@ else
   echo "user_name is $3"
 fi
 
-sudo -u www-data /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings devstack create_user -p $2 -e $1 -u $3
+sudo -u www-data /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings aws create_user -p $2 -e $1 -u $3
