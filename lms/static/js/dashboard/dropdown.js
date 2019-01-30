@@ -77,7 +77,7 @@ var edx = edx || {};
     };
 
     edx.dashboard.dropdown.bindToggleButtons = function(selector) {
-        $(selector).bind(
+        $(selector).live(
         'click',
         edx.dashboard.dropdown.toggleCourseActionsDropdownMenu
       );

@@ -27349,3 +27349,8 @@ msgstr "청강강좌"
 
 msgid "Present"
 msgstr "현재"
+
+#: lms/templates/dashboard/_dashboard_course_listing.html
+msgid "Are you sure you want to unenroll from %(course_number)s?"
+msgstr "%(course_number)s 수강을 취소하시겠습니까?"
+
