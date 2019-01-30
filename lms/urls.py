@@ -77,6 +77,9 @@ urlpatterns = [
     url(r'^$', branding_views.index, name='root'),  # Main marketing page, or redirect to courseware
 
     url(r'^api/get_org_list$', branding_views.get_org_list, name='get_org_list'),
+    url(r'^api/get_multisite_list$', branding_views.get_multisite_list, name='get_multisite_list'),
+    url(r'^api/delete_multisite_account$', branding_views.delete_multisite_account, name='delete_multisite_account'),
+
 
     # ---------- nice check start---------- #
     url(r'^nicecheckplus$', student_account_views.nicecheckplus, name="nicecheckplus"),  # success url
@@ -96,7 +99,6 @@ urlpatterns = [
 
     # ---------- multi site ---------- #
     # url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', branding_views.multisite_index, name="multisite_index"),
-    # url(r'^multisite_api$', branding_views.multisite_api, name="multisite_api"),
     # url(r'^multisite_delete_api$', branding_views.multisite_delete_api, name="multisite_delete_api"),
     # url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
 

@@ -39,6 +39,31 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
 </form>
 <!-- nice check -->
 
+<script>
+function multisite(obj){
+    msg = "정말 계정 연동을 해제하시겠습니까?";
+    if (confirm(msg)!=0) {
+        var org = $(obj).attr('id');
+        var user_id = $('#user_id').text();
+
+        $.post( "/api/delete_multisite_account", {
+            org: org,
+            user_id: user_id
+        })
+        .done(function( data ) {
+            if(data.return == 'success' ){
+                var tmp = '#' + org;
+                $(tmp).remove();
+                //alert("success");
+            }
+        });
+    }
+    else {
+
+    }
+}
+</script>
+
 <!-- nice check test-->
 <div id='user_gender' style='display: none;'>${user_gender}</div>
 <div id='user_birthday' style='display: none;'>${user_birthday}</div>
