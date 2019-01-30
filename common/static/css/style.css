@@ -1178,7 +1178,7 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 .course-info header.course-profile:after , section.wiki .wiki-wrapper > header:after {content:"";display:block;clear:both;}
 /*.course-info header.course-profile + .container {clear:both;min-width:768px;}*/
 .course-info header.course-profile + .container {clear:both;min-width:auto;} /** 20170104 **/
-.course-info header.course-profile {height:auto;min-height:280px;padding-top:100px;}
+.course-info header.course-profile {height:auto;min-height:280px;padding-top:18px;}
 .course-info header.course-profile  .intro-inner-wrapper {margin-bottom:20px;}
 
 /*.discussion.container {margin:0 auto;max-width:100%;min-width:768px;}*/

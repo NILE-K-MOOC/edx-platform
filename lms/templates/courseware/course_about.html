@@ -28,7 +28,7 @@ from six import string_types
       $(".youtubewrap").bind('contextmenu', function (e) {
         return false;
       });
-      
+
     $(".register").click(function(event) {
       $("#class_enroll_form").submit();
       event.preventDefault();
@@ -489,7 +489,7 @@ div.about-side-title p {
 
   <%block name="course_about_header">
   <header class="course-profile">
-    <div class="intro-inner-wrapper">
+    <div class="intro-inner-wrapper" style="margin-left: 50px; margin-right: 50px;">
       <div class="table">
       <section class="intro">
         <div class="heading-group">
@@ -628,7 +628,7 @@ div.about-side-title p {
           </a>
           <div id="register_error"></div>
         %else:
-          <% 
+          <%
             if ecommerce_checkout:
               reg_href = ecommerce_checkout_link
             else:
@@ -649,14 +649,14 @@ div.about-side-title p {
       % if get_course_about_section(request, course, "video"):
       <a href="#video-modal" class="media" rel="leanModal">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" style="width: 356px; height: 220px;" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" style="height: 220px;" />
           <div class="play-intro"></div>
         </div>
       </a>
     %else:
       <div class="media">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지" style="width: 356px; height: 220px;" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지" style="height: 220px;" />
         </div>
       </div>
     % endif
@@ -664,6 +664,90 @@ div.about-side-title p {
       </div>
   </header>
   </%block>
+
+<style>
+
+  .fa-twitter{
+    color: #1da1f2;
+  }
+  .fa-facebook{
+    color: #29487d;
+  }
+  .fa-envelope{
+    color: #ff6496;
+  }
+
+  .similar-title{
+    font-size: 1.4rem;
+    margin: 1.25rem 0 0.28rem 0;
+    font-weight: bold;
+    font-family: "Nanum Gothic","Open Sans";
+    margin-bottom: 20px;
+  }
+  .similar-container {
+    min-width: 750px;
+  }
+  .similar-item {
+    border: solid 1px #cccccc;
+    width: 200px;
+    height: 200px;
+    margin-left: 20px;
+    margin-right: 2px;
+    cursor: pointer;
+    transition: 0.2s;
+    float: left;
+  }
+  .similar-item:hover {
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 8px 10px 0px, rgba(0, 0, 0, 0.15) 0px 4px 4px 0px;
+  }
+  .similar-error {
+    padding: 20px;
+    color: red;
+    font-size: 12px;
+  }
+  .item-img-size {
+    width: 200px;
+    height: 97px;
+  }
+  .item-status {
+    background-color: #008800;
+    text-align: right;
+  }
+  .item-status-text {
+    color: #ffffff;
+    font-size: 10px;
+    margin-right: 10px;
+  }
+  .item-title {
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 12px;
+  }
+  .item-date {
+    font-size: 10px;
+    padding-left: 10px;
+  }
+  .item-org {
+    font-size: 10px;
+    padding-left: 10px;
+    margin-top: -10px;
+  }
+  .item-greenline {
+    border: solid 1px #008800;
+  }
+
+  @media screen and (max-width: 768px) {
+    .similar-item {
+      float: unset;
+      margin-bottom: 20px;
+    }
+    .similar-container{
+      min-width: unset;
+      margin-bottom: 50px;
+    }
+  }
+</style>
 
   <div class="container">
 
@@ -678,10 +762,44 @@ div.about-side-title p {
 
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
-        <!-- 평점 작업 -->
 
-          <%include file="course_review.html" />
+          <h2 class='similar-title'><i class="fa fa-star"></i>유사 강좌</h2>
 
+          <div class='similar-container'>
+              % if similar_course != None:
+                % for item in similar_course[1:4]:
+                <div class='similar-item'>
+                  <div class='item-img'>
+                    <img class='item-img-size' src='${item["image_url"]}'>
+                  </div>
+
+                  <div class='item-status'>
+                    <div class='item-status-text'>${item['status']}</div>
+                  </div>
+
+                  <div class='item-title'>
+                    ${item['display_name']}
+                  </div>
+
+                  <div class='item-date'>
+                    ${item['start']} ~ ${item['end']}
+                  </div>
+
+                  <div class='item-org'>
+                    ${item['org']}
+                  </div>
+
+                  <div class='item-greenline'>
+                  </div>
+                </div>
+                % endfor
+              % else:
+                <div class='similar-error'>
+                  유사강좌를 가져오는 중 문제가 발생했습니다<br>
+                  관리자에게 문의해주세요<br>
+                </div>
+              % endif
+          </div>
 
       </div>
     </div>

@@ -79,15 +79,23 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),  # Main marketing page, or redirect to courseware
 
+    url(r'^api/get_org_list$', branding_views.get_org_list, name='get_org_list'),
+
     # ---------- nice check start---------- #
     url(r'^nicecheckplus$', student_account_views.nicecheckplus, name="nicecheckplus"),  # success url
     url(r'^nicecheckplus_error$', student_account_views.nicecheckplus_error, name="nicecheckplus_error"),  # fail url
     # ---------- nice check end ---------- #
 
+
+    # ---------- account_org_check ---------- #
+    url(r'^org_check', student_account_views.org_check, name="org_check"),
+    # ---------- account_org_check ---------- #
+
     # ---------- remove account start ---------- #
     url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
     url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
     # ---------- remove account end ---------- #
+
 
     # ---------- multi site ---------- #
     # url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', branding_views.multisite_index, name="multisite_index"),

@@ -29,6 +29,10 @@ from six import text_type
 
         facebook_link = 'http://www.facebook.com/sharer/sharer.php?u={url}'.format(url=urllib.quote(url.encode("utf-8")))
 
+        line_link = 'http://blog.naver.com/openapi/share?url={url}'.format(url=urllib.quote(url.encode("utf-8")))
+
+        kakao_link = 'https://story.kakao.com/share?url={url}'.format(url=urllib.quote(url.encode("utf-8")))
+
         email_subject = u"mailto:?subject={subject}&body={body}".format(
             subject=_("Take a course with {platform} online").format(platform=platform_name),
             body=_("Take a course with {platform} online").format(
@@ -43,11 +47,42 @@ from six import text_type
         <span class="icon fa fa-twitter" aria-hidden="true"></span><span class="sr">${_("Tweet that you've enrolled in this course")}</span>
       </a>
       <a href="${facebook_link}" class="share">
-        <span class="icon fa fa-thumbs-up" aria-hidden="true"></span><span class="sr">${_("Post a Facebook message to say you've enrolled in this course")}</span>
+        <span class="icon fa fa-facebook" aria-hidden="true"></span><span class="sr">${_("Post a Facebook message to say you've enrolled in this course")}</span>
       </a>
       <a href="${email_subject}" class="share">
         <span class="icon fa fa-envelope" aria-hidden="true"></span><span class="sr">${_("Email someone to say you've enrolled in this course")}</span>
       </a>
+      <a href="${line_link}" class="share">
+        <img src="/static/images/fa-naver.png" style="width: 28px;margin-top: -8px;">
+      </a>
+      <a href="${kakao_link}" class="share">
+        <img src="/static/images/fa-cs.png" style="width: 28px;margin-top: -8px;">
+      </a>
+      <a class="share" onclick="myFunction()" style="cursor: pointer">
+        <span class="icon fa fa-clone" aria-hidden="true"></span><span class="sr">${_("Email someone to say you've enrolled in this course")}</span>
+      </a>
   </div>
   % endif
 </header>
+
+<style>
+  #clipboard-temp{
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.6), inset 0 0 0 0 rgba(0,0,0,0.1);
+  }
+  #clipboard-temp:focus{
+    color: #ffffff;
+    outline: 1px solid #ffffff;
+  }
+</style>
+<input type="text" value="${url}" id="clipboard-temp">
+
+<script>
+function myFunction() {
+  var copyText = document.getElementById("clipboard-temp");
+  copyText.select();
+  document.execCommand("copy");
+  alert('강좌 소개 페이지 주소가 복사되었습니다.')
+}
+</script>

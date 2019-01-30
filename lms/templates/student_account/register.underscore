@@ -68,6 +68,22 @@
         </label>
     </div>
 
+    <div>
+        <input type="checkbox" id="org_chk">
+        <label>기관에게 정보 동의 체크</label>
+    </div>
+    <div id="org_hs">
+
+    <select name = "org_select" id="org_select_option">
+        <option value="">선택해주세요</option>
+        <% for(var i = 0; i < context.org_count; i++) { %>
+            <option value="<%= context.org_list[i][0] %>"><%= context.org_list[i][1] %></option>
+        <% } %>
+    </select>
+
+    </div>
+
+
     <p class="note">* <%- gettext("Required field") %></p>
 
     <button type="submit" class="action action-primary action-update js-register register-button">
@@ -79,6 +95,7 @@
     </div>
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
 </div>
+
 </form>
 
 
@@ -105,7 +122,21 @@ $(document).ready(function(){
             $("#register-password").val(pwd);
             $("#register-password2").val(pwd);
         }
-        $('#register-password2').attr('title', '비밀번호 확인');
+
+        $('#org_select_option').attr('disabled', true)
+
+        $('#org_chk').change(function () {
+            if ($(this).prop("checked")){
+               $('#org_select_option').attr('disabled', false)
+               $('#org_hs').show()
+                }
+            else{
+                $('#org_select_option').attr('disabled', true)
+                $('#org_hs').hide()
+
+                }
+        });
+
 });
 
 function randomPassword() {

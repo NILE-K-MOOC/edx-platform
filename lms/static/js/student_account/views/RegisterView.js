@@ -1,14 +1,14 @@
 (function(define) {
     'use strict';
     define([
-        'jquery',
-        'underscore',
-        'gettext',
-        'edx-ui-toolkit/js/utils/string-utils',
-        'edx-ui-toolkit/js/utils/html-utils',
-        'js/student_account/views/FormView',
-        'text!templates/student_account/form_status.underscore'
-    ],
+            'jquery',
+            'underscore',
+            'gettext',
+            'edx-ui-toolkit/js/utils/string-utils',
+            'edx-ui-toolkit/js/utils/html-utils',
+            'js/student_account/views/FormView',
+            'text!templates/student_account/form_status.underscore'
+        ],
         function(
             $, _, gettext,
             StringUtils,
@@ -45,7 +45,7 @@
                 positiveValidationIcon: 'fa-check',
                 negativeValidationIcon: 'fa-exclamation',
                 successfulValidationDisplaySeconds: 3,
-            // These are reset to true on form submission.
+                // These are reset to true on form submission.
                 positiveValidationEnabled: true,
                 negativeValidationEnabled: true,
 
@@ -132,14 +132,50 @@
                 },
 
                 render: function(html) {
+
+                    var org_list = function () {
+                        var tmp = null;
+                        $.ajax({
+                            'async': false,
+                            'type': "GET",
+                            'global': false,
+                            'url': "/api/get_org_list",
+                            'data': {},
+                            'success': function (data) {
+                                tmp = data.result;
+
+                            }
+                        });
+                        return tmp;
+                    }();
+
+                    var org_count = function () {
+                        var tmp = null;
+                        $.ajax({
+                            'async': false,
+                            'type': "GET",
+                            'global': false,
+                            'url': "/api/get_org_list",
+                            'data': {},
+                            'success': function (data) {
+                                tmp = data.count;
+
+                            }
+                        });
+                        return tmp;
+                    }();
+
+
                     var fields = html || '',
                         formErrorsTitle = gettext('An error occurred.');
 
                     $(this.el).html(_.template(this.tpl)({
-                    /* We pass the context object to the template so that
-                     * we can perform variable interpolation using sprintf
-                     */
+                        /* We pass the context object to the template so that
+                         * we can perform variable interpolation using sprintf
+                         */
                         context: {
+                            org_list: org_list,
+                            org_count: org_count,
                             fields: fields,
                             currentProvider: this.currentProvider,
                             syncLearnerProfileData: this.syncLearnerProfileData,
@@ -170,6 +206,8 @@
                 },
 
                 postRender: function() {
+
+
                     var inputs = this.$('.form-field'),
                         inputSelectors = 'input, select, textarea',
                         inputTipSelectors = ['tip error', 'tip tip-input'],
@@ -450,7 +488,7 @@
 
                 postFormSubmission: function() {
                     if (_.compact(this.errors).length) {
-                    // The form did not get submitted due to validation errors.
+                        // The form did not get submitted due to validation errors.
                         $(this.el).show(); // Show in case the form was hidden for auto-submission
                     }
                 },
@@ -477,11 +515,25 @@
                 },
 
                 submitForm: function(event) { // eslint-disable-line no-unused-vars
+
+
+                        $.ajax({
+                            'type': "POST",
+                            'url': "/org_check",
+                            'data': {
+                                'org_check':$('#org_chk').prop("checked"),
+                                'org_value':$("#org_select_option").val()
+                            }
+                        });
+
+
+
+
                     var elements = this.$form[0].elements,
                         $el,
                         i;
 
-                // As per requirements, disable positive validation for submission.
+                    // As per requirements, disable positive validation for submission.
                     this.positiveValidationEnabled = false;
 
                     for (i = 0; i < elements.length; i++) {
@@ -556,7 +608,7 @@
                 genericLiveValidateHandler: function($el) {
                     var elementType = $el.attr('type');
                     if (elementType === 'checkbox') {
-                    // We are already validating checkboxes in a generic way.
+                        // We are already validating checkboxes in a generic way.
                         this.liveValidateCheckbox($el);
                     } else {
                         this.genericLiveValidate($el);

@@ -796,20 +796,48 @@ def student_dashboard(request):
         )
 
         if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+
             private_info_use_yn = request.session['private_info_use_yn']
             event_join_yn = request.session['event_join_yn']
+            org_value = request.session['org_value']
+            if private_info_use_yn =='Y':
+                private_info_use_yn =1
+            else:
+                private_info_use_yn =0
+
+            if event_join_yn =='Y':
+                event_join_yn = 1
+            else:
+                event_join_yn = 0
+
+            if request.session['org_value'] ==None:
+                org_value =''
+            else :
+                pass
+
 
             try:
 
+                # with connections['default'].cursor() as cur:
+                #     query = """
+                #         INSERT
+                #           INTO registration_flag_history(user_id, private_info_use_yn, event_join_yn)
+                #         VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}');
+                #     """.format(
+                #         user_id=user.id,
+                #         private_info_use_yn=private_info_use_yn,
+                #         event_join_yn=event_join_yn
+                #     )
                 with connections['default'].cursor() as cur:
                     query = """
                         INSERT
-                          INTO registration_flag_history(user_id, private_info_use_yn, event_join_yn)
-                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}');
+                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn,org_id)
+                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}','{org_id}');
                     """.format(
                         user_id=user.id,
                         private_info_use_yn=private_info_use_yn,
-                        event_join_yn=event_join_yn
+                        event_join_yn=event_join_yn,
+                        org_id=org_value
                     )
 
                     print 'query:', query
@@ -817,6 +845,7 @@ def student_dashboard(request):
 
                 del request.session['private_info_use_yn']
                 del request.session['event_join_yn']
+                del request.session['org_value']
 
             except Exception as e:
                 print 'registration_flag_history error.'

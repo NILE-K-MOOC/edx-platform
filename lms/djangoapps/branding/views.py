@@ -22,9 +22,26 @@ from openedx.core.djangoapps.lang_pref.api import released_languages
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
+from django.db import connections
 
 log = logging.getLogger(__name__)
 
+def get_org_list(request):
+
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT detail_code, detail_name
+              FROM code_detail
+             WHERE group_code = 003
+             AND USE_YN = 'Y'
+             ORDER BY detail_name;
+        """
+        cur.execute(query)
+        org_index = cur.fetchall()
+        org_list = list(org_index)
+        org_count = len(org_list)
+
+    return JsonResponse({'result':org_list, 'count':org_count})
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests
