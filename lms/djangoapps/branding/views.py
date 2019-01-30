@@ -402,6 +402,7 @@ def decrypt(key, _iv, enc):
 @csrf_exempt
 @ensure_csrf_cookie
 def multisite_index(request, org, msearch=None):
+
     log.info("multisite index start!!!")
     print "debug"
     # sql inject
@@ -510,8 +511,12 @@ def multisite_index(request, org, msearch=None):
         if login_type == 'P':
             # 암호화 데이터 복호화 로직
 
-            if request.GET.get('encStr'):
-                encStr = request.GET.get('encStr')
+            if request.GET.get('encStr') or request.POST.get('encStr'):
+
+                if request.GET.get('encStr'):
+                    encStr = request.GET.get('encStr')
+                elif request.POST.get('encStr'):
+                    encStr = request.POST.get('encStr')
 
                 log.info(encStr)
 
