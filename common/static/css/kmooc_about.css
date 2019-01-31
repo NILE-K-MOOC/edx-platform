@@ -387,6 +387,10 @@ html{font-size:16px !important;}
     background: none;
 }
 
+article.history {
+    overflow: unset;
+}
+
 @media (max-width: 1169px) {
     .k-int div{font-size:15px;}
 
