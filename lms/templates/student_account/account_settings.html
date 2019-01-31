@@ -24,7 +24,134 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
     </section>
 % endif
 
-<div class="wrapper-account-settings"></div>
+<style>
+  .survey-container {
+    border: solid 1px blue;
+    max-width: 1060px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  .wrapper-header{
+    border: solid 1px green;
+  }
+  .survey-title{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: rgb(74, 74, 74);
+  }
+  .survey-sub-title{
+    font-size: 0.875em;
+    margin-bottom: 35px;
+  }
+  .question-card{
+    background-color: #f1f1f1;
+    max-width: 800px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .question-head{
+    margin-bottom: 15px;
+  }
+  .question-body{
+    margin-left: 10px;
+  }
+  .question-answer{
+    margin-bottom: 5px;
+  }
+  .question-btn-box{
+    text-align: right;
+    max-width: 840px;
+  }
+</style>
+
+<div class="wrapper-account-settings" style="border: solid 1px red"></div>
+
+<div class="survey-container" style="display: none !important;">
+
+  <div class="survey-title">
+    추천설문
+  </div>
+  <div class="survey-sub-title">
+    강좌 추천을 위한 설문입니다.
+  </div>
+
+  <div class="question-card">
+    <div class="question-head">
+      1. 고객님은 최근 3개월 간 K-MOOC를 이용하면 어떤 종류의 강좌가 마음에 들었습니까?
+    </div>
+    <div class="question-body">
+      <input class="question-answer" type="radio" name="one" value="1"> 역사<br>
+      <input class="question-answer" type="radio" name="one" value="2"> 수학<br>
+      <input class="question-answer" type="radio" name="one" value="3"> 컴퓨터<br>
+      <input class="question-answer" type="radio" name="one" value="4"> 문학<br>
+      <input class="question-answer" type="radio" name="one" value="5"> 의료<br>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-head">
+      2. 고객님은 최근 3개월 간 K-MOOC를 이용하면서 자살충동을 느낀적이 있습니까?
+    </div>
+    <div class="question-body">
+      <input class="question-answer" type="radio" name="two" value="1"> 많이 있다<br>
+      <input class="question-answer" type="radio" name="two" value="2"> 가끔 있다<br>
+      <input class="question-answer" type="radio" name="two" value="3"> 보통<br>
+      <input class="question-answer" type="radio" name="two" value="4"> 적게 있다<br>
+      <input class="question-answer" type="radio" name="two" value="5"> 없다<br>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-head">
+      3. K-MOOC를 이용하면서 우울증 및 몸이 부셔지는 기분을 느낀적이 있습니까?
+    </div>
+    <div class="question-body">
+      <input class="question-answer" type="radio" name="three" value="1"> 많이 있다<br>
+      <input class="question-answer" type="radio" name="three" value="2"> 가끔 있다<br>
+      <input class="question-answer" type="radio" name="three" value="3"> 보통<br>
+      <input class="question-answer" type="radio" name="three" value="4"> 적게 있다<br>
+      <input class="question-answer" type="radio" name="three" value="5"> 없다<br>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-head">
+      4. K-MOOC 서비스의 강좌의 품질이 굉장히 낮다고 생각합니까?
+    </div>
+    <div class="question-body">
+      <input class="question-answer" type="radio" name="four" value="1"> 많이 있다<br>
+      <input class="question-answer" type="radio" name="four" value="2"> 가끔 있다<br>
+      <input class="question-answer" type="radio" name="four" value="3"> 보통<br>
+      <input class="question-answer" type="radio" name="four" value="4"> 적게 있다<br>
+      <input class="question-answer" type="radio" name="four" value="5"> 없다<br>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-head">
+      5. K-MOOC를 들으면 기분이 좋아지고 날아갈 것 같은 기분을 느낀적이 있습니까??
+    </div>
+    <div class="question-body">
+      <input class="question-answer" type="radio" name="five" value="1"> 많이 있다<br>
+      <input class="question-answer" type="radio" name="five" value="2"> 가끔 있다<br>
+      <input class="question-answer" type="radio" name="five" value="3"> 보통<br>
+      <input class="question-answer" type="radio" name="five" value="4"> 적게 있다<br>
+      <input class="question-answer" type="radio" name="five" value="5"> 없다<br>
+    </div>
+  </div>
+
+  <div class="question-btn-box">
+    <button>설문 제출</button>
+  </div>
+
+
+
+</div>
 
 <%block name="headextra">
     <%static:css group='style-course'/>
