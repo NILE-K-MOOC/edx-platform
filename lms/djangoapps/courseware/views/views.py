@@ -2348,20 +2348,21 @@ def schools(request):
         with connections['default'].cursor() as cur:
             lang = request.LANGUAGE_CODE
             col = 'ifnull(org_intro, ""), b.detail_name,' if lang == 'ko-kr' else 'ifnull(org_intro_e, ""), b.detail_ename,'
-            q_where = 'a.logo_img' if lang == 'ko-kr' else 'a.logo_img_e'
+            q_where = 'logo_img' if lang == 'ko-kr' else 'logo_img_e'
             query = '''
                 SELECT org_id,
                        {col}
                        start_year,
-                       ifnull(concat(c.attach_file_path, attach_org_name), '') logo_path
+                       ifnull(c.save_path, '') logo_path
                   FROM tb_org a
                        JOIN code_detail b on a.org_id = b.detail_code and group_code = '003'
-                       LEFT JOIN tb_board_attach c ON {q_where} = c.attatch_id
-                 WHERE a.delete_yn = false AND c.del_yn = 'N' AND end_year = '9999'
+                       LEFT JOIN tb_attach c ON a.{q_where} = c.id AND c.group_name = '{q_where}'
+                 WHERE a.delete_yn = false AND c.use_yn = true AND end_year = '9999'
                     AND a.use_yn = true
                  ORDER BY start_year;
             '''.format(col=col, q_where=q_where)
 
+            print query
             cur.execute(query)
             org_data = cur.fetchall()
 
@@ -2397,25 +2398,39 @@ def haewoondaex(request, org):
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', False)
 
     with connections['default'].cursor() as cur:
-        lang_subtitle = 'intro_subtitle,' if lang == 'ko-kr' else 'intro_subtitle_e,'
-        lang_on = 'a.top_img' if lang == 'ko-kr' else 'a.top_img_e'
+        lang_subtitle = 'intro_subtitle' if lang == 'ko-kr' else 'intro_subtitle_e'
+        lang_top = 'top_img' if lang == 'ko-kr' else 'top_img_e'
         lang_org_name = 'c.detail_name' if lang == 'ko-kr' else 'c.detail_ename'
         query = '''
             SELECT org_id,
-                   ifnull(concat(b.attach_file_path, attach_org_name), '') top_img,
-                   ifnull({lang_subtitle} {lang_org_name}),
+                   ifnull(b.save_path, '') top_img,
+                   ifnull(d.save_path, '') intro_subtitle,
                    homepage,
                    youtube,
                    facebook,
                    kakaostory,
                    naverblog,
                    instagram,
+                   intro_mov,
                    {lang_org_name}
-              FROM tb_org a LEFT JOIN tb_board_attach b ON {lang_on} = b.attatch_id
-              JOIN code_detail c ON a.org_id = c.detail_code AND group_code = '003'
+              FROM tb_org a
+                   LEFT JOIN
+                   (SELECT id, save_path
+                      FROM tb_attach
+                     WHERE use_yn = TRUE AND group_name = '{lang_top}' AND group_id = '{org}') b
+                      ON a.top_img = b.id
+                   LEFT JOIN
+                   (SELECT id, save_path
+                      FROM tb_attach
+                     WHERE     use_yn = TRUE
+                           AND group_name = '{lang_subtitle}'
+                           AND group_id = '{org}') d
+                      ON a.intro_subtitle = d.id
+                   JOIN code_detail c ON a.org_id = c.detail_code AND group_code = '003'
              WHERE org_id = '{org}' AND a.delete_yn = FALSE AND a.use_yn = TRUE;
-        '''.format(lang_subtitle=lang_subtitle, lang_org_name=lang_org_name, lang_on=lang_on, org=org)
+        '''.format(lang_subtitle=lang_subtitle, lang_org_name=lang_org_name, lang_top=lang_top, org=org)
 
+        print query
         cur.execute(query)
         org_data = cur.fetchone()
 
@@ -2429,7 +2444,8 @@ def haewoondaex(request, org):
         org_dict['kakaostory'] = org_data[6]
         org_dict['naverblog'] = org_data[7]
         org_dict['instagram'] = org_data[8]
-        org_dict['org_name'] = org_data[9]
+        org_dict['intro_mov'] = org_data[9]
+        org_dict['org_name'] = org_data[10]
 
     return render_to_response(
         "courseware/univ_intro_base.html",
