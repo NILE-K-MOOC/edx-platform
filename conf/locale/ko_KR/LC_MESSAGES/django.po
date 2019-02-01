@@ -20246,7 +20246,7 @@ msgstr "내 프로필"
 #: openedx/features/learner_profile/templates/learner_profile/learner_profile.html
 msgid ""
 "Build out your profile to personalize your identity on {platform_name}."
-msgstr "프로필을 만들어서 {course_mode}의 신분을 개인화하세요"
+msgstr "프로필을 만들어서 {platform_name}의 신분을 개인화하세요"
 
 #: openedx/features/learner_profile/templates/learner_profile/learner_profile.html
 msgid "An error occurred. Try loading the page again."
@@ -20612,7 +20612,7 @@ msgid ""
 "To view a sample certificate, choose a course mode and select "
 "{em_start}Preview Certificate{em_end}."
 msgstr ""
-"예제 이수증을 조회하기 위해 강좌 모드를 선택하고 {em_start}Preview Certificate{em_end} 를 클릭하면 "
+"예제 이수증을 조회하기 위해 강좌 모드를 선택하고 {em_start}이수증 미리보기{em_end} 를 클릭하면 "
 "됩니다."
 
 #: cms/templates/certificates.html
@@ -20634,7 +20634,7 @@ msgid ""
 "learners who have already earned certificates will no longer be able to "
 "access them."
 msgstr ""
-"{em_start}Do not{em_end} 강좌 개강 후 이수증을 삭제하지 마세요; 이미 이수증을 발급받은 학습자가 더이상 이수증을 "
+"{em_start}{em_end} 강좌 개강 후 이수증을 삭제하지 마세요; 이미 이수증을 발급받은 학습자가 더이상 이수증을 "
 "조회할 수 없게 됩니다."
 
 #: cms/templates/certificates.html
@@ -27354,3 +27354,17 @@ msgstr "현재"
 msgid "Are you sure you want to unenroll from %(course_number)s?"
 msgstr "%(course_number)s 수강을 취소하시겠습니까?"
 
+#: lms/templates/student_account/agree.html
+msgid "Confirm"
+msgstr "확인"
+
+#: cms/templates/course_outline.html
+msgid "Course Pacing:"
+msgstr "강좌 속도:"
+
+#: cms/templates/index.html
+msgid "Re-run Course"
+msgstr "강좌 다시 시작하기"
+
+msgid "Unscheduled"
+msgstr "지정되지 않음"
