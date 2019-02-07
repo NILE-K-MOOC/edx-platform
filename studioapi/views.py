@@ -480,6 +480,14 @@ class CreateCourseView(DeveloperErrorViewMixin, CreateAPIView):
         except BaseException:
             has_course_key = None
 
+        log.info("############# -> course_key_string")
+        log.info(course_key_string)
+        log.info("#############")
+
+        log.info("############# -> has_course_key_string")
+        log.info(has_course_key_string)
+        log.info("#############")
+
         #DB check (new)
         course_module = get_course_and_check_access(course_key, user_data)
 
@@ -491,10 +499,12 @@ class CreateCourseView(DeveloperErrorViewMixin, CreateAPIView):
 
         if(course_module != None):
             ### Course PASS OK ###
+            log.info("############# -> 1")
             return Response({"result": "ok"})
 
         else:
             if (has_course_module != None):
+                log.info("############# -> 2")
                 # copy
                 src_course_key = CourseKey.from_string(has_course_key_string)
                 des_course_key = CourseKey.from_string(course_key_string)
@@ -525,6 +535,7 @@ class CreateCourseView(DeveloperErrorViewMixin, CreateAPIView):
                 return Response({"result": "ok"})
             else:
                 #non copy
+                log.info("############# -> 3")
                 test = datetime(2030, 1, 1, 00, 00, 00)
                 fields = {'start': test}
                 fields['display_name'] = display_name
