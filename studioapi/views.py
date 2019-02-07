@@ -591,6 +591,7 @@ class RerunCourseView(DeveloperErrorViewMixin, CreateAPIView):
     serializer_class = RerunCourseSerializer
 
     def create(self, request):
+        log.info("############### -> RerunCourseView")
 
         ###### REQUEST POST DATA #####
         src_course_key_string = request.POST.get('id')
