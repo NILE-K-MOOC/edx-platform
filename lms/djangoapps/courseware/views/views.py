@@ -135,7 +135,8 @@ AUDIT_PASSING_CERT_DATA = CertData(
 HONOR_PASSING_CERT_DATA = CertData(
     CertificateStatuses.honor_passing,
     _('Your enrollment: Honor track'),
-    _('You are enrolled in the honor track for this course. The honor track does not include a certificate.'),
+    # _('You are enrolled in the honor track for this course. The honor track does not include a certificate.'),
+    _(''),
     download_url=None,
     cert_web_view_url=None
 )
