@@ -235,38 +235,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, m
     elif status == 'interest':
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     elif status == 'propose':
-        enrollment_rows = CourseEnrollment.enrollments_for_user_propose_score_pick(user)
-
-        # init list
-        where_display_number = []  # 운영기본번호 dict.
-        where_org = []  # org 코드
-        propose_course_list = []
-
-        for enrollment_row in enrollment_rows:
-            print enrollment_row
-
-            # I'll get middle_classfy data from mongodb
-            where_display_number.append(enrollment_row[3])  # 운영기본번호
-            where_org.append(enrollment_row[4])  # org 코드
-            propose_course_list.append(enrollment_row[0])  # 강좌아이디
-
-        print "-----------------------> s"
-        print "propose_course_list = ", propose_course_list
-        print "len(propose_course_list) = ", len(propose_course_list)
-        print "-----------------------> e"
-
-        n = 0
-        for i in propose_course_list:
-            if n == 0:
-                course_ids = '\'' + i + '\''
-            else:
-                course_ids = course_ids + ',\'' + i + '\''
-            n = n + 1
-
-        if len(propose_course_list) == 0:
-            course_ids = "''"  # <--- null except
-
-        enrollments = CourseEnrollment.enrollments_for_user_propose(course_ids)
+        enrollments = CourseEnrollment.enrollments_for_user_propose(user)
     else:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
 
@@ -704,7 +673,7 @@ def student_dashboard(request):
     # If so, display a notification message confirming the enrollment.
     enrollment_message = _create_recent_enrollment_message(
         course_enrollments, course_modes_by_course
-    )
+    ) if status and status == 'propose' else None
     course_optouts = Optout.objects.filter(user=user).values_list('course_id', flat=True)
 
     course_type1 = []
@@ -1052,6 +1021,7 @@ def student_dashboard(request):
         'display_sidebar_account_activation_message': not (user.is_active or hide_dashboard_courses_until_activated),
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
+        'status_flag': status
     }
 
     if ecommerce_service.is_enabled(request.user):

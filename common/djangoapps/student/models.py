@@ -1778,6 +1778,29 @@ class CourseEnrollment(models.Model):
                        WHERE a.rank = 1
                     ORDER BY a.start DESC;
             ''', [user.id])
+
+    @classmethod
+    def enrollments_for_user_propose(cls, user):
+        return cls.objects.raw('''
+            SELECT a.*, c.created, 'true' is_active, 'honor' mode
+              FROM course_overviews_courseoverview a
+                   JOIN course_overview_addinfo b ON a.id = b.course_id
+                   LEFT JOIN student_courseenrollment c
+                        ON a.id = c.course_id AND c.user_id = {user_id}
+                   JOIN
+                   (  SELECT max(start) AS max_start, m1.org, display_number_with_default
+                        FROM course_overviews_courseoverview m1
+                    GROUP BY m1.org, m1.display_number_with_default) max
+                      ON     a.org = max.org
+                         AND a.display_number_with_default =
+                             max.display_number_with_default
+                         AND a.start = max.max_start
+             WHERE (a.org, a.display_number_with_default) IN
+                      (SELECT org, display_number_with_default
+                         FROM tb_recommend_course
+                        WHERE user_id = {user_id});
+                '''.format(user_id=user.id))
+
     @classmethod
     def enrollments_for_user_with_overviews_preload(cls, user):  # pylint: disable=invalid-name
         """

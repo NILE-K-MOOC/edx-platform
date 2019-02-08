@@ -47,12 +47,12 @@ from student.models import CourseEnrollment
     }
 
     .sub-end {
-        margin: 10px 0 10px 300px;
+        margin: 10px 0 10px 235px;
         display: none;
     }
 
     .sub-interest {
-        margin: 10px 0 10px 450px;
+        margin: 10px 0 10px 325px;
         display: none;
     }
 
@@ -258,35 +258,36 @@ from student.models import CourseEnrollment
 
                 <nav class="faq-tab">
                     % if 'status' in request.session:
-                        <a href="#" class="on" data-status="ing" title="진행중">${_("ing course")}
+                        <a href="#" class="on dash-link" data-status="ing" title="진행중">${_("ing course")}
                           <h2 class="hidden_head">${_("ing course")}</h2>
                             <div class="progress"></div>
                         </a>
                     % else:
-                        <a href="#" class="on" data-status="ing" title="진행중">${_("ing course")}
+                        <a href="#" class="on dash-link" data-status="ing" title="진행중">${_("ing course")}
                           <h2 class="hidden_head">${_("ing course")}</h2>
                             <div class="progress"></div>
                         </a>
-                        <a href="#" data-status="audit" title="청강강좌">${_("Audit Course")}
+                        <a href="#" data-status="audit" class="dash-link" title="청강강좌">${_("Audit Course")}
                           <h2 class="hidden_head">${_("Audit Course")}</h2>
                             <div class="progress"></div>
                         </a>
                     % endif
 
-                    <a href="#" data-status="end" title="완료" style="font-size: 14px;">${_("complete/end Course")}
+                    <a href="#" data-status="end" class="dash-link" title="완료">${_("complete/end Course")}
                       <h2 class="hidden_head">${_("complete/end Course")}</h2>
                         <div class="progress"></div>
                     </a>
 
-                    <a href="#" data-status="interest" title="관심강좌">${_("interest")}
+                    <a href="#" data-status="interest" class="dash-link" title="관심강좌">${_("interest")}
                       <h2 class="hidden_head">${_("interest")}</h2>
                         <div class="progress"></div>
                     </a>
-                    <!--
-                    <a href="#" data-status="propose" title="추천강좌">${_("propose(Beta)")}
+
+                    <a href="#" data-status="propose" class="dash-link" title="추천강좌">${_("propose(Beta)")}
+                      <h2 class="hidden_head">${_("propose(Beta)")}</h2>
                         <div class="progress"></div>
                     </a>
-                    -->
+
                 </nav>
 
                 <div class="sub-end">
@@ -317,9 +318,9 @@ from student.models import CourseEnrollment
             </div>
 
             <div id="courses_target">
-          % if display_dashboard_courses:
-          <%include file="learner_dashboard/_dashboard_navigation_courses.html"/>
-          % endif
+          ##% if display_dashboard_courses:
+          ##<%include file="learner_dashboard/_dashboard_navigation_courses.html"/>
+          ##% endif
 
           % if len(course_entitlements + course_enrollments) > 0:
             <ul class="listing-courses">
