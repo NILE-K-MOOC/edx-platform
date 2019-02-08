@@ -24,9 +24,14 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
     </section>
 % endif
 
+<script>
+function submit_survey(){
+    alert('설문에 참여해주셔서 감사합니다 ^_^');
+}
+</script>
+
 <style>
   .survey-container {
-    border: solid 1px blue;
     max-width: 1060px;
     margin-left: auto;
     margin-right: auto;
@@ -34,9 +39,6 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
     padding-right: 60px;
     padding-top: 50px;
     padding-bottom: 50px;
-  }
-  .wrapper-header{
-    border: solid 1px green;
   }
   .survey-title{
     font-size: 18px;
@@ -69,7 +71,7 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
   }
 </style>
 
-<div class="wrapper-account-settings" style="border: solid 1px red"></div>
+<div class="wrapper-account-settings"></div>
 
 <div class="survey-container" style="display: none !important;">
 
@@ -95,7 +97,7 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
 
   <div class="question-card">
     <div class="question-head">
-      2. 고객님은 최근 3개월 간 K-MOOC를 이용하면서 자살충동을 느낀적이 있습니까?
+      2. 고객님은 최근 3개월 간 K-MOOC를 이용하면 어떤 종류의 강좌가 마음에 들었습니까?
     </div>
     <div class="question-body">
       <input class="question-answer" type="radio" name="two" value="1"> 많이 있다<br>
@@ -108,7 +110,7 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
 
   <div class="question-card">
     <div class="question-head">
-      3. K-MOOC를 이용하면서 우울증 및 몸이 부셔지는 기분을 느낀적이 있습니까?
+      3. 고객님은 최근 3개월 간 K-MOOC를 이용하면 어떤 종류의 강좌가 마음에 들었습니까?
     </div>
     <div class="question-body">
       <input class="question-answer" type="radio" name="three" value="1"> 많이 있다<br>
@@ -121,7 +123,7 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
 
   <div class="question-card">
     <div class="question-head">
-      4. K-MOOC 서비스의 강좌의 품질이 굉장히 낮다고 생각합니까?
+      4. 고객님은 최근 3개월 간 K-MOOC를 이용하면 어떤 종류의 강좌가 마음에 들었습니까?
     </div>
     <div class="question-body">
       <input class="question-answer" type="radio" name="four" value="1"> 많이 있다<br>
@@ -134,7 +136,7 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
 
   <div class="question-card">
     <div class="question-head">
-      5. K-MOOC를 들으면 기분이 좋아지고 날아갈 것 같은 기분을 느낀적이 있습니까??
+      5. 고객님은 최근 3개월 간 K-MOOC를 이용하면 어떤 종류의 강좌가 마음에 들었습니까?
     </div>
     <div class="question-body">
       <input class="question-answer" type="radio" name="five" value="1"> 많이 있다<br>
@@ -146,7 +148,7 @@ from webpack_loader.templatetags.webpack_loader import render_bundle
   </div>
 
   <div class="question-btn-box">
-    <button>설문 제출</button>
+    <button onclick="submit_survey()">설문 제출</button>
   </div>
 
 
