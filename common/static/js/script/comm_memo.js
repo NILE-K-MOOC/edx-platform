@@ -99,6 +99,12 @@ function search(page_no) {
                 else if(data[i].memo_gubun == '4') {
                     gubun = '게시판팔로우';
                 }
+                else if(data[i].memo_gubun == '5') {
+                    gubun = '청강신규개설';
+                }
+                else if(data[i].memo_gubun == '6') {
+                    gubun = '과제제출';
+                }
                 var memo_link = '#';
 
                 html += "<li class='tbody'>";

@@ -1919,12 +1919,101 @@ def course_difficult_degree(request, course_key_string):
         cur.close()
     return difficult_degree
 
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+# 아래의 함수는 외부로 노출되면 인증없이 강좌 수정하는 취약점이 발생합니다
+# 절대로 외부에 노출되게 사용하지 마세요 ^_^
+# 외부로 노출되어 취약점이 발생할 경우 책임은 본인에게 있습니다
+@csrf_exempt
+def api_advanced_settings_handler(request, course_key_string):
+
+    master = User.objects.get(email='staff@example.com')
+
+    course_key = CourseKey.from_string(course_key_string)
+    with modulestore().bulk_operations(course_key):
+        course_module = get_course_and_check_access(course_key, master)
+        try:
+            params = {
+
+                "audit_yn": {
+                    u'deprecated': False,
+                    u'display_name': u'\uccad\uac15\ud5c8\uc6a9 \uc5ec\ubd80',
+                    u'help': u'Y\ub610\ub294 N\uc744 \uc785\ub825\ud569\ub2c8\ub2e4. Y\ub97c \uc785\ub825\ud560 \uacbd\uc6b0, \uac15\uc88c\uac00 \uc885\ub8cc\ub41c \uc774\ud6c4\uc5d0\ub3c4 \uccad\uac15\uc2e0\uccad\uc744 \ud558\uc2e4 \uc218 \uc788\uc2b5\ub2c8\ub2e4.',
+                    u'value': u'N'
+                },
+                "catalog_visibility": {
+                    u'deprecated': False,
+                    u'display_name': u'\uac15\uc88c \ubaa9\ub85d\uc5d0\uc11c \uac15\uc88c \ubcf4\uc774\uac8c \ud558\uae30',
+                    u'help': u"\uac15\uc88c \ubaa9\ub85d\uc5d0\uc11c \uac15\uc88c\ub97c \ubcf4\uc774\uac8c \ud560 \uc218 \uc788\ub294 \uad8c\ud55c\uc744 \uc124\uc815\ud569\ub2c8\ub2e4. \ub2e4\uc74c \uc138 \uac00\uc9c0 \uc911 \ud558\ub098\ub97c \uc120\ud0dd\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4. 'both'(\ubaa9\ub85d\uc5d0\uc11c \ubcf4\uc774\uba70 \uac15\uc88c \uc0c1\uc138 \uc815\ubcf4\uc5d0\ub3c4 \uc811\uadfc \uac00\ub2a5 ), 'about'(\uac15\uc88c \uc0c1\uc138 \uc815\ubcf4\ub85c\ub9cc \uc811\uadfc \uac00\ub2a5), 'none'(\ubaa9\ub85d \ubc0f \uac15\uc88c \uc0c1\uc138 \uc815\ubcf4 \ubaa8\ub450 \uc811\uadfc \ubd88\uac00).",
+                    u'value': u'about'
+                 }
+            }
+
+            is_valid, errors, updated_data = CourseMetadata.validate_and_update_from_json(
+                course_module,
+                params,
+                user=master,
+            )
+
+            if 'audit_yn' in params:
+                try:
+                    audit_yn = params['audit_yn']['value']
+                    audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
+                    with connections['default'].cursor() as cur:
+                        query = """
+                            UPDATE course_overview_addinfo
+                               SET audit_yn = '{audit_yn}'
+                             WHERE course_id = '{course_id}';
+                        """.format(audit_yn=audit_yn, course_id=course_key_string)
+                        cur.execute(query)
+                except Exception as e:
+                    is_valid = False
+                    errors.append({'message': 'audit_yn value is not collect', 'model': None})
+                    print e
+
+            if is_valid:
+                try:
+                    # update the course tabs if required by any setting changes
+                    _refresh_course_tabs(request, course_module)
+                except InvalidTabsException as err:
+                    log.exception(err.message)
+                    response_message = [
+                        {
+                            'message': _('An error occurred while trying to save your tabs'),
+                            'model': {'display_name': _('Tabs Exception')}
+                        }
+                    ]
+                    return JsonResponseBadRequest(response_message)
+
+                # now update mongo
+                modulestore().update_item(course_module, master.id)
+
+                return JsonResponse(updated_data)
+            else:
+                return JsonResponseBadRequest(errors)
+
+        # Handle all errors that validation doesn't catch
+        except (TypeError, ValueError, InvalidTabsException) as err:
+            return HttpResponseBadRequest(
+                django.utils.html.escape(err.message),
+                content_type="text/plain"
+            )
+
 
 @login_required
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT"))
 @expect_json
 def advanced_settings_handler(request, course_key_string):
+
+    # 안녕하세요 advanced_settings_handler 함수를 수정하려는 용사님!
+    # 용사님에게 수정하실 때 주의할 사항이 있습니다.
+    # 그것은 바로...
+
+    # 이거 수정하실 때 위에 있는 api_advanced_settings_handler 함수도 같이 수정해주세요
+    # 이거 수정하실 때 위에 있는 api_advanced_settings_handler 함수도 같이 수정해주세요
+    # 이거 수정하실 때 위에 있는 api_advanced_settings_handler 함수도 같이 수정해주세요
+
     """
     Course settings configuration
     GET
