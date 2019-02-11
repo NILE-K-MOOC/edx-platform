@@ -1782,7 +1782,7 @@ class CourseEnrollment(models.Model):
     @classmethod
     def enrollments_for_user_propose(cls, user):
         return cls.objects.raw('''
-            SELECT a.*, c.created, 'true' is_active, 'honor' mode
+            SELECT a.*, b.course_id course_id, c.created, 'true' is_active, 'honor' mode
               FROM course_overviews_courseoverview a
                    JOIN course_overview_addinfo b ON a.id = b.course_id
                    LEFT JOIN student_courseenrollment c

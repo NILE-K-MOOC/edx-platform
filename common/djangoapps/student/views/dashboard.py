@@ -673,7 +673,7 @@ def student_dashboard(request):
     # If so, display a notification message confirming the enrollment.
     enrollment_message = _create_recent_enrollment_message(
         course_enrollments, course_modes_by_course
-    ) if status and status == 'propose' else None
+    )
     course_optouts = Optout.objects.filter(user=user).values_list('course_id', flat=True)
 
     course_type1 = []
