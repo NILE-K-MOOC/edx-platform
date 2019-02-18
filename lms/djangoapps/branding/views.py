@@ -26,6 +26,37 @@ from django.db import connections
 
 log = logging.getLogger(__name__)
 
+
+def get_multisite_list(request):
+
+    user_id = request.POST.get('user_id')
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            SELECT site_code, org_user_id
+            FROM multisite_member AS a
+            JOIN multisite AS b
+            ON a.site_id = b.site_id
+            WHERE user_id = {user_id}
+        '''.format(user_id = user_id)
+
+        print sql
+
+        cur.execute(sql)
+        rows = cur.fetchall()
+
+    if len(rows) == 0:
+        return JsonResponse({'return':'zero'})
+
+    print "------------------------> hello s"
+    print "user_id = ", user_id
+    print "------------------------> hello e"
+
+    return JsonResponse({'return':rows})
+
+    return JsonResponse({'':''})
+
+
 def get_org_list(request):
 
     with connections['default'].cursor() as cur:
@@ -42,6 +73,27 @@ def get_org_list(request):
         org_count = len(org_list)
 
     return JsonResponse({'result':org_list, 'count':org_count})
+
+
+def delete_multisite_account(request):
+
+    user_id = request.POST.get('user_id')
+    org = request.POST.get('org')
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            delete a
+            from multisite_member as a
+            join multisite as b
+            on a.site_id = b.site_id
+            where b.site_code = '{org}' and a.user_id = '{user_id}'
+        '''.format(org = org, user_id = user_id)
+
+        print sql
+
+        cur.execute(sql)
+
+    return JsonResponse({'return':'success'})
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests

@@ -79,6 +79,20 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: di
 # enroll status changed events - signaled to email_marketing.  See email_marketing.tasks for more info
 
 
+class TbAuthUserAddinfo(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+    private_info_use_yn = models.IntegerField(blank=True, null=True)
+    event_join_yn = models.IntegerField(blank=True, null=True)
+    org_id = models.CharField(max_length=20, blank=True, null=True)
+    org_set_date = models.DateTimeField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+    modify_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_auth_user_addinfo'
+
+
 # ENROLL signal used for free enrollment only
 class EnrollStatusChange(object):
     """

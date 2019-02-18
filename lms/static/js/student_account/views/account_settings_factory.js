@@ -128,6 +128,23 @@
                 };
             }
 
+            var org_list = function () {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    'type': "GET",
+                    'global': false,
+                    'url': "/api/get_org_list",
+                    'data': {},
+                    'success': function (data) {
+                        tmp = data.result;
+                    }
+                });
+                return tmp;
+            }();
+
+            console.log(org_list);
+
             aboutSectionsData = [
                 {
                     title: gettext('Basic Account Information'),
@@ -245,6 +262,15 @@
                                 title: gettext('Preferred Language'),
                                 valueAttribute: 'language_proficiencies',
                                 options: fieldsData.preferred_language.options,
+                                persistChanges: true
+                            })
+                        },
+                        {
+                            view: new AccountSettingsFieldViews.DropdownFieldView({
+                                model: userAccountModel,
+                                title: gettext('organization'),
+                                valueAttribute: 'organization',
+                                options: org_list,
                                 persistChanges: true
                             })
                         }

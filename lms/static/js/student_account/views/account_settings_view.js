@@ -30,6 +30,14 @@
                     tabindex: -1,
                     selected: false,
                     expanded: false
+                },
+                {
+                    name: 'aaa',
+                    id: 'aaa',
+                    label: gettext('Survey'),
+                    tabindex: -2,
+                    selected: false,
+                    expanded: false
                 }
             ],
             events: {
