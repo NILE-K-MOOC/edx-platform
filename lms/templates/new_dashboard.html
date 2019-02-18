@@ -1,0 +1,203 @@
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+
+<%!
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+import third_party_auth
+from third_party_auth import provider, pipeline
+%>
+
+<%block name="pagetitle">${_("Log into your {platform_name} Account").format(platform_name=platform_name)}</%block>
+
+<%block name="bodyclass">view-login</%block>
+
+<%block name="js_extra">
+<script>
+  console.log('hello');
+</script>
+</%block>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<style>
+.all-container{
+  padding: 40px;
+}
+.package-title{
+  font-size: 18px;
+  line-height: 26.64px;
+  margin-bottom: 20px;
+}
+.package-content{
+}
+.package-course-card{
+  margin-bottom: 40px;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 6px 0px, rgba(0, 0, 0, 0.15) 0px 4px 4px 0px;
+}
+.package-course-img-container{
+
+}
+.package-course-img{
+  width: 290px;
+  height: 165px;
+}
+.package-course-content{
+  flex: 1;
+  padding: 18px;
+}
+.package-course-side-button{
+}
+.pc-title{
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.pc-org{
+  margin-bottom: 3px;
+  margin-bottom: 18px;
+}
+.pc-cert{
+  margin-bottom: 3px;
+}
+.pc-ing{
+  margin-bottom: 3px;
+}
+.pc-noing{
+  margin-bottom: 3px;
+}
+.fa-university{
+  margin-right: 5px;
+}
+.fa-check{
+  font-size: 5px;
+  margin-right: 5px;
+}
+.package-btn-cert{
+  color: #0b006d;
+  border: solid 1px #0b006d;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 20px;
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.package-btn-cancel{
+  color: #0b006d;
+  border: solid 1px #0b006d;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-right: 20px;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.package-btn-cert:hover{
+  background-color: #0b006d;
+  color: #ffffff;
+}
+.package-btn-cancel:hover{
+  background-color: #0b006d;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 850px) {
+  .package-course-card {
+    display: block;
+    padding: 10px;
+  }
+  .package-course-img-container{
+    text-align: center;
+  }
+  .pc-title{
+    text-align: center;
+  }
+  .pc-org{
+    text-align: center;
+  }
+  .pc-cert{
+    text-align: center;
+  }
+  .pc-ing{
+    text-align: center;
+  }
+  .pc-noing{
+    text-align: center;
+  }
+  .package-btn-cancel{
+    margin-top: 0px;
+    margin-right: 0px;
+  }
+  .package-btn-cert{
+    margin-right: 0px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .pc-title{
+    font-size: 15px;
+  }
+  .pc-org{
+    font-size: 14px;
+  }
+  .package-course-img {
+    width: 260px;
+  }
+}
+</style>
+
+<div class='all-container'>
+  <div class="package-title">
+    묶음강좌
+  </div>
+  <div class="package-content">
+
+    % for n in range(0, 3):
+    <div class="package-course-card">
+
+      <div class="package-course-img-container">
+        <img class="package-course-img" src="http://www.kmooc.kr/asset-v1:KHUk+KH401+2019_T1_1+type@asset+block@main_2019_1_KH401.jpg">
+      </div>
+
+      <div class="package-course-content">
+        <div class="pc-title">
+          데이터베이스 전문가 시리즈 교육
+        </div>
+
+        <div class="pc-org">
+          <i class="fas fa-university"></i>대표기관 : 국가평생교육진흥원
+        </div>
+
+        <div class="pc-cert">
+          <i class="fas fa-check"></i>이수강좌수 : 1
+        </div>
+
+        <div class="pc-ing">
+          <i class="fas fa-check"></i>진행강좌수 : 2
+        </div>
+
+        <div class="pc-noing">
+          <i class="fas fa-check"></i>잔여강좌수 : 3
+        </div>
+      </div>
+
+      <div class="package-course-side-button">
+        <div class="package-btn-cancel">
+          취소
+        </div>
+        <div class="package-btn-cert">
+          이수증
+        </div>
+      </div>
+    </div>
+    % endfor
+
+
+  </div>
+</div>

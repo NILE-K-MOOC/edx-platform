@@ -27,6 +27,11 @@ from django.db import connections
 log = logging.getLogger(__name__)
 
 
+def new_dashboard(request):
+
+    context = {}
+    return render_to_response("new_dashboard.html", context)
+
 def get_multisite_list(request):
 
     user_id = request.POST.get('user_id')
