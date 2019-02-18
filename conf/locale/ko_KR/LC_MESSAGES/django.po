@@ -30501,3 +30501,18 @@ msgstr "강좌 내용의 어려운 수준을 선택하세요."
 
 msgid "National Institute for Lifelong Education"
 msgstr "국가평생교육진흥원"
+
+#: lms/templates/community/series_view.html
+msgid "Series course enrollment"
+msgstr "묶음강좌 수강 신청"
+
+#: lms/templates/community/series_view.html
+msgid "Series course unenrollment"
+msgstr "묶음강좌 수강 취소"
+
+#: lms/templates/community/series_view.html
+msgid "Series course complete"
+msgstr "묶음강좌를 이수하였습니다."
+
+
+

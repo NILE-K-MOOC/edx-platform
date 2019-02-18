@@ -127,6 +127,18 @@
     line-height: 19px !important;
 }
 
+.btn-series {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.series-disabled, .series-disabled:disabled {
+    box-shadow: none;
+    color: #575555;
+    font-weight: 100;
+}
+
 @media screen and (max-width: 1170px) and (min-width: 0px){
     .series_b_area span:last-child{width:100%;}
 

@@ -1,6 +1,6 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">묶음강좌</%block>
+<%block name="pagetitle">${_('Series Course')}</%block>
 <%inherit file="../main.html" />
 
 <%block name="header_extras"></%block>
@@ -146,6 +146,46 @@ function print(printArea)
 		win.close();
 }
 */
+
+function series_enroll(series_flag){
+    var series_id = '${id}';
+    if( series_flag == false ){
+        % if not user.is_authenticated():
+            //alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
+            alert('${_("You need to register to enrollment.")}');
+            location.href = "/login";
+        % else:
+            $.ajax({
+                url: 'enroll',
+                data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'enroll'},
+                dataType: 'json',
+                type: 'POST',
+            }).done(function(data){
+                if(data.msg == 'success'){
+                    alert('신청 완료');
+                    // location.href = '#';
+                } else {
+                    alert('오류가 발생하였습니다.');
+                }
+            });
+        %endif
+    } else {
+        alert(2);
+        $.ajax({
+                url: 'enroll',
+                data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'unenroll'},
+                dataType: 'json',
+                type: 'POST',
+            }).done(function(data){
+                if(data.msg == 'success'){
+                    location.reload();
+                } else {
+                    alert('오류가 발생하였습니다.');
+                }
+            });
+    }
+}
+
 function move(){
     var index = '${id}';
     var url = "/series_print/" + index;
@@ -171,8 +211,6 @@ function getDocHeight(doc) {
         html.clientHeight, html.scrollHeight, html.offsetHeight );
     return height;
 }
-
-
 
 $(document).ready(function(){
     $.ajax({
@@ -223,6 +261,15 @@ $(document).ready(function(){
                 <div class="section_a3">
                     <div class="r-list">
                         <table>
+                            <tr>
+                                <td colspan="2">
+                                    % if series_status['active'] != 'pass':
+                                    <button class="btn-brand btn-series" onclick="series_enroll(${series_status['active']})">${_(series_status['msg'])}</button>
+                                    % else:
+                                    <button class="btn-brand btn-series series-disabled" disabled>${_(series_status['msg'])}</button>
+                                    % endif
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <span class="siz">대표기관</span>
