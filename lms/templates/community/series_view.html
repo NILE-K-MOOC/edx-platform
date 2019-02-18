@@ -170,7 +170,6 @@ function series_enroll(series_flag){
             });
         %endif
     } else {
-        alert(2);
         $.ajax({
                 url: 'enroll',
                 data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'unenroll'},
