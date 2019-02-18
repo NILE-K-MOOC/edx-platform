@@ -14,7 +14,31 @@ from third_party_auth import provider, pipeline
 
 <%block name="js_extra">
 <script>
-  console.log('hello');
+  function package_cancel(id, e){
+    console.log('id -> ', id);
+
+    var r = confirm("해당 묶음강좌에 대해서 수강취소 하시겠습니까?");
+    if (r == true) {
+      $.post( "/api/series_cancel", {
+          id: id
+      })
+      .done(function( data ) {
+        if(data.result == 'success'){
+            $(e).parent().parent().hide();
+        }
+      });
+    } else {
+
+    }
+  }
+
+  function package_cert(id){
+    window.location.href = '/series_print/' + id;
+  }
+
+  function package_move(id){
+    window.location.href = '/series_view/' + id + '/about/';
+  }
 </script>
 </%block>
 
@@ -41,6 +65,11 @@ from third_party_auth import provider, pipeline
 .package-course-img{
   width: 290px;
   height: 165px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.package-course-img:hover{
+  opacity: 0.8;
 }
 .package-course-content{
   flex: 1;
@@ -52,6 +81,11 @@ from third_party_auth import provider, pipeline
   font-size: 20px;
   margin-bottom: 20px;
   font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.pc-title:hover{
+  color: #0b006d;
 }
 .pc-org{
   margin-bottom: 3px;
@@ -107,6 +141,12 @@ from third_party_auth import provider, pipeline
   background-color: #0b006d;
   color: #ffffff;
 }
+.package-null-info{
+    border: solid 1px #c9c9c9;
+    padding: 50px;
+    text-align: center;
+    border-radius: 5px;
+}
 
 @media screen and (max-width: 850px) {
   .package-course-card {
@@ -158,46 +198,50 @@ from third_party_auth import provider, pipeline
   </div>
   <div class="package-content">
 
-    % for n in range(0, 3):
+    % if len(packages) == 0:
+    <div class="package-null-info">
+      현재 신청된 묶음 강좌가 없습니다.
+    </div>
+    % endif
+
+    % for package in packages:
     <div class="package-course-card">
 
       <div class="package-course-img-container">
-        <img class="package-course-img" src="http://www.kmooc.kr/asset-v1:KHUk+KH401+2019_T1_1+type@asset+block@main_2019_1_KH401.jpg">
+        <img onclick="package_move(&#34;${package["series_id"]}&#34;)" class="package-course-img" src="http://www.kmooc.kr/asset-v1:KHUk+KH401+2019_T1_1+type@asset+block@main_2019_1_KH401.jpg">
       </div>
 
       <div class="package-course-content">
-        <div class="pc-title">
-          데이터베이스 전문가 시리즈 교육
+        <div onclick="package_move(&#34;${package["series_id"]}&#34;)" class="pc-title">
+          ${package['series_name']}
         </div>
 
         <div class="pc-org">
-          <i class="fas fa-university"></i>대표기관 : 국가평생교육진흥원
+          <i class="fas fa-university"></i>대표기관 : ${package['detail_name']}
         </div>
 
         <div class="pc-cert">
-          <i class="fas fa-check"></i>이수강좌수 : 1
+          <i class="fas fa-check"></i>이수강좌수 : ${package['is_cert']}
         </div>
 
         <div class="pc-ing">
-          <i class="fas fa-check"></i>진행강좌수 : 2
+          <i class="fas fa-check"></i>진행강좌수 : ${package['is_ing']}
         </div>
 
         <div class="pc-noing">
-          <i class="fas fa-check"></i>잔여강좌수 : 3
+          <i class="fas fa-check"></i>잔여강좌수 : ${package['is_noing']}
         </div>
       </div>
 
       <div class="package-course-side-button">
-        <div class="package-btn-cancel">
+        <div class="package-btn-cancel" onclick="package_cancel(&#34;${package["series_id"]}&#34, this)">
           취소
         </div>
-        <div class="package-btn-cert">
+        <div class="package-btn-cert" onclick="package_cert(&#34;${package["series_id"]}&#34)">
           이수증
         </div>
       </div>
     </div>
     % endfor
-
-
   </div>
 </div>

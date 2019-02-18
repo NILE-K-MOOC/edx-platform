@@ -23,13 +23,168 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
 from django.db import connections
+from django.views.decorators.csrf import csrf_exempt
 
 log = logging.getLogger(__name__)
 
 
+@csrf_exempt
+def series_cancel(request):
+
+    id = request.POST.get('id')
+    user_id = 10
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            update series_student
+            set delete_yn = 'Y'
+            where user_id = '{user_id}'
+            and series_seq in (
+                select series_seq
+                from series
+                where series_id = '{id}'
+            );
+        '''.format(user_id=user_id, id=id)
+
+        print sql
+        cur.execute(sql)
+
+    return JsonResponse({'result':'success'})
+
+
 def new_dashboard(request):
 
+    user_id = 10
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            select y.series_seq, y.series_id, y.series_name, y.save_path, y.detail_name
+            from series_student x
+            join (
+            select a.series_seq, a.series_id, a.series_name, b.save_path, c.detail_name
+            from series a
+            left join tb_attach b
+            on a.sumnail_file_id = id
+            join code_detail c
+            on a.org = c.detail_code
+            where c.group_code = '003'
+            ) y
+            on x.series_seq = y.series_seq
+            where x.user_id = '{user_id}'
+            and x.delete_yn = 'N';
+        '''.format(user_id=user_id)
+
+        print sql
+        cur.execute(sql)
+        temps = cur.fetchall()
+
+    packages = []
+    for temp in temps:
+        tmp_dict = {}
+        tmp_dict['series_seq'] = temp[0]
+        tmp_dict['series_id'] = temp[1]
+        tmp_dict['series_name'] = temp[2]
+        tmp_dict['save_path'] = temp[3]
+        tmp_dict['detail_name'] = temp[4]
+
+        with connections['default'].cursor() as cur:
+            sql1 = '''
+                select sum(result)
+                from (
+                select x.org, x.display_number_with_default, case when status is not null then sum(1) when status is null then sum(0) end as result
+                from (
+                select org, display_number_with_default
+                from series_course
+                where series_seq = '{series_seq}'
+                ) x
+                left join (
+                select a.org, a.display_number_with_default, b.status
+                from course_overviews_courseoverview a
+                join certificates_generatedcertificate b
+                on b.course_id = a.id
+                where b.user_id = '{user_id}'
+                ) y
+                on x.org = y.org
+                and x.display_number_with_default = y.display_number_with_default
+                group by x.org, x.display_number_with_default
+                ) xxx
+            '''.format(series_seq=temp[0],
+                       user_id=user_id)
+
+            print sql1
+            cur.execute(sql1)
+            is_cert = cur.fetchall()[0][0]
+
+            sql2 = '''
+                select sum(result)
+                from (
+                select t1.org, t1.display_number_with_default, case when t2.id is not null then sum(1) when t2.id is null then sum(0) end as result
+                from (
+                  select org, display_number_with_default
+                  from series_course
+                  where series_seq = '{series_seq}'
+                ) t1
+                left join (
+                  select *
+                  from (
+                      select id, org, display_number_with_default
+                      from course_overviews_courseoverview
+                      where start < now()
+                      and end < now()
+                  ) x
+                  join (
+                      select course_id
+                      from student_courseenrollment
+                      where user_id = '{user_id}'
+                      and mode = 'honor'
+                  ) y
+                  on x.id = y.course_id
+                )t2
+                on t1.org = t2.org
+                and t1.display_number_with_default = t2.display_number_with_default
+                group by t1.org, t1.display_number_with_default
+                ) xxx;
+                    '''.format(series_seq=temp[0],
+                               user_id=user_id)
+
+            print sql2
+            cur.execute(sql2)
+            is_ing = cur.fetchall()[0][0]
+
+            sql3 = '''
+                select count(*)
+                from series_course
+                where series_seq = '{series_seq}';
+            '''.format(series_seq=temp[0],
+                       user_id=user_id)
+
+            print sql3
+            cur.execute(sql3)
+            is_total = cur.fetchall()[0][0]
+
+        if is_cert == None:
+            is_cert = 0
+
+        if is_ing == None:
+            is_ing = 0
+
+        print "is_cert -> ", is_cert
+        print "is_ing -> ", is_ing
+        print "is_total -> ", is_total
+
+        print "type is_cert -> ", type(is_cert)
+        print "type is_ing -> ", type(is_ing)
+        print "type is_total -> ", type(is_total)
+
+        tmp_dict['is_cert'] = is_cert
+        tmp_dict['is_ing'] = is_ing
+        tmp_dict['is_noing'] = is_total - is_ing
+        packages.append(tmp_dict)
+
+    print packages
+
     context = {}
+    context['packages'] = packages
     return render_to_response("new_dashboard.html", context)
 
 def get_multisite_list(request):

@@ -80,6 +80,8 @@ urlpatterns = [
     url(r'^$', branding_views.index, name='root'),  # Main marketing page, or redirect to courseware
 
     url(r'^new_dashboard$', branding_views.new_dashboard, name='new_dashboard'),
+    url(r'^api/series_cancel$', branding_views.series_cancel, name='series_cancel'),
+
     url(r'^api/get_org_list$', branding_views.get_org_list, name='get_org_list'),
     url(r'^api/get_multisite_list$', branding_views.get_multisite_list, name='get_multisite_list'),
     url(r'^api/delete_multisite_account$', branding_views.delete_multisite_account, name='delete_multisite_account'),
