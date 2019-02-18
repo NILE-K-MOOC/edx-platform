@@ -138,8 +138,15 @@ urlpatterns = [
         name='settings_handler'),
     url(r'^settings/grading/{}(/)?(?P<grader_index>\d+)?$'.format(settings.COURSE_KEY_PATTERN),
         contentstore.views.grading_handler, name='grading_handler'),
+
+    # 고급설정 API
+    url(r'^api/settings/advanced/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.course.api_advanced_settings_handler,
+        name='api_advanced_settings_handler'),
+
+    # 고급설정 URL
     url(r'^settings/advanced/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.advanced_settings_handler,
         name='advanced_settings_handler'),
+
     url(r'^textbooks/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.textbooks_list_handler,
         name='textbooks_list_handler'),
     url(r'^textbooks/{}/(?P<textbook_id>\d[^/]*)$'.format(settings.COURSE_KEY_PATTERN),

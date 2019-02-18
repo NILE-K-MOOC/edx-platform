@@ -100,7 +100,10 @@ function search(page_no) {
                     gubun = '게시판팔로우';
                 }
                 else if(data[i].memo_gubun == '5') {
-                    gubun = '신규개설알림';
+                    gubun = '청강신규개설';
+                }
+                else if(data[i].memo_gubun == '6') {
+                    gubun = '과제제출';
                 }
 
                 var memo_link = '#';
