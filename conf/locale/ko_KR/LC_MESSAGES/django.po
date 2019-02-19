@@ -25788,14 +25788,14 @@ msgid "The prompt for this section"
 msgstr "이 섹션의 프롬프트"
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the Your Response field."
-msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
+msgstr "22222본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
 
 # msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the%(start_tag)s Your Response%(end_tag)s field."
 # msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the %(start_tag)sYour Response %(end_tag)sfield."
 # msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the %(start_tag)sYour Response%(end_tag)s field."
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the %(start_tag)sYour Response%(end_tag)s field."
-msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는%(start_tag)s 귀하의 답변%(end_tag)s 아래에 나타납니다."
+msgstr "111111본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는%(start_tag)s 귀하의 답변%(end_tag)s 아래에 나타납니다."
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the Your Response field."
 msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
@@ -27092,7 +27092,7 @@ msgid "RESULTS"
 msgstr "결과"
 
 msgid "Student data and results CSV available for download in the LMS."
-msgstr "LMS에서 CSV 파일 형식으로 다운로드할 수 있는 학생 데이터 및 결과."
+msgstr "학생 데이터 및 결과 CSV는 학습 관리 시스템에서 다운로드 할 수 있습니다."
 
 msgid "PROMPT"
 msgstr "프롬프트"
@@ -27368,3 +27368,89 @@ msgstr "강좌 다시 시작하기"
 
 msgid "Unscheduled"
 msgstr "지정되지 않음"
+
+#: ORA
+msgid "Specify whether learners must include a text based response to this problem's prompt."
+msgstr "학습자가 이 문제의 프롬프트에 텍스트 기반 응답을 포함해야 하는지 여부를 지정합니다."
+
+#: ORA
+msgid "Specify whether learners are able to upload files as a part of their response."
+msgstr "학습자가 응답의 일부로 파일을 업로드할 수 있는지 여부를 지정합니다."
+
+#: ORA
+msgid "Your assessment differs from the instructor's assessment of this response. Review the response and consider why the instructor may have assessed it differently. Then, try the assessment again."
+msgstr "귀하의 평가는이 응답에 대한 교수자의 평가와 다릅니다. 응답을 검토하고 교수자가 왜 그것을 다른 방식으로 평가했는지 생각해보십시오. 그런 다음 평가를 다시 시도하십시오."
+
+#: ORA
+msgid "All available peer responses have been assessed. Check back later to see if more learners have submitted responses. You will receive your grade after you've completed all the steps for this problem and your peers have assessed your response."
+msgstr "제출 된 모든 응답이 평가되었습니다. 나중에 다시 확인하여 더 많은 학생들이 답변을 제출했는지 확인하십시오. 이 문제에 대한 모든 단계를 완료하고 동료가 응답을 평가 한 후에 성적을 받게됩니다."
+
+#: ORA
+msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the <strong>Your Response</strong> field."
+msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는 <strong>귀하의 답변</strong> 아래에 나타납니다."
+
+msgid "Solution to the problem to show to the user"
+msgstr "사용자에게 표시할 문제 해결 방법"
+
+msgid "Feedback"
+msgstr "피드백"
+
+msgid "%(link_start)sMarkdown Syntax%(link_end)s is supported."
+msgstr "%(link_start)sMarkdown 문법%(link_end)s 지원"
+
+msgid "This text will be displayed for the user as some extra feedback after they have submitted their response to the poll."
+msgstr "이 텍스트는 사용자가 설문에 응답한 후 일부 추가 피드백으로 표시됩니다."
+
+msgid "Private Results"
+msgstr "결과 공개 여부"
+
+msgid "If this is set to True, don't display results of the poll to the user."
+msgstr "이 값이 True로 설정된 경우 사용자에게 결과를 표시하지 않습니다."
+
+msgid "Maximum Submissions"
+msgstr "최대 제출 횟수"
+
+msgid "Maximum number of times a user may submit a poll. %(bold_start)sSetting this to a value other than 1 will imply that 'Private Results' should be true.%(bold_end)s Setting it to 0 will allow infinite resubmissions."
+msgstr "사용자가 설문을 제출할 수 있는 최대 횟수입니다. 이 값을 1이 아닌 값으로 설정하면 '결과 공개 여부'가 'True'로 설정되어있어야 합니다. 이 값을 0으로 설정하면 계속해서 제출이 가능합니다."
+
+msgid "Notes:"
+msgstr "안내:"
+
+msgid "If you change an answer's text, all students who voted for that choice will have their votes updated to the new text. You'll want to avoid changing an answer from something like 'True' to 'False', accordingly. If you delete an answer, any votes for that answer will also be deleted. Students whose choices are deleted may vote again, but will not lose course progress."
+msgstr "답변의 텍스트를 변경하면 해당 항목에 대해 투표 한 모든 학생은 새 텍스트로 투표가 업데이트됩니다. 그에 따라 'True'에서 'False'와 같은 답변을 변경하지 않는 것이 좋습니다. 답변을 삭제하면 해당 답변의 결과도 삭제됩니다. 선택을 취소 한 학생은 다시 투표 할 수 있지만 과정 진행 상태는 유지되지 않습니다."
+
+msgid "Questions must be similarly cared for. If a question's text is changed, any votes for that question will remain. If a question is deleted, any student who previously took the survey will be permitted to retake it, but will not lose course progress."
+msgstr "질문도 이와 유사하게 관리해야 합니다. 질문의 텍스트가 변경되면 해당 질문에 대한 투표가 유지됩니다. 질문이 삭제되면 이전에 설문 조사에 참여한 학생은 과목을 다시 수강 할 수 있지만 과정 진행 상태는 유지되지 않습니다."
+
+msgid "You can make limited use of Markdown in answer texts, preferably only bold and italics."
+msgstr "답안 텍스트에서 Markdown을 제한적으로 사용할 수 있습니다. 가급적 볼드체 및 기울임 체만 사용하는 것이 좋습니다."
+
+msgid "answer"
+msgstr "답변"
+
+msgid "Image URL"
+msgstr "이미지 URL"
+
+msgid "Image alternative text"
+msgstr "이미지 대체문구"
+
+msgid "Add Question"
+msgstr "질문 추가"
+
+msgid "Question/Prompt"
+msgstr "질문/프롬프트"
+
+msgid "View results"
+msgstr "결과보기"
+
+#: lms/templates/community/series_view.html
+msgid "Series course enrollment"
+msgstr "묶음강좌 수강 신청"
+
+#: lms/templates/community/series_view.html
+msgid "Series course unenrollment"
+msgstr "묶음강좌 수강 취소"
+
+#: lms/templates/community/series_view.html
+msgid "Series course complete"
+msgstr "묶음강좌를 이수하였습니다."

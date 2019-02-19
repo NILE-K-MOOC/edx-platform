@@ -126,6 +126,7 @@ urlpatterns = [
     # series course
     url(r'^series/$', community.series, name='series'),
     url(r'^series_view/(?P<id>.*?)/about/$', community.series_about, name='series_about'),
+    url(r'^series_view/(?P<id>.*?)/enroll$', community.series_enroll, name='series_enroll'),
     url(r'^series_view/(?P<id>.*?)/$', community.series_view, name='series_view'),
     url(r'^series_print/(?P<id>.*?)/$', community.series_print, name='series_print'),
     url(r'series_print$', maeps.series_print, name='series_print'),
