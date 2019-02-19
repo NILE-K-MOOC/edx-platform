@@ -131,22 +131,46 @@
 </style>
 
 <script>
-/*
-function print(printArea)
-{
-		win = window.open();
-		self.focus();
-		win.document.open();
-		win.document.write('<html><head><title></title><style>');
-		win.document.write('.section_a,.section_b{float:left}.section_frame_container{display:inline-block;width:100%;padding:40px 100px 100px}.section_3,.section_4{padding-right:20px}.section_3,.section_4,.section_b,.section_bb{padding-left:20px}.real_main_title{font-size:180%;margin-top:20px;margin-bottom:50px;border-bottom:solid 1px #DDD;padding-bottom:40px;font-weight:700}.section_1{display:inline-block;width:100%;margin-bottom:10px}.series_img{width:250px;height:150px}.section_b{padding-top:15px}.series_title{margin-bottom:20px;font-size:150%;font-weight:700;width:500px}.section_2,.section_3,.section_4{width:100%;display:inline-block;margin-top:10px}.series_target{margin-bottom:6px;font-size:80%}.series_goal{font-size:80%}#copy_btn{float:right;position:relative;bottom:40px;color:#FFF}.section_2{margin-bottom:10px;padding:20px;border-top:solid #CCC 0;border-bottom:solid #CCC 1px}.course_intro_title{margin-bottom:10px;font-size:100%;font-weight:700}.course_intro_content{font-size:80%}.pagerLink{text-decoration:none!important}.series_img_inner{width:180px;height:100px}.section_5{display:inline-block;width:100%;margin-top:10px}.section_bb{float:left;padding-top:5px}.series_a,.series_b,.series_c{width:300px;margin-bottom:2px;font-size:80%}.series_d{width:500px;margin-bottom:10px;font-size:120%;font-weight:700}');
-		win.document.write('</style></haed><body>');
-		win.document.write(printArea);
- 		win.document.write('</body></html>');
-		win.document.close();
-		win.print();
-		win.close();
+
+function series_enroll(series_flag){
+    var series_id = '${id}';
+    if( series_flag == false ){
+        % if not user.is_authenticated():
+            //alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
+            alert('${_("You need to register to enrollment.")}');
+            location.href = "/login";
+        % else:
+            $.ajax({
+                url: 'enroll',
+                data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'enroll'},
+                dataType: 'json',
+                type: 'POST',
+            }).done(function(data){
+                if(data.msg == 'success'){
+                    alert('신청 완료');
+                    // location.href = '#';
+                } else {
+                    alert('오류가 발생하였습니다.');
+                }
+            });
+        %endif
+    } else {
+        $.ajax({
+                url: 'enroll',
+                data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'unenroll'},
+                dataType: 'json',
+                type: 'POST',
+            }).done(function(data){
+                if(data.msg == 'success'){
+                    location.reload();
+                } else {
+                    alert('오류가 발생하였습니다.');
+                }
+            });
+    }
 }
-*/
+
+
 function move(){
     var index = '${id}';
     var url = "/series_print/" + index;
@@ -223,6 +247,15 @@ $(document).ready(function(){
                 <div class="section_a3">
                     <div class="r-list">
                         <table>
+                            <tr>
+                                <td colspan="2">
+                                    % if series_status['active'] != 'pass':
+                                    <button class="btn-brand btn-series" onclick="series_enroll(${series_status['active']})">${_(series_status['msg'])}</button>
+                                    % else:
+                                    <button class="btn-brand btn-series series-disabled" disabled>${_(series_status['msg'])}</button>
+                                    % endif
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <span class="siz">대표기관</span>

@@ -444,6 +444,7 @@ def series_about(request, id):
 
 
 def series_view(request, id):
+    user_id = request.user.id if request.user.id is not None else ''
     with connections['default'].cursor() as cur:
         query = '''
             SELECT a.series_name,
@@ -688,6 +689,26 @@ def series_view(request, id):
             sub_dict['course_video'] = course_video
             sub_list.append(sub_dict)
 
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT count(series_student_seq), ifnull(pass_yn, 'N')
+              FROM series_student
+             WHERE series_seq = {series_seq} AND user_id = '{user_id}' AND delete_yn = 'N';
+        '''.format(series_seq=id, user_id=user_id)
+        print query
+        cur.execute(query)
+        series_active = cur.fetchone()
+        series_status = dict()
+        if series_active[0] == 0 and series_active[1] == 'N':
+            series_status['msg'] = 'Series course enrollment'
+            series_status['active'] = 'false'
+        elif series_active[0] != 0 and series_active[1] == 'N':
+            series_status['msg'] = 'Series course unenrollment'
+            series_status['active'] = 'true'
+        elif series_active[0] != 0 and series_active[1] == 'Y':
+            series_status['msg'] = 'Series course complete'
+            series_status['active'] = 'pass'
+
     context = {}
     context['id'] = id
     context['main_list'] = main_list
@@ -695,7 +716,56 @@ def series_view(request, id):
     context['week_total'] = week_total
     context['study_total'] = study_total
     context['video_total'] = video_total
+    context['series_status'] = series_status
     return render_to_response('community/series_view.html', context)
+
+
+def series_enroll(request, id):
+    user_id = request.user.id
+    series_id = request.POST.get('series_id') if id == request.POST.get('series_id') else None
+    return_msg = 'fail'
+    if series_id is not None:
+        with connections['default'].cursor() as cur:
+            if request.POST.get('method') == 'enroll':
+                query = '''
+                    INSERT INTO series_student(series_seq,
+                                               user_id,
+                                               delete_yn,
+                                               apply_date,
+                                               pass_yn,
+                                               regist_id,
+                                               regist_date)
+                         VALUES ({id},
+                                 {user_id},
+                                 'N',
+                                 now(),
+                                 'N',
+                                 {user_id},
+                                 now());
+                '''.format(id=series_id, user_id=user_id)
+            else:
+                query = '''
+                    UPDATE series_student
+                       SET delete_yn = 'Y',
+                           cancel_date = now(),
+                           modify_id = {user_id},
+                           modify_date = now()
+                     WHERE     user_id = {user_id}
+                           AND series_seq = {id}
+                           AND delete_yn = 'N'
+                           AND pass_yn = 'N';
+                '''.format(id=series_id, user_id=user_id)
+
+            print 'series_course insert/update s -------------------------'
+            print query
+            print 'series_course insert/update e -------------------------'
+
+            cur.execute(query)
+            cur.execute('commit')
+            return_msg = 'success'
+
+    return JsonResponse({'msg': return_msg})
+
 
 
 def series_print(request, id):

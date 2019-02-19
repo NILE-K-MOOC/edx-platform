@@ -27442,3 +27442,15 @@ msgstr "질문/프롬프트"
 
 msgid "View results"
 msgstr "결과보기"
+
+#: lms/templates/community/series_view.html
+msgid "Series course enrollment"
+msgstr "묶음강좌 수강 신청"
+
+#: lms/templates/community/series_view.html
+msgid "Series course unenrollment"
+msgstr "묶음강좌 수강 취소"
+
+#: lms/templates/community/series_view.html
+msgid "Series course complete"
+msgstr "묶음강좌를 이수하였습니다."
