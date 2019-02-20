@@ -566,12 +566,14 @@ def multisite_index(request, org, msearch=None):
                 print "python_calltime = ",python_calltime
                 print "--------------------------> DEBUG 12 [e]"
 
+                """
                 if java_calltime + timedelta(seconds=60) < python_calltime:
                     request.session['status'] = 'fail'
                     request.session['java_calltime'] = java_calltime
                     request.session['python_calltime'] = python_calltime
                     request.session['multisiteDebug'] = 'time check fail'
                     return redirect('/multisite_error/')
+                """
 
                 print "--------------------------> DEBUG 13 [s]"
                 print "calltime ja = ", java_calltime
