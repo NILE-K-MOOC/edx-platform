@@ -17,7 +17,7 @@ git+https://github.com/hmarr/django-debug-toolbar-mongo.git@b0686a76f1ce3532088c
 git+https://github.com/edx/django-oauth-plus.git@01ec2a161dfc3465f9d35b9211ae790177418316#egg=django-oauth-plus==2.2.9.edx-1
 git+https://github.com/edx/django-openid-auth.git@0.15.1#egg=django-openid-auth==0.15.1
 git+https://github.com/jazzband/django-pipeline.git@d068a019169c9de5ee20ece041a6dea236422852#egg=django-pipeline==1.5.3
--e git+https://github.com/edx/django-wiki.git@v0.0.18#egg=django-wiki
+-e git+https://github.com/edx/django-wiki.git@v0.0.20#egg=django-wiki
 git+https://github.com/edx/django-rest-framework-oauth.git@0a43e8525f1e3048efe4bc70c03de308a277197c#egg=djangorestframework-oauth==1.1.1
 git+https://github.com/edx/django-rest-framework.git@1ceda7c086fddffd1c440cc86856441bbf0bd9cb#egg=djangorestframework==3.6.3
 -e common/lib/dogstats
@@ -28,7 +28,7 @@ git+https://github.com/edx/lettuce.git@7a04591c78ac56dac3eb3e91ca94b15cce844133#
 git+https://github.com/edx/xblock-lti-consumer.git@v1.1.8#egg=lti_consumer-xblock==1.1.8
 git+https://github.com/edx/MongoDBProxy.git@25b99097615bda06bd7cdfe5669ed80dc2a7fed0#egg=MongoDBProxy==0.1.0
 -e .
-git+https://github.com/edx/edx-ora2.git@2.1.17#egg=ora2==2.1.17
+git+https://github.com/edx/edx-ora2.git@2.1.18#egg=ora2==2.1.18
 -e git+https://github.com/dgrtwo/ParsePy.git@7949b9f754d1445eff8e8f20d0e967b9a6420639#egg=parse_rest
 -e git+https://github.com/appliedsec/pygeoip.git@95e69341cebf5a6a9fbf7c4f5439d458898bdc3b#egg=pygeoip
 -e git+https://github.com/dementrock/pystache_custom.git@776973740bdaad83a3b029f96e415a7d1e8bec2f#egg=pystache_custom-dev
@@ -120,7 +120,7 @@ django-storages==1.4.1
 django-user-tasks==0.1.5
 django-waffle==0.12.0
 django-webpack-loader==0.6.0
-django==1.11.15
+django==1.11.18
 djangorestframework-jwt==1.11.0
 djangorestframework-xml==1.3.0
 dm.xmlsec.binding==1.3.3
@@ -137,7 +137,7 @@ edx-django-release-util==0.3.1
 edx-django-sites-extensions==2.3.1
 edx-drf-extensions==1.5.2
 edx-enterprise==0.70.3
-edx-i18n-tools==0.4.5
+edx-i18n-tools==0.4.6
 edx-lint==0.5.5
 edx-milestones==0.1.13
 edx-oauth2-provider==1.2.2
