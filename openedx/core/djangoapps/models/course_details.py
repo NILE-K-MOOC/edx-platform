@@ -6,6 +6,7 @@ import re
 import logging
 
 from django.conf import settings
+from django.db import connections
 
 from xmodule.fields import Date
 from xmodule.modulestore.exceptions import ItemNotFoundError
@@ -295,6 +296,40 @@ class CourseDetails(object):
                 and 'self_paced' in jsondict
                 and jsondict['self_paced'] != descriptor.self_paced):
             descriptor.self_paced = jsondict['self_paced']
+            with connections['default'].cursor() as cur:
+                query = '''
+                    select count(*) from certificates_certificategenerationcoursesetting
+                    where course_key = '{course_key}'
+                '''.format(course_key=course_key)
+
+                cur.execute(query)
+                self_cnt = cur.fetchone()[0]
+
+            with connections['default'].cursor() as cur:
+                if int(self_cnt) == 0: # insert
+                    query = '''
+                        INSERT INTO certificates_certificategenerationcoursesetting(
+                                       created,
+                                       modified,
+                                       course_key,
+                                       language_specific_templates_enabled,
+                                       self_generation_enabled)
+                             VALUES (now(),
+                                     now(),
+                                     '{course_key}',
+                                     0,
+                                     {self_paced});
+                    '''.format(course_key=course_key, self_paced=jsondict['self_paced'])
+                else: # update
+                    query = '''
+                        UPDATE certificates_certificategenerationcoursesetting
+                           SET self_generation_enabled = {self_paced}, modified = now()
+                         WHERE course_key = '{course_key}';
+                    '''.format(course_key=course_key, self_paced=jsondict['self_paced'])
+
+                cur.execute(query)
+                cur.execute('commit')
+
             dirty = True
 
         if dirty:

@@ -436,6 +436,7 @@
     "Course Index": "\uac15\uc88c \uc778\ub371\uc2a4",
     "Course Number": "\uac15\uc88c \ubc88\ud638",
     "Course Outline": "\uac15\uc88c \uac1c\uc694",
+    "Course pacing cannot be changed once a course has started.": "\uac15\uc88c \uc218\uac15 \uc18d\ub3c4\ub294 \uac15\uc88c \uac1c\uac15 \ud6c4 \uc218\uc815\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "Course Status": "\uac15\uc88c \uc0c1\ud0dc",
     "Course Title Override": "\uac15\uc88c \uc81c\ubaa9 \ubc14\uafb8\uae30",
     "Course title": "\uac15\uc88c\uba85",
