@@ -79,9 +79,10 @@
 .section_4{
     display:inline-block;
     width:100%;
-    padding-left:20px;
-    padding-right:20px;
+    padding: 0 20px 20px 20px;
     margin-top:10px;
+    margin-bottom: 10px;
+    border-bottom: solid #CCCCCC 1px;
 }
 .series_img_inner{
     width:180px;
@@ -404,8 +405,7 @@ $(document).ready(function(){
         </div>
         % endfor
     </div>
-
-
+    <button class="btn btn-brand" style="float:right; color: #FFFFFF;" onclick="location.href='/series'">${_('Series Course List')}</button>
 
 </section>
 </div>

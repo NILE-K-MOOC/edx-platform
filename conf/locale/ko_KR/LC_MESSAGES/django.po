@@ -30514,5 +30514,5 @@ msgstr "묶음강좌 수강 취소"
 msgid "Series course complete"
 msgstr "묶음강좌를 이수하였습니다."
 
-
-
+msgid "Series Course List"
+msgstr "묶음강좌 목록"
