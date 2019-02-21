@@ -30501,3 +30501,6 @@ msgstr "강좌 내용의 어려운 수준을 선택하세요."
 
 msgid "National Institute for Lifelong Education"
 msgstr "국가평생교육진흥원"
+
+msgid "Series Course List"
+msgstr "묶음강좌 목록"
