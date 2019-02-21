@@ -32,7 +32,7 @@ log = logging.getLogger(__name__)
 def series_cancel(request):
 
     id = request.POST.get('id')
-    user_id = 10
+    user_id = request.user.id
 
     with connections['default'].cursor() as cur:
         sql = '''
@@ -54,7 +54,7 @@ def series_cancel(request):
 
 def new_dashboard(request):
 
-    user_id = 10
+    user_id = request.user.id
 
     with connections['default'].cursor() as cur:
         sql = '''
