@@ -24,6 +24,7 @@
     display:inline-block;
     width:100%;
     margin-bottom:10px;
+    padding: 0 20px;
 }
 .series_img{
     width:250px;
@@ -194,14 +195,15 @@ $(document).ready(function(){
 
 });
 </script>
-
+% if main_list:
 <div>
     <div class="series_bg_area series_about">
         <div class="series_bg_space">
       <span  class="series_bg_title series_about">
       <a href="/series">
-      <h3>${_('Series Course')}</h3>
+        <h6>← 묶음강좌 목록으로 돌아가기</h6>
       </a>
+      <h3 class="series_title">${main_list[0]}</h3>
       </span>
         </div>
 
@@ -209,15 +211,13 @@ $(document).ready(function(){
 </div>
 
 <section class="container" id="printArea">
-    % if main_list:
     <div class="section_1">
         <div class="section_frame_outer">
             <div class="section_frame_inner">
                 <div class="float_left section_a1">
-                    <img class="series_imges" width="230px" height="130px" src="/static/file_upload/series/${main_list[4]}.${main_list[5]}" alt="${main_list[1]}"/>
+                    <img class="series_imges" src="/static/file_upload/series/${main_list[4]}.${main_list[5]}" alt="${main_list[1]}"/>
                 </div>
                 <div class="float_left section_a2">
-                    <div class="series_title">${main_list[0]}</div>
                     <span class="bundle_subtxt">${main_list[7]}</span>
                 </div>
 
@@ -277,8 +277,6 @@ $(document).ready(function(){
     </div>
     % endif
 
-    <button class="btn-brand" id="copy_btn" OnClick="move()">${_('Print')}</button>
-
     <div class="section_3"  style="border-bottom: 2px solid #ccc; margin-top: 55px;">
             <div class="course_intro_title" style="font-size: 23px; padding-bottom: 10px;">${_('Course List')}</div>
     </div>
@@ -292,12 +290,19 @@ $(document).ready(function(){
             <div class="section_frame_outer">
                 <div class="section_frame_inner">
                     <div class="float_left section_a1">
+                        % if item['status'] == 'pass':
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank">
-                        <img class="series_imges" src="${item['course_image_url']}"/>
+                            <img class="series_imges" src="${item['course_image_url']}"/>
                         </a>
                     </div>
                     <div class="float_left section_a2">
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank"><div class="series_title">${item['course_name']}</div></a>
+                        % else:
+                        <img class="series_imges" src="${item['course_image_url']}"/>
+                    </div>
+                    <div class="float_left section_a2">
+                        <div class="series_title">${item['course_name']}</div>
+                        % endif
                         <p class="s_list">${item['short_description']}</p>
                     </div>
                     <div class="section_a3 s_view">
@@ -359,8 +364,6 @@ $(document).ready(function(){
         </div>
         % endfor
     </div>
-    <button class="btn btn-brand" style="float:right; color: #FFFFFF;" onclick="location.href='/series'">${_('Series Course List')}</button>
-
 
 </section>
 </div>
