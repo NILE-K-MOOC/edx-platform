@@ -30173,6 +30173,9 @@ msgstr "쪽지"
 msgid "Series Course"
 msgstr "묶음강좌"
 
+msgid "About Series Course"
+msgstr "묶음강좌란?"
+
 msgid "Course Introduction"
 msgstr "강좌 소개"
 
