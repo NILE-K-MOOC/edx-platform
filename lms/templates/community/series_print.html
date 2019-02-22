@@ -197,25 +197,26 @@
         <div class="content">
 
           <h5>인증번호 : e9c48cfcd0d45c2844fbe229e4fc79d</h5>
-          <h5>출력일시 : yyyy.mm.dd hh24:mi</h5>
+          <h5>출력일시 : ${kst}</h5>
 
           <h1>이 수 증</h1>
 
           <h5 class="ce-t-gray">이름</h5>
-          <h4 class="ce-txt-second"><span>홍길동</span> <span>(1993.01.01)</span> (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)</h4>
+          <h4 class="ce-txt-second">
+            <span>${user_name}</span>
+            <span>(${user_birth})</span>
+            % if user_nice == 'Y':
+            (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
+            % endif
+          </h4>
 
           <h5  class="ce-t-gray">묶음 강좌명</h5>
-          <h4 class="ce-txt-second">강화도 전문가 과정  </h4>
+          <h4 class="ce-txt-second">${package_name}</h4>
           <blockquote>
             <ul class="ce-list">
-              <li>강화도, 우리역사를 말하다</li>
-              <li>도전, 정신건강사회복지사</li>
-              <li>데이터 과학을 위한 Python 입문</li>
-              <li>데이터 과학을 위한 Python 입문</li>
-              <li>데이터 과학을 위한 Python 입문</li>
-              <li>데이터 과학을 위한 Python 입문</li>
-              <li>데이터 과학을 위한 Python 입문</li>
-              <li>데이터 과학을 위한 Python 입문</li>
+              % for course in package_cousre:
+              <li>${course[1]}</li>
+              % endfor
             </ul>
           </blockquote>
 
@@ -277,10 +278,10 @@
 
             <div class="ce-pg2-top">
               <h5>인증번호 : e9c48cfcd0d45c2844fbe229e4fc79d</h5>
-              <h5>출력일시 : yyyy.mm.dd hh24:mi</h5>
+              <h5>출력일시 : ${kst}</h5>
             </div>
 
-            <h4>묶음강좌명  </h4>
+            <h4>${package_name}</h4>
 
             <div class="ce-pg2-t01">
               <table>
@@ -292,24 +293,24 @@
 
                 <tbody>
                 <tr>
-                  <td rowspan="4"><p>학습자에게 소개하는 묶음강좌에 짧은 소개글을 150자 내외 (최대 300자 미만)으로 작성하여 주시기 바랍니다.</p></td>
+                  <td rowspan="4"><p>${short_description}</p></td>
                   <td><span class="ce-Tbold">대표기관</span></td>
-                  <td><span>국가평생교육진흥원</span></td>
+                  <td><span>${org}</span></td>
                 </tr>
 
                 <tr>
                   <td><span class="ce-Tbold">총 주차</span></td>
-                  <td><span>46주</span></td>
+                  <td><span>${e2_total}</span></td>
                 </tr>
 
                 <tr>
                   <td><span class="ce-Tbold">총 합습인정시간</span></td>
-                  <td><span>50시간 30분</span></td>
+                  <td><span>${e4_total}</span></td>
                 </tr>
 
                 <tr>
                   <td><span class="ce-Tbold">총 동영상시간</span></td>
-                  <td><span>22시간 53분</span></td>
+                  <td><span>${e3_total}</span></td>
                 </tr>
                 </tbody>
 
@@ -336,104 +337,18 @@
                 </thead>
 
                 <tbody>
+                % for ppp in ppp_list:
                 <tr>
                   <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
+                    <p>${ppp['display_name']}</p>
+                    <p>${ppp['start']}~${ppp['end']}</p>
                   </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
+                  <td><span>${ppp['cert']}</span></td>
+                  <td><span>${ppp['e2']}</span></td>
+                  <td><span>${ppp['e4']}</span></td>
+                  <td><span>${ppp['e3']}</span></td>
                 </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <p>강좌명 내용내용</p>
-                    <p>2018.01.01~2018.10.05</p>
-                  </td>
-                  <td><span>2018.12.01</span></td>
-                  <td><span>24주</span></td>
-                  <td><span>50시간 30분</span></td>
-                  <td><span>50시간 30분</span></td>
-                </tr>
+                % endfor
                 </tbody>
               </table>
             </div>

@@ -22,6 +22,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 import os.path
 import datetime
+from datetime import timedelta
+from pytz import timezone
 from django.db import connections
 from django.core.urlresolvers import reverse
 
@@ -769,122 +771,172 @@ def series_enroll(request, id):
 
 
 def series_print(request, id):
+
+    user_id = request.user.id
+
+    # 이름 / 생년월일 / 본인인증
     with connections['default'].cursor() as cur:
         query = '''
-            SELECT a.series_name,
-               a.series_id,
-               a.note,
-               b.attach_file_path,
-               b.attatch_file_name,
-               attatch_file_ext
-            FROM series as a
-            LEFT JOIN tb_board_attach AS b
-            ON a.sumnail_file_id = b.attatch_id
-            WHERE  a.series_seq = {}
-        '''.format(id)
+            select username, b.year_of_birth, 
+            case 
+            when c.id is null
+            then 'N'
+            when c.id is not null
+            then 'Y'
+            end as nice
+            from auth_user a
+            join auth_userprofile b
+            on a.id = b.user_id
+            left join auth_user_nicecheck c
+            on a.id = c.user_Id
+            where a.id = '10';
+        '''.format(user_id=user_id)
         cur.execute(query)
-        rows = cur.fetchall()
-        main_list = rows[0]
+        row1 = cur.fetchall()
 
+    user_name = row1[0][0]
+    user_birth = row1[0][1]
+    user_nice = row1[0][2]
+    user_nice = 'Y' # test
+
+    # 출력일시
+    kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
+
+    # 묶음강좌명 / 강좌명
     with connections['default'].cursor() as cur:
         query = '''
-            SELECT CAST((@rownum := @rownum + 1) AS CHAR(50))
-                      AS row_number,
-                   univ,
-                   CASE
-                      WHEN cd.detail_name IS NULL THEN '미등록'
-                      ELSE cd.detail_name
-                   END
-                      AS classfy,
-                   CASE
-                      WHEN cd2.detail_name IS NULL THEN '미등록'
-                      ELSE cd2.detail_name
-                   END
-                      AS middle_classfy,
-                   course_name,
-                   created
-              FROM (SELECT CASE
-                              WHEN detail_name IS NULL THEN '미등록'
-                              ELSE detail_name
-                           END
-                              AS univ,
-                           CASE WHEN coa.classfy IS NULL THEN '' ELSE coa.classfy END
-                              AS classfy,
-                           CASE
-                              WHEN coa.middle_classfy IS NULL THEN ''
-                              ELSE coa.middle_classfy
-                           END
-                              AS middle_classfy,
-                           course_name,
-                           CASE
-                              WHEN Date_format(e.created, '%Y/%m/%d') IS NULL
-                              THEN
-                                 '미생성'
-                              ELSE
-                                 Date_format(e.created, '%Y/%m/%d')
-                           END
-                              AS created
-                      FROM edxapp.series_course AS v1
-                           JOIN
-                           (SELECT *
-                              FROM (  SELECT id,
-                                             @org := a.org
-                                                AS org,
-                                             display_number_with_default,
-                                             start,
-                                             end,
-                                             enrollment_start,
-                                             enrollment_end,
-                                             course_image_url,
-                                             CASE
-                                                WHEN     a.org = @org
-                                                     AND a.display_number_with_default =
-                                                         @course
-                                                THEN
-                                                   @rn := @rn + 1
-                                                ELSE
-                                                   @rn := 1
-                                             END
-                                                AS rn,
-                                             @course := a.display_number_with_default
-                                                AS course
-                                        FROM course_overviews_courseoverview a,
-                                             (SELECT @rn := 0, @org := '', @course := '') b
-                                       WHERE a.start < a.end
-                                    ORDER BY a.org,
-                                             a.display_number_with_default,
-                                             a.start DESC) t1
-                             WHERE rn = 1) AS v2
-                              ON     v1.org = v2.org
-                                 AND v1.display_number_with_default =
-                                     v2.display_number_with_default
-                           LEFT JOIN code_detail AS d
-                              ON v2.org = d.detail_code AND d.group_code = 003
-                           LEFT JOIN
-                           (  SELECT DISTINCT
-                                     (course_id) AS course_id, min(created) AS created
-                                FROM certificates_certificategenerationhistory
-                            GROUP BY course_id) AS e
-                              ON v2.id = e.course_id
-                           JOIN (SELECT @rownum := 0) r
-                           LEFT JOIN course_overview_addinfo AS coa
-                              ON coa.course_id = v2.id
-                     WHERE  series_seq = {}) last
-                   LEFT JOIN code_detail AS cd ON last.classfy = cd.detail_code
-                   LEFT JOIN code_detail AS cd2 ON last.middle_classfy = cd2.detail_code;
-        '''.format(id)
-
-        print "--------------------------->"
-        print query
-        print "--------------------------->"
-
+            select a.series_name, b.course_name
+            from series a
+            join series_course b
+            on a.series_seq = b.series_seq
+            where a.series_seq = '{id}';
+            '''.format(id=id)
         cur.execute(query)
-        rows = cur.fetchall()
-        sub_list = rows
+        row2 = cur.fetchall()
+
+    package_name = row2[0][0]
+    package_cousre =row2
+
+    # 짧은소개 / 기관
+    with connections['default'].cursor() as cur:
+        query = '''
+            select a.short_description, b.detail_name
+            from series a
+            join code_detail b
+            on a.org = b.detail_code
+            where a.series_seq = '{id}'
+            and b.group_code = '003';
+                '''.format(id=id)
+        cur.execute(query)
+        row3 = cur.fetchall()
+
+    short_description = row3[0][0]
+    org = row3[0][1]
+
+    # 강좌 리스
+    with connections['default'].cursor() as cur:
+        query = '''
+            select y.display_name, y.start, y.end, z.created_date, effort
+            from (
+                select org, display_number_with_default
+                from series_course
+                where series_seq = '{id}'
+            ) x
+            join course_overviews_courseoverview y
+            on x.org = y.org
+            and x.display_number_with_default = y.display_number_with_default
+            join (
+                select course_id, created_date, 'Y' as cert
+                from certificates_generatedcertificate
+                where user_id = '{user_id}'
+                and status = 'downloadable'
+            ) z
+            on y.id = z.course_id;
+        '''.format(id=id, user_id=user_id)
+        cur.execute(query)
+        row4 = cur.fetchall()
+
+    e2_total = 0
+    e3_tmp_front = 0
+    e3_tmp_back = 0
+    e4_tmp_front = 0
+    e4_tmp_back = 0
+    e3_total = None
+    e4_total = None
+    ppp_list = []
+    for r4 in row4:
+        tmp = {}
+        tmp['display_name'] = r4[0]
+        tmp['start'] = r4[1]
+        tmp['end'] = r4[2]
+        tmp['cert'] = r4[3]
+        effort = r4[4]
+        effort = effort.split('@')
+        e1 = effort[0]
+        effort = effort[1].split('#')
+        e2 = effort[0]
+        effort = effort[1].split('$')
+        e3 = effort[0]
+        e4 = effort[1]
+
+        e2_total += int(e2)
+        print('e2 -> ', e2)
+        print('e3 -> ', e3)
+        print('e4 -> ', e4)
+
+        e3s = e3.split(':')
+        e3_tmp_front += int(e3s[0])
+        e3_tmp_back += int(e3s[1])
+
+        e4s = e4.split(':')
+        e4_tmp_front += int(e4s[0])
+        e4_tmp_back += int(e4s[1])
+
+        tmp['e1'] = e1
+        tmp['e2'] = int(e2)
+
+        e333 = e3.split(':')
+        e3 = str(e333[0]) + '시간 ' + str(e333[1]) + '분'
+
+        e444 = e4.split(':')
+        e4 = str(e444[0]) + '시간 ' + str(e444[1]) + '분'
+        tmp['e3'] = e3
+        tmp['e4'] = e4
+        ppp_list.append(tmp)
+
+    print "e3_tmp_front -> ", e3_tmp_front
+    print "e3_tmp_back -> ", e3_tmp_back
+    print "e3_tmp_back/60 -> ", e3_tmp_back/60
+    print "e3_tmp_back%60 -> ", e3_tmp_back%60
+
+    e3_front = e3_tmp_front + e3_tmp_back/60
+    e3_back = e3_tmp_back%60
+
+    e3_total = str(e3_front) + '시간 ' + str(e3_back) + '분'
+
+    print "e4_tmp_front -> ", e4_tmp_front
+    print "e4_tmp_back -> ", e4_tmp_back
+    print "e4_tmp_back/60 -> ", e4_tmp_back/60
+    print "e4_tmp_back%60 -> ", e4_tmp_back%60
+
+    e4_front = e4_tmp_front + e4_tmp_back / 60
+    e4_back = e4_tmp_back % 60
+
+    e4_total = str(e4_front) + '시간 ' + str(e4_back) + '분'
 
     context = {}
-    context['main_list'] = main_list
-    context['sub_list'] = sub_list
+    context['user_name'] = user_name
+    context['user_birth'] = user_birth
+    context['user_nice'] = user_nice
+    context['kst'] = kst
+    context['package_name'] = package_name
+    context['package_cousre'] = package_cousre
+    context['short_description'] = short_description
+    context['org'] = org
+    context['ppp_list'] = ppp_list
+    context['e2_total'] = e2_total
+    context['e3_total'] = e3_total
+    context['e4_total'] = e4_total
     return render_to_response('community/series_print.html', context)
 
 class TbBoard(models.Model):
