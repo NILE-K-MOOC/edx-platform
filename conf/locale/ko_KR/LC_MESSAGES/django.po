@@ -27494,6 +27494,9 @@ msgstr "묶음강좌를 이수하였습니다."
 msgid "Series Course List"
 msgstr "묶음강좌 목록"
 
+msgid "About Series Course"
+msgstr "묶음강좌란?"
+
 msgid "{teacher_name} and {t_len} others"
 msgstr "{teacher_name} 외 {t_len}명"
 
