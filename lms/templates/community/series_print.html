@@ -196,7 +196,7 @@
 
         <div class="content">
 
-          <h5>인증번호 : e9c48cfcd0d45c2844fbe229e4fc79d</h5>
+          <h5>인증번호 : ${cert_uuid}</h5>
           <h5>출력일시 : ${kst}</h5>
 
           <h1>이 수 증</h1>
@@ -220,50 +220,37 @@
             </ul>
           </blockquote>
 
-          <h3 class="ce-center-txt1">위 과정을 성실히 이수하여 이 증서를 수여 합니다.</h3>
+          <h3 class="ce-center-txt1">위 과정을 성실히 이수하여</h3>
+          <h3 class="ce-center-txt1">이 증서를 수여 합니다.</h3>
+
           <h4 class="ce-center-txt2">2017.10.20</h4>
 
           <div class="sign-none" style="display:none;">사인이 없을때</div>
 
           <div class="sign-area">
             <div class="sign-area-depth2">
+              % for n in range(0, 4):
               <div class="t-center">
-                <img src="/static/images/cert/sign01.png" alt="sign">
+                <img src="${admin_sign_list[n]}" alt="sign">
               </div>
-              <div class="t-center">
-                <img src="/static/images/cert/sign02.png" alt="sign">
-              </div>
-              <div class="t-center">
-                <img src="/static/images/cert/sign03.png" alt="sign">
-              </div>
-              <div class="t-center">
-                <img src="/static/images/cert/sign01.png" alt="sign">
-              </div>
+              % endfor
             </div>
 
             <div class="sign-area-depth1">
+              % for n in range(4, 8):
               <div class="t-center">
-                <img src="/static/images/cert/sign01.png" alt="sign">
+                <img src="${admin_sign_list[n]}" alt="sign">
               </div>
-              <div class="t-center">
-                <img src="/static/images/cert/sign02.png" alt="sign">
-              </div>
-              <div class="t-center">
-                <img src="/static/images/cert/sign03.png" alt="sign">
-              </div>
-              <div class="t-center">
-                <img src="/static/images/cert/sign01.png" alt="sign">
-              </div>
+              % endfor
             </div>
           </div>
 
           <!-- 로고 -->
           <div class="sign-area">
             <div class="ce-logo-area">
-              <div class="ce-logo"><img src="/static/images/cert/logo1.png" alt="대학교"></div>
-              <div class="ce-logo"><img src="/static/images/cert/logo2.png" alt="국평원"></div>
-              <div class="ce-logo"><img src="/static/images/cert/logo1.png" alt="대학교"></div>
-              <div class="ce-logo"><img src="/static/images/cert/logo2.png" alt="국평원"></div>
+              % for sign in sign_path_list:
+              <div class="ce-logo"><img src="${sign}"></div>
+              % endfor
             </div>
           </div>
 
@@ -277,7 +264,7 @@
           <div class="content">
 
             <div class="ce-pg2-top">
-              <h5>인증번호 : e9c48cfcd0d45c2844fbe229e4fc79d</h5>
+              <h5>인증번호 : ${cert_uuid}</h5>
               <h5>출력일시 : ${kst}</h5>
             </div>
 

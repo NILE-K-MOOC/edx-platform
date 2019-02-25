@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """ Views for a student's account information. """
 
+import uuid
 import json
 from django.conf import settings
 from django.http import (
@@ -773,6 +774,7 @@ def series_enroll(request, id):
 def series_print(request, id):
 
     user_id = request.user.id
+    cert_uuid = str(uuid.uuid4()).replace('-', '')
 
     # 이름 / 생년월일 / 본인인증
     with connections['default'].cursor() as cur:
@@ -801,6 +803,7 @@ def series_print(request, id):
 
     # 출력일시
     kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
+    kst_short = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
 
     # 묶음강좌명 / 강좌명
     with connections['default'].cursor() as cur:
@@ -836,7 +839,77 @@ def series_print(request, id):
     short_description = row3[0][0]
     org = row3[0][1]
 
-    # 강좌 리스
+    # 교수자 사인 (기관)
+    with connections['default'].cursor() as cur:
+        query = '''
+            select save_path
+            from tb_attach
+            where group_name = '/homepage/series'
+            and group_id = '{id}';
+            '''.format(id=id)
+        cur.execute(query)
+        admin_sign = cur.fetchall()
+
+    admin_sign_list = []
+    for n in range(0,8):
+        admin_sign_list.append(admin_sign[n][0])
+
+    print "admin_sign_list -> ", admin_sign_list
+
+    # 사인 (대표기관)
+    with connections['default'].cursor() as cur:
+        query = '''
+            select org
+            from series
+            where series_seq = '{id}';
+        '''.format(id=id)
+        cur.execute(query)
+        row4 = cur.fetchall()
+
+    main_sign = row4[0][0]
+    print "main_sign -> ", main_sign
+
+    # 사인 (기관)
+    with connections['default'].cursor() as cur:
+        query = '''
+            select distinct(org)
+            from series_course
+            where series_seq = '{id}';
+        '''.format(id=id)
+        cur.execute(query)
+        row5= cur.fetchall()
+
+    sub_sign = row5
+    print "sub_sign -> ", sub_sign
+
+    sign_list = []
+    sign_list.append(main_sign)
+    for n in range(0, 3):
+        sign_list.append(sub_sign[n][0])
+
+    print "sign_list -> ", sign_list
+
+    sign_path_list = []
+    with connections['default'].cursor() as cur:
+        for sign in sign_list:
+            query = '''
+              select save_path
+              from tb_attach
+              where group_name = 'top_img'
+              and group_id = '{sign}';
+            '''.format(sign=sign)
+            cur.execute(query)
+            sign_path = cur.fetchall()
+            try:
+                sign_path = sign_path[0][0]
+            except BaseException:
+                sign_path = ''
+
+            sign_path_list.append(sign_path)
+
+    print "sign_path_list -> ", sign_path_list
+
+# 강좌 리스
     with connections['default'].cursor() as cur:
         query = '''
             select y.display_name, y.start, y.end, z.created_date, effort
@@ -872,7 +945,11 @@ def series_print(request, id):
         tmp['display_name'] = r4[0]
         tmp['start'] = r4[1]
         tmp['end'] = r4[2]
-        tmp['cert'] = r4[3]
+
+        ccc = r4[3]
+        ccc = ccc.strftime('%Y.%m.%d %H:%M:%S')
+        tmp['cert'] = ccc
+
         effort = r4[4]
         effort = effort.split('@')
         e1 = effort[0]
@@ -940,6 +1017,10 @@ def series_print(request, id):
     context['e2_total'] = e2_total
     context['e3_total'] = e3_total
     context['e4_total'] = e4_total
+    context['cert_uuid'] = cert_uuid
+    context['sign_path_list'] = sign_path_list
+    context['admin_sign_list'] = admin_sign_list
+
     return render_to_response('community/series_print.html', context)
 
 class TbBoard(models.Model):

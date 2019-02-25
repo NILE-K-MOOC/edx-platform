@@ -93,7 +93,7 @@ def new_dashboard(request):
             sql1 = '''
                 select sum(result)
                 from (
-                select x.org, x.display_number_with_default, case when status is not null then sum(1) when status is null then sum(0) end as result
+                select x.org, x.display_number_with_default, case when y.status is not null then sum(1) when y.status is null then sum(0) end as result
                 from (
                 select org, display_number_with_default
                 from series_course
@@ -105,6 +105,7 @@ def new_dashboard(request):
                 join certificates_generatedcertificate b
                 on b.course_id = a.id
                 where b.user_id = '{user_id}'
+                and b.status = 'downloadable'
                 ) y
                 on x.org = y.org
                 and x.display_number_with_default = y.display_number_with_default

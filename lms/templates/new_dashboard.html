@@ -237,7 +237,7 @@ from third_party_auth import provider, pipeline
         <div class="package-btn-cancel" onclick="package_cancel(&#34;${package["series_id"]}&#34, this)">
           취소
         </div>
-        % if package['is_noing'] == 0 and package['is_ing'] == 0:
+        % if package['is_noing'] == 0 and package['is_ing'] == 0 and package['is_cert'] != 0:
         <div class="package-btn-cert" onclick="package_cert(&#34;${package["series_seq"]}&#34)">
           이수증
         </div>
