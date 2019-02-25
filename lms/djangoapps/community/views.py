@@ -775,6 +775,46 @@ def series_print(request, id):
 
     user_id = request.user.id
     cert_uuid = str(uuid.uuid4()).replace('-', '')
+    cert_date = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select count(certificated_id)
+            from series_student
+            where series_seq = '{id}'
+            and user_id = '{user_id}';
+        '''.format(user_id=user_id, id=id)
+        cur.execute(query)
+        check = cur.fetchall()[0][0]
+
+    print "### check -> ", check
+
+    if check == 0:
+        with connections['default'].cursor() as cur:
+            query = '''
+                update series_student
+                set pass_yn = 'Y'
+                , certificated_id = '{cert_uuid}'
+                , certificated_date = now()
+                where series_seq = '{id}'
+                and user_id = '{user_id}';
+            '''.format(user_id=user_id, id=id, cert_uuid=cert_uuid)
+            print query
+            cur.execute(query)
+            check = cur.fetchall()
+    else:
+        with connections['default'].cursor() as cur:
+            query = '''
+                select certificated_id, certificated_date
+                from series_student
+                where series_seq = '{id}'
+                and user_id = '{user_id}';
+            '''.format(user_id=user_id, id=id)
+            print query
+            cur.execute(query)
+            check = cur.fetchall()
+        cert_uuid = check[0][0]
+        cert_date = check[0][1].strftime('%Y.%m.%d')
 
     # 이름 / 생년월일 / 본인인증
     with connections['default'].cursor() as cur:
@@ -839,6 +879,8 @@ def series_print(request, id):
     short_description = row3[0][0]
     org = row3[0][1]
 
+    print "### id -> ", id
+
     # 교수자 사인 (기관)
     with connections['default'].cursor() as cur:
         query = '''
@@ -847,12 +889,16 @@ def series_print(request, id):
             where group_name = '/homepage/series'
             and group_id = '{id}';
             '''.format(id=id)
+        print query
         cur.execute(query)
         admin_sign = cur.fetchall()
 
     admin_sign_list = []
     for n in range(0,8):
-        admin_sign_list.append(admin_sign[n][0])
+        try:
+            admin_sign_list.append(admin_sign[n][0])
+        except BaseException:
+            pass
 
     print "admin_sign_list -> ", admin_sign_list
 
@@ -1018,6 +1064,7 @@ def series_print(request, id):
     context['e3_total'] = e3_total
     context['e4_total'] = e4_total
     context['cert_uuid'] = cert_uuid
+    context['cert_date'] = cert_date
     context['sign_path_list'] = sign_path_list
     context['admin_sign_list'] = admin_sign_list
 
