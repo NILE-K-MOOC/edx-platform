@@ -50,9 +50,13 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         % else:
             <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
         % endif
+
     </div>
+
     <div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>
 </header>
+
+<%include file="navbar-menu.html" args="online_help_token=online_help_token"/>
 
 % if course:
 <!--[if lte IE 9]>

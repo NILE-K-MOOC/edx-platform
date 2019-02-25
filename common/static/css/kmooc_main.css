@@ -1042,7 +1042,7 @@ input[type="radio"].toggle:checked + label {
 }
 
 .kr01_Tmenu li{margin-bottom: 0px !important;}
-.kr01_Tmenu li a{color: #fff; width: 84px; display: inline-block; cursor: pointer;}
+.kr01_Tmenu li a{color: #fff !important; width: 84px; display: inline-block; cursor: pointer;}
 .kr01_Tmenu li a:hover{color:#fff; text-decoration: none;}
 
 .kr01_Tmenu--open {
@@ -1083,7 +1083,7 @@ input[type="radio"].toggle:checked + label {
 
 /* 로그아웃 */
 .kr01-Tlogoutarea{float: left; margin-top: 11px;font-size: 13px;letter-spacing: -.7px;}
-.kr01-Tlogoutarea a{color: #525455;}
+.kr01-Tlogoutarea a{color: #525455 !important;}
 
 /* 알림 */
 .kr01-alertarea{margin-right: 15px; display: inline-block; float: right;}
@@ -1110,7 +1110,7 @@ input[type="radio"].toggle:checked + label {
   margin: 0;
   padding: 0;
   position: absolute;
-  width: 100px;
+  width: 200px;
   overflow: hidden;
   z-index: 999;
 }
@@ -1383,14 +1383,14 @@ input[type="radio"].toggle:checked + label {
   padding: 0 25px;
 }
 
-.kr01nav a {
+.kr01nav a, .kr01nav a:not(.btn), .kr01nav a:visited:not(.btn){
   display: block;
   padding: 0 20px;
   line-height: inherit;
   cursor: pointer;color: #fff;
 }
 
-.kr01nav a:hover{color: #fff;}
+.kr01nav a:hover, .kr01nav a:not(.btn):hover, .kr01nav a:visited:not(.btn):hover{color: #fff;}
 
 .kr01nav__menu {
   line-height: 45px;
@@ -1405,7 +1405,7 @@ input[type="radio"].toggle:checked + label {
   margin-bottom: 0px;
 }
 
-.kr01nav__submenu li a{color: #333;}
+.kr01nav__submenu li a, .kr01nav__submenu li a:not(.btn), .kr01nav__submenu li a:visited:not(.btn){color: #333;}
 
 .kr01nav__menu-item:hover {
 
