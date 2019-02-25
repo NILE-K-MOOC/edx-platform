@@ -27500,3 +27500,8 @@ msgstr "묶음강좌란?"
 msgid "{teacher_name} and {t_len} others"
 msgstr "{teacher_name} 외 {t_len}명"
 
+msgid "FAMILY SITE"
+msgstr "패밀리사이트"
+
+msgid "App Download"
+msgstr "앱 다운로드"
