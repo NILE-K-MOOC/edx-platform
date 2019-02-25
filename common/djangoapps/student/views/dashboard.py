@@ -974,6 +974,33 @@ def student_dashboard(request):
             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
         ]
 
+    final_list = []
+    addinfo_list = list()
+
+    sys.setdefaultencoding('utf-8')
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    for c in course_enrollments:
+        cur = con.cursor()
+        query = """
+                SELECT DATE_FORMAT(max(modified), "최근 접속일: `%y.%m.%d."), course_id
+                  FROM courseware_studentmodule
+                 WHERE student_id = '{0}' AND course_id = '{1}';
+            """.format(user.id, c.course.id)
+        cur.execute(query)
+        final_day = cur.fetchall()
+        final_list.append(list(final_day[0]))
+
+        cur.close()
+
+        addinfo_list.append(dashboard_course_addinfo(c.course_overview))
+
+    con.close()
+
+
     context = {
         'urls': urls,
         'programs_data': programs_data,
@@ -1021,7 +1048,9 @@ def student_dashboard(request):
         'display_sidebar_account_activation_message': not (user.is_active or hide_dashboard_courses_until_activated),
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
-        'status_flag': status
+        'status_flag': status,
+        'final_list': final_list,
+        'addinfo_list': addinfo_list,
     }
 
     if ecommerce_service.is_enabled(request.user):
@@ -1045,6 +1074,61 @@ def student_dashboard(request):
         print "dashboard_ajax-----------ok"
         return render_to_response('dashboard_ajax.html', context)
     return response
+
+
+# addinfo 테이블 데이터
+def dashboard_course_addinfo(course_overview):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT course_id,
+                   ifnull(teacher_name, ''),
+                   ifnull(course_level, 'Not applicable'),
+                   b.classfy,
+                   c.middle_classfy
+              FROM course_overview_addinfo a
+                   LEFT JOIN (SELECT detail_code, detail_ename classfy
+                                FROM code_detail
+                               WHERE group_code = '001') b
+                      ON a.classfy = b.detail_code
+                   LEFT JOIN (SELECT detail_code, detail_ename middle_classfy
+                                FROM code_detail
+                               WHERE group_code = '002') c
+                      ON a.middle_classfy = c.detail_code
+             WHERE course_id = '{course_id}';
+                '''.format(course_id=course_overview.id)
+        cur.execute(query)
+        addinfo_data = cur.fetchone()
+
+        info_dict = dict()
+        info_dict['course_id'] = addinfo_data[0]
+
+        if addinfo_data[1].find(',') != -1:
+            teacher_len = len(addinfo_data[1].split(','))
+            info_dict['teacher_name'] = [addinfo_data[1].split(',')[0].strip(), teacher_len-1]
+        else:
+            info_dict['teacher_name'] = [addinfo_data[1].strip(), 0]
+
+        info_dict['course_level'] = addinfo_data[2]
+        info_dict['classfy'] = addinfo_data[3]
+        info_dict['middle_classfy'] = addinfo_data[4]
+
+        c_start = course_overview.start.strftime('`%y.%m.%d.')
+        c_end = course_overview.end.strftime('`%y.%m.%d.')
+
+        # 강좌운영기간
+        info_dict['course_date'] = str(c_start) + ' ~ ' + str(c_end)
+
+        # 주차
+        effort = course_overview.effort if course_overview.effort else '0'
+
+        if effort != '0' and effort.find('@') != -1 and effort.find('#') != -1:
+            info_dict['week'] = effort.split('@')[1].split('#')[0]
+        elif effort != '0' and effort.find('@') != -1 and effort.find('#') == -1:
+            info_dict['week'] = effort.split('@')[1]
+        else:
+            info_dict['week'] = '0'
+
+    return info_dict
 
 
 @csrf_exempt

@@ -114,7 +114,7 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
           % endif
         </h3>
         <div class="course-info">
-          <span class="info-university">${course_overview.display_org_with_default} - </span>
+          <span class="info-university">${_(course_overview.display_org_with_default)} - </span>
           <span class="info-course-id">${course_overview.display_number_with_default}</span>
           <%
             if course_overview.start_date_is_still_default:
@@ -164,6 +164,26 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
                     % endif
                 % endif
             </span>
+
+            <span class="info-date-block" data-tooltip="Hi">
+            % for final in final_list:
+              % if (str(course_overview) == str(final[1])):
+                <p>${final[0]}</p>
+              % endif
+            % endfor
+            </span>
+            <span class="info-date-block" data-tooltip="Hi">
+                % for info in addinfo_list:
+                  % if (str(course_overview) == str(info['course_id'])):
+                    % if info['teacher_name'][1] != 0:
+                      <p>${_("{teacher_name} and {t_len} others").format(teacher_name=info['teacher_name'][0], t_len=info['teacher_name'][1])}</p>
+                    % else:
+                      <p>${info['teacher_name'][0]}</p>
+                    % endif
+                  % endif
+                % endfor
+            </span>
+
             % if entitlement and not is_unfulfilled_entitlement and entitlement_expiration_date:
                 <div class="info-expires-at">
                         <span class="msg-icon fa fa-warning" aria-hidden="true"></span>
