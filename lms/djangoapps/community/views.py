@@ -814,8 +814,11 @@ def series_print(request, id):
         cur.execute(query)
         row2 = cur.fetchall()
 
-    package_name = row2[0][0]
-    package_cousre =row2
+    try:
+        package_name = row2[0][0]
+        package_cousre =row2
+    except BaseException:
+        return JsonResponse({"error": "There is no course in the package course."})
 
     # 짧은소개 / 기관
     with connections['default'].cursor() as cur:

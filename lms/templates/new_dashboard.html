@@ -208,7 +208,7 @@ from third_party_auth import provider, pipeline
     <div class="package-course-card">
 
       <div class="package-course-img-container">
-        <img onclick="package_move(&#34;${package["series_seq"]}&#34;)" class="package-course-img" src="http://www.kmooc.kr/asset-v1:KHUk+KH401+2019_T1_1+type@asset+block@main_2019_1_KH401.jpg">
+        <img onclick="package_move(&#34;${package["series_seq"]}&#34;)" class="package-course-img" src="${package['save_path']}">
       </div>
 
       <div class="package-course-content">
@@ -237,9 +237,11 @@ from third_party_auth import provider, pipeline
         <div class="package-btn-cancel" onclick="package_cancel(&#34;${package["series_id"]}&#34, this)">
           취소
         </div>
+        % if package['is_noing'] == 0 and package['is_ing'] == 0:
         <div class="package-btn-cert" onclick="package_cert(&#34;${package["series_seq"]}&#34)">
           이수증
         </div>
+        % endif
       </div>
     </div>
     % endfor

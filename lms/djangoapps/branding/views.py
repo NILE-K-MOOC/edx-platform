@@ -1,4 +1,4 @@
-"""Views for the branding app. """
+#-*- coding: utf-8 -*-
 import logging
 import urllib
 
@@ -56,6 +56,7 @@ def new_dashboard(request):
 
     user_id = request.user.id
 
+    # 패키지 강좌 목록 조회
     with connections['default'].cursor() as cur:
         sql = '''
             select y.series_seq, y.series_id, y.series_name, y.save_path, y.detail_name
@@ -88,6 +89,7 @@ def new_dashboard(request):
         tmp_dict['detail_name'] = temp[4]
 
         with connections['default'].cursor() as cur:
+            # 패키지 강좌 이수 개수
             sql1 = '''
                 select sum(result)
                 from (
@@ -115,6 +117,7 @@ def new_dashboard(request):
             cur.execute(sql1)
             is_cert = cur.fetchall()[0][0]
 
+            # 패키지 강좌 진행 개수
             sql2 = '''
                 select sum(result)
                 from (
@@ -130,7 +133,7 @@ def new_dashboard(request):
                       select id, org, display_number_with_default
                       from course_overviews_courseoverview
                       where start < now()
-                      and end < now()
+                      and end > now()
                   ) x
                   join (
                       select course_id
@@ -151,6 +154,7 @@ def new_dashboard(request):
             cur.execute(sql2)
             is_ing = cur.fetchall()[0][0]
 
+            # 패키지 강좌 총 개수
             sql3 = '''
                 select count(*)
                 from series_course
@@ -178,7 +182,7 @@ def new_dashboard(request):
 
         tmp_dict['is_cert'] = is_cert
         tmp_dict['is_ing'] = is_ing
-        tmp_dict['is_noing'] = is_total - is_ing
+        tmp_dict['is_noing'] = is_total - (is_ing + is_cert)
         packages.append(tmp_dict)
 
     print packages
