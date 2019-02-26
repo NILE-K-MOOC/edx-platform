@@ -20,25 +20,26 @@
   </script>
 </head>
 
-<script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script>
+  function changeEventHandler(event) {
+    console.log(event.target.value);
+    var org = event.target.value;
 
-console.log('hello select');
-
-$( "select" )
-  .change(function () {
-    var str = "";
-    $( "select option:selected" ).each(function() {
-      str += $( this ).text() + " ";
-    });
-    alert(str);
-  })
-  .change();
+    if(org == '선택 없음'){
+      $('#multi_info').html('')
+    } else {
+      $.post( "/api/get_org_value", {
+        org: org
+      })
+      .done(function( data ) {
+        console.log(org + ' ' + data.result);
+        $('#multi_info').html(org + ' ' + data.result)
+      });
+    }
+  }
 </script>
+
 <div id="fb-root"></div>
 <div class="wrapper-banner wrapper-banner-user">
   <section class="banner banner-user">
@@ -53,11 +54,12 @@ $( "select" )
             시리즈 교육 확인증 인쇄하기
           </button>
 
-          <select id="multisite" name="fruit">
-            <option value="null">선택안함</option>
-            <option value="hyndai">현대제철</option>
-            <option value="lgino">LG이노텍</option>
-          </select>
+        <select size="1" onchange="changeEventHandler(event);">
+          <option>선택 없음</option>
+          % for org in org_list:
+          <option>${org[0]}</option>
+          % endfor
+        </select>
         </div>
       </div>
     </div>
@@ -173,7 +175,7 @@ $( "select" )
         top: 393px;
         left: 68px;
       }
-      blockquote{height: 180px;}
+      blockquote{height: 165px;}
       .ce-t-gray{color:#959595;}
       .content h1 {font-size:50px; margin-bottom: 80px; margin-top: 40px;}
       .ce-txt-second {margin-top: 0px; font-size: 20px;}
@@ -233,6 +235,7 @@ $( "select" )
             % if user_nice == 'Y':
             (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
             % endif
+            <span id="multi_info" style="font-size: 20px;color: #8a8585;"></span>
           </h4>
 
           <h5  class="ce-t-gray">묶음 강좌명</h5>

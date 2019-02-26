@@ -81,6 +81,7 @@ urlpatterns = [
 
     url(r'^new_dashboard$', branding_views.new_dashboard, name='new_dashboard'),
     url(r'^api/series_cancel$', branding_views.series_cancel, name='series_cancel'),
+    url(r'^api/get_org_value$', branding_views.get_org_value, name='get_org_value'),
 
     url(r'^api/get_org_list$', branding_views.get_org_list, name='get_org_list'),
     url(r'^api/get_multisite_list$', branding_views.get_multisite_list, name='get_multisite_list'),

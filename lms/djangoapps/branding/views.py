@@ -29,6 +29,31 @@ log = logging.getLogger(__name__)
 
 
 @csrf_exempt
+def get_org_value(request):
+
+    org = request.POST.get('org')
+    user_id = request.user.id
+
+    print "### org -> ", org
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            select b.org_user_id
+            from multisite a
+            join multisite_member b
+            on a.site_id = b.site_id
+            where site_name = '{org}'
+            and b.user_id = '{user_id}';
+        '''.format(org=org, user_id=user_id)
+
+        print sql
+        cur.execute(sql)
+        org_user_id = cur.fetchall()[0][0]
+
+    return JsonResponse({'result':org_user_id})
+
+
+@csrf_exempt
 def series_cancel(request):
 
     id = request.POST.get('id')

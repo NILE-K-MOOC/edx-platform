@@ -770,7 +770,7 @@ def series_enroll(request, id):
     return JsonResponse({'msg': return_msg})
 
 
-
+import urllib2
 def series_print(request, id):
 
     user_id = request.user.id
@@ -825,13 +825,13 @@ def series_print(request, id):
             then 'N'
             when c.id is not null
             then 'Y'
-            end as nice
+            end as nice, plain_data
             from auth_user a
             join auth_userprofile b
             on a.id = b.user_id
             left join auth_user_nicecheck c
             on a.id = c.user_Id
-            where a.id = '10';
+            where a.id = '13';
         '''.format(user_id=user_id)
         cur.execute(query)
         row1 = cur.fetchall()
@@ -839,7 +839,22 @@ def series_print(request, id):
     user_name = row1[0][0]
     user_birth = row1[0][1]
     user_nice = row1[0][2]
-    user_nice = 'Y' # test
+
+    if user_nice == 'Y':
+        pd = row1[0][3]
+        pd = json.loads(pd)
+
+        print "pd['UTF8_NAME'] -> ", pd['UTF8_NAME']
+        print "pd['UTF8_NAME'] -> ", pd['UTF8_NAME']
+        print "pd['UTF8_NAME'] -> ", pd['UTF8_NAME']
+        user_name = urllib2.unquote(pd['UTF8_NAME']).decode('utf8')
+        print 'user_name -> ', user_name
+        print 'user_name -> ', user_name
+        print 'user_name -> ', user_name
+
+        pd = pd['BIRTHDATE']
+        pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+        user_birth = pd
 
     # 출력일시
     kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
@@ -1050,6 +1065,17 @@ def series_print(request, id):
 
     e4_total = str(e4_front) + '시간 ' + str(e4_back) + '분'
 
+    with connections['default'].cursor() as cur:
+        query = '''
+            select site_name
+            from multisite_member a
+            join multisite b
+            on a.site_id = b.site_id
+            where user_id = '{user_id}';
+        '''.format(user_id=user_id, id=id)
+        cur.execute(query)
+        org_list = cur.fetchall()
+
     context = {}
     context['user_name'] = user_name
     context['user_birth'] = user_birth
@@ -1067,6 +1093,7 @@ def series_print(request, id):
     context['cert_date'] = cert_date
     context['sign_path_list'] = sign_path_list
     context['admin_sign_list'] = admin_sign_list
+    context['org_list'] = org_list
 
     return render_to_response('community/series_print.html', context)
 
