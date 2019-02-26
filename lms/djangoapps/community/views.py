@@ -844,13 +844,7 @@ def series_print(request, id):
         pd = row1[0][3]
         pd = json.loads(pd)
 
-        print "pd['UTF8_NAME'] -> ", pd['UTF8_NAME']
-        print "pd['UTF8_NAME'] -> ", pd['UTF8_NAME']
-        print "pd['UTF8_NAME'] -> ", pd['UTF8_NAME']
-        user_name = urllib2.unquote(pd['UTF8_NAME']).decode('utf8')
-        print 'user_name -> ', user_name
-        print 'user_name -> ', user_name
-        print 'user_name -> ', user_name
+        user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
 
         pd = pd['BIRTHDATE']
         pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
