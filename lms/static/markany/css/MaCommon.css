@@ -1,0 +1,98 @@
+@CHARSET "UTF-8";
+
+.section {
+	width: 500px;
+	text-align: center;
+	display: block;
+}
+.container {
+	position: relative;
+	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+}
+.content {
+	display: block;
+	width: 500px;
+	margin: 0 auto;
+	margin-top: 80px;
+}
+
+#content {
+	display: block;
+	font-size: 11px;
+	margin-top: 40px;
+	text-align: center;
+}
+
+img {
+	margin: 0 auto;
+	display: block;
+}
+
+
+body, td {
+	font-size: 9pt;
+	font-family: 돋움, Arial;
+	color: #6D6D6D;
+	line-height: 10pt;
+}
+
+#browserChkComment{
+	text-align: left;
+	margin-left: 50px;
+	margin-top: 20px;
+}
+
+
+
+#installSection{
+	font-size: 12px;
+	line-height: 20px;
+	height: 100px;
+	position: relative;
+}
+#popLayer {
+	width: 400px;
+	height: 200px;
+	border: solid 3px #3F51B5;
+	background-color: #FFF;
+	border-radius: 15px;
+	padding: 0 10px;
+}
+
+#popLayer h3{
+	border-bottom: solid 2px #3F51B5;
+	padding-bottom: 10px;
+}
+
+#progressbar {
+	margin: 10px 0;
+	text-align: center;
+}
+
+#progressbar img {
+	width: 13%;
+}
+
+#btnSection{
+	text-align: right;
+}
+
+.btn-class{
+	display: inline-block;
+	border:1px solid #424242;
+	border-radius: 3px 3px 3px 3px;
+	-webkit-border-radius: 3px 3px 3px 3px;
+	-moz-border-radius: 3px 3px 3px 3px;
+	font-family: Arial;
+	width: auto;
+	height: auto;
+	font-size: 12px;
+	padding: 5px 9px;
+	background-color: #F5F5F5;
+	font-weight: bold;
+}
+.btn-class:hover, .btn-class:active{
+	border:1px solid #0E0996;
+}

@@ -537,6 +537,7 @@ def certificate_print(request):
 def series_print(request):
     print_index = request.POST.get('print_index')
 
+    """
     strHtmlData = '''
             <HTML>
             <HEAD>
@@ -549,6 +550,20 @@ def series_print(request):
             </BODY>
             </HTML>
     '''.format(print_index=print_index)
+    """
+
+    strHtmlData = '''
+                <HTML>
+                <HEAD>
+                <TITLE>KMOOC 시리즈강좌</TITLE>
+                <META http-equiv=Content-Type content="text/html; charset=utf-8">
+                <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
+                </HEAD>
+                <BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
+                hello world
+                </BODY>
+                </HTML>
+        '''.format(print_index=print_index)
 
     strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
 
@@ -605,10 +620,18 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
 
     ma_cookie_data = ''
 
+    print "MaFpsCommon.strMAServerIP -> ", MaFpsCommon.strMAServerIP
+    print "MaFpsCommon.iMAServerPort -> ", MaFpsCommon.iMAServerPort
+
     (strRetCode, strAMetaData) = mapreprocessor.strMaPrestreamWmByte(MaFpsCommon.strMAServerIP,
                                                                      MaFpsCommon.iMAServerPort, strHtmlData,
                                                                      iHtmlDataSize, MaFpsCommon.iCellBlockCount,
                                                                      MaFpsCommon.iCellBlockRow)
+
+    print "strRetCode -> ", strRetCode
+    print "strAMetaData -> ", strAMetaData
+    print "mapreprocessor.ISUCCESS -> ", mapreprocessor.ISUCCESS
+
     if strRetCode == mapreprocessor.ISUCCESS:
         iAMetaDataSize = len(strAMetaData)
 

@@ -12,10 +12,8 @@ strPVersion = "25131"
 strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
-# strMAServerIP = "127.0.0.1"
-#strMAServerIP = "203.235.44.153"
-strMAServerIP = "192.168.33.33"
-iMAServerPort = 18000
+strMAServerIP = "docker.for.mac.localhost"
+iMAServerPort = 8888
 iCellBlockCount = "15"
 iCellBlockRow = "2"
 
@@ -35,8 +33,8 @@ iQuickSet = 1      # 1: Use QuickUrl, 2: Use Service Check
 
 # iUseNas:1 -> set meta temp directory
 strCurrentPath = "/static/markany"                 # ex) getServletContext().getRealPath("") + "/product/install/MarkAny";
-strDownFolder = "/var/tmp";                    # metafile location        # log
-strPrtDatDownFolder = strCurrentPath + "/bin/";         # dat
+strDownFolder = "/var/tmp"                    # metafile location        # log
+strPrtDatDownFolder = strCurrentPath + "/bin/"         # dat
 
 # setting Install Page
 iUseInstallPage = 1    # 1: Use install page 0: download exe directly
@@ -72,7 +70,7 @@ strPrintURL = ""         # new String("bak.jsp")     # printparam
 strPrintParam = ""       # new String("?EndPrint=1") # printurl
 
 strSilentOption = ""     # silent
-strDataFileName = "";
+strDataFileName = ""
 
 # Client option set
 PSSTRING = ""
@@ -88,7 +86,7 @@ VIRTUAL = ""                # exception virtual program ex> all allow : Vk1fQUxM
 # Server api set
 strFunctionGubun = "MA"     # MA
 PAGEMARGIN = "0.25^0.25^0.25^0.25"  # PAGEMARGIN L^T^R^B
-strScope = "2";                     # 1 : binary, 2 : BASE64, 3 : compress binary, 4 : e-mail
+strScope = "2"                     # 1 : binary, 2 : BASE64, 3 : compress binary, 4 : e-mail
 strWidthHeight = "1"                # 1 : portrait , 2 : landscape
 strFolder = iCellBlockCount + "^" + iCellBlockRow + "^"     # 2D CellCount:2D CellRow
 strErrorFilePath = ""                                       # not use
