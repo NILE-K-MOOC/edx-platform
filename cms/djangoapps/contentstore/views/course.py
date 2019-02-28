@@ -889,6 +889,13 @@ def _create_or_rerun_course(request):
         org_ename = request.json.get('org_ename')
         fields['org_ename'] = org_ename
 
+        # 4차산업혁명 여부
+        fields['fourth_industry_yn'] = 'N'
+        # 리본 여부
+        fields['ribbon_yn'] = 'N'
+        # 직업교육 여부
+        fields['job_edu_yn'] = 'N'
+
         try:
             with connections['default'].cursor() as cur:
                 query = """

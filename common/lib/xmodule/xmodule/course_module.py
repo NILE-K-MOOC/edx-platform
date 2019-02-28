@@ -191,15 +191,14 @@ class CourseFields(object):
         default=[],
         scope=Scope.content
     )
-    audit_yn = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y',
-                      scope=Scope.settings)
 
+    # 맹일희 에디션 : 중복 소스
+    audit_yn = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y',scope=Scope.settings)
     user_edit = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다."), default=u'N', scope=Scope.settings)
-
-    # Il-Hee, Maeng addition start -------------------
     audit_yn = String(help=_(u"Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y', scope=Scope.settings)
     user_edit = String(help=_(u"Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다."), default=u'N', scope=Scope.settings)
-    # Il-Hee, Maeng addition end -------------------
+    # 맹일희 에디션 : 중복 소스
+
     wiki_slug = String(help=_("Slug that points to the wiki for this course"), scope=Scope.content)
     enrollment_start = Date(help=_("Date that enrollment for this class is opened"), scope=Scope.settings)
     enrollment_end = Date(help=_("Date that enrollment for this class is closed"), scope=Scope.settings)
@@ -275,6 +274,8 @@ class CourseFields(object):
         scope=Scope.content
     )
 
+    # 맹일희 에디션 : 중복 소스
+    # 위 변수가 탈지? 아래 변수가 탈지? 파이썬의 우선순위를 알아맞춰보세요 ^^
     classfy = String(
         help=_("Select Section name"),
         default="all",
@@ -288,7 +289,6 @@ class CourseFields(object):
         display_name=_("Section"),
         scope=Scope.settings
     )
-
 
     classfysub = String(
         help=_("융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
@@ -310,6 +310,8 @@ class CourseFields(object):
         display_name=_("Section"),
         scope=Scope.settings
     )
+    # 맹일희 에디션 : 중복 소스
+    # 위 변수가 탈지? 아래 변수가 탈지? 파이썬의 우선순위를 알아맞춰보세요 ^^
 
     course_period = String(
         help=_("Select Period of Studing"),
@@ -371,32 +373,32 @@ class CourseFields(object):
 
     # 4차산업혁명 여부
     fourth_industry_yn = String(
-        help=_("Select Section name"),
+        help=_("강좌에 4차 산업혁명 설정을 할 수 있습니다"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("fourth_industry_yn"),
         scope=Scope.settings
     )
 
     # 리본 여부
     ribbon_yn = String(
-        help=_("Select Section name"),
+        help=_("강좌에 리본을 표기할지 설정을 할 수 있습니다"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("ribbon_yn"),
         scope=Scope.settings
     )
 
     # 직업교육 여부
     job_edu_yn = String(
-        help=_("Select Section name"),
+        help=_("강좌에 직업 교육 강좌인지 설정할 수 있습니다"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("job_edu_yn"),
         scope=Scope.settings
     )
 
     course_period = String(
         help=_("Select Period of Studing"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("course_period"),
         scope=Scope.settings
     )
 
