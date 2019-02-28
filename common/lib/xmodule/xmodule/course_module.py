@@ -330,7 +330,9 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
-    # Il-Hee, Maeng addition start -------------------
+    # 위험 : 이 구간부터 특급 개발자 "맹일희 부장"이 작성한 코드입니다
+    # 레벨 99 미만의 용사는 접근을 권장하지 않습니다.
+    # 구간 특성 "퇴사충동", "이직충동"이 강하게 상승함.
     classfy = String(
         help=_("Select Section name"),
         default="all",
@@ -344,49 +346,83 @@ class CourseFields(object):
         display_name=_("Section"),
         scope=Scope.settings
     )
+
     classfysub = String(
         help=_(u"융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
         default="all",
         display_name=_("Section"),
         scope=Scope.settings
     )
+
     middle_classfysub = String(
         help=_(u"융복합 분류인 경우 최대 3개 추가입력 가능"),
         default="all",
         display_name=_("Section"),
         scope=Scope.settings
     )
+
+    # 한국학 여부
     linguistics = String(
         help=_("Select Section name"),
         default="all",
         display_name=_("Section"),
         scope=Scope.settings
     )
+
+    # 4차산업혁명 여부
+    fourth_industry_yn = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    # 리본 여부
+    ribbon_yn = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    # 직업교육 여부
+    job_edu_yn = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
     course_period = String(
         help=_("Select Period of Studing"),
         default="all",
         display_name=_("Section"),
         scope=Scope.settings
     )
+
     org_kname = String(
        help=_("Select Section name"),
        default="all",
        display_name=_("org_kname"),
        scope=Scope.settings
     )
+
     org_ename = String(
        help=_("Select Section name"),
        default="all",
        display_name=_("org_ename"),
        scope=Scope.settings
     )
+
     teacher_name = String(
        help=_("Teacher name"),
        default="all",
        display_name=_("teacher_name"),
        scope=Scope.settings
     )
-    # Il-Hee, Maeng addition end ------------------- <--error (org_kname, org_ename, teacher_name)
+    # 위험 : 이 구간부터 특급 개발자 "맹일희 부장"이 작성한 코드입니다
+    # 레벨 99 미만의 용사는 접근을 권장하지 않습니다.
+    # 구간 특성 "퇴사충동", "이직충동"이 강하게 상승함.
 
     course_edit_method = String(
         display_name=_("Course Editor"),
