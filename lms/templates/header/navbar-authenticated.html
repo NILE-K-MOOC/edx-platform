@@ -82,51 +82,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     border:1px solid rgba(0,0,0,0.15);
     border-radius:0.1875rem}
 </style>
-    <!--if show_dashboard_tabs 임시 fasle 조건 추가  18.12.18 jhy -->
-    <!--if show_dashboard_tabs 원상복구  19.01.14 jhy -->
-    % if show_dashboard_tabs:
-    <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="tab-nav-link" href="/about">${_("About Us")}</a>
-      </div>
-      <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="${reverse('courses')}">
-          ${_("Courses")}
-        </a>
-      </div>
-    <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="${'active ' if '/u/' in request.path  else ''}tab-nav-link" href="/schools" data-hover-label='${_("Participating Institutions")}'>
-          ${_("Participating Institutions")}
-        </a>
-      </div>
-    % if LANGUAGE_CODE != 'en':
-    <li class=" mobile-nav-item hidden-mobile nav-item nav-tab nav-item-dropdown item nav-global-04"><a href="#" class="comm_a" data-hover-label='${_("Community")}'><span class="effect_label">${_("Community")}</span></a>
-        <ul class="dropdown-menu" style="width: 200px;">
-            <li id="menu1"><a href="/comm_list/N" >공지사항</a></li>
-            <li id="menu2"><a href="/comm_list/K">K-MOOC 뉴스</a></li>
-            <li id="menu3"><a href="/comm_list/R">자료실</a></li>
-            <li id="menu4"><a href="/comm_tabs/kmooc_f/">FAQ</a></li>
-        </ul>
-    </li>
-    %endif
-      <!--
-      % if show_program_listing:
-        <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-          <a class="${'active ' if reverse('program_listing_view') in request.path else ''}tab-nav-link" href="${reverse('program_listing_view')}">
-            ${_("Programs")}
-          </a>
-        </div>
-      % endif
-      <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="${'active ' if '/u/' in request.path  else ''}tab-nav-link" href="${reverse('learner_profile', args=[self.real_user.username])}">
-          ${_("Profile")}
-        </a>
-      </div>
-      -->
 
-
-
-    % endif
-    % if show_explore_courses:
+    <!--% if show_explore_courses:-->
       <!--로그인했을때-->
       <section class="kre01_top01area">
           <section class="courses-container kr01_topTbg01">
@@ -176,7 +133,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                   <div class="kr01-alertarea">
                       <nav class="kr01_bellarea">
                           <div class="dropdown hover">
-                              <a href="#" class="bgnone">
+                              <a href="/memo" class="bgnone" title="${_('K-MOOC Notification')}">
                                   <i><img src="/static/images/main/bell.png"></i>
                                   <span id="cnt">0</span>
                               </a>
@@ -184,7 +141,6 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                               </ul>
                           </div>
                       </nav>
-
                       <!-- 내강의실 -->
                       <%include file="user_dropdown.html"/>
                   </div>
@@ -193,73 +149,71 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
 
           <section class="courses-container bg-w">
               <section class="highlighted-courses">
-                  <div class="kre01_top02area">
-                      <h1 class="header-logo kre01_tlogo02">
-                          <a href="${branding_api.get_home_url()}">
-                              <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
-                          </a>
-                      </h1>
+        % if request.path == '/':
+                <div class="kre01_top02area">
+                  <h1 class="header-logo kre01_tlogo02">
+                    <a href="${branding_api.get_home_url()}">
+                      <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                    </a>
+                  </h1>
 
-                      % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
-                      <!--<div class="course-search">-->
-                          <!--<form method="get" action="/courses">-->
-                              <!--<label><span class="sr">${_("Search for a course")}</span>-->
-                                  <!--<input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>-->
-                              <!--</label>-->
-                              <!--<button class="search-button" type="submit">-->
-                                  <!--<span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>-->
-                              <!--</button>-->
-                          <!--</form>-->
-                      <!--</div>-->
-                      <div class="course-search">
-                          <form method="get" action="/courses">
-                              <label><span class="sr">${_("Search for a course")}</span>
-                                  <input name="search_query" type="text" placeholder="${_("Search for a course")}"/>
-                              </label>
-                              <button type="submit">
-                                  <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search.png" alt=""></span>
-                                  <span class="sr">${_("Search")}</span>
-                              </button>
-                          </form>
+                  % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
+                  <div class="course-search">
+                    <form method="get" action="/courses" id="main_form">
+                      <div class="search-division">
+                        <label><span class="sr">${_("Search for a course")}</span>
+                          <input name="search_query" class="search-query" type="text" placeholder="${_("Search for a course")}"/>
+                        </label>
+                        <button type="submit">
+                          <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search.png" alt=""></span>
+                          <span class="sr">${_("Search")}</span>
+                        </button>
                       </div>
-                      % endif
-                      <div class="secondary">
-                          <div class="kre01_joinarea">
-                              <!--로그인 했을 때 대시보드/로그아웃(로그인 안했을때는 따로 작업 필요)-->
-                              <div class="mobile-nav-item hidden-mobile nav-item kr01-join">
-                                  <a class="register-btn btn" href="${reverse('dashboard')}">${_("Dashboard")}</a>
-                              </div>
-                              <div class="mobile-nav-item hidden-mobile nav-item">
-                                  <a class="sign-in-btn btn" href="${reverse('logout')}">${_("Sign Out")}</a>
-                              </div>
-                          </div>
-                      </div>
+                    </form>
                   </div>
+                  % endif
+                  <div class="secondary">
+                    <div class="kre01_joinarea">
+                      <!--로그인 했을 때 대시보드/로그아웃(로그인 안했을때는 따로 작업 필요)-->
+                      <div class="mobile-nav-item hidden-mobile nav-item kr01-join">
+                        <a class="register-btn btn" href="${reverse('dashboard')}">${_("Dashboard")}</a>
+                      </div>
+                      <div class="mobile-nav-item hidden-mobile nav-item">
+                        <a class="sign-in-btn btn" href="${reverse('logout')}">${_("Sign Out")}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        % else:
+                <div class="kre02_top02area">
+                  <h1 class="header-logo kre02_tlogo02">
+                    <a href="${branding_api.get_home_url()}">
+                      <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                    </a>
+                  </h1>
+
+                  <div class="course-search">
+                    <form method="get" action="/courses" id="main_form">
+                      <div class="search-division">
+                        <label><span class="sr">${_("Search for a course")}</span>
+                          <input name="search_query" class="search-query" type="text" placeholder="${_("Search for a course")}">
+                        </label>
+                        <button type="submit">
+                          <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search_sub.png" alt=""></span>
+                          <span class="sr">${_("Search")}</span>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+        % endif
               </section>
           </section>
       </section>
 
 
-
-    <!-- 언어선택 -->
-
-        <!--
-        <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="tab-nav-link" href="${marketing_link('COURSES')}">${_('Discover New')}</a>
-      </div>
-        <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="${'active ' if '/u/' in request.path  else ''}tab-nav-link" href="${reverse('learner_profile', args=[self.real_user.username])}">
-          ${_("Profile")}
-        </a>
-      </div>
-        <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-          <a class="${'active ' if reverse('program_listing_view') in request.path else ''}tab-nav-link" href="${reverse('program_listing_view')}">
-            ${_("Programs")}
-          </a>
-        </div>
-        -->
-
-    % endif
+    <!--% endif-->
 
     % if show_sysadmin_dashboard:
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">

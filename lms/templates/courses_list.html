@@ -2,12 +2,15 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
-<section class="courses-container">
+<section class="courses-container bg-w">
   <section class="highlighted-courses">
-
+    <span>
+		  <i class="kr01_iconarea" style=" "><img src="/static/images/main/kr_title02.png"></i>
+		  <span class="kr01_icontTitle">신규강좌</span>
+	  </span>
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-      <section class="courses" style="padding-bottom: 0;">
-        <ul class="courses-listing">
+      <section class="courses kr01_movie_slider">
+        <ul class="course-card-slider bxslider">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
             <% idx = 0 %>
           %for course in courses:
@@ -16,7 +19,7 @@
           <li class="courses-listing-item">
               <%include file="course.html" args="course=course" />
           </li>
-            % if idx == 8:
+            % if idx == 12:
             <% break %>
             % endif
           ##% endif
@@ -33,5 +36,29 @@
         % endif
     % endif
 
+  </section>
+</section>
+
+<!-- 인기강좌 -->
+<section class="courses-container bg-w">
+  <section class="highlighted-courses">
+	<span>
+		<i class="kr01_iconarea" style=" "><img src="/static/images/main/kr_title03.png"></i>
+		<span class="kr01_icontTitle">인기강좌</span>
+	</span>
+    <section  class="courses kr01_movie_slider">
+      <ul class="course-card-slider bxslider">
+        %for course in courses:
+          ##% if course.classfy == classfy or classfy == 'course_all':
+            <% idx += 1 %>
+          <li class="courses-listing-item">
+              <%include file="course.html" args="course=course" />
+          </li>
+            % if idx == 24:
+            <% break %>
+            % endif
+        % endfor
+      </ul>
+    </section>
   </section>
 </section>

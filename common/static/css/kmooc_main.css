@@ -25,7 +25,12 @@ li{
 
 
 
-.global-header{padding-bottom:0px;}
+.global-header{
+  padding-bottom: 0px;
+  border-bottom: 0px;
+  overflow: initial;
+    z-index: 1000;
+}
 
 /* mobole logo */
 .kre01_tlogo{display:none !important;}
@@ -117,16 +122,16 @@ li{
 .fivemenarea li a i{margin-right: 5px; }
 .fivemenarea li a span{font-size: 17px; font-weight: bold; letter-spacing: -2px; vertical-align: top; display: inline-block; line-height: 51px; }
 .fivemenarea li a i{width: 45px; height: 49px; display: inline-block;}
-.kr01_f01 > div > a > i{background:url(./img/top_secmenu1.png); background-position: 50% 50%; background-repeat: no-repeat;}
-.kr01_f01 > div > a:hover i{background:url(./img/top_secmenu1_hover.png);}
-.kr01_f02 > div > a > i{background:url(./img/top_secmenu2.png); background-position: 50% 50%; background-repeat: no-repeat;}
-.kr01_f02 > div > a:hover i{background:url(./img/top_secmenu2_hover.png);}
-.kr01_f03 > div > a > i{background:url(./img/top_secmenu3.png); background-position: 50% 50%; background-repeat: no-repeat;}
-.kr01_f03 > div > a:hover i{background:url(./img/top_secmenu3_hover.png);}
-.kr01_f04 > div > a > i{background:url(./img/top_secmenu4.png); background-position: 50% 50%; background-repeat: no-repeat;}
-.kr01_f04 > div > a:hover i{background:url(./img/top_secmenu4_hover.png);}
-.kr01_f05 > div > a > i{background:url(./img/top_secmenu5.png); background-position: 50% 50%; background-repeat: no-repeat;}
-.kr01_f05 > div > a:hover i{background:url(./img/top_secmenu5_hover.png);}
+.kr01_f01 > div > a > i{background:url(/static/images/main/top_secmenu1.png); background-position: 50% 50%; background-repeat: no-repeat;}
+.kr01_f01 > div > a:hover i{background:url(/static/images/main/top_secmenu1_hover.png);}
+.kr01_f02 > div > a > i{background:url(/static/images/main/top_secmenu2.png); background-position: 50% 50%; background-repeat: no-repeat;}
+.kr01_f02 > div > a:hover i{background:url(/static/images/main/top_secmenu2_hover.png);}
+.kr01_f03 > div > a > i{background:url(/static/images/main/top_secmenu3.png); background-position: 50% 50%; background-repeat: no-repeat;}
+.kr01_f03 > div > a:hover i{background:url(/static/images/main/top_secmenu3_hover.png);}
+.kr01_f04 > div > a > i{background:url(/static/images/main/top_secmenu4.png); background-position: 50% 50%; background-repeat: no-repeat;}
+.kr01_f04 > div > a:hover i{background:url(/static/images/main/top_secmenu4_hover.png);}
+.kr01_f05 > div > a > i{background:url(/static/images/main/top_secmenu5.png); background-position: 50% 50%; background-repeat: no-repeat;}
+.kr01_f05 > div > a:hover i{background:url(/static/images/main/top_secmenu5_hover.png);}
 
 .kr01_fivemenu02{display: none;}
 
@@ -312,7 +317,6 @@ ul.bxslider {
 
 .kr01_alert_slider .bx-wrapper .bx-loading {
   min-height: 50px;
-  background: url(images/bx_loader.gif) center center no-repeat #fff;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -357,19 +361,19 @@ ul.bxslider {
 
 .kr01_alert_slider .bx-wrapper .bx-prev {
   left: 10px;
-  background: url(../mg/arrow-top.png) 0 -32px no-repeat;
+  background: url(/static/images/main/arrow-top.png) 0 -32px no-repeat;
 }
 
 
 .bxslider-prev .bx-prev{
-  background: url(./img/arrow-top.png) no-repeat;
+  background: url(/static/images/main/arrow-top.png) no-repeat;
   width: 18px;
   height: 13px;
   display: inline-block;
 }
 
 .bxslider-next .bx-next {
-  background: url(./img/arrow-bottom.png) no-repeat;
+  background: url(/static/images/main/arrow-bottom.png) no-repeat;
   width: 18px;
   height: 13px;
   display: inline-block;
@@ -414,7 +418,7 @@ ul.bxslider {
   width: 10px;
   height: 11px;
   outline: 0;
-  background: url(images/controls.png) -86px -11px no-repeat;
+  background: url(/static/images/main/controls.png) -86px -11px no-repeat;
   margin: 0 3px;
 }
 
@@ -428,7 +432,7 @@ ul.bxslider {
   width: 9px;
   height: 11px;
   outline: 0;
-  background: url(images/controls.png) -86px -44px no-repeat;
+  background: url(/static/images/main/controls.png) -86px -44px no-repeat;
   margin: 0 3px;
 }
 
@@ -565,7 +569,6 @@ ul.bxslider {
 /* LOADER */
 .kr01_movie_slider .bx-wrapper .bx-loading {
   min-height: 50px;
-  background: url('../images/bx_loader.gif') center center no-repeat #ffffff;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -614,7 +617,7 @@ ul.bxslider {
 /* DIRECTION CONTROLS (NEXT / PREV) */
 .kr01_movie_slider .bx-wrapper .bx-prev {
   left: 10px;
-  background: url('./img/controls.png') no-repeat 0 -32px;
+  background: url('/static/images/main/controls.png') no-repeat 0 -32px;
 }
 .kr01_movie_slider .bx-wrapper .bx-prev:hover,
 .kr01_movie_slider .bx-wrapper .bx-prev:focus {
@@ -622,7 +625,7 @@ ul.bxslider {
 }
 .kr01_movie_slider .bx-wrapper .bx-next {
   right: 10px;
-  background: url('./img/controls.png') no-repeat -43px -32px;
+  background: url('/static/images/main/controls.png') no-repeat -43px -32px;
 }
 .kr01_movie_slider .bx-wrapper .bx-next:hover,
 .kr01_movie_slider .bx-wrapper .bx-next:focus {
@@ -651,7 +654,7 @@ ul.bxslider {
   width: 10px;
   height: 11px;
   outline: 0;
-  background: url('./img/controls.png') -86px -11px no-repeat;
+  background: url('/static/images/main/controls.png') -86px -11px no-repeat;
   margin: 0 3px;
 }
 .kr01_movie_slider .bx-wrapper .bx-controls-auto .bx-start:hover,
@@ -665,7 +668,7 @@ ul.bxslider {
   width: 9px;
   height: 11px;
   outline: 0;
-  background: url('./img/controls.png') -86px -44px no-repeat;
+  background: url('/static/images/main/controls.png') -86px -44px no-repeat;
   margin: 0 3px;
 }
 .kr01_movie_slider .bx-wrapper .bx-controls-auto .bx-stop:hover,
@@ -777,7 +780,6 @@ ul.bxslider {
 
 .kr01_mainslider_area .bx-wrapper .bx-loading {
   min-height: 50px;
-  background: url(//bxslider.com/lib/images/bx_loader.gif) center center no-repeat #fff;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -830,12 +832,12 @@ ul.bxslider {
 
 .kr01_mainslider_area .bx-wrapper .bx-prev {
   left: 10px;
-  background: url('./img/controls.png') no-repeat 0 -32px;
+  background: url('/static/images/main/controls.png') no-repeat 0 -32px;
 }
 
 .kr01_mainslider_area .bx-wrapper .bx-next {
   right: 10px;
-  background: url('./img/controls.png') no-repeat -43px -32px;
+  background: url('/static/images/main/controls.png') no-repeat -43px -32px;
 }
 
 .kr01_mainslider_area .bx-wrapper .bx-prev:hover {
@@ -873,7 +875,7 @@ ul.bxslider {
   width: 10px;
   height: 11px;
   outline: 0;
-  background: url('./img/controls.png') -86px -11px no-repeat;
+  background: url('/static/images/main/controls.png') -86px -11px no-repeat;
   margin: 0 3px;
 }
 
@@ -888,7 +890,7 @@ ul.bxslider {
   width: 9px;
   height: 11px;
   outline: 0;
-  background: url('./img/controls.png') -86px -44px no-repeat;
+  background: url('/static/images/main/controls.png') -86px -44px no-repeat;
   margin: 0 3px;
 }
 
@@ -1183,13 +1185,14 @@ input[type="radio"].toggle:checked + label {
 
 /* 반응형 */
 @media (max-width: 991px){
-  .kre01_gnbarea{display: none;}
-  .global-header{overflow: inherit !important;     padding-bottom: 57px; border-bottom: 0px;
+  .kre01_gnbarea, .kre02_gnbarea{display: none;}
+  .global-header{overflow: inherit !important;
+    padding-bottom: 57px; border-bottom: 0px;
     box-shadow: none;}
 
   .global-header .main-header{height: 68px !important;}
   #menu-container{display: block;}
-  .M_kre01_top02area{display: block;     position: absolute;
+  .M_kre01_top02area, .M_kre02_top02area{display: block;     position: absolute;
     z-index: 10;
     width: 100%;
     text-align: center;
@@ -1365,7 +1368,7 @@ input[type="radio"].toggle:checked + label {
 .kr01-mlogarea div{}
 .mlogarea{float: left;}
 .mlogarea span{float: left;}
-.mlogarea span a{padding: 4px 13px;
+.mlogarea span a, .mlogarea span a:visited:not(.btn), .mlogarea span a:not(.btn){padding: 4px 13px;
   background: #333;
   color: #fff;
   border-radius: 50px;
@@ -1373,9 +1376,9 @@ input[type="radio"].toggle:checked + label {
   letter-spacing: -.7px;
 }
 .mlogarea span a:hover{color:#fff;}
-.kr01-mlogarea02{display: inline-block;width: 100%;padding: 15px 0px 15px 0px;border-bottom: 2px solid #4486c2;}
+.kr01-mlogarea02{display: inline-block;width: 100%;padding: 15px 0px 10px 0px;border-bottom: 2px solid #4486c2;}
 .kr01-mlogarea02 article span{color: #4587c4;}
-.kr01-mlogarea02 article .kr01-myClass{float: right; border-left: 1px solid #4587c4; padding-left: 10px;}
+.kr01-mlogarea02 article .kr01-myClass{padding-left: 10px;}
 
 
 /* gnb */
@@ -1429,3 +1432,126 @@ input[type="radio"].toggle:checked + label {
   background: #4587c2;
 }
 
+.mlogarea.mlogin {
+  display: inline-block;
+  width: 100%;
+  padding: 15px 0px 10px 0px;
+  border-bottom: 2px solid #4486c2;
+}
+
+.kr01_mainslider li:first-child{
+  background-color: antiquewhite;
+}
+
+.kr01_mainslider li:last-child{
+  background-color: palegoldenrod;
+}
+
+.search-division, .m-search-division {
+  width: 100%; position: relative; display: flex; align-items: stretch;
+}
+
+.search-division label, .m-search-division label {
+  margin: 0;
+}
+
+/*진행중*/
+article.course.ing .kr01-courInfo-bar{
+  display: block; font-size: 12px; padding: 5px; background:#118714; color: #fff;
+}
+/*종료*/
+article.course.end .kr01-courInfo-bar{
+  display: block; font-size: 12px; padding: 5px; background:#b2b2b2; color: #fff;
+}
+/*종료(청강가능)*/
+article.course.end.audit .kr01-courInfo-bar{
+  display: block; font-size: 12px; padding: 5px; background:#245f94; color: #fff;
+}
+/*개강예정*/
+article.course.ready .kr01-courInfo-bar{
+  display: block; font-size: 12px; padding: 5px; background:#f5c42d; color: #fff;
+}
+/*미정*/
+article.course.none .kr01-courInfo-bar{
+  display: block; font-size: 12px; padding: 5px; background:#b5ab5f; color: #fff;
+}
+
+/* 리본 */
+.kr01-ribbonArea{position: absolute; right: 10px; top: 170px;}
+
+.M_kre02_top02area{display: none;}
+.kre02_top02areadepth .course-search{border-bottom: 2px solid #4185c4; width: 100%; float: inherit;}
+.kre02_top02areadepth .course-search form{display: flex; align-items: stretch; width: 100%;}
+.kre02_top02areadepth .course-search form label{width: 100%; margin-bottom: 0px;}
+.kre02_top02areadepth .course-search form label input{width: 100%; float: left; box-shadow: none; border: none; border-radius: 0px; vertical-align: middle;}
+.kre02_top02areadepth .course-search form label input:focus{outline: none;}
+.kre02_top02areadepth .course-search button{float: left; background: #fff; border: 0px; padding: 2px 10px 5px 12px; border-radius: 0px; text-shadow: none; box-shadow: none; height: 35px;}
+
+.M_kre02_top02area .courses-container{padding-bottom: 0px;}
+.kr02-area .content-wrapper{margin-top: 0px; }
+
+/* search sub */
+.kre02_top02area{display: inline-block; padding: 48px 0px; vertical-align: middle; width: 100%;}
+.kre02_top02area .kre01_tlogo02{margin-right: 20px; margin-bottom: 0px;}
+.kre02_tlogo02 a{margin: 0px !important;}
+.kre02_top02area .course-search {
+/*    width: inherit !important;*/
+    margin-right: inherit !important;
+    display: inline-block !important;
+    border-bottom: 2px solid #4185c4;
+    float: right;
+}
+
+.kre02_top02area .course-search form label input{width: 290px; float: left; box-shadow: none;border: none; border-radius: 0px; vertical-align: middle;}
+.kre02_top02area .course-search form label input:focus {outline: none;}
+.kre02_top02area .course-search form button{float: left; background: #fff; border: 0px; padding: 2px 15px 5px 15px; border-radius: 0px; text-shadow: none; box-shadow: none; height: 35px;}
+
+
+/* gnb sub */
+.kre02_gnbarea{background:#fff !important; border-bottom: 4px solid #4286c5; border-top: 1px solid #eee;}
+
+.kr02nav {padding: 0 25px;}
+
+.kr02nav a {
+  display: block;
+  padding: 0 20px;
+  line-height: inherit;
+  cursor: pointer;
+  color: #4c4c4c;
+}
+
+.kr02nav a:hover{}
+
+.kr02nav__menu {
+  line-height: 45px;
+  font-weight: 700;
+  text-transform: uppercase;
+  justify-content: space-between;
+  display: flex;
+}
+.kr02nav__menu-item {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 0px;
+}
+
+.kr02nav__submenu li a{color: #fff;}
+.kr02nav__submenu .kr02nav__submenu-item a{color: #fff;}
+
+.kr02nav__menu-item:hover {  }
+.kr02nav__menu-item:hover .kr02nav__submenu {display: block;}
+
+.kr02nav__submenu {
+  font-weight: 300;
+  text-transform: none;
+  display: none;
+  position: absolute;
+  width: 180px;
+  background-color: #4587c3;
+  z-index: 9999;
+  top: 40px;
+  left: -45px;
+  border: 1px solid #4587c2 !important;
+}
+
+.kr02nav__submenu-item:hover {background: #1d4672; color: #fff;}

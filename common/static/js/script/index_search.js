@@ -5,8 +5,14 @@ $(document).ready(function () {
     $.ajax({
         url: '/course_search_list',
     }).done(function (data) {
-        var search_arr = data.course_search_list;
-        var $elem = $(".msearch_input").autocomplete({
+      var search_arr = data.course_search_list;
+      main_search('.search-division', '.search-query', '#main_form', search_arr);
+      main_search('.m-search-division', '.m-search-query', '#m_main_form', search_arr);
+    });
+});
+
+function main_search(main_div, main_input, main_form, search_arr){
+        var $elem = $(main_input).autocomplete({
                 //source: search_arr,
                 source: function (request, response) {
                     var term = $.ui.autocomplete.escapeRegex(request.term)
@@ -22,13 +28,18 @@ $(document).ready(function () {
 
                     response(startsWith.concat(contains));
                 },
-                appendTo: ".msearch_area",
+                appendTo: main_div,
                 matchContains: true,
                 sortResults: false,
                 open: function(event, ui) {
                     $(this).autocomplete("widget").css({
                         "width": "100%",
                         "position": "absolute",
+                        "margin-top": "6px",
+                        "overflow-y": "auto",
+                        "overflow-x": "hidden",
+                        "padding-right": "20px",
+                        "max-height": "200px",
                         //"z-index": "1000 !important;"
                     });
                     $(this).autocomplete("widget").children('li').css({
@@ -64,14 +75,13 @@ $(document).ready(function () {
                     .appendTo(ul);
             };
         }
-    });
 
     var select_search = "";
-    $('.msearch_input').on('autocompleteselect', function (e, ui) {
+    $(main_input).on('autocompleteselect', function (e, ui) {
         select_search = ui.item.value;
-        $(".msearch_input").val(select_search);
-        $("#main_form").submit();
+        $(main_input).val(select_search);
+        $(main_form).submit();
         console.log('You selected: ' + ui.item.value);
     });
 
-});
+}

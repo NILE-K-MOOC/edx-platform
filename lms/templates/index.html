@@ -201,42 +201,251 @@ if (
   }
 </style>
 <!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
-<script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="home">
+    <section class="kr01">
       <header>
-        <div class="outer-wrapper">
-          <div class="title">
-            <div class="heading-group">
-              % if homepage_overlay_html:
-                ${homepage_overlay_html | n, decode.utf8}
-              % else:
-                <%include file="index_overlay.html" />
-              % endif
-            </div>
-            % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
-              <div class="course-search">
-                <form method="get" action="/courses">
-                  <label><span class="sr">${_("Search for a course")}</span>
-                    <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
-                  </label>
-                  <button class="search-button" type="submit">
-                    <span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>
-                  </button>
-                </form>
-              </div>
-            % endif
+        <div class="kr01_outer-wrapper">
+            <section class="courses-container"style="background: none;">
+                <section class="highlighted-courses">
+                    <div class="kr01_mainslider_area" style="margin: 0 auto; margin-top: 15px;">
+                        <ul class="kr01_mainslider">
+                            % if popzone_list:
+                            % for pop in popzone_list:
+                            <li><a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
+                                <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}"/>
+                            </a></li>
+                            % endfor
+                            % else:
+                            <li><a href="/about"><img src="/static/images/main/ba03" alt="${_('About Us')}"/></a></li>
+                            % endif
+                        </ul>
+                    </div>
+                </section>
+            </section>
 
-          </div>
+            <script type="text/javascript">
+                $('.kr01_mainslider').bxSlider({
+                    mode: 'horizontal',
+                    auto: true,
+                    autoHover: true,
+                    captions: true,
+                    controls: true,
 
-          <%include file="index_promo_video.html" />
+                    // slideWidth: 1730
+                });
+            </script>
+
         </div>
-
       </header>
+
+        <h1 class="kr01_explain">5개 메뉴</h1>
+        <section class="courses-container">
+            <section class="highlighted-courses">
+                <div class="kr01_fivemenu ">
+                    <ul class="fivemenarea">
+                        <li class="kr01_f01">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>4차 산업혁명</span>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="kr01_f02">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>묶음강좌</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f03">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>직업교육</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f04">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>학점강화</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f05">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>한국학</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="kr01_fivemenu02 ">
+                    <ul class="fivemenarea">
+                        <li class="kr01_f01">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>4차 산업혁명</span>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="kr01_f02">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>묶음강좌</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f03">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>직업교육</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class="fivemenarea">
+                        <li class="kr01_f04">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>학점강화</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f05">
+                            <div>
+                                <a>
+                                    <i></i>
+                                    <span>한국학</span>
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </section>
+        </section>
+    </section>
+
+    <h1 class="kr01_explain">공지사항</h1>
+        <section class="courses-container kr01_alert">
+            <section class="highlighted-courses">
+                <div class="kr01_alertarea">
+                    <i class="kr01_iconarea" style=" "><img src="/static/images/main/sp.png"></i>
+                    <span class="kr01_icontTitle">공지사항</span>
+                    <div class="kr01_alretTxt">
+                        <div class="kr01_alert_slider">
+                            <div class="slider">
+                                % for list in index_list[:4] :
+                                    % if list[5] != 'F':
+                                    <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    % else:
+                                    <article class="slide"><a href="/comm_tabs/${list[6]}/"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    % endif
+                                % endfor
+                            </div>
+                            <div class="kr01-Sarrow">
+                                <div class="bxslider-prev"></div>
+                                <div class="bxslider-next"></div>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            var window_W = 0;
+                            var course_slider;
+                            $(document).ready(function(){
+
+                              $(window).resize(function(){
+                                slide_resize();
+                              });
+                                var sliderOptions = {
+                                        mode: 'vertical',
+                                        slideSelector: '.slider article.slide',
+                                        minSlides: 1,
+                                        maxSlides: 1,
+                                        auto: true,
+                                        autoHover: true,
+                                        infiniteLoop: true,
+                                        controls: true,
+                                        prevSelector: 'div.bxslider-prev',
+                                        prevText: '',
+                                        nextSelector: 'div.bxslider-next',
+                                        nextText: ''
+                                    }
+                                ;
+
+                                var slider = $('.slider').bxSlider(sliderOptions);
+
+                              var course_slider = $('.course-card-slider').bxSlider({
+                                auto: true,
+                                autoHover: true,
+                                minSlides: 4,
+                                maxSlides: 4,
+                                slideWidth: 280
+                              });
+
+                            });
+
+
+
+                            function slide_resize() {
+                              window_W = $(window).width();
+                              if(window_W<=991) {
+                                // alert(window_W);
+                                course_slider.reloadSlider({
+                                  auto: true,
+                                  autoHover: true,
+                                  minSlides: 3,
+                                  maxSlides: 3,
+                                  slideWidth: 250
+                                });
+                              } else if(window_W>768) {
+
+                              }
+                            }
+
+                        </script>
+                    </div>
+
+                    <div class="kr01_SnsArea">
+                        <ul>
+                            <li>
+                                <a href="http://www.facebook.com/kmooc" title="Facebook" class="kr01_SnsFace"><img src="/static/images/main/sns01.png"></a>
+                            </li>
+                            <li>
+                                <a href="https://www.instagram.com/kmooc_/" title="instagram" class="kr01_SnsInstar"><img src="/static/images/main/sns02.png"></a>
+                            </li>
+                            <li>
+                                <a href="https://www.youtube.com/channel/UCaXoWllLNJ4t5d39nmJKyJw" title="Youtube" class="kr01_SnsYoutu"><img src="/static/images/main/sns03.png"></a>
+                            </li>
+                            <li>
+                                <a href="http://blog.naver.com/kmooc_kr" title="Naver blog" class="kr01_SnsNblog"><img src="/static/images/main/sns04.png"></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+        </section>
+
+
       <%include file="${courses_list}" />
 
-    </section>
 </main>
 
 % if show_homepage_promo_video:

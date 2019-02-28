@@ -12531,7 +12531,7 @@ msgstr "모든 강좌 보기"
 #: lms/templates/header/user_dropdown.html
 #: themes/edx.org/lms/templates/dashboard.html
 msgid "Dashboard"
-msgstr "대시보드"
+msgstr "내 강의실"
 
 #: lms/templates/dashboard.html themes/edx.org/lms/templates/dashboard.html
 msgid "You are not enrolled in any courses yet."

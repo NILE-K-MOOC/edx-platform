@@ -3,7 +3,7 @@
 .series_bg_area.series_about {height: 100px;}
 .series_bg_area .series_bg_space{max-width: 75rem; margin: 0 auto; height: 180px;  background: url(/static/images/s_bg.jpg) no-repeat;}
 .series_bg_space .series_bg_title{margin-left: 40px; display: inline-block; margin-top: 40px;}
-.series_bg_title.series_about {margin-top: 22px;}
+.series_bg_title.series_about {margin-top: 10px;}
 .series_bg_title h3{
     font-size: 30px;
     margin: 0;
@@ -20,14 +20,14 @@
 }
 
 .series_bg_title a h6{
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 .section_frame_outer{width:100%;}
 .series_title{margin-bottom: 15px !important; font-weight: bold; font-size: 20px; line-height: 27px;}
 .float_left{float:left;}
-.section_a1{margin-right: 25px;}
-.section_a2 {width: 50%; margin-right: 10px;}
+.section_a1{margin-right: 25px; padding-top: 10px;}
+.section_a2 {width: 50%; margin-right: 10px; padding-top: 5px;}
 
 .section_2_1 {
     border-bottom: 2px solid #ccc;
@@ -44,11 +44,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     line-height: 25px;
-    height: 75px;
+    height: 125px;
 
 }
 
@@ -64,13 +64,13 @@
     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 80%);
 }
 
-@supports (-webkit-line-clamp: 3) {
+@supports (-webkit-line-clamp: 5) {
     .section_a2 p.s_list {
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
-        max-height:75px;
-        height: 75px;
+        max-height:125px;
+        height: 125px;
     }
     .section_a2 p.s_list:after {
         display: none;
@@ -162,4 +162,12 @@ a.pagerLink:not(.btn):hover, a.pagerLink:not(.btn):focus, a.pagerLink:visited:no
 @media screen and (max-width: 1170px) and (min-width: 0px){
     .series_b_area span:last-child{width:100%;}
 
+}
+
+.section_a1 a, .section_a1 a:active, .section_a1 a:visited {
+    color: #0079bc;
+}
+
+.section_a2 a, .section_a2 a:active, .section_a2 a:visited {
+    color: #0079bc;
 }
