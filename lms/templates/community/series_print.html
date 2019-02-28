@@ -34,7 +34,7 @@
       })
       .done(function( data ) {
         console.log(org + ' ' + data.result);
-        $('#multi_info').html(org + ' ' + data.result)
+        $('#multi_info').html(org + ' ID : ' + data.result)
       });
     }
   }
@@ -70,10 +70,6 @@
   .wrapper-banner-user{
     margin-top: 0px;
   }
-  table, th, td {
-    border: 1px solid black;
-    padding:5px;
-  }
 </style>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -100,7 +96,6 @@
   <main id="printArea" class="accomplishment accomplishment-main">
     <style>
       table, th, td {
-        border: 1px solid black;
         padding:5px;
       }
       body {
@@ -180,7 +175,7 @@
       .content h1 {font-size:50px; margin-bottom: 80px; margin-top: 40px;}
       .ce-txt-second {margin-top: 0px; font-size: 20px;}
       .ce-center-txt1{text-align: center; width: 249px; margin: 0 auto;}
-      .ce-center-txt2{text-align:center; margin-bottom: 50px;}
+      .ce-center-txt2{text-align:center; margin-bottom: 35px;}
       .ce-v{    width: 20px;
         display: inline-block;
         height: 20px;
@@ -218,7 +213,7 @@
         <div class="ce-bg"></div>
 
         <div class="ribbon">
-          <img src="/static/images/cert/ribbon.png"/>
+          <img src="http://172.17.101.228:18000/static/images/cert/ribbon.png"/>
         </div>
 
         <div class="content">
@@ -229,14 +224,15 @@
           <h1>이 수 증</h1>
 
           <h5 class="ce-t-gray">이름</h5>
-          <h4 class="ce-txt-second">
+          <h4 class="ce-txt-second" style="margin-bottom: 0px;">
             <span>${user_name}</span>
             <span>(${user_birth})</span>
             % if user_nice == 'Y':
-            (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
+            (<i class="ce-v"><img src="http://172.17.101.228:18000/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
             % endif
-            <span id="multi_info" style="font-size: 20px;color: #8a8585;"></span>
           </h4>
+
+          <div id="multi_info" style="font-size: 20px;color: #8a8585;margin-bottom: 12px;"></div>
 
           <h5  class="ce-t-gray">묶음 강좌명</h5>
           <h4 class="ce-txt-second">${package_name}</h4>
@@ -248,10 +244,10 @@
             </ul>
           </blockquote>
 
-          <h3 class="ce-center-txt1">위 과정을 성실히 이수하여</h3>
-          <h3 class="ce-center-txt1">이 증서를 수여 합니다.</h3>
+          <h4 class="ce-center-txt2" style="margin-bottom: 0px;">위 과정을 성실히 이수하여</h4>
+          <h4 class="ce-center-txt2" style="margin-bottom: 0px;">이 증서를 수여 합니다.</h4>
 
-          <h4 class="ce-center-txt2">${cert_date}</h4>
+          <h4 class="ce-center-txt2">${cert_date}.</h4>
 
           <div class="sign-none" style="display:none;">사인이 없을때</div>
 
@@ -312,7 +308,7 @@
                 <tr>
                   <td rowspan="4"><p>${short_description}</p></td>
                   <td><span class="ce-Tbold">대표기관</span></td>
-                  <td><span>${org}</span></td>
+                  <td><span>${main_org}</span></td>
                 </tr>
 
                 <tr>
@@ -358,7 +354,7 @@
                 <tr>
                   <td>
                     <p>${ppp['display_name']}</p>
-                    <p>${ppp['start']}~${ppp['end']}</p>
+                    <p>${ppp['start']} ~ ${ppp['end']}</p>
                   </td>
                   <td><span>${ppp['cert']}</span></td>
                   <td><span>${ppp['e2']}</span></td>

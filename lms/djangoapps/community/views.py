@@ -775,7 +775,34 @@ def series_print(request, id):
 
     user_id = request.user.id
     cert_uuid = str(uuid.uuid4()).replace('-', '')
-    cert_date = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select max(z.created_date)
+            from (
+                select org, display_number_with_default
+                from series_course
+                where series_seq = '{id}'
+            ) x
+            join course_overviews_courseoverview y
+            on x.org = y.org
+            and x.display_number_with_default = y.display_number_with_default
+            join (
+                select course_id, created_date, 'Y' as cert
+                from certificates_generatedcertificate
+                where user_id = '{user_id}'
+                and status = 'downloadable'
+            ) z
+            on y.id = z.course_id;
+        '''.format(id=id, user_id=user_id)
+        cur.execute(query)
+        cert_date = cur.fetchall()[0][0]
+
+    cert_date = (cert_date + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
+
+    print 'cert_date => ',cert_date
+
+    #cert_date = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
 
     with connections['default'].cursor() as cur:
         query = '''
@@ -814,7 +841,6 @@ def series_print(request, id):
             cur.execute(query)
             check = cur.fetchall()
         cert_uuid = check[0][0]
-        cert_date = check[0][1].strftime('%Y.%m.%d')
 
     # 이름 / 생년월일 / 본인인증
     with connections['default'].cursor() as cur:
@@ -998,10 +1024,10 @@ def series_print(request, id):
     for r4 in row4:
         tmp = {}
         tmp['display_name'] = r4[0]
-        tmp['start'] = r4[1]
-        tmp['end'] = r4[2]
+        tmp['start'] = (r4[1] + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
+        tmp['end'] = (r4[2] + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
 
-        ccc = r4[3]
+        ccc = r4[3] + datetime.timedelta(hours=+9)
         ccc = ccc.strftime('%Y.%m.%d %H:%M:%S')
         tmp['cert'] = ccc
 
@@ -1070,15 +1096,19 @@ def series_print(request, id):
         cur.execute(query)
         org_list = cur.fetchall()
 
+    print "org -> ", org
+    print "org -> ", org
+    print "org -> ", org
+
     context = {}
     context['user_name'] = user_name
-    context['user_birth'] = user_birth
+    context['user_birth'] = user_birth + '.'
     context['user_nice'] = user_nice
     context['kst'] = kst
     context['package_name'] = package_name
     context['package_cousre'] = package_cousre
     context['short_description'] = short_description
-    context['org'] = org
+    context['main_org'] = org
     context['ppp_list'] = ppp_list
     context['e2_total'] = e2_total
     context['e3_total'] = e3_total

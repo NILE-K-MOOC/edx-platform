@@ -535,9 +535,10 @@ def certificate_print(request):
 
 @csrf_exempt
 def series_print(request):
+
+    print "### call series_print"
     print_index = request.POST.get('print_index')
 
-    """
     strHtmlData = '''
             <HTML>
             <HEAD>
@@ -550,26 +551,12 @@ def series_print(request):
             </BODY>
             </HTML>
     '''.format(print_index=print_index)
-    """
-
-    strHtmlData = '''
-                <HTML>
-                <HEAD>
-                <TITLE>KMOOC 시리즈강좌</TITLE>
-                <META http-equiv=Content-Type content="text/html; charset=utf-8">
-                <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
-                </HEAD>
-                <BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
-                hello world
-                </BODY>
-                </HTML>
-        '''.format(print_index=print_index)
 
     strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
 
-    print 'strHtmlData ---------------------------------------------- s'
+    print 'strHtmlData ---------------------------------------------- s (series)'
     print strHtmlData
-    print 'strHtmlData ---------------------------------------------- e'
+    print 'strHtmlData ---------------------------------------------- e (series)'
 
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
 
@@ -629,7 +616,6 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
                                                                      MaFpsCommon.iCellBlockRow)
 
     print "strRetCode -> ", strRetCode
-    print "strAMetaData -> ", strAMetaData
     print "mapreprocessor.ISUCCESS -> ", mapreprocessor.ISUCCESS
 
     if strRetCode == mapreprocessor.ISUCCESS:
