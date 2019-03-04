@@ -697,6 +697,7 @@
     "Full Name": "\uc774\ub984",
     "Full Profile": "\uc804\uccb4 \ud504\ub85c\ud544",
     "Fullscreen": "\uc804\uccb4 \ud654\uba74",
+    "Fusion & Convergence": "\uc735\u318d\ubcf5\ud569",
     "Gender": "\uc131 ",
     "General Education": "\uad50\uc721\uc77c\ubc18",
     "General": "\uc77c\ubc18",
@@ -765,6 +766,7 @@
     "HTML source code": "HTML \uc18c\uc2a4\ucf54\ub4dc",
     "Human Sciences": "\uc778\ubb38\uacfc\ud559",
     "Humanities": "\uc778\ubb38",
+    "Humanities Sciences": "\uc778\ubb38\uacfc\ud559",
     "Hyperlink (Ctrl+L)": "\ud558\uc774\ud37c\ub9c1\ud06c (Ctrl+L)",
     "HYUk": "\ud55c\uc591\ub300\ud559\uad50",
     "HongikUnivK": "\uD64D\uC775\uB300\uD559\uAD50",
@@ -1524,6 +1526,7 @@
     "Type": "\uc885\ub958",
 
     "CDN Upload": "\u0043\u0044\u004e \u0055\u0070\u006c\u006f\u0061\u0064",
+    "<%= t_name %> and <%= t_len %> others": "<%= t_name %> \uc678 <%= t_len %>\uba85",
 
     "Unable to retrieve data, please try again later.": "\ub370\uc774\ud130\ub97c \uac80\uc0c9\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4, \ub098\uc911\uc5d0 \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "unanswered question": "\ub2f5\ubcc0\uc774 \uc54a\ub41c \uc9c8\ubb38",

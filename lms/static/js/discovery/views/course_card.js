@@ -31,6 +31,20 @@ define([
         );
     }
 
+    function formatTeacherName(teacher_name) {
+        var teacher_str = '';
+        if(teacher_name == null){
+            teacher_str = '';
+        }else if(teacher_name.indexOf(',') != -1 && teacher_name.split(',').length != 1){
+            const t_arr = teacher_name.split(',');
+            teacher_str = _.template(gettext('<%= t_name %> and <%= t_len %> others'))({t_name: t_arr[0], t_len: t_arr.length -1});
+        }else{
+            teacher_str = teacher_name;
+        }
+
+        return teacher_str
+    }
+
     return Backbone.View.extend({
 
         tagName: 'li',
@@ -50,8 +64,6 @@ define([
         render: function () {
             var data = _.clone(this.model.attributes);
 
-            // console.log(data);
-
             //var nDate = formatDate(new Date());
             //var sDate = formatDate(new Date(data.start));
             //var eDate = formatDate(new Date(data.end));
@@ -63,6 +75,8 @@ define([
             data.start = formatDate(new Date(data.start));
             data.enrollment_start = formatDate(new Date(data.enrollment_start));
             data.end = formatDate(new Date(data.end));
+
+            data.teacher_name = formatTeacherName(data.teacher_name);
 
             if (eDate != null && nDate > eDate) {
                 data.course_end = 'Y';

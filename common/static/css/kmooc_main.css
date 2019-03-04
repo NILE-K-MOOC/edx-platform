@@ -1477,7 +1477,8 @@ article.course.none .kr01-courInfo-bar{
 }
 
 /* 리본 */
-.kr01-ribbonArea{position: absolute; right: 10px; top: 170px;}
+.kr01-ribbonArea{position: absolute; right: 10px; top: 170px;
+  z-index: 1000;}
 
 .M_kre02_top02area{display: none;}
 .kre02_top02areadepth .course-search{border-bottom: 2px solid #4185c4; width: 100%; float: inherit;}

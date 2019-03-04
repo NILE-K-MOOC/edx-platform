@@ -1,6 +1,7 @@
 <article class="course <%- status  %> <% if (audit_yn == 'Y') { %> audit<% } %>" role="region" aria-label="<%- content.display_name %>">
     <a href="/courses/<%- course %>/about">
         <header class="course-image">
+            <i class="kr01-ribbonArea"><img src="/static/images/main/ribbon.png"></i>
             <div class="cover-image">
                 <span class="univ-logo">
                     <!--
@@ -16,24 +17,24 @@
                 <% } %>
                 <div class="learn-more" aria-hidden="true"><%- gettext("LEARN MORE") %></div>
             </div>
+            <% if (status == 'end' && audit_yn == 'Y') { %>
+                <span class="kr01-courInfo-bar"><%- gettext(status) %>(<%- gettext("AUDIT COURSE") %>)</span>
+            <% } else { %>
+                <span class="kr01-courInfo-bar"><%- gettext(status) %></span>
+            <% } %>
         </header>
         <div class="course-info" aria-hidden="true">
             <h2 class="course-name">
-                <% if (status == 'end' && audit_yn == 'Y') { %>
-                    <span class="course-status over"><%- gettext(status) %>(<%- gettext("AUDIT COURSE") %>)</span>
-                <% } else { %>
-                    <span class="course-status over"><%- gettext(status) %></span>
-                <% } %>
-                <span class="course-title"><%- content.display_name %></span>
+                <span class="course-title kr01-Msilder-title"><%- content.display_name %></span>
             </h2>
-            <div class="course-date" aria-hidden="true" style="position: absolute; bottom: 20px;">
-                <time><%- start %></time></span>
+            <div class="course-date kr01_moviesubtit" aria-hidden="true">
+                <span class="kr01_professor"><%- teacher_name %></span>
+                <span class="kr01_school"><%- gettext(org) %></span>
+                <div><time><%- start %></time>
                 <% if (end){ %>
                 ~ </strong><time><%- end %></time>
                 <% } %>
-            </div>
-            <div class="course-date" aria-hidden="true" style="position: absolute; bottom: 5px;">
-                <time><%- gettext(org) %></time>
+                </div>
             </div>
         </div>
         <div class="sr">
