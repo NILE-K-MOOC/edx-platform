@@ -69,7 +69,11 @@ def get_visible_courses(org=None, filter_=None):
             if str(c.id) == cour[0]:
                 c.classfy = cour[1]
                 try:
-                    c.teacher_name = cour[3]
+                    if cour[3].find(',') != -1:
+                        teacher_len = len(cour[3].split(','))
+                        c.teacher_name = [cour[3].split(',')[0].strip(), teacher_len - 1]
+                    else:
+                        c.teacher_name = [cour[3].strip(), 0]
                     c.audit_yn = cour[2]
                 except BaseException:
                     c.audit_yn = 'N'
