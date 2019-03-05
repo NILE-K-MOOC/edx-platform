@@ -697,12 +697,12 @@ def student_dashboard(request):
 
         elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
                 UTC) <= c.course.end and datetime.datetime.now(UTC) <= c.course.enrollment_end:
-            c.status = 'ing(ing)'
+            c.status = 'ing'
             course_type2.append(c)
 
         elif c.course.start and c.course.end and c.course.start <= datetime.datetime.now(
                 UTC) <= c.course.end and datetime.datetime.now(UTC) >= c.course.enrollment_end:
-            c.status = 'ing(end)'
+            c.status = 'ing'
             course_type2.append(c)
 
         elif c.course.has_ended():
@@ -974,8 +974,6 @@ def student_dashboard(request):
             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
         ]
 
-    final_list = []
-    addinfo_list = list()
 
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
@@ -992,11 +990,17 @@ def student_dashboard(request):
             """.format(user.id, c.course.id)
         cur.execute(query)
         final_day = cur.fetchall()
-        final_list.append(list(final_day[0]))
 
         cur.close()
 
-        addinfo_list.append(dashboard_course_addinfo(c.course_overview))
+        info_dict = dashboard_course_addinfo(c.course_overview)
+        c.teacher_name = info_dict['teacher_name']
+        c.course_level = info_dict['course_level']
+        c.classfy = info_dict['classfy']
+        c.middle_classfy = info_dict['middle_classfy']
+        c.course_date = info_dict['course_date']
+        c.week = info_dict['week']
+        c.final_day = final_day[0][0]
 
     con.close()
 
@@ -1049,8 +1053,6 @@ def student_dashboard(request):
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
         'status_flag': status,
-        'final_list': final_list,
-        'addinfo_list': addinfo_list,
     }
 
     if ecommerce_service.is_enabled(request.user):
@@ -1113,7 +1115,7 @@ def dashboard_course_addinfo(course_overview):
         info_dict['middle_classfy'] = addinfo_data[4]
 
         c_start = course_overview.start.strftime('`%y.%m.%d.')
-        c_end = course_overview.end.strftime('`%y.%m.%d.')
+        c_end = course_overview.end.strftime('`%y.%m.%d.') if course_overview.end else ''
 
         # 강좌운영기간
         info_dict['course_date'] = str(c_start) + ' ~ ' + str(c_end)
