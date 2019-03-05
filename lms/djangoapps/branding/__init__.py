@@ -49,7 +49,9 @@ def get_visible_courses(org=None, filter_=None):
     #courses = sorted(courses, key=lambda course: course.number)
     with connections['default'].cursor() as cur:
         query = """
-            SELECT a.id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N')
+            SELECT a.id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N'), ifnull(teacher_name, ''),
+            ifnull(fourth_industry_yn, 'N'), ifnull(ribbon_yn, 'N'), ifnull(job_edu_yn, 'N'),
+            ifnull(linguistics, 'N')
             FROM course_overviews_courseoverview a
             LEFT JOIN course_overview_addinfo b ON a.id = b.course_id
             WHERE catalog_visibility = 'both'
@@ -58,7 +60,6 @@ def get_visible_courses(org=None, filter_=None):
         course_tup = cur.fetchall()
         cur.close()
 
-    # catalog_visibility:Il-Hee, Maeng
     courses = [c for c in courses if c.catalog_visibility == 'both']
 
     # Add Course Status
@@ -68,9 +69,15 @@ def get_visible_courses(org=None, filter_=None):
             if str(c.id) == cour[0]:
                 c.classfy = cour[1]
                 try:
+                    if cour[3].find(',') != -1:
+                        teacher_len = len(cour[3].split(','))
+                        c.teacher_name = [cour[3].split(',')[0].strip(), teacher_len - 1]
+                    else:
+                        c.teacher_name = [cour[3].strip(), 0]
                     c.audit_yn = cour[2]
                 except BaseException:
                     c.audit_yn = 'N'
+                    c.teacher_name = ''
         if c.start is None or c.start == '' or c.end is None or c.end == '':
             c.status = 'none'
         elif datetime.now(UTC) < c.start:

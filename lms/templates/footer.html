@@ -8,8 +8,31 @@ from branding.api import get_footer
 <% footer = get_footer(is_secure=is_secure) %>
 <%namespace name='static' file='static_content.html'/>
 
-<div class="wrapper wrapper-footer">
-    <footer id="footer-openedx" class="grid-container"
+<section class="courses-container bg-b">
+    <section class="highlighted-courses">
+        <div class="kr01_accessarea">
+            <div class="kr01_access">
+                <ol>
+                    <li class="nav-colophon-01"><a href="/agreement">${_("Terms of Use")}</a></li>
+                    <li class="nav-colophon-02"><a href="/Privacy-Policy" style="color: #4587c2 !important;"><b>${_("Privacy Statement")}</b></a></li>
+                    % if LANGUAGE_CODE == 'ko-kr':
+                    <li class="nav-colophon-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
+                    % endif
+                    <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
+                    <li class="nav-colophon-05"><a href="http://367.co.kr/" target="_blank">${_("HelpU")}</a></li>
+
+                    % if LANGUAGE_CODE == 'en':
+                    <li class="nav-colophon-05"><a href="/comm_faqrequest">${_("Ask a question")}</a></li>
+                    % endif
+                </ol>
+            </div>
+        </div>
+    </section>
+</section>
+
+<section class="courses-container bg-333">
+	<section class="highlighted-courses">
+      <footer id="footer-openedx" class="grid-container"
             ## When rendering the footer through the branding API,
             ## the direction may not be set on the parent element,
             ## so we set it here.
@@ -17,110 +40,123 @@ from branding.api import get_footer
             dir=${bidi}
             % endif
     >
+          <div class="col col-12 sm-col-6>">
+              <div class="kr01-ftarea">
+                  <ul>
+                      <li>
+                          <div class="sm-col-6">
+                              <div class="kr-associate-icon">
+                                  <span>
+	                				            <a href="http://www.moe.go.kr/" target="_blank" title="새창으로 열림"><img src="/static/images/common/logo3.png" alt="moe"></a>
+                                  </span>
 
-        <div class="col col-12 sm-col-6>">
-            <div class="sm-col-6">
-                <nav class="nav-colophon">
-                    <ol>
-                        <li class="nav-colophon-01"><a href="/agreement">${_("Terms of Use")}</a></li>
-                        <li class="nav-colophon-02"><a href="/Privacy-Policy" style="color: #4587c2 !important;"><b>${_("Privacy Statement")}</b></a></li>
-                        % if LANGUAGE_CODE == 'ko-kr':
-                        <li class="nav-colophon-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
-                        % endif
+                                  <span>
+	                				            <a href="http://www.nile.or.kr/" target="_blank" title="새창으로 열림"><img style="height: 23px;" src="/static/images/logo_nile.png" alt="nile"></a>
+	                			          </span>
+                              </div>
 
-                        <!--<li class="nav-colophon-04"><a href="/openapi">${_("OPEN API")}</a></li>-->
-                        <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
-                        <li class="nav-colophon-05"><a href="http://367.co.kr/" target="_blank">${_("HelpU")}</a></li>
+                              <div class="kr01-ftAD01">
+                                  <span title="(04520) 서울특별시 중구 청계천로 14 (무교동 77)">${_("14, Cheonggyecheon-ro, Jung-gu, Seoul, Republic of Korea (04520)")}</span>
+	                	              <span class="mr-btm10">E-mail:&nbsp;&nbsp;<a href="mailto:kmooc@nile.or.kr">kmooc@nile.or.kr</a></span>
+	                	              <span class="copyright mr-btm35">Copyright(c)2018. 국가평생교육진흥원 <br>(National Institute For Lifelong Education. All right reserved)</span>
+                              </div>
+                          </div>
+                      </li>
 
-                        % if LANGUAGE_CODE == 'en':
-                        <li class="nav-colophon-02"><a href="/comm_faqrequest">${_("Ask a question")}</a></li>
-                        % endif
-                    </ol>
-                    <div class="associate-site-lnk" id="rel_site">
-                        <div id="rel_site_div" style="float: left; margin-right: 10px;">
-                            <select title="관련사이트" id="related_site">
-                                <option>${_("Related sites")}</option>
-                                <option value="http://www.moe.go.kr/">${_("Ministry of Education")}</option>
-                                <option value="http://www.nile.or.kr/">${_("NILE")}</option>
-                                <option value="http://www.all.go.kr">${_("Lifelong Learning Account")}</option>
-                                <option value="http://www.lifelongedu.go.kr/">${_("Lifelong Learning Portal")}</option>
-                            </select>
-                            <!--<input id="go" class="btn-neutral" type="button" title="새창으로 열림" value='${_("move")}' style="border: solid 0px">-->
-                        </div>
-                        <script>
-                            var ua = window.navigator.userAgent;
-                            var msie = ua.indexOf("MSIE ");
-                            $(function () {
-                                if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                                    $("#related_site").css("width", "180px").css("min-width", "100px");
-                                    //$('#rel_site_div').append('<input class="btn" type="button" id="go" value="이동" title="이동">');
-                                }
-                            });
-                            $(document).on('change', '#related_site', function () {
-                                var url = $('#related_site option:selected').val();
-                                if (url != '관련사이트') {
-                                    //document.location.href = url;
-                                    window.open(url, "", "");
-                                } else {
-                                    alert('관련사이트를 선택하세요.');
-                                }
+                      <li class="kr01-flright">
+                          <div class="sm-col-6">
+                              <div class="kr-associate02-iconArea">
+                                  <div class="kr-associate02-icon">
+                                      <a href="http://wa.or.kr/board/list.asp?BoardID=0006" target="_blank" title="새창으로 열림">
+                                          <img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크">
+                                      </a>
+                                      <a class="kr01-wh50" href="javascript:markPopupE('2017-R099');void(0)" title="새창으로 열림">
+                                          <img src="https://www.eprivacy.or.kr:40018/seal/mark_e.gif" alt="개인정보보호마크">
+                                      </a>
+                                      <a class="kr01-wh50" href="javascript:markPopupI('2018-R001');void(0)" title="새창으로 열림">
+                                          <img src="https://www.eprivacy.or.kr:40018/seal/mark_i.gif" alt="인터넷사이트안전마크">
+                                      </a>
+                                  </div>
 
-                            });
+                                  <div class="kr01-ftsnsarea">
+                                      <ul>
+                                          <li class="mr-btm20">
+                                              <h3 class="kr01_footer_Rtitle">${_("FAMILY SITE")}</h3>
+                                              <nav class="nav-colophon">
+                                                  <div class="kr01-associate-site-lnk" id="rel_site">
+                                                      <div id="rel_site_div">
+                                                          <select title="${_('Related sites')}" id="related_site">
+                                                              <option>${_("Related sites")}</option>
+                                                              <option value="http://www.moe.go.kr/">${_("Ministry of Education")}</option>
+                                                              <option value="http://www.nile.or.kr/">${_("NILE")}</option>
+                                                              <option value="http://www.all.go.kr">${_("Lifelong Learning Account")}</option>
+                                                              <option value="http://www.lifelongedu.go.kr/">${_("Lifelong Learning Portal")}</option>
+                                                          </select>
+                                                          <div class="kr01-selectBtn">
+                                                              <a id="go" class="" href="*" target="_blank">
+                                                                  <img src="/static/images/main/arrow-right.png" alt="이동">
+                                                              </a>
+                                                          </div>
+                                                      </div>
 
+                                                      <script>
+                                                          var ua = window.navigator.userAgent;
+                                                          var msie = ua.indexOf("MSIE ");
+                                                          $(function () {
+                                                                  if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                                                                      $("#related_site").css("width", "180px").css("min-width", "100px");
+                                                                      //$('#rel_site_div').append('<input class="btn" type="button" id="go" value="이동" title="이동">');
+                                                                  }
+                                                              }
+                                                          );
+                                                          $(document).on('change', '#related_site', function () {
+                                                                  var url = $('#related_site option:selected').val();
+                                                                  if (url != '관련사이트') {
+                                                                      //document.location.href = url;
+                                                                      window.open(url, "", "");
+                                                                  }
+                                                                  else {
+                                                                      alert('관련사이트를 선택하세요.');
+                                                                  }
+                                                              }
+                                                          );
+                                                          function moveLocation(url) {
+                                                              if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                                                              }
+                                                              else {
+                                                                  //document.location.href = url;
+                                                                  window.open(url, "", "");
+                                                              }
+                                                          }
+                                                      </script>
 
-                            function moveLocation(url) {
-                                if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                                                      <script type="text/javascript" src="https://www.eprivacy.or.kr:40018/seal/mark.js"></script>
 
-                                } else {
-                                    //document.location.href = url;
-                                    window.open(url, "", "");
-                                }
-                            }
-                        </script>
-                        <script type="text/javascript" src="https://www.eprivacy.or.kr:40018/seal/mark.js"></script>
+                                                  </div>
+                                              </nav>
+                                          </li>
 
-                    </div>
-                </nav>
+                                          <li>
+                                              <div>
+                                                  <h3 class="kr01_footer_Rtitle">${_('App Download')}</h3>
+                                                  <div class="kr01_app">
+                                                      <span><a href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" title="새창으로 열림"><img src="/static/images/main/ios.png" alt="ios"></a></span>
+                                                      <span><a href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" title="새창으로 열림"><img src="/static/images/main/ad.png" alt="ad"></a></span>
+                                                  </div>
+                                              </div>
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </footer>
+  </section>
+</section>
 
-                <div class="associate-icon" style="width: 100%;">
-                    <div style="float: left; margin-top: 15px; margin-right: 40px; margin-bottom: 10px;">
-                        <a href="http://www.moe.go.kr/" target="_blank" title="새창으로 열림"><img style="height: 40px;" src="/static/images/common/logo3.png" alt="moe"/></a>
-                    </div>
-
-                    <div style="float: left; margin-top: 23px; margin-right: 40px; margin-bottom: 10px;">
-                        <a href="http://www.nile.or.kr/" target="_blank" title="새창으로 열림"><img src="/static/images/logo_nile.png" alt="nile"/></a>
-                    </div>
-
-                    <div style="float: left; margin-top: 20px; margin-right: 40px; margin-bottom: 10px;">
-                        <a href="http://www.facebook.com/kmooc" target="_blank" title="새창으로 열림"><img src="/static/images/common/sns1.png" alt="facebook"/></a>
-                        <a href="https://pf.kakao.com/_IZxkxdxl" target="_blank" title="새창으로 열림"><img src="/static/images/common/sns2.png" alt="kakao"/></a>
-                        <a href="https://www.instagram.com/kmooc_/" target="_blank" title="새창으로 열림"><img src="/static/images/common/sns3.png" alt="instagram"/></a>
-                        <a href="http://blog.naver.com/kmooc_kr" target="_blank" title="새창으로 열림"><img src="/static/images/common/sns4.png" alt="blog"/></a>
-                    </div>
-
-                    <div style="float: left; margin-top: 10px; margin-bottom: 10px;">
-
-                        <a href="http://wa.or.kr/board/list.asp?BoardID=0006" target="_blank" title="새창으로 열림"><img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크"/></a>
-                        <a href="javascript:markPopupE('2017-R099');void(0)" title="새창으로 열림"><img src="https://www.eprivacy.or.kr:40018/seal/mark_e.gif" alt="개인정보보호마크" style="max-width: 50px; margin-top: 5px;"/></a>
-                        <a href="javascript:markPopupI('2018-R001');void(0)" title="새창으로 열림"><img src="https://www.eprivacy.or.kr:40018/seal/mark_i.gif" alt="인터넷사이트안전마크" style="max-width: 50px; margin-top: 5px;"/></a>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-
-        </div>
-
-        <div class="col col-12" style="width: 100%; display: inline-block;">
-            <p class="copyright" style="color: #eee">Copyright(c)2018. 국가평생교육진흥원 (National Institute For Lifelong Education. All right reserved)</p>
-            <p title="(04520) 서울특별시 중구 청계천로 14 (무교동 77)" style="color: #eee">${_("14, Cheonggyecheon-ro, Jung-gu, Seoul, Republic of Korea (04520)")} E-mail:&nbsp; <a href="mailto:kmooc@nile.or.kr" style="color: #0088d0;">kmooc@nile.or.kr</a>
-            </p>
-        </div>
-
-    </footer>
-</div>
 
 % if include_dependencies:
 <%static:js group='base_vendor'/>

@@ -257,14 +257,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                          head_title,
                          subject,
                          content,
-                         SUBSTRING(reg_date, 1, 11),
+                         SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          '',
-                         mod_date
+                         mod_date,
+                         odby
                     FROM tb_board
                    WHERE section = 'N'
                    and use_yn = 'Y'
-                ORDER BY mod_date DESC
+                ORDER BY odby DESC, reg_date DESC
                    limit 5)
             union all
                 (  SELECT board_id,
@@ -280,14 +281,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                          head_title,
                          subject,
                          mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
-                         SUBSTRING(reg_date, 1, 11),
+                         SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          '',
-                         mod_date
+                         mod_date,
+                         odby
                     FROM tb_board
                    WHERE section = 'K'
                    and use_yn = 'Y'
-                ORDER BY mod_date DESC
+                ORDER BY odby DESC, reg_date DESC
                     limit 5)
             union all
                 (  SELECT board_id,
@@ -301,14 +303,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
                          head_title,
                          subject,
                          content,
-                         SUBSTRING(reg_date, 1, 11),
+                         SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          '',
-                         mod_date
+                         mod_date,
+                         odby
                     FROM tb_board
                    WHERE section = 'R'
                    and use_yn = 'Y'
-                ORDER BY mod_date DESC
+                ORDER BY odby DESC, reg_date DESC
                    limit 5)
             union all
                 (  SELECT board_id,
@@ -326,30 +329,32 @@ def index(request, extra_context=None, user=AnonymousUser()):
                           head_title,
                          subject,
                          content,
-                         SUBSTRING(reg_date, 1, 11),
+                         SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          head_title,
-                         mod_date
+                         mod_date,
+                         odby
                     FROM tb_board
                    WHERE section = 'F'
                      and use_yn = 'Y'
-                ORDER BY mod_date DESC
+                ORDER BY odby DESC, reg_date DESC
                    limit 5)
             union all
                 (  SELECT board_id,
                          '' head_title,
                          subject,
                          content,
-                         SUBSTRING(reg_date, 1, 11),
+                         SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          head_title,
-                         mod_date
+                         mod_date,
+                         odby
                     FROM tb_board
                    WHERE section = 'M'
                      and use_yn = 'Y'
-                ORDER BY mod_date DESC
+                ORDER BY odby DESC, reg_date DESC
                    limit 5)
-            ORDER BY mod_date DESC;
+            ORDER BY odby DESC, reg_date DESC;
         """
 
     index_list = []
@@ -592,13 +597,16 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur.execute(popupzone_query)
     popzone = cur.fetchall()
 
+    # test
+    pop_path = ['/static/images/main/ba01.jpg', '/static/images/main/ba02.jpg', '/static/images/main/ba03.jpg']
+
     popzone_list = list()
-    for zone in popzone:
+    for idx, zone in enumerate(popzone):
         popzone_dict = dict()
-        popzone_dict['title'] = zone[1]
+        popzone_dict['title'] = zone [1]
         image_idx = zone[2].find('/static')
         if image_idx == -1:
-            popzone_dict['image_file'] = zone[2]
+            popzone_dict['image_file'] = pop_path[idx]
         else:
             popzone_dict['image_file'] = zone[2][image_idx:]
         popzone_dict['link_url'] = zone[3]
@@ -614,8 +622,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context['max_pop'] = str(max_pop[0][0])
     extra_context['popzone_list'] = popzone_list
     context.update(extra_context)
-
-
 
     return render_to_response('index.html', context)
 

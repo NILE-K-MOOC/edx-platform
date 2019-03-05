@@ -38,21 +38,30 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         )}
     % endif
     <div class="main-header">
+        <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
         <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
-        <div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-        </div>
+
         % if user.is_authenticated:
             <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
         % else:
             <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
         % endif
     </div>
-    <div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>
+    <%include file="navbar-hamburger-menu.html" args="online_help_token=online_help_token"/>
+    <!--<div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">-->
+            <!--<span class="line"></span>-->
+            <!--<span class="line"></span>-->
+            <!--<span class="line"></span>-->
+            <!--<span class="line"></span>-->
+        <!--</div>-->
+
+    <!--<div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>-->
 </header>
+% if request.path == '/':
+<%include file="navbar-menu.html" args="online_help_token=online_help_token"/>
+% else:
+<%include file="navbar-menu-sub.html" args="online_help_token=online_help_token"/>
+% endif
 
 % if course:
 <!--[if lte IE 9]>

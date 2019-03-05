@@ -12531,7 +12531,7 @@ msgstr "모든 강좌 보기"
 #: lms/templates/header/user_dropdown.html
 #: themes/edx.org/lms/templates/dashboard.html
 msgid "Dashboard"
-msgstr "대시보드"
+msgstr "내 강의실"
 
 #: lms/templates/dashboard.html themes/edx.org/lms/templates/dashboard.html
 msgid "You are not enrolled in any courses yet."
@@ -15382,7 +15382,7 @@ msgstr "당신은 아직 등록되지 않았습니다. "
 msgid ""
 "You are not currently enrolled in this course. {link_start}Enroll "
 "now!{link_end}"
-msgstr "현재 이 강좌를 수간하고 있지 않습니다. {link_start}지금 등록하세요!{link_end}"
+msgstr "현재 이 강좌를 수강하고 있지 않습니다. {link_start}지금 등록하세요!{link_end}"
 
 #: lms/templates/courseware/info.html
 msgid "Welcome to {org}'s {course_title}!"
@@ -25788,14 +25788,14 @@ msgid "The prompt for this section"
 msgstr "이 섹션의 프롬프트"
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the Your Response field."
-msgstr "22222본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
+msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
 
 # msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the%(start_tag)s Your Response%(end_tag)s field."
 # msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the %(start_tag)sYour Response %(end_tag)sfield."
 # msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the %(start_tag)sYour Response%(end_tag)s field."
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the prompt. The other steps appear below the %(start_tag)sYour Response%(end_tag)s field."
-msgstr "111111본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는%(start_tag)s 귀하의 답변%(end_tag)s 아래에 나타납니다."
+msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 프롬프트에 대한 답변을 제공합니다. 다른 단계는%(start_tag)s 귀하의 답변%(end_tag)s 아래에 나타납니다."
 
 msgid "This assignment has several steps. In the first step, you'll provide a response to the question. The other steps appear below the Your Response field."
 msgstr "본 과제에는 여러 단계가 있습니다. 첫 번째 단계에서는 질문에 대한 답변을 제공합니다. 다른 단계는 귀하의 답변 아래에 나타납니다."
@@ -26819,6 +26819,42 @@ msgstr "한국국제협력단"
 msgid "DEU"
 msgstr "동의대학교"
 
+msgid "KMOOC"
+msgstr "K-MOOC"
+
+msgid "XuetangX"
+msgstr "XuetangX"
+
+msgid "FUNMOOC"
+msgstr "FUN-MOOC"
+
+msgid "ANU"
+msgstr "안동대학교"
+
+msgid "BUFS_ICFL"
+msgstr "부산외국어대학교"
+
+msgid "KangNamUK"
+msgstr "강남대학교"
+
+msgid "DongdukK"
+msgstr "동덕여자대학교"
+
+msgid "AJOU"
+msgstr "아주대학교"
+
+msgid "YuhanUnivK"
+msgstr "유한대학교"
+
+msgid "NRF"
+msgstr "한국연구재단"
+
+msgid "HNU"
+msgstr "한남대학교"
+
+msgid "KOHI"
+msgstr "한국보건복지인력개발원"
+
 msgid "Please use your most frequently used e-mails to activate your account, log in, and change your password."
 msgstr "계정활성화, 로그인, 비밀번호 변경 등에 사용되오니 자주 사용하는 이메일로 적어주세요."
 
@@ -27454,3 +27490,18 @@ msgstr "묶음강좌 수강 취소"
 #: lms/templates/community/series_view.html
 msgid "Series course complete"
 msgstr "묶음강좌를 이수하였습니다."
+
+msgid "Series Course List"
+msgstr "묶음강좌 목록"
+
+msgid "About Series Course"
+msgstr "묶음강좌란?"
+
+msgid "{teacher_name} and {t_len} others"
+msgstr "{teacher_name} 외 {t_len}명"
+
+msgid "FAMILY SITE"
+msgstr "패밀리사이트"
+
+msgid "App Download"
+msgstr "앱 다운로드"

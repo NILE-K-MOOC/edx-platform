@@ -606,7 +606,12 @@ def series_view(request, id):
                    ifnull(classfy, 'ETC') classfy,
                    ifnull(middle_classfy, 'ETC') middle_classfy,
                    v2.short_description,
-                   ifnull(course_level, '') as course_level
+                   ifnull(course_level, '') as course_level,
+                   CASE
+                     WHEN start > now()
+                     THEN 'ready'
+                     ELSE 'pass'
+                   END AS status
               FROM edxapp.series_course AS v1
                    JOIN
                    (SELECT *
@@ -686,6 +691,7 @@ def series_view(request, id):
             sub_dict['middle_classfy'] = row[8]
             sub_dict['short_description'] = row[9]
             sub_dict['course_level'] = row[10]
+            sub_dict['status'] = row[11]
             sub_dict['effort_week'] = effort_week
             sub_dict['study_time'] = study_time
             sub_dict['learn_time'] = learn_time

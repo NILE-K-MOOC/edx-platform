@@ -1760,7 +1760,7 @@ max-height:2000px;
 .b2{display:none; position:absolute; z-index:10; top:25px; background:#fff; padding:10px; color:#333; border:1px solid #4587c2; width:200px;}
 .b1:hover .b2 {display:block;}
 
-.b3{width:100%; display:flex; align-items: stretch;}
+.b3{width:100%; display:flex; align-items: stretch; padding: 0 5px;}
 .b4{display:  inline-block;float:  left;width: 98%;text-align:  left;white-space: nowrap;text-overflow: ellipsis;overflow:  hidden;}
 .b5{display:  inline-block;float:  right;}
 
