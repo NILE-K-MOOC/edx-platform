@@ -255,13 +255,14 @@ li{
 }
 
 @media (max-width: 516px){
-  .kr01_fivemenu02 .fivemenarea li{float: none;}
+  .kr01_fivemenu02 .fivemenarea li{float: none; margin-bottom: 0px; border-bottom: 1px solid #6396d0;}
+  .kr01_fivemenu02 .fivemenarea li:last-child{border-bottom: 0px;}
 }
 
 @media (max-width: 470px){
   .courses-container{margin:0px; padding-bottom: 0px !important;}
   .kr01_fivemenu {display: none;}
-  .kr01_fivemenu02{display: block; margin-bottom: 20px;}
+  .kr01_fivemenu02{display: block; margin-bottom: 20px; border: 2px solid #6396d0;}
   .kr01_fivemenu02 .fivemenarea li a{width: 100%; text-align: center;}
   .kr01_fivemenu02 .fivemenarea li a span{vertical-align: top; margin-top: 15px;}
 }
