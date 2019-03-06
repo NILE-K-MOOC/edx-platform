@@ -1581,6 +1581,9 @@ article.course.none .kr01-courInfo-bar{
 @media (max-width: 991px){
   .kr01_dashArea .kr01_dashImg {display: none;}
   .kr01_dashArea .kr01_dashTsub{top: 8px;}
+  .dashboard .main-container .my-courses .course .details {
+    padding-right: 10px;
+  }
 }
 
 @media (max-width: 713px){
@@ -1665,6 +1668,24 @@ article.course.none .kr01-courInfo-bar{
     pointer-events: none;
 }
 
+.actions-dropdown-list::after {
+  bottom: 100%;
+  right: 6px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+ul.actions-dropdown-list::after {
+  border-color: transparent;
+  border-bottom-color: #fff;
+  border-width: 6px;
+  margin-right: 1px;
+}
+
 ul.actions-dropdown-list::before {
     border-color: transparent;
     border-bottom-color: #c8c8c8;
@@ -1681,3 +1702,5 @@ ul.actions-dropdown-list::before {
     border: 1px solid #fff;
     text-align: center;
 }
+
+

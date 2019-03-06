@@ -366,13 +366,8 @@ if (
                         </div>
 
                         <script type="text/javascript">
-                            var window_W = 0;
-                            var course_slider;
-                            $(document).ready(function(){
 
-                              $(window).resize(function(){
-                                slide_resize();
-                              });
+                            $(document).ready(function(){
                                 var sliderOptions = {
                                         mode: 'vertical',
                                         slideSelector: '.slider article.slide',
@@ -391,33 +386,7 @@ if (
 
                                 var slider = $('.slider').bxSlider(sliderOptions);
 
-                              var course_slider = $('.course-card-slider').bxSlider({
-                                auto: true,
-                                autoHover: true,
-                                minSlides: 4,
-                                maxSlides: 4,
-                                slideWidth: 280
-                              });
-
                             });
-
-
-
-                            function slide_resize() {
-                              window_W = $(window).width();
-                              if(window_W<=991) {
-                                // alert(window_W);
-                                course_slider.reloadSlider({
-                                  auto: true,
-                                  autoHover: true,
-                                  minSlides: 3,
-                                  maxSlides: 3,
-                                  slideWidth: 250
-                                });
-                              } else if(window_W>768) {
-
-                              }
-                            }
 
                         </script>
                     </div>
