@@ -186,33 +186,32 @@ class CourseFields(object):
         help=_('Enter the passports for course LTI tools in the following format: "id:client_key:client_secret".'),
         scope=Scope.settings
     )
+
     textbooks = TextbookList(
         help=_("List of Textbook objects with (title, url) for textbooks used in this course"),
         default=[],
         scope=Scope.content
     )
-    audit_yn = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y',
-                      scope=Scope.settings)
 
-    user_edit = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다."), default=u'N', scope=Scope.settings)
-
-    # Il-Hee, Maeng addition start -------------------
-    audit_yn = String(help=_(u"Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y', scope=Scope.settings)
-    user_edit = String(help=_(u"Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다."), default=u'N', scope=Scope.settings)
-    # Il-Hee, Maeng addition end -------------------
     wiki_slug = String(help=_("Slug that points to the wiki for this course"), scope=Scope.content)
+
     enrollment_start = Date(help=_("Date that enrollment for this class is opened"), scope=Scope.settings)
+
     enrollment_end = Date(help=_("Date that enrollment for this class is closed"), scope=Scope.settings)
+
     start = Date(
         help=_("Start time when this module is visible"),
         default=DEFAULT_START_DATE,
         scope=Scope.settings
     )
+
     end = Date(help=_("Date that this class ends"), scope=Scope.settings)
+
     certificate_available_date = Date(
         help=_("Date that certificates become available to learners"),
         scope=Scope.content
     )
+
     cosmetic_display_price = Integer(
         display_name=_("Cosmetic Course Display Price"),
         help=_(
@@ -222,6 +221,7 @@ class CourseFields(object):
         default=0,
         scope=Scope.settings,
     )
+
     advertised_start = String(
         display_name=_("Course Advertised Start"),
         help=_(
@@ -231,11 +231,13 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     pre_requisite_courses = List(
         display_name=_("Pre-Requisite Courses"),
         help=_("Pre-Requisite Course key if this course has a pre-requisite course"),
         scope=Scope.settings
     )
+
     grading_policy = Dict(
         help=_("Grading policy definition for this class"),
         default={
@@ -275,118 +277,19 @@ class CourseFields(object):
         scope=Scope.content
     )
 
-    classfy = String(
-        help=_("Select Section name"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
-    middle_classfy = String(
-        help=_("Select Section name"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
-
-    classfysub = String(
-        help=_("융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
-    middle_classfysub = String(
-        help=_("융복합 분류인 경우 최대 3개 추가입력 가능"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
-    linguistics = String(
-        help=_("Select Section name"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
-    course_period = String(
-        help=_("Select Period of Studing"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
     show_calculator = Boolean(
         display_name=_("Show Calculator"),
         help=_("Enter true or false. When true, students can see the calculator in the course."),
         default=False,
         scope=Scope.settings
     )
+
     display_name = String(
         help=_("Enter the name of the course as it should appear in the edX.org course list."),
         default="Empty",
         display_name=_("Course Display Name"),
         scope=Scope.settings
     )
-
-    # Il-Hee, Maeng addition start -------------------
-    classfy = String(
-        help=_("Select Section name"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-
-    middle_classfy = String(
-        help=_("Select Section name"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-    classfysub = String(
-        help=_(u"융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-    middle_classfysub = String(
-        help=_(u"융복합 분류인 경우 최대 3개 추가입력 가능"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-    linguistics = String(
-        help=_("Select Section name"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-    course_period = String(
-        help=_("Select Period of Studing"),
-        default="all",
-        display_name=_("Section"),
-        scope=Scope.settings
-    )
-    org_kname = String(
-       help=_("Select Section name"),
-       default="all",
-       display_name=_("org_kname"),
-       scope=Scope.settings
-    )
-    org_ename = String(
-       help=_("Select Section name"),
-       default="all",
-       display_name=_("org_ename"),
-       scope=Scope.settings
-    )
-    teacher_name = String(
-       help=_("Teacher name"),
-       default="all",
-       display_name=_("teacher_name"),
-       scope=Scope.settings
-    )
-    # Il-Hee, Maeng addition end ------------------- <--error (org_kname, org_ename, teacher_name)
 
     course_edit_method = String(
         display_name=_("Course Editor"),
@@ -395,13 +298,16 @@ class CourseFields(object):
         scope=Scope.settings,
         deprecated=True  # Deprecated because someone would not edit this value within Studio.
     )
+
     tabs = CourseTabList(help="List of tabs to enable in this course", scope=Scope.settings, default=[])
+
     end_of_course_survey_url = String(
         display_name=_("Course Survey URL"),
         help=_("Enter the URL for the end-of-course survey. If your course does not have a survey, enter null."),
         scope=Scope.settings,
         deprecated=True  # We wish to remove this entirely, TNL-3399
     )
+
     discussion_blackouts = List(
         display_name=_("Discussion Blackout Dates"),
         help=_(
@@ -414,6 +320,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     discussion_topics = Dict(
         display_name=_("Discussion Topic Mapping"),
         help=_(
@@ -428,6 +335,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     discussion_sort_alpha = Boolean(
         display_name=_("Discussion Sorting Alphabetical"),
         scope=Scope.settings, default=False,
@@ -436,11 +344,13 @@ class CourseFields(object):
             "If false, they are sorted chronologically by creation date and time."
         )
     )
+
     announcement = Date(
         display_name=_("Course Announcement Date"),
         help=_("Enter the date to announce your course."),
         scope=Scope.settings
     )
+
     cohort_config = Dict(
         display_name=_("Cohort Configuration"),
         help=_(
@@ -449,6 +359,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     is_new = Boolean(
         display_name=_("Course Is New"),
         help=_(
@@ -457,33 +368,39 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     mobile_available = Boolean(
         display_name=_("Mobile Course Available"),
         help=_("Enter true or false. If true, the course will be available to mobile devices."),
         default=DEFAULT_MOBILE_AVAILABLE,
         scope=Scope.settings
     )
+
     video_upload_pipeline = Dict(
         display_name=_("Video Upload Credentials"),
         help=_("Enter the unique identifier for your course's video files provided by edX."),
         scope=Scope.settings
     )
+
     no_grade = Boolean(
         display_name=_("Course Not Graded"),
         help=_("Enter true or false. If true, the course will not be graded."),
         default=False,
         scope=Scope.settings
     )
+
     disable_progress_graph = Boolean(
         display_name=_("Disable Progress Graph"),
         help=_("Enter true or false. If true, students cannot view the progress graph."),
         default=False,
         scope=Scope.settings
     )
+
     pdf_textbooks = List(
         display_name=_("PDF Textbooks"),
         help=_("List of dictionaries containing pdf_textbook configuration"), scope=Scope.settings
     )
+
     html_textbooks = List(
         display_name=_("HTML Textbooks"),
         help=_(
@@ -492,6 +409,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     remote_gradebook = Dict(
         display_name=_("Remote Gradebook"),
         help=_(
@@ -500,6 +418,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+
     enable_ccx = Boolean(
         # Translators: Custom Courses for edX (CCX) is an edX feature for re-using course content. CCX Coach is
         # a role created by a course Instructor to enable a person (the "Coach") to manage the custom course for
@@ -515,6 +434,7 @@ class CourseFields(object):
         default=False,
         scope=Scope.settings
     )
+
     ccx_connector = String(
         # Translators: Custom Courses for edX (CCX) is an edX feature for re-using course content.
         display_name=_("CCX Connector URL"),
@@ -525,11 +445,13 @@ class CourseFields(object):
         ),
         scope=Scope.settings, default=""
     )
+
     allow_anonymous = Boolean(
         display_name=_("Allow Anonymous Discussion Posts"),
         help=_("Enter true or false. If true, students can create discussion posts that are anonymous to all users."),
         scope=Scope.settings, default=True
     )
+
     allow_anonymous_to_peers = Boolean(
         display_name=_("Allow Anonymous Discussion Posts to Peers"),
         help=_(
@@ -538,12 +460,15 @@ class CourseFields(object):
         ),
         scope=Scope.settings, default=False
     )
+
     advanced_modules = List(
         display_name=_("Advanced Module List"),
         help=_("Enter the names of the advanced modules to use in your course."),
         scope=Scope.settings
     )
+
     has_children = True
+
     info_sidebar_name = String(
         display_name=_("Course Home Sidebar Name"),
         help=_(
@@ -552,6 +477,7 @@ class CourseFields(object):
         ),
         deprecated=True,
         scope=Scope.settings, default=_('Course Handouts'))
+
     show_timezone = Boolean(
         help=_(
             "True if timezones should be shown on dates in the course. "
@@ -559,6 +485,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings, default=True
     )
+
     due_date_display_format = String(
         display_name=_("Due Date Display Format"),
         help=_(
@@ -567,11 +494,13 @@ class CourseFields(object):
         ),
         scope=Scope.settings, default=None
     )
+
     enrollment_domain = String(
         display_name=_("External Login Domain"),
         help=_("Enter the external login method students can use for the course."),
         scope=Scope.settings
     )
+
     certificates_show_before_end = Boolean(
         display_name=_("Certificates Downloadable Before End"),
         help=_(
@@ -596,6 +525,7 @@ class CourseFields(object):
         scope=Scope.settings,
         default="end"
     )
+
     course_image = String(
         display_name=_("Course About Page Image"),
         help=_(
@@ -606,6 +536,7 @@ class CourseFields(object):
         # Ensure that courses imported from XML keep their image
         default="images_course_image.jpg"
     )
+
     banner_image = String(
         display_name=_("Course Banner Image"),
         help=_(
@@ -616,6 +547,7 @@ class CourseFields(object):
         # Ensure that courses imported from XML keep their image
         default="images_course_image.jpg"
     )
+
     video_thumbnail_image = String(
         display_name=_("Course Video Thumbnail Image"),
         help=_(
@@ -626,6 +558,7 @@ class CourseFields(object):
         # Ensure that courses imported from XML keep their image
         default="images_course_image.jpg"
     )
+
     issue_badges = Boolean(
         display_name=_("Issue Open Badges"),
         help=_(
@@ -634,7 +567,8 @@ class CourseFields(object):
         scope=Scope.settings,
         default=True
     )
-    ## Course level Certificate Name overrides.
+
+    # Course level Certificate Name overrides.
     cert_name_short = String(
         help=_(
             'Use this setting only when generating PDF certificates. '
@@ -645,6 +579,7 @@ class CourseFields(object):
         scope=Scope.settings,
         default=""
     )
+
     cert_name_long = String(
         help=_(
             'Use this setting only when generating PDF certificates. '
@@ -655,6 +590,7 @@ class CourseFields(object):
         scope=Scope.settings,
         default=""
     )
+
     cert_html_view_enabled = Boolean(
         display_name=_("Certificate Web/HTML View Enabled"),
         help=_("If true, certificate Web/HTML views are enabled for the course."),
@@ -662,6 +598,7 @@ class CourseFields(object):
         default=True,
         deprecated=True
     )
+
     cert_html_view_overrides = Dict(
         # Translators: This field is the container for course-specific certificate configuration values
         display_name=_("Certificate Web/HTML View Overrides"),
@@ -980,6 +917,7 @@ class CourseFields(object):
         },
         scope=Scope.settings
     )
+
     allow_unsupported_xblocks = Boolean(
         display_name=_("Add Unsupported Problems and Tools"),
         help=_(
@@ -989,6 +927,7 @@ class CourseFields(object):
         ),
         scope=Scope.settings, default=False
     )
+
     highlights_enabled_for_messaging = Boolean(
         display_name=_("Highlights Enabled for Messaging"),
         help=_(
@@ -996,6 +935,89 @@ class CourseFields(object):
             "to learners at their scheduled time."
         ),
         scope=Scope.settings, default=False
+    )
+
+    # add for kmooc
+
+    test001 = Boolean(
+        display_name=_("Add Element Test001"),
+        help=_("Add Element Test001 help text."),
+        default=False,
+        scope=Scope.settings
+    )
+
+    audit_yn = String(
+        help=_("Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다."), default=u'Y', scope=Scope.settings)
+
+    user_edit = String(help=_("Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다."), default=u'N', scope=Scope.settings)
+
+    classfy = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    middle_classfy = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    classfysub = String(
+        help=_(u"융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    middle_classfysub = String(
+        help=_(u"융복합 분류인 경우 최대 3개 추가입력 가능"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    linguistics = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    course_period = String(
+        help=_("Select Period of Studing"),
+        default="all",
+        display_name=_("Section"),
+        scope=Scope.settings
+    )
+
+    org_kname = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("org_kname"),
+        scope=Scope.settings
+    )
+
+    org_ename = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("org_ename"),
+        scope=Scope.settings
+    )
+
+    teacher_name = String(
+        help=_("Teacher name"),
+        default="all",
+        display_name=_("teacher_name"),
+        scope=Scope.settings
+    )
+
+    fourth_industry_yn = Boolean(
+        display_name=_("fourth_industry_yn"),
+        help=_("hidden value"),
+        scope=Scope.settings, default=False, hidden=True
     )
 
 
@@ -1384,6 +1406,7 @@ class CourseDescriptor(CourseFields, SequenceDescriptor, LicenseMixin):
             i18n.ugettext,
             i18n.strftime
         )
+
     def end_datetime_text(self, format_string="SHORT_DATE", time_zone=utc):
         """
         Returns the end date or date_time for the course formatted as a string.
@@ -1394,6 +1417,7 @@ class CourseDescriptor(CourseFields, SequenceDescriptor, LicenseMixin):
             time_zone,
             self.runtime.service(self, "i18n").strftime
         )
+
     @property
     def start_date_is_still_default(self):
         """
@@ -1484,8 +1508,8 @@ class CourseDescriptor(CourseFields, SequenceDescriptor, LicenseMixin):
         Returns whether the video pipeline advanced setting is configured for this course.
         """
         return VideoUploadsEnabledByDefault.feature_enabled(course_id=self.id) or (
-            self.video_upload_pipeline is not None and
-            'course_video_upload_token' in self.video_upload_pipeline
+                self.video_upload_pipeline is not None and
+                'course_video_upload_token' in self.video_upload_pipeline
         )
 
     def clean_id(self, padding_char='='):

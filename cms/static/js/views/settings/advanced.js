@@ -43,6 +43,9 @@ define(['js/views/validation',
                         if(key == 'need_lock')
                             return true;
 
+                        // console.log('key:: ' + key);
+                        // console.log(self.model.get(key));
+
                         if (self.render_deprecated || !self.model.get(key).deprecated) {
                             HtmlUtils.append(listEle$, self.renderTemplate(key, self.model.get(key)));
                         }
@@ -202,7 +205,7 @@ define(['js/views/validation',
                 var newKeyId = _.uniqueId('policy_key_'),
                     lock = this.model.get('need_lock'),
                     newEle = this.template({key: key, display_name: model.display_name, help: model.help,
-                        value: JSON.stringify(model.value, null, 4), deprecated: model.deprecated,
+                        value: JSON.stringify(model.value, null, 4), deprecated: model.deprecated, hidden: model.hidden,
                         keyUniqueId: newKeyId, need_lock: lock, valueUniqueId: _.uniqueId('policy_value_')});
 
                 this.fieldToSelectorMap[key] = newKeyId;

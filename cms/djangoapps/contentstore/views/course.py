@@ -2026,37 +2026,6 @@ def advanced_settings_handler(request, course_key_string):
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
-            need_lock = course_need_lock(request, course_key_string)
-
-            difficult_degree_list = course_difficult_degree(request, course_key_string)
-            advanced_dict = CourseMetadata.fetch(course_module)
-
-            # difficult_degree setting
-            with connections['default'].cursor() as cur:
-                query = """
-                    SELECT audit_yn
-                      FROM course_overview_addinfo
-                     WHERE course_id = '{course_id}';
-                """.format(course_id=course_key_string)
-                cur.execute(query)
-                audit_yn = cur.fetchone()[0] if cur.rowcount else 'N'
-
-            need_lock_dict = {
-                'deprecated': False,
-                'display_name': _("is_course_lock"),
-                'help': '',
-                'value': need_lock
-            }
-
-            audit_yn_dict = {
-                'deprecated': False,
-                'display_name': _("audit_yn"),
-                'help': u'Y또는 N을 입력합니다. Y를 입력할 경우, 강좌가 종료된 이후에도 청강신청을 하실 수 있습니다.',
-                'value': audit_yn
-            }
-
-            advanced_dict['audit_yn'] = audit_yn_dict
-            advanced_dict['need_lock'] = need_lock_dict
 
             need_lock = course_need_lock(request, course_key_string)
             difficult_degree_list = course_difficult_degree(request, course_key_string)
@@ -2073,7 +2042,7 @@ def advanced_settings_handler(request, course_key_string):
                 audit_yn = cur.fetchone()[0] if cur.rowcount else 'N'
 
             need_lock_dict = {
-                'deprecated': False,
+                'hidden': True,
                 'display_name': _("is_course_lock"),
                 'help': '',
                 'value': need_lock

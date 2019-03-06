@@ -53,20 +53,6 @@ function CourseOrLibraryListing(props) {
               __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
                 'span',
                 { className: 'value' },
-                gettext(item.org)
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-              'span',
-              { className: 'course-org metadata-item' },
-              __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-                'span',
-                { className: 'label' },
-                gettext('Organization:')
-              ),
-              __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-                'span',
-                { className: 'value' },
                 item.org
               )
             ),

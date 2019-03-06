@@ -148,7 +148,9 @@ class CourseMetadata(object):
                 'value': field.read_json(descriptor),
                 'display_name': _(field.display_name),    # pylint: disable=translation-of-non-string
                 'help': field_help,
-                'deprecated': field.runtime_options.get('deprecated', False)
+                'deprecated': field.runtime_options.get('deprecated', False),
+                'hidden': field.runtime_options.get('hidden', False)
+
             }
         return result
 
