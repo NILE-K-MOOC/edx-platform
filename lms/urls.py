@@ -345,6 +345,7 @@ COURSE_URLS = [
         name='registration_code_details',
     ),
 ]
+
 urlpatterns += [
     # jump_to URLs for direct access to a location in the course
     url(
@@ -421,6 +422,7 @@ urlpatterns += [
     url(r'^calculate$', util_views.calculate),
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
+    url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
 
     # About the course
     url(
@@ -821,7 +823,6 @@ urlpatterns += [
         include('openedx.features.portfolio_project.urls'),
     ),
 ]
-
 if settings.FEATURES.get('ENABLE_TEAMS'):
     # Teams endpoints
     urlpatterns += [
