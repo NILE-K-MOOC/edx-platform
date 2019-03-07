@@ -1,6 +1,15 @@
 /**
  * Created by kotech on 2018. 3. 20..
  */
+var j_ui_cnt = 0;
+$('script[type="text/javascript"]').each(function(){
+  if($(this).prop('src').indexOf('jquery-ui.min.js') != -1) {
+    j_ui_cnt++;
+  }
+});
+if(j_ui_cnt == 0){
+  $('head').append('<script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></script>');
+}
 $(document).ready(function () {
     $.ajax({
         url: '/course_search_list',

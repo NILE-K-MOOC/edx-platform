@@ -1,113 +1,37 @@
-
+var window_W = 0;
+var course_slider;
 $(document).ready(function() {
 	var agent = navigator.userAgent.toLowerCase();
 
 	console.log("script.js :: document.ready !");
 	console.log('browser ::' + navigator.userAgent);
+  $(window).resize(slide_resize);
 
-
-
-	// $('.bxslider').each(function() {
-	// 	var $this = $(this);
-	// 	var $group = $this.find('.slide_group');
-	// 	var $slides = $this.find('.slide');
-	// 	var bulletArray = [];
-	// 	var currentIndex = 0;
-	// 	var timeout;
-	//
-	//
-	// 	function move(newIndex) {
-	// 		var animateLeft, slideLeft;
-	//
-	// 		advance();
-	//
-	// 		if ($group.is(':animated') || currentIndex === newIndex) {
-	// 			return;
-	// 		}
-	//
-	// 		bulletArray[currentIndex].removeClass('active');
-	// 		bulletArray[newIndex].addClass('active');
-	//
-	// 		if (newIndex > currentIndex) {
-	// 			slideLeft = '100%';
-	// 			animateLeft = '-100%';
-	// 		} else {
-	// 			slideLeft = '-100%';
-	// 			animateLeft = '100%';
-	// 		}
-	//
-	// 		$slides.eq(newIndex).css({
-	// 			display: 'block',
-	// 			left: slideLeft
-	// 		});
-	// 		$group.animate({
-	// 			left: animateLeft
-	// 		}, function() {
-	// 			$slides.eq(currentIndex).css({
-	// 				display: 'none'
-	// 			});
-	// 			$slides.eq(newIndex).css({
-	// 				left: 0
-	// 			});
-	// 			$group.css({
-	// 				left: 0
-	// 			});
-	// 			currentIndex = newIndex;
-	// 		});
-	// 	}
-	//
-	// 	function advance() {
-	// 		clearTimeout(timeout);
-	// 		timeout = setTimeout(function() {
-	// 			if (currentIndex < ($slides.length - 1)) {
-	// 				move(currentIndex + 1);
-	// 			} else {
-	// 				move(0);
-	// 			}
-	// 		}, 4000);
-	// 	}
-	//
-	// 	$('.next_btn').on('click', function() {
-	// 		if (currentIndex < ($slides.length - 1)) {
-	// 			move(currentIndex + 1);
-	// 		} else {
-	// 			move(0);
-	// 		}
-	// 	});
-	//
-	// 	$('.previous_btn').on('click', function() {
-	// 		if (currentIndex !== 0) {
-	// 			move(currentIndex - 1);
-	// 		} else {
-	// 			move(3);
-	// 		}
-	// 	});
-	//
-	// 	$.each($slides, function(index) {
-	// 		if(index.length == 0){
-	// 			var $button = $('');
-	// 		}else{
-	// 			if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
-	// 				var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" style="position: relative;" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
-	// 			} else if ((agent.indexOf("safari") != -1 && agent.indexOf("chrome") == -1)){
-	// 				var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" style="left: 0;" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
-	// 			}
-	// 			else {
-	// 				var $button = $('<div style="display: inline-flex; position: relative; max-width: 80%; width: 80%; justify-content: space-around; align-items: center;"><a class="slide_btn" id=zone'+index+'><span style="text-align: center;">'+$("#pop_title"+index).val()+'</span></a></div>');
-	// 			}
-	// 		}
-	//
-	// 		if (index === currentIndex) {
-	// 			$button.addClass('active');
-	// 		}
-	// 		$button.on('click', function() {
-	// 			move(index);
-	// 		}).appendTo('.slide_buttons');
-	// 		bulletArray.push($button);
-	// 	});
-	//
-	// 	advance();
-	// });
+  course_slider = $('.course-card-slider').bxSlider({
+    auto: true,
+    autoHover: true,
+    minSlides: 4,
+    maxSlides: 4,
+    slideWidth: 280,
+    speed: 700
+  });
 
 });
 
+function slide_resize() {
+
+  window_W = $(window).width();
+  if(window_W<=991) {
+    // alert(window_W);
+    course_slider.reloadSlider({
+      auto: true,
+      autoHover: true,
+      minSlides: 2,
+      maxSlides: 2,
+      slideWidth: 250,
+      speed: 700
+    });
+  } else if(window_W>768) {
+
+  }
+}

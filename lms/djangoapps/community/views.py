@@ -1320,7 +1320,7 @@ def memo_sync(request):
 
                     memo_list.append(memo_row)
 
-                print query2
+                # print query2
 
             return JsonResponse({"cnt": cnt, "memo_list": memo_list})
 
