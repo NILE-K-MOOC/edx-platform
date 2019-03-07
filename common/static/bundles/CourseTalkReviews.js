@@ -1,4 +1,4 @@
-(function(e, a) { for(var i in a) e[i] = a[i]; }(window, webpackJsonp([79],{
+(function(e, a) { for(var i in a) e[i] = a[i]; }(window, webpackJsonp([78],{
 
 /***/ "./openedx/features/course_experience/static/course_experience/js/CourseTalkReviews.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {

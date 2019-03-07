@@ -88,6 +88,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         var json_data = {
                             // csrfmiddlewaretoken: $.cookie('csrftoken'),
                             user_edit: {
+                                "hidden": "false",
                                 "deprecated": "false",
                                 "display_name": "user_edit",
                                 "help": "Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다.",
