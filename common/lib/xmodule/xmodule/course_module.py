@@ -1014,10 +1014,28 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
-    fourth_industry_yn = Boolean(
+    fourth_industry_yn = String(
         display_name=_("fourth_industry_yn"),
-        help=_("hidden value"),
-        scope=Scope.settings, default=False, hidden=True
+        help=_("fourth_industry_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
+    )
+
+    ribbon_yn = String(
+        display_name=_("ribbon_yn"),
+        help=_("ribbon_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
+    )
+
+    job_edu_yn = String(
+        display_name=_("job_edu_yn"),
+        help=_("job_edu_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
     )
 
 

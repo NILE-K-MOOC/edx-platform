@@ -119,11 +119,9 @@ from bson import ObjectId
 from pymongo import MongoClient
 from bson import ObjectId
 
-
-
 log = logging.getLogger(__name__)
 
-__all__ = ['course_info_handler', 'course_handler', 'course_listing','level_Verifi',
+__all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Verifi',
            'course_info_update_handler', 'course_search_index_handler',
            'course_rerun_handler',
            'settings_handler',
@@ -225,8 +223,9 @@ def _course_notifications_json_get(course_action_state_id):
     }
     return JsonResponse(action_state_info)
 
+
 def level_Verifi(request):
-    #sys.setdefaultencoding('utf-8')
+    # sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
@@ -420,6 +419,7 @@ def _accessible_courses_summary_iter(request, org=None):
             string will result in no courses, and otherwise only courses with the
             specified org will be returned. The default value is None.
     """
+
     def course_filter(course_summary):
         """
         Filter out unusable and inaccessible courses
@@ -430,6 +430,7 @@ def _accessible_courses_summary_iter(request, org=None):
             return False
 
         return has_studio_read_access(request.user, course_summary.id)
+
     if org is not None:
         courses_summary = [] if org == '' else CourseOverview.get_all_courses(orgs=[org])
     else:
@@ -443,6 +444,7 @@ def _accessible_courses_iter(request):
     """
     List all courses available to the logged in user by iterating through all the courses.
     """
+
     def course_filter(course):
         """
         Filter out unusable and inaccessible courses
@@ -474,6 +476,7 @@ def _accessible_courses_iter_for_tests(request):
     CourseSummary objects are used for listing purposes.
     This method is only used by tests.
     """
+
     def course_filter(course):
         """
         Filter out unusable and inaccessible courses
@@ -501,6 +504,7 @@ def _accessible_courses_list_from_groups(request):
     """
     List all courses available to the logged in user by reversing access group names
     """
+
     def filter_ccx(course_access):
         """ CCXs cannot be edited in Studio and should not be shown in this dashboard """
         return not isinstance(course_access.course_id, CCXLocator)
@@ -547,7 +551,7 @@ def course_listing(request):
     List all courses and libraries available to the logged in user
     """
     optimization_enabled = GlobalStaff().has_user(request.user) and \
-        WaffleSwitchNamespace(name=WAFFLE_NAMESPACE).is_enabled(u'enable_global_staff_optimization')
+                           WaffleSwitchNamespace(name=WAFFLE_NAMESPACE).is_enabled(u'enable_global_staff_optimization')
 
     org = request.GET.get('org', '') if optimization_enabled else None
     courses_iter, in_process_course_actions = get_courses_accessible_to_user(request, org)
@@ -763,6 +767,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
       Archived courses have has_ended() == True.
     * Formats the returned courses (in both lists) to prepare them for rendering to the view.
     """
+
     def format_course_for_view(course):
         """
         Return a dict of the data which the view requires for each course
@@ -804,6 +809,7 @@ def course_outline_initial_state(locator_to_show, course_structure):
     was provided, then the view's initial state will be to have the desired item fully expanded
     and to scroll to see the new item.
     """
+
     def find_xblock_info(xblock_info, locator):
         """
         Finds the xblock info for the specified locator.
@@ -869,25 +875,27 @@ def _create_or_rerun_course(request):
         if display_name is not None:
             fields['display_name'] = display_name
 
-        ##kmooc
+        # for k-mooc
         classfy = request.json.get('classfy')
-        fields['classfy'] = classfy
         classfysub = request.json.get('classfysub')
-        fields['classfysub'] = classfysub
         middle_classfy = request.json.get('middle_classfy')
-        fields['middle_classfy'] = middle_classfy
         middle_classfysub = request.json.get('middle_classfysub')
-        fields['middle_classfysub'] = middle_classfysub
-        linguistics = request.json.get('linguistics')
-        fields['linguistics'] = linguistics
+        linguistics = request.json.get('linguistics', 'N')
         course_period = request.json.get('course_period')
-        fields['course_period'] = course_period
+
+        fields.update({
+            'classfy': classfy,
+            'classfysub': classfysub,
+            'middle_classfy': middle_classfy,
+            'middle_classfysub': middle_classfysub,
+            'linguistics': linguistics,
+            'course_period': course_period,
+            'fourth_industry_yn': 'N',
+            'ribbon_yn': 'N',
+            'job_edu_yn': 'N',
+        })
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
-        org_kname = request.json.get('org_kname')
-        fields['org_kname'] = org_kname
-        org_ename = request.json.get('org_ename')
-        fields['org_ename'] = org_ename
 
         try:
             with connections['default'].cursor() as cur:
@@ -899,24 +907,21 @@ def _create_or_rerun_course(request):
                             """.format(org=org)
                 cur.execute(query)
 
-                row = cur.fetchone()
-                while row is not None:
+                if cur.rowcount:
+                    org_kname = ''
+                    org_ename = ''
+                else:
+                    row = cur.fetchone()[0]
                     org_kname = row[0].strip()
                     org_ename = row[1].strip()
-                    fields.update({'org_kname': org_kname})
-                    fields.update({'org_ename': org_ename})
-                    row = cur.fetchone()
+
+                fields.update({'org_kname': org_kname})
+                fields.update({'org_ename': org_ename})
         except Exception as e:
             print e
 
         teacher_name = request.json.get('teacher_name')
         fields['teacher_name'] = teacher_name
-
-        # 한국학 null 방어 코드 ------- #
-        if linguistics != 'Y':
-            linguistics = 'N'
-        # 한국학 null 방어 코드 ------- #
-
 
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
@@ -956,8 +961,8 @@ def _create_or_rerun_course(request):
                          WHERE course_id = '{course_id}';
                     '''.format(course_id=request.json['source_course_key'])
                     cur.execute(query)
-                    audit_yn = cur.fetchone() if cur.rowcount else 'Y'
-                    fields.update({'audit_yn': audit_yn[0]})
+                    audit_yn = cur.fetchone()[0] if cur.rowcount else 'Y'
+                    fields.update({'audit_yn': audit_yn})
 
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
 
@@ -1030,24 +1035,18 @@ def create_new_course(user, org, number, run, fields):
                              '',
                              FALSE);
             """.format(new_course.id)
-            print '_create_new_course.query :', query
 
             cur.execute(query)
 
         course_id = new_course.id
-        print 'course_id',course_id
 
         user_id = user.id
-        print 'user_id',user_id
 
         middle_classfy = fields['middle_classfy']
-        print 'middle_classfy',middle_classfy
 
         course_number = new_course.number
-        print 'course_number',course_number
 
         classfy = fields['classfy']
-        print 'classfy',classfy
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1107,12 +1106,6 @@ def create_new_course_in_store(store, user, org, number, run, fields):
             "done"
         ],
     })
-    print 'store', store
-    print 'user', user
-    print 'org', org
-    print 'number', number
-    print 'run', run
-    print 'fields', fields
 
     with modulestore().default_store(store):
         # Creating the course raises DuplicateCourseError if an existing course with this org/name is found
@@ -1242,7 +1235,8 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                                  '{middle_classfy}',
                                  '{classfy}',
                                  '{audit_yn}');
-                """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, audit_yn=audit_yn)
+                """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org,
+                           audit_yn=audit_yn)
 
                 print 'rerun_course insert -------------- ', query
                 cur.execute(query)
@@ -1533,7 +1527,6 @@ def settings_handler(request, course_key_string):
 
             course_module.teacher_name = teacher_name
 
-
             cur = con.cursor()
             query = """
                              SELECT count(*)
@@ -1556,9 +1549,9 @@ def settings_handler(request, course_key_string):
             m_host = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host')
             m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
 
-            client = MongoClient(m_host,m_port)
+            client = MongoClient(m_host, m_port)
 
-            client.admin.authenticate('edxapp', m_password, mechanism='SCRAM-SHA-1',source='edxapp')
+            client.admin.authenticate('edxapp', m_password, mechanism='SCRAM-SHA-1', source='edxapp')
 
             db = client.edxapp
 
@@ -1764,6 +1757,7 @@ def course_difficult_degree(request, course_key_string):
         cur.close()
     return difficult_degree
 
+
 @login_required
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT", "DELETE"))
@@ -1918,14 +1912,16 @@ def course_difficult_degree(request, course_key_string):
         cur.close()
     return difficult_degree
 
+
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+
+
 # 아래의 함수는 외부로 노출되면 인증없이 강좌 수정하는 취약점이 발생합니다
 # 절대로 외부에 노출되게 사용하지 마세요 ^_^
 # 외부로 노출되어 취약점이 발생할 경우 책임은 본인에게 있습니다
 @csrf_exempt
 def api_advanced_settings_handler(request, course_key_string):
-
     master = User.objects.get(email='staff@example.com')
 
     course_key = CourseKey.from_string(course_key_string)
@@ -1945,7 +1941,7 @@ def api_advanced_settings_handler(request, course_key_string):
                     u'display_name': u'\uac15\uc88c \ubaa9\ub85d\uc5d0\uc11c \uac15\uc88c \ubcf4\uc774\uac8c \ud558\uae30',
                     u'help': u"\uac15\uc88c \ubaa9\ub85d\uc5d0\uc11c \uac15\uc88c\ub97c \ubcf4\uc774\uac8c \ud560 \uc218 \uc788\ub294 \uad8c\ud55c\uc744 \uc124\uc815\ud569\ub2c8\ub2e4. \ub2e4\uc74c \uc138 \uac00\uc9c0 \uc911 \ud558\ub098\ub97c \uc120\ud0dd\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4. 'both'(\ubaa9\ub85d\uc5d0\uc11c \ubcf4\uc774\uba70 \uac15\uc88c \uc0c1\uc138 \uc815\ubcf4\uc5d0\ub3c4 \uc811\uadfc \uac00\ub2a5 ), 'about'(\uac15\uc88c \uc0c1\uc138 \uc815\ubcf4\ub85c\ub9cc \uc811\uadfc \uac00\ub2a5), 'none'(\ubaa9\ub85d \ubc0f \uac15\uc88c \uc0c1\uc138 \uc815\ubcf4 \ubaa8\ub450 \uc811\uadfc \ubd88\uac00).",
                     u'value': u'about'
-                 }
+                }
             }
 
             is_valid, errors, updated_data = CourseMetadata.validate_and_update_from_json(
@@ -2004,7 +2000,6 @@ def api_advanced_settings_handler(request, course_key_string):
 @require_http_methods(("GET", "POST", "PUT"))
 @expect_json
 def advanced_settings_handler(request, course_key_string):
-
     # 안녕하세요 advanced_settings_handler 함수를 수정하려는 용사님!
     # 용사님에게 수정하실 때 주의할 사항이 있습니다.
     # 그것은 바로...
@@ -2151,6 +2146,7 @@ class TextbookValidationError(Exception):
     "An error thrown when a textbook input is invalid"
     pass
 
+
 def course_need_lock(request, course_key_string):
     if not request.user.is_staff and str(course_key_string).startswith('course'):
         from django.db import connections
@@ -2171,6 +2167,7 @@ def course_need_lock(request, course_key_string):
         need_lock = 0
     return need_lock
 
+
 def course_difficult_degree(request, course_key_string):
     with connections['default'].cursor() as cur:
         query = '''
@@ -2189,6 +2186,7 @@ def course_difficult_degree(request, course_key_string):
         }
         cur.close()
     return difficult_degree
+
 
 def validate_textbooks_json(text):
     """
@@ -2351,7 +2349,7 @@ def textbooks_detail_handler(request, course_key_string, textbook_id):
                 return JsonResponse(status=404)
             return JsonResponse(textbook)
         elif request.method in ('POST', 'PUT'):  # can be either and sometimes
-                                            # django is rewriting one to the other
+            # django is rewriting one to the other
             try:
                 new_textbook = validate_textbook_json(request.body)
             except TextbookValidationError as err:
@@ -2524,7 +2522,7 @@ def group_configurations_detail_handler(request, course_key_string, group_config
             configuration = None
 
         if request.method in ('POST', 'PUT'):  # can be either and sometimes
-                                            # django is rewriting one to the other
+            # django is rewriting one to the other
             try:
                 new_configuration = GroupConfiguration(request.body, course, group_configuration_id).get_user_partition()
             except GroupConfigurationsValidationError as err:
@@ -2558,8 +2556,8 @@ def are_content_experiments_enabled(course):
     Returns True if content experiments have been enabled for the course.
     """
     return (
-        'split_test' in ADVANCED_COMPONENT_TYPES and
-        'split_test' in course.advanced_modules
+            'split_test' in ADVANCED_COMPONENT_TYPES and
+            'split_test' in course.advanced_modules
     )
 
 
