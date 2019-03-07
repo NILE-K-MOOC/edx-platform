@@ -22,7 +22,7 @@
                 try{
                     tab_gubun = (this.options.sections).length;
                 }
-                catch {
+                catch(e) {
                     tab_gubun = 5;
                 }
 
