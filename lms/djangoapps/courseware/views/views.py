@@ -1590,6 +1590,586 @@ def course_about(request, course_id):
 
 
 @ensure_csrf_cookie
+@ensure_valid_course_key
+@cache_if_anonymous()
+def mobile_course_about(request, course_id):
+    """
+    Display the course's about page.
+    """
+    try:
+        review_email = str(request.user.email)
+        review_username = str(request.user.username)
+        login_status = 'o'
+    except BaseException:
+        review_email = 'x'
+        review_username = 'x'
+
+    #login check
+    if not request.user.is_authenticated():
+        login_status = 'x'
+    user_id = request.user.id
+    course_key = CourseKey.from_string(course_id)
+    course_id_str = str(course_id)
+    index_org_start = course_id_str.find(':') + 1
+    index_org_end = course_id_str.find('+')
+    index_number_start = index_org_end + 1
+    index_number_end = course_id_str.rfind('+')
+    course_org = course_id_str[index_org_start:index_org_end]
+    course_number = course_id_str[index_number_start:index_number_end]
+
+    print "course_org",course_org
+    print "course_number",course_number
+    # If a user is not able to enroll in a course then redirect
+    # them away from the about page to the dashboard.
+    if not can_self_enroll_in_course(course_key):
+        return redirect(reverse('dashboard'))
+
+    with modulestore().bulk_operations(course_key):
+        permission = get_permission_for_course_about()
+        course = get_course_with_access(request.user, permission, course_key)
+        course_details = CourseDetails.populate(course)
+        modes = CourseMode.modes_for_course_dict(course_key)
+
+        if configuration_helpers.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False)):
+            return redirect(reverse(course_home_url_name(course.id), args=[text_type(course.id)]))
+
+        registered = registered_for_course(course, request.user)
+
+        staff_access = bool(has_access(request.user, 'staff', course))
+        studio_url = get_studio_url(course, 'settings/details')
+
+        if has_access(request.user, 'load', course):
+            course_target = reverse(course_home_url_name(course.id), args=[text_type(course.id)])
+        else:
+            course_target = reverse('about_course', args=[text_type(course.id)])
+
+        course_link = course_target.replace("/courses/", "edxapp://enroll?course_id=")
+        course_link = course_link.replace("/info", "&email_opt_in=true")
+        course_link = course_link.replace("/course/", "&email_opt_in=true")
+        course_link = course_link.replace('/about', '&email_opt_in=true')
+
+        show_courseware_link = bool(
+            (
+                has_access(request.user, 'load', course)
+            ) or settings.FEATURES.get('ENABLE_LMS_MIGRATION')
+        )
+
+        # Note: this is a flow for payment for course registration, not the Verified Certificate flow.
+        in_cart = False
+        reg_then_add_to_cart_link = ""
+
+        _is_shopping_cart_enabled = is_shopping_cart_enabled()
+        if _is_shopping_cart_enabled:
+            if request.user.is_authenticated:
+                cart = shoppingcart.models.Order.get_cart_for_user(request.user)
+                in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
+                    shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+
+            reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
+                reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
+            )
+
+        # If the ecommerce checkout flow is enabled and the mode of the course is
+        # professional or no id professional, we construct links for the enrollment
+        # button to add the course to the ecommerce basket.
+        ecomm_service = EcommerceService()
+        ecommerce_checkout = ecomm_service.is_enabled(request.user)
+        ecommerce_checkout_link = ''
+        ecommerce_bulk_checkout_link = ''
+        professional_mode = None
+        is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
+        if ecommerce_checkout and is_professional_mode:
+            professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
+                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+            if professional_mode.sku:
+                ecommerce_checkout_link = ecomm_service.get_checkout_page_url(professional_mode.sku)
+            if professional_mode.bulk_sku:
+                ecommerce_bulk_checkout_link = ecomm_service.get_checkout_page_url(professional_mode.bulk_sku)
+
+        registration_price, course_price = get_course_prices(course)
+
+        # Determine which checkout workflow to use -- LMS shoppingcart or Otto basket
+        can_add_course_to_cart = _is_shopping_cart_enabled and registration_price and not ecommerce_checkout_link
+
+        # Used to provide context to message to student if enrollment not allowed
+        can_enroll = bool(has_access(request.user, 'enroll', course))
+        invitation_only = course.invitation_only
+        is_course_full = CourseEnrollment.objects.is_course_full(course)
+
+        # Register button should be disabled if one of the following is true:
+        # - Student is already registered for course
+        # - Course is already full
+        # - Student cannot enroll in course
+        active_reg_button = not (registered or is_course_full or not can_enroll)
+
+        is_shib_course = uses_shib(course)
+
+        # get prerequisite courses display names
+        pre_requisite_courses = get_prerequisite_courses_display(course)
+
+        # Overview
+        overview = CourseOverview.get_from_id(course.id)
+
+        sidebar_html_enabled = course_experience_waffle().is_enabled(ENABLE_COURSE_ABOUT_SIDEBAR_HTML)
+
+        # This local import is due to the circularity of lms and openedx references.
+        # This may be resolved by using stevedore to allow web fragments to be used
+        # as plugins, and to avoid the direct import.
+        from openedx.features.course_experience.views.course_reviews import CourseReviewsModuleFragmentView
+
+        # Embed the course reviews tool
+        reviews_fragment_view = CourseReviewsModuleFragmentView().render_to_fragment(request, course=course)
+        #######E ADD.###########
+        # D-day
+        today = datetime.now()
+        course_start = course.start
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_start_val = course_start.strptime(str(course_start)[0:10], "%Y-%m-%d").date()
+        d_day = (course_start_val - today_val)
+
+        if d_day.days > 0:
+            day = {'day': 'D-' + str(d_day.days)}
+        else:
+            day = {'day': ''}
+
+        # short description
+        short_description = {'short_description': course_details.short_description}
+
+        # classfy name
+        classfy_dict = {
+            # add classfy
+            "edu": "Education",
+            "hum": "Humanities",
+            "social": "Social Sciences",
+            "eng": "Engineering",
+            "nat": "Natural Sciences",
+            "med": "Medical Sciences",
+            "art": "Arts & Physical",
+            "intd": "Interdisciplinary",
+        }
+
+        middle_classfy_dict = {
+            "lang": "Linguistics & Literature",
+            "husc": "Human Sciences",
+            "busn": "Business Administration & Economics",
+            "law": "Law",
+            "scsc": "Social Sciences",
+            "enor": "General Education",
+            "ekid": "Early Childhood Education",
+            "espc": "Special Education",
+            "elmt": "Elementary Education",
+            "emdd": "Secondary Education",
+            "cons": "Architecture",
+            "civi": "Civil Construction & Urban Engineering",
+            "traf": "Transportation",
+            "mach": "Mechanical & Metallurgical Engineering",
+            "elec": "Electricity & Electronics",
+            "deta": "Precision & Energy",
+            "matr": "Materials",
+            "comp": "Computers & Communication",
+            "indu": "Industrial Engineering",
+            "cami": "Chemical Engineering",
+            "other": "Others",
+            "agri": "Agriculture & Fisheries",
+            "bio": "Biology, Chemistry & Environmental Science",
+            "life": "Living Science",
+            "math": "Mathematics, Physics, Astronomy & Geography",
+            "metr": "Medical Science",
+            "nurs": "Nursing",
+            "phar": "Pharmacy",
+            "heal": "Therapeutics & Public Health",
+            "dsgn": "Design",
+            "appl": "Applied Arts",
+            "danc": "Dancing & Physical Education",
+            "form": "FineArts & Formative Arts",
+            "play": "Drama & Cinema",
+            "musc": "Music",
+            "intd_m": "Interdisciplinary",
+        }
+
+        # if course_details.classfy != 'all':
+        #     classfy_name = ClassDict[course_details.classfy]
+        # else:
+        #     classfy_name = 'Etc'
+
+        global classfy_name
+        if course_details.classfy is None or course_details.classfy == '':
+            classfy_name = 'Etc'
+        else:
+            classfy_name = classfy_dict[
+                course_details.classfy] if course_details.classfy in classfy_dict else course_details.classfy
+
+        if course_details.middle_classfy is None or course_details.middle_classfy == '':
+            middle_classfy_name = 'Etc'
+        else:
+            middle_classfy_name = middle_classfy_dict[
+                course_details.middle_classfy] if course_details.middle_classfy in middle_classfy_dict else course_details.middle_classfy
+
+        # univ name
+        UnivDic = {
+            # add univ
+            "testUniv": "Test University",
+            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
+            "KHUk": "KYUNGHEE UNIVERSITY",
+            "KoreaUnivK": "KOREA UNIVERSITY",
+            "DGUk": "DAEGU UNIVERSITY",
+            "PNUk": "PUSAN NATIONAL UNIVERSITY",
+            "SMUCk": "SANGMYUNG UNIVERSITY",
+            "SNUk": "SEOUL NATIONAL UNIVERSITY",
+            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
+            "SSUk": "SUNGSHIN UNIVERSITY",
+            "SejonguniversityK": "SEJONG UNIVERSITY",
+            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
+            "YSUk": "YONSEI UNIVERSITY",
+            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
+            "UOUk": "UNIVERSITY OF ULSAN",
+            "EwhaK": "EWHA WOMANS UNIVERSITY",
+            "INHAuniversityK": "INHA UNIVERSITY",
+            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
+            "POSTECHk": "POSTECH",
+            "KAISTk": "KAIST",
+            "HYUk": "HANYANG UNIVERSITY",
+            "KOCW": "KOCW",
+            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
+            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
+            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
+            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
+            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
+            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
+            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
+            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
+            "HGUk": "HANDONG GLOBAL UNIVERSITY",
+        }
+
+        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
+
+        if course_details.enrollment_start:
+            enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
+                                                                    "%Y-%m-%d").date()
+            enroll_end = course_details.enrollment_end.strptime(str(course_details.enrollment_end)[0:10],
+                                                                "%Y-%m-%d").date()
+
+            if _("Agree") == "Agree":
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y/%m/%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y/%m/%d")}
+            else:
+                enroll_sdate = {'enroll_sdate': enroll_start.strftime("%Y.%m.%d")}
+                enroll_edate = {'enroll_edate': enroll_end.strftime("%Y.%m.%d")}
+        else:
+            enroll_sdate = {'enroll_sdate': ''}
+            enroll_edate = {'enroll_edate': ''}
+
+        if course_details.end_date:
+            start = course_details.start_date.strftime("%Y.%m.%d")
+            end = course_details.end_date.strftime("%Y.%m.%d")
+        else:
+            start = course_details.start_date
+            end = ''
+
+        # print "review_list = {}".format(review_list)
+        # print "review_email = {}".format(review_email)
+        print "course_id = {}".format(course_id)
+        # print "already_list = {}".format(already_list)
+        # print "enroll_list = {}".format(enroll_list)
+        print "course_org = {}".format(course_org)
+        print "course_number = {}".format(course_number)
+        # print "course_total = {}".format(course_total)
+        print "login_status = {}".format(login_status)
+
+        sys.setdefaultencoding('utf-8')
+        con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                          settings.DATABASES.get('default').get('USER'),
+                          settings.DATABASES.get('default').get('PASSWORD'),
+                          settings.DATABASES.get('default').get('NAME'),
+                          charset='utf8')
+
+        flag = 0
+
+        if (login_status != 'x'):
+
+            cur = con.cursor()
+            query = """
+                        SELECT count(user_id)
+                          FROM interest_course
+                         WHERE user_id = '{0}' AND org = '{1}' AND display_number_with_default = '{2}' AND use_yn = 'Y';
+                    """.format(user_id, course_org, course_number)
+            cur.execute(query)
+            flag_index = cur.fetchall()
+            cur.close()
+            flag = flag_index[0][0]
+
+        cur = con.cursor()
+        query = """
+                    SELECT concat(Date_format(start, '%Y/%m/%d'),
+                            '~',
+                            Date_format(end, '%Y/%m/%d')),
+                             id
+                      FROM course_overviews_courseoverview
+                     WHERE org = '{0}' AND display_number_with_default = '{1}' AND id NOT IN ('{2}')
+                     ORDER BY start DESC;
+                """.format(course_org, course_number, overview)
+        cur.execute(query)
+        pre_course_index = cur.fetchall()
+        cur.close()
+        pre_course = pre_course_index
+
+        # 청강 - course.end < today
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_end = course.end
+        time_compare = 'N'
+        if course_end is not None:
+            course_end_val = course_end.strptime(str(course_end)[0:10], "%Y-%m-%d").date()
+            if today_val > course_end_val:
+                time_compare = 'Y'
+
+        cur = con.cursor()
+        query = """
+                    SELECT audit_yn
+                      FROM course_overview_addinfo
+                     WHERE course_id = '{0}';
+                """.format(course_id)
+
+        cur.execute(query)
+        audit_index = cur.fetchall()
+        cur.close()
+        if len(audit_index) != 0 and time_compare == 'Y':
+            audit_flag = audit_index[0][0]
+        else:
+            audit_flag = 'N'
+
+        cur = con.cursor()
+        query = '''
+                    SELECT ifnull(b.detail_ename, '')
+                      FROM course_overview_addinfo a
+                           LEFT JOIN code_detail b
+                              ON a.course_level = b.detail_code AND b.group_code = '007'
+                     WHERE a.course_id = '{course_id}';
+                '''.format(course_id=course_id)
+        cur.execute(query)
+        course_level = cur.fetchall()
+        print "course_level",course_level
+        course_level = course_level[0][0]
+        cur.close()
+
+        cur = con.cursor()
+        query = """
+                    SELECT ifnull(effort, '00:00@0#00:00$00:00')
+                      FROM course_overviews_courseoverview
+                     WHERE id = '{course_id}'
+                """.format(course_id=course_id)
+        cur.execute(query)
+        effort = cur.fetchall()[0][0]
+        cur.close()
+        effort_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else ''
+        study_time = effort.split('$')[1].split(':')[0] + "시간 " + effort.split('$')[1].split(':')[
+            1] + "분" if effort and '$' in effort else '-'
+
+        #######E ADD.###########
+        # coure_review
+        try :
+            with connections['default'].cursor() as cur:
+                query = """
+                    select count(*)
+                    from course_review a
+                    left join auth_user b on a.user_id = b.id
+                    where course_id ="{course_id}" and b.username ="{user_name}";
+                    """.format(course_id=course_id,user_name=request.user)
+                cur.execute(query)
+                r_c = cur.fetchall()
+                review_val = r_c[0][0]
+                print "reivew_chk",review_val
+                print "query",query
+                if review_val > 0:
+                    review_chk ='o'
+                else:
+                    review_chk = 'x'
+        except:
+            review_chk = 'x'
+            pass
+
+
+
+        with connections['default'].cursor() as cur:
+            query = """
+                    select a.content,a.point,a.user_id,DATE_FORMAT(a.reg_time, "%Y/%m/%d "),a.id,b.username
+                    from course_review a
+                    left join auth_user b on a.user_id = b.id
+                    where course_id LIKE "course-v1:{course_org}+{course_number}+%"
+                """.format(course_id=course_id,course_org=course_org, course_number=course_number)
+            cur.execute(query)
+            review_list = cur.fetchall()
+
+            data_list = []
+
+            for data in review_list:
+                data_dict = dict()
+                data_dict['content'] = data[0]
+                data_dict['point'] = data[1]
+                data_dict['user_id'] = data[2]
+                data_dict['reg_time'] = data[3]
+                data_dict['seq'] = data[4]
+                data_dict['username'] = data[5]
+                # data_list.append(data_dict)
+                data_dict['like'] = 0
+                data_dict['bad'] = 0
+
+                with connections['default'].cursor() as cur:
+                    query = """
+                            select  count(good_bad),review_seq, good_bad
+                            from course_review_user
+                            where review_id = '{review_id}' and review_seq='{review_seq}'
+                            group by good_bad;
+                        """.format(review_id=data[2], review_seq=data[4])
+                    cur.execute(query)
+                    like_list = cur.fetchall()
+                    for like in like_list:
+                        if like[2] == 'g':
+                            data_dict['like'] = like[0]
+                        elif like[2] == 'b':
+                            data_dict['bad'] = like[0]
+
+                data_list.append(data_dict)
+
+        # today d-day와 청강에서 사용
+        today = datetime.now()
+
+        # 청강 - course.end < today
+        today_val = today.strptime(str(today)[0:10], "%Y-%m-%d").date()
+        course_end = course.end
+        time_compare = 'N'
+        if course_end is not None:
+            course_end_val = course_end.strptime(str(course_end)[0:10], "%Y-%m-%d").date()
+            if today_val > course_end_val:
+                time_compare = 'Y'
+
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT audit_yn
+                  FROM course_overview_addinfo
+                 WHERE course_id = '{course_id}';
+            '''.format(course_id=course_id)
+            cur.execute(query)
+            audit_yn = cur.fetchall()
+
+            if len(audit_yn) != 0 and time_compare == 'Y':
+                audit_flag = audit_yn[0][0]
+            else:
+                audit_flag = 'N'
+
+
+        # 유사강좌 -> 백엔드 로직 시작
+        LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
+        url = 'http://' + LMS_BASE + '/search/course_discovery/'
+
+        course_object = CourseOverview.get_from_id(course.id)
+        course_display_name = course_object.display_name
+
+        # 유사강좌 -> 엘라스틱 서치에 데이터 요청
+        payload = {}
+        headers = {}
+        payload['search_string'] = course_display_name
+        payload['page_size'] = '20'
+        payload['page_index'] = '0'
+        headers['X-Requested-With'] = 'XMLHttpRequest'
+
+        try:
+            r = requests.post(url, data=payload, headers=headers)
+            data = json.loads(r.text)
+
+            # 유사강좌 -> 데이터 파싱
+            similar_course = []
+            for result in data['results']:
+                course_dict = {}
+                course_id = result['_id']
+                image_url = result['data']['image_url']
+                org = result['data']['org']
+                display_name = result['data']['content']['display_name']
+                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
+                status = get_course_status(start, end, now)
+
+                # format change
+                start = start.strftime('%Y-%m-%d')
+                end = end.strftime('%Y-%m-%d')
+
+                course_dict['course_id'] = course_id
+                course_dict['image_url'] = image_url
+                course_dict['org'] = org
+                course_dict['display_name'] = display_name
+                course_dict['start'] = start
+                course_dict['end'] = end
+                course_dict['status'] = status
+                similar_course.append(course_dict)
+        except BaseException:
+            similar_course = None
+            log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
+
+        context = {
+            'similar_course': similar_course, # 유사강좌
+            'course': course,
+            'course_details': course_details,
+            'staff_access': staff_access,
+            'studio_url': studio_url,
+            'registered': registered,
+            'course_target': course_target,
+            'day': day,
+            'is_cosmetic_price_enabled': settings.FEATURES.get('ENABLE_COSMETIC_DISPLAY_PRICE'),
+            'course_price': course_price,
+            'in_cart': in_cart,
+            'ecommerce_checkout': ecommerce_checkout,
+            'ecommerce_checkout_link': ecommerce_checkout_link,
+            'ecommerce_bulk_checkout_link': ecommerce_bulk_checkout_link,
+            'professional_mode': professional_mode,
+            'reg_then_add_to_cart_link': reg_then_add_to_cart_link,
+            'show_courseware_link': show_courseware_link,
+            'is_course_full': is_course_full,
+            'can_enroll': can_enroll,
+            'invitation_only': invitation_only,
+            'active_reg_button': active_reg_button,
+            'is_shib_course': is_shib_course,
+            # We do not want to display the internal courseware header, which is used when the course is found in the
+            # context. This value is therefor explicitly set to render the appropriate header.
+            'disable_courseware_header': True,
+            'can_add_course_to_cart': can_add_course_to_cart,
+            'cart_link': reverse('shoppingcart.views.show_cart'),
+            'pre_requisite_courses': pre_requisite_courses,
+            'course_image_urls': overview.image_urls,
+            'reviews_fragment_view': reviews_fragment_view,
+            'sidebar_html_enabled': sidebar_html_enabled,
+            'rev': data_list,
+            'review_chk': review_chk,
+            # 'classfy' : classfy,
+            'classfy_name': classfy_name,
+            'middle_classfy_name': middle_classfy_name,
+            'univ_name': univ_name,
+            'enroll_sdate': enroll_sdate,
+            'enroll_edate': enroll_edate,
+            # --- REVIEW CONTEXT --- #
+            # 'review_list': review_list,
+            # 'review_email': review_email,
+            'course_id': course_id,
+            # 'already_list': already_list,
+            # 'enroll_list': enroll_list,
+            'course_org': course_org,
+            'course_number': course_number,
+            # 'course_total': course_total,
+            'login_status': login_status,
+            'flag': flag,
+            'pre_course': pre_course,
+            'audit_flag': audit_flag,
+            'effort_week': effort_week,
+            'course_link': course_link,
+            'course_level': course_level,
+            'study_time': study_time,
+            'start': start,
+            'end': end
+        }
+
+        return render_to_response('courseware/mobile_course_about.html', context)
+
+
+@ensure_csrf_cookie
 @cache_if_anonymous()
 def program_marketing(request, program_uuid):
     """
