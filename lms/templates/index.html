@@ -340,7 +340,7 @@ if (
                     <span class="kr01_icontTitle">공지사항</span>
                     <div class="kr01_alretTxt">
                         <div class="kr01_alert_slider">
-                            <div class="slider">
+                            <div class="slider boards">
                                 % for list in index_list[:4] :
                                     % if list[5] != 'F':
                                     <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
@@ -360,7 +360,6 @@ if (
                             $(document).ready(function(){
                                 var sliderOptions = {
                                         mode: 'vertical',
-                                        slideSelector: '.slider article.slide',
                                         minSlides: 1,
                                         maxSlides: 1,
                                         auto: true,
@@ -374,7 +373,7 @@ if (
                                     }
                                 ;
 
-                                var slider = $('.slider').bxSlider(sliderOptions);
+                                var slider = $('.boards').bxSlider(sliderOptions);
 
                             });
 
