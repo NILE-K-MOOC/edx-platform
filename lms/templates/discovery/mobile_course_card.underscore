@@ -1,5 +1,5 @@
 <article class="course <%- status  %> <% if (audit_yn == 'Y') { %> audit<% } %>" role="region" aria-label="<%- content.display_name %>">
-    <a href="/courses/<%- course %>/about">
+    <a href="edxapp://course_info?path_id=course/<%- course %>">
         <header class="course-image">
             <i class="kr01-ribbonArea"><img src="/static/images/main/ribbon.png"></i>
             <div class="cover-image">
@@ -23,7 +23,7 @@
                 <span class="kr01-courInfo-bar"><%- gettext(status) %></span>
             <% } %>
         </header>
-        <div class="course-info" aria-hidden="true">
+        <div class="course-info mobile-course-card-div" aria-hidden="true">
             <div>
                 <h2 class="course-name">
                     <span class="course-title kr01-Msilder-title"><%- content.display_name %></span>
