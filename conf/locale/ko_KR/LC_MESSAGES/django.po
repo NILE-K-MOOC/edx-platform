@@ -27505,3 +27505,9 @@ msgstr "패밀리사이트"
 
 msgid "App Download"
 msgstr "앱 다운로드"
+
+msgid "Get Student contents stats CSV"
+msgstr "게시판 이용 현황 CSV"
+
+msgid "Get Student contents view CSV"
+msgstr "게시판 상세 내용 CSV"
