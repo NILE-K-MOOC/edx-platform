@@ -1,0 +1,25 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='static_content.html'/>
+<%! from django.utils.translation import ugettext as _ %>
+
+<section class="courses-container bg-w" style="border: solid 2px blue;">
+    % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+      <section class="courses" style="padding: 70px; padding-left: 50px;">
+        <ul>
+          <% idx = 0 %>
+          %for course in courses:
+            <% idx += 1 %>
+          <li class="courses-listing-item" style="width: 300px;float: left;margin-left: 10px;">
+              <%include file="course.html" args="course=course" />
+          </li>
+            % if idx == 12:
+            <% break %>
+            % endif
+          %endfor
+        </ul>
+      </section>
+        ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
+        % if settings.HOMEPAGE_COURSE_MAX and len(courses) > settings.HOMEPAGE_COURSE_MAX:
+        % endif
+    % endif
+</section>
