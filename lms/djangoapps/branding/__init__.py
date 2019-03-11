@@ -75,9 +75,17 @@ def get_visible_courses(org=None, filter_=None):
                     else:
                         c.teacher_name = [cour[3].strip(), 0]
                     c.audit_yn = cour[2]
+                    c.fourth_industry_yn = cour[4]
+                    c.ribbon_yn = cour[5]
+                    c.job_edu_yn = cour[6]
+                    c.linguistics = cour[7]
                 except BaseException:
                     c.audit_yn = 'N'
                     c.teacher_name = ''
+                    c.fourth_industry_yn = 'N'
+                    c.ribbon_yn = 'N'
+                    c.job_edu_yn = 'N'
+                    c.linguistics = 'N'
         if c.start is None or c.start == '' or c.end is None or c.end == '':
             c.status = 'none'
         elif datetime.now(UTC) < c.start:
