@@ -109,6 +109,7 @@ from util.json_request import JsonResponse
 from util.password_policy_validators import SecurityPolicyError, validate_password
 import MySQLdb as mdb
 from django.db import connections
+from random import shuffle
 import re
 
 log = logging.getLogger("edx.student")
@@ -218,57 +219,25 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
 
-    f1 = None if user.is_staff else {'enrollment_start__isnull': False, 'start__gt': datetime.datetime.now(),
-                                     'enrollment_start__lte': datetime.datetime.now(),
-                                     'start__lte': datetime.datetime(2029, 12, 31)}
+    f1 = {'enrollment_start__isnull': False, 'enrollment_start__lte': datetime.datetime.now(),
+          'enrollment_end__gte': datetime.datetime.now(),
+          'start__lte': datetime.datetime(2029, 12, 31),
+          'course_type': 'new_course'}
     log.info(f1)
-    courses1 = get_courses(user, filter_=f1)
 
-    f2 = {'enrollment_start__isnull': False} if user.is_staff else {'enrollment_start__isnull': False,
-                                                                    'start__lte': datetime.datetime.now(),
-                                                                    'enrollment_start__lte': datetime.datetime.now()}
+    f2 = {'enrollment_start__isnull': False,
+          'courseenrollment__created__gte': datetime.datetime.now() - datetime.timedelta(days=30),
+          'enrollment_start__lte': datetime.datetime.now(),
+          'enrollment_end__gte': datetime.datetime.now(), 'course_type': 'pop_course'}
     log.info(f2)
-    courses2 = get_courses(user, filter_=f2)
 
-    # print 'get course test ------------------------------------------------------- e'
+    new_courses = index_courses(user, f1)
+    pop_courses = index_courses(user, f2)
 
-    # if configuration_helpers.get_value(
-    #         "ENABLE_COURSE_SORTING_BY_START_DATE",
-    #         settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
-    # ):
-    #     courses = sort_by_start_date(courses)
-    # else:
-    #     courses = sort_by_announcement(courses)
+    log.info(u'len(new_courses) ::: %s', len(new_courses))
+    log.info(u'len(pop_courses) ::: %s', len(pop_courses))
 
-    # 사용자가 스태프 이면 강좌 목록 제한이 없도록 한다..
-    if user and user.is_staff:
-        pass
-    else:
-        if courses1 and len(courses1) > 4:
-            courses1 = courses1[:4]
-
-    if user and user.is_staff:
-        courses = courses1
-    else:
-        courses = courses1 + courses2
-
-    courses = [c for c in courses if not c.has_ended()]
-
-    # audit_yn 값이 없으면 html 랜더시 오류, courses
-    # audit_yn 값이 없는 강좌만 조회시 courses 가 None 이면 iterator 오류이므로 기본값을 셋팅
-    for c in courses:
-        if not hasattr(c,'audit_yn'):
-            c.audit_yn = 'N'
-
-    log.info(u'len(courses) ::: %s', len(courses))
-
-    if user and user.is_staff:
-        pass
-    else:
-        # courses = courses[:8]
-        courses = courses
-
-    context = {'courses': courses}
+    context = {'new_courses': new_courses, 'pop_courses': pop_courses}
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
@@ -678,6 +647,30 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
 
     return render_to_response('index.html', context)
+
+
+def index_courses(user, filter_=None):
+    courses = get_courses(user, filter_=filter_)
+    courses = [c for c in courses if not c.has_ended()][:16]
+
+    if len(courses) < 16:
+        if filter_.has_key('enrollment_end__gte'):
+            del filter_['enrollment_end__gte']
+        if filter_.has_key('enrollment_start__lte'):
+            del filter_['enrollment_start__lte']
+        courses = get_courses(user, filter_=filter_)
+        courses = [c for c in courses if not c.has_ended()][:16]
+
+    # 랜덤 출력을위해 shuffle 사용
+    shuffle(courses)
+
+    # audit_yn 값이 없으면 html 랜더시 오류, courses
+    # audit_yn 값이 없는 강좌만 조회시 courses 가 None 이면 iterator 오류이므로 기본값을 셋팅
+    for c in courses:
+        if not hasattr(c, 'audit_yn'):
+            c.audit_yn = 'N'
+
+    return courses
 
 
 @ensure_csrf_cookie

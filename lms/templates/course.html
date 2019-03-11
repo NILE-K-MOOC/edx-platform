@@ -18,7 +18,9 @@ from django.core.urlresolvers import reverse
     <a href="/courses/${course.id}/about" alt="${course.display_name_with_default}" title="${course.display_name_with_default}">
     -->
         <header class="course-image">
+            % if course.ribbon_yn == 'Y':
             <i class="kr01-ribbonArea"><img src="/static/images/main/ribbon.png"></i>
+            % endif
             <div class="cover-image">
                 <span class="univ-logo">
                     <!--
@@ -43,7 +45,6 @@ from django.core.urlresolvers import reverse
             <h2 class="course-name">
                 <span class="course-title kr01-Msilder-title">${course.display_name}</span>
             </h2>
-
 
             <div class="course-date kr01_moviesubtit" aria-hidden="true">
               % if course.teacher_name[1] != 0:

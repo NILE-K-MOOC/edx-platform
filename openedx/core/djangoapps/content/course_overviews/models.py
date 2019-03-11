@@ -30,7 +30,7 @@ from xmodule.modulestore.django import modulestore
 from util.date_utils import strftime_localized
 from pytz import utc
 from django.utils.translation import ugettext
-from django.db.models import Q
+from django.db.models import Q, Count
 import datetime
 import pytz
 from django.utils import timezone
@@ -644,7 +644,14 @@ class CourseOverview(TimeStampedModel):
                 course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
                 course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= timezone.now() <= c.enrollment_end]
             elif filter_:
-                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                course_type = filter_.pop('course_type') if filter_.has_key('course_type') else None
+                if course_type == 'new_course':
+                    course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', 'start', 'end')
+                elif course_type == 'pop_course':
+                    course_overviews = CourseOverview.objects.all().filter(**filter_).annotate(pop=Count('id')).order_by('-pop')
+                else:
+                    course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+
             else:
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
