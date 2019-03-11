@@ -57,6 +57,8 @@ codekit-config.json
 conf/locale/en/LC_MESSAGES/*.mo
 conf/locale/fake*/LC_MESSAGES/*.po
 conf/locale/fake*/LC_MESSAGES/*.mo
+conf/locale/ko_KR/LC_MESSAGES/*.po
+conf/locale/ko_KR/LC_MESSAGES/*.mo
 # this was a mistake in i18n_tools, now fixed.
 conf/locale/messages.mo
 
