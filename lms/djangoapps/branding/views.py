@@ -73,8 +73,6 @@ def get_user_model():
         )
 
 def _get_user_session_key(request):
-    # This value in the session is always serialized to a string, so we need
-    # to convert it back to Python whenever we access it.
     return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
 
 def login(request, user, backend=None):
@@ -89,9 +87,6 @@ def login(request, user, backend=None):
         if _get_user_session_key(request) != user.pk or (
                 session_auth_hash and
                 not constant_time_compare(request.session.get(HASH_SESSION_KEY, ''), session_auth_hash)):
-            # To avoid reusing another user's session, create a new, empty
-            # session if the existing session corresponds to a different
-            # authenticated user.
             request.session.flush()
     else:
         request.session.cycle_key()
@@ -132,59 +127,44 @@ def decrypt(key, _iv, enc):
     return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
-def multisite_index(request, org, msearch=None):
+def multisite_index(request, org):
 
     print 'org -> ', org
-    print 'msearch -> ', msearch
+
+    request.session['multisite_mode'] = 1
+    request.session['multisite_org'] = org
 
     user = User.objects.get(pk=10)
 
     user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
-    login(request, user)
+    #login(request, user)
 
     # basic logic
     if request.user.is_authenticated:
-        # Only redirect to dashboard if user has
-        # courses in his/her dashboard. Otherwise UX is a bit cryptic.
-        # In this case, we want to have the user stay on a course catalog
-        # page to make it easier to browse for courses (and register)
         if configuration_helpers.get_value(
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
-            #return redirect(reverse('dashboard'))
             pass
-
     if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
         from openedx.core.djangoapps.external_auth.views import ssl_login
-        # Set next URL to dashboard if it isn't set to avoid
-        # caching a redirect to / that causes a redirect loop on logout
         if not request.GET.get('next'):
             req_new = request.GET.copy()
             req_new['next'] = reverse('dashboard')
             request.GET = req_new
         return ssl_login(request)
-
     enable_mktg_site = configuration_helpers.get_value(
         'ENABLE_MKTG_SITE',
         settings.FEATURES.get('ENABLE_MKTG_SITE', False)
     )
-
     if enable_mktg_site:
         marketing_urls = configuration_helpers.get_value(
             'MKTG_URLS',
             settings.MKTG_URLS
         )
         return redirect(marketing_urls.get('ROOT'))
-
     domain = request.META.get('HTTP_HOST')
-
-    # keep specialized logic for Edge until we can migrate over Edge to fully use
-    # configuration.
     if domain and 'edge.edx.org' in domain:
         return redirect(reverse("signin_user"))
-
-    #  we do not expect this case to be reached in cases where
-    #  marketing and edge are enabled
     return student.views.management.multisite_index(request, user=request.user)
 
 @csrf_exempt
@@ -446,11 +426,19 @@ def delete_multisite_account(request):
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests
-@cache_if_anonymous()
+# @cache_if_anonymous() <- 캐시는 개발자의 적이다. 사용자가 피해를 보더라도 개발자는 살자
 def index(request):
     """
     Redirects to main page -- info page if user authenticated, or marketing if not
     """
+
+    # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
+    # 치유의 빛이 흐릿하게 빛나며 더럽혀진 영혼이 정화됩니다.
+    if 'multisite_mode' in request.session:
+        del request.session['multisite_mode']
+    if 'multisite_org' in request.session:
+        del request.session['multisite_org']
+
     print "request.user.is_authenticated",request.user.is_authenticated
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has

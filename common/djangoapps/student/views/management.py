@@ -146,13 +146,6 @@ def csrf_token(context):
 
 
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
-    """
-    Render the edX main page.
-    extra_context is used to allow immediate display of certain modal windows, eg signup,
-    as used by external_auth.
-    """
-    print "this is multisite_index"
-
     if extra_context is None:
         extra_context = {}
 
@@ -167,36 +160,17 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         courses = sort_by_announcement(courses)
 
     context = {'courses': courses}
-
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
-
-    # This appears to be an unused context parameter, at least for the master templates...
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
-
-    # TO DISPLAY A YOUTUBE WELCOME VIDEO
-    # 1) Change False to True
     context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
-
-    # Maximum number of courses to display on the homepage.
     context['homepage_course_max'] = configuration_helpers.get_value(
         'HOMEPAGE_COURSE_MAX', settings.HOMEPAGE_COURSE_MAX
     )
-
-    # 2) Add your video's YouTube ID (11 chars, eg "123456789xX"), or specify via site configuration
-    # Note: This value should be moved into a configuration setting and plumbed-through to the
-    # context via the site configuration workflow, versus living here
     youtube_video_id = configuration_helpers.get_value('homepage_promo_video_youtube_id', "your-youtube-id")
     context['homepage_promo_video_youtube_id'] = youtube_video_id
-
-    # allow for theme override of the courses list
     context['courses_list'] = theming_helpers.get_template_path('multisite_courses_list.html')
-
-    # Insert additional context for use in the template
     context.update(extra_context)
-
-    # Add marketable programs to the context.
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
-
     return render_to_response('multisite_index.html', context)
 
 # NOTE: This view is not linked to directly--it is called from

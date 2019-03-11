@@ -105,7 +105,7 @@ urlpatterns = [
 
 
     # ---------- multi site ---------- #
-    url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', branding_views.multisite_index, name="multisite_index"),
+    url(r'^org/(?P<org>.*?)$', branding_views.multisite_index, name="multisite_index"),
     # url(r'^multisite_delete_api$', branding_views.multisite_delete_api, name="multisite_delete_api"),
     # url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
 

@@ -193,6 +193,11 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
           <a href="${branding_api.get_home_url()}">
             <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
           </a>
+          % if 'multisite_mode' in request.session:
+          <a href="/org/${request.session['multisite_org']}">
+            <img style="margin-left: 20px;" class="logo" src="/static/images/${request.session['multisite_org']}.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+          </a>
+          % endif
         </h1>
 
         <div class="course-search">
