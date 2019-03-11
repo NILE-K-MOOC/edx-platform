@@ -105,7 +105,7 @@ urlpatterns = [
 
 
     # ---------- multi site ---------- #
-    # url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', branding_views.multisite_index, name="multisite_index"),
+    url(r'^org/(?P<org>.*?)/(?P<msearch>.*?)$', branding_views.multisite_index, name="multisite_index"),
     # url(r'^multisite_delete_api$', branding_views.multisite_delete_api, name="multisite_delete_api"),
     # url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
 
@@ -425,6 +425,14 @@ urlpatterns += [
     url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
 
     # About the course
+    url(
+        r'^course/{}$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        courseware_views.mobile_course_about,
+        name='mobile_about_course',
+    ),
+
     url(
         r'^courses/{}/about$'.format(
             settings.COURSE_ID_PATTERN,

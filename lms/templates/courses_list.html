@@ -12,28 +12,14 @@
       <section class="courses kr01_movie_slider">
         <ul class="course-card-slider bxslider" id="main_slider">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-            <% idx = 0 %>
-          %for course in courses:
-          ##% if course.classfy == classfy or classfy == 'course_all':
-            <% idx += 1 %>
+          % for course in new_courses:
           <li class="courses-listing-item">
               <%include file="course.html" args="course=course" />
           </li>
-            % if idx == 12:
-            <% break %>
-            % endif
-          ##% endif
-          %endfor
+          % endfor
         </ul>
       </section>
         ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
-        % if settings.HOMEPAGE_COURSE_MAX and len(courses) > settings.HOMEPAGE_COURSE_MAX:
-          <!--
-          <div class="courses-more">
-            <a class="courses-more-cta" href="${marketing_link('COURSES')}"> ${_("View all Courses")} </a>
-          </div>
-          -->
-        % endif
     % endif
 
   </section>
@@ -48,15 +34,10 @@
 	</span>
     <section  class="courses kr01_movie_slider">
       <ul class="course-card-slider bxslider" id="sub_slider">
-        %for course in courses:
-          ##% if course.classfy == classfy or classfy == 'course_all':
-            <% idx += 1 %>
+        % for course in pop_courses:
           <li class="courses-listing-item">
               <%include file="course.html" args="course=course" />
           </li>
-            % if idx == 24:
-            <% break %>
-            % endif
         % endfor
       </ul>
     </section>

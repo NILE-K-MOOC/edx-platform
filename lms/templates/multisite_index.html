@@ -3,120 +3,19 @@
 <%namespace name='static' file='static_content.html'/>
 <%!
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 %>
-
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <script type="text/javascript" src="/static/js/vendor/script.js"></script>
-<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>
 
-<script>
-    % if 'status' in request.session and request.session['status'] != None:
-        if('${request.session['status']}' == 'fail'){
-            //alert("잘못된 접근입니다.");
-            try{
-                //window.history.back();
-            }catch(err){
-                //alert(err);
-            }
-        }
-    % endif
-
-    $( document ).ready(function() {
-        $("input[name=search_query]").keydown(function (key) {
-
-            if(key.keyCode == 13){
-                 msearch_btn();
-            }
-
-        });
-    });
-
-    function msearch_btn(mode){
-        if(mode === 'init'){
-            var msearch_input = '';
-        }
-        else{
-            var msearch_input = $('.msearch_input').val();
-        }
-
-        % if 'org' in request.session and request.session['org'] != 'kmooc':
-        window.location.replace("/org/${request.session['org']}/"+msearch_input);
-        % endif
-    }
-
-</script>
-
-% if 'in_url' in request.session:
-    <div style="display:none">${request.session['in_url']}</div>
-% endif
-
-<main id="main" aria-label="Content" tabindex="-1">
-    <section class="home">
-
-        <header>
-            <div class="ttbg" style="max-width: 100%; height:310px; ">
-                <div class="grid-container grid-manual" style="height: 100%">
-                    <div class="row" style="height: 100%; background: url(/static/images/css/main_bg2.png) no-repeat center 82%;">
-                        <div class="col col-12 sm-col-6">
-                            <div class="ttbg1" id="main-contents-search">
-			<span class="k-bannner-txt">
-                % if LANGUAGE_CODE == 'ko-kr':
-                    <h1>미래를 여는 최고의 강좌</h1>
-			            <h3>K-MOOC, Top Quality Courses for Your Future</h3>
-                % else:
-                    <h3>K-MOOC, Top Quality Courses for Your Future</h3>
-                % endif
-
-            </span>
-                                % if 'org' in request.session and request.session['org'] != 'kmooc':
-                                <!--<form method="post" id="main_form" action="/multisite/${request.session['org']}">-->
-                                    <div class="msearch_area" style="z-index: 999;">
-
-                                        <input class="msearch_input" type="text" name="search_query" placeholder="${_('Find Courses')}" aria-label="${_('Find Courses')}">
-			<span class="msearch_btnarea">
-			    <button onclick="msearch_btn()" class="msearch_btn" type="submit"><img src="/static/images/icon-search.png" alt="search"></button>
-                <button onclick="msearch_btn('init')" class="msearch_btn" type="submit"><img style="width:16px" src="/static/images/icon-rollback.png" alt="search"></button>
-			</span>
-                                    </div>
-                                <!--</form>-->
-                                % endif
-                            </div>
-                        </div>
-                        <div class="col col-12 sm-col-6">
-                            <div class="ttbg2">
-                                <img src="/static/images/css/main_top_bg2.png" alt="나무"/>
-                            </div>
-                            <div class="col col-12 sm-col-6">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <section class="courses-container full" id="main-contents05">
-            <section class="highlighted-courses">
-                <section class="courses">
-                      <ul class="courses-listing">
-                            %if courses:
-                                %for course in courses:
-                                <li class="courses-listing-item">
-                                    <%include file="course.html" args="course=course" />
-                                </li>
-                                %endfor
-                            %endif
-                      </ul>
-                </section>
-            </section>
-        </section>
-    </section>
-</main>
-
+<div>
+      <%include file="${courses_list}" />
+</div>
 
 % if show_homepage_promo_video:
-  <section id="video-modal" class="modal home-page-video-modal video-modal" title="비디오">
+  <section id="video-modal" class="modal home-page-video-modal video-modal">
     <div class="inner-wrapper">
       <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
     </div>
@@ -125,34 +24,16 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <%block name="js_extra">
    <script type="text/javascript">
-        $(window).load(function() {
-            if(getParameterByName('next')) {
-                $('#login').trigger("click");
-            }
-        });
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
    </script>
 </%block>
 
+% if show_signup_immediately is not UNDEFINED:
 <script type="text/javascript">
-$(function(){
-	$(".smooth-move").on("click", function(event){
-        event.preventDefault();
-        /*
-        var hashbang = $("#"+$(this).data("hashbang")).offset();
-        $('html body').animate({scrollTop: hashbang.top-110}, 'slow');*/
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf("MSIE ");
-        console.log('ua:' + ua );
-        console.log('msie:' + msie);
-
-        if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-            document.documentElement.scrollTop = $(window).scrollTop();
-            var hashbang = $("#"+$(this).data("hashbang")).offset();
-            $('html, body').animate({scrollTop: hashbang.top-110}, 'slow');
-        }else{
-            var hashbang = $("#"+$(this).data("hashbang")).offset();
-            $('html body').animate({scrollTop: hashbang.top-110}, 'slow');
-        }
-	});
-})
+  $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
+% endif

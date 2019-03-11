@@ -120,6 +120,18 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
           <span>ENG</span>
         </label>
       </div>
+      % if request.path != '/':
+      <div class="kr01-alertarea">
+        <span class="kr01-Tlogoutarea">
+          <a href="/login${login_query()}">${_("Sign In")}</a>
+        </span>
+      </div>
+      <div class="kr01-alertarea">
+        <span class="kr01-Tlogoutarea">
+          <a href="/register${login_query()}">${_("Register")}</a>
+        </span>
+      </div>
+      % endif
     </section>
   </section>
 
