@@ -650,9 +650,9 @@ def student_dashboard(request):
     print "multisiteStatus = ", multisiteStatus
 
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
-    if request.is_ajax():
-        status = request.POST.get('status')
-        # print 'status:', status
+
+    status = request.GET.get('status')
+    if status:
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
     else:
         print "this is fucking logic"
@@ -1072,9 +1072,12 @@ def student_dashboard(request):
 
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
-    if request.is_ajax():
-        print "dashboard_ajax-----------ok"
-        return render_to_response('dashboard_ajax.html', context)
+    # if request.is_ajax():
+    #     print "dashboard_ajax-----------ok"
+    #     return render_to_response('dashboard_ajax.html', context)
+
+
+
     return response
 
 

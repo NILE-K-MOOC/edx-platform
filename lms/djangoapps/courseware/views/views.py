@@ -2429,17 +2429,35 @@ def schools(request):
             col = 'ifnull(org_intro, ""), b.detail_name,' if lang == 'ko-kr' else 'ifnull(org_intro_e, ""), b.detail_ename,'
             q_where = 'logo_img' if lang == 'ko-kr' else 'logo_img_e'
             query = '''
-                SELECT org_id,
-                       {col}
-                       start_year,
-                       ifnull(c.save_path, '') logo_path
-                  FROM tb_org a
-                       JOIN code_detail b on a.org_id = b.detail_code and group_code = '003'
-                       LEFT JOIN tb_attach c ON a.{q_where} = c.id AND c.group_name = '{q_where}'
-                 WHERE a.delete_yn = false AND c.use_yn = true AND end_year = '9999'
-                    AND a.use_yn = true
-                 ORDER BY start_year;
-            '''.format(col=col, q_where=q_where)
+                SELECT 
+                    org_id,
+                    a.start_year,
+                    org_intro, 
+                    org_intro_e,
+                    detail_name,
+                    detail_ename,
+                    ifnull((SELECT 
+                            save_path
+                        FROM
+                            tb_attach
+                        WHERE
+                            use_yn = 1 AND id = a.logo_img), 'null1') logo_img,
+                    ifnull((SELECT 
+                            save_path
+                        FROM
+                            tb_attach
+                        WHERE
+                            use_yn = 1 AND id = a.logo_img_e), 'null2') logo_img_e
+                FROM
+                    tb_org a
+                        JOIN
+                    code_detail b ON b.group_code = '003'
+                        AND a.org_id = b.detail_code
+                WHERE
+                    1 = 1 AND a.delete_yn = 0
+                        AND a.use_yn = 1
+                ORDER BY start_year , detail_name
+            '''
 
             print query
             cur.execute(query)
@@ -2450,13 +2468,15 @@ def schools(request):
                 org_dict = dict()
 
                 org_dict['org_id'] = org[0]
-                org_dict['org_intro'] = org[1]
-                org_dict['org_name'] = org[2]
-                org_dict['start_year'] = org[3]
-                if org[1] != '':
-                    org_dict['logo_img'] = '<a href="/school/' + org[0] + '"><div class="logo_div"><img class="logo_img" alt="' + org[2] + '" src="' + org[4] + '"></div></a>'
+                org_dict['start_year'] = org[1]
+                org_dict['org_intro'] = org[2] if lang == 'ko-kr' else org[3]
+                org_dict['org_name'] = org[4] if lang == 'ko-kr' else org[5]
+                org_dict['org_image'] = org[6] if lang == 'ko-kr' else org[7]
+
+                if lang == 'ko-kr':
+                    org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict['org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
                 else:
-                    org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org[2] + '" src="' + org[4] + '"></div>'
+                    org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict['org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div>'
 
                 org_list.append(org_dict)
 

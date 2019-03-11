@@ -225,6 +225,7 @@ if (
             </section>
 
             <script type="text/javascript">
+                console.log('kr01_mainslider size check:::  ' + $('.kr01_mainslider').size());
                 $('.kr01_mainslider').bxSlider({
                     mode: 'horizontal',
                     auto: true,
@@ -340,7 +341,7 @@ if (
                     <span class="kr01_icontTitle">공지사항</span>
                     <div class="kr01_alretTxt">
                         <div class="kr01_alert_slider">
-                            <div class="slider">
+                            <div class="slider" id="board_slider">
                                 % for list in index_list[:4] :
                                     % if list[5] != 'F':
                                     <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
@@ -374,7 +375,7 @@ if (
                                     }
                                 ;
 
-                                var slider = $('.slider').bxSlider(sliderOptions);
+                                $('#board_slider').bxSlider(sliderOptions);
 
                             });
 

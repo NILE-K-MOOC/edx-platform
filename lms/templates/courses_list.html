@@ -10,7 +10,7 @@
 	  </span>
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
       <section class="courses kr01_movie_slider">
-        <ul class="course-card-slider bxslider">
+        <ul class="course-card-slider bxslider" id="main_slider">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
             <% idx = 0 %>
           %for course in courses:
@@ -47,7 +47,7 @@
 		<span class="kr01_icontTitle">인기강좌</span>
 	</span>
     <section  class="courses kr01_movie_slider">
-      <ul class="course-card-slider bxslider">
+      <ul class="course-card-slider bxslider" id="sub_slider">
         %for course in courses:
           ##% if course.classfy == classfy or classfy == 'course_all':
             <% idx += 1 %>
