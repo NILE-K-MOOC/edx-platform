@@ -327,7 +327,7 @@ ul.bxslider {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2000;
+  z-index: 0;
 }
 
 .kr01_alert_slider .bx-wrapper .bx-pager {
@@ -579,7 +579,7 @@ ul.bxslider {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2000;
+  z-index: 0;
 }
 /* PAGER */
 .kr01_movie_slider .bx-wrapper .bx-pager {
@@ -790,7 +790,7 @@ ul.bxslider {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2000;
+  z-index: 0;
 }
 
 /* PAGER */

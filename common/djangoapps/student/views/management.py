@@ -600,7 +600,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     popzone_list = list()
     for idx, zone in enumerate(popzone):
         popzone_dict = dict()
-        popzone_dict['title'] = zone [1]
+        popzone_dict['title'] = zone[1]
         image_idx = zone[2].find('/static')
         if image_idx == -1:
             popzone_dict['image_file'] = pop_path[idx]
@@ -1130,14 +1130,14 @@ def create_account_with_params(request, params):
     # Can't have terms of service for certain SHIB users, like at Stanford
     registration_fields = getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {})
     tos_required = (
-        registration_fields.get('terms_of_service') != 'hidden' or
-        registration_fields.get('honor_code') != 'hidden'
-    ) and (
-        not settings.FEATURES.get("AUTH_USE_SHIB") or
-        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-        not do_external_auth or
-        not eamap.external_domain.startswith(openedx.core.djangoapps.external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
-    )
+                           registration_fields.get('terms_of_service') != 'hidden' or
+                           registration_fields.get('honor_code') != 'hidden'
+                   ) and (
+                           not settings.FEATURES.get("AUTH_USE_SHIB") or
+                           not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+                           not do_external_auth or
+                           not eamap.external_domain.startswith(openedx.core.djangoapps.external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
+                   )
     print 'create_account_with_params Test =========='
     print params
     print 'create_account_with_params Test =========='
@@ -1170,7 +1170,7 @@ def create_account_with_params(request, params):
         if is_third_party_auth_enabled and third_party_auth_credentials_in_api:
             backend_name = params['provider']
             request.social_strategy = social_utils.load_strategy(request)
-            redirect_uri = reverse('social:complete', args=(backend_name, ))
+            redirect_uri = reverse('social:complete', args=(backend_name,))
             request.backend = social_utils.load_backend(request.social_strategy, backend_name, redirect_uri)
             social_access_token = params.get('access_token')
             if not social_access_token:
@@ -1293,7 +1293,7 @@ def create_account_with_params(request, params):
     try:
         record_registration_attributions(request, new_user)
     # Don't prevent a user from registering due to attribution errors.
-    except Exception:   # pylint: disable=broad-except
+    except Exception:  # pylint: disable=broad-except
         log.exception('Error while attributing cookies to user registration.')
 
     # TODO: there is no error checking here to see that the user actually logged in successfully,
@@ -1337,11 +1337,11 @@ def skip_activation_email(user, do_external_auth, running_pipeline, third_party_
     # to retrieve additional user account information (including email) after the
     # initial account creation.
     valid_email = (
-        sso_pipeline_email == user.email or (
+            sso_pipeline_email == user.email or (
             sso_pipeline_email is None and
             third_party_provider and
             getattr(third_party_provider, "identity_provider_type", None) == SAP_SUCCESSFACTORS_SAML_KEY
-        )
+    )
     )
 
     # log the cases where skip activation email flag is set, but email validity check fails
@@ -1356,10 +1356,10 @@ def skip_activation_email(user, do_external_auth, running_pipeline, third_party_
         )
 
     return (
-        settings.FEATURES.get('SKIP_EMAIL_VALIDATION', None) or
-        settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING') or
-        (settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH') and do_external_auth) or
-        (third_party_provider and third_party_provider.skip_email_verification and valid_email)
+            settings.FEATURES.get('SKIP_EMAIL_VALIDATION', None) or
+            settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING') or
+            (settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH') and do_external_auth) or
+            (third_party_provider and third_party_provider.skip_email_verification and valid_email)
     )
 
 
@@ -1844,7 +1844,7 @@ def confirm_email_change(request, key):  # pylint: disable=unused-argument
                 message,
                 configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
             )
-        except Exception:    # pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             log.warning('Unable to send confirmation email to old address', exc_info=True)
             response = render_to_response("email_change_failed.html", {'email': user.email})
             transaction.set_rollback(True)
@@ -1930,6 +1930,7 @@ def text_me_the_app(request):
     }
 
     return render_to_response('text-me-the-app.html', context)
+
 
 def common_course_status(startDt, endDt):
     # input
