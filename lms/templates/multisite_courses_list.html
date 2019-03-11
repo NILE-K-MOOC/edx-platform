@@ -2,14 +2,19 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
-<section class="courses-container bg-w" style="border: solid 2px blue;">
+<style>
+  .kr01-area .content-wrapper{
+      max-width: 1500px;
+  }
+</style>
+<section class="courses-container bg-w">
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
       <section class="courses" style="padding: 70px; padding-left: 50px;">
         <ul>
           <% idx = 0 %>
           %for course in courses:
             <% idx += 1 %>
-          <li class="courses-listing-item" style="width: 300px;float: left;margin-left: 10px;">
+          <li class="courses-listing-item" style="width: 300px; float: left; margin-left: 10px;">
               <%include file="course.html" args="course=course" />
           </li>
             % if idx == 12:
