@@ -28,6 +28,8 @@ from django.views.decorators.csrf import csrf_exempt
 log = logging.getLogger(__name__)
 
 #==================================================================================================> login 오버라이딩 시작
+from datetime import datetime
+from datetime import timedelta
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -127,17 +129,175 @@ def decrypt(key, _iv, enc):
     return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
+def multisite_error(request):
+    context = {}
+
+    error = request.GET.get('error')
+
+    print "error -> ", error
+
+    if error == 'error001':
+        context['info'] = '유효하지않은 org(기관번호) 입니다.'
+    if error == 'error002':
+        context['info'] = 'in_url(접근URL)과 out_url(등록URL)이 일치하지 않습니다.'
+    if error == 'error003':
+        context['info'] = '암호화 데이터를 복호화하는데 실패하였습니다.'
+    if error == 'error004':
+        context['info'] = '복호화 데이터 파싱에 실패하였습니다.'
+    if error == 'error005':
+        context['info'] = '호출시간이 만료되었습니다'
+    if error == 'error006':
+        context['info'] = '접속한 org(기관번호)와 복호화된 orgid(기관번호)가 일치하지 않습니다.'
+    if error == 'error007':
+        context['info'] = '기관연계 되지 않은 사번입니다.'
+
+    return render_to_response("multisite_error.html", context)
+
 def multisite_index(request, org):
 
-    print 'org -> ', org
+    print "org -> ", org
+    print "------------------------------------"
 
+    # 멀티사이트에 온 것을 환영합니다
     request.session['multisite_mode'] = 1
     request.session['multisite_org'] = org
 
-    user = User.objects.get(pk=10)
+    # 로그인타입 / 등록URL / 암호화키 획득
+    with connections['default'].cursor() as cur:
+        sql = '''
+        SELECT login_type, site_url, Encryption_key
+        FROM multisite
+        where site_code = '{0}'
+        '''.format(org)
+        cur.execute(sql)
+        rows = cur.fetchall()
+        try:
+            login_type = rows[0][0]
+            out_url = rows[0][1]
+            key = rows[0][2]
+        except BaseException:
+            return redirect('/multisite_error?error=error001')
 
-    user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
-    #login(request, user)
+    # DEBUG
+    print "login_type -> ", login_type
+    print "out_url -> ", out_url
+    print "key -> ", key
+    print "------------------------------------"
+
+    # 접근URL 및 등록URL 획득
+    if 'HTTP_REFERER' in request.META:
+        in_url = request.META['HTTP_REFERER']
+    else:
+        in_url = ''
+    in_url = in_url.replace('http://',"")
+    in_url = in_url.replace('www.',"")
+    out_url = out_url.replace('http://', "")
+    out_url = out_url.replace('www.',"")
+
+    # DEBUG
+    print 'in_url -> ', in_url
+    print 'out_url -> ', out_url
+    print "------------------------------------"
+
+    # 접근URL 과 등록URL 비교
+    if out_url == 'passkey':
+        pass
+    else:
+        if in_url.find(out_url) == -1:
+            return redirect('/multisite_error?error=error002')
+
+    # 파라미터 방식
+    if login_type == 'P':
+        # 암호화 데이터 (get, post 구분 없음)
+        if request.GET.get('encStr') or request.POST.get('encStr'):
+            if request.GET.get('encStr'):
+                encStr = request.GET.get('encStr')
+            elif request.POST.get('encStr'):
+                encStr = request.POST.get('encStr')
+
+        # DEBUG
+        encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
+        print 'encStr -> ', encStr
+
+        # 암호화 데이터 복호화
+        encStr = encStr.replace(' ', '+')
+
+        try:
+            raw_data = decrypt(key, key, encStr)
+            raw_data = raw_data.split('&')
+        except BaseException:
+            return redirect('/multisite_error?error=error003')
+
+        # DEBUG
+        print 'raw_data -> ', raw_data
+        print "------------------------------------"
+
+        # 복호화 데이터 파싱
+        try:
+            calltime = raw_data[0].split('=')[1]
+            userid = raw_data[1].split('=')[1]
+            orgid = raw_data[2].split('=')[1]
+        except BaseException:
+            return redirect('/multisite_error?error=error004')
+
+        # DEBUG
+        print 'calltime -> ', calltime
+        print 'userid -> ', userid
+        print 'orgid -> ', orgid
+        print "------------------------------------"
+
+        # 호출시간 파싱
+        calltime = str(calltime)
+        year = int(calltime[0:4])
+        mon = int(calltime[4:6])
+        day = int(calltime[6:8])
+        hour = int(calltime[8:10])
+        min = int(calltime[10:12])
+        sec = int(calltime[12:14])
+        java_calltime = datetime(year, mon, day, hour, min, sec)
+        python_calltime = datetime.utcnow() + timedelta(hours=9)
+
+        # DEBUG
+        print 'java_calltime -> ', java_calltime
+        print 'python_calltime -> ', python_calltime
+        print "------------------------------------"
+
+        # 호출시간 만료 체크
+        #if java_calltime + timedelta(seconds=180) < python_calltime:
+        #    return redirect('/multisite_error?error=error005')
+
+        # 복호화 기관코드와 접속 기관코드 비교
+        if org != orgid:
+            return redirect('/multisite_error?error=error006')
+
+        # 기관연계 된 회원인지 확인
+        with connections['default'].cursor() as cur:
+            sql = '''
+                   SELECT user_id
+                   FROM multisite_member as a
+                   join multisite as b
+                   on a.site_id = b.site_id
+                   where site_code = '{0}'
+                   and org_user_id = '{1}'
+               '''.format(org, userid)
+
+            cur.execute(sql)
+            rows = cur.fetchall()
+
+        print 'len(rows) -> ', len(rows)
+
+        # 기관연계 된 회원이라면 SSO 로그인
+        if len(rows) != 0:
+            user = User.objects.get(pk=rows[0][0])
+            user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+            login(request, user)
+        # 아니라면 에러페이지 리다이렉트
+        else:
+            return redirect('/multisite_error?error=error007')
+
+    # Oauth 방식
+    elif  login_type == 'O':
+        pass
 
     # basic logic
     if request.user.is_authenticated:

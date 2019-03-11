@@ -13,62 +13,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <div id="multisite_index">
     <div style="margin-top:300px;"></div>
-    <h1>잘못된 접근입니다</h1>
-    <h1>유효한 데이터로 접근 요청을 해주세요</h1>
-
-    % if 'multisiteDebug' in request.session:
-    <h5>multisiteDebug = ${request.session['multisiteDebug']}</h5>
-    % else:
-    <h5>multisiteDebug 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'msearch' in request.session:
-    <h5>msearch = ${request.session['msearch']}</h5>
-    % else:
-    <h5>msearch의 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'status' in request.session:
-    <h5>status = ${request.session['status']}</h5>
-    % else:
-    <h5>status 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'in_url' in request.session:
-    <h5>in_url = ${request.session['in_url']}</h5>
-    % else:
-    <h5>in_url 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'out_url' in request.session:
-    <h5>out_url = ${request.session['out_url']}</h5>
-    % else:
-    <h5>out_url 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'java_calltime' in request.session:
-    <h5>java_calltime = ${request.session['java_calltime']}</h5>
-    % else:
-    <h5>java_calltime 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'python_calltime' in request.session:
-    <h5>python_calltime = ${request.session['python_calltime']}</h5>
-    % else:
-    <h5>python_calltime 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'multisite_userid' in request.session:
-    <h5>multisite_userid = ${request.session['multisite_userid']}</h5>
-    % else:
-    <h5>multisite_userid 세션이 존재하지 않습니다</h5>
-    % endif
-
-    % if 'status_org' in request.session:
-    <h5>status_org = ${request.session['status_org']}</h5>
-    % else:
-    <h5>status_org 세션이 존재하지 않습니다</h5>
-    % endif
+    <h1>디버깅 페이지</h1>
+    <h1>${info}</h1>
 
     <div style="margin-bottom:300px;"></div>
 </div>
