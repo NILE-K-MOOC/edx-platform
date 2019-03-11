@@ -299,8 +299,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     }
                     $("#memo_row").append('<li><a href="'+memo_link+'" id=link_'+i+'>');
                     $("#link_"+i).append('<div class="b3" id="memo_data_'+i+'">');
-                    $("#memo_data_"+i).append('<div class="b4"><span>'+ memo_list[i].title + '</span></div>');
-                    $("#memo_data_"+i).append('<div class="b5"><span style="color:#999;">'+ memo_list[i].memo_date + '</span></div>');
+                    $("#memo_data_"+i).append('<div class="b4"><span style="color:#ffffff;font-weight: 500;">'+ memo_list[i].title + '</span></div>');
+                    $("#memo_data_"+i).append('<div class="b5"><span style="color:#ffffff;font-weight: 500;">'+ memo_list[i].memo_date + '</span></div>');
                     $("#link_"+i).append('</div>');
                     $("#memo_row").append('</a></li>');
                 }

@@ -1160,7 +1160,7 @@ input[type="radio"].toggle:checked + label {
   margin: -10px 0px 0px 30px;
 }
 .kr01_bellarea .dropdown a:hover, .kr01_bellarea .dropdown.toggle > label:hover, .kr01_bellarea .dropdown.toggle > input:checked ~ label {
-  background-color: #EEE;
+  background-color: #363838;
   color: #666;
 }
 .kr01_bellarea .dropdown > a:hover::after, .kr01_bellarea .dropdown.toggle > label:hover::after, .kr01_bellarea .dropdown.toggle > input:checked ~ label::after {
