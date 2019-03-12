@@ -131,3 +131,79 @@
     </main>
 </div>
 
+% if 'multisite_mode' in request.session:
+  <div id="multisite_mode" hidden>${request.session['multisite_mode']}</div>
+% endif
+
+<style>
+  .swal-button--cancel{
+    color: black;
+    background-image: linear-gradient(to bottom,#ffffff 0%,#ffffff 50%,#ffffff 50%,#ffffff 100%);
+    text-shadow: 0 0px 0px #000042;
+  }
+  .swal-button--confirm{
+    color: white;
+    background-image: linear-gradient(to bottom,#008100 0%,#008100 50%,#008100 50%,#008100 100%);
+    text-shadow: 0 0px 0px #000042;
+  }
+  .swal-button--cancel:active {
+    box-shadow: snow 0 0 0 0;
+  }
+  .swal-button--confirm:active {
+    box-shadow: snow 0 0 0 0;
+  }
+  .swal-button--cancel:hover:not(:disabled) {
+    color: red;
+    background-color: #ffffff;
+    background-color: #ffffff;
+    background-image: -webkit-linear-gradient(top, #ffffff 0%,#ffffff 50%,#ffffff 50%,#ffffff 100%);
+    background-image: linear-gradient(to bottom,#ffffff 0%,#ffffff 50%,#ffffff 50%,#ffffff 100%);
+  }
+  .swal-button--confirm:hover:not(:disabled) {
+    color: green;
+    background-color: #ffffff;
+    background-color: #ffffff;
+    background-image: -webkit-linear-gradient(top, #ffffff 0%,#ffffff 50%,#ffffff 50%,#ffffff 100%);
+    background-image: linear-gradient(to bottom,#ffffff 0%,#ffffff 50%,#ffffff 50%,#ffffff 100%);
+  }
+</style>
+
+<script>
+function multisite_btn(){
+  % if 'multisite_org' in request.session:
+      var org = '${request.session["multisite_org"]}';
+  % endif
+
+  swal("본 K-MOOC계정으로 로그인 시\n 소속기관 계정과 연동되어, 추후 해당 K-MOOC 계정으로 수행한 학습이력이 소속기관으로 전달되게 됩니다. 동의하시겠습니까? \n(동의하지 않을 시, 계정 연동이 취소됩니다)",
+  {
+    buttons: {
+      cancel: "동의하지 않음",
+      confirm: {text: "동의", className: "multi"}
+    }
+  }).then(function (isConfirm) {
+    if(isConfirm == true){
+        $.post('/user_api/v1/account/login_session/', {
+          email: $('#login-email').val(),
+          password: $('#login-password').val(),
+          remember: false,
+          target: '',
+          is_regist: false
+        })
+        .done(function(data){
+          location.href = "/dashboard";
+        })
+        .fail(function() {
+          swal("로그인 실패 (이메일과 비밀번호를 확인해주세요)",
+          {
+            buttons: {
+              cancel: "확인",
+            }
+          })
+        });
+    } else {
+      return;
+    }
+  });
+}
+</script>
+

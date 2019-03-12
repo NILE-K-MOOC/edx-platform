@@ -162,6 +162,10 @@ def multisite_index(request, org):
     request.session['multisite_mode'] = 1
     request.session['multisite_org'] = org
 
+    print "request.session['multisite_mode'] -> ", request.session['multisite_mode']
+    print "request.session['multisite_org'] -> ", request.session['multisite_org']
+    print "------------------------------------"
+
     # 로그인타입 / 등록URL / 암호화키 획득
     with connections['default'].cursor() as cur:
         sql = '''

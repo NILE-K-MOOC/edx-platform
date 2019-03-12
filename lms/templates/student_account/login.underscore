@@ -20,7 +20,10 @@
     <h2 style="text-align: center;"><%- gettext("Sign In") %></h2>
 <% } %>
 
+<% if ( $('#multisite_mode').text() == '1' ) { %>
+<% } else {%>
 <form id="login" class="login-form" tabindex="-1" method="POST">
+<% } %>
 
     <p class="sr">
         <% if ( context.providers.length > 0 && !context.currentProvider || context.hasSecondaryProviders ) { %>
@@ -33,7 +36,11 @@
 
     <%= context.fields %>
 
+    <% if ( $('#multisite_mode').text() == '1' ) { %>
+    <button style="width:100%;" type="submit" onclick="multisite_btn()" class="action action-primary action-update js-login login-button multisite_btn"><%- gettext("Multisite Sign in") %></button>
+    <% } else {%>
     <button style="width:100%;" type="submit" class="action action-primary action-update js-login login-button"><%- gettext("Sign in") %></button>
+    <% } %>
 
     <% if ( context.providers.length > 0 && !context.currentProvider || context.hasSecondaryProviders ) { %>
     <div class="login-providers">
@@ -64,7 +71,11 @@
         <% } %>
     </div>
     <% } %>
+
+<% if ( $('#multisite_mode').text() == '1' ) { %>
+<% } else {%>
 </form>
+<% } %>
 
 <% if ( context.createAccountOption !== false && !context.syncLearnerProfileData && !(context.enterpriseName && context.currentProvider) ) { %>
 <div class="toggle-form">
