@@ -1,19 +1,12 @@
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
 </div>
 
-<% if ( context.createAccountOption !== false && !context.syncLearnerProfileData && !(context.enterpriseName && context.currentProvider) ) { %>
-<div class="toggle-form">
-    <span class="text"><%- gettext("First time here?") %></span>
-    <a href="#login" class="form-toggle" data-type="register"><%- gettext("Create an Account.") %></a>
-</div>
-<% } %>
-
 <% // Hide SSO related messages if we are not in the SSO pipeline.  %>
 <% if (context.enterpriseName && context.currentProvider) { %>
     <% if (context.pipelineUserDetails && context.pipelineUserDetails.email) { %>
-        <h2><%- gettext("Sign in to continue learning as {email}").replace("{email}", context.pipelineUserDetails.email) %></h2>
+        <h2 style="text-align: center;"><%- gettext("Sign in to continue learning as {email}").replace("{email}", context.pipelineUserDetails.email) %></h2>
     <% } else { %>
-        <h2><%- gettext("Sign in to continue learning") %></h2>
+        <h2 style="text-align: center;"><%- gettext("Sign in to continue learning") %></h2>
     <% } %>
     <p>
         <%- gettext("You already have an edX account with your {enterprise_name} email address.").replace(/{enterprise_name}/g, context.enterpriseName) %>
@@ -24,7 +17,7 @@
     </p>
     <p><%- gettext("To continue learning with this account, sign in below.") %></p>
 <% } else { %>
-    <h2><%- gettext("Sign In") %></h2>
+    <h2 style="text-align: center;"><%- gettext("Sign In") %></h2>
 <% } %>
 
 <form id="login" class="login-form" tabindex="-1" method="POST">
@@ -40,13 +33,13 @@
 
     <%= context.fields %>
 
-    <button type="submit" class="action action-primary action-update js-login login-button"><%- gettext("Sign in") %></button>
+    <button style="width:100%;" type="submit" class="action action-primary action-update js-login login-button"><%- gettext("Sign in") %></button>
 
     <% if ( context.providers.length > 0 && !context.currentProvider || context.hasSecondaryProviders ) { %>
     <div class="login-providers">
         <div class="section-title lines">
             <h3>
-                <span class="text"><%- gettext("or sign in with") %></span>
+                <span style="font-size: 12px;" class="text"><%- gettext("or sign in with") %></span>
             </h3>
         </div>
 
@@ -73,3 +66,26 @@
     <% } %>
 </form>
 
+<% if ( context.createAccountOption !== false && !context.syncLearnerProfileData && !(context.enterpriseName && context.currentProvider) ) { %>
+<div class="toggle-form">
+    <div class="text" style="text-align: center;margin-top: 12px;font-size: 12px;"><%- gettext("First time here?") %></div>
+    <a href="#login" class="form-toggle" data-type="register">
+        <button
+            style="
+                margin-top: 0px;
+                width:100%;
+                font-size: 12px;
+                border: 1px solid rgb(18, 111, 154);
+                border-top: 0px;
+                color: rgb(18, 111, 154);
+                margin-top: 0px;
+                width: 100%;
+                font-size: 12px;
+                background-color: #ffffff;
+            "
+                 type="submit" class="action action-primary action-update js-login login-button">
+            <%- gettext("Create an Account.") %>
+        </button>
+    </a>
+</div>
+<% } %>
