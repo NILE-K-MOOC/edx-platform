@@ -178,7 +178,7 @@ def multisite_index(request, org):
         cur.execute(sql)
         zero_mode = cur.fetchall()[0][0]
 
-    zero_mode = 0 # TEST
+    # zero_mode = 0 # TEST
 
     # 로그인타입 / 등록URL / 암호화키 획득
     with connections['default'].cursor() as cur:

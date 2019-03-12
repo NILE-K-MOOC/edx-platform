@@ -192,8 +192,9 @@ function multisite_btn(){
         .done(function(data){
           location.href = "/dashboard";
         })
-        .fail(function() {
-          swal("로그인 실패 (이메일과 비밀번호를 확인해주세요)",
+        .fail(function(data) {
+          console.log(data.responseText);
+          swal(data.responseText,
           {
             buttons: {
               cancel: "확인",
