@@ -293,7 +293,8 @@ def multisite_index(request, org):
             login(request, user)
         # 아니라면 에러페이지 리다이렉트
         else:
-            return redirect('/multisite_error?error=error007')
+            request.session['multisite_userid'] = userid
+            return redirect('/login')
 
     # Oauth 방식
     elif  login_type == 'O':

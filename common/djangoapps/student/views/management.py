@@ -145,10 +145,166 @@ def csrf_token(context):
             ' name="csrfmiddlewaretoken" value="{}" /></div>'.format(token))
 
 
+def common_course_status(startDt, endDt):
+    # input
+    # case - 1
+    # startDt = 2016-12-19 00:00:00
+    # endDt   = 2017-02-10 23:00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    # case - 2
+    # startDt = 2016-12-19 00:00:00+00:00
+    # endDt   = 2017-02-10 23:00:00+00:00
+    # nowDt   = 2017-11-10 00:11:28
+
+    # import
+    from datetime import datetime
+
+    startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
+    startDt = startDt.split('-')
+    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]),
+                       int(startDt[5]))
+
+    if endDt != None or endDt == '':
+        endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
+        endDt = endDt.split('-')
+        endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
+
+    # making nowDt
+    nowDt = datetime.now().strftime("%Y-%m-%d-%H-%m-%S")
+    nowDt = nowDt.split('-')
+    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
+
+    # logic
+    if startDt is None or startDt == '' or endDt is None or endDt == '':
+        status = 'none'
+    elif nowDt < startDt:
+        status = 'ready'
+    elif startDt <= nowDt <= endDt:
+        status = 'ing'
+    elif endDt < nowDt:
+        status = 'end'
+    else:
+        status = 'none'
+
+    # return status
+    return status
+
+from bson import ObjectId
+from pymongo import MongoClient
+from xmodule.modulestore.django import modulestore
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
+
+    context = {}
     if extra_context is None:
         extra_context = {}
 
+    site_code = request.session.get('multisite_org')
+
+    # multisite - get site code query
+    with connections['default'].cursor() as cur:
+        query = """
+                SELECT site_id
+                FROM   edxapp.multisite
+                WHERE  site_code = '{0}'
+            """.format(site_code)
+        cur.execute(query)
+        rows = cur.fetchall()
+    try:
+        site_id = rows[0][0]
+    except BaseException:
+        site_id = None
+        course_list = []
+
+    if site_id != None:
+
+        # list init
+        course_list = []
+        module_store = modulestore()
+
+        with connections['default'].cursor() as cur:
+            query = """
+                SELECT course_id, b.audit_yn
+                FROM   edxapp.multisite_course AS a
+                       join(SELECT *
+                            FROM   (SELECT id,
+                                           display_name,
+                                           start,
+                                           end,
+                                           enrollment_start,
+                                           enrollment_end,
+                                           CASE
+                                             WHEN start > Now() THEN 1
+                                             WHEN Now() BETWEEN start AND end THEN 2
+                                             WHEN end < Now() THEN 3
+                                             ELSE 4
+                                           END AS order1,
+                                           i2.audit_yn
+                                    FROM   course_overviews_courseoverview as i1
+                                    join course_overview_addinfo as i2
+                                    on i1.id = i2.course_id
+                                    WHERE  1 = 1
+                                           AND Lower(id) NOT LIKE '%demo%'
+                                           AND Lower(id) NOT LIKE '%nile%'
+                                           AND Lower(id) NOT LIKE '%test%') t1
+                            ORDER  BY order1,
+                                      enrollment_start DESC,
+                                      start DESC,
+                                      enrollment_end DESC,
+                                      end DESC,
+                                      display_name) AS b
+                         ON a.course_id = b.id
+                         WHERE  site_id = '{0}';
+            """.format(site_id)
+
+            print query
+
+            cur.execute(query)
+            result_table = cur.fetchall()
+
+            # mongo
+            client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+
+            for item in result_table:
+                course_lock = 0
+                ci = item[0]
+                ci = ci.split(':')
+                data_ci = ci[1]
+                data_ci = data_ci.split('+')
+                c_org = data_ci[0]
+                c_course = data_ci[1]
+                c_name = data_ci[2]
+
+                db = client["edxapp"]
+                cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
+                pb = cursor.get('versions').get('published-branch')
+                cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+                blocks = cursor.get('blocks')
+                for block in blocks:
+                    if block.get('block_type') and block.get('block_id'):
+                        if block.get('block_type') == 'course' and block.get('block_id') == 'course':
+                            if block.get('fields').get('catalog_visibility'):
+                                if block.get('fields').get('catalog_visibility') == 'none':
+                                    pass
+                                    #course_lock = 1
+
+                if course_lock == 0:
+                    multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                    course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                    course_overviews.audit_yn = item[1]
+                    course_list.append(course_overviews)
+
+            # multisite - make course status
+            for c in course_list:
+                status = common_course_status(c.start, c.end)
+                c.status = status
+                c.teacher_name = 'aaa'
+
+            context = {'courses': course_list}
+
+    """
     courses = get_courses(user)
 
     if configuration_helpers.get_value(
@@ -158,8 +314,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         courses = sort_by_start_date(courses)
     else:
         courses = sort_by_announcement(courses)
-
+        
     context = {'courses': courses}
+    """
+
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
     context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
@@ -1930,50 +2088,3 @@ def text_me_the_app(request):
     }
 
     return render_to_response('text-me-the-app.html', context)
-
-
-def common_course_status(startDt, endDt):
-    # input
-    # case - 1
-    # startDt = 2016-12-19 00:00:00
-    # endDt   = 2017-02-10 23:00:00
-    # nowDt   = 2017-11-10 00:11:28
-
-    # case - 2
-    # startDt = 2016-12-19 00:00:00+00:00
-    # endDt   = 2017-02-10 23:00:00+00:00
-    # nowDt   = 2017-11-10 00:11:28
-
-    # import
-    from datetime import datetime
-    from django.utils.timezone import UTC as UTC2
-
-    startDt = startDt.strftime("%Y-%m-%d-%H-%m-%S")
-    startDt = startDt.split('-')
-    startDt = datetime(int(startDt[0]), int(startDt[1]), int(startDt[2]), int(startDt[3]), int(startDt[4]),
-                       int(startDt[5]))
-
-    if endDt != None or endDt == '':
-        endDt = endDt.strftime("%Y-%m-%d-%H-%m-%S")
-        endDt = endDt.split('-')
-        endDt = datetime(int(endDt[0]), int(endDt[1]), int(endDt[2]), int(endDt[3]), int(endDt[4]), int(endDt[5]))
-
-    # making nowDt
-    nowDt = datetime.now(UTC2()).strftime("%Y-%m-%d-%H-%m-%S")
-    nowDt = nowDt.split('-')
-    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
-
-    # logic
-    if startDt is None or startDt == '' or endDt is None or endDt == '':
-        status = 'none'
-    elif nowDt < startDt:
-        status = 'ready'
-    elif startDt <= nowDt <= endDt:
-        status = 'ing'
-    elif endDt < nowDt:
-        status = 'end'
-    else:
-        status = 'none'
-
-    # return status
-    return status
