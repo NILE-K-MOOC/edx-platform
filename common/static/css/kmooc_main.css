@@ -1745,3 +1745,7 @@ ul.actions-dropdown-list::before {
 .wiki-wrapper section.wiki .breadcrumbs-header {
   padding: 20px 0 50px;
 }
+
+.dashboard .main-container .my-courses .course .details .enter-course {
+  font-size: 14px;
+}
