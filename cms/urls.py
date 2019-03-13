@@ -88,10 +88,17 @@ urlpatterns = [
         ),
     url(r'^home/?$', contentstore.views.course_listing, name='home'),
     url(r'^level_Verifi/?$', contentstore.views.level_Verifi, name='level_Verifi'),
+
     url(r'^course/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
         contentstore.views.course_search_index_handler,
         name='course_search_index_handler'
         ),
+
+    url(r'^api/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
+        contentstore.views.course.api_elasticsearch_reindex,
+        name='api_elasticsearch_reindex'
+        ),
+
     url(r'^course/{}?$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.course_handler, name='course_handler'),
 
     url(r'^checklists/{}?$'.format(settings.COURSE_KEY_PATTERN),

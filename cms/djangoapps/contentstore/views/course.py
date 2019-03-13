@@ -348,6 +348,35 @@ def course_rerun_handler(request, course_key_string):
             })
 
 
+@ensure_csrf_cookie
+@require_GET
+def api_elasticsearch_reindex(request, course_key_string):
+    """
+    The restful handler for course indexing.
+    GET
+        html: return status of indexing task
+        json: return status of indexing task
+    """
+    # Only global staff (PMs) are able to index courses
+    master = User.objects.get(email='staff@example.com')
+    if not GlobalStaff().has_user(master):
+        raise PermissionDenied()
+    course_key = CourseKey.from_string(course_key_string)
+    content_type = request.META.get('CONTENT_TYPE', None)
+    if content_type is None:
+        content_type = "application/json; charset=utf-8"
+    with modulestore().bulk_operations(course_key):
+        try:
+            reindex_course_and_check_access(course_key, master)
+        except SearchIndexingError as search_err:
+            return HttpResponse(dump_js_escaped_json({
+                "user_message": search_err.error_list
+            }), content_type=content_type, status=500)
+        return HttpResponse(dump_js_escaped_json({
+            "user_message": _("Course has been successfully reindexed.")
+        }), content_type=content_type, status=200)
+
+
 @login_required
 @ensure_csrf_cookie
 @require_GET
