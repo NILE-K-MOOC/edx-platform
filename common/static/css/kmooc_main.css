@@ -1717,4 +1717,35 @@ ul.actions-dropdown-list::before {
     text-align: center;
 }
 
+.view-profile .profile-self .wrapper-profile-field-account-privacy .u-field-account_privacy {
+  max-width: 1100px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+}
 
+.profile .profile-wrapper-kmooc {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.content-wrapper .course-tabs {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.page-content-container {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wiki-wrapper section.wiki .breadcrumbs-header {
+  padding: 20px 0 50px;
+}
+
+.dashboard .main-container .my-courses .course .details .enter-course {
+  font-size: 14px;
+}

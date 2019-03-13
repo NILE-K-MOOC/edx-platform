@@ -27511,3 +27511,6 @@ msgstr "게시판 이용 현황 CSV"
 
 msgid "Get Student contents view CSV"
 msgstr "게시판 상세 내용 CSV"
+
+msgid "Profile Visibility:"
+msgstr "프로필 공개 설정:"
