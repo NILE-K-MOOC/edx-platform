@@ -87,6 +87,7 @@ urlpatterns = [
     url(r'^api/get_multisite_list$', branding_views.get_multisite_list, name='get_multisite_list'),
     url(r'^api/delete_multisite_account$', branding_views.delete_multisite_account, name='delete_multisite_account'),
 
+    url(r'^api/all_courses$', branding_views.course_api, name="course_api"),
 
     # ---------- nice check start---------- #
     url(r'^nicecheckplus$', student_account_views.nicecheckplus, name="nicecheckplus"),  # success url
