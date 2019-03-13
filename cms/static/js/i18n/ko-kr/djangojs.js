@@ -2043,8 +2043,8 @@
         "If the subsection does not have a due date, learners always see their scores when they submit answers to assessments.": "\ud558\uc704 \uc139\uc158\uc5d0 \ub9cc\uae30\uc77c\uc774 \uc5c6\ub294 \uacbd\uc6b0 \ud559\uc2b5\uc790\ub294 \ud3c9\uac00\uc5d0 \ub300\ud55c \ub2f5\ubcc0\uc744 \uc81c\ucd9c\ud560 \ub54c \ud56d\uc0c1 \uc810\uc218\ub97c \ubcfc \uc218 \uc788\uc2b5\ub2c8\ub2e4\u002e",
         "Unit Visibility": "\uc720\ub2db \uac00\uc2dc\uc131",
         "First time here?": "\ucc98\uc74c \uc624\uc168\ub098\uc694\u003f",
-        "Create an Account.": "회원 가입.",
-        "Sign In": "로그 인",
+        "Create an Account.": "회원가입",
+        "Sign In": "로그인",
         "Are you sure you want to unenroll from %(courseName)s (%(courseNumber)s)?": "%(courseName)s (%(courseNumber)s) \uac15\uc88c\uc758 \uc218\uac15\uc2e0\uccad\uc744 \ucde8\uc18c \ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c\u003f",
 
     };

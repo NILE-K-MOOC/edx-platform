@@ -1311,6 +1311,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
 .login-register .form-field .tip, .financial-assistance-wrapper .financial-assistance-form .form-field .tip {
 	color : #5F5C5C;
+	font-size: 12px;
 }
 
 .main-cta a:focus>strong{

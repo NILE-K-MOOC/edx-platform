@@ -162,6 +162,24 @@ def multisite_index(request, org):
     request.session['multisite_mode'] = 1
     request.session['multisite_org'] = org
 
+    print "request.session['multisite_mode'] -> ", request.session['multisite_mode']
+    print "request.session['multisite_org'] -> ", request.session['multisite_org']
+    print "------------------------------------"
+
+    # 강좌 개수 확인
+    with connections['default'].cursor() as cur:
+        sql = '''
+        select count(*)
+        from multisite_course a
+        join multisite b
+        on a.site_id = b.site_id
+        where b.site_code = '{0}';
+        '''.format(org)
+        cur.execute(sql)
+        zero_mode = cur.fetchall()[0][0]
+
+    # zero_mode = 0 # TEST
+
     # 로그인타입 / 등록URL / 암호화키 획득
     with connections['default'].cursor() as cur:
         sql = '''
@@ -291,9 +309,14 @@ def multisite_index(request, org):
             user = User.objects.get(pk=rows[0][0])
             user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
             login(request, user)
+
+            if zero_mode == 0:
+                request.session['multisite_zero'] = 1
+                return redirect('/')
         # 아니라면 에러페이지 리다이렉트
         else:
-            return redirect('/multisite_error?error=error007')
+            request.session['multisite_userid'] = userid
+            return redirect('/login')
 
     # Oauth 방식
     elif  login_type == 'O':
@@ -596,8 +619,6 @@ def index(request):
     # 치유의 빛이 흐릿하게 빛나며 더럽혀진 영혼이 정화됩니다.
     if 'multisite_mode' in request.session:
         del request.session['multisite_mode']
-    if 'multisite_org' in request.session:
-        del request.session['multisite_org']
 
     print "request.user.is_authenticated",request.user.is_authenticated
     if request.user.is_authenticated:
