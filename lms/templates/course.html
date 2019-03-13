@@ -18,9 +18,9 @@ from django.core.urlresolvers import reverse
     <a href="/courses/${course.id}/about" alt="${course.display_name_with_default}" title="${course.display_name_with_default}">
     -->
         <header class="course-image">
-
+                % if course.ribbon_yn == 'Y':
                 <i class="kr01-ribbonArea"><img src="/static/images/main/ribbon.png"></i>
-
+                % endif
             <div class="cover-image">
                 <span class="univ-logo">
                     <!--

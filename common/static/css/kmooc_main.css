@@ -28,8 +28,8 @@ li{
 .global-header{
   padding-bottom: 0px;
   border-bottom: 0px;
-  overflow: initial;
-    z-index: 1000;
+  overflow: visible;
+  z-index: 1000;
 }
 
 /* mobole logo */
@@ -1173,7 +1173,7 @@ input[type="radio"].toggle:checked + label {
 .kr01_bellarea .dropdown li:first-child a:hover::before {
   border-bottom-color: #EEE;
 }
-.kr01_bellarea .dropdown.hover:hover li, .kr01_bellarea .dropdown.toggle > input:checked ~ ul li {
+.kr01_bellarea .dropdown.hover li, .kr01_bellarea .dropdown.toggle > input:checked ~ ul li {
   height: 40px;
 }
 .kr01_bellarea .dropdown ul:hover , .kr01_bellarea .dropdown.toggle > input:checked ~ ul li:first-child {
@@ -1748,4 +1748,12 @@ ul.actions-dropdown-list::before {
 
 .dashboard .main-container .my-courses .course .details .enter-course {
   font-size: 14px;
+}
+
+.login-register {
+  margin: 0;
+}
+
+.login-register .section-title.lines .text {
+  font-size: 19px;
 }
