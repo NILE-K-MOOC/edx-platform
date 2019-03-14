@@ -105,6 +105,9 @@ function search(page_no) {
                 else if(data[i].memo_gubun == '6') {
                     gubun = '과제제출';
                 }
+                else{
+                    gubun = '미분류';
+                }
 
                 var memo_link = '#';
 
