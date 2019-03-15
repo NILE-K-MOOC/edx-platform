@@ -1006,7 +1006,7 @@
         "Organization Name": "\uc870\uc9c1 \uba85\uce6d",
         "Organization of the signatory": "\uc11c\uba85\uc778\uc758 \uc18c\uc18d\uae30\uad00",
         "Organization": "\uae30\uad00",
-        "Organization:": "\uae30\uad00",
+        "organization": "\uae30\uad00",
         "Other": "\uae30\ud0c0",
         "Others": "\uae30\ud0c0",
         "Page break": "\ucabd \ub098\ub204\uae30",
