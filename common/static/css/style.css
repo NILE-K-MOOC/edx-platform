@@ -1245,7 +1245,8 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
     /*text-decoration: none !important;*/
 /*}*/
 
-
+/* oauth 버튼 이미지 추가건 svg 파일로 교체 */
+/*
 .oauth2-kakao{
 	background-color: #3b1e1e !important;
 	background-image: url('/static/images/icon/kakao.png') !important;
@@ -1280,6 +1281,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	background-repeat: no-repeat !important;
 	background-size: contain !important;
 }
+*/
 
 
 
@@ -1367,7 +1369,11 @@ input:focus, button:focus, textarea:focus {
 }
 
 /* For ie */
-button.button-primary.login-provider{padding: 0 0 0 37px;}
+button.button-primary.login-provider{
+	padding: 0 0 0 33px;
+	width: 115px;
+	margin: 3px 0;
+}
 
 #calculator_input{color: #000;}
 
