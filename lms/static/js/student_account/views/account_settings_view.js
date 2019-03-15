@@ -30,7 +30,9 @@
                     tabindex: -1,
                     selected: false,
                     expanded: false
-                },
+                }
+                /*
+                ,
                 {
                     name: 'aaa',
                     id: 'aaa',
@@ -39,6 +41,7 @@
                     selected: false,
                     expanded: false
                 }
+                */
             ],
             events: {
                 'click .account-nav-link': 'switchTab',
