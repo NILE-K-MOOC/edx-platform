@@ -234,6 +234,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
+    context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
+    context['popup_image_base'] = theming_helpers.get_template_path('popup_image_base.html')
+
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
@@ -614,6 +617,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # popup zone e ----------------------------------------------------
 
     extra_context['popup_index'] = popup_index
+    context['popup_list'] = popup_contents()
     # Insert additional context for use in the template
     context.update(extra_context)
     extra_context['max_pop'] = str(max_pop[0][0])
@@ -645,6 +649,55 @@ def index_courses(user, filter_=None):
             c.audit_yn = 'N'
 
     return courses
+
+
+def popup_contents(site_code=None):
+    with connections['default'].cursor() as cur:
+        multi_query = ' JOIN multisite c' \
+            'ON a.site_id = c.site_id' \
+            'AND site_code = "{site_code}"' \
+            'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
+        query = '''
+            SELECT popup_id,
+                   popup_type,
+                   link_type,
+                   title,
+                   contents,
+                   save_path,
+                   ifnull(link_url, '#') link_url,
+                   link_target,
+                   width,
+                   height,
+                   hidden_day,
+                   a.site_id
+              FROM popup a LEFT JOIN tb_attach b ON a.image_file = b.id AND b.use_yn = 1
+              {multi_query}
+             WHERE     a.use_yn = 'Y'
+                   AND a.delete_yn != 'Y'
+                   AND date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H%i') 
+                   BETWEEN concat(start_date, ifnull(start_time,'0000'))
+                    AND concat(end_date, ifnull(end_time, '0000')) ;
+        '''.format(multi_query=multi_query)
+        cur.execute(query)
+        pop_data = cur.fetchall()
+        pop_list = list()
+        for pop in pop_data:
+            pop_dict = dict()
+            pop_dict['pop_id'] = pop[0]
+            pop_dict['popup_type'] = pop[1]
+            pop_dict['link_type'] = pop[2]
+            pop_dict['pop_title'] = pop[3]
+            pop_dict['pop_contents'] = pop[4]
+            pop_dict['img_path'] = pop[5]
+            pop_dict['link_url'] = pop[6] if pop[6] != '' else '#'
+            pop_dict['link_target'] = '_blank' if pop[7] == 'B' else '_self'
+            pop_dict['pop_width'] = pop[8]
+            pop_dict['pop_height'] = pop[9]
+            pop_dict['pop_hidden_day'] = [pop[10], pop[10] + '일간 열지 않음' if pop[10] != '0' else '다시는 열지 않음']
+            pop_dict['site_id'] = pop[11]
+
+            pop_list.append(pop_dict)
+    return pop_list
 
 
 @ensure_csrf_cookie

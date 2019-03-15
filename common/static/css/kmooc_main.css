@@ -536,6 +536,8 @@ ul.bxslider {
 .kr01_movie_slider .bx-wrapper {
   position: relative;
   margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
   *zoom: 1;
   -ms-touch-action: pan-y;

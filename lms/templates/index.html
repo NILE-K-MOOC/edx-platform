@@ -11,14 +11,14 @@ from openedx.core.djangolib.markup import HTML, Text
 <!-- Popup Area
 <div id="layerPopupArea" class="layerPopupArea" style="top:110px !important; left:148px !important; position:fixed !important; display: block;">-->
 <div id="layerPopupArea" class="layerPopupArea">
-    ${ popup_index }
-
+    % for pop in popup_list:
+        % if pop['popup_type'] == 'H' and pop['site_id'] is None:
+            <%include file="${popup_base}" args="pop=pop"/>
+        % elif pop['popup_type'] == 'I' and pop['site_id'] is None:
+            <%include file="${popup_image_base}" args="pop=pop"/>
+        % endif
+    % endfor
 </div>
-
-<script>
-    var popup_index = $('#layerPopupArea').text();
-    $('#layerPopupArea').html(popup_index);
-</script>
 
 <script type="text/javascript" src="/static/js/vendor/script.js"></script>
 
