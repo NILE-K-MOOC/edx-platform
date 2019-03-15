@@ -32,7 +32,7 @@
 
                 if(tab_gubun == 1 && $('#lock').html() != "멀티사이트 연동 계정") {
                     var subject = '<div class="account-settings-sections" id="tmp" style="margin-left:60px;margin-bottom: 20px;"><h3 id="lock" class="section-header" title="check_title_멀티사이트 연동 계정">멀티사이트 연동 계정</h3></div>' +
-                        '<div class="multisite_inner"><div>';
+                        '<div class="multisite_inner" style="display: flex"><div>';
 
                     $('.account-settings-container').append(subject);
 
