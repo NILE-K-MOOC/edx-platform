@@ -242,7 +242,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
-    total_list = []
     cur = con.cursor()
     query = """
                 (  SELECT board_id,
@@ -384,195 +383,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     cur = con.cursor()
     query = """
-            SELECT popup_id,
-                   template,
-                   popup_type,
-                   title,
-                   contents,
-                   link_url,
-                   link_target,
-                   CASE
-                      WHEN hidden_day = '1' THEN '1일간 열지 않음'
-                      WHEN hidden_day = '7' THEN '7일간 열지 않음'
-                      WHEN hidden_day = '0' THEN '다시 열지 않음'
-                   END
-                   hidden_day,
-                   width,
-                   height,
-                   CASE
-                      WHEN hidden_day = '1' THEN '1'
-                      WHEN hidden_day = '7' THEN '7'
-                      WHEN hidden_day = '0' THEN '999999'
-                   END
-                   hidden_day
-              FROM popup
-             WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
-            """
-
-    cur.execute(query)
-    row = cur.fetchall()
-    cur.close()
-    popup_index = ""
-    for index in row:
-        if (index[1] == '0'):
-            if (index[2] == "H"):
-                print('indexH.html')
-                f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexH.html", 'r')
-                while True:
-                    line = f.readline()
-                    if not line: break
-                    popup_index += str(line)
-                    popup_index = popup_index.replace("#_id", str(index[0]))
-                    popup_index = popup_index.replace("#_title", str(index[3]))
-                    popup_index = popup_index.replace("#_contents", str(index[4]))
-                    popup_index = popup_index.replace("#_link_url", str(index[5]))
-                    popup_index = popup_index.replace("#_link_target", str(index[6]))
-                    popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                    popup_index = popup_index.replace("#_width", str(index[8]))
-                    popup_index = popup_index.replace("#_height", str(index[9] - 28))
-                    popup_index = popup_index.replace("#_hidden", str(index[10]))
-                f.close()
-            elif (index[2] == "I"):
-                print('indexI.html')
-                cur = con.cursor()
-                query = """
-                        SELECT popup_id,
-                               title,
-                               contents,
-                               link_url,
-                               CASE
-                                  WHEN link_target = 'B' THEN 'blank'
-                                  WHEN link_target = 'S' THEN 'self'
-                               END
-                               link_target,
-                               CASE
-                                  WHEN hidden_day = '1' THEN '1일간 열지 않음'
-                                  WHEN hidden_day = '7' THEN '7일간 열지 않음'
-                                  WHEN hidden_day = '0' THEN '다시 열지 않음'
-                               END
-                               hidden_day,
-                               popup_type,
-                               attatch_file_name,
-                               width,
-                               height,
-                               CASE
-                                  WHEN hidden_day = '1' THEN '1'
-                                  WHEN hidden_day = '7' THEN '7'
-                                  WHEN hidden_day = '0' THEN '999999'
-                               END
-                               hidden_day,
-                               image_map,
-                               attatch_file_ext
-                          FROM popup
-                          JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
-                         WHERE popup_id = {0};
-                        """.format(index[0])
-                cur.execute(query)
-                row = cur.fetchall()
-                cur.close()
-                print 'image popup Test ============'
-                print str(index[8])
-                print str(index[9])
-                print str(index[8]) == '0'
-                print str(index[9]) == '0'
-                print 'image popup Test ============'
-                map_list = []
-                for p in row:
-                    image_map = p[10]
-                    im_arr = image_map.split('/')
-                    map_list.append(list(p + (im_arr,)))
-                for index in map_list:
-                    f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexI.html", 'r')
-                    while True:
-                        line = f.readline()
-                        if not line: break
-                        popup_index += str(line)
-                        popup_index = popup_index.replace("#_id", str(index[0]))
-                        popup_index = popup_index.replace("#_title", str(index[1]))
-                        popup_index = popup_index.replace("#_contents", str(index[2]))
-                        popup_index = popup_index.replace("#_link_url", str(index[3]))
-                        popup_index = popup_index.replace("#_link_target", str(index[4]))
-                        popup_index = popup_index.replace("#_hidden_day", str(index[5]))
-                        popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
-                        if str(index[8]) == '0':
-                            popup_index = popup_index.replace("#_img_width", 'min-width:' + str(index[8]) + 'px')
-                        else:
-                            popup_index = popup_index.replace("#_img_width", 'width:' + str(index[8]) + 'px')
-                        if str(index[9]) == '0':
-                            popup_index = popup_index.replace("#_img_height", 'min-height:' + str(index[9]) + 'px')
-                        else:
-                            popup_index = popup_index.replace("#_img_height", 'height:' + str(index[9] - 27) + 'px')
-                        popup_index = popup_index.replace("#_hidden", str(index[10]))
-                        popup_index = popup_index.replace("#_attatch_file_ext", str(index[12]))
-                        if (len(index[11]) == 1):
-                            map_str = """
-                                        <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
-                                        """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
-                            popup_index = popup_index.replace("#_not_exist", map_str)
-                            popup_index = popup_index.replace("#_exist", "")
-                        else:
-                            map_str = ""
-                            for map in index[11]:
-                                map_str += """
-                                        <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
-                                        """.format(str(map), str(index[4]), str(index[3]))
-                            popup_index = popup_index.replace("#_not_exist", "")
-                            popup_index = popup_index.replace("#_exist", map_str)
-                    f.close()
-
-
-        elif (index[1] == '1'):
-            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index1.html", 'r')
-            while True:
-                line = f.readline()
-                if not line: break
-                popup_index += str(line)
-                popup_index = popup_index.replace("#_id", str(index[0]))
-                popup_index = popup_index.replace("#_title", str(index[3]))
-                popup_index = popup_index.replace("#_contents", str(index[4]))
-                popup_index = popup_index.replace("#_link_url", str(index[5]))
-                popup_index = popup_index.replace("#_link_target", str(index[6]))
-                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9] - 83))
-                popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 125))
-                popup_index = popup_index.replace("#_hidden", str(index[10]))
-            f.close()
-        elif (index[1] == '2'):
-            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index2.html", 'r')
-            while True:
-                line = f.readline()
-                if not line: break
-                popup_index += str(line)
-                popup_index = popup_index.replace("#_id", str(index[0]))
-                popup_index = popup_index.replace("#_title", str(index[3]))
-                popup_index = popup_index.replace("#_contents", str(index[4]))
-                popup_index = popup_index.replace("#_link_url", str(index[5]))
-                popup_index = popup_index.replace("#_link_target", str(index[6]))
-                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9] - 131))
-                popup_index = popup_index.replace("#_hidden", str(index[10]))
-            f.close()
-        elif (index[1] == '3'):
-            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
-            while True:
-                line = f.readline()
-                if not line: break
-                popup_index += str(line)
-                popup_index = popup_index.replace("#_id", str(index[0]))
-                popup_index = popup_index.replace("#_title", str(index[3]))
-                popup_index = popup_index.replace("#_contents", str(index[4]))
-                popup_index = popup_index.replace("#_link_url", str(index[5]))
-                popup_index = popup_index.replace("#_link_target", str(index[6]))
-                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9] - 149))
-                popup_index = popup_index.replace("#_hidden", str(index[10]))
-            f.close()
-
-    cur = con.cursor()
-    query = """
             SELECT max(popup_id) FROM popup;
             """
     cur.execute(query)
@@ -616,8 +426,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # popup zone e ----------------------------------------------------
 
-    extra_context['popup_index'] = popup_index
     context['popup_list'] = popup_contents()
+    context['index_submenu'] = index_submenu()
     # Insert additional context for use in the template
     context.update(extra_context)
     extra_context['max_pop'] = str(max_pop[0][0])
@@ -625,6 +435,26 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
 
     return render_to_response('index.html', context)
+
+
+# index submenu 2개 조회
+def index_submenu():
+    with connections['default'].cursor() as cur:
+        query = '''
+              SELECT ifnull(detail_name, 'K-MOOC소개'), ifnull(detail_desc, '/about')
+                FROM code_detail
+               WHERE group_code = '040' AND use_yn = 'Y' AND delete_yn = 'N'
+            ORDER BY order_no
+               LIMIT 2;
+        '''
+        cur.execute(query)
+        m_data = cur.fetchall()
+        m_dict = dict()
+        m_dict['subm_title_1'] = m_data[0][0]
+        m_dict['subm_link_1'] = m_data[0][1]
+        m_dict['subm_title_2'] = m_data[1][0]
+        m_dict['subm_link_2'] = m_data[1][1]
+    return m_dict
 
 
 def index_courses(user, filter_=None):
