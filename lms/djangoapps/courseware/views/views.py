@@ -3089,7 +3089,7 @@ def schools(request):
                 org_dict['org_name'] = org[4] if lang == 'ko-kr' else org[5]
                 org_dict['org_image'] = org[6] if lang == 'ko-kr' else org[7]
 
-                if lang == 'ko-kr':
+                if org_dict['org_intro'] is not None:
                     org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict['org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
                 else:
                     org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict['org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div>'

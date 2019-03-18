@@ -954,42 +954,42 @@ class CourseFields(object):
     classfy = String(
         help=_("Select Section name"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("classfy"),
         scope=Scope.settings
     )
 
     middle_classfy = String(
         help=_("Select Section name"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("middle_classfy"),
         scope=Scope.settings
     )
 
     classfysub = String(
         help=_(u"융복합 분류인 경우 중분류를 선택하기 위해 최대 3개 입력 가능"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("classfysub"),
         scope=Scope.settings
     )
 
     middle_classfysub = String(
         help=_(u"융복합 분류인 경우 최대 3개 추가입력 가능"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("middle_classfysub"),
         scope=Scope.settings
     )
 
     linguistics = String(
         help=_("Select Section name"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("linguistics"),
         scope=Scope.settings
     )
 
     course_period = String(
         help=_("Select Period of Studing"),
         default="all",
-        display_name=_("Section"),
+        display_name=_("course_period"),
         scope=Scope.settings
     )
 

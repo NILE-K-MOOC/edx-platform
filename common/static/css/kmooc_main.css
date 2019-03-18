@@ -47,13 +47,13 @@ li{
 .kre01_top02areadepth .course-search button{float: left; background: #4185c4; border: 0px; padding: 2px 10px 5px 12px; border-radius: 0px; text-shadow: none; box-shadow: none; height: 35px;}
 
 .M_kre01_top02area .courses-container{    padding-bottom: 0px;}
-.kr01-area .content-wrapper{  margin-top: 0px;
+.kr01-area .content-wrapper{  margin-top: 0px; }
+
+.dashboard {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
-
-
 
 .home {}
 .home .courses-container{ background:#fff; }
@@ -1519,7 +1519,7 @@ article.course.none .kr01-courInfo-bar{
 
 .kr02nav {padding: 0 25px;}
 
-.kr02nav a {
+.kr02nav a, .kr02nav a:not(.btn), .kr02nav a:visited:not(.btn) {
   display: block;
   padding: 0 20px;
   line-height: inherit;
@@ -1544,6 +1544,8 @@ article.course.none .kr01-courInfo-bar{
 
 .kr02nav__submenu li a{color: #fff;}
 .kr02nav__submenu .kr02nav__submenu-item a,
+.kr02nav__submenu .kr02nav__submenu-item a:not(.btn),
+.kr02nav__submenu .kr02nav__submenu-item a:visited:not(.btn),
 .kr02nav__submenu .kr02nav__submenu-item a:not(.btn):hover,
 .kr02nav__submenu .kr02nav__submenu-item a:not(.btn):focus,
 .kr02nav__submenu .kr02nav__submenu-item a:visited:not(.btn):hover,
@@ -1715,4 +1717,35 @@ ul.actions-dropdown-list::before {
     text-align: center;
 }
 
+.view-profile .profile-self .wrapper-profile-field-account-privacy .u-field-account_privacy {
+  max-width: 1100px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+}
 
+.profile .profile-wrapper-kmooc {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.content-wrapper .course-tabs {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.page-content-container {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wiki-wrapper section.wiki .breadcrumbs-header {
+  padding: 20px 0 50px;
+}
+
+.dashboard .main-container .my-courses .course .details .enter-course {
+  font-size: 14px;
+}

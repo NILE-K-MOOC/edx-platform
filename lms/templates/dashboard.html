@@ -31,7 +31,7 @@ from student.models import CourseEnrollment
 
 <style>
     .faq-tab {
-        max-width: 600px;
+        max-width: 700px;
         margin-bottom: 0px;
     }
 
@@ -89,6 +89,12 @@ from student.models import CourseEnrollment
 
         $(".faq-tab a").click(function (e) {
             document.location.href = "dashboard?status=" + $(this).data("status");
+        });
+
+        $(".faq-tab a").each(function(){
+          if($(this).hasClass('on')){
+            $(this).children('span').append('[${len(course_entitlements + course_enrollments)}]');
+          }
         });
 
         /*
@@ -264,32 +270,32 @@ from student.models import CourseEnrollment
 
                 <nav class="faq-tab">
                     % if 'status' in request.session:
-                        <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중">${_("ing course")}
+                  <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
                           <h2 class="hidden_head">${_("ing course")}</h2>
                             <div class="progress"></div>
                         </a>
                     % else:
-                        <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중">${_("ing course")}
+                  <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
                           <h2 class="hidden_head">${_("ing course")}</h2>
                             <div class="progress"></div>
                         </a>
-                        <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌">${_("Audit Course")}
+                  <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
                           <h2 class="hidden_head">${_("Audit Course")}</h2>
                             <div class="progress"></div>
                         </a>
                     % endif
 
-                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료">${_("complete/end Course")}
+                  <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
                       <h2 class="hidden_head">${_("complete/end Course")}</h2>
                         <div class="progress"></div>
                     </a>
 
-                    <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌">${_("interest")}
+                  <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
                       <h2 class="hidden_head">${_("interest")}</h2>
                         <div class="progress"></div>
                     </a>
 
-                    <a href="#" data-status="propose" class="${'on' if status_flag == 'propose' else ''} dash-link" title="추천강좌">${_("propose(Beta)")}
+                  <a href="#" data-status="propose" class="${'on' if status_flag == 'propose' else ''} dash-link" title="추천강좌"><span>${_("propose(Beta)")}</span>
                       <h2 class="hidden_head">${_("propose(Beta)")}</h2>
                         <div class="progress"></div>
                     </a>

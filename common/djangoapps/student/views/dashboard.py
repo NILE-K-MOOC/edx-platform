@@ -768,22 +768,16 @@ def student_dashboard(request):
 
             private_info_use_yn = request.session['private_info_use_yn']
             event_join_yn = request.session['event_join_yn']
-            org_value = request.session['org_value']
-            if private_info_use_yn =='Y':
-                private_info_use_yn =1
+            org_value = request.session['org_value'] if 'org_value' in request.session else ''
+            if private_info_use_yn == 'Y':
+                private_info_use_yn = 1
             else:
-                private_info_use_yn =0
+                private_info_use_yn = 0
 
-            if event_join_yn =='Y':
+            if event_join_yn == 'Y':
                 event_join_yn = 1
             else:
                 event_join_yn = 0
-
-            if request.session['org_value'] ==None:
-                org_value =''
-            else :
-                pass
-
 
             try:
 
@@ -974,7 +968,6 @@ def student_dashboard(request):
             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
         ]
 
-
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
@@ -1003,7 +996,6 @@ def student_dashboard(request):
         c.final_day = final_day[0][0]
 
     con.close()
-
 
     context = {
         'urls': urls,
@@ -1076,8 +1068,6 @@ def student_dashboard(request):
     #     print "dashboard_ajax-----------ok"
     #     return render_to_response('dashboard_ajax.html', context)
 
-
-
     return response
 
 
@@ -1109,7 +1099,7 @@ def dashboard_course_addinfo(course_overview):
 
         if addinfo_data[1].find(',') != -1:
             teacher_len = len(addinfo_data[1].split(','))
-            info_dict['teacher_name'] = [addinfo_data[1].split(',')[0].strip(), teacher_len-1]
+            info_dict['teacher_name'] = [addinfo_data[1].split(',')[0].strip(), teacher_len - 1]
         else:
             info_dict['teacher_name'] = [addinfo_data[1].strip(), 0]
 
@@ -1247,14 +1237,13 @@ def modi_teacher_name(request):
                     """.format(addinfo_course_id, teacher_name, addinfo_user_id, addinfo_user_id)
                     cur.execute(query)
 
-
             # insert or update the teacher_name in mongodb:Il-Hee, Maeng
             # ------------------------------- add start ---------------------------------
             client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
                                  settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
             db = client.edxapp
 
-            course_id = addinfo_course_id   # request.POST.get('addinfo_course_id')
+            course_id = addinfo_course_id  # request.POST.get('addinfo_course_id')
             org = course_id.split('+')[0][10:]
             cid = course_id.split('+')[1]
             run = course_id.split('+')[2]

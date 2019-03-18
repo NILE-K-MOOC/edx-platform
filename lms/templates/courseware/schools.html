@@ -48,6 +48,8 @@ from six import string_types
         }).done(function(data){
             // csrfmiddlewaretoken: '${ csrf_token }'
             for(var i=0; i<data.org_list.length; i++){
+                console.log(data.org_list[i].logo_img);
+
                 if(data.org_list[i].start_year == '2015'){
                     $('#org_2015').append(data.org_list[i].logo_img);
                 } else if(data.org_list[i].start_year == '2016'){
