@@ -747,7 +747,7 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 
 .join-type-block dt {font-weight:700;font-size:1.625em;margin-top:1em;}
 .join-type-block dd {font-weight:700;font-size:1.125em;margin-top:1em;color:#666;}
-.join-type-block > a, .join-type-block > a:hover {display:inline-block;color:#fff;font-weight:700;font-size:1.125em;line-height:2.611em;background:#535353;padding:0 2.778em;}
+.join-type-block > a, .join-type-block > a:not(.btn), .join-type-block > a:visited:not(.btn), .join-type-block > a:hover {display:inline-block;color:#fff;font-weight:700;font-size:1.125em;line-height:2.611em;background:#535353;padding:0 2.778em;}
 
 .ipin-box {width:280px;margin:0 auto 50px auto;text-align:center;}
 .ipin-block {border:solid 1px #ceced0;background:#f9f9fa;text-align:center;padding:30px;}

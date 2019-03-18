@@ -826,6 +826,7 @@
         "Is your name on your ID readable?": "\uc2e0\ubd84\uc99d \uc0c1\uc758 \uc774\ub984\uc774 \uc77d\ud600\uc9d1\ub2c8\uae4c?",
         "Italic (Ctrl+I)": "\uae30\uc6b8\uc784 (Ctrl+I)",
         "Italic": "\uc774\ud0e4\ub9ad",
+        "Jane Doe": "\ud64d\uae38\ub3d9",
         "Justify": "\uc591\ucabd \uc815\ub82c",
         "KAISTk": "\ud55c\uad6d\uacfc\ud559\uae30\uc220\uc6d0",
         "KB": "KB",
