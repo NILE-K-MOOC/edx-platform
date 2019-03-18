@@ -694,7 +694,7 @@ div.about-side-title p {
   .similar-item {
     border: solid 1px #cccccc;
     width: 200px;
-    height: 200px;
+    height: 190px;
     margin-left: 20px;
     margin-right: 2px;
     cursor: pointer;
@@ -710,35 +710,44 @@ div.about-side-title p {
     font-size: 12px;
   }
   .item-img-size {
-    width: 200px;
+    width: 198px;
     height: 97px;
   }
   .item-status {
     background-color: #008800;
-    text-align: right;
+    text-align: left;
   }
   .item-status-text {
     color: #ffffff;
     font-size: 10px;
-    margin-right: 10px;
+    margin-left: 10px;
   }
   .item-title {
     font-weight: bold;
-    padding-top: 10px;
+    padding-top: 2px;
     padding-left: 10px;
     font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
   }
   .item-date {
     font-size: 10px;
     padding-left: 10px;
+    color: black;
   }
   .item-org {
     font-size: 10px;
     padding-left: 10px;
     margin-top: -10px;
+    color: black;
   }
   .item-greenline {
     border: solid 1px #008800;
+  }
+  .similar-none{
+    padding-left: 20px;
   }
 
   @media screen and (max-width: 768px) {
@@ -770,32 +779,40 @@ div.about-side-title p {
           <h2 class='similar-title'><i class="fa fa-star"></i>유사 강좌</h2>
 
           <div class='similar-container'>
+              % if len(similar_course) <= 1:
+              <div class="similar-none">
+                현재 강자와 유사한 강좌가 존재하지 않습니다
+              </div>
+              % endif
+
               % if similar_course != None:
                 % for item in similar_course[1:4]:
-                <div class='similar-item'>
-                  <div class='item-img'>
-                    <img class='item-img-size' src='${item["image_url"]}'>
-                  </div>
+                <a href='/courses/${item["course_id"]}/about'>
+                  <div class='similar-item'>
+                    <div class='item-img'>
+                      <img class='item-img-size' src='${item["image_url"]}'>
+                    </div>
 
-                  <div class='item-status'>
-                    <div class='item-status-text'>${item['status']}</div>
-                  </div>
+                    <div class='item-status'>
+                      <div class='item-status-text'>진행중</div>
+                    </div>
 
-                  <div class='item-title'>
-                    ${item['display_name']}
-                  </div>
+                    <div class='item-title'>
+                      ${item['display_name']}
+                    </div>
 
-                  <div class='item-date'>
-                    ${item['start']} ~ ${item['end']}
-                  </div>
+                    <div class='item-date'>
+                      ${item['start']} ~ ${item['end']}
+                    </div>
 
-                  <div class='item-org'>
-                    ${item['org']}
-                  </div>
+                    <div class='item-org'>
+                      ${item['org']}
+                    </div>
 
-                  <div class='item-greenline'>
+                    <div class='item-greenline'>
+                    </div>
                   </div>
-                </div>
+                </a>
                 % endfor
               % else:
                 <div class='similar-error'>
