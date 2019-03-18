@@ -1540,7 +1540,7 @@ def course_about(request, course_id):
                 try:
                     org = cur.fetchall()[0][0]
                 except BaseException:
-                    org = ''
+                    org = '기관없음'
 
             print "org -> ", org
             print "org -> ", org
