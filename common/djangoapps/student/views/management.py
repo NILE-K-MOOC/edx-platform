@@ -200,70 +200,77 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     if extra_context is None:
         extra_context = {}
 
+    # site_code 획득
     site_code = request.session.get('multisite_org')
+
+    # DEBUG
+    print "------------------------------------"
+    print "site_code -> ", site_code
 
     # multisite - get site code query
     with connections['default'].cursor() as cur:
-        query = """
+        query = '''
                 SELECT site_id
                 FROM   edxapp.multisite
                 WHERE  site_code = '{0}'
-            """.format(site_code)
+            '''.format(site_code)
         cur.execute(query)
         rows = cur.fetchall()
     try:
         site_id = rows[0][0]
     except BaseException:
-        site_id = None
-        course_list = []
+        return redirect('/multisite_error?error=error001')
 
     if site_id != None:
 
-        # list init
         course_list = []
         module_store = modulestore()
 
         with connections['default'].cursor() as cur:
-            query = """
-                SELECT course_id, b.audit_yn
-                FROM   edxapp.multisite_course AS a
-                       join(SELECT *
-                            FROM   (SELECT id,
-                                           display_name,
-                                           start,
-                                           end,
-                                           enrollment_start,
-                                           enrollment_end,
-                                           CASE
-                                             WHEN start > Now() THEN 1
-                                             WHEN Now() BETWEEN start AND end THEN 2
-                                             WHEN end < Now() THEN 3
-                                             ELSE 4
-                                           END AS order1,
-                                           i2.audit_yn
-                                    FROM   course_overviews_courseoverview as i1
-                                    join course_overview_addinfo as i2
-                                    on i1.id = i2.course_id
-                                    WHERE  1 = 1
-                                           AND Lower(id) NOT LIKE '%demo%'
-                                           AND Lower(id) NOT LIKE '%nile%'
-                                           AND Lower(id) NOT LIKE '%test%') t1
-                            ORDER  BY order1,
-                                      enrollment_start DESC,
-                                      start DESC,
-                                      enrollment_end DESC,
-                                      end DESC,
-                                      display_name) AS b
-                         ON a.course_id = b.id
-                         WHERE  site_id = '{0}';
-            """.format(site_id)
-
-            print query
+            query = '''
+                SELECT course_id, b.audit_yn, b.ribbon_yn, ifnull(b.teacher_name, '') as teacher_name 
+                FROM   edxapp.multisite_course AS a 
+                       JOIN(SELECT * 
+                            FROM   (
+                                SELECT id, 
+                                       display_name, 
+                                       start, 
+                                       end, 
+                                       enrollment_start, 
+                                       enrollment_end, 
+                                       CASE 
+                                         WHEN start > Now() THEN 1 
+                                         WHEN Now() BETWEEN start AND end THEN 2 
+                                         WHEN end < Now() THEN 3 
+                                         ELSE 4 
+                                       end AS order1, 
+                                       i2.audit_yn, 
+                                       i2.ribbon_yn,
+                                       i2.teacher_name
+                                FROM   course_overviews_courseoverview AS i1 
+                                JOIN course_overview_addinfo AS i2 
+                                ON i1.id = i2.course_id 
+                                WHERE  1 = 1 
+                                  AND Lower(id) NOT LIKE '%demo%' 
+                                  AND Lower(id) NOT LIKE '%nile%' 
+                                  AND Lower(id) NOT LIKE '%test%') t1 
+                                ORDER  BY order1, 
+                                      enrollment_start DESC, 
+                                      start DESC, 
+                                      enrollment_end DESC, 
+                                      end DESC, 
+                                      display_name) AS b 
+                         ON a.course_id = b.id 
+                WHERE  site_id = '{site_id}'; 
+            '''.format(site_id=site_id)
 
             cur.execute(query)
             result_table = cur.fetchall()
 
-            # mongo
+            print "result_table -> ", result_table
+            print "====================================> 강좌 상태값 연산 시작"
+
+            # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
             client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
 
             for item in result_table:
@@ -275,6 +282,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_org = data_ci[0]
                 c_course = data_ci[1]
                 c_name = data_ci[2]
+
+                print "c_org -> ", c_org
+                print "c_course -> ", c_course
+                print "c_name -> ", c_name
 
                 db = client["edxapp"]
                 cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
@@ -288,35 +299,39 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                             if block.get('fields').get('catalog_visibility'):
                                 if block.get('fields').get('catalog_visibility') == 'none':
                                     pass
-                                    #course_lock = 1
+                                    #course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
 
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                     course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                    print "course_overviews -> ", course_overviews
+                    print "------------------------------------"
+                    # 강좌에 audit / ribbon 상태 값 부여
                     course_overviews.audit_yn = item[1]
+                    course_overviews.ribbon_yn = item[2]
+
+                    if item[3].find(',') != -1:
+                        teacher_name = item[3].split(',')[0]
+                        teacher_name_cnt = len(teacher_name) - 1
+                    else:
+                        teacher_name = teacher_name
+                        teacher_name_cnt = 0
+
+                    course_overviews.teacher_name = ['','']
+                    course_overviews.teacher_name[0] = teacher_name
+                    course_overviews.teacher_name[1] = teacher_name_cnt
+
+                    print "teacher_name -> ", teacher_name
+                    print "teacher_name_cnt -> ", teacher_name_cnt
+
                     course_list.append(course_overviews)
 
-            # multisite - make course status
+            # 강좌에 상태 값 부여
             for c in course_list:
                 status = common_course_status(c.start, c.end)
                 c.status = status
-                c.teacher_name = 'aaa'
 
             context = {'courses': course_list}
-
-    """
-    courses = get_courses(user)
-
-    if configuration_helpers.get_value(
-            "ENABLE_COURSE_SORTING_BY_START_DATE",
-            settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
-    ):
-        courses = sort_by_start_date(courses)
-    else:
-        courses = sort_by_announcement(courses)
-        
-    context = {'courses': courses}
-    """
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
