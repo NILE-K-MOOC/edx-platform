@@ -82,11 +82,12 @@
 }
 
 .popup-main {
-	padding: 10px 5px;
+	padding: 0 0 10px 0;
 }
 
 .popup-header {
-	border-bottom: 1px solid #e5e5e5;
+	background: #d1eaff8c;
+    border: 1px solid #d1eaff;
 }
 
 .popup-contents {
