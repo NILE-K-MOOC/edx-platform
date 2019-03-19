@@ -3126,7 +3126,7 @@ def haewoondaex(request, org):
                    kakaostory,
                    naverblog,
                    instagram,
-                   intro_mov,
+                   ifnull(intro_mov, ''),
                    {lang_org_name}
               FROM tb_org a
                    LEFT JOIN

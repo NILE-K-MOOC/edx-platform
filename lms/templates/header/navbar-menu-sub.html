@@ -38,8 +38,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                 <ul class="kr02nav__menu">
                     <li class="kr02nav__menu-item"><a href="/about">${_("About Us")}</a></li>
                     % if 'multisite_mode' not in request.session:
-                      <li class="kr02nav__menu-item"><a href="${reverse('courses')}">${_("Courses")}</a></li>
                       <li class="kr02nav__menu-item"><a href="/schools" data-hover-label='${_("Participating Institutions")}'>${_("Participating Institutions")}</a></li>
+                      <li class="kr02nav__menu-item"><a href="${reverse('courses')}">${_("Courses")}</a></li>
                       <li class="kr02nav__menu-item"><a href="/series">${_("Series Course")}</a></li>
 
 
