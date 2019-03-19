@@ -655,6 +655,10 @@ def new_dashboard(request):
 
     user_id = request.user.id
 
+    # 로그인 유효성 검증
+    if user_id == None:
+        return redirect('/login')
+
     # 패키지 강좌 목록 조회
     with connections['default'].cursor() as cur:
         sql = '''
@@ -668,6 +672,7 @@ def new_dashboard(request):
             join code_detail c
             on a.org = c.detail_code
             where c.group_code = '003'
+            and a.use_yn = 'Y'
             ) y
             on x.series_seq = y.series_seq
             where x.user_id = '{user_id}'

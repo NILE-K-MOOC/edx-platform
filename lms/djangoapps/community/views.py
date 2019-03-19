@@ -779,9 +779,17 @@ def series_enroll(request, id):
 import urllib2
 def series_print(request, id):
 
+    # 사용자 아이디 로드 및 이수증 고유번호 생성
     user_id = request.user.id
     cert_uuid = str(uuid.uuid4()).replace('-', '')
 
+    # DEBUG
+    print "--------------------------------------------"
+    print "user_id -> ", user_id
+    print "cert_uuid -> ", cert_uuid
+    print "--------------------------------------------"
+
+    # 묶음강좌 중 마지막 이수일 로드
     with connections['default'].cursor() as cur:
         query = '''
             select max(z.created_date)
@@ -801,15 +809,18 @@ def series_print(request, id):
             ) z
             on y.id = z.course_id;
         '''.format(id=id, user_id=user_id)
+        print query
         cur.execute(query)
         cert_date = cur.fetchall()[0][0]
 
+    # 마지막 이수일 포매팅
     cert_date = (cert_date + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
 
-    print 'cert_date => ',cert_date
+    # DEBUG
+    print 'cert_date -> ', cert_date
+    print "--------------------------------------------"
 
-    #cert_date = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
-
+    # 묶음강좌 이수증 고유번호가 있는지 확인
     with connections['default'].cursor() as cur:
         query = '''
             select count(certificated_id)
@@ -820,8 +831,11 @@ def series_print(request, id):
         cur.execute(query)
         check = cur.fetchall()[0][0]
 
-    print "### check -> ", check
+    # DEBUG
+    print "check -> ", check
+    print "--------------------------------------------"
 
+    # 묶음강좌 이수증 고유번호가 없다면 고유번호 업데이트
     if check == 0:
         with connections['default'].cursor() as cur:
             query = '''
@@ -834,7 +848,8 @@ def series_print(request, id):
             '''.format(user_id=user_id, id=id, cert_uuid=cert_uuid)
             print query
             cur.execute(query)
-            check = cur.fetchall()
+
+    # 묶음강좌 이수증 고유번호가 있다면 고유번호 로드
     else:
         with connections['default'].cursor() as cur:
             query = '''
@@ -847,6 +862,11 @@ def series_print(request, id):
             cur.execute(query)
             check = cur.fetchall()
         cert_uuid = check[0][0]
+
+    # DEBUG
+    print "--------------------------------------------"
+    print "cert_uuid -> ", cert_uuid
+    print "--------------------------------------------"
 
     # 이름 / 생년월일 / 본인인증
     with connections['default'].cursor() as cur:
@@ -872,6 +892,13 @@ def series_print(request, id):
     user_birth = row1[0][1]
     user_nice = row1[0][2]
 
+    # DEBUG
+    print "before user_name -> ", user_name
+    print "before user_birth -> ", user_birth
+    print "user_nice -> ", user_nice
+    print "--------------------------------------------"
+
+    # 본인인증이 되어있다면 본인인증 데이터 로드
     if user_nice == 'Y':
         pd = row1[0][3]
         pd = json.loads(pd)
@@ -882,9 +909,19 @@ def series_print(request, id):
         pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
         user_birth = pd
 
-    # 출력일시
+    # DEBUG
+    print "after user_name -> ", user_name
+    print "after user_birth -> ", user_birth
+    print "--------------------------------------------"
+
+    # 이수증 출력일시 포매팅
     kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
     kst_short = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    # DEBUG
+    print "kst -> ", kst
+    print "kst_short -> ", kst_short
+    print "--------------------------------------------"
 
     # 묶음강좌명 / 강좌명
     with connections['default'].cursor() as cur:
@@ -900,9 +937,13 @@ def series_print(request, id):
 
     try:
         package_name = row2[0][0]
-        package_cousre =row2
+        package_cousre = row2
     except BaseException:
         return JsonResponse({"error": "There is no course in the package course."})
+
+    print "package_name -> ", package_name
+    print "package_cousre -> ", package_cousre
+    print "--------------------------------------------"
 
     # 짧은소개 / 기관
     with connections['default'].cursor() as cur:
@@ -920,7 +961,9 @@ def series_print(request, id):
     short_description = row3[0][0]
     org = row3[0][1]
 
-    print "### id -> ", id
+    print "short_description -> ", short_description
+    print "org -> ", org
+    print "--------------------------------------------"
 
     # 교수자 사인 (기관)
     with connections['default'].cursor() as cur:
@@ -996,7 +1039,7 @@ def series_print(request, id):
 
     print "sign_path_list -> ", sign_path_list
 
-# 강좌 리스
+    # 강좌 리스
     with connections['default'].cursor() as cur:
         query = '''
             select y.display_name, y.start, y.end, z.created_date, effort
