@@ -747,7 +747,7 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 
 .join-type-block dt {font-weight:700;font-size:1.625em;margin-top:1em;}
 .join-type-block dd {font-weight:700;font-size:1.125em;margin-top:1em;color:#666;}
-.join-type-block > a, .join-type-block > a:hover {display:inline-block;color:#fff;font-weight:700;font-size:1.125em;line-height:2.611em;background:#535353;padding:0 2.778em;}
+.join-type-block > a, .join-type-block > a:not(.btn), .join-type-block > a:visited:not(.btn), .join-type-block > a:hover {display:inline-block;color:#fff;font-weight:700;font-size:1.125em;line-height:2.611em;background:#535353;padding:0 2.778em;}
 
 .ipin-box {width:280px;margin:0 auto 50px auto;text-align:center;}
 .ipin-block {border:solid 1px #ceced0;background:#f9f9fa;text-align:center;padding:30px;}
@@ -1089,9 +1089,9 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 }
 
 .layerPopupArea{
-	z-index: 999;
-	top: 110px !important;
-    left: 148px !important;
+	z-index: 99999;
+	top: 45px !important;
+    left: 70px !important;
     position: fixed !important;
     display: block;
 }
@@ -1109,6 +1109,42 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 	float: left;
 }
 
+@media (max-width: 1515px) {
+	.layerPopupArea {
+		left: 50px !important;
+	}
+}
+
+@media (max-width: 1315px) {
+	.layerPopupArea {
+		left: 5px !important;
+	}
+}
+
+@media (max-width: 1200px) {
+	body.view-in-course .container {padding:0 10px;}
+	body.view-in-course .wrapper-course-material, body.view-in-course .wrapper-preview-menu {padding:0 10px;}
+}
+
+@media (max-width: 991px) {
+	.layerPopupArea {
+		top: 61px !important;
+	}
+}
+
+@media (max-width: 768px) {
+	body.view-in-course .header-global, body.view-in-course .header-global.slim, .header-global.slim {background:#fff;border-bottom:solid 2.5px #03b3e4;height:62.5px;}
+	.header-global.slim .wrapper-header .logo img {height:22px;margin-left:50px;}
+	.header-global.slim .wrapper-header .list-inline.nav-global {margin:0;}
+
+	div.info-wrapper section.updates {padding-bottom:0;padding-right:20px;}
+	div.info-wrapper section.handouts {display:block;width:100%;padding-left:20px;padding-top:0;padding-right:20px;}
+
+	section.wiki .main-article {padding-left:20px;}
+	section.wiki .article-functions {padding:40px 5px 40px 20px;}
+
+}
+
 @media (max-width: 639px) {
 	/*body{border: 1px solid red;}*/
 	.community-item {height:auto;}
@@ -1121,7 +1157,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 @media (max-width: 480px) {
 	/*body{border: 1px solid blue;}*/
 
-	.layerPopupArea{position: absolute; z-index: 999; top: 80px; left: 0px;}
+	.layerPopupArea{position: absolute; z-index: 99999; left: 0px !important;}
 	.layerPopupArea img{width:100%;}
 
 	.board-search-box {padding:0 80px;}
@@ -1185,40 +1221,6 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 .discussion.container {margin:0 auto;max-width:100%;min-width:auto;} /** 20170104 **/
 .container .discussion-body, .container .discussion-module, .container .discussion-user-threads {margin:0 auto;max-width:1200px;}
 section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
-
-@media (max-width: 1515px) {
-	.layerPopupArea {
-		left: 50px !important;
-	}
-}
-
-@media (max-width: 1315px) {
-	.layerPopupArea {
-		left: 5px !important;
-	}
-}
-
-@media (max-width: 1200px) {
-	body.view-in-course .container {padding:0 10px;}
-	body.view-in-course .wrapper-course-material, body.view-in-course .wrapper-preview-menu {padding:0 10px;}
-}
-
-@media (max-width: 768px) {
-	body.view-in-course .header-global, body.view-in-course .header-global.slim, .header-global.slim {background:#fff;border-bottom:solid 2.5px #03b3e4;height:62.5px;}
-	.header-global.slim .wrapper-header .logo img {height:22px;margin-left:50px;}
-	.header-global.slim .wrapper-header .list-inline.nav-global {margin:0;}
-
-	div.info-wrapper section.updates {padding-bottom:0;padding-right:20px;}
-	div.info-wrapper section.handouts {display:block;width:100%;padding-left:20px;padding-top:0;padding-right:20px;}
-
-	section.wiki .main-article {padding-left:20px;}
-	section.wiki .article-functions {padding:40px 5px 40px 20px;}
-
-	.layerPopupArea {
-		top: 63px !important;
-	}
-}
-
 
 .social-sharing_custom{padding: 15px 5px 5px 10px;}
 .social-sharing_custom a{font-size:1.3em; margin: 0 5px;}

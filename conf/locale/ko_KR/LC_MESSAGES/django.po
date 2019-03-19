@@ -27514,3 +27514,9 @@ msgstr "게시판 상세 내용 CSV"
 
 msgid "Profile Visibility:"
 msgstr "프로필 공개 설정:"
+
+msgid "Jane Doe"
+msgstr "홍길동"
+
+msgid "JaneDoe"
+msgstr "HongGilDong"
