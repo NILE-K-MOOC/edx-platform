@@ -1,0 +1,51 @@
+## mako
+
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+%>
+<%page args="pop" expression_filter="h"/>
+
+<div id="${pop['pop_id']}" class="popup-area" style="width: ${pop['pop_width']}px;">
+
+  <div class="popup-main">
+      <div class="popup-header">
+        <h4 class="popup-title"><b>${pop['pop_title']}</b></h4>
+      </div>
+      <div class="popup-contents">
+        <div id="contents_${pop['pop_id']}" style="display: none;">${pop['pop_contents']}</div>
+        <iframe id="frame_${pop['pop_id']}" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
+      </div>
+
+    <div class="popup-footer">
+      <label class="popup-footer-label" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">
+        <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox">
+        <span class="popup-footer-day"><b>${pop['pop_hidden_day'][1]}</b></span>
+      </label>
+      <span class="popup-footer-day popup-footer-close">
+        <a href="javascript:popClose('${pop['pop_id']}');" title="닫기"><b>[ 닫기 ]</b></a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+
+    let contents = $("#contents_${pop['pop_id']}").text();
+    contents = $.parseHTML(contents);
+
+    var $frame = $("#frame_${pop['pop_id']}");
+
+    const doc = $frame[0].contentWindow.document;
+    let $body = $('body', doc);
+    $body.html(contents);
+    setIframeHeight("frame_${pop['pop_id']}");
+
+    $(window).resize(function(){
+      setIframeHeight("frame_${pop['pop_id']}");
+    });
+  });
+
+</script>
