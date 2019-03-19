@@ -89,18 +89,35 @@ li{
 .kre01_top01area{margin: 0 auto; width: 100%; text-align: center;}
 .kre01_top01area .kr01_topTbg01{background:#eff3f6;}
 .kre01_top01area .kr01_topTh45{height: 45px;}
-.kre01_top02area{display: inline-block; padding: 48px 0px; vertical-align: middle;}
+.kre01_top02area{    padding: 48px 0px;
+    vertical-align: middle;
+    width: 100%;
+    justify-content: space-between;
+    display: flex;}
 .kre01_top02area .kre01_tlogo02{margin-right: 20px; margin-bottom: 0px;}
 .kre01_tlogo02 a{margin: 0px !important;}
 .kre01_top02area .course-search {
-  width: inherit !important;
+  width: 500px !important;
   margin-right: inherit !important;
   display: inline-block !important;
   border: 3px solid #4185c4;
+  height: 41px;
 }
 
-.kre01_top02area .course-search form label input{width: 350px; float: left;box-shadow: none;border: none;border-radius: 0px; vertical-align: middle;}
-.kre01_top02area .course-search form button{float: left; background: #4185c4; border: 0px; padding: 2px 15px 5px 15px; border-radius: 0px; text-shadow: none; box-shadow: none; height: 35px;}
+.kre01_top02area .course-search form label input{width: 447px;
+    float: left;
+    box-shadow: none;
+    border: none;
+    border-radius: 0px;
+    vertical-align: middle;}
+.kre01_top02area .course-search form button{float: right;
+    background: #4185c4;
+    border: 0px;
+    padding: 2px 15px 5px 15px;
+    border-radius: 0px;
+    text-shadow: none;
+    box-shadow: none;
+    height: 35px;}
 
 /* 가입하기 로그인 */
 .kre01_top02area > .kre01_tlogo02, .kre01_top02area > .course-search, .kre01_top02area > .secondary {float: left;}
@@ -1482,7 +1499,10 @@ input[type="radio"].toggle:checked + label {
 }
 
 .search-division, .m-search-division {
-  width: 100%; position: relative; display: flex; align-items: stretch;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: stretch;
 }
 
 .search-division label, .m-search-division label {
@@ -1784,4 +1804,11 @@ ul.actions-dropdown-list::before {
 
 .login-register .section-title.lines .text {
   font-size: 19px;
+}
+
+@media (max-width: 631px) {
+  .kr01_access ol li {
+    float: inherit;
+    margin-right: 0;
+  }
 }
