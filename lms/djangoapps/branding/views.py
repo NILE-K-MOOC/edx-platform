@@ -572,7 +572,8 @@ def multisite_index(request, org):
 
     # Oauth 방식
     elif  login_type == 'O':
-        pass
+        url = 'http://kmooc.kr/auth/login/nec/?auth_entry=login&next=%2Fmultisite%2F' + org + '%2F'
+        return redirect(url)
 
     # basic logic
     if request.user.is_authenticated:
