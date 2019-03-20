@@ -133,11 +133,11 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                   <div class="kr01-alertarea">
                       <nav class="kr01_bellarea">
                           <div class="dropdown hover">
-                              <a href="/memo" class="bgnone" title="${_('K-MOOC Notification')}">
+                              <a href="#" class="bgnone" id="memo_link" title="${_('K-MOOC Notification')}">
                                   <i><img src="/static/images/main/bell.png"></i>
                                   <span id="cnt">0</span>
                               </a>
-                              <ul id="memo_row">
+                              <ul id="memo_row" style="display: none;">
                               </ul>
                           </div>
                       </nav>
@@ -167,7 +167,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     <form method="get" action="/courses" id="main_form">
                       <div class="search-division">
                         <label><span class="sr">${_("Search for a course")}</span>
-                          <input name="search_query" class="search-query" type="text" placeholder="${_("Search for a course")}"/>
+                          <input name="search_query" class="search-query" type="text" style="z-index: 100;" placeholder="${_("Search for a course")}"/>
                         </label>
                         <button type="submit">
                           <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search.png" alt=""></span>
@@ -314,8 +314,9 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     $("#link_"+i).append('</div>');
                     $("#memo_row").append('</a></li>');
                 }
+                    $("#memo_row").append('<li><a href="/memo"><div><span style="color:#ffffff;font-weight: 500; font-size: 15px;">알림목록으로</span></div></a></li>');
             } else {
-                $("#memo_row").remove();
+                $("#memo_row").append('<li><a href="/memo"><div><span style="color:#ffffff;font-weight: 500; font-size: 15px;">알림목록으로</span></div></a></li>');
             }
 
         });
@@ -345,8 +346,14 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         })();
         // end
 
-
-
+      $('#memo_link').click(function(e){
+        e.preventDefault()
+        if($('#memo_row').is(':visible')) {
+          $('#memo_row').hide();
+        } else {
+          $('#memo_row').show();
+        }
+      });
     });
 
     function nav_resize() {

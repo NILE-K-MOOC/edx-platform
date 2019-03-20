@@ -200,70 +200,77 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     if extra_context is None:
         extra_context = {}
 
+    # site_code 획득
     site_code = request.session.get('multisite_org')
+
+    # DEBUG
+    print "------------------------------------"
+    print "site_code -> ", site_code
 
     # multisite - get site code query
     with connections['default'].cursor() as cur:
-        query = """
+        query = '''
                 SELECT site_id
                 FROM   edxapp.multisite
                 WHERE  site_code = '{0}'
-            """.format(site_code)
+            '''.format(site_code)
         cur.execute(query)
         rows = cur.fetchall()
     try:
         site_id = rows[0][0]
     except BaseException:
-        site_id = None
-        course_list = []
+        return redirect('/multisite_error?error=error001')
 
     if site_id != None:
 
-        # list init
         course_list = []
         module_store = modulestore()
 
         with connections['default'].cursor() as cur:
-            query = """
-                SELECT course_id, b.audit_yn
-                FROM   edxapp.multisite_course AS a
-                       join(SELECT *
-                            FROM   (SELECT id,
-                                           display_name,
-                                           start,
-                                           end,
-                                           enrollment_start,
-                                           enrollment_end,
-                                           CASE
-                                             WHEN start > Now() THEN 1
-                                             WHEN Now() BETWEEN start AND end THEN 2
-                                             WHEN end < Now() THEN 3
-                                             ELSE 4
-                                           END AS order1,
-                                           i2.audit_yn
-                                    FROM   course_overviews_courseoverview as i1
-                                    join course_overview_addinfo as i2
-                                    on i1.id = i2.course_id
-                                    WHERE  1 = 1
-                                           AND Lower(id) NOT LIKE '%demo%'
-                                           AND Lower(id) NOT LIKE '%nile%'
-                                           AND Lower(id) NOT LIKE '%test%') t1
-                            ORDER  BY order1,
-                                      enrollment_start DESC,
-                                      start DESC,
-                                      enrollment_end DESC,
-                                      end DESC,
-                                      display_name) AS b
-                         ON a.course_id = b.id
-                         WHERE  site_id = '{0}';
-            """.format(site_id)
-
-            print query
+            query = '''
+                SELECT course_id, b.audit_yn, b.ribbon_yn, ifnull(b.teacher_name, '') as teacher_name 
+                FROM   edxapp.multisite_course AS a 
+                       JOIN(SELECT * 
+                            FROM   (
+                                SELECT id, 
+                                       display_name, 
+                                       start, 
+                                       end, 
+                                       enrollment_start, 
+                                       enrollment_end, 
+                                       CASE 
+                                         WHEN start > Now() THEN 1 
+                                         WHEN Now() BETWEEN start AND end THEN 2 
+                                         WHEN end < Now() THEN 3 
+                                         ELSE 4 
+                                       end AS order1, 
+                                       i2.audit_yn, 
+                                       i2.ribbon_yn,
+                                       i2.teacher_name
+                                FROM   course_overviews_courseoverview AS i1 
+                                JOIN course_overview_addinfo AS i2 
+                                ON i1.id = i2.course_id 
+                                WHERE  1 = 1 
+                                  AND Lower(id) NOT LIKE '%demo%' 
+                                  AND Lower(id) NOT LIKE '%nile%' 
+                                  AND Lower(id) NOT LIKE '%test%') t1 
+                                ORDER  BY order1, 
+                                      enrollment_start DESC, 
+                                      start DESC, 
+                                      enrollment_end DESC, 
+                                      end DESC, 
+                                      display_name) AS b 
+                         ON a.course_id = b.id 
+                WHERE  site_id = '{site_id}'; 
+            '''.format(site_id=site_id)
 
             cur.execute(query)
             result_table = cur.fetchall()
 
-            # mongo
+            print "result_table -> ", result_table
+            print "====================================> 강좌 상태값 연산 시작"
+
+            # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
             client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
 
             for item in result_table:
@@ -275,6 +282,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_org = data_ci[0]
                 c_course = data_ci[1]
                 c_name = data_ci[2]
+
+                print "c_org -> ", c_org
+                print "c_course -> ", c_course
+                print "c_name -> ", c_name
 
                 db = client["edxapp"]
                 cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
@@ -288,35 +299,39 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                             if block.get('fields').get('catalog_visibility'):
                                 if block.get('fields').get('catalog_visibility') == 'none':
                                     pass
-                                    #course_lock = 1
+                                    #course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
 
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                     course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                    print "course_overviews -> ", course_overviews
+                    print "------------------------------------"
+                    # 강좌에 audit / ribbon 상태 값 부여
                     course_overviews.audit_yn = item[1]
+                    course_overviews.ribbon_yn = item[2]
+
+                    if item[3].find(',') != -1:
+                        teacher_name = item[3].split(',')[0]
+                        teacher_name_cnt = len(teacher_name) - 1
+                    else:
+                        teacher_name = teacher_name
+                        teacher_name_cnt = 0
+
+                    course_overviews.teacher_name = ['','']
+                    course_overviews.teacher_name[0] = teacher_name
+                    course_overviews.teacher_name[1] = teacher_name_cnt
+
+                    print "teacher_name -> ", teacher_name
+                    print "teacher_name_cnt -> ", teacher_name_cnt
+
                     course_list.append(course_overviews)
 
-            # multisite - make course status
+            # 강좌에 상태 값 부여
             for c in course_list:
                 status = common_course_status(c.start, c.end)
                 c.status = status
-                c.teacher_name = 'aaa'
 
             context = {'courses': course_list}
-
-    """
-    courses = get_courses(user)
-
-    if configuration_helpers.get_value(
-            "ENABLE_COURSE_SORTING_BY_START_DATE",
-            settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
-    ):
-        courses = sort_by_start_date(courses)
-    else:
-        courses = sort_by_announcement(courses)
-        
-    context = {'courses': courses}
-    """
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
@@ -392,12 +407,14 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # allow for theme override of the boards list
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
+    context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
+    context['popup_image_base'] = theming_helpers.get_template_path('popup_image_base.html')
+
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
-    total_list = []
     cur = con.cursor()
     query = """
                 (  SELECT board_id,
@@ -539,195 +556,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     cur = con.cursor()
     query = """
-            SELECT popup_id,
-                   template,
-                   popup_type,
-                   title,
-                   contents,
-                   link_url,
-                   link_target,
-                   CASE
-                      WHEN hidden_day = '1' THEN '1일간 열지 않음'
-                      WHEN hidden_day = '7' THEN '7일간 열지 않음'
-                      WHEN hidden_day = '0' THEN '다시 열지 않음'
-                   END
-                   hidden_day,
-                   width,
-                   height,
-                   CASE
-                      WHEN hidden_day = '1' THEN '1'
-                      WHEN hidden_day = '7' THEN '7'
-                      WHEN hidden_day = '0' THEN '999999'
-                   END
-                   hidden_day
-              FROM popup
-             WHERE use_yn = 'Y' and adddate(now(), INTERVAL 9 HOUR) between STR_TO_DATE(concat(start_date, start_time), '%Y%m%d%H%i') and STR_TO_DATE(concat(end_date, end_time), '%Y%m%d%H%i')
-            """
-
-    cur.execute(query)
-    row = cur.fetchall()
-    cur.close()
-    popup_index = ""
-    for index in row:
-        if (index[1] == '0'):
-            if (index[2] == "H"):
-                print('indexH.html')
-                f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexH.html", 'r')
-                while True:
-                    line = f.readline()
-                    if not line: break
-                    popup_index += str(line)
-                    popup_index = popup_index.replace("#_id", str(index[0]))
-                    popup_index = popup_index.replace("#_title", str(index[3]))
-                    popup_index = popup_index.replace("#_contents", str(index[4]))
-                    popup_index = popup_index.replace("#_link_url", str(index[5]))
-                    popup_index = popup_index.replace("#_link_target", str(index[6]))
-                    popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                    popup_index = popup_index.replace("#_width", str(index[8]))
-                    popup_index = popup_index.replace("#_height", str(index[9] - 28))
-                    popup_index = popup_index.replace("#_hidden", str(index[10]))
-                f.close()
-            elif (index[2] == "I"):
-                print('indexI.html')
-                cur = con.cursor()
-                query = """
-                        SELECT popup_id,
-                               title,
-                               contents,
-                               link_url,
-                               CASE
-                                  WHEN link_target = 'B' THEN 'blank'
-                                  WHEN link_target = 'S' THEN 'self'
-                               END
-                               link_target,
-                               CASE
-                                  WHEN hidden_day = '1' THEN '1일간 열지 않음'
-                                  WHEN hidden_day = '7' THEN '7일간 열지 않음'
-                                  WHEN hidden_day = '0' THEN '다시 열지 않음'
-                               END
-                               hidden_day,
-                               popup_type,
-                               attatch_file_name,
-                               width,
-                               height,
-                               CASE
-                                  WHEN hidden_day = '1' THEN '1'
-                                  WHEN hidden_day = '7' THEN '7'
-                                  WHEN hidden_day = '0' THEN '999999'
-                               END
-                               hidden_day,
-                               image_map,
-                               attatch_file_ext
-                          FROM popup
-                          JOIN tb_board_attach ON tb_board_attach.attatch_id = popup.image_file
-                         WHERE popup_id = {0};
-                        """.format(index[0])
-                cur.execute(query)
-                row = cur.fetchall()
-                cur.close()
-                print 'image popup Test ============'
-                print str(index[8])
-                print str(index[9])
-                print str(index[8]) == '0'
-                print str(index[9]) == '0'
-                print 'image popup Test ============'
-                map_list = []
-                for p in row:
-                    image_map = p[10]
-                    im_arr = image_map.split('/')
-                    map_list.append(list(p + (im_arr,)))
-                for index in map_list:
-                    f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/indexI.html", 'r')
-                    while True:
-                        line = f.readline()
-                        if not line: break
-                        popup_index += str(line)
-                        popup_index = popup_index.replace("#_id", str(index[0]))
-                        popup_index = popup_index.replace("#_title", str(index[1]))
-                        popup_index = popup_index.replace("#_contents", str(index[2]))
-                        popup_index = popup_index.replace("#_link_url", str(index[3]))
-                        popup_index = popup_index.replace("#_link_target", str(index[4]))
-                        popup_index = popup_index.replace("#_hidden_day", str(index[5]))
-                        popup_index = popup_index.replace("#_attatch_file_name", str(index[7]))
-                        if str(index[8]) == '0':
-                            popup_index = popup_index.replace("#_img_width", 'min-width:' + str(index[8]) + 'px')
-                        else:
-                            popup_index = popup_index.replace("#_img_width", 'width:' + str(index[8]) + 'px')
-                        if str(index[9]) == '0':
-                            popup_index = popup_index.replace("#_img_height", 'min-height:' + str(index[9]) + 'px')
-                        else:
-                            popup_index = popup_index.replace("#_img_height", 'height:' + str(index[9] - 27) + 'px')
-                        popup_index = popup_index.replace("#_hidden", str(index[10]))
-                        popup_index = popup_index.replace("#_attatch_file_ext", str(index[12]))
-                        if (len(index[11]) == 1):
-                            map_str = """
-                                        <area shape="rect" coords="0,0,{0},{1}" alt="IM" target="_{2}" href="{3}">
-                                        """.format(str(index[8]), str(index[9]), str(index[4]), str(index[3]))
-                            popup_index = popup_index.replace("#_not_exist", map_str)
-                            popup_index = popup_index.replace("#_exist", "")
-                        else:
-                            map_str = ""
-                            for map in index[11]:
-                                map_str += """
-                                        <area shape="rect" coords="{0}" alt="IM" target="_{1}" href="{2}">
-                                        """.format(str(map), str(index[4]), str(index[3]))
-                            popup_index = popup_index.replace("#_not_exist", "")
-                            popup_index = popup_index.replace("#_exist", map_str)
-                    f.close()
-
-
-        elif (index[1] == '1'):
-            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index1.html", 'r')
-            while True:
-                line = f.readline()
-                if not line: break
-                popup_index += str(line)
-                popup_index = popup_index.replace("#_id", str(index[0]))
-                popup_index = popup_index.replace("#_title", str(index[3]))
-                popup_index = popup_index.replace("#_contents", str(index[4]))
-                popup_index = popup_index.replace("#_link_url", str(index[5]))
-                popup_index = popup_index.replace("#_link_target", str(index[6]))
-                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9] - 83))
-                popup_index = popup_index.replace("#bg_top", str(int(index[9]) - 125))
-                popup_index = popup_index.replace("#_hidden", str(index[10]))
-            f.close()
-        elif (index[1] == '2'):
-            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index2.html", 'r')
-            while True:
-                line = f.readline()
-                if not line: break
-                popup_index += str(line)
-                popup_index = popup_index.replace("#_id", str(index[0]))
-                popup_index = popup_index.replace("#_title", str(index[3]))
-                popup_index = popup_index.replace("#_contents", str(index[4]))
-                popup_index = popup_index.replace("#_link_url", str(index[5]))
-                popup_index = popup_index.replace("#_link_target", str(index[6]))
-                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9] - 131))
-                popup_index = popup_index.replace("#_hidden", str(index[10]))
-            f.close()
-        elif (index[1] == '3'):
-            f = open("/edx/app/edxapp/edx-platform/common/static/popup_index/index3.html", 'r')
-            while True:
-                line = f.readline()
-                if not line: break
-                popup_index += str(line)
-                popup_index = popup_index.replace("#_id", str(index[0]))
-                popup_index = popup_index.replace("#_title", str(index[3]))
-                popup_index = popup_index.replace("#_contents", str(index[4]))
-                popup_index = popup_index.replace("#_link_url", str(index[5]))
-                popup_index = popup_index.replace("#_link_target", str(index[6]))
-                popup_index = popup_index.replace("#_hidden_day", str(index[7]))
-                popup_index = popup_index.replace("#_width", str(index[8]))
-                popup_index = popup_index.replace("#_height", str(index[9] - 149))
-                popup_index = popup_index.replace("#_hidden", str(index[10]))
-            f.close()
-
-    cur = con.cursor()
-    query = """
             SELECT max(popup_id) FROM popup;
             """
     cur.execute(query)
@@ -771,7 +599,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # popup zone e ----------------------------------------------------
 
-    extra_context['popup_index'] = popup_index
+    context['popup_list'] = popup_contents()
+    context['index_submenu'] = index_submenu()
     # Insert additional context for use in the template
     context.update(extra_context)
     extra_context['max_pop'] = str(max_pop[0][0])
@@ -779,6 +608,26 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
 
     return render_to_response('index.html', context)
+
+
+# index submenu 2개 조회
+def index_submenu():
+    with connections['default'].cursor() as cur:
+        query = '''
+              SELECT ifnull(detail_name, 'K-MOOC소개'), ifnull(detail_desc, '/about')
+                FROM code_detail
+               WHERE group_code = '040' AND use_yn = 'Y' AND delete_yn = 'N'
+            ORDER BY order_no
+               LIMIT 2;
+        '''
+        cur.execute(query)
+        m_data = cur.fetchall()
+        m_dict = dict()
+        m_dict['subm_title_1'] = m_data[0][0]
+        m_dict['subm_link_1'] = m_data[0][1]
+        m_dict['subm_title_2'] = m_data[1][0]
+        m_dict['subm_link_2'] = m_data[1][1]
+    return m_dict
 
 
 def index_courses(user, filter_=None):
@@ -803,6 +652,55 @@ def index_courses(user, filter_=None):
             c.audit_yn = 'N'
 
     return courses
+
+
+def popup_contents(site_code=None):
+    with connections['default'].cursor() as cur:
+        multi_query = ' JOIN multisite c' \
+            'ON a.site_id = c.site_id' \
+            'AND site_code = "{site_code}"' \
+            'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
+        query = '''
+            SELECT popup_id,
+                   popup_type,
+                   link_type,
+                   title,
+                   contents,
+                   save_path,
+                   ifnull(link_url, '#') link_url,
+                   link_target,
+                   width,
+                   height,
+                   hidden_day,
+                   a.site_id
+              FROM popup a LEFT JOIN tb_attach b ON a.image_file = b.id AND b.use_yn = 1
+              {multi_query}
+             WHERE     a.use_yn = 'Y'
+                   AND a.delete_yn != 'Y'
+                   AND date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H%i') 
+                   BETWEEN concat(start_date, ifnull(start_time,'0000'))
+                    AND concat(end_date, ifnull(end_time, '0000')) ;
+        '''.format(multi_query=multi_query)
+        cur.execute(query)
+        pop_data = cur.fetchall()
+        pop_list = list()
+        for pop in pop_data:
+            pop_dict = dict()
+            pop_dict['pop_id'] = pop[0]
+            pop_dict['popup_type'] = pop[1]
+            pop_dict['link_type'] = pop[2]
+            pop_dict['pop_title'] = pop[3]
+            pop_dict['pop_contents'] = pop[4]
+            pop_dict['img_path'] = pop[5]
+            pop_dict['link_url'] = pop[6] if pop[6] != '' else '#'
+            pop_dict['link_target'] = '_blank' if pop[7] == 'B' else '_self'
+            pop_dict['pop_width'] = pop[8]
+            pop_dict['pop_height'] = pop[9]
+            pop_dict['pop_hidden_day'] = [pop[10], pop[10] + '일간 열지 않음' if pop[10] != '0' else '다시는 열지 않음']
+            pop_dict['site_id'] = pop[11]
+
+            pop_list.append(pop_dict)
+    return pop_list
 
 
 @ensure_csrf_cookie

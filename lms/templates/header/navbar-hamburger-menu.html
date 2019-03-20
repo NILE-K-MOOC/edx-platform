@@ -68,15 +68,17 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
       <a class="menu-link" href="/about">${_("About Us")}</a>
     </li>
     <!-- menu-submenu accordon-content-->
+    <li id="nav3" class="toggle ">
+      <a class="menu-link" href="/schools">${_("Participating Institutions")}</a>
+    </li>
+    <!-- menu-submenu accordon-content-->
     <li id="nav2" class="toggle">
 
       <a class="menu-link" href="${reverse('courses')}">${_("Courses")}</a>
     </li>
     <!-- accordion-toggle -->
-
-    <!-- menu-submenu accordon-content-->
-    <li id="nav3" class="toggle ">
-      <a class="menu-link" href="/schools">${_("Participating Institutions")}</a>
+    <li id="nav5" class="toggle">
+      <a class="menu-link" href="/series">${_("Series Course")}</a>
     </li>
 
     % if LANGUAGE_CODE != 'en':

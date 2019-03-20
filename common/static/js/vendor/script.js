@@ -23,15 +23,20 @@ var option_2 = {
     speed: 700
 }
 $(document).ready(function () {
+    window_W = $(window).width();
     var agent = navigator.userAgent.toLowerCase();
 
     console.log("script.js :: document.ready !!!");
     console.log('browser ::' + navigator.userAgent);
 
     $(window).resize(slide_resize);
-
-    main_slider = $("#main_slider").bxSlider(option_4);
-    sub_slider = $("#sub_slider").bxSlider(option_4);
+    if(window_W <= 991){
+        main_slider = $("#main_slider").bxSlider(option_2);
+        sub_slider = $("#sub_slider").bxSlider(option_2);
+    } else {
+        main_slider = $("#main_slider").bxSlider(option_4);
+        sub_slider = $("#sub_slider").bxSlider(option_4);
+    }
 });
 
 function slide_resize() {

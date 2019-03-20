@@ -2,7 +2,7 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("Contact")}</%block>
+<%block name="pagetitle">${_("Certificate Id Check")}</%block>
 
 <%block name="js_extra">
     <script>
@@ -49,32 +49,58 @@
 </%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container">
-        <!-- [s] -->
-        <h2>${_("Completion date")}</h2>
-    
-        <section class="certification-box">
-            <div class="grid-container grid-manual">
-                <div class="row">
-                    <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
-                        <div class="certification-form">
-                            <p>${_("You can check the validity of the certifiate issued by K-MOOC")}</p>
-                            <p>${_("Please enter your authotification number at the top of your certificate")}</p>
-                            <form action="javascript:cert_check_id();">
-                                <input id="uuid" type="text" title="${_('Certificatiion ID')}" placeholder=${_("Please enter your authotification number at the top of your certificate")}>
-                                <input type="submit" value="${_('Verificating')}">
-                            </form>
+    <section class="container rule">
+        <section class="container">
+            <!-- [s] -->
+            <h2>${_("Certificate verification")}</h2>
+
+            <section class="certification-box">
+                <div class="grid-container grid-manual">
+                    <div class="row">
+                        <div class="col col-12 sm-col-12 md-col-4 lg-col-4">
+                            <div class="certification-form">
+                                <p>${_("You can check the validity of the certifiate issued by K-MOOC")}</p>
+                                <p>${_("Please enter your authotification number at the top of your certificate")}</p>
+
+                                <input type="text" id="uuid" title="${_('Certificatiion ID')}" placeholder='${_("Please enter your authotification number at the top of your certificate")}'>
+                                <a href="#" id="check"><input type="button" value="${_('Verificating')}"></a>
+
+                                <div id="check_result">
+                                    <div id="correct" style="display: none;">
+                                        <span class="icon fa fa-check" aria-hidden="true"></span>
+                                        &nbsp;<b>${_("This is valid edX certification number.")}</b>
+                                        <a href="#" id="showCert" target="_blank" style="background: #f58026;
+                                                                    font-size: 12px;
+                                                                    font-weight: bold;
+                                                                    color: white;
+                                                                    border-radius: 3px;
+                                                                    padding: 1px 10px;
+                                                                    margin: 5px;
+                                                                    vertical-align: middle;">${_("View")}</a>
+                                    </div>
+
+                                    <div id="incorrect" style="display: none;">
+                                        <span class="icon fa fa-close" aria-hidden="true"></span>
+                                        &nbsp;<b>${_("This is not valid edX certification number.")}</b>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
-                        <div class="certification-img">
-                            <img src="/static/images/contents/certification.gif" alt='${_("Certificate Sample")}'>
+                        <div class="col col-12 sm-col-12 md-col-8 lg-col-8">
+                            <div class="certification-img">
+                                <img src="/static/images/contents/certification.gif" alt='${_("Certificate Sample")}'>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <!-- [e]  -->
         </section>
-    
-        <!-- [e]  -->
     </section>
 </main>
