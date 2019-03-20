@@ -1001,7 +1001,7 @@ def _create_or_rerun_course(request):
                     fields.update({'audit_yn': audit_yn})
 
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
-
+                print "--rerun_course"
                 return JsonResponse({
                     'url': reverse_url('course_handler'),
                     'destination_course_key': unicode(destination_course_key)
@@ -1012,8 +1012,17 @@ def _create_or_rerun_course(request):
             except Exception as e:
                 print e
         else:
+
             fields.update({'audit_yn': u'Y', 'user_edit': u'N'})
-            return create_new_course(request.user, org, course, run, fields)
+            try:
+                new_course = create_new_course(request.user, org, course, run, fields)
+                return JsonResponse({
+                    'url': reverse_course_url('course_handler', new_course.id),
+                    'course_key': unicode(new_course.id),
+                })
+            except ValidationError as ex:
+                return JsonResponse({'error': text_type(ex)}, status=400)
+            #return create_new_course(request.user, org, course, run, fields)
 
     except DuplicateCourseError:
         return JsonResponse({
@@ -1168,7 +1177,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
     """
     # verify user has access to the original course
     # source_course_key = CourseKey.from_string(user.json.get('source_course_key'))
-
+    print "start rerun"
     try:
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy

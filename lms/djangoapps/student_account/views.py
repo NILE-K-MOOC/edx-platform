@@ -973,6 +973,7 @@ def account_settings_context(request):
     nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+
     lms_base = settings.ENV_TOKENS.get('NICE_RETURN_URL')
     # lms_base = 'localhost:18000'
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL

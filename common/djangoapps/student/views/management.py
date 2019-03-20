@@ -579,6 +579,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur = con.cursor()
     cur.execute(popupzone_query)
     popzone = cur.fetchall()
+    print "popzone_test",popzone
 
     # test
     pop_path = ['/static/images/main/ba01.jpg', '/static/images/main/ba02.jpg', '/static/images/main/ba03.jpg']
