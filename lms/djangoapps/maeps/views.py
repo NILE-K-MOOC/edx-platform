@@ -271,6 +271,7 @@ def certificate_print(request):
             </style>
             '''
     language_flag = request.POST.get('language_flag')
+    multisite = request.POST.get('multisite')
     checkbox1 = request.POST.get('checkbox1')
     checkbox2 = request.POST.get('checkbox2')
     checkbox3 = request.POST.get('checkbox3')
@@ -295,9 +296,9 @@ def certificate_print(request):
     certificate_date_issued2 = request.POST.get('certificate_date_issued2')
     certificate_date_issued = request.POST.get('certificate_date_issued')
 
-    print "certificate_date_issued2 -> ", certificate_date_issued2
-    print "certificate_date_issued2 -> ", certificate_date_issued2
-    print "certificate_date_issued2 -> ", certificate_date_issued2
+    print "multisite -> ", multisite
+    print "multisite -> ", multisite
+    print "multisite -> ", multisite
 
     course_key = CourseKey.from_string(course_id)
     course = modulestore().get_course(course_key)
@@ -326,6 +327,10 @@ def certificate_print(request):
 
     if language_flag == 'K':
         print_index = print_index_flag[0]
+        if multisite != '':
+            print_index = print_index.replace('${multisite}', multisite)
+        else:
+            print_index = print_index.replace('${multisite}', '')
         if (checkbox3 == 'true'):
             print_index = print_index.replace('${k_box3}', '<li id="k_box3" >총 주차 : ${course_week} 주</li>')
         else:

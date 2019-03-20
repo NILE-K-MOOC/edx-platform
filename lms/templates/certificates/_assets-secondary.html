@@ -50,9 +50,13 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         }
         window.open('','popupView','옵션');
 
+        console.log('frmPop -> ', frmPop);
+        console.log('hello -> ', $('.helloworld').html());
+
         frmPop.action = url;
         frmPop.target = 'popupView';
         frmPop.language_flag.value = language_flag;
+        frmPop.multisite.value =  $('.helloworld').html();
         frmPop.checkbox1.value = $('#checkbox1').is(':checked');
         frmPop.checkbox2.value = $('#checkbox2').is(':checked');
         frmPop.checkbox3.value = $('#checkbox3').is(':checked');
