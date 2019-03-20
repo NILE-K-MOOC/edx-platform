@@ -25,7 +25,6 @@ from util.json_request import JsonResponse
 from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 
-import pymysql
 import pymongo
 from pymongo import MongoClient
 from bson import ObjectId
@@ -67,11 +66,12 @@ def common_course_status(startDt, endDt):
 def course_api(request):
 
     #mysql
-    conn = pymysql.connect(host='docker.for.mac.localhost',
-                           user='edxapp001',
-                           password='password',
-                           db='edxapp',
-                           charset='utf8')
+    # conn = pymysql.connect(host='docker.for.mac.localhost',
+    #                        user='edxapp001',
+    #                        password='password',
+    #                        db='edxapp',
+    #                        charset='utf8')
+    conn = connections['default'].cursor()
 
     cur = conn.cursor()
     #with connections['default'].cursor() as cur:
