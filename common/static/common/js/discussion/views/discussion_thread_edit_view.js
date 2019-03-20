@@ -72,8 +72,6 @@
                     _title.forEach(function (e) {
                         var re = new RegExp(e, 'g');
 
-                        console.log(re);
-
                         // title = title.replace(re, '*'.repeat(re.length));
                         title = title.replace(re, '_'.concat(e));
                     });
