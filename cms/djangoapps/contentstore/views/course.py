@@ -1228,8 +1228,10 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
     try:
         print 'new_course.id ====> ', destination_course_key
         log.info("insert try--try.in, course_mode insert")
+        log.info("rerun_status.status", rerun_status.status)
         # 이수증 생성을 위한 course_mode 등록
         if rerun_status.status == 'SUCCESS':
+            log.info("insert try--try.in, course_mode insert ----- if in")
             with connections['default'].cursor() as cur:
                 query = """
                 INSERT INTO course_modes_coursemode(course_id,
