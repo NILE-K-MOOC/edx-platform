@@ -289,6 +289,10 @@ def certificate_print(request):
     certificate_date_issued2 = request.POST.get('certificate_date_issued2')
     certificate_date_issued = request.POST.get('certificate_date_issued')
 
+    print "certificate_date_issued2 -> ", certificate_date_issued2
+    print "certificate_date_issued2 -> ", certificate_date_issued2
+    print "certificate_date_issued2 -> ", certificate_date_issued2
+
     course_key = CourseKey.from_string(course_id)
     course = modulestore().get_course(course_key)
     preview_mode = None
