@@ -643,7 +643,8 @@ div.about-side-title p {
               href_class = "register"
           %>
           <a href="${reg_href}" class="${href_class}">
-            ${_("Enroll in {course_name}").format(course_name=course.display_number_with_default) | h}
+            ##${_("Enroll in {course_name}").format(course_name=course.display_number_with_default) | h}
+            ${_("Enrollment")}
           </a>
           <div id="register_error"></div>
         %endif
@@ -653,14 +654,14 @@ div.about-side-title p {
       % if get_course_about_section(request, course, "video"):
       <a href="#video-modal" class="media" rel="leanModal">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상" style="height: 220px;" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상"/>
           <div class="play-intro"></div>
         </div>
       </a>
     %else:
       <div class="media">
         <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지" style="height: 220px;" />
+          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지"/>
         </div>
       </div>
     % endif
