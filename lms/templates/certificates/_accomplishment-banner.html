@@ -47,6 +47,27 @@ from django.template.defaultfilters import escapejs
 
   </script>
 </%block>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+  function changeEventHandler(event) {
+    console.log(event.target.value);
+    var org = event.target.value;
+
+    if(org == '선택 없음'){
+      $('.helloworld').html('')
+    } else {
+      $.post( "/api/get_org_value", {
+        org: org
+      })
+      .done(function( data ) {
+        console.log(org + ' ' + data.result);
+        $('.helloworld').html(org + ' ID : ' + data.result)
+      });
+    }
+  }
+</script>
+
 <div id="fb-root"></div>
 <div class="wrapper-banner wrapper-banner-user">
     <section class="banner banner-user">
@@ -85,6 +106,15 @@ from django.template.defaultfilters import escapejs
                     </button>
                     %endif
 
+                    <div style="margin-bottom: 10px;">
+                      <span style="margin-right: 55px;">연계기관</span>
+                      <select name="multisite" style="color: #000000;" onchange="changeEventHandler(event);">
+                        <option>선택 없음</option>
+                        % for org in multisite:
+                        <option>${org[1]}</option>
+                        % endfor
+                      </select>
+                    </div>
 
                     <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
                     <input type="radio" name="radio" checked="checked" value="K" onclick="e_name_check(this.value)"> 한국어
@@ -95,6 +125,7 @@ from django.template.defaultfilters import escapejs
                     <input type="checkbox" id ="checkbox4"> 학습인정시간
                     <input type="checkbox" id ="checkbox2"> 총 동영상시간
                     <input type="checkbox" id ="checkbox1"> 성적
+
                     % if not preview_mode:
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button class="action action-print btn-inverse btn-small" id="action-print-view">

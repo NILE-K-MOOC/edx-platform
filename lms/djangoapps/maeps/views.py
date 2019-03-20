@@ -73,7 +73,7 @@ def certificate_print(request):
                 line-height: inherit !important;
             }
             h1, h2, h3, h4, h5 {
-                font-weight: 800!important;
+                
             }
             h6 {
                 font-size: 12px!important;
@@ -174,10 +174,10 @@ def certificate_print(request):
             }
             .ce-t-gray{
                 color:#959595!important;
-                font-size:30px!important;
+                font-size:15px!important;
             }
             .content .k_h1 {
-                font-size:60px!important;
+                font-size:50px!important;
                 margin-bottom: 46.5px!important;
                 margin-top: 36.5px!important;
             }
@@ -262,6 +262,12 @@ def certificate_print(request):
             .e_name_text {
                 margin-top: 0px!important;
             }
+            .helloworld{
+              margin-top: -15px;
+              margin-bottom: 20px;
+              font-size: 20px;
+              color: #8a8585;
+            }
             </style>
             '''
     language_flag = request.POST.get('language_flag')
@@ -288,6 +294,10 @@ def certificate_print(request):
     grade = request.POST.get('grade')
     certificate_date_issued2 = request.POST.get('certificate_date_issued2')
     certificate_date_issued = request.POST.get('certificate_date_issued')
+
+    print "certificate_date_issued2 -> ", certificate_date_issued2
+    print "certificate_date_issued2 -> ", certificate_date_issued2
+    print "certificate_date_issued2 -> ", certificate_date_issued2
 
     course_key = CourseKey.from_string(course_id)
     course = modulestore().get_course(course_key)

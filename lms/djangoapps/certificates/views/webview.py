@@ -5,11 +5,13 @@ Certificate HTML webview.
 """
 import logging
 import urllib
+import json
+import MySQLdb as mdb
+import pytz
+import urllib2
+import commands
 from datetime import datetime
 from uuid import uuid4
-import MySQLdb as mdb
-
-import pytz
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
@@ -50,9 +52,8 @@ from student.models import LinkedInAddToProfileConfiguration
 from util import organizations_helpers as organization_api
 from util.date_utils import strftime_localized
 from util.views import handle_500
-
-import commands
 from django.conf import settings
+from django.db import connections
 
 log = logging.getLogger(__name__)
 _ = translation.ugettext
@@ -134,6 +135,18 @@ def _update_certificate_context(context, course, user_certificate, platform_name
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
     enc_data = commands.getoutput(nice_command)
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select site_code, site_name
+            from multisite_member a
+            join multisite b
+            on a.site_id = b.site_id;
+        '''
+        cur.execute(query)
+        multisite = cur.fetchall()
+    context['multisite'] = multisite
+
     context['enc_data'] = enc_data
 
     # Override the defaults with any mode-specific static values
@@ -146,12 +159,12 @@ def _update_certificate_context(context, course, user_certificate, platform_name
 
     # Translators:  The format of the date includes the full name of the month
     date = display_date_for_certificate(course, user_certificate)
-    context['certificate_date_issued'] = _('{month} {day}, {year}').format(
-        month=strftime_localized(date, "%B"),
+    context['certificate_date_issued'] = _('{month}.{day}.{year}.').format(
+        month=strftime_localized(date, "%m"),
         day=date.day,
         year=date.year
     )
-    context['certificate_date_issued2'] = ('{year}년 {month}월 {day}일 ').format(
+    context['certificate_date_issued2'] = ('{year}.{month}.{day}. ').format(
         year=user_certificate.modified_date.year,
         month=user_certificate.modified_date.month,
         day=user_certificate.modified_date.day
@@ -223,12 +236,26 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['user_name'] = ''
         context['birth_date'] = ''
     else:
+        """
         nice_dict = ast.literal_eval(plain_data[0][0])
         user_name = nice_dict['UTF8_NAME']
         birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
         context['birth_date'] = birth_date[0:4]
+        """
+
+        pd = plain_data[0][0]
+        pd = json.loads(pd)
+
+        user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
+
+        pd = pd['BIRTHDATE']
+        pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+        user_birth = pd
+
+        context['user_name'] = user_name
+        context['birth_date'] = user_birth
 
     cur = con.cursor()
     query = """
