@@ -8717,7 +8717,7 @@ msgstr "CyberSource를 통해 직접 환불이 이루어집니다."
 #: lms/templates/ccx/coach_dashboard.html lms/templates/ccx/enrollment.html
 #: lms/templates/support/enrollment.html
 msgid "Enrollment"
-msgstr "수강신청"
+msgstr "수강신청하기"
 
 #: lms/djangoapps/support/views/index.py
 msgid "View and update learner enrollments."
