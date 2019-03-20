@@ -1188,6 +1188,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
         # fields['org_kname'] = None
         # fields['org_ename'] = None
     except Exception as e:
+        log.info('e-------->', e)
         print e
 
     if not has_studio_write_access(user, source_course_key):
@@ -1223,9 +1224,10 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
         rerun_status = rerun_course_task.delay(*args)
     else:
         rerun_status = rerun_course_task(*args)
-
+    log.info("insert try--start")
     try:
         print 'new_course.id ====> ', destination_course_key
+        log.info("insert try--try.in, course_mode insert")
         # 이수증 생성을 위한 course_mode 등록
         if rerun_status.status == 'SUCCESS':
             with connections['default'].cursor() as cur:
@@ -1254,7 +1256,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
             classfy = fields['classfy']
             # 기존 강좌의 청강여부 추가
             audit_yn = fields['audit_yn'] if 'audit_yn' in fields else 'Y'
-
+            log.info("insert try--try.in, addinfo insert")
             with connections['default'].cursor() as cur:
                 query = """
                     INSERT INTO course_overview_addinfo(course_id,
@@ -1283,8 +1285,12 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
                 print 'rerun_course insert -------------- ', query
                 cur.execute(query)
+                log.info("insert try--try.end")
+
 
     except Exception as e:
+        log.info("insert except -->", e)
+
         print e
 
     # # Return course listing page
@@ -1302,6 +1308,7 @@ def _rerun_course(request, org, number, run, fields):
     Returns the URL for the course listing page.
     """
     source_course_key = CourseKey.from_string(request.json.get('source_course_key'))
+    log.info("_rerun_course . start --")
 
     try:
         source_course = modulestore().get_course(source_course_key)
@@ -1343,11 +1350,11 @@ def _rerun_course(request, org, number, run, fields):
     # Rerun the course as a new celery task
     json_fields = json.dumps(fields, cls=EdxJSONEncoder)
     rerun_course.delay(unicode(source_course_key), unicode(destination_course_key), request.user.id, json_fields)
-
+    log.info("course_mode start (_rerun_course)--1")
     try:
         print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
-
+        log.info("course_mode start (_rerun_course)--2")
         with connections['default'].cursor() as cur:
             query = """
             INSERT INTO course_modes_coursemode(course_id,
