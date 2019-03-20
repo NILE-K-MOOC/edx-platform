@@ -186,16 +186,20 @@
                 url = this.model.urlFor('reply');
                 body = this.getWmdContent('comment-body');
 
-                // xss 취약점 방어 소스
-                body = String(body).replace(/script/ig, '_script');
-                body = String(body).replace(/iframe/ig, '_iframe');
-                body = String(body).replace(/xmp/ig, '_xmp');
-                body = String(body).replace(/xml/ig, '_xml');
-                body = String(body).replace(/on/ig, '_on');
+                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                var _body = body.match(pattern);
+
+                if (_body) {
+                    _body.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
+                        body = body.replace(re, '_'.concat(e));
+                    });
+                }
 
                 if (!body.trim().length) {
                     return;
                 }
+
                 this.setWmdContent('comment-body', '');
                 comment = new Comment({
                     body: body,

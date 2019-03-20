@@ -137,6 +137,21 @@
                 var newBody, url,
                     self = this;
                 newBody = this.editView.$('.edit-comment-body textarea').val();
+
+                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                var _body = newBody.match(pattern);
+
+                if (_body) {
+                    _body.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
+                        newBody = newBody.replace(re, '_'.concat(e));
+                    });
+                }
+
+                if (!body.trim().length) {
+                    return;
+                }
+
                 url = DiscussionUtil.urlFor('update_comment', this.model.id);
                 return DiscussionUtil.safeAjax({
                     $elem: $(event.target),
