@@ -1002,6 +1002,7 @@ def _create_or_rerun_course(request):
 
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
                 print "--rerun_course"
+                log.info(u'----rerun_course')
                 return JsonResponse({
                     'url': reverse_url('course_handler'),
                     'destination_course_key': unicode(destination_course_key)
@@ -1122,10 +1123,7 @@ def create_new_course(user, org, number, run, fields):
     except Exception as e:
         print "Exception = ", e
 
-    return JsonResponse({
-        'url': reverse_course_url('course_handler', new_course.id),
-        'course_key': unicode(new_course.id),
-    })
+    return new_course
 
 
 def create_new_course_in_store(store, user, org, number, run, fields):
@@ -1177,7 +1175,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
     """
     # verify user has access to the original course
     # source_course_key = CourseKey.from_string(user.json.get('source_course_key'))
-    print "start rerun"
+    log.info(u'----rerun_course.start')
     try:
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy
