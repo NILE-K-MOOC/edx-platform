@@ -812,7 +812,7 @@ ul.bxslider {
 /* main banner */
 .kr01_mainslider img{
   width: 100%;
-  max-height: 230px;
+  height: 230px;
 }
 
 /* bxslider */
@@ -1462,13 +1462,15 @@ input[type="radio"].toggle:checked + label {
 
 .kr01-mlogarea div{}
 .mlogarea{float: left;}
-.mlogarea span{float: left;}
-.mlogarea span a, .mlogarea span a:visited:not(.btn), .mlogarea span a:not(.btn){padding: 4px 13px;
+.mlogarea span{float: left;
+  width: 30%;}
+.mlogarea span a, .mlogarea span a:visited:not(.btn), .mlogarea span a:not(.btn){padding: 4px 20px;
   background: #333;
   color: #fff;
   border-radius: 50px;
   font-size: 15px;
   letter-spacing: -.7px;
+  width: 100%;
 }
 .mlogarea span a:hover{color:#fff;}
 .kr01-mlogarea02{display: inline-block;width: 100%;padding: 15px 0px 10px 0px;border-bottom: 2px solid #4486c2;}
