@@ -1,13 +1,14 @@
 /* globals _, Backbone, DiscussionTopicMenuView, DiscussionUtil, Thread */
-(function() {
+(function () {
     'use strict';
     var __hasProp = {}.hasOwnProperty,
-        __extends = function(child, parent) {
+        __extends = function (child, parent) {
             for (var key in parent) {
                 if (__hasProp.call(parent, key)) {
                     child[key] = parent[key];
                 }
             }
+
             function ctor() {
                 this.constructor = child;
             }
@@ -19,21 +20,21 @@
         };
 
     if (typeof Backbone !== 'undefined' && Backbone !== null) {
-        this.NewPostView = (function(_super) {
+        this.NewPostView = (function (_super) {
             __extends(NewPostView, _super);
 
             function NewPostView() {
                 var self = this;
-                this.updateStyles = function() {
+                this.updateStyles = function () {
                     return NewPostView.prototype.updateStyles.apply(self, arguments);
                 };
-                this.resetForm = function() {
+                this.resetForm = function () {
                     return NewPostView.prototype.resetForm.apply(self, arguments);
                 };
                 return NewPostView.__super__.constructor.apply(this, arguments);
             }
 
-            NewPostView.prototype.initialize = function(options) {
+            NewPostView.prototype.initialize = function (options) {
                 var _ref;
                 this.mode = options.mode || 'inline';
                 this.startHeader = options.startHeader;
@@ -47,7 +48,7 @@
                 this.discussionBoardView = options.discussionBoardView;
             };
 
-            NewPostView.prototype.render = function() {
+            NewPostView.prototype.render = function () {
                 var context,
                     threadTypeTemplate;
                 context = _.clone(this.course_settings.attributes);
@@ -85,19 +86,19 @@
                 return DiscussionUtil.makeWmdEditor(this.$el, $.proxy(this.$, this), 'js-post-body');
             };
 
-            NewPostView.prototype.addField = function(fieldView) {
+            NewPostView.prototype.addField = function (fieldView) {
                 return this.$('.forum-new-post-form-wrapper').append(fieldView);
             };
 
-            NewPostView.prototype.isTabMode = function() {
+            NewPostView.prototype.isTabMode = function () {
                 return this.mode === 'tab';
             };
 
-            NewPostView.prototype.getGroupOptions = function() {
+            NewPostView.prototype.getGroupOptions = function () {
                 var userGroupId;
                 if (this.course_settings.get('is_discussion_division_enabled') && DiscussionUtil.isPrivilegedUser()) {
                     userGroupId = $('#discussion-container').data('user-group-id');
-                    return _.map(this.course_settings.get('groups'), function(group) {
+                    return _.map(this.course_settings.get('groups'), function (group) {
                         return {
                             value: group.id,
                             text: group.name,
@@ -109,7 +110,7 @@
                 }
             };
 
-            NewPostView.prototype.getGroupName = function() {
+            NewPostView.prototype.getGroupName = function () {
                 var userGroupId;
                 var group;
                 var groupName = null;
@@ -118,7 +119,7 @@
                     if (!userGroupId) {
                         userGroupId = this.user_group_id;
                     }
-                    group = this.course_settings.get('groups').find(function(courseSettingsGroup) {
+                    group = this.course_settings.get('groups').find(function (courseSettingsGroup) {
                         return courseSettingsGroup.id === String(userGroupId);
                     });
                     if (group) {
@@ -130,7 +131,7 @@
             };
 
             NewPostView.prototype.events = {
-                'keypress .forum-new-post-form input:not(.wmd-input)': function(event) {
+                'keypress .forum-new-post-form input:not(.wmd-input)': function (event) {
                     return DiscussionUtil.ignoreEnterKey(event);
                 },
                 'submit .forum-new-post-form': 'createPost',
@@ -139,12 +140,12 @@
                 'click .cancel': 'cancel',
                 'click  .add-post-cancel': 'cancel',
                 'reset .forum-new-post-form': 'updateStyles',
-                'keydown .wmd-button': function(event) {
+                'keydown .wmd-button': function (event) {
                     return DiscussionUtil.handleKeypressInToolbar(event);
                 }
             };
 
-            NewPostView.prototype.toggleGroupDropdown = function($target) {
+            NewPostView.prototype.toggleGroupDropdown = function ($target) {
                 if ($target.data('divided')) {
                     $('.js-group-select').prop('disabled', false);
                     $('.js-group-select').val('').prop('selected', true);
@@ -155,7 +156,7 @@
                 }
             };
 
-            NewPostView.prototype.updateVisibilityMessage = function($target, forceDivided) {
+            NewPostView.prototype.updateVisibilityMessage = function ($target, forceDivided) {
                 var $visEl = $('#wrapper-visibility-message');
                 var visTemplate = edx.HtmlUtils.template($('#new-post-visibility-template').html());
                 var groupName = null;
@@ -166,7 +167,7 @@
                 edx.HtmlUtils.setHtml($visEl, visTemplate({group_name: groupName}));
             };
 
-            NewPostView.prototype.postOptionChange = function(event) {
+            NewPostView.prototype.postOptionChange = function (event) {
                 var $optionElem, $target;
                 $target = $(event.target);
                 $optionElem = $target.closest('.post-option');
@@ -177,7 +178,7 @@
                 }
             };
 
-            NewPostView.prototype.createPost = function(event) {
+            NewPostView.prototype.createPost = function (event) {
                 var anonymous, anonymousToPeers, body, follow, group, threadType, title, topicId, url,
                     self = this;
                 event.preventDefault();
@@ -191,20 +192,27 @@
                 topicId = this.isTabMode() ? this.topicView.getCurrentTopicId() : this.topicId;
                 url = DiscussionUtil.urlFor('create_thread', topicId);
 
-                //title
-                title = String(title).replace(/<script/ig, '_script');
-                title = String(title).replace(/<iframe/ig, '_iframe');
-                title = String(title).replace(/\.xmp/ig, '_xmp');
-                title = String(title).replace(/\.xml/ig, '_xml');
-                title = String(title).replace(/\.on/ig, '_on');
+                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                var _title = title.match(pattern);
+                var _body = body.match(pattern);
+                
+                if (_title) {
+                    _title.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
 
-                //body
-                body = String(body).replace(/<script/ig, '_script');
-                body = String(body).replace(/<iframe/ig, '_iframe');
-                body = String(body).replace(/\.xmp/ig, '_xmp');
-                body = String(body).replace(/\.xml/ig, '_xml');
-                body = String(body).replace(/\.on/ig, '_on');
+                        console.log(re);
 
+                        // title = title.replace(re, '*'.repeat(re.length));
+                        title = title.replace(re, '_'.concat(e));
+                    });
+                }
+
+                if (_body) {
+                    _body.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
+                        body = body.replace(re, '_'.concat(e));
+                    });
+                }
 
                 return DiscussionUtil.safeAjax({
                     $elem: $(event.target),
@@ -222,7 +230,7 @@
                         group_id: group
                     },
                     error: DiscussionUtil.formErrorHandler(this.$('.post-errors')),
-                    success: function(response) {
+                    success: function (response) {
                         var thread, discussionBreadcrumbsModel;
                         thread = new Thread(response.content);
                         // Update the breadcrumbs and discussion Id(s) related to current topic
@@ -242,13 +250,13 @@
                 });
             };
 
-            NewPostView.prototype.formModified = function() {
+            NewPostView.prototype.formModified = function () {
                 var postBodyHasContent = this.$('.js-post-body').find('.wmd-input').val() !== '',
                     titleHasContent = this.$('.js-post-title').val() !== '';
                 return postBodyHasContent || titleHasContent;
             };
 
-            NewPostView.prototype.cancel = function(event) {
+            NewPostView.prototype.cancel = function (event) {
                 event.preventDefault();
                 if (this.formModified()) {
                     if (!confirm(gettext('Your post will be discarded.'))) {  // eslint-disable-line no-alert
@@ -259,7 +267,7 @@
                 this.resetForm();
             };
 
-            NewPostView.prototype.resetForm = function() {
+            NewPostView.prototype.resetForm = function () {
                 var $general;
                 this.$('.forum-new-post-form')[0].reset();
                 DiscussionUtil.clearFormErrors(this.$('.post-errors'));
@@ -270,12 +278,14 @@
                 }
             };
 
-            NewPostView.prototype.updateStyles = function() {
+            NewPostView.prototype.updateStyles = function () {
                 var self = this;
-                return setTimeout(function() { return self.$('.post-option-input').trigger('change'); }, 1);
+                return setTimeout(function () {
+                    return self.$('.post-option-input').trigger('change');
+                }, 1);
             };
 
-            NewPostView.prototype.groupOptionChange = function(event) {
+            NewPostView.prototype.groupOptionChange = function (event) {
                 var $target = $(event.target),
                     data = $target.data();
                 this.group_name = this.$('.js-group-select option:selected').text();

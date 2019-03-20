@@ -1,5 +1,5 @@
 /* globals DiscussionTopicMenuView, DiscussionUtil */
-(function() {
+(function () {
     'use strict';
     if (Backbone) {
         this.DiscussionThreadEditView = Backbone.View.extend({
@@ -13,7 +13,7 @@
                 class: 'discussion-post edit-post-form'
             },
 
-            initialize: function(options) {
+            initialize: function (options) {
                 this.container = options.container || $('.thread-content-wrapper');
                 this.mode = options.mode || 'inline';
                 this.startHeader = options.startHeader;
@@ -25,7 +25,7 @@
                 return this;
             },
 
-            render: function() {
+            render: function () {
                 var formId = _.uniqueId('form-'),
                     threadTypeTemplate = edx.HtmlUtils.template($('#thread-type-template').html()),
                     $threadTypeSelector = $(threadTypeTemplate({form_id: formId}).toString()),
@@ -50,24 +50,62 @@
                 return this;
             },
 
-            addField: function($fieldView) {
+            addField: function ($fieldView) {
                 this.$('.forum-edit-post-form-wrapper').append($fieldView);
                 return this;
             },
 
-            isTabMode: function() {
+            isTabMode: function () {
                 return this.mode === 'tab';
             },
 
-            save: function() {
+            save: function () {
+
                 var title = this.$('.edit-post-title').val(),
-                    threadType = this.$('.input-radio:checked').val(),
-                    body = this.$('.edit-post-body textarea').val(),
+                    body = this.$('.edit-post-body textarea').val();
+
+                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                var _title = title.match(pattern);
+                var _body = body.match(pattern);
+
+                if (_title) {
+                    _title.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
+
+                        // title = title.replace(re, '*'.repeat(re.length));
+                        title = title.replace(re, '_'.concat(e));
+                    });
+                }
+
+                if (_body) {
+                    _body.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
+                        body = body.replace(re, '_'.concat(e));
+                    });
+                }
+
+
+                var threadType = this.$('.input-radio:checked').val(),
                     postData = {
                         title: title,
                         thread_type: threadType,
                         body: body
                     };
+
+                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                var _body = body.match(pattern);
+
+                if (_body) {
+                    _body.forEach(function (e) {
+                        var re = new RegExp(e, 'g');
+                        body = body.replace(re, '_'.concat(e));
+                    });
+                }
+
+                if (!body.trim().length) {
+                    return;
+                }
+
                 if (this.topicView) {
                     postData.commentable_id = this.topicView.getCurrentTopicId();
                 }
@@ -80,7 +118,7 @@
                     dataType: 'json',
                     data: postData,
                     error: DiscussionUtil.formErrorHandler(this.$('.post-errors')),
-                    success: function() {
+                    success: function () {
                         this.$('.edit-post-title').val('').attr('prev-text', '');
                         this.$('.edit-post-body textarea').val('').attr('prev-text', '');
                         this.$('.wmd-preview p').html('');
@@ -98,7 +136,7 @@
                 });
             },
 
-            updateHandler: function(event) {
+            updateHandler: function (event) {
                 event.preventDefault();
                 // this event is for the moment triggered and used nowhere.
                 this.trigger('thread:update', event);
@@ -106,7 +144,7 @@
                 return this;
             },
 
-            cancelHandler: function(event) {
+            cancelHandler: function (event) {
                 event.preventDefault();
                 this.trigger('thread:cancel_edit', event);
                 this.remove();
