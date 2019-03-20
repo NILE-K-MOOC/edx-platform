@@ -138,17 +138,29 @@
                     self = this;
                 newBody = this.editView.$('.edit-comment-body textarea').val();
 
-                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                var pattern_list = ['<script', '<iframe', ' FSCommand', ' onAbort', ' onActivate', ' onAfterPrint', ' onAfterUpdate', ' onBeforeActivate', ' onBeforeCopy', ' onBeforeCut',
+                    ' onBeforeDeactivate', ' onBeforeEditFocus', ' onBeforePaste', ' onBeforePrint', ' onBeforeUnload', ' onBeforeUpdate', ' onBegin', ' onBlur', ' onBounce', ' onCellChange',
+                    ' onChange', ' onClick', ' onContextMenu', ' onControlSelect', ' onCopy', ' onCut', ' onDataAvailable', ' onDataSetChanged', ' onDataSetComplete', ' onDblClick', ' onDeactivate',
+                    ' onDrag', ' onDragEnd', ' onDragLeave', ' onDragEnter', ' onDragOver', ' onDragDrop', ' onDragStart', ' onDrop', ' onEnd', ' onError', ' onErrorUpdate', ' onFilterChange',
+                    ' onFinish', ' onFocus', ' onFocusIn', ' onFocusOut', ' onHashChange', ' onHelp', ' onInput', ' onKeyDown', ' onKeyPress', ' onKeyUp', ' onLayoutComplete', ' onLoad',
+                    ' onLoseCapture', ' onMediaComplete', ' onMediaError', ' onMessage', ' onMouseDown', ' onMouseEnter', ' onMouseLeave', ' onMouseMove', ' onMouseOut', ' onMouseOver', ' onMouseUp',
+                    ' onMouseWheel', ' onMove', ' onMoveEnd', ' onMoveStart', ' onOffline', ' onOnline', ' onOutOfSync', ' onPaste', ' onPause', ' onPopState', ' onProgress', ' onPropertyChange',
+                    ' onReadyStateChange', ' onRedo', ' onRepeat', ' onReset', ' onResize', ' onResizeEnd', ' onResizeStart', ' onResume', ' onReverse', ' onRowsEnter', ' onRowExit', ' onRowDelete',
+                    ' onRowInserted', ' onScroll', ' onSeek', ' onSelect', ' onSelectionChange', ' onSelectStart', ' onStart', ' onStop', ' onStorage', ' onSyncRestored', ' onSubmit', ' onTimeError',
+                    ' onTrackChange', ' onUndo', ' onUnload', ' onURLFlip', ' seekSegmentTime'];
+
+                var pattern = new RegExp(pattern_list.join('|'), 'ig');
+
                 var _body = newBody.match(pattern);
 
                 if (_body) {
                     _body.forEach(function (e) {
                         var re = new RegExp(e, 'g');
-                        newBody = newBody.replace(re, '_'.concat(e));
+                        newBody = newBody.replace(re, e.slice(0, e.length - 1).concat('*'));
                     });
                 }
 
-                if (!body.trim().length) {
+                if (!newBody.trim().length) {
                     return;
                 }
 
