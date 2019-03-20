@@ -1227,62 +1227,62 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
     try:
         print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
-        if rerun_status.status == 'SUCCESS':
-            with connections['default'].cursor() as cur:
-                query = """
-                INSERT INTO course_modes_coursemode(course_id,
-                                                    mode_slug,
-                                                    mode_display_name,
-                                                    min_price,
-                                                    currency,
-                                                    suggested_prices,
-                                                    expiration_datetime_is_explicit)
-                     VALUES ('{0}',
-                             'honor',
-                             '{0}',
-                             0,
-                             'usd',
-                             '',
-                             FALSE);
-                """.format(destination_course_key)
-                print '_create_new_course.query :', query
 
-                cur.execute(query)
+        with connections['default'].cursor() as cur:
+            query = """
+            INSERT INTO course_modes_coursemode(course_id,
+                                                mode_slug,
+                                                mode_display_name,
+                                                min_price,
+                                                currency,
+                                                suggested_prices,
+                                                expiration_datetime_is_explicit)
+                 VALUES ('{0}',
+                         'honor',
+                         '{0}',
+                         0,
+                         'usd',
+                         '',
+                         FALSE);
+            """.format(destination_course_key)
+            print '_create_new_course.query :', query
 
-            user_id = user.id
-            middle_classfy = fields['middle_classfy']
-            classfy = fields['classfy']
-            # 기존 강좌의 청강여부 추가
-            audit_yn = fields['audit_yn'] if 'audit_yn' in fields else 'Y'
+            cur.execute(query)
 
-            with connections['default'].cursor() as cur:
-                query = """
-                    INSERT INTO course_overview_addinfo(course_id,
-                                                        create_year,
-                                                        course_no,
-                                                        regist_id,
-                                                        regist_date,
-                                                        modify_id,
-                                                        middle_classfy,
-                                                        classfy,
-                                                        audit_yn)
-                         VALUES ('{course_id}',
-                                 date_format(now(), '%Y'),
-                                 (SELECT count(*)
-                                      FROM course_overviews_courseoverview
-                                     WHERE   display_number_with_default = '{course_number}'
-                                          AND org = '{org}'),
-                                 '{user_id}',
-                                 now(),
-                                 '{user_id}',
-                                 '{middle_classfy}',
-                                 '{classfy}',
-                                 '{audit_yn}');
-                """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org,
-                           audit_yn=audit_yn)
+        user_id = user.id
+        middle_classfy = fields['middle_classfy']
+        classfy = fields['classfy']
+        # 기존 강좌의 청강여부 추가
+        audit_yn = fields['audit_yn'] if 'audit_yn' in fields else 'Y'
 
-                print 'rerun_course insert -------------- ', query
-                cur.execute(query)
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_overview_addinfo(course_id,
+                                                    create_year,
+                                                    course_no,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    middle_classfy,
+                                                    classfy,
+                                                    audit_yn)
+                     VALUES ('{course_id}',
+                             date_format(now(), '%Y'),
+                             (SELECT count(*)
+                                  FROM course_overviews_courseoverview
+                                 WHERE   display_number_with_default = '{course_number}'
+                                      AND org = '{org}'),
+                             '{user_id}',
+                             now(),
+                             '{user_id}',
+                             '{middle_classfy}',
+                             '{classfy}',
+                             '{audit_yn}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org,
+                       audit_yn=audit_yn)
+
+            print 'rerun_course insert -------------- ', query
+            cur.execute(query)
 
     except Exception as e:
         print e
