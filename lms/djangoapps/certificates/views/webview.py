@@ -5,11 +5,13 @@ Certificate HTML webview.
 """
 import logging
 import urllib
+import json
+import MySQLdb as mdb
+import pytz
+import urllib2
+import commands
 from datetime import datetime
 from uuid import uuid4
-import MySQLdb as mdb
-
-import pytz
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
@@ -50,8 +52,6 @@ from student.models import LinkedInAddToProfileConfiguration
 from util import organizations_helpers as organization_api
 from util.date_utils import strftime_localized
 from util.views import handle_500
-
-import commands
 from django.conf import settings
 from django.db import connections
 
@@ -236,12 +236,26 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['user_name'] = ''
         context['birth_date'] = ''
     else:
+        """
         nice_dict = ast.literal_eval(plain_data[0][0])
         user_name = nice_dict['UTF8_NAME']
         birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
         context['birth_date'] = birth_date[0:4]
+        """
+
+        pd = plain_data[0][0]
+        pd = json.loads(pd)
+
+        user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
+
+        pd = pd['BIRTHDATE']
+        pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+        user_birth = pd
+
+        context['user_name'] = user_name
+        context['birth_date'] = user_birth
 
     cur = con.cursor()
     query = """
