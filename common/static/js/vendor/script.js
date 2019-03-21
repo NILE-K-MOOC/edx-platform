@@ -11,7 +11,8 @@ var option_4 = {
   maxSlides: 4,
   slideMargin: 0,
   slideWidth: 270,
-  speed: 700
+  speed: 700,
+  pager: false,
 }
 
 var option_2 = {
@@ -22,7 +23,8 @@ var option_2 = {
   maxSlides: 2,
   slideMargin: 0,
   slideWidth: 270,
-  speed: 700
+  speed: 700,
+  pager: true,
 }
 
 var option_3 = {
@@ -33,7 +35,8 @@ var option_3 = {
   maxSlides: 3,
   slideMargin: 0,
   slideWidth: 270,
-  speed: 700
+  speed: 700,
+  pager: true,
 }
 
 var option_1 = {
@@ -44,7 +47,8 @@ var option_1 = {
   maxSlides: 1,
   slideMargin: 0,
   slideWidth: 422,
-  speed: 700
+  speed: 700,
+  pager: true,
 }
 
 $(window).load(function () {
@@ -53,6 +57,22 @@ $(window).load(function () {
 
   console.log("script.js :: document.ready !!!");
   console.log('browser ::' + navigator.userAgent);
+  console.log('kr01_mainslider size check:::  ' + $('.kr01_mainslider').size());
+  $('.kr01_mainslider').bxSlider({
+    mode: 'horizontal',
+    auto: true,
+    autoHover: true,
+    captions: true,
+    controls: true,
+    pager: ($('.kr01_mainslider li').length > 1) ? true : false,
+    // slideWidth: 1730
+  });
+
+  var option_list = [option_1, option_2, option_3, option_4];
+
+  for(var i=0; i < option_list.length; i++) {
+    option_list[i].pager = ($("#main_slider li").length > option_list[i].maxSlides) ? true : false;
+  }
 
   $(window).resize(slide_resize);
   if(window_W <= 471) {
@@ -68,16 +88,6 @@ $(window).load(function () {
     main_slider = $("#main_slider").bxSlider(option_4);
     sub_slider = $("#sub_slider").bxSlider(option_4);
   }
-  console.log('kr01_mainslider size check:::  ' + $('.kr01_mainslider').size());
-  $('.kr01_mainslider').bxSlider({
-    mode: 'horizontal',
-    auto: true,
-    autoHover: true,
-    captions: true,
-    controls: true,
-
-    // slideWidth: 1730
-  });
 });
 
 function slide_resize() {

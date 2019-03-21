@@ -566,11 +566,11 @@ def index(request, extra_context=None, user=AnonymousUser()):
     popupzone_query = """
               SELECT seq,
                      title,
-                     ifnull(concat('/static/file_upload/', attatch_file_name, '.', attatch_file_ext), '')
+                     ifnull(save_path, '')
                         image_file,
                      link_url,
                      link_target
-                FROM popupzone a LEFT JOIN tb_board_attach b ON a.image_file = b.attatch_id
+                FROM popupzone a LEFT JOIN tb_attach b ON a.image_file = b.id
                WHERE     concat(start_date, start_time) <=
                          date_format(now(), '%Y%m%d%H%i%s')
                      AND concat(end_date, end_time) >= date_format(now(), '%Y%m%d%H%i%s')
@@ -590,7 +590,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         popzone_dict['title'] = zone[1]
         image_idx = zone[2].find('/static')
         if image_idx == -1:
-            popzone_dict['image_file'] = pop_path[idx]
+            popzone_dict['image_file'] = pop_path[2]
         else:
             popzone_dict['image_file'] = zone[2][image_idx:]
         popzone_dict['link_url'] = zone[3]

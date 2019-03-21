@@ -211,13 +211,13 @@ if (
                     <div class="kr01_mainslider_area" style="margin: 0 auto; margin-top: 15px;">
                         <ul class="kr01_mainslider">
                             % if popzone_list:
-                            % for pop in popzone_list:
-                            <li><a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
-                                <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}"/>
-                            </a></li>
-                            % endfor
+                                % for pop in popzone_list:
+                                <li><a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
+                                    <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}"/>
+                                </a></li>
+                                % endfor
                             % else:
-                            <li><a href="/about"><img src="/static/images/main/ba03" alt="${_('About Us')}"/></a></li>
+                            <li><a href="/about"><img src="/static/images/main/ba03.jpg" alt="${_('About Us')}"/></a></li>
                             % endif
                         </ul>
                     </div>
