@@ -516,34 +516,37 @@ def getLoginAPIdecrypto(email):
         if cnt_flag:
             if cnt_count > 0:
                 sql = """
-                    select
-                        case 
-                        when is_staff = '1' 
-                        then 1
-                        else 
-                            case 
-                            when is_staff = '0' and cnt1 = '1' 
-                            then 1
-                            else
-                                case 
-                                when is_staff = '0' and cnt2 = '1' 
-                                then 2
-                                else 0
-                                end
-                            end
-                        end is_staff
+                    select 
+                    case 
+                        when is_staff = 1
+                        then 1 
+                        when is_staff = 0 and instructor > 0
+                        then 2
+                        else 0
+                    end is_staff
                     from (
-                                select 
-                                        b.is_staff is_staff
-                                        ,case when role = 'staff' and count(*) > 0 then '1' else '0' end  cnt1
-                                ,case when role = 'instructor' and count(*) > 0 then '1' else '0' end cnt2
-                                from student_courseaccessrole a 
-                                           left outer join (
-                                               select id, is_staff from auth_user
-                                               where email = \'{email}\'
-                                               ) b on a.user_id = b.id
-                                where a.user_id = b.id
-                    ) tb
+                        select id, is_staff
+                        from auth_user
+                        where email = '{email}'
+                    ) x
+                    join (
+                        select a.id, role, count(*) as staff
+                        from auth_user a
+                        join student_courseaccessrole b
+                        on a.id = b.user_id
+                        where a.email = '{email}'
+                        and role = 'staff'
+                    ) y
+                    on x.id = y.id
+                    join (
+                        select a.id, role, count(*) as instructor
+                        from auth_user a
+                        join student_courseaccessrole b
+                        on a.id = b.user_id
+                        where a.email = '{email}'
+                        and role = 'instructor'
+                    ) z
+                    on x.id = z.id;
                 """.format(email=email)
 
         logging.info('sql2 ------ %s', sql)
@@ -627,16 +630,16 @@ def user_ora_exists_check(seqid):
 
         # get one row
         query = """
-                    SELECT
-                         USER_ID
-                        ,NVL(USER_KN,\'\') USER_KN
-                        ,NVL(USER_EN,\'\') USER_EN
-                        ,NVL(ORGTX_DIV,\'\') ORGTX_DIV
-                        ,NVL(DEPT_NM,\'\') DEPT_NM
-                        ,NVL(POSN_NM,\'\') POSN_NM
-                    FROM MERP.VW_USER_IM
-                    WHERE USER_ID = \'{seqid}\'
-                    AND   ROWNUM = 1
+                  SELECT
+                     USER_ID
+                    ,NVL(USER_NM,'') USER_NM
+                    ,NVL(USER_ENG_NM,'') USER_ENG_NM
+                    ,NVL(DIV_NM,'') DIV_NM
+                    ,NVL(DEPT_NM,'') DEPT_NM
+                    ,NVL(CLSF_NM,'') CLSF_NM
+                  FROM XAM_ADM.T_XAM_USER_INFO01M1
+                  WHERE USER_ID = '{seqid}'
+                  AND   ROWNUM = 1
                 """.format(seqid=seqid)
 
         # WFUSER.VW_HISTORY_SWA
