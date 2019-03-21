@@ -3135,18 +3135,16 @@ def haewoondaex(request, org):
                    LEFT JOIN
                    (SELECT id, save_path
                       FROM tb_attach
-                     WHERE use_yn = TRUE AND group_name = '{lang_top}' AND group_id = '{org}') b
-                      ON a.top_img = b.id
+                     WHERE use_yn = TRUE) b
+                      ON (case when '{lang}' = 'ko-kr' then a.top_img else ifnull(a.top_img_e, a.top_img) end) = b.id
                    LEFT JOIN
                    (SELECT id, save_path
                       FROM tb_attach
-                     WHERE     use_yn = TRUE
-                           AND group_name = '{lang_subtitle}'
-                           AND group_id = '{org}') d
-                      ON a.intro_subtitle = d.id
+                     WHERE     use_yn = TRUE) d
+                      ON (case when '{lang}' = 'ko-kr' then a.intro_subtitle else ifnull(a.intro_subtitle_e, a.intro_subtitle) end) = d.id
                    JOIN code_detail c ON a.org_id = c.detail_code AND group_code = '003'
              WHERE org_id = '{org}' AND a.delete_yn = FALSE AND a.use_yn = TRUE;
-        '''.format(lang_subtitle=lang_subtitle, lang_org_name=lang_org_name, lang_top=lang_top, org=org)
+        '''.format(lang=lang, lang_org_name=lang_org_name, org=org)
 
         print query
         cur.execute(query)
