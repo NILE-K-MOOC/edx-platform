@@ -1078,8 +1078,8 @@ def dashboard_course_addinfo(course_overview):
             SELECT course_id,
                    ifnull(teacher_name, ''),
                    ifnull(course_level, 'Not applicable'),
-                   b.classfy,
-                   c.middle_classfy
+                   ifnull(b.classfy, ''),
+                   ifnull(c.middle_classfy, '')
               FROM course_overview_addinfo a
                    LEFT JOIN (SELECT detail_code, detail_ename classfy
                                 FROM code_detail

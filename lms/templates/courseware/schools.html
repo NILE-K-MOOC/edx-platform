@@ -14,7 +14,8 @@ from six import string_types
 
 <%inherit file="../main.html" />
 <style>
-  .univ-list-top {position:relative;background:url(/static/images/contents/univ_top.jpg) center center no-repeat;background-size:cover;height:270px;}
+  .univ-list-top {position:relative;background:url(/static/images/contents/univ_top.jpg) center center no-repeat;background-size:cover;
+      margin-top: 5px;}
   .univ-list-top-txt {display:table;width:100%;height:100%;text-align:Center;color:#fff;}
   .univ-list-top-txt > div  {display:table-cell;vertical-align:middle;}
   .univ-list-top-txt h2 {color:#fff;font-weight:400;border:0;padding-bottom:0;line-height:1em;}
@@ -69,16 +70,16 @@ from six import string_types
 <title>${_("Participating Institutions")}</title>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container">
-        <!-- [s]  -->
-        <div class="univ-list-top" style="height: 180px; font-family: 'Open Sans' !important;">
-            <div class="univ-list-top-txt">
-                <div>
-                        <b><p style="font-size: 200%">K-MOOC와 함께하는 참여기관을 소개합니다.</p></b>
-                        <b><p>K-MOOC는 <span id="org_cnt">89</span>개의 국내 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다.</p></b>
-                </div>
+    <div class="univ-list-top" style="height: 180px; font-family: 'Open Sans' !important;">
+        <div class="univ-list-top-txt">
+            <div>
+                <b><p style="font-size: 200%">K-MOOC와 함께하는 참여기관을 소개합니다.</p></b>
+                <b><p>K-MOOC는 <span id="org_cnt">89</span>개의 국내 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다.</p></b>
             </div>
         </div>
+    </div>
+    <section class="container">
+        <!-- [s]  -->
 
         <div id="org_2015" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black">(2015~${_("Present")}) ${_("Participating Institutions")}<hr></div>
         <div id="org_2016" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black">(2016~${_("Present")}) ${_("Participating Institutions")}<hr></div>
