@@ -571,9 +571,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      link_url,
                      link_target
                 FROM popupzone a LEFT JOIN tb_attach b ON a.image_file = b.id
-               WHERE     concat(start_date, start_time) <=
-                         date_format(now(), '%Y%m%d%H%i%s')
-                     AND concat(end_date, end_time) >= date_format(now(), '%Y%m%d%H%i%s')
+               WHERE date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H:%i') 
+                   BETWEEN concat(start_date, ifnull(start_time,'00:00'))
+                    AND concat(end_date, ifnull(end_time, '00:00'))
             ORDER BY end_date ASC, start_date ASC;
         """
     cur = con.cursor()
