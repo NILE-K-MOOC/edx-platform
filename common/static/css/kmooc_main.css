@@ -138,10 +138,10 @@ li{
 
 .kre01_joinarea > div{ float: left; }
 .kre01_joinarea > .nav-item > a{font-size: 12px; padding:3px; border: none;}
-.kr01 .courses-container{background:#fff; padding-bottom: 0px; margin-top: 20px;}
+.kr01 .courses-container{background:#fff; padding-bottom: 0px;}
 .kr01_explain{display: none;}
 
-.kr01_fivemenu{display: inline-block; width: 100%; text-align: center; margin-bottom: 20px;}
+.kr01_fivemenu{display: inline-block; width: 100%; text-align: center;}
 .kr01_fivemenu ul li{ margin-bottom: 0px;}
 .kr01_fivemenu .fivemenarea li:last-child{border-right: 0px;}
 .kr01_fivemenu .fivemenarea li div, .kr01_fivemenu02 .fivemenarea li div{text-align: center;}
