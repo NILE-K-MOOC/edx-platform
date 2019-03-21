@@ -695,16 +695,17 @@ def user_ora_human_update(rnn_go):
 
         # get one row
         query = """
-                    SELECT
-                         USER_ID
-                        ,NVL(USER_KN,\'\') USER_KN
-                        ,NVL(USER_EN,\'\') USER_EN
-                        ,NVL(ORGTX_DIV,\'\') ORGTX_DIV
-                        ,NVL(DEPT_NM,\'\') DEPT_NM
-                        ,NVL(POSN_NM,\'\') POSN_NM
-                    FROM MERP.VW_USER_IM
-                    ORDER BY USER_ID ASC
-                """
+                          SELECT
+                             USER_ID
+                            ,NVL(USER_NM,'') USER_NM
+                            ,NVL(USER_ENG_NM,'') USER_ENG_NM
+                            ,NVL(DIV_NM,'') DIV_NM
+                            ,NVL(DEPT_NM,'') DEPT_NM
+                            ,NVL(CLSF_NM,'') CLSF_NM
+                          FROM XAM_ADM.T_XAM_USER_INFO01M1
+                          ORDER BY USER_ID ASC
+                        """
+
 
         # MERP.VW_USER_IM
         logging.info('query: %s', query)
