@@ -678,9 +678,9 @@ def popup_contents(site_code=None):
               {multi_query}
              WHERE     a.use_yn = 'Y'
                    AND a.delete_yn != 'Y'
-                   AND date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H%i') 
-                   BETWEEN concat(start_date, ifnull(start_time,'0000'))
-                    AND concat(end_date, ifnull(end_time, '0000')) ;
+                   AND date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H:%i') 
+                   BETWEEN concat(start_date, ifnull(start_time,'00:00'))
+                    AND concat(end_date, ifnull(end_time, '00:00')) ;
         '''.format(multi_query=multi_query)
         cur.execute(query)
         pop_data = cur.fetchall()
