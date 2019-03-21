@@ -1188,6 +1188,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
         # fields['org_kname'] = None
         # fields['org_ename'] = None
     except Exception as e:
+        log.info('e-------->', e)
         print e
 
     if not has_studio_write_access(user, source_course_key):
@@ -1225,66 +1226,66 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
         rerun_status = rerun_course_task(*args)
 
     try:
-        print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
-        if rerun_status.status == 'SUCCESS':
-            with connections['default'].cursor() as cur:
-                query = """
-                INSERT INTO course_modes_coursemode(course_id,
-                                                    mode_slug,
-                                                    mode_display_name,
-                                                    min_price,
-                                                    currency,
-                                                    suggested_prices,
-                                                    expiration_datetime_is_explicit)
-                     VALUES ('{0}',
-                             'honor',
-                             '{0}',
-                             0,
-                             'usd',
-                             '',
-                             FALSE);
-                """.format(destination_course_key)
-                print '_create_new_course.query :', query
+        with connections['default'].cursor() as cur:
+            query = """
+            INSERT INTO course_modes_coursemode(course_id,
+                                                mode_slug,
+                                                mode_display_name,
+                                                min_price,
+                                                currency,
+                                                suggested_prices,
+                                                expiration_datetime_is_explicit)
+                 VALUES ('{0}',
+                         'honor',
+                         '{0}',
+                         0,
+                         'usd',
+                         '',
+                         FALSE);
+            """.format(destination_course_key)
+            print '_create_new_course.query :', query
+            cur.execute(query)
 
-                cur.execute(query)
+        user_id = user.id
+        middle_classfy = fields['middle_classfy']
+        classfy = fields['classfy']
+        # 기존 강좌의 청강여부 추가
+        audit_yn = fields['audit_yn'] if 'audit_yn' in fields else 'Y'
 
-            user_id = user.id
-            middle_classfy = fields['middle_classfy']
-            classfy = fields['classfy']
-            # 기존 강좌의 청강여부 추가
-            audit_yn = fields['audit_yn'] if 'audit_yn' in fields else 'Y'
+        with connections['default'].cursor() as cur:
+            query = """
+                INSERT INTO course_overview_addinfo(course_id,
+                                                    create_year,
+                                                    course_no,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    middle_classfy,
+                                                    classfy,
+                                                    audit_yn)
+                     VALUES ('{course_id}',
+                             date_format(now(), '%Y'),
+                             (SELECT count(*)
+                                  FROM course_overviews_courseoverview
+                                 WHERE   display_number_with_default = '{course_number}'
+                                      AND org = '{org}'),
+                             '{user_id}',
+                             now(),
+                             '{user_id}',
+                             '{middle_classfy}',
+                             '{classfy}',
+                             '{audit_yn}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org,
+                       audit_yn=audit_yn)
 
-            with connections['default'].cursor() as cur:
-                query = """
-                    INSERT INTO course_overview_addinfo(course_id,
-                                                        create_year,
-                                                        course_no,
-                                                        regist_id,
-                                                        regist_date,
-                                                        modify_id,
-                                                        middle_classfy,
-                                                        classfy,
-                                                        audit_yn)
-                         VALUES ('{course_id}',
-                                 date_format(now(), '%Y'),
-                                 (SELECT count(*)
-                                      FROM course_overviews_courseoverview
-                                     WHERE   display_number_with_default = '{course_number}'
-                                          AND org = '{org}'),
-                                 '{user_id}',
-                                 now(),
-                                 '{user_id}',
-                                 '{middle_classfy}',
-                                 '{classfy}',
-                                 '{audit_yn}');
-                """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org,
-                           audit_yn=audit_yn)
+            print 'rerun_course insert -------------- ', query
+            cur.execute(query)
 
-                print 'rerun_course insert -------------- ', query
-                cur.execute(query)
+
 
     except Exception as e:
+
         print e
 
     # # Return course listing page
@@ -1302,6 +1303,7 @@ def _rerun_course(request, org, number, run, fields):
     Returns the URL for the course listing page.
     """
     source_course_key = CourseKey.from_string(request.json.get('source_course_key'))
+    log.info("_rerun_course . start --")
 
     try:
         source_course = modulestore().get_course(source_course_key)
@@ -1343,11 +1345,11 @@ def _rerun_course(request, org, number, run, fields):
     # Rerun the course as a new celery task
     json_fields = json.dumps(fields, cls=EdxJSONEncoder)
     rerun_course.delay(unicode(source_course_key), unicode(destination_course_key), request.user.id, json_fields)
-
+    log.info("course_mode start (_rerun_course)--1")
     try:
         print 'new_course.id ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
-
+        log.info("course_mode start (_rerun_course)--2")
         with connections['default'].cursor() as cur:
             query = """
             INSERT INTO course_modes_coursemode(course_id,
