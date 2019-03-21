@@ -170,7 +170,7 @@ def index(request):
 
                 logging.info('%s Confirm decoding: usekey= %s, memid= %s', 'views.py def index step 9', upk[0], upk[1])
 
-                r = requests.get(MOBIS_SSO_CHECK_URL, params=payload)
+                r = requests.get(MOBIS_SSO_CHECK_URL, params=payload, verify=False)
                 res = r.text.upper()
 
                 if not pass_chk:
