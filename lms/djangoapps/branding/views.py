@@ -690,7 +690,13 @@ def new_dashboard(request):
         tmp_dict['series_seq'] = temp[0]
         tmp_dict['series_id'] = temp[1]
         tmp_dict['series_name'] = temp[2]
-        tmp_dict['save_path'] = temp[3]
+        
+        # /static/file_upload/series/674b84e0fbc94c688024216fdb3815c1.png
+        # /static/upload/674b84e0fbc94c688024216fdb3815c1
+        save_path = temp[3]
+        save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
+        tmp_dict['save_path'] = save_path
+
         tmp_dict['detail_name'] = temp[4]
 
         with connections['default'].cursor() as cur:
