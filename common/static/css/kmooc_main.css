@@ -852,6 +852,7 @@ ul.bxslider {
   max-width: 100%;
   display: block;
   min-height: 120px !important;
+  max-height: 200px !important;
 }
 
 /** THEME
@@ -867,8 +868,9 @@ ul.bxslider {
   border: solid #fff 5px;
   left: -5px;
   background: #fff;*/
-  height: 200px;
+  /*height: 200px;*/
   min-height: 120px !important;
+  max-height: 230px !important;
 }
 
 .kr01_mainslider_area .bx-wrapper .bx-controls-auto {
@@ -2005,6 +2007,10 @@ div.book-wrapper {
 
 .kr01_movie_slider {
   visibility: hidden;
+}
+
+a.btn.btn-primary.action-resume-course:hover span {
+  color: #fff;
 }
 
 @media (max-width: 631px) {
