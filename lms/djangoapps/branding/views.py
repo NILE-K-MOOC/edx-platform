@@ -690,7 +690,7 @@ def new_dashboard(request):
         tmp_dict['series_seq'] = temp[0]
         tmp_dict['series_id'] = temp[1]
         tmp_dict['series_name'] = temp[2]
-        
+
         # /static/file_upload/series/674b84e0fbc94c688024216fdb3815c1.png
         # /static/upload/674b84e0fbc94c688024216fdb3815c1
         save_path = temp[3]
