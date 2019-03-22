@@ -2014,6 +2014,10 @@ a.btn.btn-primary.action-resume-course:hover span {
   color: #fff;
 }
 
+html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
+  font-size: 13px;
+}
+
 @media (max-width: 631px) {
   .kr01_access ol li {
     float: inherit;
