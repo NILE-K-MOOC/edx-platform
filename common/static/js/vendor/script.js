@@ -10,9 +10,11 @@ var option_4 = {
   minSlides: 4,
   maxSlides: 4,
   slideMargin: 0,
-  slideWidth: 270,
+  slideWidth: 290,
   speed: 700,
   pager: false,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 var option_2 = {
@@ -22,9 +24,11 @@ var option_2 = {
   minSlides: 2,
   maxSlides: 2,
   slideMargin: 0,
-  slideWidth: 270,
+  slideWidth: 290,
   speed: 700,
   pager: true,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 var option_3 = {
@@ -34,9 +38,11 @@ var option_3 = {
   minSlides: 3,
   maxSlides: 3,
   slideMargin: 0,
-  slideWidth: 270,
+  slideWidth: 290,
   speed: 700,
   pager: true,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 var option_1 = {
@@ -49,6 +55,8 @@ var option_1 = {
   slideWidth: 422,
   speed: 700,
   pager: true,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 $(window).load(function () {
@@ -62,9 +70,16 @@ $(window).load(function () {
     mode: 'horizontal',
     auto: true,
     autoHover: true,
-    captions: true,
     controls: true,
+    nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+    prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
     pager: ($('.kr01_mainslider li').length > 1) ? true : false,
+    onSliderLoad: function(currentIndex) {
+      $(".slider-txt").html($('.kr01_mainslider li').eq(currentIndex).find("img").attr("alt"));
+    },
+    onSlideBefore: function($slideElement, oldIndex, newIndex) {
+      $(".kr01_mainslider_captions .slider-txt").html($slideElement.find("img").attr("alt"));
+    }
     // slideWidth: 1730
   });
 

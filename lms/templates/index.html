@@ -202,7 +202,7 @@ if (
 </style>
 <!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
 
-<main id="main" aria-label="Content" tabindex="-1">
+<main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="kr01">
       <header>
         <div class="kr01_outer-wrapper">
@@ -213,11 +213,19 @@ if (
                             % if popzone_list:
                                 % for pop in popzone_list:
                                 <li><a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
-                                    <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}" onerror="this.src='/static/images/blank.png'"/>
-                                </a></li>
+                                    ##<img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}" onerror="this.src='/static/images/blank.png'"/>
+                                    <img src="/static/images/main/ba03.jpg" alt="${pop['title']}" title="${pop['title']}" onerror="this.src='/static/images/blank.png'"/>
+                                </a>
+                                    <div class="kr01_mainslider_captions">
+                                        <span class="slider-txt"></span>
+                                    </div>
+                                </li>
                                 % endfor
                             % else:
-                            <li><a href="/about"><img src="/static/images/main/ba03.jpg" alt="${_('About Us')}"/></a></li>
+                            <li><a href="/about"><img src="/static/images/main/ba03.jpg" alt="${_('About Us')}"/></a>
+                                <div class="kr01_mainslider_captions">
+                                    <span class="slider-txt">${_('About Us')}</span>
+                                </div></li>
                             % endif
                         </ul>
                     </div>
@@ -288,13 +296,13 @@ if (
                         <li class="kr01_f04">
                             <div>
                                 <a href="${index_submenu['subm_link_1']}" class="fivemenarea-sub">
-                                    <i class="fa fa-bullhorn"></i>
+                                    <i class="fa fa-book"></i>
                                     <span>${index_submenu['subm_title_1']}</span>
                                 </a>
                             </div>
                             <div>
                                 <a href="${index_submenu['subm_link_2']}" class="fivemenarea-sub">
-                                    <i class="fa fa-bullhorn"></i>
+                                    <i class="fa fa-book"></i>
                                     <span>${index_submenu['subm_title_2']}</span>
                                 </a>
                             </div>

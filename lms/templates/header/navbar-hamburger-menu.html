@@ -42,13 +42,13 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     <span class="kr01-mlogarea">
     % if not user.is_authenticated:
 	    <div class="mlogarea mlogin">
-        <span>
+        <span class="mlogin-span">
 		    	<a href="/login${login_query()}">${_("Sign In")}</a>
 		    </span>
       </div>
     </span>
     % else:
-      <div class="mlogarea">
+      <div class="mlogarea mlogout">
 			  <span>
 				  <a href="${reverse('logout')}">${_("Sign Out")}</a>
 			  </span>
