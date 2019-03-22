@@ -79,7 +79,6 @@
                     page_size: this.pageSize,
                     page_index: pageIndex
                 };
-                console.log(this)
                 _.extend(data, this.terms);
 
                 /* 대분류 검사 */
@@ -112,9 +111,24 @@
                  * range=t : 진행예정 강의
                  */
                 var range = this.getTermParameter('range');
-                if(range){
+                var fourth_industry_yn = this.getTermParameter('fourth');
+                var job_edu_yn = this.getTermParameter('job');
+                var ribbon_yn = this.getTermParameter('ribbon');
 
+                if(range){
                     _.extend(data, {'range': range});
+                }
+
+                if(fourth_industry_yn || fourth_industry_yn === 'Y'){
+                    _.extend(data, {'fourth_industry_yn': 'Y'});
+                }
+
+                if(job_edu_yn || job_edu_yn === 'Y'){
+                    _.extend(data, {'job_edu_yn': 'Y'});
+                }
+
+                if(ribbon_yn || ribbon_yn === 'Y'){
+                    _.extend(data, {'ribbon_yn': 'Y'});
                 }
 
                 return data;
@@ -134,6 +148,7 @@
             },
 
             onSync: function(collection, response, options) {
+
                 var total = this.discovery.get('totalCount');
                 var originalSearchTerm = this.searchTerm;
                 if (options.data.page_index === 0) {
@@ -169,8 +184,10 @@
 
         // lazy load
             cachedDiscovery: function() {
+
                 var deferred = $.Deferred();
                 var self = this;
+
 
                 if (this.cached) {
                     deferred.resolveWith(this, [this.cached]);
