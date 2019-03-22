@@ -6,20 +6,20 @@
 <%block name="js_extra">
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".kmooc-tab a").each(function(index){
+        $(".faq-tab a").each(function(index){
             $(this).click(function(e){
                 //alert(index + ":" + $(this).hasClass('on'));
                 if(index == 0){
                     e.preventDefault();
                     $("#kmooc01").show();
                     $("#kmooc02").hide();
-                    $(".kmooc-tab a").removeClass("on");
+                    $(".faq-tab a").removeClass("on");
                     $(this).addClass("on");
                 }else{
                     e.preventDefault();
                     $("#kmooc01").hide();
                     $("#kmooc02").show();
-                    $(".kmooc-tab a").removeClass("on");
+                    $(".faq-tab a").removeClass("on");
                     $(this).addClass("on");
                 }
             });
@@ -59,11 +59,12 @@
 </%block>
 
 <section class="container kmooc">
-
-    <nav class="kmooc-tab">
-        <a href="#" class="on" title="소개">소개</a>
-        <a href="#" title="추진체계">추진체계</a>
-    </nav>
+    <div class="kmooc-about-tab">
+        <nav class="faq-tab">
+            <a href="#" class="dash-link on" title="소개">소개</a>
+            <a href="#" class="dash-link" title="추진체계">추진체계</a>
+        </nav>
+    </div>
     <!-- 소개 -->
     <section class="kmooc-box" id="kmooc01">
         <h2 style="color: white;" id="main">소개</h2>
