@@ -663,7 +663,7 @@ def new_dashboard(request):
     # 패키지 강좌 목록 조회
     with connections['default'].cursor() as cur:
         sql = '''
-            select y.series_seq, y.series_id, y.series_name, concat(y.save_path,'.',y.ext) as save_path, y.detail_name
+            select y.series_seq, y.series_id, y.series_name, y.save_path, y.detail_name
             from series_student x
             join (
             select a.series_seq, a.series_id, a.series_name, b.save_path, b.ext, c.detail_name
