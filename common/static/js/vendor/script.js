@@ -13,6 +13,8 @@ var option_4 = {
   slideWidth: 290,
   speed: 700,
   pager: false,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 var option_2 = {
@@ -25,6 +27,8 @@ var option_2 = {
   slideWidth: 290,
   speed: 700,
   pager: true,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 var option_3 = {
@@ -37,6 +41,8 @@ var option_3 = {
   slideWidth: 290,
   speed: 700,
   pager: true,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 var option_1 = {
@@ -49,6 +55,8 @@ var option_1 = {
   slideWidth: 422,
   speed: 700,
   pager: true,
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
 }
 
 $(window).load(function () {
@@ -63,9 +71,8 @@ $(window).load(function () {
     auto: true,
     autoHover: true,
     controls: true,
-    nextText: '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
-    prevText: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
-    // slideHeight: 200,
+    nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
+    prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
     pager: ($('.kr01_mainslider li').length > 1) ? true : false,
     onSliderLoad: function(currentIndex) {
       $(".slider-txt").html($('.kr01_mainslider li').eq(currentIndex).find("img").attr("alt"));
