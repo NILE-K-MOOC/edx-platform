@@ -10,6 +10,8 @@ $(document).ready(function(){
 $(document).on('change', '#sel_email', function(){
     if($('#sel_email option:selected').attr('id') != 'direct' && $('#sel_email option:selected').attr('id') != 'null'){
         $('#email_txt').attr('disabled', 'true');
+        a = $('#sel_email').val();
+        $('#email_txt').val(a);
     }else if($('#sel_email option:selected').attr('id') == 'direct'){
         $('#email_txt').removeAttr('disabled').focus();
     }
@@ -22,6 +24,7 @@ $(document).on('click', '#request', function(){
     var email = '';
     if($('#sel_email option:selected').attr('id') != 'direct' && $('#sel_email option:selected').attr('id') != 'null'){
         sel_email = $('#sel_email option:selected').val();
+        
         email = $('#email').val()+'@'+sel_email;
     }else if($('#sel_email option:selected').attr('id') == 'direct'){
         sel_email = $('#email_txt').val();

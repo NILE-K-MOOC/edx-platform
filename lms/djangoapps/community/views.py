@@ -387,16 +387,14 @@ def series(request):
         query = '''
             SELECT a.series_seq,
                    a.series_name,
-                   b.attach_file_path,
-                   b.attatch_file_name,
-                   attatch_file_ext,
+                   ifnull(b.save_path, ''),
                    ifnull(c.detail_name, '-'),
                    ifnull(a.short_description, ''),
                    ifnull(a.org, ''),
                    ifnull(series_cnt, 0)
               FROM edxapp.series AS a
-                   LEFT JOIN edxapp.tb_board_attach AS b
-                      ON a.sumnail_file_id = b.attatch_id
+                   LEFT JOIN edxapp.tb_attach AS b
+                      ON a.sumnail_file_id = b.id AND b.use_yn = TRUE
                    LEFT JOIN code_detail c
                       ON a.org = c.detail_code AND group_code = '003'
                    LEFT JOIN
@@ -417,13 +415,11 @@ def series(request):
             row_dict = dict()
             row_dict['series_seq'] = row[0]
             row_dict['series_name'] = row[1]
-            row_dict['attach_file_path'] = row[2]
-            row_dict['attatch_file_name'] = row[3]
-            row_dict['attatch_file_ext'] = row[4]
-            row_dict['detail_name'] = row[5]
-            row_dict['short_description'] = row[6]
-            row_dict['org'] = row[7]
-            row_dict['series_cnt'] = row[8]
+            row_dict['save_path'] = row[2]
+            row_dict['detail_name'] = row[3]
+            row_dict['short_description'] = row[4]
+            row_dict['org'] = row[5]
+            row_dict['series_cnt'] = row[6]
             row_dict['logo_path'] = ''
             series_list.append(row_dict)
     except Exception as e:

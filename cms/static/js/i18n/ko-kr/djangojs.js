@@ -2048,6 +2048,12 @@
         "Create an Account.": "회원가입",
         "Sign In": "로그인",
         "Are you sure you want to unenroll from %(courseName)s (%(courseNumber)s)?": "%(courseName)s (%(courseNumber)s) \uac15\uc88c\uc758 \uc218\uac15\uc2e0\uccad\uc744 \ucde8\uc18c \ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c\u003f",
+        "fourth_industry_yn": "4차 산업혁명 여부",
+        "job_edu_yn": "직업교육 여부",
+        "linguistics_y":"한국학",
+        "fourth_industry_y":"4차 산업혁명",
+        "job_edu_y":"직업교육",
+        "etc":"기타 분류",
 
     };
 

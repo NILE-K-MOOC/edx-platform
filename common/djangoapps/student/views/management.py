@@ -581,16 +581,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
     popzone = cur.fetchall()
     print "popzone_test",popzone
 
-    # test
-    pop_path = ['/static/images/main/ba01.jpg', '/static/images/main/ba02.jpg', '/static/images/main/ba03.jpg']
-
     popzone_list = list()
     for idx, zone in enumerate(popzone):
         popzone_dict = dict()
         popzone_dict['title'] = zone[1]
         image_idx = zone[2].find('/static')
         if image_idx == -1:
-            popzone_dict['image_file'] = pop_path[2]
+            popzone_dict['image_file'] = '/static/images/blank.png'
         else:
             popzone_dict['image_file'] = zone[2][image_idx:]
         popzone_dict['link_url'] = zone[3]

@@ -149,8 +149,7 @@ function series_enroll(series_flag){
                 type: 'POST',
             }).done(function(data){
                 if(data.msg == 'success'){
-                    alert('신청 완료');
-                    // location.href = '#';
+                    location.href = '/new_dashboard';
                 } else {
                     alert('오류가 발생하였습니다.');
                 }
