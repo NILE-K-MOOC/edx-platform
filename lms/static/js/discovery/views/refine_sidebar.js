@@ -32,8 +32,8 @@
                 else if (key == 'middle_classfy' || key == 'middle_classfysub') {
                     return gettext("Sub classified by");
                 }
-                else if (key == 'linguistics') {
-                    return gettext("Linguistics by");
+                else if (key == 'linguistics' || key == 'fourth_industry_yn' || key == 'job_edu_yn') {
+                    return gettext("etc");
                 }
                 else if (key == 'course_period') {
                     return gettext("Period of Studing");
@@ -141,12 +141,15 @@
                         }
                     }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn') {
+
+                        console.log('--------------------------------------------------> ' + data.facet + ":" + data.term);
+
                         if (data.facet == 'fourth_industry_yn' && data.term == 'Y') {
-                            data.name = this.termName(data.facet, gettext("fourth_industry_y"));
+                            data.name = this.termName('etc', gettext("fourth_industry_y"));
                         } else if (data.facet == 'job_edu_yn' && data.term == 'Y') {
-                            data.name = this.termName(data.facet, gettext("job_edu_y"));
+                            data.name = this.termName('etc', gettext("job_edu_y"));
                         } else if (data.facet == 'linguistics' && data.term == 'Y') {
-                            data.name = this.termName(data.facet, gettext("linguistics_y"));
+                            data.name = this.termName('etc', gettext("linguistics_y"));
                         }
                     }
                     else {
