@@ -1453,70 +1453,70 @@ def course_about(request, course_id):
         print "payload -> ", payload
         print "headers -> ", headers
 
-        # try:
-        r = requests.post(url, data=payload, headers=headers)
-        logging.info(r.text)
-        logging.info(r.text)
-        logging.info(r.text)
-        data = json.loads(r.text)
+        try:
+            r = requests.post(url, data=payload, headers=headers)
+            logging.info(r.text)
+            logging.info(r.text)
+            logging.info(r.text)
+            data = json.loads(r.text)
 
-        print "data -> ", data
+            print "data -> ", data
 
-        # 유사강좌 -> 데이터 파싱
-        similar_course = []
-        for result in data['results']:
-            course_dict = {}
-            course_id = result['_id']
-            image_url = result['data']['image_url']
-            org = result['data']['org']
-            display_name = result['data']['content']['display_name']
+            # 유사강좌 -> 데이터 파싱
+            similar_course = []
+            for result in data['results']:
+                course_dict = {}
+                course_id = result['_id']
+                image_url = result['data']['image_url']
+                org = result['data']['org']
+                display_name = result['data']['content']['display_name']
 
-            try:
-                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-                start = start.strftime('%Y-%m-%d')
-            except BaseException:
-                start = '0000-00-00'
-
-            try:
-                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
-                end = end.strftime('%Y-%m-%d')
-            except BaseException:
-                end = '0000-00-00'
-
-            with connections['default'].cursor() as cur:
-                query = '''
-                    select detail_name
-                    from code_detail
-                    where group_code = '003'
-                    and detail_code = '{org}'
-                '''.format(org=org)
-                print "---------------------------------"
-                print query
-                print "---------------------------------"
-                cur.execute(query)
                 try:
-                    org = cur.fetchall()[0][0]
+                    start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                    start = start.strftime('%Y-%m-%d')
                 except BaseException:
-                    org = '기관없음'
+                    start = '0000-00-00'
 
-            print "org -> ", org
-            print "org -> ", org
-            print "org -> ", org
+                try:
+                    end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                    end = end.strftime('%Y-%m-%d')
+                except BaseException:
+                    end = '0000-00-00'
 
-            course_dict['course_id'] = course_id
-            course_dict['image_url'] = image_url
-            course_dict['org'] = org
-            course_dict['display_name'] = display_name
-            course_dict['start'] = start
-            course_dict['end'] = end
-            course_dict['status'] = status
-            similar_course.append(course_dict)
-        """
+                with connections['default'].cursor() as cur:
+                    query = '''
+                        select detail_name
+                        from code_detail
+                        where group_code = '003'
+                        and detail_code = '{org}'
+                    '''.format(org=org)
+                    print "---------------------------------"
+                    print query
+                    print "---------------------------------"
+                    cur.execute(query)
+                    try:
+                        org = cur.fetchall()[0][0]
+                    except BaseException:
+                        org = '기관없음'
+
+                print "org -> ", org
+                print "org -> ", org
+                print "org -> ", org
+
+                course_dict['course_id'] = course_id
+                course_dict['image_url'] = image_url
+                course_dict['org'] = org
+                course_dict['display_name'] = display_name
+                course_dict['start'] = start
+                course_dict['end'] = end
+                course_dict['status'] = status
+                similar_course.append(course_dict)
+
         except BaseException as err:
-            similar_course = None
+            similar_course = []
             log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
             log.info(err)
-        """
+
         print "len(similar_course) -> ", len(similar_course)
         context = {
             'similar_course': similar_course,  # 유사강좌
