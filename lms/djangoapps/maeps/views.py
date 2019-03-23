@@ -361,7 +361,7 @@ def certificate_print(request):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
         else:
-            print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_k + '</p></b>')
+            print_index = print_index.replace('${logo_area}', '<b><p style="border: solid 3px blue" class="ce-logo1">' + org_name_k + '</p></b>')
     elif language_flag == 'E':
         print_index = print_index_flag[1]
         if (checkbox3 == 'true'):
@@ -396,7 +396,7 @@ def certificate_print(request):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
         else:
-            print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_e + '</p></b>')
+            print_index = print_index.replace('${logo_area}', '<b><p style="border: solid 3px blue" class="ce-logo1">' + org_name_e + '</p></b>')
     print_index = print_index.replace('${certificate_id_number}', certificate_id_number)
     print_index = print_index.replace('${created_date}', created_date)
     if nice_check_flag == '0':

@@ -54,6 +54,9 @@ from util.date_utils import strftime_localized
 from util.views import handle_500
 from django.conf import settings
 from django.db import connections
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from django.utils.translation import ugettext_lazy as _
 
 log = logging.getLogger(__name__)
 _ = translation.ugettext
@@ -221,7 +224,53 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
-    context['logo_index'] = course_id.split('+')[0].split(':')[1]
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select org
+            from course_overviews_courseoverview
+            where id = '{course_id}';
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        org = cur.fetchall()[0][0]
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select save_path
+            from tb_attach
+            where id in (
+                select logo_img_e
+                from tb_org
+                where org_id in (
+                    select org
+                    from course_overviews_courseoverview
+                    where id = '{course_id}'
+                )
+            );
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        logo_eng = cur.fetchall()[0][0]
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select save_path
+            from tb_attach
+            where id in (
+                select logo_img
+                from tb_org
+                where org_id in (
+                    select org
+                    from course_overviews_courseoverview
+                    where id = '{course_id}'
+                )
+            );
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        logo_kor = cur.fetchall()[0][0]
+
+    context['logo_eng'] = logo_eng
+    context['logo_kor'] = logo_kor
+
     cur = con.cursor()
     query = """
                 SELECT plain_data
@@ -262,14 +311,14 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
                 SELECT detail_name, detail_Ename
                   FROM code_detail
                  WHERE group_code = 003 AND detail_code = '{0}';
-                 """.format(context['logo_index'])
+                 """.format(org)
     cur.execute(query)
     org_name = cur.fetchall()
     cur.close()
 
     if (len(org_name) == 0):
-        context['org_name_k'] = context['logo_index']
-        context['org_name_e'] = context['logo_index']
+        context['org_name_k'] = org
+        context['org_name_e'] = org
     else:
         context['org_name_k'] = org_name[0][0]
         context['org_name_e'] = org_name[0][1]
@@ -358,10 +407,6 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     course_course = course_index2[1]
     course_run = course_index2[2]
 
-    from django.db import connections
-    from pymongo import MongoClient
-    from bson.objectid import ObjectId
-    from django.utils.translation import ugettext_lazy as _
     # client = MongoClient('127.0.0.1', 27017)
 
     # db = client.edxapp
