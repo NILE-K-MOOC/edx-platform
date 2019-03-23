@@ -570,9 +570,8 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("enrollment_start", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("enrollment_end", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("org", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("org_kname", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("org_ename", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("org_kname", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("org_ename", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("modes", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_MODE),
         AboutInfo("language", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("classfy", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
@@ -587,6 +586,8 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("fourth_industry_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("job_edu_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("ribbon_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("course_level", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
     @classmethod
