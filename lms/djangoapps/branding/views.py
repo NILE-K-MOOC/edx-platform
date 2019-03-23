@@ -486,8 +486,8 @@ def multisite_index(request, org):
                 encStr = request.POST.get('encStr')
 
         # DEBUG
-        encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
-        print 'encStr -> ', encStr
+        # encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
+        # print 'encStr -> ', encStr
 
         # 암호화 데이터 복호화
         encStr = encStr.replace(' ', '+')
