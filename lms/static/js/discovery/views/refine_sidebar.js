@@ -141,13 +141,12 @@
                         }
                     }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn') {
-
-                        if (data.facet == 'fourth_industry_yn' && data.term == 'fourth_industry_y') {
-                            data.name = this.termName(data.facet, gettext("Y"));
-                        } else if (data.facet == 'job_edu_yn' && data.term == 'job_edu_y') {
-                            data.name = this.termName(data.facet, gettext("N"));
+                        if (data.facet == 'fourth_industry_yn' && data.term == 'Y') {
+                            data.name = this.termName(data.facet, gettext("fourth_industry_y"));
+                        } else if (data.facet == 'job_edu_yn' && data.term == 'Y') {
+                            data.name = this.termName(data.facet, gettext("job_edu_y"));
                         } else if (data.facet == 'linguistics' && data.term == 'Y') {
-                            data.name = this.termName(data.facet, gettext("N"));
+                            data.name = this.termName(data.facet, gettext("linguistics_y"));
                         }
                     }
                     else {
@@ -186,6 +185,9 @@
                             break;
                         case 'language':
                             model.set('odby1', 5);
+                            break;
+                        case 'course_level':
+                            model.set('odby1', 6);
                             break;
 
                         default:
@@ -404,16 +406,6 @@
                 $el.siblings('.show-less').removeClass('hidden');
             },
 
-//            selectOption: function(event) {
-//                var $target = $(event.currentTarget);
-//                this.trigger(
-//                'selectOption',
-//                $target.data('facet'),
-//                $target.data('value'),
-//                $target.data('text')
-//            );
-//            }
-
             selectOption: function (event) {
                 $(".course-facets-select").focus();
                 $(".search-facets-lists").focus();
@@ -434,31 +426,25 @@
                 $(".course-facets-select").focus();
                 var $target = $(event.currentTarget);
 
+                let f, v, t;
+
+                f = $target.data('facet');
+                v = $target.data('value');
+                t = $target.data('text');
+
+                console.log('selectOption2 check ---- s')
+                console.log(f);
+                console.log(v);
+                console.log(t);
+
+                // 한글화 후 표시
+                t = gettext(t);
+                console.log(t);
+                console.log('selectOption2 check ---- e')
+
                 this.trigger(
-                    'selectOption',
-                    $target.data('facet'),
-                    $target.data('value'),
-                    $target.data('text')
+                    'selectOption', f, v, t
                 );
-            },
-            selectedOption: function (event) {
-
-                /*
-                $(".course-facets-select").focus();
-                $(".search-facets-lists").focus();
-                var $target = $(event.currentTarget);
-                var select_val = $target.val();
-                var select_index = select_val.split('+');
-
-                this.trigger(
-                    'selectOption',
-                    $target.data('facet'),
-                    select_index[0],
-                    select_index[1]
-                );
-
-                $(".facet-list option[value=" + select_val + "]").attr("selected", "selected")
-                */
             }
         });
     });

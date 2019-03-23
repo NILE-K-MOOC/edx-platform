@@ -239,10 +239,10 @@ if (
         <section class="courses-container">
             <section class="highlighted-courses">
                 <div class="kr01_fivemenu ">
-                    <ul class="fivemenarea">
+                    <ul class="fivemenarea" id="link_to_courses">
                         <li class="kr01_f01">
                             <div>
-                                <a href="/courses?fourth" class="fivemenarea-a">
+                                <a href="#" class="fivemenarea-a" data-facet="etc" data-term="fourth_industry_y">
                                     <i class="fivemenarea-icon"></i>
                                     <span class="fivemenarea-span">4차 산업혁명</span>
                                 </a>
@@ -269,7 +269,7 @@ if (
                         </li>
                         <li class="kr01_f03">
                             <div>
-                                <a href="/courses?job" class="fivemenarea-a">
+                                <a href="#" class="fivemenarea-a" data-facet="etc" data-term="job_edu_y">
                                     <i class="fivemenarea-icon"></i>
                                     <span class="fivemenarea-span">직업교육</span>
                                 </a>
@@ -282,7 +282,7 @@ if (
                         </li>
                         <li class="kr01_f05">
                             <div>
-                                <a href="/courses?linguistics" class="fivemenarea-a">
+                                <a href="#" class="fivemenarea-a" data-facet="etc" data-term="linguistics_y">
                                     <i class="fivemenarea-icon"></i>
                                     <span class="fivemenarea-span">한국학</span>
                                 </a>
@@ -396,7 +396,33 @@ if (
                         <script type="text/javascript">
 
                             $(document).ready(function(){
-                                console.log("lms index.html load");
+
+                                // link to courses event
+                                $("#link_to_courses [data-term]").each(function(){
+                                    $(this).click(function(){
+                                        let form = $("<form>", {action: "/courses", method: "POST"}),
+                                        csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
+                                        term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
+
+                                        // add csrf token
+                                        form.append(csrftoken, term);
+
+                                        if(form)
+                                            form.appendTo($("body")).submit();
+                                    });
+
+
+                                });
+
+                                /*
+                                if(f){
+                                    alert('submit!');
+                                    f.appendTo($("body")).submit();
+
+                                }else{
+                                    alert('not submit!');
+                                }
+                                */
 
                                 var sliderOptions = {
                                         mode: 'vertical',

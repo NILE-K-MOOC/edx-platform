@@ -1038,6 +1038,13 @@ class CourseFields(object):
         hidden=True
     )
 
+    course_level = String(
+        display_name=_("course_level"),
+        help=_("course_level"),
+        scope=Scope.settings,
+        default='',
+    )
+
 
 class CourseModule(CourseFields, SequenceModule):  # pylint: disable=abstract-method
     """
