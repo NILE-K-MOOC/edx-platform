@@ -2014,6 +2014,10 @@ a.btn.btn-primary.action-resume-course:hover span {
   color: #fff;
 }
 
+.courses-container .courses .courses-listing .courses-listing-item article.course a {
+  display: block;
+}
+
 html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   font-size: 13px;
 }

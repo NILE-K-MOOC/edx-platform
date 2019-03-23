@@ -784,12 +784,12 @@ div.about-side-title p {
       <div class="inner-wrapper">
         ${get_course_about_section(request, course, "overview")}
 
-          <h2 class='similar-title'><i class="fa fa-star"></i>유사 강좌</h2>
+          <h2 class='similar-title'><i class="fa fa-star"></i>관련 강좌</h2>
 
           <div class='similar-container'>
               % if len(similar_course) <= 1:
               <div class="similar-none">
-                현재 강자와 유사한 강좌가 존재하지 않습니다
+                현재 강좌와 관련된 강좌가 존재하지 않습니다
               </div>
               % endif
 
@@ -824,7 +824,7 @@ div.about-side-title p {
                 % endfor
               % else:
                 <div class='similar-error'>
-                  유사강좌를 가져오는 중 문제가 발생했습니다<br>
+                  관련강좌를 가져오는 중 문제가 발생했습니다<br>
                   관리자에게 문의해주세요<br>
                 </div>
               % endif
