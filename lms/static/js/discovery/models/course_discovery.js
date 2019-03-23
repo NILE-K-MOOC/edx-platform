@@ -7,6 +7,10 @@
         'js/discovery/models/facet_option',
     ], function (_, Backbone, CourseCard, FacetOption) {
         'use strict';
+        var facet_row_temp = {};
+        var facet_row_temp_set = {};
+        var facet_row_set = {};
+
 
         return Backbone.Model.extend({
             url: '/search/course_discovery/',
@@ -34,8 +38,16 @@
 
                 var options = this.facetOptions;
 
+                var cnt = 0;
+
+                facet_row_temp = {};
+                facet_row_temp_set = {};
+                facet_row_set = {};
+
                 _(facets).each(function (obj, key) {
-                    // console.log(obj);
+
+                    // console.log("obj: " + obj + ", key: " + key + "  [case 1 ]");
+
                     if (key == 'org') {
 
                         var count2 = 0;
@@ -81,26 +93,6 @@
 
                     } else if (key == 'classfysub' || key == 'middle_classfysub') {
                         return true;
-
-                    } else if (key == 'fourth_industry_yn' || key == 'linguistics' || key == 'job_edu_yn') {
-                        // 4차 산업, 직업교육, 한국학을 하나의 카테고리로 표현하고 해당하는 내용만 표시되도록 함
-                        _(obj.terms).each(function (count, term) {
-                            let v;
-                            if (key == 'fourth_industry_yn' && term === 'Y')
-                                v = 'fourth_industry_y'
-                            else if (key == 'job_edu_yn' && term == 'Y')
-                                v = 'job_edu_y'
-                            else if (key == 'linguistics' && term == 'Y')
-                                v = 'linguistics_y'
-                            else
-                                return true;
-
-                            options.add({
-                                facet: 'etc',
-                                term: v,
-                                count: count
-                            }, {merge: false});
-                        });
 
                     } else {
                         _(obj.terms).each(function (count, term) {
