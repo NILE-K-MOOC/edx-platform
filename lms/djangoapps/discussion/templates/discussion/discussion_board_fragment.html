@@ -14,7 +14,11 @@ from django_comment_client.permissions import has_permission
 from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
 from openedx.core.djangolib.markup import HTML
 %>
-
+<style>
+  .btn:hover{
+    color: #ffffff;
+  }
+</style>
 <section class="discussion discussion-board page-content-container" id="discussion-container"
          data-course-id="${course.id}"
          data-user-create-comment="${json.dumps(can_create_comment)}"
@@ -30,15 +34,15 @@ from openedx.core.djangolib.markup import HTML
                 <div class="has-breadcrumbs"></div>
             </nav>
         </div>
-        <div class="page-header-secondary">
+        <div class="page-header-secondary" >
             ## Add Post button
             % if has_permission(user, 'create_thread', course.id):
-            <div class="forum-actions">
+            <div class="forum-actions" style="display: inline-block">
                 <button class="btn btn-outline-primary btn-small new-post-btn">${_("Add a Post")}</button>
             </div>
             % endif
             ## Search box
-            <div class="forum-search"></div>
+            <div class="forum-search" style="display: inline-block"></div>
         </div>
     </header>
     <div class="page-content"
