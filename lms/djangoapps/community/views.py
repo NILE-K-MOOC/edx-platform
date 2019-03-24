@@ -27,6 +27,7 @@ from datetime import timedelta
 from pytz import timezone
 from django.db import connections
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -1316,6 +1317,7 @@ def memo_view(request, memo_id=None):
 
 
 # 메모 동기화 로직
+@csrf_exempt
 def memo_sync(request):
     if request.is_ajax():
         if request.POST.get('sync_memo'):
