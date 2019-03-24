@@ -435,8 +435,10 @@ def multisite_index(request, org):
     # 로그인타입 / 등록URL / 암호화키 획득
     with connections['default'].cursor() as cur:
         sql = '''
-        SELECT login_type, site_url, Encryption_key
-        FROM multisite
+        SELECT login_type, site_url, Encryption_key, b.save_path
+        FROM multisite a
+        join tb_attach b
+        on a.logo_img = b.id
         where site_code = '{0}'
         '''.format(org)
         cur.execute(sql)
@@ -445,9 +447,11 @@ def multisite_index(request, org):
             login_type = rows[0][0]
             out_url = rows[0][1]
             key = rows[0][2]
+            save_path = rows[0][3]
         except BaseException:
             return redirect('/multisite_error?error=error001')
 
+    request.session['save_path'] = save_path
     # DEBUG
     print "login_type -> ", login_type
     print "out_url -> ", out_url
@@ -490,7 +494,10 @@ def multisite_index(request, org):
         # print 'encStr -> ', encStr
 
         # 암호화 데이터 복호화
-        encStr = encStr.replace(' ', '+')
+        try:
+            encStr = encStr.replace(' ', '+')
+        except BaseException:
+            return redirect('/multisite_error?error=error003')
 
         try:
             raw_data = decrypt(key, key, encStr)

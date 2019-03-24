@@ -232,16 +232,16 @@ from student.models import CourseEnrollment
     %endif
 
     %if enrollment_message:
-        <div class="dashboard-banner">
-            ${enrollment_message | n,  decode.utf8}
-        </div>
+        <!--<div class="dashboard-banner">-->
+            <!--##${enrollment_message | n,  decode.utf8}-->
+        <!--</div>-->
     %endif
 
     %if enterprise_message:
 
-        <div class="dashboard-banner">
-            ${ enterprise_message | n, decode.utf8 }
-        </div>
+        <!--<div class="dashboard-banner">-->
+            <!--##${ enterprise_message | n, decode.utf8 }-->
+        <!--</div>-->
     %endif
 
     %if account_activation_messages:

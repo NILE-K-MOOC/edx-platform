@@ -39,6 +39,12 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
     }
 
     function printView(event) {
+
+        console.log('=============================');
+        console.log('${logo_kor}');
+        console.log('${logo_eng}');
+        console.log('=============================');
+
         var frmPop= document.frmPopup;
         var url = '/maeps/certificate_print';
         var language_flag = ''
@@ -62,6 +68,10 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         frmPop.checkbox3.value = $('#checkbox3').is(':checked');
         frmPop.checkbox4.value = $('#checkbox4').is(':checked');
         frmPop.static_url.value = '${static_url}';
+
+        frmPop.logo_eng.value = '${logo_eng}';
+        frmPop.logo_kor.value = '${logo_kor}';
+
         frmPop.certificate_id_number.value = '${certificate_id_number}';
         frmPop.created_date.value = '${created_date}';
         frmPop.nice_check_flag.value = '${nice_check_flag}';

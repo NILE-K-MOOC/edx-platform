@@ -21,21 +21,20 @@ displayname = get_enterprise_learner_generic_name(request) or username
 %>
 
 <div class="kr01_Ttoggle-wrap">
-    <a class="kr01_Ttoggle" data-menu="settings">
+    <a class="kr01_Ttoggle" id="user_dropdown" data-menu="settings">
+        <div>
         <i><img src="${profile_image_url}"></i>
         <span class="sr-only">${_("Dashboard for:")}</span>
         <span>${displayname}</span>
         <i><img src="/static/images/main/arrow-bottom02.png"></i>
+        </div>
     </a>
     <ul class="kr01_Tmenu kr01_Tmenu--toggle" id="settings" style="z-index: 999;">
         <li class="kr01_Tmenu__item"><a href="${reverse('dashboard')}">${_("Dashboard")}</a></li>
         <li class="kr01_Tmenu__item"><a href="/new_dashboard">${_("Series Course")}</a></li>
         <li class="kr01_Tmenu__item"><a href="${reverse('learner_profile', kwargs={'username': username})}">${_("Profile")}</a></li>
         <li class="kr01_Tmenu__item"><a href="${reverse('account_settings')}">${_("Account")}</a></li>
+        <li class="kr01_Tmenu__item"><a href="${reverse('logout')}">${_("Sign Out")}</a></li>
     </ul>
 
 </div>
-
-<span class="kr01-Tlogoutarea">
-    <a href="${reverse('logout')}">${_("Sign Out")}</a>
-</span>

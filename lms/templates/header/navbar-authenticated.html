@@ -87,7 +87,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
       <!--로그인했을때-->
       <section class="kre01_top01area">
           <section class="courses-container kr01_topTbg01">
-              <section class="highlighted-courses kr01_topTh45">
+              <section class="highlighted-courses ${'kr01_topTh45' if request.path == '/' else ''}">
                   <!-- 언어선택 -->
 
                   % if header_language_selector_is_enabled():
@@ -116,6 +116,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                   </form>
                   % endif
                   % endif
+              % if request.path == '/':
                 <div class="kr01-Tlanguage">
                   <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
                   <label for="ko-kr" class="language-btn">
@@ -129,7 +130,6 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     <span>ENG</span>
                   </label>
                 </div>
-              % if request.path == '/':
                 <div class="kr01-alertarea">
                   <nav class="kr01_bellarea">
                     <div class="dropdown hover">
@@ -157,9 +157,9 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     <a href="${branding_api.get_home_url()}">
                       <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
-                    % if 'multisite_org' in request.session:
+                    % if 'multisite_org' in request.session and 'save_path' in request.session:
                     <a href="${branding_api.get_home_url()}">
-                      <img style="margin-left: 20px;" class="logo" src="/static/images/${request.session['multisite_org']}.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                      <img style="margin-left: 20px;" class="logo" src="${request.session['save_path']}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
                     % endif
                   </h1>
@@ -199,7 +199,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     </a>
                     % if 'multisite_org' in request.session:
                     <a href="/org/${request.session['multisite_org']}">
-                      <img style="margin-left: 20px;" class="logo" src="/static/images/${request.session['multisite_org']}.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                      <img style="margin-left: 20px;" class="logo" src="${request.session['save_path']}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
                     % endif
                   </h1>
@@ -218,10 +218,12 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     </form>
                     <div class="kr01-alertarea sub-menu-alertarea">
                       <nav class="kr01_bellarea">
-                          <div class="dropdown hover">
+                          <div class="dropdown hover memo-division">
                               <a href="#" class="bgnone" id="memo_link" title="${_('K-MOOC Notification')}">
-                                  <i><img src="/static/images/main/bell.png"></i>
+                                <div ><i><img src="/static/images/main/bell.png"></i>
                                   <span id="cnt">0</span>
+                                  <i><img src="/static/images/main/arrow-bottom02.png"></i>
+                                </div>
                               </a>
                               <ul id="memo_row" style="display: none;">
                               </ul>
@@ -230,6 +232,19 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                       <!-- 내강의실 -->
                       <%include file="user_dropdown.html"/>
                   </div>
+                    <div class="kr01-Tlanguage">
+                      <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                      <label for="ko-kr" class="language-btn">
+                        <i><img src="/static/images/main/kor.png"></i>
+                        <span>KOR</span>
+                      </label>
+
+                      <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                      <label for="en" class="language-btn">
+                        <i><img src="/static/images/main/eng.png"></i>
+                        <span>ENG</span>
+                      </label>
+                    </div>
                   </div>
 
                 </div>
@@ -297,6 +312,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
             }
 
         });
+
         var user_id = "${user.id if user.is_authenticated() else ''}";
 
         if (!user_id)
@@ -363,12 +379,28 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         // end
 
       $('#memo_link').click(function(e){
-        e.preventDefault()
+        e.preventDefault();
         if($('#memo_row').is(':visible')) {
           $('#memo_row').hide();
         } else {
           $('#memo_row').show();
         }
+      });
+
+      $(document).click(function(e) {
+        if($('#memo_row').css('display') == 'block'){
+          if(!$('#memo_link, #memo_row').has(e.target).length){
+            e.preventDefault();
+            $('#memo_row').hide();
+          }
+        }
+        if($('#settings').css('display') == 'block'){
+          if(!$('.kr01_Ttoggle, #settings').has(e.target).length){
+            e.preventDefault();
+            $('#settings').removeClass('kr01_Tmenu--open');
+          }
+        }
+
       });
     });
 
