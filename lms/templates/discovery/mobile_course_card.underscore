@@ -1,7 +1,9 @@
 <article class="course <%- status  %> <% if (audit_yn == 'Y') { %> audit<% } %>" role="region" aria-label="<%- content.display_name %>">
     <a href="edxapp://course_info?path_id=course/<%- course %>">
         <header class="course-image">
+            <% if (ribbon_yn == 'Y'){ %>
             <i class="kr01-ribbonArea"><img src="/static/images/main/ribbon.png"></i>
+            <% } %>
             <div class="cover-image">
                 <span class="univ-logo">
                     <!--
