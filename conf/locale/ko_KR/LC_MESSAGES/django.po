@@ -13336,7 +13336,7 @@ msgstr "{link_start}학습자 서약 {link_end}을 준수하겠습니다."
 #: themes/edx.org/lms/templates/header/navbar-not-authenticated.html
 #: themes/stanford-style/lms/templates/register-form.html
 msgid "Register"
-msgstr "가입하기 "
+msgstr "회원가입"
 
 #: lms/templates/register-form.html lms/templates/signup_modal.html
 #: themes/stanford-style/lms/templates/register-form.html

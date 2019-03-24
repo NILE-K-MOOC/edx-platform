@@ -81,7 +81,7 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 <!--비로그인 여기-->
 <section class="kre01_top01area">
   <section class="courses-container kr01_topTbg01">
-    <section class="highlighted-courses kr01_topTh45">
+    <section class="highlighted-courses ${'kr01_topTh45' if request.path == '/' else ''}">
       <!-- 언어선택 -->
       % if header_language_selector_is_enabled():
       <% languages = released_languages() %>
@@ -107,6 +107,7 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
       </form>
       % endif
       % endif
+      % if request.path == '/':
       <div class="kr01-Tlanguage">
         <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
         <label for="ko-kr" class="language-btn">
@@ -120,7 +121,7 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
           <span>ENG</span>
         </label>
       </div>
-
+      % endif
     </section>
   </section>
 
@@ -202,19 +203,31 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
             </div>
           </form>
           % if request.path != '/':
-          <div class="kr01-alertarea">
+          <div class="kr01-Tlanguage">
+            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+            <label for="ko-kr" class="language-btn">
+              <i><img src="/static/images/main/kor.png"></i>
+              <span>KOR</span>
+            </label>
+
+            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+            <label for="en" class="language-btn">
+              <i><img src="/static/images/main/eng.png"></i>
+              <span>ENG</span>
+            </label>
+          </div>
+          <div class="kr01-alertarea kr01-signin-area">
             <span class="kr01-Tlogoutarea">
               <a href="/login${login_query()}">${_("Sign In")}</a>
             </span>
           </div>
-          <div class="kr01-alertarea">
+          <div class="kr01-alertarea kr01-signin-area">
             <span class="kr01-Tlogoutarea">
               <a href="/register${login_query()}">${_("Register")}</a>
             </span>
           </div>
           % endif
         </div>
-
       </div>
       % endif
 
