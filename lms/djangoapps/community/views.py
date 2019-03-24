@@ -450,14 +450,12 @@ def series_view(request, id):
             SELECT a.series_name,
                a.series_id,
                a.note,
-               b.attach_file_path,
-               b.attatch_file_name,
-               attatch_file_ext,
+               ifnull(b.save_path, ''),
                c.detail_name,
                ifnull(a.short_description, '')
             FROM series as a
-            LEFT JOIN tb_board_attach AS b
-                ON a.sumnail_file_id = b.attatch_id
+            LEFT JOIN tb_attach AS b
+                ON a.sumnail_file_id = b.id
             LEFT JOIN code_detail c
                 ON a.org = c.detail_code AND c.group_code = '003'
             WHERE  a.series_seq = {}
