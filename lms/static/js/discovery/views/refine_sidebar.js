@@ -26,14 +26,11 @@
             },
 
             facetName: function (key) {
-                if (key == 'classfy' || key == 'classfysub') {
+                if (key == 'classfy') {
                     return gettext("Classified by");
                 }
-                else if (key == 'middle_classfy' || key == 'middle_classfysub') {
+                else if (key == 'middle_classfy') {
                     return gettext("Sub classified by");
-                }
-                else if (key == 'linguistics' || key == 'fourth_industry_yn' || key == 'job_edu_yn') {
-                    return gettext("etc");
                 }
                 else if (key == 'course_period') {
                     return gettext("Period of Studing");
@@ -141,14 +138,15 @@
                         }
                     }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn') {
-                        console.debug('--------------------------------------------------> ' + data.facet + ":" + data.term);
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('etc', gettext("fourth_industry_y"));
+                            data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
                         } else if (data.facet == 'job_edu_yn' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('etc', gettext("job_edu_y"));
+                            data.name = this.termName('job_edu_yn', gettext("job_edu_y"));
                         } else if (data.facet == 'linguistics' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('etc', gettext("linguistics_y"));
+                            data.name = this.termName('linguistics', gettext("linguistics_y"));
+                        }else{
+                            data.name = this.termName(data.facet, data.term);
                         }
 
                     } else {
@@ -387,6 +385,25 @@
                     }, this)
                 );
                 HtmlUtils.setHtml(this.$container, htmlSnippet);
+
+                $("h3[data-name='fourth_industry_yn']").text(gettext('etc'));
+
+                let lis1 = $("#linguistics li").clone();
+                let lis2 = $("#job_edu_yn li").clone();
+
+                $("#fourth_industry_yn").append(lis1, lis2);
+
+                $("#fourth_industry_yn li").each(function(){
+                   let v = $(this).find("button").data('value');
+
+                   if (v.toUpperCase() == 'N'){
+                       $(this).remove();
+                       console.log('remove..');
+                   }
+                });
+
+                $("#linguistics, #job_edu_yn").remove();
+
                 return this;
             },
 
