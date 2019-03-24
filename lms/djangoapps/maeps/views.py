@@ -199,10 +199,6 @@ def certificate_print(request):
                 margin-bottom: 20px!important;
                 margin-top: -10px!important;
             }
-            .ce-center-txt2{
-                text-align:center!important;
-                margin-bottom: 10px!important;
-            }
             .sign-area{
                 display:inline-block!important;
                 width:100%!important;
@@ -268,15 +264,24 @@ def certificate_print(request):
               font-size: 20px;
               color: #8a8585;
             }
-            </style>
             '''
     language_flag = request.POST.get('language_flag')
     multisite = request.POST.get('multisite')
+
+    logo_eng = request.POST.get('logo_eng')
+    logo_kor = request.POST.get('logo_kor')
+
+    print "meaps / logo_eng -> ", logo_eng
+    print "meaps / logo_kor -> ", logo_kor
+
     checkbox1 = request.POST.get('checkbox1')
     checkbox2 = request.POST.get('checkbox2')
     checkbox3 = request.POST.get('checkbox3')
     checkbox4 = request.POST.get('checkbox4')
     static_url = request.POST.get('static_url')
+
+    print "meaps / static_url -> ", static_url
+
     certificate_id_number = request.POST.get('certificate_id_number')
     created_date = request.POST.get('created_date')
     nice_check_flag = request.POST.get('nice_check_flag')
@@ -297,8 +302,12 @@ def certificate_print(request):
     certificate_date_issued = request.POST.get('certificate_date_issued')
 
     print "multisite -> ", multisite
-    print "multisite -> ", multisite
-    print "multisite -> ", multisite
+
+    logo_eng_full_path = static_url + logo_eng
+    logo_kor_full_path = static_url + logo_kor
+
+    print "logo_eng_full_path -> ", logo_eng_full_path
+    print "logo_kor_full_path -> ", logo_kor_full_path
 
     course_key = CourseKey.from_string(course_id)
     course = modulestore().get_course(course_key)
@@ -328,8 +337,24 @@ def certificate_print(request):
     if language_flag == 'K':
         print_index = print_index_flag[0]
         if multisite != '':
+            print_index_css += '''
+                        .ce-center-txt2{
+                            text-align:center!important;
+                            margin-bottom: 35px!important;
+                            font-size: 20px;
+                        }
+                        </style>
+                        '''
             print_index = print_index.replace('${multisite}', multisite)
         else:
+            print_index_css += '''
+            .ce-center-txt2{
+                text-align:center!important;
+                margin-bottom: 80px!important;
+                font-size: 20px;
+            }
+            </style>
+            '''
             print_index = print_index.replace('${multisite}', '')
         if (checkbox3 == 'true'):
             print_index = print_index.replace('${k_box3}', '<li id="k_box3" >총 주차 : ${course_week} 주</li>')
@@ -357,13 +382,24 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
+
+        # 마크애니 / 한글로고
+        print_index = print_index.replace('${logo_area}', '<img class="ce-logo1" src="'+logo_kor_full_path+'" alt="${org_name_k}">')
+
+        """
         if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/logo01_' + logo_index + '.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ/logo01_${logo_index}.png" alt="${org_name_k}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_k + '</p></b>')
+        """
+
     elif language_flag == 'E':
         print_index = print_index_flag[1]
+        if multisite != '':
+            print_index = print_index.replace('${multisite}', multisite)
+        else:
+            print_index = print_index.replace('${multisite}', '')
         if (checkbox3 == 'true'):
             print_index = print_index.replace('${e_box3}',
                                               '<li id="e_box3">Total no. of weeks : ${course_week} weeks</li>')
@@ -392,11 +428,17 @@ def certificate_print(request):
             <h4 class="ce-txt-second">${grade}</h4>
             ''')
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
+
+        # 마크애니 / 영문로고
+        print_index = print_index.replace('${logo_area}', '<img class="ce-logo1" src="' + logo_eng_full_path + '" alt="${org_name_k}">')
+        """
         if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ_e/logo01_' + logo_index + '_e.png')):
             print_index = print_index.replace('${logo_area}',
                                               '<img class="ce-logo1" src="${static_url}/static/images/univ_e/logo01_${logo_index}_e.png" alt="${org_name_e}">')
         else:
             print_index = print_index.replace('${logo_area}', '<b><p class="ce-logo1">' + org_name_e + '</p></b>')
+        """
+
     print_index = print_index.replace('${certificate_id_number}', certificate_id_number)
     print_index = print_index.replace('${created_date}', created_date)
     if nice_check_flag == '0':
@@ -407,7 +449,7 @@ def certificate_print(request):
     else:
         if (language_flag == 'K'):
             print_index = print_index.replace('${nice_check_flag}',
-                                              '<h4 class="ce-txt-second"><p class="e_name_text">${user_name}(${birth_date}년생) <span class="certifi_index">( <img class="check_img" src="${static_url}/static/images/correct-icon.png"> 본인인증됨)</span></p></h4>')
+                                              '<h4 class="ce-txt-second"><p class="e_name_text">${user_name}(${birth_date}) <span class="certifi_index">( <img class="check_img" src="${static_url}/static/images/correct-icon.png"> 본인인증됨)</span></p></h4>')
         else:
             if (e_name == ''):
                 print_index = print_index.replace('${nice_check_flag}',
