@@ -1561,7 +1561,17 @@ def comm_tabs(request, head_title=None):
 @ensure_csrf_cookie
 def comm_file(request, file_id=None):
     try:
-        file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT save_path, save_name
+                  FROM tb_attach
+                 WHERE use_yn = TRUE AND id = {file_id};
+            '''.format(file_id=file_id)
+
+            cur.execute(query)
+            attach_file = cur.fetchone()
+
+        # file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
     except Exception as e:
         print 'comm_file error --- s'
         print e
@@ -1569,20 +1579,27 @@ def comm_file(request, file_id=None):
         print 'comm_file error --- e'
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
-    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
-    filename = file.attatch_file_name
+    # filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
+    save_path = attach_file[0]
+
+    file_name = attach_file[1]
+    save_path = save_path.replace('/static/file_upload', '/staticfiles/file_upload') if attach_file[0] else ''
+    real_path = '/edx/var/edxapp' + save_path
+    # filename = file.attatch_file_name
 
     print "디렉토리",(os.getcwd())  # 현재 디렉토리의
+    print 'file_path,,', os.path.dirname(os.path.realpath(__file__))
     #print "파일",(os.path.realpath(__file__))  # 파일
     #print "파일의 디렉토리",(os.path.dirname(os.path.realpath(__file__)))  # 파일이 위치한 디렉토리
 
-    if not file or not os.path.exists(filepath + filename):
-        print 'filepath + file.attatch_file_name :', filepath + filename
+    # if not file or not os.path.exists(filepath + filename):
+    if not attach_file or not os.path.exists(real_path):
+        print 'filepath  :', save_path
         return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
 
-    response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
+    response = HttpResponse(open(real_path, 'rb'), content_type='application/force-download')
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % str(filename)
+    response['Content-Disposition'] = 'attachment; filename=%s' % str(file_name)
     return response
 
 
