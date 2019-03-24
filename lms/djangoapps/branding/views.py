@@ -407,6 +407,10 @@ def multisite_error(request):
 
 def multisite_index(request, org):
 
+    if 'multistie_success' in request.session:
+        if request.session['multistie_success'] == 1:
+            return student.views.management.multisite_index(request, user=request.user)
+
     print "org -> ", org
     print "------------------------------------"
 
@@ -565,6 +569,7 @@ def multisite_index(request, org):
 
         # 기관연계 된 회원이라면 SSO 로그인
         if len(rows) != 0:
+            request.session['multistie_success'] = 1
             user = User.objects.get(pk=rows[0][0])
             user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
             login(request, user)
@@ -574,6 +579,7 @@ def multisite_index(request, org):
                 return redirect('/')
         # 아니라면 에러페이지 리다이렉트
         else:
+            request.session['multistie_success'] = 1
             request.session['multisite_userid'] = userid
             return redirect('/login')
 

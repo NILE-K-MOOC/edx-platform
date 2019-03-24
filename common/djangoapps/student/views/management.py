@@ -310,11 +310,15 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     course_overviews.audit_yn = item[1]
                     course_overviews.ribbon_yn = item[2]
 
-                    if item[3].find(',') != -1:
-                        teacher_name = item[3].split(',')[0]
-                        teacher_name_cnt = len(teacher_name) - 1
-                    else:
-                        teacher_name = teacher_name
+                    try:
+                        if item[3].find(',') != -1:
+                            teacher_name = item[3].split(',')[0]
+                            teacher_name_cnt = len(teacher_name) - 1
+                        else:
+                            teacher_name = teacher_name
+                            teacher_name_cnt = 0
+                    except BaseException:
+                        teacher_name = ''
                         teacher_name_cnt = 0
 
                     course_overviews.teacher_name = ['','']
