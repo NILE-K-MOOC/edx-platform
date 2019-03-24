@@ -23,7 +23,7 @@
             },
             performSearch: function (searchTerm, otherTerms) {
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
-                let k, v;
+                let k, v, t;
                 $("#main input[name='default_term']").each(function () {
                     k = $(this).data('key');
                     v = $(this).data('value');
@@ -44,14 +44,17 @@
                             case 'fourth_industry_y':
                                 k = 'fourth_industry_yn';
                                 v = 'Y';
+                                t = 'fourth_industry_y';
                                 break;
                             case 'job_edu_y':
                                 k = 'job_edu_yn'
                                 v = 'Y';
+                                t = 'job_edu_y';
                                 break;
                             case 'linguistics_y':
                                 k = 'linguistics';
                                 v = 'Y';
+                                t = 'linguistics_y';
                                 break;
                         }
 
@@ -62,7 +65,7 @@
                                 'selectedOption',
                                 k,
                                 v,
-                                gettext(v)
+                                gettext(t)
                             );
                         } else {
                             console.debug('선택된 검색어가 존재 하지 않습니다.' + k + " : " + v);
