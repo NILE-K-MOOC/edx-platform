@@ -141,20 +141,20 @@
                         }
                     }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn') {
+                        console.debug('--------------------------------------------------> ' + data.facet + ":" + data.term);
 
-                        console.log('--------------------------------------------------> ' + data.facet + ":" + data.term);
-
-                        if (data.facet == 'fourth_industry_yn' && data.term == 'Y') {
+                        if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('etc', gettext("fourth_industry_y"));
-                        } else if (data.facet == 'job_edu_yn' && data.term == 'Y') {
+                        } else if (data.facet == 'job_edu_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('etc', gettext("job_edu_y"));
-                        } else if (data.facet == 'linguistics' && data.term == 'Y') {
+                        } else if (data.facet == 'linguistics' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('etc', gettext("linguistics_y"));
                         }
-                    }
-                    else {
+
+                    } else {
                         data.name = this.termName(data.facet, data.term);
                     }
+
                     return this.facetOptionTpl(data);
                 }, this));
             },
