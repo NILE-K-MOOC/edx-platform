@@ -144,8 +144,9 @@ def _update_certificate_context(context, course, user_certificate, platform_name
             select site_code, site_name
             from multisite_member a
             join multisite b
-            on a.site_id = b.site_id;
-        '''
+            on a.site_id = b.site_id
+            where a.user_id = '{user_id}';
+        '''.format(user_id=context['accomplishment_user_id'])
         cur.execute(query)
         multisite = cur.fetchall()
     context['multisite'] = multisite
@@ -215,15 +216,18 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     Updates context dictionary with basic info required before rendering simplest
     certificate templates.
     """
+    course_id = 'course-v1:CAUk+ACE_CAU01+2017_T2'
+
     context['platform_name'] = platform_name
     context['course_id'] = course_id
-
     context['course_id2'] = course_id.split('+')[1]
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
+
+    print "course_id -> ", course_id
 
     with connections['default'].cursor() as cur:
         query = '''
@@ -249,7 +253,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
             );
         '''.format(course_id=course_id)
         cur.execute(query)
-        logo_eng = cur.fetchall()[0][0]
+        try:
+            logo_eng = cur.fetchall()[0][0]
+        except BaseException:
+            logo_eng = ''
+
+    print "logo_eng -> ", logo_eng
 
     with connections['default'].cursor() as cur:
         query = '''
@@ -266,7 +275,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
             );
         '''.format(course_id=course_id)
         cur.execute(query)
-        logo_kor = cur.fetchall()[0][0]
+        try:
+            logo_kor = cur.fetchall()[0][0]
+        except BaseException:
+            logo_kor = ''
+
+    print "logo_kor -> ", logo_kor
 
     context['logo_eng'] = logo_eng
     context['logo_kor'] = logo_kor
@@ -388,8 +402,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         row = cur.fetchall()
         cur.close()
 
-        grade = int(float(row[0][0]) * 100)
-        created_date = row[0][1]
+        try:
+            grade = int(float(row[0][0]) * 100)
+            created_date = row[0][1]
+        except BaseException:
+            grade = 100
+            created_date = '2099-12-12 00:00:00'
 
     context['grade'] = str(grade)
     context['created_date'] = created_date
@@ -397,6 +415,8 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['end_date'] = end_date
 
     static_url = "http://" + settings.ENV_TOKENS.get('LMS_BASE')
+    static_url = 'http://kmooc.kr'
+    print "static_url -> ", static_url
 
     context['static_url'] = static_url
 
