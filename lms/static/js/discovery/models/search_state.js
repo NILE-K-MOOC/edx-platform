@@ -40,14 +40,17 @@
                     let e = this;
                     setTimeout(function(){
 
-                        switch (k){
-                            case 'fourth_industry_yn':
+                        switch (v){
+                            case 'fourth_industry_y':
+                                k = 'fourth_industry_yn';
                                 v = 'Y';
                                 break;
-                            case 'job_edu_yn':
+                            case 'job_edu_y':
+                                k = 'job_edu_yn'
                                 v = 'Y';
                                 break;
-                            case 'linguistics':
+                            case 'linguistics_y':
+                                k = 'linguistics';
                                 v = 'Y';
                                 break;
                         }
