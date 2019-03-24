@@ -39,6 +39,20 @@
                 if (k && v){
                     let e = this;
                     setTimeout(function(){
+
+                        switch (k){
+                            case 'fourth_industry_yn':
+                                v = 'Y';
+                                break;
+                            case 'job_edu_yn':
+                                v = 'Y';
+                                break;
+                            case 'linguistics':
+                                v = 'Y';
+                                break;
+                        }
+
+
                         console.log("k:" + k  + " v:" + v + " size:" +  $("button[data-facet='"+ k +"'][data-value='"+ v +"']").size());
                         if ($("button[data-facet='"+ k +"'][data-value='"+ v +"']").size() > 0){
                             e.trigger(
