@@ -125,7 +125,7 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
 @csrf_exempt
 def course_search_list(request):
     if request.is_ajax():
-        print "search_list -- courseware.py"
+        # print "search_list -- courseware.py"
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT DISTINCT display_name
@@ -140,7 +140,7 @@ def course_search_list(request):
             course_list = list()
             for course in course_tup:
                 course_list.append(course[0])
-            print "-----courseware------",course_list
+            # print "-----courseware------",course_list
 
             return JsonResponse({'course_search_list': course_list})
     pass
