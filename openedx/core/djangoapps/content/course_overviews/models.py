@@ -648,12 +648,16 @@ class CourseOverview(TimeStampedModel):
                 if course_type == 'new_course':
                     course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', 'start', 'end')
                 elif course_type == 'pop_course':
-                    course_overviews = CourseOverview.objects.all().filter(**filter_).annotate(pop=Count('id')).order_by('-pop')
+                    course_overviews = CourseOverview.objects.all().filter(**filter_).annotate(pop=Count('id')).order_by('-pop')[:16]
                 else:
                     course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
             else:
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+
+            print "type(course_overviews) query --- s"
+            print course_overviews.query
+            print "type(course_overviews) query --- e"
 
         return course_overviews
 
