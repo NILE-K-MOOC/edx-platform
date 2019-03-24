@@ -320,7 +320,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     except BaseException:
                         teacher_name = ''
                         teacher_name_cnt = 0
-                        
+
                     course_overviews.teacher_name = ['','']
                     course_overviews.teacher_name[0] = teacher_name
                     course_overviews.teacher_name[1] = teacher_name_cnt
