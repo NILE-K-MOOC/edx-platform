@@ -4461,11 +4461,11 @@ msgstr "학습자가 강좌에 등록되지 않아 예외 목록에 추가되지
 msgid ""
 "Certificate of <%= user %> has already been invalidated. Please check your "
 "spelling and retry."
-msgstr "<%= user %> 의 인증서는 이미 비활성화 되었습니다. 스펠링을 확인해보고 다시 시도해 보세요."
+msgstr "<%= user %> 의 이수증은 이미 비활성화 되었습니다. 스펠링을 확인해보고 다시 시도해 보세요."
 
 #: lms/static/js/certificates/views/certificate_invalidation_view.js
 msgid "Certificate has been successfully invalidated for <%= user %>."
-msgstr "<%= user %> 에 대한 인증서가 비활성화 되었습니다."
+msgstr "<%= user %> 에 대한 이수증이 비활성화 되었습니다."
 
 #: lms/static/js/certificates/views/certificate_invalidation_view.js
 #: lms/static/js/certificates/views/certificate_whitelist.js
@@ -4477,23 +4477,23 @@ msgstr "서버 오류가 발생했습니다. 새로고침 뒤 다시 시도해 �
 msgid ""
 "The certificate for this learner has been re-validated and the system is re-"
 "running the grade for this learner."
-msgstr "이 학습자에 대한 인증서는 다시 활성화되었습니다. 현재 시스템은 이 학습자의 성적을 다시 확인중입니다."
+msgstr "이 학습자에 대한 이수증은 다시 활성화되었습니다. 현재 시스템은 이 학습자의 성적을 다시 확인중입니다."
 
 #: lms/static/js/certificates/views/certificate_invalidation_view.js
 msgid ""
 "Could not find Certificate Invalidation in the list. Please refresh the page"
 " and try again"
-msgstr "목록에서 인증서 비활성화를 찾을 수 없었습니다. 새로고침 뒤 다시 시도해 보세요."
+msgstr "목록에서 이수증 비활성화를 찾을 수 없었습니다. 새로고침 뒤 다시 시도해 보세요."
 
 #: lms/static/js/certificates/views/certificate_whitelist.js
 msgid "Student Removed from certificate white list successfully."
-msgstr "학습자가 인증서 화이트 리스트에서 제거되었습니다."
+msgstr "학습자가 이수증 화이트 리스트에서 제거되었습니다."
 
 #: lms/static/js/certificates/views/certificate_whitelist.js
 msgid ""
 "Could not find Certificate Exception in white list. Please refresh the page "
 "and try again"
-msgstr "화이트 리스트에서 예외 인증서를 찾을 수 없었습니다. 새로고침 뒤 다시 시도해 보세요."
+msgstr "화이트 리스트에서 예외 이수증을 찾을 수 없었습니다. 새로고침 뒤 다시 시도해 보세요."
 
 #: lms/static/js/certificates/views/certificate_whitelist_editor.js
 msgid "<%= user %> already in exception list."
@@ -4503,7 +4503,7 @@ msgstr "<%= user %> 는 이미 예외 목록에 있습니다."
 msgid ""
 "<%= user %> has been successfully added to the exception list. Click "
 "Generate Exception Certificate below to send the certificate."
-msgstr "<%= user %> 가 성공적으로 예외 목록에 추가되었습니다. 아래 예외 인증서 생성을 클릭해 인증서를 보내세요."
+msgstr "<%= user %> 가 성공적으로 예외 목록에 추가되었습니다. 아래 예외 이수증 생성을 클릭해 이수증을 보내세요."
 
 #: lms/static/js/course_survey.js
 msgid "There has been an error processing your survey."
@@ -4912,11 +4912,11 @@ msgstr "강좌 이수증을 발급하는 동안 오류가 발생했습니다. �
 
 #: lms/static/js/instructor_dashboard/certificates.js
 msgid "Start regenerating certificates for students in this course?"
-msgstr "이 강좌 학습자의 인증서 재생성을 시작하겠습니까?"
+msgstr "이 강좌 학습자의 이수증 재생성을 시작하겠습니까?"
 
 #: lms/static/js/instructor_dashboard/certificates.js
 msgid "Error while regenerating certificates. Please try again."
-msgstr "인증서 재생성 중 오류가 발생하였습니다. 다시 시도해 보세요."
+msgstr "이수증 재생성 중 오류가 발생하였습니다. 다시 시도해 보세요."
 
 #: lms/static/js/instructor_dashboard/data_download.js
 msgid "Loading data..."
@@ -4924,7 +4924,7 @@ msgstr "로딩중..."
 
 #: lms/static/js/instructor_dashboard/data_download.js
 msgid "Error getting issued certificates list."
-msgstr "발급된 인증서 목록 불러오기 중 오류가 발생했습니다."
+msgstr "발급된 이수증 목록 불러오기 중 오류가 발생했습니다."
 
 #: lms/static/js/instructor_dashboard/data_download.js
 msgid "Error generating proctored exam results. Please try again."
@@ -6286,7 +6286,7 @@ msgstr "이수증"
 
 #: cms/static/js/certificates/views/certificates_list.js
 msgid "Set up your certificate"
-msgstr "인증서 설정하기"
+msgstr "이수증 설정하기"
 
 #. Translators: This line refers to the initial state of the form when no data
 #. has been inserted

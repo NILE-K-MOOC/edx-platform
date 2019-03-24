@@ -5,9 +5,9 @@ var main_slider;
 var sub_slider;
 
 var slide_option = {
-  auto: true,
+  auto: false,
   autoHover: true,
-  moveSlides: 1,
+  moveSlides: 0,
   minSlides: 1,
   maxSlides: 1,
   slideMargin: 0,

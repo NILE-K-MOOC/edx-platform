@@ -846,6 +846,7 @@
         "Law": "\ubc95\ub960",
         "Learn more about {license_name}": "{license_name} \ub354 \uc54c\uc544\ubcf4\uae30",
         "LEARN MORE": "\uc790\uc138\ud788 \uc54c\uc544\ubcf4\uae30",
+        "Learner": "\ud559\uc2b5\uc790",
         "Learners can experience the proctoring software setup process and try some example problems. Make sure this practice exam is set up as an ungraded exam.": "\ud559\uc2b5\uc790\ub294 \uc2dc\ud5d8 \uac10\ub3c5 \uc18c\ud504\ud2b8\uc6e8\uc5b4\ub97c \uc124\uce58\ud560 \uc218 \uc788\uace0, \uc608\uc81c \ubb38\uc81c\ub97c \ud480\uc5b4\ubcfc \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc774 \uc5f0\uc2b5 \uc2dc\ud5d8\uc774 \uc131\uc801 \ubbf8\ubc18\uc601 \ud3c9\uac00\ub85c \ubd84\ub958\ub418\ub294\uc9c0 \uba3c\uc800 \ud655\uc778\ud558\uc138\uc694.",
         "Learners who require verification must pass the selected checkpoint to see the content in this unit. Learners who do not require verification see this content by default.": "\uc778\uc99d\uc744 \uc2e0\uccad\ud55c \ud559\uc2b5\uc790\ub294 \uc778\uc99d \uae30\uc900\uc5d0 \ud574\ub2f9\ud558\ub294 \ud559\uc2b5\ud65c\ub3d9\uc744 \ud1b5\uacfc\ud574\uc57c \ud569\ub2c8\ub2e4. ",
         "Left to right": "\uc67c\ucabd\uc5d0\uc11c \uc624\ub978\ucabd\uc73c\ub85c",
