@@ -216,7 +216,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     Updates context dictionary with basic info required before rendering simplest
     certificate templates.
     """
-    course_id = 'course-v1:CAUk+ACE_CAU01+2017_T2'
+    #course_id = 'course-v1:CAUk+ACE_CAU01+2017_T2'
 
     context['platform_name'] = platform_name
     context['course_id'] = course_id
