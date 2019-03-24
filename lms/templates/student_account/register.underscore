@@ -68,11 +68,11 @@
         </label>
     </div>
 
-    <div>
+    <div hidden>
         <input type="checkbox" id="org_chk">
         <label>기관에게 정보 동의 체크</label>
     </div>
-    <div id="org_hs">
+    <div id="org_hs" hidden>
 
     <select name = "org_select" id="org_select_option">
         <option value="">선택해주세요</option>
