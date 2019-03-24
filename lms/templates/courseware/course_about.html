@@ -523,11 +523,11 @@ div.about-side-title p {
           %if user.is_active ==True :
           <div style="float: right; right: 0; position: absolute; margin-right: 20px;" id="interest_star" class="">
              % if (flag == 1):
-             <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="color:#3e7bc0; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-             <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="display:none; color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+             <a id="interest_btn_d" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="color:#3e7bc0; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+             <a id="interest_btn_i" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="display:none; color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
              % else :
-             <a id="interest_btn_d" onclick="modi()" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-             <a id="interest_btn_i" onclick="add()" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+             <a id="interest_btn_d" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+             <a id="interest_btn_i" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
              % endif
           </div>
           %endif

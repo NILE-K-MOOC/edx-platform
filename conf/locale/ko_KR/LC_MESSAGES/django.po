@@ -332,7 +332,7 @@ msgstr "이것이 외부 전자상거래 서비스의 이 모드에 대한 벌�
 #: common/djangoapps/course_modes/models.py lms/envs/common.py
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Honor"
-msgstr "명예"
+msgstr "수강"
 
 #: common/djangoapps/course_modes/models.py
 msgid ""
@@ -12503,7 +12503,7 @@ msgstr "즐겨찾기 완료"
 
 #: lms/templates/bookmark_button.html
 msgid "Bookmark this page"
-msgstr "이 페이지 즐겨찾기에 추가하기"
+msgstr "이 페이지 북마크"
 
 #: lms/templates/conditional_module.html
 msgid "You do not have access to this dependency module."
@@ -13336,7 +13336,7 @@ msgstr "{link_start}학습자 서약 {link_end}을 준수하겠습니다."
 #: themes/edx.org/lms/templates/header/navbar-not-authenticated.html
 #: themes/stanford-style/lms/templates/register-form.html
 msgid "Register"
-msgstr "가입하기 "
+msgstr "회원가입"
 
 #: lms/templates/register-form.html lms/templates/signup_modal.html
 #: themes/stanford-style/lms/templates/register-form.html
@@ -27563,3 +27563,12 @@ msgstr "완료(%(num_graded)s)"
 # ORA
 msgid "Completed"
 msgstr "완료"
+
+msgid "Partner"
+msgstr "파트너"
+
+msgid "You have not bookmarked any courseware pages yet"
+msgstr "강좌 페이지를 아직 북마크하지 않았습니다."
+
+msgid "Use bookmarks to help you easily return to courseware pages. To bookmark a page, click \"Bookmark this page\" under the page title."
+msgstr "북마크를 사용하여 강좌 페이지로 쉽게 돌아갈 수 있습니다. 페이지 북마크를 사용하려면 페이지 제목 아래에 있는 \"이 페이지 북마크\"를 클릭합니다."

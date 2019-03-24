@@ -1063,8 +1063,7 @@ ul.bxslider {
 }
 
 /* language */
-.kr01-Tlanguage{float: right; margin-top: 7px;
-  margin-right: 15px;}
+.kr01-Tlanguage{float: right; margin: 7px 15px 0 10px;}
 
 .language-btn {
   border: 1px solid #c6c6c6;
@@ -1139,7 +1138,7 @@ input[type="radio"].toggle:checked + label {
   float: left;
   z-index: 333;
   /*margin-top: 7px;*/
-  margin-right: 18px;
+  margin-right: 8px;
 }
 
 .kr01_Ttoggle-wrap ul{margin: 5px 0 0;}
@@ -1224,6 +1223,7 @@ input[type="radio"].toggle:checked + label {
 
 /* 알림 */
 .kr01-alertarea{ display: inline-block; float: right;}
+.kr01-signin-area { margin-right: 7px; }
 .kr01_bellarea{float: left;
   margin-right: 5px;}
 .kr01_bellarea .dropdown a ul li{margin-bottom: 0px;}
@@ -2035,6 +2035,9 @@ a.btn.btn-primary.action-resume-course:hover span {
 
 html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   font-size: 13px;
+}
+.global-header .kre02_tlogo02 {
+  display: inline;
 }
 
 .global-header .kre02_tlogo02 a {
