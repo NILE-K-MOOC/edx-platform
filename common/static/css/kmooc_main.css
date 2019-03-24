@@ -2039,6 +2039,9 @@ a.btn.btn-primary.action-resume-course:hover span {
 html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   font-size: 13px;
 }
+.global-header .kre02_tlogo02 {
+  display: inline;
+}
 
 .global-header .kre02_tlogo02 a {
   /*float: none;*/
