@@ -1433,7 +1433,7 @@ def course_about(request, course_id):
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
         # LMS_BASE = '127.0.0.1:18000' # TEST
-        url = 'http://' + LMS_BASE + '/search/course_discovery/'
+        url = 'https://' + LMS_BASE + '/search/course_discovery/'
 
         course_object = CourseOverview.get_from_id(course.id)
         course_display_name = course_object.display_name
