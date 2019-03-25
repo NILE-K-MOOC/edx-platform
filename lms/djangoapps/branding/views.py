@@ -65,17 +65,7 @@ def index(request):
     user_nm = u''
 
     logging.info('login SSO check module : %s', 'start')
-
-
-    try:
-        logging.info('request : %s', request.user)
-        user_email = str(request.user) + '@' + MOBIS_EMAIL
-        is_staff = getLoginAPIdecrypto(user_email)
-        request.session['cms_is_staff'] = is_staff
-    except:
-        logging.info('error in cms_is_staff')
-        request.session['cms_is_staff'] = 0
-
+    
     if not request.user.is_authenticated:
         try:
             logging.info('%s', 'views.py def index step 1')
