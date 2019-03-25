@@ -1765,11 +1765,12 @@ article.course.none .kr01-courInfo-bar{
 .kr01nav__submenu .kr01nav__submenu-item a{font-size: 18px;  padding: 5px;}
 .kr02nav__submenu .kr02nav__submenu-item a{font-size: 18px;  padding: 5px;}
 
-.kr01_dashArea{width: 100%; position: relative; display: flex;align-items: stretch; border: 1px solid #eee; padding: 20px 12px;}
-.kr01_dashArea .kr01_dashImg{width:330px; height: 150px; display: inline-block; margin-right: 12px;}
+.kr01_dashArea{width: 100%; position: relative; display: flex;align-items: stretch; padding: 20px 12px;}
+.kr01_dashArea .kr01_dashImg{width:240px; height: 150px; display: inline-block; margin-right: 12px;}
 .kr01_dashArea .kr01_dashImg a img{width: 100%; height: 150px;}
 
-.kr01_dashArea .kr01_dashTarea{width: 100%;}
+.kr01_dashArea .kr01_dashTarea{width: 100%;
+  max-width: 900px;}
 .kr01_dashArea .kr01_dashTarea .kr01_dashTitle{width: 100%; display: flex;align-items: stretch;}
 .kr01_dashArea .kr01_dashTarea .kr01_dashTitle .kr01_dashT01{
   width: 99%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 27px; font-weight: bold; height: 25px; line-height: 24px;}
