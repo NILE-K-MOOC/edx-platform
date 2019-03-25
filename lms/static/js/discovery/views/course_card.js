@@ -33,7 +33,7 @@ define([
 
     function formatTeacherName(teacher_name) {
         var teacher_str = '';
-        if(teacher_name == null){
+        if(teacher_name == null || teacher_name == 'all'){
             teacher_str = '';
         }else if(teacher_name.indexOf(',') != -1 && teacher_name.split(',').length != 1){
             const t_arr = teacher_name.split(',');
