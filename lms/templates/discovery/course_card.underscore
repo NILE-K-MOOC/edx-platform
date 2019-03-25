@@ -34,9 +34,7 @@
             <div class="course-date kr01_moviesubtit" aria-hidden="true">
                 <div class="kr01-subtext">
                 <span class="kr01_professor">
-                <% if (teacher_name != 'all') { %>
                 <%- teacher_name %>
-                <% } %>
                 </span>
                 <span class="kr01_school"><%- gettext(org) %></span>
                 </div>
