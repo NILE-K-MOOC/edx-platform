@@ -450,14 +450,12 @@ def series_view(request, id):
             SELECT a.series_name,
                a.series_id,
                a.note,
-               b.attach_file_path,
-               b.attatch_file_name,
-               attatch_file_ext,
+               ifnull(b.save_path, ''),
                c.detail_name,
                ifnull(a.short_description, '')
             FROM series as a
-            LEFT JOIN tb_board_attach AS b
-                ON a.sumnail_file_id = b.attatch_id
+            LEFT JOIN tb_attach AS b
+                ON a.sumnail_file_id = b.id
             LEFT JOIN code_detail c
                 ON a.org = c.detail_code AND c.group_code = '003'
             WHERE  a.series_seq = {}
@@ -1571,7 +1569,10 @@ def comm_file(request, file_id=None):
             cur.execute(query)
             attach_file = cur.fetchone()
 
-        # file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
+        save_path = attach_file[0]
+        file_name = attach_file[1]
+        save_path = save_path.replace('/static/file_upload', '/staticfiles/file_upload') if attach_file[0] else ''
+        real_path = '/edx/var/edxapp' + save_path
     except Exception as e:
         print 'comm_file error --- s'
         print e
@@ -1580,11 +1581,6 @@ def comm_file(request, file_id=None):
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
     # filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
-    save_path = attach_file[0]
-
-    file_name = attach_file[1]
-    save_path = save_path.replace('/static/file_upload', '/staticfiles/file_upload') if attach_file[0] else ''
-    real_path = '/edx/var/edxapp' + save_path
     # filename = file.attatch_file_name
 
     print "디렉토리",(os.getcwd())  # 현재 디렉토리의

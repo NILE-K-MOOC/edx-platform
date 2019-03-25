@@ -234,8 +234,7 @@ def courses(request):
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
     # course post parameter setting to html
-    # parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics']
-    parameter_list = ['etc']
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
 
     return render_to_response(
@@ -1434,7 +1433,7 @@ def course_about(request, course_id):
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
         # LMS_BASE = '127.0.0.1:18000' # TEST
-        url = 'http://' + LMS_BASE + '/search/course_discovery/'
+        url = 'https://' + LMS_BASE + '/search/course_discovery/'
 
         course_object = CourseOverview.get_from_id(course.id)
         course_display_name = course_object.display_name

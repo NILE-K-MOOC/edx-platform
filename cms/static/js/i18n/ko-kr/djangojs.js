@@ -391,6 +391,11 @@
         "Color": "\uc0c9",
         "Cols": "Cols",
         "Column group": "\uce7c\ub7fc \uadf8\ub8f9",
+
+        "%(earned)s/%(possible)s point (graded)": ["%(earned)s/%(possible)s\uc810 (\uc131\uc801\ubc18\uc601)"],
+        "%(num_points)s point possible (ungraded)": ["%(num_points)s\uc810 \ud68d\ub4dd\uac00\ub2a5 (\uc131\uc801\ubbf8\ubc18\uc601)"],
+        "%(num_points)s point possible (graded)": ["%(num_points)s\uc810 \ud68d\ub4dd\uac00\ub2a5 (\uc131\uc801\ubc18\uc601)"],
+
         "Column": "\uce7c\ub7fc",
         "Commentary": "\ud574\uc124",
         "Common Problem Types": "\uc77c\ubc18 \ubb38\uc81c \uc720\ud615",

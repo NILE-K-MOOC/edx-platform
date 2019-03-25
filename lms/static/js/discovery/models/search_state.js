@@ -23,7 +23,7 @@
             },
             performSearch: function (searchTerm, otherTerms) {
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
-                let k, v;
+                let k, v, t;
                 $("#main input[name='default_term']").each(function () {
                     k = $(this).data('key');
                     v = $(this).data('value');
@@ -31,27 +31,7 @@
                     obj[k] = v;
 
                     _.extend(otherTerms, obj);
-
-                    $(this).remove();
                 });
-
-                // 검색박스 표시
-                if (k && v){
-                    let e = this;
-                    setTimeout(function(){
-                        console.log("k:" + k  + " v:" + v + " size:" +  $("button[data-facet='"+ k +"'][data-value='"+ v +"']").size());
-                        if ($("button[data-facet='"+ k +"'][data-value='"+ v +"']").size() > 0){
-                            e.trigger(
-                                'selectedOption',
-                                k,
-                                v,
-                                gettext(v)
-                            );
-                        } else {
-                            console.debug('선택된 검색어가 존재 하지 않습니다.' + k + " : " + v);
-                        }
-                    }, 200);
-                }
 
                 this.reset();
                 this.searchTerm = searchTerm;
