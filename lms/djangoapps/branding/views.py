@@ -31,7 +31,7 @@ import requests
 from django.contrib.auth import login as django_login
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-import cx_Oracle as ora
+# import cx_Oracle as ora
 
 import hashlib
 import subprocess
@@ -65,6 +65,17 @@ def index(request):
     user_nm = u''
 
     logging.info('login SSO check module : %s', 'start')
+
+
+    try:
+        logging.info('request : %s', request.user)
+        user_email = str(request.user) + '@' + MOBIS_EMAIL
+        is_staff = getLoginAPIdecrypto(user_email)
+        request.session['cms_is_staff'] = is_staff
+    except:
+        logging.info('error in cms_is_staff')
+        request.session['cms_is_staff'] = 0
+
     if not request.user.is_authenticated:
         try:
             logging.info('%s', 'views.py def index step 1')
@@ -281,8 +292,6 @@ def index(request):
 
     #  we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
-
-
     return student.views.index(request, user=request.user)
 
 
