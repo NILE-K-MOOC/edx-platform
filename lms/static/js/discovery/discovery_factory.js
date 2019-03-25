@@ -45,16 +45,6 @@
                     form.doSearch('');
                 });
 
-                dispatcher.listenTo(search, 'selectedOption', function(type, query, name) {
-                    //form.showLoadingIndicator();
-                    if (filters.get(type)) {
-                        removeFilter(type);
-                    } else {
-                        filters.add({type: type, query: query, name: name});
-                        // search.refineSearch(filters.getTerms());
-                    }
-                });
-
                 dispatcher.listenTo(listing, 'next', function() {
                     search.loadNextPage();
                 });
@@ -63,13 +53,10 @@
                     listing.renderNext();
                 });
 
-                dispatcher.listenTo(search, 'selectedOption', function(type, query, name) {
-
+                dispatcher.listenTo(refineSidebar, 'selectedOption', function(type, query, name) {
                     form.showLoadingIndicator();
                     filters.add({type: type, query: query, name: name});
                 });
-
-
 
                 dispatcher.listenTo(search, 'search', function(query, total) {
                     if (total > 0) {

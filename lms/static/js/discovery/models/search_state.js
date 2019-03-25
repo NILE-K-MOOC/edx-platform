@@ -31,46 +31,7 @@
                     obj[k] = v;
 
                     _.extend(otherTerms, obj);
-
-                    $(this).remove();
                 });
-
-                // 검색박스 표시
-                if (k && v){
-                    let e = this;
-                    setTimeout(function(){
-
-                        console.debug("setTimeout check:" + k + ":" + v);
-                        switch (k){
-                            case 'fourth_industry_yn':
-                                k = 'fourth_industry_yn';
-                                v = 'Y';
-                                t = 'fourth_industry_y';
-                                break;
-                            case 'job_edu_yn':
-                                k = 'job_edu_yn'
-                                v = 'Y';
-                                t = 'job_edu_y';
-                                break;
-                            case 'linguistics':
-                                k = 'linguistics';
-                                v = 'Y';
-                                t = 'linguistics_y';
-                                break;
-                        }
-
-                        if ($("button[data-facet='"+ k +"'][data-value='"+ v +"']").size() > 0){
-                            e.trigger(
-                                'selectedOption',
-                                k,
-                                v,
-                                gettext(t)
-                            );
-                        } else {
-                            console.debug('선택된 검색어가 존재 하지 않습니다.' + k + " : " + v);
-                        }
-                    }, 200);
-                }
 
                 this.reset();
                 this.searchTerm = searchTerm;
