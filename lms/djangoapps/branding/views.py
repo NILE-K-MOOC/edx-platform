@@ -609,8 +609,8 @@ def user_ora_exists_check(seqid):
         if gMobis:
             MOBIS_DB_USR = 'SWAUSER'
             MOBIS_DB_PWD = 'mbora#SW252'
-            MOBIS_DB_SID = 'mobispdm'
-            MOBIS_DB_IP = '10.230.22.252'
+            MOBIS_DB_SID = 'MOBISPLM'
+            MOBIS_DB_IP = '10.230.10.65'
             MOBIS_DB_PORT = '1521'
         else:
             MOBIS_DB_USR = 'scott'
