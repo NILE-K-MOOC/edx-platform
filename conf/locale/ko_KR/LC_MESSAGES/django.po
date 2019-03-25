@@ -13157,7 +13157,7 @@ msgstr "{i_start}{user_name}{i_end} 로 강좌를 보고 있습니다."
 #: lms/templates/problem.html
 msgid "You have used {num_used} of {num_total} attempt"
 msgid_plural "You have used {num_used} of {num_total} attempts"
-msgstr[0] "{num_total} 중 {num_used} 번의 기회를 사용했습니다"
+msgstr[0] "{num_total}번 중 {num_used} 번의 기회를 사용했습니다"
 
 #: lms/templates/problem.html
 msgid ""
@@ -27572,3 +27572,6 @@ msgstr "강좌 페이지를 아직 북마크하지 않았습니다."
 
 msgid "Use bookmarks to help you easily return to courseware pages. To bookmark a page, click \"Bookmark this page\" under the page title."
 msgstr "북마크를 사용하여 강좌 페이지로 쉽게 돌아갈 수 있습니다. 페이지 북마크를 사용하려면 페이지 제목 아래에 있는 \"이 페이지 북마크\"를 클릭합니다."
+
+msgid "Answers are displayed within the problem"
+msgstr "정답이 문제 내에 표시됩니다."

@@ -265,15 +265,15 @@
                                 persistChanges: true
                             })
                         },
-                        {
-                            view: new AccountSettingsFieldViews.DropdownFieldView({
-                                model: userAccountModel,
-                                title: gettext('organization'),
-                                valueAttribute: 'organization',
-                                options: org_list,
-                                persistChanges: true
-                            })
-                        }
+                        // {
+                        //     view: new AccountSettingsFieldViews.DropdownFieldView({
+                        //         model: userAccountModel,
+                        //         title: gettext('organization'),
+                        //         valueAttribute: 'organization',
+                        //         options: org_list,
+                        //         persistChanges: true
+                        //     })
+                        // }
                     ]
                 }
             ];
