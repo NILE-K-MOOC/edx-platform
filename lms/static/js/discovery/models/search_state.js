@@ -40,26 +40,25 @@
                     let e = this;
                     setTimeout(function(){
 
-                        switch (v){
-                            case 'fourth_industry_y':
+                        console.debug("setTimeout check:" + k + ":" + v);
+                        switch (k){
+                            case 'fourth_industry_yn':
                                 k = 'fourth_industry_yn';
                                 v = 'Y';
                                 t = 'fourth_industry_y';
                                 break;
-                            case 'job_edu_y':
+                            case 'job_edu_yn':
                                 k = 'job_edu_yn'
                                 v = 'Y';
                                 t = 'job_edu_y';
                                 break;
-                            case 'linguistics_y':
+                            case 'linguistics':
                                 k = 'linguistics';
                                 v = 'Y';
                                 t = 'linguistics_y';
                                 break;
                         }
 
-
-                        console.log("k:" + k  + " v:" + v + " size:" +  $("button[data-facet='"+ k +"'][data-value='"+ v +"']").size());
                         if ($("button[data-facet='"+ k +"'][data-value='"+ v +"']").size() > 0){
                             e.trigger(
                                 'selectedOption',
