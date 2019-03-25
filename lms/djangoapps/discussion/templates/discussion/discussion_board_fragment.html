@@ -38,11 +38,11 @@ from openedx.core.djangolib.markup import HTML
             ## Add Post button
             % if has_permission(user, 'create_thread', course.id):
             <div class="forum-actions" style="display: inline-block">
-                <button class="btn btn-outline-primary btn-small new-post-btn">${_("Add a Post")}</button>
+                <button class="btn btn-outline-primary btn-small new-post-btn" style="border: #0a5aaa 1px solid; line-height: 1;">${_("Add a Post")}</button>
             </div>
             % endif
             ## Search box
-            <div class="forum-search" style="display: inline-block"></div>
+            <div class="forum-search" style="display: inline-table;"></div>
         </div>
     </header>
     <div class="page-content"
