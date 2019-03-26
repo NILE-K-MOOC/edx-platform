@@ -369,17 +369,20 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT course_division, course_id
+              FROM tb_main_course;
+        '''
+        cur.execute(query)
+        main_course = cur.fetchall()
+        new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
+        pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
 
-    f1 = {'enrollment_start__isnull': False, 'enrollment_start__lte': datetime.datetime.now(),
-          'enrollment_end__gte': datetime.datetime.now(),
-          'start__lte': datetime.datetime(2029, 12, 31),
-          'course_type': 'new_course'}
+    f1 = {'id__in': new_course}
     log.info(f1)
 
-    f2 = {'enrollment_start__isnull': False,
-          'courseenrollment__created__gte': datetime.datetime.now() - datetime.timedelta(days=30),
-          'enrollment_start__lte': datetime.datetime.now(),
-          'enrollment_end__gte': datetime.datetime.now(), 'course_type': 'pop_course'}
+    f2 = {'id__in': pop_course}
     log.info(f2)
 
     new_courses = index_courses(user, f1)
@@ -634,15 +637,7 @@ def index_submenu():
 
 def index_courses(user, filter_=None):
     courses = get_courses(user, filter_=filter_)
-    courses = [c for c in courses if not c.has_ended()][:16]
-
-    if len(courses) < 16:
-        if filter_.has_key('enrollment_end__gte'):
-            del filter_['enrollment_end__gte']
-        if filter_.has_key('enrollment_start__lte'):
-            del filter_['enrollment_start__lte']
-        courses = get_courses(user, filter_=filter_)
-        courses = [c for c in courses if not c.has_ended()][:16]
+    courses = [c for c in courses if not c.has_ended()]
 
     # 랜덤 출력을위해 shuffle 사용
     shuffle(courses)
