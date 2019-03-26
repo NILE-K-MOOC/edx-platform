@@ -2093,22 +2093,26 @@ def advanced_settings_handler(request, course_key_string):
                         params,
                         user=request.user,
                     )
-
+                    audit_yn = 'Y'
+                    teacher_name = ''
                     if 'audit_yn' in params:
-                        try:
-                            audit_yn = params['audit_yn']['value']
-                            audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
-                            with connections['default'].cursor() as cur:
-                                query = """
-                                    UPDATE course_overview_addinfo
-                                       SET audit_yn = '{audit_yn}'
-                                     WHERE course_id = '{course_id}';
-                                """.format(audit_yn=audit_yn, course_id=course_key_string)
-                                cur.execute(query)
-                        except Exception as e:
-                            is_valid = False
-                            errors.append({'message': 'audit_yn value is not collect', 'model': None})
-                            print e
+                        audit_yn = params['audit_yn']['value']
+                        audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
+                    if 'teacher_name' in params:
+                        teacher_name = params['teacher_name']['value']
+                    try:
+                        with connections['default'].cursor() as cur:
+                            query = """
+                                UPDATE course_overview_addinfo
+                                   SET audit_yn = '{audit_yn}',
+                                    teacher_name = '{teacher_name}'
+                                 WHERE course_id = '{course_id}';
+                            """.format(audit_yn=audit_yn, course_id=course_key_string, teacher_name=teacher_name)
+                            cur.execute(query)
+                    except Exception as e:
+                        is_valid = False
+                        errors.append({'message': 'audit_yn or teacher_name value is not collect', 'model': None})
+                        print e
 
                     if is_valid:
                         try:
