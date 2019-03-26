@@ -387,10 +387,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     log.info(f2)
 
     new_courses = index_courses(user, f1)
-    # pop_courses = index_courses(user, f2)
-
-    # 인기강좌 속도 문제로 주석처리
-    pop_courses = list()
+    pop_courses = index_courses(user, f2)
 
     log.info(u'len(new_courses) ::: %s', len(new_courses))
     log.info(u'len(pop_courses) ::: %s', len(pop_courses))
