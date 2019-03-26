@@ -381,6 +381,7 @@ def decrypt(key, _iv, enc):
     return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
+@csrf_exempt
 def multisite_error(request):
     context = {}
 
@@ -405,6 +406,7 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
+@csrf_exempt
 def multisite_index(request, org):
 
     if 'multistie_success' in request.session:

@@ -194,6 +194,7 @@ from bson import ObjectId
 from pymongo import MongoClient
 from xmodule.modulestore.django import modulestore
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+@csrf_exempt
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
     context = {}
