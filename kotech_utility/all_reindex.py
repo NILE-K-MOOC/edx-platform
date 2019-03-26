@@ -4,7 +4,7 @@ from pytz import timezone
 from datetime import datetime
 
 conn = pymysql.connect(
-    host='172.17.101.209',
+    host='192.168.1.113',
     user='edxapp001',
     password='password',
     db='edxapp',

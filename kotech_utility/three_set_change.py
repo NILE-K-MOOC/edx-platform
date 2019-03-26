@@ -11,7 +11,7 @@ from pymongo import MongoClient
 
 # global variable
 WEB1_HOST = '127.0.0.1'
-database_id = '127.0.0.1'
+database_id = '192.168.1.113'
 
 def update_coursestructure(course_id, fourth_industry='N', ribbon_yn='N', job_edu_yn='N', linguistics='N'):
     """
@@ -85,16 +85,16 @@ charset='utf8')
  
 curs = conn.cursor()
  
-sql = "select id from course_overviews_courseoverview limit 5"
-curs.execute(sql)
+#sql = "select id from course_overviews_courseoverview limit 5"
+#curs.execute(sql)
 
-course_list = [] 
-rows = curs.fetchall()
-for row in rows:
-  course_list.append(row[0])
+#course_list = [] 
+#rows = curs.fetchall()
+#for row in rows:
+#  course_list.append(row[0])
 
-course_list = ['course-v1:KoreaUnivK+ku_phy_002+2019_A05']
-print course_list
+#course_list = ['course-v1:KoreaUnivK+ku_phy_002+2019_A05']
+#print course_list
 
 f = open("user_list.txt", 'r')
 lines = f.readlines()
@@ -140,8 +140,7 @@ for line in lines:
     update_coursestructure(course, 'N', 'N', 'Y', 'N')
     print sql
     print "-------------------------------"
+    break
 
 conn.close()
 f.close()
-
-print "bye world"
