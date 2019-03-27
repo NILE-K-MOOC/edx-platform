@@ -419,16 +419,15 @@
                 // 검색박스 표시
                 if (k && v) {
                     let e = this;
-                    console.debug("setTimeout check:" + k + ":" + v);
                     switch (k) {
                         case 'fourth_industry_yn':
                             k = 'fourth_industry_yn';
-                            v = 'Y';
+                            v = 'fourth_industry_y';
                             t = 'fourth_industry_y';
                             break;
                         case 'job_edu_yn':
                             k = 'job_edu_yn'
-                            v = 'Y';
+                            v = 'job_edu_y';
                             t = 'job_edu_y';
                             break;
                         case 'linguistics':

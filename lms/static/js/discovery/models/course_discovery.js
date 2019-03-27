@@ -96,6 +96,12 @@
 
                     } else {
                         _(obj.terms).each(function (count, term) {
+
+                            if(key == 'fourth_industry_yn' && term == 'Y')
+                                term = 'fourth_industry_y';
+                            else if (key == 'job_edu_yn' && term == 'Y')
+                                term = 'job_edu_y';
+
                             options.add({
                                 facet: key,
                                 term: term,
