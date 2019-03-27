@@ -205,7 +205,7 @@ def index(request):
                         # element count check
                         if len(rt) > 0:
                             #user_nm = unicode(rt[0][1])+'('+seqid+')' #USER_NM 홍길동(10000000) 형식으로 생성
-                            user_nm = seqid #USER_NM 홍길동(10000000) 형식으로 생성
+                            user_nm = rt[0]['user_nm'] #USER_NM 홍길동(10000000) 형식으로 생성
                         else:
                             # not exist user on Mobis emp master view
                             logging.info('%s no data in human information', 'views.py def index step E11')
@@ -224,7 +224,7 @@ def index(request):
                         logging.info('%s Shell script : %s', 'views.py def index step 12', cmd)
                         result = os.system(cmd)
                         # auth_user update
-                        user_info_update(seqid, _email)
+                        user_info_update(user_nm, _email)
 
                     user = User.objects.get(email=_email)
                     user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
@@ -669,7 +669,10 @@ def user_ora_exists_check(seqid):
         cur.execute(query)
 
         for row in cur.fetchall():
-            results.append(row)
+            data_dict = dict()
+            data_dict['seqid'] = row[0]
+            data_dict['user_nm'] = row[1]
+            results.append(data_dict)
 
         return results
 
@@ -920,7 +923,7 @@ def user_info_update(user_nm, email):
         # SQL문 실행
         user_id = 0
         sql = """
-              select id from auth_user where email = \'{email}\'
+              select id from auth_user where email = '{email}'
               """.format(email=email)
         cur.execute(sql)
 
@@ -934,11 +937,11 @@ def user_info_update(user_nm, email):
 
         if exists_flag:
             sql1 = """
-                  update auth_user set last_name = \'{last_name}\' where email = {email}
+                  update auth_user set last_name = '{last_name}' where email = '{email}'
                   """.format(last_name=user_nm, email=email)
             cur.execute(sql1)
             sql2 = """
-                  update auth_userprofile set name = \'{user_nm}\' where user_id = {id}
+                  update auth_userprofile set name = '{user_nm}' where user_id = {id}
                   """.format(user_nm=user_nm, id=id)
             cur.execute(sql2)
             con.commit()
