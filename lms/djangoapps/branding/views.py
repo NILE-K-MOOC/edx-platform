@@ -632,7 +632,7 @@ def user_ora_exists_check(seqid):
         _connectString = "{0}:{1}/{2}".format(MOBIS_DB_IP, MOBIS_DB_PORT, MOBIS_DB_SID)
         con = ora.connect(MOBIS_DB_USR, MOBIS_DB_PWD, _connectString)
         os.putenv('NLS_LANG', 'UTF8')
-        cur = db.cursor()
+        cur = con.cursor()
 
         # get one row
         query = """
@@ -643,7 +643,22 @@ def user_ora_exists_check(seqid):
                     ,NVL(DIV_NM,'') DIV_NM
                     ,NVL(DEPT_NM,'') DEPT_NM
                     ,NVL(CLSF_NM,'') CLSF_NM
-                  FROM XAM_ADM.T_XAM_USER_INFO01M1
+                  FROM (
+                      SELECT USER_ID,
+                      USER_NM,
+                      USER_ENG_NM,
+                      CLSF_NM,
+                      (    SELECT DEPT_NM
+                           FROM XAM_APP.T_XAM_DEPT_INFO01M1
+                           WHERE DEPT_LVL_CD = 'CB'
+                           START WITH DEPT_CD = A.DEPT_CD
+                           CONNECT BY     DEPT_CD = PRIOR UPPER_DEPT_CD
+                           AND DEPT_CD <> UPPER_DEPT_CD
+                           AND END_DT = '99991231')    AS DIV_NM,
+                      DEPT_NM
+                      FROM XAM_ADM.T_XAM_USER_INFO01M1 A
+                      WHERE RETIRE_YN = 'N' AND USER_TY_CD = '0'
+                  )
                   WHERE USER_ID = '{seqid}'
                   AND   ROWNUM = 1
                 """.format(seqid=seqid)
@@ -684,8 +699,8 @@ def user_ora_human_update(rnn_go):
         if gMobis:
             MOBIS_DB_USR = 'SWAUSER'
             MOBIS_DB_PWD = 'mbora#SW252'
-            MOBIS_DB_SID = 'mobispdm'
-            MOBIS_DB_IP = '10.230.22.252'
+            MOBIS_DB_SID = 'MOBISPLM'
+            MOBIS_DB_IP = '10.230.10.65'
             MOBIS_DB_PORT = '1521'
         else:
             MOBIS_DB_USR = 'scott'
@@ -697,20 +712,35 @@ def user_ora_human_update(rnn_go):
         _connectString = "{0}:{1}/{2}".format(MOBIS_DB_IP, MOBIS_DB_PORT, MOBIS_DB_SID)
         con = ora.connect(MOBIS_DB_USR, MOBIS_DB_PWD, _connectString)
         os.putenv('NLS_LANG', 'UTF8')
-        cur = db.cursor()
+        cur = con.cursor()
 
         # get one row
         query = """
-                          SELECT
-                             USER_ID
-                            ,NVL(USER_NM,'') USER_NM
-                            ,NVL(USER_ENG_NM,'') USER_ENG_NM
-                            ,NVL(DIV_NM,'') DIV_NM
-                            ,NVL(DEPT_NM,'') DEPT_NM
-                            ,NVL(CLSF_NM,'') CLSF_NM
-                          FROM XAM_ADM.T_XAM_USER_INFO01M1
-                          ORDER BY USER_ID ASC
-                        """
+                SELECT
+                     USER_ID
+                    ,NVL(USER_NM,'') USER_NM
+                    ,NVL(USER_ENG_NM,'') USER_ENG_NM
+                    ,NVL(DIV_NM,'') DIV_NM
+                    ,NVL(DEPT_NM,'') DEPT_NM
+                    ,NVL(CLSF_NM,'') CLSF_NM
+                FROM (
+                      SELECT USER_ID,
+                      USER_NM,
+                      USER_ENG_NM,
+                      CLSF_NM,
+                      (    SELECT DEPT_NM
+                           FROM XAM_APP.T_XAM_DEPT_INFO01M1
+                           WHERE DEPT_LVL_CD = 'CB'
+                           START WITH DEPT_CD = A.DEPT_CD
+                           CONNECT BY     DEPT_CD = PRIOR UPPER_DEPT_CD
+                           AND DEPT_CD <> UPPER_DEPT_CD
+                           AND END_DT = '99991231')    AS DIV_NM,
+                      DEPT_NM
+                      FROM XAM_ADM.T_XAM_USER_INFO01M1 A
+                      WHERE RETIRE_YN = 'N' AND USER_TY_CD = '0'
+                  )          
+                ORDER BY USER_ID ASC
+                """
 
 
         # MERP.VW_USER_IM
