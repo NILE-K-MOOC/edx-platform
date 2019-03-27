@@ -454,7 +454,10 @@ def multisite_index(request, org):
             out_url = rows[0][1]
             key = rows[0][2]
             save_path = rows[0][3]
-        except BaseException:
+        except BaseException as err:
+            log('-----------------------------------')
+            log(err)
+            log('-----------------------------------')
             return redirect('/multisite_error?error=error001')
 
     request.session['save_path'] = save_path
@@ -502,13 +505,19 @@ def multisite_index(request, org):
         # 암호화 데이터 복호화
         try:
             encStr = encStr.replace(' ', '+')
-        except BaseException:
+        except BaseException as err:
+            log('-----------------------------------')
+            log(err)
+            log('-----------------------------------')
             return redirect('/multisite_error?error=error003')
 
         try:
             raw_data = decrypt(key, key, encStr)
             raw_data = raw_data.split('&')
-        except BaseException:
+        except BaseException as err:
+            log('-----------------------------------')
+            log(err)
+            log('-----------------------------------')
             return redirect('/multisite_error?error=error003')
 
         # DEBUG
@@ -520,7 +529,10 @@ def multisite_index(request, org):
             calltime = raw_data[0].split('=')[1]
             userid = raw_data[1].split('=')[1]
             orgid = raw_data[2].split('=')[1]
-        except BaseException:
+        except BaseException as err:
+            log('-----------------------------------')
+            log(err)
+            log('-----------------------------------')
             return redirect('/multisite_error?error=error004')
 
         # DEBUG
