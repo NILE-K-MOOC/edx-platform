@@ -2072,21 +2072,21 @@ def mobile_course_about(request, course_id):
                 image_url = result['data']['image_url']
                 org = result['data']['org']
                 display_name = result['data']['content']['display_name']
-                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
                 now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
                 status = get_course_status(start, end, now)
 
                 # format change
-                start = start.strftime('%Y-%m-%d')
-                end = end.strftime('%Y-%m-%d')
+                sim_start = sim_start.strftime('%Y-%m-%d')
+                sim_end = sim_end.strftime('%Y-%m-%d')
 
                 course_dict['course_id'] = course_id
                 course_dict['image_url'] = image_url
                 course_dict['org'] = org
                 course_dict['display_name'] = display_name
-                course_dict['start'] = start
-                course_dict['end'] = end
+                course_dict['sim_start'] = sim_start
+                course_dict['sim_end'] = sim_end
                 course_dict['status'] = status
                 similar_course.append(course_dict)
         except BaseException:
