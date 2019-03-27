@@ -638,7 +638,6 @@ def index_submenu():
 
 def index_courses(user, filter_=None):
     courses = get_courses(user, filter_=filter_)
-    courses = [c for c in courses if not c.has_ended()]
 
     # 랜덤 출력을위해 shuffle 사용
     shuffle(courses)
