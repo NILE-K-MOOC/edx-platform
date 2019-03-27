@@ -31,11 +31,12 @@ from six import string_types
 
     $(".register").click(function(event) {
       %if not user.is_authenticated():
-            //alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
-            alert('${_("You need to register to enrollment.")}');
-            location.href = "/login";
-        %endif
+          //alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
+          alert('${_("You need to register to enrollment.")}');
+          location.href = "/login";
+      % else:
         $("#class_enroll_form").submit();
+      %endif
         //location.href = "/login";
         event.preventDefault();
     });
