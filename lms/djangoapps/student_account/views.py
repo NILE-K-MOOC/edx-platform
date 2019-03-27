@@ -176,14 +176,17 @@ def nicecheckplus(request):
     # ----- get user_id query ----- #
 
     # encode data
-    # nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
-    # nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
-    nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
-    nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
+    #nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
+    #nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
 
-    nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
-    nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+    #nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
+    #nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+
+    print "nice_sitecode -> ", nice_sitecode
+    print "nice_sitepasswd -> ", nice_sitepasswd
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     enc_data = request.POST.get('EncodeData')
@@ -956,14 +959,8 @@ def account_settings_context(request):
     """
 
     # -------------------- nice core -------------------- #
-    # nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
-    # nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
-
-    nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
-    nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
-
-    nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
-    nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
@@ -974,8 +971,9 @@ def account_settings_context(request):
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
 
-    lms_base = settings.ENV_TOKENS.get('NICE_RETURN_URL')
-    # lms_base = 'localhost:18000'
+    #lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+    lms_base = 'localhost:18000'
+
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
@@ -990,8 +988,15 @@ def account_settings_context(request):
                 len(nice_customize), nice_customize,
                 len(nice_gender), nice_gender)
 
+    print "plaindata -> ", plaindata
+
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+
+    print "nice_command -> ", nice_command
+
     enc_data = commands.getoutput(nice_command)
+
+    print "enc_data -> ", enc_data
 
     if enc_data == -1:
         nice_returnMsg = "암/복호화 시스템 오류입니다."

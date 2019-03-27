@@ -137,6 +137,8 @@ def _update_certificate_context(context, course, user_certificate, platform_name
                 len(nice_gender), nice_gender)
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+
+    print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
 
     with connections['default'].cursor() as cur:
