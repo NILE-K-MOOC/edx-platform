@@ -1,7 +1,17 @@
-    <script>
-        $(document).ready(function(){
-            alert('실명인증에 실패 하였습니다.\n다시 진행하시기 바랍니다.');
-            opener.location.reload();
-            self.close();
-        });
-    </script>
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">${_('Series Course')}</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<script>
+    $(document).ready(function(){
+        alert('실명인증에 실패 하였습니다.\n다시 진행하시기 바랍니다.');
+        opener.location.reload();
+        self.close();
+    });
+</script>
+
+
+
