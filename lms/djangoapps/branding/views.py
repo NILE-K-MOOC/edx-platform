@@ -455,9 +455,9 @@ def multisite_index(request, org):
             key = rows[0][2]
             save_path = rows[0][3]
         except BaseException as err:
-            log('-----------------------------------')
-            log(err)
-            log('-----------------------------------')
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error001')
 
     request.session['save_path'] = save_path
@@ -506,18 +506,18 @@ def multisite_index(request, org):
         try:
             encStr = encStr.replace(' ', '+')
         except BaseException as err:
-            log('-----------------------------------')
-            log(err)
-            log('-----------------------------------')
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error003')
 
         try:
             raw_data = decrypt(key, key, encStr)
             raw_data = raw_data.split('&')
         except BaseException as err:
-            log('-----------------------------------')
-            log(err)
-            log('-----------------------------------')
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error003')
 
         # DEBUG
@@ -530,9 +530,9 @@ def multisite_index(request, org):
             userid = raw_data[1].split('=')[1]
             orgid = raw_data[2].split('=')[1]
         except BaseException as err:
-            log('-----------------------------------')
-            log(err)
-            log('-----------------------------------')
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error004')
 
         # DEBUG
