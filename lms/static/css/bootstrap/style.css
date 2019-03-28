@@ -322,7 +322,7 @@ h1 {
 
 .slider {
     margin: 0 auto;
-    max-width: 940px;
+    /*max-width: 940px;*/
 }
 
 .slide_viewer {
