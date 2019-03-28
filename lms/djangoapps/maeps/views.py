@@ -679,7 +679,9 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
     logging.info('---------------------------')
     logging.info('strRetCode -> ' + str(strRetCode))
     logging.info('---------------------------')
-    if strRetCode == mapreprocessor.ISUCCESS or strRetCode == 10030:
+
+    if True:
+    #if strRetCode == mapreprocessor.ISUCCESS:
         iAMetaDataSize = len(strAMetaData)
 
         '''
