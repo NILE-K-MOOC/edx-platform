@@ -399,6 +399,9 @@ def certificate_print(request):
         if multisite != '':
             print_index = print_index.replace('${multisite}', multisite)
         else:
+            print_index_css += '''
+            </style>
+            '''
             print_index = print_index.replace('${multisite}', '')
         if (checkbox3 == 'true'):
             print_index = print_index.replace('${e_box3}',
