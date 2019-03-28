@@ -1471,16 +1471,16 @@ def course_about(request, course_id):
                 display_name = result['data']['content']['display_name']
 
                 try:
-                    start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-                    start = start.strftime('%Y-%m-%d')
+                    sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                    sim_start = sim_start.strftime('%Y-%m-%d')
                 except BaseException:
-                    start = '0000-00-00'
+                    sim_start = '0000-00-00'
 
                 try:
-                    end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
-                    end = end.strftime('%Y-%m-%d')
+                    sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                    sim_end = sim_end.strftime('%Y-%m-%d')
                 except BaseException:
-                    end = '0000-00-00'
+                    sim_end = '0000-00-00'
 
                 with connections['default'].cursor() as cur:
                     query = '''
@@ -1506,8 +1506,8 @@ def course_about(request, course_id):
                 course_dict['image_url'] = image_url
                 course_dict['org'] = org
                 course_dict['display_name'] = display_name
-                course_dict['start'] = start
-                course_dict['end'] = end
+                course_dict['sim_start'] = sim_start
+                course_dict['sim_end'] = sim_end
                 course_dict['status'] = status
                 similar_course.append(course_dict)
 
@@ -2045,6 +2045,7 @@ def mobile_course_about(request, course_id):
             else:
                 audit_flag = 'N'
 
+        """
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
         url = 'http://' + LMS_BASE + '/search/course_discovery/'
@@ -2072,29 +2073,29 @@ def mobile_course_about(request, course_id):
                 image_url = result['data']['image_url']
                 org = result['data']['org']
                 display_name = result['data']['content']['display_name']
-                sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-                sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
                 now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
                 status = get_course_status(start, end, now)
 
                 # format change
-                sim_start = sim_start.strftime('%Y-%m-%d')
-                sim_end = sim_end.strftime('%Y-%m-%d')
+                start = start.strftime('%Y-%m-%d')
+                end = end.strftime('%Y-%m-%d')
 
                 course_dict['course_id'] = course_id
                 course_dict['image_url'] = image_url
                 course_dict['org'] = org
                 course_dict['display_name'] = display_name
-                course_dict['sim_start'] = sim_start
-                course_dict['sim_end'] = sim_end
+                course_dict['start'] = start
+                course_dict['end'] = end
                 course_dict['status'] = status
                 similar_course.append(course_dict)
         except BaseException:
             similar_course = None
             log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
-
+        """
         context = {
-            'similar_course': similar_course,  # 유사강좌
+            #'similar_course': similar_course,  # 유사강좌
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,
