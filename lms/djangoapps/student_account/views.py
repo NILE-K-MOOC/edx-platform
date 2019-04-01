@@ -354,7 +354,7 @@ def parent_agree_done(request):
         plain_data = plain_data[pos2 + val_size + 1:]
     result_dict = str(result_dict)
     result_dict = result_dict.replace("'", '"')
-    request.session['division'] = 'Y'
+    request.session['auth'] = 'Y'
 
     return render_to_response('student_account/parent_agree_done.html', {'status': 'success'})
 
@@ -533,6 +533,7 @@ def login_and_registration_form(request, initial_mode="login"):
             'ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER',
             settings.FEATURES['ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER']
         ),
+        'division': division
     }
 
     enterprise_customer = enterprise_customer_for_request(request)
