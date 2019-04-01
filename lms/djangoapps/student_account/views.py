@@ -283,36 +283,43 @@ def nicecheckplus_error(request):
 
 @csrf_exempt
 def parent_agree(request):
-    ## IPIN info
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
-    print 'ipin module called1'
+    nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun = 'N'  # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+    # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+    # lms_base = 'dev.kr:18000'
 
-    sSiteCode = 'M231'
-    sSitePw = '76421752'
-    sModulePath = '/edx/app/edxapp/IPINClient'
-    sCPRequest = commands.getoutput(sModulePath + ' SEQ ' + sSiteCode)
-    sReturnURL = 'https://www.kmooc.kr/parent_agree_done'
-    sEncData = commands.getoutput(sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL)
+    nice_returnurl = "http://{lms_base}/parent_agree_done".format(lms_base=lms_base)  # 성공시 이동될 URL
+    # nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    # nice_errorurl = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
 
-    print '===================================================='
-    print '1 = ', sModulePath + ' SEQ ' + sSiteCode
-    print '===================================================='
-    print '3 = ', sCPRequest
-    print '===================================================='
-    print '4 = ', sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL
-    print '===================================================='
-    print '5 = ', sEncData
-    print '===================================================='
+    nice_returnMsg = ''
 
-    if sEncData == -9:
-        sRtnMsg = '입력값 오류 : 암호화 처리시 필요한 파라미터값의 정보를 정확하게 입력해 주시기 바랍니다.'
-    else:
-        sRtnMsg = sEncData + ' 변수에 암호화 데이터가 확인되면 정상 정상이 아닌경우 리턴코드 확인 후 NICE평가정보 개발 담당자에게 문의해 주세요.'
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
+        .format(len(nice_reqseq), nice_reqseq,
+                len(nice_sitecode), nice_sitecode,
+                len(nice_authtype), nice_authtype,
+                len(nice_returnurl), nice_returnurl,
+                len(nice_errorurl), nice_errorurl,
+                len(nice_popgubun), nice_popgubun,
+                len(nice_customize), nice_customize,
+                len(nice_gender), nice_gender)
 
-    print 'sRtnMsg = ', sRtnMsg
+    nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+
+    print "nice_command -> ", nice_command
+    enc_data = commands.getoutput(nice_command)
 
     context = {
-        'sEncData': sEncData,
+        'enc_data': enc_data,
     }
 
     return render_to_response('student_account/parent_agree.html', context)
@@ -320,36 +327,36 @@ def parent_agree(request):
 
 @csrf_exempt
 def parent_agree_done(request):
-    sSiteCode = 'M231'
-    sSitePw = '76421752'
-    sModulePath = '/edx/app/edxapp/IPINClient'
-    sEncData = request.POST['enc_data']
+    # encode data
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
-    sDecData = commands.getoutput(sModulePath + ' RES ' + sSiteCode + ' ' + sSitePw + ' ' + sEncData)
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
+    enc_data = request.POST.get('EncodeData')
+    nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
+    plain_data = commands.getoutput(nice_command)
+    di_index = plain_data.find("DI64:")
+    nice_di = plain_data[di_index + 5: di_index + 5 + 64]
 
-    print 'sDecData', sDecData
+    # return data parsing
+    result_dict = {}
+    pos1 = 0
+    while pos1 <= len(plain_data):
+        pos1 = plain_data.find(':')
+        key_size = int(plain_data[:pos1])
+        plain_data = plain_data[pos1 + 1:]
+        key = plain_data[:key_size]
+        plain_data = plain_data[key_size:]
+        pos2 = plain_data.find(':')
+        val_size = int(plain_data[:pos2])
+        val = plain_data[pos2 + 1: pos2 + val_size + 1]
+        result_dict[key] = val
+        plain_data = plain_data[pos2 + val_size + 1:]
+    result_dict = str(result_dict)
+    result_dict = result_dict.replace("'", '"')
+    request.session['division'] = 'Y'
 
-    if sDecData:
-        val = sDecData.split('^')
-        if val[6] and len(val[6]) == 8:
-            context = {
-                'isAuth': 'succ',
-                'age': int(date.today().year) - int(val[6][:4]),
-            }
-
-            if int(date.today().year) - int(val[6][:4]) < 20:
-                pass
-            else:
-                request.session['auth'] = 'Y'
-    else:
-        context = {
-            'isAuth': 'fail',
-            'age': 0,
-        }
-
-    print 'context > ', context
-
-    return render_to_response('student_account/parent_agree_done.html', context)
+    return render_to_response('student_account/parent_agree_done.html', {'status': 'success'})
 
 
 @require_http_methods(['GET'])

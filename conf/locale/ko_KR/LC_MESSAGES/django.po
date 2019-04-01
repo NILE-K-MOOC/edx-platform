@@ -25057,20 +25057,20 @@ msgstr "아이핀 인증에 실패하였습니다."
 
 # templates/student_account/agree.html
 
-msgid "IPIN certification."
-msgstr "회원가입 (아이핀 인증)"
+msgid "NICE certification."
+msgstr "회원가입 (나이스 인증)"
 
-msgid "IPIN certification is not completed."
-msgstr "아이핀 인증이 완료되지 않았습니다."
+msgid "NICE certification is not completed."
+msgstr "나이스 인증이 완료되지 않았습니다."
 
 msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join."
 msgstr "만 14세 미만 학습자는 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다."
 
-msgid "Please click the 'IPIN Certification' button and proceed with the consent of the guardian (legal representative)."
-msgstr "“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
+msgid "Please click the 'NICE Certification' button and proceed with the consent of the guardian (legal representative)."
+msgstr "“인증하기” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
 
-msgid "Proceed with the consent process of guardian by IPIN certification."
-msgstr "아이핀 인증으로 보호자의 동의절차를 진행"
+msgid "Proceed with the consent process of guardian by NICE certification."
+msgstr "나이스 인증으로 보호자의 동의절차를 진행"
 
 msgid "Certificating"
 msgstr "인증하기"
