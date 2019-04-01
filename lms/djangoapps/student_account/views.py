@@ -399,6 +399,8 @@ def login_and_registration_form(request, initial_mode="login"):
     redirect_to = get_next_url_for_login_page(request)
     provider_info = _third_party_auth_context(request, redirect_to)
 
+    division = None
+
     # print 'currentProvider:', provider_info['currentProvider']
     # add kocw logic
     print "test"
