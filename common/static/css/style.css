@@ -194,7 +194,7 @@
 }
 
 @media screen and (max-width:768px) {
-	.courses-container .courses .course .course-image .cover-image img {width:100%;height:auto;}
+	.courses-container .courses .course .course-image .cover-image img {width:100%;height:175px;}
 }
 
 .home>header .title>.heading-group {text-align:center;}
