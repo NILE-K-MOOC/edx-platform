@@ -7,7 +7,7 @@ from courseware.courses import get_course_about_section
 from django.conf import settings
 from six import text_type
 from edxmako.shortcuts import marketing_link
-from openedx.core.djangolib.markup import HTML
+from openedx.core.djangolib.markup import HTML, Text
 from openedx.core.lib.courses import course_image_url
 from six import string_types
 %>
@@ -981,11 +981,15 @@ div.about-side-title p {
                     </div>
 
                     <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate['enroll_sdate']} ~ ${enroll_edate['enroll_edate']}</span>
+                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate['enroll_sdate']} ~ ${enroll_edate['enroll_edate']} </span>
+                            <!--<span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${sections_start} ~ ${sections_end} </span>-->
+
+
                     </span>
 
                 </div>
             </li>
+
           % endif
 
           % if not course.start_date_is_still_default:
@@ -999,11 +1003,14 @@ div.about-side-title p {
                     </div>
 
                     <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${start} ~ ${end}
-                            % if day['day']:
-                <br><p style="float: right; margin: 0;">(${day['day']})</p>
-                % endif
-                    </span>
+
+                      % if sections_start:
+                      <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${sections_start} ~ ${sections_end}
+                      % elif day['day']:
+                      <br><p style="float: right; margin: 0;">(${day['day']})</p>
+                      %endif
+                      </span>
+
 
                 </div>
             </li>
