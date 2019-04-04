@@ -147,9 +147,6 @@ def agree_done(request):
     else:
         data['agreeYN'] = request.POST['agreeYN']
 
-    print 'data = ', data
-    print 'ddaattaa = ', json.dumps(data)
-
     return HttpResponse(json.dumps(data))
 
 
@@ -496,6 +493,10 @@ def login_and_registration_form(request, initial_mode="login"):
         org_index = cur.fetchall()
         org_list = list(org_index)
         print org_list
+
+    # 개인정보 수집 및 이용 동의 값, 홍보 설문 관련 정보수진 동의 선택값이 세션상에 있다면 회원가입 진행중..
+    if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+        initial_mode = 'register'
 
     # Otherwise, render the combined login/registration page
     context = {
@@ -888,11 +889,6 @@ def account_settings_confirm_check(request):
         GET /account/settings
 
     """
-    print '********************'
-    print request.user.is_authenticated()
-    print '********************'
-    print request.user
-    print '********************'
 
     user = authenticate(username=request.user, password=request.POST['passwd'], request=request)
 
@@ -943,7 +939,6 @@ def finish_auth(request):  # pylint: disable=unused-argument
 
 
 def account_settings_context(request):
-    print 'account_settings_context!!!'
     """ Context for the account settings page.
 
     Args:
@@ -984,15 +979,9 @@ def account_settings_context(request):
                 len(nice_customize), nice_customize,
                 len(nice_gender), nice_gender)
 
-    print "plaindata -> ", plaindata
-
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
 
-    print "nice_command -> ", nice_command
-
     enc_data = commands.getoutput(nice_command)
-
-    print "enc_data -> ", enc_data
 
     if enc_data == -1:
         nice_returnMsg = "암/복호화 시스템 오류입니다."
@@ -1078,9 +1067,10 @@ def account_settings_context(request):
         # it will be broken if exception raised
         user_orders = []
 
-    countries_list = list(countries)
-    countries_list.insert(0, (u'KR', u'South Korea'))
-    print 'countries_list', countries_list
+    # `KR` to the top
+    countries_list = list()
+    [countries_list.insert(0, (code, name)) if code == 'KR' else countries_list.append((code, name)) for code, name in countries]
+
     context = {
         'user_gender': user_gender,  # context -> nice data
         'user_birthday': user_birthday,  # context -> nice data

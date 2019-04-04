@@ -16,6 +16,7 @@
          * utility self-contained.
          */
             _.mixin(_s.exports());
+
             utils = (function() {
                 var _fn = {
                     validate: {
@@ -120,92 +121,48 @@
                                 return _fn.validate.email.regex.test(str);
                             }
                         },
-                        password: {
-                            valid: function(){
-                                if($("#register-password").val() === $("#register-password2").val()){
-                                    return true;
-                                }else{
-                                    $("#register-password").addClass("error");
-                                    return false;
-                                }
-                            }
-                        },
 
                         getLabel: function(id) {
                         // Extract the field label, remove the asterisk (if it appears) and any extra whitespace
                             return $('label[for=' + id + '] > span.label-text').text().split('*')[0].trim();
                         },
 
-                        // getMessage: function($el, tests) {
-                        //     var txt = [],
-                        //         label,
-                        //         context,
-                        //         content,
-                        //         customMsg,
-                        //         liveValidationMsg;
-                        //
-                        //     _.each(tests, function(value, key) {
-                        //         if (!value) {
-                        //             label = _fn.validate.getLabel($el.attr('id'));
-                        //             customMsg = $el.data('errormsg-' + key) || false;
-                        //             liveValidationMsg =
-                        //                 $('#' + $el.attr('id') + '-validation-error-msg').text() || false;
-                        //
-                        //         // If the field has a custom error msg attached, use it
-                        //             if (customMsg) {
-                        //                 content = customMsg;
-                        //             } else if (liveValidationMsg) {
-                        //                 content = liveValidationMsg;
-                        //             } else {
-                        //                 context = {field: label};
-                        //
-                        //                 if (key === 'min') {
-                        //                     context.count = parseInt($el.attr('minlength'), 10);
-                        //                 } else if (key === 'max') {
-                        //                     context.count = parseInt($el.attr('maxlength'), 10);
-                        //                 }
-                        //
-                        //                 content = _.sprintf(_fn.validate.msg[key], context);
-                        //             }
-                        //
-                        //             txt.push(_fn.validate.template({
-                        //                 content: content
-                        //             }));
-                        //         }
-                        //     });
-                        //
-                        //     return txt.join(' ');
-                        // },
+                        getMessage: function($el, tests) {
+                            var txt = [],
+                                label,
+                                context,
+                                content,
+                                customMsg,
+                                liveValidationMsg;
 
-                        getMessage: function( $el, tests ) {
-                        var txt = [],
-                            label,
-                            context,
-                            content,
-                            customMsg;
+                            _.each(tests, function(value, key) {
+                                if (!value) {
+                                    label = _fn.validate.getLabel($el.attr('id'));
+                                    customMsg = $el.data('errormsg-' + key) || false;
+                                    liveValidationMsg =
+                                        $('#' + $el.attr('id') + '-validation-error-msg').text() || false;
 
-                        _.each( tests, function( value, key ) {
-                                //if ( !value ) {
-                                //    label = _fn.validate.getLabel( $el.attr('id') );
-                                //    customMsg = $el.data('errormsg-' + key) || false;
-                                //
-                                //    // If the field has a custom error msg attached, use it
-                                //    if ( customMsg ) {
-                                //        content = customMsg;
-                                //    } else {
-                                //        context = {field: label};
-                                //
-                                //        if ( key === 'min' ) {
-                                //            context.count = parseInt( $el.attr('minlength'), 10 );
-                                //        } else if ( key === 'max' ) {
-                                //            context.count = parseInt( $el.attr('maxlength'), 10 );
-                                //        }
-                                //
-                                //        content = _.sprintf( _fn.validate.msg[key], context );
-                                //    }
-                                //
-                                //    txt.push( _fn.validate.template( {content: content} ) );
-                                //}
+                                // If the field has a custom error msg attached, use it
+                                    if (customMsg) {
+                                        content = customMsg;
+                                    } else if (liveValidationMsg) {
+                                        content = liveValidationMsg;
+                                    } else {
+                                        context = {field: label};
+
+                                        if (key === 'min') {
+                                            context.count = parseInt($el.attr('minlength'), 10);
+                                        } else if (key === 'max') {
+                                            context.count = parseInt($el.attr('maxlength'), 10);
+                                        }
+
+                                        content = _.sprintf(_fn.validate.msg[key], context);
+                                    }
+
+                                    txt.push(_fn.validate.template({
+                                        content: content
+                                    }));
+                                }
                             });
 
                             return txt.join(' ');

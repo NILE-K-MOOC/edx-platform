@@ -1,20 +1,6 @@
+<div class="js-form-feedback" aria-live="assertive" tabindex="-1"></div>
 
-
-<% if (context.errorMessage) { %>
-    <% if (context.errorMessage == "Authentication process canceled") { %>
-    <div class="status submission-error">
-        <h4 class="message-title"><%- gettext("Unable to use the login account when not agreement.") %></h4>
-        <ul class="message-copy"><%- gettext("Please use your K-MOOC account.") %></ul>
-    </div>
-    <% } else { %>
-    <div class="status submission-error">
-        <h4 class="message-title"><%- gettext("An error occurred.") %></h4>
-        <ul class="message-copy"><%- context.errorMessage %></ul>
-    </div>
-    <% } %>
-<% } %>
-
-<form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST" >
+<form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST">
 
     <% if (!context.currentProvider) { %>
         <% if (context.providers.length > 0 || context.hasSecondaryProviders) { %>
@@ -68,44 +54,14 @@
         </label>
     </div>
 
-    <div hidden>
-        <input type="checkbox" id="org_chk">
-        <label>기관에게 정보 동의 체크</label>
-    </div>
-    <div id="org_hs" hidden>
-
-    <select name = "org_select" id="org_select_option">
-        <option value="">선택해주세요</option>
-        <% for(var i = 0; i < context.org_count; i++) { %>
-            <option value="<%= context.org_list[i][0] %>"><%= context.org_list[i][1] %></option>
-        <% } %>
-    </select>
-
-    </div>
-
-
-    <p class="note">* <%- gettext("Required field") %></p>
-
-    <button type="submit" class="action action-primary action-update js-register register-button">
+    <button type="submit" class="action action-primary action-update js-register register-button" style="width: 100%;">
     	<% if ( context.registerFormSubmitButtonText ) { %><%- context.registerFormSubmitButtonText %><% } else { %><%- gettext("Create Account") %><% } %>
     </button>
-    <div class="status submission-error hidden" aria-live="polite">
-        <h4 class="message-title"><%- gettext("We couldn't create your account.") %></h4>
-        <ul class="message-copy"></ul>
-    </div>
-<div class="js-form-feedback" aria-live="assertive" tabindex="-1">
-</div>
+
 
 </form>
 
-
-
 <% if (!context.syncLearnerProfileData) { %>
-	<!--
-	<div class="toggle-form">
-		<span class="text"><%- edx.StringUtils.interpolate(gettext('Already have an {platformName} account?'), {platformName: context.platformName }) %></span>
-	</div>
-	-->
 	<div class="section-title">
         <h2>
             <span class="text"><%- gettext("Already have an account?") %></span>
@@ -113,50 +69,4 @@
     </div>
 	<button class="nav-btn form-toggle" data-type="login"><%- gettext("Sign in") %></button>
 <% } %>
-<script>
-$(document).ready(function(){
-        var provideer_text = $(".register-form p.message-copy").text();
-        if(provideer_text.indexOf("naver") != -1){
-            $(".password-password").hide();
-            var pwd = randomPassword();
-            $("#register-password").val(pwd);
-            $("#register-password2").val(pwd);
-        }
 
-        $('#org_select_option').attr('disabled', true)
-
-        $('#org_chk').change(function () {
-            if ($(this).prop("checked")){
-               $('#org_select_option').attr('disabled', false)
-               $('#org_hs').show()
-                }
-            else{
-                $('#org_select_option').attr('disabled', true)
-                $('#org_hs').hide()
-
-                }
-        });
-
-});
-
-function randomPassword() {
-    var ran = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*()=+";
-    var str_len = 5;
-    var pwd = '';
-    for (var i=0; i<str_len; i++) {
-        var rnum = Math.floor(Math.random() * ran.length);
-        pwd += ran.substring(rnum,rnum+1);
-    }
-    var ran_int = "0123456789";
-    for (var i=0; i<str_len; i++) {
-        var rnum = Math.floor(Math.random() * ran_int.length);
-        pwd += ran_int.substring(rnum,rnum+1);
-    }
-    var ran_pwd = "!@#$%^&*()=+";
-    for (var i=0; i<3; i++) {
-        var rnum = Math.floor(Math.random() * ran_pwd.length);
-        pwd += ran_pwd.substring(rnum,rnum+1);
-    }
-    return pwd;
-}
-</script>

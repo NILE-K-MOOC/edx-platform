@@ -190,13 +190,15 @@ def common_course_status(startDt, endDt):
     # return status
     return status
 
+
 from bson import ObjectId
 from pymongo import MongoClient
 from xmodule.modulestore.django import modulestore
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+
+
 @csrf_exempt
 def multisite_index(request, extra_context=None, user=AnonymousUser()):
-
     context = {}
     if extra_context is None:
         extra_context = {}
@@ -205,7 +207,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     site_code = request.session.get('multisite_org')
 
     # DEBUG
-    print "------------------------------------"
     print "site_code -> ", site_code
 
     # multisite - get site code query
@@ -300,7 +301,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                             if block.get('fields').get('catalog_visibility'):
                                 if block.get('fields').get('catalog_visibility') == 'none':
                                     pass
-                                    #course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
+                                    # course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
 
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
@@ -322,7 +323,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                         teacher_name = ''
                         teacher_name_cnt = 0
 
-                    course_overviews.teacher_name = ['','']
+                    course_overviews.teacher_name = ['', '']
                     course_overviews.teacher_name[0] = teacher_name
                     course_overviews.teacher_name[1] = teacher_name_cnt
 
@@ -350,6 +351,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
     return render_to_response('multisite_index.html', context)
+
 
 # NOTE: This view is not linked to directly--it is called from
 # branding/views.py:index(), which is cached for anonymous users.
@@ -587,7 +589,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur = con.cursor()
     cur.execute(popupzone_query)
     popzone = cur.fetchall()
-    print "popzone_test",popzone
+    print "popzone_test", popzone
 
     popzone_list = list()
     for idx, zone in enumerate(popzone):
@@ -654,9 +656,9 @@ def index_courses(user, filter_=None):
 def popup_contents(site_code=None):
     with connections['default'].cursor() as cur:
         multi_query = ' JOIN multisite c' \
-            'ON a.site_id = c.site_id' \
-            'AND site_code = "{site_code}"' \
-            'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
+                      'ON a.site_id = c.site_id' \
+                      'AND site_code = "{site_code}"' \
+                      'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
         query = '''
             SELECT popup_id,
                    popup_type,
@@ -1191,9 +1193,7 @@ def create_account_with_params(request, params):
                            not do_external_auth or
                            not eamap.external_domain.startswith(openedx.core.djangoapps.external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
                    )
-    print 'create_account_with_params Test =========='
-    print params
-    print 'create_account_with_params Test =========='
+
     form = AccountCreationForm(
         data=params,
         extra_fields=extra_fields,
@@ -1202,8 +1202,6 @@ def create_account_with_params(request, params):
         tos_required=tos_required,
     )
     custom_form = get_registration_extension_form(data=params)
-    print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    print params['is_regist'] == 'false'
 
     third_party_provider = None
     running_pipeline = None
