@@ -780,9 +780,10 @@ class RegistrationFormFactory(object):
         country_label = _(u"Country or Region of Residence")
 
         error_msg = accounts.REQUIRED_FIELD_COUNTRY_MSG
-        countries_list = list(countries)
-        countries_list.insert(0, (u'KR', u'South Korea'))
-        print " countries_list",countries_list
+
+        # `KR` to the top
+        countries_list = list()
+        [countries_list.insert(0, (code, name)) if code == 'KR' else countries_list.append((code, name)) for code, name in countries]
 
         # If we set a country code, make sure it's uppercase for the sake of the form.
         # pylint: disable=protected-access
