@@ -3,6 +3,7 @@ var course_slider;
 
 var main_slider;
 var sub_slider;
+var footer_slider;
 
 var slide_option = {
   auto: false,
@@ -20,6 +21,23 @@ var slide_option = {
     $('.kr01_movie_slider').css({'visibility': 'visible'});
   }
 };
+
+var slide_footer = {
+    mode: 'horizontal',
+    adaptiveHeight: true,
+    auto: false,
+    autoHover: true,
+    maxSlides: 5,
+    minSlides: 5,
+    pager: false,
+    slideWidth: 250,
+    height: 50,
+    // slideMargin: 0,
+    // nextSelector: '#ft_next',
+    // prevSelector: '#ft_prev',
+    nextText: '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
+    prevText: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+  };
 
 
 $(window).load(function () {
@@ -47,6 +65,23 @@ $(window).load(function () {
     // slideWidth: 1730
   });
 
+  if(window_W < 440){
+    slide_footer.maxSlides = 1;
+    slide_footer.minSlides = 1;
+  } else if(window_W >= 440 && window_W < 630){
+    slide_footer.maxSlides = 2;
+    slide_footer.minSlides = 2;
+  } else if(window_W >= 630 && window_W < 890){
+    slide_footer.maxSlides = 3;
+    slide_footer.minSlides = 3;
+  } else if(window_W >= 890 && window_W < 1250) {
+    slide_footer.maxSlides = 4;
+    slide_footer.minSlides = 4;
+  } else {
+    slide_footer.maxSlides = 5;
+    slide_footer.minSlides = 5;
+  }
+
   if(window_W <= 471) {
     slide_option.minSlides = 1;
     slide_option.maxSlides = 1;
@@ -63,13 +98,13 @@ $(window).load(function () {
     slide_option.minSlides = 4;
     slide_option.maxSlides = 4;
     slide_option.slideWidth = 290;
-
   }
 
   slide_option.pager = ($("#main_slider li").length > slide_option.maxSlides) ? true : false;
 
   main_slider = $("#main_slider").bxSlider(slide_option);
   sub_slider = $("#sub_slider").bxSlider(slide_option);
+  footer_slider = $('.kr01-ft-familysite').bxSlider(slide_footer);
   $(window).resize(slide_resize);
 });
 
@@ -92,7 +127,26 @@ function slide_resize() {
     slide_option.maxSlides = 4;
     slide_option.slideWidth = 290;
   }
+
+  if(window_W < 440){
+    slide_footer.maxSlides = 1;
+    slide_footer.minSlides = 1;
+  } else if(window_W >= 440 && window_W < 630){
+    slide_footer.maxSlides = 2;
+    slide_footer.minSlides = 2;
+  } else if(window_W >= 630 && window_W < 890){
+    slide_footer.maxSlides = 3;
+    slide_footer.minSlides = 3;
+  } else if(window_W >= 890 && window_W < 1250) {
+    slide_footer.maxSlides = 4;
+    slide_footer.minSlides = 4;
+  } else {
+    slide_footer.maxSlides = 5;
+    slide_footer.minSlides = 5;
+  }
+
   main_slider.reloadSlider(slide_option);
   sub_slider.reloadSlider(slide_option);
+  footer_slider.reloadSlider(slide_footer);
 
 }
