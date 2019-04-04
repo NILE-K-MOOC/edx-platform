@@ -2070,7 +2070,9 @@
         "1":"교양",
         "2":"전공기초",
         "3":"전공심화",
-        "is not correct bettween passwords":"비밀번호 확인이 올바르지 않습니다."
+        "is not correct bettween passwords":"비밀번호 확인이 올바르지 않습니다.",
+        "Kosovo":"코소보",
+        "Taiwan":"대만"
 
     };
 

@@ -9101,7 +9101,7 @@ msgstr "{platform_name}의  Youtube 채널 구독하기"
 
 #: lms/envs/common.py
 msgid "Kosovo"
-msgstr "Kosovo"
+msgstr "코소보"
 
 #: lms/envs/common.py
 #, python-brace-format
