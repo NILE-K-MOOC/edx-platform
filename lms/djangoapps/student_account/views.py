@@ -84,6 +84,7 @@ AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
 User = get_user_model()  # pylint:disable=invalid-name
 
+
 @require_http_methods(['GET'])
 @ensure_csrf_cookie
 def registration_gubn(request):
@@ -107,12 +108,15 @@ def agree(request):
     else:
         return render_to_response('student_account/registration_gubn.html')
 
+
 @csrf_exempt
 def org_check(request):
     if request.is_ajax():
         org_check = request.POST['org_check']
         request.session['org_value'] = request.POST['org_value']
-        return JsonResponse({"a":"b"})
+        return JsonResponse({"a": "b"})
+
+
 @ensure_csrf_cookie
 def agree_done(request):
     # print 'request.is_ajax = ', request.is_ajax
@@ -138,13 +142,10 @@ def agree_done(request):
         request.session['private_info_use_yn'] = request.POST['private_info_use_yn']
         request.session['event_join_yn'] = request.POST['event_join_yn']
 
-        print "request.session['private_info_use_yn']",request.session['private_info_use_yn']
-        print "request.session['event_join_yn']",request.session['event_join_yn']
+        print "request.session['private_info_use_yn']", request.session['private_info_use_yn']
+        print "request.session['event_join_yn']", request.session['event_join_yn']
     else:
         data['agreeYN'] = request.POST['agreeYN']
-
-    print 'data = ', data
-    print 'ddaattaa = ',json.dumps(data)
 
     return HttpResponse(json.dumps(data))
 
@@ -152,7 +153,6 @@ def agree_done(request):
 # -------------------- nice check -------------------- #
 @csrf_exempt
 def nicecheckplus(request):
-
     try:
         edx_user_email = request.user.email
     except BaseException:
@@ -170,7 +170,7 @@ def nicecheckplus(request):
         print query
 
         table = cur.fetchone()
-        user_id =  table[0]
+        user_id = table[0]
     # ----- get user_id query ----- #
 
     # encode data
@@ -182,22 +182,22 @@ def nicecheckplus(request):
     nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
     plain_data = commands.getoutput(nice_command)
     di_index = plain_data.find("DI64:")
-    nice_di = plain_data[di_index+5 : di_index+5+64]
+    nice_di = plain_data[di_index + 5: di_index + 5 + 64]
 
     # return data parsing
     result_dict = {}
     pos1 = 0
     while pos1 <= len(plain_data):
-	pos1 = plain_data.find(':')
-	key_size = int(plain_data[:pos1])
-	plain_data = plain_data[pos1 + 1:]
-	key = plain_data[:key_size]
-	plain_data = plain_data[key_size:]
-	pos2 = plain_data.find(':')
-	val_size = int(plain_data[:pos2])
-	val = plain_data[pos2 + 1: pos2 + val_size + 1]
-	result_dict[key] = val
-	plain_data = plain_data[pos2 + val_size + 1:]
+        pos1 = plain_data.find(':')
+        key_size = int(plain_data[:pos1])
+        plain_data = plain_data[pos1 + 1:]
+        key = plain_data[:key_size]
+        plain_data = plain_data[key_size:]
+        pos2 = plain_data.find(':')
+        val_size = int(plain_data[:pos2])
+        val = plain_data[pos2 + 1: pos2 + val_size + 1]
+        result_dict[key] = val
+        plain_data = plain_data[pos2 + val_size + 1:]
     result_dict = str(result_dict)
     result_dict = result_dict.replace("'", '"')
 
@@ -275,10 +275,13 @@ def nicecheckplus(request):
 
     return render_to_response('student_account/nicecheckplus.html')
 
+
 @csrf_exempt
 def nicecheckplus_error(request):
     print 'nicecheckplus_error called'
     return render_to_response('student_account/nicecheckplus_error.html')
+
+
 # -------------------- nice check -------------------- #
 
 @csrf_exempt
@@ -382,6 +385,7 @@ def agree(request):
     else:
         return render_to_response('student_account/registration_gubn.html')
 
+
 @require_http_methods(['GET'])
 @ensure_csrf_cookie
 @xframe_allow_whitelisted
@@ -402,8 +406,7 @@ def login_and_registration_form(request, initial_mode="login"):
     division = None
 
     # print 'currentProvider:', provider_info['currentProvider']
-    # add kocw logic
-    print "test"
+
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
         # print 'login_and_registration_form type 1'
@@ -462,11 +465,11 @@ def login_and_registration_form(request, initial_mode="login"):
         except (KeyError, ValueError, IndexError) as ex:
             log.error("Unknown tpa_hint provider: %s", ex)
 
-    # If this is a themed site, revert to the old login/registration pages.
-    # We need to do this for now to support existing themes.
-    # Themed sites can use the new logistration page by setting
-    # 'ENABLE_COMBINED_LOGIN_REGISTRATION' in their
-    # configuration settings.
+        # If this is a themed site, revert to the old login/registration pages.
+        # We need to do this for now to support existing themes.
+        # Themed sites can use the new logistration page by setting
+        # 'ENABLE_COMBINED_LOGIN_REGISTRATION' in their
+        # configuration settings.
         # microsite not 처리
         if not is_request_in_themed_site() and not configuration_helpers.get_value('ENABLE_COMBINED_LOGIN_REGISTRATION',
                                                                                    False):
@@ -499,6 +502,10 @@ def login_and_registration_form(request, initial_mode="login"):
         org_index = cur.fetchall()
         org_list = list(org_index)
         print org_list
+
+    # 개인정보 수집 및 이용 동의 값, 홍보 설문 관련 정보수진 동의 선택값이 세션상에 있다면 회원가입 진행중..
+    if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+        initial_mode = 'register'
 
     # Otherwise, render the combined login/registration page
     context = {
@@ -596,7 +603,6 @@ def password_change_request_handler(request):
             # no user associated with the email
             if configuration_helpers.get_value('ENABLE_PASSWORD_RESET_FAILURE_EMAIL',
                                                settings.FEATURES['ENABLE_PASSWORD_RESET_FAILURE_EMAIL']):
-
                 site = get_current_site()
                 message_context = get_base_template_context(site)
 
@@ -712,6 +718,7 @@ def _get_form_descriptions(request):
         'login': get_login_session_form(request).to_json(),
         'registration': RegistrationFormFactory().get_registration_form(request).to_json()
     }
+
 
 def _get_extended_profile_fields():
     """Retrieve the extended profile fields from site configuration to be shown on the
@@ -892,11 +899,6 @@ def account_settings_confirm_check(request):
         GET /account/settings
 
     """
-    print '********************'
-    print request.user.is_authenticated()
-    print '********************'
-    print request.user
-    print '********************'
 
     user = authenticate(username=request.user, password=request.POST['passwd'], request=request)
 
@@ -910,6 +912,7 @@ def account_settings_confirm_check(request):
         return JsonResponse({
             "success": True,
         })
+
 
 @login_required
 @require_http_methods(['GET'])
@@ -946,7 +949,6 @@ def finish_auth(request):  # pylint: disable=unused-argument
 
 
 def account_settings_context(request):
-    print 'account_settings_context!!!'
     """ Context for the account settings page.
 
     Args:
@@ -971,7 +973,7 @@ def account_settings_context(request):
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    #lms_base = 'dev.kr:18000'
+    # lms_base = 'dev.kr:18000'
 
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
@@ -987,15 +989,9 @@ def account_settings_context(request):
                 len(nice_customize), nice_customize,
                 len(nice_gender), nice_gender)
 
-    print "plaindata -> ", plaindata
-
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
 
-    print "nice_command -> ", nice_command
-
     enc_data = commands.getoutput(nice_command)
-
-    print "enc_data -> ", enc_data
 
     if enc_data == -1:
         nice_returnMsg = "암/복호화 시스템 오류입니다."
@@ -1081,9 +1077,10 @@ def account_settings_context(request):
         # it will be broken if exception raised
         user_orders = []
 
-    countries_list = list(countries)
-    countries_list.insert(0, (u'KR', u'South Korea'))
-    print 'countries_list',countries_list
+    # `KR` to the top
+    countries_list = list()
+    [countries_list.insert(0, (code, name)) if code == 'KR' else countries_list.append((code, name)) for code, name in countries]
+
     context = {
         'user_gender': user_gender,  # context -> nice data
         'user_birthday': user_birthday,  # context -> nice data
@@ -1231,9 +1228,9 @@ def remove_account(request):
             user_profile.bio = None
             user_profile.profile_image_uploaded_at = None
 
-            #find_user.save()
-            #user_profile.save()
-            #ser_socialauth.delete()
+            # find_user.save()
+            # user_profile.save()
+            # ser_socialauth.delete()
 
             logout(request)
         except Exception as e:

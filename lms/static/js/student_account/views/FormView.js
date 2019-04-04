@@ -38,6 +38,7 @@
 
                 this.tpl = $(this.tpl).html();
                 this.fieldTpl = $(this.fieldTpl).html();
+
                 this.buildForm(data.fields);
 
                 this.listenTo(this.model, 'error', this.saveError);
@@ -240,24 +241,18 @@
                 if (!_.isUndefined(event)) {
                     event.preventDefault();
                 }
-                //실시간 검증
-                // target set
-                if(target){
-                    console.log('target setting 1');
-                    data['target'] = target;
-                }else{
-                    console.log('target setting 2');
-                    this.model.set({'target':''});
-                }
-
-                console.log('javascript is_regist value check --- s');
-                console.log($("#is_regist").val());
-                console.log('javascript is_regist value check --- e');
-
-                // set is_regist
-                data['is_regist'] = $("#is_regist").val();
 
                 this.toggleDisableButton(true);
+
+                // 비밀번호를 재입력값이 동일한지 확인하고 오류 메세지를 표시하도록 함
+                if($("#register-password").val() != $("#register-password2").val()){
+                    this.errors.push("<li>"+ gettext('is not correct bettween passwords') +"</li>");
+                    $("label[for='register-password']").addClass("error");
+                    $("#register-password2").addClass("error");
+                }else{
+                    $("label[for='register-password']").removeClass("error");
+                    $("#register-password2").removeClass("error");
+                }
 
                 if (!_.compact(this.errors).length) {
                     data = this.setExtraData(data);
@@ -324,10 +319,12 @@
             },
 
             validate: function($el) {
+
                 return EdxUtilsValidate.validate($el);
             },
 
             liveValidate: function($el, url, dataType, data, method, model) {
+
                 $.ajax({
                     url: url,
                     dataType: dataType,

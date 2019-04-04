@@ -8,13 +8,13 @@
                     name: '',
                     username: '',
                     password: '',
+                    password2: '',
                     level_of_education: '',
                     gender: '',
                     year_of_birth: '',
                     mailing_address: '',
                     goals: '',
-                    target: '',
-                    is_regist: false
+                    target: ''
                 },
                 ajaxType: '',
                 urlRoot: '',
