@@ -443,7 +443,7 @@ def multisite_index(request, org):
         sql = '''
         SELECT login_type, site_url, Encryption_key, b.save_path
         FROM multisite a
-        join tb_attach b
+        left join tb_attach b
         on a.logo_img = b.id
         where site_code = '{0}'
         '''.format(org)
@@ -599,7 +599,8 @@ def multisite_index(request, org):
 
     # Oauth 방식
     elif  login_type == 'O':
-        url = 'http://kmooc.kr/auth/login/nec/?auth_entry=login&next=%2Fmultisite%2F' + org + '%2F'
+        url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
+        print "url -> ", url
         return redirect(url)
 
     # basic logic
