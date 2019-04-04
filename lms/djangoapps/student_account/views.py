@@ -400,8 +400,7 @@ def login_and_registration_form(request, initial_mode="login"):
     provider_info = _third_party_auth_context(request, redirect_to)
 
     # print 'currentProvider:', provider_info['currentProvider']
-    # add kocw logic
-    print "test"
+
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
         # print 'login_and_registration_form type 1'

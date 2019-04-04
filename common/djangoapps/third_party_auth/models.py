@@ -290,7 +290,9 @@ class ProviderConfig(ConfigurationModel):
         # technically a data race between the creation of this value and the
         # creation of the user object, so it is still possible for users to get
         # an error on submit.
-        registration_form_data['username'] = clean_username(pipeline_kwargs.get('username') or '')
+
+        # username 값이 한글일 경우 무작위 생성된 아이디가 생성되므로 username 값을 비워둠
+        # registration_form_data['username'] = clean_username(pipeline_kwargs.get('username') or '')
 
         # Any other values that are present in the details dict should be copied
         # into the registration form details. This may include details that do
