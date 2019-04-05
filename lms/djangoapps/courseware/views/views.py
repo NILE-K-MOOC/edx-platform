@@ -41,7 +41,6 @@ from util.json_request import JsonResponse
 from django.db import connections
 import shoppingcart
 import survey.views
-from courseware.courses import get_course_by_id
 from course_modes.models import CourseMode, get_course_prices
 from courseware.access import has_access, has_ccx_coach_role
 from courseware.access_utils import check_course_open_for_learner
@@ -1518,32 +1517,7 @@ def course_about(request, course_id):
             log.info(err)
 
         print "len(similar_course) -> ", len(similar_course)
-
-        #TIMEZONE ----------------------------
-        try:
-            course_key = CourseKey.from_string(course_id)
-        except InvalidKeyError:
-            log.error(u"Unable to find course with course key %s while loading the Instructor Dashboard.", course_id)
-
-        course = get_course_by_id(course_key, depth=0)
-
-        access = {
-            'admin': request.user.is_staff,
-            'instructor': bool(has_access(request.user, 'instructor', course)),
-            'staff': bool(has_access(request.user, 'staff', course)),
-        }
-        sections = [
-            _section_course_info(course, access),
-        ]
-        print "-0------",sections[0]
-
-        # convert_date = strptime(sections[0]['end_date'],"%Y-%m-%d").date()
-
-        sections_start = str(sections[0]['start_date'])[:10].replace('-','.')
-        sections_end = str(sections[0]['end_date'])[:10].replace('-','.')
         context = {
-            'sections_start': sections_start,
-            'sections_end': sections_end,
             'similar_course': similar_course,  # 유사강좌
             'course': course,
             'course_details': course_details,
@@ -1605,46 +1579,6 @@ def course_about(request, course_id):
         }
 
         return render_to_response('courseware/course_about.html', context)
-
-def _section_course_info(course, access):
-    """ Provide data for the corresponding dashboard section """
-    course_key = course.id
-
-    section_data = {
-        'section_key': 'course_info',
-        'section_display_name': _('Course Info'),
-        'access': access,
-        'course_id': course_key,
-        'course_display_name': course.display_name_with_default,
-        'course_org': course.display_org_with_default,
-        'course_number': course.display_number_with_default,
-        'has_started': course.has_started(),
-        'has_ended': course.has_ended(),
-        'start_date': course.start,
-        'end_date': course.end,
-        'num_sections': len(course.children),
-        'list_instructor_tasks_url': reverse('list_instructor_tasks', kwargs={'course_id': unicode(course_key)}),
-    }
-
-    if settings.FEATURES.get('DISPLAY_ANALYTICS_ENROLLMENTS'):
-        section_data['enrollment_count'] = CourseEnrollment.objects.enrollment_counts(course_key)
-
-    if settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD'):
-        section_data['detailed_gitlogs_url'] = reverse('gitlogs_detail', kwargs={'course_id': unicode(course_key)})
-
-    try:
-        sorted_cutoffs = sorted(course.grade_cutoffs.items(), key=lambda i: i[1], reverse=True)
-        advance = lambda memo, (letter, score): "{}: {}, ".format(letter, score) + memo
-        section_data['grade_cutoffs'] = reduce(advance, sorted_cutoffs, "")[:-2]
-    except Exception:  # pylint: disable=broad-except
-        section_data['grade_cutoffs'] = "Not Available"
-
-    try:
-        section_data['course_errors'] = [(escape(a), '') for (a, _unused) in modulestore().get_course_errors(course.id)]
-    except Exception:  # pylint: disable=broad-except
-        section_data['course_errors'] = [('Error fetching errors', '')]
-
-    return section_data
 
 
 @ensure_csrf_cookie
