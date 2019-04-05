@@ -9100,6 +9100,10 @@ msgid "Subscribe to the {platform_name} YouTube channel"
 msgstr "{platform_name}의  Youtube 채널 구독하기"
 
 #: lms/envs/common.py
+msgid "Taiwan"
+msgstr "대만"
+
+#: lms/envs/common.py
 msgid "Kosovo"
 msgstr "코소보"
 
