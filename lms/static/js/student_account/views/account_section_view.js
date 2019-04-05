@@ -49,14 +49,8 @@
                         }
                         else{
                             var arr = data.return
-                            console.log(arr[0]);
-                            console.log(arr[1]);
-                            console.log(arr[0][0]);
-                            console.log(arr[0][1]);
 
                             for(var i=0; i<arr.length; i++){
-                                console.log(arr[i][0]);
-                                console.log(arr[i][1]);
 
                                 var html = ''+
                                 '<div class="a" id="'+ arr[i][0] +'" style="margin-left: 70px; margin-right: 20px; margin-bottom:50px; background-color:rgb(245, 245, 245); width:24%; padding:20px; position:none; float:left;">\n'+

@@ -221,8 +221,6 @@
 
                 toggleForm: function(e) {
 
-                    alert('toggleForm: ' + this.activeForm);
-
                     var type = $(e.currentTarget).data('type'),
                         $form = $('#' + type + '-form'),
                         scrollX = window.scrollX,
