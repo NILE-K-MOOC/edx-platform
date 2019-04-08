@@ -29,16 +29,6 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     </%block>
 % endif
 <script>
-    var j_ui_cnt = 0;
-    var script_str = 'script';
-$('script[type="text/javascript"]').each(function(){
-  if($(this).prop('src').indexOf('jquery-ui.min.js') != -1) {
-    j_ui_cnt++;
-  }
-});
-if(j_ui_cnt == 0){
-  $('head').append('<script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></' + script_str + '>');
-}
 $(document).ready(function () {
     $.ajax({
         url: '/course_search_list',
