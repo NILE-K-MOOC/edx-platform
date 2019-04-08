@@ -113,6 +113,21 @@ import sys
 import json
 from ..entrance_exams import user_can_skip_entrance_exam
 from ..module_render import get_module, get_module_by_usage_id, get_module_for_descriptor
+from ..context_processor import user_timezone_locale_prefs
+from django.utils.translation import get_language, to_locale, ugettext_lazy
+import crum
+from courseware.date_summary import (
+    CourseEndDate,
+    CourseStartDate,
+    TodaysDate,
+    VerificationDeadlineDate,
+    VerifiedUpgradeDeadlineDate,
+    CertificateAvailableDate
+)
+from pytz import timezone
+import pytz
+
+
 
 log = logging.getLogger("edx.courseware")
 
@@ -1517,6 +1532,56 @@ def course_about(request, course_id):
             log.info(err)
 
         print "len(similar_course) -> ", len(similar_course)
+        # TIME_ZONE 작업중
+        s1 = course_details.start_date.strftime("%Y")
+        s2 = course_details.start_date.strftime("%m")
+        s3 = course_details.start_date.strftime("%d")
+        s4 = course_details.start_date.strftime("%H")
+        s5 = course_details.start_date.strftime("%M")
+        s6 = course_details.start_date.strftime("%S")
+        e1 = course_details.end_date.strftime("%Y")
+        e2 = course_details.end_date.strftime("%m")
+        e3 = course_details.end_date.strftime("%d")
+        e4 = course_details.end_date.strftime("%H")
+        e5 = course_details.end_date.strftime("%M")
+        e6 = course_details.end_date.strftime("%S")
+        rs1 = course_details.enrollment_start.strftime("%Y")
+        rs2 = course_details.enrollment_start.strftime("%m")
+        rs3 = course_details.enrollment_start.strftime("%d")
+        rs4 = course_details.enrollment_start.strftime("%H")
+        rs5 = course_details.enrollment_start.strftime("%M")
+        rs6 = course_details.enrollment_start.strftime("%S")
+        re1 = course_details.enrollment_end.strftime("%Y")
+        re2 = course_details.enrollment_end.strftime("%m")
+        re3 = course_details.enrollment_end.strftime("%d")
+        re4 = course_details.enrollment_end.strftime("%H")
+        re5 = course_details.enrollment_end.strftime("%M")
+        re6 = course_details.enrollment_end.strftime("%S")
+
+        #locale = to_locale(get_language())
+        user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
+        print "origin_start",start
+        # CourseStartDate.date
+        utc = pytz.utc
+        print "user_timezone = ",utc.zone
+        user_tz = timezone(user_timezone)
+
+        utc_dt_start = datetime(int(s1),int(s2),int(s3),int(s4),int(s5),int(s6),tzinfo=utc)
+        utc_dt_end = datetime(int(e1),int(e2),int(e3),int(e4),int(e5),int(e6),tzinfo=utc)
+        utc_dt_enroll_start = datetime(int(rs1),int(rs2),int(rs3),int(rs4),int(rs5),int(rs6),tzinfo=utc)
+        utc_dt_enroll_end = datetime(int(re1),int(re2),int(re3),int(re4),int(re5),int(re6),tzinfo=utc)
+        # fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+        fmt = '%Y.%m.%d'
+        loc_dt_start = utc_dt_start.astimezone(user_tz)
+        loc_dt_end = utc_dt_end.astimezone(user_tz)
+        utc_dt_enroll_start = utc_dt_enroll_start.astimezone(user_tz)
+        utc_dt_enroll_end = utc_dt_enroll_end.astimezone(user_tz)
+
+        start = loc_dt_start.strftime(fmt)
+        end = loc_dt_end.strftime(fmt)
+        enroll_sdate = utc_dt_enroll_start.strftime(fmt)
+        enroll_edate = utc_dt_enroll_end.strftime(fmt)
+        print "later_start", start
         context = {
             'similar_course': similar_course,  # 유사강좌
             'course': course,
