@@ -1557,14 +1557,17 @@ def course_about(request, course_id):
         re4 = course_details.enrollment_end.strftime("%H")
         re5 = course_details.enrollment_end.strftime("%M")
         re6 = course_details.enrollment_end.strftime("%S")
+        try:
+            #locale = to_locale(get_language())
+            user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
+            print "origin_start",start
+            # CourseStartDate.date
+            utc = pytz.utc
+            print "user_timezone = ",utc.zone
 
-        #locale = to_locale(get_language())
-        user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
-        print "origin_start",start
-        # CourseStartDate.date
-        utc = pytz.utc
-        print "user_timezone = ",utc.zone
-        user_tz = timezone(user_timezone)
+            user_tz = timezone(user_timezone)
+        except:
+            user_tz = timezone('Asia/Seoul')
 
         utc_dt_start = datetime(int(s1),int(s2),int(s3),int(s4),int(s5),int(s6),tzinfo=utc)
         utc_dt_end = datetime(int(e1),int(e2),int(e3),int(e4),int(e5),int(e6),tzinfo=utc)
