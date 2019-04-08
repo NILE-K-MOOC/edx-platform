@@ -102,8 +102,13 @@ $(window).load(function () {
 
   slide_option.pager = ($("#main_slider li").length > slide_option.maxSlides) ? true : false;
 
-  main_slider = $("#main_slider").bxSlider(slide_option);
-  sub_slider = $("#sub_slider").bxSlider(slide_option);
+  if($("#main_slider").size() != 0){
+    main_slider = $("#main_slider").bxSlider(slide_option);
+  }
+  if($("#sub_slider").size() != 0){
+    sub_slider = $("#sub_slider").bxSlider(slide_option);
+  }
+
   footer_slider = $('.kr01-ft-familysite').bxSlider(slide_footer);
   $(window).resize(slide_resize);
 });
@@ -145,8 +150,13 @@ function slide_resize() {
     slide_footer.minSlides = 5;
   }
 
-  main_slider.reloadSlider(slide_option);
-  sub_slider.reloadSlider(slide_option);
+  if($("#main_slider").size() != 0){
+    main_slider.reloadSlider(slide_option);
+  }
+  if($("#sub_slider").size() != 0){
+    sub_slider.reloadSlider(slide_option);
+  }
+
   footer_slider.reloadSlider(slide_footer);
 
 }
