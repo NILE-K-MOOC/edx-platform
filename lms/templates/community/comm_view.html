@@ -21,8 +21,10 @@ ${page_title}
         <ul>
             <li class="title">
                 <h3 id="title" title="제목">${board.subject}</h3>
-                <time id="reg_date" style="bottom: 30px; margin-right: 5px;" title="작성일">작성일 : ${board.reg_date.strftime('%Y/%m/%d')}</time>
-                <time id="mod_date" style="bottom: 15px; margin-right: 5px;" title="수정일">수정일 : ${board.mod_date.strftime('%Y/%m/%d')}</time>
+                <div>
+                    <time id="reg_date" style="bottom: 30px; margin-right: 5px;" title="작성일">작성일 : ${board.reg_date.strftime('%Y/%m/%d')}</time>
+                    <time id="mod_date" style="bottom: 15px; margin-right: 5px;" title="수정일">수정일 : ${board.mod_date.strftime('%Y/%m/%d')}</time>
+                </div>
             </li>
 
             <li class="contents" id="context" title="내용">
