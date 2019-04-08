@@ -113,6 +113,21 @@ import sys
 import json
 from ..entrance_exams import user_can_skip_entrance_exam
 from ..module_render import get_module, get_module_by_usage_id, get_module_for_descriptor
+from ..context_processor import user_timezone_locale_prefs
+from django.utils.translation import get_language, to_locale, ugettext_lazy
+import crum
+from courseware.date_summary import (
+    CourseEndDate,
+    CourseStartDate,
+    TodaysDate,
+    VerificationDeadlineDate,
+    VerifiedUpgradeDeadlineDate,
+    CertificateAvailableDate
+)
+from pytz import timezone
+import pytz
+
+
 
 log = logging.getLogger("edx.courseware")
 
@@ -1449,7 +1464,6 @@ def course_about(request, course_id):
             #     data_dict['bad'] = data[0]
             #     data_list.append(data_dict)
 
-
         # today d-day와 청강에서 사용
         today = datetime.now()
 
@@ -1476,11 +1490,10 @@ def course_about(request, course_id):
             else:
                 audit_flag = 'N'
 
-
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
-        #LMS_BASE = '127.0.0.1:18000' # TEST
-        url = 'http://' + LMS_BASE + '/search/course_discovery/'
+        # LMS_BASE = '127.0.0.1:18000' # TEST
+        url = 'https://' + LMS_BASE + '/search/course_discovery/'
 
         course_object = CourseOverview.get_from_id(course.id)
         course_display_name = course_object.display_name
@@ -1499,71 +1512,121 @@ def course_about(request, course_id):
         print "payload -> ", payload
         print "headers -> ", headers
 
-        #try:
-        r = requests.post(url, data=payload, headers=headers)
-        logging.info(r.text)
-        logging.info(r.text)
-        logging.info(r.text)
-        data = json.loads(r.text)
+        try:
+            r = requests.post(url, data=payload, headers=headers)
+            logging.info(r.text)
+            logging.info(r.text)
+            logging.info(r.text)
+            data = json.loads(r.text)
 
-        print "data -> ", data
+            print "data -> ", data
 
-        # 유사강좌 -> 데이터 파싱
-        similar_course = []
-        for result in data['results']:
-            course_dict = {}
-            course_id = result['_id']
-            image_url = result['data']['image_url']
-            org = result['data']['org']
-            display_name = result['data']['content']['display_name']
+            # 유사강좌 -> 데이터 파싱
+            similar_course = []
+            for result in data['results']:
+                course_dict = {}
+                course_id = result['_id']
+                image_url = result['data']['image_url']
+                org = result['data']['org']
+                display_name = result['data']['content']['display_name']
 
-            try:
-                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-                start = start.strftime('%Y-%m-%d')
-            except BaseException:
-                start = '0000-00-00'
-
-            try:
-                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
-                end = end.strftime('%Y-%m-%d')
-            except BaseException:
-                end = '0000-00-00'
-
-            with connections['default'].cursor() as cur:
-                query = '''
-                    select detail_name
-                    from code_detail
-                    where group_code = '003'
-                    and detail_code = '{org}'
-                '''.format(org=org)
-                print "---------------------------------"
-                print query
-                print "---------------------------------"
-                cur.execute(query)
                 try:
-                    org = cur.fetchall()[0][0]
+                    sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                    sim_start = sim_start.strftime('%Y-%m-%d')
                 except BaseException:
-                    org = '기관없음'
+                    sim_start = '0000-00-00'
 
-            print "org -> ", org
-            print "org -> ", org
-            print "org -> ", org
+                try:
+                    sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                    sim_end = sim_end.strftime('%Y-%m-%d')
+                except BaseException:
+                    sim_end = '0000-00-00'
 
-            course_dict['course_id'] = course_id
-            course_dict['image_url'] = image_url
-            course_dict['org'] = org
-            course_dict['display_name'] = display_name
-            course_dict['start'] = start
-            course_dict['end'] = end
-            course_dict['status'] = status
-            similar_course.append(course_dict)
-        """
+                with connections['default'].cursor() as cur:
+                    query = '''
+                        select detail_name
+                        from code_detail
+                        where group_code = '003'
+                        and detail_code = '{org}'
+                    '''.format(org=org)
+                    print "---------------------------------"
+                    print query
+                    print "---------------------------------"
+                    cur.execute(query)
+                    try:
+                        org = cur.fetchall()[0][0]
+                    except BaseException:
+                        org = '기관없음'
+
+                print "org -> ", org
+                print "org -> ", org
+                print "org -> ", org
+
+                course_dict['course_id'] = course_id
+                course_dict['image_url'] = image_url
+                course_dict['org'] = org
+                course_dict['display_name'] = display_name
+                course_dict['sim_start'] = sim_start
+                course_dict['sim_end'] = sim_end
+                course_dict['status'] = status
+                similar_course.append(course_dict)
+
         except BaseException as err:
-            similar_course = None
+            similar_course = []
             log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
             log.info(err)
-        """
+
         print "len(similar_course) -> ", len(similar_course)
+        # TIME_ZONE 작업중
+        s1 = course_details.start_date.strftime("%Y")
+        s2 = course_details.start_date.strftime("%m")
+        s3 = course_details.start_date.strftime("%d")
+        s4 = course_details.start_date.strftime("%H")
+        s5 = course_details.start_date.strftime("%M")
+        s6 = course_details.start_date.strftime("%S")
+        e1 = course_details.end_date.strftime("%Y")
+        e2 = course_details.end_date.strftime("%m")
+        e3 = course_details.end_date.strftime("%d")
+        e4 = course_details.end_date.strftime("%H")
+        e5 = course_details.end_date.strftime("%M")
+        e6 = course_details.end_date.strftime("%S")
+        rs1 = course_details.enrollment_start.strftime("%Y")
+        rs2 = course_details.enrollment_start.strftime("%m")
+        rs3 = course_details.enrollment_start.strftime("%d")
+        rs4 = course_details.enrollment_start.strftime("%H")
+        rs5 = course_details.enrollment_start.strftime("%M")
+        rs6 = course_details.enrollment_start.strftime("%S")
+        re1 = course_details.enrollment_end.strftime("%Y")
+        re2 = course_details.enrollment_end.strftime("%m")
+        re3 = course_details.enrollment_end.strftime("%d")
+        re4 = course_details.enrollment_end.strftime("%H")
+        re5 = course_details.enrollment_end.strftime("%M")
+        re6 = course_details.enrollment_end.strftime("%S")
+
+        #locale = to_locale(get_language())
+        user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
+        print "origin_start",start
+        # CourseStartDate.date
+        utc = pytz.utc
+        print "user_timezone = ",utc.zone
+        user_tz = timezone(user_timezone)
+
+        utc_dt_start = datetime(int(s1),int(s2),int(s3),int(s4),int(s5),int(s6),tzinfo=utc)
+        utc_dt_end = datetime(int(e1),int(e2),int(e3),int(e4),int(e5),int(e6),tzinfo=utc)
+        utc_dt_enroll_start = datetime(int(rs1),int(rs2),int(rs3),int(rs4),int(rs5),int(rs6),tzinfo=utc)
+        utc_dt_enroll_end = datetime(int(re1),int(re2),int(re3),int(re4),int(re5),int(re6),tzinfo=utc)
+        # fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+        fmt = '%Y.%m.%d'
+        loc_dt_start = utc_dt_start.astimezone(user_tz)
+        loc_dt_end = utc_dt_end.astimezone(user_tz)
+        utc_dt_enroll_start = utc_dt_enroll_start.astimezone(user_tz)
+        utc_dt_enroll_end = utc_dt_enroll_end.astimezone(user_tz)
+
+        start = loc_dt_start.strftime(fmt)
+        end = loc_dt_end.strftime(fmt)
+        enroll_sdate = utc_dt_enroll_start.strftime(fmt)
+        enroll_edate = utc_dt_enroll_end.strftime(fmt)
+        print "later_start", start
         context = {
             'similar_course': similar_course, # 유사강좌
             'course': course,

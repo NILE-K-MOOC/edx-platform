@@ -955,6 +955,7 @@ div.about-side-title p {
 
                 </div>
             </li>
+
           % endif
 ##           % if get_course_about_section(request, course, "prerequisites"):
 ##          <li class="important-dates-item"><div class="about-side-title"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p></div><div class="about-side-text"><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></div></li>
@@ -972,7 +973,7 @@ div.about-side-title p {
                     </div>
 
                     <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate['enroll_sdate']} ~ ${enroll_edate['enroll_edate']}</span>
+                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate} ~ ${enroll_edate}</span>
                     </span>
 
                 </div>
@@ -997,6 +998,7 @@ div.about-side-title p {
                     </span>
 
                 </div>
+
             </li>
           % endif
             ## We plan to ditch end_date (which is not stored in course metadata),
@@ -1004,6 +1006,7 @@ div.about-side-title p {
 
 
         </ol>
+
     </div>
 
       <%block name="course_about_reviews_tool">
