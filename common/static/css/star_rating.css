@@ -247,9 +247,9 @@
 }
 
 .btn:hover:not(:disabled), .btn:hover:not(:disabled) {
-  cursor: pointer;
-  background-color: #ffffff;
-  background-image: none;
+  /*cursor: pointer;*/
+  /*background-color: #ffffff;*/
+  /*background-image: none;*/
 
 }
 .btn:hover {

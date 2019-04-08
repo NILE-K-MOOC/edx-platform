@@ -4,7 +4,7 @@ from pytz import timezone
 from datetime import datetime
 
 conn = pymysql.connect(
-    host='127.0.0.1',
+    host='192.168.1.113',
     user='edxapp001',
     password='password',
     db='edxapp',
@@ -24,6 +24,7 @@ conn.close()
 
 start = datetime.now(timezone('Asia/Seoul'))
 
+error_list = []
 for id in rows:
     course_id = id[0]
     print course_id
@@ -33,8 +34,17 @@ for id in rows:
 
     print response.status_code
     print response.text
+    if response.status_code == 500:
+        error_list.append(course_id)
 
 end = datetime.now(timezone('Asia/Seoul'))
 
+print "------------------------------"
+for c in error_list:
+  print c
+print "------------------------------"
+
+print 'total_cnt -> ', len(rows)
+print 'error_list_cnt -> ', len(error_list)
 print 'start -> ', start
 print 'end -> ', end

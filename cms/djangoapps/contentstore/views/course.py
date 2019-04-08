@@ -911,6 +911,7 @@ def _create_or_rerun_course(request):
         middle_classfysub = request.json.get('middle_classfysub')
         linguistics = request.json.get('linguistics', 'N')
         course_period = request.json.get('course_period')
+        teacher_name = request.json.get('teacher_name')
 
         fields.update({
             'classfy': classfy,
@@ -919,45 +920,36 @@ def _create_or_rerun_course(request):
             'middle_classfysub': middle_classfysub,
             'linguistics': linguistics,
             'course_period': course_period,
+            'teacher_name': teacher_name,
             'fourth_industry_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
+            'course_level': None
         })
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
 
-        # 4차산업혁명 여부
-        fields['fourth_industry_yn'] = 'N'
-        # 리본 여부
-        fields['ribbon_yn'] = 'N'
-        # 직업교육 여부
-        fields['job_edu_yn'] = 'N'
-
         try:
             with connections['default'].cursor() as cur:
                 query = """
-                                SELECT ifnull(detail_name,'') org_kname, ifnull(detail_ename, '') org_ename 
-                                FROM   code_detail 
-                                WHERE  group_code = '003' 
-                                AND    detail_code = '{org}'
-                            """.format(org=org)
+                    SELECT 
+                        IFNULL(detail_name, '') org_kname,
+                        IFNULL(detail_ename, '') org_ename
+                    FROM
+                        code_detail
+                    WHERE group_code = '003'
+                      AND detail_code = '{org}'                
+                """.format(org=org)
                 cur.execute(query)
 
                 if cur.rowcount:
-                    org_kname = ''
-                    org_ename = ''
-                else:
-                    row = cur.fetchone()[0]
+                    row = cur.fetchone()
                     org_kname = row[0].strip()
                     org_ename = row[1].strip()
-
-                fields.update({'org_kname': org_kname})
-                fields.update({'org_ename': org_ename})
+                    fields.update({'org_kname': org_kname})
+                    fields.update({'org_ename': org_ename})
         except Exception as e:
             print e
-
-        teacher_name = request.json.get('teacher_name')
-        fields['teacher_name'] = teacher_name
 
         # Set a unique wiki_slug for newly created courses. To maintain active wiki_slugs for
         # existing xml courses this cannot be changed in CourseDescriptor.
@@ -967,24 +959,6 @@ def _create_or_rerun_course(request):
         definition_data = {'wiki_slug': wiki_slug}
         fields.update(definition_data)
 
-        # ---------기존소스---------
-        # source_course_key = request.json.get('source_course_key')
-        # if source_course_key:
-        #     source_course_key = CourseKey.from_string(source_course_key)
-        #     destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
-        #     return JsonResponse({
-        #         'url': reverse_url('course_handler'),
-        #         'destination_course_key': unicode(destination_course_key)
-        #     })
-        # else:
-        #     try:
-        #         new_course = create_new_course(request.user, org, course, run, fields)
-        #         return JsonResponse({
-        #             'url': reverse_course_url('course_handler', new_course.id),
-        #             'course_key': unicode(new_course.id),
-        #         })
-        #     except ValidationError as ex:
-        #         return JsonResponse({'error': text_type(ex)}, status=400)
         source_course_key = request.json.get('source_course_key')
         if source_course_key:
             source_course_key = CourseKey.from_string(source_course_key)
@@ -1023,7 +997,7 @@ def _create_or_rerun_course(request):
                 })
             except ValidationError as ex:
                 return JsonResponse({'error': text_type(ex)}, status=400)
-            #return create_new_course(request.user, org, course, run, fields)
+            # return create_new_course(request.user, org, course, run, fields)
 
     except DuplicateCourseError:
         return JsonResponse({
@@ -1212,8 +1186,10 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
     # Clear the fields that must be reset for the rerun
     fields['advertised_start'] = None
-    fields['enrollment_start'] = None
-    fields['enrollment_end'] = None
+
+    # fields['enrollment_start'] = None
+    # fields['enrollment_end'] = None
+
     fields['video_upload_pipeline'] = {}
 
     json_fields = json.dumps(fields, cls=EdxJSONEncoder)
@@ -1557,20 +1533,19 @@ def settings_handler(request, course_key_string):
             cur = con.cursor()
             # 교수자명
             query = """
-                             SELECT IFNULL(teacher_name, '')
+                             SELECT IFNULL(teacher_name, ''), IFNULL(course_level, '')
                               FROM course_overview_addinfo
                              WHERE course_id = '{0}';
                         """.format(course_key)
             cur.execute(query)
-            teacher_index = cur.fetchall()
+            row = cur.fetchone()
             cur.close()
+            teacher_name = ''
 
-            if (len(teacher_index) == 1):
-                teacher_name = teacher_index[0][0]
-            else:
-                teacher_name = ""
-
-            course_module.teacher_name = teacher_name
+            if cur.rowcount:
+                teacher_name = row[0]
+                course_module.teacher_name = row[0]
+                course_module.course_level = row[1]
 
             cur = con.cursor()
             query = """
@@ -2120,22 +2095,26 @@ def advanced_settings_handler(request, course_key_string):
                         params,
                         user=request.user,
                     )
-
+                    audit_yn = 'Y'
+                    teacher_name = ''
                     if 'audit_yn' in params:
-                        try:
-                            audit_yn = params['audit_yn']['value']
-                            audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
-                            with connections['default'].cursor() as cur:
-                                query = """
-                                    UPDATE course_overview_addinfo
-                                       SET audit_yn = '{audit_yn}'
-                                     WHERE course_id = '{course_id}';
-                                """.format(audit_yn=audit_yn, course_id=course_key_string)
-                                cur.execute(query)
-                        except Exception as e:
-                            is_valid = False
-                            errors.append({'message': 'audit_yn value is not collect', 'model': None})
-                            print e
+                        audit_yn = params['audit_yn']['value']
+                        audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
+                    if 'teacher_name' in params:
+                        teacher_name = params['teacher_name']['value']
+                    try:
+                        with connections['default'].cursor() as cur:
+                            query = """
+                                UPDATE course_overview_addinfo
+                                   SET audit_yn = '{audit_yn}',
+                                    teacher_name = '{teacher_name}'
+                                 WHERE course_id = '{course_id}';
+                            """.format(audit_yn=audit_yn, course_id=course_key_string, teacher_name=teacher_name)
+                            cur.execute(query)
+                    except Exception as e:
+                        is_valid = False
+                        errors.append({'message': 'audit_yn or teacher_name value is not collect', 'model': None})
+                        print e
 
                     if is_valid:
                         try:

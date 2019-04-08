@@ -129,7 +129,7 @@
 .courses-container .courses .course.end {border-color:#5f5f5f;}
 /*.courses-container .courses .course.end {border-color:#126f9a;}*/
 .courses-container .courses .course.end.audit {border-color:#126f9a;}
-.courses-container .courses .course .course-image .cover-image {min-height:188px;}
+.courses-container .courses .course .course-image .cover-image {min-height:175px;}
 .courses-container .courses .course .course-image .cover-image::before {min-height:188px;}
 .courses-container .courses .course .course-image .cover-image .learn-more {top:35px;}
 .courses-container .courses .course .course-info {height:145px;position:relative;}
@@ -194,7 +194,7 @@
 }
 
 @media screen and (max-width:768px) {
-	.courses-container .courses .course .course-image .cover-image img {width:100%;height:auto;}
+	.courses-container .courses .course .course-image .cover-image img {width:100%;height:175px;}
 }
 
 .home>header .title>.heading-group {text-align:center;}
@@ -770,7 +770,7 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 .course-search-box {position:relative;padding-right:75px;}
 .course-search-box input[type="text"] {width:100%;height:40px;}
 .course-search-box input[type="image"] {position:absolute;right:0;top:0;}
-.filters {border-bottom:solid 1px #e7e7e7;padding:1.5em 0 1em 0;}
+.filters {border-bottom:solid 1.5px #e7e7e7;padding:1.5em 0 0 0;}
 .filters > a {display:inline-block;margin-right:18px;position:relative;color:#666;font-size:1.125em;padding-right:22px;}
 .filters > a:after {content:"";position:absolute;right:0;top:50%;width:17px;height:17px;margin-top:-8px;background:url(/static/images/css/icon_del.gif);}
 
@@ -1214,7 +1214,7 @@ body.view-in-course .wrapper-footer {padding:25px 10px 30px;}
 .course-info header.course-profile:after , section.wiki .wiki-wrapper > header:after {content:"";display:block;clear:both;}
 /*.course-info header.course-profile + .container {clear:both;min-width:768px;}*/
 .course-info header.course-profile + .container {clear:both;min-width:auto;} /** 20170104 **/
-.course-info header.course-profile {height:auto;min-height:280px;padding-top:18px;}
+.course-info header.course-profile {height:auto;min-height:210px;padding-top:18px;}
 .course-info header.course-profile  .intro-inner-wrapper {margin-bottom:20px;}
 
 /*.discussion.container {margin:0 auto;max-width:100%;min-width:768px;}*/
@@ -1932,12 +1932,11 @@ span.important-dates-item-text.start-date {
 	font-size: 0.9rem;
 }
 
-.form-field.select-level_of_education {
+.optional-fields {
+	padding-top: 20px;
+	margin-top: 20px;
 	border-top: 1px solid lightgrey;
-	padding-top: 30px;
-	margin-top: 30px;
 }
-
 
 /* ----------------main-----------------*/
 .tab2 {

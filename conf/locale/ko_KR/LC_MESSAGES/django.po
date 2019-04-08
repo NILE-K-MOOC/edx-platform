@@ -332,7 +332,7 @@ msgstr "이것이 외부 전자상거래 서비스의 이 모드에 대한 벌�
 #: common/djangoapps/course_modes/models.py lms/envs/common.py
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Honor"
-msgstr "명예"
+msgstr "수강"
 
 #: common/djangoapps/course_modes/models.py
 msgid ""
@@ -831,7 +831,7 @@ msgstr "이 강좌에 등록되지 않았습니다."
 
 #: common/djangoapps/student/views/management.py
 msgid "Your certificate prevents you from unenrolling from this course"
-msgstr "인증서로 인해 이 강좌를 등록 취소할 수 없습니다."
+msgstr "이수증으로 인해 이 강좌를 등록 취소할 수 없습니다."
 
 #: common/djangoapps/student/views/management.py
 msgid "Enrollment action is invalid"
@@ -2589,7 +2589,7 @@ msgstr "이 강좌가 종료되는 날짜"
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Date that certificates become available to learners"
-msgstr "학습자에게 인증서가 유효하게 되는 날짜"
+msgstr "학습자에게 이수증이 유효하게 되는 날짜"
 
 #: common/lib/xmodule/xmodule/course_module.py
 msgid "Cosmetic Course Display Price"
@@ -3022,7 +3022,7 @@ msgid ""
 "marks, enter the short name of the type of certificate that students receive"
 " when they complete the course. For instance, \"Certificate\"."
 msgstr ""
-"이 설정을 PDF 인증서 생성 시에만 사용하세요. 따옴표 사이에 학습자가 강좌 수강을 완료했을 때 받을 인증서의 짧은 이름을 입력하세요."
+"이 설정을 PDF 이수증 생성 시에만 사용하세요. 따옴표 사이에 학습자가 강좌 수강을 완료했을 때 받을 이수증의 짧은 이름을 입력하세요."
 " 예를 들어 \"Certificate\" 라고 입력하면 됩니다."
 
 #: common/lib/xmodule/xmodule/course_module.py
@@ -3035,7 +3035,7 @@ msgid ""
 "marks, enter the long name of the type of certificate that students receive "
 "when they complete the course. For instance, \"Certificate of Achievement\"."
 msgstr ""
-"이 설정을 PDF 인증서 생성 시에만 사용하세요. 따옴표 사이에 학습자가 강좌 수강을 완료했을 때 받을 인증서의 긴 이름을 입력하세요. "
+"이 설정을 PDF 이수증 생성 시에만 사용하세요. 따옴표 사이에 학습자가 강좌 수강을 완료했을 때 받을 이수증의 긴 이름을 입력하세요. "
 "예를 들어 \"Certificate of Achievement\" 라고 입력하면 됩니다."
 
 #: common/lib/xmodule/xmodule/course_module.py
@@ -5118,7 +5118,7 @@ msgid ""
 "the honor code established by {platform_name} and has completed all of the "
 "required tasks for this course under its guidelines."
 msgstr ""
-"{cert_type} 인증서는 학습자가 {platform_name} 가 설정한 명예 규범을 지켰으며 지침에 따라 이 강좌의 모든 필수 "
+"{cert_type} 이수증은 학습자가 {platform_name} 가 설정한 명예 규범을 지켰으며 지침에 따라 이 강좌의 모든 필수 "
 "과제를 수행했음을 의미합니다."
 
 #. Translators:  This text describes the 'ID Verified' course certificate
@@ -5134,8 +5134,8 @@ msgid ""
 "certificate also indicates that the identity of the learner has been checked"
 " and is valid."
 msgstr ""
-"{cert_type} 인증서는 학습자가 {platform_name} 가 설정한 명예 규범을 지켰으며 지침에 따라 이 강좌의 모든 필수 "
-"과제를 수행했음을 의미합니다. 또한 {cert_type} 인증서는 학습자 신분이 확인되었음을 의미합니다."
+"{cert_type} 이수증은 학습자가 {platform_name} 가 설정한 명예 규범을 지켰으며 지침에 따라 이 강좌의 모든 필수 "
+"과제를 수행했음을 의미합니다. 또한 {cert_type} 이수증은 학습자 신분이 확인되었음을 의미합니다."
 
 #. Translators:  This text describes the 'XSeries' course certificate type.
 #. An XSeries is a collection of
@@ -5146,7 +5146,7 @@ msgstr ""
 msgid ""
 "An {cert_type} certificate demonstrates a high level of achievement in a "
 "program of study, and includes verification of the student's identity."
-msgstr "{cert_type} 인증서는 학습 프로그램에서 우수한 성적을 거두었으며 학습자 신분이 확인되었음을 의미합니다."
+msgstr "{cert_type} 이수증은 학습 프로그램에서 우수한 성적을 거두었으며 학습자 신분이 확인되었음을 의미합니다."
 
 #: lms/djangoapps/certificates/views/webview.py
 #, python-brace-format
@@ -5161,14 +5161,14 @@ msgid ""
 "participated in {partner_short_name} {course_number}"
 msgstr ""
 "이것은 {partner_short_name} {course_number} 를 수강한 {user_name} 에 대한 "
-"{platform_name} 인증서입니다."
+"{platform_name} 이수증입니다."
 
 #. Translators:  This text is bound to the HTML 'title' element of the page
 #. and appears in the browser title bar
 #: lms/djangoapps/certificates/views/webview.py
 #, python-brace-format
 msgid "{partner_short_name} {course_number} Certificate | {platform_name}"
-msgstr "{partner_short_name} {course_number} 인증서 | {platform_name}"
+msgstr "{partner_short_name} {course_number} 이수증 | {platform_name}"
 
 #. Translators:  This text fragment appears after the student's name
 #. (displayed in a large font) on the certificate
@@ -5180,7 +5180,7 @@ msgid ""
 "successfully completed, received a passing grade, and was awarded this "
 "{platform_name} {certificate_type} Certificate of Completion in "
 msgstr ""
-"성공적으로 완료하고 통과 성적 이상을 받았으며 이 {platform_name} {certificate_type}  인증서를 받았습니다."
+"성공적으로 완료하고 통과 성적 이상을 받았으며 이 {platform_name} {certificate_type} 이수증을 받았습니다."
 
 #. Translators: This text describes the purpose (and therefore, value) of a
 #. course certificate
@@ -5190,7 +5190,7 @@ msgid ""
 "{platform_name} acknowledges achievements through certificates, which are "
 "awarded for course activities that {platform_name} students complete."
 msgstr ""
-"{platform_name} 은 인증서를 통해 성과를 나타내며 {platform_name} 학습자가 수행하는 강좌 활동에 대해 "
+"{platform_name} 은 이수증을 통해 성과를 나타내며 {platform_name} 학습자가 수행하는 강좌 활동에 대해 "
 "수여됩니다."
 
 #. Translators:  'All rights reserved' is a legal term used in copyrighting to
@@ -5326,7 +5326,7 @@ msgstr "{platform_name}에서 제공하는 {course_title} 강좌를 완료했습
 #, python-brace-format
 msgid ""
 "I completed a course at {platform_name}. Take a look at my certificate."
-msgstr "본인은 {platform_name} 에서 강좌를 수강하였습니다. 제 인증서를 보세요."
+msgstr "본인은 {platform_name} 에서 강좌를 수강하였습니다. 제 이수증을 보세요."
 
 #: lms/djangoapps/certificates/views/webview.py
 #, python-brace-format
@@ -5338,7 +5338,7 @@ msgstr "{user_name}님의 이수증에 관한 추가 정보"
 #: lms/djangoapps/certificates/views/webview.py
 #, python-brace-format
 msgid "{fullname}, you earned a certificate!"
-msgstr "{fullname} 님, 인증서를 받았습니다!"
+msgstr "{fullname} 님, 이수증을 받았습니다!"
 
 #. Translators: This line congratulates the user and instructs them to share
 #. their accomplishment on social networks
@@ -5499,7 +5499,7 @@ msgstr "신청 강좌가 학습자의 대시보드에 나타나지 않을 경우
 
 #: lms/djangoapps/course_goals/models.py
 msgid "Earn a certificate"
-msgstr "인증서 받기"
+msgstr "이수증 받기"
 
 #: lms/djangoapps/course_goals/models.py
 msgid "Complete the course"
@@ -5604,7 +5604,7 @@ msgstr "강좌 종료"
 #: lms/djangoapps/courseware/date_summary.py
 msgid ""
 "To earn a certificate, you must complete all requirements before this date."
-msgstr "인증서를 수여받기 위해 이 날짜 전에 모든 필수 사항을 완료해야 합니다."
+msgstr "강좌종강일 전에 이수기준 점수 이상을 획득하셔야 이수증을 받을 수 있습니다."
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "After this date, course content will be archived."
@@ -5632,7 +5632,7 @@ msgstr "이수 가능한 이수증"
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "Day certificates will become available for passing verified learners."
-msgstr "인증된 학습자의 인증서가 유효하게 되는 날"
+msgstr "인증된 학습자의 이수증이 유효하게 되는 날"
 
 #: lms/djangoapps/courseware/date_summary.py
 #, python-brace-format
@@ -5873,7 +5873,7 @@ msgstr "강좌 이수증이 준비되었습니다."
 #: lms/djangoapps/courseware/views/views.py
 #, python-brace-format
 msgid "To see course content, {sign_in_link} or {register_link}."
-msgstr "강좌의 내용을 보고싶으시다면, {sign_in_link} 아니면  {register_link}로 이동하세요."
+msgstr "본 강좌 학습을 위해서는 {sign_in_link}을 하시거나  {register_link}을 해주세요."
 
 #: lms/djangoapps/courseware/views/views.py
 #, python-brace-format
@@ -8717,7 +8717,7 @@ msgstr "CyberSource를 통해 직접 환불이 이루어집니다."
 #: lms/templates/ccx/coach_dashboard.html lms/templates/ccx/enrollment.html
 #: lms/templates/support/enrollment.html
 msgid "Enrollment"
-msgstr "수강신청"
+msgstr "수강신청하기"
 
 #: lms/djangoapps/support/views/index.py
 msgid "View and update learner enrollments."
@@ -9100,8 +9100,12 @@ msgid "Subscribe to the {platform_name} YouTube channel"
 msgstr "{platform_name}의  Youtube 채널 구독하기"
 
 #: lms/envs/common.py
+msgid "Taiwan"
+msgstr "대만"
+
+#: lms/envs/common.py
 msgid "Kosovo"
-msgstr "Kosovo"
+msgstr "코소보"
 
 #: lms/envs/common.py
 #, python-brace-format
@@ -10482,7 +10486,7 @@ msgid ""
 "by %(user_schedule_upgrade_deadline_time)s."
 msgstr ""
 "%(platform_name)s에서 학습하는것을 만족하시나요! 인증 이수증으로 새로운 지식을 자랑하세요. %(platform_name)s"
-" 인증서는 공식으로 인정됩니다. %(user_schedule_upgrade_deadline_time)s까지 업그레이드 하세요."
+" 이수증은 공식으로 인정됩니다. %(user_schedule_upgrade_deadline_time)s까지 업그레이드 하세요."
 
 #: openedx/core/djangoapps/schedules/templates/schedules/edx_ace/upgradereminder/email/body.html
 #: openedx/core/djangoapps/schedules/templates/schedules/edx_ace/upgradereminder/email/body.txt
@@ -12503,7 +12507,7 @@ msgstr "즐겨찾기 완료"
 
 #: lms/templates/bookmark_button.html
 msgid "Bookmark this page"
-msgstr "이 페이지 즐겨찾기에 추가하기"
+msgstr "이 페이지 북마크"
 
 #: lms/templates/conditional_module.html
 msgid "You do not have access to this dependency module."
@@ -13157,7 +13161,7 @@ msgstr "{i_start}{user_name}{i_end} 로 강좌를 보고 있습니다."
 #: lms/templates/problem.html
 msgid "You have used {num_used} of {num_total} attempt"
 msgid_plural "You have used {num_used} of {num_total} attempts"
-msgstr[0] "{num_total} 중 {num_used} 번의 기회를 사용했습니다"
+msgstr[0] "{num_total}번 중 {num_used} 번의 기회를 사용했습니다"
 
 #: lms/templates/problem.html
 msgid ""
@@ -13336,7 +13340,7 @@ msgstr "{link_start}학습자 서약 {link_end}을 준수하겠습니다."
 #: themes/edx.org/lms/templates/header/navbar-not-authenticated.html
 #: themes/stanford-style/lms/templates/register-form.html
 msgid "Register"
-msgstr "가입하기 "
+msgstr "회원가입"
 
 #: lms/templates/register-form.html lms/templates/signup_modal.html
 #: themes/stanford-style/lms/templates/register-form.html
@@ -13569,7 +13573,7 @@ msgstr "담당직원 디버그:"
 
 #: lms/templates/staff_problem_info.html
 msgid "Score (for override only)"
-msgstr "점수 (무효화 전용)"
+msgstr "덮어쓸 점수"
 
 #: lms/templates/staff_problem_info.html
 msgid "Reset Learner's Attempts to Zero"
@@ -13592,7 +13596,7 @@ msgstr "점수가 올랐을 때만 재채점"
 
 #: lms/templates/staff_problem_info.html
 msgid "Override Score"
-msgstr "점수 무효화"
+msgstr "점수 덮어쓰기"
 
 #: lms/templates/staff_problem_info.html
 msgid "Module Fields"
@@ -15312,7 +15316,7 @@ msgstr "강좌 목록"
 
 #: lms/templates/courseware/courses.html
 msgid "Refine Your Search"
-msgstr "검색 수정하기"
+msgstr "검색 조건 설정"
 
 #: lms/templates/courseware/courseware-chromeless.html
 #: lms/templates/courseware/courseware.html
@@ -17513,7 +17517,7 @@ msgstr "강좌가 끝났습니까?"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Number of sections:"
-msgstr "주제의 수:"
+msgstr "주차 수:"
 
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Grade Cutoffs:"
@@ -19820,7 +19824,7 @@ msgstr "강좌 찾기"
 #: lms/templates/ux/reference/bootstrap/course-skeleton.html
 #: openedx/features/course_experience/templates/course_experience/course-home-fragment.html
 msgid "Start Course"
-msgstr "강좌 시작"
+msgstr "학습하기"
 
 #: lms/templates/verify_student/_verification_help.html
 msgid "Have questions?"
@@ -19830,7 +19834,7 @@ msgstr "질문이 있습니까?"
 msgid ""
 "Please read {a_start}our FAQs to view common questions about our "
 "certificates{a_end}."
-msgstr "인증서 {a_end}에 대해 자주 묻는 질문 코멘트를 보기 위해서는 {a_start} FAQ를 읽어 보시기 바랍니다."
+msgstr "이수증 {a_end}에 대해 자주 묻는 질문 코멘트를 보기 위해서는 {a_start} FAQ를 읽어 보시기 바랍니다."
 
 #: lms/templates/verify_student/incourse_reverify.html
 msgid "Re-Verify for {course_name}"
@@ -24974,7 +24978,7 @@ msgid ""
 "exactly as it appears on your government-issued photo ID, including any non-"
 "Roman characters."
 msgstr ""
-"신분 확인을 위해 사용된 이름은 인증서에도 사용됩니다. 다른 사용자는 절대 실명을 볼 수 없습니다. 로마자가 아닌 부분을 포함해 정부 "
+"신분 확인을 위해 사용된 이름은 이수증에서도 사용됩니다. 다른 사용자는 절대 실명을 볼 수 없습니다. 로마자가 아닌 부분을 포함해 정부 "
 "인증 신분증 상의 이름을 정확히 입력해야 합니다."
 
 #: lms/static/js/student_account/views/account_settings_factory.js
@@ -25057,20 +25061,20 @@ msgstr "아이핀 인증에 실패하였습니다."
 
 # templates/student_account/agree.html
 
-msgid "IPIN certification."
-msgstr "회원가입 (아이핀 인증)"
+msgid "NICE certification."
+msgstr "회원가입 (나이스 인증)"
 
-msgid "IPIN certification is not completed."
-msgstr "아이핀 인증이 완료되지 않았습니다."
+msgid "NICE certification is not completed."
+msgstr "나이스 인증이 완료되지 않았습니다."
 
 msgid "Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join."
 msgstr "만 14세 미만 학습자는 부모님 또는 보호자(법정 대리인)의 동의가 있어야 가입이 가능합니다."
 
-msgid "Please click the 'IPIN Certification' button and proceed with the consent of the guardian (legal representative)."
-msgstr "“아이핀 인증” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
+msgid "Please click the 'NICE Certification' button and proceed with the consent of the guardian (legal representative)."
+msgstr "“인증하기” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
 
-msgid "Proceed with the consent process of guardian by IPIN certification."
-msgstr "아이핀 인증으로 보호자의 동의절차를 진행"
+msgid "Proceed with the consent process of guardian by NICE certification."
+msgstr "나이스 인증으로 보호자의 동의절차를 진행"
 
 msgid "Certificating"
 msgstr "인증하기"
@@ -25327,7 +25331,7 @@ msgstr "탈퇴하기"
 
 #msgstr "계정활성화를 위한 메일을 보냈으니, 계정활성화 메일을 통해 사이트에 다시 접속하여 로그인해주십시오. 확인 버튼 클릭 후 자동으로 로그아웃 됩니다."
 msgid "Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically."
-msgstr "회원가입을 축하합니다! 수강신청을 위해서는 가입하신 메일주소로 발송된 메일을 확인하셔야 합니다. /n (확인 버튼을 누르시면 자동으로 로그아웃 됩니다)"
+msgstr "회원가입을 축하합니다! 수강신청을 위해서는 가입하신 메일주소로 발송된 메일을 확인하셔야 합니다. (확인 버튼을 누르시면 자동으로 로그아웃 됩니다)"
 
 msgid "You have to agree to the instructions."
 msgstr "안내 사항을 동의하세요"
@@ -26480,7 +26484,7 @@ msgid "Video Duration : Total video duration related with course contents"
 msgstr "총 동영상시간: 강의 내용과 관련된 동영상 재생 시간의 총 합계 ※ 강의 내용과 무관한 홍보동영상 등은 제외"
 
 msgid "Course difficulty"
-msgstr "강좌 난이도"
+msgstr "난이도"
 
 #msgid "Not selected"
 #msgstr "미선택"
@@ -27484,7 +27488,7 @@ msgstr "결과보기"
 
 #: lms/templates/community/series_view.html
 msgid "Series course enrollment"
-msgstr "묶음강좌 수강 신청"
+msgstr "묶음강좌 신청하기"
 
 #: lms/templates/community/series_view.html
 msgid "Series course unenrollment"
@@ -27563,3 +27567,15 @@ msgstr "완료(%(num_graded)s)"
 # ORA
 msgid "Completed"
 msgstr "완료"
+
+msgid "Partner"
+msgstr "파트너"
+
+msgid "You have not bookmarked any courseware pages yet"
+msgstr "강좌 페이지를 아직 북마크하지 않았습니다."
+
+msgid "Use bookmarks to help you easily return to courseware pages. To bookmark a page, click \"Bookmark this page\" under the page title."
+msgstr "북마크를 사용하여 강좌 페이지로 쉽게 돌아갈 수 있습니다. 페이지 북마크를 사용하려면 페이지 제목 아래에 있는 \"이 페이지 북마크\"를 클릭합니다."
+
+msgid "Answers are displayed within the problem"
+msgstr "정답이 문제 내에 표시됩니다."

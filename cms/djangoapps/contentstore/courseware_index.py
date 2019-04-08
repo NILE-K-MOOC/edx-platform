@@ -213,7 +213,7 @@ class SearchIndexerBase(object):
             if item.has_children:
                 # determine if it's okay to skip adding the children herein based upon how recently any may have changed
                 skip_child_index = skip_index or \
-                    (triggered_at is not None and (triggered_at - item.subtree_edited_on) > reindex_age)
+                                   (triggered_at is not None and (triggered_at - item.subtree_edited_on) > reindex_age)
                 children_groups_usage = []
                 for child_item in item.get_children():
                     if modulestore.has_published_version(child_item):
@@ -570,9 +570,8 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("enrollment_start", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("enrollment_end", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("org", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("org_kname", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("org_ename", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
-        AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
+        AboutInfo("org_kname", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("org_ename", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("modes", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_MODE),
         AboutInfo("language", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("classfy", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
@@ -584,6 +583,11 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("catalog_visibility", AboutInfo.ANALYSE, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("difficult_degree", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("audit_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("fourth_industry_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("job_edu_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("ribbon_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("course_level", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
     @classmethod

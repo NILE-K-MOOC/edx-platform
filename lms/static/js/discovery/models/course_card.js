@@ -23,6 +23,7 @@
                 id: '',
                 status: '',
                 audit_yn: '',
+                ribbon_yn: '',
             }
         });
     });

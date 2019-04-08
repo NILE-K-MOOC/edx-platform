@@ -131,7 +131,6 @@ import pytz
 
 log = logging.getLogger("edx.courseware")
 
-
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
 REQUIREMENTS_DISPLAY_MODES = CourseMode.CREDIT_MODES + [CourseMode.VERIFIED]
@@ -245,61 +244,21 @@ def courses(request):
             courses_list = sort_by_start_date(courses_list)
         else:
             courses_list = sort_by_announcement(courses_list)
-    import time
-    try:
-        from urllib import urlencode
-    except ImportError:CourseDescriptorWithMixins
 
-
-    from elasticsearch.exceptions import ConnectionError
-    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
-
-    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
-        url = self.url_prefix + url
-        if 'size' in params:
-            params[
-                'sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
-
-        if params:
-            url = '%s?%s' % (url, urlencode(params or {}))
-        full_url = self.host + url
-
-        start = time.time()
-
-        if body:
-            if '{"term": {"org": "SMUk"}}' in body:
-                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
-
-        try:
-            kw = {}
-            if timeout:
-                kw['timeout'] = timeout
-            response = self.pool.urlopen(method, url, body, **kw)
-            duration = time.time() - start
-            raw_data = response.data.decode('utf-8')
-        except Exception as e:
-            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
-            raise ConnectionError('N/A', str(e), e)
-
-        if not (200 <= response.status < 300) and response.status not in ignore:
-            self.log_request_fail(method, url, body, duration, response.status)
-            self._raise_error(response.status, raw_data)
-
-        self.log_request_success(method, full_url, url, body, response.status,
-                                 raw_data, duration)
-
-        return response.status, response.getheaders(), raw_data
-
-    Urllib3HttpConnection.perform_request = perform_request
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
+
+    # course post parameter setting to html
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc']
+    parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
 
     return render_to_response(
         "courseware/courses.html",
         {
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
-            'programs_list': programs_list
+            'programs_list': programs_list,
+            'parameter_json': parameter_json
         }
     )
 
@@ -323,8 +282,8 @@ def mobile_courses(request):
     import time
     try:
         from urllib import urlencode
-    except ImportError:CourseDescriptorWithMixins
-
+    except ImportError:
+        CourseDescriptorWithMixins
 
     from elasticsearch.exceptions import ConnectionError
     from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
@@ -437,6 +396,7 @@ def course_info(request, course_id):
     Display the course's info.html, or 404 if there is no such course.
     Assumes the course_id is in a valid format.
     """
+
     # TODO: LEARNER-611: This can be deleted with Course Info removal.  The new
     #    Course Home is using its own processing of last accessed.
     def get_last_accessed_courseware(course, request, user):
@@ -515,19 +475,19 @@ def course_info(request, course_id):
         # Get the course tools enabled for this user and course
         course_tools = CourseToolsPluginManager.get_enabled_course_tools(request, course_key)
 
-        course_homepage_invert_title =\
+        course_homepage_invert_title = \
             configuration_helpers.get_value(
                 'COURSE_HOMEPAGE_INVERT_TITLE',
                 False
             )
 
-        course_homepage_show_subtitle =\
+        course_homepage_show_subtitle = \
             configuration_helpers.get_value(
                 'COURSE_HOMEPAGE_SHOW_SUBTITLE',
                 True
             )
 
-        course_homepage_show_org =\
+        course_homepage_show_org = \
             configuration_helpers.get_value('COURSE_HOMEPAGE_SHOW_ORG', True)
 
         course_title = course.display_number_with_default
@@ -576,10 +536,6 @@ def course_info(request, course_id):
             context['supports_preview_menu'] = False
         course_id = request.POST.get('course_id')
 
-
-
-
-
         return render_to_response('courseware/info.html', context)
 
 
@@ -587,6 +543,7 @@ class StaticCourseTabView(EdxFragmentView):
     """
     View that displays a static course tab with a given name.
     """
+
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(ensure_valid_course_key)
     def get(self, request, course_id, tab_slug, **kwargs):
@@ -628,6 +585,7 @@ class CourseTabView(EdxFragmentView):
     """
     View that displays a course tab page.
     """
+
     @method_decorator(ensure_csrf_cookie)
     @method_decorator(ensure_valid_course_key)
     @method_decorator(data_sharing_consent_required)
@@ -882,13 +840,14 @@ class EnrollStaffView(View):
         # In any other case redirect to the course about page.
         return redirect(reverse('about_course', args=[text_type(course_key)]))
 
+
 from django.http import JsonResponse
+
 
 @csrf_exempt
 @cache_if_anonymous()
 @require_http_methods(['POST'])
 def course_interest(request):
-
     if request.method == 'POST':
 
         if request.POST['method'] == 'add':
@@ -899,10 +858,10 @@ def course_interest(request):
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
             query = """
                  select count(user_id) from interest_course where user_id = '""" + user_id + """' and org = '""" + org + """' and display_number_with_default = '""" + display_number_with_default + """';
@@ -912,7 +871,7 @@ def course_interest(request):
             ctn = count[0][0]
             cur.close()
 
-            if(ctn == 1):
+            if (ctn == 1):
                 cur = con.cursor()
                 query = """
                      UPDATE interest_course
@@ -923,7 +882,7 @@ def course_interest(request):
                 cur.execute('commit')
                 cur.close()
                 data = json.dumps('success')
-            elif(ctn == 0):
+            elif (ctn == 0):
                 cur = con.cursor()
                 query = """
                      insert into interest_course(user_id, org, display_number_with_default)
@@ -945,10 +904,10 @@ def course_interest(request):
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
             cur = con.cursor()
             query = """
                  UPDATE interest_course
@@ -969,10 +928,10 @@ def course_interest(request):
 
             sys.setdefaultencoding('utf-8')
             con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
-                                  settings.DATABASES.get('default').get('USER'),
-                                  settings.DATABASES.get('default').get('PASSWORD'),
-                                  settings.DATABASES.get('default').get('NAME'),
-                                  charset='utf8')
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
 
             cur = con.cursor()
             query = """
@@ -994,7 +953,6 @@ def course_interest(request):
 
 # 강좌 상태 반환 공통함수
 def get_course_status(start, end, now):
-
     if start is None or start == '' or end is None or end == '':
         status = 'none'
     elif now < start:
@@ -1024,7 +982,7 @@ def course_about(request, course_id):
         review_email = 'x'
         review_username = 'x'
 
-    #login check
+    # login check
     if not request.user.is_authenticated():
         login_status = 'x'
     user_id = request.user.id
@@ -1037,8 +995,8 @@ def course_about(request, course_id):
     course_org = course_id_str[index_org_start:index_org_end]
     course_number = course_id_str[index_number_start:index_number_end]
 
-    print "course_org",course_org
-    print "course_number",course_number
+    print "course_org", course_org
+    print "course_number", course_number
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
     if not can_self_enroll_in_course(course_key):
@@ -1078,7 +1036,7 @@ def course_about(request, course_id):
             if request.user.is_authenticated:
                 cart = shoppingcart.models.Order.get_cart_for_user(request.user)
                 in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
-                    shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
 
             reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
                 reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
@@ -1095,7 +1053,7 @@ def course_about(request, course_id):
         is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
         if ecommerce_checkout and is_professional_mode:
             professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
-                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
             if professional_mode.sku:
                 ecommerce_checkout_link = ecomm_service.get_checkout_page_url(professional_mode.sku)
             if professional_mode.bulk_sku:
@@ -1301,7 +1259,6 @@ def course_about(request, course_id):
         flag = 0
 
         if (login_status != 'x'):
-
             cur = con.cursor()
             query = """
                         SELECT count(user_id)
@@ -1362,7 +1319,7 @@ def course_about(request, course_id):
                 '''.format(course_id=course_id)
         cur.execute(query)
         course_level = cur.fetchall()
-        print "course_level",course_level
+        print "course_level", course_level
         course_level = course_level[0][0]
         cur.close()
 
@@ -1381,28 +1338,26 @@ def course_about(request, course_id):
 
         #######E ADD.###########
         # coure_review
-        try :
+        try:
             with connections['default'].cursor() as cur:
                 query = """
                     select count(*)
                     from course_review a
                     left join auth_user b on a.user_id = b.id
                     where course_id ="{course_id}" and b.username ="{user_name}";
-                    """.format(course_id=course_id,user_name=request.user)
+                    """.format(course_id=course_id, user_name=request.user)
                 cur.execute(query)
                 r_c = cur.fetchall()
                 review_val = r_c[0][0]
-                print "reivew_chk",review_val
-                print "query",query
+                print "reivew_chk", review_val
+                print "query", query
                 if review_val > 0:
-                    review_chk ='o'
+                    review_chk = 'o'
                 else:
                     review_chk = 'x'
         except:
             review_chk = 'x'
             pass
-
-
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1410,7 +1365,7 @@ def course_about(request, course_id):
                     from course_review a
                     left join auth_user b on a.user_id = b.id
                     where course_id LIKE "course-v1:{course_org}+{course_number}+%"
-                """.format(course_id=course_id,course_org=course_org, course_number=course_number)
+                """.format(course_id=course_id, course_org=course_org, course_number=course_number)
             cur.execute(query)
             review_list = cur.fetchall()
 
@@ -1628,7 +1583,7 @@ def course_about(request, course_id):
         enroll_edate = utc_dt_enroll_end.strftime(fmt)
         print "later_start", start
         context = {
-            'similar_course': similar_course, # 유사강좌
+            'similar_course': similar_course,  # 유사강좌
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,
@@ -1706,7 +1661,7 @@ def mobile_course_about(request, course_id):
         review_email = 'x'
         review_username = 'x'
 
-    #login check
+    # login check
     if not request.user.is_authenticated():
         login_status = 'x'
     user_id = request.user.id
@@ -1719,8 +1674,8 @@ def mobile_course_about(request, course_id):
     course_org = course_id_str[index_org_start:index_org_end]
     course_number = course_id_str[index_number_start:index_number_end]
 
-    print "course_org",course_org
-    print "course_number",course_number
+    print "course_org", course_org
+    print "course_number", course_number
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
     if not can_self_enroll_in_course(course_key):
@@ -1765,7 +1720,7 @@ def mobile_course_about(request, course_id):
             if request.user.is_authenticated:
                 cart = shoppingcart.models.Order.get_cart_for_user(request.user)
                 in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
-                    shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
 
             reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
                 reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
@@ -1782,7 +1737,7 @@ def mobile_course_about(request, course_id):
         is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
         if ecommerce_checkout and is_professional_mode:
             professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
-                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
             if professional_mode.sku:
                 ecommerce_checkout_link = ecomm_service.get_checkout_page_url(professional_mode.sku)
             if professional_mode.bulk_sku:
@@ -1988,7 +1943,6 @@ def mobile_course_about(request, course_id):
         flag = 0
 
         if (login_status != 'x'):
-
             cur = con.cursor()
             query = """
                         SELECT count(user_id)
@@ -2049,7 +2003,7 @@ def mobile_course_about(request, course_id):
                 '''.format(course_id=course_id)
         cur.execute(query)
         course_level = cur.fetchall()
-        print "course_level",course_level
+        print "course_level", course_level
         course_level = course_level[0][0]
         cur.close()
 
@@ -2068,28 +2022,26 @@ def mobile_course_about(request, course_id):
 
         #######E ADD.###########
         # coure_review
-        try :
+        try:
             with connections['default'].cursor() as cur:
                 query = """
                     select count(*)
                     from course_review a
                     left join auth_user b on a.user_id = b.id
                     where course_id ="{course_id}" and b.username ="{user_name}";
-                    """.format(course_id=course_id,user_name=request.user)
+                    """.format(course_id=course_id, user_name=request.user)
                 cur.execute(query)
                 r_c = cur.fetchall()
                 review_val = r_c[0][0]
-                print "reivew_chk",review_val
-                print "query",query
+                print "reivew_chk", review_val
+                print "query", query
                 if review_val > 0:
-                    review_chk ='o'
+                    review_chk = 'o'
                 else:
                     review_chk = 'x'
         except:
             review_chk = 'x'
             pass
-
-
 
         with connections['default'].cursor() as cur:
             query = """
@@ -2097,7 +2049,7 @@ def mobile_course_about(request, course_id):
                     from course_review a
                     left join auth_user b on a.user_id = b.id
                     where course_id LIKE "course-v1:{course_org}+{course_number}+%"
-                """.format(course_id=course_id,course_org=course_org, course_number=course_number)
+                """.format(course_id=course_id, course_org=course_org, course_number=course_number)
             cur.execute(query)
             review_list = cur.fetchall()
 
@@ -2158,7 +2110,7 @@ def mobile_course_about(request, course_id):
             else:
                 audit_flag = 'N'
 
-
+        """
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
         url = 'http://' + LMS_BASE + '/search/course_discovery/'
@@ -2206,9 +2158,9 @@ def mobile_course_about(request, course_id):
         except BaseException:
             similar_course = None
             log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
-
+        """
         context = {
-            'similar_course': similar_course, # 유사강좌
+            #'similar_course': similar_course,  # 유사강좌
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,
@@ -2409,7 +2361,7 @@ def _downloadable_certificate_message(course, cert_downloadable_status):
 
 def _missing_required_verification(student, enrollment_mode):
     return (
-        enrollment_mode in CourseMode.VERIFIED_MODES and not IDVerificationService.user_is_verified(student)
+            enrollment_mode in CourseMode.VERIFIED_MODES and not IDVerificationService.user_is_verified(student)
     )
 
 
@@ -2883,7 +2835,6 @@ FINANCIAL_ASSISTANCE_HEADER = _(
     platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
 ).split('\n')
 
-
 FA_INCOME_LABEL = _('Annual Household Income')
 FA_REASON_FOR_APPLYING_LABEL = _(
     'Tell us about your current financial situation. Why do you need assistance?'
@@ -3092,7 +3043,6 @@ def get_financial_aid_courses(user):
                     Q(_expiration_datetime__isnull=True) | Q(_expiration_datetime__gt=datetime.now(UTC)),
                     course_id=enrollment.course_id,
                     mode_slug=CourseMode.VERIFIED).exists():
-
             financial_aid_courses.append(
                 {
                     'name': enrollment.course_overview.display_name,
@@ -3101,6 +3051,7 @@ def get_financial_aid_courses(user):
             )
 
     return financial_aid_courses
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
@@ -3156,15 +3107,18 @@ def schools(request):
                 org_dict['org_image'] = org[6] if lang == 'ko-kr' else org[7]
 
                 if org_dict['org_intro'] is not None:
-                    org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict['org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
+                    org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict[
+                        'org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
                 else:
-                    org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict['org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div>'
+                    org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict[
+                        'org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div>'
 
                 org_list.append(org_dict)
 
-            return JsonResponse({'org_list' : org_list})
+            return JsonResponse({'org_list': org_list})
 
     return render_to_response("courseware/schools.html")
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
@@ -3198,18 +3152,16 @@ def haewoondaex(request, org):
                    LEFT JOIN
                    (SELECT id, save_path
                       FROM tb_attach
-                     WHERE use_yn = TRUE AND group_name = '{lang_top}' AND group_id = '{org}') b
-                      ON a.top_img = b.id
+                     WHERE use_yn = TRUE) b
+                      ON (case when '{lang}' = 'ko-kr' then a.top_img else ifnull(a.top_img_e, a.top_img) end) = b.id
                    LEFT JOIN
                    (SELECT id, save_path
                       FROM tb_attach
-                     WHERE     use_yn = TRUE
-                           AND group_name = '{lang_subtitle}'
-                           AND group_id = '{org}') d
-                      ON a.intro_subtitle = d.id
+                     WHERE     use_yn = TRUE) d
+                      ON (case when '{lang}' = 'ko-kr' then a.intro_subtitle else ifnull(a.intro_subtitle_e, a.intro_subtitle) end) = d.id
                    JOIN code_detail c ON a.org_id = c.detail_code AND group_code = '003'
              WHERE org_id = '{org}' AND a.delete_yn = FALSE AND a.use_yn = TRUE;
-        '''.format(lang_subtitle=lang_subtitle, lang_org_name=lang_org_name, lang_top=lang_top, org=org)
+        '''.format(lang=lang, lang_org_name=lang_org_name, org=org)
 
         print query
         cur.execute(query)
@@ -3265,7 +3217,7 @@ def course_review_add(request):
     review = request.POST.get('review')
     point = request.POST.get("star")
 
-    lock=0
+    lock = 0
 
     if request.is_ajax():
 
@@ -3278,8 +3230,8 @@ def course_review_add(request):
             cur.execute(query)
             check = cur.fetchall()
 
-            if check !=():
-                return JsonResponse({"data":"false"})
+            if check != ():
+                return JsonResponse({"data": "false"})
 
             else:
                 with connections['default'].cursor() as cur:
@@ -3292,10 +3244,11 @@ def course_review_add(request):
                                 '{point}',
                                 '{user_id}',
                                 '{course_id}')
-                    """.format(user_id=user_id,course_id=course_id,point=point,review=review)
+                    """.format(user_id=user_id, course_id=course_id, point=point, review=review)
                     cur.execute(query)
 
-                return JsonResponse({"data":"success"})
+                return JsonResponse({"data": "success"})
+
 
 def course_review_del(request):
     course_id = request.POST.get('course_id')
@@ -3316,7 +3269,8 @@ def course_review_del(request):
             """.format(id=id)
             cur.execute(query)
 
-    return JsonResponse({"data":"success"})
+    return JsonResponse({"data": "success"})
+
 
 def course_review_gb(request):
     review_id = request.POST.get('review_id')
@@ -3331,11 +3285,11 @@ def course_review_gb(request):
                 select good_bad
                 from course_review_user
                 where review_id='{review_id}' and user_id = '{user_id}';
-            """.format(review_id=review_id,user_id=user_id)
+            """.format(review_id=review_id, user_id=user_id)
             cur.execute(query)
-            check=cur.fetchall()
+            check = cur.fetchall()
 
-            if check ==():
+            if check == ():
                 with connections['default'].cursor() as cur:
                     query = """
                         insert into edxapp.course_review_user(review_id,
@@ -3346,11 +3300,11 @@ def course_review_gb(request):
                                 '{user_id}',
                                 '{gb}',
                                 '{review_seq}')
-                    """.format(review_id=review_id,gb=gb,user_id=user_id,review_seq=review_seq)
+                    """.format(review_id=review_id, gb=gb, user_id=user_id, review_seq=review_seq)
                     cur.execute(query)
 
                     print " insert ok"
-                return JsonResponse({"data":"success"})
+                return JsonResponse({"data": "success"})
 
             elif check[0][0] == gb:
                 with connections['default'].cursor() as cur:
@@ -3360,11 +3314,11 @@ def course_review_gb(request):
                     """.format(review_id=review_id, user_id=user_id)
                     cur.execute(query)
                     print " delete ok"
-                return  JsonResponse({"data":"delete"})
+                return JsonResponse({"data": "delete"})
 
             elif check[0][0] != gb:
                 print " ok"
-                return JsonResponse({"data":"false"})
+                return JsonResponse({"data": "false"})
 
 
 @ensure_csrf_cookie
@@ -3408,6 +3362,7 @@ def privacy_old2(request):
         "courseware/privacy_old2.html"
     )
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def privacy_old3(request):
@@ -3422,6 +3377,7 @@ def privacy_old3(request):
     return render_to_response(
         "courseware/privacy_old3.html"
     )
+
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
@@ -3430,6 +3386,7 @@ def privacy_old4(request):
         "courseware/privacy_old4.html"
     )
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def copyright(request):
@@ -3437,10 +3394,12 @@ def copyright(request):
         "courseware/copyright.html"
     )
 
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def cert_check(request):
     return render_to_response("courseware/cert_check.html")
+
 
 def cert_check_id(request):
     uuid = request.POST['uuid']

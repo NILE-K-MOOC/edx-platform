@@ -190,12 +190,15 @@ def common_course_status(startDt, endDt):
     # return status
     return status
 
+
 from bson import ObjectId
 from pymongo import MongoClient
 from xmodule.modulestore.django import modulestore
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
+
+@csrf_exempt
+def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context = {}
     if extra_context is None:
         extra_context = {}
@@ -204,7 +207,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     site_code = request.session.get('multisite_org')
 
     # DEBUG
-    print "------------------------------------"
     print "site_code -> ", site_code
 
     # multisite - get site code query
@@ -299,7 +301,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                             if block.get('fields').get('catalog_visibility'):
                                 if block.get('fields').get('catalog_visibility') == 'none':
                                     pass
-                                    #course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
+                                    # course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
 
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
@@ -310,14 +312,18 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     course_overviews.audit_yn = item[1]
                     course_overviews.ribbon_yn = item[2]
 
-                    if item[3].find(',') != -1:
-                        teacher_name = item[3].split(',')[0]
-                        teacher_name_cnt = len(teacher_name) - 1
-                    else:
-                        teacher_name = teacher_name
+                    try:
+                        if item[3].find(',') != -1:
+                            teacher_name = item[3].split(',')[0]
+                            teacher_name_cnt = len(teacher_name) - 1
+                        else:
+                            teacher_name = teacher_name
+                            teacher_name_cnt = 0
+                    except BaseException:
+                        teacher_name = ''
                         teacher_name_cnt = 0
 
-                    course_overviews.teacher_name = ['','']
+                    course_overviews.teacher_name = ['', '']
                     course_overviews.teacher_name[0] = teacher_name
                     course_overviews.teacher_name[1] = teacher_name_cnt
 
@@ -346,6 +352,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
     return render_to_response('multisite_index.html', context)
 
+
 # NOTE: This view is not linked to directly--it is called from
 # branding/views.py:index(), which is cached for anonymous users.
 # This means that it should always return the same thing for anon
@@ -365,17 +372,20 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT course_division, course_id
+              FROM tb_main_course;
+        '''
+        cur.execute(query)
+        main_course = cur.fetchall()
+        new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
+        pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
 
-    f1 = {'enrollment_start__isnull': False, 'enrollment_start__lte': datetime.datetime.now(),
-          'enrollment_end__gte': datetime.datetime.now(),
-          'start__lte': datetime.datetime(2029, 12, 31),
-          'course_type': 'new_course'}
+    f1 = {'id__in': new_course}
     log.info(f1)
 
-    f2 = {'enrollment_start__isnull': False,
-          'courseenrollment__created__gte': datetime.datetime.now() - datetime.timedelta(days=30),
-          'enrollment_start__lte': datetime.datetime.now(),
-          'enrollment_end__gte': datetime.datetime.now(), 'course_type': 'pop_course'}
+    f2 = {'id__in': pop_course}
     log.info(f2)
 
     new_courses = index_courses(user, f1)
@@ -566,23 +576,20 @@ def index(request, extra_context=None, user=AnonymousUser()):
     popupzone_query = """
               SELECT seq,
                      title,
-                     ifnull(concat('/static/file_upload/', attatch_file_name, '.', attatch_file_ext), '')
+                     ifnull(save_path, '')
                         image_file,
                      link_url,
                      link_target
-                FROM popupzone a LEFT JOIN tb_board_attach b ON a.image_file = b.attatch_id
-               WHERE     concat(start_date, start_time) <=
-                         date_format(now(), '%Y%m%d%H%i%s')
-                     AND concat(end_date, end_time) >= date_format(now(), '%Y%m%d%H%i%s')
+                FROM popupzone a LEFT JOIN tb_attach b ON a.image_file = b.id
+               WHERE date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H:%i') 
+                   BETWEEN concat(start_date, ifnull(start_time,'00:00'))
+                    AND concat(end_date, ifnull(end_time, '00:00'))
             ORDER BY end_date ASC, start_date ASC;
         """
     cur = con.cursor()
     cur.execute(popupzone_query)
     popzone = cur.fetchall()
-    print "popzone_test",popzone
-
-    # test
-    pop_path = ['/static/images/main/ba01.jpg', '/static/images/main/ba02.jpg', '/static/images/main/ba03.jpg']
+    print "popzone_test", popzone
 
     popzone_list = list()
     for idx, zone in enumerate(popzone):
@@ -590,7 +597,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         popzone_dict['title'] = zone[1]
         image_idx = zone[2].find('/static')
         if image_idx == -1:
-            popzone_dict['image_file'] = pop_path[idx]
+            popzone_dict['image_file'] = '/static/images/blank.png'
         else:
             popzone_dict['image_file'] = zone[2][image_idx:]
         popzone_dict['link_url'] = zone[3]
@@ -633,15 +640,6 @@ def index_submenu():
 
 def index_courses(user, filter_=None):
     courses = get_courses(user, filter_=filter_)
-    courses = [c for c in courses if not c.has_ended()][:16]
-
-    if len(courses) < 16:
-        if filter_.has_key('enrollment_end__gte'):
-            del filter_['enrollment_end__gte']
-        if filter_.has_key('enrollment_start__lte'):
-            del filter_['enrollment_start__lte']
-        courses = get_courses(user, filter_=filter_)
-        courses = [c for c in courses if not c.has_ended()][:16]
 
     # 랜덤 출력을위해 shuffle 사용
     shuffle(courses)
@@ -658,9 +656,9 @@ def index_courses(user, filter_=None):
 def popup_contents(site_code=None):
     with connections['default'].cursor() as cur:
         multi_query = ' JOIN multisite c' \
-            'ON a.site_id = c.site_id' \
-            'AND site_code = "{site_code}"' \
-            'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
+                      'ON a.site_id = c.site_id' \
+                      'AND site_code = "{site_code}"' \
+                      'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
         query = '''
             SELECT popup_id,
                    popup_type,
@@ -678,9 +676,9 @@ def popup_contents(site_code=None):
               {multi_query}
              WHERE     a.use_yn = 'Y'
                    AND a.delete_yn != 'Y'
-                   AND date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H%i') 
-                   BETWEEN concat(start_date, ifnull(start_time,'0000'))
-                    AND concat(end_date, ifnull(end_time, '0000')) ;
+                   AND date_format(adddate(now(), INTERVAL 9 HOUR), '%Y%m%d%H:%i') 
+                   BETWEEN concat(start_date, ifnull(start_time,'00:00'))
+                    AND concat(end_date, ifnull(end_time, '00:00')) ;
         '''.format(multi_query=multi_query)
         cur.execute(query)
         pop_data = cur.fetchall()
@@ -1195,9 +1193,7 @@ def create_account_with_params(request, params):
                            not do_external_auth or
                            not eamap.external_domain.startswith(openedx.core.djangoapps.external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
                    )
-    print 'create_account_with_params Test =========='
-    print params
-    print 'create_account_with_params Test =========='
+
     form = AccountCreationForm(
         data=params,
         extra_fields=extra_fields,
@@ -1206,8 +1202,6 @@ def create_account_with_params(request, params):
         tos_required=tos_required,
     )
     custom_form = get_registration_extension_form(data=params)
-    print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    print params['is_regist'] == 'false'
 
     third_party_provider = None
     running_pipeline = None

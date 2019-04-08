@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 ## coding=utf-8
 
 ## This is the main Mako template that all page templates should include.
@@ -22,15 +23,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
 from openedx.core.release import RELEASE_LINE
 from pipeline_mako import render_require_js_path_overrides
-
 %>
-<!DOCTYPE html>
+
 <!--[if lte IE 9]><html class="ie ie9 lte9" lang="${LANGUAGE_CODE}"><![endif]-->
 <!--[if !IE]><!--><html lang="${LANGUAGE_CODE}"><!--<![endif]-->
 <head dir="${static.dir_rtl()}">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
 ## Define a couple of helper functions to make life easier when
 ## embedding theme conditionals into templates. All inheriting
@@ -100,6 +100,7 @@ from pipeline_mako import render_require_js_path_overrides
   % if disable_courseware_js or uses_pattern_library:
     <%static:js group='base_vendor'/>
     <%static:js group='base_application'/>
+    <script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></script>
   % else:
     <%static:js group='main_vendor'/>
     <%static:js group='application'/>
@@ -157,15 +158,26 @@ from pipeline_mako import render_require_js_path_overrides
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
     </script>
+% else:
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-68431198-1', 'auto');
+        ga('send', 'pageview');
+    </script>
 % endif
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/lms-main-v2.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/style.css?ver=1.5" />
 <link rel="stylesheet" type="text/css" href="/static/css/series.css?ver=1.0" />
 <link rel="stylesheet" type="text/css" href="/static/css/kmooc_about.css?ver=1.0" />
 <link rel="stylesheet" type="text/css" href="/static/css/kmooc_main.css?ver=1.3" />
 <script type="text/javascript" src='/static/js/vendor/jquery.bxslider.min.js'></script>
+<script type="text/javascript" src="/static/js/vendor/script.js"></script>
 
 <% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
 % if branch_key and not is_from_mobile_app:

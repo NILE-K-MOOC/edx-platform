@@ -30,10 +30,6 @@
             displayAccountDeletion
         ) {
 
-            console.log('fieldsData --------------- s');
-            console.log(fieldsData);
-            console.log('fieldsData --------------- e');
-
             var $accountSettingsElement, userAccountModel, userPreferencesModel, aboutSectionsData,
                 accountsSectionData, ordersSectionData, accountSettingsView, showAccountSettingsPage,
                 showLoadingError, orderNumber, getUserField, userFields, timeZoneDropdownField, countryDropdownField,
@@ -143,8 +139,6 @@
                 return tmp;
             }();
 
-            console.log(org_list);
-
             aboutSectionsData = [
                 {
                     title: gettext('Basic Account Information'),
@@ -209,21 +203,21 @@
                             })
                         },
                         countryFieldView
-//                        ,{
-//                            view: new AccountSettingsFieldViews.TimeZoneFieldView({
-//                                model: userPreferencesModel,
-//                                required: true,
-//                                title: gettext('Time Zone'),
-//                                valueAttribute: 'time_zone',
-//                                helpMessage: gettext('Select the time zone for displaying course dates. If you do not specify a time zone, course dates, including assignment deadlines, will be displayed in your browser\'s local time zone.'), // eslint-disable-line max-len
-//                                groupOptions: [{
-//                                    groupTitle: gettext('All Time Zones'),
-//                                    selectOptions: fieldsData.time_zone.options,
-//                                    nullValueOptionLabel: gettext('Default (Local Time Zone)')
-//                                }],
-//                                persistChanges: true
-//                            })
-//                        }
+                       ,{
+                           view: new AccountSettingsFieldViews.TimeZoneFieldView({
+                               model: userPreferencesModel,
+                               required: true,
+                               title: gettext('Time Zone'),
+                               valueAttribute: 'time_zone',
+                               helpMessage: gettext('Select the time zone for displaying course dates. If you do not specify a time zone, course dates, including assignment deadlines, will be displayed in your browser\'s local time zone.'), // eslint-disable-line max-len
+                               groupOptions: [{
+                                   groupTitle: gettext('All Time Zones'),
+                                   selectOptions: fieldsData.time_zone.options,
+                                   nullValueOptionLabel: gettext('Default (Local Time Zone)')
+                               }],
+                               persistChanges: true
+                           })
+                       }
                     ]
                 },
                 {
@@ -265,15 +259,15 @@
                                 persistChanges: true
                             })
                         },
-                        {
-                            view: new AccountSettingsFieldViews.DropdownFieldView({
-                                model: userAccountModel,
-                                title: gettext('organization'),
-                                valueAttribute: 'organization',
-                                options: org_list,
-                                persistChanges: true
-                            })
-                        }
+                        // {
+                        //     view: new AccountSettingsFieldViews.DropdownFieldView({
+                        //         model: userAccountModel,
+                        //         title: gettext('organization'),
+                        //         valueAttribute: 'organization',
+                        //         options: org_list,
+                        //         persistChanges: true
+                        //     })
+                        // }
                     ]
                 }
             ];
@@ -348,18 +342,18 @@
 //                aboutSectionsData.push(accountDeletionFields);
 //            }
 
-//            // set TimeZoneField to listen to CountryField
-//            getUserField = function(list, search) {
-//                return _.find(list, function(field) {
-//                    return field.view.options.valueAttribute === search;
-//                }).view;
-//            };
-//            userFields = _.find(aboutSectionsData, function(section) {
-//                return section.title === gettext('Basic Account Information');
-//            }).fields;
-//            timeZoneDropdownField = getUserField(userFields, 'time_zone');
-//            countryDropdownField = getUserField(userFields, 'country');
-//            timeZoneDropdownField.listenToCountryView(countryDropdownField);
+           // set TimeZoneField to listen to CountryField
+           getUserField = function(list, search) {
+               return _.find(list, function(field) {
+                   return field.view.options.valueAttribute === search;
+               }).view;
+           };
+           userFields = _.find(aboutSectionsData, function(section) {
+               return section.title === gettext('Basic Account Information');
+           }).fields;
+           timeZoneDropdownField = getUserField(userFields, 'time_zone');
+           countryDropdownField = getUserField(userFields, 'country');
+           timeZoneDropdownField.listenToCountryView(countryDropdownField);
 
             accountsSectionData = [
                 {

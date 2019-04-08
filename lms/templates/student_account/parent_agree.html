@@ -1,9 +1,12 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
-<%block name="pagetitle">${_("IPIN certification.")}</%block>
+<%block name="pagetitle">${_("NICE certification.")}</%block>
 <%block name="js_extra">
     <script>
+        $(document).ready(function(){
+          $.cookie('parent_agree', false);
+        });
         function registrationForm(gubn){
             /*gubn 'Y' is over 14, 'N' is under 14*/
 
@@ -14,24 +17,24 @@
                 console.log("window.sessionStorage is Not Exists");
             }
 
-            //sessionStorage.setItem('저장할 이름 - 문자열', '저장할 객체');
             document.location.href = "/agree";
         }
 
         window.name ="Parent_window";
 
         function fnPopup(){
-            window.open('', 'popupIPIN2', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
-            document.form_ipin.target = "popupIPIN2";
-            document.form_ipin.action = "https://cert.vno.co.kr/ipin.cb";
-            document.form_ipin.submit();
+            window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+            document.form2.target = "popupNICE";
+            document.form2.submit();
         }
 
         function nextStep(){
-            if($("#isAuth").val()=="Y")
+            var agree = $.cookie('parent_agree');
+            if(agree == 'true'){
                 document.location.href="/register";
-            else
-                alert("${_('IPIN certification is not completed.')}");
+            } else {
+                alert("${_('NICE certification is not completed.')}");
+            }
         }
 
 
@@ -39,25 +42,23 @@
 </%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <form id="form_ipin" name="form_ipin" method="post">
-    <input type="hidden" id="isAuth" name="isAuth" value="N">
-    <input type="hidden" name="m" value="pubmain">
-    <input type="hidden" name="enc_data" value="${sEncData}">
-    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}" />
+    <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+        <input type="hidden" name="m" value="checkplusSerivce">
+        <input type="hidden" name="EncodeData" value="${enc_data}">
     </form>
     <section class="container join-type">
         <!-- [s] 오픈 API -->
-        <h2>${_("IPIN certification.")}</h2>
+        <h2>${_("NICE certification.")}</h2>
         <p class="join-type-txt small">
             ${_("Child members (under 14 years of age) must have the consent of their parents or guardian (legal representative) to join.")}<br>
-            ${_("Please click the 'IPIN Certification' button and proceed with the consent of the guardian (legal representative).")}
+            ${_("Please click the 'NICE Certification' button and proceed with the consent of the guardian (legal representative).")}
         </p>
         <section class="ipin-box">
             <div class="ipin-block">
                 <img src="/static/images/contents/ipin.png" alt="">
                 <dl>
-                    <dt>${_("IPIN certification.")}</dt>
-                    <dd>${_("Proceed with the consent process of guardian by IPIN certification.")}</dd>
+                    <dt>${_("NICE certification.")}</dt>
+                    <dd>${_("Proceed with the consent process of guardian by NICE certification.")}</dd>
                 </dl>
                 <a href="javascript:fnPopup();">${_("Certificating")}</a>
             </div>

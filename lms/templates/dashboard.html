@@ -232,16 +232,16 @@ from student.models import CourseEnrollment
     %endif
 
     %if enrollment_message:
-        <div class="dashboard-banner">
-            ${enrollment_message | n,  decode.utf8}
-        </div>
+        <!--<div class="dashboard-banner">-->
+            <!--##${enrollment_message | n,  decode.utf8}-->
+        <!--</div>-->
     %endif
 
     %if enterprise_message:
 
-        <div class="dashboard-banner">
-            ${ enterprise_message | n, decode.utf8 }
-        </div>
+        <!--<div class="dashboard-banner">-->
+            <!--##${ enterprise_message | n, decode.utf8 }-->
+        <!--</div>-->
     %endif
 
     %if account_activation_messages:
@@ -266,7 +266,7 @@ from student.models import CourseEnrollment
       <div class="main-container">
         <div class="my-courses" id="my-courses">
           <header class="wrapper-header-courses">
-                <h2 class="header-courses">${_("My Courses")}</h2>
+                <h2 class="header-courses">${_("Dashboard")}</h2>
 
                 <nav class="faq-tab">
                     % if 'status' in request.session:
@@ -294,11 +294,12 @@ from student.models import CourseEnrollment
                       <h2 class="hidden_head">${_("interest")}</h2>
                         <div class="progress"></div>
                     </a>
-
-                  <a href="#" data-status="propose" class="${'on' if status_flag == 'propose' else ''} dash-link" title="추천강좌"><span>${_("propose(Beta)")}</span>
-                      <h2 class="hidden_head">${_("propose(Beta)")}</h2>
+                  <!--
+                  ##<a href="#" data-status="propose" class="${'on' if status_flag == 'propose' else ''} dash-link" title="추천강좌"><span>${_("propose(Beta)")}</span>
+                      ##<h2 class="hidden_head">${_("propose(Beta)")}</h2>
                         <div class="progress"></div>
                     </a>
+                    -->
 
                 </nav>
 

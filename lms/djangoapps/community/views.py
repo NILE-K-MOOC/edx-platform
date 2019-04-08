@@ -27,6 +27,7 @@ from datetime import timedelta
 from pytz import timezone
 from django.db import connections
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -387,16 +388,14 @@ def series(request):
         query = '''
             SELECT a.series_seq,
                    a.series_name,
-                   b.attach_file_path,
-                   b.attatch_file_name,
-                   attatch_file_ext,
+                   ifnull(b.save_path, ''),
                    ifnull(c.detail_name, '-'),
                    ifnull(a.short_description, ''),
                    ifnull(a.org, ''),
                    ifnull(series_cnt, 0)
               FROM edxapp.series AS a
-                   LEFT JOIN edxapp.tb_board_attach AS b
-                      ON a.sumnail_file_id = b.attatch_id
+                   LEFT JOIN edxapp.tb_attach AS b
+                      ON a.sumnail_file_id = b.id AND b.use_yn = TRUE
                    LEFT JOIN code_detail c
                       ON a.org = c.detail_code AND group_code = '003'
                    LEFT JOIN
@@ -417,13 +416,11 @@ def series(request):
             row_dict = dict()
             row_dict['series_seq'] = row[0]
             row_dict['series_name'] = row[1]
-            row_dict['attach_file_path'] = row[2]
-            row_dict['attatch_file_name'] = row[3]
-            row_dict['attatch_file_ext'] = row[4]
-            row_dict['detail_name'] = row[5]
-            row_dict['short_description'] = row[6]
-            row_dict['org'] = row[7]
-            row_dict['series_cnt'] = row[8]
+            row_dict['save_path'] = row[2]
+            row_dict['detail_name'] = row[3]
+            row_dict['short_description'] = row[4]
+            row_dict['org'] = row[5]
+            row_dict['series_cnt'] = row[6]
             row_dict['logo_path'] = ''
             series_list.append(row_dict)
     except Exception as e:
@@ -453,14 +450,12 @@ def series_view(request, id):
             SELECT a.series_name,
                a.series_id,
                a.note,
-               b.attach_file_path,
-               b.attatch_file_name,
-               attatch_file_ext,
+               ifnull(b.save_path, ''),
                c.detail_name,
                ifnull(a.short_description, '')
             FROM series as a
-            LEFT JOIN tb_board_attach AS b
-                ON a.sumnail_file_id = b.attatch_id
+            LEFT JOIN tb_attach AS b
+                ON a.sumnail_file_id = b.id
             LEFT JOIN code_detail c
                 ON a.org = c.detail_code AND c.group_code = '003'
             WHERE  a.series_seq = {}
@@ -1320,6 +1315,7 @@ def memo_view(request, memo_id=None):
 
 
 # 메모 동기화 로직
+@csrf_exempt
 def memo_sync(request):
     if request.is_ajax():
         if request.POST.get('sync_memo'):
@@ -1563,7 +1559,20 @@ def comm_tabs(request, head_title=None):
 @ensure_csrf_cookie
 def comm_file(request, file_id=None):
     try:
-        file = TbBoardAttach.objects.filter(del_yn='N').get(pk=file_id)
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT save_path, save_name
+                  FROM tb_attach
+                 WHERE use_yn = TRUE AND id = {file_id};
+            '''.format(file_id=file_id)
+
+            cur.execute(query)
+            attach_file = cur.fetchone()
+
+        save_path = attach_file[0]
+        file_name = attach_file[1]
+        save_path = save_path.replace('/static/file_upload', '/staticfiles/file_upload') if attach_file[0] else ''
+        real_path = '/edx/var/edxapp' + save_path
     except Exception as e:
         print 'comm_file error --- s'
         print e
@@ -1571,20 +1580,22 @@ def comm_file(request, file_id=None):
         print 'comm_file error --- e'
         return HttpResponse("<script>alert('파일이 존재하지 않습니다.'); window.history.back();</script>")
 
-    filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
-    filename = file.attatch_file_name
+    # filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
+    # filename = file.attatch_file_name
 
     print "디렉토리",(os.getcwd())  # 현재 디렉토리의
+    print 'file_path,,', os.path.dirname(os.path.realpath(__file__))
     #print "파일",(os.path.realpath(__file__))  # 파일
     #print "파일의 디렉토리",(os.path.dirname(os.path.realpath(__file__)))  # 파일이 위치한 디렉토리
 
-    if not file or not os.path.exists(filepath + filename):
-        print 'filepath + file.attatch_file_name :', filepath + filename
+    # if not file or not os.path.exists(filepath + filename):
+    if not attach_file or not os.path.exists(real_path):
+        print 'filepath  :', save_path
         return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
 
-    response = HttpResponse(open(filepath + filename, 'rb'), content_type='application/force-download')
+    response = HttpResponse(open(real_path, 'rb'), content_type='application/force-download')
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % str(filename)
+    response['Content-Disposition'] = 'attachment; filename=%s' % str(file_name)
     return response
 
 

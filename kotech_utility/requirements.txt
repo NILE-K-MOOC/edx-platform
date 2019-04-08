@@ -1,3 +1,6 @@
 requests
-pymysql
 pytz
+pymysql
+pymemcache
+pymongo
+bson

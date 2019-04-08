@@ -80,7 +80,7 @@
 <% if ( context.createAccountOption !== false && !context.syncLearnerProfileData && !(context.enterpriseName && context.currentProvider) ) { %>
 <div class="toggle-form">
     <div class="text" style="text-align: center;margin-top: 12px;font-size: 12px;"><%- gettext("First time here?") %></div>
-    <a href="#login" class="form-toggle" data-type="register">
+    <a href="/register">
         <button
             style="
                 margin-top: 0px;
@@ -94,7 +94,7 @@
                 font-size: 12px;
                 background-color: #ffffff;
             "
-                 type="submit" class="action action-primary action-update js-login login-button">
+                 type="button" class="action action-primary action-update js-login login-button">
             <%- gettext("Create an Account.") %>
         </button>
     </a>

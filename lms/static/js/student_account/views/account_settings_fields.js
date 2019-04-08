@@ -175,6 +175,9 @@
                     });
                 },
                 toggleDisableButton: function(disabled) {
+
+                    console.log('toggleDisableButton: ' + disabled );
+
                     var button = this.$('#u-field-link-' + this.options.valueAttribute);
                     if (button) {
                         button.prop('disabled', disabled);

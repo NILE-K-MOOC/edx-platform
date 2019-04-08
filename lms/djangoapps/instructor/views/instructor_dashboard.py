@@ -450,7 +450,6 @@ def set_course_mode_price(request, course_id):
 def _section_course_info(course, access):
     """ Provide data for the corresponding dashboard section """
     course_key = course.id
-
     section_data = {
         'section_key': 'course_info',
         'section_display_name': _('Course Info'),

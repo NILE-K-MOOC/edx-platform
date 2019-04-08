@@ -220,6 +220,7 @@
                 },
 
                 toggleForm: function(e) {
+
                     var type = $(e.currentTarget).data('type'),
                         $form = $('#' + type + '-form'),
                         scrollX = window.scrollX,

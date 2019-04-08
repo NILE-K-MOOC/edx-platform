@@ -5,11 +5,13 @@ Certificate HTML webview.
 """
 import logging
 import urllib
+import json
+import MySQLdb as mdb
+import pytz
+import urllib2
+import commands
 from datetime import datetime
 from uuid import uuid4
-import MySQLdb as mdb
-
-import pytz
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
@@ -50,9 +52,11 @@ from student.models import LinkedInAddToProfileConfiguration
 from util import organizations_helpers as organization_api
 from util.date_utils import strftime_localized
 from util.views import handle_500
-
-import commands
 from django.conf import settings
+from django.db import connections
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from django.utils.translation import ugettext_lazy as _
 
 log = logging.getLogger(__name__)
 _ = translation.ugettext
@@ -114,7 +118,8 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    lms_base = 'localhost:18000'
+    #lms_base = 'dev.kr:18000'
+
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     # nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
@@ -133,7 +138,22 @@ def _update_certificate_context(context, course, user_certificate, platform_name
                 len(nice_gender), nice_gender)
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+
+    print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select site_code, site_name
+            from multisite_member a
+            join multisite b
+            on a.site_id = b.site_id
+            where a.user_id = '{user_id}';
+        '''.format(user_id=context['accomplishment_user_id'])
+        cur.execute(query)
+        multisite = cur.fetchall()
+    context['multisite'] = multisite
+
     context['enc_data'] = enc_data
 
     # Override the defaults with any mode-specific static values
@@ -146,12 +166,12 @@ def _update_certificate_context(context, course, user_certificate, platform_name
 
     # Translators:  The format of the date includes the full name of the month
     date = display_date_for_certificate(course, user_certificate)
-    context['certificate_date_issued'] = _('{month} {day}, {year}').format(
-        month=strftime_localized(date, "%B"),
+    context['certificate_date_issued'] = _('{month}.{day}.{year}.').format(
+        month=strftime_localized(date, "%m"),
         day=date.day,
         year=date.year
     )
-    context['certificate_date_issued2'] = ('{year}년 {month}월 {day}일 ').format(
+    context['certificate_date_issued2'] = ('{year}.{month}.{day}. ').format(
         year=user_certificate.modified_date.year,
         month=user_certificate.modified_date.month,
         day=user_certificate.modified_date.day
@@ -199,16 +219,75 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     Updates context dictionary with basic info required before rendering simplest
     certificate templates.
     """
+    #course_id = 'course-v1:CAUk+ACE_CAU01+2017_T2'
+
     context['platform_name'] = platform_name
     context['course_id'] = course_id
-
     context['course_id2'] = course_id.split('+')[1]
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
                       settings.DATABASES.get('default').get('PASSWORD'),
                       settings.DATABASES.get('default').get('NAME'),
                       charset='utf8')
-    context['logo_index'] = course_id.split('+')[0].split(':')[1]
+
+    print "course_id -> ", course_id
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select org
+            from course_overviews_courseoverview
+            where id = '{course_id}';
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        org = cur.fetchall()[0][0]
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select save_path
+            from tb_attach
+            where id in (
+                select logo_img_e
+                from tb_org
+                where org_id in (
+                    select org
+                    from course_overviews_courseoverview
+                    where id = '{course_id}'
+                )
+            );
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        try:
+            logo_eng = cur.fetchall()[0][0]
+        except BaseException:
+            logo_eng = ''
+
+    print "logo_eng -> ", logo_eng
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select save_path
+            from tb_attach
+            where id in (
+                select logo_img
+                from tb_org
+                where org_id in (
+                    select org
+                    from course_overviews_courseoverview
+                    where id = '{course_id}'
+                )
+            );
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        try:
+            logo_kor = cur.fetchall()[0][0]
+        except BaseException:
+            logo_kor = ''
+
+    print "logo_kor -> ", logo_kor
+
+    context['logo_eng'] = logo_eng
+    context['logo_kor'] = logo_kor
+
     cur = con.cursor()
     query = """
                 SELECT plain_data
@@ -223,26 +302,40 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['user_name'] = ''
         context['birth_date'] = ''
     else:
+        """
         nice_dict = ast.literal_eval(plain_data[0][0])
         user_name = nice_dict['UTF8_NAME']
         birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
         context['birth_date'] = birth_date[0:4]
+        """
+
+        pd = plain_data[0][0]
+        pd = json.loads(pd)
+
+        user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
+
+        pd = pd['BIRTHDATE']
+        pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+        user_birth = pd
+
+        context['user_name'] = user_name
+        context['birth_date'] = user_birth
 
     cur = con.cursor()
     query = """
                 SELECT detail_name, detail_Ename
                   FROM code_detail
                  WHERE group_code = 003 AND detail_code = '{0}';
-                 """.format(context['logo_index'])
+                 """.format(org)
     cur.execute(query)
     org_name = cur.fetchall()
     cur.close()
 
     if (len(org_name) == 0):
-        context['org_name_k'] = context['logo_index']
-        context['org_name_e'] = context['logo_index']
+        context['org_name_k'] = org
+        context['org_name_e'] = org
     else:
         context['org_name_k'] = org_name[0][0]
         context['org_name_e'] = org_name[0][1]
@@ -312,8 +405,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         row = cur.fetchall()
         cur.close()
 
-        grade = int(float(row[0][0]) * 100)
-        created_date = row[0][1]
+        try:
+            grade = int(float(row[0][0]) * 100)
+            created_date = row[0][1]
+        except BaseException:
+            grade = 100
+            created_date = '2099-12-12 00:00:00'
 
     context['grade'] = str(grade)
     context['created_date'] = created_date
@@ -321,6 +418,8 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['end_date'] = end_date
 
     static_url = "http://" + settings.ENV_TOKENS.get('LMS_BASE')
+    static_url = 'http://kmooc.kr'
+    print "static_url -> ", static_url
 
     context['static_url'] = static_url
 
@@ -331,10 +430,6 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     course_course = course_index2[1]
     course_run = course_index2[2]
 
-    from django.db import connections
-    from pymongo import MongoClient
-    from bson.objectid import ObjectId
-    from django.utils.translation import ugettext_lazy as _
     # client = MongoClient('127.0.0.1', 27017)
 
     # db = client.edxapp
@@ -489,10 +584,16 @@ def _update_course_context(request, context, course, course_key, platform_name):
     """
     context['full_course_image_url'] = request.build_absolute_uri(course_image_url(course))
     course_title_from_cert = context['certificate_data'].get('course_title', '')
-    #accomplishment_copy_course_name = course_title_from_cert if course_title_from_cert else course.display_name
-    accomplishment_copy_course_name = course.display_name if course.display_name else course_title_from_cert
-    context['accomplishment_copy_course_name'] = accomplishment_copy_course_name
-    context['accomplishment_copy_course_name_incoding'] = (accomplishment_copy_course_name).decode('utf8')
+
+    if course_title_from_cert == '':
+        print "course.display_name -> ", course.display_name
+        context['accomplishment_copy_course_name'] = course.display_name
+        context['accomplishment_copy_course_name_incoding'] = course.display_name.decode('utf8')
+    else:
+        print "course_title_from_cert -> ", course_title_from_cert
+        context['accomplishment_copy_course_name'] = course_title_from_cert
+        context['accomplishment_copy_course_name_incoding'] = course_title_from_cert.decode('utf8')
+
     course_number = course.display_coursenumber if course.display_coursenumber else course.number
     context['course_number'] = course_number
     if context['organization_long_name']:

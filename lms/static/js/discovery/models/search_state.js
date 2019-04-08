@@ -1,10 +1,10 @@
-(function(define) {
+(function (define) {
     define([
         'underscore',
         'backbone',
         'js/discovery/models/course_discovery',
         'js/discovery/collections/filters'
-    ], function(_, Backbone, CourseDiscovery, Filters) {
+    ], function (_, Backbone, CourseDiscovery, Filters) {
         'use strict';
 
 
@@ -16,13 +16,23 @@
             terms: {},
             jqhxr: null,
 
-            initialize: function() {
+            initialize: function () {
                 this.discovery = new CourseDiscovery();
                 this.listenTo(this.discovery, 'sync', this.onSync, this);
                 this.listenTo(this.discovery, 'error', this.onError, this);
             },
+            performSearch: function (searchTerm, otherTerms) {
+                // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
+                let k, v, t;
+                $("#main input[name='default_term']").each(function () {
+                    k = $(this).data('key');
+                    v = $(this).data('value');
+                    var obj = new Object();
+                    obj[k] = v;
 
-            performSearch: function(searchTerm, otherTerms) {
+                    _.extend(otherTerms, obj);
+                });
+
                 this.reset();
                 this.searchTerm = searchTerm;
                 if (otherTerms) {
@@ -31,39 +41,40 @@
                 this.sendQuery(this.buildQuery(0));
             },
 
-            refineSearch: function(terms) {
+            refineSearch: function (terms) {
                 this.reset();
                 this.terms = terms;
                 this.sendQuery(this.buildQuery(0));
             },
 
-            loadNextPage: function() {
+            loadNextPage: function () {
                 if (this.hasNextPage()) {
                     this.sendQuery(this.buildQuery(this.page + 1));
                 }
             },
 
-        // private
+            // private
 
-            hasNextPage: function() {
+            hasNextPage: function () {
                 var total = this.discovery.get('totalCount');
                 return total - ((this.page + 1) * this.pageSize) > 0;
             },
 
-            sendQuery: function(data) {
+            sendQuery: function (data) {
                 this.jqhxr && this.jqhxr.abort();
                 this.jqhxr = this.discovery.fetch({
                     type: 'POST',
                     data: data
                 });
+
                 return this.jqhxr;
             },
 
             getTermParameter: function (sParam) {
                 var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
 
                 for (i = 0; i < sURLVariables.length; i++) {
                     sParameterName = sURLVariables[i].split('=');
@@ -79,29 +90,33 @@
                     page_size: this.pageSize,
                     page_index: pageIndex
                 };
-                console.log(this)
+                console.log('buildQuery --- s');
+                console.log(this.terms);
+                console.log('buildQuery --- e');
                 _.extend(data, this.terms);
 
                 /* 대분류 검사 */
                 var get_term = this.getTermParameter('term');
-                if(get_term){
+                if (get_term) {
                     _.extend(data, {"classfy": get_term});
                 }
                 /* 중분류 검사 */
                 var get_mterm = this.getTermParameter('mterm')
-                if(get_mterm){
+                if (get_mterm) {
                     _.extend(data, {"middle_classfy": get_mterm});
                 }
 
                 /* 언어학 부분 검사 */
                 var linguistics = this.getTermParameter('linguistics');
-                if(linguistics){
+                if (linguistics) {
                     _.extend(data, {"linguistics": linguistics});
+
+
                 }
 
                 /* 강의기간 분류류 */
-               var course_period = this.getTermParameter('course_period');
-                if(course_period){
+                var course_period = this.getTermParameter('course_period');
+                if (course_period) {
                     _.extend(data, {"course_period": course_period});
                 }
 
@@ -112,34 +127,35 @@
                  * range=t : 진행예정 강의
                  */
                 var range = this.getTermParameter('range');
-                if(range){
 
+                if (range) {
                     _.extend(data, {'range': range});
                 }
 
                 return data;
             },
 
-            reset: function() {
+            reset: function () {
                 this.discovery.reset();
                 this.page = 0;
                 this.errorMessage = '';
             },
 
-            onError: function(collection, response, options) {
+            onError: function (collection, response, options) {
                 if (response.statusText !== 'abort') {
                     this.errorMessage = response.responseJSON.error;
                     this.trigger('error');
                 }
             },
 
-            onSync: function(collection, response, options) {
+            onSync: function (collection, response, options) {
+
                 var total = this.discovery.get('totalCount');
                 var originalSearchTerm = this.searchTerm;
                 if (options.data.page_index === 0) {
                     if (total === 0) {
-                    // list all courses
-                        this.cachedDiscovery().done(function(cached) {
+                        // list all courses
+                        this.cachedDiscovery().done(function (cached) {
                             this.discovery.courseCards.reset(cached.courseCards.toJSON());
                             this.discovery.facetOptions.reset(cached.facetOptions.toJSON());
                             this.discovery.set('latestCount', cached.get('latestCount'));
@@ -148,7 +164,7 @@
                         this.searchTerm = '';
                         this.terms = {};
                     } else {
-                        _.each(this.terms, function(term, facet) {
+                        _.each(this.terms, function (term, facet) {
                             if (facet !== 'search_query') {
                                 var option = this.discovery.facetOptions.findWhere({
                                     facet: facet,
@@ -167,10 +183,12 @@
                 }
             },
 
-        // lazy load
-            cachedDiscovery: function() {
+            // lazy load
+            cachedDiscovery: function () {
+
                 var deferred = $.Deferred();
                 var self = this;
+
 
                 if (this.cached) {
                     deferred.resolveWith(this, [this.cached]);
@@ -183,7 +201,7 @@
                             page_size: this.pageSize,
                             page_index: 0
                         },
-                        success: function(model, response, options) {
+                        success: function (model, response, options) {
                             deferred.resolveWith(self, [model]);
                         }
                     });

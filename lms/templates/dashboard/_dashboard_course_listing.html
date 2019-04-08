@@ -184,7 +184,11 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
             % else:
               <div>${enrollment.teacher_name[0]} | ${_(course_overview.display_org_with_default)}</div>
             % endif
-            <div>${_(enrollment.classfy)} / ${_(enrollment.middle_classfy)}</div>
+            <div>${_(enrollment.classfy)}
+              % if enrollment.middle_classfy != '':
+              / ${_(enrollment.middle_classfy)}
+              % endif
+            </div>
           </span>
 
           <span class="kr01_dashTs01">
@@ -250,7 +254,7 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
             </div>
             <div class="kr01_dashBtn">
               % if (status_flag != 'interest' and status_flag != 'propose') :
-              <a href="courses/${course_overview}/discussion/forum/users/${user.id}" class="enter-course" style="margin-top: 5px;">내게시글보기</a>
+              <a href="courses/${course_overview}/discussion/forum/users/${user.id}" class="enter-course" style="margin-top: 5px;">내 게시글 보기</a>
               % endif
             </div>
             % endif

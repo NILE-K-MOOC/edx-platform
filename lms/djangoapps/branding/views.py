@@ -381,6 +381,7 @@ def decrypt(key, _iv, enc):
     return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
+@csrf_exempt
 def multisite_error(request):
     context = {}
 
@@ -405,7 +406,12 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
+@csrf_exempt
 def multisite_index(request, org):
+
+    if 'multistie_success' in request.session:
+        if request.session['multistie_success'] == 1:
+            return student.views.management.multisite_index(request, user=request.user)
 
     print "org -> ", org
     print "------------------------------------"
@@ -435,8 +441,10 @@ def multisite_index(request, org):
     # 로그인타입 / 등록URL / 암호화키 획득
     with connections['default'].cursor() as cur:
         sql = '''
-        SELECT login_type, site_url, Encryption_key
-        FROM multisite
+        SELECT login_type, site_url, Encryption_key, b.save_path
+        FROM multisite a
+        left join tb_attach b
+        on a.logo_img = b.id
         where site_code = '{0}'
         '''.format(org)
         cur.execute(sql)
@@ -445,9 +453,14 @@ def multisite_index(request, org):
             login_type = rows[0][0]
             out_url = rows[0][1]
             key = rows[0][2]
-        except BaseException:
+            save_path = rows[0][3]
+        except BaseException as err:
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error001')
 
+    request.session['save_path'] = save_path
     # DEBUG
     print "login_type -> ", login_type
     print "out_url -> ", out_url
@@ -486,16 +499,25 @@ def multisite_index(request, org):
                 encStr = request.POST.get('encStr')
 
         # DEBUG
-        encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
-        print 'encStr -> ', encStr
+        # encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
+        # print 'encStr -> ', encStr
 
         # 암호화 데이터 복호화
-        encStr = encStr.replace(' ', '+')
+        try:
+            encStr = encStr.replace(' ', '+')
+        except BaseException as err:
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
+            return redirect('/multisite_error?error=error003')
 
         try:
             raw_data = decrypt(key, key, encStr)
             raw_data = raw_data.split('&')
-        except BaseException:
+        except BaseException as err:
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error003')
 
         # DEBUG
@@ -507,7 +529,10 @@ def multisite_index(request, org):
             calltime = raw_data[0].split('=')[1]
             userid = raw_data[1].split('=')[1]
             orgid = raw_data[2].split('=')[1]
-        except BaseException:
+        except BaseException as err:
+            log.info('-----------------------------------')
+            log.info(err)
+            log.info('-----------------------------------')
             return redirect('/multisite_error?error=error004')
 
         # DEBUG
@@ -558,6 +583,7 @@ def multisite_index(request, org):
 
         # 기관연계 된 회원이라면 SSO 로그인
         if len(rows) != 0:
+            request.session['multistie_success'] = 1
             user = User.objects.get(pk=rows[0][0])
             user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
             login(request, user)
@@ -567,12 +593,14 @@ def multisite_index(request, org):
                 return redirect('/')
         # 아니라면 에러페이지 리다이렉트
         else:
+            request.session['multistie_success'] = 1
             request.session['multisite_userid'] = userid
             return redirect('/login')
 
     # Oauth 방식
     elif  login_type == 'O':
-        url = 'http://kmooc.kr/auth/login/nec/?auth_entry=login&next=%2Fmultisite%2F' + org + '%2F'
+        url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
+        print "url -> ", url
         return redirect(url)
 
     # basic logic
@@ -666,7 +694,7 @@ def new_dashboard(request):
             select y.series_seq, y.series_id, y.series_name, y.save_path, y.detail_name
             from series_student x
             join (
-            select a.series_seq, a.series_id, a.series_name, b.save_path, c.detail_name
+            select a.series_seq, a.series_id, a.series_name, b.save_path, b.ext, c.detail_name
             from series a
             left join tb_attach b
             on a.sumnail_file_id = id
@@ -690,7 +718,13 @@ def new_dashboard(request):
         tmp_dict['series_seq'] = temp[0]
         tmp_dict['series_id'] = temp[1]
         tmp_dict['series_name'] = temp[2]
-        tmp_dict['save_path'] = temp[3]
+
+        # /static/file_upload/series/674b84e0fbc94c688024216fdb3815c1.png
+        # /static/upload/674b84e0fbc94c688024216fdb3815c1
+        save_path = temp[3]
+        save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
+        tmp_dict['save_path'] = save_path
+
         tmp_dict['detail_name'] = temp[4]
 
         with connections['default'].cursor() as cur:

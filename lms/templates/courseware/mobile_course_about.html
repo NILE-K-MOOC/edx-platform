@@ -30,7 +30,13 @@ from six import string_types
       });
 
     $(".register").click(function(event) {
-      $("#class_enroll_form").submit();
+       %if not user.is_authenticated():
+          //alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
+          alert('${_("You need to register to enrollment.")}');
+          location.href = "/login";
+      % else:
+        $("#class_enroll_form").submit();
+      % endif
       event.preventDefault();
     });
 
@@ -111,33 +117,6 @@ from six import string_types
   <script type="text/javascript">
       $("#audit_mode").click(function(event) {
           event.preventDefault();
-      %if user.is_authenticated():
-          swal(gettext("For auditing you can use some content such as videos, however, you cannot receive study support or certifictes from instructor and TA.\n" +
-              "\n" +
-              "Would you like to audit?\n" +
-              "\n" +
-              "(If you want to receive study support or certificate for this course, please register it as a course of interest. We will inform you when this course will open as a regular class.)"),
-              {
-                  buttons: {
-                      cancel: gettext("Cancel"),
-                      confirm: {text: gettext("Apply"), className: "audit"}
-                  }
-              }).then(function (isConfirm) {
-              if (isConfirm == true) {
-
-                  $.post('/enrollment_verifi', {
-                          course_id: '${course.id}',
-                          user_id: '${user.id}'
-                      },
-                      function (data) {
-                          location.href = "edxapp://enroll?course_id=${course.id}&email_opt_in=true";
-                      }
-                  );
-              } else {
-                  return;
-              }
-          });
-      %endif
       });
   </script>
 
@@ -359,6 +338,10 @@ box-sizing: border-box;
 }
 .grade_table p {
     padding-left: 0px;
+}
+
+a.find-courses {
+  font-size: 15px !important;
 }
 
 /*************************5.faq ***************************/
@@ -594,7 +577,7 @@ div.about-side-title p {
             <a href="${course_link}">
           %endif
 
-          <span class="register disabled">${_("You are enrolled in this course")}</span>
+          <span class="register disabled find-courses">${_("You are enrolled in this course")}</span>
 
           %if show_courseware_link:
             <strong>${_("View Course")}</strong>
@@ -606,18 +589,19 @@ div.about-side-title p {
             ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
           </span>
         % elif is_course_full:
-          <span class="register disabled">
+          <span class="register disabled find-courses">
             ${_("Course is full")}
           </span>
         % elif invitation_only and not can_enroll:
-          <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
+          <span class="register disabled find-courses">${_("Enrollment in this course is by invitation only")}</span>
         ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
         ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
         ## so that they can register and become a real user that can enroll.
         % elif not is_shib_course and not can_enroll and audit_flag == 'N':
-          <span class="register disabled">${_("Enrollment is Closed")}</span>
+          <span class="register disabled find-courses">${_("Enrollment is Closed")}</span>
         % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-          <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>
+          <a class="audit find-courses disabled" id="audit_mode" style="">${_("Audit Enrollment")}</a>
+          <div style="margin-top: 15px; font-size: 13px;">청강 신청은 웹페이지에서만 가능합니다. <br><a href="http://kmooc.kr" target="_blank">K-MOOC 웹페이지</a>로 접속하여 신청해주세요.</div>
         %elif can_add_course_to_cart:
           <%
           if user.is_authenticated:
@@ -649,7 +633,7 @@ div.about-side-title p {
           %>
 
 
-          <a href="${course_link}" class="${href_class}" target="_self">
+          <a href="${course_link}" class="find-courses" target="_self">
             ${_("Enrollment")}
           </a>
 

@@ -53,6 +53,11 @@
                     listing.renderNext();
                 });
 
+                dispatcher.listenTo(refineSidebar, 'selectedOption', function(type, query, name) {
+                    form.showLoadingIndicator();
+                    filters.add({type: type, query: query, name: name});
+                });
+
                 dispatcher.listenTo(search, 'search', function(query, total) {
                     if (total > 0) {
                         form.showFoundMessage(total);

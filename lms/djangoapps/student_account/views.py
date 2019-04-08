@@ -84,6 +84,7 @@ AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
 User = get_user_model()  # pylint:disable=invalid-name
 
+
 @require_http_methods(['GET'])
 @ensure_csrf_cookie
 def registration_gubn(request):
@@ -107,12 +108,15 @@ def agree(request):
     else:
         return render_to_response('student_account/registration_gubn.html')
 
+
 @csrf_exempt
 def org_check(request):
     if request.is_ajax():
         org_check = request.POST['org_check']
         request.session['org_value'] = request.POST['org_value']
-        return JsonResponse({"a":"b"})
+        return JsonResponse({"a": "b"})
+
+
 @ensure_csrf_cookie
 def agree_done(request):
     # print 'request.is_ajax = ', request.is_ajax
@@ -138,13 +142,10 @@ def agree_done(request):
         request.session['private_info_use_yn'] = request.POST['private_info_use_yn']
         request.session['event_join_yn'] = request.POST['event_join_yn']
 
-        print "request.session['private_info_use_yn']",request.session['private_info_use_yn']
-        print "request.session['event_join_yn']",request.session['event_join_yn']
+        print "request.session['private_info_use_yn']", request.session['private_info_use_yn']
+        print "request.session['event_join_yn']", request.session['event_join_yn']
     else:
         data['agreeYN'] = request.POST['agreeYN']
-
-    print 'data = ', data
-    print 'ddaattaa = ',json.dumps(data)
 
     return HttpResponse(json.dumps(data))
 
@@ -152,12 +153,9 @@ def agree_done(request):
 # -------------------- nice check -------------------- #
 @csrf_exempt
 def nicecheckplus(request):
-
     try:
         edx_user_email = request.user.email
     except BaseException:
-        #edx_user_email = "staff@example.com"
-        #pass
         return render_to_response('student_account/nicecheckplus_error.html')
 
     # ----- get user_id query ----- #
@@ -172,40 +170,34 @@ def nicecheckplus(request):
         print query
 
         table = cur.fetchone()
-        user_id =  table[0]
+        user_id = table[0]
     # ----- get user_id query ----- #
 
     # encode data
-    # nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
-    # nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
-
-    nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
-    nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
-
-    nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
-    nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     enc_data = request.POST.get('EncodeData')
     nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
     plain_data = commands.getoutput(nice_command)
     di_index = plain_data.find("DI64:")
-    nice_di = plain_data[di_index+5 : di_index+5+64]
+    nice_di = plain_data[di_index + 5: di_index + 5 + 64]
 
     # return data parsing
     result_dict = {}
     pos1 = 0
     while pos1 <= len(plain_data):
-	pos1 = plain_data.find(':')
-	key_size = int(plain_data[:pos1])
-	plain_data = plain_data[pos1 + 1:]
-	key = plain_data[:key_size]
-	plain_data = plain_data[key_size:]
-	pos2 = plain_data.find(':')
-	val_size = int(plain_data[:pos2])
-	val = plain_data[pos2 + 1: pos2 + val_size + 1]
-	result_dict[key] = val
-	plain_data = plain_data[pos2 + val_size + 1:]
+        pos1 = plain_data.find(':')
+        key_size = int(plain_data[:pos1])
+        plain_data = plain_data[pos1 + 1:]
+        key = plain_data[:key_size]
+        plain_data = plain_data[key_size:]
+        pos2 = plain_data.find(':')
+        val_size = int(plain_data[:pos2])
+        val = plain_data[pos2 + 1: pos2 + val_size + 1]
+        result_dict[key] = val
+        plain_data = plain_data[pos2 + val_size + 1:]
     result_dict = str(result_dict)
     result_dict = result_dict.replace("'", '"')
 
@@ -283,44 +275,54 @@ def nicecheckplus(request):
 
     return render_to_response('student_account/nicecheckplus.html')
 
+
 @csrf_exempt
 def nicecheckplus_error(request):
     print 'nicecheckplus_error called'
     return render_to_response('student_account/nicecheckplus_error.html')
+
+
 # -------------------- nice check -------------------- #
 
 @csrf_exempt
 def parent_agree(request):
-    ## IPIN info
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
-    print 'ipin module called1'
+    nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun = 'N'  # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+    # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+    # lms_base = 'dev.kr:18000'
 
-    sSiteCode = 'M231'
-    sSitePw = '76421752'
-    sModulePath = '/edx/app/edxapp/IPINClient'
-    sCPRequest = commands.getoutput(sModulePath + ' SEQ ' + sSiteCode)
-    sReturnURL = 'https://www.kmooc.kr/parent_agree_done'
-    sEncData = commands.getoutput(sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL)
+    nice_returnurl = "http://{lms_base}/parent_agree_done".format(lms_base=lms_base)  # 성공시 이동될 URL
+    # nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    # nice_errorurl = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
 
-    print '===================================================='
-    print '1 = ', sModulePath + ' SEQ ' + sSiteCode
-    print '===================================================='
-    print '3 = ', sCPRequest
-    print '===================================================='
-    print '4 = ', sModulePath + ' REQ ' + sSiteCode + ' ' + sSitePw + ' ' + sCPRequest + ' ' + sReturnURL
-    print '===================================================='
-    print '5 = ', sEncData
-    print '===================================================='
+    nice_returnMsg = ''
 
-    if sEncData == -9:
-        sRtnMsg = '입력값 오류 : 암호화 처리시 필요한 파라미터값의 정보를 정확하게 입력해 주시기 바랍니다.'
-    else:
-        sRtnMsg = sEncData + ' 변수에 암호화 데이터가 확인되면 정상 정상이 아닌경우 리턴코드 확인 후 NICE평가정보 개발 담당자에게 문의해 주세요.'
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
+        .format(len(nice_reqseq), nice_reqseq,
+                len(nice_sitecode), nice_sitecode,
+                len(nice_authtype), nice_authtype,
+                len(nice_returnurl), nice_returnurl,
+                len(nice_errorurl), nice_errorurl,
+                len(nice_popgubun), nice_popgubun,
+                len(nice_customize), nice_customize,
+                len(nice_gender), nice_gender)
 
-    print 'sRtnMsg = ', sRtnMsg
+    nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+
+    print "nice_command -> ", nice_command
+    enc_data = commands.getoutput(nice_command)
 
     context = {
-        'sEncData': sEncData,
+        'enc_data': enc_data,
     }
 
     return render_to_response('student_account/parent_agree.html', context)
@@ -328,36 +330,36 @@ def parent_agree(request):
 
 @csrf_exempt
 def parent_agree_done(request):
-    sSiteCode = 'M231'
-    sSitePw = '76421752'
-    sModulePath = '/edx/app/edxapp/IPINClient'
-    sEncData = request.POST['enc_data']
+    # encode data
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
-    sDecData = commands.getoutput(sModulePath + ' RES ' + sSiteCode + ' ' + sSitePw + ' ' + sEncData)
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
+    enc_data = request.POST.get('EncodeData')
+    nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
+    plain_data = commands.getoutput(nice_command)
+    di_index = plain_data.find("DI64:")
+    nice_di = plain_data[di_index + 5: di_index + 5 + 64]
 
-    print 'sDecData', sDecData
+    # return data parsing
+    result_dict = {}
+    pos1 = 0
+    while pos1 <= len(plain_data):
+        pos1 = plain_data.find(':')
+        key_size = int(plain_data[:pos1])
+        plain_data = plain_data[pos1 + 1:]
+        key = plain_data[:key_size]
+        plain_data = plain_data[key_size:]
+        pos2 = plain_data.find(':')
+        val_size = int(plain_data[:pos2])
+        val = plain_data[pos2 + 1: pos2 + val_size + 1]
+        result_dict[key] = val
+        plain_data = plain_data[pos2 + val_size + 1:]
+    result_dict = str(result_dict)
+    result_dict = result_dict.replace("'", '"')
+    request.session['auth'] = 'Y'
 
-    if sDecData:
-        val = sDecData.split('^')
-        if val[6] and len(val[6]) == 8:
-            context = {
-                'isAuth': 'succ',
-                'age': int(date.today().year) - int(val[6][:4]),
-            }
-
-            if int(date.today().year) - int(val[6][:4]) < 20:
-                pass
-            else:
-                request.session['auth'] = 'Y'
-    else:
-        context = {
-            'isAuth': 'fail',
-            'age': 0,
-        }
-
-    print 'context > ', context
-
-    return render_to_response('student_account/parent_agree_done.html', context)
+    return render_to_response('student_account/parent_agree_done.html', {'status': 'success'})
 
 
 @require_http_methods(['GET'])
@@ -383,6 +385,7 @@ def agree(request):
     else:
         return render_to_response('student_account/registration_gubn.html')
 
+
 @require_http_methods(['GET'])
 @ensure_csrf_cookie
 @xframe_allow_whitelisted
@@ -400,9 +403,10 @@ def login_and_registration_form(request, initial_mode="login"):
     redirect_to = get_next_url_for_login_page(request)
     provider_info = _third_party_auth_context(request, redirect_to)
 
+    division = None
+
     # print 'currentProvider:', provider_info['currentProvider']
-    # add kocw logic
-    print "test"
+
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
         # print 'login_and_registration_form type 1'
@@ -461,11 +465,11 @@ def login_and_registration_form(request, initial_mode="login"):
         except (KeyError, ValueError, IndexError) as ex:
             log.error("Unknown tpa_hint provider: %s", ex)
 
-    # If this is a themed site, revert to the old login/registration pages.
-    # We need to do this for now to support existing themes.
-    # Themed sites can use the new logistration page by setting
-    # 'ENABLE_COMBINED_LOGIN_REGISTRATION' in their
-    # configuration settings.
+        # If this is a themed site, revert to the old login/registration pages.
+        # We need to do this for now to support existing themes.
+        # Themed sites can use the new logistration page by setting
+        # 'ENABLE_COMBINED_LOGIN_REGISTRATION' in their
+        # configuration settings.
         # microsite not 처리
         if not is_request_in_themed_site() and not configuration_helpers.get_value('ENABLE_COMBINED_LOGIN_REGISTRATION',
                                                                                    False):
@@ -498,6 +502,10 @@ def login_and_registration_form(request, initial_mode="login"):
         org_index = cur.fetchall()
         org_list = list(org_index)
         print org_list
+
+    # 개인정보 수집 및 이용 동의 값, 홍보 설문 관련 정보수진 동의 선택값이 세션상에 있다면 회원가입 진행중..
+    if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+        initial_mode = 'register'
 
     # Otherwise, render the combined login/registration page
     context = {
@@ -534,6 +542,7 @@ def login_and_registration_form(request, initial_mode="login"):
             'ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER',
             settings.FEATURES['ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER']
         ),
+        'division': division
     }
 
     enterprise_customer = enterprise_customer_for_request(request)
@@ -594,7 +603,6 @@ def password_change_request_handler(request):
             # no user associated with the email
             if configuration_helpers.get_value('ENABLE_PASSWORD_RESET_FAILURE_EMAIL',
                                                settings.FEATURES['ENABLE_PASSWORD_RESET_FAILURE_EMAIL']):
-
                 site = get_current_site()
                 message_context = get_base_template_context(site)
 
@@ -710,6 +718,7 @@ def _get_form_descriptions(request):
         'login': get_login_session_form(request).to_json(),
         'registration': RegistrationFormFactory().get_registration_form(request).to_json()
     }
+
 
 def _get_extended_profile_fields():
     """Retrieve the extended profile fields from site configuration to be shown on the
@@ -890,11 +899,6 @@ def account_settings_confirm_check(request):
         GET /account/settings
 
     """
-    print '********************'
-    print request.user.is_authenticated()
-    print '********************'
-    print request.user
-    print '********************'
 
     user = authenticate(username=request.user, password=request.POST['passwd'], request=request)
 
@@ -908,6 +912,7 @@ def account_settings_confirm_check(request):
         return JsonResponse({
             "success": True,
         })
+
 
 @login_required
 @require_http_methods(['GET'])
@@ -944,7 +949,6 @@ def finish_auth(request):  # pylint: disable=unused-argument
 
 
 def account_settings_context(request):
-    print 'account_settings_context!!!'
     """ Context for the account settings page.
 
     Args:
@@ -956,14 +960,8 @@ def account_settings_context(request):
     """
 
     # -------------------- nice core -------------------- #
-    # nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
-    # nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
-
-    nsc = settings.ENV_TOKENS.get('NICE_SITE_CODE')
-    nsp = settings.ENV_TOKENS.get('NICE_SITE_PASSWORD')
-
-    nice_sitecode = "{nice_site_code}".format(nice_site_code=nsc)
-    nice_sitepasswd = "{nice_site_password}".format(nice_site_password=nsp)
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
@@ -974,8 +972,9 @@ def account_settings_context(request):
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
 
-    lms_base = settings.ENV_TOKENS.get('NICE_RETURN_URL')
-    # lms_base = 'localhost:18000'
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+    # lms_base = 'dev.kr:18000'
+
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
@@ -991,6 +990,7 @@ def account_settings_context(request):
                 len(nice_gender), nice_gender)
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+
     enc_data = commands.getoutput(nice_command)
 
     if enc_data == -1:
@@ -1077,9 +1077,10 @@ def account_settings_context(request):
         # it will be broken if exception raised
         user_orders = []
 
-    countries_list = list(countries)
-    countries_list.insert(0, (u'KR', u'South Korea'))
-    print 'countries_list',countries_list
+    # `KR` to the top
+    countries_list = list()
+    [countries_list.insert(0, (code, name)) if code == 'KR' else countries_list.append((code, name)) for code, name in countries]
+
     context = {
         'user_gender': user_gender,  # context -> nice data
         'user_birthday': user_birthday,  # context -> nice data
@@ -1227,9 +1228,9 @@ def remove_account(request):
             user_profile.bio = None
             user_profile.profile_image_uploaded_at = None
 
-            #find_user.save()
-            #user_profile.save()
-            #ser_socialauth.delete()
+            # find_user.save()
+            # user_profile.save()
+            # ser_socialauth.delete()
 
             logout(request)
         except Exception as e:

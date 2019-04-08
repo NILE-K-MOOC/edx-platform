@@ -28,7 +28,10 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     </%static:require_module>
     </%block>
 % endif
+<script>
 
+
+</script>
 <header class="global-header ${'slim' if course else ''}">
     % if use_cookie_banner:
         ${static.renderReact(
