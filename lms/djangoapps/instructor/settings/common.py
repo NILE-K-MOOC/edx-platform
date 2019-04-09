@@ -26,7 +26,7 @@ def plugin_settings(settings):
 
         # Give course staff unrestricted access to grade downloads (if set to False,
         # only edX superusers can perform the downloads)
-        'ALLOW_COURSE_STAFF_GRADE_DOWNLOADS': False,
+        'ALLOW_COURSE_STAFF_GRADE_DOWNLOADS': True,
 
         # Show a section in the membership tab of the instructor dashboard
         # to allow an upload of a CSV file that contains a list of new accounts to create
