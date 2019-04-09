@@ -27579,3 +27579,9 @@ msgstr "북마크를 사용하여 강좌 페이지로 쉽게 돌아갈 수 있�
 
 msgid "Answers are displayed within the problem"
 msgstr "정답이 문제 내에 표시됩니다."
+
+msgid "Your score is %(graded_score)s / %(max_score)s"
+msgstr "당신의 점수는 %(graded_score)s / %(max_score)s"
+
+msgid "This assignment has not yet been graded."
+msgstr "본 과제물은 채점 전 입니다."
