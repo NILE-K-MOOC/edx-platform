@@ -636,7 +636,14 @@ a, span, p {color:inherit;}
 .main-sticky-box a {display:block;text-align:center;font-size:0.875rem;line-height:37px;background:#fff;border:solid 1px #ccc;background:#f2f2f2;color:#333;width:150px;} /** 20161216 **/
 .main-sticky-box a:hover {background:#646464;color:#fff;width:150px;}
 
-.board-search-box {text-align:right;margin-bottom:10px;margin-top:50px;position:relative;}
+.board-search-box {
+	text-align: right;
+    margin-bottom: 10px;
+    margin-top: 50px;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+}
 .board-search-box  select {height:35px;border:solid 1px  #c8c8c8;border-radius:3px;font-size:0.875em;}
 input[type="button"], input[type="button"]:hover, input[type="submit"], input[type="submit"]:hover {background:#646464;font-size:0.875rem;box-shadow:none;text-shadow:none;border-radius:3px;font-family:"Nanum Gothic";}
 input[type="button"].btn-gray, input[type="button"].btn-gray:hover {background:#f2f5f9;border-color:#d9ded9;color:#000;}
@@ -645,15 +652,53 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 .board-list ul, .board-view ul, .board-write ul {list-style:none;padding:0;margin:0;}
 .board-list  li:after {content:"";display:block;clear:both;}
 .board-list  li:last-child {border-color:#cdcdcd;}
-.board-list .thead {border-top:solid 2px #646464;border-bottom:solid 1px #f1f1f1;background:#f8f8f8;font-size:0.875rem;padding:13px 0;text-align:center;}
-.board-list .tbody {border-bottom:solid 1px #f1f1f1;text-align:center;font-size:0.875rem;padding:13px 0;}
+.board-list .thead {
+	border-top: solid 2px #646464;
+    border-bottom: solid 1px #f1f1f1;
+    background: #f8f8f8;
+    font-size: 0.875rem;
+    padding: 13px 15px;
+    text-align: center;
+    display: flex;
+    align-items: stretch;
+}
+.board-list .tbody {
+	border-bottom: solid 1px #f1f1f1;
+    text-align: center;
+    font-size: 0.875rem;
+    padding: 13px 15px;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
 .board-list span {display:inline-block;float:left;text-align:center;box-sizing:border-box;}
-.board-list span.no {width:10%;}
-.board-list span.title {width:65%;}
-.board-list span.date {width:15%;}
+.board-list span.no {
+	width: initial;
+    white-space: nowrap;
+}
+.board-list span.title {width:95%;}
+.board-list span.date {
+	width: initial;
+    white-space: nowrap;
+    float: right;
+}
 .board-list span.visit {width:10%;}
-.board-list .tbody span.title {text-align:left;padding:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.board-list .tbody span.title > a {color:#333;}
+.board-list .tbody span.title {
+	text-align: left;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: stretch;
+}
+.board-list .tbody span.title > a {
+	color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 5px;
+}
 
 .memo-list ul, .board-view ul, .board-write ul {list-style:none;padding:0;margin:0;}
 .memo-list  li:after {content:"";display:block;clear:both;}
@@ -683,9 +728,59 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 .paging > a.last:after {content:"";width:0; height:0; border-style:solid; border-width:5px;border-color: transparent transparent transparent  #a0a0a0;position:absolute;left:50%;top:50%;margin:-5px 0 0 -5px;}
 
 .board-view {padding-top:50px;}
-.board-view li.title {border-top:solid 2px #646464;border-bottom:solid 1px #8a8a8a;font-weight:700;padding:18px 75px 18px 0;position:relative;}
-.board-view li.title h3 {line-height:1.3em;font-size:1.25rem;font-weight:700;font-family:"Nanum Gothic";margin:0;}
-.board-view li.title time {font-weight:400;position:absolute;right:0;bottom:10px;font-size:0.813rem;}
+.board-view li.title {
+	border-top: solid 2px #646464;
+    border-bottom: solid 1px #8a8a8a;
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    padding: 10px;
+}
+.board-view li.title h3 {
+	line-height: 1.3em;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: "Nanum Gothic";
+    margin: 0;
+    width: 95%;
+    vertical-align: middle;
+    display: block;
+    margin-top: 5px;
+    margin-right: 14px;
+}
+
+.board-view li.title div {
+	width: 138px;
+}
+
+.board-view li.title time {
+	font-weight: 400;
+    font-size: 0.813rem;
+    width: 100%;
+    display: inline-block;
+}
+
+.board-view ul .file-list{display: inline-block;}
+
+.board-view ul .file-list h5{display: inline-block;
+    font-size: 19px;
+    font-family: "Nanum Gothic","Open Sans";
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.board-view ul .file-list p a{
+    display: inline-block;
+    background: #000000;
+	border-radius: 30px;
+    padding: 15px 22px;
+    margin-bottom: 16px;
+    color: #ffffff;
+    font-size: 14px;
+	font-weight: bold;
+}
+
 .board-view li.contents {padding:30px 0;font-size:0.813rem;line-height:1.7em;}
 
 .board-comment-box {border:solid 2px #e5e8ec;background:#f5f8f9;padding:20px;margin-bottom:25px;}
@@ -1160,10 +1255,15 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 	.layerPopupArea{position: absolute; z-index: 99999; left: 0px !important;}
 	.layerPopupArea img{width:100%;}
 
-	.board-search-box {padding:0 80px;}
+	/*.board-search-box {padding:0 80px;}*/
 	.board-search-box input[type="submit"] {position:absolute;right:0;top:0;}
 	.board-search-box input[type="text"] {width:100%;}
-	.board-search-box select {position:absolute;left:0;top:0;width:75px;}
+	.board-search-box select {
+		position: absolute;
+		left: 0;
+		top: 0;
+		/* width: 75px; */
+	}
 	.board-comment-write dt {width:25%;}
 
 	.univ-list li {margin-top:10px;}
@@ -2125,3 +2225,19 @@ button#intro_shot {
 }
 
 .faq-tab > a.on, .faq-tab > a.on.dash-link {background:#4587c2;color:mintcream;}
+
+#search_search {
+	margin: 0 10px;
+}
+
+.board-search-box #search{width:80px;}
+
+@media (max-width: 480px){
+	.board-search-box {
+		padding: initial;
+	}
+}
+
+@media screen and (max-width: 550px) and (min-width: 0px){
+	#search_search{width: 95%;}
+}

@@ -1803,7 +1803,12 @@ article.course.none .kr01-courInfo-bar{
   border-top: 3px solid #4a91cc;
 }
 
-.kr01nav__submenu .kr01nav__submenu-item a{font-size: 18px;  padding: 5px; text-decoration: none;}
+.kr01nav__submenu .kr01nav__submenu-item a {
+  font-size: 18px;
+  padding: 5px;
+  text-decoration: none;
+  transition: none;
+}
 .kr02nav__submenu .kr02nav__submenu-item a{font-size: 18px;  padding: 5px;}
 
 .kr01_dashArea{width: 100%; position: relative; display: flex;align-items: stretch; padding: 20px 12px;}
@@ -2108,6 +2113,23 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .schools-container{}
 .schools-container div {text-align: center;}
 .schools-container div span{width: 100%; text-align: left; display: block;}
+
+.kre01_joinarea > .nav-item > a:hover{
+    text-decoration: underline;
+}
+
+.find-courses .search-facets .header-facet {
+    border-top: 1px solid #e4e4e4;
+    background: #eee;
+}
+
+.course-facets-select{padding: 5px;}
+
+.find-courses .search-facets .facet-list.collapse {
+  max-height: 260px;
+  overflow: hidden;
+  padding: 5px;
+}
 
 @media (max-width: 878px){
 .k-int div {font-size: 16px;  width: 100%;}
