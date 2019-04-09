@@ -151,7 +151,7 @@ li{
 .fivemenarea{margin:0px;}
 .fivemenarea li{float: left;}
 .fivemenarea li a.fivemenarea-a{vertical-align: middle; display: inline-block; padding: 15px 25px; width: 191px; color: #333; cursor: pointer; }
-.fivemenarea li a:hover, .kr01_f04 > div > a.fivemenarea-sub:hover{background:#eee; color:#4d8dc5; text-decoration: none;}
+.fivemenarea li a:hover, .kr01_f04 > div > a.fivemenarea-sub:hover{/*background:#eee;*/ color:#4d8dc5; text-decoration: none;}
 .fivemenarea li a:hover i{}
 .fivemenarea li a i{margin-right: 5px; }
 .fivemenarea li a span.fivemenarea-span{font-size: 17px; font-weight: bold; letter-spacing: -2px; vertical-align: top; display: inline-block; line-height: 51px; }
@@ -1099,7 +1099,8 @@ ul.bxslider {
 
 .kr01_mainslider_area li {
   margin-bottom: 0;
-  min-height: 120px !important;
+  min-height: 122px !important;
+  margin-top: 20px;
 }
 
 /* language */
@@ -2027,29 +2028,6 @@ div.book-wrapper {
   margin-left: 10px;
 }
 
-.kmooc-about-tab {
-    border-bottom: solid 3px #4587c2;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-.kmooc-about-tab .faq-tab {
-  margin-bottom: 0;
-  border-bottom: none;
-  width: 40%;
-}
-
-.kmooc-about-tab .faq-tab > a.dash-link {
-  padding: 15px 0 15px 0;
-}
-
-.kmooc-about-tab .faq-tab > a:not(.btn):hover,
-.kmooc-about-tab .faq-tab > a:not(.btn):focus,
-.kmooc-about-tab .faq-tab > a:visited:not(.btn):hover,
-.kmooc-about-tab .faq-tab > a:visited:not(.btn):focus {
-  color: mintcream;
-}
-
 .faq-tab > a {
   border-radius: 15px 15px 0 0;
 }
@@ -2126,7 +2104,18 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .kr01-ft-slider{position: relative;}
 .kr01-ft-slider .bx-wrapper .bx-viewport{    height: 50px !important;  padding: 13px 0px;}
 
+/* 참여기관 */
+.schools-container{}
+.schools-container div {text-align: center;}
+.schools-container div span{width: 100%; text-align: left; display: block;}
 
+@media (max-width: 878px){
+.k-int div {font-size: 16px;  width: 100%;}
+}
+
+@media (max-width: 540px){
+.schools-container { width: 100%;}
+}
 
 @media (max-width: 631px) {
   .kr01_access ol li {
