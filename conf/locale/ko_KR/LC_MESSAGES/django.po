@@ -27591,3 +27591,9 @@ msgstr "당신의 점수는 %(graded_score)s / %(max_score)s"
 
 msgid "This assignment has not yet been graded."
 msgstr "본 과제물은 채점 전 입니다."
+
+msgid "Find courses, instructors, organizations"
+msgstr "원하는 강좌, 교수자, 제공기관을 찾아보세요"
+
+msgid "What do you want to learn?"
+msgstr "무엇을 배우고 싶으신가요?"
