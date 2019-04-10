@@ -2125,3 +2125,7 @@ button#intro_shot {
 }
 
 .faq-tab > a.on, .faq-tab > a.on.dash-link {background:#4587c2;color:mintcream;}
+
+.find-courses>.courses-container {
+	padding: 20px 10px 0 10px;
+}
