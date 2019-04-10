@@ -6,11 +6,18 @@
 <%block name="header_extras"></%block>
 
 <%block name="js_extra">
-    <script>
-    $(document).ready(function(){
+<script>
+    $(document).ready(function () {
         $.cookie('parent_agree', true, {path: '/parent_agree'});
-        alert('나이스 인증이 완료되었습니다.');
+        alert("${_('Authentication complete')}");
+        $(".ipin-block a", opener.document)
+            .removeAttr("href")
+            .css({
+                "background": "#aaa",
+                "border": "1px solid #aaa"
+            })
+            .text("${_('Certificated')}");
         self.close();
     });
-    </script>
+</script>
 </%block>

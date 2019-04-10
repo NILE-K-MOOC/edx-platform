@@ -25062,7 +25062,7 @@ msgstr "아이핀 인증에 실패하였습니다."
 # templates/student_account/agree.html
 
 msgid "NICE certification."
-msgstr "회원가입 (나이스 인증)"
+msgstr "회원가입 (만 14세 미만)"
 
 msgid "NICE certification is not completed."
 msgstr "나이스 인증이 완료되지 않았습니다."
@@ -25074,10 +25074,16 @@ msgid "Please click the 'NICE Certification' button and proceed with the consent
 msgstr "“인증하기” 버튼을 클릭하여 보호자(법정 대리인)의 동의절차를 진행해주세요."
 
 msgid "Proceed with the consent process of guardian by NICE certification."
-msgstr "나이스 인증으로 보호자의 동의절차를 진행"
+msgstr "동의하기. 만 14세 미만 학습자 회원가입에 동의하시려면, 보호자(법정 대리인) 명의로 본인인증을 진행해주세요"
 
 msgid "Certificating"
-msgstr "인증하기"
+msgstr "동의하기"
+
+msgid "Certificated"
+msgstr "동의함"
+
+msgid "Authentication complete"
+msgstr "인증 완료"
 
 msgid "Movement to the next stage"
 msgstr "다음 단계 이동"
