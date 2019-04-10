@@ -178,7 +178,7 @@
                         case 'middle_classfy':
                             model.set('odby1', 2);
                             break;
-                        case 'etc':
+                        case 'fourth_industry_yn':
                             model.set('odby1', 3);
                             break;
                         case 'course_period':

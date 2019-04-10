@@ -10302,7 +10302,7 @@ msgstr "일정 시작 < 강좌 시작"
 
 #: openedx/core/djangoapps/schedules/admin.py
 msgid "All"
-msgstr "모두"
+msgstr "전체"
 
 #: openedx/core/djangoapps/schedules/admin.py
 msgid "Experience"
