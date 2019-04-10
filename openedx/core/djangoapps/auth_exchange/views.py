@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Views to support exchange of authentication credentials.
 The following are currently implemented:
