@@ -41,7 +41,7 @@ function search(head_title) {
 
             var html = "";
             for (var i = 0; i < data.length; i++) {
-                html += "<dt><a href='#'>" + data[i].subject + "</a></dt>";
+                html += "<dt><a>" + data[i].subject + "</a></dt>";
                 html += "<dd>";
                 html += "   <div>" + data[i].content + "</div>";
                 html += "</dd>";

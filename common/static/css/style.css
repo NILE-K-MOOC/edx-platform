@@ -673,12 +673,12 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 }
 .board-list span {display:inline-block;float:left;text-align:center;box-sizing:border-box;}
 .board-list span.no {
-	width: initial;
+	width: 50px;
     white-space: nowrap;
 }
 .board-list span.title {width:95%;}
 .board-list span.date {
-	width: initial;
+	width: 100px;
     white-space: nowrap;
     float: right;
 }
@@ -1259,10 +1259,10 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 	.board-search-box input[type="submit"] {position:absolute;right:0;top:0;}
 	.board-search-box input[type="text"] {width:100%;}
 	.board-search-box select {
-		position: absolute;
-		left: 0;
-		top: 0;
-		/* width: 75px; */
+		/*position: absolute;*/
+		/*left: 0;*/
+		/*top: 0;*/
+		 width: 75px;
 	}
 	.board-comment-write dt {width:25%;}
 
@@ -2226,18 +2226,39 @@ button#intro_shot {
 
 .faq-tab > a.on, .faq-tab > a.on.dash-link {background:#4587c2;color:mintcream;}
 
+.rule-box table td.td-middle {
+	vertical-align: middle;
+}
+
 #search_search {
 	margin: 0 10px;
 }
 
 .board-search-box #search{width:80px;}
 
+.board-write .email_qarea { width: 100%;}
+.board-write .email_qarea tbody tr td {padding:5px; border:1px solid #e9e9e9;}
+.email_q_title {vertical-align: middle; background: #f7f7f7;}
+.email_q_title span {text-align: center; display: block;}
+
+.email_span {display: flex; align-items: stretch;}
+.email_span input {width: 100%; margin-right: 5px;}
+.email_span select {width: 100%; }
+.board-write .email_qarea tbody tr td #search_con {height: 35px;}
+.board-write .email_qarea tbody tr td textarea {height: 120px;  width: 100%;}
+
+@media screen and (max-width: 550px) and (min-width: 0px){
+	#search_search{width: 60%;}
+}
+
+@media (max-width: 540px){
+	.courses-container .courses {
+		width: 100% !important;
+	}
+}
+
 @media (max-width: 480px){
 	.board-search-box {
 		padding: initial;
 	}
-}
-
-@media screen and (max-width: 550px) and (min-width: 0px){
-	#search_search{width: 95%;}
 }

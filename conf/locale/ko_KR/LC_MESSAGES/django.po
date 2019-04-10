@@ -27579,3 +27579,6 @@ msgstr "북마크를 사용하여 강좌 페이지로 쉽게 돌아갈 수 있�
 
 msgid "Answers are displayed within the problem"
 msgstr "정답이 문제 내에 표시됩니다."
+
+msgid "Inquiry Type"
+msgstr "문의종류"
