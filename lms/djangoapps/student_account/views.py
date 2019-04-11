@@ -299,9 +299,9 @@ def parent_agree(request):
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
     # lms_base = 'dev.kr:18000'
 
-    nice_returnurl = "http://{lms_base}/parent_agree_done".format(lms_base=lms_base)  # 성공시 이동될 URL
+    nice_returnurl = "https://{lms_base}/parent_agree_done".format(lms_base=lms_base)  # 성공시 이동될 URL
     # nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
-    nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    nice_errorurl = "https://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     # nice_errorurl = "http://localhost:8000/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
 
     nice_returnMsg = ''
