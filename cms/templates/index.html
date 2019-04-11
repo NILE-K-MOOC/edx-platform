@@ -39,6 +39,35 @@ from openedx.core.djangolib.js_utils import (
 	float: left;
 }
 
+.ui-widget.ui-widget-content {
+  width: 100%;
+  position: absolute;
+  margin-top: 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 20px;
+  max-height: 200px;
+  max-width: 427px;
+}
+
+.ui-widget li.ui-menu-item {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-family: "Nanum Gothic", "Open Sans";
+  color: rgb(0, 0, 0);
+  font-style: normal;
+  font-size: 15px;
+  text-align: -webkit-match-parent;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ui-autocomplete li.ui-menu-item a.ui-state-focus {
+  color: #4c4c4c;
+}
+
 </style>
 <div id="layerPopupArea" class="layerPopupArea" style="">
 
@@ -758,27 +787,29 @@ if (
 
       % if libraries_enabled or archived_courses:
       <ul id="course-index-tabs">
-        <li class="courses-tab active"><a>${_("Courses")}</a></li>
+        <li class="courses-tab active" id="course_tab"><a>${_("Courses")}</a></li>
         % if archived_courses:
-        <li class="archived-courses-tab"><a>${_("Archived Courses")}</a></li>
+        <li class="archived-courses-tab" id="archived_tab"><a>${_("Archived Courses")}</a></li>
         % endif
         % if libraries_enabled:
-        <li class="libraries-tab"><a>${_("Libraries")}</a></li>
+        <li class="libraries-tab" id="libraries_tab"><a>${_("Libraries")}</a></li>
         % endif
       </ul>
       % endif
 
-      <div class="search_div" style="margin:10px; margin-left:0px;">
-        <input type="text" id="cms_text" style="">
-        <button class="btn btn-primary" id="cms_search" type="button"
-                style="height:30px;
-                       width:80px;
-                       margin-bottom:2px;
-                       border-radius:5px;
-                       background-color:#009fe6;
-                       color:#FFFFFF;
-                       font-size:90%;
-                       ">${_("Search")}</button>
+      <div style="width: 100%;">
+        <div class="search_div" style="margin:10px 10px 10px 0; width: 450px;">
+          <input type="text" id="cms_text" style="width: 81%;">
+          <button class="btn btn-primary" id="cms_search" type="button"
+                  style="height:33px;
+                         width:80px;
+                         border-radius:5px;
+                         background-color:#009fe6;
+                         color:#FFFFFF;
+                         font-size:90%;
+                         vertical-align: middle;
+                         ">${_("Search")}</button>
+        </div>
       </div>
 
       %if len(courses) > 0 or optimization_enabled:
