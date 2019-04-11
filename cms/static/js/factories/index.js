@@ -1,26 +1,58 @@
 define(['jquery.form', 'js/index'], function() {
     'use strict';
     return function (courseNames) {
-        var course_cnt = ($('.course-title').length)
-        var co_title = $('.course-title')
-        var auto_title =[]
-
-        //DEBUG
-        // console.log('courseNames --- s');
-        // console.log([co_title][0][1].textContent);
-        // console.log('cnt =',course_cnt);
-        // console.log('courseNames --- e');
-
-        for (var i =0; i < course_cnt; i++){
-            var title = [co_title][0][i].textContent
-            auto_title.push(title)
-        }
-
+        var search_data = {"course_tab": courses_list($(".courses .course-title")),
+            "archived_tab": courses_list($('.archived-courses .course-title')),
+            "libraries_tab": courses_list($('.libraries .course-title'))
+        };
         // 검색 자동 완성
         $("#cms_text").autocomplete({
-                source: auto_title
+            source: function (request, response) {
+                var term = $.ui.autocomplete.escapeRegex(request.term)
+                    , startsWithMatcher = new RegExp("^" + term, "i")
+                    , startsWith = $.grep(search_data["course_tab"], function(value) {
+                    return startsWithMatcher.test(value.label || value.value || value);
+                })
+                    , containsMatcher = new RegExp(term, "i")
+                    , contains = $.grep(search_data["course_tab"], function (value) {
+                    return $.inArray(value, startsWith) < 0 &&
+                        containsMatcher.test(value.label || value.value || value);
+                });
+
+                response(startsWith.concat(contains));
+            },
+            appendTo: '.search_div'
         });
 
+
+        $('#course-index-tabs li').click(function() {
+            // 탭 아이디
+            var clickId = $(this).attr('id');
+            // 이전탭 검색 초기화
+            $("#cms_text").val('');
+            studio_search();
+            // search_data에 탭 아이디로 값을 가져와 변경
+            if($(this).hasClass('active')) {
+                $("#cms_text").autocomplete(
+                    "option", {source: function (request, response) {
+                            var term = $.ui.autocomplete.escapeRegex(request.term)
+                                , startsWithMatcher = new RegExp("^" + term, "i")
+                                , startsWith = $.grep(search_data[clickId], function(value) {
+                                return startsWithMatcher.test(value.label || value.value || value);
+                            })
+                                , containsMatcher = new RegExp(term, "i")
+                                , contains = $.grep(search_data[clickId], function (value) {
+                                return $.inArray(value, startsWith) < 0 &&
+                                    containsMatcher.test(value.label || value.value || value);
+                            });
+
+                            response(startsWith.concat(contains));
+                        },
+                        appendTo: '.search_div'
+                    }
+                )
+            }
+        });
 
         // 강좌 검색 핵심 함수
         function studio_search() {
@@ -34,9 +66,9 @@ define(['jquery.form', 'js/index'], function() {
             }
 
             for (var i = 0; i < cnt; i++) {
-                var course_tag = $('.course-item').eq(i).children('.course-link').children('.course-title').text();
+                var course_tag = $('.course-item').eq(i).children('a').children('.course-title').text();
                 if (course_tag.indexOf(cms_text) == -1) {
-                    $('.course-item').eq(i).hide()
+                    $('.course-item').eq(i).hide();
                 }
             }
 
@@ -62,6 +94,12 @@ define(['jquery.form', 'js/index'], function() {
             studio_search();
         });
 
+        $("#cms_text").on('autocompleteselect', function (e, ui) {
+            $("#cms_text").val(ui.item.value);
+            studio_search();
+            console.log('You selected: ' + ui.item.value);
+        });
+
         // -------------------------------------------------------> EDX 기존 로직 [s]
         $('.show-creationrights').click(function (e) {
             e.preventDefault();
@@ -80,10 +118,10 @@ define(['jquery.form', 'js/index'], function() {
             $('#request-coursecreator-submit')
                 .toggleClass('has-error')
                 .find('.label')
-                    .text('Sorry, there was error with your request');
+                .text('Sorry, there was error with your request');
             $('#request-coursecreator-submit')
                 .find('.fa-cog')
-                    .toggleClass('fa-spin');
+                .toggleClass('fa-spin');
         };
 
         $('#request-coursecreator').ajaxForm({
@@ -100,3 +138,13 @@ define(['jquery.form', 'js/index'], function() {
         });
     };
 });
+
+function courses_list(courseTab){
+    var course_list = [];
+    for (var i =0; i < courseTab.length; i++){
+        var title = [courseTab][0][i].textContent;
+        if($.inArray(title, course_list) === -1) course_list.push(title)
+    }
+
+    return course_list;
+}

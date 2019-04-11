@@ -71,7 +71,7 @@
         -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
         max-height:125px;
-        height: 125px;
+        height: inherit;
     }
     .section_a2 p.s_list:after {
         display: none;
@@ -158,6 +158,7 @@ a.pagerLink:not(.btn):hover, a.pagerLink:not(.btn):focus, a.pagerLink:visited:no
 .section_a3 .r-list table {
     border-collapse: separate;
     border-spacing: 0 5px;
+    width: 100%;
 }
 
 @media screen and (max-width: 1170px) and (min-width: 0px){
