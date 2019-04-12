@@ -1448,7 +1448,7 @@ def course_about(request, course_id):
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
         # LMS_BASE = '127.0.0.1:18000' # TEST
-        url = 'https://' + LMS_BASE + '/search/course_discovery/'
+        url = 'http://' + LMS_BASE + '/search/course_discovery/'
 
         course_object = CourseOverview.get_from_id(course.id)
         course_display_name = course_object.display_name
@@ -1477,6 +1477,10 @@ def course_about(request, course_id):
             print "data -> ", data
 
             # 유사강좌 -> 데이터 파싱
+
+            # course_id 비교를 위한 course_id 선언
+            cid = course_id
+
             similar_course = []
             for result in data['results']:
                 course_dict = {}
@@ -1484,6 +1488,10 @@ def course_about(request, course_id):
                 image_url = result['data']['image_url']
                 org = result['data']['org']
                 display_name = result['data']['content']['display_name']
+
+                # 자신과 동일한 강좌는 제외
+                if cid == course_id:
+                    continue
 
                 try:
                     sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
