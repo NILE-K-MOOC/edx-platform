@@ -27597,3 +27597,7 @@ msgstr "원하는 강좌, 교수자, 제공기관을 찾아보세요"
 
 msgid "What do you want to learn?"
 msgstr "무엇을 배우고 싶으신가요?"
+
+msgid "Inquiry Type"
+msgstr "문의종류"
+

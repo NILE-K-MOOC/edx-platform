@@ -6,7 +6,31 @@ html{font-size:16px !important;}
     position: relative;
     padding-top: 10px;
     text-align: center;
-  }
+}
+
+.kmooc-about-tab {
+    border-bottom: solid 3px #4587c2;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.kmooc-about-tab .faq-tab {
+  margin-bottom: 0;
+  border-bottom: none;
+  width: 40%;
+}
+
+.kmooc-about-tab .faq-tab > a.dash-link {
+  padding: 15px 0 15px 0;
+}
+
+.kmooc-about-tab .faq-tab > a:not(.btn):hover,
+.kmooc-about-tab .faq-tab > a:not(.btn):focus,
+.kmooc-about-tab .faq-tab > a:visited:not(.btn):hover,
+.kmooc-about-tab .faq-tab > a:visited:not(.btn):focus {
+  color: mintcream;
+}
+
 .k-moocon{
     height: auto;
     margin-top: 5rem;
@@ -108,7 +132,6 @@ html{font-size:16px !important;}
 }
 .mooc_vision{
     width: 100%;
-    height: 0;
     padding-top: calc(367 / 1205*100%);
     float: left;
     background: url(/static/images/about_img/about_vision.jpg) center center / cover no-repeat;
@@ -132,8 +155,8 @@ html{font-size:16px !important;}
     color: #fff;
     font-family: "Nanum Gothic";
     font-weight: bold;
-    position: absolute;
-    top:50px;
+    position: initial;
+    margin-top: 10px;
 }
 .vision_box{
     width: 100%;
@@ -159,7 +182,7 @@ html{font-size:16px !important;}
     float: left;
     margin: 0 3%;
     background: #fafafa;
-    box-shadow: 10px 10px 20px #8d8d8d;
+    box-shadow: 3px 3px 12px #dadada;
     position: relative;
     text-align: center;
 }
@@ -201,7 +224,7 @@ html{font-size:16px !important;}
     float: left;
 }
 .appli>h3{
-     text-align: center;
+    text-align: center;
     height: 3rem;
     font-size: 2rem;
     font-family: "Nanum Gothic";
@@ -223,7 +246,7 @@ html{font-size:16px !important;}
     color: #fff;
     float: left;
     margin: 0;
-    }
+}
 .appli>dl>dd>strong{
     padding-top:1rem;
     display: block;
@@ -244,7 +267,7 @@ html{font-size:16px !important;}
     text-align: center;
 }
 .futmooc h3{
-   text-align: center;
+    text-align: center;
     height: 3rem;
     font-size: 2rem;
     font-family: "Nanum Gothic";
@@ -286,9 +309,10 @@ html{font-size:16px !important;}
     width: 100%;
     text-align: center;
     float: left;
+    margin-bottom: 30px;
 }
 .progress h3{
-     text-align: center;
+    text-align: center;
     height: 3rem;
     font-size: 2rem;
     font-family: "Nanum Gothic";
@@ -391,6 +415,25 @@ article.history {
     overflow: unset;
 }
 
+.about-kint div{width: 50%;}
+.about-kmbi{padding: 20px;}
+
+.about-mooc_vision{padding: 20px;}
+.about-mooc_vision .vision_box{position: inherit; top: inherit;}
+
+.about-offkm{}
+.about-offkm>h3{margin: 2rem 0 3rem 0;}
+.about-offkm>div{margin: 0 4% 2%;}
+
+.about-appli{}
+.about-appli>h3{margin: 2rem 0 2rem 0;}
+.about-appli>dl{margin-top: inherit;}
+
+
+.about-appli dl dt img{width: 100%; height: 200px;}
+.about-depth02txt{ font-size: 8px; line-height: 12px; }
+
+
 @media (max-width: 1169px) {
     .k-int div{font-size:15px;}
 
@@ -398,19 +441,19 @@ article.history {
 @media (max-width: 1109px) {
     .k-moocon>img{display: none;}
     .k-moocon>div{text-align: center;padding: 4rem 0;}
-   .k-int div{font-size:13px;}
-.mooc_vision h3{top:30px;}
-.vision_box{ top: 110px;}
+    .k-int div{font-size:13px;}
+    .mooc_vision h3{top:30px;}
+    .vision_box{ top: 110px;}
     .appli>dl{width: 50%;margin-top: 10px;}
 }
 @media (max-width: 989px){
     .futmooc ol li{width: 49%;}
 }
 @media (max-width: 878px){
-   .k-int div{font-size:16px;width: 90%;}
+    .k-int div{font-size:16px;width: 90%;}
     .mooc_vision h3{font-size: 23px;top:23px;}
     .vision_box{font-size: 14px;top: 83px;}
-    .offkm>div{width: 60;}
+    .offkm>div{width: 60px;}
 }
 @media (max-width: 878px){
     .offkm>div{width: 60%;margin: 20px 0 20px 20%;}
@@ -419,18 +462,21 @@ article.history {
     .history{width: 85%;margin-left: 7.5%;}
 }
 @media (max-width: 730px){
-   .kmooc-block h3{font-size: 1.6rem;}
-.mooc_vision h3{font-size: 19px;top:8px;}
-.vision_box{font-size: 12px;top: 50px;}
+    .kmooc-block h3{font-size: 1.6rem;}
+    .mooc_vision h3{font-size: 19px;top:8px;}
+    .vision_box{font-size: 12px;top: 50px;}
+    .kmooc-about-tab .faq-tab{width: 57%;}
+    .faq-tab > a.dash-link{font-size: 14px;}
 }
+
 @media (max-width: 650px){
     .mooc_vision{display: none;}
     .appli>dl{width: 80%;margin: 10px 0 10px 10%;}
 }
 @media (max-width: 596px){
-   .kmooc-block h3{font-size: 1.3rem;}
+    .kmooc-block h3{font-size: 1.3rem;}
     .k-moocon>div{font-size: 1.2rem;}
-.k-int div{font-size:14px;}
+    .k-int div{font-size:14px;}
     .kmbi{font-size: 1rem;line-height: 1.5rem;}
     .kmbi>p{margin-top: 5px;}
     .futmooc ol li{width: 60%;margin-left: 20%;}
@@ -438,12 +484,31 @@ article.history {
     .history .hisyear{font-size: 1rem;}
 }
 @media (max-width: 496px){
-   .kmooc-block h3{font-size: 1.1rem;}
+    .kmooc-block h3{font-size: 1.1rem;}
     .k-moocon>div{font-size: 1.0rem;}
     .k-int div{font-size:12px;}
 }
+
+@media (max-width: 475px){
+    .kmooc-progress { width: 100%;  margin-left: inherit;
+    }
+    .kmooc-about-tab .faq-tab {width: 65%;}
+}
+
 @media (max-width: 428px){
-   .kmooc-block h3{font-size: 1rem;}
+    .kmooc-block h3{font-size: 1rem;}
     .k-moocon>div{font-size: 1.0rem;}
 
+}
+
+@media (max-width: 414px){
+    .about-appli > h3 span{width: 100%; display: inline-block;}
+
+    .offkm > div > p {padding-bottom: 20px;}
+    .faq-tab > a.dash-link {font-size: 13px;}
+
+    .appli > dl > dd{height: inherit; padding: 15px;}
+    .about-depth02txt{ font-size: inherit; line-height: inherit; }
+    .futmooc h3 span{width: 100%; display: inline-block;}
+    .kmooc-about-tab .faq-tab{width: inherit;}
 }

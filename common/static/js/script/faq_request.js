@@ -24,7 +24,7 @@ $(document).on('change', '#sel_email', function () {
         a = $('#sel_email').val();
         $('#email_txt').val(a);
     } else if ($('#sel_email option:selected').attr('id') == 'direct') {
-        $('#email_txt').removeAttr('disabled').focus();
+        $('#email_txt').removeAttr('disabled').val('').focus();
     }
 
 
@@ -87,10 +87,10 @@ $(document).on('click', '#request', function () {
         }).done(function (data) {
             if (data == 'success') {
                 alert('문의 내용을 담은 이메일이  K-MOOC운영팀으로 발송되었습니다. 답변에는 보통 업무일 기준 1~2일이 소요되니 양해부탁드립니다.');
-                location.href = '/comm_faq/1/'
+                location.href = '/comm_tabs/kmooc_f/'
             } else {
                 alert('문의하기가 정상적으로 되지않았습니다. 잠시 후에 시도해주세요.');
-                location.href = '/comm_faq/1/'
+                location.href = '/comm_tabs/kmooc_f/'
             }
         });
     }
