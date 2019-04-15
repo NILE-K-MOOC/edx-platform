@@ -2212,8 +2212,7 @@ button#intro_shot {
 
 .faq-tab > a.dash-link {
 	display: table-cell;
-	padding: 15px 0 0 0;
-    font-weight: 500;
+	padding: 15px 0;
     color: #fff;
     background: #51575a;
     text-align: center;

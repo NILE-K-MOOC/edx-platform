@@ -39,6 +39,22 @@ from six import string_types
       width: 100%;
       height: 100%;
   }
+  .org-intro-text {
+      font-size: 200% !important;
+  }
+  @media (max-width: 730px){
+      .org-intro .org-year {
+          text-align: center;
+      }
+      .org-intro-text {
+          font-size: 150% !important;
+      }
+  }
+  @media (max-width: 450px) {
+      .org-intro-text {
+          font-size: 120% !important;
+      }
+  }
 </style>
 
 <script>
@@ -73,7 +89,7 @@ from six import string_types
     <div class="univ-list-top" style="height: 180px; font-family: 'Open Sans' !important;">
         <div class="univ-list-top-txt">
             <div>
-                <b><p style="font-size: 200%">K-MOOC와 함께하는 참여기관을 소개합니다.</p></b>
+                <b><p class="org-intro-text">K-MOOC와 함께하는 참여기관을 소개합니다.</p></b>
                 <b><p>K-MOOC는 <span id="org_cnt">89</span>개의 국내외 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다.</p></b>
             </div>
         </div>
@@ -81,10 +97,10 @@ from six import string_types
     <section class="container">
         <!-- [s]  -->
 
-        <div id="org_2015" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black">(2015~${_("Present")}) ${_("Participating Institutions")}<hr></div>
-        <div id="org_2016" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black">(2016~${_("Present")}) ${_("Participating Institutions")}<hr></div>
-        <div id="org_2017" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black">(2017~${_("Present")}) ${_("Participating Institutions")}<hr></div>
-        <div id="org_2018" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black">(2018~${_("Present")}) ${_("Participating Institutions")}<hr></div>
+        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2015~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2015" class="org-year"></div></div>
+        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2016~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2016" class="org-year"></div></div>
+        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2017~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2017" class="org-year"></div></div>
+        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2018~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2018" class="org-year"></div></div>
 
     </section>
 </main>
