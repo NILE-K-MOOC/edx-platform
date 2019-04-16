@@ -601,7 +601,8 @@ def multisite_index(request, org):
     elif  login_type == 'O':
         url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
         print "url -> ", url
-        return redirect(url)
+        if not request.user.is_authenticated:
+            return redirect(url)
 
     # basic logic
     if request.user.is_authenticated:
