@@ -5,7 +5,7 @@ from social_core.backends.oauth import BaseOAuth2
 
 class OAuth2(BaseOAuth2):
     # callback name
-    name = 'nhi_i'
+    name = 'logodi'
     AUTHORIZATION_URL = 'http://e-learning.nhi.go.kr/external/kmooc.do'
     ACCESS_TOKEN_URL = 'https://policy.nhi.go.kr/oauth2/token.do'
     USER_INFO_URL = 'https://policy.nhi.go.kr/oauth2/token.do'
