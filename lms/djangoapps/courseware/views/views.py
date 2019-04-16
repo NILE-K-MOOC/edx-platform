@@ -1450,28 +1450,28 @@ def course_about(request, course_id):
         # LMS_BASE = '127.0.0.1:18000' # TEST
         url = 'http://' + LMS_BASE + '/search/course_discovery/'
 
-        course_object = CourseOverview.get_from_id(course.id)
-        course_display_name = course_object.display_name
-        # course_display_name = '1' # TEST
+        search_string = course_details.short_description
+
+        if not search_string or search_string == '':
+            search_string = course.display_name
 
         # 유사강좌 -> 엘라스틱 서치에 데이터 요청
         payload = {}
         headers = {}
-        payload['search_string'] = course_display_name
+        payload['search_string'] = search_string
         payload['page_size'] = '20'
         payload['page_index'] = '0'
         headers['X-Requested-With'] = 'XMLHttpRequest'
 
-        print "course_display_name -> ", course_display_name
-        print "url -> ", url
-        print "payload -> ", payload
-        print "headers -> ", headers
+        # print "url -> ", url
+        # print "payload -> ", payload
+        # print "headers -> ", headers
 
         try:
             r = requests.post(url, data=payload, headers=headers)
-            logging.info(r.text)
-            logging.info(r.text)
-            logging.info(r.text)
+            # logging.info(r.text)
+            # logging.info(r.text)
+            # logging.info(r.text)
             data = json.loads(r.text)
 
             print "data -> ", data
