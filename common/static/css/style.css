@@ -770,15 +770,19 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
     margin-bottom: 6px;
 }
 
+.file-list p{
+	margin-top: 10px !important;
+	margin-left: 20px !important;
+}
+
 .board-view ul .file-list p a{
     display: inline-block;
-    background: #000000;
+    background: #eee;
 	border-radius: 30px;
-    padding: 15px 22px;
-    margin-bottom: 16px;
-    color: #ffffff;
+    padding: 5px 20px;
     font-size: 14px;
 	font-weight: bold;
+	border: 1px solid #ccc;
 }
 
 .board-view li.contents {padding:30px 0;font-size:0.813rem;line-height:1.7em;}

@@ -772,8 +772,9 @@ def series_enroll(request, id):
 
 
 import urllib2
-def series_print(request, id):
 
+
+def series_print(request, id):
     # 사용자 아이디 로드 및 이수증 고유번호 생성
     user_id = request.user.id
     cert_uuid = str(uuid.uuid4()).replace('-', '')
@@ -973,7 +974,7 @@ def series_print(request, id):
         admin_sign = cur.fetchall()
 
     admin_sign_list = []
-    for n in range(0,8):
+    for n in range(0, 8):
         try:
             admin_sign_list.append(admin_sign[n][0])
         except BaseException:
@@ -1002,7 +1003,7 @@ def series_print(request, id):
             where series_seq = '{id}';
         '''.format(id=id)
         cur.execute(query)
-        row5= cur.fetchall()
+        row5 = cur.fetchall()
 
     sub_sign = row5
     print "sub_sign -> ", sub_sign
@@ -1111,18 +1112,18 @@ def series_print(request, id):
 
     print "e3_tmp_front -> ", e3_tmp_front
     print "e3_tmp_back -> ", e3_tmp_back
-    print "e3_tmp_back/60 -> ", e3_tmp_back/60
-    print "e3_tmp_back%60 -> ", e3_tmp_back%60
+    print "e3_tmp_back/60 -> ", e3_tmp_back / 60
+    print "e3_tmp_back%60 -> ", e3_tmp_back % 60
 
-    e3_front = e3_tmp_front + e3_tmp_back/60
-    e3_back = e3_tmp_back%60
+    e3_front = e3_tmp_front + e3_tmp_back / 60
+    e3_back = e3_tmp_back % 60
 
     e3_total = str(e3_front) + '시간 ' + str(e3_back) + '분'
 
     print "e4_tmp_front -> ", e4_tmp_front
     print "e4_tmp_back -> ", e4_tmp_back
-    print "e4_tmp_back/60 -> ", e4_tmp_back/60
-    print "e4_tmp_back%60 -> ", e4_tmp_back%60
+    print "e4_tmp_back/60 -> ", e4_tmp_back / 60
+    print "e4_tmp_back%60 -> ", e4_tmp_back % 60
 
     e4_front = e4_tmp_front + e4_tmp_back / 60
     e4_back = e4_tmp_back % 60
@@ -1165,6 +1166,7 @@ def series_print(request, id):
 
     return render_to_response('community/series_print.html', context)
 
+
 class TbBoard(models.Model):
     board_id = models.AutoField(primary_key=True)
     head_title = models.CharField(max_length=50, blank=True, null=True)
@@ -1183,9 +1185,30 @@ class TbBoard(models.Model):
         db_table = 'tb_board'
         app_label = 'tb_board'
 
+
+class TbAttach(models.Model):
+    group_name = models.CharField(max_length=255, blank=True, null=True)
+    group_id = models.CharField(max_length=255, blank=True, null=True)
+    real_name = models.CharField(max_length=255, blank=True, null=True)
+    save_name = models.CharField(max_length=255, blank=True, null=True)
+    ext = models.CharField(max_length=10, blank=True, null=True)
+    real_size = models.IntegerField(blank=True, null=True)
+    save_size = models.CharField(max_length=255, blank=True, null=True)
+    save_path = models.CharField(max_length=255, blank=True, null=True)
+    use_yn = models.IntegerField(default=True)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    delete_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_attach'
+        app_label = 'tb_attach'
+
+
 class TbBoardAttach(models.Model):
     attatch_id = models.AutoField(primary_key=True)
-    #board_id = models.ForeignKey('TbBoard', on_delete=models.CASCADE, related_name='attaches', null=True)
+    # board_id = models.ForeignKey('TbBoard', on_delete=models.CASCADE, related_name='attaches', null=True)
     board_id = models.IntegerField(11)
     attach_file_path = models.CharField(max_length=255)
     attatch_file_name = models.CharField(max_length=255)
@@ -1202,6 +1225,7 @@ class TbBoardAttach(models.Model):
         db_table = 'tb_board_attach'
         app_label = 'tb_board_attach'
 
+
 class Memo(models.Model):
     memo_id = models.AutoField(primary_key=True)  # memo_id int(11) primary key auto_increment
     receive_id = models.IntegerField(blank=True, null=True)  # receive_id int(11)
@@ -1217,6 +1241,7 @@ class Memo(models.Model):
         managed = False
         db_table = 'memo'
         app_label = 'memo'
+
 
 @ensure_csrf_cookie
 def memo(request):
@@ -1456,8 +1481,7 @@ def comm_list(request, section=None, curr_page=None):
 
 @ensure_csrf_cookie
 def comm_view(request, section=None, curr_page=None, board_id=None):
-
-    #print "board_id -> ", board_id
+    # print "board_id -> ", board_id
 
     if section == 'N':
         page_title = '공지사항'
@@ -1483,7 +1507,7 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
         cur.execute(query)
         rows = cur.fetchall()
 
-    #print "value -> ", rows[0][0]
+    # print "value -> ", rows[0][0]
 
     if rows[0][0] == 1:
         return render_to_response('community/comm_null.html', context)
@@ -1495,7 +1519,8 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
     board = TbBoard.objects.get(board_id=board_id)
 
     if board:
-        board.files = TbBoardAttach.objects.filter(del_yn='N', board_id=board_id)
+        # board.files = TbBoardAttach.objects.filter(del_yn='N', board_id=board_id)
+        board.files = TbAttach.objects.filter(use_yn=True, group_id=board_id)
 
     section = board.section
 
@@ -1561,7 +1586,7 @@ def comm_file(request, file_id=None):
     try:
         with connections['default'].cursor() as cur:
             query = '''
-                SELECT save_path, save_name
+                SELECT save_path, real_name
                   FROM tb_attach
                  WHERE use_yn = TRUE AND id = {file_id};
             '''.format(file_id=file_id)
@@ -1573,6 +1598,7 @@ def comm_file(request, file_id=None):
         file_name = attach_file[1]
         save_path = save_path.replace('/static/file_upload', '/staticfiles/file_upload') if attach_file[0] else ''
         real_path = '/edx/var/edxapp' + save_path
+
     except Exception as e:
         print 'comm_file error --- s'
         print e
@@ -1583,15 +1609,15 @@ def comm_file(request, file_id=None):
     # filepath = file.attach_file_path.replace('/manage/home/static/upload/', '/edx/var/edxapp/staticfiles/file_upload/') if file.attach_file_path else '/edx/var/edxapp/staticfiles/file_upload/'
     # filename = file.attatch_file_name
 
-    print "디렉토리",(os.getcwd())  # 현재 디렉토리의
+    print "디렉토리", (os.getcwd())  # 현재 디렉토리의
     print 'file_path,,', os.path.dirname(os.path.realpath(__file__))
-    #print "파일",(os.path.realpath(__file__))  # 파일
-    #print "파일의 디렉토리",(os.path.dirname(os.path.realpath(__file__)))  # 파일이 위치한 디렉토리
+    # print "파일",(os.path.realpath(__file__))  # 파일
+    # print "파일의 디렉토리",(os.path.dirname(os.path.realpath(__file__)))  # 파일이 위치한 디렉토리
 
     # if not file or not os.path.exists(filepath + filename):
     if not attach_file or not os.path.exists(real_path):
         print 'filepath  :', save_path
-        return HttpResponse("<script>alert('파일이 존재하지 않습니다 .'); window.history.back();</script>")
+        return HttpResponse("<script>alert('파일이 존재하지 않습니다..'); window.history.back();</script>")
 
     response = HttpResponse(open(real_path, 'rb'), content_type='application/force-download')
 
@@ -2790,12 +2816,12 @@ def comm_list_json(request):
 
     return HttpResponse(data, 'application/json')
 
+
 # ---------- 2018.06.22 Jo Ho Young ---------- #
 
 def cert_survey(request):
     print "survey_chk"
     if request.is_ajax():
-
         Q1 = request.POST.get('Q1')
         Q2 = request.POST.get('Q2')
         Q3 = request.POST.get('Q3')
@@ -2803,13 +2829,13 @@ def cert_survey(request):
         Q5 = request.POST.get('Q5')
         user_id = request.POST.get('user_id')
         course_id = request.POST.get('course_id')
-        #print "Q1-------->",Q1
-        #print "Q2-------->",Q2
-        #print "Q3-------->",Q3
-        #print "Q4-------->",Q4
-        #print "Q5-------->",Q5
-        #print "user_id-------->",user_id
-        #print "course_id-------->",course_id
+        # print "Q1-------->",Q1
+        # print "Q2-------->",Q2
+        # print "Q3-------->",Q3
+        # print "Q4-------->",Q4
+        # print "Q5-------->",Q5
+        # print "user_id-------->",user_id
+        # print "course_id-------->",course_id
 
         with connections['default'].cursor() as cur:
             query = '''
@@ -2822,26 +2848,26 @@ def cert_survey(request):
                               question_05,
                               regist_id)
                   VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{regist_id}')
-            '''.format(course_id=course_id,question_01=Q1,question_02=Q2,question_03=Q3,question_04=Q4,question_05=Q5,regist_id=user_id)
+            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4, question_05=Q5, regist_id=user_id)
 
-            #print "query ===============",query
+            # print "query ===============",query
             cur.execute(query)
 
-        return JsonResponse({"return": "success","course_id":course_id,"question_01":Q1,"question_02":Q2,"question_03":Q3,'question_04':Q4,'question_05':Q5,'regist_id':user_id})
+        return JsonResponse({"return": "success", "course_id": course_id, "question_01": Q1, "question_02": Q2, "question_03": Q3, 'question_04': Q4, 'question_05': Q5, 'regist_id': user_id})
 
     hello = request.GET['hello']
     print "hello", hello
     course_id = request.GET['course_id']
     user_id = request.GET['user_id']
     course_id2 = request.GET['course_id']
-    #print "before = ", hello
+    # print "before = ", hello
 
     hello = hello.split('/certificates/')
     hello = hello[1]
     course_id = course_id
-    user_id=user_id
+    user_id = user_id
 
-    print "course_id = ",course_id
+    print "course_id = ", course_id
 
     course_id2 = course_id2.replace(" ", "+")
 
@@ -2878,35 +2904,33 @@ def cert_survey(request):
 
     if base_time > rows[0][1]:
         print "trus"
-        return redirect('/certificates/'+hello)
+        return redirect('/certificates/' + hello)
 
     else:
         print "false"
         pass
-
-
 
     with connections['default'].cursor() as cur:
         query = '''
                 select course_id, regist_id
                 from survey_result
                 where course_id= '{course_id}' and regist_id='{regist_id}'
-            '''.format(course_id=course_id2,regist_id=user_id)
+            '''.format(course_id=course_id2, regist_id=user_id)
         cur.execute(query)
         rows = cur.fetchall()
 
-    #print "설문 검증 쿼리====>",query
+    # print "설문 검증 쿼리====>",query
 
-    if len(rows) !=0 :
-        return redirect('/certificates/'+hello)
+    if len(rows) != 0:
+        return redirect('/certificates/' + hello)
 
-    context={}
-    context['hello']=hello
-    context['course_id']=course_id
-    context['user_id']=user_id
-    context['display_name']= display_name[0][0]
+    context = {}
+    context['hello'] = hello
+    context['course_id'] = course_id
+    context['user_id'] = user_id
+    context['display_name'] = display_name[0][0]
 
-    return render_to_response("community/cert_survey.html",context)
+    return render_to_response("community/cert_survey.html", context)
 
 # def dormant_mail(request):
 #     email_list = []
