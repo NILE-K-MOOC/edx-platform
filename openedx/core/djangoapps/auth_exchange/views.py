@@ -190,7 +190,6 @@ class LoginWithAccessTokenView(APIView):
         if not hasattr(request.user, 'backend'):
             request.user.backend = self._get_path_of_arbitrary_backend_for_user(request.user)
 
-        # 모바일 웹뷰 401 인증 버그
         #if not self._is_grant_password(request.auth):
         #    raise AuthenticationFailed({
         #        u'error_code': u'non_supported_token',
