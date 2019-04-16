@@ -2212,8 +2212,7 @@ button#intro_shot {
 
 .faq-tab > a.dash-link {
 	display: table-cell;
-	padding: 15px 0 0 0;
-    font-weight: 500;
+	padding: 15px 0;
     color: #fff;
     background: #51575a;
     text-align: center;
@@ -2250,6 +2249,15 @@ button#intro_shot {
 .email_span select {width: 100%; }
 .board-write .email_qarea tbody tr td #search_con {height: 35px;}
 .board-write .email_qarea tbody tr td textarea {height: 120px;  width: 100%;}
+
+.course-info header.course-profile .intro-inner-wrapper .intro .main-cta {
+	padding-top: 10px;
+    border-top: 1px solid #c8c8c8;
+}
+
+.course-info header.course-profile .intro-inner-wrapper .intro>.heading-group {
+	border-bottom: none;
+}
 
 @media screen and (max-width: 550px) and (min-width: 0px){
 	#search_search{width: 60%;}
