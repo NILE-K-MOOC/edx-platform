@@ -498,7 +498,7 @@ def multisite_index(request, org):
     # 파라미터 방식
     if login_type == 'P':
         # 암호화 데이터 (get, post 구분 없음)
-        if request.GET.get('encStr') or request.POST.multisite_btn()get('encStr'):
+        if request.GET.get('encStr') or request.POST.get('encStr'):
             if request.GET.get('encStr'):
                 encStr = request.GET.get('encStr')
             elif request.POST.get('encStr'):
