@@ -498,7 +498,7 @@ def multisite_index(request, org):
     # 파라미터 방식
     if login_type == 'P':
         # 암호화 데이터 (get, post 구분 없음)
-        if request.GET.get('encStr') or request.POST.get('encStr'):
+        if request.GET.get('encStr') or request.POST.multisite_btn()get('encStr'):
             if request.GET.get('encStr'):
                 encStr = request.GET.get('encStr')
             elif request.POST.get('encStr'):
@@ -608,6 +608,7 @@ def multisite_index(request, org):
         url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
         print "url -> ", url
         if not request.user.is_authenticated:
+            request.session['multisite_mode'] = 0
             return redirect(url)
 
     # basic logic
