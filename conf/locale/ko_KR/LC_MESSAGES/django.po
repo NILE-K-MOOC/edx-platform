@@ -27601,3 +27601,5 @@ msgstr "무엇을 배우고 싶으신가요?"
 msgid "Inquiry Type"
 msgstr "문의종류"
 
+msgid "audit course"
+msgstr "청강가능"
