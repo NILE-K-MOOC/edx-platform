@@ -17,8 +17,6 @@ $(document).ready(function () {
         if (e.keyCode == 13)
             search(1);
     });
-
-    $(".board-search-box").append('<div style="float: left; margin-top: 20px; margin-left: 5px;">알림은 발송일로부터 6개월이 지나면 자동 삭제됩니다.</div>');
 });
 
 Date.prototype.yyyymmdd = function () {

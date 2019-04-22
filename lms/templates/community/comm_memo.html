@@ -48,8 +48,9 @@ function delete_all() {
         <input type="text" id="search_search" onkeydown="onKeyDown()" aria-label="검색어 입력" title="검색어 입력">
         <input type="button" id="search" value="검색" title="검색" aria-label="검색">
         <input type="hidden" id="curr_page" value="1">
-        <input type="button" id="delete" value="삭제" title="삭제" aria-label="삭제" onclick="delete_all()">
+        <input type="button" id="delete" style="width: 80px; margin-left: 5px;" value="삭제" title="삭제" aria-label="삭제" onclick="delete_all()">
     </section>
+    <div style="margin: 10px 0;">알림은 발송일로부터 6개월이 지나면 자동 삭제됩니다.</div>
     <section class="memo-list">
         <ul>
             <li class="thead">
