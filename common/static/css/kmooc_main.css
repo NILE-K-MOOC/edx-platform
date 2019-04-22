@@ -1565,7 +1565,8 @@ input[type="radio"].toggle:checked + label {
 
 .kr01-mlogarea div{}
 .mlogarea{float: left;}
-.mlogarea span{float: left;}
+.mlogarea span{float: left;
+  width: 100%;}
 .mlogarea span.mlogin-span{
   width: 30%;}
 .mlogarea span a, .mlogarea span a:visited:not(.btn), .mlogarea span a:not(.btn){padding: 4px 20px;
