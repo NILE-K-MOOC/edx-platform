@@ -1440,9 +1440,12 @@ def comm_list(request, section=None, curr_page=None):
                 board_dict['use_yn'] = board_data.use_yn
 
                 query = '''
-                    SELECT count(attatch_id)
-                      FROM tb_board_attach
-                     WHERE board_id = {board_id} AND del_yn = 'N';
+                    SELECT 
+                        COUNT(id)
+                    FROM
+                        tb_attach
+                    WHERE
+                        group_id = {board_id} use_yn = 'Y';                
                 '''.format(board_id=board_data.board_id)
                 cur.execute(query)
                 cnt = cur.fetchone()[0]
