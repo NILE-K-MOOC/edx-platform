@@ -56,6 +56,7 @@ from openedx.features.enterprise_support.utils import (
 from student.helpers import destroy_oauth_tokens, get_next_url_for_login_page
 from student.message_types import PasswordReset
 from student.models import UserProfile
+from social_django.models import UserSocialAuth
 from student.views import register_user as old_register_view, signin_user as old_login_view
 import third_party_auth
 from third_party_auth import pipeline
@@ -1194,7 +1195,7 @@ def remove_account(request):
 
             # .get() = only result one
             # third_party_auth 설정 후 아래 커멘트를 열어준다.
-            # user_socialauth = UserSocialAuth.objects.filter(user_id=request.user.id)
+            user_socialauth = UserSocialAuth.objects.filter(user_id=request.user.id)
 
             # print 'remove_account s -------------------------------------'
             # print request.user.id
@@ -1228,9 +1229,9 @@ def remove_account(request):
             user_profile.bio = None
             user_profile.profile_image_uploaded_at = None
 
-            # find_user.save()
-            # user_profile.save()
-            # ser_socialauth.delete()
+            find_user.save()
+            user_profile.save()
+            user_socialauth.delete()
 
             logout(request)
         except Exception as e:
