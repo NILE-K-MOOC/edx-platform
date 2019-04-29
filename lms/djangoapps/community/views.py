@@ -1445,7 +1445,7 @@ def comm_list(request, section=None, curr_page=None):
                     FROM
                         tb_attach
                     WHERE
-                        group_id = {board_id} use_yn = 1;                
+                        group_id = {board_id} AND use_yn = 1;
                 '''.format(board_id=board_data.board_id)
                 cur.execute(query)
                 cnt = cur.fetchone()[0]
