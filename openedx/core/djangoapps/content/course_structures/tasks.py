@@ -30,7 +30,7 @@ def _generate_course_structure(course_key):
             block = {
                 "usage_key": key,
                 "block_type": curr_block.category,
-                "display_name": curr_block.display_name,
+                "display_name": unicode(curr_block.display_name),
                 "children": [unicode(child.scope_ids.usage_id) for child in children]
             }
 
