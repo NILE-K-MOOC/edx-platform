@@ -1900,7 +1900,7 @@ def get_contents_stat(request, course_id):  # pylint: disable=unused-argument
     from pymongo import MongoClient
     with MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
                      settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')) as client:
-        db = client.cs_comments_service_development
+        db = client.cs_comments_service
 
         # cursor = db.contents.find({'course_id': str(course_id)})
         cursor = db.contents.aggregate([
@@ -2071,7 +2071,7 @@ def get_contents_view(request, course_id):  # pylint: disable=unused-argument
                     })
                 discussion_info.update({block_id: fields})
 
-        db = client.cs_comments_service_development
+        db = client.cs_comments_service
 
         cursor = db.contents.find({'course_id': c_id}).sort('created_at', -1)
 
