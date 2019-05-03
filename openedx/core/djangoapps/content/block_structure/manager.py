@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Top-level module for the Block Structure framework with a class for managing
 BlockStructures.
@@ -73,7 +74,9 @@ class BlockStructureManager(object):
                     unicode(self.root_block_usage_key),
                 )
             block_structure.set_root_block(starting_block_usage_key)
-        transformers.transform(block_structure)
+        # eucalyptus 버전에서는 사용하지 않은 소스로 판단.
+        # 아래의 로직 사용시 성적보고서 생성 오류 발생됨 확인. (딥러닝 개론)
+        # transformers.transform(block_structure)
         return block_structure
 
     def get_collected(self):
