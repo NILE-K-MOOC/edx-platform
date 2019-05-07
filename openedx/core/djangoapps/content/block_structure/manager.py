@@ -76,7 +76,8 @@ class BlockStructureManager(object):
             block_structure.set_root_block(starting_block_usage_key)
         # eucalyptus 버전에서는 사용하지 않은 소스로 판단.
         # 아래의 로직 사용시 성적보고서 생성 오류 발생됨 확인. (딥러닝 개론)
-        # transformers.transform(block_structure)
+        # 어플에서 강좌 수강 오류 발생하여 주석 제거
+        transformers.transform(block_structure)
         return block_structure
 
     def get_collected(self):
