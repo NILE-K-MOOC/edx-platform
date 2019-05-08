@@ -610,10 +610,18 @@ div.about-side-title p {
             <a href="${course_target}">
           %endif
 
-          <span class="register disabled">${_("You are enrolled in this course")}</span>
-
+          % if enroll_audit:
+            <span class="register disabled">${_("You are enrolled in this audit course")}</span>
+          % else:
+            <span class="register disabled">${_("You are enrolled in this course")}</span>
+          %endif
+              
           %if show_courseware_link:
-            <strong>${_("View Course")}</strong>
+              %if enroll_audit:
+                <strong class="audit">${_("View Audit Course")}</strong>
+              %else:
+                <strong>${_("View Course")}</strong>
+              %endif
             </a>
           %endif
 
