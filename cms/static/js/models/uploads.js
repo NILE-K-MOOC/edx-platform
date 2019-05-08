@@ -25,7 +25,7 @@ define(['backbone', 'underscore', 'gettext'], function(Backbone, _, gettext) {
             }
 
             // 강좌 카드 이미지 업로드 사이즈 제한. 100kb
-            if (attrs.selectedFile && attrs.title == '강좌 대표 이미지를 업로드하세요.' && attrs.selectedFile.size > 102400) {
+            if (attrs.selectedFile && attrs.title == '강좌 대표 이미지를 업로드하세요.' && attrs.selectedFile.size > 100000) {
                 return {
                     message: _.template(gettext('The file size should be under 100KB'))(
                     this.formatValidTypes()
