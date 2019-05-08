@@ -1592,6 +1592,12 @@ def course_about(request, course_id):
         end = loc_dt_end.strftime(fmt)
         enroll_sdate = utc_dt_enroll_start.strftime(fmt)
         enroll_edate = utc_dt_enroll_end.strftime(fmt)
+
+        # 학습자가 등록한 모드 확인
+        enroll_mode, enroll_active = CourseEnrollment.enrollment_mode_for_user(request.user, course.id)
+
+        enroll_audit = True if enroll_mode == 'audit' and enroll_active == True else False
+
         print "later_start", start
         context = {
             'similar_course': similar_course,  # 유사강좌
@@ -1651,7 +1657,8 @@ def course_about(request, course_id):
             'course_level': course_level,
             'study_time': study_time,
             'start': start,
-            'end': end
+            'end': end,
+            'enroll_audit': enroll_audit
         }
 
         return render_to_response('courseware/course_about.html', context)
