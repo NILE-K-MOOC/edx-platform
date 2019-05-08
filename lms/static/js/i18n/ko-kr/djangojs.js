@@ -2088,6 +2088,7 @@
         "semyung": "세명대학교",
         "SJCU": "세종사이버대학교",
         "YuhanUnivK": "유한대학교",
+        "The file size should be under 100KB": "이미지 크기는 100KB 이하 이여야 합니다.",
 
     };
 

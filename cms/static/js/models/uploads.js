@@ -20,6 +20,17 @@ define(['backbone', 'underscore', 'gettext'], function(Backbone, _, gettext) {
                     attributes: {selectedFile: true}
                 };
             }
+
+            // 강좌 카드 이미지 업로드 사이즈 제한. 100kb
+            if (attrs.selectedFile && attrs.selectedFile.size > 102400) {
+                return {
+                    message: _.template(gettext('The file size should be under 100KB'))(
+                    this.formatValidTypes()
+                ),
+                    attributes: {selectedFile: true}
+                };
+            }
+
         },
     // Return a list of this uploader's valid file types
         fileTypes: function() {
