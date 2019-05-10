@@ -1150,7 +1150,9 @@ def create_account_with_params(request, params):
 
     is_third_party_auth_enabled = third_party_auth.is_enabled()
 
-    if is_third_party_auth_enabled and (pipeline.running(request) or third_party_auth_credentials_in_api):
+    # pipeline 에서 비밀번호를 파라미터로 쓰는 내용을 하드 코딩필요
+    # params 에 password2 가 있다면 있는 내용을 사용함
+    if is_third_party_auth_enabled and (pipeline.running(request) or third_party_auth_credentials_in_api) and 'password2' not in params:
         params["password"] = generate_password()
 
     # in case user is registering via third party (Google, Facebook) and pipeline has expired, show appropriate
