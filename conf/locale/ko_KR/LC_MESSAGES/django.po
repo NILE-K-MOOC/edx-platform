@@ -27610,3 +27610,7 @@ msgstr "문의종류"
 
 msgid "audit course"
 msgstr "청강가능"
+
+msgid "More"
+msgstr "더보기"
+

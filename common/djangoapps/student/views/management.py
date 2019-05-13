@@ -111,6 +111,7 @@ import MySQLdb as mdb
 from django.db import connections
 from random import shuffle
 import re
+from copy import deepcopy
 
 log = logging.getLogger("edx.student")
 
@@ -615,6 +616,30 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context['popzone_list'] = popzone_list
     context.update(extra_context)
 
+    limit_length = 125 if request.LANGUAGE_CODE == 'ko-kr' else 95
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT detail_code, {d_name}
+            FROM code_detail
+            WHERE group_code = '002'
+            ORDER BY order_no
+        '''.format(d_name='detail_name' if request.LANGUAGE_CODE == 'ko-kr' else 'detail_Ename')
+        cur.execute(query)
+        m_classfy_list = list(cur.fetchall())
+        random_classfy = deepcopy(m_classfy_list)
+
+        shuffle(random_classfy)
+        len_check = ''
+        for sh_idx, s_classfy in enumerate(random_classfy):
+            if len(len_check + str(s_classfy[1])) <= limit_length:
+                len_check += str(s_classfy[1])
+            else:
+                break
+        tmp = set([shu[0] for shu in random_classfy[:sh_idx]])
+        middle_list = [mid for mid in m_classfy_list if mid[0] not in tmp]
+        context['middle_list'] = middle_list
+        context['random_classfy'] = random_classfy[:sh_idx]
     return render_to_response('index.html', context)
 
 
