@@ -343,7 +343,11 @@ if (
                                 <div class="bxslider-prev"></div>
                                 <div class="bxslider-next"></div>
                             </div>
-                            <span>더보기</span>
+                            <div class="kr01-slider-extend">
+                                <a href="${'/comm_view/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/' + index_list[0][6]}/">
+                                    <span>${_("More")}+</span>
+                                </a>
+                            </div>
                         </div>
 
                         <script type="text/javascript">
@@ -390,7 +394,12 @@ if (
                                         prevSelector: 'div.bxslider-prev',
                                         prevText: '',
                                         nextSelector: 'div.bxslider-next',
-                                        nextText: ''
+                                        nextText: '',
+                                        onSlideBefore: function($slideElement, oldIndex, newIndex) {
+                                            var comm_link = $slideElement.find("a").attr("href");
+                                            var comm_link_gbn = comm_link.split('/');
+                                            $(".kr01-slider-extend").children('a').attr('href', '/' + comm_link_gbn[1] + '/' + comm_link_gbn[2] + '/');
+                                        }
                                     }
                                 ;
 

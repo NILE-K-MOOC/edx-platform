@@ -2186,6 +2186,14 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   padding: 5px 5px 5px 0;
 }
 
+.kr01-slider-extend {
+  font-weight: bold;
+  margin: auto 0;
+  text-align: center;
+  width: 85px;
+  padding-right: 10px;
+}
+
 @media (max-width: 878px){
 .k-int div {font-size: 16px;  width: 100%;}
 }
