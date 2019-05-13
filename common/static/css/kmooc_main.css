@@ -2183,7 +2183,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 
 .kr01-middle-classfy-all li,
 .kr01-middle-classfy-random li{
-  padding: 5px 5px 5px 0;
+  padding: 5px 5px 5px 0 !important;
 }
 
 .kr01-slider-extend {
