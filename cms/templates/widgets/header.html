@@ -11,12 +11,18 @@
   <header class="primary" role="banner">
 
     <div class="wrapper wrapper-l">
+      <h1 class="branding"><a href="/">
+        <img src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+      </a></h1>
       <h1 class="branding">
-        <a class="brand-link" href="/">
-          <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
-        </a>
+          <a class="brand-link" href="/">
+            % if static.get_platform_name() == "K-MOOC":
+            <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+            % else:
+            <img src="${static.url('images/studio-logo-dev.png')}" alt="${settings.STUDIO_NAME}" />
+            % endif
+          </a>
       </h1>
-
       % if context_course:
       <%
             course_key = context_course.id
