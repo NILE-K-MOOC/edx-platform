@@ -27610,3 +27610,67 @@ msgstr "문의종류"
 
 msgid "audit course"
 msgstr "청강가능"
+
+msgid "You have submitted your timed exam."
+msgstr "시간 제한 시험을 제출했습니다."
+
+msgid "After the due date has passed, you can review the exam, but you cannot change your answers."
+msgstr "마감일이 지나면 시험을 볼 수 있지만 답을 변경할 수는 없습니다."
+
+msgid "Make sure that you have selected \"Submit\" for each problem before you submit your exam."
+msgstr "시험을 제출하기 전에 각 문제에 대해 '제출'을 선택했는지 확인하십시오."
+
+msgid "After you submit your exam, your exam will be graded."
+msgstr "시험을 제출하면 시험에 점수가 매겨집니다."
+
+msgid "Yes, submit my timed exam."
+msgstr "네, 시간 제한 시험을 제출하십시오."
+
+msgid "No, I want to continue working."
+msgstr "아니요, 계속 진행하고 싶습니다."
+
+msgid "I am ready to start this timed exam."
+msgstr "이 시간제한 시험을 시작할 준비가되었습니다."
+
+msgid "Because the due date has passed, you are no longer able to take this exam."
+msgstr "기한이 지났기 때문에 더 이상이 시험에 응시할 수 없습니다."
+
+
+msgid "Ask your course team for information about additional time allowances."
+msgstr "추가 시간 에 대한 자세한 내용은 강좌 관리자에게 문의하십시오."
+
+msgid "%(exam_name)s is a Timed Exam (%(total_time)s)"
+msgstr "%(exam_name)s 제한시간은 (%(total_time)s)"
+
+msgid "Are you sure that you want to submit your timed exam?"
+msgstr "시간 제한 시험을 제출 하시겠습니까?"
+
+msgid "This exam has a time limit associated with it."
+msgstr "이 시험에는 시간 제한이 있습니다."
+
+msgid "To pass this exam, you must complete the problems in the time allowed."
+msgstr "이 시험에 합격하려면 허용 된 시간 내에 문제를 완료해야합니다."
+
+msgid "After you select "
+msgstr "선택 후"
+
+msgid "I am ready to start this timed exam,"
+msgstr "이 시간에 맞춘 시험을 시작할 준비가되었습니다."
+
+msgid "you will have "
+msgstr "시험을 완료하고 제출하려면"
+
+msgid " to complete and submit the exam."
+msgstr "이 걸릴 것입니다."
+
+msgid "Can I request additional time to complete my exam?"
+msgstr "시험을 완료하기 위해 추가 시간을 요청할 수 있습니까?"
+
+msgid "If you have disabilities, you might be eligible for an additional time allowance on timed exams. Ask your course team for information about additional time allowances."
+msgstr "장애가있는 경우 시간 제한 시험에 추가 시간 공제 혜택을받을 수 있습니다. 추가 시간 에 대한 자세한 내용은 강좌 관리자에게 문의하십시오."
+
+msgid "To receive credit for problems, you must select \"Submit\" for each problem before you select \"End My Exam\"."
+msgstr "문제에 대한 학점을 받으려면 \"내 시험 끝내기\"를 선택하기 전에 각 문제에 대해 \"제출\"을 선택해야합니다."
+
+
+
