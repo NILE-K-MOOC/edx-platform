@@ -27672,5 +27672,19 @@ msgstr "장애가있는 경우 시간 제한 시험에 추가 시간 공제 혜�
 msgid "To receive credit for problems, you must select \"Submit\" for each problem before you select \"End My Exam\"."
 msgstr "문제에 대한 학점을 받으려면 \"내 시험 끝내기\"를 선택하기 전에 각 문제에 대해 \"제출\"을 선택해야합니다."
 
+msgid "More"
+msgstr "더보기"
+
+msgid "Selected Options Agree"
+msgstr "선택한 답변이 일치합니다"
+
+msgid "Selected Options Differ"
+msgstr "선택한 답변이 일치하지 않습니다"
+
+msgid "The option you selected is the option that the instructor selected."
+msgstr "선택한 답변이 강사가 선택한 답변과 일치합니다."
+
+msgid "The option you selected is not the option that the instructor selected."
+msgstr "선택한 답변이 강사가 선택한 답변과 일치하지 않습니다."
 
 
