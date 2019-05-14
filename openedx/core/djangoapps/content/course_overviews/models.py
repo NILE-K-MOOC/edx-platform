@@ -648,10 +648,6 @@ class CourseOverview(TimeStampedModel):
             else:
                 course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
 
-            print "type(course_overviews) query --- s"
-            print course_overviews.query
-            print "type(course_overviews) query --- e"
-
         return course_overviews
 
     def start_datetime_text(self, format_string="SHORT_DATE", time_zone=utc):
