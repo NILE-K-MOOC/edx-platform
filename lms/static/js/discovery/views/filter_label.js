@@ -21,7 +21,7 @@
 
             render: function() {
                 var data = _.clone(this.model.attributes);
-                data.name = data.name || data.query;
+                data.name = data.name || gettext(data.query);
                 this.className = data.type;
                 this.$el.html(this.tpl(data));
                 return this;
