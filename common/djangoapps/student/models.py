@@ -1720,7 +1720,7 @@ class CourseEnrollment(models.Model):
                 SELECT a.*
                   FROM student_courseenrollment a, course_overviews_courseoverview b
                  WHERE     a.course_id = b.id
-                       AND now() <= b.end
+                       AND now() <= adddate(b.end, INTERVAL 9 HOUR)
                        and a.is_active = 1
                        AND a.user_id = %s
                        AND a.mode != 'audit'
@@ -1739,7 +1739,7 @@ class CourseEnrollment(models.Model):
                              JOIN course_overview_addinfo d ON a.course_id = d.course_id,
                              course_overviews_courseoverview b
                        WHERE     a.course_id = b.id
-                             AND now() > b.end
+                             AND now() > adddate(b.end, INTERVAL 9 HOUR)
                              AND a.user_id = %s
                              AND a.is_active = 1
                              AND a.mode != 'audit'
@@ -1754,7 +1754,7 @@ class CourseEnrollment(models.Model):
                              JOIN course_overview_addinfo d ON a.course_id = d.course_id,
                              course_overviews_courseoverview b
                        WHERE     a.course_id = b.id
-                             AND now() > b.end
+                             AND now() > adddate(b.end, INTERVAL 9 HOUR)
                              AND a.user_id = %s
                              AND a.is_active = 1
                              AND d.audit_yn = 'Y'
