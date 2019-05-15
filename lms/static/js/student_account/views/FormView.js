@@ -235,6 +235,7 @@
             },
 
             submitForm: function(event,target) {
+
                 $(window).unbind("beforeunload");
                 $('.submission-error h4').removeClass('hidden');
                 var data = this.getFormData(target);
@@ -245,7 +246,7 @@
                 this.toggleDisableButton(true);
 
                 // 비밀번호를 재입력값이 동일한지 확인하고 오류 메세지를 표시하도록 함
-                if($("#register-password").val() != $("#register-password2").val()){
+                if($("#register-password2").length && $("#register-password").val() != $("#register-password2").val()){
                     this.errors.push("<li>"+ gettext('is not correct bettween passwords') +"</li>");
                     $("label[for='register-password']").addClass("error");
                     $("#register-password2").addClass("error");

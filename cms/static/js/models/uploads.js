@@ -12,6 +12,9 @@ define(['backbone', 'underscore', 'gettext'], function(Backbone, _, gettext) {
             fileFormats: []
         },
         validate: function(attrs, options) {
+
+
+
             if (attrs.selectedFile && !this.checkTypeValidity(attrs.selectedFile)) {
                 return {
                     message: _.template(gettext('Only <%= fileTypes %> files can be uploaded. Please select a file ending in <%= fileExtensions %> to upload.'))(  // eslint-disable-line max-len
@@ -20,6 +23,17 @@ define(['backbone', 'underscore', 'gettext'], function(Backbone, _, gettext) {
                     attributes: {selectedFile: true}
                 };
             }
+
+            // 강좌 카드 이미지 업로드 사이즈 제한. 100kb
+            if (attrs.selectedFile && attrs.title == '강좌 대표 이미지를 업로드하세요.' && attrs.selectedFile.size > 100000) {
+                return {
+                    message: _.template(gettext('The file size should be under 100KB'))(
+                    this.formatValidTypes()
+                ),
+                    attributes: {selectedFile: true}
+                };
+            }
+
         },
     // Return a list of this uploader's valid file types
         fileTypes: function() {

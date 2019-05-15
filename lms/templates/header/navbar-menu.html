@@ -31,7 +31,12 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     help_link = doc_link
 %>
 
+% if static.get_platform_name() == "K-MOOC":
 <section class="courses-container kre01_gnbarea">
+% else:
+<section class="courses-container kre01_gnbarea" style="background: #aaa !important;">
+% endif
+
         <section class="highlighted-courses">
 
             <nav class="kr01nav">

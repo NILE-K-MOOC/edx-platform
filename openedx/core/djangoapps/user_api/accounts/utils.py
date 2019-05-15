@@ -190,5 +190,6 @@ def generate_password(length=12, chars=string.letters + string.digits):
     password = ''
     password += choice(string.digits)
     password += choice(string.letters)
+    password += '!'
     password += ''.join([choice(chars) for _i in xrange(length - 2)])
     return password

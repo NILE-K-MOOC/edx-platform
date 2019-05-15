@@ -977,15 +977,16 @@ class RegistrationFormFactory(object):
                                 )
 
                     # Hide the password field
-                    form_desc.override_field_properties(
-                        "password",
-                        default="",
-                        field_type="hidden",
-                        required=False,
-                        label="",
-                        instructions="",
-                        restrictions={}
-                    )
+                    if running_pipeline['backend'] not in ['lifelongedu', 'allprovider', 'nec', 'nhi']:
+                        form_desc.override_field_properties(
+                            "password",
+                            default="",
+                            field_type="hidden",
+                            required=False,
+                            label="",
+                            instructions="",
+                            restrictions={}
+                        )
                     # used to identify that request is running third party social auth
                     form_desc.add_field(
                         "social_auth_provider",

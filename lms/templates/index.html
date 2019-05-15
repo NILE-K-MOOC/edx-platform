@@ -155,6 +155,15 @@ if (
 </style>
 <!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
 
+%if request.user.id and not request.user.is_active:
+  <script>
+    setTimeout(function () {
+        alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
+        document.location.href = "/logout";
+    }, 500);
+  </script>
+%endif
+
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="kr01">
       <header>
