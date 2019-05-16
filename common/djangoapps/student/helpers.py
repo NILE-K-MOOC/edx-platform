@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Helpers for the student app.
 """
@@ -501,12 +502,13 @@ def _cert_info(user, course_overview, cert_status):
     status = template_state.get(cert_status['status'], default_status)
     is_hidden_status = status in ('unavailable', 'processing', 'generating', 'notpassing', 'auditing')
 
-    if (
-        not certificates_viewable_for_course(course_overview) and
-        (status in CertificateStatuses.PASSED_STATUSES) and
-        course_overview.certificate_available_date
-    ):
-        status = certificate_earned_but_not_available_status
+    # 이수증 생성후 바로 학습자가 볼수 있도록 다음의 로직을 비활성화 함
+    # if (
+    #     not certificates_viewable_for_course(course_overview) and
+    #     (status in CertificateStatuses.PASSED_STATUSES) and
+    #     course_overview.certificate_available_date
+    # ):
+    #     status = certificate_earned_but_not_available_status
 
     if (
         course_overview.certificates_display_behavior == 'early_no_info' and
