@@ -558,7 +558,7 @@ ul.bxslider {
 .slider .slide{    display: inherit;
   height: 30px;     white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden; width: 100% !important;}
+  overflow: hidden; width: 95% !important;}
 
 .slider .slide:nth-of-type(1) {
   background: none;
