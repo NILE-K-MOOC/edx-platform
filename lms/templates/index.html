@@ -396,7 +396,7 @@ if (
                                         slideSelector: '.slider article.slide',
                                         minSlides: 1,
                                         maxSlides: 1,
-                                        auto: true,
+                                        auto: ($('#board_slider').children().length < 2) ? false : true,
                                         autoHover: true,
                                         infiniteLoop: true,
                                         controls: true,

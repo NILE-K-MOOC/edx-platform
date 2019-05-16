@@ -448,6 +448,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     FROM tb_board
                    WHERE section = 'N'
                    and use_yn = 'Y'
+                   and odby > 0
                 ORDER BY odby DESC, reg_date DESC
                    limit 5)
             union all
@@ -472,6 +473,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     FROM tb_board
                    WHERE section = 'K'
                    and use_yn = 'Y'
+                   and odby > 0
                 ORDER BY odby DESC, reg_date DESC
                     limit 5)
             union all
@@ -494,6 +496,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     FROM tb_board
                    WHERE section = 'R'
                    and use_yn = 'Y'
+                   and odby > 0
                 ORDER BY odby DESC, reg_date DESC
                    limit 5)
             union all
@@ -520,6 +523,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     FROM tb_board
                    WHERE section = 'F'
                      and use_yn = 'Y'
+                     and odby > 0
                 ORDER BY odby DESC, reg_date DESC
                    limit 5)
             union all
@@ -535,6 +539,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     FROM tb_board
                    WHERE section = 'M'
                      and use_yn = 'Y'
+                     and odby > 0
                 ORDER BY odby DESC, reg_date DESC
                    limit 5)
             ORDER BY odby DESC, reg_date DESC;
@@ -543,6 +548,123 @@ def index(request, extra_context=None, user=AnonymousUser()):
     index_list = []
     cur.execute(query)
     row = cur.fetchall()
+    if len(row) <= 0:
+        with connections['default'].cursor() as cur:
+            query = """
+                    (  SELECT board_id,
+                         CASE
+                             WHEN head_title = 'noti_n' THEN '[공지]'
+                             WHEN head_title = 'advert_n' THEN '[공고]'
+                             WHEN head_title = 'guide_n' THEN '[안내]'
+                             WHEN head_title = 'event_n' THEN '[이벤트]'
+                             WHEN head_title = 'etc_n' THEN '[기타]'
+                             ELSE ''
+                         END
+                             head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             '',
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'N'
+                       and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                union all
+                    (  SELECT board_id,
+                         CASE
+                             WHEN head_title = 'k_news_k' THEN '[K-MOOC소식]'
+                             WHEN head_title = 'report_k' THEN '[보도자료]'
+                             WHEN head_title = 'u_news_k' THEN '[대학뉴스]'
+                             WHEN head_title = 'support_k' THEN '[서포터즈이야기]'
+                             WHEN head_title = 'n_new_k' THEN '[NILE소식]'
+                             WHEN head_title = 'etc_k' THEN '[기타]'
+                             ELSE ''
+                         END
+                             head_title,
+                             subject,
+                             mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             '',
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'K'
+                       and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                        limit 5)
+                union all
+                    (  SELECT board_id,
+                         CASE
+                             WHEN head_title = 'publi_r' THEN '[홍보자료]'
+                             WHEN head_title = 'data_r' THEN '[자료집]'
+                             WHEN head_title = 'repo_r' THEN '[보고서]'
+                             WHEN head_title = 'etc_r' THEN '[기타]'
+                             ELSE ''
+                         END
+                             head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             '',
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'R'
+                       and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                union all
+                    (  SELECT board_id,
+                         CASE
+                              WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+                              WHEN head_title = 'regist_f ' THEN '[회원가입]'
+                              WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+                              WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+                              WHEN head_title = 'course_f ' THEN '[강좌수강]'
+                              WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+                              WHEN head_title = 'tech_f ' THEN '[기술적문제]'
+                              WHEN head_title = 'mobile_f ' THEN '[모바일앱]'
+                              ELSE ''
+                           END
+                              head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             head_title,
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'F'
+                         and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                union all
+                    (  SELECT board_id,
+                             '' head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             head_title,
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'M'
+                         and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                ORDER BY odby DESC, reg_date DESC;
+                    """
+            cur.execute(query)
+            row = cur.fetchall()
+
     for i in row:
         value_list = []
         value_list.append(i[0])
@@ -562,6 +684,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         value_list.append(i[6])
         value_list.append(text1)
         index_list.append(value_list)
+
 
     context['index_list'] = index_list
 
