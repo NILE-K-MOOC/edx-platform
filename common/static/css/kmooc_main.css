@@ -2174,12 +2174,12 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   position: relative;
   display: none;
   word-break: break-word;
-  padding: 0 50px 0 20px;
+  padding: 0 50px 0 0;
   padding-bottom: 15px !important;
 }
 
 .kr01-middle-classfy-random {
-  padding: 0 70px 0 0;
+  padding: 0 50px 0 0;
 }
 
 .kr01-middle-classfy-all li,
