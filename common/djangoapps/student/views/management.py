@@ -739,7 +739,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     extra_context['popzone_list'] = popzone_list
     context.update(extra_context)
 
-    limit_length = 125 if request.LANGUAGE_CODE == 'ko-kr' else 95
+    limit_length = 140 if request.LANGUAGE_CODE == 'ko-kr' else 110
 
     with connections['default'].cursor() as cur:
         query = '''
