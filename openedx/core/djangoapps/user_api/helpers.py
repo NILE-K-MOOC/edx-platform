@@ -460,6 +460,49 @@ def shim_student_view(view_func, check_logged_in=False):
             edx_userid = u1.id        # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
             edx_useremail = u1.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
 
+        print "edx_userid -> ", edx_userid
+        print "edx_useremail -> ", edx_useremail
+
+        print "------------------------------------------ c1"
+        print ('multisite_userid' in request.session)
+        print "------------------------------------------ c2"
+        print ('multisite_org' in request.session)
+        print "------------------------------------------"
+
+        # passparam logic
+        if 'multisite_userid' not in request.session and 'multisite_org' in request.session:
+            multisite_org = request.session['multisite_org']
+
+            with connections['default'].cursor() as cur:
+                sql = '''
+                    SELECT b.email
+                      FROM multisite_member AS a
+                      JOIN auth_user AS b
+                      ON a.user_id = b.id
+                      JOIN multisite as c
+                      ON a.site_id = c.site_id
+                     WHERE a.user_id = '{0}' and c.site_code = '{1}';
+                '''.format(edx_userid, multisite_org)
+                print sql
+                cur.execute(sql)
+                rows = cur.fetchall()
+            # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
+                try:
+                    cnt = rows[0][0]  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
+                except BaseException:
+                    cnt = 0  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
+
+            print "cnt -> ", cnt
+            print "cnt -> ", cnt
+            print "cnt -> ", cnt
+
+            if cnt != 0: # 멀티사이트 이메일 있을 경우
+                pass
+            else: # 멀티사이트 연동 이메일 없을 경우
+                error_lock = 1
+                request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed@'
+
+        # prameter logic
         if 'multisite_userid' in request.session and 'multisite_org' in request.session: # <- 멀티사이트가 아닐 경우 (null exception 처리)
             multisite_userid = request.session['multisite_userid']
             multisite_org = request.session['multisite_org']
@@ -561,6 +604,10 @@ def shim_student_view(view_func, check_logged_in=False):
                 msg = "이미 등록되어 있는 사용자 입니다. {0}".format(user_email)
             if duplication_lock == 1:
                 msg = "다른 사번으로 이미 등록되어 있는 사용자 입니다."
+
+        if 'multisite_userid' not in request.session and 'multisite_org' in request.session:  # <- 멀티사이트가 아닐 경우 (null exception 처리)
+            if error_lock == 1:
+                msg = "기관연계가 되어있지 않은 사용자 입니다."
         # ------------------------------------------------------------------------------ 멀티사이트 로직 종료 [e]
 
         # If the user is not authenticated when we expect them to be
