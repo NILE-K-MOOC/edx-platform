@@ -743,10 +743,15 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     with connections['default'].cursor() as cur:
         query = '''
-            SELECT detail_code, {d_name}
-            FROM code_detail
-            WHERE group_code = '002'
-            ORDER BY order_no
+              SELECT detail_code, {d_name}
+                FROM code_detail a
+                     JOIN course_overview_addinfo b ON a.detail_code = b.middle_classfy
+                     JOIN course_overviews_courseoverview c ON b.course_id = c.id
+               WHERE     group_code = '002'
+                     AND c.catalog_visibility = 'both'
+                     AND adddate(c.enrollment_start, INTERVAL 9 HOUR) <= now()
+            GROUP BY middle_classfy
+            ORDER BY order_no;
         '''.format(d_name='detail_name' if request.LANGUAGE_CODE == 'ko-kr' else 'detail_Ename')
         cur.execute(query)
         m_classfy_list = list(cur.fetchall())

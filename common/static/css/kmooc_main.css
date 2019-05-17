@@ -2131,6 +2131,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 
 .kr01-arrow {
+  width: 71px;
   right: 15px;
   padding-right: 25px;
   padding-top: 6px;
@@ -2173,7 +2174,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   position: relative;
   display: none;
   word-break: break-word;
-  padding: 0 20px;
+  padding: 0 86px 0 20px;
   padding-bottom: 15px !important;
 }
 
