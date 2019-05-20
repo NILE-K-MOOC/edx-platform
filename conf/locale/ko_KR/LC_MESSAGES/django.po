@@ -27686,5 +27686,3 @@ msgstr "선택한 답변이 강사가 선택한 답변과 일치합니다."
 
 msgid "The option you selected is not the option that the instructor selected."
 msgstr "선택한 답변이 강사가 선택한 답변과 일치하지 않습니다."
-
-
