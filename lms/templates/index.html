@@ -53,6 +53,9 @@ function popClose(id){
 
 function setCookie( name, value, expiredays ) {
     var todayDate = new Date();
+    if(expiredays == '0'){
+        expiredays = '999';
+    }
     todayDate.setDate( todayDate.getDate() + Number(expiredays) );
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
