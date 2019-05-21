@@ -1758,26 +1758,6 @@ def settings_handler(request, course_key_string):
                 )
 
 
-def course_difficult_degree(request, course_key_string):
-    with connections['default'].cursor() as cur:
-        query = '''
-          SELECT
-                detail_code, detail_name, detail_ename
-            FROM code_detail
-           WHERE group_code = '007'
-           AND   use_yn = 'Y'
-           AND   delete_yn = 'N'
-           ORDER BY detail_code asc
-        '''
-        cur.execute(query)
-        rows = cur.fetchall()
-        difficult_degree = {
-            'degree_list': rows
-        }
-        cur.close()
-    return difficult_degree
-
-
 @login_required
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT", "DELETE"))
@@ -2145,27 +2125,6 @@ def advanced_settings_handler(request, course_key_string):
                     )
 
 
-def course_need_lock(request, course_key_string):
-    if not request.user.is_staff and str(course_key_string).startswith('course'):
-        from django.db import connections
-        with connections['default'].cursor() as cursor:
-            cursor.execute('''
-              SELECT a.course_id,
-                     if(now() > min(b.created_date) OR now() > adddate(a.created, INTERVAL 1 YEAR), 1, 0) need_lock
-                FROM course_structures_coursestructure a
-                     LEFT JOIN certificates_generatedcertificate b
-                        ON a.course_id = b.course_id
-               WHERE a.course_id = %s
-            GROUP BY a.course_id, a.created;
-            ''', [course_key_string])
-            desc = cursor.description
-            result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()][0]
-        need_lock = result['need_lock']
-    else:
-        need_lock = 0
-    return need_lock
-
-
 class TextbookValidationError(Exception):
     "An error thrown when a textbook input is invalid"
     pass
@@ -2176,13 +2135,21 @@ def course_need_lock(request, course_key_string):
         from django.db import connections
         with connections['default'].cursor() as cursor:
             cursor.execute('''
-              SELECT a.course_id,
-                     if(now() > min(b.created_date) OR now() > adddate(a.created, INTERVAL 1 YEAR), 1, 0) need_lock
-                FROM course_structures_coursestructure a
-                     LEFT JOIN certificates_generatedcertificate b
-                        ON a.course_id = b.course_id
-               WHERE a.course_id = %s
-            GROUP BY a.course_id, a.created;
+                SELECT 
+                    a.course_id,
+                    IF(NOW() > MIN(b.created_date)
+                            OR NOW() > ADDDATE(c.end, INTERVAL 30 DAY),
+                        1,
+                        0) need_lock
+                FROM
+                    course_structures_coursestructure a
+                        JOIN
+                    course_overviews_courseoverview c ON a.course_id = c.id
+                        LEFT JOIN
+                    certificates_generatedcertificate b ON a.course_id = b.course_id
+                WHERE
+                    a.course_id = %s
+                GROUP BY a.course_id , a.created;                           
             ''', [course_key_string])
             desc = cursor.description
             result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()][0]

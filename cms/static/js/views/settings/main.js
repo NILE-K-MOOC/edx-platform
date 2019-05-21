@@ -1269,6 +1269,8 @@ console.log(teacher_name);
                     $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
                     $("#course-language").attr("disabled", true).css("background", "#ccc");
                     $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
+                    $("#teacher_name").attr("disabled", true).css("background", "#ccc");
+                    $("#selectfixid").attr("disabled", true).css("background", "#ccc");
 
                 }
 
