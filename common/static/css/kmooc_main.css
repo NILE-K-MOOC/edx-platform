@@ -191,7 +191,7 @@ i.fa.fa-bullhorn.fa-2x.fivemenarea-icon {
 }
 
 /* 공지사항 */
-.kr01_alert{background: #f7f9fa; margin-bottom: 23px; padding-bottom: 0px;}
+.kr01_alert{background: #f7f9fa; padding-bottom: 0px;}
 .kr01_alertarea{ padding: 20px 0px; position: relative; display: flex; align-items: stretch; width: 100%;}
 
 .kr01_alertarea ul, .kr01_SnsArea ul {margin: 0px;}
@@ -558,7 +558,7 @@ ul.bxslider {
 .slider .slide{    display: inherit;
   height: 30px;     white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden; width: 100% !important;}
+  overflow: hidden; width: 95% !important;}
 
 .slider .slide:nth-of-type(1) {
   background: none;
@@ -2128,6 +2128,77 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   max-height: 260px;
   overflow: hidden;
   padding: 5px;
+}
+
+.kr01-arrow {
+  /*width: 71px;*/
+  right: 15px;
+  padding-right: 35px;
+  padding-top: 6px;
+  color: #525455 !important;
+  font-weight: bold;
+  position: absolute;
+}
+
+.kr01-arrow::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid #525455;
+    border-bottom: none;
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+.kr01-arrow.active::before {
+    border-top: none;
+    border-bottom: 10px solid #525455;
+}
+
+.kr01-middle-classfy {
+    width: 100%;
+    padding-top: 8px;
+    position: relative;
+}
+
+.kr01-mid-name {
+    color: #4185c4;
+    padding-right: 12px;
+}
+
+.kr01-middle-classfy-all {
+  width: 100%;
+  position: relative;
+  display: none;
+  word-break: break-word;
+  padding: 0 50px 0 0;
+  padding-bottom: 15px !important;
+}
+
+.kr01-middle-classfy-random {
+  padding: 0 50px 0 0;
+}
+
+.kr01-middle-classfy-all li,
+.kr01-middle-classfy-random li{
+  padding: 5px 5px 5px 0 !important;
+}
+
+.kr01-slider-extend {
+  font-weight: bold;
+  margin: auto 0;
+  text-align: center;
+  width: 85px;
+  padding-right: 10px;
+}
+
+.kr01-mcls-icon {
+    color: #4185c4;
+    margin-right: 13px;
+    margin-top: 2px;
 }
 
 @media (max-width: 878px){

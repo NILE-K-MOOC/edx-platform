@@ -41,6 +41,8 @@ def certificates_viewable_for_course(course):
         and course.certificate_available_date <= datetime.now(UTC)
     ):
         return True
+    if course.has_ended():
+        return True
     if (
         course.certificate_available_date is None
         and course.has_ended()
