@@ -407,7 +407,8 @@ def _section_certificates(course):
                 'list_instructor_tasks',
                 kwargs={'course_id': course.id}
             ),
-        }
+        },
+        'has_cert': GeneratedCertificate.objects.filter(course_id=course.id).exists()
     }
 
 

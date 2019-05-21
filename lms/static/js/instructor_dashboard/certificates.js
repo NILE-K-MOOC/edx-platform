@@ -41,13 +41,24 @@ var onCertificatesReady = null;
          */
         var $section = $('section#certificates');
         $section.on('click', '#btn-start-generating-certificates', function(event) {
+
+            var $btn_generating_certs = $(this),
+                $certificate_generation_status = $('.certificate-generation-status');
+
             if (!confirm(gettext('Start generating certificates for all students in this course?'))) {
                 event.preventDefault();
                 return;
             }
 
-            var $btn_generating_certs = $(this),
-                $certificate_generation_status = $('.certificate-generation-status');
+            var has_cert = $btn_generating_certs.data('has_cert');
+
+            if(has_cert && has_cert == 'True'){
+                if (!confirm(gettext('This course has certificates. generating again?'))) {
+                    event.preventDefault();
+                    return;
+                }
+            }
+
             var url = $btn_generating_certs.data('endpoint');
             $.ajax({
                 type: 'POST',
