@@ -270,8 +270,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             cur.execute(query)
             result_table = cur.fetchall()
 
-            print "result_table -> ", result_table
-            print "====================================> 강좌 상태값 연산 시작"
+            #print "result_table -> ", result_table
+            #print "====================================> 강좌 상태값 연산 시작"
 
             # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
             client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
@@ -286,9 +286,9 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_course = data_ci[1]
                 c_name = data_ci[2]
 
-                print "c_org -> ", c_org
-                print "c_course -> ", c_course
-                print "c_name -> ", c_name
+                #print "c_org -> ", c_org
+                #print "c_course -> ", c_course
+                #print "c_name -> ", c_name
 
                 db = client["edxapp"]
                 cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
@@ -307,8 +307,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                     course_overviews = CourseOverview.objects.get(id=multi_course_id)
-                    print "course_overviews -> ", course_overviews
-                    print "------------------------------------"
+                    #print "course_overviews -> ", course_overviews
+                    #print "------------------------------------"
                     # 강좌에 audit / ribbon 상태 값 부여
                     course_overviews.audit_yn = item[1]
                     course_overviews.ribbon_yn = item[2]
@@ -328,8 +328,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     course_overviews.teacher_name[0] = teacher_name
                     course_overviews.teacher_name[1] = teacher_name_cnt
 
-                    print "teacher_name -> ", teacher_name
-                    print "teacher_name_cnt -> ", teacher_name_cnt
+                    #print "teacher_name -> ", teacher_name
+                    #print "teacher_name_cnt -> ", teacher_name_cnt
 
                     course_list.append(course_overviews)
 

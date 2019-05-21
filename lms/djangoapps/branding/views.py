@@ -485,6 +485,10 @@ def multisite_index(request, org):
     # 접근URL 과 등록URL 비교
     if out_url == 'passkey':
         pass
+    elif out_url == 'passurl':
+        pass
+    elif out_url == 'passparam':
+        pass
     elif out_url == 'debug':
         request.session['multistie_success'] = 1
         user = User.objects.get(email='staff@example.com')
@@ -503,105 +507,110 @@ def multisite_index(request, org):
                 encStr = request.GET.get('encStr')
             elif request.POST.get('encStr'):
                 encStr = request.POST.get('encStr')
+        else:
+            encStr = None
 
         # DEBUG
         # encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
-        # print 'encStr -> ', encStr
 
-        # 암호화 데이터 복호화
-        try:
-            encStr = encStr.replace(' ', '+')
-        except BaseException as err:
-            log.info('-----------------------------------')
-            log.info(err)
-            log.info('-----------------------------------')
-            return redirect('/multisite_error?error=error003')
-
-        try:
-            raw_data = decrypt(key, key, encStr)
-            raw_data = raw_data.split('&')
-        except BaseException as err:
-            log.info('-----------------------------------')
-            log.info(err)
-            log.info('-----------------------------------')
-            return redirect('/multisite_error?error=error003')
-
-        # DEBUG
-        print 'raw_data -> ', raw_data
-        print "------------------------------------"
-
-        # 복호화 데이터 파싱
-        try:
-            calltime = raw_data[0].split('=')[1]
-            userid = raw_data[1].split('=')[1]
-            orgid = raw_data[2].split('=')[1]
-        except BaseException as err:
-            log.info('-----------------------------------')
-            log.info(err)
-            log.info('-----------------------------------')
-            return redirect('/multisite_error?error=error004')
-
-        # DEBUG
-        print 'calltime -> ', calltime
-        print 'userid -> ', userid
-        print 'orgid -> ', orgid
-        print "------------------------------------"
-
-        # 호출시간 파싱
-        calltime = str(calltime)
-        year = int(calltime[0:4])
-        mon = int(calltime[4:6])
-        day = int(calltime[6:8])
-        hour = int(calltime[8:10])
-        min = int(calltime[10:12])
-        sec = int(calltime[12:14])
-        java_calltime = datetime(year, mon, day, hour, min, sec)
-        python_calltime = datetime.utcnow() + timedelta(hours=9)
-
-        # DEBUG
-        print 'java_calltime -> ', java_calltime
-        print 'python_calltime -> ', python_calltime
-        print "------------------------------------"
-
-        # 호출시간 만료 체크
-        #if java_calltime + timedelta(seconds=180) < python_calltime:
-        #    return redirect('/multisite_error?error=error005')
-
-        # 복호화 기관코드와 접속 기관코드 비교
-        if org != orgid:
-            return redirect('/multisite_error?error=error006')
-
-        # 기관연계 된 회원인지 확인
-        with connections['default'].cursor() as cur:
-            sql = '''
-                   SELECT user_id
-                   FROM multisite_member as a
-                   join multisite as b
-                   on a.site_id = b.site_id
-                   where site_code = '{0}'
-                   and org_user_id = '{1}'
-               '''.format(org, userid)
-
-            cur.execute(sql)
-            rows = cur.fetchall()
-
-        print 'len(rows) -> ', len(rows)
-
-        # 기관연계 된 회원이라면 SSO 로그인
-        if len(rows) != 0:
-            request.session['multistie_success'] = 1
-            user = User.objects.get(pk=rows[0][0])
-            user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
-            login(request, user)
-
-            if zero_mode == 0:
-                request.session['multisite_zero'] = 1
-                return redirect('/')
-        # 아니라면 에러페이지 리다이렉트
-        else:
-            request.session['multistie_success'] = 1
-            request.session['multisite_userid'] = userid
+        if out_url == 'passparam' and encStr == None:
+            request.session['multisite_mode'] = 2
             return redirect('/login')
+        elif (out_url == 'passparam' and encStr != None) or (out_url != 'passparam'):
+            # 암호화 데이터 복호화
+            try:
+                encStr = encStr.replace(' ', '+')
+            except BaseException as err:
+                log.info('-----------------------------------')
+                log.info(err)
+                log.info('-----------------------------------')
+                return redirect('/multisite_error?error=error003')
+
+            try:
+                raw_data = decrypt(key, key, encStr)
+                raw_data = raw_data.split('&')
+            except BaseException as err:
+                log.info('-----------------------------------')
+                log.info(err)
+                log.info('-----------------------------------')
+                return redirect('/multisite_error?error=error003')
+
+            # DEBUG
+            print 'raw_data -> ', raw_data
+            print "------------------------------------"
+
+            # 복호화 데이터 파싱
+            try:
+                calltime = raw_data[0].split('=')[1]
+                userid = raw_data[1].split('=')[1]
+                orgid = raw_data[2].split('=')[1]
+            except BaseException as err:
+                log.info('-----------------------------------')
+                log.info(err)
+                log.info('-----------------------------------')
+                return redirect('/multisite_error?error=error004')
+
+            # DEBUG
+            print 'calltime -> ', calltime
+            print 'userid -> ', userid
+            print 'orgid -> ', orgid
+            print "------------------------------------"
+
+            # 호출시간 파싱
+            calltime = str(calltime)
+            year = int(calltime[0:4])
+            mon = int(calltime[4:6])
+            day = int(calltime[6:8])
+            hour = int(calltime[8:10])
+            min = int(calltime[10:12])
+            sec = int(calltime[12:14])
+            java_calltime = datetime(year, mon, day, hour, min, sec)
+            python_calltime = datetime.utcnow() + timedelta(hours=9)
+
+            # DEBUG
+            print 'java_calltime -> ', java_calltime
+            print 'python_calltime -> ', python_calltime
+            print "------------------------------------"
+
+            # 호출시간 만료 체크
+            #if java_calltime + timedelta(seconds=180) < python_calltime:
+            #    return redirect('/multisite_error?error=error005')
+
+            # 복호화 기관코드와 접속 기관코드 비교
+            if org != orgid:
+                return redirect('/multisite_error?error=error006')
+
+            # 기관연계 된 회원인지 확인
+            with connections['default'].cursor() as cur:
+                sql = '''
+                       SELECT user_id
+                       FROM multisite_member as a
+                       join multisite as b
+                       on a.site_id = b.site_id
+                       where site_code = '{0}'
+                       and org_user_id = '{1}'
+                   '''.format(org, userid)
+
+                cur.execute(sql)
+                rows = cur.fetchall()
+
+            print 'len(rows) -> ', len(rows)
+
+            # 기관연계 된 회원이라면 SSO 로그인
+            if len(rows) != 0:
+                request.session['multistie_success'] = 1
+                user = User.objects.get(pk=rows[0][0])
+                user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                login(request, user)
+
+                if zero_mode == 0:
+                    request.session['multisite_zero'] = 1
+                    return redirect('/')
+            # 아니라면 에러페이지 리다이렉트
+            else:
+                request.session['multistie_success'] = 1
+                request.session['multisite_userid'] = userid
+                return redirect('/login')
 
     # Oauth 방식
     elif  login_type == 'O':
