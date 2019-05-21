@@ -1743,7 +1743,7 @@ class CourseEnrollment(models.Model):
                              AND a.user_id = %s
                              AND a.is_active = 1
                              AND a.mode != 'audit'
-                    ORDER BY c.created_date DESC, a.created DESC;
+                    ORDER BY if(c.status = 'downloadable', 1, 2), c.created_date DESC, a.created DESC;
             ''', [user.id])
 
     @classmethod

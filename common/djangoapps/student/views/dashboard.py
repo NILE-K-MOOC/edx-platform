@@ -650,7 +650,6 @@ def student_dashboard(request):
     print "multisiteStatus = ", multisiteStatus
 
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
-
     status = request.GET.get('status')
     if status:
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
@@ -685,8 +684,7 @@ def student_dashboard(request):
 
     for c in course_enrollments:
         # 이수증 생성 여부: c.course.has_any_active_web_certificate
-
-        print c.course.id, c.course.display_name, c.course.has_any_active_web_certificate
+        # print c.course.id, c.course.display_name, c.course.has_any_active_web_certificate
 
         if c.course.start and c.course.end and c.course.start > c.course.end:
             continue
@@ -718,36 +716,18 @@ def student_dashboard(request):
     # course_type3.sort(key=lambda x: x.created, reverse=True)
     # course_type4.sort(key=lambda x: x.created, reverse=True)
 
-    '''
-    print 'course 1:'
-    print course_type1
-    print 'course 2:'
-    print course_type2
-    print 'course 3:'
-    print course_type3
-    print 'course 4:'
-    print course_type4
-    '''
-
     course_enrollments = course_type1 + course_type2 + course_type3 + course_type4
-
-    '''
-    print 'check step 1 s'
-    for c in course_enrollments:
-        print c.course.id, c.course.display_name
-    print 'check step 1 e'
-    '''
 
     # Display activation message
     activate_account_message = ''
 
-    print 'is_active', user.is_active
     # message = ""
     # if not user.is_active:
     #     message = render_to_string(
     #         'registration/activate_account_notice.html',
     #         {'email': user.email, 'platform_name': platform_name}
     #     )
+
     if not user.is_active:
 
         activate_account_message = Text(_(
