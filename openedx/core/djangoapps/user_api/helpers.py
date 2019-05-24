@@ -460,9 +460,6 @@ def shim_student_view(view_func, check_logged_in=False):
             edx_userid = u1.id        # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
             edx_useremail = u1.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
 
-        print "edx_userid -> ", edx_userid
-        print "edx_useremail -> ", edx_useremail
-
         print "------------------------------------------ c1"
         print ('multisite_userid' in request.session)
         print "------------------------------------------ c2"
