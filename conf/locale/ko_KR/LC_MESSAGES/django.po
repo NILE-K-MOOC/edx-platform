@@ -27686,3 +27686,6 @@ msgstr "선택한 답변이 강사가 선택한 답변과 일치합니다."
 
 msgid "The option you selected is not the option that the instructor selected."
 msgstr "선택한 답변이 강사가 선택한 답변과 일치하지 않습니다."
+
+msgid "You have attempted to log in 5 times out of [{time}] times left."
+msgstr "로그인 시도 가능횟수 5회 중 [{time}]회 남았습니다."
