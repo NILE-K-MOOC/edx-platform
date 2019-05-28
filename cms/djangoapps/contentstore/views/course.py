@@ -2084,13 +2084,21 @@ def advanced_settings_handler(request, course_key_string):
                         teacher_name = params['teacher_name']['value']
                     try:
                         with connections['default'].cursor() as cur:
-                            query = """
-                                UPDATE course_overview_addinfo
-                                   SET audit_yn = '{audit_yn}',
-                                    teacher_name = '{teacher_name}'
-                                 WHERE course_id = '{course_id}';
-                            """.format(audit_yn=audit_yn, course_id=course_key_string, teacher_name=teacher_name)
-                            cur.execute(query)
+                            if 'audit_yn' in params:
+                                query = """
+                                    UPDATE course_overview_addinfo
+                                       SET audit_yn = '{audit_yn}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(audit_yn=audit_yn, course_id=course_key_string)
+                                cur.execute(query)
+                            if 'teacher_name' in params:
+                                query2 = """
+                                    UPDATE course_overview_addinfo
+                                       SET teacher_name = '{teacher_name}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(course_id=course_key_string,
+                                           teacher_name=teacher_name)
+                                cur.execute(query2)
                     except Exception as e:
                         is_valid = False
                         errors.append({'message': 'audit_yn or teacher_name value is not collect', 'model': None})

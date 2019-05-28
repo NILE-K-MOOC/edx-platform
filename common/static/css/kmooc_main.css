@@ -1823,6 +1823,11 @@ article.course.none .kr01-courInfo-bar{
 
 .kr01_dashArea .kr01_dashTsub{display: inline-block; position: relative; top: 18px; width: 100%; display: flex; justify-content: space-between;}
 .kr01_dashArea .kr01_dashTsub .kr01_dashTs01{display: inline-block; float: left; margin-top: 63px; font-size: 14px; width: 25%;}
+.kr01_dashArea .kr01_dashTsub .kr01_dashTs01:first-child{
+  width: 35%;}
+.kr01_dashArea .kr01_dashTsub .kr01_dashTs01:nth-child(2){
+  width: 15%;
+}
 .kr01_dashArea .kr01_dashTsub .kr01_dashTs01 div:first-child{margin-bottom:10px;}
 
 .kr01_dashBtnArea{float: right;display: inline-block; position: relative;
@@ -1842,7 +1847,8 @@ article.course.none .kr01-courInfo-bar{
 
 @media (max-width: 713px){
   .kr01_dashArea .kr01_dashTarea .kr01_dashTitle{margin-bottom: 15px;}
-  .kr01_dashArea .kr01_dashTsub .kr01_dashTs01{width: 100%; margin-right: 0px; text-align: center; margin-top: 0px;}
+  .kr01_dashArea .kr01_dashTsub .kr01_dashTs01, .kr01_dashArea .kr01_dashTsub .kr01_dashTs01:first-child,
+  .kr01_dashArea .kr01_dashTsub .kr01_dashTs01:nth-child(2){width: 100%; margin-right: 0px; text-align: center; margin-top: 0px;}
   .kr01_dashArea .kr01_dashTsub .kr01_dashTs01 div:first-child{margin-bottom: 0px;}
   .kr01_dashArea .kr01_dashTsub .kr01_dashTs01 div:last-child{margin-bottom: 10px;}
   .kr01_dashBtnArea{width: 100%; margin-top: 15px;}
@@ -1988,7 +1994,7 @@ ul.actions-dropdown-list::before {
 }
 
 .dashboard .main-container .my-courses .course .details .enter-course {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .login-register {
