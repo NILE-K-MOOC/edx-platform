@@ -182,8 +182,7 @@ def _check_excessive_login_attempts(user):
     """
     See if account has been locked out due to excessive login failures
     """
-    # if user and LoginFailures.is_feature_enabled():
-    if user and True:
+    if user and LoginFailures.is_feature_enabled():
         if LoginFailures.is_user_locked_out(user):
             # 계정 잠금 해제 시간을 조회하여 사용자에게 알려줌
             utcnow = datetime.datetime.utcnow()
@@ -294,8 +293,7 @@ def _handle_failed_authentication(user):
     Handles updating the failed login count, inactive user notifications, and logging failed authentications.
     """
     if user:
-        # if LoginFailures.is_feature_enabled():
-        if True:
+        if LoginFailures.is_feature_enabled():
             LoginFailures.increment_lockout_counter(user)
 
         if not user.is_active:
@@ -338,8 +336,7 @@ def _handle_successful_authentication_and_login(user, request):
     """
     Handles clearing the failed login counter, login tracking, and setting session timeout.
     """
-    # if LoginFailures.is_feature_enabled():
-    if True:
+    if LoginFailures.is_feature_enabled():
         LoginFailures.clear_lockout_counter(user)
 
     _track_user_login(user, request)
