@@ -27687,5 +27687,21 @@ msgstr "선택한 답변이 강사가 선택한 답변과 일치합니다."
 msgid "The option you selected is not the option that the instructor selected."
 msgstr "선택한 답변이 강사가 선택한 답변과 일치하지 않습니다."
 
-msgid "You have attempted to log in 5 times out of [{time}] times left."
+msgid "Only [{time}] attempts are remained out of 5 times."
 msgstr "로그인 시도 가능횟수 5회 중 [{time}]회 남았습니다."
+
+msgid "Try again in a [{minutes}] minutes."
+msgstr "[{minutes}]분 후에 다시 시도하세요."
+
+msgid "- Password of K-MOOC is composed of lower-case, numbers and special characters."
+msgstr "- K-MOOC 비밀번호는 영문 소문자, 숫자, 특수문자 3가지를 모두 조합한 9자 이상의 비밀번호를 사용합니다."
+
+msgid "- If you have registered by the other service accounts such as Naver, Facebook, etc., please login with the service."
+msgstr "- 혹 네이버, 페이스북 등 타 서비스 계정을 연동하여 가입 하셨다면 해당 서비스 버튼을 클릭하여 로그인해주세요."
+
+msgid "Please check your email or password."
+msgstr "이메일 또는 비밀번호를 다시 확인하세요."
+
+msgid "This account is temporarily locked due to exceeding the login available count."
+msgstr "이 계정은 로그인 실패 허용 횟수 초과로 인한 일시잠금 상태입니다."
+

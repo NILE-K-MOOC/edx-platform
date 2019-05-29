@@ -488,7 +488,7 @@ class DeactivateLogoutView(APIView):
                 self._handle_failed_authentication(request.user)
         except AuthFailedError as err:
             return Response(text_type(err), status=status.HTTP_403_FORBIDDEN)
-        except Exception as err:  # pylint: disable=broad-except
+        except Exception as err:  # pylint: disable=broad-exceptlockout_until
             return Response(u"Could not verify user password: {}".format(err), status=status.HTTP_400_BAD_REQUEST)
 
     def _check_excessive_login_attempts(self, user):

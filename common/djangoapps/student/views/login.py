@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Views for login / logout and associated functionality
 
@@ -71,6 +72,8 @@ from student.models import (
 from student.helpers import authenticate_new_user, do_create_account
 from third_party_auth import pipeline, provider
 from util.json_request import JsonResponse
+import math
+import pytz
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -81,6 +84,7 @@ class AuthFailedError(Exception):
     This is a helper for the login view, allowing the various sub-methods to early out with an appropriate failure
     message.
     """
+
     def __init__(self, value=None, redirect=None, redirect_url=None):
         self.value = value
         self.redirect = redirect
@@ -178,10 +182,21 @@ def _check_excessive_login_attempts(user):
     """
     See if account has been locked out due to excessive login failures
     """
-    if user and LoginFailures.is_feature_enabled():
+    # if user and LoginFailures.is_feature_enabled():
+    if user and True:
         if LoginFailures.is_user_locked_out(user):
-            raise AuthFailedError(_('This account has been temporarily locked due '
-                                    'to excessive login failures. Try again later.'))
+            # 계정 잠금 해제 시간을 조회하여 사용자에게 알려줌
+            utcnow = datetime.datetime.utcnow()
+            utcnow = utcnow.replace(tzinfo=pytz.utc)
+            lockout_until = LoginFailures.objects.filter(user=user).order_by('-lockout_until')[:1][0].lockout_until
+            minutes = int(math.ceil((lockout_until - utcnow).seconds / 60.0))
+            error_message = _('Try again in a [{minutes}] minutes.').format(minutes=minutes)
+            error_message += '<br/><br/>'
+            error_message += _('- Password of K-MOOC is composed of lower-case, numbers and special characters.')
+            error_message += '<br/><br/>'
+            error_message += _('- If you have registered by the other service accounts such as Naver, Facebook, etc., please login with the service.')
+
+            raise AuthFailedError(error_message)
 
 
 def _check_forced_password_reset(user):
@@ -279,7 +294,8 @@ def _handle_failed_authentication(user):
     Handles updating the failed login count, inactive user notifications, and logging failed authentications.
     """
     if user:
-        if LoginFailures.is_feature_enabled():
+        # if LoginFailures.is_feature_enabled():
+        if True:
             LoginFailures.increment_lockout_counter(user)
 
         if not user.is_active:
@@ -293,14 +309,37 @@ def _handle_failed_authentication(user):
         else:
             AUDIT_LOG.warning(u"Login failed - password for {0} is invalid".format(user.email))
 
-    raise AuthFailedError(_('Email or password is incorrect.'))
+    failure = LoginFailures.objects.filter(user_id=user.id)
+
+    error_message = _('Email or password is incorrect.')
+
+    if failure:
+        failure_count = failure[0].failure_count
+
+        if failure_count > 2:
+            time = 5 - failure_count
+
+            if time < 0:
+                time = 0
+
+            if time == 0:
+                error_message = _('Try again in a [{minutes}] minutes.').format(minutes=5)
+            else:
+                error_message = _('Only [{time}] attempts are remained out of 5 times.').format(time=time)
+            error_message += '<br/><br/>'
+            error_message += _('- Password of K-MOOC is composed of lower-case, numbers and special characters.')
+            error_message += '<br/><br/>'
+            error_message += _('- If you have registered by the other service accounts such as Naver, Facebook, etc., please login with the service.')
+
+    raise AuthFailedError(error_message)
 
 
 def _handle_successful_authentication_and_login(user, request):
     """
     Handles clearing the failed login counter, login tracking, and setting session timeout.
     """
-    if LoginFailures.is_feature_enabled():
+    # if LoginFailures.is_feature_enabled():
+    if True:
         LoginFailures.clear_lockout_counter(user)
 
     _track_user_login(user, request)
@@ -429,6 +468,7 @@ def verify_user_password(request):
         return HttpResponseBadRequest()
 
 
+# 로그인 실패 3회 아상부터 메세지를 추가 (횟수, 시간 등)
 @ensure_csrf_cookie
 def login_user(request):
     """
