@@ -28,7 +28,7 @@ ${page_title}
             </li>
 
             <li class="contents" id="context" title="내용">
-                ${board.content}
+                ${board.content.replace('/home/ubuntu/project/management/', 'http://admin.kmooc.kr/home/ubuntu/project/management/')}
             </li>
 
             % if board.files:
