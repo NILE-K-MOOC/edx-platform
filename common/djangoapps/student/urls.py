@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^modi_course_level', views.modi_course_level, name='modi_course_level'),
     # 교수자 추가/수정
     url(r'^modi_teacher_name', views.modi_teacher_name, name='modi_teacher_name'),
+    # 학습인정시간 파일 다운로드
+    url(r'^guide_download', views.guide_download, name='guide_download'),
 
     # login endpoint used by cms.
     url(r'^login_post$', views.login_user, name='login_post'),

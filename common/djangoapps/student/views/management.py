@@ -111,6 +111,7 @@ import MySQLdb as mdb
 from django.db import connections
 from random import shuffle
 import re
+import os
 from copy import deepcopy
 
 log = logging.getLogger("edx.student")
@@ -2137,3 +2138,13 @@ def text_me_the_app(request):
     }
 
     return render_to_response('text-me-the-app.html', context)
+
+
+@csrf_exempt
+def guide_download(request):
+    if not file or not os.path.exists('/edx/var/edxapp/staticfiles/file_upload/total_study_time.pdf'):
+        pass
+    response = HttpResponse(open('/edx/var/edxapp/staticfiles/file_upload/total_study_time.pdf', 'rb'), content_type='application/force-download')
+
+    response['Content-Disposition'] = 'attachment; filename=%s' % str('K-MOOC 학습인정시간 기준(`18.9.개정).pdf')
+    return response
