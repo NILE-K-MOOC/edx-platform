@@ -849,10 +849,16 @@ ul.bxslider {
 
 .kr01-ftAD01 span.kr01-ftaddr.kr01-ftaddr-01 {
   margin-right: 15px;
+  word-break: keep-all;
 }
 
 .kr01-ftAD01 span.kr01-ftaddr.kr01-ftaddr-02 {
   margin-left: 15px;
+  word-break: keep-all;
+}
+
+span.kr01-ftaddr.kr01-ftaddr-02 a {
+  color: #4587c2 !important;
 }
 
 .kr01-ft-familysite li {
