@@ -88,7 +88,7 @@ function search(page_no) {
             var curr_page = Number($("#curr_page").val());
             $("#all_pages").val(all_pages);
             yesterday.setDate(yesterday.getDate() - 7); // 일주일 이내 등록글은 new 이미지 표시
-            //console.log(data);
+
 
             //for table
             var html = "";
@@ -149,8 +149,14 @@ function search(page_no) {
 
                 //console.log(data[i].subject + ":" + data[i].board_id);
 
-                html += "<li class='tbody'>";
-                html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
+                if (data[i].odby >0){
+                    html += "<li class='tbody' style='border: solid cornflowerblue;'>";
+                }
+                else {
+                    html += "<li class='tbody'>";
+                }
+                //html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
+                html += "   <span class='no'>" + data[i].board_id + "</span>";
                 html += "   <span class='title'><a id='comm_link' href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
                 if (attach_file == 'Y')
                     html += "<img style='margin-right: 5px;' src='/static/images/Clip.png'/>";

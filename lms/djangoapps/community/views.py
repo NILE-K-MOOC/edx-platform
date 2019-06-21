@@ -1456,6 +1456,7 @@ def comm_list(request, section=None, curr_page=None):
                     board_dict['attach_file'] = 'N'
 
                 board_list.append(board_dict)
+                #print board_dict
 
             context = {
                 'total_cnt': total_cnt,
