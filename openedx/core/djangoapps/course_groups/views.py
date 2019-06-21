@@ -24,6 +24,8 @@ from util.json_request import JsonResponse, expect_json
 
 from . import cohorts
 from .models import CohortMembership, CourseUserGroup, CourseUserGroupPartitionGroup
+from django.contrib.admin.models import LogEntry, ADDITION
+from openedx.core.djangoapps.log_action.views import get_meta_json
 
 log = logging.getLogger(__name__)
 
@@ -319,6 +321,15 @@ def add_users_to_cohort(request, course_key_string, cohort_id):
             invalid.append(username_or_email)
         except ValueError:
             present.append(username_or_email)
+
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=62,
+        object_id=0,
+        object_repr='add_users_to_cohort[course_id:%s;cohort_id:%s]' % (course_key_string, cohort_id),
+        action_flag=ADDITION,
+        change_message=get_meta_json(self=None, request=request, count=len(split_by_comma_and_whitespace(users)))
+    )
 
     return json_http_response({'success': True,
                                'added': added,

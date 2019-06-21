@@ -146,6 +146,9 @@ TASK_SUBMISSION_OK = 'created'
 SUCCESS_MESSAGE_TEMPLATE = _("The {report_type} report is being created. "
                              "To view the status of the report, see Pending Tasks below.")
 
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from openedx.core.djangoapps.log_action import views as admin_view
+
 
 def common_exceptions_400(func):
     """
@@ -777,6 +780,17 @@ def students_update_enrollment(request, course_id):
         'results': results,
         'auto_enroll': auto_enroll,
     }
+
+    # add log_action : students_update_enrollment
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=309,
+        object_id=0,
+        object_repr='students_update_enrollment[action:%s;identifiers:%s]' % (action, identifiers),
+        action_flag=ADDITION if action == 'enroll' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -861,6 +875,17 @@ def bulk_beta_modify_access(request, course_id):
         'action': action,
         'results': results,
     }
+
+    # add log_action : bulk_beta_modify_access
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=293,
+        object_id=0,
+        object_repr='bulk_beta_modify_access[action:%s;identifiers:%s]' % (action, identifiers),
+        action_flag=ADDITION if action == 'add' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -942,6 +967,17 @@ def modify_access(request, course_id):
         'action': action,
         'success': 'yes',
     }
+
+    # add log_action : modify_access
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=306,
+        object_id=user.id,
+        object_repr='modify_access[action:%s;user:%s;rolename:%s]' % (action, user, rolename),
+        action_flag=ADDITION if action == 'allow' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -1035,6 +1071,16 @@ def get_problem_responses(request, course_id):
         request, course_key, problem_location
     )
     success_status = SUCCESS_MESSAGE_TEMPLATE.format(report_type=report_type)
+
+    # add log_action : get_problem_responses
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=301,
+        object_id=0,
+        object_repr='get_problem_responses[course_id:%s;problem_location:%s]' % (course_id, problem_location),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
 
     return JsonResponse({"status": success_status, "task_id": task.task_id})
 
@@ -1221,6 +1267,17 @@ def get_issued_certificates(request, course_id):
         ('report_run_date', _('Date Report Run'))
     ]
     certificates_data = instructor_analytics.basic.issued_certificates(course_key, query_features)
+
+    # add log_action : get_issued_certificates
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=299 if not csv else 300,
+        object_id=0,
+        object_repr='get_issued_certificates[course_id:%s;csv_required:%s]' % (course_id, csv_required),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=len(certificates_data))
+    )
+
     if csv_required.lower() == 'true':
         __, data_rows = instructor_analytics.csvs.format_dictlist(certificates_data, query_features)
         return instructor_analytics.csvs.create_csv_response(
@@ -1308,6 +1365,16 @@ def get_students_features(request, course_id, csv=False):  # pylint: disable=red
     query_features.append('country')
     query_features_names['country'] = _('Country')
 
+    # add log_action : get_students_features
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=303 if not csv else 304,
+        object_id=0,
+        object_repr='get_students_features[course_id:%s;csv:%s]' % (course_id, csv),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count='instructor_task_instructortask')
+    )
+
     if not csv:
         student_data = instructor_analytics.basic.enrolled_students_features(course_key, query_features)
         response_payload = {
@@ -1351,6 +1418,15 @@ def get_students_who_may_enroll(request, course_id):
     report_type = _('enrollment')
     lms.djangoapps.instructor_task.api.submit_calculate_may_enroll_csv(request, course_key, query_features)
     success_status = SUCCESS_MESSAGE_TEMPLATE.format(report_type=report_type)
+
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=305,
+        object_id=0,
+        object_repr='get_students_who_may_enroll[course_id:%s]' % (course_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count='instructor_task_instructortask')
+    )
 
     return JsonResponse({"status": success_status})
 
@@ -1396,6 +1472,17 @@ def add_users_to_cohorts(request, course_id):
         )
         # The task will assume the default file storage.
         lms.djangoapps.instructor_task.api.submit_cohort_students(request, course_key, filename)
+
+        # add log_action : add_users_to_cohorts
+        LogEntry.objects.log_action(
+            user_id=request.user.pk,
+            content_type_id=309,
+            object_id=0,
+            object_repr='add_users_to_cohorts[course_id:%s]' % (course_id),
+            action_flag=ADDITION,
+            change_message=admin_view.get_meta_json(self=None, request=request)
+        )
+
     except (FileValidationException, PermissionDenied) as err:
         return JsonResponse({"error": unicode(err)}, status=400)
 
@@ -1881,6 +1968,17 @@ def get_anon_ids(request, course_id):  # pylint: disable=unused-argument
     ).order_by('id')
     header = ['User ID', 'Anonymized User ID', 'Course Specific Anonymized User ID']
     rows = [[s.id, unique_id_for_user(s, save=False), anonymous_id_for_user(s, course_id, save=False)] for s in students]
+
+    # add log_action : get_anon_ids
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=298,
+        object_id=0,
+        object_repr='get_anon_ids[course_id:%s]' % (course_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=len(rows))
+    )
+
     return csv_response(text_type(course_id).replace('/', '-') + '-anon-ids.csv', header, rows)
 
 
@@ -2215,6 +2313,17 @@ def get_student_progress_url(request, course_id):
         'course_id': text_type(course_id),
         'progress_url': progress_url,
     }
+
+    # add log_action : get_student_progress_url
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=302,
+        object_id=user.id,
+        object_repr='get_student_progress_url[course_id:%s;user:%s;progress_url:%s]' % (course_id, user, progress_url),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -2301,6 +2410,16 @@ def reset_student_attempts(request, course_id):
         response_payload['student'] = 'All Students'
     else:
         return HttpResponseBadRequest()
+
+    # add log_action : reset_student_attempts
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=308,
+        object_id=student.id if student else 0,
+        object_repr='reset_student_attempts[course_id:%s;student:%s;all_students:%s]' % (course_id, student, all_students),
+        action_flag=CHANGE,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
 
     return JsonResponse(response_payload)
 
@@ -2453,6 +2572,17 @@ def rescore_problem(request, course_id):
         return HttpResponseBadRequest()
 
     response_payload['task'] = TASK_SUBMISSION_OK
+
+    # add log_action : rescore_problem
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=62,
+        object_id=student.id if student else 0,
+        object_repr='rescore_problem[course_id:%s;student:%s;all_students:%s]' % (course_id, student, all_students),
+        action_flag=CHANGE,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
@@ -2760,6 +2890,16 @@ def export_ora2_data(request, course_id):
     lms.djangoapps.instructor_task.api.submit_export_ora2_data(request, course_key)
     success_status = SUCCESS_MESSAGE_TEMPLATE.format(report_type=report_type)
 
+    # add log_action : export_ora2_data
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=296,
+        object_id=0,
+        object_repr='export_ora2_data[course_id:%s]' % (course_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=0)
+    )
+
     return JsonResponse({"status": success_status})
 
 
@@ -2777,6 +2917,15 @@ def calculate_grades_csv(request, course_id):
     course_key = CourseKey.from_string(course_id)
     lms.djangoapps.instructor_task.api.submit_calculate_grades_csv(request, course_key)
     success_status = SUCCESS_MESSAGE_TEMPLATE.format(report_type=report_type)
+
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=294,
+        object_id=0,
+        object_repr='calculate_grades_csv[course_id:%s]' % (course_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=0)
+    )
 
     return JsonResponse({"status": success_status})
 
@@ -2799,6 +2948,16 @@ def problem_grade_report(request, course_id):
     report_type = _('problem grade')
     lms.djangoapps.instructor_task.api.submit_problem_grade_report(request, course_key)
     success_status = SUCCESS_MESSAGE_TEMPLATE.format(report_type=report_type)
+
+    # add log_action : problem_grade_report
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=307,
+        object_id=0,
+        object_repr='problem_grade_report[course_id:%s]' % (course_id),
+        action_flag=ADDITION,
+        change_message=admin_view.get_meta_json(self=None, request=request, count=0)
+    )
 
     return JsonResponse({"status": success_status})
 
@@ -3014,6 +3173,17 @@ def update_forum_role_membership(request, course_id):
         'course_id': text_type(course_id),
         'action': action,
     }
+
+    # add log_action : django_comment_client_role_users
+    LogEntry.objects.log_action(
+        user_id=request.user.pk,
+        content_type_id=295,
+        object_id=user.id,
+        object_repr='django_comment_client_role_users[action:%s;user:%s;rolename:%s]' % (action, user, rolename),
+        action_flag=ADDITION if action == 'allow' else DELETION,
+        change_message=admin_view.get_meta_json(self=None, request=request)
+    )
+
     return JsonResponse(response_payload)
 
 
