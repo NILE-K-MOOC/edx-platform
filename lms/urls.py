@@ -52,7 +52,7 @@ from static_template_view import views as static_template_view_views
 from staticbook import views as staticbook_views
 from student import views as student_views
 from student_account import views as student_account_views
-
+from openedx.core.djangoapps.log_action.views import LogAction
 
 from track import views as track_views
 from util import views as util_views
@@ -63,11 +63,12 @@ from lms.djangoapps.community import views as community
 # markany
 from lms.djangoapps.maeps import views as maeps
 
-#lms/djangoapps/courseware/courses.py
+# lms/djangoapps/courseware/courses.py
 from courseware import courses as courses
 
 from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
 
+LogAction()
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     django_autodiscover()
     admin.site.site_header = _('LMS Administration')
@@ -94,7 +95,6 @@ urlpatterns = [
     url(r'^nicecheckplus_error$', student_account_views.nicecheckplus_error, name="nicecheckplus_error"),  # fail url
     # ---------- nice check end ---------- #
 
-
     # ---------- account_org_check ---------- #
     url(r'^org_check', student_account_views.org_check, name="org_check"),
     # ---------- account_org_check ---------- #
@@ -103,7 +103,6 @@ urlpatterns = [
     url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
     url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
     # ---------- remove account end ---------- #
-
 
     # ---------- multi site ---------- #
     url(r'^org/(?P<org>.*?)$', branding_views.multisite_index, name="multisite_index"),
@@ -115,7 +114,7 @@ urlpatterns = [
     url(r'^memo_view/(?P<memo_id>.*?)/$', community.memo_view, name='memo_view'),
     url(r'^memo_sync$', community.memo_sync, name='memo'),
 
-    #schools
+    # schools
     url(r'^schools/?$', courseware_views.schools, name="schools"),
     url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
     url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
@@ -164,10 +163,10 @@ urlpatterns = [
     # course_list
     url(r'^course_search_list$', courses.course_search_list, name='course_list'),
 
-    #interest_course
+    # interest_course
     url(r'^course_interest$', courseware_views.course_interest, name='course_interest'),
 
-    #footer-link
+    # footer-link
     url(r'^cert_check/?$', courseware_views.cert_check, name="cert_check"),
     url(r'^cert_check_id/?$', courseware_views.cert_check_id, name="cert_check_id"),
     url(r'^Privacy-Policy/?$', courseware_views.privacy, name="privacy"),
@@ -216,7 +215,7 @@ urlpatterns = [
     url(r'^api/courses/', include('course_api.urls')),
 
     # ----- api request ----- #
-    #url(r'^api/happy', branding_views.course_api, name="course_api"),
+    # url(r'^api/happy', branding_views.course_api, name="course_api"),
     # ----- api request ----- #
 
     # Completion API
@@ -287,15 +286,15 @@ if settings.FEATURES.get('ENABLE_OPENBADGES'):
         url(r'^api/badges/v1/', include('badges.api.urls', app_name='badges', namespace='badges_api')),
     ]
 
-#urlpatterns += [
+# urlpatterns += [
 #    url(r'^openassessment/fileupload/', include('openassessment.fileupload.urls')),
-#]
+# ]
 
 urlpatterns += [
     url(r'^openassessment/storage/', include('openassessment.fileupload.urls')),
 ]
 
-#urlpatterns += oraurlpatterns
+# urlpatterns += oraurlpatterns
 
 # sysadmin dashboard, to see what courses are loaded, to delete & load courses
 if settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD'):
@@ -581,8 +580,6 @@ urlpatterns += [
         courseware_views.progress,
         name='progress',
     ),
-
-
 
     # Takes optional student_id for instructor use--shows profile as that student sees it.
     url(

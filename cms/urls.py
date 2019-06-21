@@ -14,9 +14,11 @@ import openedx.core.djangoapps.external_auth.views
 import openedx.core.djangoapps.lang_pref.views
 from openedx.core.djangoapps.password_policy import compliance as password_policy_compliance
 from openedx.core.djangoapps.password_policy.forms import PasswordPolicyAwareAdminAuthForm
+from openedx.core.djangoapps.log_action.views import LogAction
 
 from ratelimitbackend import admin
 
+LogAction()
 django_autodiscover()
 admin.site.site_header = _('Studio Administration')
 admin.site.site_title = admin.site.site_header
