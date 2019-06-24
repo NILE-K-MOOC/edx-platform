@@ -27705,3 +27705,8 @@ msgstr "이메일 또는 비밀번호를 다시 확인하세요."
 msgid "This account is temporarily locked due to exceeding the login available count."
 msgstr "이 계정은 로그인 실패 허용 횟수 초과로 인한 일시잠금 상태입니다."
 
+msgid "Enter grade"
+msgstr "점수 입력"
+
+msgid "Upload annotated file"
+msgstr "추가 파일 업로드"
