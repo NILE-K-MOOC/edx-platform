@@ -150,21 +150,25 @@ def custom_get_form(self, request, obj=None, **kwargs):
     target_id = ''
     for val in path_list:
         if val:
-            # print 'val:', val
-            target_id = val
 
-    from django.contrib.auth.models import User
-    user = User.objects.get(id=target_id)
+            try:
+                target_id = int(val)
+            except:
+                continue
 
-    if request.method == 'GET':
-        LogEntry.objects.log_action(
-            user_id=request.user.pk,
-            content_type_id=291,
-            object_id=0,
-            object_repr='auth_user_info[student:%s]' % user.username,
-            action_flag=0,
-            change_message=get_meta_json(self, request)
-        )
+    if target_id:
+        from django.contrib.auth.models import User
+        user = User.objects.get(id=target_id)
+
+        if request.method == 'GET':
+            LogEntry.objects.log_action(
+                user_id=request.user.pk,
+                content_type_id=291,
+                object_id=0,
+                object_repr='auth_user_info[student:%s]' % user.username,
+                action_flag=0,
+                change_message=get_meta_json(self, request)
+            )
 
     return super(UserAdmin, self).get_form(request, obj, **defaults)
 
