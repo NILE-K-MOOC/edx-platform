@@ -11225,10 +11225,10 @@ msgid "Submitted"
 msgstr "제출"
 
 msgid "Instructor's comments"
-msgstr "교수자 첨삭"
+msgstr "교수자 의견"
 
 msgid "Annotated"
-msgstr "주석"
+msgstr "추가 파일"
 
 #: studio > advanced option
 msgid "Staff Graded Assignment"
@@ -26367,7 +26367,7 @@ msgid "Your score is"
 msgstr "점수: "
 
 msgid "Instructor comment"
-msgstr "교수자 코멘트: "
+msgstr "교수자 의견: "
 
 msgid "K-MOOC Staff Graded Assignment"
 msgstr "교수자 채점 과제(클릭)"
@@ -27705,11 +27705,30 @@ msgstr "이메일 또는 비밀번호를 다시 확인하세요."
 msgid "This account is temporarily locked due to exceeding the login available count."
 msgstr "이 계정은 로그인 실패 허용 횟수 초과로 인한 일시잠금 상태입니다."
 
+# edx_sga 관련
+msgid "Upload a different file"
+msgstr "다른 파일 업로드"
+
+msgid "File uploaded"
+msgstr "업로드된 파일"
+
 msgid "Enter grade"
 msgstr "점수 입력"
 
 msgid "Upload annotated file"
-msgstr "첨삭 파일 업로드"
+msgstr "추가 파일 업로드"
 
 msgid "Remove grade"
 msgstr "점수 삭제"
+
+msgid "Grade for %(student_name)s"
+msgstr "%(student_name)s의 점수"
+
+msgid "Grade:"
+msgstr "점수:"
+
+msgid "Comment:"
+msgstr "의견:"
+
+msgid "Annotated file from instructor"
+msgstr "교수자의 추가 파일"
