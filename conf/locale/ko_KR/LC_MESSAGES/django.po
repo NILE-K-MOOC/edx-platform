@@ -27709,4 +27709,4 @@ msgid "Enter grade"
 msgstr "점수 입력"
 
 msgid "Upload annotated file"
-msgstr "추가 파일 업로드"
+msgstr "첨삭 파일 업로드"
