@@ -1253,9 +1253,16 @@ def course_detail_excel(request):
     cell_format = workbook.add_format(format_dict)
 
     alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q']
+    c_keys = ['rn', 'org', 'classfy', 'middle_classfy', 'display_name', 'teacher_name', 'course_level', 'w_time',
+              'week', 'l_time', 'v_time', 'course_status', 'enroll_status', 'audit_yn', 'start', 'end', 'course_id']
+    header_cell = ['', '기관명', '분야(대)', '분야(중)', '강좌명', '교수자명', '강좌난이도', '주간학습권장시간', '총 주차', '학습인정시간',
+                   '총 동영상시간', '운영 상태', '수강신청 가능여부', '청강신청 가능여부', '개강일', '종강일', '']
 
-    for a in alpha:
+    for i, a in enumerate(alpha):
         worksheet.set_column(a + ':' + a, 20)
+        if a not in ['A', 'Q']:
+            worksheet.write(a + '2', header_cell[i].decode('utf-8'), header_format)
+
     worksheet.set_column('A:A', 8)
     worksheet.set_column('E:E', 40)
     worksheet.set_column('F:F', 30)
@@ -1265,40 +1272,14 @@ def course_detail_excel(request):
     worksheet.merge_range('L1:P1', '운영정보'.decode('utf-8'), header_format)
     worksheet.merge_range('Q1:Q2', '강좌신청\n하러가기'.decode('utf-8'), header_format)
 
-    worksheet.write('B2', '기관명'.decode('utf-8'), header_format)
-    worksheet.write('C2', '분야(대)'.decode('utf-8'), header_format)
-    worksheet.write('D2', '분야(중)'.decode('utf-8'), header_format)
-    worksheet.write('E2', '강좌명'.decode('utf-8'), header_format)
-    worksheet.write('F2', '교수자명'.decode('utf-8'), header_format)
-    worksheet.write('G2', '강좌난이도'.decode('utf-8'), header_format)
-    worksheet.write('H2', '주간학습권장시간'.decode('utf-8'), header_format)
-    worksheet.write('I2', '총 주차'.decode('utf-8'), header_format)
-    worksheet.write('J2', '학습인정시간'.decode('utf-8'), header_format)
-    worksheet.write('K2', '총 동영상시간'.decode('utf-8'), header_format)
-    worksheet.write('L2', '운영 상태'.decode('utf-8'), header_format)
-    worksheet.write('M2', '수강신청 가능여부'.decode('utf-8'), header_format)
-    worksheet.write('N2', '청강신청 가능여부'.decode('utf-8'), header_format)
-    worksheet.write('O2', '개강일'.decode('utf-8'), header_format)
-    worksheet.write('P2', '종강일'.decode('utf-8'), header_format)
-
     for idx, c in enumerate(course_data):
-        worksheet.write('A' + str(idx + 3), str(int(c['rn'])).decode('utf-8'), cell_format)
-        worksheet.write('B' + str(idx + 3), c['org'].decode('utf-8'), cell_format)
-        worksheet.write('C' + str(idx + 3), c['classfy'].decode('utf-8'), cell_format)
-        worksheet.write('D' + str(idx + 3), c['middle_classfy'].decode('utf-8'), cell_format)
-        worksheet.write('E' + str(idx + 3), c['display_name'].decode('utf-8'), cell_format)
-        worksheet.write('F' + str(idx + 3), c['teacher_name'].decode('utf-8'), cell_format)
-        worksheet.write('G' + str(idx + 3), c['course_level'].decode('utf-8'), cell_format)
-        worksheet.write('H' + str(idx + 3), c['w_time'].decode('utf-8'), cell_format)
-        worksheet.write('I' + str(idx + 3), c['week'].decode('utf-8'), cell_format)
-        worksheet.write('J' + str(idx + 3), c['l_time'].decode('utf-8'), cell_format)
-        worksheet.write('K' + str(idx + 3), c['v_time'].decode('utf-8'), cell_format)
-        worksheet.write('L' + str(idx + 3), c['course_status'].decode('utf-8'), cell_format)
-        worksheet.write('M' + str(idx + 3), c['enroll_status'].decode('utf-8'), cell_format)
-        worksheet.write('N' + str(idx + 3), c['audit_yn'].decode('utf-8'), cell_format)
-        worksheet.write('O' + str(idx + 3), c['start'].decode('utf-8'), cell_format)
-        worksheet.write('P' + str(idx + 3), c['end'].decode('utf-8'), cell_format)
-        worksheet.write_url('Q' + str(idx + 3), 'http://kmooc.kr/courses/' + c['course_id'] + '/about', cell_format, string="Go")
+        for i, k in enumerate(c_keys):
+            if k == 'rn' and alpha[i] == 'A':
+                worksheet.write(alpha[i] + str(idx + 3), str(int(c[k])).decode('utf-8'), cell_format)
+            elif k == 'course_id' and alpha[i] == 'Q':
+                worksheet.write_url(alpha[i] + str(idx + 3), 'http://kmooc.kr/courses/' + c[k] + '/about', cell_format, string="Go")
+            else:
+                worksheet.write(alpha[i] + str(idx + 3), c[k].decode('utf-8'), cell_format)
 
     workbook.close()
 
