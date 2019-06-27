@@ -61,11 +61,16 @@ import json
 import sys
 import MySQLdb as mdb
 import re
-# import xlsxwriter
+import xlsxwriter
 from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import JsonResponse
+
+try:
+    import cStringIO as StringIO
+except ImportError:
+    import StringIO
 
 from pymongo import MongoClient
 from bson import ObjectId
@@ -1236,43 +1241,48 @@ def course_detail_excel(request):
     course_data = course_detail_data()
 
     now = datetime.datetime.now()
+
+    file_output = StringIO.StringIO()
+
     n_date = now.strftime('%Y-%m-%d')
-    workbook = xlsxwriter.Workbook('K-MOOC_강좌정보_' + n_date + '.xlsx')
+    workbook = xlsxwriter.Workbook(file_output)
     worksheet = workbook.add_worksheet('course')
-    cell_format = workbook.add_format({'align': 'center',
-                                       'valign': 'vcenter',
-                                       'bold': 'true',
-                                       'border': 1})
+    format_dict = {'align': 'center', 'valign': 'vcenter', 'bold': 'true', 'border': 1}
+    header_format = workbook.add_format(format_dict)
+    format_dict.pop('bold')
+    cell_format = workbook.add_format(format_dict)
 
     alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q']
 
     for a in alpha:
         worksheet.set_column(a + ':' + a, 20)
     worksheet.set_column('A:A', 8)
-    worksheet.merge_range('A1:A2', '연번'.decode('utf-8'), cell_format)
-    worksheet.merge_range('B1:F1', '기본정보'.decode('utf-8'), cell_format)
-    worksheet.merge_range('G1:K1', '학습정보'.decode('utf-8'), cell_format)
-    worksheet.merge_range('L1:P1', '운영정보'.decode('utf-8'), cell_format)
-    worksheet.merge_range('Q1:Q2', '강좌신청\n하러가기'.decode('utf-8'), cell_format)
+    worksheet.set_column('E:E', 40)
+    worksheet.set_column('F:F', 30)
+    worksheet.merge_range('A1:A2', '연번'.decode('utf-8'), header_format)
+    worksheet.merge_range('B1:F1', '기본정보'.decode('utf-8'), header_format)
+    worksheet.merge_range('G1:K1', '학습정보'.decode('utf-8'), header_format)
+    worksheet.merge_range('L1:P1', '운영정보'.decode('utf-8'), header_format)
+    worksheet.merge_range('Q1:Q2', '강좌신청\n하러가기'.decode('utf-8'), header_format)
 
-    worksheet.write('B2', '기관명'.decode('utf-8'), cell_format)
-    worksheet.write('C2', '분야(대)'.decode('utf-8'), cell_format)
-    worksheet.write('D2', '분야(중)'.decode('utf-8'), cell_format)
-    worksheet.write('E2', '강좌명'.decode('utf-8'), cell_format)
-    worksheet.write('F2', '교수자명'.decode('utf-8'), cell_format)
-    worksheet.write('G2', '강좌난이도'.decode('utf-8'), cell_format)
-    worksheet.write('H2', '주간학습권장시간'.decode('utf-8'), cell_format)
-    worksheet.write('I2', '총 주차'.decode('utf-8'), cell_format)
-    worksheet.write('J2', '학습인정시간'.decode('utf-8'), cell_format)
-    worksheet.write('K2', '총 동영상시간'.decode('utf-8'), cell_format)
-    worksheet.write('L2', '운영 상태'.decode('utf-8'), cell_format)
-    worksheet.write('M2', '수강신청 가능여부'.decode('utf-8'), cell_format)
-    worksheet.write('N2', '청강신청 가능여부'.decode('utf-8'), cell_format)
-    worksheet.write('O2', '개강일'.decode('utf-8'), cell_format)
-    worksheet.write('P2', '종강일'.decode('utf-8'), cell_format)
+    worksheet.write('B2', '기관명'.decode('utf-8'), header_format)
+    worksheet.write('C2', '분야(대)'.decode('utf-8'), header_format)
+    worksheet.write('D2', '분야(중)'.decode('utf-8'), header_format)
+    worksheet.write('E2', '강좌명'.decode('utf-8'), header_format)
+    worksheet.write('F2', '교수자명'.decode('utf-8'), header_format)
+    worksheet.write('G2', '강좌난이도'.decode('utf-8'), header_format)
+    worksheet.write('H2', '주간학습권장시간'.decode('utf-8'), header_format)
+    worksheet.write('I2', '총 주차'.decode('utf-8'), header_format)
+    worksheet.write('J2', '학습인정시간'.decode('utf-8'), header_format)
+    worksheet.write('K2', '총 동영상시간'.decode('utf-8'), header_format)
+    worksheet.write('L2', '운영 상태'.decode('utf-8'), header_format)
+    worksheet.write('M2', '수강신청 가능여부'.decode('utf-8'), header_format)
+    worksheet.write('N2', '청강신청 가능여부'.decode('utf-8'), header_format)
+    worksheet.write('O2', '개강일'.decode('utf-8'), header_format)
+    worksheet.write('P2', '종강일'.decode('utf-8'), header_format)
 
     for idx, c in enumerate(course_data):
-        worksheet.write('A' + str(idx + 3), c['rn'].decode('utf-8'), cell_format)
+        worksheet.write('A' + str(idx + 3), str(int(c['rn'])).decode('utf-8'), cell_format)
         worksheet.write('B' + str(idx + 3), c['org'].decode('utf-8'), cell_format)
         worksheet.write('C' + str(idx + 3), c['classfy'].decode('utf-8'), cell_format)
         worksheet.write('D' + str(idx + 3), c['middle_classfy'].decode('utf-8'), cell_format)
@@ -1288,9 +1298,15 @@ def course_detail_excel(request):
         worksheet.write('N' + str(idx + 3), c['audit_yn'].decode('utf-8'), cell_format)
         worksheet.write('O' + str(idx + 3), c['start'].decode('utf-8'), cell_format)
         worksheet.write('P' + str(idx + 3), c['end'].decode('utf-8'), cell_format)
-        worksheet.write('Q' + str(idx + 3), 'kmooc.kr/courses/' + c['course_id'] + '/about', cell_format)
+        worksheet.write_url('Q' + str(idx + 3), 'http://kmooc.kr/courses/' + c['course_id'] + '/about', cell_format, string="Go")
 
     workbook.close()
+
+    file_output.seek(0)
+    response = HttpResponse(file_output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=K-MOOC_강좌정보_" + n_date + ".xlsx"
+
+    return response
 
 
 def course_detail_data():

@@ -102,6 +102,10 @@
           });
     pup_table.columns.adjust().draw();
     $('#popup_table').wrap("<div class='scrolledTable'></div>");
+
+    $('#popup_excel').click(function(){
+        location.href = '/course_detail/excel/';
+    });
   });
 
 </script>
@@ -175,7 +179,7 @@
   overflow-x: auto;
   clear:both;
   display: inline-block;
-  max-height: 480px;
+  max-height: 450px;
   max-width: 100%;
   margin: 0 auto;
 }
@@ -192,6 +196,14 @@
     font-size: 13px;
     padding: 5px;
     margin: 5px 16px;
+}
+
+.btn-popup:hover:not(:disabled), .btn-popup:hover,
+.btn-popup:active:not(:disabled), .btn-popup:active {
+    border-color: #0ea6ec;
+    background: #0ea6ec;
+    color: #fcfcfc;
+    box-shadow: none;
 }
 
 </style>
