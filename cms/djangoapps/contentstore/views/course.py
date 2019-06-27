@@ -1922,7 +1922,7 @@ from django.contrib.auth.models import User
 # 외부로 노출되어 취약점이 발생할 경우 책임은 본인에게 있습니다
 @csrf_exempt
 def api_advanced_settings_handler(request, course_key_string):
-    master = User.objects.get(email='staff@example.com')
+    master = User.objects.filter(is_staff=1).first()
 
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
