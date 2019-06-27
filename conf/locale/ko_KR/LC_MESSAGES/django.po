@@ -1786,11 +1786,11 @@ msgstr "선다형 문항"
 
 #: common/lib/capa/capa/responsetypes.py:3035
 msgid "Custom JavaScript Display and Grading"
-msgstr "사용자 자바스크립트 표시 및 등급"
+msgstr "Javascript 사용자 정의 문제"
 
 #: common/lib/capa/capa/responsetypes.py:3035
 msgid "Custom Python-Evaluated Input"
-msgstr "사용자 파이썬 평가 입력"
+msgstr "Python 사용자 정의 문제"
 
 #: common/lib/capa/capa/responsetypes.py:3035
 msgid "Drag and Drop"
@@ -1802,7 +1802,7 @@ msgstr "드래그 앤 드롭 (사용되지 않는 버전)"
 
 #: common/lib/capa/capa/responsetypes.py:3035
 msgid "Open Response Assessment"
-msgstr "개방형 응답 평가"
+msgstr "상호평가"
 
 #: common/lib/capa/capa/responsetypes.py:3035
 msgid "Problem with Adaptive Hint"
@@ -1816,27 +1816,27 @@ msgstr "공통 문제"
 #: cms/templates/widgets/problem-edit.html
 #: cms/templates/widgets/problem-edit.html
 msgid "Checkboxes with Hints and Feedback"
-msgstr "힌트와 피드백이 포함된 체크박스"
+msgstr "체크박스(힌트)"
 
 #: cms/templates/widgets/problem-edit.html
 #: cms/templates/widgets/problem-edit.html
 msgid "Dropdown with Hints and Feedback"
-msgstr "힌트와 피드백이 포함된 드롭다운"
+msgstr "드롭다운(힌트)"
 
 #: cms/templates/widgets/problem-edit.html
 #: cms/templates/widgets/problem-edit.html
 msgid "Multiple Choice with Hints and Feedback"
-msgstr "힌트와 피드백이 포함된 선다형 문항"
+msgstr "선다형(힌트)"
 
 #: cms/templates/widgets/problem-edit.html
 #: cms/templates/widgets/problem-edit.html
 msgid "Numerical Input with Hints and Feedback"
-msgstr "힌트와 피드백이 포함된 수치 입력 문항"
+msgstr "수치 입력(힌트)"
 
 #: cms/templates/widgets/problem-edit.html
 #: cms/templates/widgets/problem-edit.html
 msgid "Text Input with Hints and Feedback"
-msgstr "힌트와 피드백이 포함된 텍스트 입력 문항"
+msgstr "텍스트 입력(힌트)"
 
 #. Translators: 'shuffle' and 'answer-pool' are attribute names and should not
 #. be translated.
@@ -2093,7 +2093,7 @@ msgstr "주석"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Blank Advanced Problem"
-msgstr "입력되지 않은 고급 문제 "
+msgstr "템플릿 없는 고급문제"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Number of attempts taken by the student on this problem"
@@ -2102,7 +2102,7 @@ msgstr "학습자들이 이 문제 풀기에 시도한 횟수 "
 #: common/lib/xmodule/xmodule/capa_base.py
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 msgid "Maximum Attempts"
-msgstr "문제 풀이 최대 횟수"
+msgstr "응답 가능 횟수"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
@@ -2146,7 +2146,7 @@ msgstr "기한 경과 후"
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
 #: lms/templates/problem.html
 msgid "Show Answer"
-msgstr "정답 보기"
+msgstr "정답 공개 조건"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
@@ -2180,7 +2180,7 @@ msgstr "페이지에 저장 버튼이 나타나도록 할 것인지 여부"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Show Reset Button"
-msgstr "초기화 버튼 보이기"
+msgstr "응답 시도 횟수 초기화 허용 여부"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
@@ -2248,7 +2248,7 @@ msgstr "마지막 제출시간 "
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid "Timer Between Attempts"
-msgstr "다음 시도까지 지연 시간"
+msgstr "응답 대기 시간"
 
 #: common/lib/xmodule/xmodule/capa_base.py
 msgid ""
@@ -11225,10 +11225,10 @@ msgid "Submitted"
 msgstr "제출"
 
 msgid "Instructor's comments"
-msgstr "교수자 첨삭"
+msgstr "교수자 의견"
 
 msgid "Annotated"
-msgstr "주석"
+msgstr "추가 파일"
 
 #: studio > advanced option
 msgid "Staff Graded Assignment"
@@ -17684,7 +17684,7 @@ msgstr "문항 성적 보고서 생성"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Generate ORA Data Report"
-msgstr "개방형 응답 평가 데이터 보고 생성하기"
+msgstr "상호평가 데이터 보고 생성하기"
 
 #: lms/templates/instructor/instructor_dashboard_2/data_download.html
 msgid "Reports Available for Download"
@@ -20660,7 +20660,7 @@ msgstr "세부사항  &amp; 일정"
 #: cms/templates/settings.html cms/templates/settings_advanced.html
 #: cms/templates/settings_graders.html cms/templates/widgets/header.html
 msgid "Grading"
-msgstr "과제 평가"
+msgstr "평가 기준"
 
 #: cms/templates/certificates.html cms/templates/group_configurations.html
 #: cms/templates/manage_users.html cms/templates/settings.html
@@ -26367,7 +26367,7 @@ msgid "Your score is"
 msgstr "점수: "
 
 msgid "Instructor comment"
-msgstr "교수자 코멘트: "
+msgstr "교수자 의견: "
 
 msgid "K-MOOC Staff Graded Assignment"
 msgstr "교수자 채점 과제(클릭)"
@@ -27166,7 +27166,7 @@ msgid "Text Response"
 msgstr "텍스트 응답"
 
 msgid "File Uploads Response"
-msgstr "파일 업로드 응답"
+msgstr "파일 업로드 허용 하기"
 
 msgid "The question for this section"
 msgstr "이 섹션에 대한 질문"
@@ -27705,3 +27705,30 @@ msgstr "이메일 또는 비밀번호를 다시 확인하세요."
 msgid "This account is temporarily locked due to exceeding the login available count."
 msgstr "이 계정은 로그인 실패 허용 횟수 초과로 인한 일시잠금 상태입니다."
 
+# edx_sga 관련
+msgid "Upload a different file"
+msgstr "다른 파일 업로드"
+
+msgid "File uploaded"
+msgstr "업로드된 파일"
+
+msgid "Enter grade"
+msgstr "점수 입력"
+
+msgid "Upload annotated file"
+msgstr "추가 파일 업로드"
+
+msgid "Remove grade"
+msgstr "점수 삭제"
+
+msgid "Grade for %(student_name)s"
+msgstr "%(student_name)s의 점수"
+
+msgid "Grade:"
+msgstr "점수:"
+
+msgid "Comment:"
+msgstr "의견:"
+
+msgid "Annotated file from instructor"
+msgstr "교수자의 추가 파일"

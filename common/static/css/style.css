@@ -1718,6 +1718,7 @@ font-style: normal; font-family:"malgun gothic";
 
 
 /* ===========*/
+/*
 .header {
     position: fixed;
     top: 0;
@@ -1735,6 +1736,8 @@ font-style: normal; font-family:"malgun gothic";
     line-height:160px;
 
 }
+*/
+
 .header.shrink {
     height: 100px;
     line-height:80px;

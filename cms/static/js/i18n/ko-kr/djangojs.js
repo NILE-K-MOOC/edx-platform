@@ -400,7 +400,7 @@
 
         "Column": "\uce7c\ub7fc",
         "Commentary": "\ud574\uc124",
-        "Common Problem Types": "\uc77c\ubc18 \ubb38\uc81c \uc720\ud615",
+        "Common Problem Types": "\uae30\ubcf8",
         "Common Problems with Hints and Feedback": "\ud78c\ud2b8\uac00 \uc788\ub294 \uc77c\ubc18\ubb38\uc81c",
         "Community TA": "\ucee4\ubba4\ub2c8\ud2f0 \uc870\uad50",
         "Component": "\uad6c\uc131\uc694\uc18c",

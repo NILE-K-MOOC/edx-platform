@@ -65,9 +65,9 @@ def get_meta_json(self, request, mode=0, message=None, count=None):
 
     meta['count'] = count
 
-    print 'meta s ----------------------------------'
-    print meta
-    print 'meta e ----------------------------------'
+    # print 'meta s ----------------------------------'
+    # print meta
+    # print 'meta e ----------------------------------'
 
     return meta
 
@@ -75,7 +75,7 @@ def get_meta_json(self, request, mode=0, message=None, count=None):
 def custom_init(self, request, model, list_display, list_display_links,
                 list_filter, date_hierarchy, search_fields, list_select_related,
                 list_per_page, list_max_show_all, list_editable, model_admin):
-    print 'CUSTOM LOG ACTION [custom_init]'
+    # print 'CUSTOM LOG ACTION [custom_init]'
     self.model = model
     self.opts = model._meta
     self.lookup_opts = self.opts
@@ -122,7 +122,7 @@ def custom_init(self, request, model, list_display, list_display_links,
     self.title = title % force_text(self.opts.verbose_name)
     self.pk_attname = self.lookup_opts.pk.attname
 
-    print 'request.path:', request.path
+    # print 'request.path:', request.path
 
     if request.path == '/admin/auth/user/':
         LogEntry.objects.log_action(
@@ -136,7 +136,7 @@ def custom_init(self, request, model, list_display, list_display_links,
 
 
 def custom_get_form(self, request, obj=None, **kwargs):
-    print 'CUSTOM LOG ACTION [custom_get_form]'
+    # print 'CUSTOM LOG ACTION [custom_get_form]'
     """
     Use special form during user creation
     """
@@ -150,27 +150,31 @@ def custom_get_form(self, request, obj=None, **kwargs):
     target_id = ''
     for val in path_list:
         if val:
-            print 'val:', val
-            target_id = val
 
-    from django.contrib.auth.models import User
-    user = User.objects.get(id=target_id)
+            try:
+                target_id = int(val)
+            except:
+                continue
 
-    if request.method == 'GET':
-        LogEntry.objects.log_action(
-            user_id=request.user.pk,
-            content_type_id=291,
-            object_id=0,
-            object_repr='auth_user_info[student:%s]' % user.username,
-            action_flag=0,
-            change_message=get_meta_json(self, request)
-        )
+    if target_id:
+        from django.contrib.auth.models import User
+        user = User.objects.get(id=target_id)
+
+        if request.method == 'GET':
+            LogEntry.objects.log_action(
+                user_id=request.user.pk,
+                content_type_id=291,
+                object_id=0,
+                object_repr='auth_user_info[student:%s]' % user.username,
+                action_flag=0,
+                change_message=get_meta_json(self, request)
+            )
 
     return super(UserAdmin, self).get_form(request, obj, **defaults)
 
 
 def custom_log_addition(self, request, object):
-    print 'CUSTOM LOG ACTION [custom_log_addition]'
+    # print 'CUSTOM LOG ACTION [custom_log_addition]'
     """
     Log that an object has been successfully added.
 
@@ -187,7 +191,7 @@ def custom_log_addition(self, request, object):
 
 
 def custom_log_change(self, request, object, message):
-    print 'CUSTOM LOG ACTION [custom_log_change]'
+    # print 'CUSTOM LOG ACTION [custom_log_change]'
     """
     Log that an object has been successfully changed.
 
@@ -204,7 +208,7 @@ def custom_log_change(self, request, object, message):
 
 
 def custom_log_deletion(self, request, object, object_repr):
-    print 'CUSTOM LOG ACTION [custom_log_deletion]'
+    # print 'CUSTOM LOG ACTION [custom_log_deletion]'
     """
     Log that an object will be deleted. Note that this method must be
     called before the deletion.
@@ -235,7 +239,7 @@ class LogAction(View):
     """
 
     def __init__(self):
-        print 'LogAction __init__ called'
+        # print 'LogAction __init__ called'
         ModelAdmin.log_addition = custom_log_addition
         ModelAdmin.log_change = custom_log_change
         ModelAdmin.log_deletion = custom_log_deletion
