@@ -44,3 +44,23 @@
     </section>
   </section>
 </section>
+
+<!-- 오늘의 강좌 -->
+
+<section class="courses-container bg-w">
+  <section class="highlighted-courses">
+	<span>
+		<i class="kr01_iconarea" style=" "><img src="/static/images/main/kr_title03.png"></i>
+		<span class="kr01_icontTitle">오늘의 강좌</span>
+	</span>
+    <section  class="courses kr01_movie_slider">
+      <ul class="course-card-slider bxslider" id="today_slider">
+        % for course in today_courses:
+          <li class="courses-listing-item">
+              <%include file="course.html" args="course=course" />
+          </li>
+        % endfor
+      </ul>
+    </section>
+  </section>
+</section>
