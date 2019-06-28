@@ -715,7 +715,27 @@
                             return string;
                         };
 
-                    return processNumericalResponse(answersList) || processStringResponse(answersList);
+                    var isString = false;
+
+                        for(var k in answersList){
+
+                            if(answersList[k].indexOf('or\=') > -1){
+                                //console.log('1: ' + answersList[k].replace(/^or\=\s*/, '') + " : " + isNaN(answersList[k].replace(/^or\=\s*/, '')));
+                                isString = isNaN(answersList[k].replace(/^or\=\s*/, ''));
+                            }
+                            else if(answersList[k].indexOf('=') > -1){
+                                //console.log('2: ' + answersList[k].replace(/^\=\s*/, '') + " : " + isNaN(answersList[k].replace(/^\=\s*/, '')));
+                                isString = isNaN(answersList[k].replace(/^\=\s*/, ''));
+                            }
+
+                            if(isString)
+                                break;
+                        }
+
+                        if(isString)
+                            return processStringResponse(answersList);
+                        else
+                            return processNumericalResponse(answersList);
                 });
 
 
