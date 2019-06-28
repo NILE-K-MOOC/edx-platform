@@ -94,52 +94,8 @@ function setCookie1( name, value, expiredays ) {
     todayDate.setDate( todayDate.getDate() + parseInt(expiredays) );
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
-function closeWin1() {
-    if ($("#chkbox_1").is(":checked")){
-        setCookie1( "popupdiv1", "done" , 10 );
-    }
-    document.all['popupWrap_1'].style.display = "none";
-}
-function closeWin2() {
-    if ($("#chkbox_2").is(":checked")){
-        setCookie1( "popupdiv2", "done" , 3 );
-    }
-    document.all['popupWrap_2'].style.display = "none";
-}
+
 cookiedata = document.cookie;
-popupDate = new Date();
-targetDate1 = new Date(2018, 1, 5); // Date(2018, 3, 20) -> 2018년 4월 20일에 팝업이 내려감
-targetDate2 = new Date(2018, 1, 5);
-console.log('>>>>>>>>>>>> ' + cookiedata.indexOf("popupdiv2=done") + ":" + popupDate.getFullYear() + ":" + popupDate.getMonth() + ":" + popupDate.getDate() + ":" + popupDate.getHours());
-if (
-        (cookiedata.indexOf("popupdiv1=done") < 0 ) && (
-        (popupDate < targetDate1)
-        )
-   )
-    {
-    % if LANG == 'en':
-        document.all['popupWrap_1'].style.display = "none";
-    % else:
-        document.all['popupWrap_1'].style.display = "block";
-    % endif
-} else {
-    document.all['popupWrap_1'].style.display = "none";
-}
-if (
-        (cookiedata.indexOf("popupdiv2=done") < 0 ) &&
-        (
-            (popupDate < targetDate2)
-        )
-   )
-    {
-    %if LANG == 'en':
-        document.all['popupWrap_2'].style.display = "none";
-    %else:
-        document.all['popupWrap_2'].style.display = "block";
-    %endif
-} else {
-    document.all['popupWrap_2'].style.display = "none";
-}
 </script>
 
 <style>
