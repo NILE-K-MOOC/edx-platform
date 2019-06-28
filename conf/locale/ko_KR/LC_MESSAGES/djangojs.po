@@ -11028,3 +11028,10 @@ msgstr "동영상의 URL을 변경했지만, 자막 파일은 변경되지 않�
 #: cms/templates/js/video/transcripts/messages/transcripts-use-existing.underscore
 msgid "Use Current Transcript"
 msgstr "지금 자막 쓰기"
+
+
+
+
+
+
+

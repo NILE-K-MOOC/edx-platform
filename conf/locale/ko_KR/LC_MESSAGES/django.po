@@ -27732,3 +27732,43 @@ msgstr "의견:"
 
 msgid "Annotated file from instructor"
 msgstr "교수자의 추가 파일"
+
+#: common/lib/xmodule/xmodule/modulestore/inheritance.py
+msgid ""
+"Enter the secret string for annotation storage. The textannotation, "
+"videoannotation, and imageannotation advanced modules require this string."
+msgstr ""
+"주석 저장을위한 비밀 문자열을 입력하십시오. textannotation, "
+"videoannotation 및 imageannotation 고급 모듈에는 이 문자열이 필요합니다."
+
+
+msgid "Select Section name"
+msgstr "Section 이름 선택"
+
+msgid "Adding Files for Your Course"
+msgstr "코스에 파일 추가하기"
+
+msgid "To add files to use in your course, click {em_start}Upload New File{em_end}. Then follow the prompts to upload a file from your computer."
+msgstr "코스에서 사용할 파일을 추가하려면 {em_start} 새 파일 업로드 {em_end}를 클릭하십시오. 그런 다음 메시지를 따라 컴퓨터에서 파일을 업로드하십시오."
+
+msgid "{em_start}Caution{em_end}: {platform_name} recommends that you limit the file size to {em_start}10 MB{em_end}. In addition, do not upload video or audio files. You should use a third party service to host multimedia files."
+msgstr "{em_start}주의 {em_end} : {platform_name}은 파일 크기를 {em_start} 10MB {em_end}로 제한 할 것을 권장합니다. 또한 비디오 또는 오디오 파일을 업로드하지 마십시오. 멀티미디어 파일을 호스팅하려면 타사 서비스를 사용해야합니다."
+
+msgid "The course image, textbook chapters, and files that appear on your Course Handouts sidebar also appear in this list."
+msgstr "Course Handouts 사이드 바에 나타나는 코스 이미지, 교과서 장 및 파일이 목록에 표시됩니다."
+
+msgid "Use the {em_start}{studio_name} URL{em_end} value to link to the file or image from a component, a course update, or a course handout."
+msgstr "{em_start} {studio_name} URL {em_end} 값을 사용하여 구성 요소, 교육 과정 업데이트 또는 과정 자료에서 파일 또는 이미지에 연결할 수 있습니다."
+
+msgid "Use the {em_start}Web URL{em_end} value to reference the file or image only from outside of your course. {em_start}Note:{em_end} If you lock a file, the Web URL no longer works for external access to a file."
+msgstr "{em_start} 웹 URL {em_end} 값을 사용하여 코스 외부에서 파일이나 이미지를 참조하십시오. {em_start} 참고 : {em_end} 파일을 잠그면 파일에 대한 외부 액세스를 위해 더 이상 웹 URL이 작동하지 않습니다."
+
+msgid "To copy a URL, double click the value in the URL column, then copy the selected text."
+msgstr "URL을 복사하려면 URL 열의 값을 두 번 클릭 한 다음 선택한 텍스트를 복사합니다."
+
+msgid "Learn more about managing files"
+msgstr "파일 관리에 대해 자세히 알아보기"
+
+msgid "Using File URLs"
+msgstr "파일 URL 사용"
+

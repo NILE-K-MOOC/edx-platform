@@ -2148,6 +2148,13 @@
         "This course has certificates. generating again?": "이수증발급 이력이 있는 강좌입니다. 이수증을 발급하시겠습니까?",
         "Use the All Topics menu to find specific topics.":"특정 주제를 찾으려면 모든 주제 메뉴를 사용하십시오.",
         "here are no posts in this topic":"이 주제에 게시물이 없습니다.",
+        "Last published":"마지막 게시 날짜",
+        "EdX doesn\'t have a timed transcript for this video. Please upload an .srt file.":"EdX에는 이 비디오에 대한 시간 기록이 없습니다. .srt 파일을 업로드하십시오.",
+        "All Rights Reserved":"저작권 보호",
+        "Enter the secret string for annotation storage. The textannotation, videoannotation, and imageannotation advanced modules require this string.":"주석 저장을위한 비밀 문자열을 입력하십시오. textannotation, videoannotation 및 imageannotation 고급 모듈에는 이 문자열이 필요합니다.",
+        " Upload New File":"새 파일 업로드",
+
+
     };
 
     django.gettext = function (msgid) {
