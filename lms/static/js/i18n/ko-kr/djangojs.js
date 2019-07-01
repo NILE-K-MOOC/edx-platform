@@ -2161,8 +2161,13 @@
         "IFrame Tool": "IFrame 도구",
         "Last published": "지막 게시 날짜",
         "Content Groups": "콘텐츠 그룹",
+        "Upload a CSV file": "CSV 파일 업로드",
         "Select Period of Studing": "학습기간 선택",
-        "This text will be displayed for the user as some extra feedback after they have submitted their response to the poll.": "이 텍스트는 설문 조사에 대한 응답을 제출 한 후 추가 피드백으로 사용자에게 표시됩니다.",
+        "All users on the Exception list who do not yet have a certificate": "예외 목록에있는 사용자 중 아직 이수증이 없는 모든 사용자",
+        "All users on the Exception list": "예외 목록의 모든 사용자",
+        "Certificate exceptions group selection": "인증서 예외 그룹 선택",
+        "There are no posts in this topic yet.": "이 주제에는 아직 게시물이 없습니다.",
+
 
     };
 

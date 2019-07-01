@@ -23748,8 +23748,8 @@ msgid ""
 "EdX, Open edX, Studio, and the edX and Open edX logos are registered "
 "trademarks or trademarks of {link_start}edX Inc.{link_end}"
 msgstr ""
-"EdX, Open edX, Studio, and the edX and Open edX logos are registered "
-"trademarks or trademarks of {link_start}edX Inc.{link_end}"
+"EdX, Open edX, Studio 및 edX 및 Open edX 로고가 등록되어 있습니다."
+"{link_start} edX Inc. {link_end}의 상표 또는 상표"
 
 #: cms/templates/widgets/header.html
 msgid "Current Course:"
@@ -27784,5 +27784,7 @@ msgstr ""
 msgid "Add Element Test001 help text."
 msgstr "요소 Test001 도움말 텍스트를 추가하십시오."
 
+msgid "Preview not available"
+msgstr "미리보기를 사용할 수 없음"
 
 
