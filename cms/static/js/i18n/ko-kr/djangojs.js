@@ -2156,6 +2156,12 @@
         "All Rights Reserved": "저작권 보호",
         "Enter the secret string for annotation storage. The textannotation, videoannotation, and imageannotation advanced modules require this string.": "주석 저장을위한 비밀 문자열을 입력하십시오. textannotation, videoannotation 및 imageannotation 고급 모듈에는 이 문자열이 필요합니다.",
         " Upload New File": "새 파일 업로드",
+        "Section Visibility": "섹션 공개 설정",
+        "Component Location ID": "구성 요소 위치 ID",
+        "IFrame Tool": "IFrame 도구",
+        "Last published": "지막 게시 날짜",
+        "Content Groups": "콘텐츠 그룹",
+        "This text will be displayed for the user as some extra feedback after they have submitted their response to the poll.": "이 텍스트는 설문 조사에 대한 응답을 제출 한 후 추가 피드백으로 사용자에게 표시됩니다.",
 
     };
 
