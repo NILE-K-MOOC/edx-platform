@@ -739,7 +739,10 @@ def new_dashboard(request):
         # /static/file_upload/series/674b84e0fbc94c688024216fdb3815c1.png
         # /static/upload/674b84e0fbc94c688024216fdb3815c1
         save_path = temp[3]
-        save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
+        try:
+            save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
+        except AttributeError:
+            save_path = None
         tmp_dict['save_path'] = save_path
 
         tmp_dict['detail_name'] = temp[4]
