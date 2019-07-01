@@ -2167,6 +2167,8 @@
         "All users on the Exception list": "예외 목록의 모든 사용자",
         "Certificate exceptions group selection": "인증서 예외 그룹 선택",
         "There are no posts in this topic yet.": "이 주제에는 아직 게시물이 없습니다.",
+        "Link Description": "링크 설명",
+        "How to create useful text alternatives.": "유용한 텍스트 대안을 만드는 방법.",
 
 
     };

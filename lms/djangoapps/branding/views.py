@@ -368,17 +368,17 @@ def login(request, user, backend=None):
 #==================================================================================================> login 오버라이딩 종료
 
 #==================================================================================================> AES 복호화 함수 시작
-# from Crypto.Cipher import AES
-# from base64 import b64decode
-# from base64 import b64encode
-# def decrypt(key, _iv, enc):
-#     BLOCK_SIZE = 16  # Bytes
-#     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
-#     unpad = lambda s: s[:-ord(s[len(s) - 1:])]
-#     enc = b64decode(enc)
-#     iv = _iv
-#     cipher = AES.new(key, AES.MODE_CBC, iv)
-#     return unpad(cipher.decrypt(enc)).decode('utf8')
+from Crypto.Cipher import AES
+from base64 import b64decode
+from base64 import b64encode
+def decrypt(key, _iv, enc):
+    BLOCK_SIZE = 16  # Bytes
+    pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+    unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+    enc = b64decode(enc)
+    iv = _iv
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(enc)).decode('utf8')
 #==================================================================================================> AES 복호화 함수 종료
 
 @csrf_exempt
