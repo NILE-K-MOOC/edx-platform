@@ -668,7 +668,12 @@ def get_org_value(request):
 
         print sql
         cur.execute(sql)
-        org_user_id = cur.fetchall()[0][0]
+        try:
+            org_user_id = cur.fetchall()[0][0]
+        except BaseException:
+            org_user_id = 'social'
+
+    print "org_user_id -> ", org_user_id
 
     return JsonResponse({'result':org_user_id})
 

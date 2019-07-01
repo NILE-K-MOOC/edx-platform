@@ -148,10 +148,20 @@ def _update_certificate_context(context, course, user_certificate, platform_name
             from multisite_member a
             join multisite b
             on a.site_id = b.site_id
-            where a.user_id = '{user_id}';
+            where a.user_id = '{user_id}'
+            union
+            select 'x' as site_code, provider as site_name
+            from social_auth_usersocialauth
+            where user_id = '{user_id}';
         '''.format(user_id=context['accomplishment_user_id'])
         cur.execute(query)
         multisite = cur.fetchall()
+
+    print '------------------------------------'
+    print 'user_id -> ', context['accomplishment_user_id']
+    print 'multisite -> ', multisite
+    print '------------------------------------'
+
     context['multisite'] = multisite
 
     context['enc_data'] = enc_data
