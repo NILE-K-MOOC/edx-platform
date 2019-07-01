@@ -383,6 +383,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         main_course = cur.fetchall()
         new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
         pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
+        today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
 
     f1 = {'id__in': new_course}
     log.info(f1)
@@ -390,13 +391,18 @@ def index(request, extra_context=None, user=AnonymousUser()):
     f2 = {'id__in': pop_course}
     log.info(f2)
 
+    f3 = {'id__in': today_course}
+    log.info(f3)
+
     new_courses = index_courses(user, f1)
     pop_courses = index_courses(user, f2)
+    today_courses = index_courses(user, f3)
 
     log.info(u'len(new_courses) ::: %s', len(new_courses))
     log.info(u'len(pop_courses) ::: %s', len(pop_courses))
+    log.info(u'len(today_courses) ::: %s', len(today_courses))
 
-    context = {'new_courses': new_courses, 'pop_courses': pop_courses}
+    context = {'new_courses': new_courses, 'pop_courses': pop_courses, 'today_courses': today_courses}
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
