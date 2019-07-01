@@ -697,7 +697,6 @@ def series_cancel(request):
     return JsonResponse({'result':'success'})
 
 
-@login_required
 def new_dashboard(request):
 
     user_id = request.user.id

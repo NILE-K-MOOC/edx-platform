@@ -1141,9 +1141,9 @@ def series_print(request, id):
         cur.execute(query)
         org_list = cur.fetchall()
 
-    print "org -> ", org
-    print "org -> ", org
-    print "org -> ", org
+    print "----------------------------"
+    print "org_list -> ", org_list
+    print "----------------------------"
 
     context = {}
     context['user_name'] = user_name
