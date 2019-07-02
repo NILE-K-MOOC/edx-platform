@@ -152,7 +152,8 @@ def _update_certificate_context(context, course, user_certificate, platform_name
             union
             select 'x' as site_code, provider as site_name
             from social_auth_usersocialauth
-            where user_id = '{user_id}';
+            where user_id = '{user_id}'
+            and provider not in ('facebook', 'kakao', 'google-oauth2', 'google-plus', 'naver');
         '''.format(user_id=context['accomplishment_user_id'])
         cur.execute(query)
         multisite = cur.fetchall()
