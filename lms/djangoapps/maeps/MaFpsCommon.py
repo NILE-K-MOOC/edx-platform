@@ -12,11 +12,15 @@ strPVersion = "25131"
 strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
-#strMAServerIP = "172.17.101.228"
+
+# dev setting
 #strMAServerIP = 'docker.for.mac.localhost'
-strMAServerIP = "203.235.44.154"
 #iMAServerPort = 8888
+
+# real setting
+strMAServerIP = "203.235.44.154"
 iMAServerPort = 18000
+
 iCellBlockCount = "15"
 iCellBlockRow = "2"
 
