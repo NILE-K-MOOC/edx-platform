@@ -3063,7 +3063,7 @@ msgid ""
 "Enter course-specific overrides for the Web/HTML template parameters here "
 "(JSON format)"
 msgstr ""
-"Enter course-specific overrides for the Web/HTML template parameters here "
+"웹 / HTML 템플릿 매개 변수에 대한 코스 별 재정의를 여기에 입력하십시오. "
 "(JSON format) "
 
 #. Translators: This field is the container for course-specific certificate
@@ -3915,7 +3915,7 @@ msgid ""
 "Enter the path to use for files on the Files & Uploads page. This value "
 "overrides the Studio default, c4x://."
 msgstr ""
-"파일 및 업로드 페이지에서 파일에 사용할 경로를 입력합니다. This value overrides the Studio default, "
+"파일 및 업로드 페이지에서 파일에 사용할 경로를 입력합니다. 이 값은 Studio 기본값보다 우선합니다."
 "c4x://."
 
 #: common/lib/xmodule/xmodule/modulestore/inheritance.py
@@ -11670,13 +11670,13 @@ msgstr "날짜 설정"
 msgid ""
 "Special characters not allowed in organization, course number, and course "
 "run."
-msgstr "기관, 강좌 번호, 기관별 강좌 번호에 특수문자를 사용할 수 없습니다."
+msgstr "기관, 강좌 번호, 강좌별 운영번호에 특수문자를 사용할 수 없습니다."
 
 #: cms/djangoapps/contentstore/views/course.py
 msgid ""
 "There is already a course defined with the same organization and course "
 "number. Please change either organization or course number to be unique."
-msgstr "동일 기관, 강좌 번호, 기관별 강좌 번호로 이미 다른 강좌가 있습니다. 기관이나 강좌 번호가 유일하도록 변경하세요"
+msgstr "동일 기관, 강좌 번호, 강좌별 운영번호로 이미 다른 강좌가 있습니다. 기관이나 강좌 번호가 유일하도록 변경하세요"
 
 #: cms/djangoapps/contentstore/views/course.py
 msgid ""
@@ -12069,13 +12069,11 @@ msgstr "강제로 강좌 공개"
 
 #: cms/djangoapps/maintenance/views.py
 msgid ""
-"Sometimes the draft and published branches of a course can get out of sync. "
-"Force publish course command resets the published branch of a course to "
-"point to the draft branch, effectively force publishing the course. This "
-"view dry runs the force publish command"
+"Sometimes the draft and published branches of a course can get out of sync. Force publish course command "
+"resets the published branch of a course to point to the draft branch, effectively force publishing the "
+"course. This view dry runs the force publish command"
 msgstr ""
-"가끔 제작중인 강좌 및 공개된 강좌의 연결이 깨질 수 있습니다. 강좌를 강제로 공개하면 공개된 강좌를 제작중인 상태로 되돌릴 수 "
-"있습니다. 강제로 강좌 공개를 선택하면 강제 공개 테스트 창으로 연결됩니다."
+"가끔 코스 초안과 게시 된 지점이 동기화되지 않을 수 있습니다. 강제로 게시 코스 명령은 코스의 게시 된 지점을 초안 지점을 가리 키도록 재설정하여 효과적으로 강좌를 게시하도록합니다. 이 뷰는 강제로 게시 명령을 실행합니다."
 
 #: cms/djangoapps/maintenance/views.py
 msgid "Please provide course id."
@@ -12183,7 +12181,7 @@ msgstr "강좌 번호:"
 #: cms/templates/index.html
 #: lms/templates/instructor/instructor_dashboard_2/course_info.html
 msgid "Course Run:"
-msgstr "기관별 강좌 번호"
+msgstr "강좌별 운영번호:"
 
 #: cms/templates/index.html lms/templates/sysadmin_dashboard.html
 #: lms/templates/sysadmin_dashboard_gitlogs.html
@@ -13161,7 +13159,7 @@ msgstr "{i_start}{user_name}{i_end} 로 강좌를 보고 있습니다."
 #: lms/templates/problem.html
 msgid "You have used {num_used} of {num_total} attempt"
 msgid_plural "You have used {num_used} of {num_total} attempts"
-msgstr[0] "{num_total}번 중 {num_used} 번의 기회를 사용했습니다"
+msgstr[0] "{num_total}번 중 {num_used} 번의 제출기회를 사용했습니다"
 
 #: lms/templates/problem.html
 msgid ""
@@ -20822,7 +20820,7 @@ msgstr "강좌 재운영을 위한 식별 정보를 제공합니다. 원래 강�
 msgid ""
 "Note: Together, the organization, course number, and course run must "
 "uniquely identify this new course instance."
-msgstr "기관과 강좌 번호, 기관별 강좌 번호는 고유해야 합니다."
+msgstr "기관과 강좌 번호, 강좌별 운영번호는 고유해야 합니다."
 
 #: cms/templates/course-create-rerun.html
 msgid "Required Information to Create a re-run of a course"
@@ -20882,7 +20880,7 @@ msgstr "기관 안에서 새로운 강좌를 식별하는 고유 번호입니다
 #: cms/templates/course-create-rerun.html cms/templates/index.html
 #: cms/templates/settings.html
 msgid "Course Run"
-msgstr "기관별 강좌 번호"
+msgstr "강좌별 운영번호"
 
 #. Translators: This is an example for the "run" used to identify different
 #. instances of a course, seen when filling out the form to create a new
@@ -22241,7 +22239,7 @@ msgstr "강좌가 처리중입니다."
 
 #: cms/templates/index.html
 msgid "This course run is currently being created."
-msgstr "기관별 강좌 번호가 만들어지고 있습니다."
+msgstr "강좌별 운영번호가 만들어지고 있습니다."
 
 #. Translators: This is a status message, used to inform the user of
 #. what the system is doing. This status means that the user has
@@ -23750,8 +23748,8 @@ msgid ""
 "EdX, Open edX, Studio, and the edX and Open edX logos are registered "
 "trademarks or trademarks of {link_start}edX Inc.{link_end}"
 msgstr ""
-"EdX, Open edX, Studio, and the edX and Open edX logos are registered "
-"trademarks or trademarks of {link_start}edX Inc.{link_end}"
+"EdX, Open edX, Studio 및 edX 및 Open edX 로고가 등록되어 있습니다."
+"{link_start} edX Inc. {link_end}의 상표 또는 상표"
 
 #: cms/templates/widgets/header.html
 msgid "Current Course:"
@@ -27771,4 +27769,22 @@ msgstr "파일 관리에 대해 자세히 알아보기"
 
 msgid "Using File URLs"
 msgstr "파일 URL 사용"
+
+msgid "Last published"
+msgstr "마지막 게시 날짜"
+
+#: common/lib/xmodule/xmodule/modulestore/inheritance.py
+msgid ""
+"Enter the location of the annotation storage server. The textannotation, "
+"videoannotation, and imageannotation advanced modules require this setting."
+msgstr ""
+"주석 저장 서버의 위치를 ​​입력하십시오. 텍스트 주석,"
+"비디오 주석 및 이미지 주석 고급 모듈에는이 설정이 필요합니다."
+
+msgid "Add Element Test001 help text."
+msgstr "요소 Test001 도움말 텍스트를 추가하십시오."
+
+msgid "Preview not available"
+msgstr "미리보기를 사용할 수 없음"
+
 

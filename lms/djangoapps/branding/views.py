@@ -668,7 +668,12 @@ def get_org_value(request):
 
         print sql
         cur.execute(sql)
-        org_user_id = cur.fetchall()[0][0]
+        try:
+            org_user_id = cur.fetchall()[0][0]
+        except BaseException:
+            org_user_id = 'social'
+
+    print "org_user_id -> ", org_user_id
 
     return JsonResponse({'result':org_user_id})
 
@@ -736,8 +741,6 @@ def new_dashboard(request):
         tmp_dict['series_id'] = temp[1]
         tmp_dict['series_name'] = temp[2]
 
-        # /static/file_upload/series/674b84e0fbc94c688024216fdb3815c1.png
-        # /static/upload/674b84e0fbc94c688024216fdb3815c1
         save_path = temp[3]
         try:
             save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
@@ -745,6 +748,7 @@ def new_dashboard(request):
             save_path = None
         tmp_dict['save_path'] = save_path
 
+        tmp_dict['save_path'] = save_path
         tmp_dict['detail_name'] = temp[4]
 
         with connections['default'].cursor() as cur:

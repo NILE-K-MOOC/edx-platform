@@ -813,6 +813,7 @@ def series_print(request, id):
     cert_date = (cert_date + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
 
     # DEBUG
+    print "--------------------------------------------"
     print 'cert_date -> ', cert_date
     print "--------------------------------------------"
 
@@ -879,10 +880,13 @@ def series_print(request, id):
             on a.id = b.user_id
             left join auth_user_nicecheck c
             on a.id = c.user_Id
-            where a.id = '13';
+            where a.id = '{user_id}';
         '''.format(user_id=user_id)
         cur.execute(query)
         row1 = cur.fetchall()
+
+    print 'row1 -> ', row1
+    print "--------------------------------------------"
 
     user_name = row1[0][0]
     user_birth = row1[0][1]
@@ -1011,7 +1015,10 @@ def series_print(request, id):
     sign_list = []
     sign_list.append(main_sign)
     for n in range(0, 3):
-        sign_list.append(sub_sign[n][0])
+        try:
+            sign_list.append(sub_sign[n][0])
+        except BaseException:
+            pass
 
     print "sign_list -> ", sign_list
 
@@ -1141,13 +1148,13 @@ def series_print(request, id):
         cur.execute(query)
         org_list = cur.fetchall()
 
-    print "org -> ", org
-    print "org -> ", org
-    print "org -> ", org
+    print "----------------------------"
+    print "org_list -> ", org_list
+    print "----------------------------"
 
     context = {}
     context['user_name'] = user_name
-    context['user_birth'] = user_birth + '.'
+    context['user_birth'] = str(user_birth) + '.'
     context['user_nice'] = user_nice
     context['kst'] = kst
     context['package_name'] = package_name

@@ -2156,6 +2156,20 @@
         "All Rights Reserved": "저작권 보호",
         "Enter the secret string for annotation storage. The textannotation, videoannotation, and imageannotation advanced modules require this string.": "주석 저장을위한 비밀 문자열을 입력하십시오. textannotation, videoannotation 및 imageannotation 고급 모듈에는 이 문자열이 필요합니다.",
         " Upload New File": "새 파일 업로드",
+        "Section Visibility": "섹션 공개 설정",
+        "Component Location ID": "구성 요소 위치 ID",
+        "IFrame Tool": "IFrame 도구",
+        "Last published": "지막 게시 날짜",
+        "Content Groups": "콘텐츠 그룹",
+        "Upload a CSV file": "CSV 파일 업로드",
+        "Select Period of Studing": "학습기간 선택",
+        "All users on the Exception list who do not yet have a certificate": "예외 목록에있는 사용자 중 아직 이수증이 없는 모든 사용자",
+        "All users on the Exception list": "예외 목록의 모든 사용자",
+        "Certificate exceptions group selection": "인증서 예외 그룹 선택",
+        "There are no posts in this topic yet.": "이 주제에는 아직 게시물이 없습니다.",
+        "Link Description": "링크 설명",
+        "How to create useful text alternatives.": "유용한 텍스트 대안을 만드는 방법.",
+
 
     };
 

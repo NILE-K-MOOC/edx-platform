@@ -11029,6 +11029,9 @@ msgstr "동영상의 URL을 변경했지만, 자막 파일은 변경되지 않�
 msgid "Use Current Transcript"
 msgstr "지금 자막 쓰기"
 
+msgid "Select Period of Studing"
+msgstr "Studing 기간 선택"
+
 
 
 
