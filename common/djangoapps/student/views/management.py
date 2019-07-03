@@ -302,8 +302,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                         if block.get('block_type') == 'course' and block.get('block_id') == 'course':
                             if block.get('fields').get('catalog_visibility'):
                                 if block.get('fields').get('catalog_visibility') == 'none':
-                                    pass
-                                    # course_lock = 1 <- 사용하려면 위에 pass 지우고 주석 해제
+                                    course_lock = 1
 
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
