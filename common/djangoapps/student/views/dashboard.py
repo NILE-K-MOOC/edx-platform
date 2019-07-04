@@ -1232,13 +1232,13 @@ def modi_teacher_name(request):
 
 
 def course_detail_view(request):
-    c_list = course_detail_data()
+    c_list = course_detail_data('view')
 
     return JsonResponse({'data': c_list})
 
 
 def course_detail_excel(request):
-    course_data = course_detail_data()
+    course_data = course_detail_data('excel')
 
     now = datetime.datetime.now()
 
@@ -1290,8 +1290,11 @@ def course_detail_excel(request):
     return response
 
 
-def course_detail_data():
+def course_detail_data(call_type=None):
     c_list = list()
+
+    date_format = '%Y/%m/%d %H:%i:%s' if call_type == 'excel' else '%Y/%m/%d'
+
     with connections['default'].cursor() as cur:
         query = '''
                     SELECT 
@@ -1302,8 +1305,8 @@ def course_detail_data():
                             d.detail_name AS org,
                             a.display_name,
                             effort,
-                            DATE_FORMAT(a.start, '%Y/%m/%d %H:%i:%s') as start,
-                            DATE_FORMAT(a.end, '%Y/%m/%d %H:%i:%s') as end,
+                            DATE_FORMAT(a.start, '{date_format}') as start,
+                            DATE_FORMAT(a.end, '{date_format}') as end,
                             e.detail_name AS classfy,
                             f.detail_name AS middle_classfy,
                             IFNULL(teacher_name, '') AS teacher_name,
@@ -1340,7 +1343,7 @@ def course_detail_data():
                     ORDER BY a.display_name) AS sub
                         JOIN
                     (SELECT @rn:=0) rownum;
-            '''
+            '''.format(date_format=date_format)
         cur.execute(query)
         course_data = cur.fetchall()
 
@@ -1361,7 +1364,15 @@ def course_detail_data():
             cd_dict['end'] = cd[5]
             cd_dict['classfy'] = cd[6]
             cd_dict['middle_classfy'] = cd[7]
-            cd_dict['teacher_name'] = cd[8] if cd[8] != 'all' else ''
+
+            if cd[8].find(',') != -1:
+                teacher_len = len(cd[8].split(','))
+                teacher_name = cd[8].split(',')[0].strip() + ' 외 ' + str(teacher_len - 1) + '명'
+            else:
+                teacher_name = cd[8].strip() if cd[8] != 'all' else ''
+
+            cd_dict['teacher_name'] = teacher_name
+
             cd_dict['course_level'] = cd[9]
             cd_dict['audit_yn'] = 'O' if cd[10] == 'Y' else 'X'
             cd_dict['enroll_status'] = cd[11]

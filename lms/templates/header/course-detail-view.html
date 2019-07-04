@@ -145,7 +145,15 @@
 }
 
 .popup-table-div table tr th {
-  font-size: 14px;
+  font-size: 12px;
+}
+
+.popup-table-div table thead {
+  background: #f5f8ff;
+}
+
+.popup-table-div table tbody {
+  font-size: 10px;
 }
 
 .main-popup-close {
@@ -189,6 +197,11 @@
   text-align: center;
   vertical-align: middle;
   word-break: keep-all;
+  border-bottom: none;
+  border-top: 0.05em solid #f0eded !important;
+  border-bottom: 0.05em solid #f0eded !important;
+  border-left: 0.05em solid #f0eded !important;
+  border-right: 0.05em solid #f0eded !important;
 }
 
 .btn-popup {
@@ -210,8 +223,8 @@
 </style>
 
 <div class="main-course-detail-popup">
-  <div class='main-popup-close' onclick='close_course_detail_popup()'>
-    <i class="fa fa-remove"></i>
+  <div class='main-popup-close'>
+    <i class="fa fa-remove" onclick='close_course_detail_popup()'></i>
   </div>
   <div class='main-popup-title'>
     강좌 정보
