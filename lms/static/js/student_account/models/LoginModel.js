@@ -62,7 +62,7 @@
                                 $('<form/>', {
                                     id: 'form_for_redirect',
                                     method: 'post',
-                                    action: val
+                                    action: decodeURIComponent(val)
                                 }).appendTo("body");
 
                                 $('<input/>', {
@@ -71,6 +71,7 @@
                                     value: d
                                 }).appendTo("#form_for_redirect");
 
+                                // console.log(decodeURIComponent(val));
                                 // console.log(d);
                                 // alert($("#form_for_redirect").html());
 
@@ -83,11 +84,6 @@
 
                     },
                     error: function (error) {
-
-                        console.log("error --- s");
-                        console.log(error);
-                        console.log("error --- e");
-
                         model.trigger('error', error);
                     }
                 });
