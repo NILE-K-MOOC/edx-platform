@@ -684,19 +684,12 @@ def shim_student_view(view_func, check_logged_in=False):
 
         enc = encrypt(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
         enc = base64.b64encode(enc)
-        enc = urllib.quote(enc, safe='')
-
-        print '========================================== s'
-        print enc
-        print type(view_func), view_func
-        print type(response)
-        print response
-        print '========================================== e'
+        # enc = urllib.quote(enc, safe='')
 
         if response.content:
             return response
         else:
-            return JsonResponse({'enc': enc})
+            return JsonResponse({'data': enc})
 
     return _inner
 

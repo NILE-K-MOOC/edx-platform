@@ -44,8 +44,6 @@
                     data: data,
                     headers: headers,
                     success: function (d) {
-                        alert('check!');
-
                         let search = document.location.search;
                         let search_array = search.substring(1).split("&");
                         let is_redirect = false;
@@ -61,9 +59,23 @@
                             if (key === "callback") {
                                 is_redirect = true;
 
-                                console.log(d);
+                                $('<form/>', {
+                                    id: 'form_for_redirect',
+                                    method: 'post',
+                                    action: val
+                                }).appendTo("body");
 
-                                document.location.href = decodeURIComponent(val);
+                                $('<input/>', {
+                                    type: 'hidden',
+                                    name: 'data',
+                                    value: d
+                                }).appendTo("#form_for_redirect");
+
+                                // console.log(d);
+                                // alert($("#form_for_redirect").html());
+
+                                $("#form_for_redirect").submit();
+                                // document.location.href = decodeURIComponent(val);
                             }
                         }
 
