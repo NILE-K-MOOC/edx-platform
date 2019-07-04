@@ -1,10 +1,10 @@
-(function(define) {
+(function (define) {
     'use strict';
     define([
         'jquery',
         'backbone',
         'jquery.url'
-    ], function($, Backbone) {
+    ], function ($, Backbone) {
         return Backbone.Model.extend({
             defaults: {
                 email: '',
@@ -15,12 +15,12 @@
             ajaxType: '',
             urlRoot: '',
 
-            initialize: function(attributes, options) {
+            initialize: function (attributes, options) {
                 this.ajaxType = options.method;
                 this.urlRoot = options.url;
             },
 
-            sync: function(method, model) {
+            sync: function (method, model) {
                 var headers = {'X-CSRFToken': $.cookie('csrftoken')},
                     data = {},
                     analytics,
@@ -43,10 +43,39 @@
                     type: model.ajaxType,
                     data: data,
                     headers: headers,
-                    success: function() {
-                        model.trigger('sync');
+                    success: function (d) {
+                        alert('check!');
+
+                        let search = document.location.search;
+                        let search_array = search.substring(1).split("&");
+                        let is_redirect = false;
+
+                        for (let i in search_array) {
+                            let str = search_array[i];
+
+                            if (str === "") continue;
+
+                            let key = str.split("=")[0];
+                            let val = str.split("=")[1];
+
+                            if (key === "callback") {
+                                is_redirect = true;
+
+                                console.log(d);
+
+                                document.location.href = decodeURIComponent(val);
+                            }
+                        }
+
+                        if (!is_redirect) model.trigger('sync');
+
                     },
-                    error: function(error) {
+                    error: function (error) {
+
+                        console.log("error --- s");
+                        console.log(error);
+                        console.log("error --- e");
+
                         model.trigger('error', error);
                     }
                 });
