@@ -60,10 +60,17 @@ from xmodule.modulestore.django import modulestore
 import json
 import sys
 import MySQLdb as mdb
+import re
+import xlsxwriter
 from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import JsonResponse
+
+try:
+    import cStringIO as StringIO
+except ImportError:
+    import StringIO
 
 from pymongo import MongoClient
 from bson import ObjectId
@@ -1222,3 +1229,176 @@ def modi_teacher_name(request):
             return HttpResponse(data, 'application/json')
 
         return HttpResponse('success', 'application/json')
+
+
+def course_detail_view(request):
+    c_list = course_detail_data('view')
+
+    return JsonResponse({'data': c_list})
+
+
+def course_detail_excel(request):
+    course_data = course_detail_data('excel')
+
+    now = datetime.datetime.now()
+
+    file_output = StringIO.StringIO()
+
+    n_date = now.strftime('%Y-%m-%d')
+    workbook = xlsxwriter.Workbook(file_output)
+    worksheet = workbook.add_worksheet('course')
+    format_dict = {'align': 'center', 'valign': 'vcenter', 'bold': 'true', 'border': 1}
+    header_format = workbook.add_format(format_dict)
+    format_dict.pop('bold')
+    cell_format = workbook.add_format(format_dict)
+
+    alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q']
+    c_keys = ['rn', 'org', 'classfy', 'middle_classfy', 'display_name', 'teacher_name', 'course_level', 'w_time',
+              'week', 'l_time', 'v_time', 'course_status', 'enroll_status', 'audit_yn', 'start', 'end', 'course_id']
+    header_cell = ['', '기관명', '분야(대)', '분야(중)', '강좌명', '교수자명', '강좌난이도', '주간학습권장시간', '총 주차', '학습인정시간',
+                   '총 동영상시간', '운영 상태', '수강신청 가능여부', '청강신청 가능여부', '개강일', '종강일', '']
+
+    for i, a in enumerate(alpha):
+        worksheet.set_column(a + ':' + a, 20)
+        if a not in ['A', 'Q']:
+            worksheet.write(a + '2', header_cell[i].decode('utf-8'), header_format)
+
+    worksheet.set_column('A:A', 8)
+    worksheet.set_column('E:E', 40)
+    worksheet.set_column('F:F', 30)
+    worksheet.merge_range('A1:A2', '연번'.decode('utf-8'), header_format)
+    worksheet.merge_range('B1:F1', '기본정보'.decode('utf-8'), header_format)
+    worksheet.merge_range('G1:K1', '학습정보'.decode('utf-8'), header_format)
+    worksheet.merge_range('L1:P1', '운영정보'.decode('utf-8'), header_format)
+    worksheet.merge_range('Q1:Q2', '강좌신청\n하러가기'.decode('utf-8'), header_format)
+
+    for idx, c in enumerate(course_data):
+        for i, k in enumerate(c_keys):
+            if k == 'rn' and alpha[i] == 'A':
+                worksheet.write(alpha[i] + str(idx + 3), str(int(c[k])).decode('utf-8'), cell_format)
+            elif k == 'course_id' and alpha[i] == 'Q':
+                worksheet.write_url(alpha[i] + str(idx + 3), 'http://kmooc.kr/courses/' + c[k] + '/about', cell_format, string="Go")
+            else:
+                worksheet.write(alpha[i] + str(idx + 3), c[k].decode('utf-8'), cell_format)
+
+    workbook.close()
+
+    file_output.seek(0)
+    response = HttpResponse(file_output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=K-MOOC_강좌정보_" + n_date + ".xlsx"
+
+    return response
+
+
+def course_detail_data(call_type=None):
+    c_list = list()
+
+    date_format = '%Y/%m/%d %H:%i:%s' if call_type == 'excel' else '%Y/%m/%d'
+
+    with connections['default'].cursor() as cur:
+        query = '''
+                    SELECT 
+                    sub.*, @rn:=@rn + 1 rn
+                FROM
+                    (SELECT 
+                        a.id,
+                            d.detail_name AS org,
+                            a.display_name,
+                            effort,
+                            DATE_FORMAT(a.start, '{date_format}') as start,
+                            DATE_FORMAT(a.end, '{date_format}') as end,
+                            e.detail_name AS classfy,
+                            f.detail_name AS middle_classfy,
+                            IFNULL(teacher_name, '') AS teacher_name,
+                            IFNULL(g.detail_name, '') AS course_level,
+                            b.audit_yn,
+                            CASE
+                                WHEN DATE_SUB(NOW(), INTERVAL 9 HOUR) BETWEEN a.enrollment_start AND a.enrollment_end THEN 'O'
+                                ELSE 'X'
+                            END AS enroll_status,
+                            CASE
+                                WHEN DATE_SUB(NOW(), INTERVAL 9 HOUR) < a.start THEN '개강예정'
+                                WHEN
+                                    DATE_SUB(NOW(), INTERVAL 9 HOUR) > a.start
+                                        AND DATE_SUB(NOW(), INTERVAL 9 HOUR) < a.end
+                                THEN
+                                    '운영중'
+                                ELSE '종료'
+                            END AS course_status
+                    FROM
+                        course_overviews_courseoverview a
+                    JOIN course_overview_addinfo b ON a.id = b.course_id
+                    JOIN tb_main_course c ON a.id = c.course_id
+                        AND c.course_division = 'A'
+                    JOIN code_detail d ON a.org = d.detail_code
+                        AND d.group_code = '003'
+                    JOIN code_detail e ON b.classfy = e.detail_code
+                        AND e.group_code = '001'
+                    JOIN code_detail f ON b.middle_classfy = f.detail_code
+                        AND f.group_code = '002'
+                    LEFT JOIN code_detail g ON b.course_level = g.detail_code
+                        AND g.group_code = '007'
+                    WHERE
+                        a.org NOT IN ('edX' , 'NILE', 'KMOOC')
+                    ORDER BY a.display_name) AS sub
+                        JOIN
+                    (SELECT @rn:=0) rownum;
+            '''.format(date_format=date_format)
+        cur.execute(query)
+        course_data = cur.fetchall()
+
+        for cd in course_data:
+            cd_dict = dict()
+            cd_dict['rn'] = cd[13]
+            cd_dict['course_id'] = cd[0]
+            cd_dict['org'] = cd[1]
+            cd_dict['display_name'] = cd[2]
+
+            effort = effort_make_available(cd[3])
+            cd_dict['w_time'] = effort['w_time']
+            cd_dict['week'] = effort['week']
+            cd_dict['v_time'] = effort['v_time']
+            cd_dict['l_time'] = effort['l_time']
+
+            cd_dict['start'] = cd[4]
+            cd_dict['end'] = cd[5]
+            cd_dict['classfy'] = cd[6]
+            cd_dict['middle_classfy'] = cd[7]
+
+            if cd[8].find(',') != -1:
+                teacher_len = len(cd[8].split(','))
+                teacher_name = cd[8].split(',')[0].strip() + ' 외 ' + str(teacher_len - 1) + '명'
+            else:
+                teacher_name = cd[8].strip() if cd[8] != 'all' else ''
+
+            cd_dict['teacher_name'] = teacher_name
+
+            cd_dict['course_level'] = cd[9]
+            cd_dict['audit_yn'] = 'O' if cd[10] == 'Y' else 'X'
+            cd_dict['enroll_status'] = cd[11]
+            cd_dict['course_status'] = cd[12]
+            c_list.append(cd_dict)
+
+    return c_list
+
+
+# effort split 공통
+def effort_make_available(effort=None):
+    if effort is not None:
+        e_regex = re.search(r'(?P<w_time>\w{1,2}:\w{1,2})*@*(?P<week>\w{1,2})*#*(?P<v_time>\w{1,2}:\w{1,2})*'
+                            r'\$*(?P<l_time>\w{1,2}:\w{1,2})*', effort)
+
+        # 주간학습권장시간
+        w_time = e_regex.group('w_time') if e_regex.group('w_time') is not None else '00:00'
+        # 총 주차
+        week = e_regex.group('week') if e_regex.group('week') is not None else '0'
+        # 총 동영상 시간
+        v_time = e_regex.group('v_time') if e_regex.group('v_time') is not None else '00:00'
+        # 학습인정시간
+        l_time = e_regex.group('l_time') if e_regex.group('l_time') is not None else '00:00'
+
+        e_dict = {'w_time': w_time, 'week': week, 'v_time': v_time, 'l_time': l_time}
+
+        return e_dict
+
+    return effort

@@ -742,8 +742,11 @@ def new_dashboard(request):
         tmp_dict['series_name'] = temp[2]
 
         save_path = temp[3]
-        if save_path:
+        try:
             save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
+        except AttributeError:
+            save_path = None
+        tmp_dict['save_path'] = save_path
 
         tmp_dict['save_path'] = save_path
         tmp_dict['detail_name'] = temp[4]

@@ -20,4 +20,3 @@ else
 fi
 
 sudo -u www-data /edx/bin/python.edxapp /edx/app/edxapp/edx-platform/manage.py lms --settings aws create_user -u $3 -p $2 -e $1
-

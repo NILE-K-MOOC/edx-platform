@@ -3,6 +3,7 @@ var course_slider;
 
 var main_slider;
 var sub_slider;
+var today_slider;
 var footer_slider;
 
 var slide_option = {
@@ -108,6 +109,9 @@ $(window).load(function () {
   if($("#sub_slider").size() != 0){
     sub_slider = $("#sub_slider").bxSlider(slide_option);
   }
+  if($("#today_slider").size() != 0){
+    today_slider = $("#today_slider").bxSlider(slide_option);
+  }
 
   footer_slider = $('.kr01-ft-familysite').bxSlider(slide_footer);
   $(window).resize(slide_resize);
@@ -155,6 +159,9 @@ function slide_resize() {
   }
   if($("#sub_slider").size() != 0){
     sub_slider.reloadSlider(slide_option);
+  }
+  if($("#today_slider").size() != 0){
+    today_slider.reloadSlider(slide_option);
   }
 
   footer_slider.reloadSlider(slide_footer);
