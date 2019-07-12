@@ -57,11 +57,6 @@
                             let val = str.split("=")[1];
 
                             if (key === "callback") {
-                                console.log('==================================== s');
-                                console.log(d);
-                                console.log('==================================== e');
-                                alert("post parameter check. see console log");
-
                                 is_redirect = true;
 
                                 $('<form/>', {
@@ -73,7 +68,7 @@
                                 $('<input/>', {
                                     type: 'hidden',
                                     name: 'data',
-                                    value: d
+                                    value: d.data
                                 }).appendTo("#form_for_redirect");
 
                                 // console.log(decodeURIComponent(val));
