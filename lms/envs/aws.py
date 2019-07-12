@@ -1092,8 +1092,8 @@ RETIREMENT_SERVICE_WORKER_USERNAME = ENV_TOKENS.get(
 RETIREMENT_STATES = ENV_TOKENS.get('RETIREMENT_STATES', RETIREMENT_STATES)
 
 ############################### Xinics config ###############################
-XINICS_KEY = ENV_TOKENS.get('XINICS_KEY')
-XINICS_IV = ENV_TOKENS.get('XINICS_IV')
+XINICS_KEY = ENV_TOKENS.get('XINICS_KEY', 'Key is not exists')
+XINICS_IV = ENV_TOKENS.get('XINICS_IV', 'iv is not exists')
 
 ############################### Plugin Settings ###############################
 

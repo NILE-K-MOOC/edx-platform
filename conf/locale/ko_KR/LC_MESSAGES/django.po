@@ -26434,7 +26434,10 @@ msgid "Satisfaction Survey"
 msgstr "만족도 조사"
 
 msgid "Total recognized learning hours must have number"
-msgstr "학습인정시간에는 숫자만 입력 가능합니다"
+msgstr "강좌에 대해 아쉬웠던 점이나 건의사항을 작성해주세요."
+
+msgid "Total recognized learning hours must have number"
+msgstr "What is your suggestion to improve this course?"
 
 #: cms/templates/settings.html
 msgid "Recommended weekly commitment"
