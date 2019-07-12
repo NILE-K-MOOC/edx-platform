@@ -573,8 +573,8 @@ def multisite_index(request, org):
             print "------------------------------------"
 
             # 호출시간 만료 체크
-            #if java_calltime + timedelta(seconds=180) < python_calltime:
-            #    return redirect('/multisite_error?error=error005')
+            if java_calltime + timedelta(seconds=180) < python_calltime:
+                return redirect('/multisite_error?error=error005')
 
             # 복호화 기관코드와 접속 기관코드 비교
             if org != orgid:
