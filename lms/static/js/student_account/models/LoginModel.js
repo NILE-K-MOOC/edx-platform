@@ -68,7 +68,7 @@
                                 $('<input/>', {
                                     type: 'hidden',
                                     name: 'data',
-                                    value: d
+                                    value: d.data
                                 }).appendTo("#form_for_redirect");
 
                                 // console.log(decodeURIComponent(val));
