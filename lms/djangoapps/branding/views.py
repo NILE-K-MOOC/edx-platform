@@ -17,6 +17,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 import branding.api as branding_api
 import courseware.views.views
 import student.views.management
+from student.views.dashboard import effort_make_available
 from edxmako.shortcuts import marketing_link, render_to_response
 from openedx.core.djangoapps.lang_pref.api import released_languages
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
@@ -71,9 +72,9 @@ def course_api(request):
     #                        password='password',
     #                        db='edxapp',
     #                        charset='utf8')
-    conn = connections['default'].cursor()
+    cur = connections['default'].cursor()
 
-    cur = conn.cursor()
+    # cur = conn.cursor()
     #with connections['default'].cursor() as cur:
     sql = '''
         SELECT coc.id,
@@ -123,10 +124,6 @@ def course_api(request):
     org_list = []           #org 코드
     course_list = []        #course 코드
     run_list = []           #run 코드
-    e0_list = []            #주간학습권장시간
-    e1_list = []            #총주차
-    e2_list = []            #동영상재생시간
-    et_list = []            #총학습시간
     course_status_list = [] #강좌상태
     classfy_list = []       #대분류
     middle_classfy_list = []#중분류
@@ -196,78 +193,15 @@ def course_api(request):
 
         status = common_course_status(item[2], item[3])         #강좌상태
         course_status_list.append(status)
-                                                                #주간학습권장시간
-                                                                #총주차
-                                                                #동영상재생시간
-                                                                #총학습시간
 
         print "item[14] -> ", item[14]
 
-        c2 = item[14].find('@')
-        c3 = item[14].find('#')
-
-        # @ 있고 # 있는 로직 ex) 11:11@7#11:11
-        if c2 != -1 and c3 != -1:
-            tmp = item[14].replace('@','#')
-            tmp = tmp.split('#')
-            e0_list.append(tmp[0])
-            e1_list.append(tmp[1])
-            e2_list.append(tmp[2])
-            t = tmp[0].split(':')
-            tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
-            th = tt/60
-            tm = tt%60
-            if len(str(th)) == 1:
-                th = "0" + str(th)
-            if len(str(tm)) == 1:
-                tm = "0" + str(tm)
-            total_time = str(th) + ":" + str(tm)
-            et_list.append(total_time)
-
-        # #만 있는 로직 ex) 11:11#11:11
-        elif c3 != -1:
-            tmp = item[14]
-            tmp = tmp.split('#')
-            e0_list.append(tmp[0])
-            e1_list.append('null')
-            e2_list.append(tmp[1])
-            et_list.append('null')
-
-        # @만 있는 로직 ex) 11:11@7
-        elif c2 != -1:
-            tmp = item[14]
-            tmp = tmp.split('@')
-            e0_list.append(tmp[0])
-            e1_list.append(tmp[1])
-            e2_list.append('null')
-            t = tmp[0].split(':')
-            tt = ((int(t[0]) * 60) + int(t[1])) * int(tmp[1])
-            th = tt/60
-            tm = tt%60
-            if len(str(th)) == 1:
-                th = "0" + str(th)
-            if len(str(tm)) == 1:
-                tm = "0" + str(tm)
-            total_time = str(th) + ":" + str(tm)
-            et_list.append(total_time)
-
-        # @ 없고 # 없는 로직 ex) 11:11
-        elif c2 == -1 and c3 == -1:
-            e0_list.append(item[14])
-            e1_list.append('null')
-            e2_list.append('null')
-            et_list.append('null')
-
-        # 전부 없는 로직 ex)
-        else:
-            e0_list.append('null')
-            e1_list.append('null')
-            e2_list.append('null')
-            et_list.append('null')
+        # effort 내용 공통 사용
+        effort_dict = effort_make_available(item[14])
 
     json_list = []
     for n in range(0, len(slist)-err_cnt):
-        item = '{' + '"course_id":' + '"' + str(course_id_list[n])  + '"' +  ',' + '"display_name":'  + '"' +  unicode(display_name_list[n])  + '"' +  ',' + '"univ_name":'  + '"' +  unicode(univ_name_list[n])  + '"' +  ',' + '"start_time":'  + '"' +  str(start_time_list[n])  + '"' +  ',' + '"end_time":'  + '"' +  str(end_time_list[n])  + '"' +  ',' + '"enroll_start":'  + '"' +  str(enroll_start_list[n])  + '"' +  ',' + '"enroll_end":'  + '"' +  str(enroll_end_list[n])  + '"' +  ',' + '"created":'  + '"' +  str(created_list[n])  + '"' +  ',' + '"modified":'  + '"' +  str(modified_list[n])  + '"' +  ',' + '"video":'  + '"' +  str(video_list[n])  + '"' +  ',' + '"img":'  + '"' +  str(img_list[n])  + '"' +  ',' + '"org":'  + '"' +  str(org_list[n])  + '"' +  ',' + '"course":'  + '"' +  str(course_list[n])  + '"' +  ',' + '"run":'  + '"' +  str(run_list[n])  + '"' +  ',' + '"e0":'  + '"' +  str(e0_list[n])  + '"' +  ',' + '"e1":'  + '"' +  str(e1_list[n])  + '"' +  ',' + '"e2":'  + '"' +  str(e2_list[n])  + '"' +  ',' + '"et":'  + '"' +  str(et_list[n])  + '"' +  ',' + '"course_status":'  + '"' +  str(course_status_list[n])  + '"' +  ',' + '"classfy":'  + '"' +  str(classfy_list[n])  + '"' +  ',' + '"middle_classfy":'  + '"' +  str(middle_classfy_list[n])  + '"' +  ',' + '"cert_date":'  + '"' +  str(cert_date_list[n])  + '"' +  ',' + '"teacher_name":'  + '"' +  str(teacher_name_list[n])  + '"' +  '}'
+        item = '{' + '"course_id":' + '"' + str(course_id_list[n]) + '"' + ',' + '"display_name":' + '"' + unicode(display_name_list[n]) + '"' + ',' + '"univ_name":' + '"' + unicode(univ_name_list[n]) + '"' + ',' + '"start_time":' + '"' + str(start_time_list[n]) + '"' + ',' + '"end_time":' + '"' + str(end_time_list[n]) + '"' + ',' + '"enroll_start":' + '"' + str(enroll_start_list[n]) + '"' + ',' + '"enroll_end":' + '"' + str(enroll_end_list[n]) + '"' + ',' + '"created":' + '"' + str(created_list[n]) + '"' + ',' + '"modified":' + '"' + str(modified_list[n]) + '"' + ',' + '"video":' + '"' + str(video_list[n]) + '"' + ',' + '"img":' + '"' + str(img_list[n]) + '"' + ',' + '"org":' + '"' + str(org_list[n]) + '"' + ',' + '"course":' + '"' + str(course_list[n]) + '"' + ',' + '"run":' + '"' + str(run_list[n]) + '"' + ',' + '"e0":' + '"' + effort_dict['w_time'] + '"' + ',' + '"e1":' + '"' + effort_dict['week'] + '"' + ',' + '"e2":' + '"' + effort_dict['v_time'] + '"' + ',' + '"et":' + '"' + effort_dict['l_time'] + '"' + ',' + '"course_status":' + '"' + str(course_status_list[n]) + '"' + ',' + '"classfy":' + '"' + str(classfy_list[n]) + '"' + ',' + '"middle_classfy":' + '"' + str(middle_classfy_list[n]) + '"' + ',' + '"cert_date":' + '"' + str(cert_date_list[n]) + '"' + ',' + '"teacher_name":' + '"' + str(teacher_name_list[n]) + '"' + '}'
         if n == 0:
             item = "[" + item + ","
         elif n == len(slist)-1:
