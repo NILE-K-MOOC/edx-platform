@@ -134,7 +134,7 @@ def course_api(request):
     # making data (insert)
     for item in slist:
         #mongo
-        client = MongoClient('docker.for.mac.localhost', 27017)
+        client = MongoClient('192.168.1.113', 27017)
         db = client["edxapp"]
         cursor = db.modulestore.active_versions.find_one({'org': item[11], 'course': item[12], 'run': item[13]})
 
