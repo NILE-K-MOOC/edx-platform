@@ -60,6 +60,7 @@ from xmodule.modulestore.django import modulestore
 import json
 import sys
 import MySQLdb as mdb
+import re
 from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -1222,3 +1223,25 @@ def modi_teacher_name(request):
             return HttpResponse(data, 'application/json')
 
         return HttpResponse('success', 'application/json')
+
+
+# effort split 공통
+def effort_make_available(effort=None):
+    if effort is not None:
+        e_regex = re.search(r'(?P<w_time>\w{1,2}:\w{1,2})*@*(?P<week>\w{1,2})*#*(?P<v_time>\w{1,2}:\w{1,2})*'
+                            r'\$*(?P<l_time>\w{1,2}:\w{1,2})*', effort)
+
+        # 주간학습권장시간
+        w_time = e_regex.group('w_time') if e_regex.group('w_time') is not None else '00:00'
+        # 총 주차
+        week = e_regex.group('week') if e_regex.group('week') is not None else '0'
+        # 총 동영상 시간
+        v_time = e_regex.group('v_time') if e_regex.group('v_time') is not None else '00:00'
+        # 학습인정시간
+        l_time = e_regex.group('l_time') if e_regex.group('l_time') is not None else '00:00'
+
+        e_dict = {'w_time': w_time, 'week': week, 'v_time': v_time, 'l_time': l_time}
+
+        return e_dict
+
+    return effort
