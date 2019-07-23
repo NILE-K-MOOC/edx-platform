@@ -173,10 +173,7 @@ def course_api(request):
 
     item_json = json.dumps(item_list, ensure_ascii=False, encoding='utf-8')
 
-    json_list = list()
-    json_list.append(item_json)
-
-    return HttpResponse(json_list)
+    return HttpResponse(item_json)
 
 
 #==================================================================================================> login 오버라이딩 시작
