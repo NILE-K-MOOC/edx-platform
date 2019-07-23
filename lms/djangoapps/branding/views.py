@@ -339,13 +339,14 @@ def multisite_error(request):
     error = request.GET.get('error')
 
     print "error -> ", error
-
+    context['header'] = '디버깅 페이지'
     if error == 'error001':
-        context['info'] = '유효하지않은 org(기관번호) 입니다.'
+        context['header'] = '등록되어 있지 않은 기관번호입니다.'
+        context['info'] = '기관담당자에게 정확한 URL을 문의해주세요'
     if error == 'error002':
         context['info'] = 'in_url(접근URL)과 out_url(등록URL)이 일치하지 않습니다.'
     if error == 'error003':
-        context['info'] = '암호화 데이터를 복호화하는데 실패하였습니다.'
+        return redirect('signin_user')
     if error == 'error004':
         context['info'] = '복호화 데이터 파싱에 실패하였습니다.'
     if error == 'error005':
