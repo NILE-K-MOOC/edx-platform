@@ -140,12 +140,12 @@ def course_api(request):
         item_dict['course_id'] = item[0]
         item_dict['display_name'] = item[1]
         item_dict['univ_name'] = unicode(item[10]).strip()
-        item_dict['start_time'] = item[2].strftime('%Y-%m-%d %H:%M:%S') if item[2] is not None and item[2] != '' else 'null'
-        item_dict['end_time'] = item[3].strftime('%Y-%m-%d %H:%M:%S') if item[3] is not None and item[3] != '' else 'null'
-        item_dict['enroll_start'] = item[4].strftime('%Y-%m-%d %H:%M:%S') if item[4] is not None and item[4] != '' else 'null'
-        item_dict['enroll_end'] = item[5].strftime('%Y-%m-%d %H:%M:%S') if item[5] is not None and item[5] != '' else 'null'
-        item_dict['created'] = item[6].strftime('%Y-%m-%d %H:%M:%S') if item[6] is not None and item[6] != '' else 'null'
-        item_dict['modified'] = item[7].strftime('%Y-%m-%d %H:%M:%S') if item[7] is not None and item[7] != '' else 'null'
+        item_dict['start_time'] = str(item[2]) if item[2] is not None and item[2] != '' else None
+        item_dict['end_time'] = str(item[3]) if item[3] is not None and item[3] != '' else None
+        item_dict['enroll_start'] = str(item[4]) if item[4] is not None and item[4] != '' else None
+        item_dict['enroll_end'] = str(item[5]) if item[5] is not None and item[5] != '' else None
+        item_dict['created'] = str(item[6]) if item[6] is not None and item[6] != '' else None
+        item_dict['modified'] = str(item[7]) if item[7] is not None and item[7] != '' else None
         item_dict['video'] = item[8]
         item_dict['img'] = 'http://www.kmooc.kr' + item[9]
         item_dict['org'] = item[11]
@@ -161,8 +161,8 @@ def course_api(request):
         item_dict['et'] = effort_dict['v_time']  # 동영상 재생시간
         item_dict['classfy'] = item[17]
         item_dict['middle_classfy'] = item[18]
-        item_dict['cert_date'] = item[15].strftime('%Y-%m-%d %H:%M:%S') if item[15] is not None and item[15] != '' else 'null'
-        item_dict['teacher_name'] = item[16] if item[16] != '' else 'null'
+        item_dict['cert_date'] = str(item[15]) if item[15] is not None and item[15] != '' else None
+        item_dict['teacher_name'] = item[16] if item[16] != '' else ''
 
         item_list.append(item_dict)
 
