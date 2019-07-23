@@ -2141,9 +2141,28 @@ def text_me_the_app(request):
 
 @csrf_exempt
 def guide_download(request):
-    if not file or not os.path.exists('/edx/var/edxapp/staticfiles/file_upload/total_study_time.pdf'):
-        pass
-    response = HttpResponse(open('/edx/var/edxapp/staticfiles/file_upload/total_study_time.pdf', 'rb'), content_type='application/force-download')
+    """
+    guide_flag
+        1: K-MOOC 학습인정시간 기준(`18.9.개정).pdf(저장 파일명: total_study_time.pdf)
+        2: 2018 강좌안내서 국문.pdf(저장 파일명: guide_ko.pdf)
+        3: 2018 강좌안내서 영문.pdf(저장 파일명: guide_en.pdf)
+    """
+    guide_flag = request.GET.get('guide') if request.GET.get('guide') else ''
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % str('K-MOOC 학습인정시간 기준(`18.9.개정).pdf')
-    return response
+    if guide_flag == '1':
+        file_name = 'total_study_time.pdf'
+        down_name = 'K-MOOC 학습인정시간 기준(`18.9.개정).pdf'
+    elif guide_flag == '2':
+        file_name = '2018_guide_ko.pdf'
+        down_name = '2018 강좌안내서 국문.pdf'
+    else:
+        file_name = '2018_guide_en.pdf'
+        down_name = '2018 강좌안내서 영문.pdf'
+
+    if os.path.exists('/edx/var/edxapp/staticfiles/file_upload/' + file_name):
+        response = HttpResponse(open('/edx/var/edxapp/staticfiles/file_upload/' + file_name, 'rb'), content_type='application/force-download')
+
+        response['Content-Disposition'] = 'attachment; filename=%s' % str(down_name)
+        return response
+    else:
+        raise IOError(down_name + '파일을 찾을 수 없습니다.')
