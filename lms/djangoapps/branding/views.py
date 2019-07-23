@@ -169,9 +169,12 @@ def course_api(request):
         # api 항목에 없어서 현재 사용 X
         status = common_course_status(item[2], item[3])  # 강좌상태
 
-    item_list.append({'total_cnt': str(len(slist))})
+    result = {
+        'results': item_list,
+        'total_cnt': len(slist)
+    }
 
-    item_json = json.dumps(item_list, ensure_ascii=False, encoding='utf-8')
+    item_json = json.dumps(result, ensure_ascii=False, encoding='utf-8')
 
     return HttpResponse(item_json)
 
