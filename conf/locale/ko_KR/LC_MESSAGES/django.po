@@ -25701,6 +25701,9 @@ msgstr "기술적인 문제 관련"
 msgid "About mobile problems"
 msgstr "모바일앱 관련"
 
+msgid "About Academic Credit Bank System"
+msgstr "학점은행제 학습과정 관련"
+
 msgid "Send email"
 msgstr "이메일 보내기"
 

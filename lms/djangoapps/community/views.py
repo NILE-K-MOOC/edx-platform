@@ -1944,6 +1944,7 @@ def comm_faqrequest(request, head_title=None):
                 'certi_f': '[성적/이수증]',
                 'tech_f': '[기술적문제]',
                 'mobile_f': '[모바일문제]',
+                'cb_f': '[학점은행제]',
             }
             email_title = head_dict[option] + ' ' + email + '님의 문의 내용입니다.'
             # 이메일 전송
@@ -1990,6 +1991,7 @@ def comm_faqrequest(request, head_title=None):
                                           WHEN '""" + option + """' = 'certi_f  ' THEN '성적/이수증'
                                           WHEN '""" + option + """' = 'tech_f ' THEN '기술적문제'
                                           WHEN '""" + option + """' = 'mobile_f ' THEN '모바일문제'
+                                          WHEN '""" + option + """' = 'cb_f ' THEN '학점은행제'
                                           ELSE ''
                                        END));
             """
