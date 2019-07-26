@@ -25701,6 +25701,9 @@ msgstr "기술적인 문제 관련"
 msgid "About mobile problems"
 msgstr "모바일앱 관련"
 
+msgid "About Academic Credit Bank System"
+msgstr "학점은행제 학습과정 관련"
+
 msgid "Send email"
 msgstr "이메일 보내기"
 
@@ -26434,10 +26437,10 @@ msgid "Satisfaction Survey"
 msgstr "만족도 조사"
 
 msgid "Total recognized learning hours must have number"
-msgstr "강좌에 대해 아쉬웠던 점이나 건의사항을 작성해주세요."
+msgstr "학습인정시간에는 숫자만 입력 가능합니다"
 
-msgid "Total recognized learning hours must have number"
-msgstr "What is your suggestion to improve this course?"
+msgid "What is your suggestion to improve this course?"
+msgstr "강좌에 대해 아쉬웠던 점이나 건의사항을 작성해주세요."
 
 #: cms/templates/settings.html
 msgid "Recommended weekly commitment"
@@ -27790,4 +27793,5 @@ msgstr "요소 Test001 도움말 텍스트를 추가하십시오."
 msgid "Preview not available"
 msgstr "미리보기를 사용할 수 없음"
 
-
+msgid "Academic Credit Bank System"
+msgstr "학점은행과정"
