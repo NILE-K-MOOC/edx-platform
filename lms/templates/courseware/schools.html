@@ -12,7 +12,6 @@ from openedx.core.lib.courses import course_image_url
 from six import string_types
 %>
 
-<%inherit file="../main.html" />
 <style>
   .univ-list-top {position:relative;background:url(/static/images/contents/univ_top.jpg) center center no-repeat;background-size:cover;
       margin-top: 5px;}
@@ -81,9 +80,6 @@ from six import string_types
         });
     });
 </script>
-
-<%block name="pagetitle">${_("Participating Institutions")}</%block>
-<title>${_("Participating Institutions")}</title>
 
 <main id="main" aria-label="Content" tabindex="-1">
     <div class="univ-list-top" style="height: 180px; font-family: 'Open Sans' !important;">

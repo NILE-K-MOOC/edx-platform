@@ -27790,4 +27790,6 @@ msgstr "요소 Test001 도움말 텍스트를 추가하십시오."
 msgid "Preview not available"
 msgstr "미리보기를 사용할 수 없음"
 
+msgid "Academic Credit Bank System"
+msgstr "학점은행과정"
 
