@@ -331,37 +331,10 @@ function multisite_btn(){
       var org = '${request.session["multisite_org"]}';
   % endif
 
-  swal("본 K-MOOC계정으로 로그인 시\n 소속기관 계정과 연동되어, 추후 해당 K-MOOC 계정으로 수행한 학습이력이 소속기관으로 전달되게 됩니다. 동의하시겠습니까? \n(동의하지 않을 시, 계정 연동이 취소됩니다)",
-  {
-    buttons: {
-      cancel: "동의하지 않음",
-      confirm: {text: "동의", className: "multi"}
-    }
-  }).then(function (isConfirm) {
-    if(isConfirm == true){
-        $.post('/user_api/v1/account/login_session/', {
-          email: $('#login-email').val(),
-          password: $('#login-password').val(),
-          remember: false,
-          target: '',
-          is_regist: false
-        })
-        .done(function(data){
-          location.href = "/dashboard";
-        })
-        .fail(function(data) {
-          console.log(data.responseText);
-          swal(data.responseText,
-          {
-            buttons: {
-              cancel: "확인",
-            }
-          })
-        });
-    } else {
-      return;
-    }
-  });
+  // 동의여부 리턴
+  var agree = confirm('본 K-MOOC계정으로 로그인 시 소속기관 계정과 연동되어, \n추후 해당 K-MOOC 계정으로 수행한 학습이력이 소속기관으로 \n전달되게 됩니다. 동의하시면 확인을 눌러주십시오.\n(동의하지 않을 시, 계정 연동이 취소됩니다)');
+
+  return agree;
 }
 </script>
 

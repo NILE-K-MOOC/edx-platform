@@ -145,7 +145,6 @@
                             test = {};
                         $el = $("input[name=" + target + "]");
                         $label = $form.find('label[for=' + $el.attr('id') + ']');
-
                         if (target) {
                             test = this.validate($el);
                             if (test.isValid) {
@@ -235,7 +234,6 @@
             },
 
             submitForm: function(event,target) {
-
                 $(window).unbind("beforeunload");
                 $('.submission-error h4').removeClass('hidden');
                 var data = this.getFormData(target);
@@ -256,10 +254,20 @@
                 }
 
                 if (!_.compact(this.errors).length) {
-                    data = this.setExtraData(data);
-                    this.model.set(data);
-                    this.model.save();
-                    this.clearFormErrors();
+                    var submit_btn = this.submitButton;
+                    if($(submit_btn).hasClass('multisite_btn')){  // 클래스 확인을 통해 멀티사이트 로그인 여부 체크
+                        // 멀티 사이트로 접속한 경우 동의 확인 창을 띄워서 확인한 경우에만 로그인
+                        var isConfirm = multisite_btn();
+                        if(isConfirm === false){
+                            this.toggleDisableButton(false);
+                            return;
+                        } else if(isConfirm === true){
+                            this.validFormSubmit(data);
+                        }
+                    } else {
+                        this.validFormSubmit(data);
+                    }
+
                 } else {
                     this.renderErrors(this.defaultFormErrorsTitle, this.errors);
                     this.scrollToFormFeedback();
@@ -267,6 +275,13 @@
                 }
 
                 this.postFormSubmission();
+            },
+
+            validFormSubmit: function(data){
+                data = this.setExtraData(data);
+                this.model.set(data);
+                this.model.save();
+                this.clearFormErrors();
             },
 
             /* Allows extended views to add custom

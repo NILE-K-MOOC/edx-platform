@@ -23,6 +23,7 @@
 <% } %>
 
 <% if ( $('#multisite_mode').text() == '1' ) { %>
+<form id="login" class="login-form" tabindex="-1" method="POST">
 <% } else {%>
 <form id="login" class="login-form" tabindex="-1" method="POST">
 <% } %>
@@ -39,7 +40,7 @@
     <%= context.fields %>
 
     <% if ( $('#multisite_mode').text() == '1' ) { %>
-    <button style="width:100%;" type="submit" onclick="multisite_btn()" class="action action-primary action-update js-login login-button multisite_btn"><%- gettext("Multisite Sign in") %></button>
+    <button style="width:100%;" type="submit" class="action action-primary action-update js-login login-button multisite_btn"><%- gettext("Multisite Sign in") %></button>
     <% } else {%>
     <button style="width:100%;" type="submit" class="action action-primary action-update js-login login-button"><%- gettext("Sign in") %></button>
     <% } %>
@@ -75,6 +76,7 @@
     <% } %>
 
 <% if ( $('#multisite_mode').text() == '1' ) { %>
+</form>
 <% } else {%>
 </form>
 <% } %>

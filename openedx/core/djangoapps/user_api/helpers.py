@@ -450,7 +450,7 @@ def shim_student_view(view_func, check_logged_in=False):
         error_lock = 0 # <------------ 변수 초기화
         duplication_lock = 0 # <------ 변수 초기화
 
-        edx_useremail = request.POST['email'] # <----------------------- 로직에 이메일은 무조건 날라온다 (null exception 안남)
+        edx_useremail = request.POST['email'] if request.POST['email'] != '' else None  # <----------------------- 아무것도 입력하지 않은 상태로 로그인시 ''으로 값이 넘어오면 None으로 변경
         try:
             u1 = User.objects.get(email=edx_useremail) # <-- 잘못된 이메일이 날라오면 여기서 오류 (null exception)
         except BaseException:
@@ -470,24 +470,25 @@ def shim_student_view(view_func, check_logged_in=False):
         if 'multisite_userid' not in request.session and 'multisite_org' in request.session:
             multisite_org = request.session['multisite_org']
 
-            with connections['default'].cursor() as cur:
-                sql = '''
-                    SELECT b.email
-                      FROM multisite_member AS a
-                      JOIN auth_user AS b
-                      ON a.user_id = b.id
-                      JOIN multisite as c
-                      ON a.site_id = c.site_id
-                     WHERE a.user_id = '{0}' and c.site_code = '{1}';
-                '''.format(edx_userid, multisite_org)
-                print sql
-                cur.execute(sql)
-                rows = cur.fetchall()
-            # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
-                try:
-                    cnt = rows[0][0]  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
-                except BaseException:
-                    cnt = 0  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
+            if u1 is not None:
+                with connections['default'].cursor() as cur:
+                    sql = '''
+                        SELECT b.email
+                          FROM multisite_member AS a
+                          JOIN auth_user AS b
+                          ON a.user_id = b.id
+                          JOIN multisite as c
+                          ON a.site_id = c.site_id
+                         WHERE a.user_id = '{0}' and c.site_code = '{1}';
+                    '''.format(edx_userid, multisite_org)
+                    print sql
+                    cur.execute(sql)
+                    rows = cur.fetchall()
+                # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
+            try:
+                cnt = rows[0][0]  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
+            except BaseException:
+                cnt = 0  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
 
             print "cnt -> ", cnt
             print "cnt -> ", cnt
@@ -563,7 +564,6 @@ def shim_student_view(view_func, check_logged_in=False):
                         request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed' # 로그인 세션 등록을 방지하기 위한 코드
 
         # ------------------------------------------------------------------------------ 멀티사이트 로직 종료 [e]
-
         response = view_func(request) # <--------------------- 로그인 세션 올리는 부분
 
         # Most responses from this view are JSON-encoded
