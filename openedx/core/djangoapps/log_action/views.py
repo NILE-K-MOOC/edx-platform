@@ -173,7 +173,7 @@ def custom_get_form(self, request, obj=None, **kwargs):
     return super(UserAdmin, self).get_form(request, obj, **defaults)
 
 
-def custom_log_addition(self, request, object):
+def custom_log_addition(self, request, object, obj=None):
     # print 'CUSTOM LOG ACTION [custom_log_addition]'
     """
     Log that an object has been successfully added.
