@@ -72,6 +72,10 @@ $(document).ready(function() {
     createMobileMenu();
 });
 
+function show_course_popup(){
+  $('.main-course-detail-dim').fadeIn();
+  $('.main-course-detail-popup').fadeIn();
+}
 
 // Accessibility keyboard controls for user dropdown and mobile menu
 $('.mobile-menu, .global-header').on('keydown', function(e) {
