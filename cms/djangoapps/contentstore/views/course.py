@@ -2142,7 +2142,7 @@ def course_need_lock(request, course_key_string):
     if not request.user.is_staff and str(course_key_string).startswith('course'):
         from django.db import connections
         with connections['default'].cursor() as cursor:
-            cursor.execute('''
+            query = '''
                 SELECT 
                     a.course_id,
                     IF(DATE_FORMAT(c.start, '%Y-%m-%d %H:%i') <> '2030-01-01 00:00'
@@ -2157,9 +2157,10 @@ def course_need_lock(request, course_key_string):
                         LEFT JOIN
                     certificates_generatedcertificate b ON a.course_id = b.course_id
                 WHERE
-                    a.course_id = %s
+                    a.course_id = '{course_id}'
                 GROUP BY a.course_id , a.created;                           
-            ''', [course_key_string])
+            '''.format(course_id=course_key_string)
+            cursor.execute(query)
             desc = cursor.description
             result = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()][0]
         need_lock = result['need_lock']
