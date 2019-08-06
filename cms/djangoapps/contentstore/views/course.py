@@ -2145,8 +2145,9 @@ def course_need_lock(request, course_key_string):
             cursor.execute('''
                 SELECT 
                     a.course_id,
-                    IF(NOW() > MIN(b.created_date)
-                            OR NOW() > ADDDATE(c.end, INTERVAL 30 DAY),
+                    IF(DATE_FORMAT(c.start, '%Y-%m-%d %H:%i') <> '2030-01-01 00:00'
+                    AND (NOW() > MIN(b.created_date)
+                            OR NOW() > ADDDATE(c.end, INTERVAL 30 DAY)),
                         1,
                         0) need_lock
                 FROM
