@@ -1699,7 +1699,14 @@ def settings_handler(request, course_key_string):
                 # 강좌 상세 내용 조회시 강좌 생성일 및 이수증 생성일을 조회하여 같이 전달
                 course_details = CourseDetails.fetch(course_key)
                 course_details.need_lock = course_need_lock(request, course_key)
-
+                with connections['default'].cursor() as cur:
+                    query = '''
+                        select ifnull(course_level, '') from course_overview_addinfo
+                        where course_id = '{course_id}'
+                    '''.format(course_id=course_key_string)
+                    cur.execute(query)
+                    course_level = cur.fetchone()[0]
+                course_details.course_level = course_level
                 return JsonResponse(
                     course_details,
                     # encoder serializes dates, old locations, and instances
