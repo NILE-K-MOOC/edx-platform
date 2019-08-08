@@ -982,6 +982,9 @@ def student_dashboard(request):
         c.week = info_dict['week']
         c.final_day = final_day[0][0]
 
+        # 개강 2주 후부터 종강 후 2주까지 만족도 설문 버튼 생성
+        c.survey_valid = dashboard_survey_valid(c.course.id)
+
     con.close()
 
     context = {
@@ -1056,6 +1059,30 @@ def student_dashboard(request):
     #     return render_to_response('dashboard_ajax.html', context)
 
     return response
+
+
+# dashboard survey
+def dashboard_survey_valid(course_id):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT COUNT(*)
+            FROM course_overviews_courseoverview
+            WHERE
+                id = '{course_id}'
+                    AND ADDDATE(NOW(), INTERVAL 9 HOUR) BETWEEN ADDDATE(start, INTERVAL 14 DAY)
+                    AND ADDDATE(end, INTERVAL 14 DAY);
+        '''.format(course_id=course_id)
+        cur.execute(query)
+        cnt = cur.fetchone()
+
+    return True if cnt[0] == 1 else False
+
+
+# 강좌 만족도 설문 참여
+@login_required()
+def dashboard_survey_access(request):
+    course_id = request.POST.get('course_id')
+    return JsonResponse({'check': True, 'course_id': course_id})
 
 
 # addinfo 테이블 데이터

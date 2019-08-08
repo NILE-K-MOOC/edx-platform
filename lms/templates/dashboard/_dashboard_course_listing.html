@@ -178,7 +178,10 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
         </div>
 
         <div class="kr01_dashTsub">
-          <span class="kr01_dashTs01">
+          <span class="kr01_dashTs01 kr01_dashTs01_first">
+            % if enrollment.survey_valid == True:
+            <div><a href="#" class="enter-course" onclick="survey_btn_click('${enrollment.course_id}')">강좌 만족도 설문 참여하기</a></div>
+            % endif
             % if enrollment.teacher_name[1] != 0:
               <div>${_("{teacher_name} and {t_len} others").format(teacher_name=enrollment.teacher_name[0], t_len=enrollment.teacher_name[1])} | ${_(course_overview.display_org_with_default)}</div>
             % else:
@@ -577,6 +580,14 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
            });
        }
    });
+
+   function survey_btn_click(course_id){
+      $.post('/dashboard_survey', {course_id: course_id, csrfmiddlewaretoken: '${csrf_token}'}).done(function(data){
+         if(data.check == true){
+             location.href = '/cert_survey?hello=/dashboard&course_id=' + data.course_id;
+         }
+      });
+   }
 
     function del(obj, course_id) {
         var def_index = course_id;
