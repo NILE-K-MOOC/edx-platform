@@ -28,7 +28,11 @@ from django.core.urlresolvers import reverse
               % else:
                 <img src="${course.course_image_url}" alt="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}" onerror="this.src='/static/images/blank.png'">
               %endif
+              % if course.ribbon_yn == 'Y':
+                <div class="learn-more" aria-hidden="true">${_("K-MOOC 우수강좌")}</div>
+              % else:
                 <div class="learn-more" aria-hidden="true">${_("LEARN MORE")}</div>
+              % endif
             </div>
             % if course.audit_yn == 'Y' and course.status == 'end':
             <span class="kr01-courInfo-bar">${_(course.status)}(${_("audit course")})</span>
