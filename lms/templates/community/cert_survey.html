@@ -8,12 +8,56 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
 <script>
+    var course_id = '${course_id}';
     $( document ).ready(function() {
         console.log("Ready!");
-        course_id = '${course_id}';
-        course_id = course_id.replace(/ /gi, "+");
         $("#Q5_text").hide();
 
+        if($("#data_flag").val() == 'update'){
+            $.ajax({
+                url: '/cert_survey/',
+                type: 'GET',
+                data: {
+                    course_id: course_id
+                }
+            }).done(function(data){
+                console.log(data.result.q2);
+                $("input:radio[name='Q1']").each(function(){
+                    if(this.value == data.result.q1){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q2']").each(function(){
+                    if(this.value == data.result.q2){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q3']").each(function(){
+                    if(this.value == data.result.q3){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q4']").each(function(){
+                    if(this.value == data.result.q4){
+                        this.checked = true;
+                    }
+                });
+
+                $('#s_seq').val(data.result.seq);
+
+                /*
+                if(data.result.q5 != null){
+                    $(".cert input:radio").each(function(){
+                        if(this.value == data.result.q5){
+                            this.checked = true;
+                        }
+                    });
+
+                }*/
+
+                $('textarea[name="Q6"]').val(data.result.q6);
+            });
+        }
 
         $("#Q5_1").click(function() {
             $("#Q5_text").val("");
@@ -49,6 +93,8 @@
 
     function btn_survey_submit(){
         var lock = 0;
+        var flag = $('#flag').val();
+
         if($("input:radio[name='Q1']").is(":checked") == true){
             var Q1 = $(':radio[name="Q1"]:checked').val();
 
@@ -78,6 +124,9 @@
 
         if($("input:radio[name='Q4']").is(":checked") == true){
             var Q4 = $(':radio[name="Q4"]:checked').val();
+            if(flag == '1'){
+                lock = 1;
+            }
         }
         else{
             swal("입력 오류", "4번 설문을 입력해주세요", "info");
@@ -85,33 +134,43 @@
             return false;
         }
 
-        if($("input:radio[name='Q5_text']").is(":checked") == true){
+        console.log(flag);
+        if(flag != '1'){
+            if($("input:radio[name='Q5_text']").is(":checked") == true){
 
-            var Q5 = $("#Q5_text").val();
+                var Q5 = $("#Q5_text").val();
 
-            lock=1;
+                lock=1;
+            }
+            else if ($("input:radio[name='Q5']").is(":checked") == true){
+
+                var Q5 = $(':radio[name="Q5"]:checked').val();
+
+                lock=1;
+            }
+            else{
+                swal("입력 오류", "5번 설문을 입력해주세요", "info");
+                lock = 0;
+                return false;
+            }
+        } else {
+            var Q5 = null;
         }
-        else if ($("input:radio[name='Q5']").is(":checked") == true){
 
-            var Q5 = $(':radio[name="Q5"]:checked').val();
-
-            lock=1;
-        }
-        else{
-            swal("입력 오류", "5번 설문을 입력해주세요", "info");
-            lock = 0;
-            return false;
-        }
-
+        var Q6 = $('textarea[name="Q6"]').val();
         if(lock != 0){
             swal({
                 title: "완 료",
-                text: "설문은 수정하실수없습니다",
+                text: "설문을 제출하시겠습니까?",
                 icon: "info",
                 buttons: true,
                 dangerMode: false,
             })
                     .then(function (value) {
+                        var upsert = $("#data_flag").val();
+                        if(flag == '2'){
+                            upsert = 'insert';
+                        }
                         if (value) {
                             $.ajax({
                                         url: "/cert_survey/",
@@ -123,16 +182,24 @@
                                             Q3: Q3,
                                             Q4: Q4,
                                             Q5: Q5,
+                                            Q6: Q6,
                                             'user_id':'${user_id}',
                                             'course_id':course_id,
+                                            survey_gubun: flag,
+                                            upsert: upsert,
+                                            s_seq: $('#s_seq').val(),
                                         },
                                     })
                                     .done(function (data) {
                                         if (data.return == 'success') {
-                                            $(location).attr('href',"/certificates/${hello}");
+                                            if (data.next == '1'){
+                                                $(location).attr('href',"/dashboard");
+                                            } else {
+                                                $(location).attr('href',"/certificates/${hello}");
+                                            }
                                         }
                                         else if(data.return == 'fail'){
-                                            return
+                                            return;
                                         }
 
                                     })
@@ -180,7 +247,7 @@
         border-radius: .25rem!important;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
     }
-    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5{
+    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5, .sv_Q6{
         text-align: center !important;
         vertical-align: middle !important;
     }
@@ -203,8 +270,13 @@
 </style>
 
 <section class="container">
+    <input type="hidden" id="flag" value="${survey_gubun}">
+    <input type="hidden" id="data_flag" value="${data_flag}">
+    <input type="hidden" id="s_seq" value="">
     <h2 title="이수자대상 만족도 조사" id="main" > ${ display_name } 강좌 ${_("Satisfaction Survey")}</h2>
+    % if survey_gubun != '1':
     <div class="article_contents goal" id="sub_main" > &nbsp; ${_("Congratulations to earn a certificate! Please enter your satisfaction regarding this course.")} <br> &nbsp; ${_("If you submit your satisfaction, you can view your certificate.")}<br> </div>
+    % endif
     <div class="survey_group">
         <table class="table" >
             <thead>
@@ -258,8 +330,9 @@
                 <td><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
                 <td><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
             </tr>
-            <tr class="q5_tr">
 
+            % if survey_gubun != '1':
+            <tr class="q5_tr">
                 <td class="sv_Q5">이수증 활용도</td>
                 <td>Q5.${_("the purpose of using K-MOOC certificates")}</td>
                 <td colspan="5" class="cert">
@@ -271,6 +344,19 @@
                         <textarea id="Q5_text" name="Q5" class="form-control"></textarea>
                     </label>
                 </td>
+            </tr>
+            % endif
+
+            <tr class="q6_tr">
+                <td class="sv_Q6" rowspan="2">기타 의견</td>
+                % if survey_gubun != '1':
+                <td colspan="6">Q6.${_("What is your suggestion to improve this course?")}</td>
+                % else:
+                <td colspan="6">Q5.${_("What is your suggestion to improve this course?")}</td>
+                % endif
+            </tr>
+            <tr class="q6_tr">
+                <td colspan="6"><textarea name="Q6" style="resize: none; width: 100%;" rows="3"></textarea></td>
             </tr>
             </tbody>
         </table>

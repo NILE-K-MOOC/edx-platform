@@ -28,6 +28,7 @@ from pytz import timezone
 from django.db import connections
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -2832,25 +2833,27 @@ def comm_list_json(request):
 
 # ---------- 2018.06.22 Jo Ho Young ---------- #
 
+@login_required
 def cert_survey(request):
     print "survey_chk"
-    if request.is_ajax():
+    if request.is_ajax() and request.POST:
         Q1 = request.POST.get('Q1')
         Q2 = request.POST.get('Q2')
         Q3 = request.POST.get('Q3')
         Q4 = request.POST.get('Q4')
         Q5 = request.POST.get('Q5')
+        Q6 = request.POST.get('Q6')
         user_id = request.POST.get('user_id')
         course_id = request.POST.get('course_id')
-        # print "Q1-------->",Q1
-        # print "Q2-------->",Q2
-        # print "Q3-------->",Q3
-        # print "Q4-------->",Q4
-        # print "Q5-------->",Q5
-        # print "user_id-------->",user_id
-        # print "course_id-------->",course_id
+        survey_gubun = request.POST.get('survey_gubun')
+        upsert = request.POST.get('upsert')
+        s_seq = request.POST.get('s_seq')
 
-        with connections['default'].cursor() as cur:
+        c_id = course_id.split('course-v1:')[1]
+        org = c_id.split('+')[0]
+        course = c_id.split('+')[1]
+
+        if upsert == 'insert':
             query = '''
                   INSERT INTO edxapp.survey_result
                               (course_id,
@@ -2859,89 +2862,191 @@ def cert_survey(request):
                               question_03,
                               question_04,
                               question_05,
-                              regist_id)
-                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{regist_id}')
-            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4, question_05=Q5, regist_id=user_id)
+                              question_06,
+                              regist_id,
+                              org,
+                              display_number_with_default,
+                              survey_gubun)
+                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{question_06}','{regist_id}',
+                  '{org}', '{course}', '{survey_gubun}')
+            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4,
+                       question_05=Q5, question_06=Q6, regist_id=user_id,
+                       org=org, course=course, survey_gubun=survey_gubun)
 
-            # print "query ===============",query
+        else:
+            query = '''
+                UPDATE survey_result 
+                SET 
+                    question_01 = '{question_01}',
+                    question_02 = '{question_02}',
+                    question_03 = '{question_03}',
+                    question_04 = '{question_04}',
+                    question_05 = '{question_05}',
+                    question_06 = '{question_06}',
+                    survey_gubun = '{survey_gubun}',
+                    regist_date = NOW()
+                WHERE
+                    seq = {seq} AND course_id = '{course_id}'
+                        AND regist_id = '{user_id}';
+            '''.format(question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4, question_05=Q5, question_06=Q6,
+                       survey_gubun=survey_gubun, seq=s_seq, course_id=course_id, user_id=user_id)
+
+        with connections['default'].cursor() as cur:
             cur.execute(query)
+            cur.execute('commit')
 
-        return JsonResponse({"return": "success", "course_id": course_id, "question_01": Q1, "question_02": Q2, "question_03": Q3, 'question_04': Q4, 'question_05': Q5, 'regist_id': user_id})
+        return JsonResponse({"return": "success", "next": survey_gubun})
+
+    elif request.is_ajax() and request.GET:  # 설문 결과가 있는 경우 해당 데이터 보냄
+        course_id = request.GET.get('course_id')
+        user_id = request.user.id
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT 
+                    seq,
+                    course_id,
+                    question_01,
+                    question_02,
+                    question_03,
+                    question_04,
+                    question_05,
+                    question_06,
+                    display_name
+                FROM
+                    survey_result a
+                  JOIN
+                    course_overviews_courseoverview b ON a.course_id = b.id
+                WHERE
+                    course_id = '{course_id}' AND regist_id = {user_id} AND survey_gubun = '1';
+                '''.format(course_id=course_id, user_id=user_id)
+            cur.execute(query)
+            survey_data = cur.fetchall()
+
+        s_dict = dict()
+        for s in survey_data:
+            s_dict['seq'] = s[0]
+            s_dict['q1'] = s[2]
+            s_dict['q2'] = s[3]
+            s_dict['q3'] = s[4]
+            s_dict['q4'] = s[5]
+            s_dict['q5'] = s[6] if s[6] != 'None' else None
+            # 기타의견 q6(강좌 중 설문은 q5에 해당하는 이수증 활용용도 문항이 없음
+            s_dict['q6'] = s[7]
+
+        return JsonResponse({'result': s_dict})
 
     hello = request.GET['hello']
     print "hello", hello
     course_id = request.GET['course_id']
     user_id = request.GET['user_id']
-    course_id2 = request.GET['course_id']
+    course_id = course_id.replace(" ", "+")
     # print "before = ", hello
+    # 강좌 중 만족도 설문과 이수자 설문 나눔 flag = '1'(강좌 중) flag = '2'(이수자)
+    flag = request.GET.get('flag')
+    context = {}
 
-    hello = hello.split('/certificates/')
-    hello = hello[1]
-    course_id = course_id
-    user_id = user_id
+    if flag == '1':
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT 
+                    count(*)
+                FROM
+                    survey_result 
+                WHERE
+                    course_id = '{course_id}' AND regist_id = {user_id}
+                        AND survey_gubun = '1';
+            '''.format(course_id=course_id, user_id=user_id)
+            cur.execute(query)
+            survey_cnt = cur.fetchone()
 
-    print "course_id = ", course_id
-
-    course_id2 = course_id2.replace(" ", "+")
-
-    with connections['default'].cursor() as cur:
-        query = '''
+        with connections['default'].cursor() as cur:
+            query = '''
                 select display_name
                 from course_overviews_courseoverview
-                where id = '{course_id}';
-            '''.format(course_id=course_id2)
-        cur.execute(query)
-        display_name = cur.fetchall()
+                where id = '{course_id}'
+            '''.format(course_id=course_id)
+            cur.execute(query)
+            display_name = cur.fetchone()[0]
+            context['display_name'] = display_name
 
-    # print "course_id2", course_id2
-    # print "display_name = ",display_name
-
-    with connections['default'].cursor() as cur:
-        query = '''
-                select course_id,min(created_date)
-                from certificates_generatedcertificate
-                where course_id ='{course_id}'
-                group by course_id;
-            '''.format(course_id=course_id2)
-        cur.execute(query)
-        rows = cur.fetchall()
-
-    from django.utils import timezone
-    base_time = datetime.datetime(2018, 7, 11, 00, 00, 00)
-
-    # print "gggg---g",base_time
-    # print "rows---",rows[0][1]
-    # print "user_id = ",user_id
-    # print "certificates = ", hello
-    # 2018-11-16 05:15:19.093068
-
-    if base_time > rows[0][1]:
-        print "trus"
-        return redirect('/certificates/' + hello)
+        context['data_flag'] = 'insert' if survey_cnt[0] == 0 else 'update'
+        context['hello'] = ''
 
     else:
-        print "false"
-        pass
+        hello = hello.split('/certificates/')
+        hello = hello[1]
+        course_id = course_id
+        user_id = user_id
 
-    with connections['default'].cursor() as cur:
-        query = '''
-                select course_id, regist_id
-                from survey_result
-                where course_id= '{course_id}' and regist_id='{regist_id}'
-            '''.format(course_id=course_id2, regist_id=user_id)
-        cur.execute(query)
-        rows = cur.fetchall()
+        print "course_id = ", course_id
 
-    # print "설문 검증 쿼리====>",query
+        with connections['default'].cursor() as cur:
+            query = '''
+                    select display_name
+                    from course_overviews_courseoverview
+                    where id = '{course_id}';
+                '''.format(course_id=course_id)
+            cur.execute(query)
+            display_name = cur.fetchall()
 
-    if len(rows) != 0:
-        return redirect('/certificates/' + hello)
+        # print "course_id2", course_id2
+        # print "display_name = ",display_name
 
-    context = {}
-    context['hello'] = hello
+        with connections['default'].cursor() as cur:
+            query = '''
+                    select course_id,min(created_date)
+                    from certificates_generatedcertificate
+                    where course_id ='{course_id}'
+                    group by course_id;
+                '''.format(course_id=course_id)
+            cur.execute(query)
+            rows = cur.fetchall()
+
+        from django.utils import timezone
+        base_time = datetime.datetime(2018, 7, 11, 00, 00, 00)
+
+        if base_time > rows[0][1]:
+            print "trus"
+            return redirect('/certificates/' + hello)
+
+        else:
+            print "false"
+            pass
+
+        with connections['default'].cursor() as cur:
+            query = '''
+                    select course_id, regist_id
+                    from survey_result
+                    where course_id= '{course_id}' and regist_id='{regist_id}' and survey_gubun = '2'
+                '''.format(course_id=course_id, regist_id=user_id)
+            cur.execute(query)
+            rows = cur.fetchall()
+
+        # print "설문 검증 쿼리====>",query
+
+        if len(rows) != 0:
+            return redirect('/certificates/' + hello)
+
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT 
+                    count(*)
+                FROM
+                    survey_result 
+                WHERE
+                    course_id = '{course_id}' AND regist_id = {user_id}
+                        AND survey_gubun = '1';
+            '''.format(course_id=course_id, user_id=user_id)
+            cur.execute(query)
+            survey_cnt = cur.fetchone()
+
+        context['hello'] = hello
+        context['display_name'] = display_name[0][0]
+        context['data_flag'] = 'insert' if survey_cnt[0] == 0 else 'update'
+
     context['course_id'] = course_id
     context['user_id'] = user_id
-    context['display_name'] = display_name[0][0]
+    context['survey_gubun'] = flag if flag == '1' else '2'  # 진행 중 설문/이수증 설문 구분
 
     return render_to_response("community/cert_survey.html", context)
 

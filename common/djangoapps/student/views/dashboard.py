@@ -1079,10 +1079,11 @@ def dashboard_survey_valid(course_id):
 
 
 # 강좌 만족도 설문 참여
-@login_required()
+@login_required
 def dashboard_survey_access(request):
     course_id = request.POST.get('course_id')
-    return JsonResponse({'check': True, 'course_id': course_id})
+    user_id = request.user.id
+    return JsonResponse({'check': True, 'course_id': course_id, 'flag': '1', 'user_id': user_id})
 
 
 # addinfo 테이블 데이터
