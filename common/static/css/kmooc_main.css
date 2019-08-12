@@ -2235,3 +2235,39 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     margin-right: 5px;
   }
 }
+
+.ribbon-tooltip-text {
+    display: none;
+    width: 180px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 15px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1000;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.ribbon-tooltip-text:after {
+    content:'';
+    position:absolute;
+    width:0;
+    height:0;
+    border-style:solid;
+    border-color:transparent transparent #000 transparent;
+    border-width:10px 5px;
+    top:-9px;
+    margin-top:-10px;
+}
+
+.kr01-ribbonArea:hover .ribbon-tooltip-text {
+    display: block;
+    top: 64px;
+    right: 3px;
+    opacity: 0.8;
+}
+
