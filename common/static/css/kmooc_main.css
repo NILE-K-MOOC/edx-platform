@@ -2238,17 +2238,18 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 
 .ribbon-tooltip-text {
     display: none;
-    width: 180px;
+    width: 138px;
     background-color: #000;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 15px 0;
+    padding: 7px 0;
 
     /* Position the tooltip */
     position: absolute;
     z-index: 1000;
     font-style: normal;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -2260,7 +2261,8 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     border-style:solid;
     border-color:transparent transparent #000 transparent;
     border-width:10px 5px;
-    top:-9px;
+    top:-8px;
+    right: 14px;
     margin-top:-10px;
 }
 
@@ -2268,6 +2270,6 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     display: block;
     top: 64px;
     right: 3px;
-    opacity: 0.8;
+    opacity: 0.5;
 }
 
