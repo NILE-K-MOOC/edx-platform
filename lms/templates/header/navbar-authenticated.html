@@ -194,7 +194,11 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         % else:
                 <div class="kre02_top02area">
                   <h1 class="header-logo kre02_tlogo02">
+                    % if 'multisite_org' in request.session:
+                    <a href="/org/${request.session['multisite_org']}">
+                    % else:
                     <a href="${branding_api.get_home_url()}">
+                    % endif
                       <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
                     % if 'multisite_org' in request.session:

@@ -1757,9 +1757,18 @@ article.course.none .kr01-courInfo-bar{
   line-height: 23px;
   font-weight: 600;
   text-transform: uppercase;
-  justify-content: space-between;
+
   display: flex;
 }
+
+.kr02nav__menu {
+  justify-content: space-between;
+}
+
+.kr02nav__menu.multisite-menu {
+  justify-content: normal;
+}
+
 .kr02nav__menu-item {
   display: inline-block;
   position: relative;
@@ -2272,4 +2281,3 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     right: 3px;
     opacity: 0.5;
 }
-

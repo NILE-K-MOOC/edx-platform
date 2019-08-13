@@ -17,7 +17,11 @@ from branding import api as branding_api
   <section class="courses-container bg-w">
     <section class="highlighted-courses">
       <div class="kre01_tlogodepth">
+        % if 'multisite_org' in request.session:
+        <a href="/org/${request.session['multisite_org']}">
+        % else:
         <a href="${branding_api.get_home_url()}">
+        % endif
           <%block name="navigation_logo">
           <img src="${branding_api.get_logo_url(is_secure)}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
         </%block>
