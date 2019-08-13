@@ -243,11 +243,11 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                        enrollment_start, 
                                        enrollment_end, 
                                        CASE 
-                                         WHEN start > Now() THEN 1 
-                                         WHEN Now() BETWEEN start AND end THEN 2 
-                                         WHEN end < Now() THEN 3 
-                                         ELSE 4 
-                                       end AS order1, 
+                                         WHEN now() between adddate(enrollment_start, interval 9 hour) and adddate(enrollment_end, interval 9 hour) THEN 1
+                                         WHEN Now() BETWEEN adddate(start, interval 9 hour) AND adddate(end, interval 9 hour) THEN 2
+                                         WHEN adddate(end, interval 9 hour) < Now() and i2.audit_yn = 'Y' THEN 3
+                                         ELSE 4
+                                       END AS order1, 
                                        i2.audit_yn, 
                                        i2.ribbon_yn,
                                        i2.teacher_name
@@ -258,14 +258,15 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                   AND Lower(id) NOT LIKE '%demo%' 
                                   AND Lower(id) NOT LIKE '%nile%' 
                                   AND Lower(id) NOT LIKE '%test%') t1 
-                                ORDER  BY order1, 
-                                      enrollment_start DESC, 
-                                      start DESC, 
-                                      enrollment_end DESC, 
-                                      end DESC, 
-                                      display_name) AS b 
+                                ) AS b 
                          ON a.course_id = b.id 
-                WHERE  site_id = '{site_id}'; 
+                WHERE  site_id = '{site_id}'
+                ORDER  BY order1, 
+                      enrollment_start DESC, 
+                      start DESC, 
+                      enrollment_end DESC, 
+                      end DESC, 
+                      display_name; 
             '''.format(site_id=site_id)
 
             cur.execute(query)

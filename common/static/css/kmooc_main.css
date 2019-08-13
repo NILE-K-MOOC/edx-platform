@@ -1757,9 +1757,18 @@ article.course.none .kr01-courInfo-bar{
   line-height: 23px;
   font-weight: 600;
   text-transform: uppercase;
-  justify-content: space-between;
+
   display: flex;
 }
+
+.kr02nav__menu {
+  justify-content: space-between;
+}
+
+.kr02nav__menu.multisite-menu {
+  justify-content: normal;
+}
+
 .kr02nav__menu-item {
   display: inline-block;
   position: relative;
@@ -2240,4 +2249,41 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   .course-info .course-sidebar header .social-sharing .share {
     margin-right: 5px;
   }
+}
+
+.ribbon-tooltip-text {
+    display: none;
+    width: 138px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 7px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1000;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.ribbon-tooltip-text:after {
+    content:'';
+    position:absolute;
+    width:0;
+    height:0;
+    border-style:solid;
+    border-color:transparent transparent #000 transparent;
+    border-width:10px 5px;
+    top:-8px;
+    right: 14px;
+    margin-top:-10px;
+}
+
+.kr01-ribbonArea:hover .ribbon-tooltip-text {
+    display: block;
+    top: 64px;
+    right: 3px;
+    opacity: 0.5;
 }

@@ -41,7 +41,11 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         <section class="highlighted-courses">
 
             <nav class="kr02nav">
+              % if 'multisite_mode' not in request.session:
                 <ul class="kr02nav__menu">
+              % else:
+                <ul class="kr02nav__menu multisite-menu">
+              % endif
                     <li class="kr02nav__menu-item"><a href="/about">${_("About Us")}</a></li>
                     % if 'multisite_mode' not in request.session:
                       <li class="kr02nav__menu-item"><a href="${reverse('courses')}">${_("Courses")}</a></li>
@@ -59,6 +63,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                             </ul>
                         </li>
                       % endif
+                    % elif 'multisite_mode' in request.session:
+                  <li class="kr02nav__menu-item"><a href="/org/${request.session['multisite_org']}">${_("Courses")}</a></li>
                     % endif
                 </ul>
             </nav>
