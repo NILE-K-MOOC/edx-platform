@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Helper functions for the account/profile Python APIs.
 This is NOT part of the public API.
@@ -8,6 +8,7 @@ import logging
 import traceback
 from collections import defaultdict
 from functools import wraps
+import time
 
 from django import forms
 from django.core.serializers.json import DjangoJSONEncoder
@@ -41,10 +42,12 @@ def intercept_errors(api_error, ignore_errors=None):
         function
 
     """
+
     def _decorator(func):
         """
         Function decorator that intercepts exceptions and translates them into API-specific errors.
         """
+
         @wraps(func)
         def _wrapped(*args, **kwargs):
             """
@@ -86,7 +89,9 @@ def intercept_errors(api_error, ignore_errors=None):
                 )
                 LOGGER.exception(msg)
                 raise api_error(msg)
+
         return _wrapped
+
     return _decorator
 
 
@@ -102,6 +107,7 @@ def require_post_params(required_params):
         HttpResponse
 
     """
+
     def _decorator(func):  # pylint: disable=missing-docstring
         @wraps(func)
         def _wrapped(*args, **_kwargs):  # pylint: disable=missing-docstring
@@ -114,7 +120,9 @@ def require_post_params(required_params):
                 return HttpResponseBadRequest(msg)
             else:
                 return func(request)
+
         return _wrapped
+
     return _decorator
 
 
@@ -374,6 +382,7 @@ class LocalizedJSONEncoder(DjangoJSONEncoder):
     """
     JSON handler that evaluates ugettext_lazy promises.
     """
+
     # pylint: disable=method-hidden
     def default(self, obj):
         """
@@ -410,6 +419,7 @@ def shim_student_view(view_func, check_logged_in=False):
         function
 
     """
+
     @wraps(view_func)
     def _inner(request):  # pylint: disable=missing-docstring
         # Make a copy of the current POST request to modify.
@@ -446,18 +456,18 @@ def shim_student_view(view_func, check_logged_in=False):
                 )
 
         # ------------------------------------------------------------------------------ 멀티사이트 로직 시작 [s]
-        insert_lock = 0 # <----------- 변수 초기화
-        error_lock = 0 # <------------ 변수 초기화
-        duplication_lock = 0 # <------ 변수 초기화
+        insert_lock = 0  # <----------- 변수 초기화
+        error_lock = 0  # <------------ 변수 초기화
+        duplication_lock = 0  # <------ 변수 초기화
 
-        edx_useremail = request.POST['email'] # <----------------------- 로직에 이메일은 무조건 날라온다 (null exception 안남)
+        edx_useremail = request.POST['email']  # <----------------------- 로직에 이메일은 무조건 날라온다 (null exception 안남)
         try:
-            u1 = User.objects.get(email=edx_useremail) # <-- 잘못된 이메일이 날라오면 여기서 오류 (null exception)
+            u1 = User.objects.get(email=edx_useremail)  # <-- 잘못된 이메일이 날라오면 여기서 오류 (null exception)
         except BaseException:
-            u1 = None # <----------------------------------- 객체가 없을 경우 (null exception 처리)
+            u1 = None  # <----------------------------------- 객체가 없을 경우 (null exception 처리)
 
         if u1 != None:
-            edx_userid = u1.id        # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
+            edx_userid = u1.id  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
             edx_useremail = u1.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
 
         print "------------------------------------------ c1"
@@ -483,7 +493,7 @@ def shim_student_view(view_func, check_logged_in=False):
                 print sql
                 cur.execute(sql)
                 rows = cur.fetchall()
-            # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
+                # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
                 try:
                     cnt = rows[0][0]  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
                 except BaseException:
@@ -493,14 +503,14 @@ def shim_student_view(view_func, check_logged_in=False):
             print "cnt -> ", cnt
             print "cnt -> ", cnt
 
-            if cnt != 0: # 멀티사이트 이메일 있을 경우
+            if cnt != 0:  # 멀티사이트 이메일 있을 경우
                 pass
-            else: # 멀티사이트 연동 이메일 없을 경우
+            else:  # 멀티사이트 연동 이메일 없을 경우
                 error_lock = 1
                 request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed@'
 
         # prameter logic
-        if 'multisite_userid' in request.session and 'multisite_org' in request.session: # <- 멀티사이트가 아닐 경우 (null exception 처리)
+        if 'multisite_userid' in request.session and 'multisite_org' in request.session:  # <- 멀티사이트가 아닐 경우 (null exception 처리)
             multisite_userid = request.session['multisite_userid']
             multisite_org = request.session['multisite_org']
 
@@ -522,11 +532,11 @@ def shim_student_view(view_func, check_logged_in=False):
                 '''.format(multisite_userid, multisite_org)
                 cur.execute(sql)
                 rows = cur.fetchall()
-            # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
+                # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [e]
                 try:
-                    cnt = rows[0][0] # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
+                    cnt = rows[0][0]  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception)
                 except BaseException:
-                    cnt = 0          # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
+                    cnt = 0  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
 
             # ----- 멀티사이트 멤버 테이블에 이메일이 있는 경우 로직 [s]
             if cnt != 0:
@@ -537,13 +547,13 @@ def shim_student_view(view_func, check_logged_in=False):
                     user_email = user_email_dic[0][0] + user_email_dic[0][1] + '********@' + user_email_dic[1]
 
                     error_lock = 1  # 경고메세지 변경 플래그
-                    insert_lock = 1 # insert 방지 플래그
+                    insert_lock = 1  # insert 방지 플래그
 
-                    request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed@' # 로그인 세션 등록을 방지하기 위한 코드
+                    request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed@'  # 로그인 세션 등록을 방지하기 위한 코드
 
                 # 같은 이메일이 경우 테이블에 insert만 수행하지 않게 만든다.
                 elif rows[0][0] == edx_useremail:
-                    insert_lock = 1 # insert 방지 플래그
+                    insert_lock = 1  # insert 방지 플래그
             # ----- 멀티사이트 멤버 테이블에 이메일이 있는 경우 로직 [e]
 
             # insert 방지 플래그가 설정되지 않은 경우 멀티사이트멤버 테이블에 데이터를 insert 한다.
@@ -557,14 +567,14 @@ def shim_student_view(view_func, check_logged_in=False):
                     '''.format(multisite_org, edx_userid, multisite_userid)
                     try:
                         print sql
-                        cur.execute(sql) # <--------------------------- 다른 사번으로 이미 등록된 이메일을 등록하려고 시도하는 경우 (에러)
+                        cur.execute(sql)  # <--------------------------- 다른 사번으로 이미 등록된 이메일을 등록하려고 시도하는 경우 (에러)
                     except BaseException:
-                        duplication_lock = 1 # <----------------------- 경고메세지 변경 플래그
-                        request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed' # 로그인 세션 등록을 방지하기 위한 코드
+                        duplication_lock = 1  # <----------------------- 경고메세지 변경 플래그
+                        request.POST['password'] = '61f5ca6828ed92eaa1d3df776e1dcaed'  # 로그인 세션 등록을 방지하기 위한 코드
 
         # ------------------------------------------------------------------------------ 멀티사이트 로직 종료 [e]
 
-        response = view_func(request) # <--------------------- 로그인 세션 올리는 부분
+        response = view_func(request)  # <--------------------- 로그인 세션 올리는 부분
 
         # Most responses from this view are JSON-encoded
         # dictionaries with keys "success", "value", and
@@ -614,8 +624,8 @@ def shim_student_view(view_func, check_logged_in=False):
         # the request through authentication middleware.
 
         is_authenticated = (
-            getattr(request, 'user', None) is not None
-            and request.user.is_authenticated
+                getattr(request, 'user', None) is not None
+                and request.user.is_authenticated
         )
         if check_logged_in and not is_authenticated:
             # If we get a 403 status code from the student view
@@ -651,7 +661,35 @@ def shim_student_view(view_func, check_logged_in=False):
         # Return the response, preserving the original headers.
         # This is really important, since the student views set cookies
         # that are used elsewhere in the system (such as the marketing site).
-        return response
+
+        from django.conf import settings
+        from Crypto.Cipher import AES
+        import hashlib, time, base64, urllib
+        from django.http import JsonResponse
+
+        bs = 16
+        key = settings.XINICS_KEY
+        iv = settings.XINICS_IV
+
+        key = hashlib.sha256(key.encode("UTF-8")).digest()
+        iv = iv.encode("UTF-8")
+
+        def _pad(s):
+            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+
+        def encrypt(raw):
+            raw = _pad(raw)
+            cipher = AES.new(key, AES.MODE_CBC, iv)
+            return cipher.encrypt(raw)
+
+        enc = encrypt(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
+        enc = base64.b64encode(enc)
+        # enc = urllib.quote(enc, safe='')
+
+        if response.content:
+            return response
+        else:
+            return JsonResponse({'data': enc})
 
     return _inner
 
@@ -661,6 +699,6 @@ def serializer_is_dirty(preference_serializer):
     Return True if saving the supplied (Raw)UserPreferenceSerializer would change the database.
     """
     return (
-        preference_serializer.instance is None or
-        preference_serializer.instance.value != preference_serializer.validated_data['value']
+            preference_serializer.instance is None or
+            preference_serializer.instance.value != preference_serializer.validated_data['value']
     )

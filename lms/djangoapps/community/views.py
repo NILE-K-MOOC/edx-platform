@@ -1291,10 +1291,12 @@ def memo(request):
 
                 if search_con == 'title':
                     print "---------------------->1"
-                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by('-regist_date')
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by(
+                        '-regist_date')
                 else:
                     print "---------------------->2"
-                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(
+                        Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
             else:
                 print "---------------------->3"
                 comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
@@ -1422,9 +1424,11 @@ def comm_list(request, section=None, curr_page=None):
 
         if search_str:
             if search_con == 'title':
-                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
             else:
-                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
             comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-odby', '-reg_date')
         p = Paginator(comm_list, page_size)
@@ -1463,7 +1467,7 @@ def comm_list(request, section=None, curr_page=None):
                     board_dict['attach_file'] = 'N'
 
                 board_list.append(board_dict)
-                #print board_dict
+                # print board_dict
 
             context = {
                 'total_cnt': total_cnt,
@@ -1573,9 +1577,11 @@ def comm_tabs(request, head_title=None):
         # elif head_title == 'total_f' and search_str:
         #     comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         elif search_str:
-            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(
+                Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby',
+                                                                                                        '-reg_date')
 
         return JsonResponse([model_to_dict(o) for o in comm_list])
     else:
@@ -2840,6 +2846,7 @@ def cert_survey(request):
         Q3 = request.POST.get('Q3')
         Q4 = request.POST.get('Q4')
         Q5 = request.POST.get('Q5')
+        Q6 = request.POST.get('Q6')
         user_id = request.POST.get('user_id')
         course_id = request.POST.get('course_id')
         # print "Q1-------->",Q1
@@ -2850,6 +2857,40 @@ def cert_survey(request):
         # print "user_id-------->",user_id
         # print "course_id-------->",course_id
 
+        course_id2 = course_id.replace(" ", "+")
+        # display_number_with_default
+
+        with connections['default'].cursor() as cur:
+            query = '''
+                                select display_number_with_default
+                                from course_overviews_courseoverview
+                                where id = '{course_id}';
+                            '''.format(course_id=course_id2)
+            cur.execute(query)
+            display_number_with_default = cur.fetchall()
+
+        # org
+        with connections['default'].cursor() as cur:
+            query = '''
+                                select display_org_with_default
+                                from course_overviews_courseoverview
+                                where id = '{course_id}';
+                            '''.format(course_id=course_id2)
+            cur.execute(query)
+            display_org_with_default = cur.fetchall()
+
+        try:
+            # 수강전 설문 삭제
+            with connections['default'].cursor() as cur:
+                query = '''
+                      delete from edxapp.survey_result
+                      where course_id= '{course_id}' and regist_id='{regist_id}'
+                '''.format(course_id=course_id2, regist_id=user_id)
+                cur.execute(query)
+        except:
+            print 'not pre_survey'
+            pass
+
         with connections['default'].cursor() as cur:
             query = '''
                   INSERT INTO edxapp.survey_result
@@ -2859,14 +2900,22 @@ def cert_survey(request):
                               question_03,
                               question_04,
                               question_05,
-                              regist_id)
-                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{regist_id}')
-            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4, question_05=Q5, regist_id=user_id)
+                              question_06,
+                              org,
+                              display_number_with_default,
+                              regist_id,
+                              survey_gubun)
+                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{question_06}','{org}','{display_number_with_default}','{regist_id}',2)
+            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4,
+                       question_05=Q5, question_06=Q6, org=display_org_with_default[0][0],
+                       display_number_with_default=display_number_with_default[0][0], regist_id=user_id)
 
             # print "query ===============",query
             cur.execute(query)
 
-        return JsonResponse({"return": "success", "course_id": course_id, "question_01": Q1, "question_02": Q2, "question_03": Q3, 'question_04': Q4, 'question_05': Q5, 'regist_id': user_id})
+        return JsonResponse(
+            {"return": "success", "course_id": course_id, "question_01": Q1, "question_02": Q2, "question_03": Q3,
+             'question_04': Q4, 'question_05': Q5, 'regist_id': user_id})
 
     hello = request.GET['hello']
     print "hello", hello
@@ -2925,16 +2974,16 @@ def cert_survey(request):
 
     with connections['default'].cursor() as cur:
         query = '''
-                select course_id, regist_id
+                select survey_gubun
                 from survey_result
                 where course_id= '{course_id}' and regist_id='{regist_id}'
             '''.format(course_id=course_id2, regist_id=user_id)
         cur.execute(query)
         rows = cur.fetchall()
 
-    # print "설문 검증 쿼리====>",query
+    print '검증',rows
 
-    if len(rows) != 0:
+    if rows[0][0] == '2':
         return redirect('/certificates/' + hello)
 
     context = {}
@@ -2944,6 +2993,113 @@ def cert_survey(request):
     context['display_name'] = display_name[0][0]
 
     return render_to_response("community/cert_survey.html", context)
+
+
+def pre_cert_survey(request):
+    print "pre_survey_chk"
+    if request.is_ajax():
+        Q1 = request.POST.get('Q1')
+        Q2 = request.POST.get('Q2')
+        Q3 = request.POST.get('Q3')
+        Q4 = request.POST.get('Q4')
+        Q6 = request.POST.get('Q6')
+        user_id = request.POST.get('user_id')
+        course_id = request.POST.get('course_id')
+        # print "Q1-------->",Q1
+        # print "Q2-------->",Q2
+        # print "Q3-------->",Q3
+        # print "Q4-------->",Q4
+        # print "Q5-------->",Q5
+        # print "user_id-------->",user_id
+        # print "course_id-------->",course_id
+
+        course_id2 = course_id.replace(" ", "+")
+        # display_number_with_default
+
+        with connections['default'].cursor() as cur:
+            query = '''
+                        select display_number_with_default
+                        from course_overviews_courseoverview
+                        where id = '{course_id}';
+                    '''.format(course_id=course_id2)
+            cur.execute(query)
+            display_number_with_default = cur.fetchall()
+
+        # org
+        with connections['default'].cursor() as cur:
+            query = '''
+                        select display_org_with_default
+                        from course_overviews_courseoverview
+                        where id = '{course_id}';
+                    '''.format(course_id=course_id2)
+            cur.execute(query)
+            display_org_with_default = cur.fetchall()
+
+        with connections['default'].cursor() as cur:
+            query = '''
+                  INSERT INTO edxapp.survey_result
+                              (course_id,
+                              question_01,
+                              question_02,
+                              question_03,
+                              question_04,
+                              question_06,
+                              org,
+                              display_number_with_default,
+                              regist_id,
+                              survey_gubun)
+                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_06}','{org}','{display_number_with_default}','{regist_id}',1)
+            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4,
+                       question_06=Q6, org=display_org_with_default[0][0],
+                       display_number_with_default=display_number_with_default[0][0], regist_id=user_id)
+
+            # print "query ===============",query
+            cur.execute(query)
+
+        return JsonResponse(
+            {"return": "success", "course_id": course_id, "question_01": Q1, "question_02": Q2, "question_03": Q3,
+             'question_04': Q4, 'question_06': Q6, 'regist_id': user_id})
+
+    course_id = request.GET['course_id']
+    user_id = request.GET['user_id']
+    course_id2 = request.GET['course_id']
+
+    course_id = course_id
+    user_id = user_id
+
+    print "course_id = ", course_id
+
+    course_id2 = course_id2.replace(" ", "+")
+
+    with connections['default'].cursor() as cur:
+        query = '''
+                select display_name
+                from course_overviews_courseoverview
+                where id = '{course_id}';
+            '''.format(course_id=course_id2)
+        cur.execute(query)
+        display_name = cur.fetchall()
+
+    # print "course_id2", course_id2
+    # print "display_name = ",display_name
+
+    with connections['default'].cursor() as cur:
+        query = '''
+                select course_id, regist_id
+                from survey_result
+                where course_id= '{course_id}' and regist_id='{regist_id}'
+            '''.format(course_id=course_id2, regist_id=user_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+    if len(rows) != 0:
+        return redirect('/dashboard?status=ing')
+
+    context = {}
+    context['course_id'] = course_id
+    context['user_id'] = user_id
+    context['display_name'] = display_name[0][0]
+
+    return render_to_response("community/pre_cert_survey.html", context)
 
 # def dormant_mail(request):
 #     email_list = []

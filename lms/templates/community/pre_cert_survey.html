@@ -9,6 +9,7 @@
 
 <script>
     $( document ).ready(function() {
+        alert(${course_id})
         console.log("Ready!");
         course_id = '${course_id}';
         course_id = course_id.replace(/ /gi, "+");
@@ -78,32 +79,15 @@
 
         if($("input:radio[name='Q4']").is(":checked") == true){
             var Q4 = $(':radio[name="Q4"]:checked').val();
+            lock = 1;
         }
         else{
             swal("입력 오류", "4번 설문을 입력해주세요", "info");
             lock = 0;
             return false;
         }
-
-        if($("input:radio[name='Q5_text']").is(":checked") == true){
-
-            var Q5 = $("#Q5_text").val();
-
-            lock=1;
-        }
-        else if ($("input:radio[name='Q5']").is(":checked") == true){
-
-            var Q5 = $(':radio[name="Q5"]:checked').val();
-
-            lock=1;
-        }
-        else{
-            swal("입력 오류", "5번 설문을 입력해주세요", "info");
-            lock = 0;
-            return false;
-        }
-
         if(lock != 0){
+            console.log(3333)
             swal({
                 title: "완 료",
                 text: "설문은 수정하실수없습니다",
@@ -114,7 +98,7 @@
                     .then(function (value) {
                         if (value) {
                             $.ajax({
-                                        url: "/cert_survey/",
+                                        url: "/pre_cert_survey/",
                                         type: "POST",
                                         datatype:"json",
                                         data: {
@@ -122,15 +106,14 @@
                                             Q2: Q2,
                                             Q3: Q3,
                                             Q4: Q4,
-                                            Q5: Q5,
-                                            Q6: $('#Q6_text').val(),
+                                            Q6: $("#Q6_text").val(),
                                             'user_id':'${user_id}',
                                             'course_id':course_id,
                                         },
                                     })
                                     .done(function (data) {
                                         if (data.return == 'success') {
-                                            $(location).attr('href',"/certificates/${hello}");
+                                            $(location).attr('href',"/dashboard?status=ing");
                                         }
                                         else if(data.return == 'fail'){
                                             return
@@ -181,7 +164,7 @@
         border-radius: .25rem!important;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
     }
-    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5{
+    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q6{
         text-align: center !important;
         vertical-align: middle !important;
     }
@@ -198,17 +181,14 @@
         margin-bottom: 30px;
         padding-bottom: 10px;
     }
-    #Q5_text{
-        width: 380px !important;
-    }
     #Q6_text{
         width: 380px !important;
     }
 </style>
 
 <section class="container">
-    <h2 title="이수자대상 만족도 조사" id="main" > ${ display_name } 강좌 ${_("Satisfaction Survey")}</h2>
-    <div class="article_contents goal" id="sub_main" > &nbsp; ${_("Congratulations to earn a certificate! Please enter your satisfaction regarding this course.")} <br> &nbsp; ${_("If you submit your satisfaction, you can view your certificate.")}<br> </div>
+    <h2 title="수강대상 만족도 조사" id="main" > ${ display_name } 강좌 ${_("Satisfaction Survey")}</h2>
+
     <div class="survey_group">
         <table class="table" >
             <thead>
@@ -262,20 +242,7 @@
                 <td><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
                 <td><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
             </tr>
-            <tr class="q5_tr">
 
-                <td class="sv_Q5">이수증 활용도</td>
-                <td>Q5.${_("the purpose of using K-MOOC certificates")}</td>
-                <td colspan="5" class="cert">
-                    <label><input type="radio" id="Q5_1" name="Q5" value="1.${_("Earn for self-satisfaction")}"/> ${_("Earn for self-satisfaction")} </label><br>
-                    <label><input type="radio" id="Q5_2" name="Q5" value="2.${_("Submit to colleges for earning credit toward academic degree")}"/> ${_("Submit to colleges for earning credit toward academic degree")} </label><br>
-                    <label><input type="radio" id="Q5_3" name="Q5" value="3.${_("Submit to companies for required employee training")}"/> ${_("Submit to companies for required employee training")} </label><br>
-                    <label><input type="radio" id="Q5_4" name="Q5" value="4.${_("Improve candidacy for a new job")}"/> ${_("Improve candidacy for a new job")} </label><br>
-                    <label><input type="radio" id="Q5_5" name="Q5_text" value="${_("other")}"/> ${_("other")}
-                        <textarea id="Q5_text" name="Q5" class="form-control"></textarea>
-                    </label>
-                </td>
-            </tr>
 
             <tr class="q6_tr">
 
@@ -291,14 +258,6 @@
             </tbody>
         </table>
 
-
-
-        <!--<a class="btn"
-           href="/certificates/${hello}"
-           target="_blank"
-           title="제출과 동시에 이수증을 웹으로 보게 될것입니다."
-            style="float: right; font-size: 25px;">
-            제출</a>-->
         <button onclick="btn_survey_submit()" type="button" style="float: right; font-size: 19px;" class="btn btn-outline-primary" title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">제출하기</button>
     </div>
 </section>

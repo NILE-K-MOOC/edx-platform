@@ -26439,6 +26439,9 @@ msgstr "만족도 조사"
 msgid "Total recognized learning hours must have number"
 msgstr "학습인정시간에는 숫자만 입력 가능합니다"
 
+msgid "What is your suggestion to improve this course?"
+msgstr "강좌에 대해 아쉬웠던 점이나 건의사항을 작성해주세요."
+
 #: cms/templates/settings.html
 msgid "Recommended weekly commitment"
 msgstr "주간 학습권장시간"
@@ -27792,4 +27795,3 @@ msgstr "미리보기를 사용할 수 없음"
 
 msgid "Academic Credit Bank System"
 msgstr "학점은행과정"
-
