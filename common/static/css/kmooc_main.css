@@ -2287,3 +2287,233 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     right: 3px;
     opacity: 0.5;
 }
+
+
+
+/* 강좌 만족도 별점 관련 */
+
+.faq-container {
+    text-align: left;
+    margin-top: 2px;
+}
+
+.faq-container article p { margin: 10px 15px 15px 15px; }
+.faq-container input[type=checkbox],
+.faq-container input[type=radio] {
+  background-color: transparent;
+  border: 1px solid transparent;
+  height: 1px;
+  position: absolute;
+  width: 1px;
+  margin: 4px 0 0 0;
+  outline: none;
+}
+.faq-container input[type=checkbox] + label,
+.faq-container input[type=radio] + label {
+  line-height: 1rem;
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  font-weight: normal;
+
+
+  position: relative;
+  /*z-index: 2;*/
+}
+.faq-container input[type=checkbox] + label:before,
+.faq-container input[type=radio] + label:before,
+.faq-container input[type=checkbox] + label:after,
+.faq-container input[type=radio] + label:after {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  margin-right: 10px;
+  margin-top: 7px;
+}
+
+.faq-container input[type=checkbox] + label:after,
+.faq-container input[type=radio] + label:after {
+  content: "\f054";
+  float: right;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.faq-container input[type=checkbox] + label:hover,
+.faq-container input[type=radio] + label:hover { background: ; }
+.faq-container input[type=checkbox]:checked + label,
+.faq-container input[type=radio]:checked + label { background: ; }
+.faq-container input[type=checkbox]:focus + label,
+.faq-container input[type=radio]:focus + label { background: ; }
+.faq-container input[type=checkbox]:checked + label:hover,
+.faq-container input[type=radio]:checked + label:hover { background: ; }
+.faq-container input[type=checkbox]:checked + label:after,
+.faq-container input[type=radio]:checked + label:after {
+  -webkit-transform: rotate(270deg);
+     -moz-transform: rotate(270deg);
+      -ms-transform: rotate(270deg);
+       -o-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+.faq-container input[type=checkbox] + label + article,
+.faq-container input[type=radio] + label + article {
+  display: none;
+  /* display: none; - Content is ignored by screen readers, additionally stops tabbing through hidden content */
+  height: 0;
+  max-height: 0;
+  overflow: hidden;
+  /* 0, 0, hidden; - Content is ignored by screen readers, but tab key still steps through hidden elements */
+  -webkit-transition: all 1.5s ease-in-out;
+  -moz-transition: all 1.5s ease-in-out;
+  -o-transition: all 1.5s ease-in-out;
+  -ms-transition: all 1.5s ease-in-out;
+  transition: all 1.5s ease-in-out;
+}
+.faq-container input[type=checkbox]:checked + label + article,
+.faq-container input[type=radio]:checked + label + article {
+  display: block;
+  height: auto;
+  max-height: 2000px;
+  -webkit-transition: all 1.5s ease-in-out;
+  -moz-transition: all 1.5s ease-in-out;
+  -o-transition: all 1.5s ease-in-out;
+  -ms-transition: all 1.5s ease-in-out;
+  transition: all 1.5s ease-in-out;
+}
+
+
+
+
+
+.rating {
+  font-size: 18pt;
+}
+
+.rating {
+  color: #ccc;
+  display: inline-block;
+  clear: both;
+  vertical-align: middle;
+  /* start commented backslash hack \*/
+  /* close commented backslash hack */
+}
+.rating:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.fa-star.hover {
+  color: #0bf;
+}
+
+.rating > i {
+  display: block;
+  float: left;
+}
+
+.fa-star.on {
+  color: #0bf;
+}
+
+[class^="fr-"]:before,
+[class*="fr-"]:before,
+[class^="fr-"]:after,
+[class*="fr-"]:after {
+  display: block;
+  float: left;
+}
+
+[class^="fr-"]:after,
+[class*="fr-"]:after {
+  content: "\f005";
+  margin-left: -0.919em;
+  overflow-x: hidden;
+  color: #0bf;
+}
+
+.fr-0:after {
+  width: 0;
+}
+
+.fr-1:after {
+  width: 0.0919em;
+}
+
+.fr-2:after {
+  width: 0.1838em;
+}
+
+.fr-3:after {
+  width: 0.2757em;
+}
+
+.fr-4:after {
+  width: 0.3676em;
+}
+
+.fr-5:after {
+  width: 0.4595em;
+}
+
+.fr-6:after {
+  width: 0.5514em;
+}
+
+.fr-7:after {
+  width: 0.6433em;
+}
+
+.fr-8:after {
+  width: 0.7352em;
+}
+
+.fr-9:after {
+  width: 0.8271em;
+}
+
+.fa-star.active:before {
+  -webkit-transition: transform .25s;
+  -webkit-transform: rotateY(180deg);
+}
+
+
+/* 만족도 */
+.satisfaction_txt{
+  margin-top: 5px;
+  display: inline-block;
+  font-weight: normal;
+  font-size: 16px;
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  width: 38%;
+}
+
+/* 정렬 */
+/*.fl-r{float:right;}*/
+
+.star-tit{vertical-align: top; font-style: normal; font-size: 16px;}
+.star-tit p{margin-top: 0px;}
+.star-tit span{float: left; color: #949393; margin-top: 1px;}
+
+.side-about article.rating-extend ul.rating-extend-ul li:first-child {
+  border-top: 1px dotted #c8c8c8;
+  margin-top: 15px;
+}
+
+.side-about article.rating-extend ul.rating-extend-ul li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.side-about article.rating-extend ul.rating-extend-ul li {
+  margin-left: 0;
+  line-height: 1.6rem;
+}

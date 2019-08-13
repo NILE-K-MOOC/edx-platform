@@ -983,7 +983,7 @@ def student_dashboard(request):
         c.final_day = final_day[0][0]
 
         # 개강 2주 후부터 종강 후 2주까지 만족도 설문 버튼 생성
-        c.survey_valid = dashboard_survey_valid(c.course.id)
+        c.survey_valid = dashboard_survey_valid(c.course.id) if c.is_active == True and c.mode == 'honor' else False
 
     con.close()
 

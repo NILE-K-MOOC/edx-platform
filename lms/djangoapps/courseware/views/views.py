@@ -1419,6 +1419,9 @@ def course_about(request, course_id):
             #     data_dict['bad'] = data[0]
             #     data_list.append(data_dict)
 
+        # 강좌 만족도 별점
+        course_survey_data = survey_result_star(course_org, course_number)
+
         # today d-day와 청강에서 사용
         today = datetime.now()
 
@@ -1658,7 +1661,8 @@ def course_about(request, course_id):
             'study_time': study_time,
             'start': start,
             'end': end,
-            'enroll_audit': enroll_audit
+            'enroll_audit': enroll_audit,
+            'course_survey_data': course_survey_data
         }
 
         return render_to_response('courseware/course_about.html', context)
@@ -2102,6 +2106,9 @@ def mobile_course_about(request, course_id):
 
                 data_list.append(data_dict)
 
+        # 강좌 만족도 별점
+        course_survey_data = survey_result_star(course_org, course_number)
+
         # today d-day와 청강에서 사용
         today = datetime.now()
 
@@ -2235,10 +2242,46 @@ def mobile_course_about(request, course_id):
             'course_level': course_level,
             'study_time': study_time,
             'start': start,
-            'end': end
+            'end': end,
+            'course_survey_data': course_survey_data
         }
 
         return render_to_response('courseware/mobile_course_about.html', context)
+
+
+# 강좌 만족도 설문 결과 별점(about page)
+def survey_result_star(org, display_number_with_default):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT 
+                COUNT(*),
+                IFNULL(ROUND(AVG(question_01), 1), 0.0),
+                IFNULL(ROUND(AVG(question_02), 1), 0.0),
+                IFNULL(ROUND(AVG(question_03), 1), 0.0),
+                IFNULL(ROUND(AVG(question_04), 1), 0.0),
+                IFNULL(ROUND(AVG(question_06), 1), 0.0)
+            FROM
+                survey_result
+            WHERE
+                org = '{org}'
+                    AND display_number_with_default = '{course}'
+            GROUP BY org , display_number_with_default;
+        '''.format(org=org, course=display_number_with_default)
+        cur.execute(query)
+        result_data = cur.fetchone()
+
+        data = dict()
+        data['r_total'] = result_data[0]  # 총 응답자
+        # 강의 내용
+        data['r_contents'] = [int(result_data[1]), str(result_data[1] % int(result_data[1]))[2]] if result_data[1] != 0.0 else [0, 0]
+        # 교수자
+        data['r_instructor'] = [int(result_data[2]), str(result_data[2] % int(result_data[2]))[2]] if result_data[2] != 0.0 else [0, 0]
+        # 강의 운영
+        data['r_support'] = [int(result_data[3]), str(result_data[3] % int(result_data[3]))[2]] if result_data[3] != 0.0 else [0, 0]
+        # 전반적 만족도
+        data['r_course'] = [int(result_data[4]), str(result_data[4] % int(result_data[4]))[2]] if result_data[4] != 0.0 else [0, 0]
+
+    return data
 
 
 @ensure_csrf_cookie
