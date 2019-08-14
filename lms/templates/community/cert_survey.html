@@ -123,7 +123,6 @@
                                             Q3: Q3,
                                             Q4: Q4,
                                             Q5: Q5,
-                                            Q6: $('#Q6_text').val(),
                                             'user_id':'${user_id}',
                                             'course_id':course_id,
                                         },
@@ -201,9 +200,6 @@
     #Q5_text{
         width: 380px !important;
     }
-    #Q6_text{
-        width: 380px !important;
-    }
 </style>
 
 <section class="container">
@@ -276,18 +272,6 @@
                     </label>
                 </td>
             </tr>
-
-            <tr class="q6_tr">
-
-                <td class="sv_Q6">기타의견</td>
-                <td>Q5.${_("What is your suggestion to improve this course?")}</td>
-                <td colspan="5" class="cert">
-                    <label>
-                        <textarea id="Q6_text" name="Q6" class="form-control"></textarea>
-                    </label>
-                </td>
-            </tr>
-
             </tbody>
         </table>
 
@@ -304,6 +288,5 @@
 </section>
 
 <br/><br/><br/><br/><br/><br/><br/>
-
 
 

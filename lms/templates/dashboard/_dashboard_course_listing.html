@@ -255,11 +255,6 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
             <div class="kr01_dashBtn">
               % if (status_flag != 'interest' and status_flag != 'propose') :
               <a href="courses/${course_overview}/discussion/forum/users/${user.id}" class="enter-course" style="margin-top: 5px;">내 게시글 보기</a>
-                % if enrollment.status=='ing':
-                <a target="_blank" href="/pre_cert_survey?course_id=${course_overview.id}&user_id=${user.id}" class="enter-course" style="margin-top: 5px;" >
-                  만족도 조사
-                </a>
-                % endif
               % endif
             </div>
             % endif

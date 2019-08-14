@@ -158,7 +158,6 @@ urlpatterns = [
 
     # survey url
     url(r'^cert_survey/$', community.cert_survey, name='cert_survey'),
-    url(r'^pre_cert_survey/$', community.pre_cert_survey, name='pre_cert_survey'),
 
     # course_review
     url(r'^course_review/$', courseware_views.course_review, name='course_review'),
