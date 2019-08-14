@@ -2962,7 +2962,7 @@ def cb_login_check(request):
         return_user = False
     else:
         return_user = request.user.id
-    return HttpResponse(return_user)
+    return HttpResponse('edxlc("' + str(return_user) + '")')
 
 
 # def dormant_mail(request):
