@@ -3,6 +3,7 @@
 
 import uuid
 import json
+import logging
 from django.conf import settings
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
@@ -28,6 +29,7 @@ from pytz import timezone
 from django.db import connections
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import AnonymousUser
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -2950,6 +2952,18 @@ def cert_survey(request):
     context['display_name'] = display_name[0][0]
 
     return render_to_response("community/cert_survey.html", context)
+
+
+# cbkmooc 연계용 로그인 체크
+def cb_login_check(request):
+    log = logging.getLogger("edx.cb_kmooc")
+    log.info("cb_kmooc login check")
+    if request.user == AnonymousUser():
+        return_user = False
+    else:
+        return_user = request.user.id
+    return HttpResponse(return_user)
+
 
 # def dormant_mail(request):
 #     email_list = []
