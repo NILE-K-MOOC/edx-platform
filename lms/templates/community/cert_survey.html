@@ -168,9 +168,6 @@
             })
                     .then(function (value) {
                         var upsert = $("#data_flag").val();
-                        if(flag == '2'){
-                            upsert = 'insert';
-                        }
                         if (value) {
                             $.ajax({
                                         url: "/cert_survey/",
