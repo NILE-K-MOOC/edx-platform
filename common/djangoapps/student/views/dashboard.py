@@ -4,6 +4,7 @@ Dashboard view and supporting methods
 """
 
 import datetime
+import pytz
 import logging
 from collections import defaultdict
 
@@ -983,7 +984,7 @@ def student_dashboard(request):
         c.final_day = final_day[0][0]
 
         # 개강 2주 후부터 종강 후 2주까지 만족도 설문 버튼 생성
-        c.survey_valid = dashboard_survey_valid(c.course.id) if c.is_active == True and c.mode == 'honor' else False
+        c.survey_valid = dashboard_survey_valid(c) if c.is_active == True and c.mode == 'honor' else False
 
     con.close()
 
@@ -1062,20 +1063,25 @@ def student_dashboard(request):
 
 
 # dashboard survey
-def dashboard_survey_valid(course_id):
+def dashboard_survey_valid(user_enroll):
+    course_id = user_enroll.course_id
+    regist_date = user_enroll.created
     with connections['default'].cursor() as cur:
         query = '''
             SELECT COUNT(*)
             FROM course_overviews_courseoverview
             WHERE
                 id = '{course_id}'
-                    AND ADDDATE(NOW(), INTERVAL 9 HOUR) BETWEEN ADDDATE(start, INTERVAL 14 DAY)
-                    AND ADDDATE(end, INTERVAL 14 DAY);
+                    AND NOW() BETWEEN ADDDATE(start, INTERVAL '14 9' DAY_HOUR)
+                    AND ADDDATE(end, INTERVAL '14 9' DAY_HOUR);
         '''.format(course_id=course_id)
         cur.execute(query)
         cnt = cur.fetchone()
 
-    return True if cnt[0] == 1 else False
+    # 수강신청일로부터 2주가 지났는지 확인
+    r_check = True if datetime.datetime.now(tz=pytz.utc) >= regist_date + datetime.timedelta(days=14) else False
+
+    return True if cnt[0] == 1 and r_check is True else False
 
 
 # 강좌 만족도 설문 참여

@@ -2945,6 +2945,9 @@ def cert_survey(request):
     flag = request.GET.get('flag')
     context = {}
 
+    if user_id != str(request.user.id):
+        return render_to_response("community/cert_survey_error.html")
+
     if flag == '1':
         with connections['default'].cursor() as cur:
             query = '''
