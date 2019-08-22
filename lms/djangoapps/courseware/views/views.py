@@ -2278,7 +2278,7 @@ def survey_result_star(org, display_number_with_default):
         data['r_instructor'] = [int(result_data[2]), str(result_data[2] % int(result_data[2]))[2]] if result_data[2] != 0.0 else [0, 0]
         # 강의 운영
         data['r_support'] = [int(result_data[3]), str(result_data[3] % int(result_data[3]))[2]] if result_data[3] != 0.0 else [0, 0]
-        # 전반적 만족도
+        # 강좌 만족도
         data['r_course'] = [int(result_data[4]), str(result_data[4] % int(result_data[4]))[2]] if result_data[4] != 0.0 else [0, 0]
 
     return data
