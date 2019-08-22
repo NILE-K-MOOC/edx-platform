@@ -1119,21 +1119,20 @@ def dashboard_survey_valid(user_enroll):
         return_data['r_status'] = 5
         return_data['r_msg'] = '응답시기가 아닙니다.'
 
-    elif cnt[0] == '3' and result[0] == '1':
-        if result[1] == 1:
+    elif cnt[0] == '3':
+        if result[1] == 1 and result[0] == '1':
             return_data['r_status'] = 3
             return_data['r_msg'] = '강좌만족도 설문에 응답했습니다.'
         elif result[1] == 0:
             return_data['r_status'] = 4
             return_data['r_msg'] = '강좌만족도 설문이 마감되었습니다.'
-
-    else:
-        if result[0] == '2':
+        if result[0] == '2' and result[1] == 1:
             return_data['r_status'] = 6
             return_data['r_msg'] = '이수증 만족도 설문에 응답하셨습니다.'
-        else:
-            return_data['r_status'] = 5
-            return_data['r_msg'] = '응답시기가 아닙니다.'
+
+    else:
+        return_data['r_status'] = 5
+        return_data['r_msg'] = '설문에 응답할 수 없습니다.'
 
     return return_data
 

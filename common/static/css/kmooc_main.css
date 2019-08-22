@@ -1838,7 +1838,7 @@ article.course.none .kr01-courInfo-bar{
 
 .kr01_dashArea .kr01_dashTsub{display: inline-block; position: relative; top: 18px; width: 100%; display: flex; justify-content: space-between;}
 .kr01_dashArea .kr01_dashTsub .kr01_dashTs01{display: inline-block; float: left; margin-top: 63px; font-size: 14px; width: 25%;}
-.kr01_dashArea .kr01_dashTsub .kr01_dashTs01.kr01_dashTs01_first{margin-top: 20px;}
+.kr01_dashArea .kr01_dashTsub .kr01_dashTs01.kr01_dashTs01_first{margin-top: 10px;}
 .kr01_dashArea .kr01_dashTsub .kr01_dashTs01:first-child{
   width: 35%;}
 .kr01_dashArea .kr01_dashTsub .kr01_dashTs01:nth-child(2){
@@ -2526,4 +2526,54 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 
 .important-dates-item-title.survey-star {
   margin-top: -2px; font-weight: normal; line-height: 1em;
+}
+
+  .survey-msg {
+    display: none;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 12px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1000;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .survey-msg:after {
+    content:'';
+    position:absolute;
+    width:0;
+    height:0;
+    border-style:solid;
+    border-color:transparent transparent #000 transparent;
+    border-width:10px 5px;
+    top:-8px;
+    left: 104px;
+    margin-top:-10px;
+  }
+  .survey-status-div:hover .survey-msg {
+    display: block;
+    top: 54px;
+    left: -50px;
+    opacity: 0.8;
+  }
+
+@media (min-width: 714px) and (max-width: 991px) {
+  .survey-status-div:hover .survey-msg {
+    left: -2px;
+  }
+}
+
+@media (max-width: 714px) {
+  .survey-status-div a.enter-course {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .survey-status-div:hover .survey-msg {
+    left: 67px;
+  }
 }
