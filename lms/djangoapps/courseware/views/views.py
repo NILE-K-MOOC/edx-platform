@@ -2255,11 +2255,7 @@ def survey_result_star(org, display_number_with_default):
         query = '''
             SELECT 
                 COUNT(*),
-                IFNULL(ROUND(AVG(question_01), 1), 0.0),
-                IFNULL(ROUND(AVG(question_02), 1), 0.0),
-                IFNULL(ROUND(AVG(question_03), 1), 0.0),
-                IFNULL(ROUND(AVG(question_04), 1), 0.0),
-                IFNULL(ROUND(AVG(question_06), 1), 0.0)
+                IFNULL(ROUND(AVG(question_04), 1), 0.0)
             FROM
                 survey_result
             WHERE
@@ -2270,17 +2266,15 @@ def survey_result_star(org, display_number_with_default):
         cur.execute(query)
         result_data = cur.fetchone()
 
-        data = dict()
+    data = dict()
+    if result_data is None:
+        data = False
+    elif result_data[0] >= 30 and result_data[1] >= 4.0:  # 응답자 30명 이상, 만족도 4.0 이상 노출
         data['r_total'] = result_data[0]  # 총 응답자
-        # 강의 내용
-        data['r_contents'] = [int(result_data[1]), str(result_data[1] % int(result_data[1]))[2]] if result_data[1] != 0.0 else [0, 0]
-        # 교수자
-        data['r_instructor'] = [int(result_data[2]), str(result_data[2] % int(result_data[2]))[2]] if result_data[2] != 0.0 else [0, 0]
-        # 강의 운영
-        data['r_support'] = [int(result_data[3]), str(result_data[3] % int(result_data[3]))[2]] if result_data[3] != 0.0 else [0, 0]
         # 강좌 만족도
-        data['r_course'] = [int(result_data[4]), str(result_data[4] % int(result_data[4]))[2]] if result_data[4] != 0.0 else [0, 0]
-
+        data['r_course'] = [int(result_data[1]), str(result_data[1] % int(result_data[1]))[2]] if result_data[1] != 0.0 else [0, 0]
+    else:
+        data = False
     return data
 
 

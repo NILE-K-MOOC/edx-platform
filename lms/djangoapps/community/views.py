@@ -2883,13 +2883,15 @@ def cert_survey(request):
                     question_04 = '{question_04}',
                     question_05 = '{question_05}',
                     question_06 = '{question_06}',
+                    org = '{org}',
+                    display_number_with_default = '{course}',
                     survey_gubun = '{survey_gubun}',
                     regist_date = NOW()
                 WHERE
                     seq = {seq} AND course_id = '{course_id}'
                         AND regist_id = '{user_id}';
             '''.format(question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4, question_05=Q5, question_06=Q6,
-                       survey_gubun=survey_gubun, seq=s_seq, course_id=course_id, user_id=user_id)
+                       org=org, course=course, survey_gubun=survey_gubun, seq=s_seq, course_id=course_id, user_id=user_id)
 
         with connections['default'].cursor() as cur:
             cur.execute(query)

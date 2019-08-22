@@ -2317,7 +2317,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .faq-container input[type=checkbox] + label,
 .faq-container input[type=radio] + label {
   line-height: 1rem;
-  cursor: pointer;
+  cursor: default;
   display: block;
   font-size: 18px;
   font-weight: normal;
@@ -2341,15 +2341,15 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 
 .faq-container input[type=checkbox] + label:after,
-.faq-container input[type=radio] + label:after {
-  content: "\f054";
-  float: right;
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
+/*.faq-container input[type=radio] + label:after {*/
+  /*content: "\f054";*/
+  /*float: right;*/
+  /*-webkit-transform: rotate(90deg);*/
+  /*-moz-transform: rotate(90deg);*/
+  /*-ms-transform: rotate(90deg);*/
+  /*-o-transform: rotate(90deg);*/
+  /*transform: rotate(90deg);*/
+/*}*/
 .faq-container input[type=checkbox] + label:hover,
 .faq-container input[type=radio] + label:hover { background: ; }
 .faq-container input[type=checkbox]:checked + label,
@@ -2522,4 +2522,8 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .side-about article.rating-extend ul.rating-extend-ul li {
   margin-left: 0;
   line-height: 1.6rem;
+}
+
+.important-dates-item-title.survey-star {
+  margin-top: -2px; font-weight: normal; line-height: 1em;
 }
