@@ -589,7 +589,7 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
 
    function survey_btn_click(course_id, r_status){
        let v_yn = false;
-       if($.inArray(r_status, ['2', '4'])){
+       if($.inArray(r_status, ['3', '6']) != -1){
           v_yn = true;
        }
 
