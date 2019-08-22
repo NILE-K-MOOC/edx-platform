@@ -1851,6 +1851,12 @@ article.course.none .kr01-courInfo-bar{
   float: none !important;
 }
 
+.kr01_dashArea .kr01_dashTsub .kr01_dashTs01.kr01_dashTs01_first div a.enter-course.disabled {
+  color: #000 !important;
+  background-color: #e8e8e8 !important;
+  border-color: #d3d2d2 !important;
+}
+
 .kr01_dashBtnArea{float: right;display: inline-block; position: relative;
   width: 16%;}
 .kr01_dashLatest{text-align: center; margin-bottom: 10px; font-size: 13px; white-space: nowrap;}

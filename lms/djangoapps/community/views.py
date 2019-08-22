@@ -2900,6 +2900,7 @@ def cert_survey(request):
     elif request.is_ajax() and request.GET:  # 설문 결과가 있는 경우 해당 데이터 보냄
         course_id = request.GET.get('course_id')
         user_id = request.user.id
+        r_status = request.GET.get('r_status')
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT 
@@ -2917,8 +2918,8 @@ def cert_survey(request):
                   JOIN
                     course_overviews_courseoverview b ON a.course_id = b.id
                 WHERE
-                    course_id = '{course_id}' AND regist_id = {user_id} AND survey_gubun = '1';
-                '''.format(course_id=course_id, user_id=user_id)
+                    course_id = '{course_id}' AND regist_id = {user_id} AND survey_gubun = '{r_status}';
+                '''.format(course_id=course_id, user_id=user_id, r_status=r_status)
             cur.execute(query)
             survey_data = cur.fetchall()
 
@@ -2943,12 +2944,13 @@ def cert_survey(request):
     # print "before = ", hello
     # 강좌 중 만족도 설문과 이수자 설문 나눔 flag = '1'(강좌 중) flag = '2'(이수자)
     flag = request.GET.get('flag')
+    view_yn = request.GET.get('view')
     context = {}
 
     if user_id != str(request.user.id):
         return render_to_response("community/cert_survey_error.html")
 
-    if flag == '1':
+    if flag == '1' or (flag == '2' and view_yn == 'true'):
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT 
@@ -2972,7 +2974,13 @@ def cert_survey(request):
             display_name = cur.fetchone()[0]
             context['display_name'] = display_name
 
-        context['data_flag'] = 'insert' if survey_cnt[0] == 0 else 'update'
+        if view_yn == 'true':
+            context['data_flag'] = 'disable'
+        elif survey_cnt[0] == 0:
+            context['data_flag'] = 'insert'
+        else:
+            context['data_flag'] = 'update'
+
         context['hello'] = ''
 
     else:

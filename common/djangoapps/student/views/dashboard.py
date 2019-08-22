@@ -984,7 +984,7 @@ def student_dashboard(request):
         c.final_day = final_day[0][0]
 
         # 개강 2주 후부터 종강 후 2주까지 만족도 설문 버튼 생성
-        c.survey_valid = dashboard_survey_valid(c) if c.is_active == True and c.mode == 'honor' else False
+        c.survey_valid = dashboard_survey_valid(c) if c.is_active is True and c.mode == 'honor' else {5, '응답시기가 아닙니다.'}
 
     con.close()
 
@@ -1064,16 +1064,30 @@ def student_dashboard(request):
 
 # dashboard survey
 def dashboard_survey_valid(user_enroll):
+    """
+    설문 응답 가능(설문 미응답) - int(1)
+    설문 응답 가능(기응답자) - int(2)
+    설문 응답 시기 종료(기존 설문 응답자 view) - int(3)
+    설문 응답 시기 종료(기존 설문 미응답자 disabled) - int(4)
+    강좌 응답시기가 아닐때(시작 전 disable) - int(5)
+    이수증 설문 응답 완료(view) - int(6)
+    """
     course_id = user_enroll.course_id
     regist_date = user_enroll.created
     with connections['default'].cursor() as cur:
+        # '1' = 강좌 설문 응답시기, '2' = 설문 가능시기 전(개강 후 2주 이내), '3' = 응답시기 지남(종강 2주 후)
         query = '''
-            SELECT COUNT(*)
+            SELECT
+            CASE
+                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL '14 9' DAY_HOUR)
+                    AND ADDDATE(end, INTERVAL '14 9' DAY_HOUR) THEN '1'
+                WHEN NOW() < ADDDATE(start, INTERVAL '14 9' DAY_HOUR) THEN '2'
+                WHEN NOW() > ADDDATE(end, INTERVAL '14 9' DAY_HOUR) THEN '3'
+                ELSE '0'
+            END as cert_flag
             FROM course_overviews_courseoverview
             WHERE
-                id = '{course_id}'
-                    AND NOW() BETWEEN ADDDATE(start, INTERVAL '14 9' DAY_HOUR)
-                    AND ADDDATE(end, INTERVAL '14 9' DAY_HOUR);
+                id = '{course_id}';
         '''.format(course_id=course_id)
         cur.execute(query)
         cnt = cur.fetchone()
@@ -1081,7 +1095,47 @@ def dashboard_survey_valid(user_enroll):
     # 수강신청일로부터 2주가 지났는지 확인
     r_check = True if datetime.datetime.now(tz=pytz.utc) >= regist_date + datetime.timedelta(days=14) else False
 
-    return True if cnt[0] == 1 and r_check is True else False
+    # 설문 응답여부/이수증 설문과 만족도 설문 구분
+    with connections['default'].cursor() as cur:
+        cnt_query = '''
+            SELECT survey_gubun, count(*) FROM survey_result WHERE course_id = '{course_id}' AND regist_id = {user_id};
+        '''.format(course_id=course_id, user_id=user_enroll.user_id)
+        cur.execute(cnt_query)
+        result = cur.fetchone()
+
+    return_data = {}
+    if cnt[0] == '1' and r_check is True:
+        if result[1] == 1 and result[0] == '1':
+            return_data['r_status'] = 2
+            return_data['r_msg'] = '강좌만족도 설문에 응답했습니다(수정 가능)'
+        elif result[1] == 0:
+            return_data['r_status'] = 1
+            return_data['r_msg'] = '본 강좌에 얼마나 만족하시나요?'
+        elif result[0] == '2':
+            return_data['r_status'] = 7
+            return_data['r_msg'] = '이수증 만족도 설문에 응답하셨습니다.'
+
+    elif cnt[0] == '2' or r_check is False:
+        return_data['r_status'] = 5
+        return_data['r_msg'] = '응답시기가 아닙니다.'
+
+    elif cnt[0] == '3' and result[0] == '1':
+        if result[1] == 1:
+            return_data['r_status'] = 3
+            return_data['r_msg'] = '강좌만족도 설문에 응답했습니다.'
+        elif result[1] == 0:
+            return_data['r_status'] = 4
+            return_data['r_msg'] = '강좌만족도 설문이 마감되었습니다.'
+
+    else:
+        if result[0] == '2':
+            return_data['r_status'] = 6
+            return_data['r_msg'] = '이수증 만족도 설문에 응답하셨습니다.'
+        else:
+            return_data['r_status'] = 5
+            return_data['r_msg'] = '응답시기가 아닙니다.'
+
+    return return_data
 
 
 # 강좌 만족도 설문 참여
@@ -1089,7 +1143,9 @@ def dashboard_survey_valid(user_enroll):
 def dashboard_survey_access(request):
     course_id = request.POST.get('course_id')
     user_id = request.user.id
-    return JsonResponse({'check': True, 'course_id': course_id, 'flag': '1', 'user_id': user_id})
+    r_status = request.POST.get('r_status')
+    flag = '1' if r_status != '6' else '2'
+    return JsonResponse({'check': True, 'course_id': course_id, 'flag': flag, 'user_id': user_id})
 
 
 # addinfo 테이블 데이터

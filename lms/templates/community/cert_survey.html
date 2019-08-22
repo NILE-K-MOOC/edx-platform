@@ -12,13 +12,23 @@
     $( document ).ready(function() {
         console.log("Ready!");
         $("#Q5_text").hide();
+        var data_flag = $("#data_flag").val();
 
-        if($("#data_flag").val() == 'update'){
+        if($.inArray(data_flag, ['update', 'disable']) != -1){
+            let r_status = '1';
+            if(data_flag == 'disable'){
+                r_status = '2';
+                $('.survey_group input, .survey_group textarea').each(function(){
+                    this.disabled = true;
+                });
+                $('#survey_submit').attr('disabled', 'disabled');
+            }
             $.ajax({
                 url: '/cert_survey/',
                 type: 'GET',
                 data: {
-                    course_id: course_id
+                    course_id: course_id,
+                    r_status: r_status
                 }
             }).done(function(data){
                 console.log(data.result.q2);
@@ -45,7 +55,6 @@
 
                 $('#s_seq').val(data.result.seq);
 
-                /*
                 if(data.result.q5 != null){
                     $(".cert input:radio").each(function(){
                         if(this.value == data.result.q5){
@@ -53,7 +62,7 @@
                         }
                     });
 
-                }*/
+                }
 
                 $('textarea[name="Q6"]').val(data.result.q6);
             });
@@ -366,7 +375,7 @@
            title="제출과 동시에 이수증을 웹으로 보게 될것입니다."
             style="float: right; font-size: 25px;">
             제출</a>-->
-        <button onclick="btn_survey_submit()" type="button" style="float: right; font-size: 19px;" class="btn btn-outline-primary" title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">제출하기</button>
+        <button onclick="btn_survey_submit()" id="survey_submit" type="button" style="float: right; font-size: 19px;" class="btn btn-outline-primary" title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">제출하기</button>
     </div>
 </section>
 

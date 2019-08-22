@@ -178,9 +178,12 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
         </div>
 
         <div class="kr01_dashTsub">
-            % if enrollment.survey_valid == True:
+            % if enrollment.mode == 'honor' and status_flag != 'interest':
           <span class="kr01_dashTs01 kr01_dashTs01_first">
-            <div><a href="#" class="enter-course" onclick="survey_btn_click('${enrollment.course_id}')">강좌 만족도 설문 참여하기</a></div>
+            <div>
+                <div class="survey_msg hidden_head">${enrollment.survey_valid['r_msg']}</div>
+              <a href="#" class="enter-course ${'disabled' if enrollment.survey_valid['r_status'] in [4, 5] else ''}" onclick="survey_btn_click('${enrollment.course_id}', '${enrollment.survey_valid['r_status']}')">강좌 만족도 설문</a>
+            </div>
             % else:
           <span class="kr01_dashTs01">
             % endif
@@ -583,10 +586,15 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
        }
    });
 
-   function survey_btn_click(course_id){
-      $.post('/dashboard_survey', {course_id: course_id, csrfmiddlewaretoken: '${csrf_token}'}).done(function(data){
+   function survey_btn_click(course_id, r_status){
+       let v_yn = false;
+       if($.inArray(r_status, ['2', '4'])){
+          v_yn = true;
+       }
+
+      $.post('/dashboard_survey', {course_id: course_id, csrfmiddlewaretoken: '${csrf_token}', r_status: r_status}).done(function(data){
          if(data.check == true){
-             location.href = '/cert_survey?hello=/dashboard&course_id=' + data.course_id + '&flag=' + data.flag + '&user_id=' + data.user_id;
+             location.href = '/cert_survey?hello=/dashboard&course_id=' + data.course_id + '&flag=' + data.flag + '&user_id=' + data.user_id + '&view=' + v_yn;
          }
       });
    }
