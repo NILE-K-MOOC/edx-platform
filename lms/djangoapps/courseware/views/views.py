@@ -3098,7 +3098,8 @@ def schools(request):
                         FROM
                             tb_attach
                         WHERE
-                            use_yn = 1 AND id = a.logo_img_e), 'null2') logo_img_e
+                            use_yn = 1 AND id = a.logo_img_e), 'null2') logo_img_e,
+                    IF(org_phone is null or org_phone = '', '-', org_phone) org_phone
                 FROM
                     tb_org a
                         JOIN
@@ -3123,14 +3124,37 @@ def schools(request):
                 org_dict['org_intro'] = org[2] if lang == 'ko-kr' else org[3]
                 org_dict['org_name'] = org[4] if lang == 'ko-kr' else org[5]
                 org_dict['org_image'] = org[6] if lang == 'ko-kr' else org[7]
+                org_dict['org_phone'] = org[8]
 
                 if org_dict['org_intro'] is not None:
-                    org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict[
-                        'org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
-                else:
-                    org_dict['logo_img'] = '<div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict[
-                        'org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div>'
+                    # org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict[
+                    #     'org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
 
+                    # 20190826 기관 연락처 추가
+                    org_dict['logo_img'] = '''
+                        <a href="/school/{org_id}">
+                            <div class="logo_div">
+                                <img class="logo_img" alt="{org_name}" src="{org_image}" onerror="this.src='/static/images/blank.png'"/>
+                                <div class="logo_phone">{org_phone}</div>
+                            </div>
+                        </a>
+                    '''.format(
+                        org_id=org_dict['org_id'],
+                        org_name=org_dict['org_name'],
+                        org_image=org_dict['org_image'],
+                        org_phone=org_dict['org_phone'],
+                    )
+                else:
+                    org_dict['logo_img'] = '''
+                        <div class="logo_div">
+                            <img class="logo_img" alt="{org_name}" src="{org_image}" onerror="this.src='/static/images/blank.png'">
+                            <div class="logo_phone">{org_phone}</div>
+                        </div>
+                    '''.format(
+                        org_name=org_dict['org_name'],
+                        org_image=org_dict['org_image'],
+                        org_phone=org_dict['org_phone'],
+                    )
                 org_list.append(org_dict)
 
             return JsonResponse({'org_list': org_list})
