@@ -815,7 +815,7 @@ def get_multisite_list(request):
 
     with connections['default'].cursor() as cur:
         sql = '''
-            SELECT site_code, org_user_id
+            SELECT site_code, org_user_id, site_name
             FROM multisite_member AS a
             JOIN multisite AS b
             ON a.site_id = b.site_id
@@ -835,8 +835,6 @@ def get_multisite_list(request):
     print "------------------------> hello e"
 
     return JsonResponse({'return': rows})
-
-    return JsonResponse({'': ''})
 
 
 def get_org_list(request):
