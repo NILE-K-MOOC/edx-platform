@@ -459,6 +459,10 @@ def multisite_index(request, org):
                 log.info(err)
                 log.info('-----------------------------------')
                 return redirect('/multisite_error?error=error003')
+            except Exception as e:
+                log.info('Exception ----------------------------------- s')
+                log.info(e)
+                log.info('Exception ----------------------------------- e')
 
             # DEBUG
             print 'raw_data -> ', raw_data
