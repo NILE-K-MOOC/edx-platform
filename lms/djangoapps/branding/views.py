@@ -322,7 +322,7 @@ def multisite_index(request, org):
     addinfo = None
 
     if 'multistie_success' in request.session:
-        if request.session['multistie_success'] == 1:
+        if request.session['multistie_success'] == 1 and request.user.is_authenticated:
             return student.views.management.multisite_index(request, user=request.user)
 
     print "org -> ", org
@@ -884,8 +884,14 @@ def index(request):
 
     # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
     # 치유의 빛이 흐릿하게 빛나며 더럽혀진 영혼이 정화됩니다.
-    if 'multisite_mode' in request.session:
+    if request.session.get('multisite_mode'):
         del request.session['multisite_mode']
+
+    if request.session.get('multisite_org'):
+        del request.session['multisite_org']
+
+    if request.session.get('save_path'):
+        del request.session['save_path']
 
     print "request.user.is_authenticated", request.user.is_authenticated
     if request.user.is_authenticated:

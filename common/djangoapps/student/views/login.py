@@ -307,7 +307,9 @@ def _handle_failed_authentication(user):
         else:
             AUDIT_LOG.warning(u"Login failed - password for {0} is invalid".format(user.email))
 
-    failure = LoginFailures.objects.filter(user_id=user.id)
+        failure = LoginFailures.objects.filter(user_id=user.id)
+    else:
+        failure = None
 
     error_message = _('Email or password is incorrect.')
 
