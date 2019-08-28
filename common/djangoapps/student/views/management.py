@@ -270,8 +270,9 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                             AND LOWER(id) NOT LIKE '%nile%'
                             AND LOWER(id) NOT LIKE '%test%') b ON b.id = a.course_id
                     JOIN course_overview_addinfo c ON a.course_id = c.course_id
-                    WHERE
-                        site_id = '{site_id}'
+                    WHERE 1=1
+                        and start < date('2030/01/01') 
+                        and site_id = '{site_id}'
                     ORDER BY created DESC) mc
                 GROUP BY org , display_number_with_default
                 ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name;
