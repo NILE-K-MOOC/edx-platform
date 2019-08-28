@@ -209,17 +209,21 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                   </h1>
 
                   <div class="course-search">
-                    <form method="get" action="/courses" id="main_form">
-                      <div class="search-division">
-                        <label><span class="sr">${_("Find courses, instructors, organizations")}</span>
-                          <input name="search_query" class="search-query" type="text" style="z-index: 100;" placeholder="${_("What do you want to learn?")}">
-                        </label>
-                        <button type="submit">
-                          <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search_sub.png" alt=""></span>
-                          <span class="sr">${_("Search")}</span>
-                        </button>
-                      </div>
-                    </form>
+
+                      % if 'multisite_org' not in request.session:
+                        <form method="get" action="/courses" id="main_form">
+                          <div class="search-division">
+                            <label><span class="sr">${_("Find courses, instructors, organizations")}</span>
+                              <input name="search_query" class="search-query" type="text" style="z-index: 100;" placeholder="${_("What do you want to learn?")}">
+                            </label>
+                            <button type="submit">
+                              <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search_sub.png" alt=""></span>
+                              <span class="sr">${_("Search")}</span>
+                            </button>
+                          </div>
+                        </form>
+                      % endif
+
                     <div class="kr01-alertarea sub-menu-alertarea">
                       <nav class="kr01_bellarea">
                           <div class="dropdown hover memo-division">

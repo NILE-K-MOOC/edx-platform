@@ -322,7 +322,7 @@ def multisite_index(request, org):
     addinfo = None
 
     if 'multistie_success' in request.session:
-        if request.session['multistie_success'] == 1:
+        if request.session['multistie_success'] == 1 and request.user.is_authenticated:
             return student.views.management.multisite_index(request, user=request.user)
 
     print "org -> ", org
@@ -459,6 +459,10 @@ def multisite_index(request, org):
                 log.info(err)
                 log.info('-----------------------------------')
                 return redirect('/multisite_error?error=error003')
+            except Exception as e:
+                log.info('Exception ----------------------------------- s')
+                log.info(e)
+                log.info('Exception ----------------------------------- e')
 
             # DEBUG
             print 'raw_data -> ', raw_data
@@ -811,7 +815,7 @@ def get_multisite_list(request):
 
     with connections['default'].cursor() as cur:
         sql = '''
-            SELECT site_code, org_user_id
+            SELECT site_code, org_user_id, site_name
             FROM multisite_member AS a
             JOIN multisite AS b
             ON a.site_id = b.site_id
@@ -831,8 +835,6 @@ def get_multisite_list(request):
     print "------------------------> hello e"
 
     return JsonResponse({'return': rows})
-
-    return JsonResponse({'': ''})
 
 
 def get_org_list(request):
@@ -882,8 +884,14 @@ def index(request):
 
     # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
     # 치유의 빛이 흐릿하게 빛나며 더럽혀진 영혼이 정화됩니다.
-    if 'multisite_mode' in request.session:
+    if request.session.get('multisite_mode'):
         del request.session['multisite_mode']
+
+    if request.session.get('multisite_org'):
+        del request.session['multisite_org']
+
+    if request.session.get('save_path'):
+        del request.session['save_path']
 
     print "request.user.is_authenticated", request.user.is_authenticated
     if request.user.is_authenticated:

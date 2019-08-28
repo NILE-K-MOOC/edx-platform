@@ -557,7 +557,7 @@ def shim_student_view(view_func, check_logged_in=False):
             # ----- 멀티사이트 멤버 테이블에 이메일이 있는 경우 로직 [e]
 
             # insert 방지 플래그가 설정되지 않은 경우 멀티사이트멤버 테이블에 데이터를 insert 한다.
-            if insert_lock == 0:
+            if cnt > 0 and insert_lock == 0:
                 with connections['default'].cursor() as cur:
                     sql = '''
                         insert into multisite_member(site_id, user_id, org_user_id, regist_id)
