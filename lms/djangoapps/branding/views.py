@@ -441,6 +441,9 @@ def multisite_index(request, org):
                 return redirect('/multisite_error?error=error003')
 
             try:
+                # url decode 처리
+                encStr = urllib.unquote(encStr)
+
                 raw_data = decrypt(key, key, encStr)
                 qs = raw_data
                 raw_data = raw_data.split('&')
