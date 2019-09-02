@@ -1035,12 +1035,12 @@ div.about-side-title p {
           <span class="important-dates-item-text prerequisites" style="display: inline-block;vertical-align: middle; width: 100%;">
             <section class="faq-container">
 
-              <label style="margin-bottom: 0px; cursor: default;">
+              <label style="margin-bottom: 0px; cursor: default; line-height: 1rem;">
 
                 <div class="about-side-title star-tit">
                   <span class="icon fa fa-star" style="" aria-hidden="true">
                   </span>
-                  <p class="important-dates-item-title survey-star" style="">강좌 만족도<br>(${course_survey_data['r_total']}명 응답)</p>
+                  <p class="important-dates-item-title survey-star" style="">강좌 만족도</p>
                 </div>
                 <div class="rating">
                   % for s in range(course_survey_data['r_course'][0]):
@@ -1056,6 +1056,7 @@ div.about-side-title p {
             </section>
           </span>
         </div>
+        <div class="about-star-notice"> ※ 만족도 응답 표본 수 미달 등 일정 기준이 충족되지 않은 경우 별점이 공개되지 않을 수 있습니다.</div>
       </li>
       % endif
 

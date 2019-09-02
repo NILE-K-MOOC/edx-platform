@@ -11,7 +11,6 @@
     var course_id = '${course_id}';
     $( document ).ready(function() {
         console.log("Ready!");
-        $("#Q5_text").hide();
         var data_flag = $("#data_flag").val();
 
         if($.inArray(data_flag, ['update', 'disable']) != -1){
@@ -52,61 +51,48 @@
                         this.checked = true;
                     }
                 });
+                $("input:radio[name='Q5']").each(function(){
+                    if(this.value == data.result.q5){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q6']").each(function(){
+                    if(this.value == data.result.q6){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q7']").each(function(){
+                    if(this.value == data.result.q7){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q8']").each(function(){
+                    if(this.value == data.result.q8){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q9']").each(function(){
+                    if(this.value == data.result.q9){
+                        this.checked = true;
+                    }
+                });
 
                 $('#s_seq').val(data.result.seq);
 
-                if(data.result.q5 != null){
-                    $(".cert input:radio").each(function(){
-                        if(this.value == data.result.q5){
-                            this.checked = true;
-                        }
-                    });
-
-                }
-
-                $('textarea[name="Q6"]').val(data.result.q6);
+                $('textarea[name="Q10"]').val(data.result.q10);
             });
         }
-
-        $("#Q5_1").click(function() {
-            $("#Q5_text").val("");
-            $("#Q5_text").hide();
-            $("#Q5_5").prop("checked", false);
-        })
-        $("#Q5_2").click(function() {
-            $("#Q5_text").val("");
-            $("#Q5_text").hide();
-            $("#Q5_5").prop("checked", false);
-        })
-        $("#Q5_3").click(function() {
-            $("#Q5_text").val("");
-            $("#Q5_text").hide();
-            $("#Q5_5").prop("checked", false);
-        })
-        $("#Q5_4").click(function() {
-            $("#Q5_text").val("");
-            $("#Q5_text").hide();
-            $("#Q5_5").prop("checked", false);
-        })
-        $("#Q5_5").click(function() {
-            $("#Q5_text").show();
-            $("#Q5_1").prop("checked", false);
-            $("#Q5_2").prop("checked", false);
-            $("#Q5_3").prop("checked", false);
-            $("#Q5_4").prop("checked", false);
-        })
 
     });
 
 
 
     function btn_survey_submit(){
-        var lock = 0;
+        var lock = 1;
         var flag = $('#flag').val();
 
         if($("input:radio[name='Q1']").is(":checked") == true){
             var Q1 = $(':radio[name="Q1"]:checked').val();
-
         }
         else{
             swal("입력 오류", "1번 설문을 입력해주세요", "info");
@@ -116,6 +102,7 @@
 
         if($("input:radio[name='Q2']").is(":checked") == true){
             var Q2 = $(':radio[name="Q2"]:checked').val();
+
         }
         else{
             swal("입력 오류", "2번 설문을 입력해주세요", "info");
@@ -128,14 +115,12 @@
         }
         else{
             swal("입력 오류", "3번 설문을 입력해주세요", "info");
+            lock = 0;
             return false;
         }
 
         if($("input:radio[name='Q4']").is(":checked") == true){
             var Q4 = $(':radio[name="Q4"]:checked').val();
-            if(flag == '1'){
-                lock = 1;
-            }
         }
         else{
             swal("입력 오류", "4번 설문을 입력해주세요", "info");
@@ -143,30 +128,51 @@
             return false;
         }
 
-        console.log(flag);
-        if(flag != '1'){
-            if($("input:radio[name='Q5_text']").is(":checked") == true){
-
-                var Q5 = $("#Q5_text").val();
-
-                lock=1;
-            }
-            else if ($("input:radio[name='Q5']").is(":checked") == true){
-
-                var Q5 = $(':radio[name="Q5"]:checked').val();
-
-                lock=1;
-            }
-            else{
-                swal("입력 오류", "5번 설문을 입력해주세요", "info");
-                lock = 0;
-                return false;
-            }
-        } else {
-            var Q5 = null;
+        if($("input:radio[name='Q5']").is(":checked") == true){
+            var Q5 = $(':radio[name="Q5"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "5번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
         }
 
-        var Q6 = $('textarea[name="Q6"]').val();
+        if($("input:radio[name='Q6']").is(":checked") == true){
+            var Q6 = $(':radio[name="Q6"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "6번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        if($("input:radio[name='Q7']").is(":checked") == true){
+            var Q7 = $(':radio[name="Q7"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "7번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        if($("input:radio[name='Q8']").is(":checked") == true){
+            var Q8 = $(':radio[name="Q8"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "8번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        if($("input:radio[name='Q9']").is(":checked") == true){
+            var Q9 = $(':radio[name="Q9"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "9번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        var Q10 = $('textarea[name="Q10"]').val();
+
+        console.log(flag);
+
         if(lock != 0){
             swal({
                 title: "완 료",
@@ -189,6 +195,10 @@
                                             Q4: Q4,
                                             Q5: Q5,
                                             Q6: Q6,
+                                            Q7: Q7,
+                                            Q8: Q8,
+                                            Q9: Q9,
+                                            Q10: Q10,
                                             'user_id':'${user_id}',
                                             'course_id':course_id,
                                             survey_gubun: flag,
@@ -231,12 +241,15 @@
     }
     td{
         vertical-align: middle !important;
-        padding: 20px !important;
+        /*padding: 20px !important;*/
     }
     .sv_menu1, .sv_menu2{
         border: 2px solid #d2d0d0 !important;
         text-align: center !important;
         vertical-align: middle !important;
+    }
+    .sv_menu1 {
+        width: 65%;
     }
     .cert{
         font-family: "Nanum Gothic" !important;
@@ -253,7 +266,7 @@
         border-radius: .25rem!important;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
     }
-    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5, .sv_Q6{
+    .sv_Q1,.sv_Q2,.sv_Q3,.sv_Q4,.sv_Q5, .sv_Q6, .sv_Q7, .sv_Q8, .sv_Q9, .sv_Q10{
         text-align: center !important;
         vertical-align: middle !important;
     }
@@ -273,6 +286,9 @@
     #Q5_text{
         width: 380px !important;
     }
+    .survey-value {
+        text-align: center;
+    }
 </style>
 
 <section class="container">
@@ -288,7 +304,7 @@
             <thead>
             <tr>
                 <th colspan="2" class="sv_menu1">구 분</th>
-                <th colspan="5" class="sv_menu2">
+                <th colspan="10" class="sv_menu2">
                     ${_("strongly disagree")} < &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; - &nbsp; >   ${_("strongly agree")}
                     <br>
                     <!--(strongly disagree) <--------------------2>(strongly agree)[번역용]-->
@@ -297,72 +313,108 @@
             </thead>
             <tbody>
             <tr class="q1_tr">
-
-                <td class="sv_Q1">강의 내용</td>
-                <td>Q1.${_("The contents of this course were well designed, organized and appropriate.")}</td>
-                <td><label><input type="radio" id="Q1_1" name="Q1" value="1" /> 1 </label></td>
-                <td><label><input type="radio" id="Q1_2" name="Q1" value="2" /> 2 </label></td>
-                <td><label><input type="radio" id="Q1_3" name="Q1" value="3" /> 3 </label></td>
-                <td><label><input type="radio" id="Q1_4" name="Q1" value="4" /> 4 </label></td>
-                <td><label><input type="radio" id="Q1_5" name="Q1" value="5" /> 5 </label></td>
+                <td class="sv_Q1">수강목적</td>
+                <td>Q1.${_("Why did you enroll in the course?")}</td>
+                <td colspan="10" class="cert">
+                    <label><input type="radio" id="Q1_1" name="Q1" value="1.${_("Improve candidacy for a new job")}"/> ${_("Improve candidacy for a new job")} </label><br>
+                    <label><input type="radio" id="Q1_2" name="Q1" value="2.${_("Enhance skills for current job")}"/> ${_("Enhance skills for current job")} </label><br>
+                    <label><input type="radio" id="Q1_3" name="Q1" value="3.${_("Gain credit toward academic degree/flipped learning")}"/> ${_("Gain credit toward academic degree/flipped learning")} </label><br>
+                    <label><input type="radio" id="Q1_4" name="Q1" value="4.${_("going to college/find a career")}"/> ${_("going to college/find a career")} </label><br>
+                    <label><input type="radio" id="Q1_5" name="Q1" value="5.${_("personal interest/self-development")}"/> ${_("personal interest/self-development")} </label><br>
+                </td>
             </tr>
+
             <tr class="q2_tr">
 
-                <td class="sv_Q2">교수자</td>
-                <td>Q2.${_("The instructor presented content in an organized manner.")}</td>
-                <td><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
-                <td><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
-                <td><label><input type="radio" id="Q2_3" name="Q2" value="3" /> 3 </label></td>
-                <td><label><input type="radio" id="Q2_4" name="Q2" value="4" /> 4 </label></td>
-                <td><label><input type="radio" id="Q2_5" name="Q2" value="5" /> 5 </label></td>
+                <td class="sv_Q2">강의 내용</td>
+                <td>Q2.${_("The contents and difficulty of this course are  appropriate for achieving learning objectives.")}</td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_3" name="Q2" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_4" name="Q2" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_5" name="Q2" value="5" /> 5 </label></td>
             </tr>
             <tr class="q3_tr">
 
-                <td class="sv_Q3">강의 운영</td>
-                <td>Q3.${_("The instructor or TA responded effectively to my questions.")}</td>
-                <td><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
-                <td><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
-                <td><label><input type="radio" id="Q3_3" name="Q3" value="3" /> 3 </label></td>
-                <td><label><input type="radio" id="Q3_4" name="Q3" value="4" /> 4 </label></td>
-                <td><label><input type="radio" id="Q3_5" name="Q3" value="5" /> 5 </label></td>
+                <td class="sv_Q3">교수자</td>
+                <td>Q3.${_("The instructor has enough expert knowledge to lead this course and presented content in an organized manner.")}</td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_3" name="Q3" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_4" name="Q3" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_5" name="Q3" value="5" /> 5 </label></td>
             </tr>
             <tr class="q4_tr">
 
-                <td class="sv_Q4">강좌 만족도</td>
-                <td>Q4.${_("The course as a whole was excellent.")}</td>
-                <td><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
-                <td><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
-                <td><label><input type="radio" id="Q4_3" name="Q4" value="3" /> 3 </label></td>
-                <td><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
-                <td><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
+                <td rowspan="2" class="sv_Q4">강의 운영</td>
+                <td>Q4.${_("The instructor or TA responded effectively to my questions.")}</td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_3" name="Q4" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
             </tr>
-
-            % if survey_gubun != '1':
             <tr class="q5_tr">
-                <td class="sv_Q5">이수증 활용도</td>
-                <td>Q5.${_("the purpose of using K-MOOC certificates")}</td>
-                <td colspan="5" class="cert">
-                    <label><input type="radio" id="Q5_1" name="Q5" value="1.${_("Earn for self-satisfaction")}"/> ${_("Earn for self-satisfaction")} </label><br>
-                    <label><input type="radio" id="Q5_2" name="Q5" value="2.${_("Submit to colleges for earning credit toward academic degree")}"/> ${_("Submit to colleges for earning credit toward academic degree")} </label><br>
-                    <label><input type="radio" id="Q5_3" name="Q5" value="3.${_("Submit to companies for required employee training")}"/> ${_("Submit to companies for required employee training")} </label><br>
-                    <label><input type="radio" id="Q5_4" name="Q5" value="4.${_("Improve candidacy for a new job")}"/> ${_("Improve candidacy for a new job")} </label><br>
-                    <label><input type="radio" id="Q5_5" name="Q5_text" value="${_("other")}"/> ${_("other")}
-                        <textarea id="Q5_text" name="Q5" class="form-control"></textarea>
-                    </label>
-                </td>
-            </tr>
-            % endif
 
-            <tr class="q6_tr">
-                <td class="sv_Q6" rowspan="2">기타 의견</td>
-                % if survey_gubun != '1':
-                <td colspan="6">Q6.${_("What is your suggestion to improve this course?")}</td>
-                % else:
-                <td colspan="6">Q5.${_("What is your suggestion to improve this course?")}</td>
-                % endif
+                <td>Q5.${_("The course learning activities and materials contributed to learning the subject matter.")}</td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_1" name="Q5" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_2" name="Q5" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_3" name="Q5" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_4" name="Q5" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_5" name="Q5" value="5" /> 5 </label></td>
             </tr>
             <tr class="q6_tr">
-                <td colspan="6"><textarea name="Q6" style="resize: none; width: 100%;" rows="3"></textarea></td>
+
+                <td rowspan="2" class="sv_Q6">강좌<br/>만족도</td>
+                <td>Q6.${_("The course as a whole was excellent.")}</td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_1" name="Q6" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_2" name="Q6" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_3" name="Q6" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_4" name="Q6" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_5" name="Q6" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q7_tr">
+
+                <td>Q7.${_("The course helped to Employee performance and self-development")}</td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_1" name="Q7" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_2" name="Q7" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_3" name="Q7" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_4" name="Q7" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_5" name="Q7" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q8_tr">
+
+                <td class="sv_Q8">시스템<br/>이용</td>
+                <td>Q8.${_("I found the courses easily and received a lof of information* for learning")}<br>
+                    <span style="color: #ff0000;">${_("*Accredited learning time, Professors, Classes Period, etc.")}</span></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_1" name="Q8" value="1" /> 1 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_2" name="Q8" value="2" /> 2 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_3" name="Q8" value="3" /> 3 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_4" name="Q8" value="4" /> 4 </label></td>
+                <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_5" name="Q8" value="5" /> 5 </label></td>
+            </tr>
+            <tr class="q9_tr">
+
+                <td class="sv_Q9">추천의향</td>
+                <td>Q9.${_("I would recommend this course to my colleagues.")}</td>
+                <td class="survey-value"><label><input type="radio" id="Q9_1" name="Q9" value="1" /> 1 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_2" name="Q9" value="2" /> 2 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_3" name="Q9" value="3" /> 3 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_4" name="Q9" value="4" /> 4 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_5" name="Q9" value="5" /> 5 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_6" name="Q9" value="6" /> 6 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_7" name="Q9" value="7" /> 7 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_8" name="Q9" value="8" /> 8 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_9" name="Q9" value="9" /> 9 </label></td>
+                <td class="survey-value"><label><input type="radio" id="Q9_10" name="Q9" value="10" /> 10 </label></td>
+            </tr>
+
+            <tr class="q10_tr">
+                <td class="sv_Q10" rowspan="2">기타 의견</td>
+                <td colspan="11">Q10.${_("What is the advantage of this course? or What is your suggestion to improve this course?")}</td>
+            </tr>
+            <tr class="q10_tr">
+                <td colspan="11"><textarea name="Q10" style="resize: none; width: 100%;" rows="3"></textarea></td>
             </tr>
             </tbody>
         </table>

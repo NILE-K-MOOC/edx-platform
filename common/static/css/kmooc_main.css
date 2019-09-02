@@ -2525,7 +2525,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 
 .important-dates-item-title.survey-star {
-  margin-top: -2px; font-weight: normal; line-height: 1em;
+  font-weight: normal; line-height: 1em;
 }
 
   .survey-msg {
@@ -2576,4 +2576,10 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   .survey-status-div:hover .survey-msg {
     left: 67px;
   }
+}
+
+.about-star-notice {
+  font-size: 11px;
+  padding-top: 8px;
+  word-break: keep-all;
 }

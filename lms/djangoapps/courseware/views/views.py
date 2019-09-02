@@ -2255,7 +2255,7 @@ def survey_result_star(org, display_number_with_default):
         query = '''
             SELECT 
                 COUNT(*),
-                IFNULL(ROUND(AVG(question_04), 1), 0.0)
+                IFNULL(ROUND(AVG(IFNULL(question_06, 0) + IFNULL(question_07, 0)), 1), 0.0)
             FROM
                 survey_result
             WHERE

@@ -26415,9 +26415,6 @@ msgstr "학점취득을 위한 대학 제출"
 msgid "Submit to companies for required employee training"
 msgstr "교육훈련 시간 인정을 위한 직장 제출"
 
-msgid "Improve candidacy for a new job"
-msgstr "취업준비"
-
 msgid "other"
 msgstr "기타"
 
@@ -26438,6 +26435,48 @@ msgstr "만족도 조사"
 
 msgid "What is your suggestion to improve this course?"
 msgstr "강좌에 대해 아쉬웠던 점이나 건의사항을 작성해주세요."
+
+msgid "Why did you enroll in the course?"
+msgstr "본 강좌를 수강한 목적은 무엇입니까?"
+
+msgid "Improve candidacy for a new job"
+msgstr "취·창업준비"
+
+msgid "Enhance skills for current job"
+msgstr "직무능력향상"
+
+msgid "Gain credit toward academic degree/flipped learning"
+msgstr "대학 학점 취득 및 플립드러닝 활용"
+
+msgid "going to college/find a career"
+msgstr "대학 진학 대비 및 전공 탐색"
+
+msgid "personal interest/self-development"
+msgstr "개인적 흥미·관심 및 자기계발"
+
+msgid "The contents and difficulty of this course are  appropriate for achieving learning objectives."
+msgstr "강좌내용 및 난이도 등이 학습목표를 달성하는데 적절하다."
+
+msgid "The instructor has enough expert knowledge to lead this course and presented content in an organized manner."
+msgstr "교수자는 강좌에 필요한 충분한 전문지식을 갖고 있고, 이해하기 쉽게 강의 내용을 전달하였다."
+
+msgid "The course learning activities and materials contributed to learning the subject matter."
+msgstr "강좌에서 제공하는 학습활동 및 자료는 학습에 많은 도움이 되었다."
+
+msgid "The course helped to Employee performance and self-development"
+msgstr "업무능력 향상 및 자기계발 등 도움이 되었다."
+
+msgid "I found the courses easily and received a lof of information* for learning"
+msgstr "원하는 강좌 검색이 쉽고, 강좌 관련 다양한 정보*를 제공하고 있다."
+
+msgid "*Accredited learning time, Professors, Classes Period, etc."
+msgstr "*학습인정시간, 교수자 정보 등"
+
+msgid "I would recommend this course to my colleagues."
+msgstr "본 강좌를 친구나 동료, 지인 등에 추천할 의사가 있다."
+
+msgid "What is the advantage of this course? or What is your suggestion to improve this course?"
+msgstr "강좌에 대해 좋았던 점이나 개선이 필요한 사항을 작성해주세요."
 
 msgid "Total recognized learning hours must have number"
 msgstr "학습인정시간에는 숫자만 입력 가능합니다"

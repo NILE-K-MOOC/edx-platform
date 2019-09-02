@@ -2843,6 +2843,10 @@ def cert_survey(request):
         Q4 = request.POST.get('Q4')
         Q5 = request.POST.get('Q5')
         Q6 = request.POST.get('Q6')
+        Q7 = request.POST.get('Q7')
+        Q8 = request.POST.get('Q8')
+        Q9 = request.POST.get('Q9')
+        Q10 = request.POST.get('Q10')
         user_id = request.POST.get('user_id')
         course_id = request.POST.get('course_id')
         survey_gubun = request.POST.get('survey_gubun')
@@ -2863,26 +2867,35 @@ def cert_survey(request):
                               question_04,
                               question_05,
                               question_06,
+                              question_07,
+                              question_08,
+                              question_09,
+                              question_10,
                               regist_id,
                               org,
                               display_number_with_default,
                               survey_gubun)
-                  VALUES ('{course_id}','{question_01}','{question_02}','{question_03}','{question_04}','{question_05}','{question_06}','{regist_id}',
+                  VALUES ('{course_id}','{q01}','{q02}','{q03}','{q04}','{q05}','{q06}','{q07}','{q08}',
+                  '{q09}','{q10}','{regist_id}',
                   '{org}', '{course}', '{survey_gubun}')
-            '''.format(course_id=course_id, question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4,
-                       question_05=Q5, question_06=Q6, regist_id=user_id,
+            '''.format(course_id=course_id, q01=Q1, q02=Q2, q03=Q3, q04=Q4, q05=Q5,
+                       q06=Q6, q07=Q7, q08=Q8, q09=Q9, q10=Q10, regist_id=user_id,
                        org=org, course=course, survey_gubun=survey_gubun)
 
         else:
             query = '''
                 UPDATE survey_result 
                 SET 
-                    question_01 = '{question_01}',
-                    question_02 = '{question_02}',
-                    question_03 = '{question_03}',
-                    question_04 = '{question_04}',
-                    question_05 = '{question_05}',
-                    question_06 = '{question_06}',
+                    question_01 = '{q01}',
+                    question_02 = '{q02}',
+                    question_03 = '{q03}',
+                    question_04 = '{q04}',
+                    question_05 = '{q05}',
+                    question_06 = '{q06}',
+                    question_07 = '{q07}',
+                    question_08 = '{q08}',
+                    question_09 = '{q09}',
+                    question_10 = '{q10}',
                     org = '{org}',
                     display_number_with_default = '{course}',
                     survey_gubun = '{survey_gubun}',
@@ -2890,7 +2903,7 @@ def cert_survey(request):
                 WHERE
                     seq = {seq} AND course_id = '{course_id}'
                         AND regist_id = '{user_id}';
-            '''.format(question_01=Q1, question_02=Q2, question_03=Q3, question_04=Q4, question_05=Q5, question_06=Q6,
+            '''.format(q01=Q1, q02=Q2, q03=Q3, q04=Q4, q05=Q5, q06=Q6, q07=Q7, q08=Q8, q09=Q9, q10=Q10,
                        org=org, course=course, survey_gubun=survey_gubun, seq=s_seq, course_id=course_id, user_id=user_id)
 
         with connections['default'].cursor() as cur:
@@ -2914,6 +2927,10 @@ def cert_survey(request):
                     question_04,
                     question_05,
                     question_06,
+                    question_07,
+                    question_08,
+                    question_09,
+                    question_10,
                     display_name
                 FROM
                     survey_result a
@@ -2932,9 +2949,12 @@ def cert_survey(request):
             s_dict['q2'] = s[3]
             s_dict['q3'] = s[4]
             s_dict['q4'] = s[5]
-            s_dict['q5'] = s[6] if s[6] != 'None' else None
-            # 기타의견 q6(강좌 중 설문은 q5에 해당하는 이수증 활용용도 문항이 없음
+            s_dict['q5'] = s[6]
             s_dict['q6'] = s[7]
+            s_dict['q7'] = s[8]
+            s_dict['q8'] = s[9]
+            s_dict['q9'] = s[10]
+            s_dict['q10'] = s[11]
 
         return JsonResponse({'result': s_dict})
 

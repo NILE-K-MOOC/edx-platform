@@ -1112,7 +1112,7 @@ def dashboard_survey_valid(user_enroll):
             return_data['r_status'] = 1
             return_data['r_msg'] = '본 강좌에 얼마나 만족하시나요?'
         elif result[0] == '2':
-            return_data['r_status'] = 7
+            return_data['r_status'] = 6
             return_data['r_msg'] = '이수증 만족도 설문에 응답하셨습니다.'
 
     elif cnt[0] == '2' or r_check is False:
