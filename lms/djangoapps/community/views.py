@@ -3,6 +3,7 @@
 
 import uuid
 import json
+import logging
 from django.conf import settings
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
@@ -29,6 +30,7 @@ from django.db import connections
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AnonymousUser
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -1292,10 +1294,12 @@ def memo(request):
 
                 if search_con == 'title':
                     print "---------------------->1"
-                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by('-regist_date')
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str)).order_by(
+                        '-regist_date')
                 else:
                     print "---------------------->2"
-                    comm_list = Memo.objects.filter(receive_id=user_id).filter(Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
+                    comm_list = Memo.objects.filter(receive_id=user_id).filter(
+                        Q(title__contains=search_str) | Q(contents__contains=search_str)).order_by('-regist_date')
             else:
                 print "---------------------->3"
                 comm_list = Memo.objects.filter(receive_id=user_id).order_by('-regist_date')
@@ -1423,9 +1427,11 @@ def comm_list(request, section=None, curr_page=None):
 
         if search_str:
             if search_con == 'title':
-                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
             else:
-                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
             comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-odby', '-reg_date')
         p = Paginator(comm_list, page_size)
@@ -1464,7 +1470,7 @@ def comm_list(request, section=None, curr_page=None):
                     board_dict['attach_file'] = 'N'
 
                 board_list.append(board_dict)
-                #print board_dict
+                # print board_dict
 
             context = {
                 'total_cnt': total_cnt,
@@ -1574,9 +1580,11 @@ def comm_tabs(request, head_title=None):
         # elif head_title == 'total_f' and search_str:
         #     comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         elif search_str:
-            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(
+                Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby', '-reg_date')
+            comm_list = TbBoard.objects.filter(section='F', head_title=head_title, use_yn='Y').order_by('odby',
+                                                                                                        '-reg_date')
 
         return JsonResponse([model_to_dict(o) for o in comm_list])
     else:
@@ -3082,6 +3090,18 @@ def cert_survey(request):
     context['survey_gubun'] = flag if flag == '1' else '2'  # 진행 중 설문/이수증 설문 구분
 
     return render_to_response("community/cert_survey.html", context)
+
+
+# cbkmooc 연계용 로그인 체크
+def cb_login_check(request):
+    log = logging.getLogger("edx.cb_kmooc")
+    log.info("cb_kmooc login check")
+    if request.user == AnonymousUser():
+        return_user = False
+    else:
+        return_user = request.user.id
+    return HttpResponse('edxlc("' + str(return_user) + '")')
+
 
 # def dormant_mail(request):
 #     email_list = []

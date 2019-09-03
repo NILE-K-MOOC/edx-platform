@@ -1,6 +1,7 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import logging
 import urllib
+from urlparse import urlparse, parse_qs
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -35,21 +36,20 @@ log = logging.getLogger(__name__)
 
 
 def common_course_status(startDt, endDt):
-
-    #input
+    # input
     # startDt = 2016-12-19 00:00:00
     # endDt   = 2017-02-10 23:00:00
     # nowDt   = 2017-11-10 00:11:28
 
-    #import
+    # import
     from datetime import datetime
 
-    #making nowDt
+    # making nowDt
     nowDt = datetime.now().strftime("%Y-%m-%d-%H-%m-%S")
     nowDt = nowDt.split('-')
     nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
 
-    #logic
+    # logic
     if startDt is None or startDt == '' or endDt is None or endDt == '':
         status = 'none'
     elif nowDt < startDt:
@@ -61,13 +61,12 @@ def common_course_status(startDt, endDt):
     else:
         status = 'none'
 
-    #return status
+    # return status
     return status
 
 
 def course_api(request):
-
-    #mysql
+    # mysql
     cur = connections['default'].cursor()
 
     sql = '''
@@ -179,7 +178,7 @@ def course_api(request):
     return HttpResponse(item_json)
 
 
-#==================================================================================================> login 오버라이딩 시작
+# ==================================================================================================> login 오버라이딩 시작
 from datetime import datetime
 from datetime import timedelta
 from django.apps import apps as django_apps
@@ -196,8 +195,10 @@ BACKEND_SESSION_KEY = '_auth_user_backend'
 HASH_SESSION_KEY = '_auth_user_hash'
 REDIRECT_FIELD_NAME = 'next'
 
+
 def load_backend(path):
     return import_string(path)()
+
 
 def _get_backends(return_tuples=False):
     backends = []
@@ -215,8 +216,8 @@ def _get_backends(return_tuples=False):
 def get_backends():
     return _get_backends(return_tuples=False)
 
-def get_user_model():
 
+def get_user_model():
     try:
         return django_apps.get_model(settings.AUTH_USER_MODEL, require_ready=False)
     except ValueError:
@@ -226,11 +227,12 @@ def get_user_model():
             "AUTH_USER_MODEL refers to model '%s' that has not been installed" % settings.AUTH_USER_MODEL
         )
 
+
 def _get_user_session_key(request):
     return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
 
-def login(request, user, backend=None):
 
+def login(request, user, backend=None):
     session_auth_hash = ''
     if user is None:
         user = request.user
@@ -265,12 +267,16 @@ def login(request, user, backend=None):
         request.user = user
     rotate_token(request)
     user_logged_in.send(sender=user.__class__, request=request, user=user)
-#==================================================================================================> login 오버라이딩 종료
 
-#==================================================================================================> AES 복호화 함수 시작
+
+# ==================================================================================================> login 오버라이딩 종료
+
+# ==================================================================================================> AES 복호화 함수 시작
 from Crypto.Cipher import AES
 from base64 import b64decode
 from base64 import b64encode
+
+
 def decrypt(key, _iv, enc):
     BLOCK_SIZE = 16  # Bytes
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
@@ -279,7 +285,9 @@ def decrypt(key, _iv, enc):
     iv = _iv
     cipher = AES.new(key, AES.MODE_CBC, iv)
     return unpad(cipher.decrypt(enc)).decode('utf8')
-#==================================================================================================> AES 복호화 함수 종료
+
+
+# ==================================================================================================> AES 복호화 함수 종료
 
 @csrf_exempt
 def multisite_error(request):
@@ -307,11 +315,14 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
+
 @csrf_exempt
 def multisite_index(request, org):
+    # 중앙교육연수원의 추가 정보 입력을 위한 변수
+    addinfo = None
 
     if 'multistie_success' in request.session:
-        if request.session['multistie_success'] == 1:
+        if request.session['multistie_success'] == 1 and request.user.is_authenticated:
             return student.views.management.multisite_index(request, user=request.user)
 
     print "org -> ", org
@@ -373,10 +384,10 @@ def multisite_index(request, org):
         in_url = request.META['HTTP_REFERER']
     else:
         in_url = ''
-    in_url = in_url.replace('http://',"")
-    in_url = in_url.replace('www.',"")
+    in_url = in_url.replace('http://', "")
+    in_url = in_url.replace('www.', "")
     out_url = out_url.replace('http://', "")
-    out_url = out_url.replace('www.',"")
+    out_url = out_url.replace('www.', "")
 
     # DEBUG
     print 'in_url -> ', in_url
@@ -419,8 +430,10 @@ def multisite_index(request, org):
             return redirect('/login')
         elif (out_url == 'passparam' and encStr != None) or (out_url != 'passparam'):
             # 암호화 데이터 복호화
+
             try:
                 encStr = encStr.replace(' ', '+')
+
             except BaseException as err:
                 log.info('-----------------------------------')
                 log.info(err)
@@ -428,13 +441,28 @@ def multisite_index(request, org):
                 return redirect('/multisite_error?error=error003')
 
             try:
+                # url decode 처리
+                encStr = urllib.unquote(encStr)
+
                 raw_data = decrypt(key, key, encStr)
+                qs = raw_data
                 raw_data = raw_data.split('&')
+
+                # addinfo 파라미터가 있는지 체크
+                params = parse_qs(qs)
+
+                if 'addinfo' in params:
+                    addinfo = params['addinfo']
+
             except BaseException as err:
                 log.info('-----------------------------------')
                 log.info(err)
                 log.info('-----------------------------------')
                 return redirect('/multisite_error?error=error003')
+            except Exception as e:
+                log.info('Exception ----------------------------------- s')
+                log.info(e)
+                log.info('Exception ----------------------------------- e')
 
             # DEBUG
             print 'raw_data -> ', raw_data
@@ -445,6 +473,11 @@ def multisite_index(request, org):
                 calltime = raw_data[0].split('=')[1]
                 userid = raw_data[1].split('=')[1]
                 orgid = raw_data[2].split('=')[1]
+
+                # 중앙교육 연수원의 경우 addinfo 파라미터를 추가적으로 보내고, 해당 내용은 multisite_member 테이블에 추가정보로 입력한다.
+                if len(raw_data) > 3:
+                    pass
+
             except BaseException as err:
                 log.info('-----------------------------------')
                 log.info(err)
@@ -504,6 +537,28 @@ def multisite_index(request, org):
                 user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
                 login(request, user)
 
+                # addinfo 가 있다면 DB 저장
+                if addinfo and len(addinfo) > 0:
+                    try:
+                        with connections['default'].cursor() as cur:
+                            sql = '''
+                                UPDATE multisite_member a
+                                        JOIN
+                                    multisite b ON a.site_id = b.site_id 
+                                SET 
+                                    a.addinfo = '{addinfo}'
+                                WHERE
+                                    b.site_id = '{org}' AND a.org_user_id = '{userid}'                               
+                               '''.format(
+                                addinfo=addinfo[0],
+                                org=org,
+                                userid=userid
+                            )
+                        cur.execute(sql)
+                    except Exception as e:
+                        print e
+
+                # test code
                 if zero_mode == 0:
                     request.session['multisite_zero'] = 1
                     return redirect('/')
@@ -514,7 +569,7 @@ def multisite_index(request, org):
                 return redirect('/login')
 
     # Oauth 방식
-    elif  login_type == 'O':
+    elif login_type == 'O':
         url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
         print "url -> ", url
         if not request.user.is_authenticated:
@@ -549,9 +604,9 @@ def multisite_index(request, org):
         return redirect(reverse("signin_user"))
     return student.views.management.multisite_index(request, user=request.user)
 
+
 @csrf_exempt
 def get_org_value(request):
-
     org = request.POST.get('org')
     user_id = request.user.id
 
@@ -576,12 +631,11 @@ def get_org_value(request):
 
     print "org_user_id -> ", org_user_id
 
-    return JsonResponse({'result':org_user_id})
+    return JsonResponse({'result': org_user_id})
 
 
 @csrf_exempt
 def series_cancel(request):
-
     id = request.POST.get('id')
     user_id = request.user.id
 
@@ -600,11 +654,10 @@ def series_cancel(request):
         print sql
         cur.execute(sql)
 
-    return JsonResponse({'result':'success'})
+    return JsonResponse({'result': 'success'})
 
 
 def new_dashboard(request):
-
     user_id = request.user.id
 
     # 로그인 유효성 검증
@@ -643,8 +696,11 @@ def new_dashboard(request):
         tmp_dict['series_name'] = temp[2]
 
         save_path = temp[3]
-        if save_path:
+        try:
             save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
+        except AttributeError:
+            save_path = None
+        tmp_dict['save_path'] = save_path
 
         tmp_dict['save_path'] = save_path
         tmp_dict['detail_name'] = temp[4]
@@ -753,18 +809,18 @@ def new_dashboard(request):
     context['packages'] = packages
     return render_to_response("new_dashboard.html", context)
 
-def get_multisite_list(request):
 
+def get_multisite_list(request):
     user_id = request.POST.get('user_id')
 
     with connections['default'].cursor() as cur:
         sql = '''
-            SELECT site_code, org_user_id
+            SELECT site_code, org_user_id, site_name
             FROM multisite_member AS a
             JOIN multisite AS b
             ON a.site_id = b.site_id
             WHERE user_id = {user_id}
-        '''.format(user_id = user_id)
+        '''.format(user_id=user_id)
 
         print sql
 
@@ -772,19 +828,16 @@ def get_multisite_list(request):
         rows = cur.fetchall()
 
     if len(rows) == 0:
-        return JsonResponse({'return':'zero'})
+        return JsonResponse({'return': 'zero'})
 
     print "------------------------> hello s"
     print "user_id = ", user_id
     print "------------------------> hello e"
 
-    return JsonResponse({'return':rows})
-
-    return JsonResponse({'':''})
+    return JsonResponse({'return': rows})
 
 
 def get_org_list(request):
-
     with connections['default'].cursor() as cur:
         query = """
             SELECT detail_code, detail_name
@@ -798,11 +851,10 @@ def get_org_list(request):
         org_list = list(org_index)
         org_count = len(org_list)
 
-    return JsonResponse({'result':org_list, 'count':org_count})
+    return JsonResponse({'result': org_list, 'count': org_count})
 
 
 def delete_multisite_account(request):
-
     user_id = request.POST.get('user_id')
     org = request.POST.get('org')
 
@@ -813,13 +865,14 @@ def delete_multisite_account(request):
             join multisite as b
             on a.site_id = b.site_id
             where b.site_code = '{org}' and a.user_id = '{user_id}'
-        '''.format(org = org, user_id = user_id)
+        '''.format(org=org, user_id=user_id)
 
         print sql
 
         cur.execute(sql)
 
-    return JsonResponse({'return':'success'})
+    return JsonResponse({'return': 'success'})
+
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests
@@ -831,10 +884,16 @@ def index(request):
 
     # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
     # 치유의 빛이 흐릿하게 빛나며 더럽혀진 영혼이 정화됩니다.
-    if 'multisite_mode' in request.session:
+    if request.session.get('multisite_mode'):
         del request.session['multisite_mode']
 
-    print "request.user.is_authenticated",request.user.is_authenticated
+    if request.session.get('multisite_org'):
+        del request.session['multisite_org']
+
+    if request.session.get('save_path'):
+        del request.session['save_path']
+
+    print "request.user.is_authenticated", request.user.is_authenticated
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has
         # courses in his/her dashboard. Otherwise UX is a bit cryptic.
@@ -843,7 +902,7 @@ def index(request):
         if configuration_helpers.get_value(
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
-            #return redirect(reverse('dashboard'))
+            # return redirect(reverse('dashboard'))
             pass
 
     if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):

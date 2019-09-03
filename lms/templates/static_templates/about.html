@@ -33,7 +33,23 @@
                 }
             });
         });
+
+        let url_string = document.location.href;
+        let url = new URL(url_string);
+        let c = url.searchParams.get("tab");
+
+        if( c == 1){
+            $(".faq-tab a:eq(0)").click();
+        }else if(c == 2){
+            $(".faq-tab a:eq(1)").click();
+        }else if(c == 3){
+            $(".faq-tab a:eq(2)").click();
+        }else{
+            // default
+            $(".faq-tab a:eq(0)").click();
+        }
     });
+
 </script>
 <style>
   .blind {
@@ -75,7 +91,7 @@
 <section class="container kmooc">
     <div class="kmooc-about-tab">
         <nav class="faq-tab">
-            <a href="#" class="dash-link on" title="소개">소개</a>
+            <a href="#" class="dash-link" title="소개">소개</a>
             <a href="#" class="dash-link" title="추진체계">추진체계</a>
             <a href="#" class="dash-link" title="참여기관">참여기관</a>
         </nav>

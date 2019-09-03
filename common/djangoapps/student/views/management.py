@@ -232,41 +232,50 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
         with connections['default'].cursor() as cur:
             query = '''
-                SELECT course_id, b.audit_yn, b.ribbon_yn, ifnull(b.teacher_name, '') as teacher_name 
-                FROM   edxapp.multisite_course AS a 
-                       JOIN(SELECT * 
-                            FROM   (
-                                SELECT id, 
-                                       display_name, 
-                                       start, 
-                                       end, 
-                                       enrollment_start, 
-                                       enrollment_end, 
-                                       CASE 
-                                         WHEN now() between adddate(enrollment_start, interval 9 hour) and adddate(enrollment_end, interval 9 hour) THEN 1
-                                         WHEN Now() BETWEEN adddate(start, interval 9 hour) AND adddate(end, interval 9 hour) THEN 2
-                                         WHEN adddate(end, interval 9 hour) < Now() and i2.audit_yn = 'Y' THEN 3
-                                         ELSE 4
-                                       END AS order1, 
-                                       i2.audit_yn, 
-                                       i2.ribbon_yn,
-                                       i2.teacher_name
-                                FROM   course_overviews_courseoverview AS i1 
-                                JOIN course_overview_addinfo AS i2 
-                                ON i1.id = i2.course_id 
-                                WHERE  1 = 1 
-                                  AND Lower(id) NOT LIKE '%demo%' 
-                                  AND Lower(id) NOT LIKE '%nile%' 
-                                  AND Lower(id) NOT LIKE '%test%') t1 
-                                ) AS b 
-                         ON a.course_id = b.id 
-                WHERE  site_id = '{site_id}'
-                ORDER  BY order1, 
-                      enrollment_start DESC, 
-                      start DESC, 
-                      enrollment_end DESC, 
-                      end DESC, 
-                      display_name; 
+                SELECT 
+                    course_id, audit_yn, ribbon_yn, teacher_name
+                FROM
+                    (SELECT 
+                        a.course_id,
+                            c.audit_yn,
+                            IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
+                            IFNULL(c.teacher_name, '') AS teacher_name,
+                            CASE
+                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) THEN 1
+                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) THEN 2
+                                WHEN
+                                    ADDDATE(end, INTERVAL 9 HOUR) < NOW()
+                                        AND c.audit_yn = 'Y'
+                                THEN
+                                    3
+                                ELSE 4
+                            END AS order1,
+                            id,
+                            org,
+                            display_number_with_default,
+                            created,
+                            display_name,
+                            start,
+                            end,
+                            enrollment_start,
+                            enrollment_end
+                    FROM
+                        multisite_course a
+                    JOIN (SELECT 
+                        *
+                    FROM
+                        course_overviews_courseoverview
+                    WHERE
+                        LOWER(id) NOT LIKE '%demo%'
+                            AND LOWER(id) NOT LIKE '%nile%'
+                            AND LOWER(id) NOT LIKE '%test%') b ON b.id = a.course_id
+                    JOIN course_overview_addinfo c ON a.course_id = c.course_id
+                    WHERE 1=1
+                        and start < date('2030/01/01') 
+                        and site_id = '{site_id}'
+                    ORDER BY created DESC) mc
+                GROUP BY org , display_number_with_default
+                ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name;
             '''.format(site_id=site_id)
 
             cur.execute(query)
@@ -319,7 +328,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                             teacher_name = item[3].split(',')[0]
                             teacher_name_cnt = len(teacher_name) - 1
                         else:
-                            teacher_name = teacher_name
+                            teacher_name = item[3]
                             teacher_name_cnt = 0
                     except BaseException:
                         teacher_name = ''

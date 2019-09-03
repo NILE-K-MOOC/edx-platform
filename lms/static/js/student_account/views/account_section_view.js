@@ -55,7 +55,7 @@
                                 var html = ''+
                                 '<div class="a" id="'+ arr[i][0] +'" style="margin-left: 70px; margin-right: 20px; margin-bottom:50px; background-color:rgb(245, 245, 245); width:24%; padding:20px; position:none; float:left;">\n'+
                                     '<div class="b" style="font-size: 20px;font-weight: bold; text-align: center;margin-bottom: 20px;">\n'+
-                                      arr[i][0] + '\n'+
+                                      arr[i][2] + '\n'+
                                     '</div>\n'+
                                     '<div class="c" style="text-align: center;margin-bottom: 20px;font-size: 75%;">\n'+
                                       '해당 기관에 연동된 사번은 ' + arr[i][1] + '입니다\n'+

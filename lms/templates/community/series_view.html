@@ -156,18 +156,23 @@ function series_enroll(series_flag){
             });
         %endif
     } else {
-        $.ajax({
-                url: 'enroll',
-                data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'unenroll'},
-                dataType: 'json',
-                type: 'POST',
-            }).done(function(data){
-                if(data.msg == 'success'){
-                    location.reload();
-                } else {
-                    alert('오류가 발생하였습니다.');
-                }
-            });
+        var r = confirm("해당 묶음강좌에 대해서 수강취소 하시겠습니까?");
+        if(r == true) {
+            $.ajax({
+                    url: 'enroll',
+                    data: {'user_id': ${user.id}, 'series_id': series_id, 'csrfmiddlewaretoken': $.cookie('csrftoken'), 'method': 'unenroll'},
+                    dataType: 'json',
+                    type: 'POST',
+                }).done(function(data){
+                    if(data.msg == 'success'){
+                        location.reload();
+                    } else {
+                        alert('오류가 발생하였습니다.');
+                    }
+                });
+        } else {
+            return;
+        }
     }
 }
 

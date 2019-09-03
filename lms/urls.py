@@ -124,6 +124,9 @@ urlpatterns = [
     url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
     url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
 
+    # xinics login check
+    url(r'^api/cb/login_check', community.cb_login_check, name="cb_login_check"),
+
     # series course
     url(r'^series/$', community.series, name='series'),
     url(r'^series_view/(?P<id>.*?)/about/$', community.series_about, name='series_about'),
