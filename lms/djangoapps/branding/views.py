@@ -325,9 +325,6 @@ def multisite_index(request, org):
         if request.session['multistie_success'] == 1 and request.user.is_authenticated:
             return student.views.management.multisite_index(request, user=request.user)
 
-    print "org -> ", org
-    print "------------------------------------"
-
     # 멀티사이트에 온 것을 환영합니다
     request.session['multisite_mode'] = 1
     request.session['multisite_org'] = org
@@ -353,7 +350,7 @@ def multisite_index(request, org):
     # 로그인타입 / 등록URL / 암호화키 획득
     with connections['default'].cursor() as cur:
         sql = '''
-        SELECT login_type, site_url, Encryption_key, b.save_path
+        SELECT login_type, site_url, Encryption_key, ifnull(b.save_path, '/static/images/no_images_large.png') save_path
         FROM multisite a
         left join tb_attach b
         on a.logo_img = b.id
@@ -425,7 +422,9 @@ def multisite_index(request, org):
         # DEBUG
         # encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
 
-        if out_url == 'passparam' and encStr == None:
+        if request.user.is_staff:
+            return student.views.management.multisite_index(request, user=request.user)
+        elif out_url == 'passparam' and encStr == None:
             request.session['multisite_mode'] = 2
             return redirect('/login')
         elif (out_url == 'passparam' and encStr != None) or (out_url != 'passparam'):
@@ -876,7 +875,7 @@ def delete_multisite_account(request):
 
 @ensure_csrf_cookie
 @transaction.non_atomic_requests
-# @cache_if_anonymous() <- 캐시는 개발자의 적이다. 사용자가 피해를 보더라도 개발자는 살자
+@cache_if_anonymous()
 def index(request):
     """
     Redirects to main page -- info page if user authenticated, or marketing if not
