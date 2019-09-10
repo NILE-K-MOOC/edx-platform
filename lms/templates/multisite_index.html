@@ -24,6 +24,68 @@ article{
 }
 </style>
 
+<div id="layerPopupArea" class="layerPopupArea">
+    % for pop in popup_list:
+        % if pop['popup_type'] == 'H' and pop['site_id'] is not None:
+            <%include file="${popup_base}" args="pop=pop"/>
+        % elif pop['popup_type'] == 'I' and pop['site_id'] is not None:
+            <%include file="${popup_image_base}" args="pop=pop"/>
+        % endif
+    % endfor
+</div>
+
+<script>
+    function popClose(id){
+        $("#" + id).hide();
+    }
+
+    function setCookie( name, value, expiredays ) {
+        var todayDate = new Date();
+        if(expiredays == '0'){
+            expiredays = '999';
+        }
+        todayDate.setDate( todayDate.getDate() + Number(expiredays) );
+        document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+    function closeWin(check, id, hidden_day) {
+        if ($("#" + check).is(":checked")){
+            setCookie( id , "done" , hidden_day);
+        }
+        $("#" + id).css("display" , "none");
+    }
+
+    cookiedata = document.cookie;
+
+    $("#layerPopupArea .pop_content").each(function() {
+        var content_id = $(this).attr("id");
+        $("#"+content_id).html($("#"+content_id).text());
+    });
+
+    var leng = '${max_pop}';
+    leng = Number(leng);
+    for (var i = 1; i<=leng; i++) {
+        if (cookiedata.indexOf(i +"=done") < 0) {
+        %if LANG == 'en':
+            $("#" + i).css("display" , "none");
+        %else:
+            $("#" + i).css("display" , "inline-block !important;");
+        %endif
+        } else {
+            $("#" + i).css("display" , "none");
+        }
+    }
+
+
+    function setCookie1( name, value, expiredays ) {
+        var todayDate = new Date();
+        todayDate.setDate( todayDate.getDate() + parseInt(expiredays) );
+        document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+    cookiedata = document.cookie;
+</script>
+
 <div>
       <%include file="${courses_list}" />
 </div>

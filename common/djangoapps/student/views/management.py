@@ -350,6 +350,20 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
             context = {'courses': course_list}
 
+    # multisite popup
+    context['popup_list'] = popup_contents(site_code)
+
+    with connections['default'].cursor() as cur:
+        query = """
+                SELECT max(popup_id) FROM popup;
+                """
+        cur.execute(query)
+        max_pop = cur.fetchone()
+
+    context['max_pop'] = max_pop[0]
+    context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
+    context['popup_image_base'] = theming_helpers.get_template_path('popup_image_base.html')
+
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
     context['show_partners'] = configuration_helpers.get_value('show_partners', True)
     context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
@@ -824,10 +838,13 @@ def index_courses(user, filter_=None):
 
 def popup_contents(site_code=None):
     with connections['default'].cursor() as cur:
-        multi_query = ' JOIN multisite c' \
-                      'ON a.site_id = c.site_id' \
-                      'AND site_code = "{site_code}"' \
-                      'AND c.delete_yn = "N"'.format(site_code=site_code) if site_code is not None else ''
+        multi_query = """
+            JOIN multisite c
+            ON a.site_id = c.site_id
+            AND site_code = "{site_code}"
+            AND c.delete_yn = "N"
+        """.format(site_code=site_code) if site_code is not None else ''
+
         query = '''
             SELECT popup_id,
                    popup_type,
