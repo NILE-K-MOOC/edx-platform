@@ -424,7 +424,8 @@ def multisite_index(request, org):
 
         if request.user.is_staff:
             return student.views.management.multisite_index(request, user=request.user)
-        elif out_url == 'passparam' and encStr == None:
+
+        if out_url == 'passparam' and encStr == None:
             request.session['multisite_mode'] = 2
             return redirect('/login')
         elif (out_url == 'passparam' and encStr != None) or (out_url != 'passparam'):
@@ -547,13 +548,13 @@ def multisite_index(request, org):
                                 SET 
                                     a.addinfo = '{addinfo}'
                                 WHERE
-                                    b.site_id = '{org}' AND a.org_user_id = '{userid}'                               
+                                    b.site_code = '{org}' AND a.org_user_id = '{userid}'                               
                                '''.format(
                                 addinfo=addinfo[0],
                                 org=org,
                                 userid=userid
                             )
-                        cur.execute(sql)
+                            cur.execute(sql)
                     except Exception as e:
                         print e
 
