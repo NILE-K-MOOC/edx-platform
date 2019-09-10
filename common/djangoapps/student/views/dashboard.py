@@ -229,12 +229,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, m
         on the user's dashboard.
     """
     if not status:
-        if multisiteStatus == True:
-            enrollments = CourseEnrollment.enrollments_for_user_multi(user)
-        else:
-            enrollments = CourseEnrollment.enrollments_for_user_ing(user)
-
-
+        enrollments = CourseEnrollment.enrollments_for_user_ing(user)
     elif status == 'end':
         enrollments = CourseEnrollment.enrollments_for_user_end(user)
     elif status == 'audit':
@@ -581,6 +576,9 @@ def _get_urls_for_resume_buttons(user, enrollments):
 @ensure_csrf_cookie
 @add_maintenance_banner
 def student_dashboard(request):
+    show_only_org_course = True
+    multisite_org = None
+
     """
     Provides the LMS dashboard view
 
@@ -647,7 +645,11 @@ def student_dashboard(request):
     # Sort the enrollment pairs by the enrollment date
     # course_enrollments.sort(key=lambda x: x.created, reverse=True)
 
-    if 'status' in request.session:
+    if 'multisite_org' in request.session:
+        is_multisite = True
+        multisite_org = request.session.get('multisite_org')
+
+    if 'multisite_org' in request.session:
         multisiteStatus = True
         status = None
     else:
@@ -658,11 +660,32 @@ def student_dashboard(request):
 
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     status = request.GET.get('status')
-    if status:
-        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
-    else:
-        print "this is fucking logic"
-        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status, multisiteStatus))
+    course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
+
+    # 멀티사이트 이용중에는 기관의 강좌만 표시되도록 함.
+
+    print 'course_enrollments check 1 : ', len(course_enrollments)
+    if show_only_org_course and multisite_org:
+        with connections['default'].cursor() as cur:
+            query = """
+                SELECT DISTINCT
+                    b.course_id
+                FROM
+                    multisite a,
+                    multisite_course b
+                WHERE
+                    a.site_id = b.site_id
+                        AND a.site_code = '{multisite_org}'
+            """.format(multisite_org=multisite_org)
+            cur.execute(query)
+            org_courses = cur.fetchall()
+
+            # tuple to list
+            org_courses = [course_id[0] for course_id in org_courses]
+
+        course_enrollments = [course_enrollment for course_enrollment in course_enrollments if str(course_enrollment.course_id) in org_courses]
+
+    print 'course_enrollments check 2 : ', len(course_enrollments)
 
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
@@ -756,6 +779,7 @@ def student_dashboard(request):
             private_info_use_yn = request.session['private_info_use_yn']
             event_join_yn = request.session['event_join_yn']
             org_value = request.session['org_value'] if 'org_value' in request.session else ''
+
             if private_info_use_yn == 'Y':
                 private_info_use_yn = 1
             else:
@@ -768,16 +792,6 @@ def student_dashboard(request):
 
             try:
 
-                # with connections['default'].cursor() as cur:
-                #     query = """
-                #         INSERT
-                #           INTO registration_flag_history(user_id, private_info_use_yn, event_join_yn)
-                #         VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}');
-                #     """.format(
-                #         user_id=user.id,
-                #         private_info_use_yn=private_info_use_yn,
-                #         event_join_yn=event_join_yn
-                #     )
                 with connections['default'].cursor() as cur:
                     query = """
                         INSERT
@@ -1277,14 +1291,16 @@ def course_detail_excel(request):
             if k == 'rn' and alpha[i] == 'A':
                 worksheet.write(alpha[i] + str(idx + 3), str(int(c[k])).decode('utf-8'), cell_format)
             elif k == 'course_id' and alpha[i] == 'Q':
-                worksheet.write_url(alpha[i] + str(idx + 3), 'http://kmooc.kr/courses/' + c[k] + '/about', cell_format, string="Go")
+                worksheet.write_url(alpha[i] + str(idx + 3), 'http://kmooc.kr/courses/' + c[k] + '/about', cell_format,
+                                    string="Go")
             else:
                 worksheet.write(alpha[i] + str(idx + 3), c[k].decode('utf-8'), cell_format)
 
     workbook.close()
 
     file_output.seek(0)
-    response = HttpResponse(file_output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response = HttpResponse(file_output.read(),
+                            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     response['Content-Disposition'] = "attachment; filename=K-MOOC_강좌정보_" + n_date + ".xlsx"
 
     return response
