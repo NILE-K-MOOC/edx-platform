@@ -1103,7 +1103,10 @@ def dashboard_survey_valid(user_enroll):
         cur.execute(cnt_query)
         result = cur.fetchone()
 
-    return_data = {}
+    return_data = dict()
+    return_data['r_status'] = 5
+    return_data['r_msg'] = '설문에 응답할 수 없습니다.'
+
     if cnt[0] == '1' and r_check is True:
         if result[1] == 1 and result[0] == '1':
             return_data['r_status'] = 2
@@ -1129,10 +1132,6 @@ def dashboard_survey_valid(user_enroll):
         if result[0] == '2' and result[1] == 1:
             return_data['r_status'] = 6
             return_data['r_msg'] = '이수증 만족도 설문에 응답하셨습니다.'
-
-    else:
-        return_data['r_status'] = 5
-        return_data['r_msg'] = '설문에 응답할 수 없습니다.'
 
     return return_data
 
