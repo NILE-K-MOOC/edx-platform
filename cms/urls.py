@@ -20,9 +20,6 @@ urlpatterns = patterns(
 
     url(r'', include('student.urls')),
 
-    # custom
-    url(r'^secret/CreateVideoModule$', 'contentstore.views.CreateVideoModule', name='CreateVideoModule'),
-
     url(r'^transcripts/upload$', 'contentstore.views.upload_transcripts', name='upload_transcripts'),
     url(r'^transcripts/download$', 'contentstore.views.download_transcripts', name='download_transcripts'),
     url(r'^transcripts/check$', 'contentstore.views.check_transcripts', name='check_transcripts'),
@@ -71,6 +68,9 @@ urlpatterns = patterns(
 # restful api
 urlpatterns += patterns(
     'contentstore.views',
+
+    # custom
+    url(r'^secret/CreateVideoModule/$', 'component.CreateVideoModule', name='CreateVideoModule'),
 
     url(r'^$', 'howitworks', name='homepage'),
     url(r'^howitworks$', 'howitworks'),

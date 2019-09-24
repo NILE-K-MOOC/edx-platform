@@ -7,6 +7,7 @@ from django.http import HttpResponseBadRequest, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_GET
+from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from opaque_keys import InvalidKeyError
@@ -34,6 +35,8 @@ from django.utils.translation import ugettext as _
 from xblock_django.api import disabled_xblocks, authorable_xblocks
 from xblock_django.models import XBlockStudioConfigurationFlag
 
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from opaque_keys.edx.keys import CourseKey
 
 __all__ = [
     'container_handler',
@@ -60,12 +63,21 @@ CONTAINER_TEMPLATES = [
 ]
 
 
+@csrf_exempt
 def CreateVideoModule(request):
 
     # 파라미터 입력
     course_id = request.POST.get('course_id')    # course-v1:pdf+pdf+pdf
     secret_key = request.POST.get('secret_key')  # lgcns2019!@#
     video_url = request.POST.get('video_url')    # http://vod.kmoocs.kr/vod/2018/12/19/e8be85a1-cc00-453f-ad79-569620285f50.mp4
+
+    # 각 섹션 이름 설정
+    course_key = CourseKey.from_string(course_id)
+    ALL_DEAFULT_NAME = CourseOverview.objects.get(id=course_key).display_name
+    section_name = ALL_DEAFULT_NAME
+    sub_section_name = ALL_DEAFULT_NAME
+    vertical_name = ALL_DEAFULT_NAME
+    video_name = ALL_DEAFULT_NAME
 
     # 파라미터 검증
     if course_id == '' or course_id == None:
@@ -90,9 +102,9 @@ def CreateVideoModule(request):
     else:
         course_id = course_id.replace('course-v1:', '')
         try:
-            course = course_id.split('+')
-            run = course_id.split('+')
-            number = course_id.split('+')
+            course = course_id.split('+')[0]
+            run = course_id.split('+')[1]
+            number = course_id.split('+')[2]
             print 'DEBUG -> course : ', course
             print 'DEBUG -> run : ', run
             print 'DEBUG -> number : ', number
@@ -103,49 +115,53 @@ def CreateVideoModule(request):
         try:
             # 대주제 생성
             created_block = create_xblock(
-                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@course+block@course',
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@course+block@course',
                 user=User.objects.filter(is_staff=1).first(),
                 category=u'chapter',
-                display_name=u'Custom Section',
+                display_name=section_name,
                 boilerplate=None
             )
             chapter_block_id = created_block.location.block_id
+            print 'DEBUG -> chapter_block_id : ', chapter_block_id
 
             # 소주제 생성
             created_block = create_xblock(
-                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@chapter+block@' + chapter_block_id,
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@chapter+block@' + chapter_block_id,
                 user=User.objects.filter(is_staff=1).first(),
                 category=u'sequential',
-                display_name=u'Custom Subsection',
+                display_name=sub_section_name,
                 boilerplate=None
             )
             sequential_block_id = created_block.location.block_id
+            print 'DEBUG -> sequential_block_id : ', sequential_block_id
 
             # 유닛 생성
             created_block = create_xblock(
-                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@sequential+block@' + sequential_block_id,
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@sequential+block@' + sequential_block_id,
                 user=User.objects.filter(is_staff=1).first(),
                 category=u'vertical',
-                display_name=u'Custom vertical',
+                display_name=vertical_name,
                 boilerplate=None
             )
             vertical_block_id = created_block.location.block_id
+            print 'DEBUG -> vertical_block_id : ', vertical_block_id
 
             # 학습모듈 생성
             created_block = create_xblock(
-                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@vertical+block@' + vertical_block_id,
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@vertical+block@' + vertical_block_id,
                 user=User.objects.filter(is_staff=1).first(),
                 category=u'video',
-                display_name=u'Custom video',
+                display_name=video_name,
                 boilerplate=None
             )
             video_block_id = created_block.location.block_id
+            print 'DEBUG -> video_block_id : ', video_block_id
 
             # 학습모듈(비디오) URL 변경
-            usage_key_string = u'block-v1:'+course+'+'+run+'+'+number+'+type@video+block@' + video_block_id
+            usage_key_string = 'block-v1:'+course+'+'+run+'+'+number+'+type@video+block@' + video_block_id
             metadata = {
                 'html5_sources': [video_url],
-                'display_name': 'Video',
+                'display_name': video_name,
                 'sub': '',
                 'youtube_id_1_0': ''
             }
@@ -162,6 +178,24 @@ def CreateVideoModule(request):
                 prereq_usage_key=None,
                 prereq_min_score=None,
                 publish=None,
+                fields=None,
+            )
+
+            # 대주제 퍼블리싱
+            usage_key_string = 'block-v1:' + course + '+' + run + '+' + number + '+type@chapter+block@' + chapter_block_id
+            usage_key = usage_key_with_run(usage_key_string)
+            _save_xblock(
+                User.objects.filter(is_staff=1).first(),
+                _get_xblock(usage_key, User.objects.filter(is_staff=1).first()),
+                data=None,
+                children_strings=None,
+                metadata=None,
+                nullout=None,
+                grader_type=None,
+                is_prereq=None,
+                prereq_usage_key=None,
+                prereq_min_score=None,
+                publish='make_public',
                 fields=None,
             )
             return JsonResponse({'result': 200})
