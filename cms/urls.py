@@ -21,8 +21,7 @@ urlpatterns = patterns(
     url(r'', include('student.urls')),
 
     # custom
-    url(r'^sample/$', 'contentstore.views.sample', name='sample'),
-    url(r'^sample2/$', 'contentstore.views.sample2', name='sample2'),
+    url(r'^secret/CreateVideoModule$', 'contentstore.views.CreateVideoModule', name='CreateVideoModule'),
 
     url(r'^transcripts/upload$', 'contentstore.views.upload_transcripts', name='upload_transcripts'),
     url(r'^transcripts/download$', 'contentstore.views.download_transcripts', name='download_transcripts'),

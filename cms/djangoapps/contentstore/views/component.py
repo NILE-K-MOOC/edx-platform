@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 import logging
@@ -37,7 +38,7 @@ from xblock_django.models import XBlockStudioConfigurationFlag
 __all__ = [
     'container_handler',
     'component_handler',
-    'sample',
+    'CreateVideoModule',
 ]
 
 log = logging.getLogger(__name__)
@@ -59,79 +60,117 @@ CONTAINER_TEMPLATES = [
 ]
 
 
-def sample(request):
+def CreateVideoModule(request):
 
-    created_block = create_xblock(
-        parent_locator=u'block-v1:www+www+www+type@course+block@course',
-        user = User.objects.get(email='staff@example.com'),
-        category = u'chapter',
-        display_name = u'Custom Section',
-        boilerplate = None
-    )
+    # 파라미터 입력
+    course_id = request.POST.get('course_id')    # course-v1:pdf+pdf+pdf
+    secret_key = request.POST.get('secret_key')  # lgcns2019!@#
+    video_url = request.POST.get('video_url')    # http://vod.kmoocs.kr/vod/2018/12/19/e8be85a1-cc00-453f-ad79-569620285f50.mp4
 
-    chapter_block_id = created_block.location.block_id
-    print 'chapter_block_id -> ', chapter_block_id
+    # 파라미터 검증
+    if course_id == '' or course_id == None:
+        print('ERROR -> Parameter does not exist ... course_id')
+        return JsonResponse({'result': 404})
+    if secret_key == '' or secret_key == None:
+        print('ERROR -> Parameter does not exist ... secret_key')
+        return JsonResponse({'result': 404})
+    if video_url == '' or video_url == None:
+        print('ERROR -> Parameter does not exist ... video_url')
+        return JsonResponse({'result': 404})
 
-    created_block = create_xblock(
-        parent_locator = u'block-v1:www+www+www+type@chapter+block@' + chapter_block_id,
-        user = User.objects.get(email='staff@example.com'),
-        category = u'sequential',
-        display_name = u'Custom Subsection',
-        boilerplate=None
-    )
+    # 비밀키 검증
+    if secret_key != 'lgcns2019!@#':
+        print('ERROR -> The secret key is not valid')
+        return JsonResponse({'result': 403})
 
-    sequential_block_id = created_block.location.block_id
-    print 'sequential_block_id -> ', sequential_block_id
+    # 강좌 아이디 파싱
+    if course_id.find('course-v1') == -1:
+        print('ERROR -> This is not a valid course id')
+        return JsonResponse({'result': 500})
+    else:
+        course_id = course_id.replace('course-v1:', '')
+        try:
+            course = course_id.split('+')
+            run = course_id.split('+')
+            number = course_id.split('+')
+            print 'DEBUG -> course : ', course
+            print 'DEBUG -> run : ', run
+            print 'DEBUG -> number : ', number
+        except BaseException as err:
+            print('ERROR -> Course ID is not separated to the correct level')
+            return JsonResponse({'result': 500})
 
-    created_block = create_xblock(
-        parent_locator = u'block-v1:www+www+www+type@sequential+block@' + sequential_block_id,
-        user=User.objects.get(email='staff@example.com'),
-        category=u'vertical',
-        display_name=u'Custom vertical',
-        boilerplate=None
-    )
+        try:
+            # 대주제 생성
+            created_block = create_xblock(
+                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@course+block@course',
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'chapter',
+                display_name=u'Custom Section',
+                boilerplate=None
+            )
+            chapter_block_id = created_block.location.block_id
 
-    vertical_block_id = created_block.location.block_id
-    print 'vertical_block_id -> ', vertical_block_id
+            # 소주제 생성
+            created_block = create_xblock(
+                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@chapter+block@' + chapter_block_id,
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'sequential',
+                display_name=u'Custom Subsection',
+                boilerplate=None
+            )
+            sequential_block_id = created_block.location.block_id
 
-    created_block = create_xblock(
-        parent_locator = u'block-v1:www+www+www+type@vertical+block@' + vertical_block_id,
-        user=User.objects.get(email='staff@example.com'),
-        category=u'video',
-        display_name=u'Custom video',
-        boilerplate=None
-    )
+            # 유닛 생성
+            created_block = create_xblock(
+                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@sequential+block@' + sequential_block_id,
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'vertical',
+                display_name=u'Custom vertical',
+                boilerplate=None
+            )
+            vertical_block_id = created_block.location.block_id
 
-    video_block_id = created_block.location.block_id
-    print 'video_block_id -> ', video_block_id
+            # 학습모듈 생성
+            created_block = create_xblock(
+                parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@vertical+block@' + vertical_block_id,
+                user=User.objects.get(email='staff@example.com'),
+                category=u'video',
+                display_name=u'Custom video',
+                boilerplate=None
+            )
+            video_block_id = created_block.location.block_id
 
-    usage_key_string = u'block-v1:www+www+www+type@video+block@' + video_block_id
-    print 'usage_key_string -> ', usage_key_string
+            # 학습모듈(비디오) URL 변경
+            usage_key_string = u'block-v1:'+course+'+'+run+'+'+number+'+type@video+block@' + video_block_id
+            metadata = {
+                'html5_sources': [video_url],
+                'display_name': 'Video',
+                'sub': '',
+                'youtube_id_1_0': ''
+            }
+            usage_key = usage_key_with_run(usage_key_string)
+            _save_xblock(
+                User.objects.get(email='staff@example.com'),
+                _get_xblock(usage_key, User.objects.get(email='staff@example.com')),
+                data=None,
+                children_strings=None,
+                metadata=metadata,
+                nullout=None,
+                grader_type=None,
+                is_prereq=None,
+                prereq_usage_key=None,
+                prereq_min_score=None,
+                publish=None,
+                fields=None,
+            )
+            return JsonResponse({'result': 200})
 
-    metadata = {
-        'html5_sources': ['http://vod.kmoocs.kr/vod/2018/12/19/e8be85a1-cc00-453f-ad79-569620285f50.mp4'],
-        'display_name': 'Video',
-        'sub': '',
-        'youtube_id_1_0': ''
-    }
+        except BaseException as err:
+            print('ERROR -> An error occurred in the module generated core')
+            print('ERROR -> err : ', err)
+            return JsonResponse({'result': 500})
 
-    usage_key = usage_key_with_run(usage_key_string)
-    _save_xblock(
-        User.objects.get(email='staff@example.com'),
-        _get_xblock(usage_key, User.objects.get(email='staff@example.com')),
-        data=None,
-        children_strings=None,
-        metadata=metadata,
-        nullout=None,
-        grader_type=None,
-        is_prereq=None,
-        prereq_usage_key=None,
-        prereq_min_score=None,
-        publish=None,
-        fields=None,
-    )
-
-    return JsonResponse({'result': 200})
 
 
 def _advanced_component_types(show_unsupported):
