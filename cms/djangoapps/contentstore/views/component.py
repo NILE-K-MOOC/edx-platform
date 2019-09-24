@@ -134,7 +134,7 @@ def CreateVideoModule(request):
             # 학습모듈 생성
             created_block = create_xblock(
                 parent_locator=u'block-v1:'+course+'+'+run+'+'+number+'+type@vertical+block@' + vertical_block_id,
-                user=User.objects.get(email='staff@example.com'),
+                user=User.objects.filter(is_staff=1).first(),
                 category=u'video',
                 display_name=u'Custom video',
                 boilerplate=None
@@ -151,8 +151,8 @@ def CreateVideoModule(request):
             }
             usage_key = usage_key_with_run(usage_key_string)
             _save_xblock(
-                User.objects.get(email='staff@example.com'),
-                _get_xblock(usage_key, User.objects.get(email='staff@example.com')),
+                User.objects.filter(is_staff=1).first(),
+                _get_xblock(usage_key, User.objects.filter(is_staff=1).first()),
                 data=None,
                 children_strings=None,
                 metadata=metadata,
