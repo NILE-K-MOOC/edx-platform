@@ -2,8 +2,9 @@ from __future__ import absolute_import
 
 import logging
 
-from django.http import HttpResponseBadRequest, Http404
+from django.http import HttpResponseBadRequest, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.views.decorators.http import require_GET
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
@@ -20,8 +21,9 @@ from xblock.plugin import PluginMissingError
 from xblock.runtime import Mixologist
 
 from contentstore.utils import get_lms_link_for_item
-from contentstore.views.helpers import get_parent_xblock, is_unit, xblock_type_display_name
+from contentstore.views.helpers import get_parent_xblock, is_unit, xblock_type_display_name, create_xblock, usage_key_with_run
 from contentstore.views.item import create_xblock_info, add_container_page_publishing_info, StudioEditModuleRuntime
+from contentstore.views.item import _save_xblock, _get_xblock
 
 from opaque_keys.edx.keys import UsageKey
 
@@ -34,7 +36,8 @@ from xblock_django.models import XBlockStudioConfigurationFlag
 
 __all__ = [
     'container_handler',
-    'component_handler'
+    'component_handler',
+    'sample',
 ]
 
 log = logging.getLogger(__name__)
@@ -54,6 +57,81 @@ CONTAINER_TEMPLATES = [
     "xblock-string-field-editor", "publish-xblock", "publish-history",
     "unit-outline", "container-message", "license-selector",
 ]
+
+
+def sample(request):
+
+    created_block = create_xblock(
+        parent_locator=u'block-v1:www+www+www+type@course+block@course',
+        user = User.objects.get(email='staff@example.com'),
+        category = u'chapter',
+        display_name = u'Custom Section',
+        boilerplate = None
+    )
+
+    chapter_block_id = created_block.location.block_id
+    print 'chapter_block_id -> ', chapter_block_id
+
+    created_block = create_xblock(
+        parent_locator = u'block-v1:www+www+www+type@chapter+block@' + chapter_block_id,
+        user = User.objects.get(email='staff@example.com'),
+        category = u'sequential',
+        display_name = u'Custom Subsection',
+        boilerplate=None
+    )
+
+    sequential_block_id = created_block.location.block_id
+    print 'sequential_block_id -> ', sequential_block_id
+
+    created_block = create_xblock(
+        parent_locator = u'block-v1:www+www+www+type@sequential+block@' + sequential_block_id,
+        user=User.objects.get(email='staff@example.com'),
+        category=u'vertical',
+        display_name=u'Custom vertical',
+        boilerplate=None
+    )
+
+    vertical_block_id = created_block.location.block_id
+    print 'vertical_block_id -> ', vertical_block_id
+
+    created_block = create_xblock(
+        parent_locator = u'block-v1:www+www+www+type@vertical+block@' + vertical_block_id,
+        user=User.objects.get(email='staff@example.com'),
+        category=u'video',
+        display_name=u'Custom video',
+        boilerplate=None
+    )
+
+    video_block_id = created_block.location.block_id
+    print 'video_block_id -> ', video_block_id
+
+    usage_key_string = u'block-v1:www+www+www+type@video+block@' + video_block_id
+    print 'usage_key_string -> ', usage_key_string
+
+    metadata = {
+        'html5_sources': ['http://vod.kmoocs.kr/vod/2018/12/19/e8be85a1-cc00-453f-ad79-569620285f50.mp4'],
+        'display_name': 'Video',
+        'sub': '',
+        'youtube_id_1_0': ''
+    }
+
+    usage_key = usage_key_with_run(usage_key_string)
+    _save_xblock(
+        User.objects.get(email='staff@example.com'),
+        _get_xblock(usage_key, User.objects.get(email='staff@example.com')),
+        data=None,
+        children_strings=None,
+        metadata=metadata,
+        nullout=None,
+        grader_type=None,
+        is_prereq=None,
+        prereq_usage_key=None,
+        prereq_min_score=None,
+        publish=None,
+        fields=None,
+    )
+
+    return JsonResponse({'result': 200})
 
 
 def _advanced_component_types(show_unsupported):

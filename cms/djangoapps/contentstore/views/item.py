@@ -160,6 +160,18 @@ def xblock_handler(request, usage_key_string):
             _delete_item(usage_key, request.user)
             return JsonResponse()
         else:  # Since we have a usage_key, we are updating an existing xblock.
+
+            print "request.json.get('data') -> ", request.json.get('data')
+            print "request.json.get('children') -> ", request.json.get('children')
+            print "request.json.get('metadata') -> ", request.json.get('metadata')
+            print "request.json.get('nullout') -> ", request.json.get('nullout')
+            print "request.json.get('graderType') -> ", request.json.get('graderType')
+            print "request.json.get('isPrereq') -> ", request.json.get('isPrereq')
+            print "request.json.get('prereqUsageKey') -> ", request.json.get('prereqUsageKey')
+            print "request.json.get('prereqMinScore') -> ", request.json.get('prereqMinScore')
+            print "request.json.get('publish') -> ", request.json.get('publish')
+            print "request.json.get('fields') -> ", request.json.get('fields')
+
             return _save_xblock(
                 request.user,
                 _get_xblock(usage_key, request.user),
