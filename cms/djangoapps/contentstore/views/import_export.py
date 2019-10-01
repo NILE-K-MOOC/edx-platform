@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 These views handle all actions in Studio related to import and exporting of
 courses
@@ -8,6 +9,7 @@ import logging
 import os
 import re
 import shutil
+import tarfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -28,6 +30,10 @@ from user_tasks.conf import settings as user_tasks_settings
 from user_tasks.models import UserTaskArtifact, UserTaskStatus
 from wsgiref.util import FileWrapper
 
+from django.db import connections
+import xml.etree.ElementTree as elemTree
+from xmodule.video_module.transcripts_utils import Transcript, TranscriptsGenerationException
+
 from contentstore.storage import course_import_export_storage
 from contentstore.tasks import CourseExportTask, CourseImportTask, export_olx, import_olx
 from contentstore.utils import reverse_course_url, reverse_library_url
@@ -44,9 +50,7 @@ __all__ = [
     'export_handler', 'export_output_handler', 'export_status_handler',
 ]
 
-
 log = logging.getLogger(__name__)
-
 
 # Regex to capture Content-Range header ranges.
 CONTENT_RE = re.compile(r"(?P<start>\d{1,11})-(?P<stop>\d{1,11})/(?P<end>\d{1,11})")
@@ -161,7 +165,7 @@ def _write_chunk(request, courselike_key):
         try:
             matches = CONTENT_RE.search(request.META["HTTP_CONTENT_RANGE"])
             content_range = matches.groupdict()
-        except KeyError:    # Single chunk
+        except KeyError:  # Single chunk
             # no Content-Range header, so make one that will work
             content_range = {'start': 0, 'stop': 1, 'end': 2}
 
@@ -213,9 +217,62 @@ def _write_chunk(request, courselike_key):
             })
 
         log.info("Course import %s: Upload complete", courselike_key)
-        with open(temp_filepath, 'rb') as local_file:
-            django_file = File(local_file)
-            storage_path = course_import_export_storage.save(u'olx_import/' + filename, django_file)
+
+        # 자막 파일 생성 로직 추가
+        try:
+            with open(temp_filepath, 'rb') as local_file:
+                django_file = File(local_file)
+                storage_path = course_import_export_storage.save(u'olx_import/' + filename, django_file)
+
+                tar = tarfile.open(local_file.name, "r:gz")
+                for member in tar.getmembers():
+
+                    if str(member.name).startswith('course/video'):
+                        f = tar.extractfile(member)
+
+                        if f is not None:
+                            content = f.read()
+                            tree = elemTree.fromstring(content)
+                            transcripts = tree.findall('./transcript')
+
+                            print len(transcripts), transcripts
+
+                            edx_video_id = tree.attrib['edx_video_id']
+
+                            with connections['default'].cursor() as cur:
+                                query = '''
+                                    SELECT 
+                                        b.language_code, b.transcript
+                                    FROM
+                                        edxval_video a,
+                                        edxval_videotranscript b
+                                    WHERE
+                                        a.id = b.video_id
+                                            AND a.edx_video_id = '{0}'
+                                '''.format(edx_video_id)
+                                cur.execute(query)
+                                rows = cur.fetchall()
+
+                                scripts = dict((language_code, transcript_path) for language_code, transcript_path in rows)
+
+                            for transcript in transcripts:
+                                check_path = settings.MEDIA_ROOT + scripts.get(transcript.attrib['language'])
+
+                                if not os.path.exists(check_path):
+                                    f = tar.extractfile('course/static/' + transcript.attrib['src'])
+
+                                    sjson_subs = Transcript.convert(
+                                        content=f.read(),
+                                        input_format=Transcript.SRT,
+                                        output_format=Transcript.SJSON
+                                    )
+
+                                    sjson = open(check_path, 'w')
+                                    sjson.write(sjson_subs)
+                                    sjson.close()
+        except Exception as e:
+            log.debug(e)
+
         import_olx.delay(
             request.user.id, text_type(courselike_key), storage_path, filename, request.LANGUAGE_CODE)
 
