@@ -31,6 +31,7 @@ from student.auth import (
     has_studio_write_access
 )
 from student.roles import CourseInstructorRole, CourseStaffRole, LibraryUserRole
+from student.models import CourseAccessRole
 from util.json_request import JsonResponse, JsonResponseBadRequest, expect_json
 from xmodule.modulestore import ModuleStoreEnum
 from xmodule.modulestore.django import modulestore
@@ -58,6 +59,8 @@ def get_library_creator_status(user):
         return True
     elif settings.FEATURES.get('ENABLE_CREATOR_GROUP', False):
         return get_course_creator_status(user) == 'granted'
+    elif CourseAccessRole.objects.filter(user_id=user.id, role='instructor').count() >= 1:
+        return True
     else:
         # EDUCATOR-1924: DISABLE_LIBRARY_CREATION overrides DISABLE_COURSE_CREATION, if present.
         disable_library_creation = settings.FEATURES.get('DISABLE_LIBRARY_CREATION', None)
