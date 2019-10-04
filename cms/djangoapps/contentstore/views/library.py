@@ -31,6 +31,7 @@ from student.auth import (
     has_studio_write_access
 )
 from student.roles import CourseInstructorRole, CourseStaffRole, LibraryUserRole
+from student.models import CourseAccessRole
 from util.json_request import JsonResponse, JsonResponseBadRequest, expect_json
 from xmodule.modulestore import ModuleStoreEnum
 from xmodule.modulestore.django import modulestore
@@ -52,7 +53,10 @@ def get_library_creator_status(user):
     taking into account the value LIBRARIES_ENABLED.
     """
 
-    if not LIBRARIES_ENABLED:
+    if settings.FEATURES.get('ENABLE_INSTRUCTOR_LIBRARY_CREATE', False) and \
+            CourseAccessRole.objects.filter(user_id=user.id, role='instructor').count() >= 1:
+        return True
+    elif not LIBRARIES_ENABLED:
         return False
     elif user.is_staff:
         return True
