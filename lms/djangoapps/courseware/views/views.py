@@ -2263,17 +2263,22 @@ def survey_result_star(org, display_number_with_default):
                 ROUND(COUNT(*) / 2, 0) AS cnt, ROUND(AVG(score), 1)
             FROM
                 (SELECT 
+                    org, course, IF(rn = 1, question_06, question_07) score
+                FROM
+                    (SELECT 
                     org,
                         display_number_with_default course,
-                        IF(rn = 1, question_06, question_07) score
+                        question_06,
+                        question_07
                 FROM
-                    survey_result t1, (SELECT 
+                    survey_result
+                WHERE
+                    org = '{org}'
+                        AND display_number_with_default = '{course}') t1, (SELECT 
                     @rn:=@rn + 1 rn
                 FROM
                     code_detail a, (SELECT @rn:=0) b
                 LIMIT 2) t2) t3
-            WHERE
-                org = '{org}' AND course = '{course}'
             GROUP BY org , course;
         '''.format(org=org, course=display_number_with_default)
         cur.execute(query)
