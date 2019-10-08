@@ -1556,6 +1556,9 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
 
     # local test
     board.content = board.content.replace('/home/project/management/home/static/upload/', '/static/file_upload/')
+
+    # 20191008 관리자의 업로드 경로 변경건 반영
+    board.content = board.content.replace('/home/ubuntu/project/management/static/file_upload/', '/static/file_upload/')
     context = {
         'page_title': page_title,
         'board': board,
