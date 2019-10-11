@@ -1,4 +1,4 @@
-from django.conf import settings
+grom django.conf import settings
 from django.conf.urls import patterns, include, url
 # There is a course creators admin table.
 from ratelimitbackend import admin
@@ -70,6 +70,9 @@ urlpatterns = patterns(
 # restful api
 urlpatterns += patterns(
     'contentstore.views',
+
+    # custom
+    url(r'^secret/CreateVideoModule/$', 'component.CreateVideoModule', name='CreateVideoModule'),
 
     url(r'^$', 'howitworks', name='homepage'),
     url(r'^howitworks$', 'howitworks'),
