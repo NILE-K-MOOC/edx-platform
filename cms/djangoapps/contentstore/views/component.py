@@ -1,4 +1,5 @@
-g -*- coding: utf-8 -*-
+
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 import logging
@@ -40,7 +41,7 @@ from opaque_keys.edx.keys import CourseKey
 
 __all__ = [
     'container_handler',
-    'component_handler'
+    'component_handler',
     'CreateVideoModule',
 ]
 

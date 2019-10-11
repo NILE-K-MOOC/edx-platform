@@ -1,4 +1,5 @@
-grom django.conf import settings
+
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 # There is a course creators admin table.
 from ratelimitbackend import admin
