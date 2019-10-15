@@ -1906,6 +1906,7 @@ YOUTUBE_API_KEY = None
 
 ################################### APPS ######################################
 INSTALLED_APPS = (
+    'notice',
     # Standard ones that are always installed...
     'django.contrib.auth',
     'django.contrib.contenttypes',

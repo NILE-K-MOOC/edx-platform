@@ -63,6 +63,7 @@ from courseware.courses import (
     get_course_with_access,
     sort_by_announcement,
     sort_by_start_date,
+    sort_by_display_name,
     UserNotEnrolled
 )
 from courseware.masquerade import setup_masquerade
@@ -144,6 +145,11 @@ def courses(request):
         if configuration_helpers.get_value("ENABLE_COURSE_SORTING_BY_START_DATE",
                                            settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"]):
             courses_list = sort_by_start_date(courses_list)
+        elif configuration_helpers.get_value(
+                "ENABLE_COURSE_SORTING_BY_DISPLAY_NAME",
+                settings.FEATURES["ENABLE_COURSE_SORTING_BY_DISPLAY_NAME"],
+        ):
+            courses_list = sort_by_display_name(courses_list)
         else:
             courses_list = sort_by_announcement(courses_list)
 
