@@ -556,8 +556,13 @@ def shim_student_view(view_func, check_logged_in=False):
                     insert_lock = 1  # insert 방지 플래그
             # ----- 멀티사이트 멤버 테이블에 이메일이 있는 경우 로직 [e]
 
+            """
+            로그인 성공여부를 먼저 체크한 후 연계 동의 받도록 수정요청
+            연계기관 사이트에서 버튼 클릭해서 넘어왔다가, 창 닫고 다시 연계기관 사이트에서 버튼 클릭하면 로그인페이지가 아닌 연계기관사이트 메인으로 넘어간다고 합니다. 확인필요.            
+            """
+            
             # insert 방지 플래그가 설정되지 않은 경우 멀티사이트멤버 테이블에 데이터를 insert 한다.
-            if cnt > 0 and insert_lock == 0:
+            if insert_lock == 0:
                 with connections['default'].cursor() as cur:
                     sql = '''
                         insert into multisite_member(site_id, user_id, org_user_id, regist_id)
