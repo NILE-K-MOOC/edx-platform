@@ -20,6 +20,7 @@ from openedx.core.lib.courses import course_image_url
 from xmodule.annotator_mixin import html_to_text
 from xmodule.library_tools import normalize_key_for_search
 from xmodule.modulestore import ModuleStoreEnum
+from django.db import connections
 
 # REINDEX_AGE is the default amount of time that we look back for changes
 # that might have happened. If we are provided with a time at which the
@@ -605,6 +606,30 @@ class CourseAboutSearchIndexer(object):
             return
 
         course_id = unicode(course.id)
+
+        org_kname = None
+        org_ename = None
+        try:
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT 
+                        IFNULL(detail_name, '') org_kname,
+                        IFNULL(detail_ename, '') org_ename
+                    FROM
+                        code_detail
+                    WHERE group_code = '003'
+                      AND detail_code = '{org}'                
+                """.format(org=unicode(course.org))
+                cur.execute(query)
+
+                if cur.rowcount:
+                    row = cur.fetchone()
+                    org_kname = row[0].strip()
+                    org_ename = row[1].strip()
+
+        except Exception as e:
+            print e
+
         course_info = {
             'id': course_id,
             'course': course_id,
@@ -617,8 +642,8 @@ class CourseAboutSearchIndexer(object):
             'middle_classfysub': course.middle_classfysub,
             'linguistics': course.linguistics,
             'course_period': course.course_period,
-            'org_kname': None,
-            'org_ename': None,
+            'org_kname': org_kname,
+            'org_ename': org_ename,
             'teacher_name': None,
         }
 
