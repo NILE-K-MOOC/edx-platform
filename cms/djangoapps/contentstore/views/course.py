@@ -1220,7 +1220,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                          '',
                          FALSE);
             """.format(destination_course_key)
-            print '_create_new_course.query :', query
+            # print '_create_new_course.query :', query
             cur.execute(query)
 
         user_id = user.id
@@ -1258,8 +1258,6 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
 
-
-
     except Exception as e:
 
         print e
@@ -1269,6 +1267,59 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
     #     'url': reverse_url('course_handler'),
     #     'destination_course_key': unicode(destination_course_key)
     # })
+
+    # 20191017. 이종호.
+    # 멀티사이트 등록 강좌 확인 및 재개강강좌 자동 등록 기능 추가.
+
+    try:
+        new_course_id = str(destination_course_key)
+        log.info('new_course_id : %s' % new_course_id)
+        arr = new_course_id.split('+')
+        course_id_lv2 = '%s+%s' % (arr[0], arr[1])
+
+        with connections['default'].cursor() as cur:
+            query = """
+                SELECT 
+                    id
+                FROM
+                    (SELECT 
+                        a.id
+                    FROM
+                        course_overviews_courseoverview a
+                    JOIN course_structures_coursestructure b ON a.id = b.course_id
+                    WHERE
+                        a.id LIKE '{course_id_lv2}%'
+                            AND a.id <> '{new_course_id}'
+                    ORDER BY b.created DESC) d
+                LIMIT 1            
+            """.format(
+                course_id_lv2=course_id_lv2,
+                new_course_id=new_course_id
+            )
+
+            # print query
+            cur.execute(query)
+
+            old_course_id = cur.fetchone()[0]
+
+        if old_course_id:
+            with connections['default'].cursor() as cur:
+                query = """
+                    insert into multisite_course(site_id, course_id, regist_date)
+                    select site_id, '{new_course_id}', now() from multisite_course
+                     where course_id = '{old_course_id}';             
+                """.format(
+                    new_course_id=new_course_id,
+                    old_course_id=old_course_id
+                )
+
+                # print query
+                result = cur.execute(query)
+
+            log.info(result)
+
+    except Exception as e:
+        log.info('multisite_course insert error in rerun_course [%s]' % e.message)
 
     return destination_course_key
 
