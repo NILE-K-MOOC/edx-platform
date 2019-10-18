@@ -3512,9 +3512,9 @@ def cert_check_id(request):
     reload(sys)
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'));
+                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
     query = """
-         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """';
+         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """'
     """
     print 'cert_check uuid, query', uuid, query
 
