@@ -10582,12 +10582,12 @@ msgstr "테마 관리"
 msgid ""
 "Usernames can only contain letters (A-Z, a-z), numerals (0-9), underscores "
 "(_), and hyphens (-)."
-msgstr "사용자명은 문자(한글, 영문자), 숫자(0-9), 언더바(_), 하이픈(-) 만 사용 가능합니다."
+msgstr "사용자명은 알파벳, 숫자(0-9), 언더바(_), 하이픈(-) 만 사용 가능합니다."
 
 #: openedx/core/djangoapps/user_api/accounts/__init__.py
 msgid ""
 "Usernames can only contain letters, numerals, and @/./+/-/_ characters."
-msgstr "사용자명은 문자, 숫자, @/./+/-/_ 만 사용가능합니다."
+msgstr "사용자명은 알파벳, 숫자, @/./+/-/_ 만 사용가능합니다."
 
 #. Translators: This message is shown to users who attempt to create a new
 #. account using
