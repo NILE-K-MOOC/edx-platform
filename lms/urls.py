@@ -29,6 +29,17 @@ urlpatterns = (
 
     url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
 
+    # notice list url.
+    url(r'^notice_list$', 'notice.views.list', name="notice_list"),
+    # notice detail url
+    url(r'^notice_detail$', 'notice.views.detail', name="notice_detail"),
+    url(r'^customApi/getServerInfo', 'customapi.views.getServerInfo', name="customApi/getServerInfo"),
+
+    url(r'^repository_list$', 'repository.views.list', name="repository_list"),
+    url(r'^repository_detail$', 'repository.views.detail', name="repository_detail"),
+    url(r'^customApi/checkPopup', 'notice.views.checkPopup', name="checkpopup"),
+
+
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),

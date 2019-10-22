@@ -72,6 +72,7 @@
             } %>
             <% if ( placeholder ) { %> placeholder="<%= placeholder %>"<% } %>
             value="<%- defaultValue %>"
+            onfocusout="checkEmail()"
         />
         <% if ( type === 'checkbox' ) { %>
             <label for="<%= form %>-<%= name %>">

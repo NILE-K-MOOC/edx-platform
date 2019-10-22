@@ -76,7 +76,7 @@ from opaque_keys.edx.locator import CourseLocator
 
 from collections import namedtuple
 
-from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date  # pylint: disable=import-error
+from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date, sort_by_display_name  # pylint: disable=import-error
 from courseware.access import has_access
 
 from django_comment_common.models import Role
@@ -182,6 +182,11 @@ def index(request, extra_context=None, user=AnonymousUser()):
             settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
     ):
         courses = sort_by_start_date(courses)
+    elif configuration_helpers.get_value(
+            "ENABLE_COURSE_SORTING_BY_DISPLAY_NAME",
+            settings.FEATURES["ENABLE_COURSE_SORTING_BY_DISPLAY_NAME"],
+    ):
+        courses = sort_by_display_name(courses)
     else:
         courses = sort_by_announcement(courses)
 

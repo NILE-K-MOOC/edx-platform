@@ -4,7 +4,34 @@
     from openedx.core.djangolib.js_utils import dump_js_escaped_json
 %>
 <%namespace name='static' file='/static_content.html'/>
+<script>
 
+//alert('test');
+
+function checkEmail(){
+
+//alert(document.getElementById('register-email').value);
+
+var emailValue = document.getElementById('register-email').value;
+
+var emailDomain = emailValue.split("@");
+
+if(emailDomain[1] != undefined){
+  if(emailDomain.indexOf("deu.ac.kr") == -1 && emailDomain.indexOf("office.deu.ac.kr") == -1 && emailDomain.indexOf("squarenet.co.kr") == -1)
+  {
+   alert("대학교 이메일(deu.ac.kr / office.deu.ac.kr)을 입력하세요");
+   document.getElementById("register-email").value = "";
+   document.getElementById("register-email").focus();
+  } 
+ }
+ else{
+  //alert("이메일 형식을 확인하세요.");
+  document.getElementById("register-email").value = "";
+  //document.getElementById("register-email").focus();
+  }
+}
+
+</script>
 <%inherit file="../main.html" />
 
 <%block name="pagetitle">${_("Sign in or Register")}</%block>

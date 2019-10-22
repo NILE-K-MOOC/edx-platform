@@ -1906,6 +1906,9 @@ YOUTUBE_API_KEY = None
 
 ################################### APPS ######################################
 INSTALLED_APPS = (
+    'customapi',
+    'repository',
+    'notice',
     # Standard ones that are always installed...
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -2197,7 +2200,7 @@ MKTG_URL_LINK_MAP = {
     'COURSES': 'courses',
     'ROOT': 'root',
     'TOS': 'tos',
-    #'HONOR': 'honor',  # If your site does not have an honor code, simply delete this line.
+    'HONOR': 'honor',  # If your site does not have an honor code, simply delete this line.
     #'PRIVACY': 'privacy',
     #'PRESS': 'press',
     #'BLOG': 'blog',
