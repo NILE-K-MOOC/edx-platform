@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Views related to operations on course objects
 """
@@ -100,7 +101,6 @@ from xmodule.modulestore import EdxJSONEncoder
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, DuplicateCourseError
 from xmodule.tabs import CourseTab, CourseTabList, InvalidTabsException
-
 
 log = logging.getLogger(__name__)
 
@@ -364,6 +364,7 @@ def _accessible_courses_summary_list(request):
     """
     List all courses available to the logged in user by iterating through all the courses
     """
+
     def course_filter(course_summary):
         """
         Filter out unusable and inaccessible courses
@@ -384,6 +385,7 @@ def _accessible_courses_list(request):
     """
     List all courses available to the logged in user by iterating through all the courses
     """
+
     def course_filter(course):
         """
         Filter out unusable and inaccessible courses
@@ -413,6 +415,7 @@ def _accessible_courses_list_from_groups(request):
     """
     List all courses available to the logged in user by reversing access group names
     """
+
     def filter_ccx(course_access):
         """ CCXs cannot be edited in Studio and should not be shown in this dashboard """
         return not isinstance(course_access.course_id, CCXLocator)
@@ -648,6 +651,7 @@ def _remove_in_process_courses(courses, in_process_course_actions):
     removes any in-process courses in courses list. in-process actually refers to courses
     that are in the process of being generated for re-run
     """
+
     def format_course_for_view(course):
         """
         Return a dict of the data which the view requires for each course
@@ -678,6 +682,7 @@ def course_outline_initial_state(locator_to_show, course_structure):
     was provided, then the view's initial state will be to have the desired item fully expanded
     and to scroll to see the new item.
     """
+
     def find_xblock_info(xblock_info, locator):
         """
         Finds the xblock info for the specified locator.
@@ -750,6 +755,14 @@ def _create_or_rerun_course(request):
         wiki_slug = u"{0}.{1}.{2}".format(org, course, run)
         definition_data = {'wiki_slug': wiki_slug}
         fields.update(definition_data)
+
+        # 주제분류 값 추가
+        classify = request.json.get('classify')
+
+        if classify:
+            fields.update({
+                'classify': classify
+            })
 
         if 'source_course_key' in request.json:
             return _rerun_course(request, org, course, run, fields)
@@ -1435,7 +1448,7 @@ def textbooks_detail_handler(request, course_key_string, textbook_id):
                 return JsonResponse(status=404)
             return JsonResponse(textbook)
         elif request.method in ('POST', 'PUT'):  # can be either and sometimes
-                                            # django is rewriting one to the other
+            # django is rewriting one to the other
             try:
                 new_textbook = validate_textbook_json(request.body)
             except TextbookValidationError as err:
@@ -1585,7 +1598,7 @@ def group_configurations_detail_handler(request, course_key_string, group_config
             configuration = None
 
         if request.method in ('POST', 'PUT'):  # can be either and sometimes
-                                            # django is rewriting one to the other
+            # django is rewriting one to the other
             try:
                 new_configuration = GroupConfiguration(request.body, course, group_configuration_id).get_user_partition()
             except GroupConfigurationsValidationError as err:
@@ -1619,8 +1632,8 @@ def are_content_experiments_enabled(course):
     Returns True if content experiments have been enabled for the course.
     """
     return (
-        'split_test' in ADVANCED_COMPONENT_TYPES and
-        'split_test' in course.advanced_modules
+            'split_test' in ADVANCED_COMPONENT_TYPES and
+            'split_test' in course.advanced_modules
     )
 
 

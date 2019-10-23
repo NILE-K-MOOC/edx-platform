@@ -116,6 +116,19 @@ from openedx.core.djangolib.markup import HTML, Text
                   )}</span>
                   <span class="tip tip-error is-hiding" id="tip-error-new-course-run"></span>
                 </li>
+
+                <!-- 강좌 주제분류 값 입력란 추가: 셀렉트 옵션으로 변경 필요 -->
+                <li class="field text required" id="field-course-classify">
+                  <label for="new-course-classify">${_("Course Classify")}</label>
+                  ## Translators: This is an example for the "run" used to identify different
+                  ## instances of a course, seen when filling out the form to create a new course.
+                  <input class="new-course-classify" id="new-course-classify" type="text" name="new-course-classify" required placeholder="${_('e.g. classify')}" aria-describedby="tip-new-course-classify tip-error-new-course-classify" />
+                  <span class="tip" id="tip-new-course-classify">${Text(_("The term in which your course will run. {strong_start}Note: This is part of your course URL, so no spaces or special characters are allowed and it cannot be changed.{strong_end}")).format(
+                      strong_start=HTML('<strong>'),
+                      strong_end=HTML('</strong>'),
+                  )}</span>
+                  <span class="tip tip-error is-hiding" id="tip-error-new-course-classify"></span>
+                </li>
               </ol>
 
             </fieldset>
