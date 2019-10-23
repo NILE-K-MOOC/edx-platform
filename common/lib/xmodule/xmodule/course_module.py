@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django module container for classes and operations related to the "Course Module" content type
 """
@@ -851,6 +852,14 @@ class CourseFields(object):
             "more of the base requirements, such as testing, accessibility, internationalization, and documentation."
         ),
         scope=Scope.settings, default=False
+    )
+
+    # 분류 추가
+    classify = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("classify"),
+        scope=Scope.settings
     )
 
 
