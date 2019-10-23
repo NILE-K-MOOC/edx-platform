@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Courseware views functions
 """
@@ -99,12 +100,25 @@ from ..module_render import get_module_for_descriptor, get_module, get_module_by
 
 log = logging.getLogger("edx.courseware")
 
-
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
 REQUIREMENTS_DISPLAY_MODES = CourseMode.CREDIT_MODES + [CourseMode.VERIFIED]
 
 CertData = namedtuple("CertData", ["cert_status", "title", "msg", "download_url", "cert_web_view_url"])
+
+
+def organizations(request):
+    # 기관 안내페이지
+    return render_to_response('courseware/organizations.html')
+
+
+def organization(request, org):
+    # 기관 안내페이지 상세
+    context = {
+        'org': org
+    }
+
+    return render_to_response('courseware/organization.html', context)
 
 
 def user_groups(user):
@@ -183,6 +197,7 @@ def get_current_child(xmodule, min_depth=None, requested_child=None):
 
     Returns None only if there are no children at all.
     """
+
     def _get_child(children):
         """
         Returns either the first or last child based on the value of
@@ -577,8 +592,8 @@ def course_about(request, course_id):
 
         show_courseware_link = bool(
             (
-                has_access(request.user, 'load', course) and
-                has_access(request.user, 'view_courseware_with_prerequisites', course)
+                    has_access(request.user, 'load', course) and
+                    has_access(request.user, 'view_courseware_with_prerequisites', course)
             ) or settings.FEATURES.get('ENABLE_LMS_MIGRATION')
         )
 
@@ -591,7 +606,7 @@ def course_about(request, course_id):
             if request.user.is_authenticated():
                 cart = shoppingcart.models.Order.get_cart_for_user(request.user)
                 in_cart = shoppingcart.models.PaidCourseRegistration.contained_in_order(cart, course_key) or \
-                    shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
+                          shoppingcart.models.CourseRegCodeItem.contained_in_order(cart, course_key)
 
             reg_then_add_to_cart_link = "{reg_url}?course_id={course_id}&enrollment_action=add_to_cart".format(
                 reg_url=reverse('register_user'), course_id=urllib.quote(str(course_id))
@@ -608,7 +623,7 @@ def course_about(request, course_id):
         is_professional_mode = CourseMode.PROFESSIONAL in modes or CourseMode.NO_ID_PROFESSIONAL_MODE in modes
         if ecommerce_checkout and is_professional_mode:
             professional_mode = modes.get(CourseMode.PROFESSIONAL, '') or \
-                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
+                                modes.get(CourseMode.NO_ID_PROFESSIONAL_MODE, '')
             if professional_mode.sku:
                 ecommerce_checkout_link = ecomm_service.checkout_page_url(professional_mode.sku)
             if professional_mode.bulk_sku:
@@ -633,7 +648,7 @@ def course_about(request, course_id):
         # - Student is already registered for course
         # - Course is already full
         # - Student cannot enroll in course
-        active_reg_button = not(registered or is_course_full or not can_enroll)
+        active_reg_button = not (registered or is_course_full or not can_enroll)
 
         is_shib_course = uses_shib(course)
 
@@ -791,8 +806,8 @@ def _get_cert_data(student, course, course_key, is_active, enrollment_mode):
         )
 
     show_generate_cert_btn = (
-        is_active and CourseMode.is_eligible_for_certificate(enrollment_mode)
-        and certs_api.cert_generation_enabled(course_key)
+            is_active and CourseMode.is_eligible_for_certificate(enrollment_mode)
+            and certs_api.cert_generation_enabled(course_key)
     )
 
     if not show_generate_cert_btn:
@@ -850,7 +865,7 @@ def _get_cert_data(student, course, course_key, is_active, enrollment_mode):
     # If the learner is in verified modes and the student did not have
     # their ID verified, we need to show message to ask learner to verify their ID first
     missing_required_verification = enrollment_mode in CourseMode.VERIFIED_MODES and \
-        not SoftwareSecurePhotoVerification.user_is_verified(student)
+                                    not SoftwareSecurePhotoVerification.user_is_verified(student)
 
     if missing_required_verification or cert_downloadable_status['is_unverified']:
         platform_name = configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
@@ -1301,7 +1316,6 @@ FINANCIAL_ASSISTANCE_HEADER = _(
     percent_sign="%",
     platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
 ).split('\n')
-
 
 FA_INCOME_LABEL = _('Annual Household Income')
 FA_REASON_FOR_APPLYING_LABEL = _(
