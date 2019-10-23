@@ -161,14 +161,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
 
                 // 운영진 사진 http 체크
-                const url_pattern = /^http/g;
+                const url_pattern = /^http/gi;
 
                 // 강좌운영진
                 var staff_templates = "";
                 $("#course-instructor li").each(function(index){
                     var staff_photo = $(this).find("#staff-photo").val();
 
-                    if(staff_photo.match(url_pattern) != null){
+                    if(staff_photo.match(url_pattern) == null){
                         staff_photo = 'http://' + staff_photo;
                     }
 
@@ -216,7 +216,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     var staff_photo = $(this).find("#staff-photo").val();
                     var staff_name = $(this).find("#staff-name").val();
 
-                    if(staff_photo.match(url_pattern) != null){
+                    if(staff_photo.match(url_pattern) == null){
                         staff_photo = 'http://' + staff_photo;
                     }
 
@@ -520,7 +520,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var ov = $.parseHTML(this.model.get('overview'));
 
                 // 수업내용/목표
-                var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "");
+                var goal = $(ov).find(".goal:eq(0)").html().replace(regex, "\n");
 
                 goal = this.textareaTrim(goal);
 
