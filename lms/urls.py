@@ -18,6 +18,7 @@ from openedx.core.djangoapps.self_paced.models import SelfPacedConfiguration
 from django_comment_common.models import ForumsConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from util.enterprise_helpers import enterprise_enabled
+from courseware.views import views as courseware_views
 
 # Uncomment the next two lines to enable the admin:
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
@@ -38,6 +39,10 @@ urlpatterns = (
     url(r'^repository_list$', 'repository.views.list', name="repository_list"),
     url(r'^repository_detail$', 'repository.views.detail', name="repository_detail"),
     url(r'^customApi/checkPopup', 'notice.views.checkPopup', name="checkpopup"),
+
+    # organizations
+    url(r'^organizations/?$', courseware_views.organizations, name="organizations"),
+    url(r'^organization/(?P<org>.*?)/$', courseware_views.organization, name="organization"),
 
 
     url(r'', include('student.urls')),
