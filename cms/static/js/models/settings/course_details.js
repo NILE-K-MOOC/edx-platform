@@ -42,12 +42,12 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 // Returns either nothing (no return call) so that validate works or an object of {field: errorstring} pairs
                 // A bit funny in that the video key validation is asynchronous; so, it won't stop the validation.
                 var errors = {};
-console.log('1');
+
                 if ((newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.end_date != null && newattrs.enrollment_end != null && newattrs.Calculated != null) && (newattrs.effort == null || newattrs.effort == "")) {
                     $("#course-effort").focus();
                     errors.effort = gettext("Effort time must have value");
                 }
-console.log('2');
+
                 if (
                     (
                     newattrs.end_date != null &&
@@ -57,7 +57,7 @@ console.log('2');
                     newattrs.Calculated != null) &&
                     (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#Calculated_mm").val()) || isNaN($("#course-effort-week").val()))
                 ) {
-console.log('3');
+
                     if (isNaN($("#course-effort-hh").val())) {
 
                         $("#course-effort-hh").focus();
@@ -70,12 +70,12 @@ console.log('3');
                     }
                     errors.effort = gettext("Effort time must have number");
                 }
-console.log('4');
+
                 if ($("#course-video-hh").val() && isNaN($("#course-video-hh").val())) {
                     $("#course-video-hh").focus();
                     errors.effort = gettext("Video time must have number");
                 }
-console.log('5');
+
                 if ($("#course-video-mm").val() && isNaN($("#course-video-mm").val())) {
                     $("#course-video-mm").focus();
                     errors.effort = gettext("Video time must have number");
@@ -95,7 +95,7 @@ console.log('5');
                     errors.effort = gettext("학습인정시간에는 숫자만 입력 가능합니다");
 
                 }
-console.log('6');
+
                 newattrs = DateUtils.convertDateStringsToObjects(
                     newattrs, ["start_date", "end_date", "enrollment_start", "enrollment_end"]
                 );
@@ -103,7 +103,7 @@ console.log('6');
                 if (newattrs.start_date === null) {
                     errors.start_date = gettext("The course must have an assigned start date.");
                 }
-console.log('7');
+
                 //Add Condition
                 if (newattrs.end_date === null) {
                     errors.end_date = gettext("The course must have an assigned end date.");
@@ -137,7 +137,7 @@ console.log('7');
                     }
                     // TODO check if key points to a real video using google's youtube api
                 }
-console.log('8');
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
@@ -205,13 +205,11 @@ console.log('8');
                         errors.entrance_exam_minimum_score_pct = interpolate(gettext("Please enter an integer between %(min)s and %(max)s."), range, true);
                     }
                 }
-console.log('9');
+
                 if (!_.isEmpty(errors)) {
-                    console.log('9-1');
-                    console.log(errors);
                     return errors;
                 }
-console.log('9-2');
+
                 // NOTE don't return empty errors as that will be interpreted as an error state
             },
 
@@ -220,18 +218,18 @@ console.log('9-2');
             set_videosource: function(newsource) {
                 // newsource either is <video youtube="speed:key, *"/> or just the "speed:key, *" string
                 // returns the videosource for the preview which iss the key whose speed is closest to 1
-console.log('10');
+
                 if (_.isEmpty(newsource) && !_.isEmpty(this.get('intro_video'))) this.set({intro_video: null}, {validate: true});
                 // TODO remove all whitespace w/in string
                 else {
                     if (this.get('intro_video') !== newsource) this.set('intro_video', newsource, {validate: true});
                 }
-console.log('11');
+
                 return this.videosourceSample();
             },
 
             videosourceSample: function() {
-console.log('12');
+
                 if (this.has('intro_video')) return '//www.youtube.com/embed/' + this.get('intro_video');
                 else return '';
             },
@@ -239,11 +237,10 @@ console.log('12');
             // Whether or not the course pacing can be toggled. If the course
             // has already started, returns false; otherwise, returns true.
             canTogglePace: function() {
-console.log('13');
+
                 return new Date() <= new Date(this.get('start_date'));
             }
         });
-console.log('14');
 
         return CourseDetails;
     }); // end define()
