@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 WE'RE USING MIGRATIONS!
 
@@ -43,6 +44,7 @@ class ChunkingManager(models.Manager):
     :class:`~Manager` that adds an additional method :meth:`chunked_filter` to provide
     the ability to make select queries with specific chunk sizes.
     """
+
     class Meta(object):
         app_label = "courseware"
 
@@ -134,15 +136,15 @@ class StudentModule(models.Model):
 
     def __repr__(self):
         return 'StudentModule<%r>' % ({
-            'course_id': self.course_id,
-            'module_type': self.module_type,
-            # We use the student_id instead of username to avoid a database hop.
-            # This can actually matter in cases where we're logging many of
-            # these (e.g. on a broken progress page).
-            'student_id': self.student_id,
-            'module_state_key': self.module_state_key,
-            'state': str(self.state)[:20],
-        },)
+                                          'course_id': self.course_id,
+                                          'module_type': self.module_type,
+                                          # We use the student_id instead of username to avoid a database hop.
+                                          # This can actually matter in cases where we're logging many of
+                                          # these (e.g. on a broken progress page).
+                                          'student_id': self.student_id,
+                                          'module_state_key': self.module_state_key,
+                                          'state': str(self.state)[:20],
+                                      },)
 
     def __unicode__(self):
         return unicode(repr(self))
@@ -270,6 +272,7 @@ class XModuleUserStateSummaryField(XBlockFieldBase):
     """
     Stores data set in the Scope.user_state_summary scope by an xmodule field
     """
+
     class Meta(object):
         app_label = "courseware"
         unique_together = (('usage_id', 'field_name'),)
@@ -282,6 +285,7 @@ class XModuleStudentPrefsField(XBlockFieldBase):
     """
     Stores data set in the Scope.preferences scope by an xmodule field
     """
+
     class Meta(object):
         app_label = "courseware"
         unique_together = (('student', 'module_type', 'field_name'),)
@@ -296,6 +300,7 @@ class XModuleStudentInfoField(XBlockFieldBase):
     """
     Stores data set in the Scope.preferences scope by an xmodule field
     """
+
     class Meta(object):
         app_label = "courseware"
         unique_together = (('student', 'field_name'),)
@@ -313,11 +318,11 @@ class OfflineComputedGrade(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
     updated = models.DateTimeField(auto_now=True, db_index=True)
 
-    gradeset = models.TextField(null=True, blank=True)		# grades, stored as JSON
+    gradeset = models.TextField(null=True, blank=True)  # grades, stored as JSON
 
     class Meta(object):
         app_label = "courseware"
-        unique_together = (('user', 'course_id'), )
+        unique_together = (('user', 'course_id'),)
 
     def __unicode__(self):
         return "[OfflineComputedGrade] %s: %s (%s) = %s" % (self.user, self.course_id, self.created, self.gradeset)
@@ -328,6 +333,7 @@ class OfflineComputedGradeLog(models.Model):
     Log of when offline grades are computed.
     Use this to be able to show instructor when the last computed grades were done.
     """
+
     class Meta(object):
         app_label = "courseware"
         ordering = ["-created"]
@@ -335,7 +341,7 @@ class OfflineComputedGradeLog(models.Model):
 
     course_id = CourseKeyField(max_length=255, db_index=True)
     created = models.DateTimeField(auto_now_add=True, null=True, db_index=True)
-    seconds = models.IntegerField(default=0)  	# seconds elapsed for computation
+    seconds = models.IntegerField(default=0)  # seconds elapsed for computation
     nstudents = models.IntegerField(default=0)
 
     def __unicode__(self):
@@ -358,3 +364,37 @@ class StudentFieldOverride(TimeStampedModel):
 
     field = models.CharField(max_length=255)
     value = models.TextField(default='null')
+
+
+# 강좌 분류 및 정렬 관련 클래스 추가
+class CourseSection(models.Model):
+    """
+    Store the past values of course_mode that a course had in the past. We decided on having
+    separate model, because there is a uniqueness contraint on (course_mode, course_id)
+    field pair in CourseModes. Having a separate table allows us to have an audit trail of any changes
+    such as course price changes
+    """
+
+    class Meta(object):
+        db_table = "course_sections_coursesesion"
+
+    section_name = models.CharField(max_length=100, db_index=True, unique=True)
+    order_no = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.section_name
+
+
+class CourseSectionCourse(models.Model):
+    """
+    Store the past values of course_mode that a course had in the past. We decided on having
+    separate model, because there is a uniqueness contraint on (course_mode, course_id)
+    field pair in CourseModes. Having a separate table allows us to have an audit trail of any changes
+    such as course price changes
+    """
+
+    class Meta(object):
+        db_table = "course_sections_coursesesion_course"
+
+    course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
+    section = models.ForeignKey(CourseSection, db_index=True)

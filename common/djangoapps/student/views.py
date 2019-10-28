@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Student Views
 """
@@ -128,7 +129,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 from openedx.core.djangoapps.user_api.preferences import api as preferences_api
 from openedx.core.djangoapps.catalog.utils import get_programs_data
-
+from notice.models import Notice
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -146,6 +147,7 @@ REGISTRATION_UTM_PARAMETERS = {
 REGISTRATION_UTM_CREATED_AT = 'registration_utm_created_at'
 # used to announce a registration
 REGISTER_USER = Signal(providing_args=["user", "profile"])
+
 
 # Disable this warning because it doesn't make sense to completely refactor tests to appease Pylint
 # pylint: disable=logging-format-interpolation
@@ -190,7 +192,17 @@ def index(request, extra_context=None, user=AnonymousUser()):
     else:
         courses = sort_by_announcement(courses)
 
+    # sections 리스트 조회
+    # sections_course 리스트 조회
+
     context = {'courses': courses}
+
+    # 분류목록 추가 > 분류목록별 강좜목록 추가 > 분류목록 for + 강좌목록 for = courses_list.html
+    sections = ['aaa', 'bbb', 'ccc']
+
+    for section in sections:
+        s = 'courses_by_%s' % section
+        context[s] = s
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
@@ -222,6 +234,11 @@ def index(request, extra_context=None, user=AnonymousUser()):
         programs_list = get_programs_data(user)
 
     context["programs_list"] = programs_list
+
+    # 공지사항 추가
+    notice_list = Notice.objects.order_by('-id')
+
+    context["notice_list"] = notice_list
 
     return render_to_response('index.html', context)
 
@@ -895,9 +912,9 @@ def _allow_donation(course_modes, course_id, enrollment):
         )
     donations_enabled = DonationConfiguration.current().enabled
     return (
-        donations_enabled and
-        enrollment.mode in course_modes[course_id] and
-        course_modes[course_id][enrollment.mode].min_price == 0
+            donations_enabled and
+            enrollment.mode in course_modes[course_id] and
+            course_modes[course_id][enrollment.mode].min_price == 0
     )
 
 
@@ -983,10 +1000,10 @@ def _credit_statuses(user, course_enrollments):
     purchased_credit_providers = {
         attribute.enrollment.course_id: attribute.value
         for attribute in CourseEnrollmentAttribute.objects.filter(
-            namespace="credit",
-            name="provider_id",
-            enrollment__in=credit_enrollments.values()
-        ).select_related("enrollment")
+        namespace="credit",
+        name="provider_id",
+        enrollment__in=credit_enrollments.values()
+    ).select_related("enrollment")
     }
 
     provider_info_by_id = {
@@ -1078,7 +1095,7 @@ def change_enrollment(request, check_access=True):
     if not user.is_authenticated():
         return HttpResponseForbidden()
 
-    #If account is not activated do not let the user to enroll in a course and show the error message
+    # If account is not activated do not let the user to enroll in a course and show the error message
     if not user.is_active:
         return HttpResponseBadRequest(_("This account has not been activated yet. Please first activate your account by clicking the link in the sent activation e-mail."))
 
@@ -1693,22 +1710,22 @@ def create_account_with_params(request, params):
 
     extended_profile_fields = configuration_helpers.get_value('extended_profile_fields', [])
     enforce_password_policy = (
-        configuration_helpers.get_value(
-            "ENFORCE_PASSWORD_POLICY", settings.FEATURES.get("ENFORCE_PASSWORD_POLICY", False)
-        ) and
-        not do_external_auth
+            configuration_helpers.get_value(
+                "ENFORCE_PASSWORD_POLICY", settings.FEATURES.get("ENFORCE_PASSWORD_POLICY", False)
+            ) and
+            not do_external_auth
     )
     # Can't have terms of service for certain SHIB users, like at Stanford
     registration_fields = getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {})
     tos_required = (
-        registration_fields.get('terms_of_service') != 'hidden' or
-        registration_fields.get('honor_code') != 'hidden'
-    ) and (
-        not settings.FEATURES.get("AUTH_USE_SHIB") or
-        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-        not do_external_auth or
-        not eamap.external_domain.startswith(openedx.core.djangoapps.external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
-    )
+                           registration_fields.get('terms_of_service') != 'hidden' or
+                           registration_fields.get('honor_code') != 'hidden'
+                   ) and (
+                           not settings.FEATURES.get("AUTH_USE_SHIB") or
+                           not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+                           not do_external_auth or
+                           not eamap.external_domain.startswith(openedx.core.djangoapps.external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
+                   )
 
     form = AccountCreationForm(
         data=params,
@@ -1730,7 +1747,7 @@ def create_account_with_params(request, params):
         if should_link_with_social_auth:
             backend_name = params['provider']
             request.social_strategy = social_utils.load_strategy(request)
-            redirect_uri = reverse('social:complete', args=(backend_name, ))
+            redirect_uri = reverse('social:complete', args=(backend_name,))
             request.backend = social_utils.load_backend(request.social_strategy, backend_name, redirect_uri)
             social_access_token = params.get('access_token')
             if not social_access_token:
@@ -1838,13 +1855,13 @@ def create_account_with_params(request, params):
     # changing settings on a running system to make sure no users are
     # left in an inconsistent state (or doing a migration if they are).
     send_email = (
-        not settings.FEATURES.get('SKIP_EMAIL_VALIDATION', None) and
-        not settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING') and
-        not (do_external_auth and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH')) and
-        not (
-            third_party_provider and third_party_provider.skip_email_verification and
-            user.email == running_pipeline['kwargs'].get('details', {}).get('email')
-        )
+            not settings.FEATURES.get('SKIP_EMAIL_VALIDATION', None) and
+            not settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING') and
+            not (do_external_auth and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH')) and
+            not (
+                    third_party_provider and third_party_provider.skip_email_verification and
+                    user.email == running_pipeline['kwargs'].get('details', {}).get('email')
+            )
     )
     if send_email:
         dest_addr = user.email
@@ -1882,7 +1899,7 @@ def create_account_with_params(request, params):
     try:
         record_registration_attributions(request, new_user)
     # Don't prevent a user from registering due to attribution errors.
-    except Exception:   # pylint: disable=broad-except
+    except Exception:  # pylint: disable=broad-except
         log.exception('Error while attributing cookies to user registration.')
 
     # TODO: there is no error checking here to see that the user actually logged in successfully,
@@ -2534,7 +2551,7 @@ def confirm_email_change(request, key):  # pylint: disable=unused-argument
                 message,
                 configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
             )
-        except Exception:    # pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             log.warning('Unable to send confirmation email to old address', exc_info=True)
             response = render_to_response("email_change_failed.html", {'email': user.email})
             transaction.set_rollback(True)

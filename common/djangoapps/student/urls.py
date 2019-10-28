@@ -16,6 +16,7 @@ urlpatterns = (
 
     # login endpoint used by cms.
     url(r'^login_post$', 'login_user', name='login_post'),
+
     # login endpoints used by lms.
     url(r'^login_ajax$', 'login_user', name="login"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'login_user'),

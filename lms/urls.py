@@ -28,7 +28,7 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = (
     '',
 
-    url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
+    url(r'^$', 'branding.views.index', name="root"),  # Main marketing page, or redirect to courseware
 
     # notice list url.
     url(r'^notice_list$', 'notice.views.list', name="notice_list"),
@@ -41,9 +41,8 @@ urlpatterns = (
     url(r'^customApi/checkPopup', 'notice.views.checkPopup', name="checkpopup"),
 
     # organizations
-    url(r'^organizations/?$', courseware_views.organizations, name="organizations"),
-    url(r'^organization/(?P<org>.*?)/$', courseware_views.organization, name="organization"),
-
+    # url(r'^orgs/?$', courseware_views.organizations, name="organizations"),
+    url(r'^org/(?P<org>.*?)/$', courseware_views.organization, name="organization"),
 
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
@@ -285,7 +284,7 @@ urlpatterns += (
 
     url(r'^courses/?$', 'branding.views.courses', name="courses"),
 
-    #About the course
+    # About the course
     url(
         r'^courses/{}/about$'.format(
             settings.COURSE_ID_PATTERN,
@@ -302,7 +301,7 @@ urlpatterns += (
         name='enroll_staff',
     ),
 
-    #Inside the course
+    # Inside the course
     url(
         r'^courses/{}/$'.format(
             settings.COURSE_ID_PATTERN,
@@ -448,7 +447,6 @@ urlpatterns += (
         include('lms.djangoapps.grades.api.urls', namespace='grades_api')
     ),
 
-
     # For the instructor
     url(
         r'^courses/{}/instructor$'.format(
@@ -457,7 +455,6 @@ urlpatterns += (
         'lms.djangoapps.instructor.views.instructor_dashboard.instructor_dashboard_2',
         name='instructor_dashboard',
     ),
-
 
     url(
         r'^courses/{}/set_course_mode_price$'.format(
@@ -865,7 +862,6 @@ urlpatterns += (
     url(r'^debug/show_parameters$', 'debug.views.show_parameters'),
 )
 
-
 # Third-party auth.
 if settings.FEATURES.get('ENABLE_THIRD_PARTY_AUTH'):
     urlpatterns += (
@@ -946,10 +942,10 @@ urlpatterns += url(r'^template/(?P<template>.+)$', 'openedx.core.djangoapps.debu
 
 if 'debug_toolbar' in settings.INSTALLED_APPS:
     import debug_toolbar
+
     urlpatterns += (
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
-
 
 # Custom error pages
 # These are used by Django to render these error codes. Do not remove.
