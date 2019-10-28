@@ -389,12 +389,14 @@ a:hover + p.arrow_box {
     display: inline-block;
     float: none;
     vertical-align: middle;
+    z-index: 11;
 }
 
 div.about-side-title {
     display: inline-block;
     vertical-align: middle;
     width: 45%;
+    z-index: 11;
 }
 
 div.about-side-text {
@@ -430,13 +432,13 @@ div.about-side-title p {
     position: relative;
     /*text-align: center;*/
     width: 100%;
-    z-index: 2;
+    /*z-index: 2;*/
     float: none;
     height: 100%;
 }
 
 .side-about.side-about-tp {
-  z-index: 10;
+  /*z-index: 10;*/
 }
 
 .tooltip-side-about {
@@ -459,11 +461,14 @@ div.about-side-title p {
     transition: all 0.15s ease-out 0s;
     top: 65px;
     width: 65%;
+    display: none;
 }
 
 .side-about:hover .tooltip-side-about{
     opacity: 1.0;
     top: 56px;
+    display: block;
+    z-index: 15;
 }
 
 .side-about .tooltip-side-about:hover, .tooltip-side-about:focus {
