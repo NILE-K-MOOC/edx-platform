@@ -2281,3 +2281,7 @@ button#intro_shot {
 		padding: initial;
 	}
 }
+
+#modalContainer {
+	min-width: 70%;
+}
