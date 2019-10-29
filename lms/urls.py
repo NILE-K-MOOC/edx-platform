@@ -42,7 +42,7 @@ urlpatterns = (
 
     # organizations
     # url(r'^orgs/?$', courseware_views.organizations, name="organizations"),
-    url(r'^org/(?P<org>.*?)/$', courseware_views.organization, name="organization"),
+    url(r'^org/(?P<org_code>.*?)/$', courseware_views.organization, name="organization"),
 
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code

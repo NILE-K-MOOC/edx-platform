@@ -367,32 +367,32 @@ class StudentFieldOverride(TimeStampedModel):
 
 
 # 강좌 분류 및 정렬 관련 클래스 추가
-class CourseSection(models.Model):
-    """
-    Store the past values of course_mode that a course had in the past. We decided on having
-    separate model, because there is a uniqueness contraint on (course_mode, course_id)
-    field pair in CourseModes. Having a separate table allows us to have an audit trail of any changes
-    such as course price changes
-    """
+class CourseOrg(models.Model):
+    org_code = models.CharField(max_length=20, db_index=True, unique=True)
+    org_name = models.CharField(max_length=20, db_index=True, unique=True)
+    org_image = models.ImageField(blank=True, null=True, upload_to='org_logo', default='images/azure_logo.png')
+    org_body = models.CharField(max_length=2000, blank=True, null=True)
 
+    class Meta(object):
+        db_table = "course_org_courseorg"
+
+    def __str__(self):
+        return self.org_code
+
+
+class CourseSection(models.Model):
     class Meta(object):
         db_table = "course_sections_coursesesion"
 
     section_name = models.CharField(max_length=100, db_index=True, unique=True)
     order_no = models.IntegerField(null=True)
+    org = models.ForeignKey(CourseOrg, null=True, blank=True)
 
     def __str__(self):
         return self.section_name
 
 
 class CourseSectionCourse(models.Model):
-    """
-    Store the past values of course_mode that a course had in the past. We decided on having
-    separate model, because there is a uniqueness contraint on (course_mode, course_id)
-    field pair in CourseModes. Having a separate table allows us to have an audit trail of any changes
-    such as course price changes
-    """
-
     class Meta(object):
         db_table = "course_sections_coursesesion_course"
 

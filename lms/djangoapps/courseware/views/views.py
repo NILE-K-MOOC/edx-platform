@@ -97,6 +97,8 @@ from xmodule.tabs import CourseTabList
 from xmodule.x_module import STUDENT_VIEW
 from ..entrance_exams import user_must_complete_entrance_exam
 from ..module_render import get_module_for_descriptor, get_module, get_module_by_usage_id
+from courseware.models import CourseSection, CourseSectionCourse, CourseOrg
+from openedx.core.djangoapps.theming import helpers as theming_helpers
 
 log = logging.getLogger("edx.courseware")
 
@@ -112,13 +114,49 @@ def organizations(request):
     return render_to_response('courseware/organizations.html')
 
 
-def organization(request, org):
-    # 기관 안내페이지 상세
-    context = {
-        'org': org
-    }
+def organization(request, org_code, user=AnonymousUser()):
+    courses = get_courses(user)
 
-    return render_to_response('courseware/organization.html', context)
+    if configuration_helpers.get_value(
+            "ENABLE_COURSE_SORTING_BY_START_DATE",
+            settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
+    ):
+        courses = sort_by_start_date(courses)
+    elif configuration_helpers.get_value(
+            "ENABLE_COURSE_SORTING_BY_DISPLAY_NAME",
+            settings.FEATURES["ENABLE_COURSE_SORTING_BY_DISPLAY_NAME"],
+    ):
+        courses = sort_by_display_name(courses)
+    else:
+        courses = sort_by_announcement(courses)
+
+    # context = {'courses': courses}
+    context = {'courses': []}
+
+    try:
+        org = CourseOrg.objects.get(org_code=org_code)
+        sections = CourseSection.objects.filter(org=org.id).order_by('order_no')
+    except Exception as e:
+        log.error("org_code is not exists [%s]. check course_org_courseorg" % e.message)
+        return redirect("/")
+
+    context['org'] = org
+    context['sections'] = sections
+
+    for section in sections:
+        s = 'courses_by_%s' % section
+        # section 별로 등로된 강좌를 확인하여 강좌 리스트를 추가하고 강좌를 구성되도록 함.
+        course_list_base = CourseSectionCourse.objects.filter(section=section.id).values_list('course_id', flat=True)
+
+        # 강좌명 정렬
+        # course_list_section = [course for course in courses if str(course.id) in course_list_base]
+        # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
+
+        context[s] = [course for course in courses if str(course.id) in course_list_base]
+
+    context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
+
+    return render_to_response('org.html', context)
 
 
 def user_groups(user):

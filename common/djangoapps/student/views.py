@@ -131,6 +131,9 @@ from openedx.core.djangoapps.user_api.preferences import api as preferences_api
 from openedx.core.djangoapps.catalog.utils import get_programs_data
 from notice.models import Notice
 
+from courseware.models import CourseSection, CourseSectionCourse
+from django.db.models import Q
+
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
 ReverifyInfo = namedtuple('ReverifyInfo', 'course_id course_name course_number date status display')  # pylint: disable=invalid-name
@@ -192,17 +195,27 @@ def index(request, extra_context=None, user=AnonymousUser()):
     else:
         courses = sort_by_announcement(courses)
 
-    # sections 리스트 조회
-    # sections_course 리스트 조회
-
     context = {'courses': courses}
 
-    # 분류목록 추가 > 분류목록별 강좜목록 추가 > 분류목록 for + 강좌목록 for = courses_list.html
-    sections = ['aaa', 'bbb', 'ccc']
+    sections = CourseSection.objects.filter(Q(org=None)).order_by('order_no')
+
+    context['sections'] = sections
 
     for section in sections:
         s = 'courses_by_%s' % section
-        context[s] = s
+        # section 별로 등로된 강좌를 확인하여 강좌 리스트를 추가하고 강좌를 구성되도록 함.
+        course_list_base = CourseSectionCourse.objects.filter(section=section.id).values_list('course_id', flat=True)
+
+        # 강좌명 정렬
+        course_list_section = [course for course in courses if str(course.id) in course_list_base]
+        # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
+
+        if course_list_section:
+            context[s] = course_list_section
+
+    # sections_course = CourseSectionCourse.object().all.order_by()
+
+    # 분류목록 추가 > 분류목록별 강좜목록 추가 > 분류목록 for + 강좌목록 for = courses_list.html
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
