@@ -176,3 +176,7 @@ else:
 <%def name="get_released_languages()"><%
     return released_languages()
 %></%def>
+
+<%def name="newline_to_br(str)"><%
+    return str.replace("\r\n", "<br/>")
+%></%def>
