@@ -38,7 +38,8 @@ $( document ).ready(function() {
         margin-right: 30px;
     }
     .kr01-Sarrow {
-        display: none;
+        margin-right: 10px;
+        margin-top: 7px;
     }
 
     .kr01_icontTitle {
@@ -54,17 +55,64 @@ $( document ).ready(function() {
         font-size: 14px;
     }
     .kr01_alretTxt {
-        width: 90%;
+        width: 100%;
     }
     .kr01_alert_slider .bx-wrapper {
-        width: auto;
+        width: 92%;
     }
     .kr01-slider-extend {
         width: 70px;
         text-align: right;
+        font-size: 14px;
     }
     .slider .slide {
-        width: 85% !important;
+        width: 96% !important;
+        padding-left: 5px;
+    }
+    .kr01_alertarea {
+        display: block;
+        padding: 10px 0;
+    }
+    .kr01-notice-header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: solid 1px #b9b9b9;
+        margin-bottom: 10px;
+    }
+    .kr01_iconarea {
+        margin-right: 5px;
+    }
+    .kr01_alert_slider {
+        justify-content: space-between;
+    }
+    .kr01_alert {
+        margin-bottom: 20px;
+    }
+    .kr01 .courses-container {
+        margin-top: 20px;
+    }
+    .kr01_fivemenu02 .fivemenarea li {
+        width: 32%;
+        margin-bottom: 0;
+        vertical-align: middle;
+        border: 1px solid #6396d0;
+        border-radius: 10px;
+    }
+    .kr01_fivemenu02 {
+        border: none;
+        margin-bottom: 20px
+    }
+    .kr01_fivemenu02 .fivemenarea {
+        justify-content: space-between;
+        display: flex;
+        text-align: center;
+    }
+    .fivemenarea li a.fivemenarea-a {
+        padding: 10px 0;
+    }
+    .kr01_fivemenu02 .fivemenarea li a span.fivemenarea-span {
+        margin-top: 0;
+        font-size: 15px;
     }
 </style>
 <!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
@@ -81,7 +129,7 @@ $( document ).ready(function() {
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="kr01">
 
-        <h1 class="kr01_explain">5개 메뉴</h1>
+        <h1 class="kr01_explain">3개 메뉴</h1>
         <section class="courses-container">
             <section class="highlighted-courses">
 
@@ -90,7 +138,7 @@ $( document ).ready(function() {
                         <li class="kr01_f01">
                             <div>
                                 <a class="fivemenarea-a" href="#" data-facet="fourth_industry_yn" data-term="fourth_industry_y">
-                                    <i class="fivemenarea-icon"></i>
+                                    <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">4차 산업혁명</span>
                                 </a>
                             </div>
@@ -99,7 +147,7 @@ $( document ).ready(function() {
                         <li class="kr01_f03">
                             <div>
                                 <a class="fivemenarea-a" href="#" data-facet="job_edu_yn" data-term="job_edu_y">
-                                    <i class="fivemenarea-icon"></i>
+                                    <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">직업교육</span>
                                 </a>
                             </div>
@@ -107,7 +155,7 @@ $( document ).ready(function() {
                         <li class="kr01_f05">
                             <div>
                                 <a class="fivemenarea-a" href="#" data-facet="linguistics" data-term="Y">
-                                    <i class="fivemenarea-icon"></i>
+                                    <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">한국어(학)</span>
                                 </a>
                             </div>
@@ -125,12 +173,21 @@ $( document ).ready(function() {
         <section class="courses-container kr01_alert">
             <section class="highlighted-courses">
                 <div class="kr01_alertarea">
-                    <i class="kr01_iconarea" style=" "><img src="/static/images/main/sp.png"></i>
-                    <span class="kr01_icontTitle">공지사항</span>
+                    <div class="kr01-notice-header">
+                        <div>
+                            <i class="kr01_iconarea" style=" "><img src="/static/images/main/sp.png"></i>
+                            <span class="kr01_icontTitle">공지사항</span>
+                        </div>
+                        <div class="kr01-slider-extend">
+                            <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/">
+                                <span>${_("More")}+</span>
+                            </a>
+                        </div>
+                    </div>
                     <div class="kr01_alretTxt">
                         <div class="kr01_alert_slider">
-                            <div class="slider" style="border: solid 1px red;" id="board_slider">
-                                % for list in index_list[:1] :
+                            <div class="slider" id="board_slider">
+                                % for list in index_list[:4] :
                                     % if list[5] != 'F':
                                     <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
                                     % else:
@@ -141,11 +198,6 @@ $( document ).ready(function() {
                             <div class="kr01-Sarrow">
                                 <div class="bxslider-prev"></div>
                                 <div class="bxslider-next"></div>
-                            </div>
-                            <div class="kr01-slider-extend" style="border: solid 1px #000;">
-                                <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/">
-                                    <span>${_("More")}+</span>
-                                </a>
                             </div>
                         </div>
 
