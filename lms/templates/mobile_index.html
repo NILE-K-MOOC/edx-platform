@@ -1,0 +1,249 @@
+<%page expression_filter="h"/>
+<%inherit file="mobile_main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+<!-- Popup Area
+<div id="layerPopupArea" class="layerPopupArea" style="top:110px !important; left:148px !important; position:fixed !important; display: block;">-->
+<script language="Javascript">
+
+
+$( document ).ready(function() {
+    $( ".slide_viewer" ).hover(function() {
+        $('#arrow_box_left').css("background-color", "#333");
+        $('#arrow_box_right').css("background-color", "#333");
+    },
+    function(){
+        $('#arrow_box_left').css("background-color", "");
+        $('#arrow_box_right').css("background-color", "");
+    });
+
+});
+
+</script>
+
+<style>
+    .home > header .outer-wrapper {
+        width: 100%;height:100%;box-sizing:border-box;
+        /**    padding:250px 0 240px 0;	**/
+        padding:100px 0 0 0; /** 20161215 **/
+    }
+    .course-search{
+        width: 300px;
+        float: right;
+        margin-right: 30px;
+    }
+    .kr01-Sarrow {
+        display: none;
+    }
+
+    .kr01_icontTitle {
+        font-size: 15px;
+    }
+    .kr01_iconarea img {
+        width: 20px;
+    }
+    .kr01_iconarea img.kr01_iconarea_today {
+        width: 14px;
+    }
+    .kr01_alert_slider a span {
+        font-size: 14px;
+    }
+    .kr01_alretTxt {
+        width: 90%;
+    }
+    .kr01_alert_slider .bx-wrapper {
+        width: auto;
+    }
+    .kr01-slider-extend {
+        width: 70px;
+        text-align: right;
+    }
+    .slider .slide {
+        width: 85% !important;
+    }
+</style>
+<!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
+
+%if request.user.id and not request.user.is_active:
+  <script>
+    setTimeout(function () {
+        alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
+        document.location.href = "/logout";
+    }, 500);
+  </script>
+%endif
+
+<main id="main" aria-label="Content" tabindex="-1" class="main-content">
+    <section class="kr01">
+
+        <h1 class="kr01_explain">5개 메뉴</h1>
+        <section class="courses-container">
+            <section class="highlighted-courses">
+
+                <div class="kr01_fivemenu02 ">
+                    <ul class="fivemenarea link_to_courses">
+                        <li class="kr01_f01">
+                            <div>
+                                <a class="fivemenarea-a" href="#" data-facet="fourth_industry_yn" data-term="fourth_industry_y">
+                                    <i class="fivemenarea-icon"></i>
+                                    <span class="fivemenarea-span">4차 산업혁명</span>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="kr01_f03">
+                            <div>
+                                <a class="fivemenarea-a" href="#" data-facet="job_edu_yn" data-term="job_edu_y">
+                                    <i class="fivemenarea-icon"></i>
+                                    <span class="fivemenarea-span">직업교육</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f05">
+                            <div>
+                                <a class="fivemenarea-a" href="#" data-facet="linguistics" data-term="Y">
+                                    <i class="fivemenarea-icon"></i>
+                                    <span class="fivemenarea-span">한국어(학)</span>
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </section>
+        </section>
+    </section>
+
+    <h1 class="kr01_explain">공지사항</h1>
+        <section class="courses-container kr01_alert">
+            <section class="highlighted-courses">
+                <div class="kr01_alertarea">
+                    <i class="kr01_iconarea" style=" "><img src="/static/images/main/sp.png"></i>
+                    <span class="kr01_icontTitle">공지사항</span>
+                    <div class="kr01_alretTxt">
+                        <div class="kr01_alert_slider">
+                            <div class="slider" style="border: solid 1px red;" id="board_slider">
+                                % for list in index_list[:1] :
+                                    % if list[5] != 'F':
+                                    <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    % else:
+                                    <article class="slide"><a href="/comm_tabs/${list[6]}/"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    % endif
+                                % endfor
+                            </div>
+                            <div class="kr01-Sarrow">
+                                <div class="bxslider-prev"></div>
+                                <div class="bxslider-next"></div>
+                            </div>
+                            <div class="kr01-slider-extend" style="border: solid 1px #000;">
+                                <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/">
+                                    <span>${_("More")}+</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+
+                            $(document).ready(function(){
+
+                                // link to courses event
+                                $(".link_to_courses [data-term]").each(function(){
+                                    $(this).click(function(e){
+                                        e.preventDefault();
+                                        let form = $("<form>", {action: "/courses", method: "POST"}),
+                                        csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
+                                        term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
+
+                                        // add csrf token
+                                        form.append(csrftoken, term);
+
+                                        if(form)
+                                            form.appendTo($("body")).submit();
+                                    });
+
+
+                                });
+
+                                /*
+                                if(f){
+                                    alert('submit!');
+                                    f.appendTo($("body")).submit();
+
+                                }else{
+                                    alert('not submit!');
+                                }
+                                */
+
+                                var sliderOptions = {
+                                        mode: 'vertical',
+                                        slideSelector: '.slider article.slide',
+                                        minSlides: 1,
+                                        maxSlides: 1,
+                                        auto: ($('#board_slider').children().length < 2) ? false : true,
+                                        autoHover: true,
+                                        infiniteLoop: true,
+                                        controls: true,
+                                        prevSelector: 'div.bxslider-prev',
+                                        prevText: '',
+                                        nextSelector: 'div.bxslider-next',
+                                        nextText: '',
+                                        onSlideBefore: function($slideElement, oldIndex, newIndex) {
+                                            var comm_link = $slideElement.find("a").attr("href");
+                                            var comm_link_gbn = comm_link.split('/');
+                                            var comm_more = '#';
+                                            if(comm_link_gbn[2] != 'F')
+                                                comm_more = '/comm_list/' + comm_link_gbn[2];
+                                            else comm_more = '/comm_tabs/kmooc_f/';
+                                            $(".kr01-slider-extend").children('a').attr('href', comm_more);
+                                        }
+                                    }
+                                ;
+
+                                $('#board_slider').bxSlider(sliderOptions);
+
+                            });
+
+                        </script>
+                    </div>
+
+                </div>
+            </section>
+        </section>
+
+
+      <%include file="${courses_list}" />
+
+</main>
+
+% if show_homepage_promo_video:
+  <section id="video-modal" class="modal home-page-video-modal video-modal">
+    <div class="inner-wrapper">
+      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section>
+% endif
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

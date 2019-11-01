@@ -433,6 +433,7 @@ urlpatterns += [
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
     url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
+    url(r'^mobile_index/?$', branding_views.mobile_index, name='mobile_index'),
 
     # About the course
     url(

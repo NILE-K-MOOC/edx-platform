@@ -940,6 +940,38 @@ def index(request):
 
 
 @ensure_csrf_cookie
+@transaction.non_atomic_requests
+@cache_if_anonymous()
+def mobile_index(request):
+    if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
+        from openedx.core.djangoapps.external_auth.views import ssl_login
+        # Set next URL to dashboard if it isn't set to avoid
+        # caching a redirect to / that causes a redirect loop on logout
+        if not request.GET.get('next'):
+            req_new = request.GET.copy()
+            req_new['next'] = reverse('dashboard')
+            request.GET = req_new
+        return ssl_login(request)
+
+    enable_mktg_site = configuration_helpers.get_value(
+        'ENABLE_MKTG_SITE',
+        settings.FEATURES.get('ENABLE_MKTG_SITE', False)
+    )
+
+    if enable_mktg_site:
+        marketing_urls = configuration_helpers.get_value(
+            'MKTG_URLS',
+            settings.MKTG_URLS
+        )
+        return redirect(marketing_urls.get('ROOT'))
+
+
+    #  we do not expect this case to be reached in cases where
+    #  marketing and edge are enabled
+    return student.views.management.mobile_index(request, user=request.user)
+
+
+@ensure_csrf_cookie
 @cache_if_anonymous()
 def courses(request):
     """
