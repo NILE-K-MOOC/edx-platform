@@ -24,7 +24,7 @@ from openedx.core.djangolib.js_utils import (
 <style>
 
 
-.layerPopupArea{position: absolute; z-index: 999; top: 80px; left: 20px;}
+.layerPopupArea{position: absolute; z-index: 999; top: 75px; left: 100px;}
 .layerPupup{
     z-index: 10010;
 	display: none;
@@ -77,7 +77,7 @@ from openedx.core.djangolib.js_utils import (
     <div class="popup-main">
       <div class="popup-header">
         <h4 class="popup-title"><b>K-MOOC 문의방법 안내</b></h4>
-      </div> 
+      </div>
       <div class="popup-contents">
         <div id="contents_1" style="display: none;"></div>
         <iframe id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
@@ -96,6 +96,8 @@ from openedx.core.djangolib.js_utils import (
   </div>
 </div>
 <script>
+  var popupDate = new Date();
+  var targetDate = new Date(2019, 11, 31, 23, 59, 59);
   $(document).ready(function(){
 
     let contents ='<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">안녕하세요.</span></div>\n' +
@@ -307,9 +309,6 @@ from openedx.core.djangolib.js_utils import (
     });
   });
 
-</script>
-<script language="Javascript">
-
     function setIframeHeight(id) {
         var ifrm = document.getElementById(id);
         var doc = ifrm.contentDocument? ifrm.contentDocument:
@@ -378,8 +377,9 @@ $("#layerPopupArea .pop_content").each(function() {
 
 var leng = '1';
 leng = Number(leng);
+
 for (var i = 1; i<=leng; i++) {
-    if (cookiedata.indexOf(i +"=done") < 0) {
+    if (cookiedata.indexOf(i +"=done") < 0 && popupDate <= targetDate) {
         %if LANG == 'en':
             $("#" + i).css("display" , "none");
         %else:
@@ -390,8 +390,7 @@ for (var i = 1; i<=leng; i++) {
 }
 }
 
-// popupDate = new Date();
-// targetDate = new Date(2018, 1, 5);
+
 // targetDate2 = new Date(2018, 1, 5);
 //
 //
