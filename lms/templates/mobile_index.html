@@ -76,7 +76,7 @@ $( document ).ready(function() {
     .kr01-notice-header {
         display: flex;
         justify-content: space-between;
-        border-bottom: solid 1px #b9b9b9;
+        border-bottom: solid 1px #4185c4;
         margin-bottom: 10px;
     }
     .kr01_iconarea {
@@ -95,7 +95,7 @@ $( document ).ready(function() {
         width: 32%;
         margin-bottom: 0;
         vertical-align: middle;
-        border: 1px solid #6396d0;
+        border: 1px solid #4185c4 !important;
         border-radius: 10px;
     }
     .kr01_fivemenu02 {
@@ -114,19 +114,52 @@ $( document ).ready(function() {
         margin-top: 0;
         font-size: 15px;
     }
+    .kr01_fivemenu02 {
+        display: block !important;
+    }
+    .kr01-mobile {
+        padding: 7px;
+    }
+    .kr01-mobile .kr01-mobile-top a {
+        display: inline-block;
+    }
+    .kr01-mobile .kr01-mobile-top i {
+        border: 2px solid #53a4ef;
+        color: #53a4ef;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .kr01-mobile-more {
+        display: inline-block;
+        line-height: 2rem;
+        vertical-align: middle;
+        float: right;
+    }
+    .kr01-mobile-more a {
+        color: #fff !important;
+        font-weight: bold;
+    }
+    .kr01-mobile-container {
+        background: #595959;
+    }
 </style>
 <!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
 
-%if request.user.id and not request.user.is_active:
-  <script>
-    setTimeout(function () {
-        alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
-        document.location.href = "/logout";
-    }, 500);
-  </script>
-%endif
-
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
+    <section class="kr01 kr01-mobile-container">
+        <section class="highlighted-courses kr01-mobile">
+            <div class="kr01-mobile-top">
+                <a href="/mobile_index"><i class="fa fa-home fa-lg"></i></a>
+                <div class="kr01-mobile-more">
+                    <a href="/mobile_courses">
+                        <span>
+                            더 많은 강좌 찾아보기 >>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </section>
     <section class="kr01">
 
         <h1 class="kr01_explain">3개 메뉴</h1>
@@ -179,7 +212,7 @@ $( document ).ready(function() {
                             <span class="kr01_icontTitle">공지사항</span>
                         </div>
                         <div class="kr01-slider-extend">
-                            <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/">
+                            <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/" target="_blank">
                                 <span>${_("More")}+</span>
                             </a>
                         </div>
@@ -189,9 +222,9 @@ $( document ).ready(function() {
                             <div class="slider" id="board_slider">
                                 % for list in index_list[:4] :
                                     % if list[5] != 'F':
-                                    <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}" target="_blank"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
                                     % else:
-                                    <article class="slide"><a href="/comm_tabs/${list[6]}/"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    <article class="slide"><a href="/comm_tabs/${list[6]}/" target="_blank"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
                                     % endif
                                 % endfor
                             </div>
@@ -209,7 +242,7 @@ $( document ).ready(function() {
                                 $(".link_to_courses [data-term]").each(function(){
                                     $(this).click(function(e){
                                         e.preventDefault();
-                                        let form = $("<form>", {action: "/courses", method: "POST"}),
+                                        let form = $("<form>", {action: "/mobile_courses", method: "POST"}),
                                         csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
                                         term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
 
@@ -270,7 +303,7 @@ $( document ).ready(function() {
         </section>
 
 
-      <%include file="${courses_list}" />
+      <%include file="${courses_list}" args="mobile=True"/>
 
 </main>
 

@@ -328,12 +328,18 @@ def mobile_courses(request):
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
+    # course post parameter setting to html
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'middle_classfy']
+    parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
+
+
     return render_to_response(
         "mobile_courses.html",
         {
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
-            'programs_list': programs_list
+            'programs_list': programs_list,
+            'parameter_json': parameter_json
         }
     )
 

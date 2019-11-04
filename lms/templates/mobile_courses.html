@@ -134,6 +134,13 @@ getParameterByName('search_query')
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
+
+    % if parameter_json:
+        % for key, value in parameter_json.items():
+            <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
+        % endfor
+    % endif
+
     <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
     <section class="find-courses">
         <section class="courses-container">
