@@ -443,3 +443,24 @@ class OrgDynamicUpgradeDeadlineConfiguration(OptOutDynamicUpgradeDeadlineMixin, 
         default=False,
         help_text=_('Disable the dynamic upgrade deadline for this organization.')
     )
+
+
+class CodeDetail(models.Model):
+    group_code = models.CharField(max_length=10, primary_key=True)
+    detail_code = models.CharField(max_length=20, primary_key=True)
+    detail_name = models.CharField(max_length=100, blank=True, null=True)
+    detail_ename = models.CharField(db_column='detail_Ename', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    detail_desc = models.CharField(max_length=1000, blank=True, null=True)
+    ref_code = models.CharField(max_length=20, blank=True, null=True)
+    order_no = models.IntegerField(blank=True, null=True)
+    use_yn = models.CharField(max_length=1, blank=True, null=True)
+    delete_yn = models.CharField(max_length=1, blank=True, null=True)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+    modify_id = models.IntegerField(blank=True, null=True)
+    modify_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'code_detail'
+        unique_together = (('group_code', 'detail_code'),)

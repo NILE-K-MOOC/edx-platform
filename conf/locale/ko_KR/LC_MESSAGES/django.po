@@ -27148,6 +27148,9 @@ msgstr "개강일"
 msgid "univ_name"
 msgstr "운영기관"
 
+msgid "Institution"
+msgstr "운영기관"
+
 msgid "Course Week"
 msgstr "주차"
 
