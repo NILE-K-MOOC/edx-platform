@@ -59,7 +59,7 @@ from courseware.courses import (
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
-from courseware.models import BaseStudentModuleHistory, StudentModule
+from courseware.models import BaseStudentModuleHistory, StudentModule, CodeDetail
 from courseware.url_helpers import get_redirect_url
 from courseware.user_state_client import DjangoXBlockUserStateClient
 from edxmako.shortcuts import marketing_link, render_to_response, render_to_string
@@ -126,7 +126,6 @@ from courseware.date_summary import (
 )
 from pytz import timezone
 import pytz
-
 
 
 log = logging.getLogger("edx.courseware")
@@ -1184,43 +1183,13 @@ def course_about(request, course_id):
             middle_classfy_name = middle_classfy_dict[
                 course_details.middle_classfy] if course_details.middle_classfy in middle_classfy_dict else course_details.middle_classfy
 
-        # univ name
-        UnivDic = {
-            # add univ
-            "testUniv": "Test University",
-            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
-            "KHUk": "KYUNGHEE UNIVERSITY",
-            "KoreaUnivK": "KOREA UNIVERSITY",
-            "DGUk": "DAEGU UNIVERSITY",
-            "PNUk": "PUSAN NATIONAL UNIVERSITY",
-            "SMUCk": "SANGMYUNG UNIVERSITY",
-            "SNUk": "SEOUL NATIONAL UNIVERSITY",
-            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
-            "SSUk": "SUNGSHIN UNIVERSITY",
-            "SejonguniversityK": "SEJONG UNIVERSITY",
-            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
-            "YSUk": "YONSEI UNIVERSITY",
-            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
-            "UOUk": "UNIVERSITY OF ULSAN",
-            "EwhaK": "EWHA WOMANS UNIVERSITY",
-            "INHAuniversityK": "INHA UNIVERSITY",
-            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
-            "POSTECHk": "POSTECH",
-            "KAISTk": "KAIST",
-            "HYUk": "HANYANG UNIVERSITY",
-            "KOCW": "KOCW",
-            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
-            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
-            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
-            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
-            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
-            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
-            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
-            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
-            "HGUk": "HANDONG GLOBAL UNIVERSITY",
-        }
-
-        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
+        # org name
+        try:
+            org_model = CodeDetail.objects.get(group_code='003', use_yn='Y', delete_yn='N',
+                                                    detail_code=course_details.org)
+            org_name = org_model.detail_name if request.LANGUAGE_CODE == 'ko-kr' else org_model.detail_ename
+        except CodeDetail.DoesNotExist:
+            org_name = course_details.org
 
         if course_details.enrollment_start:
             enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
@@ -1651,7 +1620,7 @@ def course_about(request, course_id):
             # 'classfy' : classfy,
             'classfy_name': classfy_name,
             'middle_classfy_name': middle_classfy_name,
-            'univ_name': univ_name,
+            'org_name': org_name,
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
             # --- REVIEW CONTEXT --- #
@@ -1896,43 +1865,13 @@ def mobile_course_about(request, course_id):
             middle_classfy_name = middle_classfy_dict[
                 course_details.middle_classfy] if course_details.middle_classfy in middle_classfy_dict else course_details.middle_classfy
 
-        # univ name
-        UnivDic = {
-            # add univ
-            "testUniv": "Test University",
-            "KYUNGNAMUNIVk": "KYUNGNAM UNIVERSITY",
-            "KHUk": "KYUNGHEE UNIVERSITY",
-            "KoreaUnivK": "KOREA UNIVERSITY",
-            "DGUk": "DAEGU UNIVERSITY",
-            "PNUk": "PUSAN NATIONAL UNIVERSITY",
-            "SMUCk": "SANGMYUNG UNIVERSITY",
-            "SNUk": "SEOUL NATIONAL UNIVERSITY",
-            "SKKUk": "SUNGKYUNKWAN UNIVERSITY",
-            "SSUk": "SUNGSHIN UNIVERSITY",
-            "SejonguniversityK": "SEJONG UNIVERSITY",
-            "SookmyungK": "SOOKMYUNG WOMEN'S UNIVERSITY",
-            "YSUk": "YONSEI UNIVERSITY",
-            "YeungnamUnivK": "YOUNGNAM UNIVERSITY",
-            "UOUk": "UNIVERSITY OF ULSAN",
-            "EwhaK": "EWHA WOMANS UNIVERSITY",
-            "INHAuniversityK": "INHA UNIVERSITY",
-            "CBNUk": "CHONBUK NATIONAL UNIVERSITY",
-            "POSTECHk": "POSTECH",
-            "KAISTk": "KAIST",
-            "HYUk": "HANYANG UNIVERSITY",
-            "KOCW": "KOCW",
-            "KONKUK UNIVERSITY": "KONKUK UNIVERSITY",
-            "KYUNGSUNG UNIVERSITY": "KYUNGSUNG UNIVERSITY",
-            "DANKOOK UNIVERSITY": "DANKOOK UNIVERSITY",
-            "SOGANG UNIVERSITY": "SOGANG UNIVERSITY",
-            "UNIVERSITY OF SEOUL": "UNIVERSITY OF SEOUL",
-            "SOONGSIL UNIVERSITY": "SOONGSIL UNIVERSITY",
-            "CHONNAM NATIONAL UNIVERSITY": "CHONNAM NATIONAL UNIVERSITY",
-            "JEJU NATIONAL UNIVERSITY": "JEJU NATIONAL UNIVERSITY",
-            "HGUk": "HANDONG GLOBAL UNIVERSITY",
-        }
-
-        univ_name = UnivDic[course_details.org] if hasattr(UnivDic, course_details.org) else course_details.org
+        # org name
+        try:
+            org_model = CodeDetail.objects.get(group_code='003', use_yn='Y', delete_yn='N',
+                                                    detail_code=course_details.org)
+            org_name = org_model.detail_name if request.LANGUAGE_CODE == 'ko-kr' else org_model.detail_ename
+        except CodeDetail.DoesNotExist:
+            org_name = course_details.org
 
         if course_details.enrollment_start:
             enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
@@ -2233,7 +2172,7 @@ def mobile_course_about(request, course_id):
             # 'classfy' : classfy,
             'classfy_name': classfy_name,
             'middle_classfy_name': middle_classfy_name,
-            'univ_name': univ_name,
+            'org_name': org_name,
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
             # --- REVIEW CONTEXT --- #
