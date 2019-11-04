@@ -18732,7 +18732,7 @@ msgstr "금액 설정"
 
 #: lms/templates/instructor/instructor_dashboard_2/special_exams.html
 msgid "Allowance Section"
-msgstr "Allowance Section"
+msgstr "추가 시간 설정"
 
 #: lms/templates/instructor/instructor_dashboard_2/special_exams.html
 msgid "Student Special Exam Attempts"
