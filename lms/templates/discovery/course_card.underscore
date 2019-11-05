@@ -43,7 +43,7 @@
                 <span class="kr01_professor">
                 <%- teacher_name %>
                 </span>
-                <span class="kr01_school"><%- gettext(org) %></span>
+                <span class="kr01_school"><%- org_name %></span>
                 </div>
                 <div><time><%- start %></time>
                 <% if (end){ %>

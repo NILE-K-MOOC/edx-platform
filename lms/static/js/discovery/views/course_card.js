@@ -95,6 +95,16 @@ define([
             }else{
                 data.status = 'none';
             }
+
+            // org translate
+            var lang = document.documentElement.lang;
+            data.org_name = gettext(data.org);
+            if(data.org_kname != null && lang == 'ko-kr'){
+                data.org_name = data.org_kname;
+            } else if(data.org_ename != null && lang == 'en'){
+                data.org_name = data.org_ename;
+            }
+
             this.$el.html(this.tpl(data));
             return this;
         }
