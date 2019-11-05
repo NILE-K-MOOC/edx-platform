@@ -149,6 +149,8 @@
                             data.name = this.termName(data.facet, data.term);
                         }
 
+                    } else if (data.facet == 'org') {
+                        data.name = this.termName(data.facet, data.name);
                     } else {
                         data.name = this.termName(data.facet, data.term);
                     }
@@ -366,12 +368,23 @@
 
                         if (options.length > 0) {
                             if (facetKey === 'org') {
+                                var org_names = [];
+                                $.ajax({
+                                    url: '/search_org',
+                                    async: false,
+                                }).done(function(data){
+                                    org_names = data.org_dict;
+                                });
                                 var options2 = [];
                                 _.map(options, function (option) {
                                     option.attributes.name = gettext(option.attributes.term);
+                                    for(var i=0; i<org_names.length; i++) {
+                                        if(org_names[i].hasOwnProperty(option.attributes.term)){
+                                            option.attributes.name = org_names[i][option.attributes.term];
+                                        }
+                                    }
                                     options2.push(option);
                                 });
-
                                 //기관명으로 정렬
                                 options2.sort(function (a, b) {
                                     return a.attributes.name.localeCompare(b.attributes.name);
