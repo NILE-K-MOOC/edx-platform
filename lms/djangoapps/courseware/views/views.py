@@ -229,6 +229,19 @@ def user_groups(user):
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
+def search_org_name(request):
+    org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
+    if request.LANGUAGE_CODE == 'ko-kr':
+        org_dict = [{org.detail_code: org.detail_name} for org in org_names]
+    else:
+        org_dict = [{org.detail_code: org.detail_ename} for org in org_names]
+
+    context = {'org_dict': org_dict}
+    return JsonResponse(context)
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.

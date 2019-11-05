@@ -432,6 +432,7 @@ urlpatterns += [
     url(r'^calculate$', util_views.calculate),
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
+    url(r'^search_org/?$', courseware_views.search_org_name, name='search_org_name'),
     url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
 
     # About the course
