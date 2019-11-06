@@ -376,7 +376,7 @@ class CourseOrg(models.Model):
     class Meta(object):
         db_table = "course_org_courseorg"
 
-    def __str__(self):
+    def __unicode__(self):
         return self.org_code
 
 
@@ -384,11 +384,14 @@ class CourseSection(models.Model):
     class Meta(object):
         db_table = "course_sections_coursesesion"
 
+    section_logo_large = models.ImageField(blank=True, null=True, upload_to='section_logo', default='images/circle.png')
+    section_logo_large_hover = models.ImageField(blank=True, null=True, upload_to='section_logo', default='images/circle.png')
+    section_logo_small = models.ImageField(blank=True, null=True, upload_to='section_logo', default='images/circle.png')
     section_name = models.CharField(max_length=100, db_index=True, unique=True)
     order_no = models.IntegerField(null=True)
     org = models.ForeignKey(CourseOrg, null=True, blank=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.section_name
 
 

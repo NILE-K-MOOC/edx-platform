@@ -17,6 +17,7 @@ admin.site.register(OfflineComputedGradeLog)
 # Add 20191028
 class CourseOrgAdmin(admin.ModelAdmin):
     fields = [
+        'id',
         'org_code',
         'org_name',
         'org_image',
@@ -26,14 +27,12 @@ class CourseOrgAdmin(admin.ModelAdmin):
     form = CourseOrgForm
 
     def save_model(self, request, obj, form, change):
-        # 개행 문자를 br 태그로 치환은 가능하나 화면에 표시할때만 치환 하는것으로 변경이 좋을듯
-        # obj.org_body = obj.org_body.replace("\r\n", "<br/>")
-
         return super(CourseOrgAdmin, self).save_model(request, obj, form, change)
 
 
 class CourseSecionAdmin(admin.ModelAdmin):
     list_display = [
+        'id',
         'section_name',
         'org',
     ]
@@ -41,6 +40,7 @@ class CourseSecionAdmin(admin.ModelAdmin):
 
 class CourseSectionCourseAdmin(admin.ModelAdmin):
     list_display = [
+        'id',
         'section_name',
         'course_id',
     ]
