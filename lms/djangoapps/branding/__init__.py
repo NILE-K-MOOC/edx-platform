@@ -15,6 +15,7 @@ from datetime import datetime
 from pytz import UTC
 from django.db import connections
 
+
 def get_visible_courses(org=None, filter_=None):
     """
     Return the set of CourseOverviews that should be visible in this branded
@@ -62,6 +63,11 @@ def get_visible_courses(org=None, filter_=None):
 
     courses = [c for c in courses if c.catalog_visibility == 'both']
 
+    from courseware.models import CodeDetail
+
+    org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
+    org_dict = {org.detail_code: {'org_kname': org.detail_name, 'org_ename': org.detail_ename} for org in org_names}
+
     # Add Course Status
     for c in courses:
         # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
@@ -96,6 +102,9 @@ def get_visible_courses(org=None, filter_=None):
             c.status = 'end'
         else:
             c.status = 'none'
+
+        c.org_kname = org_dict[c.org]['org_kname'] if c.org in org_dict else c.display_org_with_default
+        c.org_ename = org_dict[c.org]['org_ename'] if c.org in org_dict else c.display_org_with_default
 
         # print 'c.status = ', c.id, c.status
 

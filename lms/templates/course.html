@@ -54,7 +54,12 @@ from django.core.urlresolvers import reverse
               % else:
                 <span class="kr01_professor">${course.teacher_name[0]}</span>
               % endif
-                <span class="kr01_school">${_(course.display_org_with_default)}</span>
+
+              % if LANGUAGE_CODE == 'ko-kr':
+                <span class="kr01_school">${course.org_kname}</span>
+              % else:
+                <span class="kr01_school">${course.org_ename}</span>
+              % endif
             </div>
 
         </div>
