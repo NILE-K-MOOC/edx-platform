@@ -374,6 +374,8 @@ class CourseOrg(models.Model):
     org_body = models.CharField(max_length=2000, blank=True, null=True)
 
     class Meta(object):
+        # verbose_name_plural = 'test'
+        app_label = 'api_admin'
         db_table = "course_org_courseorg"
 
     def __unicode__(self):
@@ -382,6 +384,7 @@ class CourseOrg(models.Model):
 
 class CourseSection(models.Model):
     class Meta(object):
+        app_label = 'api_admin'
         db_table = "course_sections_coursesesion"
 
     section_logo_large = models.ImageField(blank=True, null=True, upload_to='section_logo', default='images/circle.png')
@@ -397,6 +400,7 @@ class CourseSection(models.Model):
 
 class CourseSectionCourse(models.Model):
     class Meta(object):
+        app_label = 'api_admin'
         db_table = "course_sections_coursesesion_course"
 
     course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
