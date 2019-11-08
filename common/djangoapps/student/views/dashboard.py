@@ -27,6 +27,7 @@ import track.views
 from bulk_email.models import BulkEmailFlag, Optout  # pylint: disable=import-error
 from course_modes.models import CourseMode
 from courseware.access import has_access
+from courseware.models import CodeDetail
 from edxmako.shortcuts import render_to_response, render_to_string
 from entitlements.models import CourseEntitlement
 from lms.djangoapps.commerce.utils import EcommerceService  # pylint: disable=import-error
@@ -970,6 +971,10 @@ def student_dashboard(request):
             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
         ]
 
+    # org_kname, org_ename
+    org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
+    org_dict = {org.detail_code: {'ko-kr': org.detail_name, 'en': org.detail_ename} for org in org_names}
+
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
@@ -996,6 +1001,7 @@ def student_dashboard(request):
         c.course_date = info_dict['course_date']
         c.week = info_dict['week']
         c.final_day = final_day[0][0]
+        c.org_name = org_dict[c.course.org][request.LANGUAGE_CODE] if c.course.org in org_dict else c.course.org
 
         # 개강 2주 후부터 종강 후 2주까지 만족도 설문 버튼 생성
         c.survey_valid = dashboard_survey_valid(c) if c.is_active is True and c.mode == 'honor' else {5, '응답시기가 아닙니다.'}
