@@ -197,6 +197,7 @@ from bson import ObjectId
 from pymongo import MongoClient
 from xmodule.modulestore.django import modulestore
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from courseware.models import CodeDetail
 
 
 @csrf_exempt
@@ -207,6 +208,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
     # site_code 획득
     site_code = request.session.get('multisite_org')
+
+    # 기관명 목록
+    org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
+    org_dict = {org.detail_code: {'org_kname': org.detail_name, 'org_ename': org.detail_ename} for org in org_names}
 
     # DEBUG
     print "site_code -> ", site_code
@@ -340,6 +345,12 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
                     #print "teacher_name -> ", teacher_name
                     #print "teacher_name_cnt -> ", teacher_name_cnt
+
+                    # 강좌별 기관명 추가
+                    course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
+                        if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                    course_overviews.org_ename = org_dict[course_overviews.org]['org_ename'] \
+                        if course_overviews.org in org_dict else course_overviews.display_org_with_default
 
                     course_list.append(course_overviews)
 
