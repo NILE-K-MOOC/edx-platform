@@ -4821,6 +4821,9 @@ msgstr "K-MOOC란?"
 msgid "Participating Institutions"
 msgstr "참여기관"
 
+msgid "Participating Institutions Introduction"
+msgstr "참여기관 소개"
+
 #: lms/djangoapps/branding/api.py cms/templates/widgets/sock_links.html
 #: themes/edx.org/cms/templates/widgets/sock.html
 #: themes/stanford-style/lms/templates/static_templates/about.html

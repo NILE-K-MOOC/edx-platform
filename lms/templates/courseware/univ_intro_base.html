@@ -82,7 +82,7 @@
                  <a target="_blank" href="${org_dict['instagram']}"><img src="/static/images/common/instagram.png" alt="instagram 공유하기" class="univSns"/></a>
                 % endif
             </div>
-            <iframe id="org_intro" frameborder="0" scrolling="no" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
+            <iframe title="${_('Participating Institutions Introduction')}" id="org_intro" frameborder="0" scrolling="no" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
             % if org_dict['intro_mov'] != '':
             <video controls src="${org_dict['intro_mov']}" poster="${org_dict['top_img']}" style="width: 500px; height: 300px; margin: 10px 30px">
                 <track src="${org_dict['intro_subtitle']}" kind="subtitles">
