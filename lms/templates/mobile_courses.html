@@ -129,12 +129,49 @@ getParameterByName('search_query')
         margin-right: auto !important;
         float: none;
     }
-
+    .kr01-mobile {
+        padding: 7px;
+    }
+    .kr01-mobile-container {
+        background: #595959;
+    }
+    .kr01-mobile .kr01-mobile-top a {
+        display: inline-block;
+    }
+    .kr01-mobile-more {
+        display: inline-block;
+        line-height: 2rem;
+        vertical-align: middle;
+        float: right;
+    }
+    .kr01-mobile-more a {
+        color: #fff !important;
+        font-weight: bold;
+    }
+    .kr01-mobile-course {
+        display: inline-block;
+        color: #fff;
+        line-height: 2em;
+        font-weight: bold;
+    }
 
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
-
+    <section class="kr01 kr01-mobile-container">
+        <section class="highlighted-courses kr01-mobile">
+            <div class="kr01-mobile-top">
+                <div class="kr01-mobile-course">| 강좌찾기</div>
+                <div class="kr01-mobile-more">
+                    <a href="/mobile_index">
+                        <span>
+                            홈으로 이동하기 >>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </section>
     % if parameter_json:
         % for key, value in parameter_json.items():
             <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
