@@ -233,7 +233,7 @@ $(document).ready(function(){
                     <div class="r-list">
                         <table>
                             <tr>
-                                <td colspan="2">
+                                <td colspan="2" scope="col">
                                     % if series_status['active'] != 'pass':
                                     <button class="btn-brand btn-series" onclick="series_enroll(${series_status['active']})">${_(series_status['msg'])}</button>
                                     % else:
@@ -242,7 +242,7 @@ $(document).ready(function(){
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td scope="col">
                                     <span class="siz">대표기관</span>
                                 </td>
                                 <td>
@@ -250,7 +250,7 @@ $(document).ready(function(){
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td scope="col">
                                     <span class="siz">총 주차</span>
                                 </td>
                                 <td>
@@ -259,7 +259,7 @@ $(document).ready(function(){
                             </tr>
 
                             <tr>
-                                <td>
+                                <td scope="col">
                                     <span class="siz">총 학습인정시간</span>
                                 </td>
                                 <td>
@@ -268,7 +268,7 @@ $(document).ready(function(){
                             </tr>
 
                             <tr>
-                                <td>
+                                <td scope="col">
                                     <span class="siz">총 동영상시간</span>
                                 </td>
                                 <td>
@@ -289,7 +289,7 @@ $(document).ready(function(){
     <div class="section_2">
 
         <div class="course_intro_content" id="series_about">
-            <iframe id="about_iframe" frameborder="0" scrolling="no" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
+            <iframe title="${_('Series Course Introduction')}" id="about_iframe" frameborder="0" scrolling="no" onload="SetHeight()" width="100%" style="display: flex; vertical-align: bottom;"></iframe>
         </div>
     </div>
     % endif
@@ -309,13 +309,13 @@ $(document).ready(function(){
                     <div class="float_left section_a1">
                         % if item['status'] == 'pass':
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank">
-                        <img class="series_imges" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
+                        <img class="series_imges" alt="" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
                         </a>
                     </div>
                     <div class="float_left section_a2">
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank"><div class="series_title">${item['course_name']}</div></a>
                         % else:
-                        <img class="series_imges" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
+                        <img class="series_imges" alt="" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
                     </div>
                     <div class="float_left section_a2">
                         <div class="series_title">${item['course_name']}</div>
@@ -326,7 +326,7 @@ $(document).ready(function(){
                         <div class="r-list s_view">
                             <table>
                                 <tr>
-                                    <td>
+                                    <td scope="col">
                                         <span class="siz">분야</span>
                                     </td>
                                     <td>
@@ -336,7 +336,7 @@ $(document).ready(function(){
 
                                 % if item['course_level'] != '':
                                 <tr>
-                                    <td>
+                                    <td scope="col">
                                         <span class="siz">난이도</span>
                                     </td>
                                     <td>
@@ -346,7 +346,7 @@ $(document).ready(function(){
                                 % endif
 
                                 <tr>
-                                    <td>
+                                    <td scope="col">
                                         <span class="siz">주차</span>
                                     </td>
                                     <td>
@@ -355,7 +355,7 @@ $(document).ready(function(){
                                 </tr>
 
                                 <tr>
-                                    <td>
+                                    <td scope="col">
                                         <span class="siz">학습인정시간</span>
                                     </td>
                                     <td>
@@ -364,7 +364,7 @@ $(document).ready(function(){
                                 </tr>
 
                                 <tr>
-                                    <td>
+                                    <td scope="col">
                                         <span class="siz">개강상태</span>
                                     </td>
                                     <td>
