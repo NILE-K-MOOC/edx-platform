@@ -233,44 +233,44 @@ $(document).ready(function(){
                     <div class="r-list">
                         <table>
                             <tr>
-                                <td colspan="2" scope="col">
+                                <th colspan="2" scope="row">
                                     % if series_status['active'] != 'pass':
                                     <button class="btn-brand btn-series" onclick="series_enroll(${series_status['active']})">${_(series_status['msg'])}</button>
                                     % else:
                                     <button class="btn-brand btn-series series-disabled" disabled>${_(series_status['msg'])}</button>
                                     % endif
-                                </td>
+                                </th>
                             </tr>
                             <tr>
-                                <td scope="col">
+                                <th scope="row">
                                     <span class="siz">대표기관</span>
-                                </td>
+                                </th>
                                 <td>
                                     <span>${main_list[4]}</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td scope="col">
+                                <th scope="row">
                                     <span class="siz">총 주차</span>
-                                </td>
+                                </th>
                                 <td>
                                     <span>${week_total}</span>
                                 </td>
                             </tr>
 
                             <tr>
-                                <td scope="col">
+                                <th scope="row">
                                     <span class="siz">총 학습인정시간</span>
-                                </td>
+                                </th>
                                 <td>
                                     <span>${study_total}</span>
                                 </td>
                             </tr>
 
                             <tr>
-                                <td scope="col">
+                                <th scope="row">
                                     <span class="siz">총 동영상시간</span>
-                                </td>
+                                </th>
                                 <td>
                                     <span>${video_total}</span>
                                 </td>
@@ -326,7 +326,7 @@ $(document).ready(function(){
                         <div class="r-list s_view">
                             <table>
                                 <tr>
-                                    <td scope="col">
+                                    <th scope="row">
                                         <span class="siz">분야</span>
                                     </td>
                                     <td>
@@ -336,7 +336,7 @@ $(document).ready(function(){
 
                                 % if item['course_level'] != '':
                                 <tr>
-                                    <td scope="col">
+                                    <th scope="row">
                                         <span class="siz">난이도</span>
                                     </td>
                                     <td>
@@ -346,7 +346,7 @@ $(document).ready(function(){
                                 % endif
 
                                 <tr>
-                                    <td scope="col">
+                                    <th scope="row">
                                         <span class="siz">주차</span>
                                     </td>
                                     <td>
@@ -355,7 +355,7 @@ $(document).ready(function(){
                                 </tr>
 
                                 <tr>
-                                    <td scope="col">
+                                    <th scope="row">
                                         <span class="siz">학습인정시간</span>
                                     </td>
                                     <td>
@@ -364,7 +364,7 @@ $(document).ready(function(){
                                 </tr>
 
                                 <tr>
-                                    <td scope="col">
+                                    <th scope="row">
                                         <span class="siz">개강상태</span>
                                     </td>
                                     <td>
