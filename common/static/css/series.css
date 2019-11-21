@@ -119,8 +119,9 @@ a.pagerLink:not(.btn):hover, a.pagerLink:not(.btn):focus, a.pagerLink:visited:no
 .r-list.s_view{
     float: none;
 }
-.r-list table tr td{padding:5px; font-size: 15px;}
-.s_view table tr td{font-size: 14px;}
+.r-list table tr td, .r-list table tr th {padding:5px; font-size: 15px;}
+.r-list table tr th { text-align: unset }
+.s_view table tr td, .s_view table tr th {font-size: 14px;}
 
 .white-span{
     height: 26px;
