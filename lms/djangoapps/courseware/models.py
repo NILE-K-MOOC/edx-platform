@@ -374,7 +374,7 @@ class CourseOrg(models.Model):
     org_body = models.CharField(max_length=2000, blank=True, null=True)
 
     class Meta(object):
-        # verbose_name_plural = 'test'
+        verbose_name_plural = '3. CourseOrg'
         app_label = 'api_admin'
         db_table = "course_org_courseorg"
 
@@ -384,6 +384,7 @@ class CourseOrg(models.Model):
 
 class CourseSection(models.Model):
     class Meta(object):
+        verbose_name_plural = '1. CourseSection'
         app_label = 'api_admin'
         db_table = "course_sections_coursesesion"
 
@@ -400,6 +401,7 @@ class CourseSection(models.Model):
 
 class CourseSectionCourse(models.Model):
     class Meta(object):
+        verbose_name_plural = '2. CourseSectionCourse'
         app_label = 'api_admin'
         db_table = "course_sections_coursesesion_course"
 
