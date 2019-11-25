@@ -26427,14 +26427,44 @@ msgstr "전혀 그렇지 않다"
 msgid "strongly agree"
 msgstr "매우 그렇다"
 
-msgid "If you submit your satisfaction, you can view your certificate."
-msgstr "만족도를 제출하시면, 이수증을 확인하실 수 있습니다."
+msgid "If you submit your satisfaction, you can view your certificate"
+msgstr "만족도를 제출하시면 이수증을 확인하실 수 있습니다"
 
-msgid "Congratulations to earn a certificate! Please enter your satisfaction regarding this course."
-msgstr "이수를 축하드립니다! 보다 더 좋은 강좌제공을 위해 본 강좌에 대한 만족도를 입력해주세요."
+msgid "Congratulations to earn a certificate!"
+msgstr "이수를 축하드립니다!"
 
-msgid "Satisfaction Survey"
-msgstr "만족도 조사"
+msgid "Please enter your satisfaction regarding this course"
+msgstr "보다 더 좋은 강좌제공을 위해 본 강좌에 대한 만족도를 입력해주세요"
+
+msgid "Course Satisfaction Survey"
+msgstr "강좌 만족도 조사"
+
+msgid "Survey Submit"
+msgstr "설문 제출하기"
+
+msgid "division"
+msgstr "구 분"
+
+msgid "Purpose of Course"
+msgstr "수강 목적"
+
+msgid "lecture content"
+msgstr "강의 내용"
+
+msgid "Lecture Operation"
+msgstr "강의 운영"
+
+msgid "Course Satisfaction"
+msgstr "강좌 만족도"
+
+msgid "System use"
+msgstr "시스템 이용"
+
+msgid "Recommendation"
+msgstr "추천 의향"
+
+msgid "Other opinions"
+msgstr "기타 의견"
 
 msgid "What is your suggestion to improve this course?"
 msgstr "강좌에 대해 아쉬웠던 점이나 건의사항을 작성해주세요."
