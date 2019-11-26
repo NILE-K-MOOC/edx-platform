@@ -1,0 +1,451 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">설문조사</%block>
+<%inherit file="../main.html" />
+<%block name="header_extras"></%block>
+<link rel="stylesheet" href="/static/images/kotech_survey/bootstrap.css"/>
+<style>
+    .table{
+        border-collapse: collapse !important;
+        vertical-align: middle !important;
+    }
+    tr{
+        vertical-align: middle !important;
+        padding: 20px !important;
+    }
+    td{
+        vertical-align: middle !important;
+    }
+    .cert{
+        font-family: "Nanum Gothic" !important;
+    }
+    .sv_Q1, .sv_Q2, .sv_Q3, .sv_Q4, .sv_Q6, .sv_Q8, .sv_Q9, .sv_Q10{
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+    * {
+        font-family: "Nanum Gothic","Open Sans" !important;
+        font-style: normal !important;
+    }
+    #main {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    #sub_main {
+        border-bottom: solid 1px #e0e0e0;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+    }
+    .survey-value {
+        text-align: center;
+    }
+    .survey-flex{
+        display: flex;
+    }
+    .survey-course-title{
+        color: #5688ff;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 600px;
+        margin-right: 5px;
+    }
+    .survey-common-title{
+        font-size: 20px;
+        align-self: flex-end !important;
+    }
+    .survey-explain{
+        margin-top: -30px;
+        margin-left: 0px;
+    }
+    .survey-group{
+        margin-bottom: 180px;
+    }
+    .survey-send-box{
+        width: 100%;
+        text-align: center;
+    }
+    .survey-send-btn{
+        font-size: 20px;
+    }
+    .sv_menu1, .sv_menu2{
+        text-align: center !important;
+        vertical-align: middle !important;
+        background: #e5eaff;
+    }
+    .sv_menu1 {
+        width: 65%;
+    }
+    .survey-icon{
+        width: 20px;
+        height: 20px;
+    }
+    .arrow-size {
+        height: 22px;
+        width: 21px;
+    }
+    tr:nth-child(even) {
+        background-color: #f8faff;;
+    }
+    .swal-footer {
+        text-align: center !important;
+    }
+</style>
+
+
+<section class="container">
+
+    <input type="hidden" id="flag" value="${survey_gubun}">
+    <input type="hidden" id="data_flag" value="${data_flag}">
+    <input type="hidden" id="s_seq" value="">
+
+    <h2 title="이수자대상 만족도 조사" id="main" >
+        <div class="survey-flex">
+            <div class="survey-course-title">${ display_name }</div>
+            <div class="survey-common-title">${_("Course Satisfaction Survey")}</div>
+        </div>
+    </h2>
+
+    % if survey_gubun != '1':
+    <div class="survey-explain" id="sub_main"> &nbsp;
+        <div>${_("Congratulations to earn a certificate!")}</div>
+        <div>${_("Please enter your satisfaction regarding this course")}</div>
+        <div>${_("If you submit your satisfaction, you can view your certificate")}</div>
+    </div>
+    % endif
+
+    <div class="survey-group">
+        <table class="table" >
+            <thead>
+                <tr>
+                    <th colspan="2" class="sv_menu1">${_("division")}</th>
+                    <th colspan="10" class="sv_menu2">
+                        ${_("strongly disagree")}
+                        <img class="survey-icon" src="/static/images/kotech_survey/left-arrow.png">
+                        <img class="arrow-size" src="/static/images/kotech_survey/right-arrow.png">
+                        ${_("strongly agree")}
+                        <br>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="q1_tr">
+                    <td class="sv_Q1">${_("Purpose of Course")}</td>
+                    <td>Q1.${_("Why did you enroll in the course?")}</td>
+                    <td colspan="10" class="cert">
+                        <label><input type="radio" id="Q1_1" name="Q1" value="1.${_("Improve candidacy for a new job")}"/> ${_("Improve candidacy for a new job")} </label><br>
+                        <label><input type="radio" id="Q1_2" name="Q1" value="2.${_("Enhance skills for current job")}"/> ${_("Enhance skills for current job")} </label><br>
+                        <label><input type="radio" id="Q1_3" name="Q1" value="3.${_("Gain credit toward academic degree/flipped learning")}"/> ${_("Gain credit toward academic degree/flipped learning")} </label><br>
+                        <label><input type="radio" id="Q1_4" name="Q1" value="4.${_("going to college/find a career")}"/> ${_("going to college/find a career")} </label><br>
+                        <label><input type="radio" id="Q1_5" name="Q1" value="5.${_("personal interest/self-development")}"/> ${_("personal interest/self-development")} </label><br>
+                    </td>
+                </tr>
+                <tr class="q2_tr">
+                    <td class="sv_Q2">${_("lecture content")}</td>
+                    <td>Q2.${_("The contents and difficulty of this course are  appropriate for achieving learning objectives.")}</td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_1" name="Q2" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_2" name="Q2" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_3" name="Q2" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_4" name="Q2" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q2_5" name="Q2" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q3_tr">
+                    <td class="sv_Q3">${_("Instructor")}</td>
+                    <td>Q3.${_("The instructor has enough expert knowledge to lead this course and presented content in an organized manner.")}</td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_1" name="Q3" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_2" name="Q3" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_3" name="Q3" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_4" name="Q3" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q3_5" name="Q3" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q4_tr">
+
+                    <td rowspan="2" class="sv_Q4">${_("Lecture Operation")}</td>
+                    <td>Q4.${_("The instructor or TA responded effectively to my questions.")}</td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_1" name="Q4" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_2" name="Q4" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_3" name="Q4" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_4" name="Q4" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q4_5" name="Q4" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q5_tr">
+                    <td>Q5.${_("The course learning activities and materials contributed to learning the subject matter.")}</td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_1" name="Q5" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_2" name="Q5" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_3" name="Q5" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_4" name="Q5" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q5_5" name="Q5" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q6_tr">
+                    <td rowspan="2" class="sv_Q6">${_("Course Satisfaction")}</td>
+                    <td>Q6.${_("The course as a whole was excellent.")}</td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_1" name="Q6" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_2" name="Q6" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_3" name="Q6" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_4" name="Q6" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q6_5" name="Q6" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q7_tr">
+                    <td>Q7.${_("The course helped to Employee performance and self-development")}</td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_1" name="Q7" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_2" name="Q7" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_3" name="Q7" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_4" name="Q7" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q7_5" name="Q7" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q8_tr">
+                    <td class="sv_Q8">${_("System use")}</td>
+                    <td>Q8.${_("I found the courses easily and received a lof of information* for learning")}<br>
+                        <span style="color: #3a2aff;">${_("*Accredited learning time, Professors, Classes Period, etc.")}</span></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_1" name="Q8" value="1" /> 1 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_2" name="Q8" value="2" /> 2 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_3" name="Q8" value="3" /> 3 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_4" name="Q8" value="4" /> 4 </label></td>
+                    <td class="survey-value" colspan="2"><label><input type="radio" id="Q8_5" name="Q8" value="5" /> 5 </label></td>
+                </tr>
+                <tr class="q9_tr">
+                    <td class="sv_Q9">${_("Recommendation")}</td>
+                    <td>Q9.${_("I would recommend this course to my colleagues.")}</td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_1" name="Q9" value="1" /> 1 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_2" name="Q9" value="2" /> 2 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_3" name="Q9" value="3" /> 3 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_4" name="Q9" value="4" /> 4 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_5" name="Q9" value="5" /> 5 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_6" name="Q9" value="6" /> 6 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_7" name="Q9" value="7" /> 7 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_8" name="Q9" value="8" /> 8 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_9" name="Q9" value="9" /> 9 </label></td>
+                    <td class="survey-value"><label><input type="radio" id="Q9_10" name="Q9" value="10" /> 10 </label></td>
+                </tr>
+                <tr class="q10_tr">
+                    <td class="sv_Q10" rowspan="2">${_("Other opinions")}</td>
+                    <td colspan="11">Q10.${_("What is the advantage of this course? or What is your suggestion to improve this course?")}</td>
+                </tr>
+                <tr class="q10_tr">
+                    <td colspan="11"><textarea name="Q10" style="resize: none; width: 100%;" rows="3"></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="survey-send-box">
+            <button onclick="btn_survey_submit()"
+                    id="survey_submit"
+                    type="button"
+                    class="btn btn-outline-primary survey-send-btn"
+                    title="제출과 동시에 이수증을 웹으로 보게 될것입니다.">
+            ${_('Survey Submit')}</button>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    var course_id = '${course_id}';
+    $( document ).ready(function() {
+        console.log("Ready!");
+        var data_flag = $("#data_flag").val();
+
+        if($.inArray(data_flag, ['update', 'disable']) != -1){
+            let r_status = '1';
+            if(data_flag == 'disable'){
+                r_status = '2';
+                $('.survey-group input, .survey-group textarea').each(function(){
+                    this.disabled = true;
+                });
+                $('#survey_submit').attr('disabled', 'disabled');
+            }
+            $.ajax({
+                url: '/api_course_satisfaction_survey/',
+                type: 'GET',
+                data: {
+                    course_id: course_id,
+                    r_status: r_status
+                }
+            }).done(function(data){
+                console.log(data.result.q2);
+                $("input:radio[name='Q1']").each(function(){
+                    if(this.value == data.result.q1){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q2']").each(function(){
+                    if(this.value == data.result.q2){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q3']").each(function(){
+                    if(this.value == data.result.q3){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q4']").each(function(){
+                    if(this.value == data.result.q4){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q5']").each(function(){
+                    if(this.value == data.result.q5){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q6']").each(function(){
+                    if(this.value == data.result.q6){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q7']").each(function(){
+                    if(this.value == data.result.q7){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q8']").each(function(){
+                    if(this.value == data.result.q8){
+                        this.checked = true;
+                    }
+                });
+                $("input:radio[name='Q9']").each(function(){
+                    if(this.value == data.result.q9){
+                        this.checked = true;
+                    }
+                });
+                $('#s_seq').val(data.result.seq);
+                $('textarea[name="Q10"]').val(data.result.q10);
+            });
+        }
+    });
+
+    function btn_survey_submit(){
+        var lock = 1;
+        var flag = $('#flag').val();
+
+        if($("input:radio[name='Q1']").is(":checked") == true){
+            var Q1 = $(':radio[name="Q1"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "1번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q2']").is(":checked") == true){
+            var Q2 = $(':radio[name="Q2"]:checked').val();
+
+        }
+        else{
+            swal("입력 오류", "2번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q3']").is(":checked") == true){
+            var Q3 = $(':radio[name="Q3"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "3번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q4']").is(":checked") == true){
+            var Q4 = $(':radio[name="Q4"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "4번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q5']").is(":checked") == true){
+            var Q5 = $(':radio[name="Q5"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "5번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+
+        if($("input:radio[name='Q6']").is(":checked") == true){
+            var Q6 = $(':radio[name="Q6"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "6번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        if($("input:radio[name='Q7']").is(":checked") == true){
+            var Q7 = $(':radio[name="Q7"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "7번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        if($("input:radio[name='Q8']").is(":checked") == true){
+            var Q8 = $(':radio[name="Q8"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "8번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        if($("input:radio[name='Q9']").is(":checked") == true){
+            var Q9 = $(':radio[name="Q9"]:checked').val();
+        }
+        else{
+            swal("입력 오류", "9번 설문을 입력해주세요", "info");
+            lock = 0;
+            return false;
+        }
+        var Q10 = $('textarea[name="Q10"]').val();
+
+        if(lock != 0){
+            swal({
+                title: "완 료",
+                text: "설문을 제출하시겠습니까?",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            })
+            .then(function (value) {
+                var upsert = $("#data_flag").val();
+                if (value) {
+                    $.ajax({
+                        url: "/api_course_satisfaction_survey/",
+                        type: "POST",
+                        datatype:"json",
+                        data: {
+                            Q1: Q1,
+                            Q2: Q2,
+                            Q3: Q3,
+                            Q4: Q4,
+                            Q5: Q5,
+                            Q6: Q6,
+                            Q7: Q7,
+                            Q8: Q8,
+                            Q9: Q9,
+                            Q10: Q10,
+                            'course_id':course_id,
+                            survey_gubun: flag,
+                            upsert: upsert,
+                            s_seq: $('#s_seq').val(),
+                        },
+                    })
+                    .done(function (data) {
+                        if (data.return == 'success') {
+                            if (data.next == '1'){
+                                $(location).attr('href',"/dashboard");
+                            } else {
+                                $(location).attr('href',"/certificates/${cert_id}");
+                            }
+                        }
+                        else if(data.return == 'fail'){
+                            return;
+                        }
+
+                    })
+                } else {
+                    return
+                }
+            })
+        }
+    }
+</script>

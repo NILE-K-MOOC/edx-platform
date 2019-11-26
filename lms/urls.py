@@ -54,19 +54,20 @@ from student import views as student_views
 from student_account import views as student_account_views
 from openedx.core.djangoapps.log_action.views import LogAction
 
+
 from track import views as track_views
 from util import views as util_views
 
-# community
-# from community.views import views as community_views
-from lms.djangoapps.community import views as community
-# markany
-from lms.djangoapps.maeps import views as maeps
 
 # lms/djangoapps/courseware/courses.py
 from courseware import courses as courses
 
-from openassessment.fileupload.urls import urlpatterns as oraurlpatterns
+
+# Custom Directory APP
+from lms.djangoapps.community import views as community
+from lms.djangoapps.maeps import views as maeps                     # Markani Solution APP
+from lms.djangoapps.kotech_survey import views as kotech_survey     # Course Satisfaction Survey APP
+
 
 LogAction()
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
@@ -76,6 +77,7 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 
     if password_policy_compliance.should_enforce_compliance_on_login():
         admin.site.login_form = PasswordPolicyAwareAdminAuthForm
+
 
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),  # Main marketing page, or redirect to courseware
@@ -159,8 +161,11 @@ urlpatterns = [
     # course detail excel
     url(r'^course_detail/excel/$', student_views.course_detail_excel, name='course_detail_excel'),
 
-    # survey url
-    url(r'^cert_survey/$', community.cert_survey, name='cert_survey'),
+
+    # Course Satisfaction Survey
+    url(r'^course_satisfaction_survey/$', kotech_survey.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
+    url(r'^api_course_satisfaction_survey/$', kotech_survey.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
+
 
     # course_review
     url(r'^course_review/$', courseware_views.course_review, name='course_review'),
