@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 import logging
 
-from django.http import HttpResponseBadRequest, Http404
+from django.http import HttpResponseBadRequest, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.views.decorators.http import require_GET
+from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from opaque_keys import InvalidKeyError
@@ -20,8 +23,9 @@ from xblock.plugin import PluginMissingError
 from xblock.runtime import Mixologist
 
 from contentstore.utils import get_lms_link_for_item
-from contentstore.views.helpers import get_parent_xblock, is_unit, xblock_type_display_name
+from contentstore.views.helpers import get_parent_xblock, is_unit, xblock_type_display_name, create_xblock, usage_key_with_run
 from contentstore.views.item import create_xblock_info, add_container_page_publishing_info, StudioEditModuleRuntime
+from contentstore.views.item import _save_xblock, _get_xblock
 
 from opaque_keys.edx.keys import UsageKey
 
@@ -31,10 +35,15 @@ from django.utils.translation import ugettext as _
 from xblock_django.api import disabled_xblocks, authorable_xblocks
 from xblock_django.models import XBlockStudioConfigurationFlag
 
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from opaque_keys.edx.keys import CourseKey
+
+from models.settings.course_grading import CourseGradingModel
 
 __all__ = [
     'container_handler',
-    'component_handler'
+    'component_handler',
+    'CreateVideoModule'
 ]
 
 log = logging.getLogger(__name__)
@@ -54,6 +63,186 @@ CONTAINER_TEMPLATES = [
     "xblock-string-field-editor", "publish-xblock", "publish-history",
     "unit-outline", "container-message", "license-selector",
 ]
+
+
+@csrf_exempt
+def CreateVideoModule(request):
+
+    # 파라미터 입력
+    course_id = request.POST.get('course_id')    # course-v1:pdf+pdf+pdf
+    secret_key = request.POST.get('secret_key')  # lgcns2019!@#
+    video_url = request.POST.get('video_url')    # http://vod.kmoocs.kr/vod/2018/12/19/e8be85a1-cc00-453f-ad79-569620285f50.mp4
+
+    # 각 섹션 이름 설정
+    course_key = CourseKey.from_string(course_id)
+    ALL_DEAFULT_NAME = CourseOverview.objects.get(id=course_key).display_name
+    section_name = ALL_DEAFULT_NAME
+    sub_section_name = ALL_DEAFULT_NAME
+    vertical_name = ALL_DEAFULT_NAME
+    video_name = ALL_DEAFULT_NAME
+
+    # 파라미터 검증
+    if course_id == '' or course_id == None:
+        print('ERROR -> Parameter does not exist ... course_id')
+        return JsonResponse({'result': 404})
+    if secret_key == '' or secret_key == None:
+        print('ERROR -> Parameter does not exist ... secret_key')
+        return JsonResponse({'result': 404})
+    if video_url == '' or video_url == None:
+        print('ERROR -> Parameter does not exist ... video_url')
+        return JsonResponse({'result': 404})
+
+    # 비밀키 검증
+    if secret_key != 'lgcns2019!@#':
+        print('ERROR -> The secret key is not valid')
+        return JsonResponse({'result': 403})
+
+    # 강좌 아이디 파싱
+    if course_id.find('course-v1') == -1:
+        print('ERROR -> This is not a valid course id')
+        return JsonResponse({'result': 500})
+    else:
+        course_id = course_id.replace('course-v1:', '')
+        try:
+            course = course_id.split('+')[0]
+            run = course_id.split('+')[1]
+            number = course_id.split('+')[2]
+            print 'DEBUG -> course : ', course
+            print 'DEBUG -> run : ', run
+            print 'DEBUG -> number : ', number
+        except BaseException as err:
+            print('ERROR -> Course ID is not separated to the correct level')
+            return JsonResponse({'result': 500})
+
+        try:
+            # 대주제 생성
+            created_block = create_xblock(
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@course+block@course',
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'chapter',
+                display_name=section_name,
+                boilerplate=None
+            )
+            chapter_block_id = created_block.location.block_id
+            print 'DEBUG -> chapter_block_id : ', chapter_block_id
+
+            # 소주제 생성
+            created_block = create_xblock(
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@chapter+block@' + chapter_block_id,
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'sequential',
+                display_name=sub_section_name,
+                boilerplate=None
+            )
+            sequential_block_id = created_block.location.block_id
+            print 'DEBUG -> sequential_block_id : ', sequential_block_id
+
+            # 이수점수 조정
+            payload = {
+                u'grace_period': {
+                    u'hours': 0,
+                    u'minutes': 0
+                },
+                u'minimum_grade_credit': 0.8,
+                u'is_credit_course': False,
+                u'graders': [
+                    {u'weight': 100, u'short_label': u'EXAM', u'id': 0, u'min_count': 1, u'type': u'EXAM', u'drop_count': 0}
+                ],
+                u'grade_cutoffs': {
+                    u'Pass': 0.90
+                }
+            }
+            CourseGradingModel.update_from_json(course_key, payload, User.objects.filter(is_staff=1).first())
+
+            # 유닛 생성
+            created_block = create_xblock(
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@sequential+block@' + sequential_block_id,
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'vertical',
+                display_name=vertical_name,
+                boilerplate=None
+            )
+            vertical_block_id = created_block.location.block_id
+            print 'DEBUG -> vertical_block_id : ', vertical_block_id
+
+            # 학습모듈 생성
+            created_block = create_xblock(
+                parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@vertical+block@' + vertical_block_id,
+                user=User.objects.filter(is_staff=1).first(),
+                category=u'video',
+                display_name=video_name,
+                boilerplate=None
+            )
+            video_block_id = created_block.location.block_id
+            print 'DEBUG -> video_block_id : ', video_block_id
+
+            # 학습모듈(비디오) URL 변경
+            usage_key_string = 'block-v1:'+course+'+'+run+'+'+number+'+type@video+block@' + video_block_id
+            metadata = {
+                'html5_sources': [video_url],
+                'display_name': video_name,
+                'sub': '',
+                'youtube_id_1_0': '',
+                'has_score': True
+            }
+            usage_key = usage_key_with_run(usage_key_string)
+            _save_xblock(
+                User.objects.filter(is_staff=1).first(),
+                _get_xblock(usage_key, User.objects.filter(is_staff=1).first()),
+                data=None,
+                children_strings=None,
+                metadata=metadata,
+                nullout=None,
+                grader_type='EXAM',
+                is_prereq=None,
+                prereq_usage_key=None,
+                prereq_min_score=None,
+                publish=None,
+                fields=None,
+            )
+
+            # 대주제 퍼블리싱
+            usage_key_string = 'block-v1:' + course + '+' + run + '+' + number + '+type@chapter+block@' + chapter_block_id
+            usage_key = usage_key_with_run(usage_key_string)
+            _save_xblock(
+                User.objects.filter(is_staff=1).first(),
+                _get_xblock(usage_key, User.objects.filter(is_staff=1).first()),
+                data=None,
+                children_strings=None,
+                metadata=None,
+                nullout=None,
+                grader_type=None,
+                is_prereq=None,
+                prereq_usage_key=None,
+                prereq_min_score=None,
+                publish='make_public',
+                fields=None,
+            )
+
+            # 소주제 시험 설정
+            usage_key_string = 'block-v1:' + course + '+' + run + '+' + number + '+type@sequential+block@' + sequential_block_id
+            usage_key = usage_key_with_run(usage_key_string)
+            _save_xblock(
+                User.objects.filter(is_staff=1).first(),
+                _get_xblock(usage_key, User.objects.filter(is_staff=1).first()),
+                data=None,
+                children_strings=None,
+                metadata=None,
+                nullout=None,
+                grader_type='EXAM',
+                is_prereq=None,
+                prereq_usage_key=None,
+                prereq_min_score=None,
+                publish=None,
+                fields=None,
+            )
+
+            return JsonResponse({'result': 200})
+
+        except BaseException as err:
+            print('ERROR -> An error occurred in the module generated core')
+            print('ERROR -> err : ', err)
+            return JsonResponse({'result': 500})
 
 
 def _advanced_component_types(show_unsupported):

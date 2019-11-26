@@ -71,6 +71,9 @@ urlpatterns = patterns(
 urlpatterns += patterns(
     'contentstore.views',
 
+    # custom
+    url(r'^secret/CreateVideoModule/$', 'component.CreateVideoModule', name='CreateVideoModule'),
+
     url(r'^$', 'howitworks', name='homepage'),
     url(r'^howitworks$', 'howitworks'),
     url(r'^signup$', 'signup', name='signup'),
