@@ -778,17 +778,73 @@ import urllib2
 
 
 def series_print(request, id):
-    # 사용자 아이디 로드 및 이수증 고유번호 생성
+
+    # 1. 사용자 아이디 로드 및 이수증 고유번호 생성
     user_id = request.user.id
     cert_uuid = str(uuid.uuid4()).replace('-', '')
 
-    # DEBUG
+    # 2. 로그인 유효성 검증
+    if user_id == None:
+        return redirect('/login')
+
+    # 3. 묶음 강좌 이수증 백엔드 유효성 검증
+    # 프론트엔드에서 유효성 검증을 우회하는 경우를 방지한 코드입니다
+    # url에 묶음강좌 아이디 입력 후 들어오는 경우를 방지합니다
+    # "이수 강좌 수"와 "전체 강좌수"를 백엔드에서 다시 한번 비교합니다
+    with connections['default'].cursor() as cur:
+        # 패키지 강좌 이수 개수
+        sql1 = '''
+            select count(*) as cert_cnt
+            from (
+                select org, display_number_with_default
+                from series_course
+                where series_seq = '{series_seq}'
+            ) x
+            left join (
+                select a.org, a.display_number_with_default, b.status
+                from course_overviews_courseoverview a
+                join certificates_generatedcertificate b
+                on b.course_id = a.id
+                where b.user_id = '{user_id}'
+                and b.status = 'downloadable'
+                group by org, display_number_with_default
+            ) y
+            on x.org = y.org
+            and x.display_number_with_default = y.display_number_with_default
+            where y.org is not null;
+        '''.format(series_seq=id, user_id=user_id)
+        cur.execute(sql1)
+        try:
+            is_cert = cur.fetchall()[0][0]
+        except BaseException as err:
+            print "is_cert parsing error detail : ", err
+            return redirect('/new_dashboard')
+
+        # 패키지 강좌 전체 개수
+        sql2 = '''
+            select count(*)
+            from series_course
+            where series_seq = '{series_seq}';
+        '''.format(series_seq=id, user_id=user_id)
+        cur.execute(sql2)
+        try:
+            is_total = cur.fetchall()[0][0]
+        except BaseException as err:
+            print "is_total parsing error detail : ", err
+            return redirect('/new_dashboard')
+
+    if is_cert == is_total:
+        pass
+    else:
+        return redirect('/new_dashboard')
+
+    # 개발 디버깅 로그
     print "--------------------------------------------"
     print "user_id -> ", user_id
     print "cert_uuid -> ", cert_uuid
     print "--------------------------------------------"
 
-    # 묶음강좌 중 마지막 이수일 로드
+    # 4. 묶음강좌 중 마지막으로 이수증 발급한 날짜 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select max(z.created_date)
@@ -808,19 +864,22 @@ def series_print(request, id):
             ) z
             on y.id = z.course_id;
         '''.format(id=id, user_id=user_id)
-        print query
         cur.execute(query)
-        cert_date = cur.fetchall()[0][0]
+        try:
+            cert_date = cur.fetchall()[0][0]
+            # 이수증 발급한 날짜 포맷 변경
+            # 2019-03-20 14:11:11 -> 2019.03.20
+            cert_date = (cert_date + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
+        except BaseException as err:
+            print "cert_date parsing error detail : ", err
+            return redirect('/new_dashboard')
 
-    # 마지막 이수일 포매팅
-    cert_date = (cert_date + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
-
-    # DEBUG
+    # 개발 디버깅 로그
     print "--------------------------------------------"
     print 'cert_date -> ', cert_date
     print "--------------------------------------------"
 
-    # 묶음강좌 이수증 고유번호가 있는지 확인
+    # 5. 묶음강좌 이수증 고유번호가 있는지 확인
     with connections['default'].cursor() as cur:
         query = '''
             select count(certificated_id)
@@ -829,15 +888,14 @@ def series_print(request, id):
             and user_id = '{user_id}';
         '''.format(user_id=user_id, id=id)
         cur.execute(query)
-        check = cur.fetchall()[0][0]
+        try:
+            check = cur.fetchall()[0][0]
+        except BaseException as err:
+            print "certificated_id check error detail : ", err
+            return redirect('/new_dashboard')
 
-    # DEBUG
-    print "check -> ", check
-    print "--------------------------------------------"
-
-    # 묶음강좌 이수증 고유번호가 없다면 고유번호 업데이트
-    if check == 0:
-        with connections['default'].cursor() as cur:
+        # 묶음강좌 이수증 고유번호가 없다면 고유번호 업데이트
+        if check == 0:
             query = '''
                 update series_student
                 set pass_yn = 'Y'
@@ -846,29 +904,29 @@ def series_print(request, id):
                 where series_seq = '{id}'
                 and user_id = '{user_id}';
             '''.format(user_id=user_id, id=id, cert_uuid=cert_uuid)
-            print query
             cur.execute(query)
 
-    # 묶음강좌 이수증 고유번호가 있다면 고유번호 로드
-    else:
-        with connections['default'].cursor() as cur:
-            query = '''
-                select certificated_id, certificated_date
-                from series_student
-                where series_seq = '{id}'
-                and user_id = '{user_id}';
-            '''.format(user_id=user_id, id=id)
-            print query
-            cur.execute(query)
-            check = cur.fetchall()
-        cert_uuid = check[0][0]
+        # 묶음강좌 이수증 고유번호 불러오기
+        query = '''
+            select certificated_id, certificated_date
+            from series_student
+            where series_seq = '{id}'
+            and user_id = '{user_id}';
+        '''.format(user_id=user_id, id=id)
+        cur.execute(query)
+        cert_uuid = cur.fetchall()
+        try:
+            cert_uuid = cert_uuid[0][0]
+        except BaseException as err:
+            print "cert_uuid load error detail : ", err
+            return redirect('/new_dashboard')
 
-    # DEBUG
+    # 개발 디버깅 로그
     print "--------------------------------------------"
     print "cert_uuid -> ", cert_uuid
     print "--------------------------------------------"
 
-    # 이름 / 생년월일 / 본인인증
+    # 6. 이름, 생년월일, 본인인증여부, 본인인증데이터 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select username, b.year_of_birth, 
@@ -886,47 +944,55 @@ def series_print(request, id):
             where a.id = '{user_id}';
         '''.format(user_id=user_id)
         cur.execute(query)
-        row1 = cur.fetchall()
+        user_data = cur.fetchall()
 
-    print 'row1 -> ', row1
+    try:
+        user_name = user_data[0][0]     # 'kim hangil'
+        user_birth = user_data[0][1]    # '1990'
+        user_nice = user_data[0][2]     # 'N' or 'Y'
+    except BaseException as err:
+        print "user data parsing error detail : ", err
+        return redirect('/new_dashboard')
+
+    # 개발 디버깅 로그
     print "--------------------------------------------"
-
-    user_name = row1[0][0]
-    user_birth = row1[0][1]
-    user_nice = row1[0][2]
-
-    # DEBUG
-    print "before user_name -> ", user_name
-    print "before user_birth -> ", user_birth
+    print "user_name -> ", user_name
+    print "user_birth-> ", user_birth
     print "user_nice -> ", user_nice
     print "--------------------------------------------"
 
-    # 본인인증이 되어있다면 본인인증 데이터 로드
+    # 본인인증이 되어있다면 본인인증데이터 불러오기
     if user_nice == 'Y':
-        pd = row1[0][3]
-        pd = json.loads(pd)
+        try:
+            pd = user_data[0][3]
+            pd = json.loads(pd)
+            user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
+            pd = pd['BIRTHDATE']
+            pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+            user_birth = pd
+        except BaseException as err:
+            print "user data parsing error (2) detail : ", err
+            return redirect('/new_dashboard')
 
-        user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
-
-        pd = pd['BIRTHDATE']
-        pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
-        user_birth = pd
-
-    # DEBUG
-    print "after user_name -> ", user_name
-    print "after user_birth -> ", user_birth
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "user_name -> ", user_name
+    print "user_birth-> ", user_birth
     print "--------------------------------------------"
 
-    # 이수증 출력일시 포매팅
+    # 7. 이수증 출력일시 날짜 포맷 변경
+    # ex) 2019.11.27 16:34:38
     kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
+    # ex) 2019.11.27
     kst_short = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
 
-    # DEBUG
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "kst -> ", kst
     print "kst_short -> ", kst_short
     print "--------------------------------------------"
 
-    # 묶음강좌명 / 강좌명
+    # 8. 묶음강좌명, 강좌명 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select a.series_name, b.course_name
@@ -936,19 +1002,22 @@ def series_print(request, id):
             where a.series_seq = '{id}';
             '''.format(id=id)
         cur.execute(query)
-        row2 = cur.fetchall()
+        pack = cur.fetchall()
 
     try:
-        package_name = row2[0][0]
-        package_cousre = row2
-    except BaseException:
-        return JsonResponse({"error": "There is no course in the package course."})
+        package_name = pack[0][0]
+        package_cousre = pack
+    except BaseException as err:
+        print "pack parsing error detail : ", err
+        return redirect('/new_dashboard')
 
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "package_name -> ", package_name
     print "package_cousre -> ", package_cousre
     print "--------------------------------------------"
 
-    # 짧은소개 / 기관
+    # 9. 짧은소개, 기관 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select a.short_description, b.detail_name
@@ -959,16 +1028,22 @@ def series_print(request, id):
             and b.group_code = '003';
                 '''.format(id=id)
         cur.execute(query)
-        row3 = cur.fetchall()
+        course_info = cur.fetchall()
 
-    short_description = row3[0][0]
-    org = row3[0][1]
+    try:
+        short_description = course_info[0][0]
+        org = course_info[0][1]
+    except BaseException as err:
+        print "course_info parsing error detail : ", err
+        return redirect('/new_dashboard')
 
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "short_description -> ", short_description
     print "org -> ", org
     print "--------------------------------------------"
 
-    # 교수자 사인 (기관)
+    # 10. 교수자 사인 (기관)
     with connections['default'].cursor() as cur:
         query = '''
             select save_path
@@ -979,7 +1054,6 @@ def series_print(request, id):
         print query
         cur.execute(query)
         admin_sign = cur.fetchall()
-
     admin_sign_list = []
     for n in range(0, 8):
         try:
@@ -987,9 +1061,12 @@ def series_print(request, id):
         except BaseException:
             pass
 
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "admin_sign_list -> ", admin_sign_list
+    print "--------------------------------------------"
 
-    # 사인 (대표기관)
+    # 11. 사인 (대표기관)
     with connections['default'].cursor() as cur:
         query = '''
             select org
@@ -998,11 +1075,14 @@ def series_print(request, id):
         '''.format(id=id)
         cur.execute(query)
         row4 = cur.fetchall()
+        main_sign = row4[0][0]
 
-    main_sign = row4[0][0]
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "main_sign -> ", main_sign
+    print "--------------------------------------------"
 
-    # 사인 (기관)
+    # 12. 사인 (기관)
     with connections['default'].cursor() as cur:
         query = '''
             select distinct(org)
@@ -1011,9 +1091,12 @@ def series_print(request, id):
         '''.format(id=id)
         cur.execute(query)
         row5 = cur.fetchall()
-
     sub_sign = row5
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "sub_sign -> ", sub_sign
+    print "--------------------------------------------"
 
     sign_list = []
     sign_list.append(main_sign)
@@ -1023,7 +1106,10 @@ def series_print(request, id):
         except BaseException:
             pass
 
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "sign_list -> ", sign_list
+    print "--------------------------------------------"
 
     sign_path_list = []
     with connections['default'].cursor() as cur:
@@ -1040,12 +1126,14 @@ def series_print(request, id):
                 sign_path = sign_path[0][0]
             except BaseException:
                 sign_path = ''
-
             sign_path_list.append(sign_path)
 
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "sign_path_list -> ", sign_path_list
+    print "--------------------------------------------"
 
-    # 강좌 리스
+    # 강좌 리스트
     with connections['default'].cursor() as cur:
         query = '''
             select y.display_name, y.start, y.end, z.created_date, effort
@@ -1081,11 +1169,9 @@ def series_print(request, id):
         tmp['display_name'] = r4[0]
         tmp['start'] = (r4[1] + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
         tmp['end'] = (r4[2] + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
-
         ccc = r4[3] + datetime.timedelta(hours=+9)
         ccc = ccc.strftime('%Y.%m.%d %H:%M:%S')
         tmp['cert'] = ccc
-
         effort = r4[4]
         effort = effort.split('@')
         e1 = effort[0]
@@ -1094,50 +1180,27 @@ def series_print(request, id):
         effort = effort[1].split('$')
         e3 = effort[0]
         e4 = effort[1]
-
         e2_total += int(e2)
-        print('e2 -> ', e2)
-        print('e3 -> ', e3)
-        print('e4 -> ', e4)
-
         e3s = e3.split(':')
         e3_tmp_front += int(e3s[0])
         e3_tmp_back += int(e3s[1])
-
         e4s = e4.split(':')
         e4_tmp_front += int(e4s[0])
         e4_tmp_back += int(e4s[1])
-
         tmp['e1'] = e1
         tmp['e2'] = int(e2)
-
         e333 = e3.split(':')
         e3 = str(e333[0]) + '시간 ' + str(e333[1]) + '분'
-
         e444 = e4.split(':')
         e4 = str(e444[0]) + '시간 ' + str(e444[1]) + '분'
         tmp['e3'] = e3
         tmp['e4'] = e4
         ppp_list.append(tmp)
-
-    print "e3_tmp_front -> ", e3_tmp_front
-    print "e3_tmp_back -> ", e3_tmp_back
-    print "e3_tmp_back/60 -> ", e3_tmp_back / 60
-    print "e3_tmp_back%60 -> ", e3_tmp_back % 60
-
     e3_front = e3_tmp_front + e3_tmp_back / 60
     e3_back = e3_tmp_back % 60
-
     e3_total = str(e3_front) + '시간 ' + str(e3_back) + '분'
-
-    print "e4_tmp_front -> ", e4_tmp_front
-    print "e4_tmp_back -> ", e4_tmp_back
-    print "e4_tmp_back/60 -> ", e4_tmp_back / 60
-    print "e4_tmp_back%60 -> ", e4_tmp_back % 60
-
     e4_front = e4_tmp_front + e4_tmp_back / 60
     e4_back = e4_tmp_back % 60
-
     e4_total = str(e4_front) + '시간 ' + str(e4_back) + '분'
 
     with connections['default'].cursor() as cur:
@@ -1151,9 +1214,10 @@ def series_print(request, id):
         cur.execute(query)
         org_list = cur.fetchall()
 
-    print "----------------------------"
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
     print "org_list -> ", org_list
-    print "----------------------------"
+    print "--------------------------------------------"
 
     context = {}
     context['user_name'] = user_name
@@ -1173,7 +1237,6 @@ def series_print(request, id):
     context['sign_path_list'] = sign_path_list
     context['admin_sign_list'] = admin_sign_list
     context['org_list'] = org_list
-
     return render_to_response('community/series_print.html', context)
 
 

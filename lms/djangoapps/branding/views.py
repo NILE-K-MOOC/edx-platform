@@ -670,14 +670,14 @@ def new_dashboard(request):
             select y.series_seq, y.series_id, y.series_name, y.save_path, y.detail_name
             from series_student x
             join (
-            select a.series_seq, a.series_id, a.series_name, b.save_path, b.ext, c.detail_name
-            from series a
-            left join tb_attach b
-            on a.sumnail_file_id = id
-            join code_detail c
-            on a.org = c.detail_code
-            where c.group_code = '003'
-            and a.use_yn = 'Y'
+                select a.series_seq, a.series_id, a.series_name, b.save_path, b.ext, c.detail_name
+                from series a
+                left join tb_attach b
+                on a.sumnail_file_id = id
+                join code_detail c
+                on a.org = c.detail_code
+                where c.group_code = '003'
+                and a.use_yn = 'Y'
             ) y
             on x.series_seq = y.series_seq
             where x.user_id = '{user_id}'
@@ -688,122 +688,134 @@ def new_dashboard(request):
         cur.execute(sql)
         temps = cur.fetchall()
 
+    # 각 패키지 강좌에 대해 필요 정보 추출
+    # 1. 패키지 강좌 이수 개수
+    # 2. 패키지 강좌 진행 개수
+    # 3. 패키지 강좌 총 개수
+    # 4. 패키지 강좌 잔여 개수
     packages = []
     for temp in temps:
         tmp_dict = {}
         tmp_dict['series_seq'] = temp[0]
         tmp_dict['series_id'] = temp[1]
         tmp_dict['series_name'] = temp[2]
-
         save_path = temp[3]
+
+        # 운영 서버 파일 서브 경로 변경
         try:
             save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
         except AttributeError:
             save_path = None
-        tmp_dict['save_path'] = save_path
 
+        tmp_dict['save_path'] = save_path
         tmp_dict['save_path'] = save_path
         tmp_dict['detail_name'] = temp[4]
 
         with connections['default'].cursor() as cur:
             # 패키지 강좌 이수 개수
             sql1 = '''
-                select sum(result)
+                select count(*) as cert_cnt
                 from (
-                select x.org, x.display_number_with_default, case when y.status is not null then sum(1) when y.status is null then sum(0) end as result
-                from (
-                select org, display_number_with_default
-                from series_course
-                where series_seq = '{series_seq}'
+                    select org, display_number_with_default
+                    from series_course
+                    where series_seq = '{series_seq}'
                 ) x
                 left join (
-                select a.org, a.display_number_with_default, b.status
-                from course_overviews_courseoverview a
-                join certificates_generatedcertificate b
-                on b.course_id = a.id
-                where b.user_id = '{user_id}'
-                and b.status = 'downloadable'
+                    select a.org, a.display_number_with_default, b.status
+                    from course_overviews_courseoverview a
+                    join certificates_generatedcertificate b
+                    on b.course_id = a.id
+                    where b.user_id = '{user_id}'
+                    and b.status = 'downloadable'
+                    group by org, display_number_with_default
                 ) y
                 on x.org = y.org
                 and x.display_number_with_default = y.display_number_with_default
-                group by x.org, x.display_number_with_default
-                ) xxx
-            '''.format(series_seq=temp[0],
-                       user_id=user_id)
+                where y.org is not null;
+            '''.format(series_seq=temp[0], user_id=user_id)
 
             print sql1
             cur.execute(sql1)
-            is_cert = cur.fetchall()[0][0]
+            try:
+                is_cert = cur.fetchall()[0][0]
+            except BaseException as err:
+                print "is_cert parsing error detail : ", err
+                is_cert = 0
 
-            # 패키지 강좌 진행 개수
+                # 패키지 강좌 진행 개수
             sql2 = '''
                 select sum(result)
                 from (
-                select t1.org, t1.display_number_with_default, case when t2.id is not null then sum(1) when t2.id is null then sum(0) end as result
-                from (
-                  select org, display_number_with_default
-                  from series_course
-                  where series_seq = '{series_seq}'
-                ) t1
-                left join (
-                  select *
-                  from (
-                      select id, org, display_number_with_default
-                      from course_overviews_courseoverview
-                      where start < now()
-                      and end > now()
-                  ) x
-                  join (
-                      select course_id
-                      from student_courseenrollment
-                      where user_id = '{user_id}'
-                      and mode = 'honor'
-                  ) y
-                  on x.id = y.course_id
+                    select t1.org, t1.display_number_with_default, case when t2.id is not null then sum(1) when t2.id is null then sum(0) end as result
+                    from (
+                          select org, display_number_with_default
+                          from series_course
+                          where series_seq = '{series_seq}'
+                    ) t1
+                    left join (
+                      select *
+                      from (
+                          select id, org, display_number_with_default
+                          from course_overviews_courseoverview
+                          where start < now()
+                          and end > now()
+                      ) x
+                      join (
+                          select course_id
+                          from student_courseenrollment
+                          where user_id = '{user_id}'
+                          and mode = 'honor'
+                      ) y
+                      on x.id = y.course_id
                 )t2
                 on t1.org = t2.org
                 and t1.display_number_with_default = t2.display_number_with_default
                 group by t1.org, t1.display_number_with_default
                 ) xxx;
-                    '''.format(series_seq=temp[0],
-                               user_id=user_id)
+                    '''.format(series_seq=temp[0], user_id=user_id)
 
             print sql2
             cur.execute(sql2)
-            is_ing = cur.fetchall()[0][0]
+            try:
+                is_ing = cur.fetchall()[0][0]
+            except BaseException as err:
+                print "is_ing parsing error detail : ", err
+                is_ing = 0
 
             # 패키지 강좌 총 개수
             sql3 = '''
                 select count(*)
                 from series_course
                 where series_seq = '{series_seq}';
-            '''.format(series_seq=temp[0],
-                       user_id=user_id)
+            '''.format(series_seq=temp[0], user_id=user_id)
 
             print sql3
             cur.execute(sql3)
-            is_total = cur.fetchall()[0][0]
+            try:
+                is_total = cur.fetchall()[0][0]
+            except BaseException as err:
+                print "is_total parsing error detail : ", err
+                is_total = 0
 
         if is_cert == None:
             is_cert = 0
-
         if is_ing == None:
             is_ing = 0
+        if is_total == None:
+            is_total = 0
 
+        # 개발 디버깅 로그
+        print "--------------------------------------------"
         print "is_cert -> ", is_cert
         print "is_ing -> ", is_ing
         print "is_total -> ", is_total
+        print "--------------------------------------------"
 
-        print "type is_cert -> ", type(is_cert)
-        print "type is_ing -> ", type(is_ing)
-        print "type is_total -> ", type(is_total)
-
-        tmp_dict['is_cert'] = is_cert
-        tmp_dict['is_ing'] = is_ing
-        tmp_dict['is_noing'] = is_total - (is_ing + is_cert)
+        tmp_dict['is_total'] = is_total             # 패키지 강좌 전체 수
+        tmp_dict['is_cert'] = is_cert               # 패키지 강좌 이수강좌 수
+        tmp_dict['is_ing'] = is_ing                 # 패키지 강좌 진행강좌 수
+        tmp_dict['is_noing'] = is_total - is_cert   # 피키지 강좌 잔여강좌 수
         packages.append(tmp_dict)
-
-    print packages
 
     context = {}
     context['packages'] = packages
