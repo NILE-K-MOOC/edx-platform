@@ -39,10 +39,12 @@ from xblock_django.models import XBlockStudioConfigurationFlag
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from opaque_keys.edx.keys import CourseKey
 
+from models.settings.course_grading import CourseGradingModel
+
 __all__ = [
     'container_handler',
     'component_handler',
-    'CreateVideoModule',
+    'CreateVideoModule'
 ]
 
 log = logging.getLogger(__name__)
@@ -136,6 +138,23 @@ def CreateVideoModule(request):
             sequential_block_id = created_block.location.block_id
             print 'DEBUG -> sequential_block_id : ', sequential_block_id
 
+            # 이수점수 조정
+            payload = {
+                u'grace_period': {
+                    u'hours': 0,
+                    u'minutes': 0
+                },
+                u'minimum_grade_credit': 0.8,
+                u'is_credit_course': False,
+                u'graders': [
+                    {u'weight': 100, u'short_label': u'EXAM', u'id': 0, u'min_count': 1, u'type': u'EXAM', u'drop_count': 0}
+                ],
+                u'grade_cutoffs': {
+                    u'Pass': 0.90
+                }
+            }
+            CourseGradingModel.update_from_json(course_key, payload, User.objects.filter(is_staff=1).first())
+
             # 유닛 생성
             created_block = create_xblock(
                 parent_locator='block-v1:'+course+'+'+run+'+'+number+'+type@sequential+block@' + sequential_block_id,
@@ -164,7 +183,8 @@ def CreateVideoModule(request):
                 'html5_sources': [video_url],
                 'display_name': video_name,
                 'sub': '',
-                'youtube_id_1_0': ''
+                'youtube_id_1_0': '',
+                'has_score': True
             }
             usage_key = usage_key_with_run(usage_key_string)
             _save_xblock(
@@ -174,7 +194,7 @@ def CreateVideoModule(request):
                 children_strings=None,
                 metadata=metadata,
                 nullout=None,
-                grader_type=None,
+                grader_type='EXAM',
                 is_prereq=None,
                 prereq_usage_key=None,
                 prereq_min_score=None,
@@ -199,6 +219,25 @@ def CreateVideoModule(request):
                 publish='make_public',
                 fields=None,
             )
+
+            # 소주제 시험 설정
+            usage_key_string = 'block-v1:' + course + '+' + run + '+' + number + '+type@sequential+block@' + sequential_block_id
+            usage_key = usage_key_with_run(usage_key_string)
+            _save_xblock(
+                User.objects.filter(is_staff=1).first(),
+                _get_xblock(usage_key, User.objects.filter(is_staff=1).first()),
+                data=None,
+                children_strings=None,
+                metadata=None,
+                nullout=None,
+                grader_type='EXAM',
+                is_prereq=None,
+                prereq_usage_key=None,
+                prereq_min_score=None,
+                publish=None,
+                fields=None,
+            )
+
             return JsonResponse({'result': 200})
 
         except BaseException as err:
@@ -210,10 +249,8 @@ def CreateVideoModule(request):
 def _advanced_component_types(show_unsupported):
     """
     Return advanced component types which can be created.
-
     Args:
         show_unsupported: if True, unsupported XBlocks may be included in the return value
-
     Returns:
         A dict of authorable XBlock types and their support levels (see XBlockStudioConfiguration). For example:
         {
@@ -252,7 +289,6 @@ def _load_mixed_class(category):
 def container_handler(request, usage_key_string):
     """
     The restful handler for container xblock requests.
-
     GET
         html: returns the HTML page for editing a container
         json: not currently supported
@@ -333,7 +369,6 @@ def get_component_templates(courselike, library=False):
     def create_template_dict(name, category, support_level, boilerplate_name=None, tab="common", hinted=False):
         """
         Creates a component template dict.
-
         Parameters
             display_name: the user-visible name of the component
             category: the type of component (problem, html, etc.)
@@ -341,7 +376,6 @@ def get_component_templates(courselike, library=False):
             boilerplate_name: name of boilerplate for filling in default values. May be None.
             hinted: True if hinted problem else False
             tab: common(default)/advanced, which tab it goes in
-
         """
         return {
             "display_name": name,
@@ -355,12 +389,10 @@ def get_component_templates(courselike, library=False):
     def component_support_level(editable_types, name, template=None):
         """
         Returns the support level for the given xblock name/template combination.
-
         Args:
             editable_types: a QuerySet of xblocks with their support levels
             name: the name of the xblock
             template: optional template for the xblock
-
         Returns:
             If XBlockStudioConfigurationFlag is enabled, returns the support level
             (see XBlockStudioConfiguration) or False if this xblock name/template combination
@@ -561,7 +593,6 @@ def _get_item_in_course(request, usage_key):
     """
     Helper method for getting the old location, containing course,
     item, lms_link, and preview_lms_link for a given locator.
-
     Verifies that the caller has permission to access this item.
     """
     # usage_key's course_key may have an empty run property
@@ -584,12 +615,10 @@ def _get_item_in_course(request, usage_key):
 def component_handler(request, usage_key_string, handler, suffix=''):
     """
     Dispatch an AJAX action to an xblock
-
     Args:
         usage_id: The usage-id of the block to dispatch to
         handler (str): The handler to execute
         suffix (str): The remainder of the url to be passed to the handler
-
     Returns:
         :class:`django.http.HttpResponse`: The response from the handler, converted to a
             django response
