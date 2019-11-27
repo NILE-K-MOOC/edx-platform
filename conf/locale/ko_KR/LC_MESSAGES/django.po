@@ -27870,3 +27870,6 @@ msgstr "미리보기를 사용할 수 없음"
 
 msgid "Academic Credit Bank System"
 msgstr "학점은행과정"
+
+msgid "Clipboard-copy"
+msgstr "클립보드에 복사"
