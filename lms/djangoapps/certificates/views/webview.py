@@ -429,7 +429,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['end_date'] = end_date
 
     static_url = "http://" + settings.ENV_TOKENS.get('LMS_BASE')
-    static_url = 'http://kmooc.kr'
+    # static_url = 'http://kmooc.kr'
     print "static_url -> ", static_url
 
     context['static_url'] = static_url
