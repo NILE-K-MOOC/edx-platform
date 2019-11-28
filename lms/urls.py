@@ -59,6 +59,7 @@ from courseware import courses as courses
 from lms.djangoapps.community import views as community
 from lms.djangoapps.maeps import views as maeps                     # Markani Solution APP
 from lms.djangoapps.kotech_survey import views as kotech_survey     # Course Satisfaction Survey APP
+from lms.djangoapps.kotech_series import views as kotech_series     # Series Course APP
 
 
 
@@ -83,15 +84,21 @@ urlpatterns = [
     url(r'^api/get_org_value$', branding_views.get_org_value, name='get_org_value'),
 
 
+    # Course Satisfaction Survey
+    # made by kotech system
+    url(r'^course_satisfaction_survey/$', kotech_survey.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
+    url(r'^api_course_satisfaction_survey/$', kotech_survey.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
+
+
     # Series
     # made by kotech system
-    url(r'^new_dashboard$', branding_views.new_dashboard, name='new_dashboard'),
-    url(r'^api/series_cancel$', branding_views.series_cancel, name='series_cancel'),
-    url(r'^series/$', community.series, name='series'),
-    url(r'^series_view/(?P<id>.*?)/about/$', community.series_about, name='series_about'),
-    url(r'^series_view/(?P<id>.*?)/enroll$', community.series_enroll, name='series_enroll'),
-    url(r'^series_view/(?P<id>.*?)/$', community.series_view, name='series_view'),
-    url(r'^series_print/(?P<id>.*?)/$', community.series_print, name='series_print'),
+    url(r'^new_dashboard$', kotech_series.new_dashboard, name='new_dashboard'),
+    url(r'^series_print/(?P<id>.*?)/$', kotech_series.series_print, name='series_print'),
+    url(r'^series/$', kotech_series.series, name='series'),
+    url(r'^series_view/(?P<id>.*?)/about/$', kotech_series.series_about, name='series_about'),
+    url(r'^series_view/(?P<id>.*?)/enroll$', kotech_series.series_enroll, name='series_enroll'),
+    url(r'^series_view/(?P<id>.*?)/$', kotech_series.series_view, name='series_view'),
+    url(r'^api/series_cancel$', kotech_series.series_cancel, name='series_cancel'),
     url(r'series_print$', maeps.series_print, name='series_print'),
 
 
@@ -181,12 +188,6 @@ urlpatterns = [
     # made by kotech system
     url(r'^course_detail/view/$', student_views.course_detail_view, name='course_detail_view'),
     url(r'^course_detail/excel/$', student_views.course_detail_excel, name='course_detail_excel'),
-
-
-    # Course Satisfaction Survey
-    # made by kotech system
-    url(r'^course_satisfaction_survey/$', kotech_survey.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
-    url(r'^api_course_satisfaction_survey/$', kotech_survey.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
 
 
     # Course Review
