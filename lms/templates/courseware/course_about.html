@@ -286,7 +286,14 @@ table caption{display: none}
   top: 0;
   visibility: visible;
   position:relative;
-  transition: visibility 1s, opacity 1s
+  transition: visibility 1s, opacity 1s;
+
+  /*20191128 수정*/
+  width: 100%;
+  padding: 10px;
+  margin-top:20px;
+  line-height: inherit;
+  height: 100%;
 
 }
 
@@ -301,15 +308,19 @@ table caption{display: none}
 
 
 .syllabus_table {
-margin-top:20px;
-background:#fff;
-position: absolute;
-visibility: hidden;
-left: 0;
-width: 100%;
-padding: 10px;
-overflow: hidden;
-box-sizing: border-box;
+  background:#fff;
+  position: absolute;
+  visibility: hidden;
+  left: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  display:block;
+  height: 0;
+  width: 0;
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
 }
 .syllabus_table h1 {
   color:#FFF;
