@@ -779,6 +779,16 @@ import urllib2
 
 def series_print(request, id):
 
+    # url 직접 입력 후 접근 시 발생하는 버그 수정
+    # 정상 "7"
+    # 비정상 "7/images/bg.png"
+    id = id.replace("/images/bg.png", "")
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "id -> ", id
+    print "--------------------------------------------"
+
     # 1. 사용자 아이디 로드 및 이수증 고유번호 생성
     user_id = request.user.id
     cert_uuid = str(uuid.uuid4()).replace('-', '')
@@ -1043,7 +1053,7 @@ def series_print(request, id):
     print "org -> ", org
     print "--------------------------------------------"
 
-    # 10. 교수자 사인 (기관)
+    # 10. 교수자 사인 경로 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select save_path
@@ -1054,19 +1064,24 @@ def series_print(request, id):
         print query
         cur.execute(query)
         admin_sign = cur.fetchall()
+
+    # 교수자 사인을 8개 이상 등록하더라도 8개만 가져옴
     admin_sign_list = []
     for n in range(0, 8):
         try:
-            admin_sign_list.append(admin_sign[n][0])
-        except BaseException:
-            pass
+            pro_sign_path = admin_sign[n][0]
+            # pro_sign_path = pro_sign_path.replace("file_upload", "dev") # 개발용 - 경로 스니핑
+            admin_sign_list.append(pro_sign_path)
+        except BaseException as err:
+            print "admin_sign err : ", err
 
     # 개발 디버깅 로그
     print "--------------------------------------------"
-    print "admin_sign_list -> ", admin_sign_list
+    for admin_sign in admin_sign_list:
+        print "admin_sign -> ", admin_sign
     print "--------------------------------------------"
 
-    # 11. 사인 (대표기관)
+    # 11. 사인경로 획득을 위한 "대표기관" 코드 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select org
@@ -1074,15 +1089,19 @@ def series_print(request, id):
             where series_seq = '{id}';
         '''.format(id=id)
         cur.execute(query)
-        row4 = cur.fetchall()
-        main_sign = row4[0][0]
+        try:
+            main_sign = cur.fetchall()[0][0]
+        except BaseException as err:
+            print "main_sign err : ", err
+            main_sign = ''
+
 
     # 개발 디버깅 로그
     print "--------------------------------------------"
     print "main_sign -> ", main_sign
     print "--------------------------------------------"
 
-    # 12. 사인 (기관)
+    # 12. 사인경로 획득을 위한 "참여기관" 코드 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select distinct(org)
@@ -1090,68 +1109,77 @@ def series_print(request, id):
             where series_seq = '{id}';
         '''.format(id=id)
         cur.execute(query)
-        row5 = cur.fetchall()
-    sub_sign = row5
+        sub_sign = cur.fetchall()
 
     # 개발 디버깅 로그
     print "--------------------------------------------"
     print "sub_sign -> ", sub_sign
     print "--------------------------------------------"
 
+    # 13. "대표기관", "참여기관" 사인 통합
     sign_list = []
     sign_list.append(main_sign)
     for n in range(0, 3):
         try:
             sign_list.append(sub_sign[n][0])
-        except BaseException:
-            pass
+        except BaseException as err:
+            print "sign_list err : ", err
 
     # 개발 디버깅 로그
     print "--------------------------------------------"
     print "sign_list -> ", sign_list
     print "--------------------------------------------"
 
-    sign_path_list = []
+    # 14. 기관 이미지 경로 불러오기
+    org_img_path_list = []
     with connections['default'].cursor() as cur:
         for sign in sign_list:
             query = '''
               select save_path
               from tb_attach
-              where group_name = 'top_img'
+              where group_name = '/top_img'
               and group_id = '{sign}';
             '''.format(sign=sign)
             cur.execute(query)
-            sign_path = cur.fetchall()
+            org_img_path = cur.fetchall()
             try:
-                sign_path = sign_path[0][0]
-            except BaseException:
-                sign_path = ''
-            sign_path_list.append(sign_path)
+                org_img_path = org_img_path[0][0]
+                # org_img_path = org_img_path.replace("upload", "dev") # 개발용 - 경로 스니핑
+                org_img_path_list.append(org_img_path)
+            except BaseException as err:
+                print "org_img_path err : ", err
+                org_img_path = ''
 
     # 개발 디버깅 로그
     print "--------------------------------------------"
-    print "sign_path_list -> ", sign_path_list
+    for org_img_path in org_img_path_list:
+        print "org_img_path -> ", org_img_path
     print "--------------------------------------------"
 
-    # 강좌 리스트
+    # 15. 강좌 리스트 (분석 필요...하드코딩 쉣!)
     with connections['default'].cursor() as cur:
         query = '''
-            select y.display_name, y.start, y.end, z.created_date, effort
+            select display_name, start, end, created_date, effort, org, display_number_with_default
             from (
-                select org, display_number_with_default
-                from series_course
-                where series_seq = '{id}'
-            ) x
-            join course_overviews_courseoverview y
-            on x.org = y.org
-            and x.display_number_with_default = y.display_number_with_default
-            join (
-                select course_id, created_date, 'Y' as cert
-                from certificates_generatedcertificate
-                where user_id = '{user_id}'
-                and status = 'downloadable'
-            ) z
-            on y.id = z.course_id;
+                select y.org, y.display_number_with_default, y.display_name, y.start, y.end, z.created_date, effort
+                from (
+                    select org, display_number_with_default
+                    from series_course
+                    where series_seq = '{id}'
+                ) x
+                join course_overviews_courseoverview y
+                on x.org = y.org
+                and x.display_number_with_default = y.display_number_with_default
+                join (
+                    select course_id, created_date, 'Y' as cert
+                    from certificates_generatedcertificate
+                    where user_id = '{user_id}'
+                    and status = 'downloadable'
+                    order by created_date desc
+                ) z
+                on y.id = z.course_id
+            ) w 
+            group by org, display_number_with_default;
         '''.format(id=id, user_id=user_id)
         cur.execute(query)
         row4 = cur.fetchall()
@@ -1203,6 +1231,7 @@ def series_print(request, id):
     e4_back = e4_tmp_back % 60
     e4_total = str(e4_front) + '시간 ' + str(e4_back) + '분'
 
+    # 16. 기관 연계 리스트
     with connections['default'].cursor() as cur:
         query = '''
             select site_name
@@ -1234,7 +1263,7 @@ def series_print(request, id):
     context['e4_total'] = e4_total
     context['cert_uuid'] = cert_uuid
     context['cert_date'] = cert_date
-    context['sign_path_list'] = sign_path_list
+    context['org_img_path_list'] = org_img_path_list
     context['admin_sign_list'] = admin_sign_list
     context['org_list'] = org_list
     return render_to_response('community/series_print.html', context)
