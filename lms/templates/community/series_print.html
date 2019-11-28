@@ -54,6 +54,7 @@
             시리즈 교육 확인증 인쇄하기
           </button>
 
+        <span style="color: #ffffff">기관선택 : </span>
         <select size="1" onchange="changeEventHandler(event);">
           <option>선택 없음</option>
           % for org in org_list:
@@ -213,7 +214,7 @@
         <div class="ce-bg"></div>
 
         <div class="ribbon">
-          <img src="http://172.17.101.228:18000/static/images/cert/ribbon.png"/>
+          <img src="/static/images/cert/ribbon.png"/>
         </div>
 
         <div class="content">
@@ -228,7 +229,7 @@
             <span>${user_name}</span>
             <span>(${user_birth})</span>
             % if user_nice == 'Y':
-            (<i class="ce-v"><img src="http://172.17.101.228:18000/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
+            (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
             % endif
           </h4>
 
@@ -271,10 +272,7 @@
               % endif
             </div>
           </div>
-          -->
 
-          <!-- 로고 -->
-          <!--
           <div class="sign-area">
             <div class="ce-logo-area">
               % for sign in sign_path_list:

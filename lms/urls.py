@@ -1,7 +1,3 @@
-"""
-URLs for LMS
-"""
-
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
@@ -9,13 +5,11 @@ from django.contrib.admin import autodiscover as django_autodiscover
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import RedirectView
 from rest_framework_swagger.views import get_swagger_view
-
 from branding import views as branding_views
 from config_models.views import ConfigurationModelCurrentAPIView
 from courseware.masquerade import handle_ajax as courseware_masquerade_handle_ajax
 from courseware.module_render import handle_xblock_callback, handle_xblock_callback_noauth, xblock_view, xqueue_callback
 from courseware.views import views as courseware_views
-
 from courseware.views.index import CoursewareIndex
 from courseware.views.views import CourseTabView, EnrollStaffView, StaticCourseTabView
 from debug import views as debug_views
@@ -53,20 +47,20 @@ from staticbook import views as staticbook_views
 from student import views as student_views
 from student_account import views as student_account_views
 from openedx.core.djangoapps.log_action.views import LogAction
-
-
 from track import views as track_views
 from util import views as util_views
-
-
-# lms/djangoapps/courseware/courses.py
 from courseware import courses as courses
 
 
+
+
 # Custom Directory APP
+# made by kotech system
 from lms.djangoapps.community import views as community
 from lms.djangoapps.maeps import views as maeps                     # Markani Solution APP
 from lms.djangoapps.kotech_survey import views as kotech_survey     # Course Satisfaction Survey APP
+
+
 
 
 LogAction()
@@ -74,62 +68,25 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     django_autodiscover()
     admin.site.site_header = _('LMS Administration')
     admin.site.site_title = admin.site.site_header
-
     if password_policy_compliance.should_enforce_compliance_on_login():
         admin.site.login_form = PasswordPolicyAwareAdminAuthForm
 
 
 urlpatterns = [
-    url(r'^$', branding_views.index, name='root'),  # Main marketing page, or redirect to courseware
+    url(r'^$', branding_views.index, name='root'),
 
-    url(r'^new_dashboard$', branding_views.new_dashboard, name='new_dashboard'),
-    url(r'^api/series_cancel$', branding_views.series_cancel, name='series_cancel'),
+
+
+
+    # Common
+    # made by kotech system
     url(r'^api/get_org_value$', branding_views.get_org_value, name='get_org_value'),
 
-    url(r'^api/get_org_list$', branding_views.get_org_list, name='get_org_list'),
-    url(r'^api/get_multisite_list$', branding_views.get_multisite_list, name='get_multisite_list'),
-    url(r'^api/delete_multisite_account$', branding_views.delete_multisite_account, name='delete_multisite_account'),
 
-    url(r'^api/all_courses$', branding_views.course_api, name="course_api"),
-
-    # ---------- nice check start---------- #
-    url(r'^nicecheckplus$', student_account_views.nicecheckplus, name="nicecheckplus"),  # success url
-    url(r'^nicecheckplus_error$', student_account_views.nicecheckplus_error, name="nicecheckplus_error"),  # fail url
-    # ---------- nice check end ---------- #
-
-    # ---------- account_org_check ---------- #
-    url(r'^org_check', student_account_views.org_check, name="org_check"),
-    # ---------- account_org_check ---------- #
-
-    # ---------- remove account start ---------- #
-    url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
-    url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
-    # ---------- remove account end ---------- #
-
-    # ---------- multi site ---------- #
-    url(r'^org/(?P<org>.*?)$', branding_views.multisite_index, name="multisite_index"),
-    # url(r'^multisite_delete_api$', branding_views.multisite_delete_api, name="multisite_delete_api"),
-    url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
-
-    # memo
-    url(r'^memo$', community.memo, name='memo'),
-    url(r'^memo_view/(?P<memo_id>.*?)/$', community.memo_view, name='memo_view'),
-    url(r'^memo_sync$', community.memo_sync, name='memo'),
-
-    # schools
-    url(r'^schools/?$', courseware_views.schools, name="schools"),
-    url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
-    url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
-
-    url(r'^agree$', student_account_views.agree, name="agree"),
-    url(r'^agree_done$', student_account_views.agree_done, name="agree_done"),
-    url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
-    url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
-
-    # xinics login check
-    url(r'^api/cb/login_check', community.cb_login_check, name="cb_login_check"),
-
-    # series course
+    # Series
+    # made by kotech system
+    url(r'^new_dashboard$', branding_views.new_dashboard, name='new_dashboard'),
+    url(r'^api/series_cancel$', branding_views.series_cancel, name='series_cancel'),
     url(r'^series/$', community.series, name='series'),
     url(r'^series_view/(?P<id>.*?)/about/$', community.series_about, name='series_about'),
     url(r'^series_view/(?P<id>.*?)/enroll$', community.series_enroll, name='series_enroll'),
@@ -137,12 +94,75 @@ urlpatterns = [
     url(r'^series_print/(?P<id>.*?)/$', community.series_print, name='series_print'),
     url(r'series_print$', maeps.series_print, name='series_print'),
 
-    # community url
+
+    # Self Auth
+    # made by kotech system
+    url(r'^nicecheckplus$', student_account_views.nicecheckplus, name="nicecheckplus"),
+    url(r'^nicecheckplus_error$', student_account_views.nicecheckplus_error, name="nicecheckplus_error"),
+
+
+    # Multisite (user page)
+    # made by kotech system
+    url(r'^api/get_org_list$', branding_views.get_org_list, name='get_org_list'),
+    url(r'^api/get_multisite_list$', branding_views.get_multisite_list, name='get_multisite_list'),
+    url(r'^api/delete_multisite_account$', branding_views.delete_multisite_account, name='delete_multisite_account'),
+
+
+    # Multisite (index page)
+    # made by kotech system
+    url(r'^org/(?P<org>.*?)$', branding_views.multisite_index, name="multisite_index"),
+    url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
+
+
+    # Lifelong API
+    # made by kotech system
+    url(r'^api/all_courses$', branding_views.course_api, name="course_api"),
+
+
+    # Unknown Logic
+    # made by kotech system
+    url(r'^org_check', student_account_views.org_check, name="org_check"),
+
+
+    # Remove Account
+    # made by kotech system
+    url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
+    url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
+
+
+    # Memo
+    # made by kotech system
+    url(r'^memo$', community.memo, name='memo'),
+    url(r'^memo_view/(?P<memo_id>.*?)/$', community.memo_view, name='memo_view'),
+    url(r'^memo_sync$', community.memo_sync, name='memo'),
+
+
+    # Schools
+    # made by kotech system
+    url(r'^schools/?$', courseware_views.schools, name="schools"),
+    url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
+    url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
+
+
+    # Agree
+    # made by kotech system
+    url(r'^agree$', student_account_views.agree, name="agree"),
+    url(r'^agree_done$', student_account_views.agree_done, name="agree_done"),
+    url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
+    url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
+
+
+    # Xinics Login
+    # made by kotech system
+    url(r'^api/cb/login_check', community.cb_login_check, name="cb_login_check"),
+
+
+    # Community
+    # made by kotech system
     url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', community.comm_list, name='comm_list'),
     url(r'^comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', community.comm_view, name='comm_view'),
     url(r'^comm_tabs/(?P<head_title>.*?)/$', community.comm_tabs, name='comm_tabs'),
     url(r'^comm_file/(?P<file_id>.*?)/$', community.comm_file, name='comm_file'),
-
     url(r'^comm_notice$', community.comm_notice, name='comm_notice'),
     url(r'^comm_notice_view/(?P<board_id>.*?)/$', community.comm_notice_view, name='comm_notice_view'),
     url(r'^comm_repository$', community.comm_repository, name='comm_repository'),
@@ -156,30 +176,39 @@ urlpatterns = [
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', community.comm_k_news_view, name='comm_k_news_view'),
     url(r'^comm_list_json$', community.comm_list_json, name='comm_list_json'),
 
-    # course detail view
+
+    # Index Course Detail
+    # made by kotech system
     url(r'^course_detail/view/$', student_views.course_detail_view, name='course_detail_view'),
-    # course detail excel
     url(r'^course_detail/excel/$', student_views.course_detail_excel, name='course_detail_excel'),
 
 
     # Course Satisfaction Survey
+    # made by kotech system
     url(r'^course_satisfaction_survey/$', kotech_survey.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
     url(r'^api_course_satisfaction_survey/$', kotech_survey.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
 
 
-    # course_review
+    # Course Review
+    # made by kotech system
     url(r'^course_review/$', courseware_views.course_review, name='course_review'),
     url(r'^course_review_add$', courseware_views.course_review_add, name='course_review_add'),
     url(r'^course_review_del$', courseware_views.course_review_del, name='course_review_del'),
     url(r'^course_review_gb$', courseware_views.course_review_gb, name='course_review_gb'),
 
-    # course_list
+
+    # Course List
+    # made by kotech system
     url(r'^course_search_list$', courses.course_search_list, name='course_list'),
 
-    # interest_course
+
+    # Interest Course
+    # made by kotech system
     url(r'^course_interest$', courseware_views.course_interest, name='course_interest'),
 
-    # footer-link
+
+    # footer link
+    # made by kotech system
     url(r'^cert_check/?$', courseware_views.cert_check, name="cert_check"),
     url(r'^cert_check_id/?$', courseware_views.cert_check_id, name="cert_check_id"),
     url(r'^Privacy-Policy/?$', courseware_views.privacy, name="privacy"),
@@ -190,6 +219,9 @@ urlpatterns = [
     url(r'^Privacy-Policy_old5/?$', courseware_views.privacy_old5, name="privacy_old5"),
     url(r'^agreement/?$', courseware_views.agreement, name="agreement"),
     url(r'^Copyright-Policy/?$', courseware_views.copyright, name="copyright"),
+
+
+
 
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
@@ -227,10 +259,6 @@ urlpatterns = [
 
     # Course API
     url(r'^api/courses/', include('course_api.urls')),
-
-    # ----- api request ----- #
-    # url(r'^api/happy', branding_views.course_api, name="course_api"),
-    # ----- api request ----- #
 
     # Completion API
     url(r'^api/completion/', include('completion.api.urls', namespace='completion_api')),
