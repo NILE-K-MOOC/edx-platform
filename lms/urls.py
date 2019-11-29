@@ -56,10 +56,13 @@ from courseware import courses as courses
 
 # Custom Directory APP
 # made by kotech system
-from lms.djangoapps.community import views as community
-from lms.djangoapps.maeps import views as maeps                     # Markani Solution APP
-from lms.djangoapps.kotech_survey import views as kotech_survey     # Course Satisfaction Survey APP
-from lms.djangoapps.kotech_series import views as kotech_series     # Series Course APP
+from lms.djangoapps.maeps import views as maeps                         # Markani Solution APP
+from lms.djangoapps.kotech_common import views as kotech_common         # Common APP
+from lms.djangoapps.kotech_survey import views as kotech_survey         # Course Satisfaction Survey APP
+from lms.djangoapps.kotech_series import views as kotech_series         # Series Course APP
+from lms.djangoapps.kotech_memo import views as kotech_memo             # Memo APP
+from lms.djangoapps.kotech_community import views as kotech_community   # Community APP
+from lms.djangoapps.kotech_lifelong import views as kotech_lifelong     # Lifelong APP
 
 
 
@@ -73,6 +76,8 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
         admin.site.login_form = PasswordPolicyAwareAdminAuthForm
 
 
+
+
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
 
@@ -81,7 +86,7 @@ urlpatterns = [
 
     # Common
     # made by kotech system
-    url(r'^api/get_org_value$', branding_views.get_org_value, name='get_org_value'),
+    url(r'^api/get_org_value$', kotech_common.get_org_value, name='get_org_value'),
 
 
     # Course Satisfaction Survey
@@ -102,10 +107,58 @@ urlpatterns = [
     url(r'series_print$', maeps.series_print, name='series_print'),
 
 
+    # Memo
+    # made by kotech system
+    url(r'^memo$', kotech_memo.memo, name='memo'),
+    url(r'^memo_view/(?P<memo_id>.*?)/$', kotech_memo.memo_view, name='memo_view'),
+    url(r'^memo_sync$', kotech_memo.memo_sync, name='memo'),
+
+
+    # Xinics Login
+    # made by kotech system
+    url(r'^api/cb/login_check', kotech_community.cb_login_check, name="cb_login_check"),
+
+
+    # Community
+    # made by kotech system
+    url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', kotech_community.comm_list, name='comm_list'),
+    url(r'^comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', kotech_community.comm_view, name='comm_view'),
+    url(r'^comm_tabs/(?P<head_title>.*?)/$', kotech_community.comm_tabs, name='comm_tabs'),
+    url(r'^comm_file/(?P<file_id>.*?)/$', kotech_community.comm_file, name='comm_file'),
+    url(r'^comm_notice$', kotech_community.comm_notice, name='comm_notice'),
+    url(r'^comm_notice_view/(?P<board_id>.*?)/$', kotech_community.comm_notice_view, name='comm_notice_view'),
+    url(r'^comm_repository$', kotech_community.comm_repository, name='comm_repository'),
+    url(r'^comm_repo_view/(?P<board_id>.*?)/$', kotech_community.comm_repo_view, name='comm_repo_view'),
+    url(r'^comm_mobile$', kotech_community.comm_mobile, name='comm_mobile'),
+    url(r'^comm_mobile_view/(?P<board_id>.*?)/$', kotech_community.comm_mobile_view, name='comm_mobile_view'),
+    url(r'^comm_faq/(?P<head_title>.*?)/$', kotech_community.comm_faq, name='comm_faq'),
+    url(r'^comm_faqrequest/$', kotech_community.comm_faqrequest, name='comm_faqrequest'),
+    url(r'^comm_faqrequest/(?P<head_title>.*?)/$', kotech_community.comm_faqrequest, name='comm_faqrequest'),
+    url(r'^comm_k_news$', kotech_community.comm_k_news, name='comm_k_news'),
+    url(r'^comm_k_news_view/(?P<board_id>.*?)/$', kotech_community.comm_k_news_view, name='comm_k_news_view'),
+    url(r'^comm_list_json$', kotech_community.comm_list_json, name='comm_list_json'),
+
+
+    # Lifelong API
+    # made by kotech system
+    url(r'^api/all_courses$', kotech_lifelong.course_api, name="course_api"),
+
+
     # Self Auth
     # made by kotech system
     url(r'^nicecheckplus$', student_account_views.nicecheckplus, name="nicecheckplus"),
     url(r'^nicecheckplus_error$', student_account_views.nicecheckplus_error, name="nicecheckplus_error"),
+    url(r'^agree$', student_account_views.agree, name="agree"),
+    url(r'^agree_done$', student_account_views.agree_done, name="agree_done"),
+    url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
+    url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
+    url(r'^org_check', student_account_views.org_check, name="org_check"),
+
+
+    # Remove Account
+    # made by kotech system
+    url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
+    url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
 
 
     # Multisite (user page)
@@ -121,27 +174,15 @@ urlpatterns = [
     url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
 
 
-    # Lifelong API
+    # Index Course Detail
     # made by kotech system
-    url(r'^api/all_courses$', branding_views.course_api, name="course_api"),
+    url(r'^course_detail/view/$', student_views.course_detail_view, name='course_detail_view'),
+    url(r'^course_detail/excel/$', student_views.course_detail_excel, name='course_detail_excel'),
 
 
-    # Unknown Logic
+    # Course List
     # made by kotech system
-    url(r'^org_check', student_account_views.org_check, name="org_check"),
-
-
-    # Remove Account
-    # made by kotech system
-    url(r'^remove_account_view/$', student_account_views.remove_account_view, name="remove_account_view"),
-    url(r'^remove_account$', student_account_views.remove_account, name="remove_account"),
-
-
-    # Memo
-    # made by kotech system
-    url(r'^memo$', community.memo, name='memo'),
-    url(r'^memo_view/(?P<memo_id>.*?)/$', community.memo_view, name='memo_view'),
-    url(r'^memo_sync$', community.memo_sync, name='memo'),
+    url(r'^course_search_list$', courses.course_search_list, name='course_list'),
 
 
     # Schools
@@ -151,56 +192,12 @@ urlpatterns = [
     url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
 
 
-    # Agree
-    # made by kotech system
-    url(r'^agree$', student_account_views.agree, name="agree"),
-    url(r'^agree_done$', student_account_views.agree_done, name="agree_done"),
-    url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
-    url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
-
-
-    # Xinics Login
-    # made by kotech system
-    url(r'^api/cb/login_check', community.cb_login_check, name="cb_login_check"),
-
-
-    # Community
-    # made by kotech system
-    url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', community.comm_list, name='comm_list'),
-    url(r'^comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', community.comm_view, name='comm_view'),
-    url(r'^comm_tabs/(?P<head_title>.*?)/$', community.comm_tabs, name='comm_tabs'),
-    url(r'^comm_file/(?P<file_id>.*?)/$', community.comm_file, name='comm_file'),
-    url(r'^comm_notice$', community.comm_notice, name='comm_notice'),
-    url(r'^comm_notice_view/(?P<board_id>.*?)/$', community.comm_notice_view, name='comm_notice_view'),
-    url(r'^comm_repository$', community.comm_repository, name='comm_repository'),
-    url(r'^comm_repo_view/(?P<board_id>.*?)/$', community.comm_repo_view, name='comm_repo_view'),
-    url(r'^comm_mobile$', community.comm_mobile, name='comm_mobile'),
-    url(r'^comm_mobile_view/(?P<board_id>.*?)/$', community.comm_mobile_view, name='comm_mobile_view'),
-    url(r'^comm_faq/(?P<head_title>.*?)/$', community.comm_faq, name='comm_faq'),
-    url(r'^comm_faqrequest/$', community.comm_faqrequest, name='comm_faqrequest'),
-    url(r'^comm_faqrequest/(?P<head_title>.*?)/$', community.comm_faqrequest, name='comm_faqrequest'),
-    url(r'^comm_k_news$', community.comm_k_news, name='comm_k_news'),
-    url(r'^comm_k_news_view/(?P<board_id>.*?)/$', community.comm_k_news_view, name='comm_k_news_view'),
-    url(r'^comm_list_json$', community.comm_list_json, name='comm_list_json'),
-
-
-    # Index Course Detail
-    # made by kotech system
-    url(r'^course_detail/view/$', student_views.course_detail_view, name='course_detail_view'),
-    url(r'^course_detail/excel/$', student_views.course_detail_excel, name='course_detail_excel'),
-
-
     # Course Review
     # made by kotech system
     url(r'^course_review/$', courseware_views.course_review, name='course_review'),
     url(r'^course_review_add$', courseware_views.course_review_add, name='course_review_add'),
     url(r'^course_review_del$', courseware_views.course_review_del, name='course_review_del'),
     url(r'^course_review_gb$', courseware_views.course_review_gb, name='course_review_gb'),
-
-
-    # Course List
-    # made by kotech system
-    url(r'^course_search_list$', courses.course_search_list, name='course_list'),
 
 
     # Interest Course

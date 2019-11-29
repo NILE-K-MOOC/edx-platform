@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
-"""
-Courseware views functions
-"""
 import json
 import logging
 import urllib
 import requests
-from collections import OrderedDict, namedtuple
-from datetime import datetime, date
-
 import analytics
 import bleach
+import shoppingcart
+import survey.views
+import MySQLdb as mdb
+import sys
+import json
+import crum
+import pytz
+from collections import OrderedDict, namedtuple
+from datetime import datetime, date
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
@@ -39,8 +42,6 @@ from web_fragments.fragment import Fragment
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from util.json_request import JsonResponse
 from django.db import connections
-import shoppingcart
-import survey.views
 from course_modes.models import CourseMode, get_course_prices
 from courseware.access import has_access, has_ccx_coach_role
 from courseware.access_utils import check_course_open_for_learner
@@ -108,14 +109,10 @@ from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError, NoPathToItem
 from xmodule.tabs import CourseTabList
 from xmodule.x_module import STUDENT_VIEW
-import MySQLdb as mdb
-import sys
-import json
 from ..entrance_exams import user_can_skip_entrance_exam
 from ..module_render import get_module, get_module_by_usage_id, get_module_for_descriptor
 from ..context_processor import user_timezone_locale_prefs
 from django.utils.translation import get_language, to_locale, ugettext_lazy
-import crum
 from courseware.date_summary import (
     CourseEndDate,
     CourseStartDate,
@@ -125,10 +122,10 @@ from courseware.date_summary import (
     CertificateAvailableDate
 )
 from pytz import timezone
-import pytz
 
 
 log = logging.getLogger("edx.courseware")
+
 
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
@@ -963,22 +960,6 @@ def course_interest(request):
         return HttpResponse('success', 'application/json')
 
 
-# 강좌 상태 반환 공통함수
-def get_course_status(start, end, now):
-    if start is None or start == '' or end is None or end == '':
-        status = 'none'
-    elif now < start:
-        status = 'ready'
-    elif start <= now <= end:
-        status = 'ing'
-    elif end < now:
-        status = 'end'
-    else:
-        status = 'none'
-
-    return status
-
-
 @ensure_csrf_cookie
 @ensure_valid_course_key
 @cache_if_anonymous()
@@ -1172,11 +1153,6 @@ def course_about(request, course_id):
             "intd_m": "Interdisciplinary",
         }
 
-        # if course_details.classfy != 'all':
-        #     classfy_name = ClassDict[course_details.classfy]
-        # else:
-        #     classfy_name = 'Etc'
-
         global classfy_name
         if course_details.classfy is None or course_details.classfy == '':
             classfy_name = 'Etc'
@@ -1318,8 +1294,6 @@ def course_about(request, course_id):
         study_time = effort.split('$')[1].split(':')[0] + "시간 " + effort.split('$')[1].split(':')[
             1] + "분" if effort and '$' in effort else '-'
 
-        #######E ADD.###########
-        # coure_review
         try:
             with connections['default'].cursor() as cur:
                 query = """
@@ -1361,7 +1335,6 @@ def course_about(request, course_id):
                 data_dict['reg_time'] = data[3]
                 data_dict['seq'] = data[4]
                 data_dict['username'] = data[5]
-                # data_list.append(data_dict)
                 data_dict['like'] = 0
                 data_dict['bad'] = 0
 
@@ -1381,25 +1354,6 @@ def course_about(request, course_id):
                             data_dict['bad'] = like[0]
 
                 data_list.append(data_dict)
-                # with connections['default'].cursor() as cur:
-                #     query = """
-                #             select  count(good_bad),review_seq
-                #             from course_review_user
-                #             where review_id = '{review_id}' and good_bad ='b' and review_seq='{review_seq}';
-                #         """.format(review_id=review_list[2], review_seq=review_list[4])
-                #     cur.execute(query)
-                #     bad_list = cur.fetchall()
-                #     data_dict['bad'] = data[0]
-
-            # for data in like_list:
-            #     data_dict = dict()
-            #     data_dict['like'] = data[0]
-            #     data_list.append(data_dict)
-            #
-            # for data in bad_list:
-            #     data_dict = dict()
-            #     data_dict['bad'] = data[0]
-            #     data_list.append(data_dict)
 
         # 강좌 만족도 별점
         course_survey_data = survey_result_star(course_org, course_number)
@@ -2093,55 +2047,6 @@ def mobile_course_about(request, course_id):
             else:
                 audit_flag = 'N'
 
-        """
-        # 유사강좌 -> 백엔드 로직 시작
-        LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
-        url = 'http://' + LMS_BASE + '/search/course_discovery/'
-
-        course_object = CourseOverview.get_from_id(course.id)
-        course_display_name = course_object.display_name
-
-        # 유사강좌 -> 엘라스틱 서치에 데이터 요청
-        payload = {}
-        headers = {}
-        payload['search_string'] = course_display_name
-        payload['page_size'] = '20'
-        payload['page_index'] = '0'
-        headers['X-Requested-With'] = 'XMLHttpRequest'
-
-        try:
-            r = requests.post(url, data=payload, headers=headers)
-            data = json.loads(r.text)
-
-            # 유사강좌 -> 데이터 파싱
-            similar_course = []
-            for result in data['results']:
-                course_dict = {}
-                course_id = result['_id']
-                image_url = result['data']['image_url']
-                org = result['data']['org']
-                display_name = result['data']['content']['display_name']
-                start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
-                end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
-                now = datetime.strptime(datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%S'), '%Y-%m-%dT%H:%M:%S')
-                status = get_course_status(start, end, now)
-
-                # format change
-                start = start.strftime('%Y-%m-%d')
-                end = end.strftime('%Y-%m-%d')
-
-                course_dict['course_id'] = course_id
-                course_dict['image_url'] = image_url
-                course_dict['org'] = org
-                course_dict['display_name'] = display_name
-                course_dict['start'] = start
-                course_dict['end'] = end
-                course_dict['status'] = status
-                similar_course.append(course_dict)
-        except BaseException:
-            similar_course = None
-            log.info('*** similar_course logic error DEBUG -> lms/djangoapps/courseware/views/views.py ***')
-        """
         context = {
             #'similar_course': similar_course,  # 유사강좌
             'course': course,
