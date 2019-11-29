@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
@@ -51,8 +52,24 @@ from track import views as track_views
 from util import views as util_views
 from courseware import courses as courses
 
+LogAction()
+if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
+    django_autodiscover()
+    admin.site.site_header = _('LMS Administration')
+    admin.site.site_title = admin.site.site_header
+    if password_policy_compliance.should_enforce_compliance_on_login():
+        admin.site.login_form = PasswordPolicyAwareAdminAuthForm
 
 
+'''
+개발 시에 모듈을 기능별로 분리하여 개발하십시오
+아래 모듈에 기생하지 마십시오
+
+- student_account_views
+- branding_views
+- courses
+- courseware_views
+'''
 
 # Custom Directory APP
 # made by kotech system
@@ -63,19 +80,6 @@ from lms.djangoapps.kotech_series import views as kotech_series         # Series
 from lms.djangoapps.kotech_memo import views as kotech_memo             # Memo APP
 from lms.djangoapps.kotech_community import views as kotech_community   # Community APP
 from lms.djangoapps.kotech_lifelong import views as kotech_lifelong     # Lifelong APP
-
-
-
-
-LogAction()
-if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
-    django_autodiscover()
-    admin.site.site_header = _('LMS Administration')
-    admin.site.site_title = admin.site.site_header
-    if password_policy_compliance.should_enforce_compliance_on_login():
-        admin.site.login_form = PasswordPolicyAwareAdminAuthForm
-
-
 
 
 urlpatterns = [
