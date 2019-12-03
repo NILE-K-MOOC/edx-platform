@@ -149,9 +149,9 @@ $( document ).ready(function() {
     <section class="kr01 kr01-mobile-container">
         <section class="highlighted-courses kr01-mobile">
             <div class="kr01-mobile-top">
-                <a href="/mobile_index"><i class="fa fa-home fa-lg"></i></a>
+                <a href="/mobile_courses/"><i class="fa fa-home fa-lg"></i></a>
                 <div class="kr01-mobile-more">
-                    <a href="/mobile_courses">
+                    <a href="/mobile_courses?search_query=">
                         <span>
                             더 많은 강좌 찾아보기 >>
                         </span>
@@ -242,7 +242,7 @@ $( document ).ready(function() {
                                 $(".link_to_courses [data-term]").each(function(){
                                     $(this).click(function(e){
                                         e.preventDefault();
-                                        let form = $("<form>", {action: "/mobile_courses", method: "POST"}),
+                                        let form = $("<form>", {action: "/mobile_courses?search_query=", method: "POST"}),
                                         csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
                                         term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
 

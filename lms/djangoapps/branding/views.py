@@ -1015,6 +1015,12 @@ def mobile_courses(request):
     to that. Otherwise, if subdomain branding is on, this is the university
     profile page. Otherwise, it's the edX courseware.views.views.courses page
     """
+
+    # search_query 여부에따라 강좌 검색과 모바일 메인 페이지 분기
+    search_query = request.GET.get('search_query')
+    if search_query is None:
+        return mobile_index(request)
+
     enable_mktg_site = configuration_helpers.get_value(
         'ENABLE_MKTG_SITE',
         settings.FEATURES.get('ENABLE_MKTG_SITE', False)
