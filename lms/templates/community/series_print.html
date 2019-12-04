@@ -252,7 +252,6 @@
 
           <div class="sign-none" style="display:none;">사인이 없을때</div>
 
-          <!--
           <div class="sign-area">
             <div class="sign-area-depth2">
                 % for admin_sign in admin_sign_list[:4]:
@@ -275,12 +274,11 @@
 
           <div class="sign-area">
             <div class="ce-logo-area">
-              % for sign in sign_path_list:
-              <div class="ce-logo"><img src="${sign}"></div>
+              % for org_img_path in org_img_path_list:
+                <div class="ce-logo"><img src="${org_img_path}"></div>
               % endfor
             </div>
           </div>
-          -->
 
         </div>
       </div>

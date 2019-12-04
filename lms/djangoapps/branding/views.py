@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import logging
 import urllib
+import json
+import branding.api as branding_api
+import courseware.views.views
+import student.views.management
+import pymongo
 from urlparse import urlparse, parse_qs
-
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
@@ -14,10 +18,6 @@ from django.utils import translation
 from django.utils.translation.trans_real import get_supported_language_variant
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
-
-import branding.api as branding_api
-import courseware.views.views
-import student.views.management
 from student.views.dashboard import effort_make_available
 from edxmako.shortcuts import marketing_link, render_to_response
 from openedx.core.djangoapps.lang_pref.api import released_languages
@@ -26,156 +26,11 @@ from util.cache import cache_if_anonymous
 from util.json_request import JsonResponse
 from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
-
-import json
-import pymongo
 from pymongo import MongoClient
 from bson import ObjectId
 
+
 log = logging.getLogger(__name__)
-
-
-def common_course_status(startDt, endDt):
-    # input
-    # startDt = 2016-12-19 00:00:00
-    # endDt   = 2017-02-10 23:00:00
-    # nowDt   = 2017-11-10 00:11:28
-
-    # import
-    from datetime import datetime
-
-    # making nowDt
-    nowDt = datetime.now().strftime("%Y-%m-%d-%H-%m-%S")
-    nowDt = nowDt.split('-')
-    nowDt = datetime(int(nowDt[0]), int(nowDt[1]), int(nowDt[2]), int(nowDt[3]), int(nowDt[4]), int(nowDt[5]))
-
-    # logic
-    if startDt is None or startDt == '' or endDt is None or endDt == '':
-        status = 'none'
-    elif nowDt < startDt:
-        status = 'ready'
-    elif startDt <= nowDt <= endDt:
-        status = 'ing'
-    elif endDt < nowDt:
-        status = 'end'
-    else:
-        status = 'none'
-
-    # return status
-    return status
-
-
-def course_api(request):
-    # mysql
-    cur = connections['default'].cursor()
-
-    sql = '''
-        SELECT coc.id,
-               coc.display_name,
-               coc.start,
-               coc.end,
-               coc.enrollment_start,
-               coc.enrollment_end,
-               coc.created,
-               coc.modified,
-               coc.course_video_url,
-               coc.course_image_url,
-               cd.detail_name,
-               coc.org,
-               coc.display_number_with_default  AS course,
-               Substring_index(coc.id, '+', -1) AS RUN,
-               coc.effort,
-               c.cert_date,
-               coa.teacher_name,
-               coa.classfy,
-               coa.middle_classfy
-        FROM   edxapp.course_overviews_courseoverview AS coc
-               left outer join edxapp.code_detail AS cd
-                      ON coc.org = cd.detail_code
-               left outer join (
-                    select course_id, min(created_date) as cert_date
-                    from edxapp.certificates_generatedcertificate
-                    group by course_id
-               ) as c
-                      ON coc.id = c.course_id
-                left outer join edxapp.course_overview_addinfo as coa
-                      ON coc.id = coa.course_id
-    '''
-    cur.execute(sql)
-    slist = cur.fetchall()
-
-    item_list = list()
-
-    # making data (insert)
-    for item in slist:
-        """
-        course_id
-        display_name
-        univ_name
-        start_time
-        end_time
-        enroll_start
-        enroll_end
-        created
-        modified
-        video
-        img
-        org
-        course
-        run
-        effort
-        e0 권장학습시간
-        e1 주차
-        e2 학습인정시간
-        et 동영상 재생시간
-        classfy
-        middle_classfy
-        cert_date
-        teacher_name
-        """
-
-        item_dict = dict()
-
-        item_dict['course_id'] = item[0]
-        item_dict['display_name'] = item[1]
-        item_dict['univ_name'] = unicode(item[10]).strip()
-        item_dict['start_time'] = str(item[2]) if item[2] is not None and item[2] != '' else None
-        item_dict['end_time'] = str(item[3]) if item[3] is not None and item[3] != '' else None
-        item_dict['enroll_start'] = str(item[4]) if item[4] is not None and item[4] != '' else None
-        item_dict['enroll_end'] = str(item[5]) if item[5] is not None and item[5] != '' else None
-        item_dict['created'] = str(item[6]) if item[6] is not None and item[6] != '' else None
-        item_dict['modified'] = str(item[7]) if item[7] is not None and item[7] != '' else None
-        item_dict['video'] = item[8]
-        item_dict['img'] = 'http://www.kmooc.kr' + item[9]
-        item_dict['org'] = item[11]
-        item_dict['course'] = item[12]
-        item_dict['run'] = item[13]
-        item_dict['effort'] = item[14]
-
-        effort_dict = effort_make_available(item[14] if item[14] is not None else '00:00@00#00:00$00:00')
-
-        item_dict['e0'] = effort_dict['w_time']  # 권장학습시간
-        item_dict['e1'] = effort_dict['week']  # 주차
-        item_dict['e2'] = effort_dict['l_time']  # 학습인정시간
-        item_dict['et'] = effort_dict['v_time']  # 동영상 재생시간
-        item_dict['classfy'] = item[17]
-        item_dict['middle_classfy'] = item[18]
-        item_dict['cert_date'] = str(item[15]) if item[15] is not None and item[15] != '' else None
-        item_dict['teacher_name'] = item[16] if item[16] != '' else ''
-
-        item_list.append(item_dict)
-
-        # api 항목에 없어서 현재 사용 X
-        status = common_course_status(item[2], item[3])  # 강좌상태
-
-    result = {
-        'results': item_list,
-        'total_cnt': len(slist)
-    }
-
-    item_json = json.dumps(result, ensure_ascii=False, encoding='utf-8')
-
-    return HttpResponse(item_json)
 
 
 # ==================================================================================================> login 오버라이딩 시작
@@ -189,6 +44,7 @@ from django.utils.crypto import constant_time_compare
 from django.utils.module_loading import import_string
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth.models import User
+
 
 SESSION_KEY = '_auth_user_id'
 BACKEND_SESSION_KEY = '_auth_user_backend'
@@ -267,9 +123,8 @@ def login(request, user, backend=None):
         request.user = user
     rotate_token(request)
     user_logged_in.send(sender=user.__class__, request=request, user=user)
-
-
 # ==================================================================================================> login 오버라이딩 종료
+
 
 # ==================================================================================================> AES 복호화 함수 시작
 from Crypto.Cipher import AES
@@ -288,6 +143,7 @@ def decrypt(key, _iv, enc):
 
 
 # ==================================================================================================> AES 복호화 함수 종료
+
 
 @csrf_exempt
 def multisite_error(request):
@@ -603,223 +459,6 @@ def multisite_index(request, org):
     if domain and 'edge.edx.org' in domain:
         return redirect(reverse("signin_user"))
     return student.views.management.multisite_index(request, user=request.user)
-
-
-@csrf_exempt
-def get_org_value(request):
-    org = request.POST.get('org')
-    user_id = request.user.id
-
-    print "### org -> ", org
-
-    with connections['default'].cursor() as cur:
-        sql = '''
-            select b.org_user_id
-            from multisite a
-            join multisite_member b
-            on a.site_id = b.site_id
-            where site_name = '{org}'
-            and b.user_id = '{user_id}';
-        '''.format(org=org, user_id=user_id)
-
-        print sql
-        cur.execute(sql)
-        try:
-            org_user_id = cur.fetchall()[0][0]
-        except BaseException:
-            org_user_id = 'social'
-
-    print "org_user_id -> ", org_user_id
-
-    return JsonResponse({'result': org_user_id})
-
-
-@csrf_exempt
-def series_cancel(request):
-    id = request.POST.get('id')
-    user_id = request.user.id
-
-    with connections['default'].cursor() as cur:
-        sql = '''
-            update series_student
-            set delete_yn = 'Y'
-            where user_id = '{user_id}'
-            and series_seq in (
-                select series_seq
-                from series
-                where series_id = '{id}'
-            );
-        '''.format(user_id=user_id, id=id)
-
-        print sql
-        cur.execute(sql)
-
-    return JsonResponse({'result': 'success'})
-
-
-def new_dashboard(request):
-    user_id = request.user.id
-
-    # 로그인 유효성 검증
-    if user_id == None:
-        return redirect('/login')
-
-    # 패키지 강좌 목록 조회
-    with connections['default'].cursor() as cur:
-        sql = '''
-            select y.series_seq, y.series_id, y.series_name, y.save_path, y.detail_name
-            from series_student x
-            join (
-                select a.series_seq, a.series_id, a.series_name, b.save_path, b.ext, c.detail_name
-                from series a
-                left join tb_attach b
-                on a.sumnail_file_id = id
-                join code_detail c
-                on a.org = c.detail_code
-                where c.group_code = '003'
-                and a.use_yn = 'Y'
-            ) y
-            on x.series_seq = y.series_seq
-            where x.user_id = '{user_id}'
-            and x.delete_yn = 'N';
-        '''.format(user_id=user_id)
-
-        print sql
-        cur.execute(sql)
-        temps = cur.fetchall()
-
-    # 각 패키지 강좌에 대해 필요 정보 추출
-    # 1. 패키지 강좌 이수 개수
-    # 2. 패키지 강좌 진행 개수
-    # 3. 패키지 강좌 총 개수
-    # 4. 패키지 강좌 잔여 개수
-    packages = []
-    for temp in temps:
-        tmp_dict = {}
-        tmp_dict['series_seq'] = temp[0]
-        tmp_dict['series_id'] = temp[1]
-        tmp_dict['series_name'] = temp[2]
-        save_path = temp[3]
-
-        # 운영 서버 파일 서브 경로 변경
-        try:
-            save_path = save_path.replace('/static/upload/', '/static/file_upload/series/')
-        except AttributeError:
-            save_path = None
-
-        tmp_dict['save_path'] = save_path
-        tmp_dict['save_path'] = save_path
-        tmp_dict['detail_name'] = temp[4]
-
-        with connections['default'].cursor() as cur:
-            # 패키지 강좌 이수 개수
-            sql1 = '''
-                select count(*) as cert_cnt
-                from (
-                    select org, display_number_with_default
-                    from series_course
-                    where series_seq = '{series_seq}'
-                ) x
-                left join (
-                    select a.org, a.display_number_with_default, b.status
-                    from course_overviews_courseoverview a
-                    join certificates_generatedcertificate b
-                    on b.course_id = a.id
-                    where b.user_id = '{user_id}'
-                    and b.status = 'downloadable'
-                    group by org, display_number_with_default
-                ) y
-                on x.org = y.org
-                and x.display_number_with_default = y.display_number_with_default
-                where y.org is not null;
-            '''.format(series_seq=temp[0], user_id=user_id)
-
-            print sql1
-            cur.execute(sql1)
-            try:
-                is_cert = cur.fetchall()[0][0]
-            except BaseException as err:
-                print "is_cert parsing error detail : ", err
-                is_cert = 0
-
-                # 패키지 강좌 진행 개수
-            sql2 = '''
-                select sum(result)
-                from (
-                    select t1.org, t1.display_number_with_default, case when t2.id is not null then sum(1) when t2.id is null then sum(0) end as result
-                    from (
-                          select org, display_number_with_default
-                          from series_course
-                          where series_seq = '{series_seq}'
-                    ) t1
-                    left join (
-                      select *
-                      from (
-                          select id, org, display_number_with_default
-                          from course_overviews_courseoverview
-                          where start < now()
-                          and end > now()
-                      ) x
-                      join (
-                          select course_id
-                          from student_courseenrollment
-                          where user_id = '{user_id}'
-                          and mode = 'honor'
-                      ) y
-                      on x.id = y.course_id
-                )t2
-                on t1.org = t2.org
-                and t1.display_number_with_default = t2.display_number_with_default
-                group by t1.org, t1.display_number_with_default
-                ) xxx;
-                    '''.format(series_seq=temp[0], user_id=user_id)
-
-            print sql2
-            cur.execute(sql2)
-            try:
-                is_ing = cur.fetchall()[0][0]
-            except BaseException as err:
-                print "is_ing parsing error detail : ", err
-                is_ing = 0
-
-            # 패키지 강좌 총 개수
-            sql3 = '''
-                select count(*)
-                from series_course
-                where series_seq = '{series_seq}';
-            '''.format(series_seq=temp[0], user_id=user_id)
-
-            print sql3
-            cur.execute(sql3)
-            try:
-                is_total = cur.fetchall()[0][0]
-            except BaseException as err:
-                print "is_total parsing error detail : ", err
-                is_total = 0
-
-        if is_cert == None:
-            is_cert = 0
-        if is_ing == None:
-            is_ing = 0
-        if is_total == None:
-            is_total = 0
-
-        # 개발 디버깅 로그
-        print "--------------------------------------------"
-        print "is_cert -> ", is_cert
-        print "is_ing -> ", is_ing
-        print "is_total -> ", is_total
-        print "--------------------------------------------"
-
-        tmp_dict['is_total'] = is_total             # 패키지 강좌 전체 수
-        tmp_dict['is_cert'] = is_cert               # 패키지 강좌 이수강좌 수
-        tmp_dict['is_ing'] = is_ing                 # 패키지 강좌 진행강좌 수
-        tmp_dict['is_noing'] = is_total - is_cert   # 피키지 강좌 잔여강좌 수
-        packages.append(tmp_dict)
-
-    context = {}
-    context['packages'] = packages
-    return render_to_response("new_dashboard.html", context)
 
 
 def get_multisite_list(request):
