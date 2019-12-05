@@ -600,18 +600,17 @@ def series_print(request):
     print_index = request.POST.get('print_index')
 
     strHtmlData = '''
-            <HTML>
+        <HTML>
             <HEAD>
-            <TITLE>KMOOC 시리즈강좌</TITLE>
-            <META http-equiv=Content-Type content="text/html; charset=utf-8">
-            <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
+                <TITLE>KMOOC 시리즈강좌</TITLE>
+                <META http-equiv=Content-Type content="text/html; charset=utf-8">
+                <META content="MSHTML 6.00.2800.1458" name=GENERATOR>
             </HEAD>
-            <BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
-            {print_index}
+                <BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0 marginheight="0" marginwidth="0">
+                {print_index}
             </BODY>
-            </HTML>
+        </HTML>
     '''.format(print_index=print_index)
-
     strHtmlData = strHtmlData.replace('<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>', '')
 
     print 'strHtmlData ---------------------------------------------- s (series)'
