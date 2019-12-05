@@ -2,81 +2,42 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 <head dir="ltr">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="/static/certificates/css/main-ltr.css" type="text/css" media="all" / >
-  <link rel="stylesheet" href="/static/css/vendor/font-awesome.css" type="text/css" media="all" / >
-
-  <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-68431198-1', 'auto');
-      ga('send', 'pageview');
-  </script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/certificates/css/main-ltr.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/static/css/vendor/font-awesome.css" type="text/css" media="all" />
 </head>
 
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-68431198-1', 'auto');
+    ga('send', 'pageview');
+</script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script>
-  function changeEventHandler(event) {
+function changeEventHandler(event) {
     console.log(event.target.value);
     var org = event.target.value;
-
     if(org == '선택 없음'){
-      $('#multi_info').html('')
+        $('#multi_info').html('');
     } else {
-      $.post( "/api/get_org_value", {
-        org: org
-      })
-      .done(function( data ) {
-        console.log(org + ' ' + data.result);
-        $('#multi_info').html(org + ' ID : ' + data.result)
-      });
+        $.post( "/api/get_org_value", {
+            org: org
+        })
+        .done(function( data ) {
+            console.log(org + ' ' + data.result);
+            $('#multi_info').html(org + ' ID : ' + data.result)
+        });
     }
-  }
+}
 </script>
-
-<div id="fb-root"></div>
-<div class="wrapper-banner wrapper-banner-user">
-  <section class="banner banner-user">
-    <div class="message message-block message-notice">
-      <h2 class="message-title hd-5 emphasized">시리즈 교육 인쇄 페이지입니다</h2>
-      <div class="wrapper-copy-and-actions">
-        <p class="message-copy copy copy-base emphasized">아래의 버튼을 눌러 인쇄할 수 있습니다</p>
-        <div class="message-actions">
-          <h3 class="sr-only">강좌 이수증을 인쇄하거나 공유하기</h3>
-          <button class="action action-print btn-inverse btn-small" id="action-print-view">
-            <span class="icon fa fa-print" aria-hidden="true"></span>
-            시리즈 교육 확인증 인쇄하기
-          </button>
-
-        <span style="color: #ffffff">기관선택 : </span>
-        <select size="1" onchange="changeEventHandler(event);">
-          <option>선택 없음</option>
-          % for org in org_list:
-          <option>${org[0]}</option>
-          % endfor
-        </select>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<style>
-  .wrapper-banner-user{
-    margin-top: 0px;
-  }
-</style>
-
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-    document.getElementById("action-print-view").addEventListener("click", print_series);
-    function print_series(event) {
+    function print_series() {
         var print_index = $('#print_index').html();
         var frmPop= document.frmPopup;
         var url = '/maeps/series_print';
@@ -89,288 +50,281 @@
     }
 </script>
 
+<div id="fb-root"></div>
+<div class="wrapper-banner wrapper-banner-user">
+    <section class="banner banner-user">
+        <div class="message message-block message-notice">
+            <h2 class="message-title hd-5 emphasized">시리즈 교육 인쇄 페이지입니다</h2>
+            <div class="wrapper-copy-and-actions">
+                <p class="message-copy copy copy-base emphasized">아래의 버튼을 눌러 인쇄할 수 있습니다</p>
+                <div class="message-actions">
+                    <h3 class="sr-only">강좌 이수증을 인쇄하거나 공유하기</h3>
+                    <button class="action action-print btn-inverse btn-small" id="action-print-view" onclick="print_series()">
+                        <span class="icon fa fa-print" aria-hidden="true"></span>
+                        시리즈 교육 확인증 인쇄하기
+                    </button>
+                    <span style="color: #ffffff">기관선택 : </span>
+                    <select size="1" onchange="changeEventHandler(event);">
+                        <option>선택 없음</option>
+                        % for org in org_list:
+                            <option>${org[0]}</option>
+                        % endfor
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 <form name="frmPopup" method="POST">
-  <input type="hidden" name="print_index">
+    <input type="hidden" name="print_index">
 </form>
 
 <div id = "print_index">
-  <main id="printArea" class="accomplishment accomplishment-main">
-    <style>
-      table, th, td {
-        padding:5px;
-      }
-      body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: #ddd;
-        font-family:'malgun gothic', 맑은 고딕;
-      }
-      * {
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-      }
-      ul{border-left: 3px solid #333; padding-left: 15px; font-size:14px;}
-      ul li{list-style:none;}
-      .paper {
-        width: 210mm;
-        min-height: 297mm;
-        padding:35px;
-        margin: 10mm auto;
-        background: #fff;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        position:relative;
-      }
-      .content {
-        padding: 25px;
-        border: 4px solid #6c6f73;
-        height: 257mm;
-        position:relative;
-      }
-      @page {
-        size: A4;
-        margin: 0;
-      }
-      @media print {
-        html, body {
-          width: 210mm;
-          height: 297mm;
-          background: #fff;
-        }
-        .paper {
-          margin: 0;
-          border: initial;
-          border-radius: initial;
-          width: initial;
-          min-height: initial;
-          box-shadow: initial;
-          background: initial;
-          page-break-after: always;
-        }
-      }
-      .ribbon{
-        display: inline-block;
-        position: absolute;
-        right: 110px;
-        z-index: 10;
-        top: 0px;
-      }
-      h5{margin:0;}
-      .t-center{display:inline-block; float:right; margin-left: 34px; width: 140px;}
-      .t-center img {width:100%; height: 60px;}
-      .t-sign{margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #333;}
-      .t-center:last-child{margin-left:0;}
-      .t-center h5{text-align:center; font-size:11px;}
-      .ce-bg{
-        background:url(images/bg.png) no-repeat;
-        width: 643px;
-        height: 232px;
-        display: inline-block;
-        position: absolute;
-        top: 393px;
-        left: 68px;
-      }
-      blockquote{height: 165px;}
-      .ce-t-gray{color:#959595;}
-      .content h1 {font-size:50px; margin-bottom: 80px; margin-top: 40px;}
-      .ce-txt-second {margin-top: 0px; font-size: 20px;}
-      .ce-center-txt1{text-align: center; width: 249px; margin: 0 auto;}
-      .ce-center-txt2{text-align:center; margin-bottom: 35px;}
-      .ce-v{    width: 20px;
-        display: inline-block;
-        height: 20px;
-        vertical-align: top;
-        margin-top: 2px;
-        margin-right: 3px;
-        margin-left: 5px;}
-      .ce-v img {width: 100%;}
-      .sign-area{ display:inline-block; width:100%;}
-      .sign-area-depth1, .sign-area-depth2{display:inline-block; height:80px; width: 100%;}
-      .sign-none{ height:171px; display:inline-block; text-indent:-9999px; overflow:hidden;}
-      .ce-list li{margin-bottom: 4px;}
-      .ce-logo-area{display:inline-block; width:100%;}
-      .ce-logo{display:inline-block; float:right;  margin-left: 34px;  width: 140px;}
-      .ce-logo:last-child{margin-left:0;}
-      .ce-logo img{width:100%; height: 60px; }
-      .paper-area02 .paper h4{font-size: 20px; margin: 0px;}
-      .ce-pg2-top{margin-bottom: 100px; display: block;}
-      .ce-pg2-t01{    margin-bottom: 100px;}
-      .ce-pg2-t01 table, .ce-pg2-t02 table{width:100%; border-collapse: collapse;}
-      .ce-pg2-t01 table tbody tr td{letter-spacing: -0.7px;}
-      .ce-pg2-t01 table tbody tr td p{padding: 0px 10px 0px 0px; font-size: 15px;}
-      .ce-pg2-t01 table tbody tr td span{white-space: nowrap; font-size: 12px;}
-      .ce-pg2-t01 table tbody tr td .ce-Tbold{font-weight: bold;}
-      .ce-pg2-t02 table tr th{font-size: 13px; border: 1px solid #eee; padding: 10px; background: #eee; border-right: 1px solid #fff;}
-      .ce-pg2-t02 table tr th:last-child{border-right: 1px solid #eee;}
-      .ce-pg2-t02 table tbody tr td{text-align: center; vertical-align: middle; font-size: 13px; border: 1px solid #eee; padding: 10px;}
-      .ce-pg2-t02 table tbody tr td p{padding:0px; text-align: left; margin:0px;}
-    </style>
-
-    <body>
-    <div>
-      <!-- 1page -->
-      <div class="paper">
-        <div class="ce-bg"></div>
-
-        <div class="ribbon">
-          <img src="/static/images/cert/ribbon.png"/>
-        </div>
-
-        <div class="content">
-
-          <h5>인증번호 : ${cert_uuid}</h5>
-          <h5>출력일시 : ${kst}</h5>
-
-          <h1>이 수 증</h1>
-
-          <h5 class="ce-t-gray">이름</h5>
-          <h4 class="ce-txt-second" style="margin-bottom: 0px;">
-            <span>${user_name}</span>
-            <span>(${user_birth})</span>
-            % if user_nice == 'Y':
-            (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
-            % endif
-          </h4>
-
-          <div id="multi_info" style="font-size: 20px;color: #8a8585;margin-bottom: 12px;"></div>
-
-          <h5  class="ce-t-gray">묶음 강좌명</h5>
-          <h4 class="ce-txt-second">${package_name}</h4>
-          <blockquote>
-            <ul class="ce-list">
-              % for course in package_cousre:
-              <li>${course[1]}</li>
-              % endfor
-            </ul>
-          </blockquote>
-
-          <h4 class="ce-center-txt2" style="margin-bottom: 0px;">위 과정을 성실히 이수하여</h4>
-          <h4 class="ce-center-txt2" style="margin-bottom: 0px;">이 증서를 수여 합니다.</h4>
-
-          <h4 class="ce-center-txt2">${cert_date}.</h4>
-
-          <div class="sign-none" style="display:none;">사인이 없을때</div>
-
-          <div class="sign-area">
-            <div class="sign-area-depth2">
-                % for admin_sign in admin_sign_list[:4]:
-                <div class="t-center">
-                  <img src="${admin_sign}" alt="sign">
+    <main id="printArea" class="accomplishment accomplishment-main">
+        <style>
+            .wrapper-banner-user{ margin-top: 0px; }
+            table, th, td { padding:5px; }
+            body { width: 100%; height: 100%; margin: 0; padding: 0; background-color: #ddd; font-family:'malgun gothic', 맑은 고딕; }
+            * { box-sizing: border-box; -moz-box-sizing: border-box; }
+            ul { border-left: 3px solid #333; padding-left: 15px; font-size:14px; }
+            ul li { list-style:none; }
+            .paper {
+                width: 210mm;
+                min-height: 297mm;
+                padding:35px;
+                margin: 10mm auto;
+                background: #fff;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                position:relative;
+            }
+            .content {
+                padding: 25px;
+                border: 4px solid #6c6f73;
+                height: 257mm;
+                position:relative;
+            }
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            @media print {
+                html, body {
+                    width: 210mm;
+                    height: 297mm;
+                    background: #fff;
+                }
+                .paper {
+                    margin: 0;
+                    border: initial;
+                    border-radius: initial;
+                    width: initial;
+                    min-height: initial;
+                    box-shadow: initial;
+                    background: initial;
+                    page-break-after: always;
+                }
+            }
+            .ribbon{
+                display: inline-block;
+                position: absolute;
+                right: 110px;
+                z-index: 10;
+                top: 0px;
+            }
+            h5{ margin:0; }
+            .t-center{ display:inline-block; float:right; margin-left: 34px; width: 140px; }
+            .t-center img { width:100%; height: 60px; }
+            .t-sign{ margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #333; }
+            .t-center:last-child{ margin-left:0; }
+            .t-center h5{ text-align:center; font-size:11px; }
+            .ce-bg{
+                background:url(images/bg.png) no-repeat;
+                width: 643px;
+                height: 232px;
+                display: inline-block;
+                position: absolute;
+                top: 393px;
+                left: 68px;
+            }
+            blockquote{ height: 165px; }
+            .ce-t-gray{ color:#959595; }
+            .content h1 { font-size:50px; margin-bottom: 80px; margin-top: 40px; }
+            .ce-txt-second { margin-top: 0px; font-size: 20px; }
+            .ce-center-txt1{ text-align: center; width: 249px; margin: 0 auto; }
+            .ce-center-txt2{ text-align:center; margin-bottom: 35px; }
+            .ce-v{
+                width: 20px;
+                display: inline-block;
+                height: 20px;
+                vertical-align: top;
+                margin-top: 2px;
+                margin-right: 3px;
+                margin-left: 5px;
+            }
+            .ce-v img {width: 100%;}
+            .sign-area{ display:inline-block; width:100%;}
+            .sign-area-depth1, .sign-area-depth2{display:inline-block; height:80px; width: 100%;}
+            .sign-none{ height:171px; display:inline-block; text-indent:-9999px; overflow:hidden;}
+            .ce-list li{margin-bottom: 4px;}
+            .ce-logo-area{display:inline-block; width:100%;}
+            .ce-logo{display:inline-block; float:right;  margin-left: 34px;  width: 140px;}
+            .ce-logo:last-child{margin-left:0;}
+            .ce-logo img{width:100%; height: 60px; }
+            .paper-area02 .paper h4{font-size: 20px; margin: 0px;}
+            .ce-pg2-top{margin-bottom: 100px; display: block;}
+            .ce-pg2-t01{margin-bottom: 100px;}
+            .ce-pg2-t01 table, .ce-pg2-t02 table{width:100%; border-collapse: collapse;}
+            .ce-pg2-t01 table tbody tr td{letter-spacing: -0.7px;}
+            .ce-pg2-t01 table tbody tr td p{padding: 0px 10px 0px 0px; font-size: 15px;}
+            .ce-pg2-t01 table tbody tr td span{white-space: nowrap; font-size: 12px;}
+            .ce-pg2-t01 table tbody tr td .ce-Tbold{font-weight: bold;}
+            .ce-pg2-t02 table tr th{font-size: 13px; border: 1px solid #eee; padding: 10px; background: #eee; border-right: 1px solid #fff;}
+            .ce-pg2-t02 table tr th:last-child{border-right: 1px solid #eee;}
+            .ce-pg2-t02 table tbody tr td{text-align: center; vertical-align: middle; font-size: 13px; border: 1px solid #eee; padding: 10px;}
+            .ce-pg2-t02 table tbody tr td p{padding:0px; text-align: left; margin:0px;}
+        </style>
+        <body>
+            <div>
+                <!-- 1page -->
+                <div class="paper">
+                    <div class="ce-bg"></div>
+                    <div class="ribbon">
+                        <img src="/static/images/cert/ribbon.png"/>
+                    </div>
+                    <div class="content">
+                        <h5>인증번호 : ${cert_uuid}</h5>
+                        <h5>출력일시 : ${kst}</h5>
+                        <h1>이 수 증</h1>
+                        <h5 class="ce-t-gray">이름</h5>
+                        <h4 class="ce-txt-second" style="margin-bottom: 0px;">
+                        <span>${user_name}</span>
+                        <span>(${user_birth})</span>
+                        % if user_nice == 'Y':
+                            (<i class="ce-v"><img src="/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
+                        % endif
+                        </h4>
+                        <div id="multi_info" style="font-size: 20px;color: #8a8585;margin-bottom: 12px;"></div>
+                        <h5  class="ce-t-gray">묶음 강좌명</h5>
+                        <h4 class="ce-txt-second">${package_name}</h4>
+                        <blockquote>
+                            <ul class="ce-list">
+                                % for course in package_cousre:
+                                    <li>${course[1]}</li>
+                                % endfor
+                            </ul>
+                        </blockquote>
+                        <h4 class="ce-center-txt2" style="margin-bottom: 0px;">위 과정을 성실히 이수하여</h4>
+                        <h4 class="ce-center-txt2" style="margin-bottom: 0px;">이 증서를 수여 합니다.</h4>
+                        <h4 class="ce-center-txt2">${cert_date}.</h4>
+                        <div class="sign-none" style="display:none;">사인이 없을때</div>
+                        <!--
+                        <div class="sign-area">
+                            <div class="sign-area-depth2">
+                            % for admin_sign in admin_sign_list[:4]:
+                                <div class="t-center">
+                                    <img src="${admin_sign}" alt="sign">
+                                </div>
+                            % endfor
+                        </div>
+                        <div class="sign-area-depth1">
+                            % if len(admin_sign_list) >= 5:
+                                % for admin_sign in admin_sign_list[4:]:
+                                    <div class="t-center">
+                                        <img src="${admin_sign}" alt="sign">
+                                    </div>
+                                % endfor
+                            % endif
+                            </div>
+                        </div>
+                        <div class="sign-area">
+                            <div class="ce-logo-area">
+                                % for org_img_path in org_img_path_list:
+                                    <div class="ce-logo"><img src="${org_img_path}"></div>
+                                % endfor
+                            </div>
+                        </div>
+                        -->
+                    </div>
                 </div>
-                % endfor
-            </div>
+                <!-- MarkAny Page Gubun -->
 
-            <div class="sign-area-depth1">
-              % if len(admin_sign_list) >= 5:
-                % for admin_sign in admin_sign_list[4:]:
-                <div class="t-center">
-                  <img src="${admin_sign}" alt="sign">
+                <!-- 2page -->
+                <div class="paper-area02">
+                    <div class="paper">
+                        <div class="content">
+                            <div class="ce-pg2-top">
+                                <h5>인증번호 : ${cert_uuid}</h5>
+                                <h5>출력일시 : ${kst}</h5>
+                            </div>
+                            <h4>${package_name}</h4>
+                            <div class="ce-pg2-t01">
+                                <table>
+                                    <colgrup>
+                                        <col width="*">
+                                        <col width="20%">
+                                        <col width="20%">
+                                    </colgrup>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="4"><p>${short_description}</p></td>
+                                            <td><span class="ce-Tbold">대표기관</span></td>
+                                            <td><span>${main_org}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ce-Tbold">총 주차</span></td>
+                                            <td><span>${e2_total}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ce-Tbold">총 합습인정시간</span></td>
+                                            <td><span>${e4_total}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ce-Tbold">총 동영상시간</span></td>
+                                            <td><span>${e3_total}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="ce-pg2-t02">
+                                <table>
+                                    <colgrup>
+                                        <col width="*">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                    </colgrup>
+                                    <thead>
+                                        <tr>
+                                            <th>강좌명</th>
+                                            <th>이수일</th>
+                                            <th>총주차</th>
+                                            <th>학습인정시간</th>
+                                            <th>총동영상시간</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        % for ppp in ppp_list:
+                                            <tr>
+                                                <td>
+                                                    <p>${ppp['display_name']}</p>
+                                                    <p>${ppp['start']} ~ ${ppp['end']}</p>
+                                                </td>
+                                                <td><span>${ppp['cert']}</span></td>
+                                                <td><span>${ppp['e2']}</span></td>
+                                                <td><span>${ppp['e4']}</span></td>
+                                                <td><span>${ppp['e3']}</span></td>
+                                            </tr>
+                                        % endfor
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- MarkAny Page Gubun -->
+                    </div>
                 </div>
-                % endfor
-              % endif
             </div>
-          </div>
-
-          <div class="sign-area">
-            <div class="ce-logo-area">
-              % for org_img_path in org_img_path_list:
-                <div class="ce-logo"><img src="${org_img_path}"></div>
-              % endfor
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 2page -->
-      <div class="paper-area02">
-        <div class="paper">
-
-          <div class="content">
-
-            <div class="ce-pg2-top">
-              <h5>인증번호 : ${cert_uuid}</h5>
-              <h5>출력일시 : ${kst}</h5>
-            </div>
-
-            <h4>${package_name}</h4>
-
-            <div class="ce-pg2-t01">
-              <table>
-                <colgrup>
-                  <col width="*">
-                  <col width="20%">
-                  <col width="20%">
-                </colgrup>
-
-                <tbody>
-                <tr>
-                  <td rowspan="4"><p>${short_description}</p></td>
-                  <td><span class="ce-Tbold">대표기관</span></td>
-                  <td><span>${main_org}</span></td>
-                </tr>
-
-                <tr>
-                  <td><span class="ce-Tbold">총 주차</span></td>
-                  <td><span>${e2_total}</span></td>
-                </tr>
-
-                <tr>
-                  <td><span class="ce-Tbold">총 합습인정시간</span></td>
-                  <td><span>${e4_total}</span></td>
-                </tr>
-
-                <tr>
-                  <td><span class="ce-Tbold">총 동영상시간</span></td>
-                  <td><span>${e3_total}</span></td>
-                </tr>
-                </tbody>
-
-              </table>
-            </div>
-
-            <div class="ce-pg2-t02">
-              <table>
-                <colgrup>
-                  <col width="*">
-                  <col width="10%">
-                  <col width="10%">
-                  <col width="15%">
-                  <col width="15%">
-                </colgrup>
-                <thead>
-                <tr>
-                  <th>강좌명</th>
-                  <th>이수일</th>
-                  <th>총주차</th>
-                  <th>학습인정시간</th>
-                  <th>총동영상시간</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                % for ppp in ppp_list:
-                <tr>
-                  <td>
-                    <p>${ppp['display_name']}</p>
-                    <p>${ppp['start']} ~ ${ppp['end']}</p>
-                  </td>
-                  <td><span>${ppp['cert']}</span></td>
-                  <td><span>${ppp['e2']}</span></td>
-                  <td><span>${ppp['e4']}</span></td>
-                  <td><span>${ppp['e3']}</span></td>
-                </tr>
-                % endfor
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-    </body>
-  </main>
+        </body>
+    </main>
 </div>
