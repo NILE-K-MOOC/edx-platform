@@ -512,7 +512,7 @@ def series_print(request, id):
         try:
             pro_sign_path = admin_sign[n][0]
             # pro_sign_path = pro_sign_path.replace("file_upload", "dev") # 개발용 - 경로 스니핑
-            admin_sign_list.append(pro_sign_path)
+            admin_sign_list.append('http://kmooc.kr' + pro_sign_path)
         except BaseException as err:
             print "admin_sign err : ", err
 
@@ -578,7 +578,7 @@ def series_print(request, id):
             query = '''
               select save_path
               from tb_attach
-              where group_name = '/top_img'
+              where group_name = '/logo_img'
               and group_id = '{sign}';
             '''.format(sign=sign)
             cur.execute(query)
@@ -586,7 +586,7 @@ def series_print(request, id):
             try:
                 org_img_path = org_img_path[0][0]
                 # org_img_path = org_img_path.replace("upload", "dev") # 개발용 - 경로 스니핑
-                org_img_path_list.append(org_img_path)
+                org_img_path_list.append('http://kmooc.kr' + org_img_path)
             except BaseException as err:
                 print "org_img_path err : ", err
                 org_img_path = ''
