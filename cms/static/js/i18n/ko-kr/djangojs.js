@@ -2170,6 +2170,8 @@
         "There are no posts in this topic yet.": "이 주제에는 아직 게시물이 없습니다.",
         "Link Description": "링크 설명",
         "How to create useful text alternatives.": "유용한 텍스트 대안을 만드는 방법.",
+        "Expand": "확장",
+        "Contract": "접기",
 
 
     };

@@ -16,8 +16,8 @@ var slide_option = {
   slideWidth: 1,
   speed: 700,
   pager: false,
-  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
-  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"><span class="hidden_head">' + gettext('Next') + '</span></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"><span class="hidden_head">' + gettext('Previous') + '</span></i>',
   onSliderLoad: function(){
     $('.kr01_movie_slider').css({'visibility': 'visible'});
   }
@@ -36,8 +36,8 @@ var slide_footer = {
     // slideMargin: 0,
     // nextSelector: '#ft_next',
     // prevSelector: '#ft_prev',
-    nextText: '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
-    prevText: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+    nextText: '<i class="fa fa-chevron-right" aria-hidden="true"><span class="hidden_head">' + gettext('Next') + '</span></i>',
+    prevText: '<i class="fa fa-chevron-left" aria-hidden="true"><span class="hidden_head">' + gettext('Previous') + '</span></i>',
   };
 
 
@@ -53,8 +53,8 @@ $(window).load(function () {
     auto: true,
     autoHover: true,
     controls: true,
-    nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"></i>',
-    prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i>',
+    nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"><span class="hidden_head">' + gettext('Next') + '</span></i>',
+    prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"><span class="hidden_head">' + gettext('Previous') + '</span></i>',
     pager: ($('.kr01_mainslider li').length > 1) ? true : false,
     onSliderLoad: function(currentIndex) {
       // $(".slider-txt").html($('.kr01_mainslider li').eq(currentIndex).find("img").attr("alt"));

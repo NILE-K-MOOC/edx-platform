@@ -27873,3 +27873,9 @@ msgstr "학점은행과정"
 
 msgid "Clipboard-copy"
 msgstr "클립보드에 복사"
+
+msgid "Expand"
+msgstr "확장"
+
+msgid "Contract"
+msgstr "접기"

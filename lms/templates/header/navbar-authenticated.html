@@ -297,16 +297,23 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         var lang = $('html').attr('lang');
         $('#' + lang).attr('checked', true);
 
-        $(".language-btn").click(function(){
+        $(".language-btn").on('click keypress', function(){
             var label_id = $(this).attr('for');
             $('#settings-language-value').val(label_id).trigger('change');
         });
 
-        $( '.kr01_Ttoggle' ).click(function(){
+        $( '.kr01_Ttoggle' ).on('click keypress', function(e){
+            let code;
+            if (e.type === 'keypress') {
+                code = e.charCode || e.keyCode;
+            }
+            if(e.type === 'click' || (code === 32 || code === 13)){
                 var target = $( this ).data( 'menu' );
 
                 $( '#' + target ).toggleClass( 'kr01_Tmenu--open' );
-            });
+
+            }
+        });
 
         $(".m-gnb").click(function () {
             console.log($("#gnb").is(':visible'));
