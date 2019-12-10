@@ -219,11 +219,11 @@ $(document).ready(function(){
 
 <section class="container" id="printArea">
 
-    <div class="section_1">
+    <div class="section_1" id="main">
         <div class="section_frame_outer">
             <div class="section_frame_inner">
                 <div class="float_left section_a1">
-                    <img class="series_imges" width="230px" height="130px" src="${main_list[3]}" alt="${main_list[1]}" onerror="this.src='/static/images/blank.png'"/>
+                    <img class="series_imges" width="230px" height="130px" src="${main_list[3]}" alt="${main_list[0]}" onerror="this.src='/static/images/blank.png'"/>
                 </div>
                 <div class="float_left section_a2">
                     <span class="bundle_subtxt">${main_list[5]}</span>
@@ -310,13 +310,13 @@ $(document).ready(function(){
                     <div class="float_left section_a1">
                         % if item['status'] == 'pass':
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank">
-                        <img class="series_imges" alt="" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
+                        <img class="series_imges" alt="${item['course_name']}" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
                         </a>
                     </div>
                     <div class="float_left section_a2">
                         <a class="pagerLink" href="/courses/${item['id']}/about" target="_blank"><div class="series_title">${item['course_name']}</div></a>
                         % else:
-                        <img class="series_imges" alt="" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
+                        <img class="series_imges" alt="${item['course_name']}" src="${item['course_image_url']}" onerror="this.src='/static/images/blank.png'"/>
                     </div>
                     <div class="float_left section_a2">
                         <div class="series_title">${item['course_name']}</div>
@@ -330,7 +330,7 @@ $(document).ready(function(){
                                 <tr>
                                     <th scope="row">
                                         <span class="siz">분야</span>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span>${_(item['classfy'])}(${_(item['middle_classfy'])})</span>
                                     </td>
@@ -340,7 +340,7 @@ $(document).ready(function(){
                                 <tr>
                                     <th scope="row">
                                         <span class="siz">난이도</span>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span>${_(item['course_level'])}</span>
                                     </td>
@@ -350,7 +350,7 @@ $(document).ready(function(){
                                 <tr>
                                     <th scope="row">
                                         <span class="siz">주차</span>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span>${item['effort_week']}${_("week")}</span>
                                     </td>
@@ -359,7 +359,7 @@ $(document).ready(function(){
                                 <tr>
                                     <th scope="row">
                                         <span class="siz">학습인정시간</span>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span>${item['study_time']}</span>
                                     </td>
@@ -368,7 +368,7 @@ $(document).ready(function(){
                                 <tr>
                                     <th scope="row">
                                         <span class="siz">개강상태</span>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span>${item['course_status']}</span>
                                     </td>

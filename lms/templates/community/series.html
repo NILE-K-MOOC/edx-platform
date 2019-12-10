@@ -81,7 +81,7 @@
 
 <div>
     <div class="series_bg_area">
-        <div class="series_bg_space">
+        <div class="series_bg_space" id="main">
       <span  class="series_bg_title">
       <h3>${_('About Series Course')}</h3>
       <h6>K-MOOC 묶음강좌란 특정 분야에 대한 보다 심도있는 학습기회를
@@ -99,7 +99,7 @@
         <div class="section_frame_inner">
             <div class="float_left section_a1">
                 <a class="pagerLink" href="/series_view/${item['series_seq']}">
-                <img class="series_imges" src="${item['save_path']}" alt="" onerror="this.src='/static/images/blank.png'"/>
+                <img class="series_imges" src="${item['save_path']}" alt="${item['series_name']}" onerror="this.src='/static/images/blank.png'"/>
                 </a>
             </div>
             <div class="float_left section_a2">

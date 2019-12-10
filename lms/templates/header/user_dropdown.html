@@ -21,12 +21,12 @@ displayname = get_enterprise_learner_generic_name(request) or username
 %>
 
 <div class="kr01_Ttoggle-wrap">
-    <a class="kr01_Ttoggle" id="user_dropdown" data-menu="settings">
+    <a tabindex="1" class="kr01_Ttoggle" id="user_dropdown" data-menu="settings">
         <div>
-        <i><img src="${profile_image_url}"></i>
+        <i><img alt="" src="${profile_image_url}"></i>
         <span class="sr-only">${_("Dashboard for:")}</span>
         <span>${displayname}</span>
-        <i><img src="/static/images/main/arrow-bottom02.png"></i>
+        <i><img alt="" src="/static/images/main/arrow-bottom02.png"></i>
         </div>
     </a>
     <ul class="kr01_Tmenu kr01_Tmenu--toggle" id="settings" style="z-index: 999;">

@@ -39,9 +39,11 @@ $( document ).ready(function() {
         if($('#middle_list').is(':visible') == false) {
             $('#middle_list').css({'display': 'inline-block'});
             $('.kr01-arrow').addClass('active');
+            $('#arrow_open').text(gettext('Contract'));
         } else {
             $('#middle_list').hide();
             $('.kr01-arrow').removeClass('active');
+            $('#arrow_open').text(gettext('Expand'));
         }
     });
 });
@@ -220,7 +222,7 @@ cookiedata = document.cookie;
                                 </a>
                             </div>
                             <div>
-                                <a onclick="show_course_popup();" class="fivemenarea-sub">
+                                <a onclick="show_course_popup();" title="새창 열림" class="fivemenarea-sub">
                                     <i class="fa fa-book"></i>
                                     <span>강좌정보</span>
                                     <!--#<span>${index_submenu['subm_title_2']}</span>-->
@@ -309,11 +311,11 @@ cookiedata = document.cookie;
                                 % endfor
                             </div>
                             <div class="kr01-Sarrow">
-                                <div class="bxslider-prev"></div>
-                                <div class="bxslider-next"></div>
+                                <div class="bxslider-prev"><span class="hidden_head">${_("Previous")}</span></div>
+                                <div class="bxslider-next"><span class="hidden_head">${_("Next")}</span></div>
                             </div>
                             <div class="kr01-slider-extend">
-                                <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/">
+                                <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/" title="커뮤니티 더보기">
                                     <span>${_("More")}+</span>
                                 </a>
                             </div>
@@ -417,6 +419,7 @@ cookiedata = document.cookie;
                             % endfor
                             </ul>
                             <a id="middle_list_link" href="#">
+                                <span class="hidden_head" id="arrow_open">${_("Expand")}</span>
                                 <span class="kr01-arrow"></span>
                             </a>
                                 <ul id="middle_list" class="kr01-middle-classfy-all link_to_courses">
