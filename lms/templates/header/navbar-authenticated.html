@@ -119,13 +119,13 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
               % if request.path == '/':
                 <div class="kr01-Tlanguage">
                   <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                  <label for="ko-kr" class="language-btn">
+                  <label tabindex="0" for="ko-kr" class="language-btn">
                     <i><img alt="" src="/static/images/main/kor.png"></i>
                     <span>KOR</span>
                   </label>
 
                   <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                  <label for="en" class="language-btn">
+                  <label tabindex="0" for="en" class="language-btn">
                     <i><img alt="" src="/static/images/main/eng.png"></i>
                     <span>ENG</span>
                   </label>
@@ -242,13 +242,13 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                   </div>
                     <div class="kr01-Tlanguage">
                       <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                      <label for="ko-kr" class="language-btn">
+                      <label tabindex="0" for="ko-kr" class="language-btn">
                         <i><img alt="" src="/static/images/main/kor.png"></i>
                         <span>KOR</span>
                       </label>
 
                       <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                      <label for="en" class="language-btn">
+                      <label tabindex="0" for="en" class="language-btn">
                         <i><img alt="" src="/static/images/main/eng.png"></i>
                         <span>ENG</span>
                       </label>
@@ -297,9 +297,15 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         var lang = $('html').attr('lang');
         $('#' + lang).attr('checked', true);
 
-        $(".language-btn").on('click keypress', function(){
-            var label_id = $(this).attr('for');
-            $('#settings-language-value').val(label_id).trigger('change');
+        $(".language-btn").on('click keypress', function(e){
+            let code;
+            if (e.type === 'keypress') {
+                code = e.charCode || e.keyCode;
+            }
+            if(e.type === 'click' || (code === 32 || code === 13)){
+              var label_id = $(this).attr('for');
+              $('#settings-language-value').val(label_id).trigger('change');
+            }
         });
 
         $( '.kr01_Ttoggle' ).on('click keypress', function(e){

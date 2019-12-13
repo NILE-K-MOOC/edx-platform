@@ -42,8 +42,26 @@ var slide_footer = {
 
 
 $(window).load(function () {
-  window_W = $(window).width();
-  var agent = navigator.userAgent.toLowerCase();
+
+    // 웹 접근성 추가
+    dropdown_keyboard_access('.nav-community');
+
+    $('.show-course-data').keydown(function(e){
+      console.log(e.keyCode);
+      if(e.keyCode === 13 || e.keyCode === 32){
+        show_course_popup();
+      }
+    });
+
+    $('.close-course-data').keydown(function(e){
+      console.log(e.keyCode);
+      if(e.keyCode === 13 || e.keyCode === 32){
+        close_course_detail_popup();
+      }
+    });
+
+    window_W = $(window).width();
+    var agent = navigator.userAgent.toLowerCase();
 
   console.log("script.js :: document.ready !!!");
   console.log('browser ::' + navigator.userAgent);
@@ -165,5 +183,19 @@ function slide_resize() {
   }
 
   footer_slider.reloadSlider(slide_footer);
+
+}
+
+function dropdown_keyboard_access(nav) {
+    $('.nav-community-link').keydown(function(e){
+        if(e.keyCode === 13 || e.keyCode === 32){
+          var menuParent = $(this).parents(nav);
+          if(!$(menuParent).hasClass('dropdown-visible')){
+            $(menuParent).addClass('dropdown-visible');
+          } else {
+            $(menuParent).removeClass('dropdown-visible');
+          }
+        }
+      });
 
 }
