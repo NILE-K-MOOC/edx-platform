@@ -56,6 +56,7 @@ function search(head_title) {
 
 function tab_click() {
     $(".faq-tab a").click(function () {
+        $('#faq_header').text($(this).attr('title'));
         $("#search").val('');
         search($(this).data('value'));
         sel_title = $(this).data('value');

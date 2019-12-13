@@ -2,18 +2,18 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
-<section class="courses-container bg-w">
-  <section class="highlighted-courses">
-    <span>
-		  <i class="kr01_iconarea" style=" "><img alt="" src="/static/images/main/kr_title02.png"></i>
-		  <span class="kr01_icontTitle">신규강좌</span>
+<section class="courses-container bg-w" tabindex="-1">
+  <section class="highlighted-courses" tabindex="-1">
+    <span tabindex="-1">
+		  <i class="kr01_iconarea" style=" " tabindex="-1"><img alt="" src="/static/images/main/kr_title02.png" tabindex="-1"></i>
+		  <span class="kr01_icontTitle" tabindex="-1">신규강좌</span>
 	  </span>
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-      <section class="courses kr01_movie_slider">
-        <ul class="course-card-slider bxslider" id="main_slider">
+      <section class="courses kr01_movie_slider" tabindex="-1">
+        <ul class="course-card-slider bxslider" id="main_slider" tabindex="-1">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
           % for course in new_courses:
-          <li class="courses-listing-item">
+          <li class="courses-listing-item" tabindex="-1">
             % if mobile is True:
               <%include file="mobile_course.html" args="course=course" />
             % else:

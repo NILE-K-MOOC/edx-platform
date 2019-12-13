@@ -2285,3 +2285,12 @@ button#intro_shot {
 #modalContainer {
 	min-width: 70%;
 }
+
+.similar-link:focus .similar-item {
+	padding: 3px;
+	border: solid 2px blue;
+}
+
+.kr01_mainslider a:focus img{
+	border: solid 2px blue;
+}
