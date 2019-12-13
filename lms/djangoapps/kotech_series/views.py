@@ -543,6 +543,7 @@ def series_print(request, id):
     print "--------------------------------------------"
 
     # 12. 사인경로 획득을 위한 "참여기관" 코드 불러오기
+    """
     with connections['default'].cursor() as cur:
         query = '''
             select distinct(org)
@@ -556,15 +557,18 @@ def series_print(request, id):
     print "--------------------------------------------"
     print "sub_sign -> ", sub_sign
     print "--------------------------------------------"
+    """
 
     # 13. "대표기관", "참여기관" 사인 통합
     sign_list = []
     sign_list.append(main_sign)
+    """
     for n in range(0, 3):
         try:
             sign_list.append(sub_sign[n][0])
         except BaseException as err:
             print "sign_list err : ", err
+    """
 
     # 개발 디버깅 로그
     print "--------------------------------------------"
@@ -600,15 +604,21 @@ def series_print(request, id):
     # 15. 강좌 리스트 (분석 필요...하드코딩 쉣!)
     with connections['default'].cursor() as cur:
         query = '''
-            select display_name, start, end, created_date, effort, org, display_number_with_default
+            select display_name, start, end, created_date, effort, org, display_number_with_default, teacher_name
             from (
-                select y.org, y.display_number_with_default, y.display_name, y.start, y.end, z.created_date, effort
+                select y.org, y.display_number_with_default, y.display_name, y.start, y.end, z.created_date, effort, teacher_name
                 from (
                     select org, display_number_with_default
                     from series_course
                     where series_seq = '{id}'
                 ) x
-                join course_overviews_courseoverview y
+                join (
+                    select x.id, x.org, x.display_number_with_default, x.display_name, x.start, x.end, x.effort, y.teacher_name
+                    from course_overviews_courseoverview x
+                    join course_overview_addinfo y
+                    on x.id = y.course_id
+                    group by x.org, x.display_number_with_default
+                ) y
                 on x.org = y.org
                 and x.display_number_with_default = y.display_number_with_default
                 join (
@@ -635,11 +645,19 @@ def series_print(request, id):
     ppp_list = []
     for r4 in row4:
         tmp = {}
+        teacher_name = r4[7]
+        teacher_name_list = teacher_name.split(',')
+        if len(teacher_name_list) > 1:
+            teacher_name = teacher_name_list[0] + '외 ' + str(len(teacher_name_list)-1) + '명'
+        else:
+            teacher_name = teacher_name
+        tmp['teacher_name'] = teacher_name
         tmp['display_name'] = r4[0]
         tmp['start'] = (r4[1] + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
         tmp['end'] = (r4[2] + datetime.timedelta(hours=+9)).strftime('%Y.%m.%d')
         ccc = r4[3] + datetime.timedelta(hours=+9)
-        ccc = ccc.strftime('%Y.%m.%d %H:%M:%S')
+        # ccc = ccc.strftime('%Y.%m.%d %H:%M:%S')
+        ccc = ccc.strftime('%Y.%m.%d')
         tmp['cert'] = ccc
         effort = r4[4]
         effort = effort.split('@')
@@ -688,6 +706,9 @@ def series_print(request, id):
     print "--------------------------------------------"
     print "org_list -> ", org_list
     print "--------------------------------------------"
+
+    # 개발 스니핑
+    # org_img_path_list = ['http://www.kmooc.kr/static/file_upload/KoreaUnivK.png']
 
     context = {}
     context['user_name'] = user_name

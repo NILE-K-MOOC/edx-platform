@@ -140,7 +140,7 @@ function changeEventHandler(event) {
         .ce-pg2-t01 table tbody tr td p{ padding: 0px 10px 0px 0px; font-size: 15px; }
         .ce-pg2-t01 table tbody tr td span{ white-space: nowrap; font-size: 12px; }
         .ce-pg2-t01 table tbody tr td .ce-Tbold{ font-weight: bold; }
-        .ce-pg2-t02 table tr th{ font-size: 13px; border: 1px solid #eee; padding: 10px; background: #eee; border-right: 1px solid #fff; }
+        .ce-pg2-t02 table tr th{ font-size: 13px; border: 1px solid #eee; padding: 2px; background: #eee; border-right: 1px solid #fff; }
         .ce-pg2-t02 table tr th:last-child{ border-right: 1px solid #eee; }
         .ce-pg2-t02 table tbody tr td{ text-align: center; vertical-align: middle; font-size: 13px; border: 1px solid #eee; padding: 10px; }
         .ce-pg2-t02 table tbody tr td p{ padding:0px; text-align: left; margin:0px; }
@@ -179,35 +179,18 @@ function changeEventHandler(event) {
                 </div>
                 <h5  class="ce-t-gray">묶음 강좌명</h5>
                 <h4 class="ce-txt-second">${package_name}</h4>
-                <blockquote>
-                    <ul class="ce-list">
+                <h5  class="ce-t-gray" style="margin-top: 12px; width: 100px; float: left; height: 160px;">세부강좌명</h5>
+                <blockquote style="margin-left: -8px; margin-top: 3px;">
+                    <ul class="ce-list" style="margin-top: 15px;">
                         % for course in package_cousre:
                             <li>${course[1]}</li>
                         % endfor
                     </ul>
                 </blockquote>
-                <h4 class="ce-center-txt2" style="margin-bottom: 0px;">위 과정을 성실히 이수하여</h4>
+                <h4 class="ce-center-txt2" style="margin-bottom: 0px; margin-top: 110px;">위 과정을 성실히 이수하여</h4>
                 <h4 class="ce-center-txt2" style="margin-bottom: 0px;">이 증서를 수여 합니다.</h4>
-                <h4 class="ce-center-txt2">${cert_date}.</h4>
+                <h4 class="ce-center-txt2" style="margin-bottom: 130px;">${cert_date}.</h4>
 
-                <div class="sign-area">
-                    <div class="sign-area-depth2">
-                    % for admin_sign in admin_sign_list[:4]:
-                        <div class="t-center">
-                            <img src="${admin_sign}" alt="sign">
-                        </div>
-                    % endfor
-                </div>
-                <div class="sign-area-depth1">
-                    % if len(admin_sign_list) >= 5:
-                        % for admin_sign in admin_sign_list[4:]:
-                            <div class="t-center">
-                                <img src="${admin_sign}" alt="sign">
-                            </div>
-                        % endfor
-                    % endif
-                    </div>
-                </div>
                 <div class="sign-area">
                     <div class="ce-logo-area">
                         % for org_img_path in org_img_path_list:
@@ -245,11 +228,11 @@ function changeEventHandler(event) {
                                 <td><span>${e2_total}</span></td>
                             </tr>
                             <tr>
-                                <td><span class="ce-Tbold">총 합습인정시간</span></td>
+                                <td><span class="ce-Tbold">총 학습 인정 시간</span></td>
                                 <td><span>${e4_total}</span></td>
                             </tr>
                             <tr>
-                                <td><span class="ce-Tbold">총 동영상시간</span></td>
+                                <td><span class="ce-Tbold">총 동영상 시간</span></td>
                                 <td><span>${e3_total}</span></td>
                             </tr>
                         </tbody>
@@ -266,11 +249,14 @@ function changeEventHandler(event) {
                         </colgrup>
                         <thead>
                             <tr>
-                                <th>강좌명</th>
+                                <th>
+                                    강좌명 <br> (운영 일정)
+                                </th>
+                                <th>교수자명</th>
                                 <th>이수일</th>
-                                <th>총주차</th>
-                                <th>학습인정시간</th>
-                                <th>총동영상시간</th>
+                                <th>총 주차</th>
+                                <th>학습 인정 시간</th>
+                                <th>총 동영상 시간</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -278,8 +264,9 @@ function changeEventHandler(event) {
                                 <tr>
                                     <td>
                                         <p>${ppp['display_name']}</p>
-                                        <p>${ppp['start']} ~ ${ppp['end']}</p>
+                                        <p>(${ppp['start']} ~ ${ppp['end']})</p>
                                     </td>
+                                    <td><span>${ppp['teacher_name']}</span></td>
                                     <td><span>${ppp['cert']}</span></td>
                                     <td><span>${ppp['e2']}</span></td>
                                     <td><span>${ppp['e4']}</span></td>
