@@ -183,7 +183,16 @@ from six import string_types
 #course-info .syllabus_table p{padding-left: 0}
 #course-info i.staff-name {font-style: normal}
 
-table caption{display: none}
+table caption{
+  display: block;
+  height: 0;
+  width: 0;
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
 /*Bullet image*/
 .fa {
@@ -838,7 +847,7 @@ div.about-side-title p {
 
               % if similar_course != None:
                 % for item in similar_course[1:4]:
-                <a href='/courses/${item["course_id"]}/about'>
+                <a href='/courses/${item["course_id"]}/about' class="similar-link">
                   <div class='similar-item'>
                     <div class='item-img'>
                       <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>

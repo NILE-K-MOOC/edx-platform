@@ -14,6 +14,7 @@
           ) %>
     </span>
     <table class="home-helpgrid">
+        <caption class="hidden_head">게시판 사용안내</caption>
       <tr class="helpgrid-row helpgrid-row-navigation">
         <th scope="row" class="row-title"><%- gettext("Find discussions") %></td>
         <td class="row-item">

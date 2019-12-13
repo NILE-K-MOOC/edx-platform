@@ -16,10 +16,20 @@ var slide_option = {
   slideWidth: 1,
   speed: 700,
   pager: false,
-  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"><span class="hidden_head">' + gettext('Next') + '</span></i>',
-  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"><span class="hidden_head">' + gettext('Previous') + '</span></i>',
-  onSliderLoad: function(){
-    $('.kr01_movie_slider').css({'visibility': 'visible'});
+  nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true" tabindex="-1"><span class="hidden_head">' + gettext('Next') + '</span></i>',
+  prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true" tabindex="-1"><span class="hidden_head">' + gettext('Previous') + '</span></i>',
+  onSliderLoad: function() {
+      $('.kr01_movie_slider').css({'visibility': 'visible'});
+      $('.bx-clone').find('article').prop('tabindex', '-1');
+  },
+  onSlideAfter: function(){
+      $(".course-card-slider").children("li").each(function(){
+          if($(this).attr("aria-hidden") == "false"){
+              $(this).find("article").attr("tabIndex","0");
+          }else{
+              $(this).find("article").attr("tabIndex","-1");
+          }
+      });
   }
 };
 
@@ -42,19 +52,16 @@ var slide_footer = {
 
 
 $(window).load(function () {
-
     // 웹 접근성 추가
     dropdown_keyboard_access('.nav-community');
 
     $('.show-course-data').keydown(function(e){
-      console.log(e.keyCode);
       if(e.keyCode === 13 || e.keyCode === 32){
         show_course_popup();
       }
     });
 
     $('.close-course-data').keydown(function(e){
-      console.log(e.keyCode);
       if(e.keyCode === 13 || e.keyCode === 32){
         close_course_detail_popup();
       }
@@ -66,23 +73,55 @@ $(window).load(function () {
   console.log("script.js :: document.ready !!!");
   console.log('browser ::' + navigator.userAgent);
   console.log('kr01_mainslider size check:::  ' + $('.kr01_mainslider').size());
-  $('.kr01_mainslider').bxSlider({
+  var mainSlider = $('.kr01_mainslider').bxSlider({
     mode: 'horizontal',
     auto: true,
     autoHover: true,
     controls: true,
     nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true"><span class="hidden_head">' + gettext('Next') + '</span></i>',
     prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"><span class="hidden_head">' + gettext('Previous') + '</span></i>',
-    pager: ($('.kr01_mainslider li').length > 1) ? true : false,
+    // pager: ($('.kr01_mainslider li').length > 1) ? true : false,
+    pager: false,
     onSliderLoad: function(currentIndex) {
       // $(".slider-txt").html($('.kr01_mainslider li').eq(currentIndex).find("img").attr("alt"));
       $('.kr01_mainslider_area').css({'visibility': 'visible'});
+      $('.bx-clone').find('a').prop('tabindex', '-1');
     },
     onSlideBefore: function($slideElement, oldIndex, newIndex) {
       $(".kr01_mainslider_captions .slider-txt").html($slideElement.find("img").attr("alt"));
+    },
+    onSlideAfter: function(){
+      $(".kr01_mainslider").children("li").each(function(){
+          if($(this).attr("aria-hidden") == "false"){
+              $(this).find("a").attr("tabIndex","0");
+          }else{
+              $(this).find("a").attr("tabIndex","-1");
+          }
+      });
     }
     // slideWidth: 1730
   });
+
+    // 접근성 슬라이더 수정
+    $('.kr01_mainslider_area li').focusin(function () {
+        $('.kr01_mainslider_area li').removeClass('focus');
+        $(this).parents('li').addClass('focus');
+        mainSlider.stopAuto();
+        if($('.kr01_mainslider_area li:first-child').hasClass('focus')){
+            mainSlider.css('transform', 'translate3d(0, 0px, 0px)');
+        }
+    });
+
+    $('.kr01_mainslider_area .bx-pager-link').focusin(function(){
+      $(this).parent().focus();
+    });
+
+    $('article.main-course-card').keydown(function(e){
+      if(e.keyCode === 13 || e.keyCode === 32){
+        location.href = $(this).children('a').attr('href');
+      }
+    });
+
 
   if(window_W < 440){
     slide_footer.maxSlides = 1;

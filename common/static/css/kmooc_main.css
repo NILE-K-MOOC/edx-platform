@@ -714,7 +714,7 @@ ul.bxslider {
   position: absolute;
   top: 50%;
   margin-top: -16px;
-  outline: 0;
+  /*outline: 0;*/
   width: 37px;
   height: 37px;
   /*text-indent: -9999px;*/
@@ -1017,7 +1017,7 @@ span.kr01-ftaddr.kr01-ftaddr-02 a {
   position: absolute;
   top: 50%;
   margin-top: -16px;
-  outline: 0;
+  /*outline: 0;*/
   width: 37px;
   height: 37px;
   /*text-indent: -9999px;*/
@@ -2128,7 +2128,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     position: absolute;
     top: 50%;
     /* margin-top: 0; */
-    outline: 0;
+    /*outline: 0;*/
     width: 20px;
     height: 20px;
     /* text-indent: -9999px; */
@@ -2167,25 +2167,26 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .kr01-arrow {
   /*width: 71px;*/
   right: 15px;
-  padding-right: 35px;
+  margin-right: 35px;
   padding-top: 6px;
   color: #525455 !important;
   font-weight: bold;
   position: absolute;
 }
 
-.kr01-arrow::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 10px solid #525455;
-    border-bottom: none;
-    position: absolute;
-    top: 7px;
-    right: 10px;
-}
+/*접근성 문제로 삭제*/
+/*.kr01-arrow::before {*/
+    /*content: '';*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-left: 6px solid transparent;*/
+    /*border-right: 6px solid transparent;*/
+    /*border-top: 10px solid #525455;*/
+    /*border-bottom: none;*/
+    /*position: absolute;*/
+    /*top: 7px;*/
+    /*right: 10px;*/
+/*}*/
 
 .kr01-arrow.active::before {
     border-top: none;

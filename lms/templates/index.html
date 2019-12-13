@@ -34,15 +34,23 @@ $( document ).ready(function() {
         $('#arrow_box_right').css("background-color", "");
     });
 
+    $('.kr01-arrow').keydown(function(e){
+        if(e.keyCode === 13 || e.keyCode === 32){
+            $('#middle_list_link').trigger('click');
+        }
+    });
+
     $('#middle_list_link').click(function(e){
         e.preventDefault();
         if($('#middle_list').is(':visible') == false) {
             $('#middle_list').css({'display': 'inline-block'});
             $('.kr01-arrow').addClass('active');
+            $('.kr01-arrow').text('▲');
             $('#arrow_open').text(gettext('Contract'));
         } else {
             $('#middle_list').hide();
             $('.kr01-arrow').removeClass('active');
+            $('.kr01-arrow').text('▼');
             $('#arrow_open').text(gettext('Expand'));
         }
     });
@@ -418,9 +426,9 @@ cookiedata = document.cookie;
                                 <li class="kr01-mid-name"><a href="#" data-facet="middle_classfy" data-term="${ran[0]}">#${ran[1]}</a></li>
                             % endfor
                             </ul>
-                            <a id="middle_list_link" href="#">
+                            <a id="middle_list_link" href="#" tabindex="-1">
                                 <span class="hidden_head" id="arrow_open">${_("Expand")}</span>
-                                <span class="kr01-arrow"></span>
+                                <span tabindex="0" class="kr01-arrow">▼</span>
                             </a>
                                 <ul id="middle_list" class="kr01-middle-classfy-all link_to_courses">
                                     % for m_classfy in middle_list:
