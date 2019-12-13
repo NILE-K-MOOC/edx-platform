@@ -75,6 +75,7 @@ $(document).ready(function() {
 function show_course_popup(){
   $('.main-course-detail-dim').fadeIn();
   $('.main-course-detail-popup').fadeIn();
+  $('.main-course-detail-popup').focus();
 }
 
 // Accessibility keyboard controls for user dropdown and mobile menu

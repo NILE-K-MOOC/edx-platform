@@ -54,7 +54,8 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
 
 
                       % if LANGUAGE_CODE != 'en':
-                        <li class="kr02nav__menu-item"><a href="#" data-hover-label='${_("Community")}'>${_("Community")}</a>
+                        <li class="kr02nav__menu-item nav-community">
+                          <a href="#" class="nav-community-link" data-hover-label='${_("Community")}'>${_("Community")}</a>
                             <ul class="kr01nav__submenu">
                               <li class="kr01nav__submenu-item"> <a href="/comm_list/N">공지사항</a></li>
                               <li class="kr01nav__submenu-item"> <a href="/comm_list/K">K-MOOC 뉴스</a></li>
@@ -71,4 +72,3 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
 
         </section>
     </section>
-
