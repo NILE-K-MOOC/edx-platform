@@ -95,7 +95,7 @@
             title="<%= name %>"
         />
         <% if( form === 'register' ) {%>
-        <input title="<%= name %>2" id="<%= form %>-<%= name %>2"
+        <input title="<%= name %> check" id="<%= form %>-<%= name %>2"
            type="<%= type %>"
            name="<%= name %>2"
            class="input-block"
