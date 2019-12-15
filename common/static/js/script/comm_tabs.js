@@ -31,6 +31,12 @@ $(document).ready(function () {
             }
         });
 
+    $("#questionLink").keyup(function(e){
+        if(e.keyCode == 13){
+            $("#question").click();
+        };
+    });
+
 
 });
 
@@ -90,7 +96,9 @@ function view_content() {
             $(this).next().slideUp();
         } else {
             $("dd:visible").slideUp();
-            $(this).next().slideDown();
+            $(this).next().slideDown(function(){
+                $("dd:visible").prop("tabindex", "0");
+            });
         }
     });
 }
