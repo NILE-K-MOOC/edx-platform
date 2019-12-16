@@ -314,10 +314,10 @@ cookiedata = document.cookie;
                         <div class="kr01_alert_slider">
                             <div class="slider" id="board_slider">
                                 % for list in index_list[:4] :
-                                    % if list[5] != 'F':
-                                    <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    % if list['section'] != 'F':
+                                    <article class="slide"><a href="/comm_view/${list['section']}/1/${list['board_id']}"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
                                     % else:
-                                    <article class="slide"><a href="/comm_tabs/${list[6]}/"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    <article class="slide"><a href="/comm_tabs/${list['faq_section']}/"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
                                     % endif
                                 % endfor
                             </div>
@@ -326,7 +326,7 @@ cookiedata = document.cookie;
                                 <div class="bxslider-next"><span class="hidden_head">${_("Next")}</span></div>
                             </div>
                             <div class="kr01-slider-extend">
-                                <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/" title="커뮤니티 더보기">
+                                <a href="${'/comm_list/' + index_list[0]['section'] if index_list[0]['section'] != 'F' else '/comm_tabs/kmooc_f'}/" id="comm_more" title="${index_list[0]['category']}">
                                     <span>${_("More")}+</span>
                                 </a>
                             </div>
@@ -379,12 +379,14 @@ cookiedata = document.cookie;
                                         nextText: '',
                                         onSlideBefore: function($slideElement, oldIndex, newIndex) {
                                             var comm_link = $slideElement.find("a").attr("href");
+                                            var comm_category = $slideElement.find("span.comm-category").text();
                                             var comm_link_gbn = comm_link.split('/');
                                             var comm_more = '#';
                                             if(comm_link_gbn[2] != 'F')
                                                 comm_more = '/comm_list/' + comm_link_gbn[2];
                                             else comm_more = '/comm_tabs/kmooc_f/';
                                             $(".kr01-slider-extend").children('a').attr('href', comm_more);
+                                            $("#comm_more").attr('title', comm_category);
                                         }
                                     }
                                 ;
