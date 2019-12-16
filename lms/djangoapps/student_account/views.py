@@ -1110,7 +1110,7 @@ def remove_account(request):
             account_privacy_setting = {u'account_privacy': u'private'}
             update_user_preferences(request.user, account_privacy_setting, request.user.username)
             find_user = User.objects.get(id=request.user.id)
-            ts = datetime.datetime.today().strftime("%Y%m%d%H%M%S")
+            ts = datetime.today().strftime("%Y%m%d%H%M%S")
             user_profile = UserProfile.objects.get(user_id=request.user.id)
 
             # third_party_auth 설정 후 아래 커멘트를 열어준다.

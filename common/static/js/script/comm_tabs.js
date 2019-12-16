@@ -4,6 +4,7 @@
  */
 var sel_title = '';
 $(document).ready(function () {
+
     tab_click();
     view_content();
 
@@ -17,9 +18,26 @@ $(document).ready(function () {
         search('total_f');
     });
 
-    $("#question").click(function(){
+    $("#question").click(function () {
         location.href = '/comm_faqrequest/' + sel_title;
     });
+
+    // 웹 접근성 관련 키보드 접근 소스 추가
+    $(".faq-tab>a")
+        .prop("tabindex", "0")
+        .keyup(function (e) {
+            if (e.keyCode == 13) {
+                $(this).click();
+            }
+        });
+
+    $("#questionLink").keyup(function(e){
+        if(e.keyCode == 13){
+            $("#question").click();
+        };
+    });
+
+
 });
 
 function search(head_title) {
@@ -48,6 +66,15 @@ function search(head_title) {
             }
             $(".faq-list").html(html);
 
+            // 웹 접근성 관련 키보드 접근 소스 추가
+            $(".faq-list dt")
+                .prop("tabindex", "0")
+                .keyup(function (e) {
+                    if (e.keyCode == 13) {
+                        $(this).click();
+                    }
+                });
+
             view_content();
 
         },
@@ -65,11 +92,13 @@ function tab_click() {
 
 function view_content() {
     $(".faq-list dt").click(function () {
-        if($(this).next().is(":visible")){
+        if ($(this).next().is(":visible")) {
             $(this).next().slideUp();
-        }else{
+        } else {
             $("dd:visible").slideUp();
-            $(this).next().slideDown();
+            $(this).next().slideDown(function(){
+                $("dd:visible").prop("tabindex", "0");
+            });
         }
     });
 }
