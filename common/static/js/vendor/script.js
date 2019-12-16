@@ -25,9 +25,9 @@ var slide_option = {
   onSlideAfter: function(){
       $(".course-card-slider").children("li").each(function(){
           if($(this).attr("aria-hidden") == "false"){
-              $(this).find("article").attr("tabIndex","0");
+              $(this).find("article").prop("tabindex","0");
           }else{
-              $(this).find("article").attr("tabIndex","-1");
+              $(this).find("article").prop("tabindex","-1");
           }
       });
   }
@@ -93,9 +93,9 @@ $(window).load(function () {
     onSlideAfter: function(){
       $(".kr01_mainslider").children("li").each(function(){
           if($(this).attr("aria-hidden") == "false"){
-              $(this).find("a").attr("tabIndex","0");
+              $(this).find("a").prop("tabindex","0");
           }else{
-              $(this).find("a").attr("tabIndex","-1");
+              $(this).find("a").prop("tabindex","-1");
           }
       });
     }
