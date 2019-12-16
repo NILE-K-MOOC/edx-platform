@@ -35,8 +35,11 @@ $( document ).ready(function() {
     });
 
     $('.kr01-arrow').keydown(function(e){
-        if(e.keyCode === 13 || e.keyCode === 32){
-            $('#middle_list_link').trigger('click');
+        console.log(e.keyCode);
+        $.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
+
+        if((e.keyCode === 13 || e.keyCode === 32) && $.browser.chrome){
+            $('#middle_list_link').click();
         }
     });
 
