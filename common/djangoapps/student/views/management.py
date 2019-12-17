@@ -480,11 +480,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      END
                          head_title,
                          subject,
-                         content,
                          SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          '',
-                         mod_date,
                          odby
                     FROM tb_board
                    WHERE section = 'N'
@@ -505,11 +503,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      END
                          head_title,
                          subject,
-                         mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
                          SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          '',
-                         mod_date,
                          odby
                     FROM tb_board
                    WHERE section = 'K'
@@ -528,11 +524,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                      END
                          head_title,
                          subject,
-                         content,
                          SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          '',
-                         mod_date,
                          odby
                     FROM tb_board
                    WHERE section = 'R'
@@ -555,11 +549,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                        END
                           head_title,
                          subject,
-                         content,
                          SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          head_title,
-                         mod_date,
                          odby
                     FROM tb_board
                    WHERE section = 'F'
@@ -569,13 +561,11 @@ def index(request, extra_context=None, user=AnonymousUser()):
                    limit 5)
             union all
                 (  SELECT board_id,
-                         '' head_title,
+                         head_title,
                          subject,
-                         content,
                          SUBSTRING(reg_date, 1, 11) reg_date,
                          section,
                          head_title,
-                         mod_date,
                          odby
                     FROM tb_board
                    WHERE section = 'M'
@@ -603,11 +593,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                          END
                              head_title,
                              subject,
-                             content,
                              SUBSTRING(reg_date, 1, 11) reg_date,
                              section,
                              '',
-                             mod_date,
                              odby
                         FROM tb_board
                        WHERE section = 'N'
@@ -627,11 +615,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                          END
                              head_title,
                              subject,
-                             mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
                              SUBSTRING(reg_date, 1, 11) reg_date,
                              section,
                              '',
-                             mod_date,
                              odby
                         FROM tb_board
                        WHERE section = 'K'
@@ -649,11 +635,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                          END
                              head_title,
                              subject,
-                             content,
                              SUBSTRING(reg_date, 1, 11) reg_date,
                              section,
                              '',
-                             mod_date,
                              odby
                         FROM tb_board
                        WHERE section = 'R'
@@ -675,11 +659,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                            END
                               head_title,
                              subject,
-                             content,
                              SUBSTRING(reg_date, 1, 11) reg_date,
                              section,
                              head_title,
-                             mod_date,
                              odby
                         FROM tb_board
                        WHERE section = 'F'
@@ -690,11 +672,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
                     (  SELECT board_id,
                              '' head_title,
                              subject,
-                             content,
                              SUBSTRING(reg_date, 1, 11) reg_date,
                              section,
                              head_title,
-                             mod_date,
                              odby
                         FROM tb_board
                        WHERE section = 'M'
@@ -706,26 +686,24 @@ def index(request, extra_context=None, user=AnonymousUser()):
             cur.execute(query)
             row = cur.fetchall()
 
-    for i in row:
-        value_list = []
-        value_list.append(i[0])
-        value_list.append(i[1])
-        value_list.append(i[2])
-        s = i[3]
-        text = re.sub('<[^>]*>', '', s)
-        text = re.sub('&nbsp;', '', text)
-        text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
-        text1 = re.sub('/home/project/management/home/static/upload/', '', text)
-        # text1 = re.sub('/manage/home/static/excel/notice_file/', '', text)
-        text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
-        # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
-        value_list.append(text[0:200])
-        value_list.append(i[4])
-        value_list.append(i[5])
-        value_list.append(i[6])
-        value_list.append(text1)
-        index_list.append(value_list)
+    comm_section = {
+        'N': '공지사항 더보기',
+        'K': 'K-MOOC 뉴스 더보기',
+        'R': '자료실 더보기',
+        'F': 'FAQ 더보기',
+        'M': '모바일 더보기'
+    }
 
+    for i in row:
+        comm_dict = dict()
+        comm_dict['board_id'] = i[0]
+        comm_dict['head_title'] = i[1]
+        comm_dict['subject'] = i[2]
+        comm_dict['section'] = i[4]
+        comm_dict['faq_section'] = i[5]
+        comm_dict['category'] = comm_section[i[4]]
+
+        index_list.append(comm_dict)
 
     context['index_list'] = index_list
 
