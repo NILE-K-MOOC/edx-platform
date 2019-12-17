@@ -12848,7 +12848,7 @@ msgstr "강좌가 끝났습니다."
 
 #: lms/templates/hidden_content.html
 msgid "The due date for this assignment has passed."
-msgstr "니 과제의 마감일이 지났습니다."
+msgstr "이 과제의 마감일이 지났습니다."
 
 #: lms/templates/hidden_content.html
 msgid ""
