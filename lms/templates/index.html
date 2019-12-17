@@ -365,33 +365,54 @@ cookiedata = document.cookie;
                                 */
 
                                 var sliderOptions = {
-                                        mode: 'vertical',
-                                        slideSelector: '.slider article.slide',
-                                        minSlides: 1,
-                                        maxSlides: 1,
-                                        auto: ($('#board_slider').children().length < 2) ? false : true,
-                                        autoHover: true,
-                                        infiniteLoop: true,
-                                        controls: true,
-                                        prevSelector: 'div.bxslider-prev',
-                                        prevText: '',
-                                        nextSelector: 'div.bxslider-next',
-                                        nextText: '',
-                                        onSlideBefore: function($slideElement, oldIndex, newIndex) {
-                                            var comm_link = $slideElement.find("a").attr("href");
-                                            var comm_category = $slideElement.find("span.comm-category").text();
-                                            var comm_link_gbn = comm_link.split('/');
-                                            var comm_more = '#';
-                                            if(comm_link_gbn[2] != 'F')
-                                                comm_more = '/comm_list/' + comm_link_gbn[2];
-                                            else comm_more = '/comm_tabs/kmooc_f/';
-                                            $(".kr01-slider-extend").children('a').attr('href', comm_more);
-                                            $("#comm_more").attr('title', comm_category);
+                                    mode: 'vertical',
+                                    slideSelector: '.slider article.slide',
+                                    minSlides: 1,
+                                    maxSlides: 1,
+                                    auto: ($('#board_slider').children().length < 2) ? false : true,
+                                    autoHover: true,
+                                    infiniteLoop: true,
+                                    controls: true,
+                                    prevSelector: 'div.bxslider-prev',
+                                    prevText: '',
+                                    nextSelector: 'div.bxslider-next',
+                                    nextText: '',
+                                    onSliderLoad: function(currentIndex) {
+                                        $('.bx-clone').find('a').prop('tabindex', '-1');
+                                    },
+                                    onSlideBefore: function($slideElement, oldIndex, newIndex) {
+                                        var comm_link = $slideElement.find("a").attr("href");
+                                        var comm_category = $slideElement.find("span.comm-category").text();
+                                        var comm_link_gbn = comm_link.split('/');
+                                        var comm_more = '#';
+                                        if(comm_link_gbn[2] != 'F')
+                                            comm_more = '/comm_list/' + comm_link_gbn[2];
+                                        else comm_more = '/comm_tabs/kmooc_f/';
+                                        $(".kr01-slider-extend").children('a').attr('href', comm_more);
+                                        $("#comm_more").attr('title', comm_category);
+                                    },
+                                    onSlideAfter: function(){
+                                        $("#board_slider").children("article").each(function(){
+                                            if($(this).attr("aria-hidden") == "false"){
+                                                $(this).find("a").prop("tabindex", "0");
+                                            }else{
+                                                $(this).find("a").prop("tabindex", "-1");
                                         }
+                                        });
                                     }
-                                ;
+                                };
 
-                                $('#board_slider').bxSlider(sliderOptions);
+                                var board_slider = $('#board_slider').bxSlider(sliderOptions);
+
+                                // 접근성 슬라이더 수정
+                                $('#board_slider article').focusin(function () {
+                                    $('#board_slider article').removeClass('focus');
+                                    $(this).parents('article').addClass('focus');
+                                    board_slider.stopAuto();
+                                    if($('#board_slider article:first-child').hasClass('focus')){
+                                        board_slider.css('transform', 'translate3d(0, 0px, 0px)');
+                                    }
+                                });
 
                             });
 
