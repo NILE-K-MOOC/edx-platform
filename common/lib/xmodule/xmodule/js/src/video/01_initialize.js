@@ -297,7 +297,7 @@ function(VideoPlayer, i18n, moment, _) {
     // The function prepare HTML5 video, parse HTML5
     // video sources etc.
     function _prepareHTML5Video(state) {
-        state.speeds = ['0.75', '1.0', '1.25', '1.50'];
+        state.speeds = ['0.75', '1.0', '1.25', '1.50', '2.0'];
         // If none of the supported video formats can be played and there is no
         // short-hand video links, than hide the spinner and show error message.
         if (!state.config.sources.length) {
