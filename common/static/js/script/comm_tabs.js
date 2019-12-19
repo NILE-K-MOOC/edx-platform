@@ -53,7 +53,7 @@ function search(head_title) {
 
             var html = "";
             for (var i = 0; i < data.length; i++) {
-                html += "<dt><a>" + data[i].subject + "</a></dt>";
+                html += "<dt>" + data[i].subject + "</dt>";
                 html += "<dd>";
                 html += "   <div>" + data[i].content + "</div>";
                 html += "</dd>";
@@ -78,18 +78,32 @@ function tab_click() {
 }
 
 function view_content() {
-    $(".faq-list>dt>a")
-        .prop({"tabindex": "0", "href": "#"})
+    $(".faq-list>dt")
+        .prop({"tabindex": "0"})
         .click(function (e) {
             let k = e.keyCode || e.which;
 
-            if ($(this).parent().next().is(":visible")) {
-                $(this).parent().next().slideUp();
+            if ($(this).next().is(":visible")) {
+                $(this).next().slideUp();
             } else {
                 $("dd:visible").slideUp();
-                $(this).parent().next().slideDown(function(){
+                $(this).next().slideDown(function () {
                     $(this).prop({"tabindex": "0"})
                 });
+            }
+        })
+        .keyup(function (e) {
+            let k = e.keyCode || e.which;
+            if (k === 13) {
+
+                if ($(this).next().is(":visible")) {
+                    $(this).next().slideUp();
+                } else {
+                    $("dd:visible").slideUp();
+                    $(this).next().slideDown(function () {
+                        $(this).prop({"tabindex": "0"})
+                    });
+                }
             }
         });
 }

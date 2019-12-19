@@ -19,7 +19,7 @@
         font-size: 17px;
         cursor: pointer;
     }
-    .faq-list dt > a {
+    .faq-list dt {
         display: block;
         padding: 12px 10px 12px 50px;
         font-size: 1.125rem;
@@ -65,7 +65,7 @@
     <dl class="faq-list" title="FAQ 목록">
         % if data:
         % for board in data:
-           <dt><a>${board.subject}</a></dt>
+           <dt>${board.subject}</dt>
            <dd>
               <div>
                  ${board.content}
