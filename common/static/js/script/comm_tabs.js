@@ -22,19 +22,13 @@ $(document).ready(function () {
         location.href = '/comm_faqrequest/' + sel_title;
     });
 
-    // 웹 접근성 관련 키보드 접근 소스 추가
-    $(".faq-tab>a")
-        .prop("tabindex", "0")
-        .keyup(function (e) {
-            if (e.keyCode == 13) {
-                $(this).click();
-            }
-        });
-
-    $("#questionLink").keyup(function(e){
-        if(e.keyCode == 13){
+    $("#questionLink").click(function (e) {
+        let k = e.keyCode || e.which;
+        console.log('k3: ' + k);
+        if (k == 1 || k == 13) {
             $("#question").click();
-        };
+        }
+        ;
     });
 
 
@@ -66,15 +60,6 @@ function search(head_title) {
             }
             $(".faq-list").html(html);
 
-            // 웹 접근성 관련 키보드 접근 소스 추가
-            $(".faq-list dt")
-                .prop("tabindex", "0")
-                .keyup(function (e) {
-                    if (e.keyCode == 13) {
-                        $(this).click();
-                    }
-                });
-
             view_content();
 
         },
@@ -82,23 +67,29 @@ function search(head_title) {
 }
 
 function tab_click() {
-    $(".faq-tab a").click(function () {
-        $('#faq_header').text($(this).attr('title'));
-        $("#search").val('');
-        search($(this).data('value'));
-        sel_title = $(this).data('value');
-    });
+    $(".faq-tab>a")
+        .prop({"tabindex": "0", "href": "#"})
+        .click(function () {
+            $('#faq_header').text($(this).attr('title'));
+            $("#search").val('');
+            search($(this).data('value'));
+            sel_title = $(this).data('value');
+        });
 }
 
 function view_content() {
-    $(".faq-list dt").click(function () {
-        if ($(this).next().is(":visible")) {
-            $(this).next().slideUp();
-        } else {
-            $("dd:visible").slideUp();
-            $(this).next().slideDown(function(){
-                $("dd:visible").prop("tabindex", "0");
-            });
-        }
-    });
+    $(".faq-list>dt>a")
+        .prop({"tabindex": "0", "href": "#"})
+        .click(function (e) {
+            let k = e.keyCode || e.which;
+
+            if ($(this).parent().next().is(":visible")) {
+                $(this).parent().next().slideUp();
+            } else {
+                $("dd:visible").slideUp();
+                $(this).parent().next().slideDown(function(){
+                    $(this).prop({"tabindex": "0"})
+                });
+            }
+        });
 }

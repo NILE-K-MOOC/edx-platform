@@ -19,3 +19,7 @@ $(document).ready(function(){
         });
     }
 });
+
+function toURL(url){
+    document.location.href = url;
+}
