@@ -321,7 +321,7 @@ def comm_file(request, file_id=None):
         real_path = '/edx/var/edxapp' + save_path
 
         # test
-        real_path = '/edx/app/edxapp/edx-platform/64f4225de45c4c0aaf4314d0c680c9f1'
+        # real_path = '/edx/app/edxapp/edx-platform/64f4225de45c4c0aaf4314d0c680c9f1'
 
     except Exception as e:
         print 'comm_file error --- s'
