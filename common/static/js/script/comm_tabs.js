@@ -55,11 +55,9 @@ function search(head_title) {
                 html += "<dd>";
                 html += "   <div>";
                 html += data[i].content;
-                html += `
-                    <div style="min-height: 30px;">
-                    <input type="button" value="닫기" title="닫기" style="float: right; background: #ccc; border: 0;">
-                    </div>
-                `;
+                html += '       <div style="min-height: 30px;">';
+                html += '           <input type="button" value="닫기" title="닫기" style="float: right; background: #ccc; border: 0;">';
+                html += '       </div>';
                 html += "   </div>";
 
                 html += "</dd>";
@@ -73,41 +71,35 @@ function search(head_title) {
 }
 
 function tab_click() {
-    $(".faq-tab>a")
-        .prop({"tabindex": "0", "href": "#"})
-        .click(function () {
-            $('#faq_header').text($(this).attr('title'));
-            $("#search").val('');
-            search($(this).data('value'));
-            sel_title = $(this).data('value');
-        });
+    $(".faq-tab>a").click(function (e) {
+        e.preventDefault();
+        $('#faq_header').text($(this).attr('title'));
+        $("#search").val('');
+        search($(this).data('value'));
+        sel_title = $(this).data('value');
+    });
 }
 
 function view_content() {
-    $(".faq-list>dt>a")
-        .prop({"tabindex": "0", "href": "#"})
-        .click(function (e) {
-            let k = e.keyCode || e.which;
-
-            if ($(this).parent().next().is(":visible")) {
-                $(this).parent().next().slideUp();
-            } else {
-                $("dd:visible").slideUp();
-                $(this).parent().next().slideDown(function () {
-                    $(this).prop({"tabindex": "0"})
-                });
-            }
-        });
-
-    $("dd input:button").click(function (e) {
+    $(".faq-list>dt>a").click(function (e) {
+        e.preventDefault();
         if ($(this).parent().next().is(":visible")) {
             $(this).parent().next().slideUp();
         } else {
             $("dd:visible").slideUp();
-            $(this).parent().next().slideDown(function () {
-                $(this).prop({"tabindex": "0"})
-            });
+            $(this).parent().next().slideDown();
         }
+    });
+
+    $("dd input:button").click(function (e) {
+        e.preventDefault();
+        let t = $("dd:visible");
+        let p = t.prev().find("a").get(0);
+        $(t).slideUp(function(){
+            setTimeout(function(){
+                $(p).focus();
+            }, 1);
+        });
     });
 
 }
