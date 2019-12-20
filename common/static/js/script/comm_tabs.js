@@ -24,11 +24,9 @@ $(document).ready(function () {
 
     $("#questionLink").click(function (e) {
         let k = e.keyCode || e.which;
-        console.log('k3: ' + k);
         if (k == 1 || k == 13) {
-            $("#question").click();
+            location.href = '/comm_faqrequest/' + sel_title;
         }
-        ;
     });
 
 
@@ -53,9 +51,17 @@ function search(head_title) {
 
             var html = "";
             for (var i = 0; i < data.length; i++) {
-                html += "<dt>" + data[i].subject + "</dt>";
+                html += "<dt><a href='#'>" + data[i].subject + "</a></dt>";
                 html += "<dd>";
-                html += "   <div>" + data[i].content + "</div>";
+                html += "   <div>";
+                html += data[i].content;
+                html += `
+                    <div style="min-height: 30px;">
+                    <input type="button" value="닫기" title="닫기" style="float: right; background: #ccc; border: 0;">
+                    </div>
+                `;
+                html += "   </div>";
+
                 html += "</dd>";
             }
             $(".faq-list").html(html);
@@ -78,32 +84,34 @@ function tab_click() {
 }
 
 function view_content() {
-    $(".faq-list>dt")
-        .prop({"tabindex": "0"})
+    $(".faq-list>dt>a")
+        .prop({"tabindex": "0", "href": "#"})
         .click(function (e) {
             let k = e.keyCode || e.which;
 
-            if ($(this).next().is(":visible")) {
-                $(this).next().slideUp();
+            if ($(this).parent().next().is(":visible")) {
+                $(this).parent().next().slideUp();
             } else {
                 $("dd:visible").slideUp();
-                $(this).next().slideDown(function () {
+                $(this).parent().next().slideDown(function () {
                     $(this).prop({"tabindex": "0"})
                 });
             }
-        })
-        .keyup(function (e) {
-            let k = e.keyCode || e.which;
-            if (k === 13) {
-
-                if ($(this).next().is(":visible")) {
-                    $(this).next().slideUp();
-                } else {
-                    $("dd:visible").slideUp();
-                    $(this).next().slideDown(function () {
-                        $(this).prop({"tabindex": "0"})
-                    });
-                }
-            }
         });
+
+    $("dd input:button").click(function (e) {
+        if ($(this).parent().next().is(":visible")) {
+            $(this).parent().next().slideUp();
+        } else {
+            $("dd:visible").slideUp();
+            $(this).parent().next().slideDown(function () {
+                $(this).prop({"tabindex": "0"})
+            });
+        }
+    });
+
 }
+
+
+
+

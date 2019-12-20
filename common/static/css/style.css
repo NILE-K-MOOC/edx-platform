@@ -2209,7 +2209,7 @@ button#intro_shot {
 }
 
 .hidden_head {
-	display:block; height: 0; width: 0; font-size: 0; line-height: 0; margin: 0; padding: 0; overflow:hidden;
+	display:inline; height: 0; width: 0; font-size: 0; line-height: 0; margin: 0; padding: 0; overflow:hidden;
 }
 
 .univSns {
