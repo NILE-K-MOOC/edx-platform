@@ -193,6 +193,102 @@ def comm_list(request, section=None, curr_page=None):
 
 
 @ensure_csrf_cookie
+def mobile_comm_list(request, section=None, curr_page=None):
+    if request.is_ajax():
+
+        print "--------------------------> comm_list"
+
+        page_size = request.POST.get('page_size')
+        curr_page = request.POST.get('curr_page')
+        search_con = request.POST.get('search_con')
+        search_str = request.POST.get('search_str')
+
+        if search_str != '':
+            request.session['search_str'] = search_str
+
+        if search_str == '' and 'search_str' in request.session:
+            search_str = request.session['search_str']
+            del request.session['search_str']
+
+        print "--------------------> search_str [s]"
+        print "search_str = ", search_str
+        if 'search_str' in request.session:
+            print "request.session['search_str'] = ", request.session['search_str']
+        print "--------------------> search_str [e]"
+
+        if search_str:
+            if search_con == 'title':
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+            else:
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-odby', '-reg_date')
+        p = Paginator(comm_list, page_size)
+        total_cnt = p.count
+        all_pages = p.num_pages
+        curr_data = p.page(curr_page)
+
+        with connections['default'].cursor() as cur:
+            board_list = list()
+            for board_data in curr_data.object_list:
+                board_dict = dict()
+                board_dict['board_id'] = board_data.board_id
+                board_dict['content'] = board_data.content
+                board_dict['head_title'] = board_data.head_title
+                board_dict['mod_date'] = board_data.mod_date
+                board_dict['odby'] = board_data.odby
+                board_dict['reg_date'] = board_data.reg_date
+                board_dict['section'] = board_data.section
+                board_dict['subject'] = board_data.subject
+                board_dict['use_yn'] = board_data.use_yn
+
+                query = '''
+                    SELECT 
+                        COUNT(id)
+                    FROM
+                        tb_attach
+                    WHERE
+                        group_id = {board_id} AND use_yn = 1;
+                '''.format(board_id=board_data.board_id)
+                cur.execute(query)
+                cnt = cur.fetchone()[0]
+
+                if cnt != 0:
+                    board_dict['attach_file'] = 'Y'
+                else:
+                    board_dict['attach_file'] = 'N'
+
+                board_list.append(board_dict)
+                # print board_dict
+
+            context = {
+                'total_cnt': total_cnt,
+                'all_pages': all_pages,
+                'curr_data': board_list,
+            }
+
+        return JsonResponse(context)
+    else:
+        if section == 'N':
+            page_title = '공지사항'
+        elif section == 'K':
+            page_title = 'K-MOOC 뉴스'
+        elif section == 'R':
+            page_title = '자료실'
+        else:
+            return None
+
+        context = {
+            'page_title': page_title,
+            'curr_page': curr_page,
+        }
+
+        return render_to_response('community/mobile_comm_list.html', context)
+
+
+@ensure_csrf_cookie
 def comm_view(request, section=None, curr_page=None, board_id=None):
     # print "board_id -> ", board_id
 

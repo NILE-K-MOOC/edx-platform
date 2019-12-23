@@ -1,0 +1,190 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">
+${page_title}
+</%block>
+<%inherit file="../mobile_main.html" />
+
+<%block name="header_extras"></%block>
+<script src="${static.url('js/script/comm_list.js')}" charset="utf-8"></script>
+
+<style>
+     .kr01-mobile {
+        padding: 7px;
+    }
+    .kr01-mobile-container {
+        background: #595959;
+    }
+    .kr01-mobile .kr01-mobile-top a {
+        display: inline-block;
+    }
+    .kr01-mobile-more {
+        display: inline-block;
+        line-height: 2rem;
+        vertical-align: middle;
+        float: right;
+    }
+    .kr01-mobile-more a {
+        color: #fff !important;
+        font-weight: bold;
+    }
+    .kr01-mobile-course {
+        display: inline-block;
+        color: #fff;
+        line-height: 2em;
+        font-weight: bold;
+    }
+    .container > h2.kr01-mobile-title {
+        font-size: 17px;
+        margin-bottom: 10px;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+    .board-list .thead.kr01-mobile-thead {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    .board-list .tbody {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+    .board-search-box select {
+        height: 27px;
+    }
+    #search_search {
+        height: 27px;
+    }
+    .board-search-box #search {
+        width: 75px;
+        padding: 0 10px;
+    }
+    .kr01 .courses-container {
+        margin-top: 20px;
+    }
+    .kr01_fivemenu02 .fivemenarea li {
+        width: 24%;
+        margin-bottom: 0;
+        vertical-align: middle;
+        border: 1px solid #4185c4 !important;
+        border-radius: 10px;
+    }
+    .kr01_fivemenu02 {
+        border: none;
+        margin-bottom: 20px
+    }
+    .kr01_fivemenu02 .fivemenarea {
+        justify-content: space-between;
+        display: flex;
+        text-align: center;
+    }
+    .fivemenarea li a.fivemenarea-a {
+        padding: 5px 0;
+    }
+    .kr01_fivemenu02 .fivemenarea li a span.fivemenarea-span {
+        margin-top: 0;
+        font-size: 14px;
+    }
+    .kr01_fivemenu02 {
+        display: block !important;
+    }
+    .content-wrapper .container.kr01-mobile-comm {
+        padding-top: 0;
+    }
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="kr01 kr01-mobile-container">
+        <section class="highlighted-courses kr01-mobile">
+            <div class="kr01-mobile-top">
+                <div class="kr01-mobile-course">| ${_("Community")}</div>
+                <div class="kr01-mobile-more">
+                    <a href="/mobile_courses/">
+                        <span>
+                            홈으로 이동하기 >>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section class="kr01">
+
+        <h1 class="kr01_explain">3개 메뉴</h1>
+        <section class="courses-container">
+            <section class="highlighted-courses">
+
+                <div class="kr01_fivemenu02 ">
+                    <ul class="fivemenarea link_to_courses">
+                        <li class="kr01_f01">
+                            <div>
+                                <a class="fivemenarea-a" href="/mobile/comm_list/N/1">
+                                    <!--<i class="fivemenarea-icon"></i>-->
+                                    <span class="fivemenarea-span">공지사항</span>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="kr01_f03">
+                            <div>
+                                <a class="fivemenarea-a" href="/mobile/comm_list/K/1">
+                                    <!--<i class="fivemenarea-icon"></i>-->
+                                    <span class="fivemenarea-span">뉴스</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f04">
+                            <div>
+                                <a class="fivemenarea-a" href="/mobile/comm_list/R/1">
+                                    <!--<i class="fivemenarea-icon"></i>-->
+                                    <span class="fivemenarea-span">자료실</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f05">
+                            <div>
+                                <a class="fivemenarea-a" href="#" data-facet="linguistics" data-term="Y">
+                                    <!--<i class="fivemenarea-icon"></i>-->
+                                    <span class="fivemenarea-span">FAQ</span>
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </section>
+        </section>
+    </section>
+
+    <section class="container kr01-mobile-comm">
+        <h2 class="kr01-mobile-title" title="${page_title}">${page_title}</h2>
+        <!-- [s] board list -->
+        <section class="board-search-box" style="margin-top:0;">
+            <select id="search_con" title="검색 조건 선택">
+                <option value="" title="전체">- 전체 -</option>
+                <option value="title" title="제목">- 제목 -</option>
+            </select>
+            <input type="text" id="search_search" onkeydown="onKeyDown()" aria-label="검색어 입력" title="검색어 입력">
+            <input type="button" id="search" value="검색" title="검색" aria-label="검색">
+            <input type="hidden" id="all_pages" value="0">
+            <input type="hidden" id="curr_page" value="${curr_page if curr_page else '1'}">
+        </section>
+        <section class="board-list">
+            <ul>
+                <li class="thead kr01-mobile-thead">
+                    <span class="no" title="번호">번호</span>
+                    <span class="title" title="제목">제목</span>
+                    <span class="date" title="날짜">날짜</span>
+                </li>
+
+                <div id="tbody"></div>
+            </ul>
+
+            <div id="paging" class="paging"></div>
+        </section>
+        <!-- [e] board list -->
+    </section>
+
+</main>
