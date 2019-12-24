@@ -19,7 +19,8 @@
         font-size: 17px;
         cursor: pointer;
     }
-    .faq-list dt > a {
+
+    .faq-list > dt > a {
         display: block;
         padding: 12px 10px 12px 50px;
         font-size: 1.125rem;
@@ -28,6 +29,7 @@
         color: #333;
         cursor: pointer;
     }
+
     a:not(.btn), a:visited:not(.btn) {
         font-family: "Open Sans";
 
@@ -51,31 +53,34 @@
 
     <div id="head_title" style="display: none;">FAQ</div>
     <nav class="faq-tab">
-        <a class="${'on' if head_title == 'kmooc_f' else ''}" data-value="kmooc_f" title="K-MOOC" style="color: #ffffff;">K-MOOC</a>
-        <a class="${'on' if head_title == 'regist_f' else ''}" data-value="regist_f" title="회원가입"style="color: #ffffff;">회원가입</a>
-        <a class="${'on' if head_title == 'login_f' else ''}" data-value="login_f" title="로그인/계정"style="color: #ffffff;">로그인/계정</a>
-        <a class="${'on' if head_title == 'enroll_f' else ''}" data-value="enroll_f" style="font-size: 15px;color: #ffffff;" title="수강신청/취소">수강신청/취소</a>
-        <a class="${'on' if head_title == 'course_f' else ''}" data-value="course_f" title="강좌 수강"style="color: #ffffff;">강좌 수강</a>
-        <a class="${'on' if head_title == 'certi_f' else ''}" data-value="certi_f" title="성적/이수증"style="color: #ffffff;">성적/이수증</a>
-        <a class="${'on' if head_title == 'tech_f' else ''}" data-value="tech_f" title="기술적문제"style="color: #ffffff;">기술적 문제</a>
-        <a class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" title="모바일앱"style="color: #ffffff;">모바일앱</a>
-        <a class="${'on' if head_title == 'total_f' else ''}" data-value="total_f" title="전체보기"style="color: #ffffff;">전체보기</a>
+        <a href="#" class="${'on' if head_title == 'kmooc_f' else ''}" data-value="kmooc_f" title="K-MOOC" style="color: #ffffff;">K-MOOC</a>
+        <a href="#" class="${'on' if head_title == 'regist_f' else ''}" data-value="regist_f" title="회원가입" style="color: #ffffff;">회원가입</a>
+        <a href="#" class="${'on' if head_title == 'login_f' else ''}" data-value="login_f" title="로그인/계정" style="color: #ffffff;">로그인/계정</a>
+        <a href="#" class="${'on' if head_title == 'enroll_f' else ''}" data-value="enroll_f" style="font-size: 15px;color: #ffffff;" title="수강신청/취소">수강신청/취소</a>
+        <a href="#" class="${'on' if head_title == 'course_f' else ''}" data-value="course_f" title="강좌 수강" style="color: #ffffff;">강좌 수강</a>
+        <a href="#" class="${'on' if head_title == 'certi_f' else ''}" data-value="certi_f" title="성적/이수증" style="color: #ffffff;">성적/이수증</a>
+        <a href="#" class="${'on' if head_title == 'tech_f' else ''}" data-value="tech_f" title="기술적문제" style="color: #ffffff;">기술적 문제</a>
+        <a href="#" class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" title="모바일앱" style="color: #ffffff;">모바일앱</a>
+        <a href="#" class="${'on' if head_title == 'total_f' else ''}" data-value="total_f" title="전체보기" style="color: #ffffff;">전체보기</a>
     </nav>
     <h3 class="hidden_head" id="faq_header">K-MOOC</h3>
     <dl class="faq-list" title="FAQ 목록">
         % if data:
         % for board in data:
-           <dt><a>${board.subject}</a></dt>
-           <dd>
-              <div>
-                 ${board.content}
-              </div>
-           </dd>
+        <dt><a href="#">${board.subject}</a></dt>
+        <dd>
+            <div>
+                ${board.content}
+                <div style="min-height: 30px;">
+                <input type="button" value="닫기" title="닫기" style="float: right; background: #ccc; border: 0;">
+                </div>
+            </div>
+        </dd>
         % endfor
         % endif
     </dl>
     <div style="float: right">
-        <a href="#" id="questionLink"><input type="button" value="이메일로 문의하기" id="question" title="이메일로 문의하기" style="float: right;"/></a>
+        <input id="questionLink" type="button" value="이메일로 문의하기" id="question" title="이메일로 문의하기" style="float: right;"/>
     </div>
     <!-- [e] board write -->
 </section>

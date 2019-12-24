@@ -8,7 +8,7 @@ import re
 import os.path
 import datetime
 from django.conf import settings
-from django.http import ( HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest )
+from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest)
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import render_to_response
@@ -27,6 +27,9 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
+
+import mimetypes
+import urllib
 
 
 def replace_all(string):
@@ -413,6 +416,9 @@ def comm_file(request, file_id=None):
         save_path = save_path.replace('/static/file_upload', '/staticfiles/file_upload') if attach_file[0] else ''
         real_path = '/edx/var/edxapp' + save_path
 
+        # test
+        # real_path = '/edx/app/edxapp/edx-platform/64f4225de45c4c0aaf4314d0c680c9f1'
+
     except Exception as e:
         print 'comm_file error --- s'
         print e
@@ -424,7 +430,7 @@ def comm_file(request, file_id=None):
     # filename = file.attatch_file_name
 
     print "디렉토리", (os.getcwd())  # 현재 디렉토리의
-    print 'file_path,,', os.path.dirname(os.path.realpath(__file__))
+    print 'file_path', os.path.dirname(os.path.realpath(__file__))
     # print "파일",(os.path.realpath(__file__))  # 파일
     # print "파일의 디렉토리",(os.path.dirname(os.path.realpath(__file__)))  # 파일이 위치한 디렉토리
 
@@ -433,10 +439,34 @@ def comm_file(request, file_id=None):
         print 'filepath  :', save_path
         return HttpResponse("<script>alert('파일이 존재하지 않습니다..'); window.history.back();</script>")
 
-    response = HttpResponse(open(real_path, 'rb'), content_type='application/force-download')
+    # response = HttpResponse(open(real_path, 'rb'), content_type='application/force-download')
 
-    response['Content-Disposition'] = 'attachment; filename=%s' % str(file_name)
-    return response
+    if os.path.exists(real_path) and os.path.isfile(real_path):
+
+        with open(real_path, 'rb') as fp:
+            response = HttpResponse(fp.read())
+
+        content_type, encoding = mimetypes.guess_type(file_name)
+
+        if content_type is None:
+            content_type = 'application/octet-stream'
+
+        response['Content-Type'] = content_type
+        response['Content-Length'] = str(os.stat(real_path).st_size)
+
+        if encoding is not None:
+            response['Content-Encoding'] = encoding
+
+        if u'WebKit' in request.META.get('HTTP_USER_AGENT', u'Webkit'):
+            filename_header = 'filename="%s"' % file_name.encode('utf-8')
+        elif u'MSIE' in request.META.get('HTTP_USER_AGENT', u'MSIE'):
+            filename_header = ''
+        else:
+            filename_header = 'filename*=UTF-8\'\' %s' % urllib.quote(file_name.encode('utf-8'))
+
+        response['Content-Disposition'] = 'attachment; ' + filename_header
+
+        return response
 
 
 def comm_notice(request):

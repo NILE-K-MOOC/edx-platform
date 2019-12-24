@@ -322,8 +322,8 @@ cookiedata = document.cookie;
                                 % endfor
                             </div>
                             <div class="kr01-Sarrow">
-                                <div class="bxslider-prev"><span class="hidden_head">${_("Previous")}</span></div>
-                                <div class="bxslider-next"><span class="hidden_head">${_("Next")}</span></div>
+                                <div class="bxslider-prev"></div>
+                                <div class="bxslider-next"></div>
                             </div>
                             <div class="kr01-slider-extend">
                                 <a href="${'/comm_list/' + index_list[0]['section'] if index_list[0]['section'] != 'F' else '/comm_tabs/kmooc_f'}/" id="comm_more" title="${index_list[0]['category']}">
@@ -374,9 +374,9 @@ cookiedata = document.cookie;
                                     infiniteLoop: true,
                                     controls: true,
                                     prevSelector: 'div.bxslider-prev',
-                                    prevText: '',
+                                    prevText: '<span class="hidden_head">${_("Previous")}</span>',
                                     nextSelector: 'div.bxslider-next',
-                                    nextText: '',
+                                    nextText: '<span class="hidden_head">${_("Next")}</span>',
                                     onSliderLoad: function(currentIndex) {
                                         $('.bx-clone').find('a').prop('tabindex', '-1');
                                     },

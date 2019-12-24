@@ -53,16 +53,16 @@
         }
 
         $.post("/agree_done",
-                {"agreeYN": gubn, "private_info_use_yn": private_info_use_yn, "event_join_yn": event_join_yn, "csrfmiddlewaretoken": $("#csrfmiddlewaretoken").val()},
-                function(data){
-                    console.log(data.agreeYN + ":" + data.division);
-                    if(data.agreeYN == 'Y' && data.division == 'Y')
-                        document.location.href="/register"
-                    else if(data.agreeYN == 'Y' && data.division == 'N')
-                        document.location.href="/parent_agree"
-                    else
-                        document.location.href="/"
-        });
+            {"agreeYN": gubn, "private_info_use_yn": private_info_use_yn, "event_join_yn": event_join_yn, "csrfmiddlewaretoken": $("#csrfmiddlewaretoken").val()},
+            function(data){
+                console.log(data.agreeYN + ":" + data.division);
+                if(data.agreeYN == 'Y' && data.division == 'Y')
+                    document.location.href="/register"
+                else if(data.agreeYN == 'Y' && data.division == 'N')
+                    document.location.href="/parent_agree"
+                else
+                    document.location.href="/"
+            });
     }
 
     $("#all_y, #all_n").click(function(){
@@ -70,577 +70,589 @@
         $("input:radio[value="+v+"]").prop("checked", true);
     });
 
-    </script>
+</script>
 </%block>
 
 <%block name="header_extras"></%block>
 
+<style>
+  .underline-text {
+    font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;
+  }
+  .underline-text1 {
+    font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;
+  }
+  .underline-text2 {
+    font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;
+  }
+</style>
+
 <section class="container" id="main">
-				<!-- [s] 약관 -->
-				<h2>${_("Terms and conditions for subscription")}</h2>
+  <!-- [s] 약관 -->
+  <h2>${_("Terms and conditions for subscription")}</h2>
 
 
-    <div class="agree-chk" style="padding: 5px 30px;">
+  <div class="agree-chk" style="padding: 5px 30px;">
 
-            <input type="radio" name="agree_all" value="Y" id="all_y"> <label for="all_y"><b>${_("All Agree")}</b></label>
-            <input type="radio" name="agree_all" value="N"  id="all_n" checked> <label for="all_n"><b>${_("Do not all agree")}</b></label>
+    <input type="radio" name="agree_all" value="Y" id="all_y"> <label for="all_y"><b>${_("All Agree")}</b></label>
+    <input type="radio" name="agree_all" value="N"  id="all_n" checked> <label for="all_n"><b>${_("Do not all agree")}</b></label>
 
+  </div>
+
+  <section class="agree-frm-box">
+    <h3>${_("Terms and conditions for use")} ${_("(Essential)")}</h3>
+    %if _("Agree") == "Agree" :
+    <div id="text1" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      Chapter 1 General Rule<br>
+      <br>
+      Article 1 (Purpose)<br>
+      &emsp;The purpose of these Terms and Conditions shall be that the customer (hereinafter referred to as "Member") using all member information services (hereinafter referred to as "Service") provided by the K-MOOC (hereinafter referred to as the "Site") operated by the National Institute for Lifelong Education (hereinafter referred to as NILE) and the 'Site' specify the terms and procedures and other necessary matters regarding the use of the 'Services'.<br>
+      <br>
+      Article 2 (Effect and Change of Terms)<br>
+      &emsp;1. This Agreement will be effective when the Member clicks the "Agree" button in response to the question "Do you agree with the Terms?"<br>
+      &emsp;2. The 'Site' may change these Terms and Conditions, and the modified Terms will be announced to 'Member's for 7 days prior to the effective date and will be effective on the applicable date'<br>
+      &emsp;3. If 'Member' does not agree to the modified terms, 'Member' may stop using the 'Service' and withdraw. If 'Member' continues to use the 'Services' after the terms have been changed, the 'Member' shall be deemed to have agreed to the terms of this Agreement.<br>
+      <br>
+      Article 3 (Regulations other than the Terms and Conditions)<br>
+      &emsp;When any matters not specified in these Terms and Conditions are specified in relevant laws and regulations, they shall be governed by the relevant laws and regulations.<br>
+      <br>
+      Chapter 2 Membership sign-up and Service Usage<br>
+      <br>
+      Article 4 (Usage Contract)<br>
+      &emsp;Use of the 'Service' is permitted only if the 'homepage' is permitted and the 'Member' agrees to the Terms and Conditions.<br>
+      <br>
+      Article 5 (Application for Use)<br>
+      &emsp;1. In order to use this service, you must record your information on the form prescribed by 'this site'.<br>
+      &emsp;  2. The user information shown on the subscription form is considered actual data. Users who do not enter real information will not be legally protected.<br>
+      <br>
+      Article 6 (Approval of Use Application)<br>
+      &emsp;1. The 'Site' approves the use of 'Service's when 'Member' makes a complete application by writing all matters correctly. However, the following cases are an exception.<br>
+      &emsp;&emsp;① If the application is made using someone else's name<br>
+      &emsp;&emsp;② If you have filed a false application for the membership application form<br>
+      &emsp;&emsp;③ If you applied for the purpose of hindering social well-being, order or morals<br>
+      &emsp;&emsp;④ If you interfere with another person's use of the site services or take actions such as<br>
+      stealing the information<br>
+      &emsp;&emsp;⑤  If you do the acts prohibited by laws and regulations and the terms from using the site<br>
+      &emsp;&emsp;⑥ If you do not have enough membership requirements set by the site<br>
+      &emsp;2. The information that the member enters is shown below. In addition to the information below, the 'Site' may require the 'Member' to enter additional information.<br>
+      &emsp;&emsp;- Required items: Email, real name, ID, password, country, gender, year of birth<br>
+      &emsp;&emsp;- Optional items: Place of residence, the highest level of education, purpose of enrollment<br>
+      <br>
+      Article 7 (Change of Contract Items and Information Retention/Use Period)<br>
+      <br>
+      &emsp;1. The 'Member', if changes are made to the information entered when applying for 'Service', must correct it online.<br>
+      &emsp;2. From the moment you register as a 'member', the 'site' can hold and use the information of 'member'.<br>
+      &emsp;3. From the moment the 'Member' leaves the site, the information of the 'Member' will not be available on the site. However, in order to protect personal information, the 'Site' may retain the information of the 'Member' for 20 days from the moment when membership is withdrawn.<br>
+      <br>
+      Article 8 (Collection of Personal Information by Cookies)<br>
+      &emsp;1. The 'Site' sends cookies to the user's personal computer to provide specialized services for each user.<br>
+      &emsp;2. In order for the user to be able to use it conveniently with one login, he or she must accept cookies.<br>
+      &emsp;3. Cookies are used to identify the characteristics of users who visit the 'site'.<br>
+      &emsp;4. Users can selectively accept cookies by adjusting options in the web browser. If you refuse to accept cookies, you will not be able to use the services that require log-in.<br>
+      <br>
+      Chapter 3 Cancellation of Contract<br>
+      <br>
+      Article 9 (Cancellation of Contract)<br>
+      &emsp;1. 'Member' may initiate complaints about the processing of member information through online.<br>
+      &emsp;2. When a 'member' wishes to terminate the service use contract, he or she may request the termination of the contract by e-mail with his or her name, ID, date of birth, or you must apply for withdrawal in 'membership withdrawal' menu of member information correction.<br>
+      <br>
+      Article 10 (Disqualification)<br>
+      &emsp;In the event of the following reasons, the 'Site' may cancel the use contract without any prior notice or terminate the service use by determining a period.<br>
+      &emsp;1. If you missed the 'Basic Information' in Article 6 (2)<br>
+      &emsp;2. If you register with false contents when you apply for membership<br>
+      &emsp;3. If you have stolen someone's ID and password<br>
+      &emsp;4. If you infringe the intellectual property rights of the site, other members or third parties<br>
+      &emsp;5. If you do the act of harming social well-being and order, public morals<br>
+      &emsp;6. In the event of an act that damages or causes disadvantage to others' honor<br>
+      &emsp;7. In case of being registered as a credit failure of PC communication and Internet service pursuant to the "Act on the Use and Protection of Credit Information"<br>
+      <br>
+      Chapter 4 Responsibility<br>
+      <br>
+      Article 11 (The Obligations of the 'Site')<br>
+      &emsp;1. In order to facilitate the use of the sites affiliated with the 'Site', the 'Site' may share the information of the 'Member' with the affiliated sites, and for the purpose of sharing, the 'Site' can send cookies to the computer of 'Member'.<br>
+      &emsp;2. The 'Site' does not disclose or distribute the personal information of 'Member' which is known by 'Service' provision to a third party without the consent of the user. However, the following exceptions apply.<br>
+      &emsp;&emsp;① If there are special regulations in laws such as Act on Financial Real Name Transaction and Confidentiality, Use and Protection of Credit Information, Basic Law of Telecommunications, Telecommunications Business Act, Local Tax Act, Consumer Protection Act, Bank of Korea Act and Criminal Procedure Act<br>
+      &emsp;&emsp;② When necessary for statistical writing / academic research or market research, if it is provided in an unidentifiable form for a specific individual<br>
+      &emsp;&emsp;③ The 'Site' may use all or part of the information of 'Member' as statistical data related to the business'<br>
+      &emsp;&emsp;④ The 'Site' strives to ensure that the 'Service' operates consistently and reliably. If the 'Service' is interrupted for any unavoidable reason, we will do our best to repair and recover it without delay. However, in case of natural disasters, emergencies, periodic system inspections and the necessity of 'NILE', we may stop or suspend the service temporarily.<br>
+      <br>
+      Article 12 (Consent on the Use of 'Member' Information)<br>
+      &emsp;1. NILE operates various websites in addition to this site. NILE collects member's information for the purpose of providing services of the main site and various subsites operated by NILE, and can use the collected information of members.<br>
+      &emsp;2. The 'Site' may be affiliated with various education related associations and business operators for the quality of their services and may share their membership information. In such case, the 'Site' shall disclose the partnership, purpose, and contents to the Terms in this Article and shall be provided to the Affiliates after the consent of 'Member' is obtained.'<br>
+      &emsp;3. The consent of the 'Member' under the provisions of this Article shall be effected by clicking the button for subscribing to the information service provided in the Terms and Conditions and the entry screen of member enrollment information.<br>
+      <br>
+      Article 13 (Obligations of Member)<br>
+      &emsp;1. 'Member's are responsible for the management of their ID and password.<br>
+      &emsp;2. 'Member' shall not assign, give, loan his or her ID to another person  or allow others to use it.<br>
+      &emsp;3. If your ID is used improperly, the 'Member' must notify it to NILE.<br>
+      &emsp;4. "Member" can not use the data registered in the post to conduct sales activities.<br>
+      &emsp;5. 'Member' must receive a notice mail from the "Site".<br>
+      <br>
+      Article 14 (Member Posts)<br>
+      &emsp;1. Posts include all writings made by members on the various boards of the 'Site'.<br>
+      &emsp;2. Any loss or problem arising out of the information posted by members and Q&A is solely the responsibility of the member, and the 'site' is not responsible for it unless it is the intention of the 'site'.<br>
+      &emsp;3. In the event of any claims, lawsuits, or any other disputes against the 'site' arising out of any third party due to the member' s posting, the member shall bear the cost of the settlement and process the dispute for the site, In the event that the 'Site' compensates the third party or damages occur to the 'Site', the member shall compensate the 'Site'.<br>
+      &emsp;4. The 'Site' shall delete member's post without prior notice in the event that the post of the 'Member' fall under any of the following: However, the 'site' does not have any obligation to inspect or censor the post.<br>
+      &emsp;&emsp;① If you defame a third party by slander<br>
+      &emsp;&emsp;② In case of contents that hinder public order or good morals<br>
+      &emsp;&emsp;③ In case of infringement of copyright of the 'Site' or copyright of third party etc.<br>
+      &emsp;&emsp;④ When the posting period stipulated in the 'Site is exceed<br>
+      &emsp;&emsp;⑤ In case of a commercial post, a money-making advertisement, a good luck letter, etc.<br>
+      &emsp;&emsp;⑥ In case of not meeting the purpose of site opening<br>
+      &emsp;&emsp;⑦ When other applicable laws and regulations are violated<br>
+      &emsp;5. The 'Site' can process, sell, publish, etc. using the posts registered by 'Member's.'<br>
+      <br>
+      Chapter 5 Information Provision<br>
+      <br>
+      Article 15 (Information Provision)<br>
+      &emsp;The 'Site' may transmit the necessary information or advertisement to 'Member' by e-mail or letter mail. If 'Member' dose not want this, the 'Member' can refuse the information from the subscription application menu and the member information modification menu. However, we may send a notice mail of the 'Site' of Article 13 (5) to the member who has refused to receive the information.<br>
+      <br>
+      Chapter 6 Exemption from Responsibility and Indemnification<br>
+      <br>
+      Article 16 (Responsibility)<br>
+      &emsp;1. The 'Site' shall not be liable for any damages incurred to the 'Member' in connection with the use of the 'Service' unless there is intent or gross negligence of the 'Site'.<br>
+      &emsp;2. The 'Site' does not endorse or warrant the appropriateness, accuracy, timeliness, credibility of information, products, services, software, graphics, voice and video related to the use of the 'Service'.<br>
+      <br>
+      Article 17 (Exemption from Responsibility)<br>
+      &emsp;'NILE' will not be held responsible for any problems occurred to 'Member if disruption of service is due to natural disasters or unavoidable circumstances.<br>
+      <br>
+      Article 18 (Competent Court)<br>
+      &emsp;The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.<br>
+      &emsp;The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.<br>
     </div>
-
-				<section class="agree-frm-box">
-					<h3>${_("Terms and conditions for use")} ${_("(Essential)")}</h3>
-                    %if _("Agree") == "Agree" :
-<div id="text1" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-Chapter 1 General Rule<br>
-<br>
-Article 1 (Purpose)<br>
-&emsp;The purpose of these Terms and Conditions shall be that the customer (hereinafter referred to as "Member") using all member information services (hereinafter referred to as "Service") provided by the K-MOOC (hereinafter referred to as the "Site") operated by the National Institute for Lifelong Education (hereinafter referred to as NILE) and the 'Site' specify the terms and procedures and other necessary matters regarding the use of the 'Services'.<br>
-<br>
-Article 2 (Effect and Change of Terms)<br>
-&emsp;1. This Agreement will be effective when the Member clicks the "Agree" button in response to the question "Do you agree with the Terms?"<br>
-&emsp;2. The 'Site' may change these Terms and Conditions, and the modified Terms will be announced to 'Member's for 7 days prior to the effective date and will be effective on the applicable date'<br>
-&emsp;3. If 'Member' does not agree to the modified terms, 'Member' may stop using the 'Service' and withdraw. If 'Member' continues to use the 'Services' after the terms have been changed, the 'Member' shall be deemed to have agreed to the terms of this Agreement.<br>
-<br>
-Article 3 (Regulations other than the Terms and Conditions)<br>
-&emsp;When any matters not specified in these Terms and Conditions are specified in relevant laws and regulations, they shall be governed by the relevant laws and regulations.<br>
-<br>
-Chapter 2 Membership sign-up and Service Usage<br>
-<br>
-Article 4 (Usage Contract)<br>
-&emsp;Use of the 'Service' is permitted only if the 'homepage' is permitted and the 'Member' agrees to the Terms and Conditions.<br>
-<br>
-Article 5 (Application for Use)<br>
-&emsp;1. In order to use this service, you must record your information on the form prescribed by 'this site'.<br>
-&emsp;  2. The user information shown on the subscription form is considered actual data. Users who do not enter real information will not be legally protected.<br>
-<br>
-Article 6 (Approval of Use Application)<br>
-&emsp;1. The 'Site' approves the use of 'Service's when 'Member' makes a complete application by writing all matters correctly. However, the following cases are an exception.<br>
-&emsp;&emsp;① If the application is made using someone else's name<br>
-&emsp;&emsp;② If you have filed a false application for the membership application form<br>
-&emsp;&emsp;③ If you applied for the purpose of hindering social well-being, order or morals<br>
-&emsp;&emsp;④ If you interfere with another person's use of the site services or take actions such as<br>
-       stealing the information<br>
-&emsp;&emsp;⑤  If you do the acts prohibited by laws and regulations and the terms from using the site<br>
-&emsp;&emsp;⑥ If you do not have enough membership requirements set by the site<br>
-&emsp;2. The information that the member enters is shown below. In addition to the information below, the 'Site' may require the 'Member' to enter additional information.<br>
-&emsp;&emsp;- Required items: Email, real name, ID, password, country, gender, year of birth<br>
-&emsp;&emsp;- Optional items: Place of residence, the highest level of education, purpose of enrollment<br>
-<br>
-Article 7 (Change of Contract Items and Information Retention/Use Period)<br>
-<br>
-&emsp;1. The 'Member', if changes are made to the information entered when applying for 'Service', must correct it online.<br>
-&emsp;2. From the moment you register as a 'member', the 'site' can hold and use the information of 'member'.<br>
-&emsp;3. From the moment the 'Member' leaves the site, the information of the 'Member' will not be available on the site. However, in order to protect personal information, the 'Site' may retain the information of the 'Member' for 20 days from the moment when membership is withdrawn.<br>
-<br>
-Article 8 (Collection of Personal Information by Cookies)<br>
-&emsp;1. The 'Site' sends cookies to the user's personal computer to provide specialized services for each user.<br>
-&emsp;2. In order for the user to be able to use it conveniently with one login, he or she must accept cookies.<br>
-&emsp;3. Cookies are used to identify the characteristics of users who visit the 'site'.<br>
-&emsp;4. Users can selectively accept cookies by adjusting options in the web browser. If you refuse to accept cookies, you will not be able to use the services that require log-in.<br>
-<br>
-Chapter 3 Cancellation of Contract<br>
-<br>
-Article 9 (Cancellation of Contract)<br>
-&emsp;1. 'Member' may initiate complaints about the processing of member information through online.<br>
-&emsp;2. When a 'member' wishes to terminate the service use contract, he or she may request the termination of the contract by e-mail with his or her name, ID, date of birth, or you must apply for withdrawal in 'membership withdrawal' menu of member information correction.<br>
-<br>
-Article 10 (Disqualification)<br>
-&emsp;In the event of the following reasons, the 'Site' may cancel the use contract without any prior notice or terminate the service use by determining a period.<br>
-&emsp;1. If you missed the 'Basic Information' in Article 6 (2)<br>
-&emsp;2. If you register with false contents when you apply for membership<br>
-&emsp;3. If you have stolen someone's ID and password<br>
-&emsp;4. If you infringe the intellectual property rights of the site, other members or third parties<br>
-&emsp;5. If you do the act of harming social well-being and order, public morals<br>
-&emsp;6. In the event of an act that damages or causes disadvantage to others' honor<br>
-&emsp;7. In case of being registered as a credit failure of PC communication and Internet service pursuant to the "Act on the Use and Protection of Credit Information"<br>
-<br>
-Chapter 4 Responsibility<br>
-<br>
-Article 11 (The Obligations of the 'Site')<br>
-&emsp;1. In order to facilitate the use of the sites affiliated with the 'Site', the 'Site' may share the information of the 'Member' with the affiliated sites, and for the purpose of sharing, the 'Site' can send cookies to the computer of 'Member'.<br>
-&emsp;2. The 'Site' does not disclose or distribute the personal information of 'Member' which is known by 'Service' provision to a third party without the consent of the user. However, the following exceptions apply.<br>
-&emsp;&emsp;① If there are special regulations in laws such as Act on Financial Real Name Transaction and Confidentiality, Use and Protection of Credit Information, Basic Law of Telecommunications, Telecommunications Business Act, Local Tax Act, Consumer Protection Act, Bank of Korea Act and Criminal Procedure Act<br>
-&emsp;&emsp;② When necessary for statistical writing / academic research or market research, if it is provided in an unidentifiable form for a specific individual<br>
-&emsp;&emsp;③ The 'Site' may use all or part of the information of 'Member' as statistical data related to the business'<br>
-&emsp;&emsp;④ The 'Site' strives to ensure that the 'Service' operates consistently and reliably. If the 'Service' is interrupted for any unavoidable reason, we will do our best to repair and recover it without delay. However, in case of natural disasters, emergencies, periodic system inspections and the necessity of 'NILE', we may stop or suspend the service temporarily.<br>
-<br>
-Article 12 (Consent on the Use of 'Member' Information)<br>
-&emsp;1. NILE operates various websites in addition to this site. NILE collects member's information for the purpose of providing services of the main site and various subsites operated by NILE, and can use the collected information of members.<br>
-&emsp;2. The 'Site' may be affiliated with various education related associations and business operators for the quality of their services and may share their membership information. In such case, the 'Site' shall disclose the partnership, purpose, and contents to the Terms in this Article and shall be provided to the Affiliates after the consent of 'Member' is obtained.'<br>
-&emsp;3. The consent of the 'Member' under the provisions of this Article shall be effected by clicking the button for subscribing to the information service provided in the Terms and Conditions and the entry screen of member enrollment information.<br>
-<br>
-Article 13 (Obligations of Member)<br>
-&emsp;1. 'Member's are responsible for the management of their ID and password.<br>
-&emsp;2. 'Member' shall not assign, give, loan his or her ID to another person  or allow others to use it.<br>
-&emsp;3. If your ID is used improperly, the 'Member' must notify it to NILE.<br>
-&emsp;4. "Member" can not use the data registered in the post to conduct sales activities.<br>
-&emsp;5. 'Member' must receive a notice mail from the "Site".<br>
-<br>
-Article 14 (Member Posts)<br>
-&emsp;1. Posts include all writings made by members on the various boards of the 'Site'.<br>
-&emsp;2. Any loss or problem arising out of the information posted by members and Q&A is solely the responsibility of the member, and the 'site' is not responsible for it unless it is the intention of the 'site'.<br>
-&emsp;3. In the event of any claims, lawsuits, or any other disputes against the 'site' arising out of any third party due to the member' s posting, the member shall bear the cost of the settlement and process the dispute for the site, In the event that the 'Site' compensates the third party or damages occur to the 'Site', the member shall compensate the 'Site'.<br>
-&emsp;4. The 'Site' shall delete member's post without prior notice in the event that the post of the 'Member' fall under any of the following: However, the 'site' does not have any obligation to inspect or censor the post.<br>
-&emsp;&emsp;① If you defame a third party by slander<br>
-&emsp;&emsp;② In case of contents that hinder public order or good morals<br>
-&emsp;&emsp;③ In case of infringement of copyright of the 'Site' or copyright of third party etc.<br>
-&emsp;&emsp;④ When the posting period stipulated in the 'Site is exceed<br>
-&emsp;&emsp;⑤ In case of a commercial post, a money-making advertisement, a good luck letter, etc.<br>
-&emsp;&emsp;⑥ In case of not meeting the purpose of site opening<br>
-&emsp;&emsp;⑦ When other applicable laws and regulations are violated<br>
-&emsp;5. The 'Site' can process, sell, publish, etc. using the posts registered by 'Member's.'<br>
-<br>
-Chapter 5 Information Provision<br>
-<br>
-Article 15 (Information Provision)<br>
-&emsp;The 'Site' may transmit the necessary information or advertisement to 'Member' by e-mail or letter mail. If 'Member' dose not want this, the 'Member' can refuse the information from the subscription application menu and the member information modification menu. However, we may send a notice mail of the 'Site' of Article 13 (5) to the member who has refused to receive the information.<br>
-<br>
-Chapter 6 Exemption from Responsibility and Indemnification<br>
-<br>
-Article 16 (Responsibility)<br>
-&emsp;1. The 'Site' shall not be liable for any damages incurred to the 'Member' in connection with the use of the 'Service' unless there is intent or gross negligence of the 'Site'.<br>
-&emsp;2. The 'Site' does not endorse or warrant the appropriateness, accuracy, timeliness, credibility of information, products, services, software, graphics, voice and video related to the use of the 'Service'.<br>
-<br>
-Article 17 (Exemption from Responsibility)<br>
-&emsp;'NILE' will not be held responsible for any problems occurred to 'Member if disruption of service is due to natural disasters or unavoidable circumstances.<br>
-<br>
-Article 18 (Competent Court)<br>
-&emsp;The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.<br>
-&emsp;The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.<br>
-</div>
-                    % else :
-<div id="text1" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-제1장 총칙<br>
-<br>
-제1조 (목적)<br>
-&emsp;이 약관은 국가평생교육진흥원(이하 NILE)이 운영하는 “K-MOOC” (이하 ‘당 사이트’)가 제공하는 모든 회원정보 서비스(이하 '서비스')를 이용하는 고객(이하 ‘회원’)과 ‘당 사이트’가 ‘서비스’의 이용에 관한 조건 및 절차와 기타 필요한 사항을 규정하는 것을 목적으로 합니다.<br>
-제2조 (약관의 효력과 변경)<br>
-<br>
-&emsp;1. 이 약관은 "이 약관에 동의하십니까?"라는 물음에 '회원'이 "동의" 버튼을 클릭함으로써 효력이 발생됩니다.<br>
-&emsp;2. ‘당 사이트’는 이 약관을 임의로 변경할 수 있으며, 변경된 약관은 적용일 전 7일간 `회원'에게 공지되고 적용 일에 효력이 발생 됩니다.<br>
-&emsp;3. ‘회원’은 변경된 약관에 동의하지 않을 경우, '서비스' 이용을 중단하고 탈퇴할 수 있습니다. 약관이 변경된 이후에도 계속적으로 ‘서비스’를 이용하는 경우에는 '회원'이 약관의 변경 사항에 동의한 것으로 봅니다.<br>
-<br>
-제3조 (약관 외 준칙)<br>
-&emsp;이 약관에 명시되지 않은 사항이 관계 법령에 규정되어 있을 경우에는 그 규정에 따릅니다.<br>
-<br>
-제2장 회원 가입과 서비스 이용<br>
-<br>
-제4조 (이용계약)<br>
-&emsp;'서비스' 이용은 '당 홈페이지'가 허락하고 '회원'이 약관 내용에 대해 동의하면 됩니다.<br>
-제5조 (이용신청)<br>
-<br>
-&emsp;1. 본 서비스를 이용하기 위해서는 '당 사이트'가 정한 소정의 양식에 이용자 정보를 기록해야 합니다.<br>
-&emsp;2. 가입신청 양식에 기재된 이용자 정보는 실제 데이터로 간주됩니다. 실제 정보를 입력하지 않은 사용자는 법적인 보호를 받을 수 없습니다.<br>
-<br>
-제6조 (이용신청의 승낙)<br>
-<br>
-&emsp;1. '당 사이트'는 '회원'이 모든 사항을 정확히 기재하여 신청할 경우 '서비스' 이용을 승낙합니다. 다만, 아래의 경우는 예외로 합니다.<br>
-&emsp;&emsp;① 다른 사람의 명의를 사용하여 신청한 경우<br>
-&emsp;&emsp;② 회원가입 신청서의 내용을 허위로 기재하였거나 신청하였을 경우<br>
-&emsp;&emsp;③ 사회의 안녕 질서 또는 미풍양속을 저해할 목적으로 신청한 경우<br>
-&emsp;&emsp;④ 다른 사람의 당 사이트 서비스 이용을 방해하거나 그 정보를 도용하는 등의 행위를 하였을 경우<br>
-&emsp;&emsp;⑤ 당 사이트를 이용하여 법령과 본 약관이 금지하는 행위를 하는 경우<br>
-&emsp;&emsp;⑥ 기타 당 사이트가 정한 회원가입 요건이 미비할 경우<br>
-&emsp;2. 회원이 입력하는 정보는 아래와 같습니다. 아래의 정보 외에 '당 사이트'는 '회원'에게 추가 정보의 입력을 요구할 수 있습니다.<br>
-&emsp;&emsp;- 필수항목 : 이메일, 이름, 아이디, 비밀번호, 국가, 성별, 출생연도<br>
-&emsp;&emsp;- 선택항목 : 최종학력, 우편주소, 가입이유<br>
-<br>
-제7조 (계약 사항의 변경 및 정보 보유/이용기간)<br>
-<br>
-&emsp;1. '회원'은 '서비스' 이용 신청 시 기재한 사항이 변경되었을 경우, 온라인으로 수정을 해야 합니다.<br>
-&emsp;2. '회원'으로 등록하는 순간부터 '당 사이트'는 '회원'의 정보를 보유 및 이용할 수 있습니다.<br>
-&emsp;3. '회원'이 탈퇴하는 순간부터 당 사이트는 '회원'의 정보를 이용할 수 없습니다. 다만, '당 사이트‘는 개인정보보호를 위해 '회원'이 탈퇴하는 순간부터 20일간 '회원'의 정보를 보유할 수 있습니다.<br>
-<br>
-제8조 (쿠키에 의한 개인정보 수집)<br>
-<br>
-&emsp;1. '당 사이트'는 사용자마다 특화된 서비스를 제공하기 위해 사용자 개인용 컴퓨터에 쿠키를 전송합니다.<br>
-&emsp;2. 사용자가 한 번의 로그인으로 편리하게 이용하기 위해서는 쿠키 수신을 허용해야 합니다.<br>
-&emsp;3. 쿠키는 '당 사이트'를 방문하는 사용자의 특성을 파악하기 위해 사용됩니다.<br>
-&emsp;4. 사용자는 웹브라우저에 있는 옵션기능을 조정하여 쿠키를 선택적으로 받아들일 수 있습니다. 쿠키 수신을 거부할 경우 로그인이 필요한 서비스를 이용할 수 없습니다.<br>
-<br>
-제3장 계약해지<br>
-<br>
-제9조 (계약해지)<br>
-<br>
-&emsp;1. '회원'은 온라인을 통해 회원정보처리에 관한 불만사항을 개진할 수 있습니다.<br>
-&emsp;2. '회원'이 '서비스' 이용 계약을 해지 하고자 할 때는 본인 확인이 가능하도록 이름, 아이디, 생년월일, 연락 가능한 전화번호를 기재하여 전자우편으로 해지 신청을 하거나, 회원정보수정의 '회원탈퇴' 메뉴에서 탈퇴 신청을 해야 합니다.<br>
-<br>
-제10조 (자격상실)<br>
-&emsp;다음 각항의 사유에 해당하는 경우 '당 사이트'는 사전 통보 없이 이용계약을 해지하거나 기간을 정하여 서비스 이용을 중지할 수 있습니다.<br>
-<br>
-&emsp;1. 제6조 2항의 '기본정보'를 누락시킨 경우<br>
-&emsp;2. 가입신청 시 허위 내용으로 등록한 경우<br>
-&emsp;3. 타인의 아이디와 비밀번호를 도용한 경우<br>
-&emsp;4. 당 사이트, 다른 회원 또는 제3자의 지적재산권을 침해하는 경우<br>
-&emsp;5. 사회의 안녕과 질서, 미풍양속을 해치는 행위를 하는 경우<br>
-&emsp;6. 타인의 명예를 손상시키거나 불이익을 주는 행위를 한 경우<br>
-&emsp;7. ‘신용정보의 이용 및 보호에 관한법률'에 따른 PC통신 및 인터넷 서비스의 신용불량자로 등록되는 경우<br>
-<br>
-제4장 책임<br>
-<br>
-제11조 ('당 사이트'의 의무)<br>
-<br>
-&emsp;1. '당 사이트'와 제휴를 맺은 사이트를 편리하게 이용할 수 있도록 하기 위해 '당 사이트'는 '회원' 의 정보를 제휴 사이트들과 공유할 수 있으며, 공유를 위해 '당 사이트'는 '회원'의 컴퓨터에 쿠키를 전송 할 수 있습니다.<br>
-&emsp;2. '당 사이트'는 '서비스' 제공으로 알게 된 '회원'의 신상정보를 본인의 승낙 없이 제3자에게 누설, 배포하지 않습니다. 다만, 다음 각 호에 해당하는 경우에는 예외로 합니다.<br>
-&emsp;&emsp;① 금융실명거래 및 비밀보장에 관한 법률, 신용정보의 이용 및 보호에 관한 법률, 전기통신기본법, 전기통신 사업법, 지방세법, 소비자보호법, 한국은행법, 형사소송법 등 법령에 특별한 규정이 있는 경우<br>
-&emsp;&emsp;② 통계작성/학술연구 또는 시장조사를 위하여 필요한 경우로서 특정 개인을 식별할 수 없는 형태로 제공하는 경우<br>
-&emsp;&emsp;③ '당 사이트'는 '회원'의 전체 또는 일부 정보를 업무와 관련 된 통계 자료로 사용할 수 있습니다.<br>
-&emsp;&emsp;④ '당 사이트'는 '서비스'가 계속적이고 안정적으로 운영될 수 있도록 노력하며, 부득이한 이유로 '서비스'가 중단되면 지체없이 이를 수리 복구하는 데 최선을 다해 노력합니다. 다만, 천재지변, 비상사태, 시스템 정기점검 및 'NILE'이 필요한 경우에는 그 서비스를 일시 중단하거나 중지할 수 있습니다.<br>
-<br>
-제 12조(`회원` 정보 사용에 대한 동의)<br>
-<br>
-&emsp;1. NILE은 당 사이트 이외에 각종 사이트를 운영하고 있는 바, NILE이 운영하는 메인 사이트 및 각종 서브사이트의 서비스 제공을 목적으로 회원의 정보를 수집하며, 수집된 회원의 정보를 사용할 수 있습니다.<br>
-&emsp;2. '당 사이트'는 양질의 서비스를 위해 여러 교육 관련 유관 단체 및 비즈니스 사업자와 제휴를 맺어 회원정보를 공유할 수 있습니다. 그럴 경우 '당 사이트'는 본 조에 제휴업체 및 목적, 내용을 약관에 밝혀 `회원`의 동의를 받은 뒤 제휴업체에 제공합니다.<br>
-&emsp;3. 본 조의 규정에 의한 '회원'의 동의는 본 약관 및 회원가입정보 입력화면에서 제공하는 정보서비스 이용신청 버튼을 클릭함으로써 그 효력을 발생합니다.<br>
-<br>
-제13조 (회원의 의무)<br>
-<br>
-&emsp;1. 아이디와 비밀번호의 관리에 대한 책임은 '회원'에게 있습니다.<br>
-&emsp;2. '회원'은 자신의 아이디를 타인에게 양도, 증여, 대여하거나 타인으로 하여금 사용하게 하여서는 아니됩니다.<br>
-&emsp;3. 자신의 아이디(ID)가 부정하게 사용된 경우, '회원'은 반드시 'NILE'에 그 사실을 통보해야 합니다.<br>
-&emsp;4. '회원'은 게시물에 등록된 데이터를 이용한 영업활동을 할 수 없습니다.<br>
-&emsp;5. '회원'은 '당 사이트'가 보내는 공지 메일을 수신해야 합니다.<br>
-<br>
-제14조 (회원의 게시물)<br>
-<br>
-&emsp;1. 게시물이라 함은 '당 사이트'의 각종 게시판에 회원이 올린 글 전체를 포함합니다.<br>
-&emsp;2. 회원이 게시하는 정보 및 질문과 대답 등으로 인해 발생하는 손실이나 문제는 전적으로 회원 개인의 판단에 따른 책임이며, '당 사이트'의 고의가 아닌 한 '당 사이트'는 이에 대하여 책임지지 않습니다.<br>
-&emsp;3. 회원의 게시물로 인하여 제3자의 '당 사이트'에 대한 청구, 소송, 기타 일체의 분쟁이 발생한 경우 회원은 그 해결에 소요되는 비용을 부담하고 '당 사이트'를 위하여 분쟁을 처리하여야 하며, '당 사이트'가 제3자에게 배상하거나 '당 사이트'에 손해가 발생한 경우 회원은 '당 사이트'에 배상하여야 합니다.<br>
-&emsp;4. ‘당 사이트’는 '회원'의 게시물이 다음 각 항에 해당되는 경우에는 사전통지 없이 삭제합니다. 그러나 '당 사이트'가 게시물을 검사 또는 검열할 의무를 부담하는 것은 아닙니다.<br>
-&emsp;&emsp;① 제3자를 비방하거나 중상 모략하여 명예를 손상시키는 경우<br>
-&emsp;&emsp;② 공공질서, 미풍양속에 저해되는 내용인 경우<br>
-&emsp;&emsp;③ '당 사이트'의 저작권, 제3자의 저작권등 기타 권리를 침해하는 내용인 경우<br>
-&emsp;&emsp;④ '당 사이트'에서 규정한 게시기간을 초과한 경우<br>
-&emsp;&emsp;⑤ 상업성이 있는 게시물이나 돈벌이 광고, 행운의 편지 등을 게시한 경우<br>
-&emsp;&emsp;⑥ 사이트의 개설취지에 맞지 않을 경우<br>
-&emsp;&emsp;⑦ 기타 관계 법령을 위반한다고 판단되는 경우<br>
-&emsp;5. '당 사이트'는 '회원'이 등록한 게시물을 활용해 가공, 판매, 출판 등을 할 수 있습니다.<br>
-<br>
-제5장 정보제공<br>
-<br>
-제15조 (정보의 제공)<br>
-&emsp;'당 사이트'는 '회원'에게 필요한 정보나 광고를 전자메일이나 서신우편 등의 방법으로 전달할 수 있으며, '회원'은 이를 원하지 않을 경우 가입신청 메뉴와 회원정보수정 메뉴에서 정보수신거부를 할 수 있습니다. 단, 정보 수신 거부한 `회원`에게도 제13조5항의 '당 사이트' 공지 메일을 보낼 수 있습니다.<br>
-<br>
-제6장 손해배상 및 면책<br>
-<br>
-제16조 (책임)<br>
-<br>
-&emsp;1. '당 사이트'는 '서비스' 이용과 관련하여 '당 사이트'의 고의 또는 중과실이 없는 한 '회원'에게 발생한 어떠한 손해에 대해서도 책임을 지지 않습니다.<br>
-&emsp;2. '당 사이트'는 '서비스' 이용과 관련한 정보, 제품, 서비스, 소프트웨어, 그래픽, 음성, 동영상의 적합성, 정확성, 시의성, 신빙성에 관한 보증 또는 담보책임을 부담하지 않습니다.<br>
-<br>
-제17조 (면책)<br>
-&emsp;'NILE'이 천재지변 또는 불가피한 사정으로 '서비스'를 중단할 경우, '회원'에게 발생되는 문제에 대해 책임을 지지 않습니다.<br>
-제18조 (관할법원)<br>
-&emsp;'서비스' 이용과 관련하여 소송이 제기될 경우 'NILE'의 소재지를 관할하는 법원 또는 대한민국의 민사소송법에 따른 법원을 관할법원으로 합니다.<br>
-&emsp;본 약관의 해석과 적용 및 본 약관과 관련한 분쟁의 해결에는 대한민국법이 적용됩니다.<br>
-</div>
-<!-- hello world [s] -->
-                        % endif
-
-					<div class="agree-chk">
-						<input type="radio" name="agree1" value="Y" id="radio1_y"> <label for="radio1_y">${_("Agree")}</label>
-						<input type="radio" name="agree1" value="N" id="radio1_n" checked> <label for="radio1_n">${_("Do not agree")}</label>
-					</div>
-				</section>
-
-				<section class="agree-frm-box">
-					<h3>개인정보 수집 및 이용 동의 (필수)</h3>
-                    %if _("Agree") == "Agree" :
-<div id="text2" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-Chapter 1 General Rule<br>
-<br>
-Article 1 (Purpose)<br>
-&emsp;The purpose of these Terms and Conditions shall be that the customer (hereinafter referred to as "Member") using all member information services (hereinafter referred to as "Service") provided by the K-MOOC (hereinafter referred to as the "Site") operated by the National Institute for Lifelong Education (hereinafter referred to as NILE) and the 'Site' specify the terms and procedures and other necessary matters regarding the use of the 'Services'.<br>
-<br>
-Article 2 (Effect and Change of Terms)<br>
-&emsp;1. This Agreement will be effective when the Member clicks the "Agree" button in response to the question "Do you agree with the Terms?"<br>
-&emsp;2. The 'Site' may change these Terms and Conditions, and the modified Terms will be announced to 'Member's for 7 days prior to the effective date and will be effective on the applicable date'<br>
-&emsp;3. If 'Member' does not agree to the modified terms, 'Member' may stop using the 'Service' and withdraw. If 'Member' continues to use the 'Services' after the terms have been changed, the 'Member' shall be deemed to have agreed to the terms of this Agreement.<br>
-<br>
-Article 3 (Regulations other than the Terms and Conditions)<br>
-&emsp;When any matters not specified in these Terms and Conditions are specified in relevant laws and regulations, they shall be governed by the relevant laws and regulations.<br>
-<br>
-Chapter 2 Membership sign-up and Service Usage<br>
-<br>
-Article 4 (Usage Contract)<br>
-&emsp;Use of the 'Service' is permitted only if the 'homepage' is permitted and the 'Member' agrees to the Terms and Conditions.<br>
-<br>
-Article 5 (Application for Use)<br>
-&emsp;1. In order to use this service, you must record your information on the form prescribed by 'this site'.<br>
-&emsp;2. The user information shown on the subscription form is considered actual data. Users who do not enter real information will not be legally protected.<br>
-<br>
-Article 6 (Approval of Use Application)<br>
-&emsp;1. The 'Site' approves the use of 'Service's when 'Member' makes a complete application by writing all matters correctly. However, the following cases are an exception.<br>
-&emsp;&emsp;① If the application is made using someone else's name<br>
-&emsp;&emsp;② If you have filed a false application for the membership application form<br>
-&emsp;&emsp;③ If you applied for the purpose of hindering social well-being, order or morals<br>
-&emsp;&emsp;④ If you interfere with another person's use of the site services or take actions such as<br>
-       stealing the information<br>
-&emsp;&emsp;⑤  If you do the acts prohibited by laws and regulations and the terms from using the site<br>
-&emsp;&emsp;⑥ If you do not have enough membership requirements set by the site<br>
-&emsp;2. The information that the member enters is shown below. In addition to the information below, the 'Site' may require the 'Member' to enter additional information.<br>
-&emsp;&emsp;- Required items: Email, real name, ID, password, country, gender, year of birth<br>
-&emsp;&emsp;- Optional items: Place of residence, the highest level of education, purpose of enrollment<br>
-<br>
-Article 7 (Change of Contract Items and Information Retention/Use Period)<br>
-<br>
-&emsp;1. The 'Member', if changes are made to the information entered when applying for 'Service', must correct it online.<br>
-&emsp;2. From the moment you register as a 'member', the 'site' can hold and use the information of 'member'.<br>
-&emsp;3. From the moment the 'Member' leaves the site, the information of the 'Member' will not be available on the site. However, in order to protect personal information, the 'Site' may retain the information of the 'Member' for 20 days from the moment when membership is withdrawn.<br>
-<br>
-Article 8 (Collection of Personal Information by Cookies)<br>
-&emsp;1. The 'Site' sends cookies to the user's personal computer to provide specialized services for each user.<br>
-&emsp;2. In order for the user to be able to use it conveniently with one login, he or she must accept cookies.<br>
-&emsp;3. Cookies are used to identify the characteristics of users who visit the 'site'.<br>
-&emsp;4. Users can selectively accept cookies by adjusting options in the web browser. If you refuse to accept cookies, you will not be able to use the services that require log-in.<br>
-<br>
-Chapter 3 Cancellation of Contract<br>
-<br>
-Article 9 (Cancellation of Contract)<br>
-&emsp;1. 'Member' may initiate complaints about the processing of member information through online.<br>
-&emsp;2. When a 'member' wishes to terminate the service use contract, he or she may request the termination of the contract by e-mail with his or her name, ID, date of birth, or you must apply for withdrawal in 'membership withdrawal' menu of member information correction.<br>
-<br>
-Article 10 (Disqualification)<br>
-&emsp;In the event of the following reasons, the 'Site' may cancel the use contract without any prior notice or terminate the service use by determining a period.<br>
-&emsp;1. If you missed the 'Basic Information' in Article 6 (2)<br>
-&emsp;2. If you register with false contents when you apply for membership<br>
-&emsp;3. If you have stolen someone's ID and password<br>
-&emsp;4. If you infringe the intellectual property rights of the site, other members or third parties<br>
-&emsp;5. If you do the act of harming social well-being and order, public morals<br>
-&emsp;6. In the event of an act that damages or causes disadvantage to others' honor<br>
-&emsp;7. In case of being registered as a credit failure of PC communication and Internet service pursuant to the "Act on the Use and Protection of Credit Information"v
-<br>
-Chapter 4 Responsibility<br>
-<br>
-Article 11 (The Obligations of the 'Site')<br>
-&emsp;1. In order to facilitate the use of the sites affiliated with the 'Site', the 'Site' may share the information of the 'Member' with the affiliated sites, and for the purpose of sharing, the 'Site' can send cookies to the computer of 'Member'.<br>
-&emsp;2. The 'Site' does not disclose or distribute the personal information of 'Member' which is known by 'Service' provision to a third party without the consent of the user. However, the following exceptions apply.<br>
-&emsp;&emsp;① If there are special regulations in laws such as Act on Financial Real Name Transaction and Confidentiality, Use and Protection of Credit Information, Basic Law of Telecommunications, Telecommunications Business Act, Local Tax Act, Consumer Protection Act, Bank of Korea Act and Criminal Procedure Act<br>
-&emsp;&emsp;② When necessary for statistical writing / academic research or market research, if it is provided in an unidentifiable form for a specific individual<br>
-&emsp;&emsp;③ The 'Site' may use all or part of the information of 'Member' as statistical data related to the business'<br>
-&emsp;&emsp;④ The 'Site' strives to ensure that the 'Service' operates consistently and reliably. If the 'Service' is interrupted for any unavoidable reason, we will do our best to repair and recover it without delay. However, in case of natural disasters, emergencies, periodic system inspections and the necessity of 'NILE', we may stop or suspend the service temporarily.<br>
-<br>
-Article 12 (Consent on the Use of 'Member' Information)<br>
-&emsp;1. NILE operates various websites in addition to this site. NILE collects member's information for the purpose of providing services of the main site and various subsites operated by NILE, and can use the collected information of members.<br>
-&emsp;2. The 'Site' may be affiliated with various education related associations and business operators for the quality of their services and may share their membership information. In such case, the 'Site' shall disclose the partnership, purpose, and contents to the Terms in this Article and shall be provided to the Affiliates after the consent of 'Member' is obtained.'<br>
-&emsp;3. The consent of the 'Member' under the provisions of this Article shall be effected by clicking the button for subscribing to the information service provided in the Terms and Conditions and the entry screen of member enrollment information.<br>
-<br>
-Article 13 (Obligations of Member)<br>
-&emsp;1. 'Member's are responsible for the management of their ID and password.<br>
-&emsp;2. 'Member' shall not assign, give, loan his or her ID to another person  or allow others to use it.<br>
-&emsp;3. If your ID is used improperly, the 'Member' must notify it to NILE.<br>
-&emsp;4. "Member" can not use the data registered in the post to conduct sales activities.<br>
-&emsp;5. 'Member' must receive a notice mail from the "Site".<br>
-<br>
-Article 14 (Member Posts)<br>
-&emsp;1. Posts include all writings made by members on the various boards of the 'Site'.<br>
-&emsp;2. Any loss or problem arising out of the information posted by members and Q&A is solely the responsibility of the member, and the 'site' is not responsible for it unless it is the intention of the 'site'.<br>
-&emsp;3. In the event of any claims, lawsuits, or any other disputes against the 'site' arising out of any third party due to the member' s posting, the member shall bear the cost of the settlement and process the dispute for the site, In the event that the 'Site' compensates the third party or damages occur to the 'Site', the member shall compensate the 'Site'.<br>
-&emsp;4. The 'Site' shall delete member's post without prior notice in the event that the post of the 'Member' fall under any of the following: However, the 'site' does not have any obligation to inspect or censor the post.<br>
-&emsp;&emsp;① If you defame a third party by slander<br>
-&emsp;&emsp;② In case of contents that hinder public order or good morals<br>
-&emsp;&emsp;③ In case of infringement of copyright of the 'Site' or copyright of third party etc.<br>
-&emsp;&emsp;④ When the posting period stipulated in the 'Site is exceed<br>
-&emsp;&emsp;⑤ In case of a commercial post, a money-making advertisement, a good luck letter, etc.<br>
-&emsp;&emsp;⑥ In case of not meeting the purpose of site opening<br>
-&emsp;&emsp;⑦ When other applicable laws and regulations are violated<br>
-&emsp;5. The 'Site' can process, sell, publish, etc. using the posts registered by 'Member's.'<br>
-<br>
-Chapter 5 Information Provision<br>
-<br>
-Article 15 (Information Provision)<br>
-&emsp;The 'Site' may transmit the necessary information or advertisement to 'Member' by e-mail or letter mail. If 'Member' dose not want this, the 'Member' can refuse the information from the subscription application menu and the member information modification menu. However, we may send a notice mail of the 'Site' of Article 13 (5) to the member who has refused to receive the information.<br>
-<br>
-Chapter 6 Exemption from Responsibility and Indemnification<br>
-<br>
-Article 16 (Responsibility)<br>
-&emsp;1. The 'Site' shall not be liable for any damages incurred to the 'Member' in connection with the use of the 'Service' unless there is intent or gross negligence of the 'Site'.<br>
-&emsp;2. The 'Site' does not endorse or warrant the appropriateness, accuracy, timeliness, credibility of information, products, services, software, graphics, voice and video related to the use of the 'Service'.<br>
-<br>
-Article 17 (Exemption from Responsibility)<br>
-&emsp;'NILE' will not be held responsible for any problems occurred to 'Member if disruption of service is due to natural disasters or unavoidable circumstances.<br>
-<br>
-Article 18 (Competent Court)<br>
-&emsp;The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.<br>
-&emsp;The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.<br>
-</div>
-                    % else :
-<div id="text2" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-    <div style="font-size: 0.9rem;">
-1. 개인정보의 수집 및 이용 목적<br>
-<br>
-&emsp;가. 서비스 제공 및 개선<br>
-&emsp;&emsp;기본 서비스 제공을 위한 학습결과 산출 및 관련 정보 제공, 서비스 개선 방향 도출을 위한 통계 산출 및 진흥원 연구 수행 등을 목적으로 개인정보를 처리합니다.<br>
-<br>
-&emsp;나. 홈페이지 회원 관리<br>
-&emsp;&emsp;회원제 서비스 제공에 따른 본인 식별 · 인증, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 처리 시 법정대리인의 동의여부 확인, 분쟁 조정을 위한 기록보존, 각종 고지ㆍ통지 등을 목적으로 개인정보를 처리합니다.<br>
-<br>
-&emsp;다. 민원사무 처리<br>
-&emsp;&emsp;민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보 등의 목적으로 개인정보를 처리합니다.<br>
-<br>
-        </div>
-2. 수집하는 개인정보의 항목<br>
-&emsp;진흥원은 서비스 제공을 위해 필요한 최소한의 범위 내에서 다음과 같은 개인정보를 수집하고 있습니다.<br>
-<br>
-&emsp;가. 회원가입 및 서비스 이용 시 : 아이디, 비밀번호, 성명, 생년월일, 성별, 전자우편주소<br>
-&emsp;나. 민원사무 처리 시 : 전자우편주소<br>
-&emsp;다. 회원학습이력정보 : 아이디, 학습이력, 접속 IP주소<br>
-<br>
-    <div style="font-size: 0.9rem;">
-3. 개인정보의 처리 및 보유기간<br>
-&emsp;진흥원은 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다. 각 목적에 대한 개인정보 처리 및 보유 기간은 다음과 같습니다.<br>
-<br>
-&emsp;가. 서비스 제공 및 개선, 홈페이지 회원 관리 : K-MOOC 홈페이지 탈퇴 또는 휴먼계정 전환 후 2년까지 보유합니다. 다만, 다음의 사유에 해당하는 경우에는 해당 사유 종료 시까지 보유합니다.<br>
-&emsp;&emsp;- 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지<br>
-&emsp;&emsp;- 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지<br>
-<br>
-&emsp;나. 민원사무 처리 : 민원처리 종료 후 3년까지 보유합니다.<br>
-<br>
-4. 동의를 거부할 권리 고지 및 동의 거부에 따른 불이익<br>
-&emsp;이용자는 진흥원에서 필수로 수집하는 개인정보에 대해 동의를 거부할 권리가 있으며, 필수항목에 대한 동의 거부 시에는 회원가입 및 이용이 제한됩니다.<br>
-        </div>
-</div>
-                        % endif
-
-					<div class="agree-chk">
-						<input type="radio" name="agree2" value="Y" id="radio2_y"> <label for="radio2_y">${_("Agree")}</label>
-						<input type="radio" name="agree2" value="N" id="radio2_n" checked> <label for="radio2_n">${_("Do not agree")}</label>
-					</div>
-				</section>
-
-
-				<section class="agree-frm-box">
-					<h3>개인정보 수집 및 이용 동의 (선택)</h3>
-                    %if _("Agree") == "Agree" :
-<div id="text3" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-    <div style="font-size: 0.9rem;">
-1. Purpose of Collection and Use of Personal Information<br>
-<br>
-&emsp;The K-MOOC homepage collects personal information for the following purposes. The collected personal information will not be used for any purpose other than the following purposes and will be subject to prior consent if the purpose of use is changed.<br>
-<br>
-&emsp;A. Homepage membership sign-up and management<br>
-&emsp;&emsp;We process personal information for the purpose of the followings: Confirmation of membership; confirmation of identity in accordance with membership service provision; maintenance and management of membership status; prevention of unauthorized use of service; confirmation of consent of legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices and notifications etc.<br>
-&emsp;B. Civil complaints processing<br>
-&emsp;&emsp;We process personal information for purposes such as identification of complainants, confirmation of complaints, communication and notification for factual investigation, notification of processing results, improvement and provision of services.<br>
-<br>
+    % else :
+    <div id="text1" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      제1장 총칙<br>
+      <br>
+      제1조 (목적)<br>
+      &emsp;이 약관은 국가평생교육진흥원(이하 NILE)이 운영하는 “K-MOOC” (이하 ‘당 사이트’)가 제공하는 모든 회원정보 서비스(이하 '서비스')를 이용하는 고객(이하 ‘회원’)과 ‘당 사이트’가 ‘서비스’의 이용에 관한 조건 및 절차와 기타 필요한 사항을 규정하는 것을 목적으로 합니다.<br>
+      제2조 (약관의 효력과 변경)<br>
+      <br>
+      &emsp;1. 이 약관은 "이 약관에 동의하십니까?"라는 물음에 '회원'이 "동의" 버튼을 클릭함으로써 효력이 발생됩니다.<br>
+      &emsp;2. ‘당 사이트’는 이 약관을 임의로 변경할 수 있으며, 변경된 약관은 적용일 전 7일간 `회원'에게 공지되고 적용 일에 효력이 발생 됩니다.<br>
+      &emsp;3. ‘회원’은 변경된 약관에 동의하지 않을 경우, '서비스' 이용을 중단하고 탈퇴할 수 있습니다. 약관이 변경된 이후에도 계속적으로 ‘서비스’를 이용하는 경우에는 '회원'이 약관의 변경 사항에 동의한 것으로 봅니다.<br>
+      <br>
+      제3조 (약관 외 준칙)<br>
+      &emsp;이 약관에 명시되지 않은 사항이 관계 법령에 규정되어 있을 경우에는 그 규정에 따릅니다.<br>
+      <br>
+      제2장 회원 가입과 서비스 이용<br>
+      <br>
+      제4조 (이용계약)<br>
+      &emsp;'서비스' 이용은 '당 홈페이지'가 허락하고 '회원'이 약관 내용에 대해 동의하면 됩니다.<br>
+      제5조 (이용신청)<br>
+      <br>
+      &emsp;1. 본 서비스를 이용하기 위해서는 '당 사이트'가 정한 소정의 양식에 이용자 정보를 기록해야 합니다.<br>
+      &emsp;2. 가입신청 양식에 기재된 이용자 정보는 실제 데이터로 간주됩니다. 실제 정보를 입력하지 않은 사용자는 법적인 보호를 받을 수 없습니다.<br>
+      <br>
+      제6조 (이용신청의 승낙)<br>
+      <br>
+      &emsp;1. '당 사이트'는 '회원'이 모든 사항을 정확히 기재하여 신청할 경우 '서비스' 이용을 승낙합니다. 다만, 아래의 경우는 예외로 합니다.<br>
+      &emsp;&emsp;① 다른 사람의 명의를 사용하여 신청한 경우<br>
+      &emsp;&emsp;② 회원가입 신청서의 내용을 허위로 기재하였거나 신청하였을 경우<br>
+      &emsp;&emsp;③ 사회의 안녕 질서 또는 미풍양속을 저해할 목적으로 신청한 경우<br>
+      &emsp;&emsp;④ 다른 사람의 당 사이트 서비스 이용을 방해하거나 그 정보를 도용하는 등의 행위를 하였을 경우<br>
+      &emsp;&emsp;⑤ 당 사이트를 이용하여 법령과 본 약관이 금지하는 행위를 하는 경우<br>
+      &emsp;&emsp;⑥ 기타 당 사이트가 정한 회원가입 요건이 미비할 경우<br>
+      &emsp;2. 회원이 입력하는 정보는 아래와 같습니다. 아래의 정보 외에 '당 사이트'는 '회원'에게 추가 정보의 입력을 요구할 수 있습니다.<br>
+      &emsp;&emsp;- 필수항목 : 이메일, 이름, 아이디, 비밀번호, 국가, 성별, 출생연도<br>
+      &emsp;&emsp;- 선택항목 : 최종학력, 우편주소, 가입이유<br>
+      <br>
+      제7조 (계약 사항의 변경 및 정보 보유/이용기간)<br>
+      <br>
+      &emsp;1. '회원'은 '서비스' 이용 신청 시 기재한 사항이 변경되었을 경우, 온라인으로 수정을 해야 합니다.<br>
+      &emsp;2. '회원'으로 등록하는 순간부터 '당 사이트'는 '회원'의 정보를 보유 및 이용할 수 있습니다.<br>
+      &emsp;3. '회원'이 탈퇴하는 순간부터 당 사이트는 '회원'의 정보를 이용할 수 없습니다. 다만, '당 사이트‘는 개인정보보호를 위해 '회원'이 탈퇴하는 순간부터 20일간 '회원'의 정보를 보유할 수 있습니다.<br>
+      <br>
+      제8조 (쿠키에 의한 개인정보 수집)<br>
+      <br>
+      &emsp;1. '당 사이트'는 사용자마다 특화된 서비스를 제공하기 위해 사용자 개인용 컴퓨터에 쿠키를 전송합니다.<br>
+      &emsp;2. 사용자가 한 번의 로그인으로 편리하게 이용하기 위해서는 쿠키 수신을 허용해야 합니다.<br>
+      &emsp;3. 쿠키는 '당 사이트'를 방문하는 사용자의 특성을 파악하기 위해 사용됩니다.<br>
+      &emsp;4. 사용자는 웹브라우저에 있는 옵션기능을 조정하여 쿠키를 선택적으로 받아들일 수 있습니다. 쿠키 수신을 거부할 경우 로그인이 필요한 서비스를 이용할 수 없습니다.<br>
+      <br>
+      제3장 계약해지<br>
+      <br>
+      제9조 (계약해지)<br>
+      <br>
+      &emsp;1. '회원'은 온라인을 통해 회원정보처리에 관한 불만사항을 개진할 수 있습니다.<br>
+      &emsp;2. '회원'이 '서비스' 이용 계약을 해지 하고자 할 때는 본인 확인이 가능하도록 이름, 아이디, 생년월일, 연락 가능한 전화번호를 기재하여 전자우편으로 해지 신청을 하거나, 회원정보수정의 '회원탈퇴' 메뉴에서 탈퇴 신청을 해야 합니다.<br>
+      <br>
+      제10조 (자격상실)<br>
+      &emsp;다음 각항의 사유에 해당하는 경우 '당 사이트'는 사전 통보 없이 이용계약을 해지하거나 기간을 정하여 서비스 이용을 중지할 수 있습니다.<br>
+      <br>
+      &emsp;1. 제6조 2항의 '기본정보'를 누락시킨 경우<br>
+      &emsp;2. 가입신청 시 허위 내용으로 등록한 경우<br>
+      &emsp;3. 타인의 아이디와 비밀번호를 도용한 경우<br>
+      &emsp;4. 당 사이트, 다른 회원 또는 제3자의 지적재산권을 침해하는 경우<br>
+      &emsp;5. 사회의 안녕과 질서, 미풍양속을 해치는 행위를 하는 경우<br>
+      &emsp;6. 타인의 명예를 손상시키거나 불이익을 주는 행위를 한 경우<br>
+      &emsp;7. ‘신용정보의 이용 및 보호에 관한법률'에 따른 PC통신 및 인터넷 서비스의 신용불량자로 등록되는 경우<br>
+      <br>
+      제4장 책임<br>
+      <br>
+      제11조 ('당 사이트'의 의무)<br>
+      <br>
+      &emsp;1. '당 사이트'와 제휴를 맺은 사이트를 편리하게 이용할 수 있도록 하기 위해 '당 사이트'는 '회원' 의 정보를 제휴 사이트들과 공유할 수 있으며, 공유를 위해 '당 사이트'는 '회원'의 컴퓨터에 쿠키를 전송 할 수 있습니다.<br>
+      &emsp;2. '당 사이트'는 '서비스' 제공으로 알게 된 '회원'의 신상정보를 본인의 승낙 없이 제3자에게 누설, 배포하지 않습니다. 다만, 다음 각 호에 해당하는 경우에는 예외로 합니다.<br>
+      &emsp;&emsp;① 금융실명거래 및 비밀보장에 관한 법률, 신용정보의 이용 및 보호에 관한 법률, 전기통신기본법, 전기통신 사업법, 지방세법, 소비자보호법, 한국은행법, 형사소송법 등 법령에 특별한 규정이 있는 경우<br>
+      &emsp;&emsp;② 통계작성/학술연구 또는 시장조사를 위하여 필요한 경우로서 특정 개인을 식별할 수 없는 형태로 제공하는 경우<br>
+      &emsp;&emsp;③ '당 사이트'는 '회원'의 전체 또는 일부 정보를 업무와 관련 된 통계 자료로 사용할 수 있습니다.<br>
+      &emsp;&emsp;④ '당 사이트'는 '서비스'가 계속적이고 안정적으로 운영될 수 있도록 노력하며, 부득이한 이유로 '서비스'가 중단되면 지체없이 이를 수리 복구하는 데 최선을 다해 노력합니다. 다만, 천재지변, 비상사태, 시스템 정기점검 및 'NILE'이 필요한 경우에는 그 서비스를 일시 중단하거나 중지할 수 있습니다.<br>
+      <br>
+      제 12조(`회원` 정보 사용에 대한 동의)<br>
+      <br>
+      &emsp;1. NILE은 당 사이트 이외에 각종 사이트를 운영하고 있는 바, NILE이 운영하는 메인 사이트 및 각종 서브사이트의 서비스 제공을 목적으로 회원의 정보를 수집하며, 수집된 회원의 정보를 사용할 수 있습니다.<br>
+      &emsp;2. '당 사이트'는 양질의 서비스를 위해 여러 교육 관련 유관 단체 및 비즈니스 사업자와 제휴를 맺어 회원정보를 공유할 수 있습니다. 그럴 경우 '당 사이트'는 본 조에 제휴업체 및 목적, 내용을 약관에 밝혀 `회원`의 동의를 받은 뒤 제휴업체에 제공합니다.<br>
+      &emsp;3. 본 조의 규정에 의한 '회원'의 동의는 본 약관 및 회원가입정보 입력화면에서 제공하는 정보서비스 이용신청 버튼을 클릭함으로써 그 효력을 발생합니다.<br>
+      <br>
+      제13조 (회원의 의무)<br>
+      <br>
+      &emsp;1. 아이디와 비밀번호의 관리에 대한 책임은 '회원'에게 있습니다.<br>
+      &emsp;2. '회원'은 자신의 아이디를 타인에게 양도, 증여, 대여하거나 타인으로 하여금 사용하게 하여서는 아니됩니다.<br>
+      &emsp;3. 자신의 아이디(ID)가 부정하게 사용된 경우, '회원'은 반드시 'NILE'에 그 사실을 통보해야 합니다.<br>
+      &emsp;4. '회원'은 게시물에 등록된 데이터를 이용한 영업활동을 할 수 없습니다.<br>
+      &emsp;5. '회원'은 '당 사이트'가 보내는 공지 메일을 수신해야 합니다.<br>
+      <br>
+      제14조 (회원의 게시물)<br>
+      <br>
+      &emsp;1. 게시물이라 함은 '당 사이트'의 각종 게시판에 회원이 올린 글 전체를 포함합니다.<br>
+      &emsp;2. 회원이 게시하는 정보 및 질문과 대답 등으로 인해 발생하는 손실이나 문제는 전적으로 회원 개인의 판단에 따른 책임이며, '당 사이트'의 고의가 아닌 한 '당 사이트'는 이에 대하여 책임지지 않습니다.<br>
+      &emsp;3. 회원의 게시물로 인하여 제3자의 '당 사이트'에 대한 청구, 소송, 기타 일체의 분쟁이 발생한 경우 회원은 그 해결에 소요되는 비용을 부담하고 '당 사이트'를 위하여 분쟁을 처리하여야 하며, '당 사이트'가 제3자에게 배상하거나 '당 사이트'에 손해가 발생한 경우 회원은 '당 사이트'에 배상하여야 합니다.<br>
+      &emsp;4. ‘당 사이트’는 '회원'의 게시물이 다음 각 항에 해당되는 경우에는 사전통지 없이 삭제합니다. 그러나 '당 사이트'가 게시물을 검사 또는 검열할 의무를 부담하는 것은 아닙니다.<br>
+      &emsp;&emsp;① 제3자를 비방하거나 중상 모략하여 명예를 손상시키는 경우<br>
+      &emsp;&emsp;② 공공질서, 미풍양속에 저해되는 내용인 경우<br>
+      &emsp;&emsp;③ '당 사이트'의 저작권, 제3자의 저작권등 기타 권리를 침해하는 내용인 경우<br>
+      &emsp;&emsp;④ '당 사이트'에서 규정한 게시기간을 초과한 경우<br>
+      &emsp;&emsp;⑤ 상업성이 있는 게시물이나 돈벌이 광고, 행운의 편지 등을 게시한 경우<br>
+      &emsp;&emsp;⑥ 사이트의 개설취지에 맞지 않을 경우<br>
+      &emsp;&emsp;⑦ 기타 관계 법령을 위반한다고 판단되는 경우<br>
+      &emsp;5. '당 사이트'는 '회원'이 등록한 게시물을 활용해 가공, 판매, 출판 등을 할 수 있습니다.<br>
+      <br>
+      제5장 정보제공<br>
+      <br>
+      제15조 (정보의 제공)<br>
+      &emsp;'당 사이트'는 '회원'에게 필요한 정보나 광고를 전자메일이나 서신우편 등의 방법으로 전달할 수 있으며, '회원'은 이를 원하지 않을 경우 가입신청 메뉴와 회원정보수정 메뉴에서 정보수신거부를 할 수 있습니다. 단, 정보 수신 거부한 `회원`에게도 제13조5항의 '당 사이트' 공지 메일을 보낼 수 있습니다.<br>
+      <br>
+      제6장 손해배상 및 면책<br>
+      <br>
+      제16조 (책임)<br>
+      <br>
+      &emsp;1. '당 사이트'는 '서비스' 이용과 관련하여 '당 사이트'의 고의 또는 중과실이 없는 한 '회원'에게 발생한 어떠한 손해에 대해서도 책임을 지지 않습니다.<br>
+      &emsp;2. '당 사이트'는 '서비스' 이용과 관련한 정보, 제품, 서비스, 소프트웨어, 그래픽, 음성, 동영상의 적합성, 정확성, 시의성, 신빙성에 관한 보증 또는 담보책임을 부담하지 않습니다.<br>
+      <br>
+      제17조 (면책)<br>
+      &emsp;'NILE'이 천재지변 또는 불가피한 사정으로 '서비스'를 중단할 경우, '회원'에게 발생되는 문제에 대해 책임을 지지 않습니다.<br>
+      제18조 (관할법원)<br>
+      &emsp;'서비스' 이용과 관련하여 소송이 제기될 경우 'NILE'의 소재지를 관할하는 법원 또는 대한민국의 민사소송법에 따른 법원을 관할법원으로 합니다.<br>
+      &emsp;본 약관의 해석과 적용 및 본 약관과 관련한 분쟁의 해결에는 대한민국법이 적용됩니다.<br>
     </div>
-2. Items of personal information collected<br>
-<br>
-&emsp;The K-MOOC homepage collects the following personal information to the minimum extent necessary for service delivery. "Optional Items" of personal information we collect are additional information we collect to better serve our members. If the member does not want it, we do not collect the additional information and there is no restriction on the use of the service due to this.<br>
-<br>
-&emsp;A. When signing up for membership<br>
-&emsp;&emsp;- Personal information file name: K-MOOC homepage member information - Required items: Email, actual name, ID, password, country, gender, year of birth<br>
-&emsp;&emsp;- Optional items : Residence, the highest level of education, purpose of enrollment<br>
-※ To disclose the personal information file registration information of K-MOOC homepage, please use the search menu of personal information file list. The comprehensive support portal of the Ministry of Government Administration and Home Affairs (www.privacy.go.kr) → Personal Information Civil Complaint → Request to view personal information  → the search menu of personal information file list<br>
-<br>
-&emsp;B. During the course of using the service, the following information can be automatically<br>
-&emsp;&emsp;generated and collected.<br>
-&emsp;&emsp;- IP address, cookie, service usage history, visit history, etc.<br>
-&emsp;&emsp;The information collected and stored automatically will be used for statistical analysis to improve and complement the homepage to provide lecture management and better services.<br>
-<br>
-    <div style="font-size: 0.9rem;">
-3. Processing and Retention Period of Personal Information<br>
-<br>
-&emsp;In principle, the member's personal information will be destroyed without delay when the purpose of processing personal information is achieved or the service is abolished.<br>
-<br>
-&emsp;A. Personal information file name: K-MOOC homepage member information<br>
-&emsp;&emsp;- Retention period : Until membership is canceled<br>
-<br>
-    </div>
-4. The fact that you have the right to refuse consent and the disadvantage of denying consent<br>
-<br>
-&emsp;The user has the right to refuse consent to the personal information collected on the K-MOOC homepage. If you refuse to accept the required items, membership will be restricted.<br>
-</div>
-                        %else :
-<div id="text3" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-    <div style="font-size: 0.9rem;">
-1. 선택적 개인정보의 수집 및 이용 목적<br>
-&emsp;서비스 제공 및 개선을 위한 학습결과 산출 및 관련 정보 제공, 서비스 개선 방향 도출을 위한 통계 산출 및 진흥원 연구 수행 등을 목적으로 개인정보를 처리합니다.<br>
-    </div>
-<br>
-2. 수집하는 개인정보의 항목 : 최종학력, 국가, 거주지, 가입목적<br>
-<br>
-    <div style="font-size: 0.9rem;">
-3. 개인정보의 처리 및 보유기간<br>
-&emsp;서비스 제공 및 개선을 위해 해당 개인정보를 K-MOOC 홈페이지 탈퇴 또는 휴먼계정 전환 후 2년까지 보유합니다. 다만, 다음의 사유에 해당하는 경우에는 해당 사유 종료 시까지 보유합니다.<br>
-&emsp;&emsp;- 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지<br>
-&emsp;&emsp;- 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지<br>
-    </div>
-<br>
-4. 동의를 거부할 권리 고지 및 동의 거부에 따른 불이익<br>
-&emsp;이용자는 위 선택 개인정보 수집 및 이용목적에 대하여 동의를 거부하고 회원가입 시 입력하지 않으실 수 있으며, 이 경우에도 기본적인 서비스는 이용 가능합니다.<br>
-</div>
+    <!-- hello world [s] -->
+    % endif
 
-                        %endif
-					<div class="agree-chk">
-						<input type="radio" name="agree3" value="Y" id="radio3_y"> <label for="radio3_y">${_("Agree")}</label>
-						<input type="radio" name="agree3" value="N"  id="radio3_n" checked> <label for="radio3_n">${_("Do not agree")}</label>
-					</div>
-				</section>
-
-
-
-				<section class="agree-frm-box">
-					<h3>홍보·설문 관련 정보 수신 동의 (선택)</h3>
-                    %if _("Agree") == "Agree" :
-<div id="text4" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-    <div style="font-size: 0.9rem;">
-1. Purpose of collecting optional personal information<br>
-<br>
-&emsp;In K-MOOC homepage member enrollment, providing related services such as providing convenience and lecture guidance when a member requests the confirmation of information.<br>
-<br>
+    <div class="agree-chk">
+      <input type="radio" name="agree1" value="Y" id="radio1_y"> <label for="radio1_y">${_("Agree")}</label>
+      <input type="radio" name="agree1" value="N" id="radio1_n" checked> <label for="radio1_n">${_("Do not agree")}</label>
     </div>
-2. Collection items<br>
-<br>
-&emsp;Common : Residence, the highest level of education, purpose of enrollment<br>
-<br>
-    <div style="font-size: 0.9rem;">
-3. Retention and use period<br>
-<br>
-&emsp;In principle, the member's personal information will be destroyed without delay when the purpose of processing personal information is achieved or the service is abolished.<br>
-<br>
-&emsp;&emsp;A. Personal information file name : K-MOOC homepage member information<br>
-&emsp;&emsp;&emsp;- Retention period : Until membership is canceled<br>
-<br>
+  </section>
+
+  <section class="agree-frm-box">
+    <h3>개인정보 수집 및 이용 동의 (필수)</h3>
+    %if _("Agree") == "Agree" :
+    <div id="text2" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      Chapter 1 General Rule<br>
+      <br>
+      Article 1 (Purpose)<br>
+      &emsp;The purpose of these Terms and Conditions shall be that the customer (hereinafter referred to as "Member") using all member information services (hereinafter referred to as "Service") provided by the K-MOOC (hereinafter referred to as the "Site") operated by the National Institute for Lifelong Education (hereinafter referred to as NILE) and the 'Site' specify the terms and procedures and other necessary matters regarding the use of the 'Services'.<br>
+      <br>
+      Article 2 (Effect and Change of Terms)<br>
+      &emsp;1. This Agreement will be effective when the Member clicks the "Agree" button in response to the question "Do you agree with the Terms?"<br>
+      &emsp;2. The 'Site' may change these Terms and Conditions, and the modified Terms will be announced to 'Member's for 7 days prior to the effective date and will be effective on the applicable date'<br>
+      &emsp;3. If 'Member' does not agree to the modified terms, 'Member' may stop using the 'Service' and withdraw. If 'Member' continues to use the 'Services' after the terms have been changed, the 'Member' shall be deemed to have agreed to the terms of this Agreement.<br>
+      <br>
+      Article 3 (Regulations other than the Terms and Conditions)<br>
+      &emsp;When any matters not specified in these Terms and Conditions are specified in relevant laws and regulations, they shall be governed by the relevant laws and regulations.<br>
+      <br>
+      Chapter 2 Membership sign-up and Service Usage<br>
+      <br>
+      Article 4 (Usage Contract)<br>
+      &emsp;Use of the 'Service' is permitted only if the 'homepage' is permitted and the 'Member' agrees to the Terms and Conditions.<br>
+      <br>
+      Article 5 (Application for Use)<br>
+      &emsp;1. In order to use this service, you must record your information on the form prescribed by 'this site'.<br>
+      &emsp;2. The user information shown on the subscription form is considered actual data. Users who do not enter real information will not be legally protected.<br>
+      <br>
+      Article 6 (Approval of Use Application)<br>
+      &emsp;1. The 'Site' approves the use of 'Service's when 'Member' makes a complete application by writing all matters correctly. However, the following cases are an exception.<br>
+      &emsp;&emsp;① If the application is made using someone else's name<br>
+      &emsp;&emsp;② If you have filed a false application for the membership application form<br>
+      &emsp;&emsp;③ If you applied for the purpose of hindering social well-being, order or morals<br>
+      &emsp;&emsp;④ If you interfere with another person's use of the site services or take actions such as<br>
+      stealing the information<br>
+      &emsp;&emsp;⑤  If you do the acts prohibited by laws and regulations and the terms from using the site<br>
+      &emsp;&emsp;⑥ If you do not have enough membership requirements set by the site<br>
+      &emsp;2. The information that the member enters is shown below. In addition to the information below, the 'Site' may require the 'Member' to enter additional information.<br>
+      &emsp;&emsp;- Required items: Email, real name, ID, password, country, gender, year of birth<br>
+      &emsp;&emsp;- Optional items: Place of residence, the highest level of education, purpose of enrollment<br>
+      <br>
+      Article 7 (Change of Contract Items and Information Retention/Use Period)<br>
+      <br>
+      &emsp;1. The 'Member', if changes are made to the information entered when applying for 'Service', must correct it online.<br>
+      &emsp;2. From the moment you register as a 'member', the 'site' can hold and use the information of 'member'.<br>
+      &emsp;3. From the moment the 'Member' leaves the site, the information of the 'Member' will not be available on the site. However, in order to protect personal information, the 'Site' may retain the information of the 'Member' for 20 days from the moment when membership is withdrawn.<br>
+      <br>
+      Article 8 (Collection of Personal Information by Cookies)<br>
+      &emsp;1. The 'Site' sends cookies to the user's personal computer to provide specialized services for each user.<br>
+      &emsp;2. In order for the user to be able to use it conveniently with one login, he or she must accept cookies.<br>
+      &emsp;3. Cookies are used to identify the characteristics of users who visit the 'site'.<br>
+      &emsp;4. Users can selectively accept cookies by adjusting options in the web browser. If you refuse to accept cookies, you will not be able to use the services that require log-in.<br>
+      <br>
+      Chapter 3 Cancellation of Contract<br>
+      <br>
+      Article 9 (Cancellation of Contract)<br>
+      &emsp;1. 'Member' may initiate complaints about the processing of member information through online.<br>
+      &emsp;2. When a 'member' wishes to terminate the service use contract, he or she may request the termination of the contract by e-mail with his or her name, ID, date of birth, or you must apply for withdrawal in 'membership withdrawal' menu of member information correction.<br>
+      <br>
+      Article 10 (Disqualification)<br>
+      &emsp;In the event of the following reasons, the 'Site' may cancel the use contract without any prior notice or terminate the service use by determining a period.<br>
+      &emsp;1. If you missed the 'Basic Information' in Article 6 (2)<br>
+      &emsp;2. If you register with false contents when you apply for membership<br>
+      &emsp;3. If you have stolen someone's ID and password<br>
+      &emsp;4. If you infringe the intellectual property rights of the site, other members or third parties<br>
+      &emsp;5. If you do the act of harming social well-being and order, public morals<br>
+      &emsp;6. In the event of an act that damages or causes disadvantage to others' honor<br>
+      &emsp;7. In case of being registered as a credit failure of PC communication and Internet service pursuant to the "Act on the Use and Protection of Credit Information"v
+      <br>
+      Chapter 4 Responsibility<br>
+      <br>
+      Article 11 (The Obligations of the 'Site')<br>
+      &emsp;1. In order to facilitate the use of the sites affiliated with the 'Site', the 'Site' may share the information of the 'Member' with the affiliated sites, and for the purpose of sharing, the 'Site' can send cookies to the computer of 'Member'.<br>
+      &emsp;2. The 'Site' does not disclose or distribute the personal information of 'Member' which is known by 'Service' provision to a third party without the consent of the user. However, the following exceptions apply.<br>
+      &emsp;&emsp;① If there are special regulations in laws such as Act on Financial Real Name Transaction and Confidentiality, Use and Protection of Credit Information, Basic Law of Telecommunications, Telecommunications Business Act, Local Tax Act, Consumer Protection Act, Bank of Korea Act and Criminal Procedure Act<br>
+      &emsp;&emsp;② When necessary for statistical writing / academic research or market research, if it is provided in an unidentifiable form for a specific individual<br>
+      &emsp;&emsp;③ The 'Site' may use all or part of the information of 'Member' as statistical data related to the business'<br>
+      &emsp;&emsp;④ The 'Site' strives to ensure that the 'Service' operates consistently and reliably. If the 'Service' is interrupted for any unavoidable reason, we will do our best to repair and recover it without delay. However, in case of natural disasters, emergencies, periodic system inspections and the necessity of 'NILE', we may stop or suspend the service temporarily.<br>
+      <br>
+      Article 12 (Consent on the Use of 'Member' Information)<br>
+      &emsp;1. NILE operates various websites in addition to this site. NILE collects member's information for the purpose of providing services of the main site and various subsites operated by NILE, and can use the collected information of members.<br>
+      &emsp;2. The 'Site' may be affiliated with various education related associations and business operators for the quality of their services and may share their membership information. In such case, the 'Site' shall disclose the partnership, purpose, and contents to the Terms in this Article and shall be provided to the Affiliates after the consent of 'Member' is obtained.'<br>
+      &emsp;3. The consent of the 'Member' under the provisions of this Article shall be effected by clicking the button for subscribing to the information service provided in the Terms and Conditions and the entry screen of member enrollment information.<br>
+      <br>
+      Article 13 (Obligations of Member)<br>
+      &emsp;1. 'Member's are responsible for the management of their ID and password.<br>
+      &emsp;2. 'Member' shall not assign, give, loan his or her ID to another person  or allow others to use it.<br>
+      &emsp;3. If your ID is used improperly, the 'Member' must notify it to NILE.<br>
+      &emsp;4. "Member" can not use the data registered in the post to conduct sales activities.<br>
+      &emsp;5. 'Member' must receive a notice mail from the "Site".<br>
+      <br>
+      Article 14 (Member Posts)<br>
+      &emsp;1. Posts include all writings made by members on the various boards of the 'Site'.<br>
+      &emsp;2. Any loss or problem arising out of the information posted by members and Q&A is solely the responsibility of the member, and the 'site' is not responsible for it unless it is the intention of the 'site'.<br>
+      &emsp;3. In the event of any claims, lawsuits, or any other disputes against the 'site' arising out of any third party due to the member' s posting, the member shall bear the cost of the settlement and process the dispute for the site, In the event that the 'Site' compensates the third party or damages occur to the 'Site', the member shall compensate the 'Site'.<br>
+      &emsp;4. The 'Site' shall delete member's post without prior notice in the event that the post of the 'Member' fall under any of the following: However, the 'site' does not have any obligation to inspect or censor the post.<br>
+      &emsp;&emsp;① If you defame a third party by slander<br>
+      &emsp;&emsp;② In case of contents that hinder public order or good morals<br>
+      &emsp;&emsp;③ In case of infringement of copyright of the 'Site' or copyright of third party etc.<br>
+      &emsp;&emsp;④ When the posting period stipulated in the 'Site is exceed<br>
+      &emsp;&emsp;⑤ In case of a commercial post, a money-making advertisement, a good luck letter, etc.<br>
+      &emsp;&emsp;⑥ In case of not meeting the purpose of site opening<br>
+      &emsp;&emsp;⑦ When other applicable laws and regulations are violated<br>
+      &emsp;5. The 'Site' can process, sell, publish, etc. using the posts registered by 'Member's.'<br>
+      <br>
+      Chapter 5 Information Provision<br>
+      <br>
+      Article 15 (Information Provision)<br>
+      &emsp;The 'Site' may transmit the necessary information or advertisement to 'Member' by e-mail or letter mail. If 'Member' dose not want this, the 'Member' can refuse the information from the subscription application menu and the member information modification menu. However, we may send a notice mail of the 'Site' of Article 13 (5) to the member who has refused to receive the information.<br>
+      <br>
+      Chapter 6 Exemption from Responsibility and Indemnification<br>
+      <br>
+      Article 16 (Responsibility)<br>
+      &emsp;1. The 'Site' shall not be liable for any damages incurred to the 'Member' in connection with the use of the 'Service' unless there is intent or gross negligence of the 'Site'.<br>
+      &emsp;2. The 'Site' does not endorse or warrant the appropriateness, accuracy, timeliness, credibility of information, products, services, software, graphics, voice and video related to the use of the 'Service'.<br>
+      <br>
+      Article 17 (Exemption from Responsibility)<br>
+      &emsp;'NILE' will not be held responsible for any problems occurred to 'Member if disruption of service is due to natural disasters or unavoidable circumstances.<br>
+      <br>
+      Article 18 (Competent Court)<br>
+      &emsp;The court shall be the court having jurisdiction over the location of the "NILE" or the court under the civil procedure law of the Republic of Korea.<br>
+      &emsp;The laws of the Republic of Korea shall apply to the interpretation and application of these Terms and the settlement of any dispute relating to these Terms and Conditions.<br>
     </div>
-4. Veto and disadvantage<br>
-<br>
-&emsp;The customer who requests usages can refuse to agree with the purpose of the optional personal information and use. When a customer does not enter the optional information, there is no restriction on the use of the basic service. However, if you need additional information on the optional information, we can not provide the service. In addition, we do not collect sensitive personal information (race, ideology and creed, political tendencies, criminal records, medical information, etc.) that may be of concern to basic human rights violations.<br>
-</div>
-                        %else:
-<div id="text4" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
-    <div style="font-size: 0.9rem;">
-1. 홍보·설문을 위한 개인정보 이용 목적<br>
-&emsp;서비스 홍보 및 설문 실시를 위한 연락 등을 목적으로 개인정보를 이용합니다.<br>
-<br>
-    </div>
-2. 이용 항목  개인정보 수집 및 이용에서 동의한 항목을 이용합니다.<br>
-<br>
+    % else :
+    <div id="text2" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      <div style="font-size: 0.9rem;">
+        <span style="font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;">1. 개인정보의 수집 및 이용 목적</span><br>
+        <br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">가. 서비스 제공 및 개선</span><br>
+        <span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">기본 서비스 제공을 위한 학습결과 산출 및 관련 정보 제공, 서비스 개선 방향 도출을 위한 통계 산출 및 진흥원 연구 수행 등을 목적으로 개인정보를 처리합니다.</span><br>
+        <br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">나. 홈페이지 회원 관리</span><br>
+        <span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">회원제 서비스 제공에 따른 본인 식별 · 인증, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 처리 시 법정대리인의 동의여부 확인, 분쟁 조정을 위한 기록보존, 각종 고지ㆍ통지 등을 목적으로 개인정보를 처리합니다.</span><br>
+        <br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">다. 민원사무 처리</span><br>
+        &emsp;&emsp;<span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보 등의 목적으로 개인정보를 처리합니다.</span><br>
+        <br>
+        2. 수집하는 개인정보의 항목<br>
+        &emsp;진흥원은 서비스 제공을 위해 필요한 최소한의 범위 내에서 다음과 같은 개인정보를 수집하고 있습니다.<br>
+        <br>
+        &emsp;가. 회원가입 및 서비스 이용 시 : 아이디, 비밀번호, 성명, 생년월일, 성별, 전자우편주소<br>
+        &emsp;나. 민원사무 처리 시 : 전자우편주소<br>
+        &emsp;다. 회원학습이력정보 : 아이디, 학습이력, 접속 IP주소<br>
+        <br>
         <div style="font-size: 0.9rem;">
-3. 보유 및 이용기간<br>
-&emsp;K-MOOC 홈페이지 탈퇴 또는 휴먼계정 전환 후 2년까지 보유합니다.<br>
-<br>
+          <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">3. 개인정보의 처리 및 보유기간</span><br>
+          <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">진흥원은 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다. 각 목적에 대한 개인정보 처리 및 보유 기간은 다음과 같습니다.</span><br>
+          <br>
+          <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">가. 서비스 제공 및 개선, 홈페이지 회원 관리 : K-MOOC 홈페이지 탈퇴 또는 휴먼계정 전환 후 2년까지 보유합니다. 다만, 다음의 사유에 해당하는 경우에는 해당 사유 종료 시까지 보유합니다.</span><br>
+          <span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">- 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지</span><br>
+          <span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">- 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지</span><br>
+          <br>
+          <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">나. 민원사무 처리 : 민원처리 종료 후 3년까지 보유합니다.</span><br>
+          <br>
+          4. 동의를 거부할 권리 고지 및 동의 거부에 따른 불이익<br>
+          &emsp;이용자는 진흥원에서 필수로 수집하는 개인정보에 대해 동의를 거부할 권리가 있으며, 필수항목에 대한 동의 거부 시에는 회원가입 및 이용이 제한됩니다.<br>
         </div>
-4. 거부권 및 불이익<br>
-&emsp;이용자는 홍보·설문 관련 정보 수신에 동의를 거부하실 수 있으며 이 경우에도 기본적인 서비스 이용 제한은 없으나 관련 이벤트 참여 및 경품 수령 등에 제한이 있을 수 있습니다.<br>
-</div>
+      </div>
+    </div>
+    % endif
 
-                        %endif
-					<div class="agree-chk">
-						<input type="radio" name="agree4" value="Y" id="radio4_y"> <label for="radio4_y">${_("Agree")}</label>
-						<input type="radio" name="agree4" value="N"  id="radio4_n" checked> <label for="radio4_n">${_("Do not agree")}</label>
-					</div>
-				</section>
+    <div class="agree-chk">
+      <input type="radio" name="agree2" value="Y" id="radio2_y"> <label for="radio2_y">${_("Agree")}</label>
+      <input type="radio" name="agree2" value="N" id="radio2_n" checked> <label for="radio2_n">${_("Do not agree")}</label>
+    </div>
+  </section>
 
 
-    <form id="form" name="form" method="post" action="javascript:agree_gubn();">
-        <input type="hidden" id="agreeYN" name="agreeYN" />
-        <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="${csrf_token}" />
-        <input type="hidden" name="mode" value="01" />
-				<div class="button-box">
-					<input type="submit" value='${_("Confirm")}'>
-					<input type="button" value='${_("Cancel")}'>
-				</div>
-    </form>
-				<!-- [e] 약관 -->
+  <section class="agree-frm-box">
+    <h3>개인정보 수집 및 이용 동의 (선택)</h3>
+    %if _("Agree") == "Agree" :
+    <div id="text3" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      <div style="font-size: 0.9rem;">
+        1. Purpose of Collection and Use of Personal Information<br>
+        <br>
+        &emsp;The K-MOOC homepage collects personal information for the following purposes. The collected personal information will not be used for any purpose other than the following purposes and will be subject to prior consent if the purpose of use is changed.<br>
+        <br>
+        &emsp;A. Homepage membership sign-up and management<br>
+        &emsp;&emsp;We process personal information for the purpose of the followings: Confirmation of membership; confirmation of identity in accordance with membership service provision; maintenance and management of membership status; prevention of unauthorized use of service; confirmation of consent of legal representative when collecting personal information of children under 14 years old; record keeping for dispute settlement; various notices and notifications etc.<br>
+        &emsp;B. Civil complaints processing<br>
+        &emsp;&emsp;We process personal information for purposes such as identification of complainants, confirmation of complaints, communication and notification for factual investigation, notification of processing results, improvement and provision of services.<br>
+        <br>
+      </div>
+      2. Items of personal information collected<br>
+      <br>
+      &emsp;The K-MOOC homepage collects the following personal information to the minimum extent necessary for service delivery. "Optional Items" of personal information we collect are additional information we collect to better serve our members. If the member does not want it, we do not collect the additional information and there is no restriction on the use of the service due to this.<br>
+      <br>
+      &emsp;A. When signing up for membership<br>
+      &emsp;&emsp;- Personal information file name: K-MOOC homepage member information - Required items: Email, actual name, ID, password, country, gender, year of birth<br>
+      &emsp;&emsp;- Optional items : Residence, the highest level of education, purpose of enrollment<br>
+      ※ To disclose the personal information file registration information of K-MOOC homepage, please use the search menu of personal information file list. The comprehensive support portal of the Ministry of Government Administration and Home Affairs (www.privacy.go.kr) → Personal Information Civil Complaint → Request to view personal information  → the search menu of personal information file list<br>
+      <br>
+      &emsp;B. During the course of using the service, the following information can be automatically<br>
+      &emsp;&emsp;generated and collected.<br>
+      &emsp;&emsp;- IP address, cookie, service usage history, visit history, etc.<br>
+      &emsp;&emsp;The information collected and stored automatically will be used for statistical analysis to improve and complement the homepage to provide lecture management and better services.<br>
+      <br>
+      <div style="font-size: 0.9rem;">
+        3. Processing and Retention Period of Personal Information<br>
+        <br>
+        &emsp;In principle, the member's personal information will be destroyed without delay when the purpose of processing personal information is achieved or the service is abolished.<br>
+        <br>
+        &emsp;A. Personal information file name: K-MOOC homepage member information<br>
+        &emsp;&emsp;- Retention period : Until membership is canceled<br>
+        <br>
+      </div>
+      4. The fact that you have the right to refuse consent and the disadvantage of denying consent<br>
+      <br>
+      &emsp;The user has the right to refuse consent to the personal information collected on the K-MOOC homepage. If you refuse to accept the required items, membership will be restricted.<br>
+    </div>
+    %else :
+    <div id="text3" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      <div style="font-size: 0.9rem;">
+        <span style="font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;">1. 선택적 개인정보의 수집 및 이용 목적</span><br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">서비스 제공 및 개선을 위한 학습결과 산출 및 관련 정보 제공, 서비스 개선 방향 도출을 위한 통계 산출 및 진흥원 연구 수행 등을 목적으로 개인정보를 처리합니다.</span><br>
+      </div>
+      <br>
+      2. 수집하는 개인정보의 항목 : 최종학력, 국가, 거주지, 가입목적<br>
+      <br>
+      <div style="font-size: 0.9rem;">
+        <span style="font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;">3. 개인정보의 처리 및 보유기간</span><br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">서비스 제공 및 개선을 위해 해당 개인정보를 K-MOOC 홈페이지 탈퇴 또는 휴먼계정 전환 후 2년까지 보유합니다. 다만, 다음의 사유에 해당하는 경우에는 해당 사유 종료 시까지 보유합니다.</span><br>
+        <span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">- 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지</span><br>
+        <span style="font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;">- 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지</span><br>
+      </div>
+      <br>
+      4. 동의를 거부할 권리 고지 및 동의 거부에 따른 불이익<br>
+      &emsp;이용자는 위 선택 개인정보 수집 및 이용목적에 대하여 동의를 거부하고 회원가입 시 입력하지 않으실 수 있으며, 이 경우에도 기본적인 서비스는 이용 가능합니다.<br>
+    </div>
+
+    %endif
+    <div class="agree-chk">
+      <input type="radio" name="agree3" value="Y" id="radio3_y"> <label for="radio3_y">${_("Agree")}</label>
+      <input type="radio" name="agree3" value="N"  id="radio3_n" checked> <label for="radio3_n">${_("Do not agree")}</label>
+    </div>
+  </section>
+
+
+
+  <section class="agree-frm-box">
+    <h3>홍보·설문 관련 정보 수신 동의 (선택)</h3>
+    %if _("Agree") == "Agree" :
+    <div id="text4" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      <div style="font-size: 0.9rem;">
+        1. Purpose of collecting optional personal information<br>
+        <br>
+        &emsp;In K-MOOC homepage member enrollment, providing related services such as providing convenience and lecture guidance when a member requests the confirmation of information.<br>
+        <br>
+      </div>
+      2. Collection items<br>
+      <br>
+      &emsp;Common : Residence, the highest level of education, purpose of enrollment<br>
+      <br>
+      <div style="font-size: 0.9rem;">
+        3. Retention and use period<br>
+        <br>
+        &emsp;In principle, the member's personal information will be destroyed without delay when the purpose of processing personal information is achieved or the service is abolished.<br>
+        <br>
+        &emsp;&emsp;A. Personal information file name : K-MOOC homepage member information<br>
+        &emsp;&emsp;&emsp;- Retention period : Until membership is canceled<br>
+        <br>
+      </div>
+      4. Veto and disadvantage<br>
+      <br>
+      &emsp;The customer who requests usages can refuse to agree with the purpose of the optional personal information and use. When a customer does not enter the optional information, there is no restriction on the use of the basic service. However, if you need additional information on the optional information, we can not provide the service. In addition, we do not collect sensitive personal information (race, ideology and creed, political tendencies, criminal records, medical information, etc.) that may be of concern to basic human rights violations.<br>
+    </div>
+    %else:
+    <div id="text4" tabindex="0" style="overflow:scroll; overflow-x: hidden; width:100%; height:140px; padding:15px; border:1px solid #c8c8c8; font-size: 0.750rem; line-height: 1.5em;">
+      <div style="font-size: 0.9rem;">
+        <span style="font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;">1. 홍보·설문을 위한 개인정보 이용 목적</span><br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">서비스 홍보 및 설문 실시를 위한 연락 등을 목적으로 개인정보를 이용합니다.</span><br>
+        <br>
+      </div>
+      2. 이용 항목  개인정보 수집 및 이용에서 동의한 항목을 이용합니다.<br>
+      <br>
+      <div style="font-size: 0.9rem;">
+        <span style="font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;">3. 보유 및 이용기간</span><br>
+        <span style="font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;">K-MOOC 홈페이지 탈퇴 또는 휴먼계정 전환 후 2년까지 보유합니다.</span><br>
+        <br>
+      </div>
+      4. 거부권 및 불이익<br>
+      &emsp;이용자는 홍보·설문 관련 정보 수신에 동의를 거부하실 수 있으며 이 경우에도 기본적인 서비스 이용 제한은 없으나 관련 이벤트 참여 및 경품 수령 등에 제한이 있을 수 있습니다.<br>
+    </div>
+
+    %endif
+    <div class="agree-chk">
+      <input type="radio" name="agree4" value="Y" id="radio4_y"> <label for="radio4_y">${_("Agree")}</label>
+      <input type="radio" name="agree4" value="N"  id="radio4_n" checked> <label for="radio4_n">${_("Do not agree")}</label>
+    </div>
+  </section>
+
+
+  <form id="form" name="form" method="post" action="javascript:agree_gubn();">
+    <input type="hidden" id="agreeYN" name="agreeYN" />
+    <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="${csrf_token}" />
+    <input type="hidden" name="mode" value="01" />
+    <div class="button-box">
+      <input type="submit" value='${_("Confirm")}'>
+      <input type="button" value='${_("Cancel")}'>
+    </div>
+  </form>
+  <!-- [e] 약관 -->
 </section>

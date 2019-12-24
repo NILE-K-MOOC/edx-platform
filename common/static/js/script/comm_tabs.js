@@ -22,19 +22,11 @@ $(document).ready(function () {
         location.href = '/comm_faqrequest/' + sel_title;
     });
 
-    // 웹 접근성 관련 키보드 접근 소스 추가
-    $(".faq-tab>a")
-        .prop("tabindex", "0")
-        .keyup(function (e) {
-            if (e.keyCode == 13) {
-                $(this).click();
-            }
-        });
-
-    $("#questionLink").keyup(function(e){
-        if(e.keyCode == 13){
-            $("#question").click();
-        };
+    $("#questionLink").click(function (e) {
+        let k = e.keyCode || e.which;
+        if (k == 1 || k == 13) {
+            location.href = '/comm_faqrequest/' + sel_title;
+        }
     });
 
 
@@ -59,21 +51,18 @@ function search(head_title) {
 
             var html = "";
             for (var i = 0; i < data.length; i++) {
-                html += "<dt><a>" + data[i].subject + "</a></dt>";
+                html += "<dt><a href='#'>" + data[i].subject + "</a></dt>";
                 html += "<dd>";
-                html += "   <div>" + data[i].content + "</div>";
+                html += "   <div>";
+                html += data[i].content;
+                html += '       <div style="min-height: 30px;">';
+                html += '           <input type="button" value="닫기" title="닫기" style="float: right; background: #ccc; border: 0;">';
+                html += '       </div>';
+                html += "   </div>";
+
                 html += "</dd>";
             }
             $(".faq-list").html(html);
-
-            // 웹 접근성 관련 키보드 접근 소스 추가
-            $(".faq-list dt")
-                .prop("tabindex", "0")
-                .keyup(function (e) {
-                    if (e.keyCode == 13) {
-                        $(this).click();
-                    }
-                });
 
             view_content();
 
@@ -82,7 +71,8 @@ function search(head_title) {
 }
 
 function tab_click() {
-    $(".faq-tab a").click(function () {
+    $(".faq-tab>a").click(function (e) {
+        e.preventDefault();
         $('#faq_header').text($(this).attr('title'));
         $("#search").val('');
         search($(this).data('value'));
@@ -91,14 +81,29 @@ function tab_click() {
 }
 
 function view_content() {
-    $(".faq-list dt").click(function () {
-        if ($(this).next().is(":visible")) {
-            $(this).next().slideUp();
+    $(".faq-list>dt>a").click(function (e) {
+        e.preventDefault();
+        if ($(this).parent().next().is(":visible")) {
+            $(this).parent().next().slideUp();
         } else {
             $("dd:visible").slideUp();
-            $(this).next().slideDown(function(){
-                $("dd:visible").prop("tabindex", "0");
-            });
+            $(this).parent().next().slideDown();
         }
     });
+
+    $("dd input:button").click(function (e) {
+        e.preventDefault();
+        let t = $("dd:visible");
+        let p = t.prev().find("a").get(0);
+        $(t).slideUp(function(){
+            setTimeout(function(){
+                $(p).focus();
+            }, 1);
+        });
+    });
+
 }
+
+
+
+
