@@ -212,7 +212,7 @@ $( document ).ready(function() {
                             <span class="kr01_icontTitle">공지사항</span>
                         </div>
                         <div class="kr01-slider-extend">
-                            <a href="${'/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/" target="_blank">
+                            <a href="${'/mobile/comm_list/' + index_list[0][5] if index_list[0][5] != 'F' else '/comm_tabs/kmooc_f'}/" target="_blank">
                                 <span>${_("More")}+</span>
                             </a>
                         </div>
@@ -222,7 +222,7 @@ $( document ).ready(function() {
                             <div class="slider" id="board_slider">
                                 % for list in index_list[:4] :
                                     % if list[5] != 'F':
-                                    <article class="slide"><a href="/comm_view/${list[5]}/1/${list[0]}" target="_blank"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
+                                    <article class="slide"><a href="/mobile/comm_view/${list[5]}/1/${list[0]}" target="_blank"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
                                     % else:
                                     <article class="slide"><a href="/comm_tabs/${list[6]}/" target="_blank"><span><b>${list[1]}</b> ${list[2]}</span></a></article>
                                     % endif

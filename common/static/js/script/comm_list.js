@@ -32,6 +32,15 @@ $(document).ready(function () {
         if (e.keyCode == 13)
             search(1);
     });
+
+    if($('.mobile-comm-link').length){  // 모바일 추가
+        $('.mobile-comm-link li a.fivemenarea-a').each(function(){
+            if($(this).attr('href') === document.location.pathname){
+                $(this).parents('li').addClass('active');
+            }
+        });
+    }
+
 });
 
 Date.prototype.yyyymmdd = function () {

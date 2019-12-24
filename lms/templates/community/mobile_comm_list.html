@@ -90,6 +90,25 @@ ${page_title}
     .content-wrapper .container.kr01-mobile-comm {
         padding-top: 0;
     }
+    .mobile-comm-link .active {
+        background-color: #4185c4;
+    }
+    .mobile-comm-link .active a .fivemenarea-span {
+        color: #fff;
+    }
+     .mobile-comm-link .active div:after {
+         content: '';
+         position: absolute;
+         border-style: solid;
+         border-width: 9px 7px 0 7px;
+         border-color: #4185c4 transparent;
+         display: block;
+         width: 0;
+         z-index: 1;
+         top: 100px;
+         margin-left: 30px;
+     }
+
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -115,10 +134,10 @@ ${page_title}
             <section class="highlighted-courses">
 
                 <div class="kr01_fivemenu02 ">
-                    <ul class="fivemenarea link_to_courses">
+                    <ul class="fivemenarea mobile-comm-link">
                         <li class="kr01_f01">
                             <div>
-                                <a class="fivemenarea-a" href="/mobile/comm_list/N/1">
+                                <a class="fivemenarea-a" href="/mobile/comm_list/N/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">공지사항</span>
                                 </a>
@@ -127,7 +146,7 @@ ${page_title}
 
                         <li class="kr01_f03">
                             <div>
-                                <a class="fivemenarea-a" href="/mobile/comm_list/K/1">
+                                <a class="fivemenarea-a" href="/mobile/comm_list/K/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">뉴스</span>
                                 </a>
@@ -135,7 +154,7 @@ ${page_title}
                         </li>
                         <li class="kr01_f04">
                             <div>
-                                <a class="fivemenarea-a" href="/mobile/comm_list/R/1">
+                                <a class="fivemenarea-a" href="/mobile/comm_list/R/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">자료실</span>
                                 </a>
