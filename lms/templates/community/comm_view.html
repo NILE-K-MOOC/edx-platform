@@ -36,7 +36,7 @@ ${page_title}
                 <h5>첨부파일[${ len(board.files) }]: </h5>
                 % for file in board.files:
                     % if file.use_yn == True :
-                    <p><a href="/comm_file/${file.id}">${file.real_name}</a></p>
+                    <p><a title="첨부파일" href="/comm_file/${file.id}">${file.real_name}</a></p>
                     %endif
                 % endfor
             </li>

@@ -159,7 +159,7 @@ function search(page_no) {
                 html += "   <span class='no'>" + data[i].board_id + "</span>";
                 html += "   <span class='title'><a id='comm_link' href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
                 if (attach_file == 'Y')
-                    html += "<img style='margin-right: 5px;' src='/static/images/Clip.png'/>";
+                    html += "<img style='margin-right: 5px;' alt='첨부파일' src='/static/images/Clip.png'/>";
                 if (reg_date > yesterday)
                     html += "<img src='/static/images/new.jpeg' height='15px;' alt='new'/>";
                 html += "   </span>";
