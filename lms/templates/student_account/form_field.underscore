@@ -92,10 +92,10 @@
             } %>
             <% if ( placeholder ) { %> placeholder="<%= placeholder %>"<% } %>
             value="<%- defaultValue %>"
-            title="<%= name %>"
+            title="<%- gettext('Password input') %>"
         />
         <% if( form === 'register' ) {%>
-        <input title="<%= name %> check" id="<%= form %>-<%= name %>2"
+        <input title="<%- gettext('Password check') %>" id="<%= form %>-<%= name %>2"
            type="<%= type %>"
            name="<%= name %>2"
            class="input-block"
