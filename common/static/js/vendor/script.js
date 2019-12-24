@@ -82,6 +82,7 @@ $(window).load(function () {
         prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true"></i><span class="hidden_head">' + gettext('Previous') + '</span>',
         // pager: ($('.kr01_mainslider li').length > 1) ? true : false,
         pager: false,
+        touchEnabled : (navigator.maxTouchPoints > 0),
         onSliderLoad: function (currentIndex) {
             // $(".slider-txt").html($('.kr01_mainslider li').eq(currentIndex).find("img").attr("alt"));
             $('.kr01_mainslider_area').css({'visibility': 'visible'});
