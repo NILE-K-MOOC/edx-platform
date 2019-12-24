@@ -203,6 +203,20 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
             </div>
           </form>
           % if request.path != '/':
+
+          <div class="kr01-alertarea kr01-signin-area">
+            <span class="kr01-Tlogoutarea">
+              <a href="/register${login_query()}">${_("Register")}</a>
+            </span>
+          </div>
+
+          <div class="kr01-alertarea kr01-signin-area">
+            <span class="kr01-Tlogoutarea">
+              <a href="/login${login_query()}">${_("Sign In")}</a>
+            </span>
+          </div>
+
+
           <div class="kr01-Tlanguage">
             <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
             <label tabindex="0" for="ko-kr" class="language-btn">
@@ -216,16 +230,7 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
               <span>ENG</span>
             </label>
           </div>
-          <div class="kr01-alertarea kr01-signin-area">
-            <span class="kr01-Tlogoutarea">
-              <a href="/login${login_query()}">${_("Sign In")}</a>
-            </span>
-          </div>
-          <div class="kr01-alertarea kr01-signin-area">
-            <span class="kr01-Tlogoutarea">
-              <a href="/register${login_query()}">${_("Register")}</a>
-            </span>
-          </div>
+
           % endif
         </div>
       </div>
