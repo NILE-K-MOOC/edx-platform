@@ -139,20 +139,27 @@ def nicecheckplus(request):
     except BaseException:
         return render_to_response('student_account/nicecheckplus_error.html')
 
-    # ----- get user_id query ----- #
     with connections['default'].cursor() as cur:
+        # get user id
         query = """
             SELECT id
             FROM   edxapp.auth_user
             WHERE  email = '{0}'
         """.format(edx_user_email)
         cur.execute(query)
-
-        print query
-
         table = cur.fetchone()
         user_id = table[0]
-    # ----- get user_id query ----- #
+
+        # prevent double insert
+        query = '''
+            select count(*) as cnt
+            from auth_user_nicecheck
+            where user_id = '{user_id}';        
+        '''.format(user_id=user_id)
+        cur.execute(query)
+        nice_count = cur.fetchone()[0]
+        if nice_count > 0:
+            return render_to_response('student_account/nicecheckplus.html')
 
     # encode data
     nice_sitecode = 'AD521'             # NICE로부터 부여받은 사이트 코드
