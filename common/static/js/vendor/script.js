@@ -16,6 +16,7 @@ var slide_option = {
     slideWidth: 1,
     speed: 700,
     pager: false,
+    touchEnabled : (navigator.maxTouchPoints > 0),
     nextText: '<i class="fa fa-2x fa-chevron-right" aria-hidden="true" tabindex="-1"></i><span class="hidden_head">' + gettext('Next') + '</span>',
     prevText: '<i class="fa fa-2x fa-chevron-left" aria-hidden="true" tabindex="-1"></i><span class="hidden_head">' + gettext('Previous') + '</span>',
     onSliderLoad: function () {
@@ -41,6 +42,7 @@ var slide_footer = {
     maxSlides: 5,
     minSlides: 5,
     pager: false,
+    touchEnabled : (navigator.maxTouchPoints > 0),
     slideWidth: 250,
     height: 50,
     // slideMargin: 0,
