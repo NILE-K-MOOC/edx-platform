@@ -1269,7 +1269,7 @@ input[type="radio"].toggle:checked + label {
 /* 알림 */
 .kr01-alertarea{ display: inline-block;}
 
-.kre01_top01area .kr01-alertarea {float: right;}
+.float-right {float: right;}
 .kr01-signin-area { margin-right: 7px; }
 .kr01_bellarea{float: left;
   margin-right: 5px;}
