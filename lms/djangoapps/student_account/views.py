@@ -371,6 +371,12 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
+
+        # 로그인 버튼을 눌렀을 경우 회원가입의 세션 정보를 지운다.
+        if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+            del request.session['private_info_use_yn']
+            del request.session['event_join_yn']
+
         # print 'login_and_registration_form type 1'
         pass
     elif 'errorMessage' in provider_info and provider_info['errorMessage'] is not None:
