@@ -399,6 +399,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
+    수정시 mobile_index도 함께 수정
     """
 
     if extra_context is None:
@@ -957,6 +958,7 @@ def mobile_index(request, extra_context=None, user=AnonymousUser()):
                          odby
                     FROM tb_board
                    WHERE section = 'F'
+                     and head_title = 'mobile_f'
                      and use_yn = 'Y'
                      and odby > 0
                 ORDER BY odby DESC, reg_date DESC
@@ -1077,6 +1079,7 @@ def mobile_index(request, extra_context=None, user=AnonymousUser()):
                              odby
                         FROM tb_board
                        WHERE section = 'F'
+                         and head_title = 'mobile_f'
                          and use_yn = 'Y'
                     ORDER BY odby DESC, reg_date DESC
                        limit 5)

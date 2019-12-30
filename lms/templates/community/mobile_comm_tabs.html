@@ -1,0 +1,39 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<script src="${static.url('js/script/comm_tabs.js')}" charset="utf-8"></script>
+    <!-- [s] board write -->
+    <ul class="mobile-comm-tabs">
+        <li>리스트에서 질문에 대한 답을 찾기 어려우시다면 앱 내 <strong>'문의하기'</strong>를 통해 문의하여 주시기 바랍니다.</li>
+        <li>${_("If you have any questions regarding specific course content, please post your question on the bulletin <strong>board of the course.</strong>")}</li>
+    </ul>
+    <div align="right">
+        <input type="text" placeholder="질문 찾기" id="search" title="질문 찾기"/>
+        <input type="button" value="찾기" id="search_btn" title="찾기"/>
+    </div>
+    <br>
+
+    <div id="head_title" style="display: none;">FAQ</div>
+    <nav class="faq-tab">
+        <a href="#" class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" title="모바일앱" style="color: #ffffff;">모바일앱</a>
+    </nav>
+    <h3 class="hidden_head" id="faq_header">K-MOOC</h3>
+    <dl class="faq-list" title="FAQ 목록">
+        % if data:
+        % for board in data:
+        <dt><a href="#">${board.subject}</a></dt>
+        <dd>
+            <div>
+                ${board.content}
+                <div style="min-height: 30px;">
+                <input type="button" value="닫기" title="닫기" style="float: right; background: #ccc; border: 0;">
+                </div>
+            </div>
+        </dd>
+        % endfor
+        % endif
+    </dl>
+    <!-- [e] board write -->
+
+
+
+

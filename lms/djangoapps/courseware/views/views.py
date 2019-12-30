@@ -242,6 +242,7 @@ def search_org_name(request):
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
+    수정시 mobile_courses도 함께 수정
     """
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
@@ -972,6 +973,7 @@ def course_interest(request):
 def course_about(request, course_id):
     """
     Display the course's about page.
+    수정시 mobile_course_about도 함께 수정
     """
     try:
         review_email = str(request.user.email)

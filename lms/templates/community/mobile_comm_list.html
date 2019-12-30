@@ -6,8 +6,17 @@ ${page_title}
 <%inherit file="../mobile_main.html" />
 
 <%block name="header_extras"></%block>
-<script src="${static.url('js/script/comm_list.js')}" charset="utf-8"></script>
-
+<script>
+    $(document).ready(function(){
+        if($('.mobile-comm-link').length){  // 모바일 추가
+            $('.mobile-comm-link li a.fivemenarea-a').each(function(){
+                if($(this).attr('id') === '${section}'){
+                    $(this).parents('li').addClass('active');
+                }
+            });
+        }
+    });
+</script>
 <style>
      .kr01-mobile {
         padding: 7px;
@@ -109,6 +118,64 @@ ${page_title}
          margin-left: 30px;
      }
 
+    .mobile-comm-tabs {
+        margin-left: 0;
+        font-size: 13px;
+    }
+    .faq-tab > a {
+        padding: 10px 5px;
+        width: 35%;
+    }
+    .faq-list dt:before {
+    width: 20px;
+    height: 20px;
+        font-size: 14px;
+        top: 8px;
+        line-height: 16px;
+    }
+    .faq-list dt > a {
+        padding: 5px 10px 5px 45px;
+        font-size: 15px;
+    }
+    .faq-list dd p {
+        margin: 0;
+        font-size: 14px;
+    }
+    .faq-list dt > a:not(.btn), .faq-list > a:visited:not(.btn){
+        color: #003655;
+    }
+    .mobile-comm-tabs {
+        margin-bottom: 20px;
+    }
+    .kr01-mobile-comm input[type="button"] {
+        padding: 1px 12px;
+    }
+    .kr01-mobile-comm input[type="text"] {
+        height: 30px;
+    }
+    .board-view {
+        padding-top: 10px;
+    }
+    .board-view li.title div {
+        text-align: right;
+        vertical-align: middle;
+    }
+    .board-view li.contents {
+        padding: 10px 0;
+    }
+    .board-view ul .file-list h5 {
+        font-size: 14px;
+    }
+    .board-view ul .file-list p a {
+        font-size: 12px;
+        padding: 3px 12px;
+    }
+    .file-list p {
+        margin: 5px 10px;
+    }
+    .board-view li.title h3 {
+        font-size: 15px;
+    }
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -137,7 +204,7 @@ ${page_title}
                     <ul class="fivemenarea mobile-comm-link">
                         <li class="kr01_f01">
                             <div>
-                                <a class="fivemenarea-a" href="/mobile/comm_list/N/">
+                                <a class="fivemenarea-a" id="N" href="/mobile/comm_list/N/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">공지사항</span>
                                 </a>
@@ -146,7 +213,7 @@ ${page_title}
 
                         <li class="kr01_f03">
                             <div>
-                                <a class="fivemenarea-a" href="/mobile/comm_list/K/">
+                                <a class="fivemenarea-a" id="K" href="/mobile/comm_list/K/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">뉴스</span>
                                 </a>
@@ -154,7 +221,7 @@ ${page_title}
                         </li>
                         <li class="kr01_f04">
                             <div>
-                                <a class="fivemenarea-a" href="/mobile/comm_list/R/">
+                                <a class="fivemenarea-a" id="R" href="/mobile/comm_list/R/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">자료실</span>
                                 </a>
@@ -162,7 +229,7 @@ ${page_title}
                         </li>
                         <li class="kr01_f05">
                             <div>
-                                <a class="fivemenarea-a" href="#" data-facet="linguistics" data-term="Y">
+                                <a class="fivemenarea-a" id="F" href="/mobile/comm_tabs/">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">FAQ</span>
                                 </a>
@@ -179,31 +246,14 @@ ${page_title}
 
     <section class="container kr01-mobile-comm">
         <h2 class="kr01-mobile-title" title="${page_title}">${page_title}</h2>
-        <!-- [s] board list -->
-        <section class="board-search-box" style="margin-top:0;">
-            <select id="search_con" title="검색 조건 선택">
-                <option value="" title="전체">- 전체 -</option>
-                <option value="title" title="제목">- 제목 -</option>
-            </select>
-            <input type="text" id="search_search" onkeydown="onKeyDown()" aria-label="검색어 입력" title="검색어 입력">
-            <input type="button" id="search" value="검색" title="검색" aria-label="검색">
-            <input type="hidden" id="all_pages" value="0">
-            <input type="hidden" id="curr_page" value="${curr_page if curr_page else '1'}">
-        </section>
-        <section class="board-list">
-            <ul>
-                <li class="thead kr01-mobile-thead">
-                    <span class="no" title="번호">번호</span>
-                    <span class="title" title="제목">제목</span>
-                    <span class="date" title="날짜">날짜</span>
-                </li>
+        % if section is not None and section != 'F' and view_yn is True:
+        <%include file="mobile_comm_view.html"/>
+        % elif section is not None and section != 'F':
+        <%include file="mobile_comm_list_table.html"/>
+        % else:
+        <%include file="mobile_comm_tabs.html"/>
+        % endif
 
-                <div id="tbody"></div>
-            </ul>
-
-            <div id="paging" class="paging"></div>
-        </section>
-        <!-- [e] board list -->
     </section>
 
 </main>

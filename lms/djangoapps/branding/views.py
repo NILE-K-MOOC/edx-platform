@@ -531,6 +531,7 @@ def delete_multisite_account(request):
 def index(request):
     """
     Redirects to main page -- info page if user authenticated, or marketing if not
+    수정시 mobile_index도 함께 수정해야함
     """
 
     # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
@@ -629,6 +630,7 @@ def courses(request):
     Render the "find courses" page. If the marketing site is enabled, redirect
     to that. Otherwise, if subdomain branding is on, this is the university
     profile page. Otherwise, it's the edX courseware.views.views.courses page
+    수정시 mobile_courses도 함께 수정
     """
     enable_mktg_site = configuration_helpers.get_value(
         'ENABLE_MKTG_SITE',

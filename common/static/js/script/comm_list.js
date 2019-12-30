@@ -33,14 +33,6 @@ $(document).ready(function () {
             search(1);
     });
 
-    if($('.mobile-comm-link').length){  // 모바일 추가
-        $('.mobile-comm-link li a.fivemenarea-a').each(function(){
-            if($(this).attr('href') === document.location.pathname){
-                $(this).parents('li').addClass('active');
-            }
-        });
-    }
-
 });
 
 Date.prototype.yyyymmdd = function () {
@@ -81,6 +73,8 @@ function search(page_no) {
 
     if (page_no)
         $("#curr_page").val(page_no);
+
+    let mobile_flag = $('.kr01-mobile-container').length;
 
     $.post(document.location.pathname,
         {
@@ -164,9 +158,13 @@ function search(page_no) {
                 else {
                     html += "<li class='tbody'>";
                 }
+                let view_url = '/comm_view/';
+                if(mobile_flag)
+                    view_url = '/mobile/comm_view/';
+
                 //html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='no'>" + data[i].board_id + "</span>";
-                html += "   <span class='title'><a id='comm_link' href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
+                html += "   <span class='title'><a id='comm_link' href='" + view_url + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
                 if (attach_file == 'Y')
                     html += "<img style='margin-right: 5px;' src='/static/images/Clip.png'/>";
                 if (reg_date > yesterday)
