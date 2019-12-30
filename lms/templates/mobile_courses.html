@@ -3,7 +3,6 @@ import json
 from django.utils.translation import ugettext as _
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 %>
-<%inherit file="mobile_main.html" />
 <%
 course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
 %>
@@ -26,152 +25,8 @@ getParameterByName('search_query')
 </%block>
 % endif
 
-<%block name="pagetitle">${_("Courses")}</%block>
 ##${course_discovery_enabled}
-<style>
-    @media (max-width: 768px) {
-        .courses-container .courses .course .course-image .cover-image img {
-            width: 100%;
-            height: auto;
-        }
-    }
 
-    @media screen and (max-width: 540px){
-        .find-courses .courses-container .courses:not(.no-course-discovery) {
-            width: 100%;
-        }
-
-        .kr01-subtext {
-            margin-bottom: 5px;
-        }
-
-        .courses-container .courses .course .course-info.mobile-course-card-div {
-            height: 125px !important;
-        }
-
-        .courses-container .courses .course .course-info .course-date.kr01_moviesubtit {
-            width: 100%;
-        }
-
-        .courses-container .courses .course .course-info .course-date.kr01_moviesubtit div {
-            width: 100%;
-        }
-
-        .search-facets.phone-menu {
-            /*position: absolute;*/
-            z-index: 9999;
-            /*margin: -74px 0px 0px 0px;*/
-            /*display: none;*/
-        }
-
-    }
-    .courses-filter-container {
-        margin-bottom: 25px;
-    }
-    .courses-filter {
-        display: block;
-        margin: 0 10px;
-        cursor: pointer;
-    }
-    .courses-filter-tag {
-        padding: 0 3px 3px;
-        margin: 0;
-        color: #4185c4;
-        font-weight: bold;
-        border-bottom: 1px solid #4185c4;
-    }
-    .courses-filter-tag i {
-        padding-left: 5px;
-    }
-    .find-courses .courses-container .courses-filter-layer {
-        box-shadow: 0 2px 5px 3px #444444;
-        padding: 5px;
-        display: none;
-    }
-    .find-courses .courses-container .courses-filter-layer.active {
-        display:block;
-    }
-
-    .filters {
-        padding-top: 0;
-    }
-    .courses-filter-title {
-        border-bottom: solid 3px #051b4d;
-        display: flex;
-        justify-content: space-between;
-    }
-    .courses-filter-title h2{
-        display: inline;
-        border-bottom: none !important;
-    }
-    .courses-filter-close {
-        z-index: 10;
-        cursor: pointer;
-        display: inline-block;
-        margin: auto 10px;
-    }
-    .courses-filter-bottom {
-        padding: 15px 5px 5px;
-        cursor: pointer;
-    }
-    .courses-filter-bottom span {
-        border-bottom: solid 1px #000;
-        font-size: 12px;
-    }
-
-    .find-courses .search-facets,
-    .find-courses .wrapper-search-context .search-status-label {
-        width: 100%;
-    }
-    .find-courses .courses-container .courses:not(.no-course-discovery) {
-        width: 90%;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        float: none;
-    }
-    .kr01-mobile {
-        padding: 7px;
-    }
-    .kr01-mobile-container {
-        background: #595959;
-    }
-    .kr01-mobile .kr01-mobile-top a {
-        display: inline-block;
-    }
-    .kr01-mobile-more {
-        display: inline-block;
-        line-height: 2rem;
-        vertical-align: middle;
-        float: right;
-    }
-    .kr01-mobile-more a {
-        color: #fff !important;
-        font-weight: bold;
-    }
-    .kr01-mobile-course {
-        display: inline-block;
-        color: #fff;
-        line-height: 2em;
-        font-weight: bold;
-    }
-
-</style>
-
-<main id="main" aria-label="Content" tabindex="-1">
-    <section class="kr01 kr01-mobile-container">
-        <section class="highlighted-courses kr01-mobile">
-            <div class="kr01-mobile-top">
-                <div class="kr01-mobile-course">| 강좌찾기</div>
-                <div class="kr01-mobile-more">
-                    <a href="/mobile_courses/">
-                        <span>
-                            홈으로 이동하기 >>
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </section>
     % if parameter_json:
         % for key, value in parameter_json.items():
             <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
@@ -235,7 +90,6 @@ getParameterByName('search_query')
             </div>
         </section>
     </section>
-</main>
 
 % if course_discovery_enabled:
 <script type="text/javascript">

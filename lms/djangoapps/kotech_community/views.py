@@ -289,10 +289,12 @@ def mobile_comm_list(request, section=None, curr_page=None):
         context = {
             'page_title': page_title,
             'curr_page': curr_page,
-            'section': section
+            'section': section,
+            'mobile_page': 'community',
+            'mobile_title': 'Community'
         }
 
-        return render_to_response('community/mobile_comm_list.html', context)
+        return render_to_response('mobile_main.html', context)
 
 
 @ensure_csrf_cookie
@@ -438,10 +440,12 @@ def mobile_comm_view(request, section=None, curr_page=None, board_id=None):
         # 'comm_list_url': reverse('file_check', kwargs={'section': section, 'curr_page': curr_page})
         'comm_list_url': reverse('mobile_comm_list', kwargs={'section': section, 'curr_page': curr_page}),
         'section': section,
-        'view_yn': True
+        'view_yn': True,
+        'mobile_page': 'comm_view',
+        'mobile_title': 'Community'
     }
 
-    return render_to_response('community/mobile_comm_list.html', context)
+    return render_to_response('mobile_main.html', context)
 
 
 @ensure_csrf_cookie
@@ -505,10 +509,12 @@ def mobile_comm_tabs(request):
             'data': comm_list,
             'head_title': 'mobile_f',
             'page_title': 'FAQ',
-            'section': 'F'
+            'section': 'F',
+            'mobile_page': 'community',
+            'mobile_title': 'Community'
         }
 
-        return render_to_response('community/mobile_comm_list.html', context)
+        return render_to_response('mobile_main.html', context)
 
 
 @ensure_csrf_cookie

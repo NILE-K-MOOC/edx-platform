@@ -165,6 +165,7 @@ from pipeline_mako import render_require_js_path_overrides
 <link rel="stylesheet" type="text/css" href="/static/css/series.css?ver=1.0" />
 <link rel="stylesheet" type="text/css" href="/static/css/kmooc_about.css?ver=1.0" />
 <link rel="stylesheet" type="text/css" href="/static/css/kmooc_main.css?ver=1.3" />
+<link rel="stylesheet" type="text/css" href="/static/css/kmooc_mobile.css?ver=1.0" />
 <script type="text/javascript" src='/static/js/vendor/jquery.bxslider.min.js'></script>
 <script type="text/javascript" src="/static/js/vendor/script.js"></script>
 
@@ -197,8 +198,45 @@ from pipeline_mako import render_require_js_path_overrides
     <!-- 기존div-->
     <!--<div class="content-wrapper main-container" id="content">-->
     <div class="content-wrapper" id="content">
-      ${self.body()}
-      <%block name="bodyextra"/>
+      <main id="main" aria-label="Content" tabindex="-1">
+        <section class="kr01 kr01-mobile-container">
+          <section class="highlighted-courses kr01-mobile">
+            <div class="kr01-mobile-top">
+              % if mobile_page == 'index':
+              <a href="/mobile_courses/"><i class="fa fa-home fa-lg"></i></a>
+              % else:
+              <div class="kr01-mobile-course" id="mobile_title">
+                | ${_(mobile_title)}
+              </div>
+              % endif
+              <div class="kr01-mobile-more">
+                % if mobile_page == 'index':
+                <a href="/mobile_courses?search_query=">
+                  <span>
+                      더 많은 강좌 찾아보기 >>
+                  </span>
+                % else:
+                <a id="mobile_to" href="/mobile_courses/">
+                  <span id="mobile_to_text">
+                      홈으로 이동하기 >>
+                  </span>
+                % endif
+                </a>
+              </div>
+            </div>
+          </section>
+        </section>
+        % if mobile_page == 'index':
+          <%include file="mobile_index.html"/>
+        % elif mobile_page == 'community':
+          <%include file="community/mobile_comm_list.html"/>
+        % elif mobile_page == 'comm_view':
+          <%include file="community/mobile_comm_view.html"/>
+        % elif mobile_page == 'courses':
+          <%include file="mobile_courses.html"/>
+        % endif
+        <%block name="bodyextra"/>
+      </main>
     </div>
 
 % if not disable_window_wrap:

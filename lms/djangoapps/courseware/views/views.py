@@ -344,12 +344,14 @@ def mobile_courses(request):
 
 
     return render_to_response(
-        "mobile_courses.html",
+        "mobile_main.html",
         {
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
             'programs_list': programs_list,
-            'parameter_json': parameter_json
+            'parameter_json': parameter_json,
+            'mobile_title': '강좌 찾기',
+            'mobile_page': 'courses'
         }
     )
 

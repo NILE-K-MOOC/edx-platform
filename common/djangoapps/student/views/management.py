@@ -1125,10 +1125,13 @@ def mobile_index(request, extra_context=None, user=AnonymousUser()):
 
     context['index_list'] = index_list
 
+    # mobile page
+    context['mobile_page'] = 'index'
+
     # Insert additional context for use in the template
     context.update(extra_context)
 
-    return render_to_response('mobile_index.html', context)
+    return render_to_response('mobile_main.html', context)
 
 
 # index submenu 2개 조회

@@ -1,5 +1,4 @@
 <%page expression_filter="h"/>
-<%inherit file="mobile_main.html" />
 <%namespace name='static' file='static_content.html'/>
 <%!
 from django.utils.translation import ugettext as _
@@ -26,140 +25,8 @@ $( document ).ready(function() {
 
 </script>
 
-<style>
-    .home > header .outer-wrapper {
-        width: 100%;height:100%;box-sizing:border-box;
-        /**    padding:250px 0 240px 0;	**/
-        padding:100px 0 0 0; /** 20161215 **/
-    }
-    .course-search{
-        width: 300px;
-        float: right;
-        margin-right: 30px;
-    }
-    .kr01-Sarrow {
-        margin-right: 10px;
-        margin-top: 7px;
-    }
-
-    .kr01_icontTitle {
-        font-size: 15px;
-    }
-    .kr01_iconarea img {
-        width: 20px;
-    }
-    .kr01_iconarea img.kr01_iconarea_today {
-        width: 14px;
-    }
-    .kr01_alert_slider a span {
-        font-size: 14px;
-    }
-    .kr01_alretTxt {
-        width: 100%;
-    }
-    .kr01_alert_slider .bx-wrapper {
-        width: 92%;
-    }
-    .kr01-slider-extend {
-        width: 70px;
-        text-align: right;
-        font-size: 14px;
-    }
-    .slider .slide {
-        width: 96% !important;
-        padding-left: 5px;
-    }
-    .kr01_alertarea {
-        display: block;
-        padding: 10px 0;
-    }
-    .kr01-notice-header {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: solid 1px #4185c4;
-        margin-bottom: 10px;
-    }
-    .kr01_iconarea {
-        margin-right: 5px;
-    }
-    .kr01_alert_slider {
-        justify-content: space-between;
-    }
-    .kr01_alert {
-        margin-bottom: 20px;
-    }
-    .kr01 .courses-container {
-        margin-top: 20px;
-    }
-    .kr01_fivemenu02 .fivemenarea li {
-        width: 32%;
-        margin-bottom: 0;
-        vertical-align: middle;
-        border: 1px solid #4185c4 !important;
-        border-radius: 10px;
-    }
-    .kr01_fivemenu02 {
-        border: none;
-        margin-bottom: 20px
-    }
-    .kr01_fivemenu02 .fivemenarea {
-        justify-content: space-between;
-        display: flex;
-        text-align: center;
-    }
-    .fivemenarea li a.fivemenarea-a {
-        padding: 10px 0;
-    }
-    .kr01_fivemenu02 .fivemenarea li a span.fivemenarea-span {
-        margin-top: 0;
-        font-size: 15px;
-    }
-    .kr01_fivemenu02 {
-        display: block !important;
-    }
-    .kr01-mobile {
-        padding: 7px;
-    }
-    .kr01-mobile .kr01-mobile-top a {
-        display: inline-block;
-    }
-    .kr01-mobile .kr01-mobile-top i {
-        border: 2px solid #53a4ef;
-        color: #53a4ef;
-        border-radius: 5px;
-        padding: 5px;
-    }
-    .kr01-mobile-more {
-        display: inline-block;
-        line-height: 2rem;
-        vertical-align: middle;
-        float: right;
-    }
-    .kr01-mobile-more a {
-        color: #fff !important;
-        font-weight: bold;
-    }
-    .kr01-mobile-container {
-        background: #595959;
-    }
-</style>
 <!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
 
-<main id="main" aria-label="Content" tabindex="-1" class="main-content">
-    <section class="kr01 kr01-mobile-container">
-        <section class="highlighted-courses kr01-mobile">
-            <div class="kr01-mobile-top">
-                <a href="/mobile_courses/"><i class="fa fa-home fa-lg"></i></a>
-                <div class="kr01-mobile-more">
-                    <a href="/mobile_courses?search_query=">
-                        <span>
-                            더 많은 강좌 찾아보기 >>
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </section>
     <section class="kr01">
 
         <h1 class="kr01_explain">3개 메뉴</h1>
@@ -190,6 +57,14 @@ $( document ).ready(function() {
                                 <a class="fivemenarea-a" href="#" data-facet="linguistics" data-term="Y">
                                     <!--<i class="fivemenarea-icon"></i>-->
                                     <span class="fivemenarea-span">한국어(학)</span>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="kr01_f05">
+                            <div>
+                                <a class="fivemenarea-a" href="#">
+                                    <!--<i class="fivemenarea-icon"></i>-->
+                                    <span class="fivemenarea-span">묶음강좌 보기</span>
                                 </a>
                             </div>
                         </li>
@@ -284,8 +159,8 @@ $( document ).ready(function() {
                                             var comm_link_gbn = comm_link.split('/');
                                             var comm_more = '#';
                                             if(comm_link_gbn[2] != 'F')
-                                                comm_more = '/comm_list/' + comm_link_gbn[2];
-                                            else comm_more = '/comm_tabs/kmooc_f/';
+                                                comm_more = '/mobile/comm_list/' + comm_link_gbn[2];
+                                            else comm_more = '/mobile/comm_tabs/';
                                             $(".kr01-slider-extend").children('a').attr('href', comm_more);
                                         }
                                     }
@@ -305,7 +180,6 @@ $( document ).ready(function() {
 
       <%include file="${courses_list}" args="mobile=True"/>
 
-</main>
 
 % if show_homepage_promo_video:
   <section id="video-modal" class="modal home-page-video-modal video-modal">
