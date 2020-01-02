@@ -1,91 +1,19 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='/static_content.html'/>
-<%block name="pagetitle">${_('Series Course')}</%block>
-<%inherit file="../mobile_main.html" />
 
 <%block name="header_extras"></%block>
-
-<style>
-.series_img{
-    width: 230px;
-    height: 130px;
-}
-.section_frame_outer {
-    padding-top: 20px;
-    display: inline-block;
-    width: 100%;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 20px;
-}
-.section_frame_inner{
-    display: inline-block;
-    width: 100%;
-}
-.section_a{
-    float:left;
-
-}
-.section_b{
-    float:left;
-
-    padding: 20px;
-}
-
-.series_target{
-    margin-bottom:6px;
-    font-size:80%;
-}
-.series_goal{
-    font-size:80%;
-}
-.section_container{
-    padding-top: 40px;
-    padding-bottom: 100px;
-    padding-right: 10%;
-    padding-left: 10%;
-}
-.pagerLink {
-    text-decoration: none !important;
-}
-.real_main_title{
-    font-size:180%;
-    margin-top:20px;
-    border-bottom: solid 1px #DDDDDD;
-    padding-bottom: 40px;
-    font-weight: bold;
-}
-.section_frame_outer:list-child {border-bottom:0px;}
-
-@media screen and (max-width: 770px) and (min-width: 0px) {
-    .series_img{
-        margin-left: 25%;
+<script>
+    function mobile_series_click(seq){
+        window.open('http://${series_base}' + seq, '_blank');
     }
-}
-@media screen and (max-width: 770px) and (min-width: 0px) {
-    .series_title{
-        font-size:100%;
-        text-align:center;
-        margin-bottom:20px;
-    }
-}
-@media screen and (max-width: 770px) and (min-width: 601px) {
-    .section_b{
-        margin-left:60px;
-    }
-}
-@media screen and (max-width: 600px) and (min-width: 0px) {
-    .section_b{
-    }
-}
-</style>
-
+</script>
 <div>
     <div class="series_bg_area">
         <div class="series_bg_space" id="main">
       <span  class="series_bg_title">
       <h3>${_('About Series Course')}</h3>
       <h6>K-MOOC 묶음강좌란 특정 분야에 대한 보다 심도있는 학습기회를
-          <br>제공하기 위해 복수의 강좌로 구성된 커리큘럼입니다.</h6>
+         제공하기 위해 복수의 강좌로 구성된 커리큘럼입니다.</h6>
       </span>
         </div>
 
@@ -98,14 +26,11 @@
     <div class="section_frame_outer">
         <div class="section_frame_inner">
             <div class="float_left section_a1">
-                <a class="pagerLink" href="/series_view/${item['series_seq']}">
                 <img class="series_imges" src="${item['save_path']}" alt="${item['series_name']}" onerror="this.src='/static/images/blank.png'"/>
-                </a>
             </div>
             <div class="float_left section_a2">
-                <a class="pagerLink" href="/series_view/${item['series_seq']}"><div class="series_title white-span">${item['series_name']}</div>
-                </a>
-                <p class="s_list">${item['short_description']}</p>
+                <div class="series_title white-span">${item['series_name']}</div>
+                <p class="s_list r-list">${item['short_description']}</p>
             </div>
 
             <div class="section_a3">
@@ -131,6 +56,10 @@
                     </table>
                 </div>
             </div>
+            <span class="r-list mobile-series-notice">※ 묶음 강좌 수강신청 및 강의 듣기는 모바일 웹에서 가능합니다.</span>
+            <span class="r-list mobile-series-notice">
+                    <a onclick="mobile_series_click('${str(item['series_seq'])}')">>> 모바일 웹에서 보기</a>
+            </span>
             <div></div>
         </div>
     </div>

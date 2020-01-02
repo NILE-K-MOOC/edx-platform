@@ -119,6 +119,24 @@ from pipeline_mako import render_require_js_path_overrides
           baseUrl: window.baseUrl
       });
     }).call(this, require || RequireJS.require);
+
+    function setIframeHeight(id) {
+        var ifrm = document.getElementById(id);
+        var doc = ifrm.contentDocument? ifrm.contentDocument:
+            ifrm.contentWindow.document;
+        ifrm.style.visibility = 'hidden';
+        ifrm.style.height = "10px";
+        ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+        ifrm.style.visibility = 'visible';
+    }
+
+    function getDocHeight(doc) {
+        doc = doc || document;
+        var body = doc.body, html = doc.documentElement;
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight );
+        return height;
+    }
   </script>
   <script type="text/javascript" src="${static.url("lms/js/require-config.js")}"></script>
   <%block name="js_overrides">
@@ -234,6 +252,10 @@ from pipeline_mako import render_require_js_path_overrides
           <%include file="community/mobile_comm_view.html"/>
         % elif mobile_page == 'courses':
           <%include file="mobile_courses.html"/>
+        % elif mobile_page == 'series_view':
+          <%include file="community/mobile_series_view.html"/>
+        % elif mobile_page == 'series':
+          <%include file="community/mobile_series.html"/>
         % endif
         <%block name="bodyextra"/>
       </main>

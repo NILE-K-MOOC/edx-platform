@@ -401,3 +401,111 @@
     margin-bottom:  0px;
     width: 100%;
 }
+
+.series_img{
+    width: 230px;
+    height: 130px;
+}
+.section_frame_outer {
+    padding-top: 20px;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 20px;
+}
+.section_frame_inner{
+    display: inline-block;
+    width: 100%;
+}
+.section_a{
+    float:left;
+
+}
+.section_b{
+    float:left;
+
+    padding: 20px;
+}
+
+.series_target{
+    margin-bottom:6px;
+    font-size:80%;
+}
+.series_goal{
+    font-size:80%;
+}
+.section_container{
+    padding-top: 40px;
+    padding-bottom: 100px;
+    padding-right: 10%;
+    padding-left: 10%;
+}
+.pagerLink {
+    text-decoration: none !important;
+}
+.real_main_title{
+    font-size:180%;
+    margin-top:20px;
+    border-bottom: solid 1px #DDDDDD;
+    padding-bottom: 40px;
+    font-weight: bold;
+}
+.section_frame_outer:list-child {border-bottom:0px;}
+
+@media screen and (max-width: 770px) and (min-width: 0px) {
+    .series_img{
+        margin-left: 25%;
+    }
+}
+@media screen and (max-width: 770px) and (min-width: 0px) {
+    .series_title{
+        font-size:100%;
+        text-align:center;
+        margin-bottom:20px;
+    }
+}
+@media screen and (max-width: 770px) and (min-width: 601px) {
+    .section_b{
+        margin-left:60px;
+    }
+}
+@media screen and (max-width: 600px) and (min-width: 0px) {
+    .section_b{
+    }
+}
+.series_bg_area {
+    margin-top: 0;
+}
+.series_bg_space .series_bg_title {
+    margin: 10px 15px 0;
+}
+.series_bg_space .series_bg_title h3 {
+    font-size: 20px;
+}
+.series_bg_title h6 {
+    margin-top: 5px;
+    font-size: 15px;
+    word-break: keep-all;
+}
+.series_bg_area .series_bg_space,
+.series_bg_area {
+    height: auto;
+}
+.section_a2 p.s_list {
+    text-align: left;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+.section_a2 {
+    margin-bottom: 0;
+}
+
+.mobile-series-notice{
+    margin-top: 15px;
+    text-align: left;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+.mobile-series-notice a {
+    font-weight: bold;
+}
