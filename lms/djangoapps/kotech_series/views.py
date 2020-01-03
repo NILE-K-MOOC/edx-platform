@@ -829,7 +829,7 @@ def mobile_series(request):
     context['series_list'] = series_list
     context['mobile_page'] = 'series'
     context['mobile_title'] = 'Series Course'
-    context['series_base'] = settings.LMS_BASE + '/series_view/'
+    context['series_base'] = settings.ENV_TOKENS.get('LMS_BASE') + '/series_view/'
     return render_to_response('mobile_main.html', context)
 
 
