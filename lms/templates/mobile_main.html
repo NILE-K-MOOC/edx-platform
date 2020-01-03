@@ -216,6 +216,7 @@ from pipeline_mako import render_require_js_path_overrides
     <!-- 기존div-->
     <!--<div class="content-wrapper main-container" id="content">-->
     <div class="content-wrapper" id="content">
+      % if mobile_template != 'courseware/mobile_course_about':
       <main id="main" aria-label="Content" tabindex="-1">
         <section class="kr01 kr01-mobile-container">
           <section class="highlighted-courses kr01-mobile">
@@ -249,6 +250,9 @@ from pipeline_mako import render_require_js_path_overrides
         % endif
         <%block name="bodyextra"/>
       </main>
+      % else:
+        <%include file="${mobile_template}.html"/>
+      % endif
     </div>
 
 % if not disable_window_wrap:
