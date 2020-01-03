@@ -264,9 +264,12 @@
               </li>
           -->
           % endif
-          <li class="nav-item nav-not-signedin-signin">
-            <a class="action action-signin" href="${reverse('login')}">${_("Sign In")}</a>
-          </li>
+            <li class="nav-item nav-not-signedin-signin">
+                <a class="action action-signin" href="${reverse('login')}">${_("Sign In")}</a>
+            </li>
+            <li class="nav-item nav-not-signedin-signin">
+                <a style="background: #42b6ff; color: #ffffff;" class="action action-signin" href="http://inst.kmooc.kr/" target="_blank">참여기관 관리자 바로가기</a>
+            </li>
         </ol>
       </nav>
     % endif
