@@ -139,20 +139,27 @@ def nicecheckplus(request):
     except BaseException:
         return render_to_response('student_account/nicecheckplus_error.html')
 
-    # ----- get user_id query ----- #
     with connections['default'].cursor() as cur:
+        # get user id
         query = """
             SELECT id
             FROM   edxapp.auth_user
             WHERE  email = '{0}'
         """.format(edx_user_email)
         cur.execute(query)
-
-        print query
-
         table = cur.fetchone()
         user_id = table[0]
-    # ----- get user_id query ----- #
+
+        # prevent double insert
+        query = '''
+            select count(*) as cnt
+            from auth_user_nicecheck
+            where user_id = '{user_id}';        
+        '''.format(user_id=user_id)
+        cur.execute(query)
+        nice_count = cur.fetchone()[0]
+        if nice_count > 0:
+            return render_to_response('student_account/nicecheckplus.html')
 
     # encode data
     nice_sitecode = 'AD521'             # NICE로부터 부여받은 사이트 코드
@@ -364,6 +371,12 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
+
+        # 로그인 버튼을 눌렀을 경우 회원가입의 세션 정보를 지운다.
+        if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
+            del request.session['private_info_use_yn']
+            del request.session['event_join_yn']
+
         # print 'login_and_registration_form type 1'
         pass
     elif 'errorMessage' in provider_info and provider_info['errorMessage'] is not None:

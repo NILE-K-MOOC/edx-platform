@@ -1426,7 +1426,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	border: 2px solid blue !important;
 }
 .courses-listing-item a:focus{
-   border: 1px solid blue;
+	outline: 4px dashed blue;
 }
 a:focus, img:focus {
 
@@ -2293,9 +2293,4 @@ button#intro_shot {
 
 .kr01_mainslider a:focus img{
 	border: solid 2px blue;
-}
-
-
-#context.contents img {
-	display: none !important;
 }

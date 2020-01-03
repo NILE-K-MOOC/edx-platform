@@ -1110,7 +1110,7 @@ span.kr01-ftaddr.kr01-ftaddr-02 a {
 }
 
 /* language */
-.kr01-Tlanguage{float: right; margin: 7px 15px 0 10px;}
+.kr01-Tlanguage{margin: 7px 15px 0 10px; float: right;}
 
 .language-btn {
   border: 1px solid #c6c6c6;
@@ -1259,7 +1259,7 @@ input[type="radio"].toggle:checked + label {
 }
 
 .kr01_Tmenu__item:hover {
-  background-color: #363838;s
+  background-color: #363838;
 }
 
 /* 로그아웃 */
@@ -1267,7 +1267,9 @@ input[type="radio"].toggle:checked + label {
 .kr01-Tlogoutarea a{color: #525455 !important;}
 
 /* 알림 */
-.kr01-alertarea{ display: inline-block; float: right;}
+.kr01-alertarea{ display: inline-block;}
+
+.float-right {float: right;}
 .kr01-signin-area { margin-right: 7px; }
 .kr01_bellarea{float: left;
   margin-right: 5px;}
@@ -2584,4 +2586,8 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   font-size: 11px;
   padding-top: 8px;
   word-break: keep-all;
+}
+
+.main-course-card:focus {
+  outline: 4px dashed blue;
 }

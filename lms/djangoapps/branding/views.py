@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import urllib
+import traceback
 import json
 import branding.api as branding_api
 import courseware.views.views
@@ -29,9 +30,7 @@ from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson import ObjectId
 
-
 log = logging.getLogger(__name__)
-
 
 # ==================================================================================================> login 오버라이딩 시작
 from datetime import datetime
@@ -44,7 +43,6 @@ from django.utils.crypto import constant_time_compare
 from django.utils.module_loading import import_string
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth.models import User
-
 
 SESSION_KEY = '_auth_user_id'
 BACKEND_SESSION_KEY = '_auth_user_backend'
@@ -123,6 +121,8 @@ def login(request, user, backend=None):
         request.user = user
     rotate_token(request)
     user_logged_in.send(sender=user.__class__, request=request, user=user)
+
+
 # ==================================================================================================> login 오버라이딩 종료
 
 
@@ -177,6 +177,8 @@ def multisite_index(request, org):
     # 중앙교육연수원의 추가 정보 입력을 위한 변수
     addinfo = None
 
+    log.info('multisite check multistie_success [%s]' % 'multistie_success' in request.session)
+
     if 'multistie_success' in request.session:
         if request.session['multistie_success'] == 1 and request.user.is_authenticated:
             return student.views.management.multisite_index(request, user=request.user)
@@ -185,9 +187,8 @@ def multisite_index(request, org):
     request.session['multisite_mode'] = 1
     request.session['multisite_org'] = org
 
-    print "request.session['multisite_mode'] -> ", request.session['multisite_mode']
-    print "request.session['multisite_org'] -> ", request.session['multisite_org']
-    print "------------------------------------"
+    log.info("multisite check request.session['multisite_mode'] -> %s" % request.session['multisite_mode'])
+    log.info("multisite check request.session['multisite_org'] -> %s" % request.session['multisite_org'])
 
     # 강좌 개수 확인
     with connections['default'].cursor() as cur:
@@ -220,9 +221,7 @@ def multisite_index(request, org):
             key = rows[0][2]
             save_path = rows[0][3]
         except BaseException as err:
-            log.info('-----------------------------------')
-            log.info(err)
-            log.info('-----------------------------------')
+            log.info('multisite check err [%s]' % traceback.format_exc(err))
             return redirect('/multisite_error?error=error001')
 
     request.session['save_path'] = save_path
@@ -243,8 +242,8 @@ def multisite_index(request, org):
     out_url = out_url.replace('www.', "")
 
     # DEBUG
-    print 'in_url -> ', in_url
-    print 'out_url -> ', out_url
+    log.info('multisite check in_url -> %s' % in_url)
+    log.info('multisite check out_url -> %s' % out_url)
     print "------------------------------------"
 
     # 접근URL 과 등록URL 비교
@@ -265,6 +264,8 @@ def multisite_index(request, org):
             return redirect('/multisite_error?error=error002')
 
     # 파라미터 방식
+    log.info('multisite check login_type [%s]' % login_type)
+
     if login_type == 'P':
         # 암호화 데이터 (get, post 구분 없음)
         if request.GET.get('encStr') or request.POST.get('encStr'):
@@ -274,6 +275,8 @@ def multisite_index(request, org):
                 encStr = request.POST.get('encStr')
         else:
             encStr = None
+
+        log.info('multisite check encStr [%s]' % encStr)
 
         # DEBUG
         # encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
@@ -291,9 +294,7 @@ def multisite_index(request, org):
                 encStr = encStr.replace(' ', '+')
 
             except BaseException as err:
-                log.info('-----------------------------------')
-                log.info(err)
-                log.info('-----------------------------------')
+                log.info('multisite check err1 [%s]' % traceback.format_exc(err))
                 return redirect('/multisite_error?error=error003')
 
             try:
@@ -311,14 +312,10 @@ def multisite_index(request, org):
                     addinfo = params['addinfo']
 
             except BaseException as err:
-                log.info('-----------------------------------')
-                log.info(err)
-                log.info('-----------------------------------')
+                log.info('multisite check err2 [%s]' % traceback.format_exc(err))
                 return redirect('/multisite_error?error=error003')
             except Exception as e:
-                log.info('Exception ----------------------------------- s')
-                log.info(e)
-                log.info('Exception ----------------------------------- e')
+                log.info('multisite check err3 [%s]' % traceback.format_exc(e))
 
             # DEBUG
             print 'raw_data -> ', raw_data
@@ -335,16 +332,11 @@ def multisite_index(request, org):
                     pass
 
             except BaseException as err:
-                log.info('-----------------------------------')
-                log.info(err)
-                log.info('-----------------------------------')
+                log.info('multisite check err4 [%s]' % traceback.format_exc(err))
                 return redirect('/multisite_error?error=error004')
 
             # DEBUG
-            print 'calltime -> ', calltime
-            print 'userid -> ', userid
-            print 'orgid -> ', orgid
-            print "------------------------------------"
+            log.info('multisite check calltime [%s] userid [%s] orgid [%s]' % (calltime, userid, orgid))
 
             # 호출시간 파싱
             calltime = str(calltime)
@@ -358,9 +350,8 @@ def multisite_index(request, org):
             python_calltime = datetime.utcnow() + timedelta(hours=9)
 
             # DEBUG
-            print 'java_calltime -> ', java_calltime
-            print 'python_calltime -> ', python_calltime
-            print "------------------------------------"
+            log.info('multisite check java_calltime -> %s' % java_calltime)
+            log.info('multisite check python_calltime -> %s' % python_calltime)
 
             # 호출시간 만료 체크
             if java_calltime + timedelta(seconds=180) < python_calltime:
@@ -384,7 +375,7 @@ def multisite_index(request, org):
                 cur.execute(sql)
                 rows = cur.fetchall()
 
-            print 'len(rows) -> ', len(rows)
+            log.info('multisite check len(rows) -> %s' % len(rows))
 
             # 기관연계 된 회원이라면 SSO 로그인
             if len(rows) != 0:
@@ -415,11 +406,15 @@ def multisite_index(request, org):
                         print e
 
                 # test code
+                log.info('multisite check zero_mode [%s]' % zero_mode)
+
                 if zero_mode == 0:
                     request.session['multisite_zero'] = 1
                     return redirect('/')
             # 아니라면 에러페이지 리다이렉트
             else:
+                log.info('multisite check set multisite_userid [%s]' % userid)
+
                 request.session['multistie_success'] = 1
                 request.session['multisite_userid'] = userid
                 return redirect('/login')
@@ -427,7 +422,7 @@ def multisite_index(request, org):
     # Oauth 방식
     elif login_type == 'O':
         url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
-        print "url -> ", url
+        log.info("multisite check url -> %s" % url)
         if not request.user.is_authenticated:
             request.session['multisite_mode'] = 0
             return redirect(url)
@@ -546,6 +541,7 @@ def index(request):
         del request.session['save_path']
 
     print "request.user.is_authenticated", request.user.is_authenticated
+
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has
         # courses in his/her dashboard. Otherwise UX is a bit cryptic.
