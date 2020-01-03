@@ -472,8 +472,6 @@ urlpatterns += [
     url(r'^mobile/comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', kotech_community.mobile_comm_list, name='mobile_comm_list'),
     url(r'^mobile/comm_tabs/$', kotech_community.mobile_comm_tabs, name='mobile_comm_tabs'),
     url(r'^mobile/comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', kotech_community.mobile_comm_view, name='mobile_comm_view'),
-    url(r'^mobile/series/view/(?P<id>.*?)/about/$', kotech_series.series_about, name='series_about'),
-    url(r'^mobile/series/view/(?P<id>.*?)/$', kotech_series.mobile_series_view, name='mobile_series_view'),
     url(r'^mobile/series/$', kotech_series.mobile_series, name='mobile_series'),
     url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
 

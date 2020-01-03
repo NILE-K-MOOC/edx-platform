@@ -351,7 +351,7 @@ def mobile_courses(request):
             'programs_list': programs_list,
             'parameter_json': parameter_json,
             'mobile_title': '강좌 찾기',
-            'mobile_page': 'courses'
+            'mobile_template': 'mobile_courses'
         }
     )
 
@@ -2116,10 +2116,12 @@ def mobile_course_about(request, course_id):
             'study_time': study_time,
             'start': start,
             'end': end,
-            'course_survey_data': course_survey_data
+            'course_survey_data': course_survey_data,
+            'mobile_title': 'Course Overview',
+            'mobile_template': 'courseware/mobile_course_about'
         }
 
-        return render_to_response('courseware/mobile_course_about.html', context)
+        return render_to_response('mobile_main.html', context)
 
 
 # 강좌 만족도 설문 결과 별점(about page)

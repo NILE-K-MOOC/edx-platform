@@ -290,7 +290,7 @@ def mobile_comm_list(request, section=None, curr_page=None):
             'page_title': page_title,
             'curr_page': curr_page,
             'section': section,
-            'mobile_page': 'community',
+            'mobile_template': 'community/mobile_comm_list',
             'mobile_title': 'Community'
         }
 
@@ -441,7 +441,7 @@ def mobile_comm_view(request, section=None, curr_page=None, board_id=None):
         'comm_list_url': reverse('mobile_comm_list', kwargs={'section': section, 'curr_page': curr_page}),
         'section': section,
         'view_yn': True,
-        'mobile_page': 'comm_view',
+        'mobile_template': 'community/mobile_comm_view',
         'mobile_title': 'Community'
     }
 
@@ -510,7 +510,7 @@ def mobile_comm_tabs(request):
             'head_title': 'mobile_f',
             'page_title': 'FAQ',
             'section': 'F',
-            'mobile_page': 'community',
+            'mobile_template': 'community/mobile_comm_list',
             'mobile_title': 'Community'
         }
 

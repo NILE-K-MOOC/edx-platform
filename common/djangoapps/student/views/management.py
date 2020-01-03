@@ -1126,7 +1126,7 @@ def mobile_index(request, extra_context=None, user=AnonymousUser()):
     context['index_list'] = index_list
 
     # mobile page
-    context['mobile_page'] = 'index'
+    context['mobile_template'] = 'mobile_index'
 
     # Insert additional context for use in the template
     context.update(extra_context)

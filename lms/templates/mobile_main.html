@@ -220,7 +220,7 @@ from pipeline_mako import render_require_js_path_overrides
         <section class="kr01 kr01-mobile-container">
           <section class="highlighted-courses kr01-mobile">
             <div class="kr01-mobile-top">
-              % if mobile_page == 'index':
+              % if mobile_template == 'mobile_index':
               <a href="/mobile_courses/"><i class="fa fa-home fa-lg"></i></a>
               % else:
               <div class="kr01-mobile-course" id="mobile_title">
@@ -228,7 +228,7 @@ from pipeline_mako import render_require_js_path_overrides
               </div>
               % endif
               <div class="kr01-mobile-more">
-                % if mobile_page == 'index':
+                % if mobile_template == 'mobile_index':
                 <a href="/mobile_courses?search_query=">
                   <span>
                       더 많은 강좌 찾아보기 >>
@@ -244,18 +244,8 @@ from pipeline_mako import render_require_js_path_overrides
             </div>
           </section>
         </section>
-        % if mobile_page == 'index':
-          <%include file="mobile_index.html"/>
-        % elif mobile_page == 'community':
-          <%include file="community/mobile_comm_list.html"/>
-        % elif mobile_page == 'comm_view':
-          <%include file="community/mobile_comm_view.html"/>
-        % elif mobile_page == 'courses':
-          <%include file="mobile_courses.html"/>
-        % elif mobile_page == 'series_view':
-          <%include file="community/mobile_series_view.html"/>
-        % elif mobile_page == 'series':
-          <%include file="community/mobile_series.html"/>
+        % if mobile_template is not None:
+          <%include file="${mobile_template}.html"/>
         % endif
         <%block name="bodyextra"/>
       </main>
