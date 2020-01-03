@@ -645,7 +645,7 @@ def courses(request):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
+# @cache_if_anonymous()
 def mobile_courses(request):
     """
     Render the "find courses" page. If the marketing site is enabled, redirect
