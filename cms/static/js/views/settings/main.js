@@ -6,13 +6,13 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
              FileUploadDialog, LicenseView, LicenseModel, NotificationView,
              timepicker, date, gettext, LearningInfoView, InstructorInfoView, StringUtils) {
         var DetailsView = ValidatingView.extend({
-            // Model class is CMS.Models.Settings.CourseDetails
+
+            // 이벤트 바인딩 명시
             events: {
                 "keypress input" : "submitDisable",
                 "keypress select" : "submitDisable",
                 'input input': 'updateModel',
                 'input textarea': 'updateModel',
-                // Leaving change in as fallback for older browsers
                 'change input': 'updateModel',
                 'change textarea': 'updateModel',
                 'change select': 'updateModel',
@@ -20,7 +20,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'focus #course-overview': 'codeMirrorize',
                 'focus #course-about-sidebar-html': 'codeMirrorize',
                 'mouseover .timezone': 'updateTime',
-                //setEffort event 관련
                 'blur #course-effort-hh': "setEffort",
                 'blur #course-effort-mm': "setEffort",
                 'blur #course-video-hh': "setEffort",
@@ -35,34 +34,27 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'change #course-effort-week': "setEffort",
                 'change #Calculated': "setEffort",
                 'change #Calculated_mm': "setEffort",
-                // would love to move to a general superclass, but event hashes don't inherit in backbone :-(
                 'focus :input': 'inputFocus',
                 'blur :input': 'inputUnfocus',
                 'click .action-upload-image': 'uploadImage',
                 'click .add-course-learning-info': 'addLearningFields',
                 'click .add-course-instructor-info': 'addInstructorFields',
-
-                //강좌 운영진 소개의 추가 및 삭제 이벤트
                 'click #overview-tab3 .remove-item': "delStaffItem",
                 'click #overview-tab3 .add-item': "addStaffItem",
-
-                //강좌 개요 에디터 이벤트
                 'click .toggleOverviewLayer': "toggleOverviewLayer",
                 'click #createOverview': "createOverview",
                 'click .tabs>div': "tabChange",
-
                 'change #course_edit_check': "updateModel",
-
-                //FAQ 추가 및 삭제 이벤트
                 'click #overview-tab5 .remove-item': "delQuestionItem",
                 'click #overview-tab5 .add-item': "addQuestionItem",
-
                 'change #teacher_name': "modi_teacher_name",
                 'change #selectfixid': "modi_course_level",
-
-                //강좌소개 HTML 직접 수정 확인 이벤트
+                'change #subtitle_list': "subtitle_box",
                 'click #edit_check': "course_editor_html",
+                'click #subtitle_add': "subtitle_add",
+                'click #subtitle_remove': "subtitle_remove",
             },
+
             course_editor_html: function(e){
                 swal({
                     html: 'HTML을 직접 수정하시면 이 후 <b>강좌소개페이지 에디터</b>를 통한 <br>수정이 불가합니다.<br>그래도 수정을 진행하시겠습니까?',
@@ -114,6 +106,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     }
                 });
             },
+
             addStaffItem: function(event){
                 event.preventDefault();
                 // 교수자와 TA 분리하여 입력란 추가되도록 수정
@@ -123,14 +116,17 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $("#course-ta").append($(this.ta_row_template).html());
                 }
             },
+
             delStaffItem: function(event){
                 event.preventDefault();
                 $(event.currentTarget).parent().parent().remove();
             },
+
             addQuestionItem: function(event){
                 event.preventDefault();
                 $("#course-question").append($(this.question_row_template).html());
             },
+
             delQuestionItem: function(event){
                 event.preventDefault();
                 var faq_len = $(event.currentTarget).parent().parent().parent().find('li').length;
@@ -141,6 +137,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $(event.currentTarget).parent().parent().parent().find('li:eq(0) #faq-answer').val('');
                 }
             },
+
             createOverview: function(event){
                 event.preventDefault();
 
@@ -332,6 +329,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.render();
 
             },
+
             textareaTrim: function(text){
                 // textarea에서 공백 처리
                 var text_lines = text.split('\n');
@@ -349,6 +347,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 return return_txt;
             },
+
             tinymceInit: function (selector) {
                 tinymce.init({
                     selector: selector,
@@ -380,11 +379,13 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     }, true),
                 });
             },
+
             overviewLayerValidate: function(){ // 에디터 내 유효성
                 $(".overview-modal").find(".message-error").remove();
 
                 return true;
             },
+
             toggleOverviewLayer: function(event){
                 event.preventDefault();
                 $("#overviewEditLayer").toggle();
@@ -395,6 +396,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     this.overviewLayerSetting();
                 }
             },
+
             tabChange: function(event){
                 event.preventDefault();
                 var t = event.currentTarget.getAttribute('data-target');
@@ -403,6 +405,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $("#overviewEditLayer div[id^='overview-tab']").hide();
                 $("#" + t).show();
             },
+
             initialize : function(options) {
                 $(function () {
                     $(".tab_content").hide();
@@ -505,6 +508,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.question_row_template = $("#course-question").clone();
 
             },
+
             overviewLayerSetting: function(){
                 console.log('overviewLayerSetting called ...');
                 //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
@@ -688,8 +692,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.tinymceInit('#user_content');
 
                 //tinymce.get('course_plan').setContent(syllabus.html());
-
             },
+
             tinymceInit: function (selector) {
                 tinymce.init({
                     selector: selector,
@@ -721,6 +725,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     }, true),
                 });
             },
+
             setEffort:function(){
                 var hh = $("#course-effort-hh").val();
                 var mm = $("#course-effort-mm").val();
@@ -846,7 +851,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 else{
                     Calculated_mmm = $("#Calculated_mm").val();
                 }
-
             },
 
             submitDisable: function (e) {
@@ -872,6 +876,58 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
+            subtitle_add: function (e) {
+                var selected_code = $('#subtitle_list').val();
+                var subtitle_box = $('#subtitle_box').val();
+                if (selected_code != '') {
+                    var idx = subtitle_box.search(selected_code);
+                    if (idx == -1) {
+                        if (subtitle_box.length != 0) {
+                            subtitle_box += ', ' + selected_code
+                            $('#subtitle_box').val(subtitle_box);
+                        } else {
+                            subtitle_box += selected_code
+                            $('#subtitle_box').val(subtitle_box);
+                        }
+                        this.model.set('subtitle_box', $('#subtitle_box').val());
+                        $('.action-primary').click(function() {
+                            console.log('add -> save');
+                            // ajax 로직 추가 예정 (mysql update)
+                        });
+                    } else {
+                        alert('이미 추가된 자막 언어 입니다')
+                    }
+                } else {
+                    alert('자막 언어를 선택해주십시오');
+                }
+            },
+
+            subtitle_remove: function (e) {
+                var selected_code = $('#subtitle_list').val();
+                var subtitle_box = $('#subtitle_box').val();
+                var idx = subtitle_box.search(selected_code);
+                if (idx != -1) {
+                    if (idx == 0) {
+                        subtitle_box = subtitle_box.replace(selected_code + ", ", "");
+                        subtitle_box = subtitle_box.replace(selected_code, "");
+                        console.log(subtitle_box[-1]);
+                        $('#subtitle_box').val(subtitle_box);
+                    } else {
+                        subtitle_box = subtitle_box.replace(", " + selected_code, "");
+                        subtitle_box = subtitle_box.replace(selected_code, "");
+                        console.log(subtitle_box[-1]);
+                        $('#subtitle_box').val(subtitle_box);
+                    }
+                    this.model.set('subtitle_box', $('#subtitle_box').val());
+                    $('.action-primary').click(function() {
+                        console.log('remove -> save');
+                        // ajax 로직 추가 예정 (mysql update)
+                    });
+                } else {
+                    alert('등록되지 않은 강좌 자막 언어는 지울 수 없습니다');
+                }
+            },
+
             modi_teacher_name: function (e) {
                 this.model.set('modi_teacher_name', 'modi_teacher_name');
                 $('.action-primary').click(function() {
@@ -890,7 +946,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             render: function() {
-                // Clear any image preview timeouts set in this.updateImagePreview
                 clearTimeout(this.imageTimer);
 
                 DateUtils.setupDatePicker('start_date', this);
@@ -898,6 +953,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 DateUtils.setupDatePicker('enrollment_start', this);
                 DateUtils.setupDatePicker('enrollment_end', this);
 
+                this.$el.find('#' + this.fieldToSelectorMap['subtitle_box']).val(this.model.get('subtitle_box'));
                 this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
                 this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
                 this.codeMirrorize(null, $('#course-overview')[0]);
@@ -1103,6 +1159,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 return this;
             },
+
             fieldToSelectorMap: {
                 language: 'course-language',
                 start_date: 'course-start',
@@ -1121,6 +1178,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 short_description: 'course-short-description',
                 intro_video: 'course-introduction-video',
                 //강좌 난이도
+                subtitle_box: 'subtitle_box',
                 course_level: 'selectfixid',
                 effort: 'course-effort',
                 course_image_asset_path: 'course-image-url',
@@ -1174,6 +1232,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 $(e.currentTarget).attr('title', currentTimeText);
             },
+
             updateModel: function(event) {
                 var value;
                 var index = event.currentTarget.getAttribute('data-index');
@@ -1257,6 +1316,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     case 'course-title':
                     case 'course-subtitle':
                     case 'course-duration':
+                    case 'subtitle_box':
                     case 'teacher_name':
                     case 'course-description':
                     case 'course-short-description':
@@ -1267,6 +1327,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         break;
                 }
             },
+
             updateImageField: function(event, image_field, selector) {
                 this.setField(event);
                 var url = $(event.currentTarget).val();
@@ -1276,6 +1337,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.model.set(image_field, image_name);
                 this.updateImagePreview(event.currentTarget, selector);
             },
+
             updateImagePreview: function(imagePathInputElement, previewSelector) {
                 // Wait to set the image src until the user stops typing
                 clearTimeout(this.imageTimer);
@@ -1283,6 +1345,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $(previewSelector).attr('src', $(imagePathInputElement).val());
                 }, 1000);
             },
+
             removeVideo: function(event) {
                 event.preventDefault();
                 if (this.model.has('intro_video')) {
@@ -1292,7 +1355,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     this.$el.find('.remove-course-introduction-video').hide();
                 }
             },
+
             codeMirrors: {},
+
             codeMirrorize: function(e, forcedTarget) {
                 var thisTarget, cachethis, field, cmTextArea;
                 if (forcedTarget) {
@@ -1345,6 +1410,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     reset: true,
                     silent: true});
             },
+
             setAndValidate: function(attr, value) {
                 // If we call model.set() with {validate: true}, model fields
                 // will not be set if validation fails. This puts the UI and

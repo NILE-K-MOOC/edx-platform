@@ -6,8 +6,8 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 course_id: '',
                 run: '',
                 language: '',
-                start_date: null,	// maps to 'start'
-                end_date: null,		// maps to 'end'
+                start_date: null,
+                end_date: null,
                 certificate_available_date: null,
                 enrollment_start: null,
                 enrollment_end: null,
@@ -19,10 +19,10 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 short_description: '',
                 overview: '',
                 intro_video: null,
-                effort: null,	// an int or null,
+                effort: null,
                 license: null,
-                course_image_name: '', // the filename
-                course_image_asset_path: '', // the full URL (/c4x/org/course/num/asset/filename)
+                course_image_name: '',          // the filename
+                course_image_asset_path: '',    // the full URL (/c4x/org/course/num/asset/filename)
                 banner_image_name: '',
                 banner_image_asset_path: '',
                 video_thumbnail_image_name: '',
@@ -47,7 +47,6 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     $("#course-effort").focus();
                     errors.effort = gettext("Effort time must have value");
                 }
-
                 if (
                     (
                     newattrs.end_date != null &&
@@ -57,15 +56,11 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     newattrs.Calculated != null) &&
                     (isNaN($("#course-effort-hh").val()) || isNaN($("#course-effort-mm").val()) || isNaN($("#Calculated").val()) || isNaN($("#Calculated_mm").val()) || isNaN($("#course-effort-week").val()))
                 ) {
-
                     if (isNaN($("#course-effort-hh").val())) {
-
                         $("#course-effort-hh").focus();
                     } else if (isNaN($("#course-effort-mm").val())) {
-
                         $("#course-effort-mm").focus();
                     } else if (isNaN($("#Calculated").val())) {
-
                         $("#Calculated").focus();
                     }
                     errors.effort = gettext("Effort time must have number");
@@ -80,20 +75,20 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     $("#course-video-mm").focus();
                     errors.effort = gettext("Video time must have number");
                 }
+
                 if ($("#course-effort-week").val() && isNaN($("#course-effort-week").val())) {
                     $("#course-effort-week").focus();
                     errors.effort = gettext("Chapters must have number");
                 }
+
                 if ($("#Calculated").val() && isNaN($("#Calculated").val())) {
                     $("#Calculated").focus();
-                    //errors.effort = gettext("Total recognized learning hours must have number");
                     errors.effort = gettext("학습인정시간에는 숫자만 입력 가능합니다");
                 }
+
                 if ($("#Calculated_mm").val() && isNaN($("#Calculated_mm").val())) {
                     $("#Calculated_mm").focus();
-                    //errors.effort = gettext("Total recognized learning hours must have number");
                     errors.effort = gettext("학습인정시간에는 숫자만 입력 가능합니다");
-
                 }
 
                 newattrs = DateUtils.convertDateStringsToObjects(
@@ -104,13 +99,14 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     errors.start_date = gettext("The course must have an assigned start date.");
                 }
 
-                //Add Condition
                 if (newattrs.end_date === null) {
                     errors.end_date = gettext("The course must have an assigned end date.");
                 }
+
                 if (newattrs.enrollment_start === null) {
                     errors.enrollment_start = gettext("The course must have an assigned enrollment start date.");
                 }
+
                 if (newattrs.enrollment_end === null) {
                     errors.enrollment_end = gettext("The course must have an assigned enrollment end date.");
                 }
@@ -146,6 +142,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     errors.effort = gettext("Calculated must have value");
                     //$("#course-effort-week").focus();
                 }
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
@@ -154,6 +151,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     errors.effort = gettext("Calculated must have value");
                     //$("#course-effort-week").focus();
                 }
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
@@ -162,6 +160,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     errors.effort = gettext("Week related information must have value");
                     //$("#course-effort-week").focus();
                 }
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
@@ -170,6 +169,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     errors.effort = gettext("Recommended commitment Effort per week information must have value");
                     //$("#course-effort-week").focus();
                 }
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
@@ -179,6 +179,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     //errors.effort = gettext("Effort time must have values");
                     //$("#course-effort-week").focus();
                 }
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&
@@ -187,6 +188,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                     errors.effort = gettext("Video time must have value");
                     //$("#course-video-mm").focus();
                 }
+
                 if ((
                     newattrs.end_date != null &&
                     newattrs.enrollment_end != null &&

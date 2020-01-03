@@ -454,48 +454,6 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                     background: #cecece !important;
                 }
             </style>
-            <script>
-                function subtitle_add(){
-                    var selected_code = $('#subtitle_list').val();
-                    var subtitle_box = $('#subtitle_box').val();
-                    if (selected_code != '') {
-                        var idx = subtitle_box.search(selected_code);
-                        if (idx == -1) {
-                            if (subtitle_box.length != 0) {
-                                subtitle_box += ', ' + selected_code
-                                $('#subtitle_box').val(subtitle_box);
-                            } else {
-                                subtitle_box += selected_code
-                                $('#subtitle_box').val(subtitle_box);
-                            }
-                        } else {
-                            alert('이미 추가된 자막 언어 입니다')
-                        }
-                    } else {
-                        alert('자막 언어를 선택해주십시오');
-                    }
-                }
-                function subtitle_remove(){
-                    var selected_code = $('#subtitle_list').val();
-                    var subtitle_box = $('#subtitle_box').val();
-                    var idx = subtitle_box.search(selected_code);
-                    if (idx != -1) {
-                        if (idx == 0) {
-                            subtitle_box = subtitle_box.replace(selected_code + ", ", "");
-                            subtitle_box = subtitle_box.replace(selected_code, "");
-                            console.log(subtitle_box[-1]);
-                            $('#subtitle_box').val(subtitle_box);
-                        } else {
-                            subtitle_box = subtitle_box.replace(", " + selected_code, "");
-                            subtitle_box = subtitle_box.replace(selected_code, "");
-                            console.log(subtitle_box[-1]);
-                            $('#subtitle_box').val(subtitle_box);
-                        }
-                    } else {
-                        alert('등록되지 않은 강좌 자막 언어는 지울 수 없습니다');
-                    }
-                }
-            </script>
             <li class="field" id="field-course-language">
                 <label for="course-sub-language">강좌 자막 언어</label>
                 <input class="disable-color" type="text" id="subtitle_box" value="" disabled>
@@ -506,10 +464,10 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                             <option value="${_(label)}">${_(label)}</option>
                         % endfor
                     </select>
-                    <div class="hack-btn mr5" onclick="subtitle_add()">
+                    <div class="hack-btn mr5" id="subtitle_add">
                         + 추가하기
                     </div>
-                    <div class="hack-btn mr5" onclick="subtitle_remove()">
+                    <div class="hack-btn mr5" id="subtitle_remove">
                         선택 언어 지우기
                     </div>
                 </div>
