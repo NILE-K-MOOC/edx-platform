@@ -495,15 +495,15 @@ def mobile_comm_tabs(request):
         search_str = request.POST.get('search_str')
 
         if search_str:
-            comm_list = TbBoard.objects.filter(section='F', head_title='mobile_f', use_yn='Y').filter(
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(
                 Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
-            comm_list = TbBoard.objects.filter(section='F', head_title='mobile_f', use_yn='Y').order_by('odby',
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').order_by('odby',
                                                                                                         '-reg_date')
 
         return JsonResponse([model_to_dict(o) for o in comm_list])
     else:
-        comm_list = TbBoard.objects.filter(section='F', head_title='mobile_f', use_yn='Y').order_by('odby', '-reg_date')
+        comm_list = TbBoard.objects.filter(section='F', use_yn='Y').order_by('odby', '-reg_date')
 
         context = {
             'data': comm_list,

@@ -6,16 +6,25 @@
         <li>리스트에서 질문에 대한 답을 찾기 어려우시다면 앱 내 <strong>'문의하기'</strong>를 통해 문의하여 주시기 바랍니다.</li>
         <li>${_("If you have any questions regarding specific course content, please post your question on the bulletin <strong>board of the course.</strong>")}</li>
     </ul>
-    <div align="right">
-        <input type="text" placeholder="질문 찾기" id="search" title="질문 찾기"/>
-        <input type="button" value="찾기" id="search_btn" title="찾기"/>
+    <div align="center">
+        <div class="mobile-comm-tab-div">
+            <select class="mobile-comm-select">
+                <option value="total_f">전체보기</option>
+                <option value="kmooc_f">K-MOOC</option>
+                <option value="regist_f">회원가입</option>
+                <option value="login_f">로그인/계정</option>
+                <option value="enroll_f">수강신청/취소</option>
+                <option value="course_f">강좌 수강</option>
+                <option value="certi_f">성적/이수증</option>
+                <option value="tech_f">기술적 문제</option>
+                <option value="mobile_f">모바일앱</option>
+            </select>
+            <span class="mobile-comm-select-arrow" aria-hidden="true"></span>
+        </div>
+        <input type="text" class="mobile-comm-tab-input" placeholder="질문 찾기" id="search" title="질문 찾기"/>
+        <input type="button" class="mobile-comm-tab-btn" value="찾기" id="search_btn" title="찾기"/>
     </div>
-    <br>
 
-    <div id="head_title" style="display: none;">FAQ</div>
-    <nav class="faq-tab">
-        <a href="#" class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" title="모바일앱" style="color: #ffffff;">모바일앱</a>
-    </nav>
     <h3 class="hidden_head" id="faq_header">K-MOOC</h3>
     <dl class="faq-list" title="FAQ 목록">
         % if data:

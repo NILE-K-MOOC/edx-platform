@@ -339,7 +339,7 @@
     height: 20px;
     font-size: 14px;
     top: 8px;
-    line-height: 16px;
+    line-height: 19px;
 }
 
 .faq-list dd:before {
@@ -506,4 +506,51 @@
 }
 .mobile-series-notice a {
     font-weight: bold;
+}
+
+.mobile-comm-tab-div {
+    display: inline-block;
+    position: relative;
+    width: 33%;
+}
+.mobile-comm-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    padding: 6px 16px 6px 6px;
+    border: 1px solid #ddd;
+    background-color: transparent;
+    border-radius: 2px;
+    position: relative;
+    width: 100%;
+    text-align-last: center;
+    font-size: 14px;
+    z-index: 10;
+}
+
+.mobile-comm-select option {
+    text-align: center;
+    text-align-last: center;
+}
+
+.mobile-comm-select-arrow:after {
+    content: "";
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 7px solid #4185c4;
+    position: absolute;
+    top: 12px;
+    right: 5px;
+    z-index: 0;
+}
+
+input[type="text"].mobile-comm-tab-input {
+    width: 50%;
+    border: 1px solid #ddd;
+}
+
+.mobile-comm-tab-btn {
+    width: 14%;
 }
