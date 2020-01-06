@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Certificates Data Model:
 
@@ -34,6 +35,7 @@ from django.views.decorators.http import require_http_methods
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import AssetKey, CourseKey
 from six import text_type
+from django.db import connections
 
 from contentstore.utils import get_lms_link_for_certificate_web_view, reverse_course_url
 from contentstore.views.assets import delete_asset
@@ -511,6 +513,27 @@ def certificates_detail_handler(request, course_key_string, certificate_id):
     elif request.method == "DELETE":
         if not match_cert:
             return JsonResponse(status=404)
+
+        # 이수증 삭제 방지 조건
+        print "----------------------------------------"
+        print "course_key_string = ", course_key_string
+        print "----------------------------------------"
+        with connections['default'].cursor() as cur:
+            sql = '''
+                select count(*) as cnt
+                from certificates_generatedcertificate
+                where status = 'downloadable'
+                and course_id = '{course_key_string}';
+            '''.format(course_key_string=course_key_string)
+            cur.execute(sql)
+            cnt = cur.fetchall()[0][0]
+            print "----------------------------------------"
+            print "cnt = ", cnt
+            print "----------------------------------------"
+        if cnt == 0:
+            pass
+        else:
+            return JsonResponse({"error": "이수증을 발급받은 인원이 1명 이상 존재하여 이수증을 삭제할 수 없습니다"}, status=400)
 
         active_certificates = CertificateManager.get_certificates(course, only_active=True)
         if int(certificate_id) in [int(certificate["id"]) for certificate in active_certificates]:
