@@ -137,8 +137,97 @@ from openedx.core.djangolib.markup import HTML
                 % endfor
 
             <!-- 쪽지 발송 (시작) -->
+            <style>
+                .im-title { font-size: 1.5rem; margin-bottom: 15px;}
+                .im-target { margin-bottom: 20px; }
+                .im-mb15 { margin-bottom: 15px; }
+                .im-target-txt {  }
+                .im-sub-title { font-weight: bold; margin-top: 30px; margin-bottom: 5px;}
+                .im-support { margin-top: 10px; font-size: 10px;}
+                .im-btn { margin-top: 30px; font-weight: bold; font-size: 12px;}
+                #im_table { border-collapse: collapse; text-align: center; width: 100%;}
+                #im_table, th, td { border: 1px solid #dddddd; }
+                #im_table > thead { background: #e6e6e6; }
+                #im_table > tbody { padding: 50px; }
+                .im-fz12 { font-size: 12px; }
+                .im-mr5 { margin-right: 5px; }
+                .im-over {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    font-size: 12px;
+                }
+                .im-table-item-title {
+                    color: #0075b4;
+                    cursor: pointer;
+                }
+                .im-input-title { width: 50%;}
+                .im-textarea { width: 100%; height: 250px; }
+            </style>
             <section id="memo" class="idash-section active-section">
-                hello world
+                <div class="im-title">
+                    쪽지
+                </div>
+                <div class="im-target">
+                    대상:
+                </div>
+                <div class="im-mb15">
+                    <input class="im-mr5" type="checkbox" name="riyu" value="1"><span class="im-target-txt">나</span>
+                </div>
+                <div class="im-mb15">
+                    <input class="im-mr5" type="checkbox" name="riyu" value="2"><span class="im-target-txt">운영팀 및 관리팀</span>
+                </div>
+                <div class="im-mb15">
+                    <input class="im-mr5" type="checkbox" name="riyu" value="3"><span class="im-target-txt">전체 학습자</span>
+                </div>
+                <div class="im-sub-title">
+                    제목:
+                </div>
+                <div>
+                    <input class="im-input-title" type="text">
+                </div>
+                <div class="im-sub-title">
+                    본문:
+                </div>
+                <div>
+                    <textarea class="im-textarea"></textarea>
+                </div>
+                <div class="im-btn">
+                    <button>쪽지 발신</button>
+                </div>
+                <hr>
+                <div class="im-title">
+                    쪽지 발송기록
+                </div>
+                <div class="im-mb15">
+                    보낸 쪽지를 읽기 위해 제목을 클릭하세요
+                </div>
+                <div>
+                    <table id="im_table">
+                        <thead>
+                            <tr>
+                                <td class="im-fz12">제목</td>
+                                <td class="im-fz12">보낸 사람</td>
+                                <td class="im-fz12">받는 사람</td>
+                                <td class="im-fz12">보낸 시간</td>
+                                <td class="im-fz12">보낸 건수</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="im-over im-table-item-title">[K-MOOC] 수강신청한 수강생들 여러분</td>
+                                <td class="im-over" >honor001</td>
+                                <td class="im-over">운영팀 및 관리팀</td>
+                                <td class="im-over">2019년12월05일 목요일 06:56UTC</td>
+                                <td class="im-over">70 발송</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
             <!-- 쪽지 발송 (종료) -->
 
