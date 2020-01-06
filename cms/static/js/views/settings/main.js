@@ -876,6 +876,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
+
             subtitle_add: function (e) {
                 var selected_code = $('#subtitle_list').val();
                 var subtitle_box = $('#subtitle_box').val();
@@ -891,8 +892,21 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         }
                         this.model.set('subtitle_box', $('#subtitle_box').val());
                         $('.action-primary').click(function() {
-                            console.log('add -> save');
-                            // ajax 로직 추가 예정 (mysql update)
+                            var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
+                            var addinfo_user_id = $('#addinfo_user_id').text();
+                            $.post( "/modi_subtitle", {
+                                subtitle: subtitle_box,
+                                addinfo_course_id: addinfo_course_id,
+                                addinfo_user_id: addinfo_user_id
+                            })
+                            .done(function( data ) {
+                                if (data.result == 200) {
+                                    // success
+                                } else {
+                                    alert(data.msg);
+                                }
+                            });
+
                         });
                     } else {
                         alert('이미 추가된 자막 언어 입니다')
@@ -906,6 +920,12 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var selected_code = $('#subtitle_list').val();
                 var subtitle_box = $('#subtitle_box').val();
                 var idx = subtitle_box.search(selected_code);
+
+                if (selected_code == "") {
+                    alert('자막 언어를 선택해주십시오');
+                    return false;
+                }
+
                 if (idx != -1) {
                     if (idx == 0) {
                         subtitle_box = subtitle_box.replace(selected_code + ", ", "");
@@ -920,8 +940,18 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     }
                     this.model.set('subtitle_box', $('#subtitle_box').val());
                     $('.action-primary').click(function() {
-                        console.log('remove -> save');
-                        // ajax 로직 추가 예정 (mysql update)
+                        $.post( "/modi_subtitle", {
+                            subtitle: subtitle_box,
+                            addinfo_course_id: addinfo_course_id,
+                            addinfo_user_id: addinfo_user_id
+                        })
+                        .done(function( data ) {
+                            if (data.result == 200) {
+                                // success
+                            } else {
+                                alert(data.msg);
+                            }
+                        });
                     });
                 } else {
                     alert('등록되지 않은 강좌 자막 언어는 지울 수 없습니다');

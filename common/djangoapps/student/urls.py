@@ -14,10 +14,15 @@ urlpatterns = [
 
     # TODO: standardize login
 
-    # 강좌 난이도
+    # 강좌 설정 > 난이도
     url(r'^modi_course_level', views.modi_course_level, name='modi_course_level'),
-    # 교수자 추가/수정
+
+    # 강좌 설정 > 교수자명
     url(r'^modi_teacher_name', views.modi_teacher_name, name='modi_teacher_name'),
+
+    # 강좌 설정 > 강좌자막언어
+    url(r'^modi_subtitle', views.modi_subtitle, name='modi_subtitle'),
+
     # 학습인정시간 파일 다운로드
     url(r'^guide_download', views.guide_download, name='guide_download'),
 
