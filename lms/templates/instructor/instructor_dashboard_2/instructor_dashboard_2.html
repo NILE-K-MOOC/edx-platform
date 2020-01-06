@@ -138,19 +138,20 @@ from openedx.core.djangolib.markup import HTML
 
             <!-- 쪽지 발송 (시작) -->
             <style>
-                .im-title { font-size: 1.5rem; margin-bottom: 15px;}
+                .im-title { font-size: 1.5rem; margin-bottom: 18px;}
                 .im-target { margin-bottom: 20px; }
-                .im-mb15 { margin-bottom: 15px; }
-                .im-target-txt {  }
-                .im-sub-title { font-weight: bold; margin-top: 30px; margin-bottom: 5px;}
-                .im-support { margin-top: 10px; font-size: 10px;}
-                .im-btn { margin-top: 30px; font-weight: bold; font-size: 12px;}
-                #im_table { border-collapse: collapse; text-align: center; width: 100%;}
-                #im_table, th, td { border: 1px solid #dddddd; }
-                #im_table > thead { background: #e6e6e6; }
-                #im_table > tbody { padding: 50px; }
+                .im-mb15 { margin-bottom: 8px; }
+                .im-sub-title { margin-top: 30px; margin-bottom: 5px;}
+                .im-btn { margin-top: 30px; font-weight: bold; font-size: 12px; margin-bottom: 40px; }
+                .inject-mt30 { margin-top: 30px; }
+                .inject-mb20 { margin-bottom: 20px; }
                 .im-fz12 { font-size: 12px; }
                 .im-mr5 { margin-right: 5px; }
+                .im-table-item-title { color: #0075b4; cursor: pointer; }
+                .im-input-title { width: 50%;}
+                .im-textarea { width: 100%; height: 250px; }
+                .im-hover { width: 55%; padding: 3px; cursor: pointer; }
+                .im-hover:hover { background: #efefef; }
                 .im-over {
                     white-space: nowrap;
                     overflow: hidden;
@@ -161,28 +162,109 @@ from openedx.core.djangolib.markup import HTML
                     padding-right: 10px;
                     font-size: 12px;
                 }
-                .im-table-item-title {
-                    color: #0075b4;
-                    cursor: pointer;
-                }
-                .im-input-title { width: 50%;}
-                .im-textarea { width: 100%; height: 250px; }
+                #im_table { border-collapse: collapse; text-align: center; width: 100%;}
+                #im_table, th, td { border: 1px solid #dddddd; }
+                #im_table > thead { background: #e6e6e6; }
+                #im_table > tbody { padding: 50px; }
+                .mce-path { display: none !important; }
             </style>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+            <script>
+                tinymce.init({
+                  selector: 'textarea#basic-example',
+                  height: 300,
+                  menubar: false,
+                  plugins: [],
+                });
+                function make_target_text(){
+                    var check_a = $('#check_a').is(":checked");
+                    var check_b = $('#check_b').is(":checked");
+                    var check_c = $('#check_c').is(":checked");
+                    var result = '';
+                    if(check_a == true) {
+                        result += '나';
+                    }
+                    if(check_b == true) {
+                        if(check_a == true){
+                            result += ', 운영팀 및 관리팀';
+                        } else {
+                            result += '운영팀 및 관리팀';
+                        }
+                    }
+                    if(check_c == true) {
+                        if(check_a == true){
+                            result += ', 전체 학습자';
+                        } else if(check_b == true) {
+                            result += ', 전체 학습자';
+                        } else {
+                            result += '전체 학습자';
+                        }
+                    }
+                    $('#maked-txt').html(result);
+                }
+                function im_select_a(){
+                    if ($('#check_a').is(":checked") == true) {
+                        $('#check_a').prop('checked', false);
+                    } else {
+                        $('#check_a').prop('checked', true);
+                    }
+                    make_target_text();
+                }
+                function im_select_b(){
+                    if ($('#check_b').is(":checked") == true) {
+                        $('#check_b').prop('checked', false);
+                    } else {
+                        $('#check_b').prop('checked', true);
+                    }
+                    make_target_text();
+                }
+                function im_select_c(){
+                    if ($('#check_c').is(":checked") == true) {
+                        $('#check_c').prop('checked', false);
+                    } else {
+                        $('#check_c').prop('checked', true);
+                    }
+                    make_target_text();
+                }
+                function im_send_memo(){
+                    alert('im_send_memo');
+                }
+                function im_vv(){
+                    // alert(333);
+                    Swal.fire({
+                        showCloseButton: true,
+                        showConfirmButton: false,
+                        html: ""+
+                            "<div style='font-size: 12px;'>"+
+                            "<div style='margin-top: 35px; text-align: left;'><span style='font-weight: bold'>제목</span> : [K-MOOC] 중간고사 종료안내</div>"+
+                            "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보내는 사람</span> : staff001</div>"+
+                            "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보낸 시간</span> : 2019년12월05일 목요알 06:56 UTC</div>"+
+                            "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>받는사람</span> : 나, 운영팀 및 관리팀</div>"+
+                            "<hr>"+
+                            "<div style='text-align: left; margin-bottom: 6px;'><span style='font-weight: bold'>본문</span>:</div>"+
+                            "<div style='text-align: left;'>blarblarblar</div>"+
+                            "</div>"
+                    })
+                }
+            </script>
+            <div class="im-pop">
+
+            </div>
             <section id="memo" class="idash-section active-section">
                 <div class="im-title">
                     쪽지
                 </div>
                 <div class="im-target">
-                    대상:
+                    대상: <span id="maked-txt"></span>
                 </div>
-                <div class="im-mb15">
-                    <input class="im-mr5" type="checkbox" name="riyu" value="1"><span class="im-target-txt">나</span>
+                <div class="im-mb15 im-hover" onclick="im_select_a()">
+                    <input id="check_a" class="im-mr5" type="checkbox" name="riyu" value="1"><span class="im-target-txt">나</span>
                 </div>
-                <div class="im-mb15">
-                    <input class="im-mr5" type="checkbox" name="riyu" value="2"><span class="im-target-txt">운영팀 및 관리팀</span>
+                <div class="im-mb15 im-hover" onclick="im_select_b()">
+                    <input id="check_b" class="im-mr5" type="checkbox" name="riyu" value="2"><span class="im-target-txt">운영팀 및 관리팀</span>
                 </div>
-                <div class="im-mb15">
-                    <input class="im-mr5" type="checkbox" name="riyu" value="3"><span class="im-target-txt">전체 학습자</span>
+                <div class="im-mb15 im-hover" onclick="im_select_c()">
+                    <input id="check_c" class="im-mr5" type="checkbox" name="riyu" value="3"><span class="im-target-txt">전체 학습자</span>
                 </div>
                 <div class="im-sub-title">
                     제목:
@@ -194,16 +276,16 @@ from openedx.core.djangolib.markup import HTML
                     본문:
                 </div>
                 <div>
-                    <textarea class="im-textarea"></textarea>
+                    <textarea id="basic-example" class="im-textarea"></textarea>
                 </div>
                 <div class="im-btn">
-                    <button>쪽지 발신</button>
+                    <button onclick="im_send_memo()">쪽지 발신</button>
                 </div>
                 <hr>
-                <div class="im-title">
+                <div class="im-title inject-mt30">
                     쪽지 발송기록
                 </div>
-                <div class="im-mb15">
+                <div class="im-mb15 inject-mb20">
                     보낸 쪽지를 읽기 위해 제목을 클릭하세요
                 </div>
                 <div>
@@ -219,7 +301,7 @@ from openedx.core.djangolib.markup import HTML
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="im-over im-table-item-title">[K-MOOC] 수강신청한 수강생들 여러분</td>
+                                <td onclick="im_vv()" class="im-over im-table-item-title">[K-MOOC] 수강신청한 수강생들 여러분</td>
                                 <td class="im-over" >honor001</td>
                                 <td class="im-over">운영팀 및 관리팀</td>
                                 <td class="im-over">2019년12월05일 목요일 06:56UTC</td>
