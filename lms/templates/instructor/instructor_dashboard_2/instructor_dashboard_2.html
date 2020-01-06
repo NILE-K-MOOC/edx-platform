@@ -122,6 +122,7 @@ from openedx.core.djangolib.markup import HTML
                     % endif
                     % endfor
                     <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="peer_asscessment">${_("Plagiarism testing")}</button></li>
+                    <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="memo">쪽지발송</button></li>
                 </ul>
 
                 ## each section corresponds to a section_data sub-dictionary provided by the view
@@ -136,6 +137,9 @@ from openedx.core.djangolib.markup import HTML
                 % endfor
 
             <!-- 쪽지 발송 (시작) -->
+            <section id="memo" class="idash-section active-section">
+                hello world
+            </section>
             <!-- 쪽지 발송 (종료) -->
 
             <!-- 표절검사 (시작) -->
