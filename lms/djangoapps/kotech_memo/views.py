@@ -73,6 +73,7 @@ def dashboard_memo_detail(request):
 
 @csrf_exempt
 def dashboard_memo_read(request):
+    course_id = request.POST.get('course_id')
     user_id = request.user.id
     with connections['default'].cursor() as cur:
         # sql 순서 변경하지 마세요
@@ -90,8 +91,9 @@ def dashboard_memo_read(request):
             join auth_user y
             on x.regist_id = y.id
             where regist_id = '{user_id}'
+            and course_id = '{course_id}'
             order by mail_id desc;
-        '''.format(user_id=user_id)
+        '''.format(user_id=user_id, course_id=course_id)
         cur.execute(sql)
         rows = list(cur.fetchall())
     return JsonResponse({'result': 200, 'rows': rows})
@@ -104,6 +106,7 @@ def dashboard_memo(request):
     check_c = request.POST.get('check_c')
     title = request.POST.get('title')
     content = request.POST.get('content')
+    course_id = request.POST.get('course_id')
     user_id = request.user.id
 
     print "----------------------------------"
@@ -113,6 +116,7 @@ def dashboard_memo(request):
     print "title = ", title
     print "content = ", content
     print "user_id = ", user_id
+    print "course_id = ", course_id
     print "----------------------------------"
 
     target1 = 0
@@ -146,17 +150,17 @@ def dashboard_memo(request):
             union
             select user_id
             from student_courseenrollment
-            where course_id = 'course-v1:SNUk+teatw+sadfdsafdsa'
+            where course_id = '{course_id}'
             and is_active = 1
-        '''.format(user_id=user_id)
+        '''.format(user_id=user_id, course_id=course_id)
     if check_c == 'true':
         sql += '''
             union
             select user_id
             from student_courseaccessrole
-            where course_id = 'course-v1:SNUk+teatw+sadfdsafdsa'
+            where course_id = '{course_id}'
             group by user_id
-        '''.format(user_id=user_id)
+        '''.format(user_id=user_id, course_id=course_id)
     try:
         with connections['default'].cursor() as cur:
             frame = '''
@@ -186,12 +190,13 @@ def dashboard_memo(request):
             rows = list(cur.fetchall())
             cnt = len(rows)
             history = '''
-                insert into group_email(send_type, account_type, target1, target2, target3, title, contents, send_count, success_count, regist_id, regist_date, modify_date)
-                values('M', 'EDX', {target1}, {target2}, {target3}, '{title}', '{content}', {cnt}, {cnt}, {user_id}, now(), null);
+                insert into group_email(send_type, account_type, target1, target2, target3, title, contents, send_count, success_count, regist_id, regist_date, modify_date, course_id)
+                values('M', 'EDX', {target1}, {target2}, {target3}, '{title}', '{content}', {cnt}, {cnt}, {user_id}, now(), null, '{course_id}');
             '''.format(title=title, content=content, cnt=cnt, user_id=user_id,
                        target1=target1,
                        target2=target2,
-                       target3=target3)
+                       target3=target3,
+                       course_id=course_id)
             cur.execute(history)
             return JsonResponse({'result': 200, 'msg': '정상적으로 쪽지 발송되었습니다'})
     except BaseException as err:

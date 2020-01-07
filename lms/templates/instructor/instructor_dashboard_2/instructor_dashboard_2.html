@@ -98,6 +98,7 @@ from openedx.core.djangolib.markup import HTML
 
 <script language="JavaScript" type="text/javascript"></script>
 
+<input type="text" id="course_id" value="${course_id}" hidden/>
 <div class="container">
     <div class="instructor-dashboard-wrapper-2">
         <main id="main" aria-label="Content" tabindex="-1">
@@ -150,6 +151,7 @@ from openedx.core.djangolib.markup import HTML
                 .im-table-item-title { color: #0075b4; cursor: pointer; }
                 .im-input-title { width: 50%;}
                 .im-textarea { width: 100%; height: 250px; }
+                .im-null { text-align: center; padding: 50px; font-size: 14px; display: none;}
                 .im-hover { width: 55%; padding: 3px; cursor: pointer; }
                 .im-hover:hover { background: #efefef; }
                 .im-over {
@@ -179,10 +181,14 @@ from openedx.core.djangolib.markup import HTML
                 load_ge();
                 function load_ge() {
                     $.post( "/dashboard_memo_read", {
-                        // null parameter
+                        course_id: $('#course_id').val()
                     })
                     .done(function( data ) {
-                        console.log('data = ', data);
+                        if(data.rows.length == 0) {
+                            $('.im-null').show();
+                        } else {
+                            $('.im-null').hide();
+                        }
                         data.rows.forEach(function(row){
                             console.log(row);
                             var target1 = row[5];
@@ -271,23 +277,35 @@ from openedx.core.djangolib.markup import HTML
                     }
                     make_target_text();
                 }
+                function init_form(){
+                    $('#check_a').prop('checked', false);
+                    $('#check_b').prop('checked', false);
+                    $('#check_c').prop('checked', false);
+                    $('#im_title').val('');
+                    $('#basic-example').val('');
+                    $('#inject_item').empty();
+                    load_ge();
+                }
                 function im_send_memo(){
                     var check_a = $('#check_a').is(":checked");
                     var check_b = $('#check_b').is(":checked");
                     var check_c = $('#check_c').is(":checked");
                     var title = $('#im_title').val();
                     var content = $('#basic-example').val();
+                    var course_id = $('#course_id').val();
                     console.log('check_a = ', check_a);
                     console.log('check_b = ', check_b);
                     console.log('check_c = ', check_c);
                     console.log('title = ', title);
                     console.log('content = ', content);
+                    console.log('course_id = ', course_id);
                     $.post( "/dashboard_memo", {
                         check_a: check_a,
                         check_b: check_b,
                         check_c: check_c,
                         title: title,
-                        content: content
+                        content: content,
+                        course_id: course_id
                     })
                     .done(function( data ) {
                         if (data.result == 200) {
@@ -296,7 +314,7 @@ from openedx.core.djangolib.markup import HTML
                               title: '알림',
                               text: data.msg
                             })
-                            // 내역 동기화 함수
+                            init_form();
                         } else {
                             Swal.fire({
                               icon: 'error',
@@ -313,7 +331,6 @@ from openedx.core.djangolib.markup import HTML
                     })
                     .done(function( data ) {
                         var row = data.row;
-                        var target = '';
                         var target1 = row[5];
                         var target2 = row[6];
                         var target3 = row[7];
@@ -409,6 +426,9 @@ from openedx.core.djangolib.markup import HTML
                         <tbody id="inject_item">
                         </tbody>
                     </table>
+                    <div class="im-null">
+                        쪽지를 발송한 내역이 존재하지 않습니다
+                    </div>
                 </div>
             </section>
             <!-- 쪽지 발송 (종료) -->
