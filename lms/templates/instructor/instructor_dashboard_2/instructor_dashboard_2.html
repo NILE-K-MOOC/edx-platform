@@ -176,6 +176,51 @@ from openedx.core.djangolib.markup import HTML
                   menubar: false,
                   plugins: [],
                 });
+                load_ge();
+                function load_ge() {
+                    $.post( "/dashboard_memo_read", {
+                        // null parameter
+                    })
+                    .done(function( data ) {
+                        console.log('data = ', data);
+                        data.rows.forEach(function(row){
+                            console.log(row);
+                            var target1 = row[5];
+                            var target2 = row[6];
+                            var target3 = row[7];
+                            var result = '';
+                            if(target1 == 1) {
+                                result += '나';
+                            }
+                            if(target2 == 1) {
+                                if(target1 == 1){
+                                    result += ', 운영팀 및 관리팀';
+                                } else {
+                                    result += '운영팀 및 관리팀';
+                                }
+                            }
+                            if(target3 == 1) {
+                                if(target1 == 1){
+                                    result += ', 전체 학습자';
+                                } else if(target2 == 1) {
+                                    result += ', 전체 학습자';
+                                } else {
+                                    result += '전체 학습자';
+                                }
+                            }
+                            console.log('content = ', content);
+                            html = ''+
+                            '<tr>'+
+                            '    <td onclick="im_vv(\''+row[1]+'\')" class="im-over im-table-item-title">'+row[0]+'</td>'+
+                            '    <td class="im-over">'+row[2]+'</td>'+
+                            '    <td class="im-over">'+result+'</td>'+
+                            '    <td class="im-over">'+row[3]+'</td>'+
+                            '    <td class="im-over">'+row[4]+' 발송</td>'+
+                            '</tr>'
+                            $('#inject_item').append(html);
+                        });
+                    })
+                }
                 function make_target_text(){
                     var check_a = $('#check_a').is(":checked");
                     var check_b = $('#check_b').is(":checked");
@@ -227,23 +272,85 @@ from openedx.core.djangolib.markup import HTML
                     make_target_text();
                 }
                 function im_send_memo(){
-                    alert('im_send_memo');
+                    var check_a = $('#check_a').is(":checked");
+                    var check_b = $('#check_b').is(":checked");
+                    var check_c = $('#check_c').is(":checked");
+                    var title = $('#im_title').val();
+                    var content = $('#basic-example').val();
+                    console.log('check_a = ', check_a);
+                    console.log('check_b = ', check_b);
+                    console.log('check_c = ', check_c);
+                    console.log('title = ', title);
+                    console.log('content = ', content);
+                    $.post( "/dashboard_memo", {
+                        check_a: check_a,
+                        check_b: check_b,
+                        check_c: check_c,
+                        title: title,
+                        content: content
+                    })
+                    .done(function( data ) {
+                        if (data.result == 200) {
+                            Swal.fire({
+                              icon: 'success',
+                              title: '알림',
+                              text: data.msg
+                            })
+                            // 내역 동기화 함수
+                        } else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: '알림',
+                              text: data.msg
+                            })
+                        }
+                    });
                 }
-                function im_vv(){
-                    // alert(333);
-                    Swal.fire({
-                        showCloseButton: true,
-                        showConfirmButton: false,
-                        html: ""+
-                            "<div style='font-size: 12px;'>"+
-                            "<div style='margin-top: 35px; text-align: left;'><span style='font-weight: bold'>제목</span> : [K-MOOC] 중간고사 종료안내</div>"+
-                            "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보내는 사람</span> : staff001</div>"+
-                            "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보낸 시간</span> : 2019년12월05일 목요알 06:56 UTC</div>"+
-                            "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>받는사람</span> : 나, 운영팀 및 관리팀</div>"+
-                            "<hr>"+
-                            "<div style='text-align: left; margin-bottom: 6px;'><span style='font-weight: bold'>본문</span>:</div>"+
-                            "<div style='text-align: left;'>blarblarblar</div>"+
-                            "</div>"
+                function im_vv(mail_id){
+                    console.log('mail_id -> ', mail_id);
+                    $.post( "/dashboard_memo_detail", {
+                        mail_id: mail_id
+                    })
+                    .done(function( data ) {
+                        var row = data.row;
+                        var target = '';
+                        var target1 = row[5];
+                        var target2 = row[6];
+                        var target3 = row[7];
+                        var result = '';
+                        if(target1 == 1) {
+                            result += '나';
+                        }
+                        if(target2 == 1) {
+                            if(target1 == 1){
+                                result += ', 운영팀 및 관리팀';
+                            } else {
+                                result += '운영팀 및 관리팀';
+                            }
+                        }
+                        if(target3 == 1) {
+                            if(target1 == 1){
+                                result += ', 전체 학습자';
+                            } else if(target2 == 1) {
+                                result += ', 전체 학습자';
+                            } else {
+                                result += '전체 학습자';
+                            }
+                        }
+                        Swal.fire({
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            html: ""+
+                                "<div style='font-size: 12px;'>"+
+                                "<div style='margin-top: 35px; text-align: left;'><span style='font-weight: bold'>제목</span> : "+row[0]+"</div>"+
+                                "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보내는 사람</span> : "+row[2]+"</div>"+
+                                "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보낸 시간</span> : "+row[3]+"</div>"+
+                                "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>받는사람</span> : "+result+"</div>"+
+                                "<hr>"+
+                                "<div style='text-align: left; margin-bottom: 6px;'><span style='font-weight: bold'>본문</span>:</div>"+
+                                "<div style='text-align: left;'>"+row[1]+"</div>"+
+                                "</div>"
+                        })
                     })
                 }
             </script>
@@ -270,7 +377,7 @@ from openedx.core.djangolib.markup import HTML
                     제목:
                 </div>
                 <div>
-                    <input class="im-input-title" type="text">
+                    <input class="im-input-title" type="text" id="im_title">
                 </div>
                 <div class="im-sub-title">
                     본문:
@@ -299,14 +406,7 @@ from openedx.core.djangolib.markup import HTML
                                 <td class="im-fz12">보낸 건수</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td onclick="im_vv()" class="im-over im-table-item-title">[K-MOOC] 수강신청한 수강생들 여러분</td>
-                                <td class="im-over" >honor001</td>
-                                <td class="im-over">운영팀 및 관리팀</td>
-                                <td class="im-over">2019년12월05일 목요일 06:56UTC</td>
-                                <td class="im-over">70 발송</td>
-                            </tr>
+                        <tbody id="inject_item">
                         </tbody>
                     </table>
                 </div>

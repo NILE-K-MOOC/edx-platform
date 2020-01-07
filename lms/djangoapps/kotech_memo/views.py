@@ -46,6 +46,159 @@ class Memo(models.Model):
         app_label = 'memo'
 
 
+@csrf_exempt
+def dashboard_memo_detail(request):
+    mail_id = request.POST.get('mail_id')
+    with connections['default'].cursor() as cur:
+        # sql 순서 변경하지 마세요
+        # 프론트엔드와 강력한 의존성으로 매핑되어있습니다
+        sql = '''
+                select 	x.title, 
+                        x.contents, 
+                        y.username, 
+                        x.regist_date, 
+                        x.send_count,
+                        x.target1,
+                        x.target2,
+                        x.target3
+                from group_email x
+                join auth_user y
+                on x.regist_id = y.id
+                where mail_id = '{mail_id}'
+            '''.format(mail_id=mail_id)
+        cur.execute(sql)
+        row = list(cur.fetchall())[0]
+    return JsonResponse({'result': 200, 'row': row})
+
+
+@csrf_exempt
+def dashboard_memo_read(request):
+    user_id = request.user.id
+    with connections['default'].cursor() as cur:
+        # sql 순서 변경하지 마세요
+        # 프론트엔드와 강력한 의존성으로 매핑되어있습니다
+        sql = '''
+            select 	x.title, 
+                    x.mail_id, 
+                    y.username, 
+                    x.regist_date, 
+                    x.send_count,
+                    x.target1,
+                    x.target2,
+                    x.target3
+            from group_email x
+            join auth_user y
+            on x.regist_id = y.id
+            where regist_id = '{user_id}'
+            order by mail_id desc;
+        '''.format(user_id=user_id)
+        cur.execute(sql)
+        rows = list(cur.fetchall())
+    return JsonResponse({'result': 200, 'rows': rows})
+
+
+@csrf_exempt
+def dashboard_memo(request):
+    check_a = request.POST.get('check_a')
+    check_b = request.POST.get('check_b')
+    check_c = request.POST.get('check_c')
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    user_id = request.user.id
+
+    print "----------------------------------"
+    print "check_a = ", check_a
+    print "check_b = ", check_b
+    print "check_c = ", check_c
+    print "title = ", title
+    print "content = ", content
+    print "user_id = ", user_id
+    print "----------------------------------"
+
+    target1 = 0
+    target2 = 0
+    target3 = 0
+
+    if check_a == 'true':
+        target1 = 1
+    if check_b == 'true':
+        target2 = 1
+    if check_c == 'true':
+        target3 = 1
+
+    if check_a == 'false' and check_b == 'false' and check_c == 'false':
+        return JsonResponse({'result': 500, 'msg': '대상을 한개 이상 선택하십시오'})
+    if title == '':
+        return JsonResponse({'result': 500, 'msg': '제목을 입력하십시오'})
+    if content == '':
+        return JsonResponse({'result': 500, 'msg': '본문을 입력하십시오'})
+
+    sql = ''
+    if check_a == 'true':
+        sql += '''
+            union
+            select id as user_id
+            from auth_user
+            where id = '{user_id}'
+        '''.format(user_id = user_id)
+    if check_b == 'true':
+        sql += '''
+            union
+            select user_id
+            from student_courseenrollment
+            where course_id = 'course-v1:SNUk+teatw+sadfdsafdsa'
+            and is_active = 1
+        '''.format(user_id=user_id)
+    if check_c == 'true':
+        sql += '''
+            union
+            select user_id
+            from student_courseaccessrole
+            where course_id = 'course-v1:SNUk+teatw+sadfdsafdsa'
+            group by user_id
+        '''.format(user_id=user_id)
+    try:
+        with connections['default'].cursor() as cur:
+            frame = '''
+                insert into memo (receive_id, title, contents, memo_gubun, read_date, regist_id, regist_date, modify_date)
+                select  user_id,
+                    '{title}' as title, 
+                    '{content}' as contents,
+                    '1' as memo_gubun,
+                    null as read_date,
+                    {user_id} as regist_id,
+                    now() as regist_date,
+                    null as modify_date
+                from (
+                    select '1' as user_id
+                    {sql}
+                ) w;
+            '''.format(sql=sql, title=title, content=content, user_id=user_id)
+            frame2 = '''
+                        select  user_id
+                        from (
+                            select '1' as user_id
+                            {sql}
+                        ) w;
+                    '''.format(sql=sql)
+            cur.execute(frame)
+            cur.execute(frame2)
+            rows = list(cur.fetchall())
+            cnt = len(rows)
+            history = '''
+                insert into group_email(send_type, account_type, target1, target2, target3, title, contents, send_count, success_count, regist_id, regist_date, modify_date)
+                values('M', 'EDX', {target1}, {target2}, {target3}, '{title}', '{content}', {cnt}, {cnt}, {user_id}, now(), null);
+            '''.format(title=title, content=content, cnt=cnt, user_id=user_id,
+                       target1=target1,
+                       target2=target2,
+                       target3=target3)
+            cur.execute(history)
+            return JsonResponse({'result': 200, 'msg': '정상적으로 쪽지 발송되었습니다'})
+    except BaseException as err:
+        print "err = ", err
+        return JsonResponse({'result': 500, 'msg': '쪽지 발송 중 오류가 발생하였습니다'})
+
+
 @ensure_csrf_cookie
 def memo(request):
     user_id = request.user.id
