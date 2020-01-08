@@ -692,11 +692,22 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                     margin-bottom: 10px;
                 }
                 .over-css {
-                    border: solid 1px #565656;
-                    color: #565656;
+                    border: solid 1px #b1b1b1;
+                    color: #b1b1b1;
                 }
                 .over-css:hover {
-                    background-color: #565656 !important;
+                    background-color: #b1b1b1 !important;
+                }
+                .ccc-init {
+                    font-size: 12px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-decoration: underline;
+                    color: rgb(0, 117, 180);
+                    transition: 0.3s;
+                }
+                .ccc-init:hover {
+                    color: #2196F3;
                 }
             </style>
 
@@ -732,6 +743,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                 <div class="fsz12">강좌 개요 페이지에 사용되는 안내, 홍보영상, 강좌 계획표, 등에 관한 내용을 입력해주세요.</div>
                 <div class="fsz12">HTML 직접 입력하여 내용을 작성할 경우 <span class="ea-txt">에디터 이용하기</span>가 비활성화 됩니다.</div>
                 <div class="fsz12">만약, <span class="ea-txt">에디터이용하기</span>를 다시 사용하시려면 직접 작성한 강좌 소개 내용을 초기화 하시면 사용 가능합니다.</div>
+                <div class="fsz12 ccc-init">강좌개요 초기화</div>
                 <input type="hidden" id="course_edit_check" value="${user_edit}">
 
                 <div id="overviewEditLayer" style="display: none;">
