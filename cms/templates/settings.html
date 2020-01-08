@@ -584,8 +584,8 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                         </script>
                     % endfor
 
+        <hr class="divide"/>
 
-        <hr class="divide" />
         <div class="group-settings marketing">
           <header>
             <h2 class="title-2">${_("Introducing Your Course")}</h2>
@@ -624,346 +624,355 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             </li>
             % endif
 
+
+            <!-- 강좌 개요 (start)-->
+            <style>
+                .modal-window-overlay { display: block; }
+                .overview-modal {
+                    display: block;
+                    position: absolute !important;
+                    left: 10% !important;
+                    width: 80% !important;
+                    min-width: 400px !important;
+                    overflow-y: hidden;
+                    max-height: 800px;
+                }
+                .tabs { width: 100%; clear: both; overflow: auto; }
+                .tabs div {
+                    float: left;
+                    border: 1px solid #ccc;
+                    width: calc(100% / 6 - 2px);
+                    text-align: center;
+                    background-color: #eee;
+                    -webkit-border-radius: 5px 5px 0 0;
+                    -moz-border-radius: 5px 5px 0 0;
+                    border-radius: 5px 5px 0 0;
+                    padding: 5px 0;
+                }
+                .tabs div.on {
+                    border: 1px solid rgb(0, 117, 180);
+                    background-color: rgb(0, 117, 180);
+                    color: #fff;
+                }
+                .tabs div:hover, .toggleOverviewLayerBtn:hover {
+                    background-color: rgb(0, 117, 180) !important;
+                    color: #fff !important;
+                    transition: background-color 0.25s ease-in-out 0s;
+                    cursor: pointer !important;
+                }
+                .overview-layer-popup .modal-content { min-height: 270px; max-height: 450px; overflow: auto; }
+                .overview-contents { display: none; margin: 20px 0; }
+                .overview-contents.on { display: block; }
+                .overview-contents p { margin: 15px 0 0 0; }
+                .overview-contents textarea:nth-child(1) { min-height: 100px !important; }
+                .toggleOverviewLayerBtn{
+                    display: block;
+                    width: 25%;
+                    margin: 15px 0 0 0;
+                    padding: 10px 20px;
+                    font-size: 1.2rem;
+                    line-height: 1.776rem;
+                    transition: all 0.15s;
+                    text-align: center;
+                    border-radius: 5px;
+                    border: 1px solid rgb(0, 117, 180);
+                    background-color: transparent;
+                    color: rgb(0, 117, 180);
+                    margin-right: 10px;
+                }
+                .CodeMirror-scroll { pointer-events: none; opacity: 0.6; }
+                .swal2-popup { font-size: 1.7rem; }
+                .fsz12 { font-size: 12px; }
+                .ea-txt { font-weight: bold; color: #03a9f4; }
+                .mac-btn-con { margin-bottom: 5px; display: flex; }
+                .ue-debug {
+                    text-align: center;
+                    font-size: 12px;
+                    border: solid 1px #9fb8ff;
+                    margin-bottom: 10px;
+                }
+                .over-css {
+                    border: solid 1px #565656;
+                    color: #565656;
+                }
+                .over-css:hover {
+                    background-color: #565656 !important;
+                }
+            </style>
+
+            <div class="ue-debug">
+                user_edit : ${user_edit}
+            </div>
+
             % if about_page_editable:
             <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
-              <label for="course-overview">${_("Course Overview")}</label>
-            % if user_edit == 'N':
-              <!-- 입력 양식 제공 버튼 -->
-              <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
-                에디터 이용하기
-              </button>
-              % endif
-
-              <textarea class="tinymce text-editor" id="course-overview"></textarea>
-              <label class="sr" for="course-overview-cm-textarea">
-                ${_('HTML Code Editor')}
-              </label>
-                <div>강좌 개요 페이지에 사용되는 안내, 홍보영상, 강좌 계획표, 등에 관한 내용을 입력해주세요.</div>
-                <div>HTML 직접 입력하여 내용을 작성할 경우 <에디터 이용하기>가 비활성화 됩니다.</div>
-                <div>만약, <에디터이용하기>를 다시 사용하시려면 직접 작성한 강좌 소개 내용을 초기화 하시면 사용 가능합니다.</div>
-                <div>강좌개요 초기화</div>
-
-              <input type="hidden" id="course_edit_check" value="${user_edit}">
-
-              <!-- 강좌 개요 입력 폼 -->
-              <style>
-                .modal-window-overlay{
-                  display: block;
-                }
-
-                .overview-modal{
-                  display: block;
-                  position: absolute !important;
-                  left: 10% !important;
-                  width: 80% !important;
-                  min-width: 400px !important;
-                  overflow-y: hidden;
-                  max-height: 800px;
-                }
-
-                .tabs{
-                  width: 100%;
-                  clear: both;
-                  overflow: auto;
-                }
-
-                .tabs div{
-                  float: left;
-                  border: 1px solid #ccc;
-                  width: calc(100% / 6 - 2px);
-                  text-align: center;
-                  background-color: #eee;
-                  -webkit-border-radius: 5px 5px 0 0;
-                  -moz-border-radius: 5px 5px 0 0;
-                  border-radius: 5px 5px 0 0;
-                  padding: 5px 0;
-                }
-
-                .tabs div.on{
-                  border: 1px solid #009fe6;
-                  background-color: #009fe6;
-                  color: #fff;
-                }
-
-                .tabs div:hover, .toggleOverviewLayerBtn:hover{
-                  background-color: #36B4E8 !important;
-                  color: #fff !important;
-                  transition: background-color 0.25s ease-in-out 0s;
-                  cursor: pointer !important;
-                }
-
-                .overview-layer-popup .modal-content{
-                  min-height: 270px;
-                  max-height: 450px;
-                  overflow: auto;
-                }
-
-                .overview-contents{
-                  display: none;
-                  margin: 20px 0;
-                }
-                .overview-contents.on{
-                  display: block;
-                }
-                .overview-contents p{
-                  margin: 15px 0 0 0;
-                }
-                .overview-contents textarea:nth-child(1){
-                  min-height: 100px !important;
-                }
-
-                .toggleOverviewLayerBtn{
-                  display: block;
-                  width: 20%;
-                  margin: 15px 0 0 0;
-                  padding: 10px 20px;
-                  font-size: 1.2rem;
-                  line-height: 1.776rem;
-                  transition: all 0.15s;
-                  text-align: center;
-                  border-radius: 5px;
-                  border: 1px solid #66c5f0;
-                  background-color: transparent;
-                  color: #66c5f0;
-                }
-
-                .CodeMirror-scroll {
-                  pointer-events: none;
-                  opacity: 0.6;
-                }
-
-                .swal2-popup {
-                  font-size: 1.7rem;
-                }
-              </style>
-
-              <div id="overviewEditLayer" style="display: none;">
-                <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
-                  <div class="modal-window-overlay"></div>
-                  <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
-                    <div class="overview-layer-popup">
-                      <div class="modal-header">
-                        <h2 id="modal-window-title" class="title modal-window-title">강좌소개페이지 에디터</h2>
-                        <ul class="editor-modes action-list action-modes">
-                        </ul>
-                      </div>
-                      <div class="modal-content">
-                        <ol class="list-input">
-                          <li class="field text" id="field-course-short-description">
-                            <div class="tabs">
-                              <div data-target="overview-tab1" class="on">강좌소개</div>
-                              <div data-target="overview-tab2">강좌운영계획</div>
-                              <div data-target="overview-tab3">강좌운영팀소개</div>
-                              <div data-target="overview-tab4">강좌수강정보</div>
-                              <div data-target="overview-tab5">자주묻는질문</div>
-                              <div data-target="overview-tab6">사용자추가</div>
-                            </div>
-                            <div id="overview-tab1" class="overview-contents on">
-                              <div>
-                                <p>수업내용/목표</p>
-                                <textarea class="text"></textarea>
-                                <span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span>
-                              </div>
-                              <div>
-                                <p>홍보/예시 영상</p>
-                                <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
-                                <span class="tip tip-stacked">K-MOOC Studio에서 업로드한 동영상 URL을 입력해주세요(유튜브 URL은 사용이 불가합니다).</span>
-                              </div>
-                            </div>
-
-                            <div id="overview-tab2" class="overview-contents">
-                              <textarea id="course_plan"></textarea>
-                              <div style="padding-top: 15px"><span class="tip tip-stacked">텍스트 에디터를 이용하여 내용을 작성하세요.</span>
-                                <span class="tip tip-stacked">※에디터 이용이 어렵다면, 'MS Word'에서 작성한 표를 복사·붙여넣기 하여 사용해보세요.</span></div>
-                            </div>
-
-                            <div id="overview-tab3" class="overview-contents">
-                              <div style="overflow: auto;">
-
-                                <!-- 스태프 추가 s -->
-                                <section class="group-settings assignment-types">
-                                  <header>
-                                    <div style="float: left; width: 45%;">
-                                      <label style="float: left; width: 85px; font-size: 15px;">
-                                        <input type="radio" name="staff-type" value="instructor" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" checked="checked"/> 교수자
-                                      </label>
-                                      <label style="float: left; width: 85px; font-size: 15px;">
-                                        <input type="radio" name="staff-type" value="ta" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" /> TA
-                                      </label>
-                                    </div>
-                                  </header>
-
-                                  <!-- 교수자 목록 s -->
-                                  <ol class="list-input course-grading-assignment-list enum" id="course-instructor">
-                                    <li class="field-group course-grading-assignment-list-item">
-                                      <div style="width: 34%; float: left;">
-                                        <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
-                                          <label for="staff-photo">사진 URL</label>
-                                          <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
-                                          <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
-                                        </div>
-                                        <br/>
-                                        <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
-                                          <label for="staff-name">성명</label>
-                                          <input type="text" class="short" id="staff-name" value="" placeholder="교수">
-                                          <span class="tip tip-stacked">표시될 이름</span>
-                                        </div>
-                                      </div>
-
-                                      <div style="width: 64%; float: right;">
-                                        <div style="width: 100%;">
-                                          <label for="staff-career">약력</label>
-                                          <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
-                                          <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
-                                        </div>
-                                      </div>
-
-                                      <div class="actions">
-                                        <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
-                                      </div>
-                                    </li>
-                                  </ol>
-                                  <!-- 교수자 목록 e -->
-
-                                  <!-- TA 목록 s -->
-                                  <ol class="list-input course-grading-assignment-list enum" id="course-ta" style="display: none;">
-                                    <li class="field-group course-grading-assignment-list-item">
-                                      <div style="width: 34%; float: left;">
-                                        <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
-                                          <label for="staff-photo1">사진 URL</label>
-                                          <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
-                                          <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
-                                        </div>
-
-                                        <br/>
-
-                                        <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
-                                          <label for="staff-name">성명</label>
-                                          <input type="text" class="short" id="staff-name" value="" placeholder="조교">
-                                          <span class="tip tip-stacked">표시될 이름</span>
-                                        </div>
-                                      </div>
-
-                                      <div style="width: 64%; float: right;">
-                                        <div style="width: 100%;">
-                                          <label for="staff-career">약력</label>
-                                          <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
-                                          <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
-                                        </div>
-                                      </div>
-
-                                      <div class="actions">
-                                        <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
-                                      </div>
-                                    </li>
-                                  </ol>
-                                  <!-- TA 목록 e -->
-
-                                  <div class="actions">
-                                    <a href="#" class="new-button add-item">
-                                      <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
-                                    </a>
-                                  </div>
-                                </section>
-                                <!-- 스태프 추가 e -->
-
-                              </div>
-
-                              <div style="padding-top: 15px"><span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span></div>
-                            </div>
-
-                            <div id="overview-tab4" class="overview-contents">
-                              <p>이수/평가정보</p>
-                              <textarea class="text" id="grade_table"></textarea>
-                              <span class="tip tip-stacked">텍스트 에디터를 이용하여 내용을 작성하세요.</span>
-                              <span class="tip tip-stacked">※에디터 이용이 어렵다면, 'MS Word'에서 작성한 표를 복사·붙여넣기 하여 사용해보세요.</span>
-                              <p>강좌수준 및 선수요건</p>
-                              <textarea class="text"></textarea>
-
-                              <p>교재 및 참고문헌</p>
-                              <textarea class="text"></textarea>
-                              <div style="padding-top: 15px"><span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span></div>
-                            </div>
-                            <div id="overview-tab5" class="overview-contents">
-                              <section class="group-settings assignment-types">
-                                <header>
-                                  <div style="float: left; width: 45%; margin-top: 20px;">
-
-                                  </div>
-                                </header>
-
-                                <!-- FAQ s -->
-                                <ol class="list-input course-grading-assignment-list enum" id="course-question">
-                                  <li class="field-group course-grading-assignment-list-item">
-                                    <div>
-                                      <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
-                                        <label for="faq-question">질문</label>
-                                        <input type="text" class="long" id="faq-question" value="" placeholder="강좌 교재가 따로 있나요?">
-                                      </div>
-
-                                      <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
-                                        <label for="faq-answer">답변</label>
-                                        <input type="text" class="short" id="faq-answer" value="" placeholder="네. 있습니다.">
-                                      </div>
-                                    </div>
-                                    <div class="actions">
-                                      <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
-                                    </div>
-                                  </li>
-                                </ol>
-                                <!-- FAQ e -->
-
-                                <div class="actions">
-                                  <a href="#" class="new-button add-item">
-                                    <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
-                                  </a>
-                                </div>
-                              </section>
-                              <div style="padding-top: 45px"><span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span></div>
-                            </div>
-
-                            <div id="overview-tab6" class="overview-contents">
-                              <textarea class="text" id="user_content"></textarea>
-                              <div style="padding-top: 15px"><span class="tip tip-stacked">각 운영기관에서 추가하고자 하는 메뉴를 자유롭게 추가하실 수 있습니다.</span>
-                                <span class="tip tip-stacked">단 기본으로 입력되어 있는 값(제목, 소제목, 내용)을 삭제하지 않고 원하시는 텍스트로 수정하는 방식으로 입력하셔야 다른 메뉴와 동일한 형태로 학습자 화면에서 보여지게 됩니다.</span></div>
-                            </div>
-
-                            <!--<span class="tip tip-stacked">항목별로 양식을 입력후 적용을 누르면 기본 양식의 HTML 이 작성됩니다.</span>-->
-                          </li>
-                        </ol>
-                      </div>
-                      <div class="modal-actions">
-                        <h3 class="sr">액션</h3>
-                        <ul>
-                          <li class="action-item">
-                            <a href="#" class="button action-primary" id="createOverview">적용</a>
-                          </li>
-                          <li class="action-item">
-                            <a href="#" class="button  action-cancel toggleOverviewLayer">취소</a>
-                          </li>
-                          <li class="action-item">
-                            <span class="tip tip-stacked">[적용]버튼을 누른 후, 화면 아래에 뜨는 [Save Changes]를 클릭하셔야 적용됩니다. 적용 후 실제 학습자 화면에 반영되기 까지 최대 10분의 시간이 걸릴 수 있습니다.</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                <label for="course-overview">${_("Course Overview")}</label>
+                <div class="mac-btn-con">
+                    % if user_edit == 'N':
+                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                            에디터 이용하기
+                        </button>
+                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn over-css">
+                            HTML 직접 입력
+                        </button>
+                    % endif
+                    % if user_edit == 'Y':
+                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                            에디터 이용하기
+                        </button>
+                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                            HTML 직접 입력
+                        </button>
+                    % endif
                 </div>
-              </div>
-            </li>
-
-              % if sidebar_html_enabled:
-              <li class="field text" id="field-course-about-sidebar-html">
-                <label for="course-about-sidebar-html">${_("Course About Sidebar HTML")}
-                  <textarea class="tinymce text-editor" id="course-about-sidebar-html" aria-describedby="tip-course-about-sidebar-html"></textarea>
+                <textarea class="tinymce text-editor" id="course-overview"></textarea>
+                <label class="sr" for="course-overview-cm-textarea">
+                ${_('HTML Code Editor')}
                 </label>
-                <span class="tip tip-stacked" id="tip-course-about-sidebar-html">${
-                        Text(_("Custom sidebar content for {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
-                          a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
-                          a_link_end=HTML("</a>")
-                        )}</span>
-              </li>
-              % endif
+                <div class="fsz12">강좌 개요 페이지에 사용되는 안내, 홍보영상, 강좌 계획표, 등에 관한 내용을 입력해주세요.</div>
+                <div class="fsz12">HTML 직접 입력하여 내용을 작성할 경우 <span class="ea-txt">에디터 이용하기</span>가 비활성화 됩니다.</div>
+                <div class="fsz12">만약, <span class="ea-txt">에디터이용하기</span>를 다시 사용하시려면 직접 작성한 강좌 소개 내용을 초기화 하시면 사용 가능합니다.</div>
+                <input type="hidden" id="course_edit_check" value="${user_edit}">
+
+                <div id="overviewEditLayer" style="display: none;">
+                    <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
+                        <div class="modal-window-overlay"></div>
+                        <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
+                            <div class="overview-layer-popup">
+                                <div class="modal-header">
+                                    <h2 id="modal-window-title" class="title modal-window-title">강좌소개페이지 에디터</h2>
+                                    <ul class="editor-modes action-list action-modes">
+                                    </ul>
+                                </div>
+                                <div class="modal-content">
+                                    <ol class="list-input">
+                                        <li class="field text" id="field-course-short-description">
+                                            <div class="tabs">
+                                                <div data-target="overview-tab1" class="on">강좌소개</div>
+                                                <div data-target="overview-tab2">강좌운영계획</div>
+                                                <div data-target="overview-tab3">강좌운영팀소개</div>
+                                                <div data-target="overview-tab4">강좌수강정보</div>
+                                                <div data-target="overview-tab5">자주묻는질문</div>
+                                                <div data-target="overview-tab6">사용자추가</div>
+                                            </div>
+                                            <div id="overview-tab1" class="overview-contents on">
+                                                <div>
+                                                    <p>수업내용/목표</p>
+                                                    <textarea class="text"></textarea>
+                                                    <span class="tip tip-stacked">
+                                                        필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <p>홍보/예시 영상</p>
+                                                    <input type="text" dir="ltr" class="long new-course-image-url" id="course-sample-video-url" value="" placeholder="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4" autocomplete="off">
+                                                    <span class="tip tip-stacked">
+                                                        K-MOOC Studio에서 업로드한 동영상 URL을 입력해주세요(유튜브 URL은 사용이 불가합니다).
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="overview-tab2" class="overview-contents">
+                                                <textarea id="course_plan"></textarea>
+                                                <div style="padding-top: 15px">
+                                                    <span class="tip tip-stacked">
+                                                        텍스트 에디터를 이용하여 내용을 작성하세요.
+                                                    </span>
+                                                    <span class="tip tip-stacked">
+                                                        ※에디터 이용이 어렵다면, 'MS Word'에서 작성한 표를 복사·붙여넣기 하여 사용해보세요.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="overview-tab3" class="overview-contents">
+                                                <div style="overflow: auto;">
+                                                    <!-- 스태프 추가 (start) -->
+                                                    <section class="group-settings assignment-types">
+                                                        <header>
+                                                            <div style="float: left; width: 45%;">
+                                                                <label style="float: left; width: 85px; font-size: 15px;">
+                                                                    <input type="radio" name="staff-type" value="instructor" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" checked="checked"/> 교수자
+                                                                </label>
+                                                                <label style="float: left; width: 85px; font-size: 15px;">
+                                                                    <input type="radio" name="staff-type" value="ta" style="float: left; margin: 7px; padding: 0; height: 15px; width: 15px;" /> TA
+                                                                </label>
+                                                            </div>
+                                                        </header>
+                                                        <!-- 교수자 목록 (start) -->
+                                                        <ol class="list-input course-grading-assignment-list enum" id="course-instructor">
+                                                            <li class="field-group course-grading-assignment-list-item">
+                                                                <div style="width: 34%; float: left;">
+                                                                    <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                        <label for="staff-photo">사진 URL</label>
+                                                                        <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
+                                                                        <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
+                                                                    </div>
+                                                                    <br/>
+                                                                    <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                        <label for="staff-name">성명</label>
+                                                                        <input type="text" class="short" id="staff-name" value="" placeholder="교수">
+                                                                        <span class="tip tip-stacked">표시될 이름</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="width: 64%; float: right;">
+                                                                    <div style="width: 100%;">
+                                                                        <label for="staff-career">약력</label>
+                                                                        <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
+                                                                        <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="actions">
+                                                                    <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                        <!-- 교수자 목록 (end) -->
+                                                        <!-- TA 목록 (start) -->
+                                                        <ol class="list-input course-grading-assignment-list enum" id="course-ta" style="display: none;">
+                                                            <li class="field-group course-grading-assignment-list-item">
+                                                                <div style="width: 34%; float: left;">
+                                                                    <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                        <label for="staff-photo1">사진 URL</label>
+                                                                        <input type="text" class="long" id="staff-photo" value="" placeholder="http://example.com/photo.jpg">
+                                                                        <span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>
+                                                                    </div>
+                                                                    <br/>
+                                                                    <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                        <label for="staff-name">성명</label>
+                                                                        <input type="text" class="short" id="staff-name" value="" placeholder="조교">
+                                                                        <span class="tip tip-stacked">표시될 이름</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="width: 64%; float: right;">
+                                                                    <div style="width: 100%;">
+                                                                        <label for="staff-career">약력</label>
+                                                                        <textarea id="staff-career" style="width: 96%; height: 135px;"></textarea>
+                                                                        <span class="tip tip-stacked">화면에 표시될 경력 사항</span>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="actions">
+                                                                    <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                                </div>
+                                                            </li>
+                                                        </ol>
+                                                        <!-- TA 목록 (end) -->
+                                                        <div class="actions">
+                                                            <a href="#" class="new-button add-item">
+                                                                <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
+                                                            </a>
+                                                        </div>
+                                                    </section>
+                                                    <!-- 스태프 추가 (end) -->
+                                                </div>
+                                                <div style="padding-top: 15px">
+                                                    <span class="tip tip-stacked">
+                                                        필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="overview-tab4" class="overview-contents">
+                                                <p>이수/평가정보</p>
+                                                <textarea class="text" id="grade_table"></textarea>
+                                                <span class="tip tip-stacked">
+                                                    텍스트 에디터를 이용하여 내용을 작성하세요.
+                                                </span>
+                                                <span class="tip tip-stacked">
+                                                    ※에디터 이용이 어렵다면, 'MS Word'에서 작성한 표를 복사·붙여넣기 하여 사용해보세요.
+                                                </span>
+                                                <p>강좌수준 및 선수요건</p>
+                                                <textarea class="text"></textarea>
+                                                <p>교재 및 참고문헌</p>
+                                                <textarea class="text"></textarea>
+                                                <div style="padding-top: 15px">
+                                                    <span class="tip tip-stacked">필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.</span>
+                                                </div>
+                                            </div>
+                                            <div id="overview-tab5" class="overview-contents">
+                                                <section class="group-settings assignment-types">
+                                                    <header>
+                                                        <div style="float: left; width: 45%; margin-top: 20px;">
+                                                        </div>
+                                                    </header>
+                                                    <!-- FAQ (start) -->
+                                                    <ol class="list-input course-grading-assignment-list enum" id="course-question">
+                                                        <li class="field-group course-grading-assignment-list-item">
+                                                            <div>
+                                                                <div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">
+                                                                    <label for="faq-question">질문</label>
+                                                                    <input type="text" class="long" id="faq-question" value="" placeholder="강좌 교재가 따로 있나요?">
+                                                                </div>
+
+                                                                <div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">
+                                                                    <label for="faq-answer">답변</label>
+                                                                    <input type="text" class="short" id="faq-answer" value="" placeholder="네. 있습니다.">
+                                                                </div>
+                                                            </div>
+                                                            <div class="actions">
+                                                                <a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>
+                                                            </div>
+                                                        </li>
+                                                    </ol>
+                                                    <!-- FAQ (end) -->
+                                                    <div class="actions">
+                                                        <a href="#" class="new-button add-item">
+                                                            <span class="icon fa fa-plus" aria-hidden="true"></span> 추가
+                                                        </a>
+                                                    </div>
+                                                </section>
+                                                <div style="padding-top: 45px">
+                                                    <span class="tip tip-stacked">
+                                                        필요 시, HTML 코드를 입력하여 글자 스타일(색, 굵기, 밑줄 등)을 바꿀 수 있습니다.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="overview-tab6" class="overview-contents">
+                                                <textarea class="text" id="user_content"></textarea>
+                                                <div style="padding-top: 15px">
+                                                    <span class="tip tip-stacked">
+                                                        각 운영기관에서 추가하고자 하는 메뉴를 자유롭게 추가하실 수 있습니다.
+                                                    </span>
+                                                    <span class="tip tip-stacked">
+                                                        단 기본으로 입력되어 있는 값(제목, 소제목, 내용)을 삭제하지 않고 원하시는 텍스트로 수정하는 방식으로 입력하셔야 다른 메뉴와 동일한 형태로 학습자 화면에서 보여지게 됩니다.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <div class="modal-actions">
+                                    <h3 class="sr">액션</h3>
+                                    <ul>
+                                        <li class="action-item">
+                                            <a href="#" class="button action-primary" id="createOverview">적용</a>
+                                        </li>
+                                        <li class="action-item">
+                                            <a href="#" class="button  action-cancel toggleOverviewLayer">취소</a>
+                                        </li>
+                                        <li class="action-item">
+                                            <span class="tip tip-stacked">
+                                                [적용]버튼을 누른 후, 화면 아래에 뜨는 [Save Changes]를 클릭하셔야 적용됩니다. 적용 후 실제 학습자 화면에 반영되기 까지 최대 10분의 시간이 걸릴 수 있습니다.
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <!-- 강좌 개요 (end)-->
+
+
+            % if sidebar_html_enabled:
+            <li class="field text" id="field-course-about-sidebar-html">
+            <label for="course-about-sidebar-html">${_("Course About Sidebar HTML")}
+            <textarea class="tinymce text-editor" id="course-about-sidebar-html" aria-describedby="tip-course-about-sidebar-html"></textarea>
+            </label>
+            <span class="tip tip-stacked" id="tip-course-about-sidebar-html">${
+            Text(_("Custom sidebar content for {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
+            a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
+            a_link_end=HTML("</a>")
+            )}</span>
+            </li>
+            % endif
             % endif
 
             <li class="field image" id="field-course-image">
