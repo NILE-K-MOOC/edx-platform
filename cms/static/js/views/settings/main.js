@@ -57,15 +57,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
             course_editor_html: function(e){
                 swal({
-                    html: 'HTML을 직접 수정하시면 이 후 <b>강좌소개페이지 에디터</b>를 통한 <br>수정이 불가합니다.<br>그래도 수정을 진행하시겠습니까?',
+                    html: '<b>HTML 직접 입력</b>을 사용하시겠습니까?<br>'+
+                          '만약 <b>에디터 이용하기</b>를 다시 사용하려면 내용 초기화가 필요합니다<br>',
                     title: '',
-                    //text: '',
                     type: 'warning',
-                    //confirmButtonText: '확인',
                     focusConfirm: false,
                     showCancelButton: true,
                     cancelButtonText: '취소',
-                    confirmButtonText: '확인',
+                    confirmButtonText: '사용',
                     reverseButtons: true,
                     //closeOnClickOutside: false,
                     //closeOnEsc: false,
@@ -1165,7 +1164,13 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
                     $(".CodeMirror").removeProp('id');
                 }else {
-                    $(".CodeMirror").prop('id', 'edit_check');
+                    $(".CodeMirror").css('background', '#ffffff');
+                    $(".CodeMirror").css('color', '#000000');
+                    var hey_txt = '<br><br><br><br><br>'+
+                                  '&nbsp <b>에디터를 이용하기</b>로 강좌 소개를 작성하실 경우  HTML 본문을 직접 수정할 수 없습니다<br><br>' +
+                                  '&nbsp 직접 입력을 원하시면 <b>HTML 직접 입력</b>을 선택해주십시오<br>'+
+                                  '&nbsp <b>HTML 직접 입력</b>의 경우 <b>에디터 이용하기</b>가 비활성화 됩니다'
+                    $('.CodeMirror-code').html(hey_txt);
                 }
 
                 /*

@@ -720,23 +720,26 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                 <label for="course-overview">${_("Course Overview")}</label>
                 <div class="mac-btn-con">
                     % if user_edit == 'N':
-                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                        <button type="button" class="toggleOverviewLayerBtn toggleOverviewLayer">
                             에디터 이용하기
                         </button>
-                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn over-css">
+                        <button type="button" class="toggleOverviewLayerBtn over-css" id="edit_check">
                             HTML 직접 입력
                         </button>
                     % endif
                     % if user_edit == 'Y':
-                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                        <button type="button" class="toggleOverviewLayerBtn">
                             에디터 이용하기
                         </button>
-                        <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                        <button type="button" class="toggleOverviewLayerBtn">
                             HTML 직접 입력
                         </button>
                     % endif
                 </div>
+
+                <!-- core -->
                 <textarea class="tinymce text-editor" id="course-overview"></textarea>
+
                 <label class="sr" for="course-overview-cm-textarea">
                 ${_('HTML Code Editor')}
                 </label>
