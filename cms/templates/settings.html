@@ -627,21 +627,22 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             % if about_page_editable:
             <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
               <label for="course-overview">${_("Course Overview")}</label>
+            % if user_edit == 'N':
+              <!-- 입력 양식 제공 버튼 -->
+              <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
+                에디터 이용하기
+              </button>
+              % endif
+
               <textarea class="tinymce text-editor" id="course-overview"></textarea>
               <label class="sr" for="course-overview-cm-textarea">
                 ${_('HTML Code Editor')}
               </label>
-              <span class="tip tip-stacked" style="float: left; margin-top: 7px;">${
-                    Text(_("Introductions, prerequisites, FAQs that are used on {a_link_start}your course summary page{a_link_end} (formatted in HTML)")).format(
-                      a_link_start=HTML("<a class='link-courseURL' rel='external' href='{lms_link_for_about_page}'>").format(lms_link_for_about_page=lms_link_for_about_page),
-                      a_link_end=HTML("</a>")
-                    )}</span>
-              % if user_edit == 'N':
-              <!-- 입력 양식 제공 버튼 -->
-              <button type="button" class="toggleOverviewLayer toggleOverviewLayerBtn">
-                에디터로 수정하기(베타)
-              </button>
-              % endif
+                <div>강좌 개요 페이지에 사용되는 안내, 홍보영상, 강좌 계획표, 등에 관한 내용을 입력해주세요.</div>
+                <div>HTML 직접 입력하여 내용을 작성할 경우 <에디터 이용하기>가 비활성화 됩니다.</div>
+                <div>만약, <에디터이용하기>를 다시 사용하시려면 직접 작성한 강좌 소개 내용을 초기화 하시면 사용 가능합니다.</div>
+                <div>강좌개요 초기화</div>
+
               <input type="hidden" id="course_edit_check" value="${user_edit}">
 
               <!-- 강좌 개요 입력 폼 -->
@@ -713,7 +714,6 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
 
                 .toggleOverviewLayerBtn{
                   display: block;
-                  float: right;
                   width: 20%;
                   margin: 15px 0 0 0;
                   padding: 10px 20px;
