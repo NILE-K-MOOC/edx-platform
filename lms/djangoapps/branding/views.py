@@ -313,7 +313,7 @@ def multisite_index(request, org):
                 params = parse_qs(qs)
 
                 if 'addinfo' in params:
-                    addinfo = params['addinfo']
+                    addinfo = params['addinfo'][0]
 
             except BaseException as err:
                 log.error('-----------------------------------')
@@ -407,7 +407,7 @@ def multisite_index(request, org):
                                 WHERE
                                     b.site_code = '{org}' AND a.org_user_id = '{userid}'                               
                                '''.format(
-                                addinfo=addinfo[0],
+                                addinfo=addinfo,
                                 org=org,
                                 userid=userid
                             )
@@ -427,6 +427,9 @@ def multisite_index(request, org):
 
                 request.session['multistie_success'] = 1
                 request.session['multisite_userid'] = userid
+                if addinfo:
+                    request.session['multisite_addinfo'] = addinfo
+
                 return redirect('/login')
 
     # Oauth 방식

@@ -470,11 +470,11 @@ def shim_student_view(view_func, check_logged_in=False):
             edx_userid = u1.id  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
             edx_useremail = u1.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
 
-        logging.debug("------------------------------------------ c1")
-        logging.debug('multisite_userid' in request.session)
-        logging.debug("------------------------------------------ c2")
-        logging.debug('multisite_org' in request.session)
-        logging.debug("------------------------------------------")
+        logging.info("------------------------------------------ c1")
+        logging.info('multisite_userid' in request.session)
+        logging.info("------------------------------------------ c2")
+        logging.info('multisite_org' in request.session)
+        logging.info("------------------------------------------")
 
         # passparam logic
         if 'multisite_userid' not in request.session and 'multisite_org' in request.session:
@@ -514,10 +514,16 @@ def shim_student_view(view_func, check_logged_in=False):
             multisite_userid = request.session['multisite_userid']
             multisite_org = request.session['multisite_org']
 
-            logging.debug("-----------------------------------------------")
-            logging.debug('multisite_userid -> %s' % multisite_userid)
-            logging.debug('multisite_org -> %s' % multisite_org)
-            logging.debug("-----------------------------------------------")
+            if 'multisite_addinfo' in request.session:
+                multisite_addinfo = request.session['multisite_addinfo']
+            else:
+                multisite_addinfo = ''
+
+            logging.info("-----------------------------------------------")
+            logging.info('multisite_userid -> %s' % multisite_userid)
+            logging.info('multisite_org -> %s' % multisite_org)
+            logging.info('multisite_addinfo -> %s' % multisite_addinfo)
+            logging.info("-----------------------------------------------")
 
             # ----- 멀티사이트 멤버 테이블에 이미 등록된 이메일이 있는지 확인하기 위해 이메일 구해오는 쿼리 [s]
             with connections['default'].cursor() as cur:
@@ -561,16 +567,16 @@ def shim_student_view(view_func, check_logged_in=False):
             로그인 성공여부를 먼저 체크한 후 연계 동의 받도록 수정요청
             연계기관 사이트에서 버튼 클릭해서 넘어왔다가, 창 닫고 다시 연계기관 사이트에서 버튼 클릭하면 로그인페이지가 아닌 연계기관사이트 메인으로 넘어간다고 합니다. 확인필요.            
             """
-            
+
             # insert 방지 플래그가 설정되지 않은 경우 멀티사이트멤버 테이블에 데이터를 insert 한다.
             if insert_lock == 0:
                 with connections['default'].cursor() as cur:
                     sql = '''
-                        insert into multisite_member(site_id, user_id, org_user_id, regist_id)
-                        select site_id, {1}, '{2}', {1}
+                        insert into multisite_member(site_id, user_id, org_user_id, regist_id, addinfo)
+                        select site_id, {1}, '{2}', {1}, '{3}'
                         from multisite
                         where site_code = '{0}'
-                    '''.format(multisite_org, edx_userid, multisite_userid)
+                    '''.format(multisite_org, edx_userid, multisite_userid, multisite_addinfo)
                     try:
                         print sql
                         cur.execute(sql)  # <--------------------------- 다른 사번으로 이미 등록된 이메일을 등록하려고 시도하는 경우 (에러)
