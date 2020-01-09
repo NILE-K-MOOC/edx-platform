@@ -57,10 +57,15 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             test: function() {
-                this.render();
+                console.log('--------------------------- start');
+                console.log('xxx ===> ', this.$el.find('#' + this.fieldToSelectorMap['overview']).val());
+                this.$el.find('#' + this.fieldToSelectorMap['overview']).val('<div>333</div>');
+                console.log('--------------------------- end');
+                // this.render();
             },
 
             course_editor_html: function(e){
+                console.log('call trace -> course_editor_html');
                 swal({
                     html: '<b>HTML 직접 입력</b>을 사용하시겠습니까?<br>'+
                           '만약 <b>에디터 이용하기</b>를 다시 사용하려면 내용 초기화가 필요합니다<br>',
@@ -115,6 +120,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             addStaffItem: function(event){
+                console.log('call trace -> addStaffItem');
                 event.preventDefault();
                 // 교수자와 TA 분리하여 입력란 추가되도록 수정
                 if($("#course-ta").css('display') == 'none'){
@@ -125,16 +131,19 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             delStaffItem: function(event){
+                console.log('call trace -> delStaffItem');
                 event.preventDefault();
                 $(event.currentTarget).parent().parent().remove();
             },
 
             addQuestionItem: function(event){
+                console.log('call trace -> addQuestionItem');
                 event.preventDefault();
                 $("#course-question").append($(this.question_row_template).html());
             },
 
             delQuestionItem: function(event){
+                console.log('call trace -> delQuestionItem');
                 event.preventDefault();
                 var faq_len = $(event.currentTarget).parent().parent().parent().find('li').length;
                 if(faq_len > 1){
@@ -146,6 +155,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             createOverview: function(event){
+                console.log('call trace -> createOverview');
                 event.preventDefault();
 
                 if(!this.overviewLayerValidate()){
@@ -156,6 +166,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var course_plan = $.parseHTML(tinymce.get('course_plan').getContent());
 
                 //make html source
+                var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
+                this.model.set('overview', fuck);
                 var ov = $.parseHTML(this.model.get('overview'));
 
                 $(ov).find(".goal:eq(0)").html($("#overview-tab1 textarea").val().replace(regex, "<br>"));
@@ -338,6 +350,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             textareaTrim: function(text){
+                console.log('call trace -> textareaTrim');
                 // textarea에서 공백 처리
                 var text_lines = text.split('\n');
                 var return_txt = 'text   first line';
@@ -356,6 +369,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             tinymceInit: function (selector) {
+                console.log('call trace -> tinymceInit');
                 tinymce.init({
                     selector: selector,
                     entity_encoding: 'raw',
@@ -388,12 +402,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             overviewLayerValidate: function(){ // 에디터 내 유효성
+                console.log('call trace -> overviewLayerValidate');
                 $(".overview-modal").find(".message-error").remove();
 
                 return true;
             },
 
             toggleOverviewLayer: function(event){
+                console.log('call trace -> toggleOverviewLayer');
                 event.preventDefault();
                 $("#overviewEditLayer").toggle();
                 if($("#overviewEditLayer").is(":visible")){
@@ -405,6 +421,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             tabChange: function(event){
+                console.log('call trace -> tabChange');
                 event.preventDefault();
                 var t = event.currentTarget.getAttribute('data-target');
                 $(".tabs>div").removeClass("on")
@@ -414,6 +431,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             initialize : function(options) {
+                console.log('call trace -> initialize');
                 $(function () {
                     $(".tab_content").hide();
                     $(".tab_content:first").show();
@@ -517,12 +535,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             overviewLayerSetting: function(){
-                console.log('overviewLayerSetting called ...');
+                console.log('call trace -> overviewLayerSetting');
                 //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
                 var regex = /<br\s*[\/]?>/g;
                 var regex_line = /(?:\r\n|\r|\n)/g;
 
                 // overview object
+                var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
+                this.model.set('overview', fuck);
                 var ov = $.parseHTML(this.model.get('overview'));
 
                 // 수업내용/목표
@@ -702,6 +722,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             tinymceInit: function (selector) {
+                console.log('call trace -> tinymceInit');
                 tinymce.init({
                     selector: selector,
                     entity_encoding: 'raw',
@@ -734,6 +755,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             setEffort:function(){
+                console.log('call trace -> setEffort');
                 var hh = $("#course-effort-hh").val();
                 var mm = $("#course-effort-mm").val();
                 var week = $("#course-effort-week").val();
@@ -861,12 +883,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             submitDisable: function (e) {
+                console.log('call trace -> submitDisable');
                 if(e.keyCode == 13){
                     e.preventDefault();
                 }
             },
 
             modi_course_level: function (e){
+                console.log('call trace -> modi_course_level');
                 this.model.set('course_level', $('#selectfixid').val());
                 $('.action-primary').click(function() {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
@@ -885,6 +909,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
 
             subtitle_add: function (e) {
+                console.log('call trace -> subtitle_add');
                 var selected_code = $('#subtitle_list').val();
                 var subtitle_box = $('#subtitle_box').val();
                 if (selected_code != '') {
@@ -924,6 +949,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             subtitle_remove: function (e) {
+                console.log('call trace -> subtitle_remove');
                 var selected_code = $('#subtitle_list').val();
                 var subtitle_box = $('#subtitle_box').val();
                 var idx = subtitle_box.search(selected_code);
@@ -966,6 +992,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             modi_teacher_name: function (e) {
+                console.log('call trace -> modi_teacher_name');
                 this.model.set('modi_teacher_name', 'modi_teacher_name');
                 $('.action-primary').click(function() {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
@@ -983,16 +1010,22 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             render: function() {
-                // alert('render');
+                console.log('call trace -> render');
                 clearTimeout(this.imageTimer);
                 DateUtils.setupDatePicker('start_date', this);
                 DateUtils.setupDatePicker('end_date', this);
                 DateUtils.setupDatePicker('enrollment_start', this);
                 DateUtils.setupDatePicker('enrollment_end', this);
                 this.$el.find('#' + this.fieldToSelectorMap['subtitle_box']).val(this.model.get('subtitle_box'));
+
+
                 this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
-                this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
+                // var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
+                // this.$el.find('#' + this.fieldToSelectorMap['overview']).val(fuck);
                 this.codeMirrorize(null, $('#course-overview')[0]);
+
+
+                this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
                 if (this.model.get('title') !== '') {
                     this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
                 } else {
@@ -1196,6 +1229,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             addLearningFields: function() {
+                console.log('call trace -> addLearningFields');
                 /*
                 * Add new course learning fields.
                 * */
@@ -1205,6 +1239,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             addInstructorFields: function() {
+                console.log('call trace -> addInstructorFields');
                 /*
                 * Add new course instructor fields.
                 * */
@@ -1220,6 +1255,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             updateTime: function(e) {
+                console.log('call trace -> updateTime');
                 var now = new Date(),
                     hours = now.getUTCHours(),
                     minutes = now.getUTCMinutes(),
@@ -1235,8 +1271,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             updateModel: function(event) {
+                console.log('call trace -> updateModel');
                 var value;
                 var index = event.currentTarget.getAttribute('data-index');
+
                 switch (event.currentTarget.id) {
                     case 'course-learning-info-' + index:
                         value = $(event.currentTarget).val();
@@ -1321,7 +1359,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     case 'teacher_name':
                     case 'course-description':
                     case 'course-short-description':
-                        console.log(event);
                         this.setField(event);
                         break;
                     default: // Everything else is handled by datepickers and CodeMirror.
@@ -1330,6 +1367,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             updateImageField: function(event, image_field, selector) {
+                console.log('call trace -> updateImageField');
                 this.setField(event);
                 var url = $(event.currentTarget).val();
                 var image_name = _.last(url.split('/'));
@@ -1340,6 +1378,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             updateImagePreview: function(imagePathInputElement, previewSelector) {
+                console.log('call trace -> updateImagePreview');
                 // Wait to set the image src until the user stops typing
                 clearTimeout(this.imageTimer);
                 this.imageTimer = setTimeout(function() {
@@ -1348,6 +1387,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             removeVideo: function(event) {
+                console.log('call trace -> removeVideo');
                 event.preventDefault();
                 if (this.model.has('intro_video')) {
                     this.model.set_videosource(null);
@@ -1360,6 +1400,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             codeMirrors: {},
 
             codeMirrorize: function(e, forcedTarget) {
+                console.log('call trace -> codeMirrorize');
                 var thisTarget, cachethis, field, cmTextArea;
                 if (forcedTarget) {
                     thisTarget = forcedTarget;
@@ -1394,6 +1435,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             revertView: function() {
+                console.log('call trace -> revertView');
                 // Make sure that the CodeMirror instance has the correct
                 // data from its corresponding textarea
                 var self = this;
@@ -1413,6 +1455,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             setAndValidate: function(attr, value) {
+                console.log('call trace -> setAndValidate');
                 // If we call model.set() with {validate: true}, model fields
                 // will not be set if validation fails. This puts the UI and
                 // the model in an inconsistent state, and causes us to not
@@ -1424,6 +1467,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             showNotificationBar: function() {
+                console.log('call trace -> showNotificationBar');
                 // We always call showNotificationBar with the same args, just
                 // delegate to superclass
                 ValidatingView.prototype.showNotificationBar.call(this,
@@ -1433,6 +1477,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             uploadImage: function(event) {
+                console.log('call trace -> uploadImage');
                 event.preventDefault();
                 var title = '',
                     selector = '',
@@ -1480,6 +1525,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             handleLicenseChange: function() {
+                console.log('call trace -> handleLicenseChange');
                 this.showNotificationBar();
                 this.model.set('license', this.licenseModel.toString());
             }
