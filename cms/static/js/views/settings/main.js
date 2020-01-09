@@ -51,17 +51,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'change #selectfixid': "modi_course_level",
                 'change #subtitle_list': "subtitle_box",
                 'click #edit_check': "course_editor_html",
+                'click #edit_check_reverse': "course_editor_html_reverse",
                 'click #subtitle_add': "subtitle_add",
                 'click #subtitle_remove': "subtitle_remove",
-                'click #test': "test",
-            },
-
-            test: function() {
-                console.log('--------------------------- start');
-                console.log('xxx ===> ', this.$el.find('#' + this.fieldToSelectorMap['overview']).val());
-                this.$el.find('#' + this.fieldToSelectorMap['overview']).val('<div>333</div>');
-                console.log('--------------------------- end');
-                // this.render();
             },
 
             course_editor_html: function(e){
@@ -76,10 +68,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     cancelButtonText: '취소',
                     confirmButtonText: '사용',
                     reverseButtons: true,
-                    //closeOnClickOutside: false,
-                    //closeOnEsc: false,
                     allowOutsideClick: false,
                     allowEscapeKey: false,
+                    //closeOnClickOutside: false,
+                    //closeOnEsc: false,
                 }).then(function (check) {
                     if(check.value == true){
                         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
@@ -95,7 +87,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                                 "value": "Y"
                             }
                         };
-
                         $.ajax({
                             url: "/settings/advanced/" + addinfo_course_id,
                             type: "POST",
@@ -111,6 +102,60 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                                 $('.ue_n').hide();
                                 $('.ue_y').show();
                                 $(".CodeMirror").css('background', '#ffffff');
+                            }
+                        });
+                    } else {
+                        return;
+                    }
+                });
+            },
+
+            course_editor_html_reverse: function(e){
+                console.log('call trace -> course_editor_html_reverse');
+                swal({
+                    html: '<b>에디터 이용하기</b>를 사용하시겠습니까?<br>'+
+                          '<b>HTML 직접 입력</b>에서 작성한 내용은 초기화 됩니다<br>',
+                    title: '',
+                    type: 'warning',
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    cancelButtonText: '취소',
+                    confirmButtonText: '사용',
+                    reverseButtons: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    //closeOnClickOutside: false,
+                    //closeOnEsc: false,
+                }).then(function (check) {
+                    if(check.value == true){
+                        var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
+                        var addinfo_user_id = $('#addinfo_user_id').text();
+                        $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
+                        var json_data = {
+                            // csrfmiddlewaretoken: $.cookie('csrftoken'),
+                            user_edit: {
+                                "hidden": "false",
+                                "deprecated": "false",
+                                "display_name": "user_edit",
+                                "help": "Y또는 N을 입력합니다. Y를 입력할 경우 에디터를 이용한 수정이 불가합니다.",
+                                "value": "N"
+                            }
+                        };
+                        $.ajax({
+                            url: "/settings/advanced/" + addinfo_course_id,
+                            type: "POST",
+                            dataType: "json",
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify(json_data)
+                        }).done(function(data){
+                            if(data.user_edit.value == 'N'){
+                                $("#course_edit_check").val("N");
+                                $("#course_edit_check").trigger('change');
+                                $(".CodeMirror").prop('id', '');
+                                $(".x-over").show();
+                                $('.ue_n').show();
+                                $('.ue_y').hide();
+                                $(".CodeMirror").css('background', '#c1c1c1');
                             }
                         });
                     } else {
@@ -157,40 +202,27 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             createOverview: function(event){
                 console.log('call trace -> createOverview');
                 event.preventDefault();
-
                 if(!this.overviewLayerValidate()){
                     return;
                 }
-
                 var regex = /(?:\r\n|\r|\n)/g;
                 var course_plan = $.parseHTML(tinymce.get('course_plan').getContent());
-
-                //make html source
-                var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
-                this.model.set('overview', fuck);
                 var ov = $.parseHTML(this.model.get('overview'));
-
                 $(ov).find(".goal:eq(0)").html($("#overview-tab1 textarea").val().replace(regex, "<br>"));
-
                 $(ov).find(".video source:eq(0)").attr("src", $("#course-sample-video-url").val());
                 $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
-
                 // 운영진 사진 http 체크
                 const url_pattern = /^http/gi;
-
                 // 강좌운영진
                 var staff_templates = "";
                 $("#course-instructor li").each(function(index){
                     var staff_photo = $(this).find("#staff-photo").val();
-
                     if(staff_photo.match(url_pattern) == null){
                         staff_photo = 'http://' + staff_photo;
                     }
-
                     var staff_name = $(this).find("#staff-name").val();
                     var careers = $(this).find("textarea").val().replace(regex, '\n').split(/\n/g);
                     var careers_text = "";
-
                     for (var i=0; i<careers.length;i++){
                         if(i != careers.length -1 && careers[i] != ''){
                             careers_text += "<dd>" + careers[i] + "</dd>";
@@ -206,7 +238,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "<article>";
                     if(index == 0){
                         staff_template += "	<h3><i class='fa fa-user'></i>교수자</h3>";
-
                     }
                     staff_template += "" +
                         "	<article class='professor'>" +
@@ -223,21 +254,17 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "		</div>" +
                         "	</article>" +
                         "</article>";
-
                     staff_templates += staff_template;
                 });
 
                 $("#course-ta li").each(function(index){
                     var staff_photo = $(this).find("#staff-photo").val();
                     var staff_name = $(this).find("#staff-name").val();
-
                     if(staff_photo.match(url_pattern) == null){
                         staff_photo = 'http://' + staff_photo;
                     }
-
                     var careers = $(this).find("textarea").val().replace(regex, '\n').split(/\n/g);
                     var careers_text = "";
-
                     for (var i=0; i<careers.length;i++){
                         if(i != careers.length -1 && careers[i] != ''){
                             careers_text += "<dd>" + careers[i] + "</dd>";
@@ -249,10 +276,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             careers_text += "<dd><br></dd>"
                         }
                     }
-
                     var staff_template = "" +
                         "<article>";
-
                     if(index == 0){
                         staff_template += "	<h3><i class='fa fa-user'></i>강좌지원팀</h3>";
                     }
@@ -271,31 +296,22 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "		</div>" +
                         "	</article>" +
                         "</article>";
-
                     staff_templates += staff_template;
-
                 });
-
                 if(staff_templates){
                     $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영팀 소개</h2>");
                     $(ov).find(".course-staff:eq(0)").append(staff_templates);
                 }
-
                 // 이수/평가정보
                 var grade_table = $.parseHTML(tinymce.get('grade_table').getContent());
-
                 //make html source
                 $(ov).find(".grade_table:eq(0)").html($('<table>').append(grade_table).html());
-
                 // 강좌 수준 및 선수요건
                 $(ov).find("#course-level:eq(0)").html($("#overview-tab4 textarea:eq(1)").val().replace(regex, "<br>"));
-
                 // 교재 및 참고문헌
                 $(ov).find("#course-reference:eq(0)").html($("#overview-tab4 textarea:eq(2)").val().replace(regex, "<br>"));
-
                 // FAQ
                 var faqs = "";
-
                 $("#course-question li").each(function(){
                     var question = $(this).find("#faq-question").val();
                     var answer = $(this).find("#faq-answer").val();
@@ -306,21 +322,17 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "</article>";
                     faqs += faq;
                 });
-
                 if(faqs){
                     $(ov).find(".faq:eq(0)").html("<h2><i class=\"fa fa-question-circle\"></i>자주 묻는 질문</h2>");
                     $(ov).find(".faq:eq(0)").append(faqs);
                 }
-
                 // 사용자 추가 내용
                 //$(ov).find(".user_add:eq(0)").html($("#user_content").val().replace(/\n/g, "<br>"));
                 var user_add_index = tinymce.get('user_content').getContent();
                 user_add_index = user_add_index.replace(/<h2>/gi, '<h2><i class="fa fa-plus-circle"></i>');
                 user_add_index = user_add_index.replace(/<h3>/gi, '<h3><i class="fa fa-chevron-right"></i>');
                 $(ov).find(".user_add:eq(0)").html($.parseHTML(user_add_index));
-
                 //this.model.set('overview', '<div id="course-info">' + $("<div>").append($(ov).clone()).html() + '</div>');
-
                 var html_format_options = {
                     // "indent":"yes",
                     // "indent-spaces":2,
@@ -339,14 +351,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     "tidy-mark":false,
                     "drop-empty-elements": false
                 };
-
                 var html = $("<div>").attr("id", "course-info").append($(ov).clone()).html();
                 var result = tidy_html5(html, html_format_options);
-
                 this.model.set('overview', result);
                 $("#overviewEditLayer").toggle();
                 this.render();
-
             },
 
             textareaTrim: function(text){
@@ -404,7 +413,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             overviewLayerValidate: function(){ // 에디터 내 유효성
                 console.log('call trace -> overviewLayerValidate');
                 $(".overview-modal").find(".message-error").remove();
-
                 return true;
             },
 
@@ -415,7 +423,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 if($("#overviewEditLayer").is(":visible")){
                     var top = parseInt($(window).scrollTop());
                     $(".overview-modal").prop("style", "top: " + (top - 50) + "px;");
-
                     this.overviewLayerSetting();
                 }
             },
@@ -444,7 +451,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     });
                     degree_js();
                     $("ul.info_tabs li").click(function () {
-
                         if ($(this).text() == '교수자') {
                             $('#info_add1').css("display", "inline-block");
                             $('#info_del1').css("display", "inline-block");
@@ -453,7 +459,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             $('#info_div1').css("display", "inline-block");
                             $('#info_div2').css("display", "none");
                         }
-
                         else if ($(this).text() == '강좌지원팀') {
                             $('#info_add1').css("display", "none");
                             $('#info_del1').css("display", "none");
@@ -462,23 +467,19 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             $('#info_div1').css("display", "none");
                             $('#info_div2').css("display", "inline-block");
                         }
-
                         $("ul.info_tabs li").removeClass("active").css("color", "#333").css("background-color", "#fafafa");
                         $(this).addClass("active").css("color", "#5B7484").css("background-color", "#AAAAAA");
                         var activeTab = $(this).attr("rel");
                         $("#" + activeTab).fadeIn()
                     });
                 });
-
                 options = options || {};
-
                 // fill in fields
                 this.$el.find("#course-language").val(this.model.get('language'));
                 this.$el.find("#course-organization").val(this.model.get('org'));
                 this.$el.find("#course-number").val(this.model.get('course_id'));
                 this.$el.find("#course-name").val(this.model.get('run'));
                 this.$el.find('.set-date').datepicker({ 'dateFormat': 'm/d/yy' });
-
                 // Avoid showing broken image on mistyped/nonexistent image
                 this.$el.find('img').error(function() {
                     $(this).hide();
@@ -486,7 +487,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.$el.find('img').load(function() {
                     $(this).show();
                 });
-
                 this.listenTo(this.model, 'invalid', this.handleValidationError);
                 this.listenTo(this.model, 'change', this.showNotificationBar);
                 this.selectorToField = _.invert(this.fieldToSelectorMap);
@@ -498,7 +498,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     showPreview: true
                 });
                 this.listenTo(this.licenseModel, 'change', this.handleLicenseChange);
-
                 if (options.showMinGradeWarning || false) {
                     new NotificationView.Warning({
                         title: gettext("Course Credit Requirements"),
@@ -506,17 +505,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         closeIcon: true
                     }).show();
                 }
-
                 this.learning_info_view = new LearningInfoView({
                     el: $(".course-settings-learning-fields"),
                     model: this.model
                 });
-
                 this.instructor_info_view = new InstructorInfoView({
                     el: $(".course-instructor-details-fields"),
                     model: this.model
                 });
-
                 $("input:radio[name='staff-type']").click(function(){
                     if($(this).val() == 'instructor'){
                         $("#course-instructor").show();
@@ -526,12 +522,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $("#course-ta").show();
                     }
                 });
-
                 //강좌 운영진 추가 기본 템플릿 초기화
                 this.instructor_row_template = $("#course-instructor").clone();
                 this.ta_row_template = $("#course-ta").clone();
                 this.question_row_template = $("#course-question").clone();
-
             },
 
             overviewLayerSetting: function(){
@@ -539,23 +533,23 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
                 var regex = /<br\s*[\/]?>/g;
                 var regex_line = /(?:\r\n|\r|\n)/g;
-
                 // overview object
-                var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
-                this.model.set('overview', fuck);
+                try {
+                    var ov = $.parseHTML(this.model.get('overview'));
+                    var goal = $(ov).find(".goal:eq(0)").html().replace(regex_line, '').replace(regex, "\n");
+                } catch (e) {
+                    var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
+                    this.model.set('overview', fuck);
+                }
                 var ov = $.parseHTML(this.model.get('overview'));
-
                 // 수업내용/목표
                 var goal = $(ov).find(".goal:eq(0)").html().replace(regex_line, '').replace(regex, "\n");
-
                 // 홍보영상/예시강의
                 var vurl = $(ov).find(".video source:eq(0)").attr("src");
                 // 강좌 계획
                 var syllabus = $(ov).find(".syllabus_table:eq(0)");
                 // 강좌운영진
                 var team = $(ov).find(".course-staff:eq(0)").html();
-
-
                 var professor_len = $(ov).find("article.professor");
                 var professor_html = '';
                 for(var j = 0 ; j < professor_len.length ; j++){
@@ -571,7 +565,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             staff3 += prof_row.trim();
                         }
                     });
-
                     professor_html += '' +
                             '<li class="field-group course-grading-assignment-list-item">' +
                             '<div style="width: 34%; float: left;">' +
@@ -602,7 +595,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 }
                 if(professor_len.length != 0)
                     $("#course-instructor").html(professor_html);
-
                 var staff_len = $(ov).find("article.staff");
                 var staff_html = '';
                 for(var j = 0 ; j < staff_len.length ; j++){
@@ -617,7 +609,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         else if(idx == staff_row_len -1)
                             staff3 += staff_row.trim();
                     });
-
                     staff_html += '' +
                             '<li class="field-group course-grading-assignment-list-item">' +
                             '<div style="width: 34%; float: left;">' +
@@ -644,24 +635,18 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>'+
                             '</div>'+
                             '</li>';
-
                 }
                 if(staff_len.length != 0)
                     $("#course-ta").html(staff_html);
-
                 // 이수/평가정보
                 var evaluation = $(ov).find(".grade_table:eq(0)");
-
                 // 강좌 수준 및 선수요건
                 var level = $(ov).find("#course-level").html().replace(regex_line, '').replace(regex, "\n");
-
                 // 교재 및 참고문헌
                 var reference = $(ov).find("#course-reference").html().replace(regex_line, '').replace(regex, "\n");
-
                 // FAQ
                 var faq = $(ov).find(".faq article");
                 var faq_form = '';
-
                 // FAQ 데이터 출력
                 $(faq).each(function(){
                     var question = $(this).find("h4").text().trim();
@@ -686,26 +671,21 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 if(faq.length != 0){
                     $("#overview-tab5 ol#course-question").html(faq_form);
                 }
-
                 // 사용자 추가 내용
                 var user_content = $(ov).find(".user_add:eq(0)");
-
                 // ------------------------------------------------
                 //syllabus table 에 에디터 안에서의 크기조절을 위한 속성 추가
                 syllabus.find("table").attr("style", "width: 100%;");
                 evaluation.find("table").attr("style", "width: 100%;");
                 // ------------------------------------------------
-
                 //홍보영상
                 // console.log('video url s ==============================')
                 // console.log($(ov).find(".video source:eq(0)").attr("src"));
                 // console.log('video url e ==============================')
-
                 //tinymce 에디터 사용시 getContent 함수 이용을 위해 textarea 의 아이디를 지정하요 사용
                 // console.log('goal start --- s');
                 // console.log(goal);
                 // console.log('goal start --- e');
-
                 $("#overview-tab1 textarea").val(goal.trim());
                 $("#overview-tab1 input").val(vurl.trim());
                 $("#course_plan").val(syllabus.html());
@@ -713,11 +693,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $("#user_content").val(user_content.html());
                 $("#overview-tab4 textarea:eq(1)").val(level.trim());
                 $("#overview-tab4 textarea:eq(2)").val(reference.trim());
-
                 this.tinymceInit('#course_plan');
                 this.tinymceInit('#grade_table');
                 this.tinymceInit('#user_content');
-
                 //tinymce.get('course_plan').setContent(syllabus.html());
             },
 
@@ -763,7 +741,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var video_mm = $("#course-video-mm").val();
                 var Calculated = $("#Calculated").val();
                 var Calculated_mm = $("#Calculated_mm").val();
-
                 if (mm > 60) {
                     $("#course-effort-mm").val('');
                     return false;
@@ -788,7 +765,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 else {
                     $("#Calculated_mm").removeAttr('disabled');
                 }
-
                 if (Calculated>50){
                     alert("학습인정시간은 50시간 이내만 입력 가능합니다");
                     $("#Calculated").val('');
@@ -800,7 +776,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $('#Calculated_mm').keyup(function () {
                     this.value = this.value.replace(/[^0-9]/g,'');
                 });
-
                 if(hh && hh.length == 1)
                     hh = "0" + hh;
                 if(mm && mm.length == 1)
@@ -815,7 +790,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     Calculated = "0" + Calculated;
                 if(Calculated_mm && Calculated_mm.length == 1)
                     Calculated_mm = "0" + Calculated_mm;
-
                 if(hh)
                     $("#course-effort-hh").val(hh);
                 if(mm)
@@ -829,14 +803,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 if(Calculated)
                     $("#Calculated").val(Calculated);
                 if(Calculated_mm){
-
                     $("#Calculated_mm").val(Calculated_mm);
                 }
-
                 var video = video_hh + ":" + video_mm;
-
                 var calculated_total = Calculated + ':' + Calculated_mm;
-
                 //if(hh && mm && week){
                 //    // 총 이수시간 계산 및 표시
                 //    //var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
@@ -853,23 +823,16 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 //        $("#Calculated").val(real_hour + "시간 " + real_min + "분");
                 //    }
                 //}
-
                 var val = hh + ":" + mm;
-
                 if(week && week != "")
                     val = val + "@" + week;
-
                 if(video && video != "")
                     val = val + "#" + video;
-
                 if(calculated_total && calculated_total != ""){
                     val = val + "$" + calculated_total;
                 }
-
                 $("#course-effort").val(val);
                 $("#course-effort").trigger("change");
-
-
                 var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                 var addinfo_user_id = $('#addinfo_user_id').text();
                 var course_period = $("#course-effort-week").val();
@@ -896,7 +859,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var course_level = $('#selectfixid').val();
-
                     $.post("/modi_course_level", {
                         csrfmiddlewaretoken: $.cookie('csrftoken'),
                         addinfo_course_id: addinfo_course_id,
@@ -953,12 +915,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var selected_code = $('#subtitle_list').val();
                 var subtitle_box = $('#subtitle_box').val();
                 var idx = subtitle_box.search(selected_code);
-
                 if (selected_code == "") {
                     alert('자막 언어를 선택해주십시오');
                     return false;
                 }
-
                 if (idx != -1) {
                     if (idx == 0) {
                         subtitle_box = subtitle_box.replace(selected_code + ", ", "");
@@ -1017,14 +977,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 DateUtils.setupDatePicker('enrollment_start', this);
                 DateUtils.setupDatePicker('enrollment_end', this);
                 this.$el.find('#' + this.fieldToSelectorMap['subtitle_box']).val(this.model.get('subtitle_box'));
-
-
                 this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
                 // var fuck = '<div id="course-info"><section class="about"><h2><i class="fa fa-university"></i>강좌소개</h2><article><h3><i class="fa fa-pencil-square-o"></i>수업내용/목표</h3><div class="article_contents goal">이강좌의수업내용/목표에대한내용이표시됩니다.</div></article><article><h3><i class="fa fa-video-camera"></i>홍보/예시영상</h3><div class="article_contents"><div class="youtubewrap"><video class="video"title="홍보/예시 영상"width="100%"height="100%"controls controlsList="nodownload"><source src="http://vod.kmoocs.kr/vod/2017/09/29/512eedf0-e5c5-4c88-977b-be74c2fc1f4e.mp4"type="video/mp4"></video></div></div></article></section><section class="course-plan"><h2><i class="fa fa-calendar"></i>강좌운영계획</h2><article class="syllabus"><div class="article_contents"><input type="checkbox"name="toggle"id="toggle"/><label for="toggle"></label><div class="syllabus_table"><table summary="강좌 전체에 대한 주차별 차시별 내용 및 과제를 요약해서 보여주는 강의계획서"border="1"cellspacing="0"cellpadding="0"><caption>강의계획서</caption><colgroup><col width="5%"/><col width="30%"/><col width=""/><col width="15%"/></colgroup><thead><tr><th>주차</th><th>주차명</th><th>차시명</th><th>과제</th></tr></thead><tbody><tr><td rowspan="2"class="cts">1</td><td rowspan="2">주차1</td><td>차시1</td><td class="cts">퀴즈1</td></tr><tr><td>차시2</td><td class="cts">토론</td></tr><tr><td class="cts">2</td><td>주차2</td><td>차시1</td><td class="cts">토론</td></tr><tr><td colspan="4"class="bgcolor cts">중간시험</td></tr><tr><td class="cts">3</td><td>주차3</td><td>차시1</td><td class="cts">상호평가</td></tr><tr><td colspan="4"class="cts bgcolor">기말시험</td></tr></tbody></table></div></div></article></section><section class="course-staff"><h2><i class="fa fa-group (alias)"></i>강좌운영팀소개</h2><article><h3><i class="fa fa-user"></i>교수자</h3><article class="professor"><div class="teacher_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name"></i>교수</dt><dd>현)한국대학교전산학과교수</dd><dd>전)S기업연구원</dd><dd>한국대학교.컴퓨터공학박사</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article><article><h3><i class="fa fa-user"></i>강좌지원팀</h3><article class="staff"><div class="ta_image"><img src="http://www.kmooc.kr/static/images/placeholder-faculty.png"align="left"alt=""></div><div class="staff_descript"><dl><dt><i class="fa fa-angle-double-right"></i><i class="staff-name">조교</i></dt><dd>한국대학교전산학박사과정</dd><dd>E-mail:abc@example.com</dd></dl></div></article></article></section><section class="info"><h2><i class="fa fa-info-circle"></i>강좌수강정보</h2><article><h3><i class="fa fa-graduation-cap"></i>이수/평가정보</h3><div class="grade_table"><table style="width: 100%;"border="1"summary="이수/평가정보"cellspacing="0"cellpadding="0"><caption>이수/평가정보</caption><colgroup><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"><col width="20%"></colgroup><thead><tr><th>과제명</th><th>퀴즈</th><th>토론</th><th>중간고사</th><th>기말고사</th></tr></thead><tbody style="text-align: center;"><tr><td style="font-weight: bold;">반영비율</td><td>%</td><td>%</td><td>%</td><td>%</td></tr></tbody></table><b>※&nbsp;총60%이상점수획득시,이수증을발급받을수있습니다.</b></div></article><article><h3><i class="fa fa-sort-amount-desc"></i>강좌수준및선수요건</h3><p id="course-level">이강좌는유익한내용이다수포함되어있습니다.</p></article><article><h3><i class="fa fa-book"></i>교재및참고문헌</h3><p id="course-reference">이강좌는여러가지참고자료가많이있습니다.</p></article></section><section class="faq"><h2><i class="fa fa-question-circle"></i>자주묻는질문</h2><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article><article class="question"><h4><i class=\'fa fa-chevron-right\'></i>강좌교재가따로있나요?</h4><p>네.있습니다.</p></article></section><section class="user_add"><h2><i class="fa fa-plus-circle"></i>제목</h2><article class="question"><h3><i class=\'fa fa-chevron-right\'></i>소제목</h3><p>내용</p></article><br></section></div>';
                 // this.$el.find('#' + this.fieldToSelectorMap['overview']).val(fuck);
                 this.codeMirrorize(null, $('#course-overview')[0]);
-
-
                 this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
                 if (this.model.get('title') !== '') {
                     this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
@@ -1035,7 +991,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.$el.find('#' + this.fieldToSelectorMap.subtitle).val(this.model.get('subtitle'));
                 this.$el.find('#' + this.fieldToSelectorMap.duration).val(this.model.get('duration'));
                 this.$el.find('#' + this.fieldToSelectorMap.description).val(this.model.get('description'));
-
                 //교수자명
                 this.$el.find('#' + this.fieldToSelectorMap['teacher_name']).val(this.model.get('teacher_name'));
                 this.$el.find('#' + this.fieldToSelectorMap['short_description']).val(this.model.get('short_description'));
@@ -1113,7 +1068,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
                         var week = arr1[1];
-
                         $("#course-effort-hh").val(arr2[0]);
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-effort-week").val(week);
@@ -1121,7 +1075,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         var arr1 = time.split("#");
                         var arr2 = arr1[0].split(":");
                         var arr3 = arr1[1].split(":");
-
                         $("#course-effort-hh").val(arr2[0]);
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-video-hh").val(arr3[0]);
@@ -1173,8 +1126,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $("#teacher_name").attr("disabled", true).css("background", "#ccc");
                     $("#selectfixid").attr("disabled", true).css("background", "#ccc");
                 }
-
-
                 // 강좌 개요 서버사이드 렌더링 처리
                 var user_edit = $("#course_edit_check").val();
                 if (user_edit == 'Y') {
@@ -1189,8 +1140,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $('.ue_n').show();
                     $('.ue_y').hide();
                 }
-
-
                 return this;
             },
 
@@ -1266,7 +1215,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             minutes: minutes
                         }
                     );
-
                 $(e.currentTarget).attr('title', currentTimeText);
             },
 
@@ -1274,7 +1222,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 console.log('call trace -> updateModel');
                 var value;
                 var index = event.currentTarget.getAttribute('data-index');
-
                 switch (event.currentTarget.id) {
                     case 'course-learning-info-' + index:
                         value = $(event.currentTarget).val();
@@ -1415,7 +1362,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     // workflow. So in this case e = forcedTarget = null.
                     return;
                 }
-
                 if (!this.codeMirrors[thisTarget.id]) {
                     cachethis = this;
                     field = this.selectorToField[thisTarget.id];
@@ -1503,7 +1449,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         image_path_key = 'video_thumbnail_image_asset_path';
                         break;
                 }
-
                 var upload = new FileUploadModel({
                     title: title,
                     message: gettext('Files must be in JPEG or PNG format.'),

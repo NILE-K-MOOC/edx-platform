@@ -627,6 +627,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
 
             <!-- 강좌 개요 (start)-->
             <style>
+                .swal2-popup { z-index: 9999999 !important; }
                 .modal-window-overlay { display: block; }
                 .overview-modal {
                     display: block;
@@ -636,6 +637,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                     min-width: 400px !important;
                     overflow-y: hidden;
                     max-height: 800px;
+                    z-index: 99999 !important;
                 }
                 .tabs { width: 100%; clear: both; overflow: auto; }
                 .tabs div {
@@ -722,14 +724,9 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                     color: #ffffff;
                     border-radius: 5px;
                     padding-top: 30px;
+                    z-index: 5;
                 }
             </style>
-
-            <div class="ue-debug">
-                user_edit : ${user_edit}
-                <div id="test" style="border: solid 1px red">render</div>
-            </div>
-
             % if about_page_editable:
             <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
                 <label for="course-overview">${_("Course Overview")}</label>
@@ -742,7 +739,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                     </button>
                 </div>
                 <div class="mac-btn-con ue_y" style="display: none">
-                    <button type="button" class="toggleOverviewLayerBtn over-css">
+                    <button type="button" class="toggleOverviewLayerBtn over-css" id="edit_check_reverse">
                         에디터 이용하기
                     </button>
                     <button type="button" class="toggleOverviewLayerBtn">
@@ -768,7 +765,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                 <div class="fsz12">HTML 직접 입력하여 내용을 작성할 경우 <span class="ea-txt">에디터 이용하기</span>가 비활성화 됩니다.</div>
                 <div class="fsz12">만약, <span class="ea-txt">에디터이용하기</span>를 다시 사용하시려면 직접 작성한 강좌 소개 내용을 초기화 하시면 사용 가능합니다.</div>
                 <div class="ue_y">
-                    <div class="fsz12 ccc-init">강좌개요 초기화</div>
+                    <div class="fsz12 ccc-init" id="edit_check_reverse">강좌개요 초기화</div>
                 </div>
                 <input type="hidden" id="course_edit_check" value="${user_edit}">
 
