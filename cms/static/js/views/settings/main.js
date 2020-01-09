@@ -53,6 +53,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'click #edit_check': "course_editor_html",
                 'click #subtitle_add': "subtitle_add",
                 'click #subtitle_remove': "subtitle_remove",
+                'click #test': "test",
+            },
+
+            test: function() {
+                this.render();
             },
 
             course_editor_html: function(e){
@@ -74,7 +79,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     if(check.value == true){
                         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                         var addinfo_user_id = $('#addinfo_user_id').text();
-                        $(".toggleOverviewLayerBtn").css({'display': 'none'});
                         $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
                         var json_data = {
                             // csrfmiddlewaretoken: $.cookie('csrftoken'),
@@ -98,6 +102,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                                 $("#course_edit_check").val("Y");
                                 $("#course_edit_check").trigger('change');
                                 $(".CodeMirror").prop('id', '');
+                                $(".x-over").hide();
+                                $('.ue_n').hide();
+                                $('.ue_y').show();
+                                $(".CodeMirror").css('background', '#ffffff');
                             }
                         });
                     } else {
@@ -975,18 +983,16 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             render: function() {
+                // alert('render');
                 clearTimeout(this.imageTimer);
-
                 DateUtils.setupDatePicker('start_date', this);
                 DateUtils.setupDatePicker('end_date', this);
                 DateUtils.setupDatePicker('enrollment_start', this);
                 DateUtils.setupDatePicker('enrollment_end', this);
-
                 this.$el.find('#' + this.fieldToSelectorMap['subtitle_box']).val(this.model.get('subtitle_box'));
                 this.$el.find('#' + this.fieldToSelectorMap['overview']).val(this.model.get('overview'));
                 this.$el.find('#' + this.fieldToSelectorMap['course_level']).val(this.model.get('course_level'));
                 this.codeMirrorize(null, $('#course-overview')[0]);
-
                 if (this.model.get('title') !== '') {
                     this.$el.find('#' + this.fieldToSelectorMap.title).val(this.model.get('title'));
                 } else {
@@ -999,34 +1005,26 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 //교수자명
                 this.$el.find('#' + this.fieldToSelectorMap['teacher_name']).val(this.model.get('teacher_name'));
-
                 this.$el.find('#' + this.fieldToSelectorMap['short_description']).val(this.model.get('short_description'));
-
                 this.$el.find('.current-course-introduction-video iframe').attr('src', this.model.videosourceSample());
                 this.$el.find('#' + this.fieldToSelectorMap['intro_video']).val(this.model.get('intro_video') || '');
                 if (this.model.has('intro_video')) {
                     this.$el.find('.remove-course-introduction-video').show();
                 }
                 else this.$el.find('.remove-course-introduction-video').hide();
-
                 this.$el.find('#' + this.fieldToSelectorMap['effort']).val(this.model.get('effort'));
-
                 var courseImageURL = this.model.get('course_image_asset_path');
                 this.$el.find('#course-image-url').val(courseImageURL);
                 this.$el.find('#course-image').attr('src', courseImageURL);
-
                 var bannerImageURL = this.model.get('banner_image_asset_path');
                 this.$el.find('#banner-image-url').val(bannerImageURL);
                 this.$el.find('#banner-image').attr('src', bannerImageURL);
-
                 var videoThumbnailImageURL = this.model.get('video_thumbnail_image_asset_path');
                 this.$el.find('#video-thumbnail-image-url').val(videoThumbnailImageURL);
                 this.$el.find('#video-thumbnail-image').attr('src', videoThumbnailImageURL);
-
                 var pre_requisite_courses = this.model.get('pre_requisite_courses');
                 pre_requisite_courses = pre_requisite_courses.length > 0 ? pre_requisite_courses : '';
                 this.$el.find('#' + this.fieldToSelectorMap['pre_requisite_courses']).val(pre_requisite_courses);
-
                 if (this.model.get('entrance_exam_enabled') == 'true') {
                     this.$('#' + this.fieldToSelectorMap['entrance_exam_enabled']).attr('checked', this.model.get('entrance_exam_enabled'));
                     this.$('.div-grade-requirements').show();
@@ -1036,7 +1034,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     this.$('.div-grade-requirements').hide();
                 }
                 this.$('#' + this.fieldToSelectorMap['entrance_exam_minimum_score_pct']).val(this.model.get('entrance_exam_minimum_score_pct'));
-
                 var selfPacedButton = this.$('#course-pace-self-paced'),
                     instructorPacedButton = this.$('#course-pace-instructor-paced'),
                     paceToggleTip = this.$('#course-pace-toggle-tip');
@@ -1051,21 +1048,17 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     instructorPacedButton.attr('disabled', true);
                     paceToggleTip.text(gettext('Course pacing cannot be changed once a course has started.'));
                 }
-
                 this.licenseView.render();
                 this.learning_info_view.render();
                 this.instructor_info_view.render();
-
                 var time = $("#course-effort").val();
                 if(time){
-
-                    if(time.indexOf("@") > 0 && time.indexOf("#") > 0 && time.indexOf("$") > 0){
+                    if (time.indexOf("@") > 0 && time.indexOf("#") > 0 && time.indexOf("$") > 0) {
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
                         var week = arr1[1].split("#")[0];
                         var arr3 = arr1[1].split("#")[1].split("$")[0].split(":");
                         var arr4 = arr1[1].split("$")[1].split(":");
-
                         $("#course-effort-hh").val(arr2[0]);
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-effort-week").val(week);
@@ -1073,18 +1066,17 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $("#course-video-mm").val(arr3[1]);
                         $("#Calculated").val(arr4[0]);
                         $("#Calculated_mm").val(arr4[1]);
-                    } else if(time.indexOf("@") > 0 && time.indexOf("#") > 0){
+                    } else if(time.indexOf("@") > 0 && time.indexOf("#") > 0) {
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
                         var week = arr1[1].split("#")[0];
                         var arr3 = arr1[1].split("#")[1].split(":");
-
                         $("#course-effort-hh").val(arr2[0]);
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-effort-week").val(week);
                         $("#course-video-hh").val(arr3[0]);
                         $("#course-video-mm").val(arr3[1]);
-                    } else if(time.indexOf("@") > 0){
+                    } else if(time.indexOf("@") > 0) {
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
                         var week = arr1[1];
@@ -1092,7 +1084,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $("#course-effort-hh").val(arr2[0]);
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-effort-week").val(week);
-                    }else if(time.indexOf("#") > 0){
+                    } else if(time.indexOf("#") > 0) {
                         var arr1 = time.split("#");
                         var arr2 = arr1[0].split(":");
                         var arr3 = arr1[1].split(":");
@@ -1101,53 +1093,44 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-video-hh").val(arr3[0]);
                         $("#course-video-mm").val(arr3[1]);
-                    }else{
+                    } else {
                         $("#course-effort-hh").val(time.split(':')[0]);
                         $("#course-effort-mm").val(time.split(':')[1]);
                     }
-
                 }
-
                 var hh = $("#course-effort-hh").val();
                 var mm = $("#course-effort-mm").val();
                 var week = $("#course-effort-week").val();
-
                 if(hh && mm && week){
                     // 총 이수시간 계산 및 표시
                     var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
-                    if(total_time.toString().indexOf(".") > 0){
+                    if (total_time.toString().indexOf(".") > 0) {
                         var arr = total_time.toString().split(".");
                         var hour = arr[0];
                         var minute = Math.round(Number(arr[1]) / 10 * 60).toString().substr(0, 2);
-
-                        //$("#Calculated").val(hour + "시간 " + minute + "분");
-                    }else{
-                        // $("#Calculated").val(total_time + "시간");
+                    } else {
+                        // pass
                     }
                 }
 
                 // 현재 날짜 기준 (UTC) 과 강좌 일정을 비교하여 수정이 안되도록 수정
                 var now = new Date();
                 var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-
                 var start_date_value = $("#course-start-date").val() + " " + $("#course-start-time").val();
                 var end_date_value = $("#course-end-date").val() + " " + $("#course-end-time").val();
                 var enroll_start_date_value = $("#course-enrollment-start-date").val() + " " + $("#course-enrollment-start-time").val();
                 var enroll_end_date_value = $("#course-enrollment-end-date").val() + " " + $("#course-enrollment-end-time").val();
-
                 var start_date = new Date(start_date_value);
                 var end_date = new Date(end_date_value);
                 var enroll_start_date = new Date(enroll_start_date_value);
                 var enroll_end_date = new Date(enroll_end_date_value);
-
                 if(this.model.get('need_lock') == 1){
                     /*
-                    *   -수업주차,주간학습권장시간,총동영상 재생시간
+                        -수업주차,주간학습권장시간,총동영상 재생시간
                         -수강신청시작일/마감일, 개강일/종강일
                         -강좌 언어
                         -강좌 불러오기 메뉴 비활성화(내보내기는 가능하게 그대로 둠)
-                    * */
-
+                    */
                     $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
                     $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
                     $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
@@ -1156,41 +1139,24 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $("#field-course-effort input").attr("disabled", true).css("background", "#ccc");
                     $("#teacher_name").attr("disabled", true).css("background", "#ccc");
                     $("#selectfixid").attr("disabled", true).css("background", "#ccc");
-
                 }
 
+
+                // 강좌 개요 서버사이드 렌더링 처리
                 var user_edit = $("#course_edit_check").val();
-                if(user_edit == 'Y'){
+                if (user_edit == 'Y') {
                     $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
                     $(".CodeMirror").removeProp('id');
-                }else {
+                    $(".x-over").hide();
+                    $('.ue_n').hide();
+                    $('.ue_y').show();
                     $(".CodeMirror").css('background', '#ffffff');
-                    $(".CodeMirror").css('color', '#000000');
-                    var hey_txt = '<br><br><br><br><br>'+
-                                  '&nbsp <b>에디터를 이용하기</b>로 강좌 소개를 작성하실 경우  HTML 본문을 직접 수정할 수 없습니다<br><br>' +
-                                  '&nbsp 직접 입력을 원하시면 <b>HTML 직접 입력</b>을 선택해주십시오<br>'+
-                                  '&nbsp <b>HTML 직접 입력</b>의 경우 <b>에디터 이용하기</b>가 비활성화 됩니다'
-                    $('.CodeMirror-code').html(hey_txt);
+                } else {
+                    $(".CodeMirror").css('background', '#c1c1c1');
+                    $('.ue_n').show();
+                    $('.ue_y').hide();
                 }
 
-                /*
-                if(start_date < now_utc){
-                    //console.log("disabled on1");
-                    $("#course-start-date,#course-start-time").attr("disabled", true).css("background", "#ccc");
-                }
-                if(end_date < now_utc){
-                    //console.log("disabled on2");
-                    $("#course-end-date,#course-end-time").attr("disabled", true).css("background", "#ccc");
-                }
-                if(enroll_start_date < now_utc){
-                    //console.log("disabled on3");
-                    $("#course-enrollment-start-date,#course-enrollment-start-time").attr("disabled", true).css("background", "#ccc");
-                }
-                if(enroll_end_date < now_utc){
-                    //console.log("disabled on4");
-                    $("#course-enrollment-end-date,#course-enrollment-end-time").attr("disabled", true).css("background", "#ccc");
-                }
-                */
 
                 return this;
             },

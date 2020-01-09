@@ -709,6 +709,20 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                 .ccc-init:hover {
                     color: #2196F3;
                 }
+                .x-over {
+                    position: absolute;
+                    width: 530px;
+                    height: 100px;
+                    background: black;
+                    top: 100px;
+                    transform: translateX(-50%);
+                    left: 50%;
+                    font-size: 12px;
+                    text-align: center;
+                    color: #ffffff;
+                    border-radius: 5px;
+                    padding-top: 30px;
+                }
             </style>
 
             <div class="ue-debug">
@@ -716,30 +730,37 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             </div>
 
             % if about_page_editable:
-            <div id="vvv"></div>
             <li class="field text" id="field-course-overview" style="margin-bottom: 70px;">
                 <label for="course-overview">${_("Course Overview")}</label>
-                <div class="mac-btn-con">
-                    % if user_edit == 'N':
-                        <button type="button" class="toggleOverviewLayerBtn toggleOverviewLayer">
-                            에디터 이용하기
-                        </button>
-                        <button type="button" class="toggleOverviewLayerBtn over-css" id="edit_check">
-                            HTML 직접 입력
-                        </button>
-                    % endif
-                    % if user_edit == 'Y':
-                        <button type="button" class="toggleOverviewLayerBtn over-css">
-                            에디터 이용하기
-                        </button>
-                        <button type="button" class="toggleOverviewLayerBtn">
-                            HTML 직접 입력
-                        </button>
-                    % endif
+                <div class="mac-btn-con ue_n" style="display: none">
+                    <button type="button" class="toggleOverviewLayerBtn toggleOverviewLayer">
+                        에디터 이용하기
+                    </button>
+                    <button type="button" class="toggleOverviewLayerBtn over-css" id="edit_check">
+                        HTML 직접 입력
+                    </button>
+                </div>
+                <div class="mac-btn-con ue_y" style="display: none">
+                    <button type="button" class="toggleOverviewLayerBtn over-css">
+                        에디터 이용하기
+                    </button>
+                    <button type="button" class="toggleOverviewLayerBtn">
+                        HTML 직접 입력
+                    </button>
                 </div>
 
+                <div id="test">TEST</div>
+
                 <!-- core -->
-                <textarea class="tinymce text-editor" id="course-overview"></textarea>
+                <div style="position: relative;">
+                    <textarea class="tinymce text-editor" id="course-overview"></textarea>
+                    <div class="x-over">
+                        <b>에디터를 이용하기</b>로 강좌 소개를 작성하실 경우  HTML 본문을 직접 수정할 수 없습니다<br>
+                        직접 입력을 원하시면 <b>HTML 직접 입력</b>을 선택해주십시오<br>
+                        <b>HTML 직접 입력</b>의 경우 <b>에디터 이용하기</b>가 비활성화 됩니다
+                    </div>
+                </div>
+                <!-- core -->
 
                 <label class="sr" for="course-overview-cm-textarea">
                 ${_('HTML Code Editor')}
@@ -747,9 +768,9 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                 <div class="fsz12">강좌 개요 페이지에 사용되는 안내, 홍보영상, 강좌 계획표, 등에 관한 내용을 입력해주세요.</div>
                 <div class="fsz12">HTML 직접 입력하여 내용을 작성할 경우 <span class="ea-txt">에디터 이용하기</span>가 비활성화 됩니다.</div>
                 <div class="fsz12">만약, <span class="ea-txt">에디터이용하기</span>를 다시 사용하시려면 직접 작성한 강좌 소개 내용을 초기화 하시면 사용 가능합니다.</div>
-                % if user_edit == 'Y':
+                <div class="ue_y">
                     <div class="fsz12 ccc-init">강좌개요 초기화</div>
-                % endif
+                </div>
                 <input type="hidden" id="course_edit_check" value="${user_edit}">
 
                 <div id="overviewEditLayer" style="display: none;">
