@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 """
 Course API Views
 """
 
-import search
+import search, traceback
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -15,6 +16,52 @@ from . import USE_RATE_LIMIT_2_FOR_COURSE_LIST_API, USE_RATE_LIMIT_10_FOR_COURSE
 from .api import course_detail, list_courses
 from .forms import CourseDetailGetForm, CourseListGetForm
 from .serializers import CourseDetailSerializer, CourseSerializer
+
+import logging
+import subprocess
+
+log = logging.getLogger(__name__)
+
+
+def check_api_key(SG_APIM=None):
+    try:
+        DIR = '/edx/app/edxapp/edx-platform/kotech_utility'
+
+        def get_apim_key():
+            mydir = DIR + '/Key Generator'
+            ret = subprocess.check_output(['java', '-jar', 'APIM_KeyGenerator.jar'], cwd=mydir)
+            ret = ret.rstrip().decode('utf-8')  # for python3 compatibility
+            index = ret.find('=> ')
+            if index is -1:
+                return 'error'
+            else:
+                return ret[(index + 3):]
+
+        def check_apim_key(key):
+            mydir = DIR
+            return subprocess.check_output(['java', '-cp', '.:apim-gateway-auth-1.1.jar', 'checkapi', key], cwd=mydir).rstrip()
+
+        key = get_apim_key()
+        log.info('CourseListView Temp_key [%s]' % key)
+        res = check_apim_key(key)
+        log.info('CourseListView Res [%s]' % res)
+
+        if not SG_APIM or SG_APIM != key:
+            raise Exception('API Call Exception (SG_APIM invalid key..)')
+
+        if key == SG_APIM:
+            raise Exception('API Key is incollect')
+
+    except OSError as e:
+        log.info('CourseDetailView OSError [%s]' % e.message)
+
+        # 로컬 테스트시에는 java 및 경로가 다르므로 테스트는 개발 서버에서 진행
+        # raise OSError(traceback.format_exc(e))
+        pass
+
+    except Exception as e2:
+        log.info('CourseDetailView Exception [%s]' % e2.message)
+        raise Exception(traceback.format_exc(e2))
 
 
 @view_auth_classes(is_authenticated=False)
@@ -112,9 +159,22 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         Return the requested course object, if the user has appropriate
         permissions.
         """
+
+        req = self.request
+        course_id = req.GET.get('course_id', '')
+        SG_APIM = req.GET.get('SG_APIM')
+
+        check_api_key(SG_APIM)
+
+        if not course_id:
+            course_id = self.kwargs['course_key_string']
+        else:
+            course_id = course_id.replace(' ', '+')
+
         requested_params = self.request.query_params.copy()
-        requested_params.update({'course_key': self.kwargs['course_key_string']})
+        requested_params.update({'course_key': course_id})
         form = CourseDetailGetForm(requested_params, initial={'requesting_user': self.request.user})
+
         if not form.is_valid():
             raise ValidationError(form.errors)
 
@@ -244,16 +304,28 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
     def get_queryset(self):
         """
         Return a list of courses visible to the user.
+
+        20200113 공공데이터 API 연계를 위한 인증모듈 검증 추가
         """
         form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
+
         if not form.is_valid():
             raise ValidationError(form.errors)
+
+        req = self.request
+        f = form.cleaned_data['filter_']
+        SG_APIM = req.GET.get('SG_APIM')
+
+        check_api_key(SG_APIM)
+
+        if not f:
+            f = {'is_api': True}
 
         db_courses = list_courses(
             self.request,
             form.cleaned_data['username'],
             org=form.cleaned_data['org'],
-            filter_=form.cleaned_data['filter_'],
+            filter_=f,
         )
 
         if not settings.FEATURES['ENABLE_COURSEWARE_SEARCH'] or not form.cleaned_data['search_term']:

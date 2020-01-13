@@ -46,11 +46,7 @@ from django.core.urlresolvers import reverse
 
 
             <div class="course-date kr01_moviesubtit" aria-hidden="true">
-              % if course.teacher_name[1] != 0:
-                <span class="kr01_professor">${_("{teacher_name} and {t_len} others").format(teacher_name=course.teacher_name[0], t_len=course.teacher_name[1])}</span>
-              % else:
-                <span class="kr01_professor">${course.teacher_name[0]}</span>
-              % endif
+                <span class="kr01_professor">${course.teacher_name}</span>
                 <span class="kr01_school">${_(course.display_org_with_default)}</span>
             </div>
 
