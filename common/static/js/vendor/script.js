@@ -69,6 +69,12 @@ $(window).load(function () {
         }
     });
 
+    // 모바일 수정
+    if($('.kr01-mobile-more').length) {
+        slide_option.touchEnabled = false;
+    }
+
+
     window_W = $(window).width();
     var agent = navigator.userAgent.toLowerCase();
 
