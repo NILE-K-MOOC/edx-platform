@@ -56,6 +56,36 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'click #edit_check_reverse': "course_editor_html_reverse",
                 'click #subtitle_add': "subtitle_add",
                 'click #subtitle_remove': "subtitle_remove",
+                'click #add_vtt': "add_vtt",
+                'click #del_vtt': "del_vtt",
+            },
+
+            add_vtt: function (){
+                var box = ''+
+                '<div id="vtt_box" class="vtt_box" style="padding: 10px; margin-top: 8px; border-radius: 5px;">'+
+                '    <div style="display: flex;">'+
+                '        <select id="vtt_sel" style="flex: 3;">'+
+                '            <option value="ko">한국어</option>'+
+                '            <option value="en">영어</option>'+
+                '            <option value="ja">일본어</option>'+
+                '            <option value="zh">중국어</option>'+
+                '        </select>'+
+                '        <div style="flex: 0.2; margin-left: 15px; font-size: 22px;">'+
+                '            <span id="del_vtt" style="color: #f44336; cursor: pointer;" class="icon fa fa-minus-circle" aria-hidden="true"></span>'+
+                '        </div>'+
+                '    </div>'+
+                '    <div style="margin-top: 5px;">'+
+                '       <input id="vtt_txt" type="text">'+
+                '    </div>'+
+                '</div>';
+                $('#vtt_list').append(box);
+            },
+
+            del_vtt: function (e){
+                console.log('e -> ', e);
+                var x = $(event.target).parents('#vtt_box');
+                console.log('x -> ', x);
+                x.remove();
             },
 
             course_editor_html: function(e){
@@ -206,16 +236,39 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
             createOverview: function(event){
                 console.log('call trace -> createOverview');
+
                 event.preventDefault();
                 if(!this.overviewLayerValidate()){
                     return;
                 }
+
                 var regex = /(?:\r\n|\r|\n)/g;
                 var course_plan = $.parseHTML(tinymce.get('course_plan').getContent());
                 var ov = $.parseHTML(this.model.get('overview'));
+
                 $(ov).find(".goal:eq(0)").html($("#overview-tab1 textarea").val().replace(regex, "<br>"));
                 $(ov).find(".video source:eq(0)").attr("src", $("#course-sample-video-url").val());
                 $(ov).find(".syllabus_table:eq(0)").html($('<table>').append(course_plan).html());
+
+                // 홍보영상 자막 추가
+                var source = $(ov).find(".video").html();
+                source = source.replace(/<(\/track|track)([^>]*)>/gi,"");
+                console.log('------------------------------------------');
+                console.log('source = ', source);
+                console.log('------------------------------------------');
+                var track_set = '';
+                $('.vtt_box').each(function(idx){
+                    var vtt_name = $(this).find('option:selected').text();
+                    var vtt_code = $(this).find("#vtt_sel").val();
+                    var vtt_txt = $(this).find("#vtt_txt").val();
+                    var track = '<track label="' + vtt_name + '" kind="subtitles" srclang="' + vtt_code + '" src="' + vtt_txt + '">';
+                    track_set += track;
+                })
+                console.log('------------------------------------------');
+                console.log('source + track_set = ', source + track_set);
+                console.log('------------------------------------------');
+                $(ov).find(".video").html(source + track_set);
+
                 // 운영진 사진 http 체크
                 const url_pattern = /^http/gi;
                 // 강좌운영진
@@ -364,7 +417,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             },
 
             textareaTrim: function(text){
-                console.log('call trace -> textareaTrim');
+                console.log('call tracef -> textareaTrim');
                 // textarea에서 공백 처리
                 var text_lines = text.split('\n');
                 var return_txt = 'text   first line';
@@ -541,8 +594,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var regex_line = /(?:\r\n|\r|\n)/g;
                 // overview object
                 var ov = $.parseHTML(this.model.get('overview'));
-                var goal = $(ov).find(".goal:eq(0)").html().replace(regex_line, '').replace(regex, "\n");
-                var ov = $.parseHTML(this.model.get('overview'));
                 // 수업내용/목표
                 var goal = $(ov).find(".goal:eq(0)").html().replace(regex_line, '').replace(regex, "\n");
                 // 홍보영상/예시강의
@@ -551,6 +602,49 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var syllabus = $(ov).find(".syllabus_table:eq(0)");
                 // 강좌운영진
                 var team = $(ov).find(".course-staff:eq(0)").html();
+
+                // 홍보영상 자막
+                $('#vtt_list').empty();
+                var vtt_list = $(ov).find(".video track");
+                $(vtt_list).each(function(idx){
+                    console.log('idx = ', idx);
+                    var vtt_src = $(this).attr("src");
+                    var vtt_srclang = $(this).attr("srclang");
+                    var vtt_label = $(this).attr("label");
+                    console.log('vtt_src = ', vtt_src);
+                    console.log('vtt_srclang = ', vtt_srclang);
+                    console.log('vtt_label = ', vtt_label);
+
+                    var box = ''+
+                    '<div id="vtt_box" class="vtt_box" style="padding: 10px; margin-top: 8px; border-radius: 5px;">'+
+                    '    <div style="display: flex;">'+
+                    '        <select id="vtt_sel" style="flex: 3;">'+
+                    '            <option value="ko">한국어</option>'+
+                    '            <option value="en">영어</option>'+
+                    '            <option value="ja">일본어</option>'+
+                    '            <option value="zh">중국어</option>'+
+                    '        </select>'+
+                    '        <div style="flex: 0.2; margin-left: 15px; font-size: 22px;">'+
+                    '            <span id="del_vtt" style="color: #f44336; cursor: pointer;" class="icon fa fa-minus-circle" aria-hidden="true"></span>'+
+                    '        </div>'+
+                    '    </div>'+
+                    '    <div style="margin-top: 5px;">'+
+                    '       <input id="vtt_txt" type="text" value="' + vtt_src + '">'+
+                    '    </div>'+
+                    '</div>';
+
+                    console.log('before box = ', box);
+
+                    if (vtt_srclang == 'ko') { box = box.replace('<option value="ko">', '<option selected value="ko">'); }
+                    if (vtt_srclang == 'en') { box = box.replace('<option value="en">', '<option selected value="en">'); }
+                    if (vtt_srclang == 'ja') { box = box.replace('<option value="ja">', '<option selected value="ja">'); }
+                    if (vtt_srclang == 'zh') { box = box.replace('<option value="zh">', '<option selected value="zh">'); }
+
+                    console.log('after box = ', box);
+
+                    $('#vtt_list').append(box);
+                })
+
                 var professor_len = $(ov).find("article.professor");
                 var professor_html = '';
                 for(var j = 0 ; j < professor_len.length ; j++){
@@ -688,7 +782,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 // console.log(goal);
                 // console.log('goal start --- e');
                 $("#overview-tab1 textarea").val(goal.trim());
-                $("#overview-tab1 input").val(vurl.trim());
+                try {
+                    $("#course-sample-video-url").val(vurl.trim());
+                } catch(e) {
+                    $("#course-sample-video-url").val(vurl);
+                }
                 $("#course_plan").val(syllabus.html());
                 $("#grade_table").val(evaluation.html());
                 $("#user_content").val(user_content.html());

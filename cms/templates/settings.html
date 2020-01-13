@@ -807,11 +807,19 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                                                 </div>
                                                 <div>
                                                     <p>홍보영상 자막</p>
-                                                    <button type="button" class="toggleOverviewLayerBtn">
+
+                                                    <!-- item list (start) -->
+                                                    <div id="vtt_list">
+                                                        <!-- dynamic item -->
+                                                    </div>
+                                                    <!-- item list (end) -->
+
+                                                    <button style="width: 100%;" type="button" class="toggleOverviewLayerBtn" id="add_vtt">
                                                         + 추가하기
                                                     </button>
                                                     <span class="tip tip-stacked">
-                                                        * vtt 확장자 자막만 등록 가능 합니다. (srt vtt 변환 사이트로 이동)
+                                                        <div>* vtt 확장자 자막만 등록 가능 합니다. (srt vtt 변환 사이트로 이동)</div>
+                                                        <div>* 자막파일은 CDN에 파일업로드 하신 후에 CDN 링크를 입력해주십시오</div>
                                                     </span>
                                                 </div>
                                             </div>
