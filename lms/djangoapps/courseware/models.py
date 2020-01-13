@@ -26,6 +26,7 @@ from six import text_type
 
 import coursewarehistoryextended
 from opaque_keys.edx.django.models import BlockTypeKeyField, CourseKeyField, UsageKeyField
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
 log = logging.getLogger("edx.courseware")
 
@@ -378,6 +379,7 @@ class DynamicUpgradeDeadlineConfiguration(ConfigurationModel):
 
     This model controls the behavior of the dynamic upgrade deadline for self-paced courses.
     """
+
     class Meta(object):
         app_label = 'courseware'
 
@@ -464,3 +466,31 @@ class CodeDetail(models.Model):
         managed = False
         db_table = 'code_detail'
         unique_together = (('group_code', 'detail_code'),)
+
+
+class CourseOverviewAddinfo(models.Model):
+    course_id = models.OneToOneField(CourseOverview, primary_key=True, max_length=100, db_column='course_id')
+    create_type = models.CharField(max_length=20, blank=True, null=True)
+    create_year = models.CharField(max_length=4, blank=True, null=True)
+    course_no = models.CharField(max_length=100, blank=True, null=True)
+    teacher_name = models.CharField(max_length=300, blank=True, null=True)
+    delete_yn = models.CharField(max_length=1, blank=True, null=True)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+    modify_id = models.IntegerField(blank=True, null=True)
+    modify_date = models.DateTimeField(blank=True, null=True)
+    classfy = models.CharField(max_length=20, blank=True, null=True)
+    middle_classfy = models.CharField(max_length=20, blank=True, null=True)
+    course_level = models.CharField(max_length=20, blank=True, null=True)
+    course_period = models.CharField(max_length=20, blank=True, null=True)
+    audit_yn = models.CharField(max_length=1, blank=True, null=True)
+    classfy_sub = models.CharField(max_length=200, blank=True, null=True)
+    linguistics = models.CharField(max_length=1, blank=True, null=True)
+    job_edu_yn = models.CharField(max_length=1, blank=True, null=True)
+    ribbon_yn = models.CharField(max_length=1, blank=True, null=True)
+    middle_classfy_sub = models.CharField(max_length=200, blank=True, null=True)
+    fourth_industry_yn = models.CharField(max_length=1, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'course_overview_addinfo'

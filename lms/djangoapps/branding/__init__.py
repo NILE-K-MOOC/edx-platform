@@ -14,6 +14,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from datetime import datetime
 from pytz import UTC
 from django.db import connections
+import time
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def get_visible_courses(org=None, filter_=None):
@@ -27,11 +31,20 @@ def get_visible_courses(org=None, filter_=None):
         filter_ (dict): Optional parameter that allows custom filtering by
             fields on the course.
     """
+    start_time = time.time()
+
     # Import is placed here to avoid model import at project startup.
     from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
     courses = []
     current_site_orgs = configuration_helpers.get_current_site_orgs()
+
+    is_api = False
+
+    log.debug('get_visible_courses time check1 [%s]' % (time.time() - start_time))
+
+    if filter_ and filter_.get('is_api'):
+        is_api = True
 
     if org and current_site_orgs:
         print 'DEBUG ----------------1'
@@ -44,10 +57,13 @@ def get_visible_courses(org=None, filter_=None):
         courses = CourseOverview.get_all_courses(orgs=current_site_orgs, filter_=filter_)
     else:
         print 'DEBUG ----------------3'
-        #courses = CourseOverview.get_all_courses(filter_=filter_)
+        # courses = CourseOverview.get_all_courses(filter_=filter_)
         target_org = org or current_site_orgs
         courses = CourseOverview.get_all_courses(org=target_org, filter_=filter_)
-    #courses = sorted(courses, key=lambda course: course.number)
+    # courses = sorted(courses, key=lambda course: course.number)
+
+    log.debug('get_visible_courses time check2 [%s]' % (time.time() - start_time))
+
     with connections['default'].cursor() as cur:
         query = """
             SELECT a.id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N'), ifnull(teacher_name, ''),
@@ -61,6 +77,8 @@ def get_visible_courses(org=None, filter_=None):
         course_tup = cur.fetchall()
         cur.close()
 
+    log.debug('get_visible_courses time check3 [%s]' % (time.time() - start_time))
+
     courses = [c for c in courses if c.catalog_visibility == 'both']
 
     from courseware.models import CodeDetail
@@ -68,30 +86,10 @@ def get_visible_courses(org=None, filter_=None):
     org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
     org_dict = {org.detail_code: {'org_kname': org.detail_name, 'org_ename': org.detail_ename} for org in org_names}
 
+    log.debug('get_visible_courses time check4 [%s]' % (time.time() - start_time))
+
     # Add Course Status
     for c in courses:
-        # print c.display_name, c.id, c.start, c.end, c.enrollment_start, c.enrollment_end
-        for cour in course_tup:
-            if str(c.id) == cour[0]:
-                c.classfy = cour[1]
-                try:
-                    if cour[3].find(',') != -1:
-                        teacher_len = len(cour[3].split(','))
-                        c.teacher_name = [cour[3].split(',')[0].strip(), teacher_len - 1]
-                    else:
-                        c.teacher_name = [cour[3].strip(), 0]
-                    c.audit_yn = cour[2]
-                    c.fourth_industry_yn = cour[4]
-                    c.ribbon_yn = cour[5]
-                    c.job_edu_yn = cour[6]
-                    c.linguistics = cour[7]
-                except BaseException:
-                    c.audit_yn = 'N'
-                    c.teacher_name = ''
-                    c.fourth_industry_yn = 'N'
-                    c.ribbon_yn = 'N'
-                    c.job_edu_yn = 'N'
-                    c.linguistics = 'N'
         if c.start is None or c.start == '' or c.end is None or c.end == '':
             c.status = 'none'
         elif datetime.now(UTC) < c.start:
@@ -106,7 +104,9 @@ def get_visible_courses(org=None, filter_=None):
         c.org_kname = org_dict[c.org]['org_kname'] if c.org in org_dict else c.display_org_with_default
         c.org_ename = org_dict[c.org]['org_ename'] if c.org in org_dict else c.display_org_with_default
 
-        # print 'c.status = ', c.id, c.status
+        log.debug('get_visible_courses time check4-2 [%s]' % (time.time() - start_time))
+
+    log.debug('get_visible_courses time check5 [%s]' % (time.time() - start_time))
 
     # Filtering can stop here.
     if current_site_orgs:
@@ -121,6 +121,8 @@ def get_visible_courses(org=None, filter_=None):
         filtered_visible_ids = frozenset(
             [CourseKey.from_string(c) for c in settings.COURSE_LISTINGS[subdomain]]
         )
+
+    log.debug('get_visible_courses time check6 [%s]' % (time.time() - start_time))
 
     if filtered_visible_ids:
         return [course for course in courses if course.id in filtered_visible_ids]
