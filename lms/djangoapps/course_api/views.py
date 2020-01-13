@@ -271,7 +271,7 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
             return subprocess.check_output(['java', '-cp', '.:apim-gateway-auth-1.1.jar', 'checkapi', key], cwd=mydir).rstrip()
 
         key = get_apim_key()
-        log.info('CourseListView Temp_key []' % key)
+        log.info('CourseListView Temp_key [%s]' % key)
         res = check_apim_key(key)
         log.info('CourseListView Res [%s]' % res)
 
