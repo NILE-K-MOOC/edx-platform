@@ -42,12 +42,19 @@ def check_api_key(SG_APIM=None):
             return subprocess.check_output(['java', '-cp', '.:apim-gateway-auth-1.1.jar', 'checkapi', key], cwd=mydir).rstrip()
 
         key = get_apim_key()
-        log.info('CourseListView Temp_key [%s]' % key)
+
+        if not SG_APIM:
+            raise Exception('API Call Exception (SG_APIM invalid key.)')
+
+        if SG_APIM != key:
+            raise Exception('API Call Exception (SG_APIM invalid key..)')
+
+        log.info('CourseListView key [%s]' % key)
+        log.info('CourseListView SG_APIM [%s]' % key)
+        log.info('CourseListView check [%s]' % (key.strip() == SG_APIM.strip()))
+
         res = check_apim_key(key)
         log.info('CourseListView Res [%s]' % res)
-
-        if not SG_APIM or SG_APIM != key:
-            raise Exception('API Call Exception (SG_APIM invalid key..)')
 
         if key == SG_APIM:
             raise Exception('API Key is incollect')
