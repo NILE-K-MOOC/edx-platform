@@ -49,11 +49,19 @@ from django.core.urlresolvers import reverse
             </h2>
 
             <div class="course-date kr01_moviesubtit" aria-hidden="true">
-                <span class="kr01_professor">
-                    % if course.teacher_name.strip() != "N":
-                        ${course.teacher_name}
+
+                    % if isinstance(course.teacher_name, list):
+                        % if course.teacher_name[1] != 0:
+                            <span class="kr01_professor">${_("{teacher_name} and {t_len} others").format(teacher_name=course.teacher_name[0], t_len=course.teacher_name[1])}</span>
+                          % else:
+                            <span class="kr01_professor">${course.teacher_name[0]}</span>
+                          % endif
+                    % else:
+                        % if course.teacher_name.strip() != "N":
+                            <span class="kr01_professor">${course.teacher_name}</span>
+                        % endif
                     % endif
-                </span>
+
 
               % if LANGUAGE_CODE == 'ko-kr':
                 <span class="kr01_school">${course.org_kname}</span>
