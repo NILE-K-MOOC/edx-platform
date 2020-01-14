@@ -44,10 +44,10 @@ def check_api_key(SG_APIM=None):
         key = get_apim_key()
 
         if not SG_APIM:
-            raise Exception('API Call Exception (SG_APIM invalid key.)')
+            raise ValidationError('API Call Exception (SG_APIM not exists)')
 
-        if SG_APIM != key:
-            raise Exception('API Call Exception (SG_APIM invalid key..)')
+        if SG_APIM.strip() != key.strip():
+            raise ValidationError('API Call Exception (invalid key [%s][%s])' % (key, SG_APIM))
 
         log.info('CourseListView key [%s]' % key)
         log.info('CourseListView SG_APIM [%s]' % key)
@@ -56,19 +56,16 @@ def check_api_key(SG_APIM=None):
         res = check_apim_key(key)
         log.info('CourseListView Res [%s]' % res)
 
-        if key == SG_APIM:
-            raise Exception('API Key is incollect')
-
     except OSError as e:
-        log.info('CourseDetailView OSError [%s]' % e.message)
+        log.info('CourseDetailView OSError [%s]' % e.strerror)
 
         # 로컬 테스트시에는 java 및 경로가 다르므로 테스트는 개발 서버에서 진행
         # raise OSError(traceback.format_exc(e))
-        pass
+        raise ValidationError('OSError [%]' % e.strerror)
 
     except Exception as e2:
         log.info('CourseDetailView Exception [%s]' % e2.message)
-        raise Exception(traceback.format_exc(e2))
+        raise ValidationError('Exception [%s]' % e2.strerror)
 
 
 @view_auth_classes(is_authenticated=False)
