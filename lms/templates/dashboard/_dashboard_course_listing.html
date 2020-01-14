@@ -188,7 +188,13 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
             % else:
           <span class="kr01_dashTs01">
             % endif
-              <div>${enrollment.teacher_name} | ${_(enrollment.org_name)}</div>
+
+            % if enrollment.teacher_name[1] != 0:
+              <div>${_("{teacher_name} and {t_len} others").format(teacher_name=enrollment.teacher_name[0], t_len=enrollment.teacher_name[1])} | ${_(enrollment.org_name)}</div>
+            % else:
+              <div>${enrollment.teacher_name[0]} | ${_(enrollment.org_name)}</div>
+            % endif
+
             <div>${_(enrollment.classfy)}
               % if enrollment.middle_classfy != '':
               / ${_(enrollment.middle_classfy)}
