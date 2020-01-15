@@ -399,6 +399,10 @@
                 );
                 HtmlUtils.setHtml(this.$container, htmlSnippet);
 
+                // 20200115 임시 비활성화
+                $("h3[data-name='fourth_industry_yn']").hide();
+                $("#fourth_industry_yn").hide();
+
                 $("h3[data-name='fourth_industry_yn']").text(gettext('etc'));
 
                 let lis1 = $("#linguistics li").clone();
@@ -416,6 +420,11 @@
                 });
 
                 $("#linguistics, #job_edu_yn").remove();
+
+                // 20200115 임시 비활성화
+                $("h3[data-name='fourth_industry_yn']").hide();
+                $("#fourth_industry_yn").hide();
+
 
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
