@@ -49,23 +49,25 @@ def check_api_key(SG_APIM=None):
         if SG_APIM.strip() != key.strip():
             raise ValidationError('API Call Exception (invalid key [%s][%s])' % (key, SG_APIM))
 
-        log.info('CourseListView key [%s]' % key)
-        log.info('CourseListView SG_APIM [%s]' % key)
-        log.info('CourseListView check [%s]' % (key.strip() == SG_APIM.strip()))
+        log.info('check_api_key key [%s]' % key)
+        log.info('check_api_key SG_APIM [%s]' % key)
+        log.info('check_api_key check [%s]' % (key.strip() == SG_APIM.strip()))
 
         res = check_apim_key(key)
-        log.info('CourseListView Res [%s]' % res)
+        log.info('check_api_key Res [%s]' % res)
 
     except OSError as e:
-        log.info('CourseDetailView OSError [%s]' % e.strerror)
+        log.info('check_api_key OSError [%s]' % e.strerror)
 
         # 로컬 테스트시에는 java 및 경로가 다르므로 테스트는 개발 서버에서 진행
-        # raise OSError(traceback.format_exc(e))
-        raise ValidationError('OSError [%]' % e.strerror)
+        raise ValidationError('OSError OSError [%]' % e.message)
+
+    except ValidationError as e1:
+        raise ValidationError('check_api_key ValidationError [%]' % e1.message)
 
     except Exception as e2:
         log.info('CourseDetailView Exception [%s]' % e2.message)
-        raise ValidationError('Exception [%s]' % e2.strerror)
+        raise ValidationError('check_api_key Exception [%s]' % e2.message)
 
 
 @view_auth_classes(is_authenticated=False)
