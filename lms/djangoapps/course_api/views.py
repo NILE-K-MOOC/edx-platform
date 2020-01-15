@@ -44,10 +44,10 @@ def check_api_key(SG_APIM=None):
         key = get_apim_key()
 
         if not SG_APIM:
-            raise ValidationError('API Call Exception (SG_APIM not exists)')
+            raise ValidationError('check_api_key API Call Exception (SG_APIM not exists)')
 
         if SG_APIM.strip() != key.strip():
-            raise ValidationError('API Call Exception (invalid key [%s][%s])' % (key, SG_APIM))
+            raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, SG_APIM))
 
         log.info('check_api_key key [%s]' % key)
         log.info('check_api_key SG_APIM [%s]' % key)
@@ -57,17 +57,16 @@ def check_api_key(SG_APIM=None):
         log.info('check_api_key Res [%s]' % res)
 
     except OSError as e:
-        log.info('check_api_key OSError [%s]' % e.strerror)
-
-        # 로컬 테스트시에는 java 및 경로가 다르므로 테스트는 개발 서버에서 진행
-        raise ValidationError('OSError OSError [%]' % e.message)
+        log.info('check_api_key exception --> OSError [%s]' % e.strerror)
+        raise ValidationError('check_api_key OSError [%s]' % e.strerror)
 
     except ValidationError as e1:
-        raise ValidationError('check_api_key ValidationError [%]' % e1.message)
+        log.info('check_api_key exception --> ValidationError [%s]' % e1.strerror)
+        raise ValidationError('check_api_key exception --> ValidationError [%s]' % e1.strerror)
 
     except Exception as e2:
-        log.info('CourseDetailView Exception [%s]' % e2.message)
-        raise ValidationError('check_api_key Exception [%s]' % e2.message)
+        log.info('check_api_key exception --> Exception [%s]' % e2.strerror)
+        raise ValidationError('check_api_key exception --> Exception [%s]' % e2.strerror)
 
 
 @view_auth_classes(is_authenticated=False)
@@ -164,18 +163,19 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         """
         Return the requested course object, if the user has appropriate
         permissions.
+
+        get 파라미터중 course_id 가 있다면 공공데이터 연계의 호출로 처리되도록 분기
         """
 
         req = self.request
         course_id = req.GET.get('course_id', '')
-        SG_APIM = req.GET.get('SG_APIM')
-
-        check_api_key(SG_APIM)
 
         if not course_id:
             course_id = self.kwargs['course_key_string']
         else:
             course_id = course_id.replace(' ', '+')
+            SG_APIM = req.GET.get('SG_APIM')
+            check_api_key(SG_APIM)
 
         requested_params = self.request.query_params.copy()
         requested_params.update({'course_key': course_id})
