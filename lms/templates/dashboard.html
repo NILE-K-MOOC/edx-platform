@@ -87,20 +87,40 @@ from student.models import CourseEnrollment
                 // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
                 $('.empty-dashboard-message').hide();
 
-                var box =   ''+
+                $.post( "/api/cb_course", {
+
+                })
+                .done(function( data ) {
+                    console.log('data.result = ', data.result);
+                    for (var i=0; i<data.result.length; i++) {
+                        var d = data.result[i];
+                        var attendance = d.attendance;
+                        var display_name = d.display_name;
+                        var start = d.start;
+                        var end = d.end;
+                        var professor_name = d.professor_name;
+                        var credit = d.credit;
+                        var score = d.score;
+                        var course_id = d.course_id;
+                        var org = d.org;
+                        var weeks = d.weeks;
+                        var major_category = d.major_category;
+                        var course_image = d.course_image;
+
+                        var box =   ''+
                             '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">'+
-                            '  <article class="course" aria-labelledby="course-title-course-v1:KoreaUnivK+ku_soc_002+2019_S02" id="course-card-0">'+
-                            '    <section class="details" aria-labelledby="details-heading-course-v1:KoreaUnivK+ku_soc_002+2019_S02">'+
+                            '  <article class="course" id="course-card-0">'+
+                            '    <section class="details">'+
                             '      <div class="kr01_dashArea">'+
-                            '        <h2 class="hd hd-2 sr" id="details-heading-course-v1:KoreaUnivK+ku_soc_002+2019_S02">강좌 세부사항</h2>'+
+                            '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>'+
                             '        <div class="kr01_dashImg" aria-hidden="true">'+
-                            '          <a href="#" data-course-key="course-v1:KoreaUnivK+ku_soc_002+2019_S02" class="cover" tabindex="0">'+
-                            '            <img src="/asset-v1:KoreaUnivK+ku_soc_002+2019_S02+type@asset+block@_1_-사회적-가치와-소셜벤처.jpg" class="course-image" alt="ku_soc_002 사회적 가치와 소셜벤처 홈페이지" onerror="this.src=\'/static/images/blank.png\'">'+
+                            '          <a href="#" class="cover" tabindex="0">'+
+                            '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">'+
                             '          </a>'+
                             '        </div>'+
                             '        <div class="kr01_dashTarea">'+
-                            '          <div class="kr01_dashTitle" id="course-title-course-v1:KoreaUnivK+ku_soc_002+2019_S02">'+
-                            '            <span class="kr01_dashT01">사회적 가치와 소셜벤처'+
+                            '          <div class="kr01_dashTitle">'+
+                            '            <span class="kr01_dashT01">' + display_name+
                             '            </span>'+
                             '            <span class="kr01_dashT02">'+
                             '              <div class="kr01-dash-unenroll-div">'+
@@ -109,29 +129,29 @@ from student.models import CourseEnrollment
                             '          </div>'+
                             '          <div class="kr01_dashTsub">'+
                             '            <span class="kr01_dashTs01">'+
-                            '              <div>김윤태 | 고려대학교</div>'+
+                            '              <div>' + professor_name + ' | ' + org + '</div>'+
                             '              <div>'+
-                            '                사회계열 / 사회과학'+
+                            '                ' + major_category +
                             '              </div>'+
                             '            </span>'+
                             '            <span class="kr01_dashTs01">'+
                             '              <div>주차</div>'+
-                            '              <div>14주</div>'+
+                            '              <div>' + weeks + '주</div>'+
                             '            </span>'+
                             '            <span class="kr01_dashTs01">'+
                             '              <div>학점</div>'+
-                            '              <div>3학점</div>'+
+                            '              <div>' + credit + '학점</div>'+
                             '            </span>'+
                             '            <span class="kr01_dashTs01" style="margin-right: 0px;">'+
                             '              <div>강좌 운영 기간</div>'+
-                            '              <div>`20.01.03. ~ `20.02.25.</div>'+
+                            '              <div>`' + start + ' ~ `' + end + '</div>'+
                             '            </span>'+
                             '            <span class="kr01_dashBtnArea">'+
                             '              <div class="kr01_dashBtn">'+
                             '                <a href="#" class="enter-course">'+
                             '                  이수증보기'+
                             '                  <span class="sr">'+
-                            '                    &nbsp;사회적 가치와 소셜벤처'+
+                            '                    &nbsp;' + display_name +
                             '                  </span>'+
                             '                </a>'+
                             '              </div>'+
@@ -156,8 +176,11 @@ from student.models import CourseEnrollment
                             '    </section>'+
                             '  </article>'+
                             '</div>'
-                $('#courses_target').append(box);
-                $('#courses_target').append(box);
+                        $('#courses_target').append(box);
+                    }
+                });
+
+
 
             } else {
                 $('.empty-dashboard-message').show();

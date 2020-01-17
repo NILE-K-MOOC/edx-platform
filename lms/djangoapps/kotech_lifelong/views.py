@@ -33,6 +33,53 @@ from bson import ObjectId
 log = logging.getLogger(__name__)
 
 
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+    ]
+
+
+def cb_course(request):
+
+    user_id = request.user.id
+
+    print "--------------------------"
+    print "user_id = ", user_id
+    print "--------------------------"
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select  x.course_id, 
+                    y.display_name, 
+                    y.course_image,
+                    y.professor_name, 
+                    y.org,
+                    y.major_category,
+                    y.weeks,
+                    y.credit,
+                    Date_format(y.start, '%y.%m.%d. ') as start,
+                    Date_format(y.end, '%y.%m.%d. ') as end,
+                    x.attendance,
+                    x.score
+            from cb_course_enroll x
+            join cb_course y
+            on x.course_id = y.course_id
+            where user_id = '{user_id}'
+            and x.delete_yn = 'N';
+        '''.format(user_id=user_id)
+        cur.execute(query)
+        rows = dictfetchall(cur)
+
+    print "--------------------------"
+    print "rows = ", rows
+    print "--------------------------"
+
+    return JsonResponse({'result': rows})
+
+
 def common_course_status(startDt, endDt):
     # input
     # startDt = 2016-12-19 00:00:00
