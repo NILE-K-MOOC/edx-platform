@@ -79,7 +79,94 @@ from student.models import CourseEnrollment
   <script src="${static.url('js/commerce/credit.js')}"></script>
   <%static:js group='dashboard'/>
   <script type="text/javascript">
+
+        // template 변수를 사용하므로 외부로 분리하면 오류가 발생하니 주의하십시오!
+        function cb_course(){
+            var status = '${status_flag}';
+            if ( status == 'cb' ) {
+                // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
+                $('.empty-dashboard-message').hide();
+
+                var box =   ''+
+                            '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">'+
+                            '  <article class="course" aria-labelledby="course-title-course-v1:KoreaUnivK+ku_soc_002+2019_S02" id="course-card-0">'+
+                            '    <section class="details" aria-labelledby="details-heading-course-v1:KoreaUnivK+ku_soc_002+2019_S02">'+
+                            '      <div class="kr01_dashArea">'+
+                            '        <h2 class="hd hd-2 sr" id="details-heading-course-v1:KoreaUnivK+ku_soc_002+2019_S02">강좌 세부사항</h2>'+
+                            '        <div class="kr01_dashImg" aria-hidden="true">'+
+                            '          <a href="#" data-course-key="course-v1:KoreaUnivK+ku_soc_002+2019_S02" class="cover" tabindex="0">'+
+                            '            <img src="/asset-v1:KoreaUnivK+ku_soc_002+2019_S02+type@asset+block@_1_-사회적-가치와-소셜벤처.jpg" class="course-image" alt="ku_soc_002 사회적 가치와 소셜벤처 홈페이지" onerror="this.src=\'/static/images/blank.png\'">'+
+                            '          </a>'+
+                            '        </div>'+
+                            '        <div class="kr01_dashTarea">'+
+                            '          <div class="kr01_dashTitle" id="course-title-course-v1:KoreaUnivK+ku_soc_002+2019_S02">'+
+                            '            <span class="kr01_dashT01">사회적 가치와 소셜벤처'+
+                            '            </span>'+
+                            '            <span class="kr01_dashT02">'+
+                            '              <div class="kr01-dash-unenroll-div">'+
+                            '              </div>'+
+                            '            </span>'+
+                            '          </div>'+
+                            '          <div class="kr01_dashTsub">'+
+                            '            <span class="kr01_dashTs01">'+
+                            '              <div>김윤태 | 고려대학교</div>'+
+                            '              <div>'+
+                            '                사회계열 / 사회과학'+
+                            '              </div>'+
+                            '            </span>'+
+                            '            <span class="kr01_dashTs01">'+
+                            '              <div>주차</div>'+
+                            '              <div>14주</div>'+
+                            '            </span>'+
+                            '            <span class="kr01_dashTs01">'+
+                            '              <div>학점</div>'+
+                            '              <div>3학점</div>'+
+                            '            </span>'+
+                            '            <span class="kr01_dashTs01" style="margin-right: 0px;">'+
+                            '              <div>강좌 운영 기간</div>'+
+                            '              <div>`20.01.03. ~ `20.02.25.</div>'+
+                            '            </span>'+
+                            '            <span class="kr01_dashBtnArea">'+
+                            '              <div class="kr01_dashBtn">'+
+                            '                <a href="#" class="enter-course">'+
+                            '                  이수증보기'+
+                            '                  <span class="sr">'+
+                            '                    &nbsp;사회적 가치와 소셜벤처'+
+                            '                  </span>'+
+                            '                </a>'+
+                            '              </div>'+
+                            '              <div class="kr01_dashBtn">'+
+                            '              </div>'+
+                            '            </span>'+
+                            '          </div>'+
+                            '          <div class="course-info">'+
+                            '            <span class="info-date-block-container">'+
+                            '              <span class="info-date-block localized-datetime" data-language="ko-kr" data-timezone="None" data-datetime="" data-format="shortDate" data-string="">'+
+                            '              </span>'+
+                            '            </span>'+
+                            '          </div>'+
+                            '          <div class="wrapper-course-actions">'+
+                            '            <div class="course-actions">'+
+                            '              <div>'+
+                            '              </div>'+
+                            '            </div>'+
+                            '          </div>'+
+                            '        </div>'+
+                            '      </div>'+
+                            '    </section>'+
+                            '  </article>'+
+                            '</div>'
+                $('#courses_target').append(box);
+                $('#courses_target').append(box);
+
+            } else {
+                $('.empty-dashboard-message').show();
+            }
+        }
+
     $(document).ready(function () {
+        cb_course();
+
         edx.dashboard.legacy.init({
             dashboard: "${reverse('dashboard') | n, js_escaped_string}",
             signInUser: "${reverse('signin_user') | n, js_escaped_string}",
@@ -265,45 +352,37 @@ from student.models import CourseEnrollment
     <div class="dashboard" id="dashboard-main">
       <div class="main-container">
         <div class="my-courses" id="my-courses">
-          <header class="wrapper-header-courses">
+            <header class="wrapper-header-courses">
                 <h2 class="header-courses">${_("Dashboard")}</h2>
-
                 <nav class="faq-tab">
                     % if 'status' in request.session:
-                  <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
-                          <h2 class="hidden_head">${_("ing course")}</h2>
-                        </a>
+                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
+                        <h2 class="hidden_head">${_("ing course")}</h2>
+                    </a>
                     % else:
-                  <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
-                          <h2 class="hidden_head">${_("ing course")}</h2>
-                        </a>
-                  <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
-                          <h2 class="hidden_head">${_("Audit Course")}</h2>
-                        </a>
+                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
+                        <h2 class="hidden_head">${_("ing course")}</h2>
+                    </a>
+                    <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
+                        <h2 class="hidden_head">${_("Audit Course")}</h2>
+                    </a>
                     % endif
-
-                  <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
-                      <h2 class="hidden_head">${_("complete/end Course")}</h2>
+                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
+                        <h2 class="hidden_head">${_("complete/end Course")}</h2>
                     </a>
-
-                  <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
-                      <h2 class="hidden_head">${_("interest")}</h2>
+                    <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
+                        <h2 class="hidden_head">${_("interest")}</h2>
                     </a>
-                  <!--
-                  ##<a href="#" data-status="propose" class="${'on' if status_flag == 'propose' else ''} dash-link" title="추천강좌"><span>${_("propose(Beta)")}</span>
-                      ##<h2 class="hidden_head">${_("propose(Beta)")}</h2>
+                    <a href="#" data-status="cb" class="${'on' if status_flag == 'cb' else ''} dash-link" title="학점은행과정"><span>학점은행과정</span>
+                        <h2 class="hidden_head">학점은행과정</h2>
                     </a>
-                    -->
-
                 </nav>
-
                 <div class="sub-end">
                     <a href="javascript:focusTo(1);">이수강좌</a> | <a href="javascript:focusTo(2);">미이수강좌</a>
                 </div>
                 <div class="sub-interest">
                     <a href="javascript:focusTo(3);">신청중인강좌</a> | <a href="javascript:focusTo(4);">대기강좌</a>
                 </div>
-
             </header>
 
 
