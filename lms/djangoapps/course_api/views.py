@@ -174,7 +174,17 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
             course_id = self.kwargs['course_key_string']
         else:
             course_id = course_id.replace(' ', '+')
-            SG_APIM = req.GET.get('SG_APIM')
+            SG_APIM = req.GET.get('ServiceKey')
+
+            if not SG_APIM:
+                SG_APIM = req.GET.get('serviceKey')
+
+            if not SG_APIM:
+                SG_APIM = req.GET.get('secretKey')
+
+            if not SG_APIM:
+                SG_APIM = req.GET.get('secret_key')
+
             check_api_key(SG_APIM)
 
         requested_params = self.request.query_params.copy()
