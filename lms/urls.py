@@ -151,6 +151,7 @@ urlpatterns = [
     # made by kotech system
     url(r'^api/all_courses$', kotech_lifelong.course_api, name="course_api"),
     url(r'^api/cb_course$', kotech_lifelong.cb_course, name="cb_course"),
+    url(r'^cb_print/(?P<id>.*?)/$', kotech_lifelong.cb_print, name='cb_print'),
 
 
     # Self Auth

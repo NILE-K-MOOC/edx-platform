@@ -2,6 +2,10 @@
 import logging
 import urllib
 import json
+import datetime
+import uuid
+import urllib2
+from pytz import timezone
 import branding.api as branding_api
 import courseware.views.views
 import student.views.management
@@ -40,6 +44,99 @@ def dictfetchall(cursor):
             dict(zip([col[0] for col in desc], row))
             for row in cursor.fetchall()
     ]
+
+
+def cb_print(request, id):
+
+    # url 직접 입력 후 접근 시 발생하는 버그 수정
+    # 정상 "7"
+    # 비정상 "7/images/bg.png"
+    id = id.replace("/images/bg.png", "")
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "id -> ", id
+    print "--------------------------------------------"
+
+    # 1. 사용자 아이디 로드 및 이수증 고유번호 생성
+    user_id = request.user.id
+
+    # 2. 로그인 유효성 검증
+    if user_id == None:
+        return redirect('/login')
+
+    # 6. 이름, 생년월일, 본인인증여부, 본인인증데이터 불러오기
+    with connections['default'].cursor() as cur:
+        query = '''
+            select username, b.year_of_birth, 
+            case 
+            when c.id is null
+            then 'N'
+            when c.id is not null
+            then 'Y'
+            end as nice, plain_data
+            from auth_user a
+            join auth_userprofile b
+            on a.id = b.user_id
+            left join auth_user_nicecheck c
+            on a.id = c.user_Id
+            where a.id = '{user_id}';
+        '''.format(user_id=user_id)
+        cur.execute(query)
+        user_data = cur.fetchall()
+
+    try:
+        user_name = user_data[0][0]  # 'kim hangil'
+        user_birth = user_data[0][1]  # '1990'
+        user_nice = user_data[0][2]  # 'N' or 'Y'
+    except BaseException as err:
+        print "user data parsing error detail : ", err
+        return redirect('/dashboard')
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "user_name -> ", user_name
+    print "user_birth-> ", user_birth
+    print "user_nice -> ", user_nice
+    print "--------------------------------------------"
+
+    # 본인인증이 되어있다면 본인인증데이터 불러오기
+    if user_nice == 'Y':
+        try:
+            pd = user_data[0][3]
+            pd = json.loads(pd)
+            user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
+            pd = pd['BIRTHDATE']
+            pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+            user_birth = pd
+        except BaseException as err:
+            print "user data parsing error (2) detail : ", err
+            return redirect('/dashboard')
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "user_name -> ", user_name
+    print "user_birth-> ", user_birth
+    print "--------------------------------------------"
+
+    # 7. 이수증 출력일시 날짜 포맷 변경
+    # ex) 2019.11.27 16:34:38
+    kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
+    # ex) 2019.11.27
+    kst_short = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "kst -> ", kst
+    print "kst_short -> ", kst_short
+    print "--------------------------------------------"
+
+    context = {}
+    context['user_name'] = user_name
+    context['user_birth'] = str(user_birth) + '.'
+    context['user_nice'] = user_nice
+    context['kst'] = kst
+    return render_to_response('community/cb_print.html', context)
 
 
 def cb_course(request):
