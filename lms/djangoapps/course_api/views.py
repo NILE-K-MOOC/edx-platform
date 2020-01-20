@@ -44,7 +44,7 @@ def check_api_key(service_key=None):
         key = get_apim_key()
 
         if not service_key:
-            raise ValidationError('check_api_key API Call Exception (serviceKey not exists)')
+            raise ValidationError('check_api_key API Call Exception (ServiceKey not exists)')
 
         if service_key.strip() != key.strip():
             raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
@@ -171,7 +171,7 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         path = req.path
 
         if path == '/api/courses/v1/course/detail/':
-            service_key = req.GET.get('serviceKey')
+            service_key = req.GET.get('ServiceKey')
             check_api_key(service_key)
             course_id = req.GET.get('course_id', '')
             course_id = course_id.replace(' ', '+')
@@ -319,7 +319,7 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
         path = req.path
 
         if path == '/api/courses/v1/course/list/':
-            service_key = req.GET.get('serviceKey')
+            service_key = req.GET.get('ServiceKey')
             check_api_key(service_key)
 
         form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
