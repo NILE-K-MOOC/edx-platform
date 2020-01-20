@@ -46,26 +46,27 @@ def dictfetchall(cursor):
     ]
 
 
-def cb_print(request, id):
+def cb_print(request, course_id):
 
     # url 직접 입력 후 접근 시 발생하는 버그 수정
     # 정상 "7"
     # 비정상 "7/images/bg.png"
-    id = id.replace("/images/bg.png", "")
-
-    # 개발 디버깅 로그
-    print "--------------------------------------------"
-    print "id -> ", id
-    print "--------------------------------------------"
+    course_id = course_id.replace("/images/bg.png", "")
 
     # 1. 사용자 아이디 로드 및 이수증 고유번호 생성
     user_id = request.user.id
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "course_id -> ", course_id
+    print "user_id -> ", user_id
+    print "--------------------------------------------"
 
     # 2. 로그인 유효성 검증
     if user_id == None:
         return redirect('/login')
 
-    # 6. 이름, 생년월일, 본인인증여부, 본인인증데이터 불러오기
+    # 3. 이름, 생년월일, 본인인증여부, 본인인증데이터 불러오기
     with connections['default'].cursor() as cur:
         query = '''
             select username, b.year_of_birth, 
@@ -86,9 +87,9 @@ def cb_print(request, id):
         user_data = cur.fetchall()
 
     try:
-        user_name = user_data[0][0]  # 'kim hangil'
+        user_name = user_data[0][0]   # 'kim hangil'
         user_birth = user_data[0][1]  # '1990'
-        user_nice = user_data[0][2]  # 'N' or 'Y'
+        user_nice = user_data[0][2]   # 'N' or 'Y'
     except BaseException as err:
         print "user data parsing error detail : ", err
         return redirect('/dashboard')
@@ -119,7 +120,7 @@ def cb_print(request, id):
     print "user_birth-> ", user_birth
     print "--------------------------------------------"
 
-    # 7. 이수증 출력일시 날짜 포맷 변경
+    # 4. 이수증 출력일시 날짜 포맷 변경
     # ex) 2019.11.27 16:34:38
     kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
     # ex) 2019.11.27
@@ -131,11 +132,55 @@ def cb_print(request, id):
     print "kst_short -> ", kst_short
     print "--------------------------------------------"
 
+    # 5. 강좌 전체 정보
+    with connections['default'].cursor() as cur:
+        query = '''
+            select  y.display_name, 
+                    y.professor_name,
+                    y.org,
+                    y.weeks,
+                    y.credit,
+                    DATE_FORMAT(y.start, '%Y-%m-%d') as start,
+                    DATE_FORMAT(y.end, '%Y-%m-%d') as end,
+                    x.attendance,
+                    x.score,
+                    x.grade,
+                    DATE_FORMAT(x.regist_date, '%Y.%m.%d.') as regist_date,
+                    y.org_image
+            from cb_course_enroll x
+            join cb_course y
+            on x.course_id = y.course_id
+            where x.course_id = '{course_id}'
+            and x.delete_yn = 'N'
+            and y.delete_yn = 'N'
+            and x.user_id = '{user_id}';
+        '''.format(user_id=user_id, course_id=course_id)
+        cur.execute(query)
+        course_data = cur.fetchall()
+
+    if len(course_data) == 0:
+        print "course_data is 0"
+        return redirect('/dashboard')
+    else:
+        course_data = course_data[0]
+
     context = {}
     context['user_name'] = user_name
     context['user_birth'] = str(user_birth) + '.'
     context['user_nice'] = user_nice
     context['kst'] = kst
+    context['display_name'] = course_data[0]
+    context['professor_name'] = course_data[1]
+    context['org'] = course_data[2]
+    context['weeks'] = course_data[3]
+    context['credit'] = course_data[4]
+    context['start'] = course_data[5]
+    context['end'] = course_data[6]
+    context['attendance'] = course_data[7]
+    context['score'] = course_data[8]
+    context['grade'] = course_data[9]
+    context['regist_date'] = course_data[10]
+    context['org_image'] = course_data[11]
     return render_to_response('community/cb_print.html', context)
 
 

@@ -169,28 +169,28 @@ function changeEventHandler(event) {
                 </h4>
                 <div id="multi_info" style="font-size: 20px;color: #8a8585;margin-bottom: 12px;">
                 </div>
-                <h5  class="ce-t-gray">묶음 강좌명</h5>
-                <h4 class="ce-txt-second">행복한 코테크시스템</h4>
+                <h5  class="ce-t-gray">강좌명</h5>
+                <h4 class="ce-txt-second">${display_name}</h4>
                 <h5  class="ce-t-gray" style="margin-top: 12px; width: 100px; float: left; height: 160px; border-right: solid 3px black; margin-right: 20px;"></h5>
                 <blockquote style="margin-left: -8px; margin-top: 3px;">
                     <ul class="ce-list" style="margin-top: 15px;">
-                        <li>운 영 기 간 : 2019.01.01 - 2019.02.01</li>
-                        <li>총 주차 : 17 주</li>
-                        <li>학점 : 3 학점</li>
-                        <li>교수자 : 홍길동 교수</li>
-                        <li>기관 : 국가평생교육진흥원</li>
-                        <li>성적 : 67 점</li>
-                        <li>출석 : 80 %</li>
+                        <li>운 영 기 간 : ${start} - ${end}</li>
+                        <li>총 주차 : ${weeks} 주</li>
+                        <li>학점 : ${credit} 학점</li>
+                        <li>교수자 : ${professor_name} 교수</li>
+                        <li>기관 : ${org}</li>
+                        <li>성적 : ${score} 점</li>
+                        <li>출석 : ${attendance} %</li>
                     </ul>
                 </blockquote>
                 <h4 class="ce-center-txt2" style="margin-bottom: 0px; margin-top: 60px;">위 과정을 성실히 이수하여</h4>
                 <h4 class="ce-center-txt2" style="margin-bottom: 20px;">이 증서를 수여 합니다.</h4>
-                <h4 class="ce-center-txt2" style="margin-bottom: 10px;">2019.1.11.</h4>
+                <h4 class="ce-center-txt2" style="margin-bottom: 10px;">${regist_date}</h4>
                 <h4 class="ce-center-txt2" style="margin-bottom: 120px;">※ 본 이수증은 학점은행제 학점인정의 증빙과는 무관합니다.</h4>
 
                 <div class="sign-area">
                     <div class="ce-logo-area">
-                            <div class="ce-logo"><img src="http://www.kmooc.kr/static/file_upload/SNUk.png"></div>
+                            <div class="ce-logo"><img src="${org_image}"></div>
                     </div>
                 </div>
 
