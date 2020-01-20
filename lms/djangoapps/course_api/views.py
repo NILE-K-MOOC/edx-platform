@@ -173,7 +173,7 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         if path == '/api/courses/v1/course/detail/':
             service_key = req.GET.get('ServiceKey')
             check_api_key(service_key)
-            course_id = req.GET.get('course_id', '')
+            course_id = req.GET.get('CourseId', '')
             course_id = course_id.replace(' ', '+')
         else:
             course_id = self.kwargs['course_key_string']
