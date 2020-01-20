@@ -3,7 +3,7 @@
 Course API Views
 """
 
-import search, traceback
+import search
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -23,7 +23,7 @@ import subprocess
 log = logging.getLogger(__name__)
 
 
-def check_api_key(SG_APIM=None):
+def check_api_key(service_key=None):
     try:
         DIR = '/edx/app/edxapp/edx-platform/kotech_utility'
 
@@ -43,30 +43,30 @@ def check_api_key(SG_APIM=None):
 
         key = get_apim_key()
 
-        if not SG_APIM:
-            raise ValidationError('check_api_key API Call Exception (SG_APIM not exists)')
+        if not service_key:
+            raise ValidationError('check_api_key API Call Exception (serviceKey not exists)')
 
-        if SG_APIM.strip() != key.strip():
-            raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, SG_APIM))
+        if service_key.strip() != key.strip():
+            raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
 
         log.info('check_api_key key [%s]' % key)
         log.info('check_api_key SG_APIM [%s]' % key)
-        log.info('check_api_key check [%s]' % (key.strip() == SG_APIM.strip()))
+        log.info('check_api_key check [%s]' % (key.strip() == service_key.strip()))
 
         res = check_apim_key(key)
         log.info('check_api_key Res [%s]' % res)
 
     except OSError as e:
-        log.info('check_api_key exception --> OSError [%s]' % e.strerror)
-        raise ValidationError('check_api_key OSError [%s]' % e.strerror)
+        log.info('check_api_key exception --> OSError [%s]' % e.message)
+        raise ValidationError('check_api_key OSError [%s]' % e.message)
 
     except ValidationError as e1:
-        log.info('check_api_key exception --> ValidationError [%s]' % e1.strerror)
-        raise ValidationError('check_api_key exception --> ValidationError [%s]' % e1.strerror)
+        log.info('check_api_key exception --> ValidationError [%s]' % e1.message)
+        raise ValidationError('check_api_key exception --> ValidationError [%s]' % e1.message)
 
     except Exception as e2:
-        log.info('check_api_key exception --> Exception [%s]' % e2.strerror)
-        raise ValidationError('check_api_key exception --> Exception [%s]' % e2.strerror)
+        log.info('check_api_key exception --> Exception [%s]' % e2.message)
+        raise ValidationError('check_api_key exception --> Exception [%s]' % e2.message)
 
 
 @view_auth_classes(is_authenticated=False)
@@ -168,24 +168,15 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         """
 
         req = self.request
-        course_id = req.GET.get('course_id', '')
+        path = req.path
 
-        if not course_id:
-            course_id = self.kwargs['course_key_string']
-        else:
+        if path == '/api/courses/v1/course/detail/':
+            service_key = req.GET.get('serviceKey')
+            check_api_key(service_key)
+            course_id = req.GET.get('course_id', '')
             course_id = course_id.replace(' ', '+')
-            SG_APIM = req.GET.get('ServiceKey')
-
-            if not SG_APIM:
-                SG_APIM = req.GET.get('serviceKey')
-
-            if not SG_APIM:
-                SG_APIM = req.GET.get('secretKey')
-
-            if not SG_APIM:
-                SG_APIM = req.GET.get('secret_key')
-
-            check_api_key(SG_APIM)
+        else:
+            course_id = self.kwargs['course_key_string']
 
         requested_params = self.request.query_params.copy()
         requested_params.update({'course_key': course_id})
@@ -323,16 +314,20 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
 
         20200113 공공데이터 API 연계를 위한 인증모듈 검증 추가
         """
+
+        req = self.request
+        path = req.path
+
+        if path == '/api/courses/v1/course/list/':
+            service_key = req.GET.get('serviceKey')
+            check_api_key(service_key)
+
         form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
 
         if not form.is_valid():
             raise ValidationError(form.errors)
 
-        req = self.request
         f = form.cleaned_data['filter_']
-        SG_APIM = req.GET.get('SG_APIM')
-
-        check_api_key(SG_APIM)
 
         if not f:
             f = {'is_api': True}
