@@ -386,7 +386,7 @@ class CourseSection(models.Model):
     class Meta(object):
         verbose_name_plural = '1. CourseSection'
         app_label = 'api_admin'
-        db_table = "course_sections_coursesesion"
+        db_table = "course_sections_coursesection"
 
     section_logo_large = models.ImageField(blank=True, null=True, upload_to='section_logo', default='images/circle.png')
     section_logo_large_hover = models.ImageField(blank=True, null=True, upload_to='section_logo', default='images/circle.png')
@@ -403,7 +403,7 @@ class CourseSectionCourse(models.Model):
     class Meta(object):
         verbose_name_plural = '2. CourseSectionCourse'
         app_label = 'api_admin'
-        db_table = "course_sections_coursesesion_course"
+        db_table = "course_sections_coursesection_course"
 
     course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
     section = models.ForeignKey(CourseSection, db_index=True)
