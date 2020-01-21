@@ -122,7 +122,9 @@ from openedx.core.djangolib.markup import HTML
                         <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="${ section_data['section_key'] }">${_(dname)}</button></li>
                     % endif
                     % endfor
+                    <!--
                     <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="peer_asscessment">${_("Plagiarism testing")}</button></li>
+                    -->
                     <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="memo">쪽지발송</button></li>
                 </ul>
 
