@@ -213,14 +213,28 @@ def courses(request):
                                        settings.FEATURES.get("DISPLAY_PROGRAMS_ON_MARKETING_PAGES")):
         programs_list = get_programs_data(request.user)
 
-    return render_to_response(
-        "courseware/courses.html",
-        {
-            'courses': courses_list,
-            'course_discovery_meanings': course_discovery_meanings,
-            'programs_list': programs_list
-        }
-    )
+    context = {
+        'courses': courses_list,
+        'course_discovery_meanings': course_discovery_meanings,
+        'programs_list': programs_list
+    }
+
+    sections = CourseSection.objects.filter(Q(org=None)).order_by('order_no')
+    context['sections'] = sections
+
+    for section in sections:
+        s = 'courses_by_%s' % section
+        # section 별로 등로된 강좌를 확인하여 강좌 리스트를 추가하고 강좌를 구성되도록 함.
+        course_list_base = CourseSectionCourse.objects.filter(section=section.id).values_list('course_id', flat=True)
+
+        # 강좌명 정렬
+        course_list_section = [course for course in courses_list if str(course.id) in course_list_base]
+        # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
+
+        if course_list_section:
+            context[s] = course_list_section
+
+    return render_to_response("courseware/courses.html", context)
 
 
 def get_current_child(xmodule, min_depth=None, requested_child=None):

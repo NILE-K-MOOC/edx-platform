@@ -55,15 +55,44 @@
         </div>
         % endif
 
-        <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
-          <ul class="courses-listing">
-            %for course in courses:
-            <li class="courses-listing-item">
-              <%include file="../course.html" args="course=course" />
-            </li>
-            %endfor
-          </ul>
-        </div>
+        % if sections:
+          % for section in sections:
+            <%
+              s = 'courses_by_%s' % section
+            %>
+
+            % if s in context.keys():
+            <section class="courses ${s}">
+              <div class="page-header" id="section_${section.id}">
+                <h2>
+                  <img src="${section.section_logo_small.url}" onerror="this.src='/static/my-theme/images/no_image.png'"/> &nbsp; ${section}
+                </h2>
+              </div>
+              <ul class="courses-listing">
+                ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
+                  %for course in context[s]:
+                  <li class="courses-listing-item">
+                      <%include file="../course.html" args="course=course" />
+                  </li>
+                  % endfor
+              </ul>
+            </section>
+            % endif
+
+          % endfor
+        % else:
+
+          <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
+            <ul class="courses-listing">
+              %for course in courses:
+              <li class="courses-listing-item">
+                <%include file="../course.html" args="course=course" />
+              </li>
+              %endfor
+            </ul>
+          </div>
+
+        % endif
 
 
         % if course_discovery_enabled:
