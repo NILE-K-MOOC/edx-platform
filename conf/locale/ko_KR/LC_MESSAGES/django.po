@@ -27879,3 +27879,6 @@ msgstr "확장"
 
 msgid "Contract"
 msgstr "접기"
+
+msgid "Video Transcript"
+msgstr "자막 언어"
