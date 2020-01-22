@@ -1269,16 +1269,26 @@ def course_about(request, course_id):
 
         cur = con.cursor()
         query = '''
-                    SELECT ifnull(b.detail_ename, '')
+                    SELECT ifnull(b.detail_ename, ''), ifnull(a.course_subtitle, '-'), ifnull(a.course_language, '-')
                       FROM course_overview_addinfo a
                            LEFT JOIN code_detail b
                               ON a.course_level = b.detail_code AND b.group_code = '007'
                      WHERE a.course_id = '{course_id}';
                 '''.format(course_id=course_id)
         cur.execute(query)
-        course_level = cur.fetchall()
-        print "course_level", course_level
-        course_level = course_level[0][0]
+        coai = cur.fetchall()
+        try:
+            course_level = coai[0][0]
+        except BaseException:
+            course_level = '-'
+        try:
+            course_subtitle = coai[0][1]
+        except BaseException:
+            course_subtitle = '-'
+        try:
+            course_language = coai[0][2]
+        except BaseException:
+            course_language = '-'
         cur.close()
 
         cur = con.cursor()
@@ -1600,6 +1610,8 @@ def course_about(request, course_id):
             'effort_week': effort_week,
             # 'course_link': course_link,
             'course_level': course_level,
+            'course_subtitle': course_subtitle,
+            'course_language': course_language,
             'study_time': study_time,
             'start': start,
             'end': end,
@@ -3045,7 +3057,7 @@ def schools(request):
                     # 20190826 기관 연락처 추가
                     org_dict['logo_img'] = '''
                         <a href="/school/{org_id}">
-                            <div class="logo_div">
+                            <div class="logo_div" onmouseover="replaceDiv()">
                                 <img class="logo_img" alt="{org_name}" src="{org_image}" onerror="this.src='/static/images/blank.png'"/>
                                 <div class="logo_phone">{org_phone}</div>
                             </div>
