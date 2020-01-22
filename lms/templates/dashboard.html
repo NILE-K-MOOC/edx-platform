@@ -91,7 +91,6 @@ from student.models import CourseEnrollment
 
                 })
                 .done(function( data ) {
-                    console.log('data.result = ', data.result);
                     for (var i=0; i<data.result.length; i++) {
                         var d = data.result[i];
                         var attendance = d.attendance;
@@ -177,6 +176,9 @@ from student.models import CourseEnrollment
                             '  </article>'+
                             '</div>'
                         $('#courses_target').append(box);
+                    }
+                    if (data.result.length == 0) {
+                        $('.empty-dashboard-message').show();
                     }
                 });
 
