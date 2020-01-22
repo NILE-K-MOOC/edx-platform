@@ -765,7 +765,7 @@ $("#audit_mode").click(function(event) {
                         <div class="side-about">
                             <div class="about-side-title">
                                 <span class="icon fa fa-graduation-cap fa-lg" aria-hidden="true"></span>
-                                <p class="important-dates-item-title">${_("major")}</p>
+                                <p class="important-dates-item-title">${_("Subject")}</p>
                             </div>
                             <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
                                 <span>${_(classfy_name)}</span>
@@ -868,7 +868,7 @@ $("#audit_mode").click(function(event) {
                                 </div>
                                 <div class="about-side-title">
                                     <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                                    <p class="important-dates-item-title">${_("Course Registration Period")}</p>
+                                    <p class="important-dates-item-title">${_("Registration Period")}</p>
                                 </div>
                                 <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
                                 <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate} ~ ${enroll_edate}</span>
@@ -930,6 +930,31 @@ $("#audit_mode").click(function(event) {
                             </div>
                         </li>
                     % endif
+
+                    <li class="important-dates-item">
+                        <div class="side-about">
+                            <div class="about-side-title">
+                                <span class="icon fa fa-file-video-o fa-lg" aria-hidden="true"></span>
+                                <p class="important-dates-item-title">${_("Language")}</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span>${_(classfy_name)}</span>
+                            </span>
+                        </div>
+                    </li>
+
+                    <li class="important-dates-item">
+                        <div class="side-about">
+                            <div class="about-side-title">
+                                <span class="icon fa fa-file-video-o fa-lg" aria-hidden="true"></span>
+                                <p class="important-dates-item-title">${_("Video Transcript")}</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span>${_(classfy_name)}</span>
+                            </span>
+                        </div>
+                    </li>
+
                 </ol>
             </div>
 

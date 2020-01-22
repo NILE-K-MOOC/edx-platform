@@ -25675,6 +25675,11 @@ msgstr "융·복합"
 msgid "major"
 msgstr "분야"
 
+msgid "Subject"
+msgstr "분야"
+
+msgid "Registration Period"
+msgstr "수강 신청 기간"
 
 #: comm_faqrequest.html
 msgid "The inquiry will be sent to the K-MOOC staff members by e-mail."
