@@ -1,1163 +1,980 @@
 <%namespace name='static' file='../static_content.html'/>
 <%!
-from django.utils.translation import ugettext as _
-from django.utils.translation import pgettext
-from django.urls import reverse
-from courseware.courses import get_course_about_section
-from django.conf import settings
-from six import text_type
-from edxmako.shortcuts import marketing_link
-from openedx.core.djangolib.markup import HTML
-from openedx.core.lib.courses import course_image_url
-from six import string_types
+    from django.utils.translation import ugettext as _
+    from django.utils.translation import pgettext
+    from django.urls import reverse
+    from courseware.courses import get_course_about_section
+    from django.conf import settings
+    from six import text_type
+    from edxmako.shortcuts import marketing_link
+    from openedx.core.djangolib.markup import HTML
+    from openedx.core.lib.courses import course_image_url
+    from six import string_types
 %>
 
 <%inherit file="../main.html" />
 <%block name="headextra">
-  ## OG (Open Graph) title and description added below to give social media info to display
-  ## (https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content#tags)
-  <meta property="og:title" content="${course.display_name_with_default_escaped}" />
-  <meta property="og:description" content="${get_course_about_section(request, course, 'short_description')}" />
+    ## OG (Open Graph) title and description added below to give social media info to display
+    ## (https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content#tags)
+    <meta property="og:title" content="${course.display_name_with_default_escaped}" />
+    <meta property="og:description" content="${get_course_about_section(request, course, 'short_description')}" />
 </%block>
 
-
-
 <%block name="js_extra">
-  <script type="text/javascript">
-  (function() {
-      $(".youtubewrap").bind('contextmenu', function (e) {
+<script type="text/javascript">
+(function() {
+    $(".youtubewrap").bind('contextmenu', function (e) {
         return false;
-      });
+    });
 
     $(".register").click(function(event) {
-      %if not user.is_authenticated():
-          //alert('수강신청을 위해서는 회원가입이 필요합니다. 확인을 누르시면 회원가입 페이지로 이동합니다.');
-          alert('${_("You need to register to enrollment.")}');
-          location.href = "/login";
-      % else:
-        $("#class_enroll_form").submit();
-      %endif
-        //location.href = "/login";
-        event.preventDefault();
+        % if not user.is_authenticated():
+            alert('${_("You need to register to enrollment.")}');
+            location.href = "/login";
+        % else:
+            $("#class_enroll_form").submit();
+        % endif
+            event.preventDefault();
     });
 
     % if can_add_course_to_cart:
-      add_course_complete_handler = function(jqXHR, textStatus) {
-        if (jqXHR.status == 200) {
-          location.href = "${cart_link}";
-        }
-        if (jqXHR.status == 400) {
-          $("#register_error")
-            .html(jqXHR.responseText ? jqXHR.responseText : "${_("An error occurred. Please try again later.")}")
-            .css("display", "block");
-        }
-        else if (jqXHR.status == 403) {
-            location.href = "${reg_then_add_to_cart_link}";
-        }
-      };
+        add_course_complete_handler = function(jqXHR, textStatus) {
+            if (jqXHR.status == 200) {
+                location.href = "${cart_link}";
+            }
+            if (jqXHR.status == 400) {
+                $("#register_error")
+                .html(jqXHR.responseText ? jqXHR.responseText : "${_("An error occurred. Please try again later.")}")
+                .css("display", "block");
+            }
+            else if (jqXHR.status == 403) {
+                location.href = "${reg_then_add_to_cart_link}";
+            }
+        };
 
-      $("#add_to_cart_post").click(function(event){
-        $.ajax({
-          url: "${reverse('add_course_to_cart', args=[text_type(course.id)])}",
-          type: "POST",
-          /* Rant: HAD TO USE COMPLETE B/C PROMISE.DONE FOR SOME REASON DOES NOT WORK ON THIS PAGE. */
-          complete: add_course_complete_handler
-        })
-        event.preventDefault();
-      });
+        $("#add_to_cart_post").click(function(event){
+            $.ajax({
+                url: "${reverse('add_course_to_cart', args=[text_type(course.id)])}",
+                type: "POST",
+                complete: add_course_complete_handler
+            })
+            event.preventDefault();
+        });
     % endif
 
-    ## making the conditional around this entire JS block for sanity
-    %if settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
-      <%
-        perms_error = _('The currently logged-in user account does not have permission to enroll in this course. '
-                        'You may need to {start_logout_tag}log out{end_tag} then try the enroll button again. '
-                        'Please visit the {start_help_tag}help page{end_tag} for a possible solution.').format(
-                          start_help_tag="<a href='{url}'>".format(url=marketing_link('FAQ')), end_tag='</a>',
-                          start_logout_tag="<a href='{url}'>".format(url=reverse('logout'))
-                          )
-      %>
-    $('#class_enroll_form').on('ajax:complete', function(event, xhr) {
-      if(xhr.status == 200) {
-        location.href = "${reverse('dashboard')}";
-      } else if (xhr.status == 403) {
-        location.href = "${reverse('course-specific-register', args=[text_type(course.id)])}?course_id=${course.id | u}&enrollment_action=enroll";
-      } else if (xhr.status == 400) { //This means the user did not have permission
-        $('#register_error').html("${perms_error}").css("display", "block");
-      } else {
-        $('#register_error').html(
-            (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
-        ).css("display", "block");
-      }
-    });
-
+    % if settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
+        <%
+            perms_error = _('The currently logged-in user account does not have permission to enroll in this course. '
+            'You may need to {start_logout_tag}log out{end_tag} then try the enroll button again. '
+            'Please visit the {start_help_tag}help page{end_tag} for a possible solution.').format(
+            start_help_tag="<a href='{url}'>".format(url=marketing_link('FAQ')), end_tag='</a>',
+            start_logout_tag="<a href='{url}'>".format(url=reverse('logout'))
+            )
+        %>
+        $('#class_enroll_form').on('ajax:complete', function(event, xhr) {
+            if(xhr.status == 200) {
+                location.href = "${reverse('dashboard')}";
+            } else if (xhr.status == 403) {
+                location.href = "${reverse('course-specific-register', args=[text_type(course.id)])}?course_id=${course.id | u}&enrollment_action=enroll";
+            } else if (xhr.status == 400) { //This means the user did not have permission
+                $('#register_error').html("${perms_error}").css("display", "block");
+            } else {
+                $('#register_error').html(
+                    (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
+                ).css("display", "block");
+            }
+        });
     %else:
+        $('#class_enroll_form').on('ajax:complete', function(event, xhr) {
+            if(xhr.status == 200) {
+                if (xhr.responseText == "") {
+                    location.href = "${reverse('dashboard')}";
+                }
+                else {
+                    location.href = xhr.responseText;
+                }
+            } else if (xhr.status == 403) {
+                location.href = "${reverse('register_user')}?course_id=${course.id | u}&enrollment_action=enroll";
+            } else {
+                $('#register_error').html(
+                    (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
+                ).css("display", "block");
+            }
+        });
+    %endif
+})(this)
 
-    $('#class_enroll_form').on('ajax:complete', function(event, xhr) {
-      if(xhr.status == 200) {
-        if (xhr.responseText == "") {
-          location.href = "${reverse('dashboard')}";
+$("#audit_mode").click(function(event) {
+    event.preventDefault();
+    %if user.is_authenticated():
+        swal(gettext("For auditing you can use some content such as videos, however, you cannot receive study support or certifictes from instructor and TA.\n" +
+            "\n" +
+            "Would you like to audit?\n" +
+            "\n" +
+            "(If you want to receive study support or certificate for this course, please register it as a course of interest. We will inform you when this course will open as a regular class.)"),
+        {buttons: {
+            cancel: gettext("Cancel"),
+            confirm: {text: gettext("Apply"), className: "audit"}
         }
-        else {
-          location.href = xhr.responseText;
-        }
-      } else if (xhr.status == 403) {
-          location.href = "${reverse('register_user')}?course_id=${course.id | u}&enrollment_action=enroll";
-      } else {
-        $('#register_error').html(
-            (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
-        ).css("display", "block");
-      }
+        }).then(function (isConfirm) {
+            if (isConfirm == true) {
+                $.post('/enrollment_verifi', {
+                    course_id: '${course.id}',
+                    user_id: '${user.id}'
+                },
+                function (data) {
+                    location.href = "/dashboard";
+                });
+            } else {
+                return;
+            }
+        });
+    %endif
+});
+<script src="${static.url('js/course_info.js')}"></script>
+<script>
+    $(document).ready(function(){
+        $('#interest_star a').keydown(function(e){
+            if(e.keyCode === 13 || e.keyCode === 32){
+                $(this).trigger('click');
+                $(this).children('i').trigger('click');
+                $('#interest_star a i').each(function(){
+                    if($(this).is(':visible')){
+                        $(this).parent().focus();
+                    }
+                });
+            }
+        });
     });
 
-    %endif
+    function add() {
+        try {
+            var def_index = '${course.id}';
+            var index_arr = [];
+            index_arr = def_index.split("+");
+            var user_id = '${user.id}';
+            var org = '${course.org}';
+            var display_number_with_default = index_arr[1];
+            var action = 'add';
+            $.post("/course_interest", {
+                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                user_id : user_id,
+                org: org,
+                display_number_with_default: display_number_with_default,
+                method : action,
+            }).done(function (data) {
+                // pass
+            }).fail(function (error) {
+                alert('error = ' + error.responseJSON);
+            });
+        } catch (e) {
+            alert(e);
+        }
+    }
 
-  })(this)
-  </script>
+    function modi() {
+        try {
+            var def_index = '${course.id}';
+            var index_arr = [];
+            index_arr = def_index.split("+");
+            var user_id = '${user.id}';
+            var org = '${course.org}';
+            var display_number_with_default = index_arr[1];
+            var action = 'modi';
+            $.post("/course_interest", {
+                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                user_id : user_id,
+                org: org,
+                display_number_with_default: display_number_with_default,
+                method : action,
+            }).done(function (data) {
+                // pass
+            }).fail(function (error) {
+                alert('error = ' + error.responseJSON);
+            });
+        } catch (e) {
+            alert(e);
+        }
+    }
 
-  <script type="text/javascript">
-      $("#audit_mode").click(function(event) {
-          event.preventDefault();
-      %if user.is_authenticated():
-          swal(gettext("For auditing you can use some content such as videos, however, you cannot receive study support or certifictes from instructor and TA.\n" +
-              "\n" +
-              "Would you like to audit?\n" +
-              "\n" +
-              "(If you want to receive study support or certificate for this course, please register it as a course of interest. We will inform you when this course will open as a regular class.)"),
-              {
-                  buttons: {
-                      cancel: gettext("Cancel"),
-                      confirm: {text: gettext("Apply"), className: "audit"}
-                  }
-              }).then(function (isConfirm) {
-              if (isConfirm == true) {
-
-                  $.post('/enrollment_verifi', {
-                          course_id: '${course.id}',
-                          user_id: '${user.id}'
-                      },
-                      function (data) {
-                          location.href = "/dashboard";
-                      }
-                  );
-              } else {
-                  return;
-              }
-          });
-      %endif
-      });
-  </script>
-
-  <script src="${static.url('js/course_info.js')}"></script>
+    function change_i(id) {
+        if (id == 'nomal') {
+            console.log("nomal")
+            document.getElementById('empty').style.display = '';
+            document.getElementById('nomal').style.display = 'none';
+        }
+        else if (id == 'empty') {
+            console.log("empty")
+            document.getElementById('nomal').style.display = '';
+            document.getElementById('empty').style.display = 'none';
+        }
+    }
+</script>
 </%block>
 
 <%block name="pagetitle">${course.display_name_with_default_escaped}</%block>
 
-<link rel="stylesheet" type="text/css" href="/static/css/common-overview-template.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/common-overview-template.css"/>
 <style>
+    #course-info section{line-height:160%; width: 98%;margin-top:40px}
+    #course-info article{padding-top:10px;padding-left:15px}
+    #course-info h2,h3{font-weight:bold; font-family: "Nanum Gothic","Open Sans";}
+    #course-info h2{font-size: 1.4rem; margin: 1.25rem 0 0.28rem 0;}
+    #course-info h3{font-size: 1.1rem; margin: 0.25rem 0 0.25rem 0;}
+    #course-info .article_contents{padding-left:10px;}
+    #course-info p{text-align: justify; padding-left: 31px;}
+    #course-info .grade_table p{padding-left: 0}
+    #course-info .syllabus_table p{padding-left: 0}
+    #course-info i.staff-name {font-style: normal}
+    table caption{
+        display: block;
+        height: 0;
+        width: 0;
+        font-size: 0;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .fa {
+        display: inline-block;
+        font-family: FontAwesome;
+        font-feature-settings: normal;
+        font-kerning: auto;
+        font-size: inherit;
+        font-stretch: normal;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        line-height: 1;
+        text-rendering: auto;
+        transform: translate(0px, -1.5px);
+        width: 30px;
+    }
+    .fa-chevron-down:before {  content: "\f078";}
+    .fa-institution:before,.fa-bank:before,.fa-university:before {  content: "\f19c";}
+    .fa-mortar-board:before,.fa-graduation-cap:before {  content: "\f19d";}
+    .fa-video-camera:before {  content: "\f03d";}
+    .fa-edit:before,.fa-pencil-square-o:before {  content: "\f044";}
+    .fa-mortar-board:before,.fa-graduation-cap:before {  content: "\f19d";}
+    .fa-envelope-o:before {  content: "\f003";}
+    .fa-group:before,.fa-users:before {  content: "\f0c0";}
+    .fa-align-left:before {  content: "\f036";}
+    .fa-toggle-right:before,.fa-caret-square-o-right:before {  content: "\f152";}
+    .fa-calendar:before {  content: "\f073";}
+    .fa-user:before {  content: "\f007";}
+    .fa-angle-double-right:before {  content: "\f101";}
+    .fa-info-circle:before {  content: "\f05a";}
+    .fa-book:before {  content: "\f02d";}
+    .fa-sort-amount-desc:before {  content: "\f161";}
+    .fa-question-circle:before {  content: "\f059";}
+    .youtubewrap {
+        position: relative;
+        max-width: 100%;
+        height: auto;
+        padding-bottom: 5px !important;
+        padding-top:5px;
+        overflow:hidden;
+    }
+    .youtubewrap iframe {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .subtitle_box {
+        overflow-y: scroll;
+        height: 6rem;
+        width: 100%;
+        margin-top: 20px;
+        border: 1px solid #cbcbcb;
+    }
+    .subtitle_section {
+        overflow: hidden;
+        line-height: 1rem;
+        font-size: small;
+    }
+    .subtitle_section p{ text-indent: 0rem;}
+    .syllabus input {display: none;}
+    #toggle + label {
+        position:relative;
+        cursor:pointer;
+        padding:10px;
+        background: rgba(27, 114, 204, 0.8);
+        border-radius: 3px;
+        padding: 8px 10px;
+        color: #FFF;
+        line-height:20px;
+        font-size:12px;
+        text-align:center;
+        -webkit-font-smoothing: antialiased;
+        cursor: pointer;
+        transition:all 500ms ease;
+        display:block;
+        font-family:"Helvetica Neue", Helvetica, Sans-serif;
+        font-style: normal;
+        overflow: hidden;
+    }
+    #toggle + label:after {
+        content:"강좌계획표 펼치기"
+    }
+    #toggle:checked ~ .syllabus_table {
+        top: 0;
+        visibility: visible;
+        position:relative;
+        transition: visibility 1s, opacity 1s;
+        width: 100%;
+        padding: 10px;
+        margin-top:20px;
+        line-height: inherit;
+        height: 100%;
+    }
+    #toggle:checked + label {
+        background:#aaa;
+    }
 
-/*************************0. Overall***************************/
-
-/*
-@font-face {
-  font-family: 'FontAwesome';
-  src: url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?v=4.3.0");
-  src: url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?#iefix&v=4.3.0") format('embedded-opentype'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.97493d3f11c0.woff2?v=4.3.0") format('woff2'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.d9ee23d59d0e.woff?v=4.3.0") format('woff'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.706450d7bba6.ttf?v=4.3.0") format('truetype'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.2980083682e9.svg?v=4.3.0#fontawesomeregular") format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-*/
-
-#course-info section{line-height:160%; width: 98%;margin-top:40px}
-#course-info article{padding-top:10px;padding-left:15px}
-#course-info h2,h3{font-weight:bold; font-family: "Nanum Gothic","Open Sans";}
-#course-info h2{font-size: 1.4rem; margin: 1.25rem 0 0.28rem 0;}
-#course-info h3{font-size: 1.1rem; margin: 0.25rem 0 0.25rem 0;}
-#course-info .article_contents{padding-left:10px;}
-#course-info p{text-align: justify; padding-left: 31px;}
-#course-info .grade_table p{padding-left: 0}
-#course-info .syllabus_table p{padding-left: 0}
-#course-info i.staff-name {font-style: normal}
-
-table caption{
-  display: block;
-  height: 0;
-  width: 0;
-  font-size: 0;
-  line-height: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-/*Bullet image*/
-.fa {
-    display: inline-block;
-    font-family: FontAwesome;
-    font-feature-settings: normal;
-    font-kerning: auto;
-    font-size: inherit;
-    font-stretch: normal;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    line-height: 1;
-    text-rendering: auto;
-    transform: translate(0px, -1.5px);
-    width: 30px;
-
-  }
-
-.fa-chevron-down:before {  content: "\f078";}
-.fa-institution:before,.fa-bank:before,.fa-university:before {  content: "\f19c";}
-.fa-mortar-board:before,.fa-graduation-cap:before {  content: "\f19d";}
-.fa-video-camera:before {  content: "\f03d";}
-.fa-edit:before,.fa-pencil-square-o:before {  content: "\f044";}
-.fa-mortar-board:before,.fa-graduation-cap:before {  content: "\f19d";}
-.fa-envelope-o:before {  content: "\f003";}
-.fa-group:before,.fa-users:before {  content: "\f0c0";}
-.fa-align-left:before {  content: "\f036";}
-.fa-toggle-right:before,.fa-caret-square-o-right:before {  content: "\f152";}
-.fa-calendar:before {  content: "\f073";}
-.fa-user:before {  content: "\f007";}
-.fa-angle-double-right:before {  content: "\f101";}
-.fa-info-circle:before {  content: "\f05a";}
-.fa-book:before {  content: "\f02d";}
-.fa-sort-amount-desc:before {  content: "\f161";}
-.fa-question-circle:before {  content: "\f059";}
-
-
-/*youtube*/
-.youtubewrap {
-    position: relative;
-    max-width: 100%;
-    height: auto;
-    padding-bottom: 5px !important;
-    padding-top:5px;
-    overflow:hidden;
-  }
-.youtubewrap iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-
-.subtitle_box {
-    overflow-y: scroll;
-    height: 6rem;
-    width: 100%;
-    margin-top: 20px;
-    border: 1px solid #cbcbcb;
-}
-
-.subtitle_section {
-    overflow: hidden;
-    line-height: 1rem;
-    font-size: small;
-}
-.subtitle_section p{ text-indent: 0rem;}
-
-/*************************2.Course-plan ***************************/
-
-.syllabus input {display: none;}
-
-
-#toggle + label {
-  position:relative;
-  cursor:pointer;
-  padding:10px;
-  background: rgba(27, 114, 204, 0.8);
-  border-radius: 3px;
-  padding: 8px 10px;
-  color: #FFF;
-  line-height:20px;
-  font-size:12px;
-  text-align:center;
-  -webkit-font-smoothing: antialiased;
-  cursor: pointer;
-  transition:all 500ms ease;
-  display:block;
-  font-family:"Helvetica Neue", Helvetica, Sans-serif;
-  font-style: normal;
-  overflow: hidden;
-}
-#toggle + label:after {
-  content:"강좌계획표 펼치기"
-}
-
-#toggle:checked ~ .syllabus_table {
-
-  top: 0;
-  visibility: visible;
-  position:relative;
-  transition: visibility 1s, opacity 1s;
-
-  /*20191128 수정*/
-  width: 100%;
-  padding: 10px;
-  margin-top:20px;
-  line-height: inherit;
-  height: 100%;
-
-}
-
-
-#toggle:checked + label {
-  background:#aaa;
-}
-
-#toggle:checked + label:after {
-  content:"강좌계획표 닫기"
-}
-
-
-.syllabus_table {
-  background:#fff;
-  position: absolute;
-  visibility: hidden;
-  left: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-  display:block;
-  height: 0;
-  width: 0;
-  font-size: 0;
-  line-height: 0;
-  margin: 0;
-  padding: 0;
-}
-.syllabus_table h1 {
-  color:#FFF;
-}
-
-
-.syllabus_table table{width:100%; background-color:#ffffff;font-size:13px;border-spacing:0; border-collapse:collapse;border:1px solid #c8c8c8; }
-.syllabus_table table th{padding:10px 10px;"border-left":"1px solid #c8c8c8"; "border-bottom":"1px solid #c8c8c8"; background-color:#eeeeee}
-.syllabus_table table td{padding:10px 10px;"border-right":"1px solid #c8c8c8"; "border-bottom":"1px solid #c8c8c8";line-height:140%; }
-.syllabus_table table td.bgcolor{background-color:#dcdcdc}
-.syllabus_table table td.cts{text-align:center; max-width:10%}
-
-
-
-/*************************3.Course-staff ***************************/
-
-.staff{width:100%; margin-bottom: 0px;}
-.staff div{display:inline-block; zoom:1; *display:inline;line-height:180%}
-.staff div img{width:100%;height:auto}
-.staff div dt i{width: 17px}
-.staff div dd{margin: 0 0 0 15px;}
-.staff .teacher_image{    width: 200px;     max-width: 33%;    min-width: 150px;}
-.staff .ta_image{         width: 150px;     max-width: 23%;    min-width: 100px;}
-.staff .staff_descript{ vertical-align:top; padding-left:10px;}
-.staff .staff_descript dl,dl{margin :0;}
-
-.professor{width:100%; margin-bottom: 0px;}
-.professor div{display:inline-block; zoom:1; *display:inline;line-height:180%}
-.professor div img{width:100%;height:auto}
-.professor div dt i{width: 17px}
-.professor div dd{margin: 0 0 0 18px;}
-.professor .teacher_image{    width: 200px;     max-width: 33%;    min-width: 150px;}
-.professor .ta_image{         width: 150px;     max-width: 23%;    min-width: 100px;}
-.professor .staff_descript{ vertical-align:top; padding-left:10px;}
-.professor .staff_descript dl,dl{margin :0;}
-
-.grade_table {
-margin-top:0px;
-background:#fff;
-left: 0;
-width: 100%;
-padding: 10px;
-overflow: hidden;
-box-sizing: border-box;
-}
-
-.grade_table table{width:100%; background-color:#ffffff;font-size:13px;border-spacing:0; border-collapse:collapse;border:1px solid #c8c8c8; }
-.grade_table table th{padding:10px 10px;border-left:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8; background-color:#eeeeee}
-.grade_table table td{padding:10px 10px;border-right:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8;line-height:140%; }
-.grade_table table td.bgcolor{background-color:#dcdcdc}
-.grade_table table td.cts{text-align:center; max-width:10%}
-
-.syllabus_table table p {
-    padding-left: 0px;
-}
-.grade_table p {
-    padding-left: 0px;
-}
-
-/*************************5.faq ***************************/
-.faq .question{margin-bottom: 0px;}
-.faq .question h4 {margin :0.1rem 0 0.2rem 0 ;}
-
-.arrow_box {
-  display: none;
-  position: absolute;
-  padding: 7px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  background: #333;
-  color: #fff;
-  left: -25px;
-  width: 95px;
-  font-size:13px;
-}
-
-a:hover + p.arrow_box {
-  display: block;
-}
-
-.audit {
+    #toggle:checked + label:after {
+        content:"강좌계획표 닫기"
+    }
+    .syllabus_table {
+        background:#fff;
+        position: absolute;
+        visibility: hidden;
+        left: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        display:block;
+        height: 0;
+        width: 0;
+        font-size: 0;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+    .syllabus_table h1 {
+        color:#FFF;
+    }
+    .syllabus_table table{width:100%; background-color:#ffffff;font-size:13px;border-spacing:0; border-collapse:collapse;border:1px solid #c8c8c8; }
+    .syllabus_table table th{padding:10px 10px;"border-left":"1px solid #c8c8c8"; "border-bottom":"1px solid #c8c8c8"; background-color:#eeeeee}
+    .syllabus_table table td{padding:10px 10px;"border-right":"1px solid #c8c8c8"; "border-bottom":"1px solid #c8c8c8";line-height:140%; }
+    .syllabus_table table td.bgcolor{background-color:#dcdcdc}
+    .syllabus_table table td.cts{text-align:center; max-width:10%}
+    .staff{width:100%; margin-bottom: 0px;}
+    .staff div{display:inline-block; zoom:1; *display:inline;line-height:180%}
+    .staff div img{width:100%;height:auto}
+    .staff div dt i{width: 17px}
+    .staff div dd{margin: 0 0 0 15px;}
+    .staff .teacher_image{    width: 200px;     max-width: 33%;    min-width: 150px;}
+    .staff .ta_image{         width: 150px;     max-width: 23%;    min-width: 100px;}
+    .staff .staff_descript{ vertical-align:top; padding-left:10px;}
+    .staff .staff_descript dl,dl{margin :0;}
+    .professor{width:100%; margin-bottom: 0px;}
+    .professor div{display:inline-block; zoom:1; *display:inline;line-height:180%}
+    .professor div img{width:100%;height:auto}
+    .professor div dt i{width: 17px}
+    .professor div dd{margin: 0 0 0 18px;}
+    .professor .teacher_image{    width: 200px;     max-width: 33%;    min-width: 150px;}
+    .professor .ta_image{         width: 150px;     max-width: 23%;    min-width: 100px;}
+    .professor .staff_descript{ vertical-align:top; padding-left:10px;}
+    .professor .staff_descript dl,dl{margin :0;}
+    .grade_table {
+        margin-top:0px;
+        background:#fff;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    .grade_table table{width:100%; background-color:#ffffff;font-size:13px;border-spacing:0; border-collapse:collapse;border:1px solid #c8c8c8; }
+    .grade_table table th{padding:10px 10px;border-left:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8; background-color:#eeeeee}
+    .grade_table table td{padding:10px 10px;border-right:1px solid #c8c8c8; border-bottom:1px solid #c8c8c8;line-height:140%; }
+    .grade_table table td.bgcolor{background-color:#dcdcdc}
+    .grade_table table td.cts{text-align:center; max-width:10%}
+    .syllabus_table table p {
+        padding-left: 0px;
+    }
+    .grade_table p {
+        padding-left: 0px;
+    }
+    .faq .question{margin-bottom: 0px;}
+    .faq .question h4 {margin :0.1rem 0 0.2rem 0 ;}
+    .arrow_box {
+        display: none;
+        position: absolute;
+        padding: 7px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+        background: #333;
+        color: #fff;
+        left: -25px;
+        width: 95px;
+        font-size:13px;
+    }
+    a:hover + p.arrow_box {
+        display: block;
+    }
+    .audit {
         color: #fff !important;
         background-color: #218838 !important;
         border-color: #1e7e34 !important;
         background-image: none !important;
         text-shadow: none !important;
         box-shadow: none !important;
-}
-.swal-button--cancel {
-    color: #555 !important;
-    background-color: #efefef !important;
-    background-image: none !important;
-    text-shadow: none !important;
-}
+    }
+    .swal-button--cancel {
+        color: #555 !important;
+        background-color: #efefef !important;
+        background-image: none !important;
+        text-shadow: none !important;
+    }
+    .course-info .course-sidebar .important-dates li .important-dates-item-text {
+        display: inline-block;
+        float: none;
+        vertical-align: middle;
+        z-index: 11;
+    }
+    div.about-side-title {
+        display: inline-block;
+        vertical-align: middle;
+        width: 45%;
+        z-index: 11;
+    }
+    div.about-side-text {
+        display: inline-block;
+        vertical-align: middle;
+        width: auto;
+        margin-top: 4px;
+    }
 
-/*------------------- < about 관련 수정 ----------------*/
-
-.course-info .course-sidebar .important-dates li .important-dates-item-text {
-    /*float: left;*/
-    display: inline-block;
-    float: none;
-    vertical-align: middle;
-    z-index: 11;
-}
-
-div.about-side-title {
-    display: inline-block;
-    vertical-align: middle;
-    width: 45%;
-    z-index: 11;
-}
-
-div.about-side-text {
-    display: inline-block;
-    vertical-align: middle;
-    width: auto;
-    margin-top: 4px;
-}
-
-div.about-side-title p {
-    margin-bottom: 0;
-    margin-top: 4px;
-}
-
-.course-info .course-sidebar .important-dates li {
-    margin: 0 5px;
-    padding: 15px 0;
-    word-break: break-word;
-}
-
-.course-info .course-sidebar header {
-    margin-bottom: 15px;
-}
-
-/*------------------- about 관련 수정 > ----------------*/
-
-/*------------------- < tooltip ----------------------*/
-
-.side-about {
-    box-sizing: border-box;
-    float: left;
-    height: 44px;
-    position: relative;
-    /*text-align: center;*/
-    width: 100%;
-    float: none;
-    height: 100%;
-}
-
-.side-about.side-about-tp {
-  /*z-index: 10;*/
-}
-
-.tooltip-side-about {
-    background-image: linear-gradient(-90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 100%);
-    border: 1px solid rgba(0,0,0,0.5);
-    border-radius: 4px;
-    box-shadow: 0 4px 25px 0 rgba(0,0,0,0.5);
-    box-sizing: border-box;
-    color: #fff;
-    float: right;
-    font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
-    font-size: 0.9em;
-    /*font-style: italic;*/
-    left: 50%;
-    margin-left: -110px;
-    opacity: 0;
-    padding: 6px 10px;
-    position: absolute;
-    /*text-align: center;*/
-    transition: all 0.15s ease-out 0s;
-    top: 65px;
-    width: 65%;
-    display: none;
-}
-
-.side-about:hover .tooltip-side-about{
-    opacity: 1.0;
-    top: 56px;
-    z-index: 15;
-  display: block;
-}
-
-.side-about .tooltip-side-about:hover, .tooltip-side-about:focus {
-    opacity: 0;
-}
-
-.important-dates-item span.icon {
-    text-align: left;
-}
-
-/*------------------- tooltip > ----------------------*/
-
-</style>
-<section class="course-info">
-
-  <%block name="course_about_header">
-  <header class="course-profile">
-    <div class="intro-inner-wrapper" style="margin-left: auto; margin-right: auto; max-width: 1200px;">
-      <div class="table">
-        % if get_course_about_section(request, course, "video"):
-      <a href="#video-modal" class="media" rel="leanModal">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상"/>
-          <div class="play-intro"></div>
-        </div>
-      </a>
-    %else:
-      <div class="media">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지"/>
-        </div>
-      </div>
-    % endif
-      <section class="intro">
-        <div class="heading-group">
-          <h1 style="font-size: 30px; float: left;">
-            ${course.display_name_with_default_escaped}
-          </h1><br/><br/>
-          %if user.is_active ==True :
-          <div style="float: right; right: 0; position: absolute; margin-right: 20px; margin-top: -30px;" id="interest_star" class="">
-             % if (flag == 1):
-             <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="color:#3e7bc0; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-             <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="display:none; color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-             % else :
-             <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-             <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-             % endif
-          </div>
-          %endif
-              <script>
-                  $(document).ready(function(){
-                      /* <- 웹 접근성 추가 */
-                      $('#interest_star a').keydown(function(e){
-                          if(e.keyCode === 13 || e.keyCode === 32){
-                              $(this).trigger('click');
-                              $(this).children('i').trigger('click');
-                              $('#interest_star a i').each(function(){
-                                  if($(this).is(':visible')){
-                                      $(this).parent().focus();
-                                  }
-                              });
-                          }
-                      });
-                      /* 웹 접근성 추가 -> */
-                  });
-                  function add() {
-                      try {
-                            var def_index = '${course.id}';
-                            var index_arr = [];
-                            index_arr = def_index.split("+");
-                            var user_id = '${user.id}';
-                            var org = '${course.org}';
-                            var display_number_with_default = index_arr[1];
-                            var action = 'add';
-
-                            $.post("/course_interest", {
-                                csrfmiddlewaretoken: $.cookie('csrftoken'),
-                                user_id : user_id,
-                                org: org,
-                                display_number_with_default: display_number_with_default,
-                                method : action,
-                            }).done(function (data) {
-
-                            }).fail(function (error) {
-                                alert('error = ' + error.responseJSON);
-                            });
-                        } catch (e) {
-                            alert(e);
-                        }
-                  }
-
-                  function modi() {
-                      try {
-                            var def_index = '${course.id}';
-                            var index_arr = [];
-                            index_arr = def_index.split("+");
-                            var user_id = '${user.id}';
-                            var org = '${course.org}';
-                            var display_number_with_default = index_arr[1];
-                            var action = 'modi';
-
-                            $.post("/course_interest", {
-                                csrfmiddlewaretoken: $.cookie('csrftoken'),
-                                user_id : user_id,
-                                org: org,
-                                display_number_with_default: display_number_with_default,
-                                method : action,
-                            }).done(function (data) {
-
-                            }).fail(function (error) {
-                                alert('error = ' + error.responseJSON);
-                            });
-                        } catch (e) {
-                            alert(e);
-                        }
-                  }
-
-
-                  function change_i(id) {
-                      if (id == 'nomal') {
-                          console.log("nomal")
-                        document.getElementById('empty').style.display = '';
-                        document.getElementById('nomal').style.display = 'none';
-                      }
-                      else if (id == 'empty') {
-                          console.log("empty")
-                        document.getElementById('nomal').style.display = '';
-                        document.getElementById('empty').style.display = 'none';
-                      }
-                  }
-              </script>
-          <br/>
-          <span hidden>${course.display_org_with_default | h}</span>
-        </div>
-
-        <div class="main-cta">
-        %if user.is_authenticated and registered:
-          %if show_courseware_link:
-            <a href="${course_target}">
-          %endif
-
-          % if enroll_audit:
-            <span class="register disabled">${_("You are enrolled in this audit course")}</span>
-          % else:
-            <span class="register disabled">${_("You are enrolled in this course")}</span>
-          %endif
-              
-          %if show_courseware_link:
-              %if enroll_audit:
-                <strong class="audit">${_("View Audit Course")}</strong>
-              %else:
-                <strong>${_("View Course")}</strong>
-              %endif
-            </a>
-          %endif
-
-        %elif in_cart:
-          <span class="add-to-cart">
-            ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
-          </span>
-        % elif is_course_full:
-          <span class="register disabled">
-            ${_("Course is full")}
-          </span>
-        % elif invitation_only and not can_enroll:
-          <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
-        ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
-        ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
-        ## so that they can register and become a real user that can enroll.
-        % elif not is_shib_course and not can_enroll and audit_flag == 'N':
-          <span class="register disabled">${_("Enrollment is Closed")}</span>
-        % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-          <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>
-        %elif can_add_course_to_cart:
-          <%
-          if user.is_authenticated:
-            reg_href = "#"
-            reg_element_id = "add_to_cart_post"
-          else:
-            reg_href = reg_then_add_to_cart_link
-            reg_element_id = "reg_then_add_to_cart"
-          %>
-          <% if ecommerce_checkout:
-              reg_href = ecommerce_checkout_link
-              reg_element_id = ""
-          %>
-          <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
-            ${_("Add {course_name} to Cart <span>({price} USD)</span>")\
-              .format(course_name=course.display_number_with_default, price=course_price)}
-          </a>
-          <div id="register_error"></div>
-        %else:
-          <%
-            if ecommerce_checkout:
-              reg_href = ecommerce_checkout_link
-            else:
-              reg_href="#"
-            if professional_mode:
-              href_class = "add-to-cart"
-            else:
-              href_class = "register"
-          %>
-          <a href="${reg_href}" class="${href_class}">
-            ##${_("Enroll in {course_name}").format(course_name=course.display_number_with_default) | h}
-            ${_("Enrollment")}
-          </a>
-          <div id="register_error"></div>
-        %endif
-        </div>
-
-      </section>
-
-    </div>
-      </div>
-  </header>
-  </%block>
-
-<style>
-
-  .fa-twitter{
-    color: #1da1f2;
-  }
-  .fa-facebook{
-    color: #29487d;
-  }
-  .fa-envelope{
-    color: #ff6496;
-  }
-
-  .similar-title{
-    font-size: 1.4rem;
-    margin: 1.25rem 0 0.28rem 0;
-    font-weight: bold;
-    font-family: "Nanum Gothic","Open Sans";
-    margin-bottom: 20px;
-  }
-  .similar-container {
-    min-width: 750px;
-  }
-  .similar-item {
-    border: solid 1px #cccccc;
-    width: 200px;
-    height: 194px;
-    margin-left: 20px;
-    margin-right: 2px;
-    cursor: pointer;
-    transition: 0.2s;
-    float: left;
-  }
-  .similar-item:hover {
-    box-shadow: rgba(0, 0, 0, 0.14) 0px 8px 10px 0px, rgba(0, 0, 0, 0.15) 0px 4px 4px 0px;
-  }
-  .similar-error {
-    padding: 20px;
-    color: red;
-    font-size: 12px;
-  }
-  .item-img-size {
-    width: 198px;
-    height: 97px;
-  }
-  .item-status {
-    background-color: #008800;
-    text-align: left;
-  }
-  .item-status-text {
-    color: #ffffff;
-    font-size: 10px;
-    margin-left: 10px;
-  }
-  .item-title {
-    font-weight: bold;
-    padding-top: 2px;
-    padding-left: 10px;
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: black;
-  }
-  .item-date {
-    font-size: 10px;
-    padding-left: 10px;
-    color: black;
-  }
-  .item-org {
-    font-size: 10px;
-    padding-left: 10px;
-    margin-top: -8px;
-    color: black;
-  }
-  .item-greenline {
-    border: solid 1px #008800;
-  }
-  .similar-none{
-    padding-left: 20px;
-  }
-
-  @media screen and (max-width: 768px) {
+    div.about-side-title p {
+        margin-bottom: 0;
+        margin-top: 4px;
+    }
+    .course-info .course-sidebar .important-dates li {
+        margin: 0 5px;
+        padding: 15px 0;
+        word-break: break-word;
+    }
+    .course-info .course-sidebar header {
+        margin-bottom: 15px;
+    }
+    .side-about {
+        box-sizing: border-box;
+        float: left;
+        height: 44px;
+        position: relative;
+        width: 100%;
+        float: none;
+        height: 100%;
+    }
+    .side-about.side-about-tp { }
+    .tooltip-side-about {
+        background-image: linear-gradient(-90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 100%);
+        border: 1px solid rgba(0,0,0,0.5);
+        border-radius: 4px;
+        box-shadow: 0 4px 25px 0 rgba(0,0,0,0.5);
+        box-sizing: border-box;
+        color: #fff;
+        float: right;
+        font-family: "Open Sans",Verdana,Geneva,sans-serif,sans-serif;
+        font-size: 0.9em;
+        left: 50%;
+        margin-left: -110px;
+        opacity: 0;
+        padding: 6px 10px;
+        position: absolute;
+        transition: all 0.15s ease-out 0s;
+        top: 65px;
+        width: 65%;
+        display: none;
+    }
+    .side-about:hover .tooltip-side-about{
+        opacity: 1.0;
+        top: 56px;
+        z-index: 15;
+        display: block;
+    }
+    .side-about .tooltip-side-about:hover, .tooltip-side-about:focus {
+        opacity: 0;
+    }
+    .important-dates-item span.icon {
+        text-align: left;
+    }
+    .fa-twitter{
+        color: #1da1f2;
+    }
+    .fa-facebook{
+        color: #29487d;
+    }
+    .fa-envelope{
+        color: #ff6496;
+    }
+    .similar-title{
+        font-size: 1.4rem;
+        margin: 1.25rem 0 0.28rem 0;
+        font-weight: bold;
+        font-family: "Nanum Gothic","Open Sans";
+        margin-bottom: 20px;
+    }
+    .similar-container {
+        min-width: 750px;
+    }
     .similar-item {
-      float: unset;
-      margin-bottom: 20px;
+        border: solid 1px #cccccc;
+        width: 200px;
+        height: 194px;
+        margin-left: 20px;
+        margin-right: 2px;
+        cursor: pointer;
+        transition: 0.2s;
+        float: left;
     }
-    .similar-container{
-      min-width: unset;
-      margin-bottom: 50px;
+    .similar-item:hover {
+        box-shadow: rgba(0, 0, 0, 0.14) 0px 8px 10px 0px, rgba(0, 0, 0, 0.15) 0px 4px 4px 0px;
     }
-  }
+    .similar-error {
+        padding: 20px;
+        color: red;
+        font-size: 12px;
+    }
+    .item-img-size {
+        width: 198px;
+        height: 97px;
+    }
+    .item-status {
+        background-color: #008800;
+        text-align: left;
+    }
+    .item-status-text {
+        color: #ffffff;
+        font-size: 10px;
+        margin-left: 10px;
+    }
+    .item-title {
+        font-weight: bold;
+        padding-top: 2px;
+        padding-left: 10px;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: black;
+    }
+    .item-date {
+        font-size: 10px;
+        padding-left: 10px;
+        color: black;
+    }
+    .item-org {
+        font-size: 10px;
+        padding-left: 10px;
+        margin-top: -8px;
+        color: black;
+    }
+    .item-greenline {
+        border: solid 1px #008800;
+    }
+    .similar-none{
+        padding-left: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .similar-item {
+            float: unset;
+            margin-bottom: 20px;
+        }
+        .similar-container{
+            min-width: unset;
+            margin-bottom: 50px;
+        }
+    }
 </style>
 
-  <div class="container" >
-
-
-    <%block name="course_about_details">
-    <div class="details" id="main">
-      % if staff_access and studio_url is not None:
-        <div class="wrap-instructor-info studio-view">
-          <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
-        </div>
-      % endif
-
-      <div class="inner-wrapper">
-        ${get_course_about_section(request, course, "overview")}
-
-          <h2 class='similar-title'><i class="fa fa-star"></i>관련 강좌</h2>
-
-          <div class='similar-container'>
-              % if len(similar_course) <= 1:
-              <div class="similar-none">
-                현재 강좌와 관련있는 강좌를 찾을 수 없습니다.
-              </div>
-              % endif
-
-              % if similar_course != None:
-                % for item in similar_course[1:4]:
-                <a href='/courses/${item["course_id"]}/about' class="similar-link">
-                  <div class='similar-item'>
-                    <div class='item-img'>
-                      <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>
-                    </div>
-
-                    <div class='item-status'>
-                      <div class='item-status-text'>진행중</div>
-                    </div>
-
-                    <div class='item-title'>
-                      ${item['display_name']}
-                    </div>
-
-                    <div class='item-date'>
-                      ${item['sim_start']} ~ ${item['sim_end']}
-                    </div>
-
-                    <div class='item-org'>
-                      ${item['org']}
-                    </div>
-
-                    <div class='item-greenline'>
-                    </div>
-                  </div>
-                </a>
-                % endfor
-              % else:
-                <div class='similar-error'>
-                  관련강좌를 가져오는 중 문제가 발생했습니다<br>
-                  관리자에게 문의해주세요<br>
+<section class="course-info">
+    <%block name="course_about_header">
+        <header class="course-profile">
+            <div class="intro-inner-wrapper" style="margin-left: auto; margin-right: auto; max-width: 1200px;">
+                <div class="table">
+                    % if get_course_about_section(request, course, "video"):
+                        <a href="#video-modal" class="media" rel="leanModal">
+                            <div class="hero">
+                                <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 동영상"/>
+                                <div class="play-intro"></div>
+                            </div>
+                        </a>
+                    %else:
+                        <div class="media">
+                            <div class="hero">
+                                <img src="${course_image_urls['large']}" alt="${course.display_name_with_default_escaped} 이미지"/>
+                            </div>
+                        </div>
+                    % endif
+                    <section class="intro">
+                        <div class="heading-group">
+                            <h1 style="font-size: 30px; float: left;">
+                                ${course.display_name_with_default_escaped}
+                            </h1>
+                            <br/>
+                            <br/>
+                            %if user.is_active ==True :
+                                <div style="float: right; right: 0; position: absolute; margin-right: 20px; margin-top: -30px;" id="interest_star" class="">
+                                    % if (flag == 1):
+                                        <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="color:#3e7bc0; font-size:36px; cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+                                        <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="display:none; color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+                                    % else :
+                                        <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+                                        <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+                                    % endif
+                                </div>
+                            %endif
+                            <br/>
+                            <span hidden>${course.display_org_with_default | h}</span>
+                        </div>
+                        <div class="main-cta">
+                            %if user.is_authenticated and registered:
+                            %if show_courseware_link:
+                                <a href="${course_target}">
+                                %endif
+                                % if enroll_audit:
+                                    <span class="register disabled">${_("You are enrolled in this audit course")}</span>
+                                % else:
+                                    <span class="register disabled">${_("You are enrolled in this course")}</span>
+                                % endif
+                                % if show_courseware_link:
+                                    % if enroll_audit:
+                                        <strong class="audit">${_("View Audit Course")}</strong>
+                                    % else:
+                                        <strong>${_("View Course")}</strong>
+                                    % endif
+                                </a>
+                            % endif
+                            % elif in_cart:
+                                <span class="add-to-cart">
+                                    ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
+                                </span>
+                            % elif is_course_full:
+                                <span class="register disabled">
+                                    ${_("Course is full")}
+                                </span>
+                            % elif invitation_only and not can_enroll:
+                                <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
+                            % elif not is_shib_course and not can_enroll and audit_flag == 'N':
+                                <span class="register disabled">${_("Enrollment is Closed")}</span>
+                            % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
+                                <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>
+                            %elif can_add_course_to_cart:
+                                <%
+                                    if user.is_authenticated:
+                                        reg_href = "#"
+                                        reg_element_id = "add_to_cart_post"
+                                    else:
+                                        reg_href = reg_then_add_to_cart_link
+                                        reg_element_id = "reg_then_add_to_cart"
+                                %>
+                                <% if ecommerce_checkout:
+                                    reg_href = ecommerce_checkout_link
+                                    reg_element_id = ""
+                                %>
+                                <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
+                                    ${_("Add {course_name} to Cart <span>({price} USD)</span>")\
+                                    .format(course_name=course.display_number_with_default, price=course_price)}
+                                </a>
+                                <div id="register_error"></div>
+                            % else:
+                                <%
+                                    if ecommerce_checkout:
+                                        reg_href = ecommerce_checkout_link
+                                    else:
+                                        reg_href="#"
+                                    if professional_mode:
+                                        href_class = "add-to-cart"
+                                    else:
+                                        href_class = "register"
+                                %>
+                            <a href="${reg_href}" class="${href_class}">
+                                ${_("Enrollment")}
+                            </a>
+                            <div id="register_error"></div>
+                            %endif
+                        </div>
+                    </section>
                 </div>
-              % endif
-          </div>
-
-      </div>
-    </div>
-
+            </div>
+        </header>
     </%block>
 
-    <div class="course-sidebar">
-      <div class="course-summary">
-
-        <%include file="course_about_sidebar_header.html" />
-
-        <ol class="important-dates">
-            <li class="important-dates-item">
-                <div class="side-about">
-                    <div class="about-side-title">
-                        <span class="icon fa fa-graduation-cap fa-lg" aria-hidden="true"></span>
-                        <p class="important-dates-item-title">${_("major")}</p>
+    <div class="container">
+        <%block name="course_about_details">
+            <div class="details" id="main">
+                % if staff_access and studio_url is not None:
+                    <div class="wrap-instructor-info studio-view">
+                        <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
                     </div>
-                        <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span>${_(classfy_name)}</span>
-                            </br>(${_(middle_classfy_name)})
-                        </span>
-                </div>
-            </li>
-
-            % if course_level != '':
-            <li class="important-dates-item">
-                <div class="side-about side-about-tp">
-                    <div class="tooltip-side-about">
-                        강좌 내용의 어려운 수준을 의미합니다. 교양, 전공기초, 전공심화 순으로 난이도가 증가합니다.
-                    </div>
-                    <div class="about-side-title">
-                        <span class="icon fa fa-certificate fa-lg" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span>${_(course_level)}</span>
-                    </span>
-                </div>
-            </li>
-            % endif
-            <li class="important-dates-item">
-                <div class="side-about side-about-tp">
-                    <div class="tooltip-side-about">
-                        강좌를 개발하고 운영하는 기관입니다. 컨소시엄으로 운영 시, 대표기관의 명칭이 나타납니다
-                    </div>
-                    <div class="about-side-title">
-                        <span class="icon fa fa-university fa-lg" aria-hidden="true"></span><p class="important-dates-item-title">${_("Institution")}</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span>${org_name}</span>
-                    </span>
-
-                </div>
-            </li>
-            <li class="important-dates-item">
-                <div class="side-about side-about-tp">
-                    <div class="tooltip-side-about">
-                        강좌의 구성 주차 수를 의미합니다.
-                        (강좌를 충실히 학습하기 위해 필요한 주당 학습시간을 의미합니다.)
-                    </div>
-                    <div class="about-side-title">
-                        <span class="icon fa fa-tachometer fa-lg" aria-hidden="true"></span><p class="important-dates-item-title" style="margin-top: -2px; letter-spacing: -3px;">${_("Course Week")}</br>(${_("Estimated Effort")})</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span>${_(effort_week)}${_("week")}</span>
-                            </br>(주당 ${get_course_about_section(request, course, "effort")})
-                    </span>
-
-                </div>
-            </li>
-
-            <li class="important-dates-item">
-                <div class="side-about side-about-tp">
-                    <div class="tooltip-side-about">
-                        본 강좌 이수자에게 인정되는 학습시간으로 해당 강좌의 동영상, 과제, 시험, 퀴즈, 토론 등의 시간을 포함합니다.
-                        (강의 내용과 관련된 동영상 재생 시간의 총 합계입니다.)
-                    </div>
-                    <div class="about-side-title">
-                        <span class="icon fa fa-clock-o fa-lg" aria-hidden="true"></span><p class="important-dates-item-title" style="margin-top: -2px;">${_("Accredited learning time")}</br>(${_("Video Duration")})</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span>${_(study_time)}</span>
-                            </br>(${get_course_about_section(request, course, "course_video")})
-                    </span>
-                </div>
-            </li>
-                      ##% if get_course_about_section(request, course, "effort"):
-            <!--<li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><span class="important-dates-item-text effort"></span></li>-->
-          ##% endif
-
-## 사용자 : 주간 학습 권장 시간
-
-          ##<li class="important-dates-item"><span class="icon fa fa-clock-o" aria-hidden="true"></span><p class="important-dates-item-title">${_('Course Length')}</p><span class="important-dates-item-text course-length">${_('{number} weeks').format(number=15)}</span></li>
-
-          ##%if course_price and (can_add_course_to_cart or is_cosmetic_price_enabled):
-            ##<li class="important-dates-item">
-              ##  <div class="side-about">
-                ##      <span class="icon fa fa-money" aria-hidden="true"></span>
-                  ##      <p class="important-dates-item-title">${_("Price")}</p>
-                    ##</div>
-                    ##<span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                      ##      <span>${course_price}</span>
-                    ##</span>
-
-                ##</div>
-            ##</li>
-          ##%endif
-
-          % if pre_requisite_courses:
-          <% prc_target = reverse('about_course', args=[unicode(pre_requisite_courses[0]['key'])]) %>
-            <li class="prerequisite-course important-dates-item">
-                <div class="side-about">
-                    <div class="about-side-title">
-                        <span class="icon fa fa-list-ul" aria-hidden="true"></span>
-                        <p class="important-dates-item-title">${_("Prerequisites")}</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span><a href="${prc_target}">${pre_requisite_courses[0]['display']}</a></span>
-                        <p class="tip">
-                            ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
-                            link_start='<a href="{}">'.format(prc_target),
-                            link_end='</a>',
-                            prc_display=pre_requisite_courses[0]['display'],
-                            )}
-                        </p>
-                    </span>
-
-                </div>
-            </li>
-
-          % endif
-##           % if get_course_about_section(request, course, "prerequisites"):
-##          <li class="important-dates-item"><div class="about-side-title"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p></div><div class="about-side-text"><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></div></li>
-##           % endif
-
-          % if not course.start_date_is_still_default:
-            <li class="important-dates-item">
-                <div class="side-about side-about-tp">
-                    <div class="tooltip-side-about">
-                        수강신청이 가능한 기간으로 해당 기간 내에만 수강신청이 가능합니다.
-                    </div>
-                    <div class="about-side-title">
-                        <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                        <p class="important-dates-item-title">${_("Course Registration Period")}</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate} ~ ${enroll_edate}</span>
-                    </span>
-
-                </div>
-            </li>
-          % endif
-
-          % if not course.start_date_is_still_default:
-            <li class="important-dates-item">
-                <div class="side-about side-about-tp">
-                    <div class="tooltip-side-about">
-                        강좌가 운영되고 교수지원이 이루어지는 기간입니다. 이수증은 강좌운영기간이 종료된 이후에 발급받을 수 있습니다.
-                    </div>
-                    <div class="about-side-title">
-                        <span class="icon fa fa-calendar" aria-hidden="true"></span><p class="important-dates-item-title">${_("Classes Period")}</p>
-                    </div>
-
-                    <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
-                            <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${start} ~ ${end}
-                            % if day['day']:
-                <br><p style="float: right; margin: 0;">(${day['day']})</p>
                 % endif
-                    </span>
-
+                <div class="inner-wrapper">
+                    ${get_course_about_section(request, course, "overview")}
+                    <h2 class='similar-title'><i class="fa fa-star"></i>관련 강좌</h2>
+                    <div class='similar-container'>
+                        % if len(similar_course) <= 1:
+                            <div class="similar-none">
+                                현재 강좌와 관련있는 강좌를 찾을 수 없습니다.
+                            </div>
+                        % endif
+                        % if similar_course != None:
+                            % for item in similar_course[1:4]:
+                                <a href='/courses/${item["course_id"]}/about' class="similar-link">
+                                    <div class='similar-item'>
+                                        <div class='item-img'>
+                                            <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>
+                                        </div>
+                                        <div class='item-status'>
+                                            <div class='item-status-text'>진행중</div>
+                                        </div>
+                                        <div class='item-title'>
+                                            ${item['display_name']}
+                                        </div>
+                                        <div class='item-date'>
+                                            ${item['sim_start']} ~ ${item['sim_end']}
+                                        </div>
+                                        <div class='item-org'>
+                                            ${item['org']}
+                                        </div>
+                                        <div class='item-greenline'>
+                                        </div>
+                                    </div>
+                                </a>
+                            % endfor
+                        % else:
+                            <div class='similar-error'>
+                                관련강좌를 가져오는 중 문제가 발생했습니다<br>
+                                관리자에게 문의해주세요<br>
+                            </div>
+                        % endif
+                    </div>
                 </div>
+            </div>
+        </%block>
 
-            </li>
-          % endif
-            ## We plan to ditch end_date (which is not stored in course metadata),
-            ## but for backwards compatibility, show about/end_date blob if it exists.
+        <div class="course-sidebar">
+            <div class="course-summary">
+                <%include file="course_about_sidebar_header.html" />
+                <ol class="important-dates">
 
+                    <li class="important-dates-item">
+                        <div class="side-about">
+                            <div class="about-side-title">
+                                <span class="icon fa fa-graduation-cap fa-lg" aria-hidden="true"></span>
+                                <p class="important-dates-item-title">${_("major")}</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span>${_(classfy_name)}</span>
+                                </br>
+                                (${_(middle_classfy_name)})
+                            </span>
+                        </div>
+                    </li>
 
+                    % if course_level != '':
+                    <li class="important-dates-item">
+                        <div class="side-about side-about-tp">
+                            <div class="tooltip-side-about">
+                                강좌 내용의 어려운 수준을 의미합니다. 교양, 전공기초, 전공심화 순으로 난이도가 증가합니다.
+                            </div>
+                            <div class="about-side-title">
+                                <span class="icon fa fa-certificate fa-lg" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course difficulty")}</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span>${_(course_level)}</span>
+                            </span>
+                        </div>
+                    </li>
+                    % endif
 
-      <!-- 강좌 만족도 별점 start -->
-      % if course_survey_data is not False:
-      <li class="important-dates-item">
-        <div class="side-about">
-          <span class="important-dates-item-text prerequisites" style="display: inline-block;vertical-align: middle; width: 100%;">
-            <section class="faq-container">
+                    <li class="important-dates-item">
+                        <div class="side-about side-about-tp">
+                            <div class="tooltip-side-about">
+                                강좌를 개발하고 운영하는 기관입니다. 컨소시엄으로 운영 시, 대표기관의 명칭이 나타납니다
+                            </div>
+                            <div class="about-side-title">
+                                <span class="icon fa fa-university fa-lg" aria-hidden="true"></span><p class="important-dates-item-title">${_("Institution")}</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                            <span>${org_name}</span>
+                            </span>
+                        </div>
+                    </li>
 
-              <label style="margin-bottom: 0px; cursor: default; line-height: 1rem; width: 100%;">
+                    <li class="important-dates-item">
+                        <div class="side-about side-about-tp">
+                            <div class="tooltip-side-about">
+                                강좌의 구성 주차 수를 의미합니다.
+                                (강좌를 충실히 학습하기 위해 필요한 주당 학습시간을 의미합니다.)
+                            </div>
+                            <div class="about-side-title">
+                                <span class="icon fa fa-tachometer fa-lg" aria-hidden="true"></span><p class="important-dates-item-title" style="margin-top: -2px; letter-spacing: -3px;">${_("Course Week")}</br>(${_("Estimated Effort")})</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span>${_(effort_week)}${_("week")}</span>
+                                </br>(주당 ${get_course_about_section(request, course, "effort")})
+                            </span>
+                        </div>
+                    </li>
 
-                <div class="about-side-title star-tit">
-                  <span class="icon fa fa-star" style="" aria-hidden="true">
-                  </span>
-                  <p class="important-dates-item-title survey-star" style="">강좌 만족도</p>
+                    <li class="important-dates-item">
+                        <div class="side-about side-about-tp">
+                            <div class="tooltip-side-about">
+                                본 강좌 이수자에게 인정되는 학습시간으로 해당 강좌의 동영상, 과제, 시험, 퀴즈, 토론 등의 시간을 포함합니다.
+                                (강의 내용과 관련된 동영상 재생 시간의 총 합계입니다.)
+                            </div>
+                            <div class="about-side-title">
+                                <span class="icon fa fa-clock-o fa-lg" aria-hidden="true"></span><p class="important-dates-item-title" style="margin-top: -2px;">${_("Accredited learning time")}</br>(${_("Video Duration")})</p>
+                            </div>
+                            <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span>${_(study_time)}</span>
+                                </br>
+                                (${get_course_about_section(request, course, "course_video")})
+                            </span>
+                        </div>
+                    </li>
+
+                    % if pre_requisite_courses:
+                        <% prc_target = reverse('about_course', args=[unicode(pre_requisite_courses[0]['key'])]) %>
+                        <li class="prerequisite-course important-dates-item">
+                            <div class="side-about">
+                                <div class="about-side-title">
+                                    <span class="icon fa fa-list-ul" aria-hidden="true"></span>
+                                    <p class="important-dates-item-title">${_("Prerequisites")}</p>
+                                </div>
+                                <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                    <span><a href="${prc_target}">${pre_requisite_courses[0]['display']}</a></span>
+                                    <p class="tip">
+                                        ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
+                                        link_start='<a href="{}">'.format(prc_target),
+                                        link_end='</a>',
+                                        prc_display=pre_requisite_courses[0]['display'],
+                                        )}
+                                    </p>
+                                </span>
+                            </div>
+                        </li>
+                    % endif
+
+                    % if not course.start_date_is_still_default:
+                        <li class="important-dates-item">
+                            <div class="side-about side-about-tp">
+                                <div class="tooltip-side-about">
+                                    수강신청이 가능한 기간으로 해당 기간 내에만 수강신청이 가능합니다.
+                                </div>
+                                <div class="about-side-title">
+                                    <span class="icon fa fa-calendar" aria-hidden="true"></span>
+                                    <p class="important-dates-item-title">${_("Course Registration Period")}</p>
+                                </div>
+                                <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">${enroll_sdate} ~ ${enroll_edate}</span>
+                                </span>
+                            </div>
+                        </li>
+                    % endif
+
+                    % if not course.start_date_is_still_default:
+                        <li class="important-dates-item">
+                            <div class="side-about side-about-tp">
+                                <div class="tooltip-side-about">
+                                    강좌가 운영되고 교수지원이 이루어지는 기간입니다. 이수증은 강좌운영기간이 종료된 이후에 발급받을 수 있습니다.
+                                </div>
+                                <div class="about-side-title">
+                                    <span class="icon fa fa-calendar" aria-hidden="true"></span>
+                                    <p class="important-dates-item-title">${_("Classes Period")}</p>
+                                </div>
+                                <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
+                                <span class="important-dates-item-text start-date" style="letter-spacing: -1px;">
+                                    ${start} ~ ${end}
+                                    % if day['day']:
+                                    <br>
+                                    <p style="float: right; margin: 0;">
+                                        (${day['day']})
+                                    </p>
+                                    % endif
+                                </span>
+                            </div>
+                        </li>
+                    % endif
+
+                    % if course_survey_data is not False:
+                        <li class="important-dates-item">
+                            <div class="side-about">
+                                <span class="important-dates-item-text prerequisites" style="display: inline-block;vertical-align: middle; width: 100%;">
+                                    <section class="faq-container">
+                                        <label style="margin-bottom: 0px; cursor: default; line-height: 1rem; width: 100%;">
+                                            <div class="about-side-title star-tit">
+                                                <span class="icon fa fa-star" style="" aria-hidden="true">
+                                                </span>
+                                                <p class="important-dates-item-title survey-star" style="">강좌 만족도</p>
+                                            </div>
+                                            <div class="rating">
+                                                % for s in range(course_survey_data['r_course'][0]):
+                                                    <i class="fa fa-star on"></i>
+                                                % endfor
+                                                    <i class="fa fa-star fr-${str(course_survey_data['r_course'][1])}"></i>
+                                                % for i in range(4 - course_survey_data['r_course'][0]):
+                                                    <i class="fa fa-star"></i>
+                                                % endfor
+                                            </div>
+                                        </label>
+                                    </section>
+                                </span>
+                            </div>
+                            <div class="about-star-notice">
+                                ※ 만족도 응답 표본 수 미달 등 일정 기준이 충족되지 않은 경우 별점이 공개되지 않을 수 있습니다.
+                            </div>
+                        </li>
+                    % endif
+                </ol>
+            </div>
+
+            <%block name="course_about_reviews_tool">
+                % if reviews_fragment_view:
+                    ${HTML(reviews_fragment_view.body_html())}
+                % endif
+            </%block>
+
+            % if get_course_about_section(request, course, "ocw_links"):
+                <div class="additional-resources">
+                    <h1>${_("Additional Resources")}</h1>
                 </div>
-                <div class="rating">
-                  % for s in range(course_survey_data['r_course'][0]):
-                  <i class="fa fa-star on"></i>
-                  % endfor
-                  <i class="fa fa-star fr-${str(course_survey_data['r_course'][1])}"></i>
-                  % for i in range(4 - course_survey_data['r_course'][0]):
-                  <i class="fa fa-star"></i>
-                  % endfor
+                <div>
+                    <h2 class="opencourseware">MITOpenCourseware</h2>
+                    ${get_course_about_section(request, course, "ocw_links")}
                 </div>
-              </label>
+            %endif
 
-            </section>
-          </span>
+            % if sidebar_html_enabled:
+                % if get_course_about_section(request, course, "about_sidebar_html"):
+                <section class="about-sidebar-html">
+                    ${get_course_about_section(request, course, "about_sidebar_html")}
+                </section>
+                % endif
+            %endif
         </div>
-        <div class="about-star-notice"> ※ 만족도 응답 표본 수 미달 등 일정 기준이 충족되지 않은 경우 별점이 공개되지 않을 수 있습니다.</div>
-      </li>
-      % endif
-
-      <!-- 강좌 만족도 별점 end -->
-
-        </ol>
-
     </div>
+</section>
 
-      <%block name="course_about_reviews_tool">
-      ## Course reviews tool
-      % if reviews_fragment_view:
-       ${HTML(reviews_fragment_view.body_html())}
-      % endif
-      </%block>
-
-      ## For now, ocw links are the only thing that goes in additional resources
-      % if get_course_about_section(request, course, "ocw_links"):
-      <div class="additional-resources">
-        <header>
-          <h1>${_("Additional Resources")}</h1>
-      </div>
-
-        <div>
-          ## "MITOpenCourseware" should *not* be translated
-          <h2 class="opencourseware">MITOpenCourseware</h2>
-             ${get_course_about_section(request, course, "ocw_links")}
-        </div>
-    </div>
-      %endif
-
-    % if sidebar_html_enabled:
-      % if get_course_about_section(request, course, "about_sidebar_html"):
-        <section class="about-sidebar-html">
-          ${get_course_about_section(request, course, "about_sidebar_html")}
-        </section>
-      % endif
-    %endif
-  </div>
-
-  </div>
-</div>
-
-## Need to put this hidden form on the page so that the registration button works.
-## Since it's no harm to display a hidden form, we display it with the most permissive conditional
-## which is when the student is not registered.
 %if active_reg_button or is_shib_course:
-  <div style="display: none;">
+<div style="display: none;">
     <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
-      <fieldset class="enroll_fieldset">
-        <legend class="sr">${pgettext("self","Enroll")}</legend>
-        <input name="course_id" type="hidden" value="${course.id | h}">
-        <input name="enrollment_action" type="hidden" value="enroll">
-      </fieldset>
-      <div class="submit">
-        <input name="submit" type="submit" value="${pgettext('self','enroll')}">
-      </div>
+        <fieldset class="enroll_fieldset">
+            <legend class="sr">${pgettext("self","Enroll")}</legend>
+            <input name="course_id" type="hidden" value="${course.id | h}">
+            <input name="enrollment_action" type="hidden" value="enroll">
+        </fieldset>
+        <div class="submit">
+            <input name="submit" type="submit" value="${pgettext('self','enroll')}">
+        </div>
     </form>
-  </div>
+</div>
 %endif
-
 <%include file="../video_modal.html" />
-
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform(iterationKey=".localized_datetime");
 </%static:require_module_async>
