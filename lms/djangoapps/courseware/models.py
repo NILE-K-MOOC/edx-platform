@@ -404,6 +404,7 @@ class CourseSectionCourse(models.Model):
         verbose_name_plural = '2. CourseSectionCourse'
         app_label = 'api_admin'
         db_table = "course_sections_coursesection_course"
+        unique_together = ('course_id', 'section')
 
-    course_id = CourseKeyField(max_length=255, db_index=True, unique=True)
+    course_id = CourseKeyField(max_length=255, db_index=True)
     section = models.ForeignKey(CourseSection, db_index=True)
