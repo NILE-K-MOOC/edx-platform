@@ -6,20 +6,21 @@
 <%block name="js_extra">
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".kmooc-tab a").each(function(index){
+        $(".faq-tab a:eq(0)").trigger('click');
+        $(".faq-tab a").each(function(index){
             $(this).click(function(e){
                 //alert(index + ":" + $(this).hasClass('on'));
                 if(index == 0){
                     e.preventDefault();
                     $("#kmooc01").show();
                     $("#kmooc02").hide();
-                    $(".kmooc-tab a").removeClass("on");
+                    $(".faq-tab a").removeClass("on");
                     $(this).addClass("on");
                 }else{
                     e.preventDefault();
                     $("#kmooc01").hide();
                     $("#kmooc02").show();
-                    $(".kmooc-tab a").removeClass("on");
+                    $(".faq-tab a").removeClass("on");
                     $(this).addClass("on");
                 }
             });
