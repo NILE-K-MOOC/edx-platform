@@ -131,8 +131,7 @@ $("#audit_mode").click(function(event) {
         });
     %endif
 });
-<script src="${static.url('js/course_info.js')}"></script>
-<script>
+
     $(document).ready(function(){
         $('#interest_star a').keydown(function(e){
             if(e.keyCode === 13 || e.keyCode === 32){
@@ -210,6 +209,7 @@ $("#audit_mode").click(function(event) {
         }
     }
 </script>
+<script src="${static.url('js/course_info.js')}"></script>
 </%block>
 
 <%block name="pagetitle">${course.display_name_with_default_escaped}</%block>
