@@ -1386,7 +1386,9 @@ def course_about(request, course_id):
 
         # 유사강좌 -> 백엔드 로직 시작
         LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
-        # LMS_BASE = '127.0.0.1:18000' # TEST
+
+        LMS_BASE = 'www.kmooc.kr' # TEST
+
         url = 'http://' + LMS_BASE + '/search/course_discovery/'
 
         search_string = course_details.short_description
@@ -1407,7 +1409,7 @@ def course_about(request, course_id):
         # print "headers -> ", headers
 
         try:
-            r = requests.post(url, data=payload, headers=headers)
+            r = requests.post(url, data=payload, headers=headers, timeout=2)
             # logging.info(r.text)
             # logging.info(r.text)
             # logging.info(r.text)
@@ -1433,13 +1435,13 @@ def course_about(request, course_id):
                     continue
 
                 try:
-                    sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                    compare_start = sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
                     sim_start = sim_start.strftime('%Y-%m-%d')
                 except BaseException:
                     sim_start = '0000-00-00'
 
                 try:
-                    sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                    compare_end = sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
                     sim_end = sim_end.strftime('%Y-%m-%d')
                 except BaseException:
                     sim_end = '0000-00-00'
@@ -1464,13 +1466,23 @@ def course_about(request, course_id):
                 print "org -> ", org
                 print "org -> ", org
 
+                # 유사강좌 진행 상태 추가
+                utcnow = datetime.utcnow()
+
+                if compare_start > utcnow:
+                    sim_status = 'ready'
+                elif compare_start <= utcnow <= compare_end:
+                    sim_status = 'ing'
+                else:
+                    sim_status = 'end'
+
                 course_dict['course_id'] = course_id
                 course_dict['image_url'] = image_url
                 course_dict['org'] = org
                 course_dict['display_name'] = display_name
                 course_dict['sim_start'] = sim_start
                 course_dict['sim_end'] = sim_end
-                course_dict['status'] = status
+                course_dict['sim_status'] = sim_status
                 similar_course.append(course_dict)
 
         except BaseException as err:
@@ -1486,6 +1498,7 @@ def course_about(request, course_id):
         s4 = course_details.start_date.strftime("%H")
         s5 = course_details.start_date.strftime("%M")
         s6 = course_details.start_date.strftime("%S")
+
         if course_details.end_date is not None:
             e1 = course_details.end_date.strftime("%Y")
             e2 = course_details.end_date.strftime("%m")
@@ -1493,6 +1506,7 @@ def course_about(request, course_id):
             e4 = course_details.end_date.strftime("%H")
             e5 = course_details.end_date.strftime("%M")
             e6 = course_details.end_date.strftime("%S")
+
         if course_details.enrollment_start is not None:
             rs1 = course_details.enrollment_start.strftime("%Y")
             rs2 = course_details.enrollment_start.strftime("%m")
@@ -1500,6 +1514,7 @@ def course_about(request, course_id):
             rs4 = course_details.enrollment_start.strftime("%H")
             rs5 = course_details.enrollment_start.strftime("%M")
             rs6 = course_details.enrollment_start.strftime("%S")
+
         if course_details.enrollment_end is not None:
             re1 = course_details.enrollment_end.strftime("%Y")
             re2 = course_details.enrollment_end.strftime("%m")
@@ -1520,12 +1535,9 @@ def course_about(request, course_id):
             user_tz = timezone('Asia/Seoul')
 
         utc_dt_start = datetime(int(s1),int(s2),int(s3),int(s4),int(s5),int(s6),tzinfo=utc)
-        utc_dt_end = datetime(int(e1),int(e2),int(e3),int(e4),int(e5),int(e6),tzinfo=utc) \
-            if course_details.end_date is not None else None
-        utc_dt_enroll_start = datetime(int(rs1),int(rs2),int(rs3),int(rs4),int(rs5),int(rs6),tzinfo=utc) \
-            if course_details.enrollment_start is not None else None
-        utc_dt_enroll_end = datetime(int(re1),int(re2),int(re3),int(re4),int(re5),int(re6),tzinfo=utc) \
-            if course_details.enrollment_end is not None else None
+        utc_dt_end = datetime(int(e1),int(e2),int(e3),int(e4),int(e5),int(e6),tzinfo=utc) if course_details.end_date is not None else None
+        utc_dt_enroll_start = datetime(int(rs1),int(rs2),int(rs3),int(rs4),int(rs5),int(rs6),tzinfo=utc) if course_details.enrollment_start is not None else None
+        utc_dt_enroll_end = datetime(int(re1),int(re2),int(re3),int(re4),int(re5),int(re6),tzinfo=utc) if course_details.enrollment_end is not None else None
         # fmt = '%Y-%m-%d %H:%M:%S %Z%z'
         fmt = '%Y.%m.%d'
         loc_dt_start = utc_dt_start.astimezone(user_tz)

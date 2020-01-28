@@ -786,9 +786,13 @@ p+p {
     height: 97px;
   }
   .item-status {
-    background-color: #008800;
     text-align: left;
   }
+
+  .item-status.ready {background-color: #f5c42d;}
+  .item-status.ing {background-color: #008800;}
+  .item-status.end {background-color: #b2b2b2;}
+
   .item-status-text {
     color: #ffffff;
     font-size: 10px;
@@ -865,8 +869,8 @@ p+p {
                       <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>
                     </div>
 
-                    <div class='item-status'>
-                      <div class='item-status-text'>진행중</div>
+                    <div class='item-status ${item["sim_status"]}'>
+                      <div class='item-status-text'>${_(item["sim_status"])}</div>
                     </div>
 
                     <div class='item-title'>
