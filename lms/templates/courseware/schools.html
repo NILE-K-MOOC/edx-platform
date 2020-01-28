@@ -13,59 +13,150 @@ from six import string_types
 %>
 
 <style>
-  .univ-list-top {position:relative;background:url(/static/images/contents/univ_top.jpg) center center no-repeat;background-size:cover;
-      margin-top: 5px;}
-  .univ-list-top-txt {display:table;width:100%;height:100%;text-align:Center;color:#fff;}
-  .univ-list-top-txt > div  {display:table-cell;vertical-align:middle;}
-  .univ-list-top-txt h2 {color:#fff;font-weight:400;border:0;padding-bottom:0;line-height:1em;}
-  .univ-list-top-txt h2 > span {font-size:1.125rem;}
-  .univ-list-top-txt p {line-height:1.8em;}
-
-  .univ-list {list-style:none;margin:0 0 0 -1.5%;padding-top:10px;}
-  .univ-list li {float:left;width:20%;padding-left:1.5%;box-sizing:border-box;margin:20px 0 0 0;}
-  .univ-list li > a {display:block;text-align:center;border:solid 1px #e5e4e4;padding:13px 0;overflow:hidden;}
-  .univ-list li > a img {max-height:60px;width:auto;}
-
-  .univ-list-infotop {background:url(/static/images/contents/univ_top_info.jpg) center center no-repeat;background-size:cover;height:195px;margin-bottom:10px;}
-  .container.univ > h2 {border:0;font-size:2.813rem;}
-  .univ-info {line-height:1.8em;margin-bottom:100px;position:relative;}
-  .univ-info .sns-box {position:absolute;right:0;top:-90px;}
-  div.logo_div {
-      margin: 0 2px 10px; min-height:90px; width: 220px; border: solid 1px #e5e4e4; padding: 13px;
-      display: inline-block;
-  }
-
-  div.logo_phone {
-      text-align: center;
-      font-size: 0.9rem;
-      margin: 2px 0;
-      color: #555;
-  }
-
-  img.logo_img {
-      width: 100%;
-      height: 62px;
-  }
-  .org-intro-text {
-      font-size: 200% !important;
-  }
-  @media (max-width: 730px){
-      .org-intro .org-year {
-          text-align: center;
-      }
-      .org-intro-text {
-          font-size: 150% !important;
-      }
-  }
-  @media (max-width: 450px) {
-      .org-intro-text {
-          font-size: 120% !important;
-      }
-  }
+    .univ-list-top {
+        position: relative;
+        background: url(/static/images/contents/univ_top.jpg) center center no-repeat;
+        background-size: cover;
+        margin-top: 5px;
+    }
+    .univ-list-top-txt {
+        display: table;
+        width: 100%;
+        height: 100%;
+        text-align: Center;
+        color: #fff;
+    }
+    .univ-list-top-txt > div {
+        display: table-cell;
+        vertical-align: middle;
+    }
+    .univ-list-top-txt h2 {
+        color: #fff;
+        font-weight: 400;
+        border: 0;
+        padding-bottom: 0;
+        line-height: 1em;
+    }
+    .univ-list-top-txt h2 > span {
+        font-size: 1.125rem;
+    }
+    .univ-list-top-txt p {
+        line-height: 1.8em;
+    }
+    .school-sb {
+        font-size: 12px;
+        padding: 12px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .school-flex {
+        display: flex;
+        margin-top: 50px;
+        border-bottom: 2px solid #dddddd;
+        margin-bottom: 15px;
+    }
+    .school-box {
+        flex: 1;
+        text-align: center;
+    }
+    .w50p {
+        width: 50%;
+    }
+    .mr5 {
+        margin-right: 5px;
+    }
+    .school-support {
+        font-size: 14px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 20px;
+    }
+    .school-card {
+        border: solid 1px #dddddd;
+        width: 215px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        float: left;
+        margin-right: 8px;
+        margin-left: 8px;
+        cursor: pointer;
+        position: relative;
+        z-index: 100;
+    }
+    .school-hover-txt {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background: black;
+        color: #ffffff;
+        padding-top: 50px;
+        padding-left: 25px;
+        font-weight: bold;
+        opacity: 0;
+        transition: 0.3s;
+        z-index: 50;
+    }
+    .school-card:hover .school-hover-txt {
+        opacity: 0.85;
+    }
+    .school-card-img {
+        text-align: center;
+        padding-bottom: 8px;
+    }
+    .school-fix-img {
+        width: 180px;
+        height: 60px;
+    }
+    .school-card-mid {
+        background: #4587c2;
+        color: #ffffff;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .school-card-org {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    .school-card-phone {
+        text-align: center;
+        font-size: 14px;
+    }
+    .school-hack {
+        border: solid 3px #ffffff;
+        width: 165px;
+        padding: 10px;
+        text-align: center;
+    }
+    @media only screen and (max-width: 1120px) {
+        .school-flex {
+            display: block;
+        }
+    }
+    @media only screen and (max-width: 750px) {
+        .school-card {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .school-hack {
+            width: 400px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
 </style>
 
 <script>
     $(document).ready(function(){
+        /*
         $.ajax({
             url: '/schools/',
 
@@ -75,6 +166,9 @@ from six import string_types
                 // console.log(data.org_list[i].logo_img);
 
                 if(data.org_list[i].start_year == '2015'){
+
+                    var x = data.org_list[i].logo_img;
+                    console.log('x = ', x);
                     $('#org_2015').append(data.org_list[i].logo_img);
                 } else if(data.org_list[i].start_year == '2016'){
                     $('#org_2016').append(data.org_list[i].logo_img);
@@ -86,6 +180,7 @@ from six import string_types
             }
             $('#org_cnt').text(data.org_list.length + 1);
         });
+        */
     });
 </script>
 
@@ -98,13 +193,71 @@ from six import string_types
             </div>
         </div>
     </div>
-    <section class="container">
-        <!-- [s]  -->
 
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2015~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2015" class="org-year"></div></div>
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2016~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2016" class="org-year"></div></div>
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2017~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2017" class="org-year"></div></div>
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2018~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2018" class="org-year"></div></div>
+    <section>
+        <div class="school-flex">
+            <div class="form-group school-box">
+                <span class="mr5" style="font-family: 'Open Sans' !important;">기관유형</span>
+                <select class="form-control w50p" id="exampleFormControlSelect1">
+                  <option>전체</option>
+                  <option>서울대학교</option>
+                  <option>고려대학교</option>
+                  <option>연세대학교</option>
+                </select>
+            </div>
+            <div class="form-group school-box">
+                <span class="mr5" style="font-family: 'Open Sans' !important;">참여년도</span>
+                <select class="form-control w50p" id="exampleFormControlSelect1">
+                    <option>전체</option>
+                    <option>2020</option>
+                    <option>2019</option>
+                    <option>2018</option>
+                    <option>2017</option>
+                </select>
+            </div>
+            <div class="form-group school-box" style="padding-top: 3px;">
+                <span class="mr5" style="font-family: 'Open Sans' !important;">참여기관명</span>
+                <input type="text" class="form-control w50p" id="exampleInputPassword1">
+            </div>
+            <div class="form-group school-box">
+                <button type="button" class="btn-blue school-sb">검색</button>
+            </div>
+        </div>
 
+        <div class="school-support">
+            * 기관을 선택하시면 기관 소개와 등록된 기관의 강좌가 보여집니다.
+        </div>
+
+        <div>
+
+            % for n in range(0, 5):
+            <div class="school-card">
+                <div class="school-card-img">
+                    <img class="school-fix-img" src="http://www.kmooc.kr/static/file_upload/KHUk.png">
+                </div>
+                <div class="school-card-mid">
+                    2015년 참여 | 국내대학
+                </div>
+                <div class="school-card-bot">
+                    <div class="school-card-org">
+                        <span class="icon fa fa-university fa-lg" aria-hidden="true"></span>
+                        경희대학교
+                    </div>
+                    <div class="school-card-phone">
+                        <span class="icon fa fa-phone fa-lg" aria-hidden="true"></span>
+                        031-201-3951
+                    </div>
+                </div>
+                <div class="school-hover-txt">
+                    <div class="school-hack">
+                        <div>기관 소개와</div>
+                        <div>기관 강좌 보기</div>
+                    </div>
+                </div>
+            </div>
+            % endfor
+
+
+        </div>
     </section>
 </main>
