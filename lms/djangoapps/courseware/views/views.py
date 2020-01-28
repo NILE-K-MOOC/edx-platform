@@ -3378,28 +3378,34 @@ def cert_check(request):
 def cert_check_id(request):
     uuid = request.POST['uuid']
 
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
-    query = """
-         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """'
-    """
-    print 'cert_check uuid, query', uuid, query
-
-    result = []
-    with con:
-        cur = con.cursor();
-        cur.execute("set names utf8")
-        cur.execute(query)
+    with connections['default'].cursor() as cur:
+        sql = '''
+            select concat('/certificates/user/', user_id,'/course/', course_id) certUrl 
+            from certificates_generatedcertificate 
+            where verify_uuid = '{uuid}'
+        '''.format(uuid=uuid)
+        cur.execute(sql)
         rows = cur.fetchall()
-        columns = [desc[0] for desc in cur.description]
 
-        for row in rows:
-            row = dict(zip(columns, row))
-            result.append(row)
-
-    cur.close()
-    con.close()
-
-    return HttpResponse(json.dumps(result))
+    if len(rows) == 0:
+        with connections['default'].cursor() as cur:
+            sql = '''
+                select date_format(change_date_kst, '%Y-%m-%d %H:%i:%s')
+                from certificates_generatedcertificate_trigger
+                where verify_uuid = '{uuid}'
+                order by change_date_kst desc
+                limit 1
+            '''.format(uuid=uuid)
+            print('-------------------------------')
+            print(sql)
+            print('-------------------------------')
+            cur.execute(sql)
+            history = cur.fetchall()
+            if len(history) == 0:
+                return JsonResponse({'result': 404})
+            else:
+                change_date_kst = history[0][0]
+                return JsonResponse({'result': 200, 'change_date_kst': change_date_kst})
+    else:
+        url = rows[0][0]
+        return JsonResponse({'result': 200, 'url': url})
