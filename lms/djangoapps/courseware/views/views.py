@@ -603,6 +603,13 @@ class CourseTabView(EdxFragmentView):
         Displays a course tab page that contains a web fragment.
         """
         course_key = CourseKey.from_string(course_id)
+
+        encStr = request.GET.get('encStr')
+
+        # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
+        if encStr:
+            pass
+
         with modulestore().bulk_operations(course_key):
             course = get_course_with_access(request.user, 'load', course_key)
             try:
@@ -1385,9 +1392,9 @@ def course_about(request, course_id):
                 audit_flag = 'N'
 
         # 유사강좌 -> 백엔드 로직 시작
-        LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
-
-        LMS_BASE = 'www.kmooc.kr' # TEST
+        # LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
+        # LMS_BASE = 'www.kmooc.kr' # TEST
+        LMS_BASE = 'localhost'
 
         url = 'http://' + LMS_BASE + '/search/course_discovery/'
 
