@@ -1286,16 +1286,26 @@ def course_about(request, course_id):
 
         cur = con.cursor()
         query = '''
-                    SELECT ifnull(b.detail_ename, '')
+                    SELECT ifnull(b.detail_ename, ''), ifnull(a.course_subtitle, '-'), ifnull(a.course_language, '-')
                       FROM course_overview_addinfo a
                            LEFT JOIN code_detail b
                               ON a.course_level = b.detail_code AND b.group_code = '007'
                      WHERE a.course_id = '{course_id}';
                 '''.format(course_id=course_id)
         cur.execute(query)
-        course_level = cur.fetchall()
-        print "course_level", course_level
-        course_level = course_level[0][0]
+        coai = cur.fetchall()
+        try:
+            course_level = coai[0][0]
+        except BaseException:
+            course_level = '-'
+        try:
+            course_subtitle = coai[0][1]
+        except BaseException:
+            course_subtitle = '-'
+        try:
+            course_language = coai[0][2]
+        except BaseException:
+            course_language = '-'
         cur.close()
 
         cur = con.cursor()
@@ -1629,6 +1639,8 @@ def course_about(request, course_id):
             'effort_week': effort_week,
             # 'course_link': course_link,
             'course_level': course_level,
+            'course_subtitle': course_subtitle,
+            'course_language': course_language,
             'study_time': study_time,
             'start': start,
             'end': end,
@@ -3076,7 +3088,7 @@ def schools(request):
                     # 20190826 기관 연락처 추가
                     org_dict['logo_img'] = '''
                         <a href="/school/{org_id}">
-                            <div class="logo_div">
+                            <div class="logo_div" onmouseover="replaceDiv()">
                                 <img class="logo_img" alt="{org_name}" src="{org_image}" onerror="this.src='/static/images/blank.png'"/>
                                 <div class="logo_phone">{org_phone}</div>
                             </div>
@@ -3397,28 +3409,34 @@ def cert_check(request):
 def cert_check_id(request):
     uuid = request.POST['uuid']
 
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
-    query = """
-         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """'
-    """
-    print 'cert_check uuid, query', uuid, query
-
-    result = []
-    with con:
-        cur = con.cursor();
-        cur.execute("set names utf8")
-        cur.execute(query)
+    with connections['default'].cursor() as cur:
+        sql = '''
+            select concat('/certificates/user/', user_id,'/course/', course_id) certUrl 
+            from certificates_generatedcertificate 
+            where verify_uuid = '{uuid}'
+        '''.format(uuid=uuid)
+        cur.execute(sql)
         rows = cur.fetchall()
-        columns = [desc[0] for desc in cur.description]
 
-        for row in rows:
-            row = dict(zip(columns, row))
-            result.append(row)
-
-    cur.close()
-    con.close()
-
-    return HttpResponse(json.dumps(result))
+    if len(rows) == 0:
+        with connections['default'].cursor() as cur:
+            sql = '''
+                select date_format(change_date_kst, '%Y-%m-%d %H:%i:%s')
+                from certificates_generatedcertificate_trigger
+                where verify_uuid = '{uuid}'
+                order by change_date_kst desc
+                limit 1
+            '''.format(uuid=uuid)
+            print('-------------------------------')
+            print(sql)
+            print('-------------------------------')
+            cur.execute(sql)
+            history = cur.fetchall()
+            if len(history) == 0:
+                return JsonResponse({'result': 404})
+            else:
+                change_date_kst = history[0][0]
+                return JsonResponse({'result': 200, 'change_date_kst': change_date_kst})
+    else:
+        url = rows[0][0]
+        return JsonResponse({'result': 200, 'url': url})

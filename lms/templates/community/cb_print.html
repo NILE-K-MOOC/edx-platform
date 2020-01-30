@@ -1,0 +1,201 @@
+<%! from django.utils.translation import ugettext as _ %>
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head dir="ltr">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/certificates/css/main-ltr.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/static/css/vendor/font-awesome.css" type="text/css" media="all" />
+</head>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-68431198-1', 'auto');
+    ga('send', 'pageview');
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+function changeEventHandler(event) {
+    console.log(event.target.value);
+    var org = event.target.value;
+    if(org == '선택 없음'){
+        $('#multi_info').html('');
+    } else {
+        $.post( "/api/get_org_value", {
+            org: org
+        })
+        .done(function( data ) {
+            console.log(org + ' ' + data.result);
+            $('#multi_info').html(org + ' ID : ' + data.result)
+        });
+    }
+}
+</script>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    function print_series() {
+        var print_index = $('#print_index').html();
+        var frmPop= document.frmPopup;
+        var url = '/maeps/series_print';
+        window.open('','print_series','옵션');
+
+        frmPop.action = url;
+        frmPop.target = 'print_series'; //window,open()의 두번째 인수와 같아야 하며 필수다.
+        frmPop.print_index.value = print_index;
+        frmPop.submit();
+    }
+</script>
+
+<div id="fb-root"></div>
+<div class="wrapper-banner wrapper-banner-user" style="margin-top: 0px;">
+    <section class="banner banner-user">
+        <div class="message message-block message-notice">
+            <h2 class="message-title hd-5 emphasized">시리즈 교육 인쇄 페이지입니다</h2>
+            <div class="wrapper-copy-and-actions">
+                <p class="message-copy copy copy-base emphasized">아래의 버튼을 눌러 인쇄할 수 있습니다</p>
+                <div class="message-actions">
+                    <h3 class="sr-only">강좌 이수증을 인쇄하거나 공유하기</h3>
+                    <button class="action action-print btn-inverse btn-small" id="action-print-view" onclick="print_series()">
+                        <span class="icon fa fa-print" aria-hidden="true"></span>
+                        시리즈 교육 확인증 인쇄하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<form name="frmPopup" method="POST">
+    <input type="hidden" name="print_index">
+</form>
+
+<div id = "print_index">
+    <style>
+        .paper {
+            width: 210mm;
+            min-height: 280mm;
+            padding:35px;
+            margin: 10mm auto;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            position:relative;
+        }
+        .ce-bg {
+            background:url(images/bg.png) no-repeat;
+            width: 643px;
+            height: 232px;
+            display: inline-block;
+            position: absolute;
+            top: 393px;
+            left: 68px;
+        }
+        .ribbon {
+            display: inline-block;
+            position: absolute;
+            right: 110px;
+            z-index: 10;
+            top: 0px;
+        }
+        .content {
+            padding: 25px;
+            border: 4px solid #6c6f73;
+            height: 250mm;
+            position:relative;
+        }
+        h5 { margin:0; }
+        h4{ font-size: 20px; margin: 0px; }
+        .content h1 {
+            font-size:50px; margin-bottom: 80px; margin-top: 40px;
+        }
+        .ce-t-gray { color:#959595; }
+        .ce-txt-second { margin-top: 0px; font-size: 20px; }
+        .ce-v {
+                width: 20px;
+                display: inline-block;
+                height: 20px;
+                vertical-align: top;
+                margin-top: 2px;
+                margin-right: 3px;
+                margin-left: 5px;
+        }
+        .ce-v img { width: 100%; }
+        .ce-list li { margin-bottom: 4px; }
+        .ce-center-txt2{ text-align:center; margin-bottom: 35px; }
+        ul li { list-style:none; }
+        .ce-pg2-top{ margin-bottom: 100px; display: block; }
+        .ce-pg2-t01{ margin-bottom: 100px; }
+        .ce-pg2-t01 table, .ce-pg2-t02 table{ width:100%; border-collapse: collapse; }
+        .ce-pg2-t01 table tbody tr td{ letter-spacing: -0.7px; }
+        .ce-pg2-t01 table tbody tr td p{ padding: 0px 10px 0px 0px; font-size: 15px; }
+        .ce-pg2-t01 table tbody tr td span{ white-space: nowrap; font-size: 12px; }
+        .ce-pg2-t01 table tbody tr td .ce-Tbold{ font-weight: bold; }
+        .ce-pg2-t02 table tr th{ font-size: 13px; border: 1px solid #eee; padding: 2px; background: #eee; border-right: 1px solid #fff; }
+        .ce-pg2-t02 table tr th:last-child{ border-right: 1px solid #eee; }
+        .ce-pg2-t02 table tbody tr td{ text-align: center; vertical-align: middle; font-size: 13px; border: 1px solid #eee; padding: 10px; }
+        .ce-pg2-t02 table tbody tr td p{ padding:0px; text-align: left; margin:0px; }
+        .sign-area{ display:inline-block; width:100%; }
+        .sign-area-depth1, .sign-area-depth2{ display:inline-block; height:80px; width: 685px; }
+        .t-center{ display:inline-block; float:right; margin-left: 34px; width: 110px; }
+        .t-center img { width: 80%; height: 50px; }
+        .t-sign{ margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #333; }
+        .t-center:last-child{ margin-left:0; }
+        .t-center h5{ text-align:center; font-size:11px; }
+        .ce-logo-area{display:inline-block; width:100%;}
+        .ce-logo-area{display:inline-block; width:100%;}
+        .ce-logo{display:inline-block; float:right;  margin-left: 34px;  width: 140px;}
+        .ce-logo:last-child{margin-left:0;}
+        .ce-logo img{width:100%; height: 60px; }
+    </style>
+    <div style="font-family:'malgun gothic', 맑은 고딕;">
+        <div class="paper">
+            <div class="ce-bg"></div>
+            <div class="ribbon">
+                <img src="http://kmooc.kr/static/images/cert/ribbon2.png"/>
+            </div>
+            <div class="content">
+                <h5>출력일시 : ${kst}</h5>
+                <h1>이 수 증</h1>
+                <h5 class="ce-t-gray">이름</h5>
+                <h4 class="ce-txt-second" style="margin-bottom: 0px;">
+                <span>${user_name}</span>
+                <span>(${user_birth})</span>
+                % if user_nice == 'Y':
+                    (<i class="ce-v"><img src="http://kmooc.kr/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
+                % endif
+                </h4>
+                <div id="multi_info" style="font-size: 20px;color: #8a8585;margin-bottom: 12px;">
+                </div>
+                <h5  class="ce-t-gray">강좌명</h5>
+                <h4 class="ce-txt-second">${display_name}</h4>
+                <h5  class="ce-t-gray" style="margin-top: 12px; width: 100px; float: left; height: 160px; border-right: solid 3px black; margin-right: 20px;"></h5>
+                <blockquote style="margin-left: -8px; margin-top: 3px;">
+                    <ul class="ce-list" style="margin-top: 15px;">
+                        <li>운 영 기 간 : ${start} - ${end}</li>
+                        <li>총 주차 : ${weeks} 주</li>
+                        <li>학점 : ${credit} 학점</li>
+                        <li>교수자 : ${professor_name} 교수</li>
+                        <li>기관 : ${org}</li>
+                        <li>성적 : ${score} 점</li>
+                        <li>출석 : ${attendance} %</li>
+                    </ul>
+                </blockquote>
+                <h4 class="ce-center-txt2" style="margin-bottom: 0px; margin-top: 60px;">위 과정을 성실히 이수하여</h4>
+                <h4 class="ce-center-txt2" style="margin-bottom: 20px;">이 증서를 수여 합니다.</h4>
+                <h4 class="ce-center-txt2" style="margin-bottom: 10px;">${regist_date}</h4>
+                <h4 class="ce-center-txt2" style="margin-bottom: 100px;">※ 본 이수증은 학점은행제 학점인정의 증빙과는 무관합니다.</h4>
+
+                <div class="sign-area">
+                    <div class="ce-logo-area">
+                            <div class="ce-logo"><img src="${org_image}"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- MarkAny Page Gubun -->
+    </div>
+</div>

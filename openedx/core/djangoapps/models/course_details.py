@@ -4,10 +4,8 @@ CourseDetails
 """
 import re
 import logging
-
 from django.conf import settings
 from django.db import connections
-
 from xmodule.fields import Date
 from xmodule.modulestore.exceptions import ItemNotFoundError
 from openedx.core.lib.courses import course_image_url
@@ -24,9 +22,9 @@ ABOUT_ATTRIBUTES = [
     'duration',
     'description',
     'teacher_name',
+    'subtitle_box',
     'short_description',
     'overview',
-    # course_level 추가
     'course_level',
     'effort',
     'entrance_exam_enabled',
@@ -47,8 +45,8 @@ class CourseDetails(object):
         self.course_id = course_id
         self.run = run
         self.language = None
-        self.start_date = None  # 'start'
-        self.end_date = None  # 'end'
+        self.start_date = None
+        self.end_date = None
         self.enrollment_start = None
         self.enrollment_end = None
         self.syllabus = None  # a pdf file asset
@@ -58,6 +56,7 @@ class CourseDetails(object):
         self.description = ""
         self.short_description = ""
         self.teacher_name = ""
+        self.subtitle_box = ""
         self.overview = ""  # html to render as the overview
         self.about_sidebar_html = ""
         self.intro_video = None  # a video pointer
@@ -127,14 +126,9 @@ class CourseDetails(object):
         course_details.self_paced = course_descriptor.self_paced
         course_details.learning_info = course_descriptor.learning_info
         course_details.instructor_info = course_descriptor.instructor_info
-
         course_details.classfy = course_descriptor.classfy
-
         course_details.middle_classfy = course_descriptor.middle_classfy
-        
-        # Default course license is "All Rights Reserved"
         course_details.license = getattr(course_descriptor, "license", "all-rights-reserved")
-
         course_details.intro_video = cls.fetch_youtube_video_id(course_key)
 
         for attribute in ABOUT_ATTRIBUTES:
@@ -257,6 +251,11 @@ class CourseDetails(object):
             descriptor.teacher_name = jsondict['teacher_name']
         else:
             descriptor.teacher_name = None
+
+        if 'subtitle_box' in jsondict:
+            descriptor.subtitle_box = jsondict['subtitle_box']
+        else:
+            descriptor.subtitle_box = None
 
         if 'course_level' in jsondict:
             descriptor.course_level = jsondict['course_level']

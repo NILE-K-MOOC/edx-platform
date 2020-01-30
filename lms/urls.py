@@ -115,7 +115,11 @@ urlpatterns = [
     # made by kotech system
     url(r'^memo$', kotech_memo.memo, name='memo'),
     url(r'^memo_view/(?P<memo_id>.*?)/$', kotech_memo.memo_view, name='memo_view'),
-    url(r'^memo_sync$', kotech_memo.memo_sync, name='memo'),
+    url(r'^memo_sync$', kotech_memo.memo_sync, name='memo_sync'),
+    url(r'^dashboard_memo$', kotech_memo.dashboard_memo, name='dashboard_memo'),
+    url(r'^dashboard_memo_read$', kotech_memo.dashboard_memo_read, name='dashboard_memo_read'),
+    url(r'^dashboard_memo_detail$', kotech_memo.dashboard_memo_detail, name='dashboard_memo_detail'),
+
 
 
     # Xinics Login
@@ -146,6 +150,8 @@ urlpatterns = [
     # Lifelong API
     # made by kotech system
     url(r'^api/all_courses$', kotech_lifelong.course_api, name="course_api"),
+    url(r'^api/cb_course$', kotech_lifelong.cb_course, name="cb_course"),
+    url(r'^cb_print/(?P<course_id>.*?)/$', kotech_lifelong.cb_print, name='cb_print'),
 
 
     # Self Auth
