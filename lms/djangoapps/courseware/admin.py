@@ -38,7 +38,6 @@ admin.site.register(OfflineComputedGradeLog)
 # Add 20191028
 class CourseOrgAdmin(admin.ModelAdmin):
     fields = [
-        'id',
         'org_code',
         'org_name',
         'org_image',
