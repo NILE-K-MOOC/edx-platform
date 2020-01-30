@@ -30,7 +30,9 @@ from xmodule.modulestore.django import modulestore
 from util.date_utils import strftime_localized
 from pytz import utc
 from django.utils.translation import ugettext
-from django.db.models import Q, Count
+from django.db.models import F, Q, Value as V, Count
+from django.db.models.functions import Coalesce
+
 import datetime
 import pytz
 from django.utils import timezone
@@ -329,9 +331,9 @@ class CourseOverview(TimeStampedModel):
             overview.id: overview
             for overview
             in cls.objects.select_related('image_set').filter(
-                id__in=course_ids,
-                version__gte=cls.VERSION
-            )
+            id__in=course_ids,
+            version__gte=cls.VERSION
+        )
         }
 
     @classmethod
@@ -473,6 +475,7 @@ class CourseOverview(TimeStampedModel):
             ugettext,
             strftime_localized
         )
+
     @property
     def start_date_is_still_default(self):
         """
@@ -594,60 +597,96 @@ class CourseOverview(TimeStampedModel):
         # Note: If a newly created course is not returned in this QueryList,
         # make sure the "publish" signal was emitted when the course was
         # created. For tests using CourseFactory, use emit_signals=True.
-        if org:
-            print 'org:', org
+
+        # global variables
+        order = '-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name'
+        utcnow = timezone.now()
+        is_api = False
+
+        if filter_ and 'is_api' in filter_:
+            is_api = filter_.get('is_api')
+            filter_.pop('is_api')
+
+        log.info('is_api = %s' % is_api)
+
+        if is_api:
+            if not filter_:
+                filter_ = {}
+
+            if org:
+                filter_.update(org=org)
+
+            course_overviews = CourseOverview \
+                .objects \
+                .filter(**filter_) \
+                .filter(visible_to_staff_only=False, catalog_visibility='both') \
+                .filter(Q(enrollment_end__isnull=True) | Q(start__lt=utcnow) | Q(enrollment_start__lte=utcnow, enrollment_end__gte=utcnow))
+
+        elif org:
             if org == 'ACEk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).order_by(*order)
 
             elif org == 'COREk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(
-                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
-                            id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(
+                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(
+                            id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
+                            id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(
-                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
-                            id__icontains='HYUKMOOC2016-5k')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(
+                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(
+                            id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
+                            id__icontains='HYUKMOOC2016-5k')).order_by(*order)
 
             elif org == 'CKk' or org == 'KOCWk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).order_by(*order)
 
             elif org == 'SNUk' or org == 'POSTECHk' or org == 'KAISTk':
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by(*order)
             elif org == 'SMUk':
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).order_by(*order)
 
             else:
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(org__iexact=org).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(org__iexact=org).order_by(*order)
 
         else:
-
             if filter_ and 'mobile_available' in filter_ and filter_['mobile_available'] is True:
-                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
-                course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= timezone.now() <= c.enrollment_end]
+                course_overviews = CourseOverview.objects.filter(**filter_).order_by(*order)
+                course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= utcnow <= c.enrollment_end]
             elif filter_:
                 course_overviews = CourseOverview.objects.filter(**filter_)
             else:
-                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                course_overviews = CourseOverview.objects.all().order_by(*order)
 
+        course_overviews = course_overviews.annotate(
+            classfy=F('courseoverviewaddinfo__classfy'),
+            audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
+            teacher_name=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('N')),
+            fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
+            ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
+            job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
+            linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N'))
+        )
+
+        # log.debug(course_overviews.query)
         return course_overviews
 
     def start_datetime_text(self, format_string="SHORT_DATE", time_zone=utc):

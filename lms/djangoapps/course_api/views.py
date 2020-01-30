@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Course API Views
 """
@@ -15,6 +16,57 @@ from . import USE_RATE_LIMIT_2_FOR_COURSE_LIST_API, USE_RATE_LIMIT_10_FOR_COURSE
 from .api import course_detail, list_courses
 from .forms import CourseDetailGetForm, CourseListGetForm
 from .serializers import CourseDetailSerializer, CourseSerializer
+
+import logging
+import subprocess
+
+log = logging.getLogger(__name__)
+
+
+def check_api_key(service_key=None):
+    try:
+        DIR = '/edx/app/edxapp/edx-platform/kotech_utility'
+
+        def get_apim_key():
+            mydir = DIR + '/Key Generator'
+            ret = subprocess.check_output(['java', '-jar', 'APIM_KeyGenerator.jar'], cwd=mydir)
+            ret = ret.rstrip().decode('utf-8')  # for python3 compatibility
+            index = ret.find('=> ')
+            if index is -1:
+                return 'error'
+            else:
+                return ret[(index + 3):]
+
+        def check_apim_key(key):
+            mydir = DIR
+            return subprocess.check_output(['java', '-cp', '.:apim-gateway-auth-1.1.jar', 'checkapi', key], cwd=mydir).rstrip()
+
+        key = get_apim_key()
+
+        if not service_key:
+            raise ValidationError('check_api_key API Call Exception (ServiceKey not exists)')
+
+        if service_key.strip() != key.strip():
+            raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
+
+        log.info('check_api_key key [%s]' % key)
+        log.info('check_api_key SG_APIM [%s]' % key)
+        log.info('check_api_key check [%s]' % (key.strip() == service_key.strip()))
+
+        res = check_apim_key(key)
+        log.info('check_api_key Res [%s]' % res)
+
+    except OSError as e:
+        log.info('check_api_key exception --> OSError [%s]' % e.message)
+        raise ValidationError('check_api_key OSError [%s]' % e.message)
+
+    except ValidationError as e1:
+        log.info('check_api_key exception --> ValidationError [%s]' % e1.message)
+        raise ValidationError('check_api_key exception --> ValidationError [%s]' % e1.message)
+
+    except Exception as e2:
+        log.info('check_api_key exception --> Exception [%s]' % e2.message)
+        raise ValidationError('check_api_key exception --> Exception [%s]' % e2.message)
 
 
 @view_auth_classes(is_authenticated=False)
@@ -111,10 +163,25 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         """
         Return the requested course object, if the user has appropriate
         permissions.
+
+        get 파라미터중 course_id 가 있다면 공공데이터 연계의 호출로 처리되도록 분기
         """
+
+        req = self.request
+        path = req.path
+
+        if path == '/api/courses/v1/course/detail/':
+            service_key = req.GET.get('ServiceKey')
+            check_api_key(service_key)
+            course_id = req.GET.get('CourseId', '')
+            course_id = course_id.replace(' ', '+')
+        else:
+            course_id = self.kwargs['course_key_string']
+
         requested_params = self.request.query_params.copy()
-        requested_params.update({'course_key': self.kwargs['course_key_string']})
+        requested_params.update({'course_key': course_id})
         form = CourseDetailGetForm(requested_params, initial={'requesting_user': self.request.user})
+
         if not form.is_valid():
             raise ValidationError(form.errors)
 
@@ -244,16 +311,32 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
     def get_queryset(self):
         """
         Return a list of courses visible to the user.
+
+        20200113 공공데이터 API 연계를 위한 인증모듈 검증 추가
         """
+
+        req = self.request
+        path = req.path
+
+        if path == '/api/courses/v1/course/list/':
+            service_key = req.GET.get('ServiceKey')
+            check_api_key(service_key)
+
         form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
+
         if not form.is_valid():
             raise ValidationError(form.errors)
+
+        f = form.cleaned_data['filter_']
+
+        if not f:
+            f = {'is_api': True}
 
         db_courses = list_courses(
             self.request,
             form.cleaned_data['username'],
             org=form.cleaned_data['org'],
-            filter_=form.cleaned_data['filter_'],
+            filter_=f,
         )
 
         if not settings.FEATURES['ENABLE_COURSEWARE_SEARCH'] or not form.cleaned_data['search_term']:
