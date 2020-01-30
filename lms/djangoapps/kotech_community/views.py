@@ -21,7 +21,7 @@ from django.db.models import Q
 from django.db import connections
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
-from models import *
+from .models import TbBoard, TbAttach
 
 import mimetypes
 import urllib

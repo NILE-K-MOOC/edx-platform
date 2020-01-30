@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class TbBoard(models.Model):
@@ -18,6 +21,10 @@ class TbBoard(models.Model):
     class Meta:
         managed = False
         db_table = 'tb_board'
+        app_label = 'kotech_community'
+
+    def __init__(self):
+        log.info('TbBoard init [%s]' % __name__)
 
 
 class TbAttach(models.Model):
@@ -37,6 +44,7 @@ class TbAttach(models.Model):
     class Meta:
         managed = False
         db_table = 'tb_attach'
+        app_label = 'kotech_community'
 
 
 class TbBoardAttach(models.Model):
@@ -56,3 +64,4 @@ class TbBoardAttach(models.Model):
     class Meta:
         managed = False
         db_table = 'tb_board_attach'
+        app_label = 'kotech_community'

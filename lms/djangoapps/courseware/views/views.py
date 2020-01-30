@@ -60,6 +60,7 @@ from courseware.courses import (
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
 from courseware.models import BaseStudentModuleHistory, StudentModule, CodeDetail, Multisite, MultisiteMember
+from kotech_community.models import TbAttach
 from courseware.url_helpers import get_redirect_url
 from courseware.user_state_client import DjangoXBlockUserStateClient
 from edxmako.shortcuts import marketing_link, render_to_response, render_to_string
@@ -603,15 +604,12 @@ class CourseTabView(EdxFragmentView):
             # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
             if org and encStr:
                 from branding.views import decrypt, login
-                from kotech_community.models import TbAttach
+
 
                 try:
                     multisite = Multisite.objects.get(site_code=org)
                     key = multisite.encryption_key
                     logo_img_id = multisite.logo_img
-
-                    save_path = None
-                    request.session['save_path'] = save_path
 
                     try:
                         raw_data = decrypt(key, key, encStr)
