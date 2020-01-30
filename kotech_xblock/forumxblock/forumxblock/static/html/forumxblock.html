@@ -1,5 +1,15 @@
+{% load i18n %}
+
 <div class="forumxblock_block">
-<p>ForumXBlock: count is now
-    <span class='count'>{self.count}</span> (click me to increment).
-</p>
+<div>
+    <div style="margin-bottom: 10px;">
+        게시판에 글 {{ write_count }} 회 작성 시 {{ give_point }} 점이 부여됩니다 (100점 만점)
+    </div>
+    <div style="margin-bottom: 20px; margin-top: 20px;">
+        <div>현재 작성 글 수 : <span id="current_count" style="font-size: 30px;">0</span> 개</div>
+    </div>
+    <div style="color: #2196f3;">
+        게시판에서 글을 작성하신 후 해당 학습활동으로 돌아오시면 확인처리 됩니다
+    </div>
+</div>
 </div>

@@ -1,22 +1,18 @@
 /* Javascript for ForumXBlock. */
 function ForumXBlock(runtime, element) {
 
-    function updateCount(result) {
-        $('.count', element).text(result.count);
+    function currentCount(result) {
+        $('#current_count').html(result.current_count);
     }
 
     var handlerUrl = runtime.handlerUrl(element, 'increment_count');
 
-    $('p', element).click(function(eventObject) {
+    $( document ).ready(function() {
         $.ajax({
             type: "POST",
             url: handlerUrl,
-            data: JSON.stringify({"hello": "world"}),
-            success: updateCount
+            data: JSON.stringify({}),
+            success: currentCount
         });
-    });
-
-    $(function ($) {
-        /* Here's where you'd do things on page load. */
     });
 }
