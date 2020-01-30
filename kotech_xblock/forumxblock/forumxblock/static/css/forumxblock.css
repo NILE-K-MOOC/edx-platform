@@ -1,0 +1,9 @@
+/* CSS for ForumXBlock */
+
+.forumxblock_block .count {
+    font-weight: bold;
+}
+
+.forumxblock_block p {
+    cursor: pointer;
+}
