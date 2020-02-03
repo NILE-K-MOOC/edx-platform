@@ -197,7 +197,8 @@ urlpatterns = [
 
     # Schools
     # made by kotech system
-    url(r'^schools/?$', courseware_views.schools, name="schools"),
+    url(r'^schools_make_filter/?$', courseware_views.schools_make_filter, name="schools_make_filter"),
+    url(r'^schools_make_item/?$', courseware_views.schools_make_item, name="schools_make_item"),
     url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
     url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
 
