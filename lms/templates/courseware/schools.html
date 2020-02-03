@@ -276,12 +276,12 @@ from six import string_types
                         '</div>';
 
                     var hover_template = ''+
-                        '<div class="school-hover-txt">'+
+                        '<a href="/school/' + org_id + '"><div class="school-hover-txt">'+
                         '    <div class="school-hack">'+
                         '        <div>' + part_b + '</div>'+
                         '        <div>' + part_c + '</div>'+
                         '    </div>'+
-                        '</div>';
+                        '</div></a>';
 
                     if (check_intro == 'Y') {
                         template += hover_template;
