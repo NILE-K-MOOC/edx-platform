@@ -1075,6 +1075,9 @@ def student_dashboard(request):
         'resume_button_urls': resume_button_urls
     })
 
+    if not context.get('save_path'):
+        context.update(save_path=None)
+
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
     # if request.is_ajax():
