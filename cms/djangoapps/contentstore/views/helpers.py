@@ -21,6 +21,7 @@ from util.milestones_helpers import is_entrance_exams_enabled
 from xmodule.modulestore.django import modulestore
 from xmodule.tabs import StaticTab
 from xmodule.x_module import DEPRECATION_VSCOMPAT_EVENT
+from openedx.core.djangoapps.user_api.models import UserPreference
 
 __all__ = ['event']
 
@@ -198,6 +199,17 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
         # get the metadata, display_name, and definition from the caller
         metadata = {}
         data = None
+
+        # inject -> kor yaml template
+        lang = UserPreference.objects.get(user_id=user.id, key='pref-lang').value
+        if lang == 'ko-kr':
+            boilerplate_kor = boilerplate
+            template_id = 'kor/' + boilerplate_kor
+            clz = parent.runtime.load_block_type(category)
+            template = clz.get_template(template_id)
+            if template != None:
+                boilerplate = template_id
+
         template_id = boilerplate
         if template_id:
             clz = parent.runtime.load_block_type(category)
