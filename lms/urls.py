@@ -115,7 +115,11 @@ urlpatterns = [
     # made by kotech system
     url(r'^memo$', kotech_memo.memo, name='memo'),
     url(r'^memo_view/(?P<memo_id>.*?)/$', kotech_memo.memo_view, name='memo_view'),
-    url(r'^memo_sync$', kotech_memo.memo_sync, name='memo'),
+    url(r'^memo_sync$', kotech_memo.memo_sync, name='memo_sync'),
+    url(r'^dashboard_memo$', kotech_memo.dashboard_memo, name='dashboard_memo'),
+    url(r'^dashboard_memo_read$', kotech_memo.dashboard_memo_read, name='dashboard_memo_read'),
+    url(r'^dashboard_memo_detail$', kotech_memo.dashboard_memo_detail, name='dashboard_memo_detail'),
+
 
 
     # Xinics Login
@@ -146,6 +150,8 @@ urlpatterns = [
     # Lifelong API
     # made by kotech system
     url(r'^api/all_courses$', kotech_lifelong.course_api, name="course_api"),
+    url(r'^api/cb_course$', kotech_lifelong.cb_course, name="cb_course"),
+    url(r'^cb_print/(?P<course_id>.*?)/$', kotech_lifelong.cb_print, name='cb_print'),
 
 
     # Self Auth
@@ -191,7 +197,8 @@ urlpatterns = [
 
     # Schools
     # made by kotech system
-    url(r'^schools/?$', courseware_views.schools, name="schools"),
+    url(r'^schools_make_filter/?$', courseware_views.schools_make_filter, name="schools_make_filter"),
+    url(r'^schools_make_item/?$', courseware_views.schools_make_item, name="schools_make_item"),
     url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
     url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
 
@@ -468,6 +475,11 @@ urlpatterns += [
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
     url(r'^search_org/?$', courseware_views.search_org_name, name='search_org_name'),
+
+    url(r'^mobile/comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', kotech_community.mobile_comm_list, name='mobile_comm_list'),
+    url(r'^mobile/comm_tabs/$', kotech_community.mobile_comm_tabs, name='mobile_comm_tabs'),
+    url(r'^mobile/comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', kotech_community.mobile_comm_view, name='mobile_comm_view'),
+    url(r'^mobile/series/$', kotech_series.mobile_series, name='mobile_series'),
     url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
 
     # About the course

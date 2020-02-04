@@ -79,7 +79,7 @@ from pipeline_mako import render_require_js_path_overrides
   % endif
   <script type="text/javascript" src="${static.url(jsi18n_path)}"></script>
   <script type="text/javascript" src="${static.url(ie11_fix_path)}"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
   <link rel="icon" type="image/x-icon" href="${static.url(static.get_value('favicon_path', settings.FAVICON_PATH))}" />
   <link rel="stylesheet" type="text/css" href="/static/css/star_rating.css" />
@@ -119,6 +119,24 @@ from pipeline_mako import render_require_js_path_overrides
           baseUrl: window.baseUrl
       });
     }).call(this, require || RequireJS.require);
+
+    function setIframeHeight(id) {
+        var ifrm = document.getElementById(id);
+        var doc = ifrm.contentDocument? ifrm.contentDocument:
+            ifrm.contentWindow.document;
+        ifrm.style.visibility = 'hidden';
+        ifrm.style.height = "10px";
+        ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+        ifrm.style.visibility = 'visible';
+    }
+
+    function getDocHeight(doc) {
+        doc = doc || document;
+        var body = doc.body, html = doc.documentElement;
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight );
+        return height;
+    }
   </script>
   <script type="text/javascript" src="${static.url("lms/js/require-config.js")}"></script>
   <%block name="js_overrides">
@@ -165,7 +183,9 @@ from pipeline_mako import render_require_js_path_overrides
 <link rel="stylesheet" type="text/css" href="/static/css/series.css?ver=1.0" />
 <link rel="stylesheet" type="text/css" href="/static/css/kmooc_about.css?ver=1.0" />
 <link rel="stylesheet" type="text/css" href="/static/css/kmooc_main.css?ver=1.3" />
+<link rel="stylesheet" type="text/css" href="/static/css/kmooc_mobile.css?ver=1.0" />
 <script type="text/javascript" src='/static/js/vendor/jquery.bxslider.min.js'></script>
+<script type="text/javascript" src="/static/js/vendor/script.js"></script>
 
 <% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
 % if branch_key and not is_from_mobile_app:
@@ -196,8 +216,43 @@ from pipeline_mako import render_require_js_path_overrides
     <!-- 기존div-->
     <!--<div class="content-wrapper main-container" id="content">-->
     <div class="content-wrapper" id="content">
-      ${self.body()}
-      <%block name="bodyextra"/>
+      % if mobile_template != 'courseware/mobile_course_about':
+      <main id="main" aria-label="Content" tabindex="-1">
+        <section class="kr01 kr01-mobile-container">
+          <section class="highlighted-courses kr01-mobile">
+            <div class="kr01-mobile-top">
+              % if mobile_template == 'mobile_index':
+              <a href="/mobile_courses/"><i class="fa fa-home fa-lg"></i></a>
+              % else:
+              <div class="kr01-mobile-course" id="mobile_title">
+                | ${_(mobile_title)}
+              </div>
+              % endif
+              <div class="kr01-mobile-more">
+                % if mobile_template == 'mobile_index':
+                <a href="/mobile_courses?search_query=">
+                  <span>
+                      더 많은 강좌 찾아보기 >>
+                  </span>
+                % else:
+                <a id="mobile_to" href="/mobile_courses/">
+                  <span id="mobile_to_text">
+                      홈으로 이동하기 >>
+                  </span>
+                % endif
+                </a>
+              </div>
+            </div>
+          </section>
+        </section>
+        % if mobile_template is not None:
+          <%include file="${mobile_template}.html"/>
+        % endif
+        <%block name="bodyextra"/>
+      </main>
+      % else:
+        <%include file="${mobile_template}.html"/>
+      % endif
     </div>
 
 % if not disable_window_wrap:

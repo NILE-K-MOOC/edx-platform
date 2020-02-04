@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Declaration of CourseOverview model
 """
@@ -55,7 +56,7 @@ class CourseOverview(TimeStampedModel):
     class Meta(object):
         app_label = 'course_overviews'
 
-    classfy = None
+    # classfy = None
 
     # IMPORTANT: Bump this whenever you modify this model and/or add a migration.
     VERSION = 6
@@ -159,10 +160,10 @@ class CourseOverview(TimeStampedModel):
 
         course_overview = cls.objects.filter(id=course.id)
         if course_overview.exists():
-            log.info('Updating course overview for %s.', unicode(course.id))
+            log.debug('Updating course overview for %s.', unicode(course.id))
             course_overview = course_overview.first()
         else:
-            log.info('Creating course overview for %s.', unicode(course.id))
+            log.debug('Creating course overview for %s.', unicode(course.id))
             course_overview = cls()
 
         course_overview.version = cls.VERSION
@@ -567,7 +568,7 @@ class CourseOverview(TimeStampedModel):
                 whether the requested CourseOverview objects should be
                 forcefully updated (i.e., re-synched with the modulestore).
         """
-        log.info('Generating course overview for %d courses.', len(course_keys))
+        log.debug('Generating course overview for %d courses.', len(course_keys))
         log.debug('Generating course overview(s) for the following courses: %s', course_keys)
 
         action = CourseOverview.load_from_module_store if force_update else CourseOverview.get_from_id
@@ -582,7 +583,7 @@ class CourseOverview(TimeStampedModel):
                     text_type(ex),
                 )
 
-        log.info('Finished generating course overviews.')
+        log.debug('Finished generating course overviews.')
 
     @classmethod
     def get_all_courses(cls, org=None, filter_=None):
@@ -607,7 +608,7 @@ class CourseOverview(TimeStampedModel):
             is_api = filter_.get('is_api')
             filter_.pop('is_api')
 
-        log.info('is_api = %s' % is_api)
+        log.debug('is_api = %s' % is_api)
 
         if is_api:
             if not filter_:
@@ -676,15 +677,54 @@ class CourseOverview(TimeStampedModel):
             else:
                 course_overviews = CourseOverview.objects.all().order_by(*order)
 
+        # 표시 항목 추가 (ORM)
         course_overviews = course_overviews.annotate(
-            classfy=F('courseoverviewaddinfo__classfy'),
+            teachers=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('')),
+            classfy=Coalesce(F('courseoverviewaddinfo__classfy'), V('')),
+            middle_classfy=Coalesce(F('courseoverviewaddinfo__middle_classfy'), V('')),
+            level=Coalesce(F('courseoverviewaddinfo__course_level'), V('')),
+            passing_grade=Coalesce(F('lowest_passing_grade'), V('')),
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
-            teacher_name=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('N')),
+            teacher_name=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('')),
             fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
             ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
-            linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N'))
+            linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
         )
+
+        # 표시 항목 추가 (EXTRA)
+        course_overviews = course_overviews.extra(select={
+            "org_name": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "org_kname": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "org_ename": "select detail_ename from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "classfy_name": """
+                select detail_name 
+                  from code_detail, course_overview_addinfo 
+                 where course_overviews_courseoverview.id = course_overview_addinfo.course_id 
+                   and code_detail.group_code = '001' 
+                   and code_detail.detail_code = course_overview_addinfo.classfy
+            """,
+            "middle_classfy_name": """
+                select detail_name 
+                  from code_detail, course_overview_addinfo 
+                 where course_overviews_courseoverview.id = course_overview_addinfo.course_id 
+                   and code_detail.group_code = '002' 
+                   and code_detail.detail_code = course_overview_addinfo.middle_classfy
+            """,
+            "language_name": "''",
+            "effort_time": "SUBSTRING_INDEX(effort, '$', - 1)",
+            "status": """
+                CASE
+                    WHEN UTC_TIMESTAMP < start THEN 'ready'
+                    WHEN UTC_TIMESTAMP BETWEEN start AND `end` THEN 'ing'
+                    WHEN UTC_TIMESTAMP > `end` THEN 'end'
+                    ELSE 'none'
+                END
+            """,
+        })
+
+        # print 'len ------------------------------------------------>', course_overviews.count()
+        log.debug(course_overviews.query)
 
         # log.debug(course_overviews.query)
         return course_overviews

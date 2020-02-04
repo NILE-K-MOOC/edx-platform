@@ -1230,7 +1230,8 @@
             },
 
             listenForDragDrop: function() {
-                var captions = document.querySelector('.closed-captions');
+                // var captions = document.querySelector('.closed-captions');
+                var captions = this.captionDisplayEl['0'];
 
                 if (typeof Draggabilly === 'function') {
                     new Draggabilly(captions, {containment: true});

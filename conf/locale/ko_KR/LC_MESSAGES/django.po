@@ -5884,7 +5884,7 @@ msgid ""
 "You must be enrolled in the course to see course content."
 "                             {enroll_link_start}Enroll now{enroll_link_end}."
 msgstr ""
-"이 강좌의 내용은 등록해야 볼 수 있습니다. {enroll_link_start}Enroll now{enroll_link_end}."
+"이 강좌의 내용은 등록해야 볼 수 있습니다. {enroll_link_start}지금 등록{enroll_link_end}."
 
 #: lms/djangoapps/courseware/views/views.py
 #: openedx/features/course_experience/views/course_home_messages.py
@@ -23004,7 +23004,7 @@ msgstr "강좌에 대한 짧은 소개"
 msgid ""
 "Appears on the course catalog page when students roll over the course name. "
 "Limit to ~150 characters"
-msgstr "학습자가 강좌명을 눌러보면 강좌 목록에 나타납니다. 150자 이내로 작성해야 합니다."
+msgstr "홈페이지의 강좌 찾기와 관련 강좌의 검색 기준이 됩니다. 150자 이내로 작성해주세요."
 
 #: cms/templates/settings.html
 msgid "Course Overview"
@@ -25675,6 +25675,11 @@ msgstr "융·복합"
 msgid "major"
 msgstr "분야"
 
+msgid "Subject"
+msgstr "분야"
+
+msgid "Registration Period"
+msgstr "수강 신청 기간"
 
 #: comm_faqrequest.html
 msgid "The inquiry will be sent to the K-MOOC staff members by e-mail."
@@ -27879,3 +27884,27 @@ msgstr "확장"
 
 msgid "Contract"
 msgstr "접기"
+
+msgid "Video Transcript"
+msgstr "자막 언어"
+
+msgid "Introduce the Organization with K-MOOC."
+msgstr "K-MOOC와 함께하는 참여기관을 소개합니다."
+
+msgid "K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era."
+msgstr "K-MOOC는 89개의 국내외 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다."
+
+msgid "Type of Organization"
+msgstr "기관유형"
+
+msgid "Participation year"
+msgstr "참여년도"
+
+msgid "Name of Organization"
+msgstr "참여기관명"
+
+msgid "If you select an agency, you will see an introduction to the institution and a course for the registered institution."
+msgstr "기관을 선택하시면 기관 소개와 등록된 기관의 강좌가 보여집니다."
+
+msgid "Organization matching search criteria does not exist"
+msgstr "검색 조건에 일치하는 참여기관이 존재하지 않습니다"

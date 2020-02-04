@@ -29,6 +29,11 @@ $(document).ready(function () {
         }
     });
 
+    $('.mobile-comm-select').change(function(e){
+        e.preventDefault();
+        $("#search").val('');
+        search($(this).val());
+    })
 
 });
 

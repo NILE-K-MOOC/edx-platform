@@ -240,6 +240,7 @@ def instructor_dashboard_2(request, course_id):
     certificate_invalidations = CertificateInvalidation.get_certificate_invalidations(course_key)
 
     context = {
+        'course_id': course_id,
         'course': course,
         'studio_url': get_studio_url(course, 'course'),
         'sections': sections,

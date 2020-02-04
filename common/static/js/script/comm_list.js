@@ -32,6 +32,7 @@ $(document).ready(function () {
         if (e.keyCode == 13)
             search(1);
     });
+
 });
 
 Date.prototype.yyyymmdd = function () {
@@ -72,6 +73,8 @@ function search(page_no) {
 
     if (page_no)
         $("#curr_page").val(page_no);
+
+    let mobile_flag = $('.kr01-mobile-container').length;
 
     $.post(document.location.pathname,
         {
@@ -155,9 +158,13 @@ function search(page_no) {
                 else {
                     html += "<li class='tbody'>";
                 }
+                let view_url = '/comm_view/';
+                if(mobile_flag)
+                    view_url = '/mobile/comm_view/';
+
                 //html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='no'>" + data[i].board_id + "</span>";
-                html += "   <span class='title'><a id='comm_link' href='/comm_view/" + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
+                html += "   <span class='title'><a id='comm_link' href='" + view_url + data[i].section + "/" + $("#curr_page").val() + "/" + data[i].board_id + "'><i>" + title + "</i>" + data[i].subject + " </a>";
                 if (attach_file == 'Y')
                     html += "<img style='margin-right: 5px;' alt='첨부파일' src='/static/images/Clip.png'/>";
                 if (reg_date > yesterday)

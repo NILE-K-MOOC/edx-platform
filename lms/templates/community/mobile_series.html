@@ -1,0 +1,68 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="header_extras"></%block>
+<script>
+    function mobile_series_click(seq){
+        window.open('http://kmooc.kr/series_view/' + seq, '_blank');
+    }
+</script>
+<div>
+    <div class="series_bg_area">
+        <div class="series_bg_space" id="main">
+      <span  class="series_bg_title">
+      <h3>${_('About Series Course')}</h3>
+      <h6>K-MOOC 묶음강좌란 특정 분야에 대한 보다 심도있는 학습기회를
+         제공하기 위해 복수의 강좌로 구성된 커리큘럼입니다.</h6>
+      </span>
+        </div>
+
+    </div>
+</div>
+
+<section class="container">
+
+    % for item in series_list:
+    <div class="section_frame_outer">
+        <div class="section_frame_inner">
+            <div class="float_left section_a1">
+                <img class="series_imges" src="${item['save_path']}" alt="${item['series_name']}" onerror="this.src='/static/images/blank.png'"/>
+            </div>
+            <div class="float_left section_a2">
+                <div class="series_title white-span">${item['series_name']}</div>
+                <p class="s_list r-list">${item['short_description']}</p>
+            </div>
+
+            <div class="section_a3">
+                <div class="r-list">
+                    <table>
+                        <caption class="hidden_head">기관정보</caption>
+                        <tr>
+                            <th scope="row">
+                                <span class="siz">대표기관</span>
+                            </th>
+                            <td>
+                                <span>${item['detail_name']}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <span class="siz">구성강좌수</span>
+                            </th>
+                            <td>
+                                <span>${item['series_cnt']}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <span class="r-list mobile-series-notice">※ 묶음 강좌 수강신청 및 강의 듣기는 모바일 웹에서 가능합니다.</span>
+            <span class="r-list mobile-series-notice">
+                    <a onclick="mobile_series_click('${str(item['series_seq'])}')">>> 모바일 웹에서 보기</a>
+            </span>
+            <div></div>
+        </div>
+    </div>
+    % endfor
+
+</section>

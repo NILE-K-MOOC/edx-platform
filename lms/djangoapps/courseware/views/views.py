@@ -242,6 +242,7 @@ def search_org_name(request):
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
+    수정시 mobile_courses도 함께 수정
     """
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
@@ -273,7 +274,7 @@ def courses(request):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
+# @cache_if_anonymous()
 def mobile_courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
@@ -337,12 +338,20 @@ def mobile_courses(request):
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
+    # course post parameter setting to html
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'middle_classfy']
+    parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
+
+
     return render_to_response(
-        "mobile_courses.html",
+        "mobile_main.html",
         {
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
-            'programs_list': programs_list
+            'programs_list': programs_list,
+            'parameter_json': parameter_json,
+            'mobile_title': '강좌 찾기',
+            'mobile_template': 'mobile_courses'
         }
     )
 
@@ -973,6 +982,7 @@ def course_interest(request):
 def course_about(request, course_id):
     """
     Display the course's about page.
+    수정시 mobile_course_about도 함께 수정
     """
     try:
         review_email = str(request.user.email)
@@ -1276,16 +1286,26 @@ def course_about(request, course_id):
 
         cur = con.cursor()
         query = '''
-                    SELECT ifnull(b.detail_ename, '')
+                    SELECT ifnull(b.detail_ename, ''), ifnull(a.course_subtitle, '-'), ifnull(a.course_language, '-')
                       FROM course_overview_addinfo a
                            LEFT JOIN code_detail b
                               ON a.course_level = b.detail_code AND b.group_code = '007'
                      WHERE a.course_id = '{course_id}';
                 '''.format(course_id=course_id)
         cur.execute(query)
-        course_level = cur.fetchall()
-        print "course_level", course_level
-        course_level = course_level[0][0]
+        coai = cur.fetchall()
+        try:
+            course_level = coai[0][0]
+        except BaseException:
+            course_level = '-'
+        try:
+            course_subtitle = coai[0][1]
+        except BaseException:
+            course_subtitle = '-'
+        try:
+            course_language = coai[0][2]
+        except BaseException:
+            course_language = '-'
         cur.close()
 
         cur = con.cursor()
@@ -1619,6 +1639,8 @@ def course_about(request, course_id):
             'effort_week': effort_week,
             # 'course_link': course_link,
             'course_level': course_level,
+            'course_subtitle': course_subtitle,
+            'course_language': course_language,
             'study_time': study_time,
             'start': start,
             'end': end,
@@ -2125,10 +2147,12 @@ def mobile_course_about(request, course_id):
             'study_time': study_time,
             'start': start,
             'end': end,
-            'course_survey_data': course_survey_data
+            'course_survey_data': course_survey_data,
+            'mobile_title': 'Course Overview',
+            'mobile_template': 'courseware/mobile_course_about'
         }
 
-        return render_to_response('courseware/mobile_course_about.html', context)
+        return render_to_response('mobile_main.html', context)
 
 
 # 강좌 만족도 설문 결과 별점(about page)
@@ -3002,95 +3026,123 @@ def get_financial_aid_courses(user):
     return financial_aid_courses
 
 
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+    ]
+
+
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def schools(request):
-    if request.is_ajax():
-        with connections['default'].cursor() as cur:
-            lang = request.LANGUAGE_CODE
-            col = 'ifnull(org_intro, ""), b.detail_name,' if lang == 'ko-kr' else 'ifnull(org_intro_e, ""), b.detail_ename,'
-            q_where = 'logo_img' if lang == 'ko-kr' else 'logo_img_e'
-            query = '''
-                SELECT 
+    return render_to_response("courseware/schools.html")
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def schools_make_filter(request):
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select detail_name, detail_code, detail_ename
+            from code_detail
+            where group_code = '041'
+            and use_yn = 'Y'
+            and delete_yn = 'N';
+        '''.format()
+
+        print query
+        cur.execute(query)
+        rows = cur.fetchall()
+        print rows
+
+    year_list = []
+    current_year = int(datetime.now().year)
+    for year in range(2015, current_year):
+        year_list.append(year)
+
+    print 'current_year = ', current_year
+
+    search_filter = {
+        'org_type': rows,
+        'year_list': year_list,
+        'lang': request.LANGUAGE_CODE
+    }
+
+    return JsonResponse({'result': search_filter})
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def schools_make_item(request):
+
+    f_year_filter = request.POST.get('f_year_filter')
+    f_org_filter = request.POST.get('f_org_filter')
+    f_name_filter = request.POST.get('f_name_filter')
+    lang = request.LANGUAGE_CODE
+
+    if f_year_filter == '':
+        f_year_filter = 'A'
+    if f_org_filter == '':
+        f_org_filter = 'A'
+
+    print "f_year_filter = ", f_year_filter
+    print "f_org_filter = ", f_org_filter
+    print "f_name_filter = ", f_name_filter
+    print "lang = ", lang
+
+    search_query = ''
+    if f_year_filter != 'A':
+        search_query += "and start_year = '{f_year_filter}' ".format(f_year_filter=f_year_filter)
+    if f_org_filter != 'A':
+        search_query += "and raw_org_type = '{f_org_filter}' ".format(f_org_filter=f_org_filter)
+    if f_name_filter != '':
+        search_query += "and univ_name like '%{f_name_filter}%' or univ_name_e like '%{f_name_filter}%' ".format(f_name_filter=f_name_filter)
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select *
+            from (
+                select 
                     org_id,
                     a.start_year,
-                    org_intro, 
-                    org_intro_e,
-                    detail_name,
-                    detail_ename,
-                    ifnull((SELECT 
-                            save_path
-                        FROM
-                            tb_attach
-                        WHERE
-                            use_yn = 1 AND id = a.logo_img), 'null1') logo_img,
-                    ifnull((SELECT 
-                            save_path
-                        FROM
-                            tb_attach
-                        WHERE
-                            use_yn = 1 AND id = a.logo_img_e), 'null2') logo_img_e,
-                    IF(org_phone is null or org_phone = '', '-', org_phone) org_phone
-                FROM
-                    tb_org a
-                        JOIN
-                    code_detail b ON b.group_code = '003'
-                        AND a.org_id = b.detail_code
-                WHERE
-                    1 = 1 AND a.delete_yn = 0
-                        AND a.use_yn = 1
-                ORDER BY start_year , detail_name
-            '''
+                    case
+                    when org_intro is null
+                    then 'N'
+                    else 'Y'
+                    end check_intro,
+                    b.detail_name as univ_name,
+                    b.detail_ename as univ_name_e,
+                    ifnull((SELECT save_path FROM tb_attach WHERE use_yn = 1 AND id = a.logo_img), 'null1') logo_img,
+                    ifnull((SELECT save_path FROM tb_attach WHERE use_yn = 1 AND id = a.logo_img_e), 'null2') logo_img_e,
+                    IF(org_phone is null or org_phone = '', '-', org_phone) org_phone,
+                    c.detail_name as org_type,
+                    c.detail_ename as org_type_e,
+                    org_type as raw_org_type
+                from tb_org a
+                JOIN code_detail b 
+                ON a.org_id = b.detail_code
+                AND b.group_code = '003'
+                JOIN code_detail c
+                ON a.org_type = c.detail_code
+                AND c.group_code = '041'
+                where a.use_yn = '1'
+            ) w
+            where start_year != ''
+            and start_year is not null
+            {search_query}
+            order by start_year;
+        '''.format(search_query=search_query)
 
-            print query
-            cur.execute(query)
-            org_data = cur.fetchall()
+        print query
+        cur.execute(query)
+        rows = dictfetchall(cur)
+        print rows
 
-            org_list = list()
-            for org in org_data:
-                org_dict = dict()
-
-                org_dict['org_id'] = org[0]
-                org_dict['start_year'] = org[1]
-                org_dict['org_intro'] = org[2] if lang == 'ko-kr' else org[3]
-                org_dict['org_name'] = org[4] if lang == 'ko-kr' else org[5]
-                org_dict['org_image'] = org[6] if lang == 'ko-kr' else org[7]
-                org_dict['org_phone'] = org[8]
-
-                if org_dict['org_intro'] is not None:
-                    # org_dict['logo_img'] = '<a href="/school/' + org_dict['org_id'] + '"><div class="logo_div"><img class="logo_img" alt="' + org_dict['org_name'] + '" src="' + org_dict[
-                    #     'org_image'] + '" onerror="this.src=\'/static/images/blank.png\'"></div></a>'
-
-                    # 20190826 기관 연락처 추가
-                    org_dict['logo_img'] = '''
-                        <a href="/school/{org_id}">
-                            <div class="logo_div">
-                                <img class="logo_img" alt="{org_name}" src="{org_image}" onerror="this.src='/static/images/blank.png'"/>
-                                <div class="logo_phone">{org_phone}</div>
-                            </div>
-                        </a>
-                    '''.format(
-                        org_id=org_dict['org_id'],
-                        org_name=org_dict['org_name'],
-                        org_image=org_dict['org_image'],
-                        org_phone=org_dict['org_phone'],
-                    )
-                else:
-                    org_dict['logo_img'] = '''
-                        <div class="logo_div">
-                            <img class="logo_img" alt="{org_name}" src="{org_image}" onerror="this.src='/static/images/blank.png'">
-                            <div class="logo_phone">{org_phone}</div>
-                        </div>
-                    '''.format(
-                        org_name=org_dict['org_name'],
-                        org_image=org_dict['org_image'],
-                        org_phone=org_dict['org_phone'],
-                    )
-                org_list.append(org_dict)
-
-            return JsonResponse({'org_list': org_list})
-
-    return render_to_response("courseware/schools.html")
+    return JsonResponse({'result': rows, 'lang': lang})
 
 
 @ensure_csrf_cookie
@@ -3385,28 +3437,34 @@ def cert_check(request):
 def cert_check_id(request):
     uuid = request.POST['uuid']
 
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    con = mdb.connect(settings.DATABASES.get('default').get('HOST'), settings.DATABASES.get('default').get('USER'),
-                      settings.DATABASES.get('default').get('PASSWORD'), settings.DATABASES.get('default').get('NAME'))
-    query = """
-         select concat('/certificates/user/',user_id,'/course/',course_id) certUrl from certificates_generatedcertificate where verify_uuid = '""" + uuid + """'
-    """
-    print 'cert_check uuid, query', uuid, query
-
-    result = []
-    with con:
-        cur = con.cursor();
-        cur.execute("set names utf8")
-        cur.execute(query)
+    with connections['default'].cursor() as cur:
+        sql = '''
+            select concat('/certificates/user/', user_id,'/course/', course_id) certUrl 
+            from certificates_generatedcertificate 
+            where verify_uuid = '{uuid}'
+        '''.format(uuid=uuid)
+        cur.execute(sql)
         rows = cur.fetchall()
-        columns = [desc[0] for desc in cur.description]
 
-        for row in rows:
-            row = dict(zip(columns, row))
-            result.append(row)
-
-    cur.close()
-    con.close()
-
-    return HttpResponse(json.dumps(result))
+    if len(rows) == 0:
+        with connections['default'].cursor() as cur:
+            sql = '''
+                select date_format(change_date_kst, '%Y-%m-%d %H:%i:%s')
+                from certificates_generatedcertificate_trigger
+                where verify_uuid = '{uuid}'
+                order by change_date_kst desc
+                limit 1
+            '''.format(uuid=uuid)
+            print('-------------------------------')
+            print(sql)
+            print('-------------------------------')
+            cur.execute(sql)
+            history = cur.fetchall()
+            if len(history) == 0:
+                return JsonResponse({'result': 404})
+            else:
+                change_date_kst = history[0][0]
+                return JsonResponse({'result': 200, 'change_date_kst': change_date_kst})
+    else:
+        url = rows[0][0]
+        return JsonResponse({'result': 200, 'url': url})

@@ -14,17 +14,41 @@
                     e.preventDefault();
                     $("#kmooc01").show();
                     $("#kmooc02").hide();
+                    $("#kmooc03").hide();
+                    $(".faq-tab a").removeClass("on");
+                    $(this).addClass("on");
+                }else if(index == 1){
+                    e.preventDefault();
+                    $("#kmooc01").hide();
+                    $("#kmooc02").show();
+                    $("#kmooc03").hide();
                     $(".faq-tab a").removeClass("on");
                     $(this).addClass("on");
                 }else{
                     e.preventDefault();
                     $("#kmooc01").hide();
-                    $("#kmooc02").show();
+                    $("#kmooc02").hide();
+                    $("#kmooc03").show();
                     $(".faq-tab a").removeClass("on");
                     $(this).addClass("on");
                 }
             });
         });
+
+        let url_string = document.location.href;
+        let url = new URL(url_string);
+        let c = url.searchParams.get("tab");
+
+        if( c == 1){
+            $(".faq-tab a:eq(0)").click();
+        }else if(c == 2){
+            $(".faq-tab a:eq(1)").click();
+        }else if(c == 3){
+            $(".faq-tab a:eq(2)").click();
+        }else{
+            // default
+            $(".faq-tab a:eq(0)").click();
+        }
     });
 </script>
 </%block>
@@ -33,6 +57,7 @@
         <nav class="faq-tab">
             <a href="#" class="dash-link on">Introduce</a>
             <a href="#" class="dash-link">Propulsion system</a>
+            <a href="#" class="dash-link">Organization</a>
         </nav>
     </div>
     <!-- 소개 -->
@@ -317,5 +342,11 @@
         </div>
     </section>
     <!--// 추진체계 -->
+
+    <!--참여기관-->
+    <section class="kmooc-box" id="kmooc03" style="display: none;">
+        <%include file="../courseware/schools.html"/>
+    </section>
+    <!--//참여기관-->
 
 </section>

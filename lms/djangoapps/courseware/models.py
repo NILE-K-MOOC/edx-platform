@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 WE'RE USING MIGRATIONS!
 
@@ -494,3 +495,42 @@ class CourseOverviewAddinfo(models.Model):
     class Meta:
         managed = False
         db_table = 'course_overview_addinfo'
+
+
+class Multisite(models.Model):
+    site_id = models.AutoField(primary_key=True, help_text='기관아이디')
+    site_code = models.CharField(max_length=30, help_text='기관코드')
+    site_name = models.CharField(max_length=300, help_text='기관명')
+    logo_img = models.IntegerField(blank=True, null=True)
+    top_img = models.IntegerField(blank=True, null=True)
+    site_url = models.CharField(max_length=500, blank=True, null=True)
+    login_type = models.CharField(max_length=5, help_text='인증방식')
+    encryption_key = models.CharField(db_column='Encryption_key', max_length=16, help_text='암호화 키')
+    course_select_type = models.CharField(max_length=1, help_text='강좌지정 방식')
+    delete_yn = models.CharField(max_length=1, default='N', help_text='삭제여부')
+    regist_id = models.CharField(max_length=30, help_text='등록 아이디')
+    regist_date = models.DateTimeField(blank=True, null=True)
+    modify_id = models.CharField(max_length=30, help_text='수정 아이디')
+    modify_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'multisite'
+
+    def __unicode__(self):
+        return self.site_id
+
+
+# id 자동 추가방지를 위해 primary_key 추가
+class MultisiteMember(models.Model):
+    site_id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField()
+    org_user_id = models.CharField(max_length=20, blank=True, null=True)
+    addinfo = models.CharField(max_length=200, blank=True, null=True)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'multisite_member'
+        unique_together = (('site_id', 'user_id'),)

@@ -98,82 +98,370 @@ from openedx.core.djangolib.markup import HTML
 
 <script language="JavaScript" type="text/javascript"></script>
 
+<input type="text" id="course_id" value="${course_id}" hidden/>
 <div class="container">
-  <div class="instructor-dashboard-wrapper-2">
+    <div class="instructor-dashboard-wrapper-2">
         <main id="main" aria-label="Content" tabindex="-1">
-        <section class="instructor-dashboard-content-2" id="instructor-dashboard-content">
-          <h2 class="hd hd-2 instructor-dashboard-title">${_("Instructor Dashboard")}</h2>
-          <div class="wrap-instructor-info studio-view">
-            %if studio_url:
-            <a class="instructor-info-action" href="${studio_url}">${_("View Course in Studio")}</a>
-            %endif
-          </div>
+            <section class="instructor-dashboard-content-2" id="instructor-dashboard-content">
+                <h2 class="hd hd-2 instructor-dashboard-title">${_("Instructor Dashboard")}</h2>
+                <div class="wrap-instructor-info studio-view">
+                %if studio_url:
+                    <a class="instructor-info-action" href="${studio_url}">${_("View Course in Studio")}</a>
+                %endif
+                </div>
 
-        ## links which are tied to idash-sections below.
-        ## the links are activated and handled in instructor_dashboard.js
-        ## when the javascript loads, it clicks on the first section
-        <ul class="instructor-nav">
-          % for section_data in sections:
-            <% is_hidden = section_data.get('is_hidden', False) %>
-            ## This is necessary so we don't scrape 'section_display_name' as a string.
-            <% dname = section_data['section_display_name'] %>
-            % if not is_hidden:
-              <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="${ section_data['section_key'] }">${_(dname)}</button></li>
-            % endif
-          % endfor
-            <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="peer_asscessment">${_("Plagiarism testing")}</button></li>
-        </ul>
+                ## links which are tied to idash-sections below.
+                ## the links are activated and handled in instructor_dashboard.js
+                ## when the javascript loads, it clicks on the first section
+                <ul class="instructor-nav">
+                    % for section_data in sections:
+                    <% is_hidden = section_data.get('is_hidden', False) %>
+                    ## This is necessary so we don't scrape 'section_display_name' as a string.
+                    <% dname = section_data['section_display_name'] %>
+                    % if not is_hidden:
+                        <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="${ section_data['section_key'] }">${_(dname)}</button></li>
+                    % endif
+                    % endfor
+                    <!--
+                    <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="peer_asscessment">${_("Plagiarism testing")}</button></li>
+                    -->
+                    <li class="nav-item"><button type="button" class="btn-link ${ section_data['section_key'] }${' hidden' if is_hidden else ''}" data-section="memo">쪽지발송</button></li>
+                </ul>
 
-        ## each section corresponds to a section_data sub-dictionary provided by the view
-        ## to keep this short, sections can be pulled out into their own files
+                ## each section corresponds to a section_data sub-dictionary provided by the view
+                ## to keep this short, sections can be pulled out into their own files
 
-        % for section_data in sections:
-          <% is_hidden = section_data.get('is_hidden', False) %>
-          <section id="${ section_data['section_key'] }" class="idash-section${' hidden' if hidden else ''}" aria-labelledby="header-${section_data['section_key']}">
-              <h3 class="hd hd-3" id="header-${ section_data['section_key'] }">${ section_data['section_display_name'] }</h3>
-              <%include file="${ section_data['section_key'] }.html" args="section_data=section_data" />
-          </section>
-          % endfor
+                % for section_data in sections:
+                    <% is_hidden = section_data.get('is_hidden', False) %>
+                    <section id="${ section_data['section_key'] }" class="idash-section${' hidden' if hidden else ''}" aria-labelledby="header-${section_data['section_key']}">
+                    <h3 class="hd hd-3" id="header-${ section_data['section_key'] }">${ section_data['section_display_name'] }</h3>
+                    <%include file="${ section_data['section_key'] }.html" args="section_data=section_data" />
+                    </section>
+                % endfor
 
+            <!-- 쪽지 발송 (시작) -->
+            <style>
+                .im-title { font-size: 1.5rem; margin-bottom: 18px;}
+                .im-target { margin-bottom: 20px; }
+                .im-mb15 { margin-bottom: 8px; }
+                .im-sub-title { margin-top: 30px; margin-bottom: 5px;}
+                .im-btn { margin-top: 30px; font-weight: bold; font-size: 12px; margin-bottom: 40px; }
+                .inject-mt30 { margin-top: 30px; }
+                .inject-mb20 { margin-bottom: 20px; }
+                .im-fz12 { font-size: 12px; }
+                .im-mr5 { margin-right: 5px; }
+                .im-table-item-title { color: #0075b4; cursor: pointer; }
+                .im-input-title { width: 50%;}
+                .im-textarea { width: 100%; height: 250px; }
+                .im-null { text-align: center; padding: 50px; font-size: 14px; display: none;}
+                .im-hover { width: 55%; padding: 3px; cursor: pointer; }
+                .im-hover:hover { background: #efefef; }
+                .im-over {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    font-size: 12px;
+                }
+                #im_table { border-collapse: collapse; text-align: center; width: 100%;}
+                #im_table, th, td { border: 1px solid #dddddd; }
+                #im_table > thead { background: #e6e6e6; }
+                #im_table > tbody { padding: 50px; }
+                .mce-path { display: none !important; }
+            </style>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+            <script>
+                tinymce.init({
+                  selector: 'textarea#basic-example',
+                  height: 300,
+                  menubar: false,
+                  plugins: [],
+                });
+                load_ge();
+                function load_ge() {
+                    $.post( "/dashboard_memo_read", {
+                        course_id: $('#course_id').val()
+                    })
+                    .done(function( data ) {
+                        if(data.rows.length == 0) {
+                            $('.im-null').show();
+                        } else {
+                            $('.im-null').hide();
+                        }
+                        data.rows.forEach(function(row){
+                            console.log(row);
+                            var target1 = row[5];
+                            var target2 = row[6];
+                            var target3 = row[7];
+                            var result = '';
+                            if(target1 == 1) {
+                                result += '나';
+                            }
+                            if(target2 == 1) {
+                                if(target1 == 1){
+                                    result += ', 운영팀 및 관리팀';
+                                } else {
+                                    result += '운영팀 및 관리팀';
+                                }
+                            }
+                            if(target3 == 1) {
+                                if(target1 == 1){
+                                    result += ', 전체 학습자';
+                                } else if(target2 == 1) {
+                                    result += ', 전체 학습자';
+                                } else {
+                                    result += '전체 학습자';
+                                }
+                            }
+                            console.log('content = ', content);
+                            html = ''+
+                            '<tr>'+
+                            '    <td onclick="im_vv(\''+row[1]+'\')" class="im-over im-table-item-title">'+row[0]+'</td>'+
+                            '    <td class="im-over">'+row[2]+'</td>'+
+                            '    <td class="im-over">'+result+'</td>'+
+                            '    <td class="im-over">'+row[3]+'</td>'+
+                            '    <td class="im-over">'+row[4]+' 발송</td>'+
+                            '</tr>'
+                            $('#inject_item').append(html);
+                        });
+                    })
+                }
+                function make_target_text(){
+                    var check_a = $('#check_a').is(":checked");
+                    var check_b = $('#check_b').is(":checked");
+                    var check_c = $('#check_c').is(":checked");
+                    var result = '';
+                    if(check_a == true) {
+                        result += '나';
+                    }
+                    if(check_b == true) {
+                        if(check_a == true){
+                            result += ', 운영팀 및 관리팀';
+                        } else {
+                            result += '운영팀 및 관리팀';
+                        }
+                    }
+                    if(check_c == true) {
+                        if(check_a == true){
+                            result += ', 전체 학습자';
+                        } else if(check_b == true) {
+                            result += ', 전체 학습자';
+                        } else {
+                            result += '전체 학습자';
+                        }
+                    }
+                    $('#maked-txt').html(result);
+                }
+                function im_select_a(){
+                    if ($('#check_a').is(":checked") == true) {
+                        $('#check_a').prop('checked', false);
+                    } else {
+                        $('#check_a').prop('checked', true);
+                    }
+                    make_target_text();
+                }
+                function im_select_b(){
+                    if ($('#check_b').is(":checked") == true) {
+                        $('#check_b').prop('checked', false);
+                    } else {
+                        $('#check_b').prop('checked', true);
+                    }
+                    make_target_text();
+                }
+                function im_select_c(){
+                    if ($('#check_c').is(":checked") == true) {
+                        $('#check_c').prop('checked', false);
+                    } else {
+                        $('#check_c').prop('checked', true);
+                    }
+                    make_target_text();
+                }
+                function init_form(){
+                    $('#check_a').prop('checked', false);
+                    $('#check_b').prop('checked', false);
+                    $('#check_c').prop('checked', false);
+                    $('#im_title').val('');
+                    $('#basic-example').val('');
+                    $('#inject_item').empty();
+                    load_ge();
+                }
+                function im_send_memo(){
+                    var check_a = $('#check_a').is(":checked");
+                    var check_b = $('#check_b').is(":checked");
+                    var check_c = $('#check_c').is(":checked");
+                    var title = $('#im_title').val();
+                    var content = $('#basic-example').val();
+                    var course_id = $('#course_id').val();
+                    console.log('check_a = ', check_a);
+                    console.log('check_b = ', check_b);
+                    console.log('check_c = ', check_c);
+                    console.log('title = ', title);
+                    console.log('content = ', content);
+                    console.log('course_id = ', course_id);
+                    $.post( "/dashboard_memo", {
+                        check_a: check_a,
+                        check_b: check_b,
+                        check_c: check_c,
+                        title: title,
+                        content: content,
+                        course_id: course_id
+                    })
+                    .done(function( data ) {
+                        if (data.result == 200) {
+                            Swal.fire({
+                              icon: 'success',
+                              title: '알림',
+                              text: data.msg
+                            })
+                            init_form();
+                        } else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: '알림',
+                              text: data.msg
+                            })
+                        }
+                    });
+                }
+                function im_vv(mail_id){
+                    console.log('mail_id -> ', mail_id);
+                    $.post( "/dashboard_memo_detail", {
+                        mail_id: mail_id
+                    })
+                    .done(function( data ) {
+                        var row = data.row;
+                        var target1 = row[5];
+                        var target2 = row[6];
+                        var target3 = row[7];
+                        var result = '';
+                        if(target1 == 1) {
+                            result += '나';
+                        }
+                        if(target2 == 1) {
+                            if(target1 == 1){
+                                result += ', 운영팀 및 관리팀';
+                            } else {
+                                result += '운영팀 및 관리팀';
+                            }
+                        }
+                        if(target3 == 1) {
+                            if(target1 == 1){
+                                result += ', 전체 학습자';
+                            } else if(target2 == 1) {
+                                result += ', 전체 학습자';
+                            } else {
+                                result += '전체 학습자';
+                            }
+                        }
+                        Swal.fire({
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            html: ""+
+                                "<div style='font-size: 12px;'>"+
+                                "<div style='margin-top: 35px; text-align: left;'><span style='font-weight: bold'>제목</span> : "+row[0]+"</div>"+
+                                "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보내는 사람</span> : "+row[2]+"</div>"+
+                                "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>보낸 시간</span> : "+row[3]+"</div>"+
+                                "<div style='margin-top: 6px; text-align: left;'><span style='font-weight: bold'>받는사람</span> : "+result+"</div>"+
+                                "<hr>"+
+                                "<div style='text-align: left; margin-bottom: 6px;'><span style='font-weight: bold'>본문</span>:</div>"+
+                                "<div style='text-align: left;'>"+row[1]+"</div>"+
+                                "</div>"
+                        })
+                    })
+                }
+            </script>
+            <div class="im-pop">
 
-        <!-- add copykiller -->
-                <section id="peer_asscessment" class="idash-section active-section">
-
-                    <div>
+            </div>
+            <section id="memo" class="idash-section active-section">
+                <div class="im-title">
+                    쪽지
+                </div>
+                <div class="im-target">
+                    대상: <span id="maked-txt"></span>
+                </div>
+                <div class="im-mb15 im-hover" onclick="im_select_a()">
+                    <input id="check_a" class="im-mr5" type="checkbox" name="riyu" value="1"><span class="im-target-txt">나</span>
+                </div>
+                <div class="im-mb15 im-hover" onclick="im_select_b()">
+                    <input id="check_b" class="im-mr5" type="checkbox" name="riyu" value="2"><span class="im-target-txt">운영팀 및 관리팀</span>
+                </div>
+                <div class="im-mb15 im-hover" onclick="im_select_c()">
+                    <input id="check_c" class="im-mr5" type="checkbox" name="riyu" value="3"><span class="im-target-txt">전체 학습자</span>
+                </div>
+                <div class="im-sub-title">
+                    제목:
+                </div>
+                <div>
+                    <input class="im-input-title" type="text" id="im_title">
+                </div>
+                <div class="im-sub-title">
+                    본문:
+                </div>
+                <div>
+                    <textarea id="basic-example" class="im-textarea"></textarea>
+                </div>
+                <div class="im-btn">
+                    <button onclick="im_send_memo()">쪽지 발신</button>
+                </div>
+                <hr>
+                <div class="im-title inject-mt30">
+                    쪽지 발송기록
+                </div>
+                <div class="im-mb15 inject-mb20">
+                    보낸 쪽지를 읽기 위해 제목을 클릭하세요
+                </div>
+                <div>
+                    <table id="im_table">
+                        <thead>
+                            <tr>
+                                <td class="im-fz12">제목</td>
+                                <td class="im-fz12">보낸 사람</td>
+                                <td class="im-fz12">받는 사람</td>
+                                <td class="im-fz12">보낸 시간</td>
+                                <td class="im-fz12">보낸 건수</td>
+                            </tr>
+                        </thead>
+                        <tbody id="inject_item">
+                        </tbody>
+                    </table>
+                    <div class="im-null">
+                        쪽지를 발송한 내역이 존재하지 않습니다
                     </div>
+                </div>
+            </section>
+            <!-- 쪽지 발송 (종료) -->
 
-                    <div class="student-specific-container action-type-container">
-                        <h2 data-is_assessment="${is_assessment}" data-is_assessment_ing="${is_assessment_ing}" data-is_assessment_done="${is_assessment_done}">${_("Plagiarism test implementation")}</h2>
-                        <div class="request-response-error"></div>
-                        <br>
-                        <p>
-                            ${_("The plagiarism test can be performed on the learners' narrative answers among the mutual losing questions.")}
-                        <br/>
-                        <br/>
-                            ${_("Since it is performed by the automatic scheduler once a day, the result is calculated within maximum one day after the execution request.")}
-                        </p>
-                        <br>
-                        % if (is_assessment and is_assessment_ing != True) | is_assessment_done:
+            <!-- 표절검사 (시작) -->
+            <section id="peer_asscessment" class="idash-section active-section">
+                <div class="student-specific-container action-type-container">
+                    <h2 data-is_assessment="${is_assessment}" data-is_assessment_ing="${is_assessment_ing}" data-is_assessment_done="${is_assessment_done}">${_("Plagiarism test implementation")}</h2>
+                    <div class="request-response-error"></div>
+                    <br>
+                    <p>
+                        ${_("The plagiarism test can be performed on the learners' narrative answers among the mutual losing questions.")}<br/><br/>
+                        ${_("Since it is performed by the automatic scheduler once a day, the result is calculated within maximum one day after the execution request.")}
+                    </p>
+                    <br>
+                    % if (is_assessment and is_assessment_ing != True) | is_assessment_done:
                         <div id="copy_killer">
                             <input type="button" class="molly-guard" id="aaaaaaaa" name="reset-attempts-all" value="${_('Performing a plagiarism test')}" onclick="run_copykiller();">
-                            <!--
-                            <input id="loading" type="button" value="ddd" style="display: none" disabled>
-                            <input type="button" id="cvs" name="list-anon-ids" value="CSV 파일 다운로드" style="display: none" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
-                            -->
                         </div>
-                        %elif is_assessment:
+                    %elif is_assessment:
                         <div>
                             <input type="button" class="molly-guard" id="bbbbbbb" name="reset-attempts-all" value="${_('Performing a plagiarism test')}" disabled="disabled">
                         </div>
-                        % else:
+                    % else:
                         <div>
                             <p><b>${_('Performing test target is not exists.')}</b></p>
                         </div>
-                        %endif:
-                        <hr>
-                    </div>
-
-                    %if is_assessment:
+                    %endif:
+                    <hr>
+                </div>
+                %if is_assessment:
                     <script type="text/javascript">
                         function run_copykiller() {
                             console.log("/courses/${course.id}/instructor/copykiller");
@@ -188,55 +476,48 @@ from openedx.core.djangolib.markup import HTML
                                     $("#copykiller_status").val('${_("Plagiarism test is in progress.")}');
                                 }
                             });
-                        %if is_assessment_done == True:
-                            $('#loading').css('display', 'none');
-                            $('#cvs').css('display', 'inine');
-                        %endif
+                            %if is_assessment_done == True:
+                                $('#loading').css('display', 'none');
+                                $('#cvs').css('display', 'inine');
+                            %endif
                         }
                     </script>
-                    %endif
-
-                    <div class="student-grade-container action-type-container">
-                        <h2>${_("Test progress status")}</h2>
-                        <div class="request-response-error"></div>
-                        <label>
-                            %if is_assessment_ing != False and is_assessment_done != True:
+                %endif
+                <div class="student-grade-container action-type-container">
+                    <h2>${_("Test progress status")}</h2>
+                    <div class="request-response-error"></div>
+                    <label>
+                        %if is_assessment_ing != False and is_assessment_done != True:
                             <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="${_('Plagiarism test is in progress.')}" disabled>
-                            %elif is_assessment_done == True:
+                        %elif is_assessment_done == True:
                             <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="${_('Plagiarism test is completed.')}" disabled>
-                            %else:
+                        %else:
                             <input type="text" id="copykiller_status" name="problem-select-single" size="30" value="${_('There is currently no work in progress.')}" disabled>
-                            %endif
-                        </label>
-                        <hr>
-                    </div>
-
-                    <div class="course-specific-container action-type-container">
-                        <h2>${_("Plagiarism test result")}</h2>
-                        <div class="request-response-error"></div>
-                        <label>
-                            ${_("Outputs the final plagiarism test result as a CSV file.")}
-                        </label>
-                        <br>
-                        <label>
-                            %if is_assessment_done:
+                        %endif
+                    </label>
+                    <hr>
+                </div>
+                <div class="course-specific-container action-type-container">
+                    <h2>${_("Plagiarism test result")}</h2>
+                    <div class="request-response-error"></div>
+                    <label>
+                        ${_("Outputs the final plagiarism test result as a CSV file.")}
+                    </label>
+                    <br>
+                    <label>
+                        %if is_assessment_done:
                             <input type="button" id="copykiller_csv_btn" name="list-anon-ids" value="${_('CSV file download')}" onclick="location.href='/courses/${course.id}/instructor/copykiller_csv'">
-                            %else:
+                        %else:
                             <input type="button" id="copykiller_csv_btn" name="list-anon-ids" value="${_('CSV file download')}" disabled>
-                            %endif
-                        </label>
-                    </div>
-
-                </section>
+                        %endif
+                    </label>
+                </div>
+            </section>
+            <!-- 표절검사 (종료) -->
 
             </section>
-        </div>
-        </section>
-        <!-- add copykiller -->
-
-        </section>
         </main>
-  </div>
+    </div>
 </div>
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">

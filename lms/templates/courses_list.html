@@ -1,4 +1,4 @@
-<%page expression_filter="h"/>
+<%page args="mobile=None" expression_filter="h"/>
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
@@ -14,7 +14,11 @@
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
           % for course in new_courses:
           <li class="courses-listing-item" tabindex="-1">
+            % if mobile is True:
+              <%include file="mobile_course.html" args="course=course" />
+            % else:
               <%include file="course.html" args="course=course" />
+            % endif
           </li>
           % endfor
         </ul>
@@ -37,7 +41,11 @@
       <ul class="course-card-slider bxslider" id="sub_slider">
         % for course in pop_courses:
           <li class="courses-listing-item">
+            % if mobile is True:
+              <%include file="mobile_course.html" args="course=course" />
+            % else:
               <%include file="course.html" args="course=course" />
+            % endif
           </li>
         % endfor
       </ul>
@@ -50,14 +58,18 @@
 <section class="courses-container bg-w">
   <section class="highlighted-courses">
 	<span>
-		<i class="kr01_iconarea" style=" "><img alt="" src="/static/images/main/kr_title04.png"></i>
+		<i class="kr01_iconarea" style=" "><img class="kr01_iconarea_today" alt="" src="/static/images/main/kr_title04.png"></i>
 		<span class="kr01_icontTitle">오늘의 강좌</span>
 	</span>
     <section  class="courses kr01_movie_slider">
       <ul class="course-card-slider bxslider" id="today_slider">
         % for course in today_courses:
           <li class="courses-listing-item">
+            % if mobile is True:
+              <%include file="mobile_course.html" args="course=course" />
+            % else:
               <%include file="course.html" args="course=course" />
+            % endif
           </li>
         % endfor
       </ul>

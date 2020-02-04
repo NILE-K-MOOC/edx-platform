@@ -12,13 +12,13 @@ from django.core.urlresolvers import reverse
 % elif course.audit_yn == 'N':
     <article class="course ${course.status}" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
 % endif
-    <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
-    <!--
-    nile/translation
-    <a href="/courses/${course.id}/about" alt="${course.display_name_with_default}" title="${course.display_name_with_default}">
-    -->
+    <a href="edxapp://course_info?path_id=course/${course}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
         <header class="course-image">
-            <i class="kr01-ribbonArea"><img src="/static/images/main/ribbon.png"></i>
+            % if course.ribbon_yn == 'Y':
+              <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+              </i>
+            % endif
             <div class="cover-image">
                 <span class="univ-logo">
                     <!--
@@ -26,9 +26,9 @@ from django.core.urlresolvers import reverse
                     -->
                 </span>
               % if course.audit_yn == 'Y' and course.status == 'end':
-                <img style="opacity: 0.5;" src="${course.course_image_url}" alt="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
+                <img style="opacity: 0.5;" src="${course.course_image_url}" alt="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}" onerror="this.src='/static/images/blank.png'">
               % else:
-                <img src="${course.course_image_url}" alt="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
+                <img src="${course.course_image_url}" alt="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}" onerror="this.src='/static/images/blank.png'">
               %endif
                 <div class="learn-more" aria-hidden="true">${_("LEARN MORE")}</div>
             </div>

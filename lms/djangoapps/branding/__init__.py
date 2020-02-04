@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 EdX Branding package.
 
@@ -16,6 +17,7 @@ from pytz import UTC
 from django.db import connections
 import time
 import logging
+import traceback
 
 log = logging.getLogger(__name__)
 
@@ -39,74 +41,30 @@ def get_visible_courses(org=None, filter_=None):
     courses = []
     current_site_orgs = configuration_helpers.get_current_site_orgs()
 
-    is_api = False
-
-    log.debug('get_visible_courses time check1 [%s]' % (time.time() - start_time))
-
-    if filter_ and filter_.get('is_api'):
-        is_api = True
+    log.debug('---------------------------> get_visible_courses time check1 [%s]' % format(time.time() - start_time, ".8f"))
 
     if org and current_site_orgs:
-        print 'DEBUG ----------------1'
         # Check the current site's orgs to make sure the org's courses should be displayed
         if not current_site_orgs or org in current_site_orgs:
             courses = CourseOverview.get_all_courses(orgs=[org], filter_=filter_)
     elif current_site_orgs:
-        print 'DEBUG ----------------2'
         # Only display courses that should be displayed on this site
         courses = CourseOverview.get_all_courses(orgs=current_site_orgs, filter_=filter_)
     else:
-        print 'DEBUG ----------------3'
         # courses = CourseOverview.get_all_courses(filter_=filter_)
         target_org = org or current_site_orgs
         courses = CourseOverview.get_all_courses(org=target_org, filter_=filter_)
     # courses = sorted(courses, key=lambda course: course.number)
 
-    log.debug('get_visible_courses time check2 [%s]' % (time.time() - start_time))
+    # log.debug('---------------------------> get_visible_courses time check3 [%s]' % (time.time() - start_time))
 
-    with connections['default'].cursor() as cur:
-        query = """
-            SELECT a.id, ifnull(classfy, ''), ifnull(b.audit_yn, 'N'), ifnull(teacher_name, ''),
-            ifnull(fourth_industry_yn, 'N'), ifnull(ribbon_yn, 'N'), ifnull(job_edu_yn, 'N'),
-            ifnull(linguistics, 'N')
-            FROM course_overviews_courseoverview a
-            LEFT JOIN course_overview_addinfo b ON a.id = b.course_id
-            WHERE catalog_visibility = 'both'
-        """
-        cur.execute(query)
-        course_tup = cur.fetchall()
-        cur.close()
+    # courses = [c for c in courses if c.catalog_visibility == 'both']
 
-    log.debug('get_visible_courses time check3 [%s]' % (time.time() - start_time))
+    # log.debug('---------------------------> get_visible_courses time check3.1 [%s]' % (time.time() - start_time))
 
-    courses = [c for c in courses if c.catalog_visibility == 'both']
+    from courseware.models import CodeDetail, CourseOverviewAddinfo
 
-    from courseware.models import CodeDetail
-
-    org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
-    org_dict = {org.detail_code: {'org_kname': org.detail_name, 'org_ename': org.detail_ename} for org in org_names}
-
-    log.debug('get_visible_courses time check4 [%s]' % (time.time() - start_time))
-
-    # Add Course Status
-    for c in courses:
-        if c.start is None or c.start == '' or c.end is None or c.end == '':
-            c.status = 'none'
-        elif datetime.now(UTC) < c.start:
-            c.status = 'ready'
-        elif c.start <= datetime.now(UTC) <= c.end:
-            c.status = 'ing'
-        elif c.end < datetime.now(UTC):
-            c.status = 'end'
-        else:
-            c.status = 'none'
-
-        c.org_kname = org_dict[c.org]['org_kname'] if c.org in org_dict else c.display_org_with_default
-        c.org_ename = org_dict[c.org]['org_ename'] if c.org in org_dict else c.display_org_with_default
-
-        log.debug('get_visible_courses time check4-2 [%s]' % (time.time() - start_time))
-
-    log.debug('get_visible_courses time check5 [%s]' % (time.time() - start_time))
+    # log.debug('---------------------------> get_visible_courses time check3.2 [%s]' % (time.time() - start_time))
 
     # Filtering can stop here.
     if current_site_orgs:
@@ -122,14 +80,20 @@ def get_visible_courses(org=None, filter_=None):
             [CourseKey.from_string(c) for c in settings.COURSE_LISTINGS[subdomain]]
         )
 
-    log.debug('get_visible_courses time check6 [%s]' % (time.time() - start_time))
-
     if filtered_visible_ids:
-        return [course for course in courses if course.id in filtered_visible_ids]
+        course_list = [course for course in courses if course.id in filtered_visible_ids]
     else:
         # Filter out any courses based on current org, to avoid leaking these.
         orgs = configuration_helpers.get_all_orgs()
-        return [course for course in courses if course.location.org not in orgs]
+
+        if orgs:
+            course_list = [course for course in courses if course.location.org not in orgs]
+        else:
+            course_list = courses
+
+    log.debug('===========================> get_visible_courses time check7 [%s]' % format(time.time() - start_time, ".8f"))
+
+    return course_list
 
 
 def get_university_for_request():
