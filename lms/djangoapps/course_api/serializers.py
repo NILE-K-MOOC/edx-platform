@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Course API Serializers.  Representing course catalog data
 """
@@ -9,6 +10,9 @@ from rest_framework import serializers
 
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from openedx.core.lib.api.fields import AbsoluteURLField
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class _MediaSerializer(serializers.Serializer):  # pylint: disable=abstract-method
@@ -75,6 +79,27 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     hidden = serializers.SerializerMethodField()
     invitation_only = serializers.BooleanField()
 
+    # 추가 항목 (ORM)
+    teachers = serializers.CharField()
+    classfy = serializers.CharField()
+    middle_classfy = serializers.CharField()
+    level = serializers.CharField()
+    passing_grade = serializers.CharField()
+    audit_yn = serializers.CharField()
+    fourth_industry_yn = serializers.CharField()
+    ribbon_yn = serializers.CharField()
+    job_edu_yn = serializers.CharField()
+    linguistics = serializers.CharField()
+    created = serializers.DateTimeField()
+    modified = serializers.DateTimeField()
+
+    # 추가 항목 (EXTRA)
+    org_name = serializers.CharField()
+    classfy_name = serializers.CharField()
+    middle_classfy_name = serializers.CharField()
+    language_name = serializers.CharField()
+    effort_time = serializers.CharField()
+
     # 'course_id' is a deprecated field, please use 'id' instead.
     course_id = serializers.CharField(source='id', read_only=True)
 
@@ -115,6 +140,9 @@ class CourseDetailSerializer(CourseSerializer):  # pylint: disable=abstract-meth
         """
         Get the representation for SerializerMethodField `overview`
         """
+
+        log.info('called get_overview')
+
         # Note: This makes a call to the modulestore, unlike the other
         # fields from CourseSerializer, which get their data
         # from the CourseOverview object in SQL.
