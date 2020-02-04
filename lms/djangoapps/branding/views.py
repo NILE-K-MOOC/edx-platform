@@ -133,6 +133,7 @@ from base64 import b64encode
 
 
 def decrypt(key, _iv, enc):
+    enc = enc.replace(' ', '+')
     BLOCK_SIZE = 16  # Bytes
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
     unpad = lambda s: s[:-ord(s[len(s) - 1:])]
@@ -544,8 +545,6 @@ def index(request):
 
     if request.session.get('multisite_addinfo'):
         del request.session['multisite_addinfo']
-
-    print "request.user.is_authenticated", request.user.is_authenticated
 
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has
