@@ -244,7 +244,13 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                         a.course_id,
                             c.audit_yn,
                             IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
-                            IFNULL(c.teacher_name, '') AS teacher_name,
+                            IFNULL(CASE
+                                        WHEN INSTR(c.teacher_name, ',') = 0 THEN c.teacher_name
+                                        ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1),
+                                                ' 외 ',
+                                                LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')),
+                                                '명')
+                                    END, '') AS teacher_name,
                             CASE
                                 WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) THEN 1
                                 WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) THEN 2
@@ -302,10 +308,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_course = data_ci[1]
                 c_name = data_ci[2]
 
-                #print "c_org -> ", c_org
-                #print "c_course -> ", c_course
-                #print "c_name -> ", c_name
-
                 db = client["edxapp"]
                 cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
                 pb = cursor.get('versions').get('published-branch')
@@ -322,29 +324,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                     course_overviews = CourseOverview.objects.get(id=multi_course_id)
-                    #print "course_overviews -> ", course_overviews
-                    #print "------------------------------------"
-                    # 강좌에 audit / ribbon 상태 값 부여
+
                     course_overviews.audit_yn = item[1]
                     course_overviews.ribbon_yn = item[2]
-
-                    try:
-                        if item[3].find(',') != -1:
-                            teacher_name = item[3].split(',')[0]
-                            teacher_name_cnt = len(teacher_name) - 1
-                        else:
-                            teacher_name = item[3]
-                            teacher_name_cnt = 0
-                    except BaseException:
-                        teacher_name = ''
-                        teacher_name_cnt = 0
-
-                    course_overviews.teacher_name = ['', '']
-                    course_overviews.teacher_name[0] = teacher_name
-                    course_overviews.teacher_name[1] = teacher_name_cnt
-
-                    #print "teacher_name -> ", teacher_name
-                    #print "teacher_name_cnt -> ", teacher_name_cnt
+                    course_overviews.teacher_name = item[3]
 
                     # 강좌별 기관명 추가
                     course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
@@ -399,6 +382,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
+
+    ! 수정시 mobile_index도 함께 수정
     """
 
     if extra_context is None:
@@ -420,13 +405,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
         today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
 
     f1 = {'id__in': new_course}
-    log.info(f1)
+    log.debug('***** def index time check1.1.1 [%s]' % format(time.time() - start, ".6f"))
 
     f2 = {'id__in': pop_course}
-    log.info(f2)
+    log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
 
     f3 = {'id__in': today_course}
-    log.info(f3)
+    log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
 
     new_courses = index_courses(user, f1)
     pop_courses = index_courses(user, f2)
@@ -457,6 +442,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
 
     # allow for theme override of the boards list
+
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
     context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
@@ -732,7 +718,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur = con.cursor()
     cur.execute(popupzone_query)
     popzone = cur.fetchall()
-    print "popzone_test", popzone
 
     popzone_list = list()
     for idx, zone in enumerate(popzone):

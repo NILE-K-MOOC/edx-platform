@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 WE'RE USING MIGRATIONS!
 
