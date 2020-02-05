@@ -113,6 +113,7 @@ from random import shuffle
 import re
 import os
 from copy import deepcopy
+import time
 
 log = logging.getLogger("edx.student")
 
@@ -385,6 +386,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     ! 수정시 mobile_index도 함께 수정
     """
+
+    start = time.time()
 
     if extra_context is None:
         extra_context = {}
