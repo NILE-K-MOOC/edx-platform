@@ -99,6 +99,7 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     middle_classfy_name = serializers.CharField()
     language_name = serializers.CharField()
     effort_time = serializers.CharField()
+    learning_time = serializers.CharField()
 
     # 'course_id' is a deprecated field, please use 'id' instead.
     course_id = serializers.CharField(source='id', read_only=True)

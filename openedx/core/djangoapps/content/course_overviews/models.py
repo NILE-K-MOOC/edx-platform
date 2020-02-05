@@ -711,8 +711,20 @@ class CourseOverview(TimeStampedModel):
                    and code_detail.group_code = '002' 
                    and code_detail.detail_code = course_overview_addinfo.middle_classfy
             """,
-            "language_name": "''",
+            "language_name": """
+                CASE language
+                    WHEN 'ko' THEN '한국어'
+                    WHEN 'en' THEN '영어'
+                    WHEN 'fr' THEN '프랑스어'
+                    WHEN 'zh_HANS' THEN '중국어 간체'
+                    WHEN 'zh_HANT' THEN '중국어 번체'
+                    ELSE language
+                END
+            """,
+            "learning_time": "SUBSTRING_INDEX(effort, '@', 1)",
             "effort_time": "SUBSTRING_INDEX(effort, '$', - 1)",
+            "video_time": "substr(effort, instr(effort, '#') + 1, instr(effort, '$') - instr(effort, '#') - 1)",
+            "week": "SUBSTR(effort, INSTR(effort, '@') + 1, INSTR(effort, '#') - INSTR(effort, '@') - 1)",
             "status": """
                 CASE
                     WHEN UTC_TIMESTAMP < start THEN 'ready'
