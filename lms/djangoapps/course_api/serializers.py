@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Course API Serializers.  Representing course catalog data
 """
@@ -74,6 +75,29 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     mobile_available = serializers.BooleanField()
     hidden = serializers.SerializerMethodField()
     invitation_only = serializers.BooleanField()
+
+    # 추가 항목 (ORM)
+    teachers = serializers.CharField()
+    classfy = serializers.CharField()
+    middle_classfy = serializers.CharField()
+    level = serializers.CharField()
+    passing_grade = serializers.CharField()
+    audit_yn = serializers.CharField()
+    fourth_industry_yn = serializers.CharField()
+    ribbon_yn = serializers.CharField()
+    job_edu_yn = serializers.CharField()
+    linguistics = serializers.CharField()
+    created = serializers.DateTimeField()
+    modified = serializers.DateTimeField()
+
+    # 추가 항목 (EXTRA)
+    org_name = serializers.CharField()
+    classfy_name = serializers.CharField()
+    middle_classfy_name = serializers.CharField()
+    language_name = serializers.CharField()
+    effort_time = serializers.CharField()
+    video_time = serializers.CharField()
+    week = serializers.CharField()
 
     # 'course_id' is a deprecated field, please use 'id' instead.
     course_id = serializers.CharField(source='id', read_only=True)

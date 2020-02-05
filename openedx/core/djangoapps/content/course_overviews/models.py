@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Declaration of CourseOverview model
 """
@@ -679,12 +680,56 @@ class CourseOverview(TimeStampedModel):
         course_overviews = course_overviews.annotate(
             classfy=F('courseoverviewaddinfo__classfy'),
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
-            teacher_name=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('N')),
             fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
             ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
             linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N'))
         )
+
+        # 표시 항목 추가 (EXTRA)
+        course_overviews = course_overviews.extra(select={
+            "teacher_name": """
+                CASE
+                    WHEN INSTR(teacher_name, ',') = 0 THEN teacher_name
+                    ELSE CONCAT(SUBSTRING_INDEX(teacher_name, ',', 1),
+                            ' 외 ',
+                            LENGTH(teacher_name) - LENGTH(REPLACE(teacher_name, ',', '')),
+                            '명')
+                END            
+            """,
+            "org_name": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "org_kname": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "org_ename": "select detail_ename from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "classfy_name": """
+                select detail_name 
+                  from code_detail, course_overview_addinfo 
+                 where course_overviews_courseoverview.id = course_overview_addinfo.course_id 
+                   and code_detail.group_code = '001' 
+                   and code_detail.detail_code = course_overview_addinfo.classfy
+            """,
+            "middle_classfy_name": """
+                select detail_name 
+                  from code_detail, course_overview_addinfo 
+                 where course_overviews_courseoverview.id = course_overview_addinfo.course_id 
+                   and code_detail.group_code = '002' 
+                   and code_detail.detail_code = course_overview_addinfo.middle_classfy
+            """,
+            "language_name": "''",
+            "effort_time": "SUBSTRING_INDEX(effort, '$', - 1)",
+            "video_time": "substr(effort, instr(effort, '#') + 1, instr(effort, '$') - instr(effort, '#') - 1)",
+            "week": "SUBSTR(effort, INSTR(effort, '@') + 1, INSTR(effort, '#') - INSTR(effort, '@') - 1)",
+            "status": """
+                CASE
+                    WHEN UTC_TIMESTAMP < start THEN 'ready'
+                    WHEN UTC_TIMESTAMP BETWEEN start AND `end` THEN 'ing'
+                    WHEN UTC_TIMESTAMP > `end` THEN 'end'
+                    ELSE 'none'
+                END
+            """,
+        })
+
+        # print 'len ------------------------------------------------>', course_overviews.count()
+        log.debug(course_overviews.query)
 
         # log.debug(course_overviews.query)
         return course_overviews
