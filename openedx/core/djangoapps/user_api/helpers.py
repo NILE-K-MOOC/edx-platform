@@ -20,6 +20,7 @@ from django.db import connections
 from django.contrib.auth.models import User
 
 LOGGER = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 def intercept_errors(api_error, ignore_errors=None):
@@ -470,11 +471,8 @@ def shim_student_view(view_func, check_logged_in=False):
             edx_userid = u1.id  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
             edx_useremail = u1.email  # <------------------- 객체를 정상적으로 얻어올 경우만 사용 (null exception 안남)
 
-        logging.info("------------------------------------------ c1")
-        logging.info('multisite_userid' in request.session)
-        logging.info("------------------------------------------ c2")
-        logging.info('multisite_org' in request.session)
-        logging.info("------------------------------------------")
+        log.info('multisite check: multisite_userid in request.session [%s]' % 'multisite_userid' in request.session)
+        log.info('multisite check: multisite_org in request.session [%s]' % 'multisite_org' in request.session)
 
         # passparam logic
         if 'multisite_userid' not in request.session and 'multisite_org' in request.session:
@@ -499,7 +497,7 @@ def shim_student_view(view_func, check_logged_in=False):
                 except BaseException:
                     cnt = 0  # <----- 멀티사이트 테이블에 이메일이 등록이 안되있을 경우 (null exception 처리)
 
-            logging.debug("cnt ---> %s" % cnt)
+            log.info("multisite check cnt ---> %s" % cnt)
             print "cnt -> ", cnt
             print "cnt -> ", cnt
 

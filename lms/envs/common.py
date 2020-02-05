@@ -782,6 +782,7 @@ OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
 ################################## TEMPLATE CONFIGURATION #####################################
 # Mako templating
 import tempfile
+
 MAKO_MODULE_DIR = os.path.join(tempfile.gettempdir(), 'mako_lms')
 MAKO_TEMPLATE_DIRS_BASE = [
     PROJECT_ROOT / 'templates',
@@ -952,13 +953,11 @@ USAGE_KEY_PATTERN = r'(?P<usage_key_string>(?:i4x://?[^/]+/[^/]+/[^/]+/[^@]+(?:@
 ASSET_KEY_PATTERN = r'(?P<asset_key_string>(?:/?c4x(:/)?/[^/]+/[^/]+/[^/]+/[^@]+(?:@[^/]+)?)|(?:[^/]+))'
 USAGE_ID_PATTERN = r'(?P<usage_id>(?:i4x://?[^/]+/[^/]+/[^/]+/[^@]+(?:@[^/]+)?)|(?:[^/]+))'
 
-
 # The space is required for space-dependent languages like Arabic and Farsi.
 # However, backward compatibility with Ficus older releases is still maintained (space is still not valid)
 # in the AccountCreationForm and the user_api through the ENABLE_UNICODE_USERNAME feature flag.
 USERNAME_REGEX_PARTIAL = r'[\w .@_+-]+'
 USERNAME_PATTERN = r'(?P<username>{regex})'.format(regex=USERNAME_REGEX_PARTIAL)
-
 
 ############################## HEARTBEAT ######################################
 
@@ -1229,7 +1228,7 @@ LANGUAGES = [
     ('en', u'English'),
     ('rtl', u'Right-to-Left Test Language'),
     ('eo', u'Dummy Language (Esperanto)'),  # Dummy languaged used for testing
-    ('fake2', u'Fake translations'),        # Another dummy language for testing (not pushed to prod)
+    ('fake2', u'Fake translations'),  # Another dummy language for testing (not pushed to prod)
 
     ('am', u'አማርኛ'),  # Amharic
     ('ar', u'العربية'),  # Arabic
@@ -1327,8 +1326,10 @@ def _make_locale_paths(settings):
     if settings.ENABLE_COMPREHENSIVE_THEMING:
         # Add locale paths to settings for comprehensive theming.
         for locale_path in settings.COMPREHENSIVE_THEME_LOCALE_PATHS:
-            locale_paths += (path(locale_path), )
+            locale_paths += (path(locale_path),)
     return locale_paths
+
+
 LOCALE_PATHS = _make_locale_paths
 derived('LOCALE_PATHS')
 
@@ -1497,7 +1498,7 @@ MIDDLEWARE_CLASSES = [
     'openedx.core.djangoapps.safe_sessions.middleware.SafeSessionMiddleware',
 
     # Instead of AuthenticationMiddleware, we use a cached backed version
-    #'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
     'openedx.core.djangoapps.cache_toolbox.middleware.CacheBackedAuthenticationMiddleware',
 
     'student.middleware.UserStandingMiddleware',
@@ -1606,26 +1607,26 @@ courseware_js = [
 ]
 
 proctoring_js = (
-    [
-        'proctoring/js/models/proctored_exam_allowance_model.js',
-        'proctoring/js/models/proctored_exam_attempt_model.js',
-        'proctoring/js/models/proctored_exam_model.js'
-    ] +
-    [
-        'proctoring/js/collections/proctored_exam_allowance_collection.js',
-        'proctoring/js/collections/proctored_exam_attempt_collection.js',
-        'proctoring/js/collections/proctored_exam_collection.js'
-    ] +
-    [
-        'proctoring/js/views/Backbone.ModalDialog.js',
-        'proctoring/js/views/proctored_exam_add_allowance_view.js',
-        'proctoring/js/views/proctored_exam_allowance_view.js',
-        'proctoring/js/views/proctored_exam_attempt_view.js',
-        'proctoring/js/views/proctored_exam_view.js'
-    ] +
-    [
-        'proctoring/js/proctored_app.js'
-    ]
+        [
+            'proctoring/js/models/proctored_exam_allowance_model.js',
+            'proctoring/js/models/proctored_exam_attempt_model.js',
+            'proctoring/js/models/proctored_exam_model.js'
+        ] +
+        [
+            'proctoring/js/collections/proctored_exam_allowance_collection.js',
+            'proctoring/js/collections/proctored_exam_attempt_collection.js',
+            'proctoring/js/collections/proctored_exam_collection.js'
+        ] +
+        [
+            'proctoring/js/views/Backbone.ModalDialog.js',
+            'proctoring/js/views/proctored_exam_add_allowance_view.js',
+            'proctoring/js/views/proctored_exam_allowance_view.js',
+            'proctoring/js/views/proctored_exam_attempt_view.js',
+            'proctoring/js/views/proctored_exam_view.js'
+        ] +
+        [
+            'proctoring/js/proctored_app.js'
+        ]
 )
 
 # Before a student accesses courseware, we do not
@@ -1683,11 +1684,11 @@ dashboard_js = (
     sorted(rooted_glob(PROJECT_ROOT / 'static', 'js/dashboard/**/*.js'))
 )
 discussion_js = (
-    rooted_glob(COMMON_ROOT / 'static', 'common/js/discussion/mathjax_include.js') +
-    rooted_glob(PROJECT_ROOT / 'static', 'js/customwmd.js') +
-    rooted_glob(PROJECT_ROOT / 'static', 'js/mathjax_accessible.js') +
-    rooted_glob(PROJECT_ROOT / 'static', 'js/mathjax_delay_renderer.js') +
-    sorted(rooted_glob(COMMON_ROOT / 'static', 'common/js/discussion/**/*.js'))
+        rooted_glob(COMMON_ROOT / 'static', 'common/js/discussion/mathjax_include.js') +
+        rooted_glob(PROJECT_ROOT / 'static', 'js/customwmd.js') +
+        rooted_glob(PROJECT_ROOT / 'static', 'js/mathjax_accessible.js') +
+        rooted_glob(PROJECT_ROOT / 'static', 'js/mathjax_delay_renderer.js') +
+        sorted(rooted_glob(COMMON_ROOT / 'static', 'common/js/discussion/**/*.js'))
 )
 
 discussion_vendor_js = [
@@ -1961,13 +1962,13 @@ PIPELINE_JS = {
     },
     'application': {
         'source_filenames': (
-            common_js + xblock_runtime_js + base_application_js + lms_application_js +
-            [
-                'js/sticky_filter.js',
-                'js/query-params.js',
-                'common/js/vendor/moment-with-locales.js',
-                'common/js/vendor/moment-timezone-with-data.js',
-            ]
+                common_js + xblock_runtime_js + base_application_js + lms_application_js +
+                [
+                    'js/sticky_filter.js',
+                    'js/query-params.js',
+                    'common/js/vendor/moment-with-locales.js',
+                    'common/js/vendor/moment-timezone-with-data.js',
+                ]
         ),
         'output_filename': 'js/lms-application.js',
     },
@@ -2045,7 +2046,6 @@ PIPELINE_JS = {
     }
 }
 
-
 STATICFILES_IGNORE_PATTERNS = (
     "*.py",
     "*.pyc",
@@ -2066,7 +2066,6 @@ STATICFILES_IGNORE_PATTERNS = (
     # Symlinks used by js-test-tool
     "xmodule_js",
 )
-
 
 ################################# DJANGO-REQUIRE ###############################
 
@@ -2390,12 +2389,12 @@ INSTALLED_APPS = [
     'course_wiki',  # Our customizations
     'mptt',
     'sekizai',
-    #'wiki.plugins.attachments',
+    # 'wiki.plugins.attachments',
     'wiki.plugins.links',
     # Notifications were enabled, but only 11 people used it in three years. It
     # got tangled up during the Django 1.8 migration, so we are disabling it.
     # See TNL-3783 for details.
-    #'wiki.plugins.notifications',
+    # 'wiki.plugins.notifications',
     'course_wiki.plugins.markdownedx',
 
     # For testing
@@ -2461,7 +2460,7 @@ INSTALLED_APPS = [
     'course_action_state',
 
     # Additional problem types
-    'edx_jsme',    # Molecular Structure
+    'edx_jsme',  # Molecular Structure
 
     # Country list
     'django_countries',
@@ -2480,7 +2479,6 @@ INSTALLED_APPS = [
     'openedx.core.djangoapps.content.course_structures.apps.CourseStructuresConfig',
     'openedx.core.djangoapps.content.block_structure.apps.BlockStructureConfig',
     'lms.djangoapps.course_blocks',
-
 
     # Coursegraph
     'openedx.core.djangoapps.coursegraph.apps.CoursegraphConfig',
@@ -2574,6 +2572,7 @@ INSTALLED_APPS = [
 
     # API Documentation
     'rest_framework_swagger',
+
 ]
 
 ######################### CSRF #########################################
@@ -2599,7 +2598,6 @@ REST_FRAMEWORK = {
         'registration_validation': '30/minute',
     },
 }
-
 
 ######################### MARKETING SITE ###############################
 EDXMKTG_LOGGED_IN_COOKIE_NAME = 'edxloggedin'
@@ -2888,11 +2886,10 @@ ORA2_FILE_PREFIX = None
 FILE_UPLOAD_STORAGE_BUCKET_NAME = 'edxuploads'
 FILE_UPLOAD_STORAGE_PREFIX = 'submissions_attachments'
 
-
 ORA2_FILEUPLOAD_BACKEND = "filesystem"
 # your prefered cache system
 ORA2_FILEUPLOAD_CACHE_NAME = "default"
-#where you want to upload ora2 files
+# where you want to upload ora2 files
 ORA2_FILEUPLOAD_ROOT = os.path.join(MEDIA_ROOT, 'ora-upload/')
 
 ##### ACCOUNT LOCKOUT DEFAULT PARAMETERS #####
@@ -2902,12 +2899,11 @@ MAX_FAILED_LOGIN_ATTEMPTS_LOCKOUT_PERIOD_SECS = 5 * 60
 ##### LMS DEADLINE DISPLAY TIME_ZONE #######
 TIME_ZONE_DISPLAYED_FOR_DEADLINES = 'UTC'
 
-
 ########################## VIDEO IMAGE STORAGE ############################
 
 VIDEO_IMAGE_SETTINGS = dict(
-    VIDEO_IMAGE_MAX_BYTES=2 * 1024 * 1024,    # 2 MB
-    VIDEO_IMAGE_MIN_BYTES=2 * 1024,       # 2 KB
+    VIDEO_IMAGE_MAX_BYTES=2 * 1024 * 1024,  # 2 MB
+    VIDEO_IMAGE_MIN_BYTES=2 * 1024,  # 2 KB
     # Backend storage
     # STORAGE_CLASS='storages.backends.s3boto.S3BotoStorage',
     # STORAGE_KWARGS=dict(bucket='video-image-bucket'),
@@ -2921,7 +2917,7 @@ VIDEO_IMAGE_SETTINGS = dict(
 ########################## VIDEO TRANSCRIPTS STORAGE ############################
 
 VIDEO_TRANSCRIPTS_SETTINGS = dict(
-    VIDEO_TRANSCRIPTS_MAX_BYTES=3 * 1024 * 1024,    # 3 MB
+    VIDEO_TRANSCRIPTS_MAX_BYTES=3 * 1024 * 1024,  # 3 MB
     # Backend storage
     # STORAGE_CLASS='storages.backends.s3boto.S3BotoStorage',
     # STORAGE_KWARGS=dict(bucket='video-transcripts-bucket'),
@@ -2931,7 +2927,6 @@ VIDEO_TRANSCRIPTS_SETTINGS = dict(
     ),
     DIRECTORY_PREFIX='video-transcripts/',
 )
-
 
 # Source:
 # http://loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt according to http://en.wikipedia.org/wiki/ISO_639-1
@@ -3126,7 +3121,6 @@ ALL_LANGUAGES = [
     [u"za", u"Zhuang"],
     [u"zu", u"Zulu"]
 ]
-
 
 ### Apps only installed in some instances
 # The order of INSTALLED_APPS matters, so this tuple is the app name and the item in INSTALLED_APPS
@@ -3432,7 +3426,6 @@ LTI_USER_EMAIL_DOMAIN = 'lti.example.com'
 # The time value is in seconds.
 LTI_AGGREGATE_SCORE_PASSBACK_DELAY = 15 * 60
 
-
 # For help generating a key pair import and run `openedx.core.lib.rsa_key_utils.generate_rsa_key_pair()`
 JWT_PRIVATE_SIGNING_KEY = None
 JWT_EXPIRED_PRIVATE_SIGNING_KEYS = []
@@ -3440,7 +3433,6 @@ JWT_EXPIRED_PRIVATE_SIGNING_KEYS = []
 # Credit notifications settings
 NOTIFICATION_EMAIL_CSS = "templates/credit_notifications/credit_notification.css"
 NOTIFICATION_EMAIL_EDX_LOGO = "templates/credit_notifications/edx-logo-header.png"
-
 
 ################################ Settings for JWTs ################################
 
@@ -3623,7 +3615,7 @@ ENTERPRISE_API_URL = LMS_INTERNAL_ROOT_URL + '/enterprise/api/v1/'
 ENTERPRISE_CONSENT_API_URL = LMS_INTERNAL_ROOT_URL + '/consent/api/v1/'
 ENTERPRISE_SERVICE_WORKER_USERNAME = 'enterprise_worker'
 ENTERPRISE_API_CACHE_TIMEOUT = 3600  # Value is in seconds
-ENTERPRISE_CUSTOMER_LOGO_IMAGE_SIZE = 512   # Enterprise logo image size limit in KB's
+ENTERPRISE_CUSTOMER_LOGO_IMAGE_SIZE = 512  # Enterprise logo image size limit in KB's
 
 ############## ENTERPRISE SERVICE LMS CONFIGURATION ##################################
 # The LMS has some features embedded that are related to the Enterprise service, but
@@ -3672,7 +3664,6 @@ COURSES_API_CACHE_TIMEOUT = 3600  # Value is in seconds
 
 ############## Settings for CourseGraph ############################
 COURSEGRAPH_JOB_QUEUE = LOW_PRIORITY_QUEUE
-
 
 # Initialize to 'unknown', but read from JSON in aws.py
 EDX_PLATFORM_REVISION = 'unknown'
@@ -3737,9 +3728,9 @@ FERNET_KEYS = [
 # Maximum number of rows to fetch in XBlockUserStateClient calls. Adjust for performance
 USER_STATE_BATCH_SIZE = 5000
 
-
 ############## Plugin Django Apps #########################
 
 from openedx.core.djangoapps.plugins import plugin_apps, plugin_settings, constants as plugin_constants
+
 INSTALLED_APPS.extend(plugin_apps.get_apps(plugin_constants.ProjectType.LMS))
 plugin_settings.add_plugins(__name__, plugin_constants.ProjectType.LMS, plugin_constants.SettingsType.COMMON)

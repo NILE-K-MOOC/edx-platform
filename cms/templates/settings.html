@@ -46,6 +46,9 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
 </%block>
 
 <%block name="content">
+<style>
+    .require-dot { color: #1980ff; }
+</style>
 <div class="wrapper-mast wrapper">
   <header class="mast has-subtitle">
     <h1 class="page-header">
@@ -193,13 +196,13 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
           <ol class="list-input">
             <li class="field-group field-group-course-start" id="course-start">
               <div class="field date" id="field-course-start-date">
-                <label for="course-start-date">${_("Course Start Date")}</label>
+                <label for="course-start-date">${_("Course Start Date")} <span class="require-dot">*</span></label>
                 <input type="text" class="start-date date start datepicker" id="course-start-date" placeholder="MM/DD/YYYY" autocomplete="off" />
                 <span class="tip tip-stacked">${_("First day the course begins")}</span>
               </div>
 
               <div class="field time" id="field-course-start-time">
-                <label for="course-start-time">${_("Course Start Time")}</label>
+                <label for="course-start-time">${_("Course Start Time")} <span class="require-dot">*</span></label>
                 <input type="text" class="time start timepicker" id="course-start-time" value="" placeholder="HH:MM" autocomplete="off" />
                 <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
               </div>
@@ -207,13 +210,13 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
 
             <li class="field-group field-group-course-end" id="course-end">
               <div class="field date" id="field-course-end-date">
-                <label for="course-end-date">${_("Course End Date")}</label>
+                <label for="course-end-date">${_("Course End Date")} <span class="require-dot">*</span></label>
                 <input type="text" class="end-date date end" id="course-end-date" placeholder="MM/DD/YYYY" autocomplete="off" />
                 <span class="tip tip-stacked">${_("Last day your course is active")}</span>
               </div>
 
               <div class="field time" id="field-course-end-time">
-                <label for="course-end-time">${_("Course End Time")}</label>
+                <label for="course-end-time">${_("Course End Time")} <span class="require-dot">*</span></label>
                 <input type="text" class="time end" id="course-end-time" value="" placeholder="HH:MM" autocomplete="off" />
                 <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
               </div>
@@ -224,7 +227,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
           <ol class="list-input">
             <li class="field-group field-group-certificate-available" id="certificate-available">
               <div class="field date" id="field-certificate-available-date">
-                <label for="certificate-available-date">${_("Certificates Available Date")}</label>
+                <label for="certificate-available-date">${_("Certificates Available Date")} <span class="require-dot">*</span></label>
                 <input type="text" class="certificate-available-date date start datepicker" id="certificate-available-date" placeholder="MM/DD/YYYY" autocomplete="off" />
                 <span class="tip tip-stacked">${_("By default, 48 hours after course end date")}</span>
               </div>
@@ -235,13 +238,13 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
           <ol class="list-input">
             <li class="field-group field-group-enrollment-start" id="enrollment-start">
               <div class="field date" id="field-enrollment-start-date">
-                <label for="course-enrollment-start-date">${_("Enrollment Start Date")}</label>
+                <label for="course-enrollment-start-date">${_("Enrollment Start Date")} <span class="require-dot">*</span></label>
                 <input type="text" class="start-date date start" id="course-enrollment-start-date" placeholder="MM/DD/YYYY" autocomplete="off" />
                 <span class="tip tip-stacked">${_("First day students can enroll")}</span>
               </div>
 
               <div class="field time" id="field-enrollment-start-time">
-                <label for="course-enrollment-start-time">${_("Enrollment Start Time")}</label>
+                <label for="course-enrollment-start-time">${_("Enrollment Start Time")} <span class="require-dot">*</span></label>
                 <input type="text" class="time start" id="course-enrollment-start-time" value="" placeholder="HH:MM" autocomplete="off" />
                 <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
               </div>
@@ -252,7 +255,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             %>
             <li class="field-group field-group-enrollment-end" id="enrollment-end">
               <div class="field date ${enrollment_end_editable_class}" id="field-enrollment-end-date">
-                <label for="course-enrollment-end-date">${_("Enrollment End Date")}</label>
+                <label for="course-enrollment-end-date">${_("Enrollment End Date")} <span class="require-dot">*</span></label>
                 <input type="text" class="end-date date end" id="course-enrollment-end-date" placeholder="MM/DD/YYYY" autocomplete="off" ${enrollment_end_readonly} />
                 <span class="tip tip-stacked">
                   ${_("Last day students can enroll.")}
@@ -263,7 +266,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               </div>
 
               <div class="field time ${enrollment_end_editable_class}" id="field-enrollment-end-time">
-                <label for="course-enrollment-end-time">${_("Enrollment End Time")}</label>
+                <label for="course-enrollment-end-time">${_("Enrollment End Time")} <span class="require-dot">*</span></label>
                 <input type="text" class="time end" id="course-enrollment-end-time" value="" placeholder="HH:MM" autocomplete="off" ${enrollment_end_readonly} />
                 <span class="tip tip-stacked timezone">${_("(UTC)")}</span>
               </div>
@@ -297,7 +300,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               <div style="width: 100%; float: left;">
 
                 <div style="width: 250px; float: left;">
-                  <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Recommended commitment Effort per week")}</b></span><br/>
+                  <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Recommended commitment Effort per week")} <span class="require-dot">*</span></b></span><br/>
                   <input type="text" class="short time" id="course-effort-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span
                         style="float: left; padding: 10px;">${_("hours")}</span>
                   <input type="text" class="short time" id="course-effort-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
@@ -305,13 +308,13 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
                 </div>
 
                 <div style="width: 150px; float: left;">
-                  <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Total no. of weeks Length")}</b></span><br/>
+                  <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Total no. of weeks Length")} <span class="require-dot">*</span></b></span><br/>
                   <input type="text" class="short time" id="course-effort-week" placeholder="Week" style="width: 63px; float: left;" maxlength="2"/><span
                         style="float: left; padding: 10px;">${_("weeks")}</span>
                 </div>
 
                 <div style="float: left;">
-                  <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Accredited learning time")}</b></span><br/>
+                  <span class="tip tip-inline" style="font-size: 14px; display:block; height: 15px;"><b>${_("Accredited learning time")} <span class="require-dot">*</span></b></span><br/>
                   <input type="text" class="short time" id="Calculated" placeholder="HH" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">${_("hours")}</span>
                   <input type="text" class="short time" id="Calculated_mm" placeholder="MM" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" maxlength="2" style="IME-MODE:disabled; width: 55px; float: left;" /><span style="float: left; padding: 10px;">${_("minutes")}</span>
                 </div>
@@ -336,7 +339,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               -->
 
               <div>
-                <span class="tip tip-inline" style="font-size: 14px;"><b>${_("Video Duration")}</b></span><br/>
+                <span class="tip tip-inline" style="font-size: 14px;"><b>${_("Video Duration")} <span class="require-dot">*</span></b></span><br/>
                 <input type="text" class="short time" id="course-video-hh" placeholder="HH" style="width: 50px; float: left;" maxlength="2"/><span style="float: left; padding: 10px;">${_("hours")}</span>
                 <input type="text" class="short time" id="course-video-mm" placeholder="MM" style="width: 50px; float: left;" maxlength="2"/><span
                       style="float: left; padding: 10px;">${_("minutes")}</span>
@@ -412,7 +415,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
           </header>
           <ol class="list-input">
             <li class="field" id="field-course-language">
-              <label for="course-language">${_("Course Language")}</label>
+              <label for="course-language">${_("Course Language")} <span class="require-dot">*</span></label>
               <select id="course-language">
                 <option value="" selected>${_("Not applicable")}</option>
                 % for lang, label in language_options:
@@ -422,7 +425,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               <span class="tip tip-stacked">${_("Identify the course language here. This is used to assist users find courses that are taught in a specific language. It is also used to localize the 'From:' field in bulk emails.")}</span>
             </li>
             <li class="field" id="field-course-language selectdiv">
-              <label for="동">${_("Level")}</label>
+              <label for="동">${_("Level")} <span class="require-dot">*</span></label>
               <select class="select difficult-degree" id="selectfixid">
                 <option value="">${_("Not applicable")}</option>
                 % for difficult_row in difficult_degree_list['degree_list']:
@@ -432,7 +435,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               <span class="tip tip-stacked">${_("Select the difficulty level of the course.")}</span>
             </li>
             <li class="field" id="field-course-language">
-                <label for="course-language">${_("Name of Lecturer")}</label>
+                <label for="course-language">${_("Name of Lecturer")} <span class="require-dot">*</span></label>
                 <input type="text" id = "teacher_name" value="${teacher_name}" placeholder='${_("EX. Albert Einstein, Marie Curie")}'>
                 <span class="tip tip-stacked">${_("Please insert a comma (,) between Lecturers")}</span>
                 <div style="display: none">
@@ -1065,6 +1068,8 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
           </div>
         </div>
         % endif
+      <!--
+        20200130 강좌 속도 기능 비활성화 요청으로 주석처리
         <div class="group-settings pacing">
           <fieldset role="radiogroup">
             <legend>
@@ -1089,6 +1094,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             </ol>
           </fieldset>
         </div>
+      -->
         % if about_page_editable or is_prerequisite_courses_enabled or is_entrance_exams_enabled:
         <hr class="divide" />
         <!--

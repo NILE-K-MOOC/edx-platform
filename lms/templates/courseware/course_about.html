@@ -174,7 +174,7 @@ from six import string_types
 
 #course-info section{line-height:160%; width: 98%;margin-top:40px}
 #course-info article{padding-top:10px;padding-left:15px}
-#course-info h2,h3{font-weight:bold; font-family: "Nanum Gothic","Open Sans";}
+#course-info h2,h3,h4{font-weight:bold; font-family: "Nanum Gothic","Open Sans";}
 #course-info h2{font-size: 1.4rem; margin: 1.25rem 0 0.28rem 0;}
 #course-info h3{font-size: 1.1rem; margin: 0.25rem 0 0.25rem 0;}
 #course-info .article_contents{padding-left:10px;}
@@ -342,7 +342,9 @@ table caption{
 .syllabus_table table td.bgcolor{background-color:#dcdcdc}
 .syllabus_table table td.cts{text-align:center; max-width:10%}
 
-
+table td {
+  vertical-align: middle !important;
+}
 
 /*************************3.Course-staff ***************************/
 
@@ -463,6 +465,16 @@ div.about-side-title p {
 
 .course-info .course-sidebar header {
     margin-bottom: 15px;
+}
+
+p {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+p+p {
+  margin-top: 0;
 }
 
 /*------------------- about 관련 수정 > ----------------*/
@@ -774,9 +786,17 @@ div.about-side-title p {
     height: 97px;
   }
   .item-status {
-    background-color: #008800;
     text-align: left;
   }
+
+  .item-status.ready {background-color: #f5c42d;}
+  .item-status.ing {background-color: #008800;}
+  .item-status.end {background-color: #b2b2b2;}
+
+  .item-line.ready {border: solid 1px #f5c42d;}
+  .item-line.ing {border: solid 1px #008800;}
+  .item-line.end {border: solid 1px #b2b2b2;}
+
   .item-status-text {
     color: #ffffff;
     font-size: 10px;
@@ -803,9 +823,9 @@ div.about-side-title p {
     margin-top: -8px;
     color: black;
   }
-  .item-greenline {
-    border: solid 1px #008800;
-  }
+
+
+
   .similar-none{
     padding-left: 20px;
   }
@@ -853,8 +873,8 @@ div.about-side-title p {
                       <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>
                     </div>
 
-                    <div class='item-status'>
-                      <div class='item-status-text'>진행중</div>
+                    <div class='item-status ${item["sim_status"]}'>
+                      <div class='item-status-text'>${_(item["sim_status"])}</div>
                     </div>
 
                     <div class='item-title'>
@@ -869,8 +889,7 @@ div.about-side-title p {
                       ${item['org']}
                     </div>
 
-                    <div class='item-greenline'>
-                    </div>
+                    <div class='item-line ${item["sim_status"]}'></div>
                   </div>
                 </a>
                 % endfor

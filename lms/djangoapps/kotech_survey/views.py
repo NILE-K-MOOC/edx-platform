@@ -30,6 +30,9 @@ def course_satisfaction_survey(request):
     flag = request.GET.get('flag')          # 2
     view_yn = request.GET.get('view')       # true
 
+    if cert_id is not None and cert_id != '/dashboard' and flag is None:
+        flag = '2'
+
     # debug
     print "cert_id -> ", cert_id
     print "course_id -> ", course_id

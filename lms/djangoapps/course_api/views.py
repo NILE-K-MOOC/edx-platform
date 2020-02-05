@@ -3,7 +3,7 @@
 Course API Views
 """
 
-import search, traceback
+import search
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -19,11 +19,12 @@ from .serializers import CourseDetailSerializer, CourseSerializer
 
 import logging
 import subprocess
+from rest_framework.response import Response
 
 log = logging.getLogger(__name__)
 
 
-def check_api_key(SG_APIM=None):
+def check_api_key(service_key=None):
     try:
         DIR = '/edx/app/edxapp/edx-platform/kotech_utility'
 
@@ -43,29 +44,30 @@ def check_api_key(SG_APIM=None):
 
         key = get_apim_key()
 
-        if not SG_APIM:
-            raise ValidationError('API Call Exception (SG_APIM not exists)')
+        if not service_key:
+            raise ValidationError('check_api_key API Call Exception (ServiceKey not exists)')
 
-        if SG_APIM.strip() != key.strip():
-            raise ValidationError('API Call Exception (invalid key [%s][%s])' % (key, SG_APIM))
+        if service_key.strip() != key.strip():
+            raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
 
-        log.info('CourseListView key [%s]' % key)
-        log.info('CourseListView SG_APIM [%s]' % key)
-        log.info('CourseListView check [%s]' % (key.strip() == SG_APIM.strip()))
+        log.debug('check_api_key key [%s]' % key)
+        log.debug('check_api_key SG_APIM [%s]' % key)
+        log.debug('check_api_key check [%s]' % (key.strip() == service_key.strip()))
 
         res = check_apim_key(key)
-        log.info('CourseListView Res [%s]' % res)
+        log.debug('check_api_key Res [%s]' % res)
 
     except OSError as e:
-        log.info('CourseDetailView OSError [%s]' % e.strerror)
+        log.debug('check_api_key exception --> OSError [%s]' % e.message)
+        raise ValidationError('check_api_key OSError [%s]' % e.message)
 
-        # 로컬 테스트시에는 java 및 경로가 다르므로 테스트는 개발 서버에서 진행
-        # raise OSError(traceback.format_exc(e))
-        raise ValidationError('OSError [%]' % e.strerror)
+    except ValidationError as e1:
+        log.debug('check_api_key exception --> ValidationError [%s]' % e1.message)
+        raise ValidationError('check_api_key exception --> ValidationError [%s]' % e1.message)
 
     except Exception as e2:
-        log.info('CourseDetailView Exception [%s]' % e2.message)
-        raise ValidationError('Exception [%s]' % e2.strerror)
+        log.debug('check_api_key exception --> Exception [%s]' % e2.message)
+        raise ValidationError('check_api_key exception --> Exception [%s]' % e2.message)
 
 
 @view_auth_classes(is_authenticated=False)
@@ -162,18 +164,20 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         """
         Return the requested course object, if the user has appropriate
         permissions.
+
+        get 파라미터중 course_id 가 있다면 공공데이터 연계의 호출로 처리되도록 분기
         """
 
         req = self.request
-        course_id = req.GET.get('course_id', '')
-        SG_APIM = req.GET.get('SG_APIM')
+        path = req.path
 
-        check_api_key(SG_APIM)
-
-        if not course_id:
-            course_id = self.kwargs['course_key_string']
-        else:
+        if path == '/api/courses/v1/course/detail/':
+            service_key = req.GET.get('ServiceKey')
+            check_api_key(service_key)
+            course_id = req.GET.get('CourseId', '')
             course_id = course_id.replace(' ', '+')
+        else:
+            course_id = self.kwargs['course_key_string']
 
         requested_params = self.request.query_params.copy()
         requested_params.update({'course_key': course_id})
@@ -305,22 +309,39 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
     #   - https://github.com/elastic/elasticsearch/commit/8b0a863d427b4ebcbcfb1dcd69c996c52e7ae05e
     results_size_infinity = 10000
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            # 페이지 처리된 상태에서 데이터를 추가
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+        return Response(data)
+
     def get_queryset(self):
         """
         Return a list of courses visible to the user.
-
         20200113 공공데이터 API 연계를 위한 인증모듈 검증 추가
         """
+
+        req = self.request
+        path = req.path
+
+        if path == '/api/courses/v1/course/list/':
+            service_key = req.GET.get('ServiceKey')
+            check_api_key(service_key)
+
         form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
 
         if not form.is_valid():
             raise ValidationError(form.errors)
 
-        req = self.request
         f = form.cleaned_data['filter_']
-        SG_APIM = req.GET.get('SG_APIM')
-
-        check_api_key(SG_APIM)
 
         if not f:
             f = {'is_api': True}

@@ -10,6 +10,9 @@ from rest_framework import serializers
 
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from openedx.core.lib.api.fields import AbsoluteURLField
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class _MediaSerializer(serializers.Serializer):  # pylint: disable=abstract-method
@@ -98,6 +101,7 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     effort_time = serializers.CharField()
     video_time = serializers.CharField()
     week = serializers.CharField()
+    learning_time = serializers.CharField()
 
     # 'course_id' is a deprecated field, please use 'id' instead.
     course_id = serializers.CharField(source='id', read_only=True)
@@ -139,6 +143,9 @@ class CourseDetailSerializer(CourseSerializer):  # pylint: disable=abstract-meth
         """
         Get the representation for SerializerMethodField `overview`
         """
+
+        log.info('called get_overview')
+
         # Note: This makes a call to the modulestore, unlike the other
         # fields from CourseSerializer, which get their data
         # from the CourseOverview object in SQL.
