@@ -27881,7 +27881,6 @@ msgid "Contract"
 msgstr "접기"
 
 msgid "Video Transcript"
-msgid "Video Transcript"
 msgstr "자막 언어"
 
 msgid "Introduce the Organization with K-MOOC."
