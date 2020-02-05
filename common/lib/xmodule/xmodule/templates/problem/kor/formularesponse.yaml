@@ -1,13 +1,13 @@
 ---
 metadata:
-    display_name: Math Expression Input
+    display_name: 수학 공식 입력
     markdown: !!null
 data: |
       <problem>
           <formularesponse type="ci" samples="R_1,R_2,R_3@1,2,3:3,4,5#10" answer="R_1*R_2/R_3">
-              <p>You can use this template as a guide to the OLX markup to use for math expression problems. Edit this component to replace the example with your own assessment.</p>
-              <label>Add the question text, or prompt, here. This text is required. Example: Write an expression for the product of R_1, R_2, and the inverse of R_3.</label>
-              <description>You can add an optional tip or note related to the prompt like this. Example: To test this example, the correct answer is R_1*R_2/R_3</description>
+              <p>이 템플릿은 OLX 마크 업에 대한 가이드로 수학식 문제에 사용할 수 있습니다. 이 템플릿을  편집하여 원하는 평가로 바꾸십시오.</p>
+              <label>여기에 문제에 질문을 추가하십시오. 이 텍스트는 필수 입니다. 예) R_1, R_2의 곱과 R_3의 곱에 대한 식을 작성하십시오.</label>
+              <description>프롬프트와 관련된 옵션 팁 또는 메모를 이와 같이 추가 할 수 있습니다. 예) 이 예를 테스트하려면 정답은 R_1 * R_2 / R_3입니다.</description>
               <responseparam type="tolerance" default="0.00001"/>
               <formulaequationinput size="40"/>
           </formularesponse>

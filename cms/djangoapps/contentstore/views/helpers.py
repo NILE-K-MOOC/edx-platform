@@ -201,14 +201,17 @@ def create_xblock(parent_locator, user, category, display_name, boilerplate=None
         data = None
 
         # inject -> kor yaml template
-        lang = UserPreference.objects.get(user_id=user.id, key='pref-lang').value
-        if lang == 'ko-kr':
-            boilerplate_kor = boilerplate
-            template_id = 'kor/' + boilerplate_kor
-            clz = parent.runtime.load_block_type(category)
-            template = clz.get_template(template_id)
-            if template != None:
-                boilerplate = template_id
+        try:
+            lang = UserPreference.objects.get(user_id=user.id, key='pref-lang').value
+            if lang == 'ko-kr' and boilerplate != None and boilerplate != '':
+                boilerplate_kor = boilerplate
+                template_id = 'kor/' + boilerplate_kor
+                clz = parent.runtime.load_block_type(category)
+                template = clz.get_template(template_id)
+                if template != None:
+                    boilerplate = template_id
+        except BaseException:
+            pass
 
         template_id = boilerplate
         if template_id:

@@ -1,27 +1,27 @@
 ---
 metadata:
-    display_name: Multiple Choice
+    display_name: 선다형 문항
     markdown: |
 
-        You can use this template as a guide to the simple editor markdown and OLX markup to use for multiple choice problems. Edit this component to replace this template with your own assessment.
+        이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 객관식 문제에 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.
 
-        >>Add the question text, or prompt, here. This text is required.||You can add an optional tip or note related to the prompt like this. <<
+        >>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.||문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다. <<
 
-        ( ) an incorrect answer
-        (x) the correct answer
-        ( ) an incorrect answer
+        ( ) 오답
+        (x) 정답
+        ( ) 오답
 
 
 data:   |
         <problem>
             <multiplechoiceresponse>
-                <p>You can use this template as a guide to the simple editor markdown and OLX markup to use for multiple choice problems. Edit this component to replace this template with your own assessment.</p>
-                <label>Add the question text, or prompt, here. This text is required.</label>
-                <description>You can add an optional tip or note related to the prompt like this.</description>
+                <p>이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 객관식 문제에 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.</p>
+                <label>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.</label>
+                <description>문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다.</description>
                 <choicegroup>
-                    <choice correct="false">an incorrect answer</choice>
-                    <choice correct="true">the correct answer</choice>
-                    <choice correct="false">an incorrect answer</choice>
+                    <choice correct="false">오답</choice>
+                    <choice correct="true">정답</choice>
+                    <choice correct="false">오답</choice>
                 </choicegroup>
             </multiplechoiceresponse>
         </problem>

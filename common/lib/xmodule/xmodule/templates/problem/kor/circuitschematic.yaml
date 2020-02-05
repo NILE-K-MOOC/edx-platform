@@ -1,28 +1,22 @@
 ---
 metadata:
-    display_name: Circuit Schematic Builder
+    display_name: 회로도 작성 문제
     markdown: !!null
 data: |
       <problem>
         <p>
-            Circuit schematic problems allow students to create virtual circuits by
-            arranging elements such as voltage sources, capacitors, resistors, and
-            MOSFETs on an interactive grid. The system evaluates a DC, AC, or
-            transient analysis of the circuit.
+            회로도 작성 문제를 통해 학생들은 대화 형 그리드에 전압 소스, 커패시터, 저항 및 MOSFET과 같은 요소를 배치하여 가상 회로를 만들 수 있습니다. 시스템은 회로의 DC, AC 또는 과도 분석을 평가합니다.
         </p>
         <p>
-            For more information, see
-            <a href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/circuit_schematic_builder.html" target="_blank">
-            Circuit Schematic Builder Problem</a> in <i>Building and Running an edX Course</i>.
+            자세한 내용은 edX 코스 구축 및 실행 시 <a href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/circuit_schematic_builder.html" target="_blank">회로도 작성 문제</a>를 참조하십시오.
         </p>
         <p>
-            When you add the problem, be sure to select <strong>Settings</strong>
-            to specify a <strong>Display Name</strong> and other values that apply.
+            문제를 추가 할 때 <strong>설정</strong>을 선택하여 <strong>Display Name</strong>과 다른 값을 지정하십시오.
         </p>
-        <p>You can use the following example problems as models.</p>
+        <p>다음 예제 문제를 모델로 사용할 수 있습니다.</p>
 
         <schematicresponse>
-            <p>Make a voltage divider that splits the provided voltage evenly.</p>
+            <p>제공된 전압을 고르게 분배하는 전압 분배기를 만드십시오.</p>
             <center>
                 <schematic height="500" width="600" parts="g,r" analyses="dc"
                 initial_value="[[&quot;v&quot;,[168,144,0],{&quot;value&quot;:&quot;dc(1)&quot;,&quot;_json_&quot;:0},[&quot;1&quot;,&quot;0&quot;]],[&quot;r&quot;,[296,120,0],{&quot;r&quot;:&quot;1&quot;,&quot;_json_&quot;:1},[&quot;1&quot;,&quot;output&quot;]],[&quot;L&quot;,[296,168,3],{&quot;label&quot;:&quot;output&quot;,&quot;_json_&quot;:2},[&quot;output&quot;]],[&quot;w&quot;,[296,216,168,216]],[&quot;w&quot;,[168,216,168,192]],[&quot;w&quot;,[168,144,168,120]],[&quot;w&quot;,[168,120,296,120]],[&quot;g&quot;,[168,216,0],{&quot;_json_&quot;:7},[&quot;0&quot;]],[&quot;view&quot;,-67.49999999999994,-78.49999999999994,1.6000000000000003,&quot;50&quot;,&quot;10&quot;,&quot;1G&quot;,null,&quot;100&quot;,&quot;1&quot;,&quot;1000&quot;]]"/>
@@ -41,11 +35,9 @@ data: |
       </answer>
             <solution>
                 <div class="detailed-solution">
-                    <p>Explanation</p>
+                    <p>(설명)</p>
                     <p>
-                        You can form a voltage divider that evenly divides the input
-                        voltage with two identically valued resistors, with the sampled
-                        voltage taken in between the two.
+                        입력 전압을 동일한 값을 갖는 두 개의 저항으로 균등하게 분배하는 전압 분배기를 구성 할 수 있으며, 측정 전압은 두 저항의 사이 값입니다.
                     </p>
                     <p><img src="/static/images/voltage_divider.png" alt=""/></p>
                 </div>
@@ -53,7 +45,7 @@ data: |
         </schematicresponse>
 
         <schematicresponse>
-            <p>Make a high-pass filter.</p>
+            <p>high-pass 필터를 만드세요,</p>
             <center>
                 <schematic height="500" width="600" parts="g,r,s,c" analyses="ac"
                 submit_analyses="{&quot;ac&quot;:[[&quot;NodeA&quot;,1,9]]}"
@@ -75,12 +67,9 @@ data: |
       </answer>
             <solution>
                 <div class="detailed-solution">
-                    <p>Explanation</p>
+                    <p>(설명)</p>
                     <p>
-                        You can form a simple high-pass filter without any further
-                        constraints by simply putting a resistor in series with a
-                        capacitor. The actual values of the components do not really
-                        matter in this problem.
+                        저항을 콘덴서와 직렬로 연결하여 추가 제약 없이 간단한 high-pass 필터를 구성할 수 있습니다. 이 문제에서 구성 요소의 값들은 실제로 중요하지 않습니다.
                     </p>
                     <p><img src="/static/images/high_pass_filter.png" alt=""/></p>
                 </div>

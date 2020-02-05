@@ -1,42 +1,26 @@
 ---
 metadata:
-    display_name: Custom JavaScript Display and Grading
+    display_name: JavaScript 사용자 정의 문제
     markdown: !!null
     showanswer: never
 data: |
       <problem>
           <p>
-              In these problems (also called custom JavaScript problems or JS Input
-              problems), you add a problem or tool that uses JavaScript in Studio.
-              Studio embeds the problem in an IFrame so that your learners can
-              interact with it in the LMS. You can grade your learners' work using
-              JavaScript and some basic Python, and the grading is integrated into the
-              edX grading system.
+              사용자 정의 JavaScript 문제 또는 JS 입력 문제라고도 불리는 이 문제에서는 Studio에서 JavaScript를 사용하는 문제 또는 도구를 추가합니다. Studio는 학습자가 LMS에서 문제와 상호 작용할 수 있도록 IFrame에 문제를 포함시킵니다. JavaScript와 일부 기본 Python을 사용하여 학습자의 작업을 채점 할 수 있으며 채점은 edX 채점 시스템에 통합됩니다.
           </p>
           <p>
-              The JS Input problem that you create must use HTML, JavaScript, and
-              cascading style sheets (CSS). You can use any application creation tool,
-              such as the Google Web Toolkit (GWT), to create your JS Input problem.
+              작성한 JS 입력 문제점은 HTML, JavaScript 및 CSS (Cascading Style Sheet)를 사용해야 합니다. Google Web Toolkit (GWT)과 같은 애플리케이션 작성 도구를 사용하여 JS 입력 문제를 작성할 수 있습니다.
           </p>
           <p>
-              For more information, see
-              <a href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/custom_javascript.html" target="_blank">
-              Custom JavaScript Problem</a> in <i>Building and Running an edX Course</i>.
+              자세한 내용은 edX 코스 빌드 및 실행에서 <a href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/custom_javascript.html" target="_blank">사용자 정의 JavaScript 문제</a>를 참조하십시오.
           </p>
           <p>
-              JavaScript developers can also see
-              <a href="https://edx.readthedocs.io/projects/edx-developer-guide/en/latest/extending_platform/javascript.html" target="_blank">
-              Custom JavaScript Applications</a> in the <i>EdX Developer's Guide</i>.
+              JavaScript 개발자는 EdX 개발자 안내서에서 <a href="https://edx.readthedocs.io/projects/edx-developer-guide/en/latest/extending_platform/javascript.html" target="_blank">사용자 정의 JavaScript 응용 프로그램</a>을 볼 수도 있습니다.
           </p>
           <p>
-              When you add the problem, be sure to select <strong>Settings</strong>
-              to specify a <strong>Display Name</strong> and other values that apply.
-              Also, be sure to specify a <strong>title</strong> attribute on the <strong>jsinput</strong> tag;
-              this title is used for the title attribute on the generated IFrame. Generally,
-              the title attribute on the IFrame should match the title tag of the HTML hosted
-              within the IFrame, which is specified by the <strong>html_file</strong> attribute.
+              문제를 추가 할 때 <strong>설정</strong>을 선택하여 적용된 <strong>Display Name</strong>과 다른 값을 지정하십시오. 또한 <strong>jsinput</strong> 태그에 <strong>title</strong> 속성을 지정하십시오. 이 title은 생성 된 IFrame의 title 속성에 사용됩니다. 일반적으로 IFrame의 title 속성은 <strong>html_file</strong> 속성으로 지정된 IFrame 내에서 호스팅되는 HTML의 제목 태그와 일치해야합니다.
           </p>
-          <p>You can use the following example problem as a model.</p>
+          <p>다음의 예제 문제를 모델로 사용할 수 있다.</p>
 
           <customresponse cfn="check_function">
       <script type="loncapa/python">
@@ -62,12 +46,12 @@ data: |
         """
       ]]>
       </script>
-            <p>This is paragraph text displayed before the IFrame.</p>
+            <p>IFrame 앞에 표시된 단락 텍스트 입니다.</p>
             <jsinput
               gradefn="JSInputDemo.getGrade"
               get_statefn="JSInputDemo.getState"
               set_statefn="JSInputDemo.setState"
-              initial_state='{"selectedChoice": "incorrect1", "availableChoices": ["incorrect1", "correct", "incorrect2"]}'
+              initial_state='{"selectedChoice": "오답1", "availableChoices": ["오답1", "정답", "오답 2"]}'
               width="600"
               height="100"
               html_file="https://files.edx.org/custom-js-example/jsinput_example.html"

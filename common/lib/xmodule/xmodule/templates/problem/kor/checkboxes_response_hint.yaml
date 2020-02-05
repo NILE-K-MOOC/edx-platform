@@ -1,52 +1,52 @@
 ---
 metadata:
-    display_name: Checkboxes with Hints and Feedback
+    display_name: 체크박스(힌트)
     markdown: |
 
-      You can use this template as a guide to the simple editor markdown and OLX markup to use for checkboxes with hints and feedback problems. Edit this component to replace this template with your own assessment.
+      이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 복수선택지(체크박스) 문제에 힌트나 피드백을 주고자 할 때 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.
 
-      >>Add the question text, or prompt, here. This text is required.||You can add an optional tip or note related to the prompt like this.<<
+      >>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.||문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다.<<
 
-      [x] a correct answer {{ selected: You can specify optional feedback that appears after the learner selects and submits this answer. }, { unselected: You can specify optional feedback that appears after the learner clears and submits this answer.}}
-      [ ] an incorrect answer
-      [ ] an incorrect answer {{ selected: You can specify optional feedback for none, all, or a subset of the answers. }, { unselected: You can specify optional feedback for selected answers, cleared answers, or both.}}
-      [x] a correct answer
+      [x] 정답 {{ selected: 학습자가 이 답을 선택하고 제출한 후에 나타나는 선택적 피드백을 지정할 수 있습니다. }, { unselected: 학습자가 이 답변을 지우고 제출하면 나타나는 선택적 피드백을 지정할 수 있습니다.}}
+      [ ] 오답
+      [ ] 오답 {{ selected: 전체 또는 하위 집합에 대한 선택적 피드백을 지정할 수 있습니다. }, { unselected: 삭제된 답변 또는 전체에 대한 선택적 피드백을 지정할 수 있습니다.}}
+      [x] 정답
 
 
-      {{ ((A B D)) You can specify optional feedback for a combination of answers which appears after the specified set of answers is submitted. }}
-      {{ ((A B C D)) You can specify optional feedback for one, several, or all answer combinations. }}
+      {{ ((A B D)) 지정된 답변 집합이 제출된 후 나타나는 답변 조합에 대한 선택적 피드백을 지정할 수 있습니다. }}
+      {{ ((A B C D)) 1개, 여러 개 또는 모든 응답 조합에 대한 선택적 피드백을 지정할 수 있습니다. }}
 
-      ||You can add an optional hint like this. Problems that have a hint include a hint button, and this text appears the first time learners select the button.||
-      ||If you add more than one hint, a different hint appears each time learners select the hint button.||
+      ||이와 같은 선택적 힌트를 추가 할 수 있습니다. 힌트가 있는 문제에는 힌트 버튼이 포함되며 이 텍스트는 학습자가 버튼을 처음 선택할 때 나타납니다.||
+      ||두 개 이상의 힌트를 추가하면 학습자가 힌트 버튼을 선택할 때마다 다른 힌트가 나타납니다.||
 
 
 hinted: true
 data:   |
         <problem>
             <choiceresponse>
-                <p>You can use this template as a guide to the simple editor markdown and OLX markup to use for checkboxes with hints and feedback problems. Edit this component to replace this template with your own assessment.</p>
-                <label>Add the question text, or prompt, here. This text is required.</label>
-                <description>You can add an optional tip or note related to the prompt like this.</description>
+                <p>이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 복수선택지(체크박스) 문제에 힌트나 피드백을 주고자 할 때 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.</p>
+                <label>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.</label>
+                <description>문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다.</description>
                 <checkboxgroup>
-                    <choice correct="true">a correct answer
-                        <choicehint selected="true">You can specify optional feedback that appears after the learner selects and submits this answer.</choicehint>
-                        <choicehint selected="false">You can specify optional feedback that appears after the learner clears and submits this answer.</choicehint>
+                    <choice correct="true">정답
+                        <choicehint selected="true">학습자가 이 답을 선택하고 제출한 후에 나타나는 선택적 피드백을 지정할 수 있습니다.</choicehint>
+                        <choicehint selected="false">학습자가 이 답변을 지우고 제출하면 나타나는 선택적 피드백을 지정할 수 있습니다.</choicehint>
                     </choice>
-                    <choice correct="false">an incorrect answer
+                    <choice correct="false">오답
                     </choice>
-                    <choice correct="false">an incorrect answer
-                        <choicehint selected="true">You can specify optional feedback for none, all, or a subset of the answers.</choicehint>
-                        <choicehint selected="false">You can specify optional feedback for selected answers, cleared answers, or both.</choicehint>
+                    <choice correct="false">오답
+                        <choicehint selected="true">전체 또는 하위 집합에 대한 선택적 피드백을 지정할 수 있습니다.</choicehint>
+                        <choicehint selected="false">삭제된 답변 또는 전체에 대한 선택적 피드백을 지정할 수 있습니다.</choicehint>
                     </choice>
-                    <choice correct="true">a correct answer
+                    <choice correct="true">정답
                     </choice>
-                    <compoundhint value="A B D">You can specify optional feedback for a combination of answers which appears after the specified set of answers is submitted.</compoundhint>
-                    <compoundhint value="A B C D">You can specify optional feedback for one, several, or all answer combinations.</compoundhint>
+                    <compoundhint value="A B D">지정된 답변 집합이 제출된 후 나타나는 답변 조합에 대한 선택적 피드백을 지정할 수 있습니다.</compoundhint>
+                    <compoundhint value="A B C D">1개, 여러 개 또는 모든 응답 조합에 대한 선택적 피드백을 지정할 수 있습니다.</compoundhint>
                 </checkboxgroup>
             </choiceresponse>
 
             <demandhint>
-                <hint>You can add an optional hint like this. Problems that have a hint include a hint button, and this text appears the first time learners select the button.</hint>
-                <hint>If you add more than one hint, a different hint appears each time learners select the hint button.</hint>
+                <hint>이와 같은 선택적 힌트를 추가 할 수 있습니다. 힌트가 있는 문제에는 힌트 버튼이 포함되며 이 텍스트는 학습자가 버튼을 처음 선택할 때 나타납니다.</hint>
+                <hint>두 개 이상의 힌트를 추가하면 학습자가 힌트 버튼을 선택할 때마다 다른 힌트가 나타납니다.</hint>
             </demandhint>
         </problem>

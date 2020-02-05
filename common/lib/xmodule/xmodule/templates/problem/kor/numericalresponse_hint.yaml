@@ -1,29 +1,29 @@
 ---
 metadata:
-    display_name: Numerical Input with Hints and Feedback
+    display_name: 수치 입력(힌트)
     markdown: |
-        You can use this template as a guide to the simple editor markdown and OLX markup to use for numerical input with hints and feedback problems. Edit this component to replace this template with your own assessment.
+        이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 선다형 문제에 힌트나 피드백을 주고자 할 때 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.
 
-        >>Add the question text, or prompt, here. This text is required.||You can add an optional tip or note related to the prompt like this. <<
+        >>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.||문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다. <<
 
-        = 100 +-5 {{You can specify optional feedback like this, which appears after this answer is submitted.}}
+        = 100 +-5 {{이와 같이 선택적 피드백을 지정할 수 있으며, 이는 이 답변이 제출된 후에 나타납니다.}}
 
-        ||You can add an optional hint like this. Problems that have a hint include a hint button, and this text appears the first time learners select the button.||
-        ||If you add more than one hint, a different hint appears each time learners select the hint button.||
+        ||이와 같은 선택적 힌트를 추가 할 수 있습니다. 힌트가 있는 문제에는 힌트 버튼이 포함되며 이 텍스트는 학습자가 버튼을 처음 선택할 때 나타납니다.||
+        ||두 개 이상의 힌트를 추가하면 학습자가 힌트 버튼을 선택할 때마다 다른 힌트가 나타납니다.||
 
 hinted: true
 data:   |
         <problem>
             <numericalresponse answer="100">
-                <p>You can use this template as a guide to the simple editor markdown and OLX markup to use for numerical input with hints and feedback problems. Edit this component to replace this template with your own assessment.</p>
-                <label>Add the question text, or prompt, here. This text is required.</label>
-                <description>You can add an optional tip or note related to the prompt like this.</description>
+                <p>이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 선다형 문제에 힌트나 피드백을 주고자 할 때 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.</p>
+                <label>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.</label>
+                <description>문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다.</description>
                 <responseparam type="tolerance" default="5"/>
                 <formulaequationinput/>
-                <correcthint>You can specify optional feedback like this, which appears after this answer is submitted.</correcthint>
+                <correcthint>이와 같이 선택적 피드백을 지정할 수 있으며, 이는 이 답변이 제출된 후에 나타납니다.</correcthint>
             </numericalresponse>
             <demandhint>
-                <hint>You can add an optional hint like this. Problems that have a hint include a hint button, and this text appears the first time learners select the button.</hint>
-                <hint>If you add more than one hint, a different hint appears each time learners select the hint button.</hint>
+                <hint>이와 같은 선택적 힌트를 추가 할 수 있습니다. 힌트가 있는 문제에는 힌트 버튼이 포함되며 이 텍스트는 학습자가 버튼을 처음 선택할 때 나타납니다.</hint>
+                <hint>두 개 이상의 힌트를 추가하면 학습자가 힌트 버튼을 선택할 때마다 다른 힌트가 나타납니다.</hint>
             </demandhint>
         </problem>
