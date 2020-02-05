@@ -27879,3 +27879,43 @@ msgstr "확장"
 
 msgid "Contract"
 msgstr "접기"
+
+msgid "Video Transcript"
+msgid "Video Transcript"
+msgstr "자막 언어"
+
+msgid "Introduce the Organization with K-MOOC."
+msgstr "K-MOOC와 함께하는 참여기관을 소개합니다."
+
+msgid "K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era."
+msgstr "K-MOOC는 89개의 국내외 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다."
+
+msgid "Type of Organization"
+msgstr "기관유형"
+
+msgid "Participation year"
+msgstr "참여년도"
+
+msgid "Name of Organization"
+msgstr "참여기관명"
+
+msgid "If you select an agency, you will see an introduction to the institution and a course for the registered institution."
+msgstr "기관을 선택하시면 기관 소개와 등록된 기관의 강좌가 보여집니다."
+
+msgid "Organization matching search criteria does not exist"
+msgstr "검색 조건에 일치하는 참여기관이 존재하지 않습니다"
+
+msgid "New Courses"
+msgstr "신규 강좌"
+
+msgid "Popular Courses"
+msgstr "인기 강좌"
+
+msgid "Today Courses"
+msgstr "오늘의 강좌"
+
+msgid "Fourth Industry"
+msgstr "4차 산업형명"
+
+msgid "Job Edu"
+msgstr "직업교육"
