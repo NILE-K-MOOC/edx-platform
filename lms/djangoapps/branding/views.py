@@ -179,7 +179,7 @@ def multisite_index(request, org):
     addinfo = None
 
     if 'multistie_success' in request.session:
-        if request.session['multistie_success'] == 1 and request.user.is_authenticated:
+        if request.session['multistie_success'] == 1 and request.user.is_authenticated and 'multisite_org' in request.session:
             return student.views.management.multisite_index(request, user=request.user)
 
     # 멀티사이트에 온 것을 환영합니다

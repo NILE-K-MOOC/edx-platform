@@ -239,7 +239,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT 
-                    course_id, audit_yn, ribbon_yn, teacher_name
+                    course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name
                 FROM
                     (SELECT 
                         a.course_id,

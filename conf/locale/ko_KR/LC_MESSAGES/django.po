@@ -25747,9 +25747,6 @@ msgstr "강좌 전공"
 msgid "Period of Studing"
 msgstr "학습기간"
 
-msgid "Linguistics"
-msgstr "한국학 여부"
-
 msgid "Effort time must be number"
 msgstr "주간 학습권장시간은 숫자이여야 합니다."
 
@@ -27918,3 +27915,9 @@ msgstr "4차 산업형명"
 
 msgid "Job Edu"
 msgstr "직업교육"
+
+msgid "Linguistics"
+msgstr "한국어(학)"
+
+msgid "Course Demand Survey"
+msgstr "강좌수요조사"

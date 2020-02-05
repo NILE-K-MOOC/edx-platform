@@ -689,13 +689,13 @@ class CourseOverview(TimeStampedModel):
         # 표시 항목 추가 (EXTRA)
         course_overviews = course_overviews.extra(select={
             "teacher_name": """
-                CASE
+                ifnull(CASE
                     WHEN INSTR(teacher_name, ',') = 0 THEN teacher_name
                     ELSE CONCAT(SUBSTRING_INDEX(teacher_name, ',', 1),
                             ' 외 ',
                             LENGTH(teacher_name) - LENGTH(REPLACE(teacher_name, ',', '')),
                             '명')
-                END            
+                END, '')            
             """,
             "org_name": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
             "org_kname": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
