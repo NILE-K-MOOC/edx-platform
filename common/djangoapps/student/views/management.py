@@ -113,6 +113,7 @@ from random import shuffle
 import re
 import os
 from copy import deepcopy
+import time
 
 log = logging.getLogger("edx.student")
 
@@ -238,13 +239,19 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT 
-                    course_id, audit_yn, ribbon_yn, teacher_name
+                    course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name
                 FROM
                     (SELECT 
                         a.course_id,
                             c.audit_yn,
                             IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
-                            IFNULL(c.teacher_name, '') AS teacher_name,
+                            IFNULL(CASE
+                                        WHEN INSTR(c.teacher_name, ',') = 0 THEN c.teacher_name
+                                        ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1),
+                                                ' 외 ',
+                                                LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')),
+                                                '명')
+                                    END, '') AS teacher_name,
                             CASE
                                 WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) THEN 1
                                 WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) THEN 2
@@ -286,8 +293,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             cur.execute(query)
             result_table = cur.fetchall()
 
-            #print "result_table -> ", result_table
-            #print "====================================> 강좌 상태값 연산 시작"
+            # print "result_table -> ", result_table
+            # print "====================================> 강좌 상태값 연산 시작"
 
             # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
             client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
@@ -301,10 +308,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c_org = data_ci[0]
                 c_course = data_ci[1]
                 c_name = data_ci[2]
-
-                #print "c_org -> ", c_org
-                #print "c_course -> ", c_course
-                #print "c_name -> ", c_name
 
                 db = client["edxapp"]
                 cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
@@ -322,29 +325,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 if course_lock == 0:
                     multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                     course_overviews = CourseOverview.objects.get(id=multi_course_id)
-                    #print "course_overviews -> ", course_overviews
-                    #print "------------------------------------"
-                    # 강좌에 audit / ribbon 상태 값 부여
+
                     course_overviews.audit_yn = item[1]
                     course_overviews.ribbon_yn = item[2]
-
-                    try:
-                        if item[3].find(',') != -1:
-                            teacher_name = item[3].split(',')[0]
-                            teacher_name_cnt = len(teacher_name) - 1
-                        else:
-                            teacher_name = item[3]
-                            teacher_name_cnt = 0
-                    except BaseException:
-                        teacher_name = ''
-                        teacher_name_cnt = 0
-
-                    course_overviews.teacher_name = ['', '']
-                    course_overviews.teacher_name[0] = teacher_name
-                    course_overviews.teacher_name[1] = teacher_name_cnt
-
-                    #print "teacher_name -> ", teacher_name
-                    #print "teacher_name_cnt -> ", teacher_name_cnt
+                    course_overviews.teacher_name = item[3]
 
                     # 강좌별 기관명 추가
                     course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
@@ -399,7 +383,14 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
+
+    ! 수정시 mobile_index도 함께 수정
     """
+    start = time.time()
+
+    log.debug('***** def index time check1 [%s]' % format(time.time() - start, ".6f"))
+
+    start = time.time()
 
     if extra_context is None:
         extra_context = {}
@@ -409,32 +400,42 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
     with connections['default'].cursor() as cur:
+        # N: new, P: popular, T:today
         query = '''
             SELECT course_division, course_id
-              FROM tb_main_course;
+              FROM tb_main_course
+             WHERE course_division in ('N', 'P', 'T') 
+              ;
         '''
         cur.execute(query)
         main_course = cur.fetchall()
+
+        log.debug('len(main_course) : {}'.format(len(main_course)))
+
         new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
         pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
         today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
 
     f1 = {'id__in': new_course}
-    log.info(f1)
+    log.debug('***** def index time check1.1.1 [%s]' % format(time.time() - start, ".6f"))
 
     f2 = {'id__in': pop_course}
-    log.info(f2)
+    log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
 
     f3 = {'id__in': today_course}
-    log.info(f3)
+    log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
 
     new_courses = index_courses(user, f1)
     pop_courses = index_courses(user, f2)
     today_courses = index_courses(user, f3)
 
-    log.info(u'len(new_courses) ::: %s', len(new_courses))
-    log.info(u'len(pop_courses) ::: %s', len(pop_courses))
-    log.info(u'len(today_courses) ::: %s', len(today_courses))
+    log.debug('***** def index time check1.3 [%s]' % format(time.time() - start, ".6f"))
+
+    log.debug(u'len(new_courses) ::: %s', len(new_courses))
+    log.debug(u'len(pop_courses) ::: %s', len(pop_courses))
+    log.debug(u'len(today_courses) ::: %s', len(today_courses))
+
+    log.debug('***** def index time check2 [%s]' % format(time.time() - start, ".6f"))
 
     context = {'new_courses': new_courses, 'pop_courses': pop_courses, 'today_courses': today_courses}
 
@@ -457,10 +458,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
 
     # allow for theme override of the boards list
+
     context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
 
     context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
     context['popup_image_base'] = theming_helpers.get_template_path('popup_image_base.html')
+
+    log.debug('***** def index time check3 [%s]' % format(time.time() - start, ".6f"))
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
@@ -579,6 +583,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
     index_list = []
     cur.execute(query)
     row = cur.fetchall()
+
+    log.debug('***** def index time check4 [%s]' % format(time.time() - start, ".6f"))
+
     if len(row) <= 0:
         with connections['default'].cursor() as cur:
             query = """
@@ -694,6 +701,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
         'M': '모바일 더보기'
     }
 
+    log.debug('***** def index time check5 [%s]' % format(time.time() - start, ".6f"))
+
     for i in row:
         comm_dict = dict()
         comm_dict['board_id'] = i[0]
@@ -715,6 +724,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     max_pop = cur.fetchall()
     cur.close()
 
+    log.debug('***** def index time check6 [%s]' % format(time.time() - start, ".6f"))
+
     # popup zone s --------------------------------------------------
     popupzone_query = """
               SELECT seq,
@@ -732,7 +743,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     cur = con.cursor()
     cur.execute(popupzone_query)
     popzone = cur.fetchall()
-    print "popzone_test", popzone
+
+    log.debug('***** def index time check7 [%s]' % format(time.time() - start, ".6f"))
 
     popzone_list = list()
     for idx, zone in enumerate(popzone):
@@ -759,6 +771,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
 
     limit_length = 140 if request.LANGUAGE_CODE == 'ko-kr' else 110
+
+    log.debug('***** def index time check8 [%s]' % format(time.time() - start, ".6f"))
 
     with connections['default'].cursor() as cur:
         query = '''
@@ -787,6 +801,9 @@ def index(request, extra_context=None, user=AnonymousUser()):
         middle_list = [mid for mid in m_classfy_list if mid[0] not in tmp]
         context['middle_list'] = middle_list
         context['random_classfy'] = random_classfy[:sh_idx]
+
+    log.debug('***** def index time check9 [%s]' % format(time.time() - start, ".6f"))
+
     return render_to_response('index.html', context)
 
 
@@ -1225,11 +1242,11 @@ def disable_account_ajax(request):
         if account_action == 'disable':
             user_account.account_status = UserStanding.ACCOUNT_DISABLED
             context['message'] = _("Successfully disabled {}'s account").format(username)
-            log.info(u"%s disabled %s's account", request.user, username)
+            log.debug(u"%s disabled %s's account", request.user, username)
         elif account_action == 'reenable':
             user_account.account_status = UserStanding.ACCOUNT_ENABLED
             context['message'] = _("Successfully reenabled {}'s account").format(username)
-            log.info(u"%s reenabled %s's account", request.user, username)
+            log.debug(u"%s reenabled %s's account", request.user, username)
         else:
             context['message'] = _("Unexpected account status")
             return JsonResponse(context, status=400)
@@ -1268,7 +1285,7 @@ def user_signup_handler(sender, **kwargs):  # pylint: disable=unused-argument
         if site:
             user_signup_source = UserSignupSource(user=kwargs['instance'], site=site)
             user_signup_source.save()
-            log.info(u'user {} originated from a white labeled "Microsite"'.format(kwargs['instance'].id))
+            log.debug(u'user {} originated from a white labeled "Microsite"'.format(kwargs['instance'].id))
 
 
 @transaction.non_atomic_requests
@@ -1437,14 +1454,14 @@ def create_account_with_params(request, params):
             eamap.user = new_user
             eamap.dtsignup = datetime.datetime.now(UTC)
             eamap.save()
-            AUDIT_LOG.info(u"User registered with external_auth %s", new_user.username)
-            AUDIT_LOG.info(u'Updated ExternalAuthMap for %s to be %s', new_user.username, eamap)
+            AUDIT_log.debug(u"User registered with external_auth %s", new_user.username)
+            AUDIT_log.debug(u'Updated ExternalAuthMap for %s to be %s', new_user.username, eamap)
 
             if settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH'):
-                log.info('bypassing activation email')
+                log.debug('bypassing activation email')
                 new_user.is_active = True
                 new_user.save()
-                AUDIT_LOG.info(
+                AUDIT_log.debug(
                     u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
 
     # Check if system is configured to skip activation email for the current user.
@@ -1528,7 +1545,7 @@ def create_account_with_params(request, params):
     # TODO: there is no error checking here to see that the user actually logged in successfully,
     # and is not yet an active user.
     if new_user is not None:
-        AUDIT_LOG.info(u"Login success on new account creation - {0}".format(new_user.username))
+        AUDIT_log.debug(u"Login success on new account creation - {0}".format(new_user.username))
 
     return new_user
 
@@ -1575,7 +1592,7 @@ def skip_activation_email(user, do_external_auth, running_pipeline, third_party_
 
     # log the cases where skip activation email flag is set, but email validity check fails
     if third_party_provider and third_party_provider.skip_email_verification and not valid_email:
-        log.info(
+        log.debug(
             '[skip_email_verification=True][user=%s][pipeline-email=%s][identity_provider=%s][provider_type=%s] '
             'Account activation email sent as user\'s system email differs from SSO email.',
             user.email,
@@ -1822,7 +1839,7 @@ def password_reset(request):
         destroy_oauth_tokens(request.user)
     else:
         # bad user? tick the rate limiter counter
-        AUDIT_LOG.info("Bad password_reset user passed in.")
+        AUDIT_log.debug("Bad password_reset user passed in.")
         limiter.tick_bad_request_counter(request)
 
     return JsonResponse({
@@ -2115,7 +2132,7 @@ def change_email_settings(request):
         optout_object = Optout.objects.filter(user=user, course_id=course_key)
         if optout_object:
             optout_object.delete()
-        log.info(
+        log.debug(
             u"User %s (%s) opted in to receive emails from course %s",
             user.username,
             user.email,
@@ -2129,7 +2146,7 @@ def change_email_settings(request):
         )
     else:
         Optout.objects.get_or_create(user=user, course_id=course_key)
-        log.info(
+        log.debug(
             u"User %s (%s) opted out of receiving emails from course %s",
             user.username,
             user.email,

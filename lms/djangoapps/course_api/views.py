@@ -19,6 +19,7 @@ from .serializers import CourseDetailSerializer, CourseSerializer
 
 import logging
 import subprocess
+from rest_framework.response import Response
 
 log = logging.getLogger(__name__)
 
@@ -49,23 +50,23 @@ def check_api_key(service_key=None):
         if service_key.strip() != key.strip():
             raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
 
-        log.info('check_api_key key [%s]' % key)
-        log.info('check_api_key SG_APIM [%s]' % key)
-        log.info('check_api_key check [%s]' % (key.strip() == service_key.strip()))
+        log.debug('check_api_key key [%s]' % key)
+        log.debug('check_api_key SG_APIM [%s]' % key)
+        log.debug('check_api_key check [%s]' % (key.strip() == service_key.strip()))
 
         res = check_apim_key(key)
-        log.info('check_api_key Res [%s]' % res)
+        log.debug('check_api_key Res [%s]' % res)
 
     except OSError as e:
-        log.info('check_api_key exception --> OSError [%s]' % e.message)
+        log.debug('check_api_key exception --> OSError [%s]' % e.message)
         raise ValidationError('check_api_key OSError [%s]' % e.message)
 
     except ValidationError as e1:
-        log.info('check_api_key exception --> ValidationError [%s]' % e1.message)
+        log.debug('check_api_key exception --> ValidationError [%s]' % e1.message)
         raise ValidationError('check_api_key exception --> ValidationError [%s]' % e1.message)
 
     except Exception as e2:
-        log.info('check_api_key exception --> Exception [%s]' % e2.message)
+        log.debug('check_api_key exception --> Exception [%s]' % e2.message)
         raise ValidationError('check_api_key exception --> Exception [%s]' % e2.message)
 
 
@@ -308,10 +309,23 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
     #   - https://github.com/elastic/elasticsearch/commit/8b0a863d427b4ebcbcfb1dcd69c996c52e7ae05e
     results_size_infinity = 10000
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            # 페이지 처리된 상태에서 데이터를 추가
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+        return Response(data)
+
     def get_queryset(self):
         """
         Return a list of courses visible to the user.
-
         20200113 공공데이터 API 연계를 위한 인증모듈 검증 추가
         """
 

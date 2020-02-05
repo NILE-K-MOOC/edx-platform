@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 MongoDB/GridFS-level code for the contentstore.
 """
@@ -24,10 +24,11 @@ class MongoContentStore(ContentStore):
     """
     MongoDB-backed ContentStore.
     """
+
     # pylint: disable=unused-argument, bad-continuation
     def __init__(
-        self, host, db,
-        port=27017, tz_aware=True, user=None, password=None, bucket='fs', collection=None, **kwargs
+            self, host, db,
+            port=27017, tz_aware=True, user=None, password=None, bucket='fs', collection=None, **kwargs
     ):
         """
         Establish the connection with the mongo backend and connect to the collections
@@ -186,6 +187,7 @@ class MongoContentStore(ContentStore):
                 raise NotFoundError(content_id)
             else:
                 return None
+
     def find_cdn_uuid(self, location, throw_on_not_found=True, as_stream=False):
         '''
         KMOOC UUID find
@@ -200,7 +202,7 @@ class MongoContentStore(ContentStore):
         content_id, __ = self.asset_db_key(location)
         try:
             with self.fs.get(content_id) as fp:
-                return {'uuid': fp.uuid, 'playtime':fp.playtime, 'cdn_url': fp.cdn_url}
+                return {'uuid': fp.uuid, 'playtime': fp.playtime, 'cdn_url': fp.cdn_url}
 
 
         except NoFile:
@@ -208,6 +210,7 @@ class MongoContentStore(ContentStore):
                 raise NotFoundError(content_id)
             else:
                 return None
+
     def delete_cdn(self, location_or_id):
         '''
         CDN MME
@@ -226,14 +229,13 @@ class MongoContentStore(ContentStore):
             course_key, start=start, maxresults=maxresults, get_thumbnails=False, sort=sort, filter_params=filter_params
         )
 
-
     def _get_all_cdn_content_for_course(self,
-                                            course_key,
-                                            get_thumbnails=False,
-                                            start=0,
-                                            maxresults=-1,
-                                            sort=None,
-                                            filter_params=None):
+                                        course_key,
+                                        get_thumbnails=False,
+                                        start=0,
+                                        maxresults=-1,
+                                        sort=None,
+                                        filter_params=None):
         ''' kmooc MME '''
 
         '''
@@ -269,14 +271,9 @@ class MongoContentStore(ContentStore):
             asset['asset_key'] = course_key.make_asset_key(asset_id['category'], asset_id['name'])
         return assets, count
 
-
-
-
-
     @autoretry_read()
     def find(self, location, throw_on_not_found=True, as_stream=False):
         content_id, __ = self.asset_db_key(location)
-        print "find"
 
         try:
             if as_stream:
@@ -419,14 +416,14 @@ class MongoContentStore(ContentStore):
         # See: https://openedx.atlassian.net/browse/EDUCATOR-2221
 
         pipeline_stages = []
-        print "filter_params----------------------D",filter_params
+        print "filter_params----------------------D", filter_params
         query = query_for_course(course_key, 'asset' if not get_thumbnails else 'thumbnail')
 
         if filter_params:
             query.update(filter_params)
         print "query!", query
         pipeline_stages.append({'$match': query})
-        print "pipeline_stages",pipeline_stages
+        print "pipeline_stages", pipeline_stages
 
         if sort:
             sort = dict(sort)
@@ -450,7 +447,7 @@ class MongoContentStore(ContentStore):
                     }
                 })
                 sort = {'insensitive_displayname': sort['displayname']}
-                print "sort",sort
+                print "sort", sort
             pipeline_stages.append({'$sort': sort})
 
         # This is another hack to get the total query result count, but only the Nth page of actual documents
@@ -647,15 +644,15 @@ class MongoContentStore(ContentStore):
         # which can be `uploadDate`, `displayname`,
         # TODO: uncomment this line once this index in prod is cleaned up. See OPS-2863 for tracking clean up.
         #  create_collection_index(
-            #  self.fs_files,
-            #  [
-                #  ('_id.tag', pymongo.ASCENDING),
-                #  ('_id.org', pymongo.ASCENDING),
-                #  ('_id.course', pymongo.ASCENDING),
-                #  ('_id.category', pymongo.ASCENDING)
-            #  ],
-            #  sparse=True,
-            #  background=True
+        #  self.fs_files,
+        #  [
+        #  ('_id.tag', pymongo.ASCENDING),
+        #  ('_id.org', pymongo.ASCENDING),
+        #  ('_id.course', pymongo.ASCENDING),
+        #  ('_id.category', pymongo.ASCENDING)
+        #  ],
+        #  sparse=True,
+        #  background=True
         #  )
         create_collection_index(
             self.fs_files,

@@ -497,7 +497,10 @@ def get_courses(user, org=None, filter_=None):
     filtered by org code (case-insensitive).
     """
     start_time = time.time()
-    is_api = filter_.get('is_api', False)
+    is_api = False
+
+    if filter_:
+        is_api = filter_.get('is_api', False)
 
     log.debug('get_courses time check1 [%s]' % (time.time() - start_time))
     courses = branding.get_visible_courses(org=org, filter_=filter_)

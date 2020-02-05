@@ -133,6 +133,7 @@ from base64 import b64encode
 
 
 def decrypt(key, _iv, enc):
+    enc = enc.replace(' ', '+')
     BLOCK_SIZE = 16  # Bytes
     pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
     unpad = lambda s: s[:-ord(s[len(s) - 1:])]
@@ -180,7 +181,7 @@ def multisite_index(request, org):
     log.info('multisite check multistie_success [%s]' % 'multistie_success' in request.session)
 
     if 'multistie_success' in request.session:
-        if request.session['multistie_success'] == 1 and request.user.is_authenticated:
+        if request.session['multistie_success'] == 1 and request.user.is_authenticated and 'multisite_org' in request.session:
             return student.views.management.multisite_index(request, user=request.user)
 
     # 멀티사이트에 온 것을 환영합니다
@@ -544,8 +545,6 @@ def index(request):
 
     if request.session.get('multisite_addinfo'):
         del request.session['multisite_addinfo']
-
-    print "request.user.is_authenticated", request.user.is_authenticated
 
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has
