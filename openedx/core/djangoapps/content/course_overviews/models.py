@@ -37,6 +37,7 @@ from django.db.models.functions import Coalesce
 import datetime
 import pytz
 from django.utils import timezone
+import time
 
 log = logging.getLogger(__name__)
 
@@ -279,6 +280,11 @@ class CourseOverview(TimeStampedModel):
 
     @classmethod
     def get_from_id(cls, course_id):
+
+        start = time.time()
+
+        log.debug('***** def get_from_id time check1 [%s]' % format(time.time() - start, ".6f"))
+
         """
         Load a CourseOverview object for a given course ID.
 
@@ -308,11 +314,70 @@ class CourseOverview(TimeStampedModel):
         except cls.DoesNotExist:
             course_overview = None
 
+        log.debug('***** def get_from_id time check2 [%s]' % format(time.time() - start, ".6f"))
+
         # Regenerate the thumbnail images if they're missing (either because
         # they were never generated, or because they were flushed out after
         # a change to CourseOverviewImageConfig.
         if course_overview and not hasattr(course_overview, 'image_set'):
             CourseOverviewImageSet.create(course_overview)
+
+        log.debug('***** def get_from_id time check3 [%s]' % format(time.time() - start, ".6f"))
+
+        if course_overview:
+
+            try:
+
+                log.debug('***** def get_from_id time check4 [%s]' % format(time.time() - start, ".6f"))
+                from courseware.models import CourseOverviewAddinfo, CodeDetail
+                addinfo = CourseOverviewAddinfo.objects.get(course_id=course_overview.id)
+
+                course_overview.teachers = addinfo.teacher_name
+                course_overview.classfy = addinfo.classfy
+                course_overview.middle_classfy = addinfo.middle_classfy
+                course_overview.level = addinfo.course_level
+                course_overview.passing_grade = course_overview.lowest_passing_grade
+                course_overview.audit_yn = addinfo.audit_yn
+                course_overview.fourth_industry_yn = addinfo.fourth_industry_yn
+                course_overview.ribbon_yn = addinfo.ribbon_yn
+                course_overview.job_edu_yn = addinfo.job_edu_yn
+                course_overview.linguistics = addinfo.linguistics
+                course_overview.classfy_name = CodeDetail.objects.get(group_code='001', detail_code=addinfo.classfy).detail_name
+                course_overview.middle_classfy_name = CodeDetail.objects.get(group_code='002', detail_code=addinfo.middle_classfy).detail_name
+                course_overview.org_name = CodeDetail.objects.get(group_code='003', detail_code=course_overview.org).detail_name
+                course_overview.language_name = '한국어' if course_overview.language == 'ko' else \
+                    '영어' if course_overview.language == 'en' else \
+                        '일본어' if course_overview.language == 'ja' else \
+                            '프랑스어' if course_overview.language == 'fr' else \
+                                course_overview.language
+                course_overview.effort_time = str(course_overview.effort)[0:5]
+                course_overview.week = str(course_overview.effort)[6:8]
+                course_overview.video_time = str(course_overview.effort)[9:14]
+                course_overview.learning_time = str(course_overview.effort)[15:]
+
+                log.debug('***** def get_from_id time check5 [%s]' % format(time.time() - start, ".6f"))
+            except Exception as e:
+                course_overview.teachers = ''
+                course_overview.classfy = ''
+                course_overview.middle_classfy = ''
+                course_overview.level = ''
+                course_overview.audit_yn = ''
+                course_overview.fourth_industry_yn = ''
+                course_overview.ribbon_yn = ''
+                course_overview.job_edu_yn = ''
+                course_overview.linguistics = ''
+                course_overview.classfy_name = ''
+                course_overview.middle_classfy_name = ''
+                course_overview.org_name = ''
+                course_overview.language_name = ''
+                course_overview.effort_time = ''
+                course_overview.week = ''
+                course_overview.video_time = ''
+                course_overview.learning_time = ''
+
+                log.debug('CourseOverview get_from_id e.message [%s]' % e.message)
+
+        log.debug('***** def get_from_id get_from_id check6 [%s]' % format(time.time() - start, ".6f"))
 
         return course_overview or cls.load_from_module_store(course_id)
 
