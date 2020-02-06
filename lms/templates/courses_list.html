@@ -6,7 +6,7 @@
   <section class="highlighted-courses" tabindex="-1">
     <span tabindex="-1">
 		  <i class="kr01_iconarea" style=" " tabindex="-1"><img alt="" src="/static/images/main/kr_title02.png" tabindex="-1"></i>
-		  <span class="kr01_icontTitle" tabindex="-1">신규강좌</span>
+		  <span class="kr01_icontTitle" tabindex="-1">${_("New Courses")}</span>
 	  </span>
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
       <section class="courses kr01_movie_slider" tabindex="-1">
@@ -31,7 +31,7 @@
   <section class="highlighted-courses">
 	<span>
 		<i class="kr01_iconarea" style=" "><img alt="" src="/static/images/main/kr_title03.png"></i>
-		<span class="kr01_icontTitle">인기강좌</span>
+		<span class="kr01_icontTitle">${_("Popular Courses")}</span>
 	</span>
     <section  class="courses kr01_movie_slider">
       <ul class="course-card-slider bxslider" id="sub_slider">
@@ -50,8 +50,8 @@
 <section class="courses-container bg-w">
   <section class="highlighted-courses">
 	<span>
-		<i class="kr01_iconarea" style=" "><img alt="" src="/static/images/main/kr_title04.png"></i>
-		<span class="kr01_icontTitle">오늘의 강좌</span>
+		<i class="kr01_iconarea" style=" "><img class="kr01_iconarea_today" alt="" src="/static/images/main/kr_title04.png"></i>
+		<span class="kr01_icontTitle">${_("Today Courses")}</span>
 	</span>
     <section  class="courses kr01_movie_slider">
       <ul class="course-card-slider bxslider" id="today_slider">

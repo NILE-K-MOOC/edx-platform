@@ -23,9 +23,6 @@ class TbBoard(models.Model):
         db_table = 'tb_board'
         app_label = 'kotech_community'
 
-    def __init__(self):
-        log.info('TbBoard init [%s]' % __name__)
-
 
 class TbAttach(models.Model):
     group_name = models.CharField(max_length=255, blank=True, null=True)
