@@ -25752,9 +25752,6 @@ msgstr "강좌 전공"
 msgid "Period of Studing"
 msgstr "학습기간"
 
-msgid "Linguistics"
-msgstr "한국학 여부"
-
 msgid "Effort time must be number"
 msgstr "주간 학습권장시간은 숫자이여야 합니다."
 
@@ -26953,6 +26950,12 @@ msgstr "한남대학교"
 msgid "KOHI"
 msgstr "한국보건복지인력개발원"
 
+msgid "UNIEDU"
+msgstr "통일부 통일교육원"
+
+msgid "SillaUniv"
+msgstr "신라대학교"
+
 msgid "Please use your most frequently used e-mails to activate your account, log in, and change your password."
 msgstr "계정활성화, 로그인, 비밀번호 변경 등에 사용되오니 자주 사용하는 이메일로 적어주세요."
 
@@ -27908,3 +27911,24 @@ msgstr "기관을 선택하시면 기관 소개와 등록된 기관의 강좌가
 
 msgid "Organization matching search criteria does not exist"
 msgstr "검색 조건에 일치하는 참여기관이 존재하지 않습니다"
+
+msgid "New Courses"
+msgstr "신규 강좌"
+
+msgid "Popular Courses"
+msgstr "인기 강좌"
+
+msgid "Today Courses"
+msgstr "오늘의 강좌"
+
+msgid "Fourth Industry"
+msgstr "4차 산업형명"
+
+msgid "Job Edu"
+msgstr "직업교육"
+
+msgid "Linguistics"
+msgstr "한국어(학)"
+
+msgid "Course Demand Survey"
+msgstr "강좌수요조사"

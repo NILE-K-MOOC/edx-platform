@@ -52,15 +52,6 @@ from track import views as track_views
 from util import views as util_views
 from courseware import courses as courses
 
-LogAction()
-if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
-    django_autodiscover()
-    admin.site.site_header = _('LMS Administration')
-    admin.site.site_title = admin.site.site_header
-    if password_policy_compliance.should_enforce_compliance_on_login():
-        admin.site.login_form = PasswordPolicyAwareAdminAuthForm
-
-
 '''
 개발 시에 모듈을 기능별로 분리하여 개발하십시오
 아래 모듈에 기생하지 마십시오
@@ -73,41 +64,49 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 
 # Custom Directory APP
 # made by kotech system
-from lms.djangoapps.maeps import views as maeps                         # Markani Solution APP
-from lms.djangoapps.kotech_common import views as kotech_common         # Common APP
-from lms.djangoapps.kotech_survey import views as kotech_survey         # Course Satisfaction Survey APP
-from lms.djangoapps.kotech_series import views as kotech_series         # Series Course APP
-from lms.djangoapps.kotech_memo import views as kotech_memo             # Memo APP
-from lms.djangoapps.kotech_community import views as kotech_community   # Community APP
-from lms.djangoapps.kotech_lifelong import views as kotech_lifelong     # Lifelong APP
+from maeps import views as maeps                               # Markani Solution APP
+from kotech_common import views as kotech_common_views         # Common APP
+from kotech_survey import views as kotech_survey_views         # Course Satisfaction Survey APP
+from kotech_series import views as kotech_series_views         # Series Course APP
+from kotech_memo import views as kotech_memo_views             # Memo APP
+from kotech_community import views as kotech_community_views   # Community APP
+from kotech_lifelong import views as kotech_lifelong_views     # Lifelong APP
+
+LogAction()
+if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
+    django_autodiscover()
+    admin.site.site_header = _('LMS Administration')
+    admin.site.site_title = admin.site.site_header
+    if password_policy_compliance.should_enforce_compliance_on_login():
+        admin.site.login_form = PasswordPolicyAwareAdminAuthForm
+
+
+
 
 
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
 
-
-
-
     # Common
     # made by kotech system
-    url(r'^api/get_org_value$', kotech_common.get_org_value, name='get_org_value'),
+    url(r'^api/get_org_value$', kotech_common_views.get_org_value, name='get_org_value'),
 
 
     # Course Satisfaction Survey
     # made by kotech system
-    url(r'^course_satisfaction_survey/$', kotech_survey.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
-    url(r'^api_course_satisfaction_survey/$', kotech_survey.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
+    url(r'^course_satisfaction_survey/$', kotech_survey_views.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
+    url(r'^api_course_satisfaction_survey/$', kotech_survey_views.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
 
 
     # Series
     # made by kotech system
-    url(r'^new_dashboard$', kotech_series.new_dashboard, name='new_dashboard'),
-    url(r'^series_print/(?P<id>.*?)/$', kotech_series.series_print, name='series_print'),
-    url(r'^series/$', kotech_series.series, name='series'),
-    url(r'^series_view/(?P<id>.*?)/about/$', kotech_series.series_about, name='series_about'),
-    url(r'^series_view/(?P<id>.*?)/enroll$', kotech_series.series_enroll, name='series_enroll'),
-    url(r'^series_view/(?P<id>.*?)/$', kotech_series.series_view, name='series_view'),
-    url(r'^api/series_cancel$', kotech_series.series_cancel, name='series_cancel'),
+    url(r'^new_dashboard$', kotech_series_views.new_dashboard, name='new_dashboard'),
+    url(r'^series_print/(?P<id>.*?)/$', kotech_series_views.series_print, name='series_print'),
+    url(r'^series/$', kotech_series_views.series, name='series'),
+    url(r'^series_view/(?P<id>.*?)/about/$', kotech_series_views.series_about, name='series_about'),
+    url(r'^series_view/(?P<id>.*?)/enroll$', kotech_series_views.series_enroll, name='series_enroll'),
+    url(r'^series_view/(?P<id>.*?)/$', kotech_series_views.series_view, name='series_view'),
+    url(r'^api/series_cancel$', kotech_series_views.series_cancel, name='series_cancel'),
     url(r'series_print$', maeps.series_print, name='series_print'),
 
 
@@ -120,31 +119,29 @@ urlpatterns = [
     url(r'^dashboard_memo_read$', kotech_memo.dashboard_memo_read, name='dashboard_memo_read'),
     url(r'^dashboard_memo_detail$', kotech_memo.dashboard_memo_detail, name='dashboard_memo_detail'),
 
-
-
     # Xinics Login
     # made by kotech system
-    url(r'^api/cb/login_check', kotech_community.cb_login_check, name="cb_login_check"),
+    url(r'^api/cb/login_check', kotech_community_views.cb_login_check, name="cb_login_check"),
 
 
     # Community
     # made by kotech system
-    url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', kotech_community.comm_list, name='comm_list'),
-    url(r'^comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', kotech_community.comm_view, name='comm_view'),
-    url(r'^comm_tabs/(?P<head_title>.*?)/$', kotech_community.comm_tabs, name='comm_tabs'),
-    url(r'^comm_file/(?P<file_id>.*?)/$', kotech_community.comm_file, name='comm_file'),
-    url(r'^comm_notice$', kotech_community.comm_notice, name='comm_notice'),
-    url(r'^comm_notice_view/(?P<board_id>.*?)/$', kotech_community.comm_notice_view, name='comm_notice_view'),
-    url(r'^comm_repository$', kotech_community.comm_repository, name='comm_repository'),
-    url(r'^comm_repo_view/(?P<board_id>.*?)/$', kotech_community.comm_repo_view, name='comm_repo_view'),
-    url(r'^comm_mobile$', kotech_community.comm_mobile, name='comm_mobile'),
-    url(r'^comm_mobile_view/(?P<board_id>.*?)/$', kotech_community.comm_mobile_view, name='comm_mobile_view'),
-    url(r'^comm_faq/(?P<head_title>.*?)/$', kotech_community.comm_faq, name='comm_faq'),
-    url(r'^comm_faqrequest/$', kotech_community.comm_faqrequest, name='comm_faqrequest'),
-    url(r'^comm_faqrequest/(?P<head_title>.*?)/$', kotech_community.comm_faqrequest, name='comm_faqrequest'),
-    url(r'^comm_k_news$', kotech_community.comm_k_news, name='comm_k_news'),
-    url(r'^comm_k_news_view/(?P<board_id>.*?)/$', kotech_community.comm_k_news_view, name='comm_k_news_view'),
-    url(r'^comm_list_json$', kotech_community.comm_list_json, name='comm_list_json'),
+    url(r'^comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', kotech_community_views.comm_list, name='comm_list'),
+    url(r'^comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', kotech_community_views.comm_view, name='comm_view'),
+    url(r'^comm_tabs/(?P<head_title>.*?)/$', kotech_community_views.comm_tabs, name='comm_tabs'),
+    url(r'^comm_file/(?P<file_id>.*?)/$', kotech_community_views.comm_file, name='comm_file'),
+    url(r'^comm_notice$', kotech_community_views.comm_notice, name='comm_notice'),
+    url(r'^comm_notice_view/(?P<board_id>.*?)/$', kotech_community_views.comm_notice_view, name='comm_notice_view'),
+    url(r'^comm_repository$', kotech_community_views.comm_repository, name='comm_repository'),
+    url(r'^comm_repo_view/(?P<board_id>.*?)/$', kotech_community_views.comm_repo_view, name='comm_repo_view'),
+    url(r'^comm_mobile$', kotech_community_views.comm_mobile, name='comm_mobile'),
+    url(r'^comm_mobile_view/(?P<board_id>.*?)/$', kotech_community_views.comm_mobile_view, name='comm_mobile_view'),
+    url(r'^comm_faq/(?P<head_title>.*?)/$', kotech_community_views.comm_faq, name='comm_faq'),
+    url(r'^comm_faqrequest/$', kotech_community_views.comm_faqrequest, name='comm_faqrequest'),
+    url(r'^comm_faqrequest/(?P<head_title>.*?)/$', kotech_community_views.comm_faqrequest, name='comm_faqrequest'),
+    url(r'^comm_k_news$', kotech_community_views.comm_k_news, name='comm_k_news'),
+    url(r'^comm_k_news_view/(?P<board_id>.*?)/$', kotech_community_views.comm_k_news_view, name='comm_k_news_view'),
+    url(r'^comm_list_json$', kotech_community_views.comm_list_json, name='comm_list_json'),
 
 
     # Lifelong API
