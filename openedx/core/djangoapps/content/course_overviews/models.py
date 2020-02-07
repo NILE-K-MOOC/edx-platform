@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Declaration of CourseOverview model
 """
@@ -30,10 +31,13 @@ from xmodule.modulestore.django import modulestore
 from util.date_utils import strftime_localized
 from pytz import utc
 from django.utils.translation import ugettext
-from django.db.models import Q, Count
+from django.db.models import F, Q, Value as V, Count
+from django.db.models.functions import Coalesce
+
 import datetime
 import pytz
 from django.utils import timezone
+import time
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +57,7 @@ class CourseOverview(TimeStampedModel):
     class Meta(object):
         app_label = 'course_overviews'
 
-    classfy = None
+    # classfy = None
 
     # IMPORTANT: Bump this whenever you modify this model and/or add a migration.
     VERSION = 6
@@ -157,10 +161,10 @@ class CourseOverview(TimeStampedModel):
 
         course_overview = cls.objects.filter(id=course.id)
         if course_overview.exists():
-            log.info('Updating course overview for %s.', unicode(course.id))
+            log.debug('Updating course overview for %s.', unicode(course.id))
             course_overview = course_overview.first()
         else:
-            log.info('Creating course overview for %s.', unicode(course.id))
+            log.debug('Creating course overview for %s.', unicode(course.id))
             course_overview = cls()
 
         course_overview.version = cls.VERSION
@@ -276,6 +280,11 @@ class CourseOverview(TimeStampedModel):
 
     @classmethod
     def get_from_id(cls, course_id):
+
+        start = time.time()
+
+        log.debug('***** def get_from_id time check1 [%s]' % format(time.time() - start, ".6f"))
+
         """
         Load a CourseOverview object for a given course ID.
 
@@ -305,11 +314,70 @@ class CourseOverview(TimeStampedModel):
         except cls.DoesNotExist:
             course_overview = None
 
+        log.debug('***** def get_from_id time check2 [%s]' % format(time.time() - start, ".6f"))
+
         # Regenerate the thumbnail images if they're missing (either because
         # they were never generated, or because they were flushed out after
         # a change to CourseOverviewImageConfig.
         if course_overview and not hasattr(course_overview, 'image_set'):
             CourseOverviewImageSet.create(course_overview)
+
+        log.debug('***** def get_from_id time check3 [%s]' % format(time.time() - start, ".6f"))
+
+        if course_overview:
+
+            try:
+
+                log.debug('***** def get_from_id time check4 [%s]' % format(time.time() - start, ".6f"))
+                from courseware.models import CourseOverviewAddinfo, CodeDetail
+                addinfo = CourseOverviewAddinfo.objects.get(course_id=course_overview.id)
+
+                course_overview.teachers = addinfo.teacher_name
+                course_overview.classfy = addinfo.classfy
+                course_overview.middle_classfy = addinfo.middle_classfy
+                course_overview.level = addinfo.course_level
+                course_overview.passing_grade = course_overview.lowest_passing_grade
+                course_overview.audit_yn = addinfo.audit_yn
+                course_overview.fourth_industry_yn = addinfo.fourth_industry_yn
+                course_overview.ribbon_yn = addinfo.ribbon_yn
+                course_overview.job_edu_yn = addinfo.job_edu_yn
+                course_overview.linguistics = addinfo.linguistics
+                course_overview.classfy_name = CodeDetail.objects.get(group_code='001', detail_code=addinfo.classfy).detail_name
+                course_overview.middle_classfy_name = CodeDetail.objects.get(group_code='002', detail_code=addinfo.middle_classfy).detail_name
+                course_overview.org_name = CodeDetail.objects.get(group_code='003', detail_code=course_overview.org).detail_name
+                course_overview.language_name = '한국어' if course_overview.language == 'ko' else \
+                    '영어' if course_overview.language == 'en' else \
+                        '일본어' if course_overview.language == 'ja' else \
+                            '프랑스어' if course_overview.language == 'fr' else \
+                                course_overview.language
+                course_overview.effort_time = str(course_overview.effort)[0:5]
+                course_overview.week = str(course_overview.effort)[6:8]
+                course_overview.video_time = str(course_overview.effort)[9:14]
+                course_overview.learning_time = str(course_overview.effort)[15:]
+
+                log.debug('***** def get_from_id time check5 [%s]' % format(time.time() - start, ".6f"))
+            except Exception as e:
+                course_overview.teachers = ''
+                course_overview.classfy = ''
+                course_overview.middle_classfy = ''
+                course_overview.level = ''
+                course_overview.audit_yn = ''
+                course_overview.fourth_industry_yn = ''
+                course_overview.ribbon_yn = ''
+                course_overview.job_edu_yn = ''
+                course_overview.linguistics = ''
+                course_overview.classfy_name = ''
+                course_overview.middle_classfy_name = ''
+                course_overview.org_name = ''
+                course_overview.language_name = ''
+                course_overview.effort_time = ''
+                course_overview.week = ''
+                course_overview.video_time = ''
+                course_overview.learning_time = ''
+
+                log.debug('CourseOverview get_from_id e.message [%s]' % e.message)
+
+        log.debug('***** def get_from_id get_from_id check6 [%s]' % format(time.time() - start, ".6f"))
 
         return course_overview or cls.load_from_module_store(course_id)
 
@@ -329,9 +397,9 @@ class CourseOverview(TimeStampedModel):
             overview.id: overview
             for overview
             in cls.objects.select_related('image_set').filter(
-                id__in=course_ids,
-                version__gte=cls.VERSION
-            )
+            id__in=course_ids,
+            version__gte=cls.VERSION
+        )
         }
 
     @classmethod
@@ -473,6 +541,7 @@ class CourseOverview(TimeStampedModel):
             ugettext,
             strftime_localized
         )
+
     @property
     def start_date_is_still_default(self):
         """
@@ -564,7 +633,7 @@ class CourseOverview(TimeStampedModel):
                 whether the requested CourseOverview objects should be
                 forcefully updated (i.e., re-synched with the modulestore).
         """
-        log.info('Generating course overview for %d courses.', len(course_keys))
+        log.debug('Generating course overview for %d courses.', len(course_keys))
         log.debug('Generating course overview(s) for the following courses: %s', course_keys)
 
         action = CourseOverview.load_from_module_store if force_update else CourseOverview.get_from_id
@@ -579,7 +648,7 @@ class CourseOverview(TimeStampedModel):
                     text_type(ex),
                 )
 
-        log.info('Finished generating course overviews.')
+        log.debug('Finished generating course overviews.')
 
     @classmethod
     def get_all_courses(cls, org=None, filter_=None):
@@ -594,60 +663,155 @@ class CourseOverview(TimeStampedModel):
         # Note: If a newly created course is not returned in this QueryList,
         # make sure the "publish" signal was emitted when the course was
         # created. For tests using CourseFactory, use emit_signals=True.
-        if org:
-            print 'org:', org
+
+        # global variables
+        order = '-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name'
+        utcnow = timezone.now()
+        is_api = False
+
+        if filter_ and 'is_api' in filter_:
+            is_api = filter_.get('is_api')
+            filter_.pop('is_api')
+
+        log.debug('is_api = %s' % is_api)
+
+        if is_api:
+            if not filter_:
+                filter_ = {}
+
+            if org:
+                filter_.update(org=org)
+
+            course_overviews = CourseOverview \
+                .objects \
+                .filter(**filter_) \
+                .filter(visible_to_staff_only=False, catalog_visibility='both') \
+                .filter(Q(enrollment_end__isnull=True) | Q(start__lt=utcnow) | Q(enrollment_start__lte=utcnow, enrollment_end__gte=utcnow))
+
+        elif org:
             if org == 'ACEk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='FA.HGU01')).order_by(*order)
 
             elif org == 'COREk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(
-                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
-                            id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(
+                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(
+                            id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
+                            id__icontains='HYUKMOOC2016-5k')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(
-                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
-                            id__icontains='HYUKMOOC2016-5k')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(
+                        Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org) | Q(id__icontains='SKKU_COS2021.01K') | Q(id__icontains='SKKU_COS2022.01K') | Q(
+                            id__icontains='SKKU_NTST100.01K') | Q(id__icontains='HYUKMOOC2016-4k') | Q(
+                            id__icontains='HYUKMOOC2016-5k')).order_by(*order)
 
             elif org == 'CKk' or org == 'KOCWk':
                 org = org.replace('k', '')
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(id__icontains='%s.' % org) | Q(id__icontains='%s_' % org)).order_by(*order)
 
             elif org == 'SNUk' or org == 'POSTECHk' or org == 'KAISTk':
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SKP')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SKP')).order_by(*order)
             elif org == 'SMUk':
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(Q(org__iexact=org) | Q(id__icontains='SMUCk')).order_by(*order)
 
             else:
                 if filter_:
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(org__iexact=org).filter(**filter_).order_by(*order)
                 else:
-                    course_overviews = CourseOverview.objects.all().filter(org__iexact=org).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                    course_overviews = CourseOverview.objects.filter(org__iexact=org).order_by(*order)
 
         else:
-
             if filter_ and 'mobile_available' in filter_ and filter_['mobile_available'] is True:
-                course_overviews = CourseOverview.objects.all().filter(**filter_).order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
-                course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= timezone.now() <= c.enrollment_end]
+                course_overviews = CourseOverview.objects.filter(**filter_).order_by(*order)
+                course_overviews = [c for c in course_overviews if not c.has_ended() and c.enrollment_start and c.enrollment_end and c.enrollment_start <= utcnow <= c.enrollment_end]
             elif filter_:
                 course_overviews = CourseOverview.objects.filter(**filter_)
             else:
-                course_overviews = CourseOverview.objects.all().order_by('-enrollment_start', '-start', '-enrollment_end', '-end', 'display_name')
+                course_overviews = CourseOverview.objects.all().order_by(*order)
 
+        # 표시 항목 추가 (ORM)
+        course_overviews = course_overviews.annotate(
+            teachers=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('')),
+            classfy=Coalesce(F('courseoverviewaddinfo__classfy'), V('')),
+            middle_classfy=Coalesce(F('courseoverviewaddinfo__middle_classfy'), V('')),
+            level=Coalesce(F('courseoverviewaddinfo__course_level'), V('')),
+            passing_grade=Coalesce(F('lowest_passing_grade'), V('')),
+            audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
+            fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
+            ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
+            job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
+            linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
+        )
+
+        # 표시 항목 추가 (EXTRA)
+        course_overviews = course_overviews.extra(select={
+            "teacher_name": """
+                ifnull(CASE
+                    WHEN INSTR(teacher_name, ',') = 0 THEN teacher_name
+                    ELSE CONCAT(SUBSTRING_INDEX(teacher_name, ',', 1),
+                            ' 외 ',
+                            LENGTH(teacher_name) - LENGTH(REPLACE(teacher_name, ',', '')),
+                            '명')
+                END, '')            
+            """,
+            "org_name": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "org_kname": "select detail_name from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "org_ename": "select detail_ename from code_detail where group_code = '003' and detail_code = course_overviews_courseoverview.org",
+            "classfy_name": """
+                select detail_name 
+                  from code_detail, course_overview_addinfo 
+                 where course_overviews_courseoverview.id = course_overview_addinfo.course_id 
+                   and code_detail.group_code = '001' 
+                   and code_detail.detail_code = course_overview_addinfo.classfy
+            """,
+            "middle_classfy_name": """
+                select detail_name 
+                  from code_detail, course_overview_addinfo 
+                 where course_overviews_courseoverview.id = course_overview_addinfo.course_id 
+                   and code_detail.group_code = '002' 
+                   and code_detail.detail_code = course_overview_addinfo.middle_classfy
+            """,
+            "language_name": """
+                CASE language
+                    WHEN 'ko' THEN '한국어'
+                    WHEN 'en' THEN '영어'
+                    WHEN 'fr' THEN '프랑스어'
+                    WHEN 'zh_HANS' THEN '중국어 간체'
+                    WHEN 'zh_HANT' THEN '중국어 번체'
+                    ELSE language
+                END
+            """,
+            "learning_time": "SUBSTRING_INDEX(effort, '@', 1)",
+            "effort_time": "SUBSTRING_INDEX(effort, '$', - 1)",
+            "video_time": "substr(effort, instr(effort, '#') + 1, instr(effort, '$') - instr(effort, '#') - 1)",
+            "week": "SUBSTR(effort, INSTR(effort, '@') + 1, INSTR(effort, '#') - INSTR(effort, '@') - 1)",
+            "status": """
+                CASE
+                    WHEN UTC_TIMESTAMP < start THEN 'ready'
+                    WHEN UTC_TIMESTAMP BETWEEN start AND `end` THEN 'ing'
+                    WHEN UTC_TIMESTAMP > `end` THEN 'end'
+                    ELSE 'none'
+                END
+            """,
+        })
+
+        # print 'len ------------------------------------------------>', course_overviews.count()
+        log.debug(course_overviews.query)
+
+        # log.debug(course_overviews.query)
         return course_overviews
 
     def start_datetime_text(self, format_string="SHORT_DATE", time_zone=utc):

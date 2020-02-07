@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 import urllib
 import requests
@@ -60,7 +59,8 @@ from courseware.courses import (
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
-from courseware.models import BaseStudentModuleHistory, StudentModule, CodeDetail
+from courseware.models import BaseStudentModuleHistory, StudentModule, CodeDetail, Multisite, MultisiteMember
+from kotech_community.models import TbAttach
 from courseware.url_helpers import get_redirect_url
 from courseware.user_state_client import DjangoXBlockUserStateClient
 from edxmako.shortcuts import marketing_link, render_to_response, render_to_string
@@ -112,20 +112,12 @@ from xmodule.x_module import STUDENT_VIEW
 from ..entrance_exams import user_can_skip_entrance_exam
 from ..module_render import get_module, get_module_by_usage_id, get_module_for_descriptor
 from ..context_processor import user_timezone_locale_prefs
-from django.utils.translation import get_language, to_locale, ugettext_lazy
-from courseware.date_summary import (
-    CourseEndDate,
-    CourseStartDate,
-    TodaysDate,
-    VerificationDeadlineDate,
-    VerifiedUpgradeDeadlineDate,
-    CertificateAvailableDate
-)
 from pytz import timezone
-
+from urlparse import urlparse, parse_qs
+import traceback
+from django.core.exceptions import ObjectDoesNotExist
 
 log = logging.getLogger("edx.courseware")
-
 
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
@@ -612,6 +604,85 @@ class CourseTabView(EdxFragmentView):
         Displays a course tab page that contains a web fragment.
         """
         course_key = CourseKey.from_string(course_id)
+
+        if not request.user.is_authenticated:
+
+            encStr = request.GET.get('encStr')
+            org = request.GET.get('org')
+
+            # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
+            if org and encStr:
+                from branding.views import decrypt, login
+
+
+                try:
+                    multisite = Multisite.objects.get(site_code=org)
+                    key = multisite.encryption_key
+                    logo_img_id = multisite.logo_img
+
+                    try:
+                        raw_data = decrypt(key, key, encStr)
+                    except Exception as e:
+                        raw_data = None
+                        log.info(traceback.format_exc(e))
+
+                    if raw_data:
+                        user_id = None
+                        params = parse_qs(raw_data)
+
+                        site_id = multisite.site_id
+                        org_user_id = params.get('userid')
+
+                        # parse_qs 자체는 value 를 리스트로 변환하여 반환하기 때문에 다음의 코드가 필요
+                        if org_user_id:
+                            org_user_id = org_user_id[0]
+
+                        # org 와 기관내 사번으로 등록된 사용자가 있는지 확인하여 없다면 등록을 위해 세션에 정보 저장
+                        try:
+                            # multisite_member 에 사번과 동일한 사용자가 있는지 확인. params.get('user_id') 의 값은 기관의 사번
+                            multisite_member = MultisiteMember.objects.get(site_id=site_id, org_user_id=org_user_id)
+                            user_id = multisite_member.user_id
+
+                        except ObjectDoesNotExist as e3:
+                            # 데이터가 없다면 세션에 정보를 저장
+                            log.info('CourseTabView ObjectDoesNotExist [%s]' % e3.message)
+
+                            if org:
+                                request.session['multisite_org'] = org
+
+                            if org_user_id:
+                                request.session['multisite_userid'] = org_user_id
+
+                            # save_path 도 세션에 저장
+                            # '/static/images/no_images_large.png'
+
+                            # 로그인 화면으로 리다이렉트
+                            from student.helpers import get_next_url_for_login_page
+
+                            redirect_url = get_next_url_for_login_page(request)
+
+                            path = str(request.path)
+                            # return redirect('/login?next=' + urllib.urlencode(path))
+                            enc_path = urllib.quote_plus(path)
+                            return redirect('/login?next=' + enc_path)
+
+                            # traceback.format_exc(e)
+
+                        except Exception as e4:
+                            log.info('CourseTabView Exception [%s]' % e4.message)
+
+                        if user_id:
+                            user = User.objects.get(pk=user_id)
+                            user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                            login(request, user)
+
+                        pass
+
+                except ObjectDoesNotExist as e:
+                    pass
+                except Exception as e1:
+                    pass
+
         with modulestore().bulk_operations(course_key):
             course = get_course_with_access(request.user, 'load', course_key)
             try:
@@ -1179,7 +1250,7 @@ def course_about(request, course_id):
         # org name
         try:
             org_model = CodeDetail.objects.get(group_code='003', use_yn='Y', delete_yn='N',
-                                                    detail_code=course_details.org)
+                                               detail_code=course_details.org)
             org_name = org_model.detail_name if request.LANGUAGE_CODE == 'ko-kr' else org_model.detail_ename
         except CodeDetail.DoesNotExist:
             org_name = course_details.org
@@ -1395,8 +1466,10 @@ def course_about(request, course_id):
                 audit_flag = 'N'
 
         # 유사강좌 -> 백엔드 로직 시작
-        LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
-        # LMS_BASE = '127.0.0.1:18000' # TEST
+        # LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
+        # LMS_BASE = 'www.kmooc.kr' # TEST
+        LMS_BASE = 'localhost'
+
         url = 'http://' + LMS_BASE + '/search/course_discovery/'
 
         search_string = course_details.short_description
@@ -1417,7 +1490,7 @@ def course_about(request, course_id):
         # print "headers -> ", headers
 
         try:
-            r = requests.post(url, data=payload, headers=headers)
+            r = requests.post(url, data=payload, headers=headers, timeout=2)
             # logging.info(r.text)
             # logging.info(r.text)
             # logging.info(r.text)
@@ -1443,13 +1516,13 @@ def course_about(request, course_id):
                     continue
 
                 try:
-                    sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
+                    compare_start = sim_start = datetime.strptime(result['data']['start'][:19], '%Y-%m-%dT%H:%M:%S')
                     sim_start = sim_start.strftime('%Y-%m-%d')
                 except BaseException:
                     sim_start = '0000-00-00'
 
                 try:
-                    sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
+                    compare_end = sim_end = datetime.strptime(result['data']['end'][:19], '%Y-%m-%dT%H:%M:%S')
                     sim_end = sim_end.strftime('%Y-%m-%d')
                 except BaseException:
                     sim_end = '0000-00-00'
@@ -1474,13 +1547,23 @@ def course_about(request, course_id):
                 print "org -> ", org
                 print "org -> ", org
 
+                # 유사강좌 진행 상태 추가
+                utcnow = datetime.utcnow()
+
+                if compare_start > utcnow:
+                    sim_status = 'ready'
+                elif compare_start <= utcnow <= compare_end:
+                    sim_status = 'ing'
+                else:
+                    sim_status = 'end'
+
                 course_dict['course_id'] = course_id
                 course_dict['image_url'] = image_url
                 course_dict['org'] = org
                 course_dict['display_name'] = display_name
                 course_dict['sim_start'] = sim_start
                 course_dict['sim_end'] = sim_end
-                course_dict['status'] = status
+                course_dict['sim_status'] = sim_status
                 similar_course.append(course_dict)
 
         except BaseException as err:
@@ -1496,6 +1579,7 @@ def course_about(request, course_id):
         s4 = course_details.start_date.strftime("%H")
         s5 = course_details.start_date.strftime("%M")
         s6 = course_details.start_date.strftime("%S")
+
         if course_details.end_date is not None:
             e1 = course_details.end_date.strftime("%Y")
             e2 = course_details.end_date.strftime("%m")
@@ -1503,6 +1587,7 @@ def course_about(request, course_id):
             e4 = course_details.end_date.strftime("%H")
             e5 = course_details.end_date.strftime("%M")
             e6 = course_details.end_date.strftime("%S")
+
         if course_details.enrollment_start is not None:
             rs1 = course_details.enrollment_start.strftime("%Y")
             rs2 = course_details.enrollment_start.strftime("%m")
@@ -1510,6 +1595,7 @@ def course_about(request, course_id):
             rs4 = course_details.enrollment_start.strftime("%H")
             rs5 = course_details.enrollment_start.strftime("%M")
             rs6 = course_details.enrollment_start.strftime("%S")
+
         if course_details.enrollment_end is not None:
             re1 = course_details.enrollment_end.strftime("%Y")
             re2 = course_details.enrollment_end.strftime("%m")
@@ -1518,24 +1604,21 @@ def course_about(request, course_id):
             re5 = course_details.enrollment_end.strftime("%M")
             re6 = course_details.enrollment_end.strftime("%S")
         try:
-            #locale = to_locale(get_language())
+            # locale = to_locale(get_language())
             user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
-            print "origin_start",start
+            print "origin_start", start
             # CourseStartDate.date
             utc = pytz.utc
-            print "user_timezone = ",utc.zone
+            print "user_timezone = ", utc.zone
 
             user_tz = timezone(user_timezone)
         except:
             user_tz = timezone('Asia/Seoul')
 
-        utc_dt_start = datetime(int(s1),int(s2),int(s3),int(s4),int(s5),int(s6),tzinfo=utc)
-        utc_dt_end = datetime(int(e1),int(e2),int(e3),int(e4),int(e5),int(e6),tzinfo=utc) \
-            if course_details.end_date is not None else None
-        utc_dt_enroll_start = datetime(int(rs1),int(rs2),int(rs3),int(rs4),int(rs5),int(rs6),tzinfo=utc) \
-            if course_details.enrollment_start is not None else None
-        utc_dt_enroll_end = datetime(int(re1),int(re2),int(re3),int(re4),int(re5),int(re6),tzinfo=utc) \
-            if course_details.enrollment_end is not None else None
+        utc_dt_start = datetime(int(s1), int(s2), int(s3), int(s4), int(s5), int(s6), tzinfo=utc)
+        utc_dt_end = datetime(int(e1), int(e2), int(e3), int(e4), int(e5), int(e6), tzinfo=utc) if course_details.end_date is not None else None
+        utc_dt_enroll_start = datetime(int(rs1), int(rs2), int(rs3), int(rs4), int(rs5), int(rs6), tzinfo=utc) if course_details.enrollment_start is not None else None
+        utc_dt_enroll_end = datetime(int(re1), int(re2), int(re3), int(re4), int(re5), int(re6), tzinfo=utc) if course_details.enrollment_end is not None else None
         # fmt = '%Y-%m-%d %H:%M:%S %Z%z'
         fmt = '%Y.%m.%d'
         loc_dt_start = utc_dt_start.astimezone(user_tz)
@@ -1839,7 +1922,7 @@ def mobile_course_about(request, course_id):
         # org name
         try:
             org_model = CodeDetail.objects.get(group_code='003', use_yn='Y', delete_yn='N',
-                                                    detail_code=course_details.org)
+                                               detail_code=course_details.org)
             org_name = org_model.detail_name if request.LANGUAGE_CODE == 'ko-kr' else org_model.detail_ename
         except CodeDetail.DoesNotExist:
             org_name = course_details.org
@@ -2058,7 +2141,7 @@ def mobile_course_about(request, course_id):
                 audit_flag = 'N'
 
         context = {
-            #'similar_course': similar_course,  # 유사강좌
+            # 'similar_course': similar_course,  # 유사강좌
             'course': course,
             'course_details': course_details,
             'staff_access': staff_access,

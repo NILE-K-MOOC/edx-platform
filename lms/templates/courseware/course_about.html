@@ -786,9 +786,17 @@ p+p {
     height: 97px;
   }
   .item-status {
-    background-color: #008800;
     text-align: left;
   }
+
+  .item-status.ready {background-color: #f5c42d;}
+  .item-status.ing {background-color: #008800;}
+  .item-status.end {background-color: #b2b2b2;}
+
+  .item-line.ready {border: solid 1px #f5c42d;}
+  .item-line.ing {border: solid 1px #008800;}
+  .item-line.end {border: solid 1px #b2b2b2;}
+
   .item-status-text {
     color: #ffffff;
     font-size: 10px;
@@ -815,9 +823,9 @@ p+p {
     margin-top: -8px;
     color: black;
   }
-  .item-greenline {
-    border: solid 1px #008800;
-  }
+
+
+
   .similar-none{
     padding-left: 20px;
   }
@@ -865,8 +873,8 @@ p+p {
                       <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>
                     </div>
 
-                    <div class='item-status'>
-                      <div class='item-status-text'>진행중</div>
+                    <div class='item-status ${item["sim_status"]}'>
+                      <div class='item-status-text'>${_(item["sim_status"])}</div>
                     </div>
 
                     <div class='item-title'>
@@ -881,8 +889,7 @@ p+p {
                       ${item['org']}
                     </div>
 
-                    <div class='item-greenline'>
-                    </div>
+                    <div class='item-line ${item["sim_status"]}'></div>
                   </div>
                 </a>
                 % endfor

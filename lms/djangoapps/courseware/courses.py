@@ -3,7 +3,7 @@
 Functions for accessing and displaying courses within the
 courseware.
 """
-import logging
+import logging, time
 from collections import defaultdict
 from datetime import datetime
 
@@ -496,14 +496,30 @@ def get_courses(user, org=None, filter_=None):
     Returns a list of courses available, sorted by course.number and optionally
     filtered by org code (case-insensitive).
     """
+    start_time = time.time()
+    is_api = False
+
+    if filter_:
+        is_api = filter_.get('is_api', False)
+
+    log.debug('get_courses time check1 [%s]' % (time.time() - start_time))
     courses = branding.get_visible_courses(org=org, filter_=filter_)
+
+    log.debug('get_courses time check2 [%s]' % (time.time() - start_time))
 
     permission_name = configuration_helpers.get_value(
         'COURSE_CATALOG_VISIBILITY_PERMISSION',
         settings.COURSE_CATALOG_VISIBILITY_PERMISSION
     )
 
-    courses = [c for c in courses if has_access(user, permission_name, c)]
+    if is_api:
+        log.debug('get_courses time check2-1 [%s]' % (time.time() - start_time))
+        pass
+    else:
+        log.debug('get_courses time check2-2 [%s]' % (time.time() - start_time))
+        courses = [c for c in courses if has_access(user, permission_name, c)]
+
+    log.debug('get_courses time check3 [%s]' % (time.time() - start_time))
 
     return courses
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 WE'RE USING MIGRATIONS!
 
@@ -26,6 +27,7 @@ from six import text_type
 
 import coursewarehistoryextended
 from opaque_keys.edx.django.models import BlockTypeKeyField, CourseKeyField, UsageKeyField
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
 log = logging.getLogger("edx.courseware")
 
@@ -378,6 +380,7 @@ class DynamicUpgradeDeadlineConfiguration(ConfigurationModel):
 
     This model controls the behavior of the dynamic upgrade deadline for self-paced courses.
     """
+
     class Meta(object):
         app_label = 'courseware'
 
@@ -464,3 +467,70 @@ class CodeDetail(models.Model):
         managed = False
         db_table = 'code_detail'
         unique_together = (('group_code', 'detail_code'),)
+
+
+class CourseOverviewAddinfo(models.Model):
+    course_id = models.OneToOneField(CourseOverview, primary_key=True, max_length=100, db_column='course_id')
+    create_type = models.CharField(max_length=20, blank=True, null=True)
+    create_year = models.CharField(max_length=4, blank=True, null=True)
+    course_no = models.CharField(max_length=100, blank=True, null=True)
+    teacher_name = models.CharField(max_length=300, blank=True, null=True)
+    delete_yn = models.CharField(max_length=1, blank=True, null=True)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+    modify_id = models.IntegerField(blank=True, null=True)
+    modify_date = models.DateTimeField(blank=True, null=True)
+    classfy = models.CharField(max_length=20, blank=True, null=True)
+    middle_classfy = models.CharField(max_length=20, blank=True, null=True)
+    course_level = models.CharField(max_length=20, blank=True, null=True)
+    course_period = models.CharField(max_length=20, blank=True, null=True)
+    audit_yn = models.CharField(max_length=1, blank=True, null=True)
+    classfy_sub = models.CharField(max_length=200, blank=True, null=True)
+    linguistics = models.CharField(max_length=1, blank=True, null=True)
+    job_edu_yn = models.CharField(max_length=1, blank=True, null=True)
+    ribbon_yn = models.CharField(max_length=1, blank=True, null=True)
+    middle_classfy_sub = models.CharField(max_length=200, blank=True, null=True)
+    fourth_industry_yn = models.CharField(max_length=1, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'course_overview_addinfo'
+
+
+class Multisite(models.Model):
+    site_id = models.AutoField(primary_key=True, help_text='기관아이디')
+    site_code = models.CharField(max_length=30, help_text='기관코드')
+    site_name = models.CharField(max_length=300, help_text='기관명')
+    logo_img = models.IntegerField(blank=True, null=True)
+    top_img = models.IntegerField(blank=True, null=True)
+    site_url = models.CharField(max_length=500, blank=True, null=True)
+    login_type = models.CharField(max_length=5, help_text='인증방식')
+    encryption_key = models.CharField(db_column='Encryption_key', max_length=16, help_text='암호화 키')
+    course_select_type = models.CharField(max_length=1, help_text='강좌지정 방식')
+    delete_yn = models.CharField(max_length=1, default='N', help_text='삭제여부')
+    regist_id = models.CharField(max_length=30, help_text='등록 아이디')
+    regist_date = models.DateTimeField(blank=True, null=True)
+    modify_id = models.CharField(max_length=30, help_text='수정 아이디')
+    modify_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'multisite'
+
+    def __unicode__(self):
+        return self.site_id
+
+
+# id 자동 추가방지를 위해 primary_key 추가
+class MultisiteMember(models.Model):
+    site_id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField()
+    org_user_id = models.CharField(max_length=20, blank=True, null=True)
+    addinfo = models.CharField(max_length=200, blank=True, null=True)
+    regist_id = models.IntegerField(blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'multisite_member'
+        unique_together = (('site_id', 'user_id'),)

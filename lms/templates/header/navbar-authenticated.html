@@ -201,7 +201,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
                     % endif
                       <img class="logo" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
-                    % if 'multisite_org' in request.session:
+                    % if 'multisite_org' in request.session and 'save_path' in request.session:
                     <a href="/org/${request.session['multisite_org']}">
                       <img style="margin-left: 20px;" class="logo" src="${request.session['save_path']}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
