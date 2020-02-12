@@ -1796,14 +1796,14 @@ def create_account_with_params(request, params):
             eamap.user = new_user
             eamap.dtsignup = datetime.datetime.now(UTC)
             eamap.save()
-            AUDIT_log.debug(u"User registered with external_auth %s", new_user.username)
-            AUDIT_log.debug(u'Updated ExternalAuthMap for %s to be %s', new_user.username, eamap)
+            AUDIT_LOG.debug(u"User registered with external_auth %s", new_user.username)
+            AUDIT_LOG.debug(u'Updated ExternalAuthMap for %s to be %s', new_user.username, eamap)
 
             if settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH'):
                 log.debug('bypassing activation email')
                 new_user.is_active = True
                 new_user.save()
-                AUDIT_log.debug(
+                AUDIT_LOG.debug(
                     u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
 
     # Check if system is configured to skip activation email for the current user.
@@ -1887,7 +1887,7 @@ def create_account_with_params(request, params):
     # TODO: there is no error checking here to see that the user actually logged in successfully,
     # and is not yet an active user.
     if new_user is not None:
-        AUDIT_log.debug(u"Login success on new account creation - {0}".format(new_user.username))
+        AUDIT_LOG.debug(u"Login success on new account creation - {0}".format(new_user.username))
 
     return new_user
 
@@ -2181,7 +2181,7 @@ def password_reset(request):
         destroy_oauth_tokens(request.user)
     else:
         # bad user? tick the rate limiter counter
-        AUDIT_log.debug("Bad password_reset user passed in.")
+        AUDIT_LOG.debug("Bad password_reset user passed in.")
         limiter.tick_bad_request_counter(request)
 
     return JsonResponse({
