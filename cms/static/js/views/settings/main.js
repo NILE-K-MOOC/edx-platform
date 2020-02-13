@@ -52,6 +52,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'change #teacher_name': "modi_teacher_name",
                 'change #selectfixid': "modi_course_level",
                 'change #subtitle_list': "subtitle_box",
+                'change #course-language': "modi_course_language",
                 'click #edit_check': "course_editor_html",
                 'click #edit_check_reverse': "course_editor_html_reverse",
                 'click #subtitle_add': "subtitle_add",
@@ -951,6 +952,22 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 }
             },
 
+            modi_course_language: function (e){
+                console.log('call trace -> modi_course_language');
+                // this.model.set('course-language', $('#course-language').val());
+                $('.action-primary').click(function() {
+                    var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
+                    var addinfo_user_id = $('#addinfo_user_id').text();
+                    var course_language = $('#course-language option:selected').text();
+                    $.post("/modi_course_language", {
+                        csrfmiddlewaretoken: $.cookie('csrftoken'),
+                        addinfo_course_id: addinfo_course_id,
+                        addinfo_user_id: addinfo_user_id,
+                        course_language: course_language
+                    });
+                });
+            },
+
             modi_course_level: function (e){
                 console.log('call trace -> modi_course_level');
                 this.model.set('course_level', $('#selectfixid').val());
@@ -967,7 +984,6 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     });
                 });
             },
-
 
             subtitle_add: function (e) {
                 console.log('call trace -> subtitle_add');
