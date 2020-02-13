@@ -732,6 +732,9 @@ def series_print(request, id):
 
 
 def series(request):
+    """
+    수정시 mobile_series도 함께 수정 필요
+    """
     with connections['default'].cursor() as cur:
         query = '''
             SELECT a.series_seq,
@@ -777,6 +780,57 @@ def series(request):
     context = {}
     context['series_list'] = series_list
     return render_to_response('community/series.html', context)
+
+
+def mobile_series(request):
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT a.series_seq,
+                   a.series_name,
+                   ifnull(b.save_path, ''),
+                   ifnull(c.detail_name, '-'),
+                   ifnull(a.short_description, ''),
+                   ifnull(a.org, ''),
+                   ifnull(series_cnt, 0)
+              FROM edxapp.series AS a
+                   LEFT JOIN edxapp.tb_attach AS b
+                      ON a.sumnail_file_id = b.id AND b.use_yn = TRUE
+                   LEFT JOIN code_detail c
+                      ON a.org = c.detail_code AND group_code = '003'
+                   LEFT JOIN
+                   (  SELECT count(series_course_id) series_cnt,
+                             series_course_id,
+                             series_seq
+                        FROM series_course d
+                       WHERE delete_yn = 'N'
+                    GROUP BY d.series_seq) e
+                      ON a.series_seq = e.series_seq
+             WHERE a.use_yn = 'Y' AND a.delete_yn = 'N';
+        '''
+        cur.execute(query)
+        rows = cur.fetchall()
+        series_list = list()
+    try:
+        for row in rows:
+            row_dict = dict()
+            row_dict['series_seq'] = row[0]
+            row_dict['series_name'] = row[1]
+            row_dict['save_path'] = row[2]
+            row_dict['detail_name'] = row[3]
+            row_dict['short_description'] = row[4]
+            row_dict['org'] = row[5]
+            row_dict['series_cnt'] = row[6]
+            row_dict['logo_path'] = ''
+            series_list.append(row_dict)
+    except Exception as e:
+        print e
+
+    context = {}
+    context['series_list'] = series_list
+    context['mobile_template'] = 'community/mobile_series'
+    context['mobile_title'] = 'Series Course'
+    context['series_base'] = settings.ENV_TOKENS.get('LMS_BASE') + '/series_view/'
+    return render_to_response('mobile_main.html', context)
 
 
 def series_about(request, id):

@@ -3,7 +3,6 @@ import json
 from django.utils.translation import ugettext as _
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 %>
-<%inherit file="mobile_main.html" />
 <%
 course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
 %>
@@ -26,52 +25,52 @@ getParameterByName('search_query')
 </%block>
 % endif
 
-<%block name="pagetitle">${_("Courses")}</%block>
 ##${course_discovery_enabled}
-<style>
-    @media (max-width: 768px) {
-        .courses-container .courses .course .course-image .cover-image img {
-            width: 100%;
-            height: auto;
-        }
-    }
 
-    @media screen and (max-width: 540px){
-        .find-courses .courses-container .courses:not(.no-course-discovery) {
-            width: 100%;
-        }
+    % if parameter_json:
+        % for key, value in parameter_json.items():
+            <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
+        % endfor
+    % endif
 
-        .kr01-subtext {
-            margin-bottom: 5px;
-        }
-
-        .courses-container .courses .course .course-info.mobile-course-card-div {
-            height: 125px !important;
-        }
-
-        .courses-container .courses .course .course-info .course-date.kr01_moviesubtit {
-            width: 100%;
-        }
-
-        .courses-container .courses .course .course-info .course-date.kr01_moviesubtit div {
-            width: 100%;
-        }
-
-        .search-facets.phone-menu {
-            position: absolute;
-            z-index: 9999;
-            margin: -74px 0px 0px 0px;
-            display: none;
-        }
-
-    }
-</style>
-
-<main id="main" aria-label="Content" tabindex="-1">
     <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
     <section class="find-courses">
         <section class="courses-container">
             % if course_discovery_enabled:
+            <div class="courses-filter-container">
+                <div class="courses-filter" onclick="closeFilter()">
+                    <span class="courses-filter-tag">
+                        ${_('Refine Your Search')} <i class="fa fa-filter"></i>
+                    </span>
+                </div>
+
+                <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu courses-filter-layer">
+                    <div class="courses-filter-title">
+                        <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+                        <div class="courses-filter-close" onclick="closeFilter()">
+                            <i class="fa fa-times"></i>
+                        </div>
+                    </div>
+                    <section class="course-facets-list">
+                        <h3 class="header-facet">${_('Opening Status')}</h3>
+                        <div id="sel_status">
+                            <select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}" label="${_('Opening Status')}">
+                                <option value="">${_('All')}</option>
+                                <option value="i">${_('ing')}</option>
+                                <option value="t">${_('ready')}</option>
+                                <option value="a">${_('end & audit course')}</option>
+                                <option value="e">${_('end')}</option>
+                            </select>
+                        </div>
+                    </section>
+                    <section class="search-facets-lists">
+                    </section>
+                    <div onclick="closeFilter()" class="courses-filter-bottom">
+                        <span>검색 조건 필터 접기</span>
+                    </div>
+                </aside>
+
+            </div>
             <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
                 <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
             </div>
@@ -89,28 +88,8 @@ getParameterByName('search_query')
                     %endfor
                 </ul>
             </div>
-            % if course_discovery_enabled:
-            <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
-                <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
-                <section class="course-facets-list">
-                    <h3 class="header-facet">${_('Opening Status')}</h3>
-                    <div id="sel_status">
-                        <select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}" label="${_('Opening Status')}">
-                            <option value="">${_('All')}</option>
-                            <option value="i">${_('ing')}</option>
-                            <option value="t">${_('ready')}</option>
-                            <option value="a">${_('end & audit course')}</option>
-                            <option value="e">${_('end')}</option>
-                        </select>
-                    </div>
-                </section>
-                <section class="search-facets-lists">
-                </section>
-            </aside>
-            % endif
         </section>
     </section>
-</main>
 
 % if course_discovery_enabled:
 <script type="text/javascript">
@@ -156,7 +135,16 @@ getParameterByName('search_query')
                 $(".course-facets-select option[value="+p_range+"]").attr("selected", "selected");
             }
         }
+
     });
+
+    function closeFilter(){
+        if($('.courses-filter-layer').hasClass('active')){
+            $('.courses-filter-layer').removeClass('active');
+        } else {
+            $('.courses-filter-layer').addClass('active');
+        }
+    }
 
     var getTermParameter = function (sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),

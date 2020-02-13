@@ -69,6 +69,12 @@ $(window).load(function () {
         }
     });
 
+    // 모바일 수정
+    if($('.kr01-mobile-more').length) {
+        slide_option.touchEnabled = false;
+    }
+
+
     window_W = $(window).width();
     var agent = navigator.userAgent.toLowerCase();
 
@@ -173,8 +179,11 @@ $(window).load(function () {
         today_slider = $("#today_slider").bxSlider(slide_option);
     }
 
-    footer_slider = $('.kr01-ft-familysite').bxSlider(slide_footer);
+    if($('.kr01-ft-familysite').length){
+        footer_slider = $('.kr01-ft-familysite').bxSlider(slide_footer);
+    }
     $(window).resize(slide_resize);
+
 });
 
 function slide_resize() {

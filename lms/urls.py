@@ -467,6 +467,11 @@ urlpatterns += [
 
     url(r'^courses/?$', branding_views.courses, name='courses'),
     url(r'^search_org/?$', courseware_views.search_org_name, name='search_org_name'),
+
+    url(r'^mobile/comm_list/(?P<section>.*?)/(?P<curr_page>.*?)$', kotech_community_views.mobile_comm_list, name='mobile_comm_list'),
+    url(r'^mobile/comm_tabs/$', kotech_community_views.mobile_comm_tabs, name='mobile_comm_tabs'),
+    url(r'^mobile/comm_view/(?P<section>.*?)/(?P<curr_page>.*?)/(?P<board_id>.*?)$', kotech_community_views.mobile_comm_view, name='mobile_comm_view'),
+    url(r'^mobile/series/$', kotech_series_views.mobile_series, name='mobile_series'),
     url(r'^mobile_courses/?$', branding_views.mobile_courses, name='mobile_courses'),
 
     # About the course

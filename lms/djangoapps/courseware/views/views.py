@@ -234,6 +234,7 @@ def search_org_name(request):
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
+    수정시 mobile_courses도 함께 수정
     """
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
@@ -265,7 +266,7 @@ def courses(request):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
+# @cache_if_anonymous()
 def mobile_courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
@@ -329,12 +330,20 @@ def mobile_courses(request):
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
+    # course post parameter setting to html
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'middle_classfy']
+    parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
+
+
     return render_to_response(
-        "mobile_courses.html",
+        "mobile_main.html",
         {
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
-            'programs_list': programs_list
+            'programs_list': programs_list,
+            'parameter_json': parameter_json,
+            'mobile_title': '강좌 찾기',
+            'mobile_template': 'mobile_courses'
         }
     )
 
@@ -1037,6 +1046,7 @@ def course_interest(request):
 def course_about(request, course_id):
     """
     Display the course's about page.
+    수정시 mobile_course_about도 함께 수정
     """
     try:
         review_email = str(request.user.email)
@@ -2189,10 +2199,12 @@ def mobile_course_about(request, course_id):
             'study_time': study_time,
             'start': start,
             'end': end,
-            'course_survey_data': course_survey_data
+            'course_survey_data': course_survey_data,
+            'mobile_title': 'Course Overview',
+            'mobile_template': 'courseware/mobile_course_about'
         }
 
-        return render_to_response('courseware/mobile_course_about.html', context)
+        return render_to_response('mobile_main.html', context)
 
 
 # 강좌 만족도 설문 결과 별점(about page)

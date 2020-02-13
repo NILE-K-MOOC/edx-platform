@@ -383,8 +383,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     extra_context is used to allow immediate display of certain modal windows, eg signup,
     as used by external_auth.
-
-    ! 수정시 mobile_index도 함께 수정
+    수정시 mobile_index도 함께 수정
     """
     start = time.time()
 
@@ -807,6 +806,349 @@ def index(request, extra_context=None, user=AnonymousUser()):
     log.debug('***** def index time check9 [%s]' % format(time.time() - start, ".6f"))
 
     return render_to_response('index.html', context)
+
+
+def mobile_index(request, extra_context=None, user=AnonymousUser()):
+    """
+    Render the edX main page.
+
+    extra_context is used to allow immediate display of certain modal windows, eg signup,
+    as used by external_auth.
+    """
+
+    if extra_context is None:
+        extra_context = {}
+
+    user = request.user
+
+    # courses = get_courses(user)
+    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT course_division, course_id
+              FROM tb_main_course;
+        '''
+        cur.execute(query)
+        main_course = cur.fetchall()
+        new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
+        pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
+        today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
+
+    f1 = {'id__in': new_course}
+    log.info(f1)
+
+    f2 = {'id__in': pop_course}
+    log.info(f2)
+
+    f3 = {'id__in': today_course}
+    log.info(f3)
+
+    new_courses = index_courses(user, f1)
+    pop_courses = index_courses(user, f2)
+    today_courses = index_courses(user, f3)
+
+    log.info(u'len(new_courses) ::: %s', len(new_courses))
+    log.info(u'len(pop_courses) ::: %s', len(pop_courses))
+    log.info(u'len(today_courses) ::: %s', len(today_courses))
+
+    context = {'new_courses': new_courses, 'pop_courses': pop_courses, 'today_courses': today_courses}
+
+    context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
+
+    # This appears to be an unused context parameter, at least for the master templates...
+    context['show_partners'] = configuration_helpers.get_value('show_partners', True)
+
+    # TO DISPLAY A YOUTUBE WELCOME VIDEO
+    # 1) Change False to True
+    context['show_homepage_promo_video'] = configuration_helpers.get_value('show_homepage_promo_video', False)
+
+    # 2) Add your video's YouTube ID (11 chars, eg "123456789xX"), or specify via site configuration
+    # Note: This value should be moved into a configuration setting and plumbed-through to the
+    # context via the site configuration workflow, versus living here
+    youtube_video_id = configuration_helpers.get_value('homepage_promo_video_youtube_id', "your-youtube-id")
+    context['homepage_promo_video_youtube_id'] = youtube_video_id
+
+    # allow for theme override of the courses list
+    context['courses_list'] = theming_helpers.get_template_path('courses_list.html')
+
+    # allow for theme override of the boards list
+    context['boards_list'] = theming_helpers.get_template_path('boards_list.html')
+
+    con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                      settings.DATABASES.get('default').get('USER'),
+                      settings.DATABASES.get('default').get('PASSWORD'),
+                      settings.DATABASES.get('default').get('NAME'),
+                      charset='utf8')
+    cur = con.cursor()
+    query = """
+                (  SELECT board_id,
+                     CASE
+                         WHEN head_title = 'noti_n' THEN '[공지]'
+                         WHEN head_title = 'advert_n' THEN '[공고]'
+                         WHEN head_title = 'guide_n' THEN '[안내]'
+                         WHEN head_title = 'event_n' THEN '[이벤트]'
+                         WHEN head_title = 'etc_n' THEN '[기타]'
+                         ELSE ''
+                     END
+                         head_title,
+                         subject,
+                         content,
+                         SUBSTRING(reg_date, 1, 11) reg_date,
+                         section,
+                         '',
+                         mod_date,
+                         odby
+                    FROM tb_board
+                   WHERE section = 'N'
+                   and use_yn = 'Y'
+                   and odby > 0
+                ORDER BY odby DESC, reg_date DESC
+                   limit 5)
+            union all
+                (  SELECT board_id,
+                     CASE
+                         WHEN head_title = 'k_news_k' THEN '[K-MOOC소식]'
+                         WHEN head_title = 'report_k' THEN '[보도자료]'
+                         WHEN head_title = 'u_news_k' THEN '[대학뉴스]'
+                         WHEN head_title = 'support_k' THEN '[서포터즈이야기]'
+                         WHEN head_title = 'n_new_k' THEN '[NILE소식]'
+                         WHEN head_title = 'etc_k' THEN '[기타]'
+                         ELSE ''
+                     END
+                         head_title,
+                         subject,
+                         mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
+                         SUBSTRING(reg_date, 1, 11) reg_date,
+                         section,
+                         '',
+                         mod_date,
+                         odby
+                    FROM tb_board
+                   WHERE section = 'K'
+                   and use_yn = 'Y'
+                   and odby > 0
+                ORDER BY odby DESC, reg_date DESC
+                    limit 5)
+            union all
+                (  SELECT board_id,
+                     CASE
+                         WHEN head_title = 'publi_r' THEN '[홍보자료]'
+                         WHEN head_title = 'data_r' THEN '[자료집]'
+                         WHEN head_title = 'repo_r' THEN '[보고서]'
+                         WHEN head_title = 'etc_r' THEN '[기타]'
+                         ELSE ''
+                     END
+                         head_title,
+                         subject,
+                         content,
+                         SUBSTRING(reg_date, 1, 11) reg_date,
+                         section,
+                         '',
+                         mod_date,
+                         odby
+                    FROM tb_board
+                   WHERE section = 'R'
+                   and use_yn = 'Y'
+                   and odby > 0
+                ORDER BY odby DESC, reg_date DESC
+                   limit 5)
+            union all
+                (  SELECT board_id,
+                     CASE
+                          WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+                          WHEN head_title = 'regist_f ' THEN '[회원가입]'
+                          WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+                          WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+                          WHEN head_title = 'course_f ' THEN '[강좌수강]'
+                          WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+                          WHEN head_title = 'tech_f ' THEN '[기술적문제]'
+                          WHEN head_title = 'mobile_f ' THEN '[모바일앱]'
+                          ELSE ''
+                       END
+                          head_title,
+                         subject,
+                         content,
+                         SUBSTRING(reg_date, 1, 11) reg_date,
+                         section,
+                         head_title,
+                         mod_date,
+                         odby
+                    FROM tb_board
+                   WHERE section = 'F'
+                     and head_title = 'mobile_f'
+                     and use_yn = 'Y'
+                     and odby > 0
+                ORDER BY odby DESC, reg_date DESC
+                   limit 5)
+            union all
+                (  SELECT board_id,
+                         '' head_title,
+                         subject,
+                         content,
+                         SUBSTRING(reg_date, 1, 11) reg_date,
+                         section,
+                         head_title,
+                         mod_date,
+                         odby
+                    FROM tb_board
+                   WHERE section = 'M'
+                     and use_yn = 'Y'
+                     and odby > 0
+                ORDER BY odby DESC, reg_date DESC
+                   limit 5)
+            ORDER BY odby DESC, reg_date DESC;
+        """
+
+    index_list = []
+    cur.execute(query)
+    row = cur.fetchall()
+    if len(row) <= 0:
+        with connections['default'].cursor() as cur:
+            query = """
+                    (  SELECT board_id,
+                         CASE
+                             WHEN head_title = 'noti_n' THEN '[공지]'
+                             WHEN head_title = 'advert_n' THEN '[공고]'
+                             WHEN head_title = 'guide_n' THEN '[안내]'
+                             WHEN head_title = 'event_n' THEN '[이벤트]'
+                             WHEN head_title = 'etc_n' THEN '[기타]'
+                             ELSE ''
+                         END
+                             head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             '',
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'N'
+                       and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                union all
+                    (  SELECT board_id,
+                         CASE
+                             WHEN head_title = 'k_news_k' THEN '[K-MOOC소식]'
+                             WHEN head_title = 'report_k' THEN '[보도자료]'
+                             WHEN head_title = 'u_news_k' THEN '[대학뉴스]'
+                             WHEN head_title = 'support_k' THEN '[서포터즈이야기]'
+                             WHEN head_title = 'n_new_k' THEN '[NILE소식]'
+                             WHEN head_title = 'etc_k' THEN '[기타]'
+                             ELSE ''
+                         END
+                             head_title,
+                             subject,
+                             mid(substr(content, instr(content, 'src="') + 5), 1, instr(substr(content, instr(content, 'src="') + 5), '"') - 1 ),
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             '',
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'K'
+                       and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                        limit 5)
+                union all
+                    (  SELECT board_id,
+                         CASE
+                             WHEN head_title = 'publi_r' THEN '[홍보자료]'
+                             WHEN head_title = 'data_r' THEN '[자료집]'
+                             WHEN head_title = 'repo_r' THEN '[보고서]'
+                             WHEN head_title = 'etc_r' THEN '[기타]'
+                             ELSE ''
+                         END
+                             head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             '',
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'R'
+                       and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                union all
+                    (  SELECT board_id,
+                         CASE
+                              WHEN head_title = 'kmooc_f' THEN '[K-MOOC]'
+                              WHEN head_title = 'regist_f ' THEN '[회원가입]'
+                              WHEN head_title = 'login_f ' THEN '[로그인/계정]'
+                              WHEN head_title = 'enroll_f ' THEN '[수강신청/취소]'
+                              WHEN head_title = 'course_f ' THEN '[강좌수강]'
+                              WHEN head_title = 'certi_f  ' THEN '[성적/이수증]'
+                              WHEN head_title = 'tech_f ' THEN '[기술적문제]'
+                              WHEN head_title = 'mobile_f ' THEN '[모바일앱]'
+                              ELSE ''
+                           END
+                              head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             head_title,
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'F'
+                         and head_title = 'mobile_f'
+                         and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                union all
+                    (  SELECT board_id,
+                             '' head_title,
+                             subject,
+                             content,
+                             SUBSTRING(reg_date, 1, 11) reg_date,
+                             section,
+                             head_title,
+                             mod_date,
+                             odby
+                        FROM tb_board
+                       WHERE section = 'M'
+                         and use_yn = 'Y'
+                    ORDER BY odby DESC, reg_date DESC
+                       limit 5)
+                ORDER BY odby DESC, reg_date DESC;
+                    """
+            cur.execute(query)
+            row = cur.fetchall()
+
+    for i in row:
+        value_list = []
+        value_list.append(i[0])
+        value_list.append(i[1])
+        value_list.append(i[2])
+        s = i[3]
+        text = re.sub('<[^>]*>', '', s)
+        text = re.sub('&nbsp;', '', text)
+        text = re.sub('/manage/home/static/upload/', '/static/file_upload/', text)
+        text1 = re.sub('/home/project/management/home/static/upload/', '', text)
+        # text1 = re.sub('/manage/home/static/excel/notice_file/', '', text)
+        text = re.sub('/home/project/management/home/static/upload/', '/static/file_upload/', text)
+        # text = re.sub('/manage/home/static/excel/notice_file/', '/static/file_upload/', text)
+        value_list.append(text[0:200])
+        value_list.append(i[4])
+        value_list.append(i[5])
+        value_list.append(i[6])
+        value_list.append(text1)
+        index_list.append(value_list)
+
+    context['index_list'] = index_list
+
+    # mobile page
+    context['mobile_template'] = 'mobile_index'
+
+    # Insert additional context for use in the template
+    context.update(extra_context)
+
+    return render_to_response('mobile_main.html', context)
 
 
 # index submenu 2개 조회
@@ -1456,14 +1798,14 @@ def create_account_with_params(request, params):
             eamap.user = new_user
             eamap.dtsignup = datetime.datetime.now(UTC)
             eamap.save()
-            AUDIT_log.debug(u"User registered with external_auth %s", new_user.username)
-            AUDIT_log.debug(u'Updated ExternalAuthMap for %s to be %s', new_user.username, eamap)
+            AUDIT_LOG.debug(u"User registered with external_auth %s", new_user.username)
+            AUDIT_LOG.debug(u'Updated ExternalAuthMap for %s to be %s', new_user.username, eamap)
 
             if settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH'):
                 log.debug('bypassing activation email')
                 new_user.is_active = True
                 new_user.save()
-                AUDIT_log.debug(
+                AUDIT_LOG.debug(
                     u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
 
     # Check if system is configured to skip activation email for the current user.
@@ -1547,7 +1889,7 @@ def create_account_with_params(request, params):
     # TODO: there is no error checking here to see that the user actually logged in successfully,
     # and is not yet an active user.
     if new_user is not None:
-        AUDIT_log.debug(u"Login success on new account creation - {0}".format(new_user.username))
+        AUDIT_LOG.debug(u"Login success on new account creation - {0}".format(new_user.username))
 
     return new_user
 
@@ -1841,7 +2183,7 @@ def password_reset(request):
         destroy_oauth_tokens(request.user)
     else:
         # bad user? tick the rate limiter counter
-        AUDIT_log.debug("Bad password_reset user passed in.")
+        AUDIT_LOG.debug("Bad password_reset user passed in.")
         limiter.tick_bad_request_counter(request)
 
     return JsonResponse({

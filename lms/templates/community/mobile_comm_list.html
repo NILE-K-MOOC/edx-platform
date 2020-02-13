@@ -1,0 +1,79 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">
+</%block>
+
+<%block name="header_extras"></%block>
+<script>
+    $(document).ready(function(){
+        if($('.mobile-comm-link').length){  // 모바일 추가
+            $('.mobile-comm-link li a.fivemenarea-a').each(function(){
+                if($(this).attr('id') === '${section}'){
+                    $(this).parents('li').addClass('active');
+                }
+            });
+        }
+    });
+</script>
+
+<section class="kr01">
+
+    <h1 class="kr01_explain">3개 메뉴</h1>
+    <section class="courses-container">
+        <section class="highlighted-courses">
+
+            <div class="kr01_fivemenu02 ">
+                <ul class="fivemenarea mobile-comm-link">
+                    <li class="kr01_f01">
+                        <div>
+                            <a class="fivemenarea-a" id="N" href="/mobile/comm_list/N/">
+                                <!--<i class="fivemenarea-icon"></i>-->
+                                <span class="fivemenarea-span">공지사항</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="kr01_f03">
+                        <div>
+                            <a class="fivemenarea-a" id="K" href="/mobile/comm_list/K/">
+                                <!--<i class="fivemenarea-icon"></i>-->
+                                <span class="fivemenarea-span">뉴스</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="kr01_f04">
+                        <div>
+                            <a class="fivemenarea-a" id="R" href="/mobile/comm_list/R/">
+                                <!--<i class="fivemenarea-icon"></i>-->
+                                <span class="fivemenarea-span">자료실</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="kr01_f05">
+                        <div>
+                            <a class="fivemenarea-a" id="F" href="/mobile/comm_tabs/">
+                                <!--<i class="fivemenarea-icon"></i>-->
+                                <span class="fivemenarea-span">FAQ</span>
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+    </section>
+</section>
+
+<section class="container kr01-mobile-comm">
+    <h2 class="kr01-mobile-title" title="${page_title}">${page_title}</h2>
+    % if section is not None and section != 'F' and view_yn is True:
+    <%include file="mobile_comm_view.html"/>
+    % elif section is not None and section != 'F':
+    <%include file="mobile_comm_list_table.html"/>
+    % else:
+    <%include file="mobile_comm_tabs.html"/>
+    % endif
+
+</section>

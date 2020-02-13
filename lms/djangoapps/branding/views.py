@@ -530,6 +530,7 @@ def delete_multisite_account(request):
 def index(request):
     """
     Redirects to main page -- info page if user authenticated, or marketing if not
+    수정시 mobile_index도 함께 수정해야함
     """
 
     # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
@@ -592,12 +593,45 @@ def index(request):
 
 
 @ensure_csrf_cookie
+@transaction.non_atomic_requests
+@cache_if_anonymous()
+def mobile_index(request):
+    if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
+        from openedx.core.djangoapps.external_auth.views import ssl_login
+        # Set next URL to dashboard if it isn't set to avoid
+        # caching a redirect to / that causes a redirect loop on logout
+        if not request.GET.get('next'):
+            req_new = request.GET.copy()
+            req_new['next'] = reverse('dashboard')
+            request.GET = req_new
+        return ssl_login(request)
+
+    enable_mktg_site = configuration_helpers.get_value(
+        'ENABLE_MKTG_SITE',
+        settings.FEATURES.get('ENABLE_MKTG_SITE', False)
+    )
+
+    if enable_mktg_site:
+        marketing_urls = configuration_helpers.get_value(
+            'MKTG_URLS',
+            settings.MKTG_URLS
+        )
+        return redirect(marketing_urls.get('ROOT'))
+
+
+    #  we do not expect this case to be reached in cases where
+    #  marketing and edge are enabled
+    return student.views.management.mobile_index(request, user=request.user)
+
+
+@ensure_csrf_cookie
 @cache_if_anonymous()
 def courses(request):
     """
     Render the "find courses" page. If the marketing site is enabled, redirect
     to that. Otherwise, if subdomain branding is on, this is the university
     profile page. Otherwise, it's the edX courseware.views.views.courses page
+    수정시 mobile_courses도 함께 수정
     """
     enable_mktg_site = configuration_helpers.get_value(
         'ENABLE_MKTG_SITE',
@@ -616,13 +650,19 @@ def courses(request):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
+# @cache_if_anonymous()
 def mobile_courses(request):
     """
     Render the "find courses" page. If the marketing site is enabled, redirect
     to that. Otherwise, if subdomain branding is on, this is the university
     profile page. Otherwise, it's the edX courseware.views.views.courses page
     """
+
+    # search_query 여부에따라 강좌 검색과 모바일 메인 페이지 분기
+    search_query = request.GET.get('search_query')
+    if search_query is None:
+        return mobile_index(request)
+
     enable_mktg_site = configuration_helpers.get_value(
         'ENABLE_MKTG_SITE',
         settings.FEATURES.get('ENABLE_MKTG_SITE', False)

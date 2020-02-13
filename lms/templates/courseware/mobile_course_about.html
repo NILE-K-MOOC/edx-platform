@@ -12,7 +12,6 @@ from openedx.core.lib.courses import course_image_url
 from six import string_types
 %>
 
-<%inherit file="../mobile_main.html" />
 <%block name="headextra">
   ## OG (Open Graph) title and description added below to give social media info to display
   ## (https://developers.facebook.com/docs/opengraph/howtos/maximizing-distribution-media-content#tags)
@@ -122,8 +121,6 @@ from six import string_types
 
   <script src="${static.url('js/course_info.js')}"></script>
 </%block>
-
-<%block name="pagetitle">${course.display_name_with_default_escaped}</%block>
 
 <link rel="stylesheet" type="text/css" href="/static/css/common-overview-template.css" />
 <style>
@@ -389,12 +386,14 @@ a:hover + p.arrow_box {
     display: inline-block;
     float: none;
     vertical-align: middle;
+    z-index: 11;
 }
 
 div.about-side-title {
     display: inline-block;
     vertical-align: middle;
     width: 45%;
+    z-index: 11;
 }
 
 div.about-side-text {
@@ -430,13 +429,13 @@ div.about-side-title p {
     position: relative;
     /*text-align: center;*/
     width: 100%;
-    z-index: 2;
+    /*z-index: 2;*/
     float: none;
     height: 100%;
 }
 
 .side-about.side-about-tp {
-  z-index: 10;
+  /*z-index: 10;*/
 }
 
 .tooltip-side-about {
@@ -459,11 +458,14 @@ div.about-side-title p {
     transition: all 0.15s ease-out 0s;
     top: 65px;
     width: 65%;
+    display: none;
 }
 
 .side-about:hover .tooltip-side-about{
     opacity: 1.0;
     top: 56px;
+    display: block;
+    z-index: 15;
 }
 
 .side-about .tooltip-side-about:hover, .tooltip-side-about:focus {
@@ -573,7 +575,7 @@ div.about-side-title p {
                   }
               </script>
           <br />
-          <span>${course.display_org_with_default | h}</span>
+          <span hidden>${course.display_org_with_default | h}</span>
         </div>
 
         <div class="main-cta mobile-about-cta">

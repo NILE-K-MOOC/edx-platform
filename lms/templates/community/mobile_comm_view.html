@@ -1,0 +1,38 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="header_extras"></%block>
+<script src="${static.url('js/script/comm_view.js')}" charset="utf-8"></script>
+    <!-- [s] board view -->
+    <section class="board-view">
+        <ul>
+            <li class="title">
+                <h3 id="title" title="제목">${board.subject}</h3>
+                <div>
+                    <time id="reg_date" title="작성일">작성일 : ${board.reg_date.strftime('%Y/%m/%d')}</time>
+                    <time id="mod_date" title="수정일">수정일 : ${board.mod_date.strftime('%Y/%m/%d')}</time>
+                </div>
+            </li>
+
+            <li class="contents" id="context" title="내용">
+                ${board.content.replace('/home/ubuntu/project/management/', 'http://admin.kmooc.kr/home/ubuntu/project/management/')}
+            </li>
+
+            % if board.files:
+            <li class="file-list" title="첨부파일" id="file_li">
+                <h5>첨부파일[${ len(board.files) }]: </h5>
+                % for file in board.files:
+                    % if file.use_yn == True :
+                    <p><a href="/comm_file/${file.id}">${file.real_name}</a></p>
+                    %endif
+                % endfor
+            </li>
+            % endif
+
+        </ul>
+
+        <div class="board-btns">
+            <input type="button" value="목록" class="btn-gray" id="list" title="목록" onclick="toURL('${comm_list_url}')"></a>
+        </div>
+    </section>
+    <!-- [e] board list -->

@@ -39,6 +39,9 @@ def replace_all(string):
 
 @ensure_csrf_cookie
 def comm_list(request, section=None, curr_page=None):
+    """
+    수정시 mobile_comm_list도 함께 수정
+    """
     if request.is_ajax():
 
         print "--------------------------> comm_list"
@@ -134,7 +137,109 @@ def comm_list(request, section=None, curr_page=None):
 
 
 @ensure_csrf_cookie
+def mobile_comm_list(request, section=None, curr_page=None):
+    if request.is_ajax():
+
+        print "--------------------------> comm_list"
+
+        page_size = request.POST.get('page_size')
+        curr_page = request.POST.get('curr_page')
+        search_con = request.POST.get('search_con')
+        search_str = request.POST.get('search_str')
+
+        if search_str != '':
+            request.session['search_str'] = search_str
+
+        if search_str == '' and 'search_str' in request.session:
+            search_str = request.session['search_str']
+            del request.session['search_str']
+
+        print "--------------------> search_str [s]"
+        print "search_str = ", search_str
+        if 'search_str' in request.session:
+            print "request.session['search_str'] = ", request.session['search_str']
+        print "--------------------> search_str [e]"
+
+        if search_str:
+            if search_con == 'title':
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str)).order_by('odby', '-reg_date')
+            else:
+                comm_list = TbBoard.objects.filter(section=section, use_yn='Y').filter(
+                    Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section=section, use_yn='Y').order_by('-odby', '-reg_date')
+        p = Paginator(comm_list, page_size)
+        total_cnt = p.count
+        all_pages = p.num_pages
+        curr_data = p.page(curr_page)
+
+        with connections['default'].cursor() as cur:
+            board_list = list()
+            for board_data in curr_data.object_list:
+                board_dict = dict()
+                board_dict['board_id'] = board_data.board_id
+                board_dict['content'] = board_data.content
+                board_dict['head_title'] = board_data.head_title
+                board_dict['mod_date'] = board_data.mod_date
+                board_dict['odby'] = board_data.odby
+                board_dict['reg_date'] = board_data.reg_date
+                board_dict['section'] = board_data.section
+                board_dict['subject'] = board_data.subject
+                board_dict['use_yn'] = board_data.use_yn
+
+                query = '''
+                    SELECT 
+                        COUNT(id)
+                    FROM
+                        tb_attach
+                    WHERE
+                        group_id = {board_id} AND use_yn = 1;
+                '''.format(board_id=board_data.board_id)
+                cur.execute(query)
+                cnt = cur.fetchone()[0]
+
+                if cnt != 0:
+                    board_dict['attach_file'] = 'Y'
+                else:
+                    board_dict['attach_file'] = 'N'
+
+                board_list.append(board_dict)
+                # print board_dict
+
+            context = {
+                'total_cnt': total_cnt,
+                'all_pages': all_pages,
+                'curr_data': board_list,
+            }
+
+        return JsonResponse(context)
+    else:
+        if section == 'N':
+            page_title = '공지사항'
+        elif section == 'K':
+            page_title = 'K-MOOC 뉴스'
+        elif section == 'R':
+            page_title = '자료실'
+        else:
+            return None
+
+        context = {
+            'page_title': page_title,
+            'curr_page': curr_page,
+            'section': section,
+            'mobile_template': 'community/mobile_comm_list',
+            'mobile_title': 'Community'
+        }
+
+        return render_to_response('mobile_main.html', context)
+
+
+@ensure_csrf_cookie
 def comm_view(request, section=None, curr_page=None, board_id=None):
+    """
+    수정시 mobile_comm_view도 함께 수정
+    """
     # print "board_id -> ", board_id
 
     if section == 'N':
@@ -206,7 +311,86 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
 
 
 @ensure_csrf_cookie
+def mobile_comm_view(request, section=None, curr_page=None, board_id=None):
+    # print "board_id -> ", board_id
+
+    if section == 'N':
+        page_title = '공지사항'
+    elif section == 'K':
+        page_title = 'K-MOOC 뉴스'
+    elif section == 'R':
+        page_title = '자료실'
+    else:
+        return None
+
+    context = {
+        'page_title': page_title
+    }
+
+    # 게시판 삭제 기능 유효성 체크 [s]
+    with connections['default'].cursor() as cur:
+        query = '''
+            select count(board_id)
+            FROM tb_board
+            where board_id = '{board_id}'
+            and use_yn = 'D'
+        '''.format(board_id=board_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+
+    # print "value -> ", rows[0][0]
+
+    if rows[0][0] == 1:
+        return render_to_response('community/comm_null.html', context)
+    # 게시판 삭제 기능 유효성 체크 [e]
+
+    if board_id is None:
+        return redirect('/')
+
+    board = TbBoard.objects.get(board_id=board_id)
+
+    if board:
+        # board.files = TbBoardAttach.objects.filter(del_yn='N', board_id=board_id)
+        board.files = TbAttach.objects.filter(use_yn=True, group_id=board_id)
+
+    section = board.section
+
+    if section == 'N':
+        page_title = '공지사항'
+    elif section == 'K':
+        page_title = 'K-MOOC 뉴스'
+    elif section == 'R':
+        page_title = '자료실'
+    else:
+        return None
+
+    # 관리자에서 업로드한 경로와 실서버에서 가져오는 경로를 replace 시켜주어야함
+    board.content = board.content.replace('/manage/home/static/upload/', '/static/file_upload/')
+
+    # local test
+    board.content = board.content.replace('/home/project/management/home/static/upload/', '/static/file_upload/')
+
+    # 20191008 관리자의 업로드 경로 변경건 반영
+    board.content = board.content.replace('/home/ubuntu/project/management/static/file_upload/', '/static/file_upload/')
+    context = {
+        'page_title': page_title,
+        'board': board,
+        # 'comm_list_url': reverse('file_check', kwargs={'section': section, 'curr_page': curr_page})
+        'comm_list_url': reverse('mobile_comm_list', kwargs={'section': section, 'curr_page': curr_page}),
+        'section': section,
+        'view_yn': True,
+        'mobile_template': 'community/mobile_comm_view',
+        'mobile_title': 'Community'
+    }
+
+    return render_to_response('mobile_main.html', context)
+
+
+@ensure_csrf_cookie
 def comm_tabs(request, head_title=None):
+    """
+    수정시 mobile_comm_tabs도 함께 수정
+    """
     if request.is_ajax():
 
         print "----------------------------->"
@@ -238,6 +422,37 @@ def comm_tabs(request, head_title=None):
         }
 
         return render_to_response('community/comm_tabs.html', context)
+
+
+@ensure_csrf_cookie
+def mobile_comm_tabs(request):
+    if request.is_ajax():
+
+        print "----------------------------->"
+
+        search_str = request.POST.get('search_str')
+
+        if search_str:
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').filter(
+                Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
+        else:
+            comm_list = TbBoard.objects.filter(section='F', use_yn='Y').order_by('odby',
+                                                                                                        '-reg_date')
+
+        return JsonResponse([model_to_dict(o) for o in comm_list])
+    else:
+        comm_list = TbBoard.objects.filter(section='F', use_yn='Y').order_by('odby', '-reg_date')
+
+        context = {
+            'data': comm_list,
+            'head_title': 'mobile_f',
+            'page_title': 'FAQ',
+            'section': 'F',
+            'mobile_template': 'community/mobile_comm_list',
+            'mobile_title': 'Community'
+        }
+
+        return render_to_response('mobile_main.html', context)
 
 
 @ensure_csrf_cookie
