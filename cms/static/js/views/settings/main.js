@@ -958,7 +958,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $('.action-primary').click(function() {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
-                    var course_language = $('#course-language option:selected').text();;
+                    var course_language = $('#course-language option:selected').text();
                     $.post("/modi_course_language", {
                         csrfmiddlewaretoken: $.cookie('csrftoken'),
                         addinfo_course_id: addinfo_course_id,
