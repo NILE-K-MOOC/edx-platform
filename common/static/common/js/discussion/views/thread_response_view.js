@@ -195,7 +195,7 @@
                     ' onMouseWheel', ' onMove', ' onMoveEnd', ' onMoveStart', ' onOffline', ' onOnline', ' onOutOfSync', ' onPaste', ' onPause', ' onPopState', ' onProgress', ' onPropertyChange',
                     ' onReadyStateChange', ' onRedo', ' onRepeat', ' onReset', ' onResize', ' onResizeEnd', ' onResizeStart', ' onResume', ' onReverse', ' onRowsEnter', ' onRowExit', ' onRowDelete',
                     ' onRowInserted', ' onScroll', ' onSeek', ' onSelect', ' onSelectionChange', ' onSelectStart', ' onStart', ' onStop', ' onStorage', ' onSyncRestored', ' onSubmit', ' onTimeError',
-                    ' onTrackChange', ' onUndo', ' onUnload', ' onURLFlip', ' seekSegmentTime'];
+                    ' onTrackChange', ' onUndo', ' onUnload', ' onURLFlip', ' seekSegmentTime', 'document.cookie', 'prompt', 'confirm', 'alert'];
 
                 var pattern = new RegExp(pattern_list.join('|'), 'ig');
 
@@ -204,7 +204,7 @@
                 if (_body) {
                     _body.forEach(function (e) {
                         var re = new RegExp(e, 'g');
-                        body = body.replace(re, e.slice(0, e.length - 1).concat('*'));
+                        body = body.replace(re, e.slice(0, e.length).concat('*'));
                     });
                 }
 
@@ -213,6 +213,7 @@
                 }
 
                 this.setWmdContent('comment-body', '');
+
                 comment = new Comment({
                     body: body,
                     created_at: (new Date()).toISOString(),
