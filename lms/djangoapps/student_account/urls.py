@@ -11,5 +11,6 @@ urlpatterns = [
 if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
     urlpatterns += [
         url(r'^password$', views.password_change_request_handler, name='password_change_request'),
+        url(r'^settings_confirm$', views.account_settings_confirm, name='account_settings_confirm'),
         url(r'^settings_confirm_check$', views.account_settings_confirm_check, name='account_settings_confirm_check'),
     ]

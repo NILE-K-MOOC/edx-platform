@@ -2,7 +2,7 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("Contact")}</%block>
+<%block name="pagetitle">${_("Account Preferences")}</%block>
 
 <%block name="js_extra">
     <script>
@@ -37,15 +37,15 @@
                     {passwd: passwd},
                     function(data){
                         console.log("data = " + data);
-                        if(data){
+                        if(data.success){
                             document.location.href = "/account/settings";
-                        }else if(!data){
+                        }else if(!data.success){
                             alert("${_('The password is incorrect.')}");
                         }else{
                             alert("${_('Access path is abnormal.')}");
                             document.location.href = "/";
                         }
-            },"text");
+            },"json");
         }
 
     </script>
