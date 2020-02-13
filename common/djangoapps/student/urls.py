@@ -21,6 +21,9 @@ urlpatterns = [
     url(r'^modi_teacher_name', views.modi_teacher_name, name='modi_teacher_name'),
 
     # 강좌 설정 > 강좌자막언어
+    url(r'^modi_course_language', views.modi_course_language, name='modi_course_language'),
+
+    # 강좌 설정 > 강좌자막언어
     url(r'^modi_subtitle', views.modi_subtitle, name='modi_subtitle'),
 
     # 학습인정시간 파일 다운로드
