@@ -819,8 +819,19 @@ def account_settings(request):
         GET /account/settings
 
     """
-    context = account_settings_context(request)
-    return render_to_response('student_account/account_settings.html', context)
+
+    if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
+        return render_to_response('student_account/account_settings.html', account_settings_context(request))
+    elif 'passwdcheck' in request.session and request.session['passwdcheck'] == 'N':
+        context = {
+            'correct': False
+        }
+        return render_to_response('student_account/account_settings_confirm.html', context)
+    else:
+        context = {
+            'correct': None
+        }
+        return render_to_response('student_account/account_settings_confirm.html', context)
 
 
 @login_required
@@ -868,7 +879,7 @@ def account_settings_confirm_check(request):
 
     """
 
-    user = authenticate(username=request.user, password=request.POST['passwd'], request=request)
+    user = authenticate(username=request.user.username, password=request.POST['passwd'], request=request)
 
     if user is None:
         request.session['passwdcheck'] = 'N'
