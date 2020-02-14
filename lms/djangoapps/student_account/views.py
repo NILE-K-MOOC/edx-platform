@@ -821,6 +821,9 @@ def account_settings(request):
     """
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
+
+        del request.session['passwdcheck']
+
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
     elif 'passwdcheck' in request.session and request.session['passwdcheck'] == 'N':
         context = {
