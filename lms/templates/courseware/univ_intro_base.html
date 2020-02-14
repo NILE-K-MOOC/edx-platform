@@ -63,22 +63,22 @@
         <div class="univ-info">
 
             <div class="sns-box">
-                % if org_dict['homepage'] is not None:
+                % if org_dict['homepage'] is not None and org_dict['homepage'] != '':
                  <a target="_blank" href="${org_dict['homepage']}"><img src="/static/images/common/homepage.png" alt="${org_dict['org_name']} homepage" class="univSns"/></a>
                 % endif
-                % if org_dict['youtube'] is not None:
+                % if org_dict['youtube'] is not None and org_dict['youtube'] != '':
                  <a target="_blank" href="${org_dict['youtube']}"><img src="/static/images/common/youtube.png" alt="youtube 공유하기" class="univSns"/></a>
                 % endif
-                % if org_dict['facebook'] is not None:
+                % if org_dict['facebook'] is not None and org_dict['facebook'] != '':
                  <a target="_blank" href="${org_dict['facebook']}"><img src="/static/images/common/facebook.png" alt="facebook 공유하기" class="univSns"/></a>
                 % endif
-                % if org_dict['kakaostory'] is not None:
+                % if org_dict['kakaostory'] is not None and org_dict['kakaostory'] != '':
                  <a target="_blank" href="${org_dict['kakaostory']}"><img src="/static/images/common/kakaostory.png" alt="kakaostory 공유하기" class="univSns"/></a>
                 % endif
-                % if org_dict['naverblog'] is not None:
+                % if org_dict['naverblog'] is not None and org_dict['naverblog'] != '':
                  <a target="_blank" href="${org_dict['naverblog']}"><img src="/static/images/common/naver_blog.png" alt="naver blog 공유하기" class="univSns"/></a>
                 % endif
-                % if org_dict['instagram'] is not None:
+                % if org_dict['instagram'] is not None and org_dict['instagram'] != '':
                  <a target="_blank" href="${org_dict['instagram']}"><img src="/static/images/common/instagram.png" alt="instagram 공유하기" class="univSns"/></a>
                 % endif
             </div>
