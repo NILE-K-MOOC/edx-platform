@@ -71,6 +71,7 @@ from kotech_series import views as kotech_series_views         # Series Course A
 from kotech_memo import views as kotech_memo_views             # Memo APP
 from kotech_community import views as kotech_community_views   # Community APP
 from kotech_lifelong import views as kotech_lifelong_views     # Lifelong APP
+from kotech_roadmap import views as kotech_roadmap_views     # Lifelong APP
 
 LogAction()
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
@@ -96,6 +97,11 @@ urlpatterns = [
     # made by kotech system
     url(r'^course_satisfaction_survey/$', kotech_survey_views.course_satisfaction_survey, name='course_satisfaction_survey'),             # render
     url(r'^api_course_satisfaction_survey/$', kotech_survey_views.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
+
+
+    # AI road map
+    url(r'^roadmap/$', kotech_roadmap_views.roadmap, name='roadmap'),
+    url(r'^roadmap_view/(?P<id>.*?)/$', kotech_roadmap_views.roadmap_view, name='roadmap_view'),
 
 
     # Series
