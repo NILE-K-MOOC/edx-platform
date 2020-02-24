@@ -153,6 +153,7 @@ urlpatterns = [
     # Lifelong API
     # made by kotech system
     url(r'^api/all_courses$', kotech_lifelong_views.course_api, name="course_api"),
+    url(r'^cb_course_list$', kotech_lifelong_views.cb_course_list, name="cb_course_list"),
     url(r'^api/cb_course$', kotech_lifelong_views.cb_course, name="cb_course"),
     url(r'^cb_print/(?P<course_id>.*?)/$', kotech_lifelong_views.cb_print, name='cb_print'),
 
