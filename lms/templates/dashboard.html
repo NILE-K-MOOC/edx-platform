@@ -394,6 +394,9 @@ from student.models import CourseEnrollment
 .corona-wrap {
     float: right; margin-top: -60px;
 }
+.corona-gap {
+    margin-top: 5px;
+}
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -410,7 +413,7 @@ from student.models import CourseEnrollment
                             묶음강좌
                         </div>
                     </div>
-                    <div class="corona-box" onclick='window.location.replace("/cb_course_list");'>
+                    <div class="corona-box corona-gap" onclick='window.location.replace("/cb_course_list");'>
                         <img class="corona-img" src="/static/images/kotech_survey/dp02.png">
                         <div class="corona-txt">
                             학점은행과정
