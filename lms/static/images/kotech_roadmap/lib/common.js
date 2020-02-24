@@ -137,7 +137,9 @@ function vis_draw(nodes, edges) {
     var node_id = properties.nodes[0];
     if (node_id != null) {
       var link = nodes[node_id]['link'];
-      window.open(link, "_blank");
+      if (link != '') {
+        window.open(link, "_blank");
+      }
     }
   });
 }
