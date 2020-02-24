@@ -53,8 +53,10 @@
 }
 .color-nav {
   display: flex;
-  margin-left: 95px;
+  margin-left: 160px;
   margin-top: 15px;
+  font-size: 12px;
+  transition: 0.3s;
 }
 .net-back {
   text-align: right;
@@ -65,6 +67,16 @@
 }
 .net-back:hover {
   color: #0b93b9;
+}
+@media only screen and (max-width: 1200px) {
+  .color-nav {
+    margin-left: 110px;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  .color-nav {
+    margin-left: 70px;
+  }
 }
 @media only screen and (max-width: 1000px) {
   .color-nav {
