@@ -1112,20 +1112,6 @@ span.kr01-ftaddr.kr01-ftaddr-02 a {
 /* language */
 .kr01-Tlanguage{margin: 7px 15px 0 10px; float: right;}
 
-.language-btn {
-  border: 1px solid #c6c6c6;
-  display: inline-block;
-  position: relative;
-  text-align: center;
-  transition: background 600ms ease, color 600ms ease;
-  font-size: 12px;
-  margin-bottom: 0px;
-  padding: 1px 11px;
-  font-family: "Nanum Gothic","Open Sans";
-  font-style: inherit;
-  background: #e4e4e4;
-}
-
 input[type="radio"].toggle {
   display: none;
 }
@@ -1262,15 +1248,25 @@ input[type="radio"].toggle:checked + label {
   background-color: #363838;
 }
 
-/* 로그아웃 */
-.kr01-Tlogoutarea{float: left; margin-top: 11px;font-size: 13px;letter-spacing: -.7px;}
-.kr01-Tlogoutarea a{color: #525455 !important;}
 
-/* 알림 */
-.kr01-alertarea{ display: inline-block;}
+/* 로그아웃 */
+.kr01-Tlogoutarea {
+    margin-top: 6px;
+    font-size: 17px;
+    letter-spacing: -.7px;
+}
+.kr01-Tlogoutarea a{
+    color: #525455 !important;
+}
+.kr01-alertarea { display: inline-block;}
+.kr01-signin-area { margin-right: 7px; }
+.new-sign {
+    font-size: 17px;
+    font-weight: 700;
+}
+
 
 .float-right {float: right;}
-.kr01-signin-area { margin-right: 7px; }
 .kr01_bellarea{float: left;
   margin-right: 5px;}
 .kr01_bellarea .dropdown a ul li{margin-bottom: 0px;}
@@ -2590,4 +2586,102 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 
 .main-course-card:focus {
   outline: 4px dashed blue;
+}
+
+
+/* new index css */
+.new-container {
+    background: #fff !important;
+    max-width: 100%;
+    height: 90px;
+}
+.new-rows {
+    max-width: 1200px !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.new-logo-img {
+    margin-top: 30px;
+    width: 180px;
+    height: 50px;
+}
+.new-logo {
+    float: left;
+}
+.new-rc {
+    float: right;
+    display: flex;
+    margin-top: 45px;
+    margin-right: 20px;
+}
+.new-rc-search {
+    border: solid 1px #222222;
+    float: left;
+    display: flex;
+    margin-top: 38px;
+    margin-left: 60px;
+}
+.new-rc-sign {
+    display: flex;
+    margin-right: 40px;
+}
+.new-rc-language {
+    display: flex;
+}
+.new-btn-signin {
+    font-size: 17px;
+    font-weight: 700;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.new-btn-signup {
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.language-btn {
+    font-family: 'Noto Sans KR' !important;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+    color: #222222;
+}
+.new-lang-kor {
+    margin-right: 15px;
+    margin-top: 2px;
+}
+.new-lang-eng {
+    margin-top: 2px;
+}
+.new-gray {
+    color: #b5b5b5;
+}
+.new-blue {
+    color: #5b97e1;
+}
+.new-search-left {
+    display: flex;
+    background: #222;
+    font-family: 'Noto Sans KR' !important;
+    color: #ffffff;
+}
+.new-search-right {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+.new-st {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+}
+.new-ar {
+    margin-right: 10px;
+}
+.new-ar-img {
+    margin-top: 10px;
+}
+.new-search-input {
+    border: solid 0px #ffffff !important;
 }

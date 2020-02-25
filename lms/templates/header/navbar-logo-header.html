@@ -1,17 +1,13 @@
-## mako
-
 <%page expression_filter="h" args="online_help_token"/>
-
 <%namespace name='static' file='../static_content.html'/>
 <%!
-from django.urls import reverse
-from django.utils.translation import ugettext as _
-from lms.djangoapps.ccx.overrides import get_current_ccx
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-
-# App that handles subdomain specific branding
-from branding import api as branding_api
+    from django.urls import reverse
+    from django.utils.translation import ugettext as _
+    from lms.djangoapps.ccx.overrides import get_current_ccx
+    from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+    from branding import api as branding_api
 %>
+
 
 <h1 class="header-logo kre01_tlogo">
   <section class="courses-container bg-w">
@@ -44,6 +40,8 @@ from branding import api as branding_api
     </div>
   % endif
 </h1>
+
+
 % if enable_enterprise_sidebar:
   <div class="enterprise-tagline">
     <% tagline = configuration_helpers.get_value('ENTERPRISE_TAGLINE', settings.ENTERPRISE_TAGLINE) %>
@@ -56,7 +54,6 @@ from branding import api as branding_api
 <div class="M_kre01_top02area">
   <section class="courses-container bg-w">
     <section class="highlighted-courses">
-
       <div class="kre01_top02areadepth">
         <div class="course-search">
           <form method="get" action="/courses" id="m_main_form">
@@ -72,7 +69,6 @@ from branding import api as branding_api
           </form>
         </div>
       </div>
-
     </section>
   </section>
 </div>
