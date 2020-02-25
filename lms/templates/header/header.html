@@ -29,11 +29,7 @@
     % endif
     <div class="main-header">
         <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
-        % if user.is_authenticated:
-            <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
-        % else:
-            <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
-        % endif
+        <%include file="new_header.html" args="online_help_token=online_help_token"/>
     </div>
     <%include file="navbar-hamburger-menu.html" args="online_help_token=online_help_token"/>
 </header>
