@@ -2595,6 +2595,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     margin-top: 30px;
     width: 180px;
     height: 50px;
+    margin-left: 15px;
 }
 .new-logo {
     float: left;
@@ -2769,10 +2770,90 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     display: flex;
     padding-top: 25px;
     padding-bottom: 25px;
+    margin-left: 15px;
 }
 .new-nav-text {
     font-size: 18px;
     font-weight: 700;
     margin-right: 30px;
+    cursor: pointer;
+}
+
+
+/* new index css [footer] */
+.new-footer {
+  background-color: #222;
+  color: #ffffff;
+  padding-bottom: 60px;
+}
+.new-footer-col {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 40px;
+}
+.new-ff-three {
+  display: flex;
+  margin-bottom: 25px;
+  border-bottom: solid 1px #555;
+  padding-bottom: 25px;
+}
+.new-ff-two {
+  display: flex;
+}
+.new-ff-item {
+  display: flex;
+}
+.new-ff-copyright {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #aaa;
+    font-weight: 600;
+}
+.new-ff-left {
+    flex: 1;
+}
+.new-ff-right {
+    flex: 1;
+    text-align: center;
+}
+.new-ff-logo-item {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.new-ff-ttt {
+    margin-right: 25px;
+    font-weight: bold;
+}
+.new-ff-blue {
+    color: #79a9ff;
+}
+.new-ff-top-1 {
+    flex: 1;
+}
+.new-ff-top-2 {
+    flex: 1;
+}
+.new-ff-top-3 {
+    flex: 1;
+}
+.new-ff-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+.new-ff-bot {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.new-ff-sns {
+    margin-top: 20px;
+}
+.new-ff-link-item {
+    margin-right: 20px;
+}
+.new-ff-app {
+    margin-right: 15px;
     cursor: pointer;
 }

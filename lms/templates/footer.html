@@ -1,139 +1,122 @@
-## mako
 <%page expression_filter="h"/>
 <%!
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
-from branding.api import get_footer
+    from django.core.urlresolvers import reverse
+    from django.utils.translation import ugettext as _
+    from branding.api import get_footer
 %>
 <% footer = get_footer(is_secure=is_secure) %>
 <%namespace name='static' file='static_content.html'/>
 
-<section class="courses-container bg-b">
-    <section class="highlighted-courses">
-        <div class="kr01_accessarea">
-            <div class="kr01_access">
-                <ol>
-                    <li class="nav-colophon-01"><a href="/agreement">${_("Terms of Use")}</a></li>
-                    <li class="nav-colophon-02"><a href="/Privacy-Policy" style="color: #4587c2 !important;"><b>${_("Privacy Statement")}</b></a></li>
-                    % if LANGUAGE_CODE == 'ko-kr':
-                    <li class="nav-colophon-03"><a href="/Copyright-Policy">${_("Copyright Policy")}</a></li>
-                    % endif
-                    <li class="nav-colophon-05"><a href="/cert_check">${_("Certificate Id Check")}</a></li>
-                    <li class="nav-colophon-05"><a href="http://367.co.kr/" target="_blank">${_("HelpU")}</a></li>
-                    <li class="nav-colophon-05"><a href="/about?tab=3">${_("Participating Institutions")}(${_("Contact Us")})</a></li>
 
-                    % if LANGUAGE_CODE == 'en':
-                    <li class="nav-colophon-05"><a href="/comm_faqrequest">${_("Ask a question")}</a></li>
-                    % endif
-                </ol>
-            </div>
-        </div>
-    </section>
-</section>
+<footer class="new-footer">
+    <div class="new-footer-col">
 
-<section class="courses-container bg-333">
-    <section class="highlighted-courses">
-        <footer id="footer-openedx" class="grid-container"
-                ## When rendering the footer through the branding API,
-                ## the direction may not be set on the parent element,
-                ## so we set it here.
-                % if bidi:
-                dir=${bidi}
-                % endif
-        >
-            <script type="text/javascript" src="http://www.eprivacy.or.kr/seal/mark.js"></script>
-            <div class="col col-12 sm-col-6>">
-                <div class="kr01-ftarea">
-                    <ul>
-                        <li>
-                            <div class="sm-col-6">
-                                <div class="kr-associate-icon">
-                                  <span>
-	                				            <a href="http://www.moe.go.kr/" target="_blank" title="새창으로 열림"><img src="/static/images/common/logo3.png" alt="${_('Ministry of Education')}"></a>
-                                  </span>
-
-                                    <span class="footer-nile">
-	                				            <a href="http://www.nile.or.kr/" target="_blank" title="새창으로 열림"><img style="height: 23px;" src="/static/images/logo_nile.png" alt="${_('NILE')}"></a>
-	                			          </span>
-                                    <div class="kr-associate02-icon">
-                                        <a href="http://wa.or.kr/board/list.asp?BoardID=0006" target="_blank" title="새창으로 열림">
-                                            <img src="/static/images/common/footer_icon03.png" alt="한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크">
-                                        </a>
-                                        <a class="kr01-wh50" href="javascript:markPopupE('2019-R013');void(0)" title="새창으로 열림">
-                                            <img src="https://www.eprivacy.or.kr:40018/seal/mark_e.gif" alt="개인정보보호마크">
-                                        </a>
-                                        <a class="kr01-wh50" href="javascript:markPopupI('2019-R006');void(0)" title="새창으로 열림">
-                                            <img src="https://www.eprivacy.or.kr:40018/seal/mark_i.gif" alt="인터넷사이트안전마크">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="kr01-ftAD01">
-                                    <span class="kr01-ftaddr" title="(04520) 서울특별시 중구 청계천로 14 (무교동 77) 02-3780-9909"><span class="kr01-ftaddr kr01-ftaddr-01">${_("14, Cheonggyecheon-ro, Jung-gu, Seoul, Republic of Korea (04520)")} 02-3780-9909</span> | <span class="kr01-ftaddr kr01-ftaddr-02">(사업 문의) <a href="mailto:kmooc@nile.or.kr">kmooc@nile.or.kr</a> / (서비스 이용 문의) <a href="mailto:info_kmooc@nile.or.kr">info_kmooc@nile.or.kr</a></span></span>
-                                    <!--<span class="mr-btm10"></span>-->
-                                    <span class="copyright mr-btm35">Copyright(c)2019. 국가평생교육진흥원 (National Institute For Lifelong Education. All rights reserved)</span>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="kr01-flright">
-                            <div class="sm-col-6 kr01-ftsnsarea">
-                                <div class="kr-associate02-iconArea">
-                                    <div>
-                                        <div class="kr01_app">
-                                            <span><a href="https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8" target="_blank" title="새창으로 열림"><img src="/static/images/main/ios.png" alt="${_('Download the iOS app on the Apple Store')}"></a></span>
-                                            <span><a href="https://play.google.com/store/apps/details?id=com.nile.kmooc" target="_blank" title="새창으로 열림"><img src="/static/images/main/ad.png" alt="${_('Download the Android app on the Google Play Store')}"></a></span>
-                                        </div>
-                                        <h3 class="kr01_footer_Rtitle">${_('App Download')}</h3>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+        <div class="new-ff-three">
+            <!-- 1 -->
+            <div class="new-ff-top-1">
+                <div class="new-ff-title">
+                    K-MOOC
+                </div>
+                <div class="new-ff-bot">
+                    (04520) 서울특별시 중구 청계천로 14 (무교동 77)
+                </div>
+                <div class="new-ff-bot">
+                    E-mail : kmooc@nile.or.kr
+                </div>
+                <div class="new-ff-sns">
+                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                        <img src="/static/new_index/images/icon_link_facebook.png" alt="국가평생교육진흥원 페이스북">
+                    </a>
+                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                        <img src="/static/new_index/images/icon_link_instagram.png" alt="국가평생교육진흥원 인스타그램">
+                    </a>
+                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                        <img src="/static/new_index/images/icon_link_youtube.png" alt="국가평생교육진흥원 유튜브">
+                    </a>
+                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                        <img src="/static/new_index/images/icon_link_blog.png" alt="국가평생교육진흥원 블로그">
+                    </a>
                 </div>
             </div>
 
-        </footer>
-    </section>
-</section>
-
-<section class="courses-container bg-b" style="min-height: 40px;">
-    <section class="highlighted-courses">
-            <div class="kr01-ft-slider" style="max-width: 1200px; padding-top: 12px;">
-
-                <ul class="kr01-ft-familysite">
-                    <li><a href="http://www.moe.go.kr" target="_blank"><span>교육부</span></a></li>
-                    <li><a href="http://www.nile.or.kr" target="_blank"><span>국가평생교육진흥원</span></a></li>
-                    <li><a href="http://www.matchup.kr" target="_blank"><span>매치업</span></a></li>
-                    <li><a href="http://www.lifelongedu.go.kr" target="_blank"><span>늘배움</span></a></li>
-                    <li><a href="http://www.all.go.kr" target="_blank"><span>평생학습계좌제</span></a></li>
-                    <li><a href="http://www.cb.or.kr" target="_blank"><span>학점은행제</span></a></li>
-                    <li><a href="http://bdes.nile.or.kr" target="_blank"><span>독학학위제</span></a></li>
-                    <li><a href="http://www.le.or.kr" target="_blank"><span>국가문해교육센터</span></a></li>
-                    <li><a href="http://lledu.nile.or.kr" target="_blank"><span>평생교육사</span></a></li>
-                    <li><a href="http://nime.or.kr" target="_blank"><span>중앙다문화 교육센터</span></a></li>
-                    <li><a href="http://www.parents.go.kr" target="_blank"><span>전국학부모지원센터</span></a></li>
-                    <li><a href="http://www.cbinfo.or.kr" target="_blank"><span>학점은행제 알리미</span></a></li>
-                    <li><a href="http://univ.nile.or.kr" target="_blank"><span>대학평생교육활성화</span></a></li>
-                </ul>
+            <!-- 2 -->
+            <div class="new-ff-top-2">
+                <div class="new-ff-title">
+                    패밀리사이트
+                </div>
+                <div>
+                    <select class="new-ff-select">
+                        <option>교육부</option>
+                        <option>국가평생교육진흥원</option>
+                        <option>매치업</option>
+                        <option>늘배움</option>
+                        <option>평생학습계좌제</option>
+                        <option>학점은행제</option>
+                        <option>독학학위제</option>
+                        <option>국가문해교육센터</option>
+                        <option>평생교육사</option>
+                        <option>중앙다문화교육센터</option>
+                        <option>전국학부모지원센터</option>
+                        <option>학점은행제 알리미</option>
+                        <option>대학평생교육활성화</option>
+                    </select>
+                </div>
             </div>
-            <script>
+
+            <!-- 3 -->
+            <div class="new-ff-top-3">
+                <div class="new-ff-title">
+                    앱 다운로드
+                </div>
+                <div>
+                    <img class="new-ff-app" src="/static/new_index/images/icon_app_android.png">
+                    <img class="new-ff-app" src="/static/new_index/images/icon_app_ios.png">
+                </div>
+            </div>
+        </div>
 
 
-            </script>
+        <div class="new-ff-two">
+            <div class="new-ff-left">
+                <div class="new-ff-item">
+                    <div class="new-ff-ttt new-ff-blue">개인정보처리방침</div>
+                    <div class="new-ff-ttt">이용약관</div>
+                    <div class="new-ff-ttt">저작권보호정책</div>
+                    <div class="new-ff-ttt">이수증 검증</div>
+                    <div class="new-ff-ttt">원격도우미</div>
+                </div>
+                <div class="new-ff-copyright">
+                    Copyright ⓒ 2020 National Institute for Lifelong Education. All Rights Reserved.
+                </div>
+            </div>
+            <div class="new-ff-right">
+                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                    <img src="/static/new_index/images/logo_moe.png" alt="교육부">
+                </a>
+                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                    <img src="/static/new_index/images/logo_nile.png" alt="국가평생교육진흥원">
+                </a>
+                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                    <img src="/static/new_index/images/logo_privacy.png" alt="개인정보보호 인증마크">
+                </a>
+                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                    <img src="/static/new_index/images/logo_wa.png" alt="웹 접근성 인증마크">
+                </a>
+            </div>
+        </div>
 
-    </section>
-</section>
+    </div>
+</footer>
+
 
 % if include_dependencies:
-<%static:js group='base_vendor'/>
-<%static:css group='style-vendor'/>
-<%include file="widgets/segment-io.html" />
-<%include file="widgets/segment-io-footer.html" />
+    <%static:js group='base_vendor'/>
+    <%static:css group='style-vendor'/>
+    <%include file="widgets/segment-io.html" />
+    <%include file="widgets/segment-io-footer.html" />
 % endif
 % if footer_css_urls:
-% for url in footer_css_urls:
-<link rel="stylesheet" type="text/css" href="${url}"></link>
-% endfor
+    % for url in footer_css_urls:
+        <link rel="stylesheet" type="text/css" href="${url}"></link>
+    % endfor
 % endif
