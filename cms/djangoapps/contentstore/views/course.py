@@ -962,17 +962,7 @@ def _create_or_rerun_course(request):
         source_course_key = request.json.get('source_course_key')
         if source_course_key:
             source_course_key = CourseKey.from_string(source_course_key)
-            # 기존 강좌의 청강 허용여부
             try:
-                with connections['default'].cursor() as cur:
-                    query = '''
-                        SELECT ifnull(audit_yn, 'Y')
-                          FROM course_overview_addinfo
-                         WHERE course_id = '{course_id}';
-                    '''.format(course_id=request.json['source_course_key'])
-                    cur.execute(query)
-                    audit_yn = cur.fetchone()[0] if cur.rowcount else 'Y'
-                    fields.update({'audit_yn': audit_yn})
 
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
                 print "--rerun_course"
@@ -1150,17 +1140,11 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
     # verify user has access to the original course
     # source_course_key = CourseKey.from_string(user.json.get('source_course_key'))
     log.info(u'----rerun_course.start')
+
+    source_course_id = str(source_course_key)
+
     try:
         source_course = modulestore().get_course(source_course_key)
-        fields['classfy'] = source_course.classfy
-        fields['classfysub'] = source_course.classfysub
-        fields['middle_classfy'] = source_course.middle_classfy
-        fields['middle_classfysub'] = source_course.middle_classfysub
-        fields['linguistics'] = source_course.linguistics
-        fields['course_period'] = source_course.course_period
-        fields['user_edit'] = source_course.user_edit
-        # fields['org_kname'] = None
-        # fields['org_ename'] = None
     except Exception as e:
         log.info('e-------->', e)
         print e
@@ -1224,36 +1208,61 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
             cur.execute(query)
 
         user_id = user.id
-        middle_classfy = fields['middle_classfy']
-        classfy = fields['classfy']
-        # 기존 강좌의 청강여부 추가
-        audit_yn = fields['audit_yn'] if 'audit_yn' in fields else 'Y'
 
         with connections['default'].cursor() as cur:
             query = """
-                INSERT INTO course_overview_addinfo(course_id,
-                                                    create_year,
-                                                    course_no,
-                                                    regist_id,
-                                                    regist_date,
-                                                    modify_id,
-                                                    middle_classfy,
-                                                    classfy,
-                                                    audit_yn)
-                     VALUES ('{course_id}',
-                             date_format(now(), '%Y'),
-                             (SELECT count(*)
-                                  FROM course_overviews_courseoverview
-                                 WHERE   display_number_with_default = '{course_number}'
-                                      AND org = '{org}'),
-                             '{user_id}',
-                             now(),
-                             '{user_id}',
-                             '{middle_classfy}',
-                             '{classfy}',
-                             '{audit_yn}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org,
-                       audit_yn=audit_yn)
+                insert into course_overview_addinfo (course_id
+                    ,create_type
+                    ,create_year
+                    ,course_no
+                    ,teacher_name
+                    ,delete_yn
+                    ,regist_id
+                    ,regist_date
+                    ,classfy
+                    ,middle_classfy
+                    ,course_level
+                    ,course_subtitle
+                    ,course_period
+                    ,course_language
+                    ,audit_yn
+                    ,classfy_sub
+                    ,linguistics
+                    ,job_edu_yn
+                    ,ribbon_yn
+                    ,middle_classfy_sub
+                    ,fourth_industry_yn)
+                select '{destination_course_key}'
+                    ,create_type
+                    ,date_format(now(), '%Y')
+                    ,(SELECT count(*)
+                        FROM course_overviews_courseoverview
+                       WHERE display_number_with_default = '{course_number}'
+                         AND org = '{org}')
+                    ,teacher_name
+                    ,delete_yn
+                    ,'{user_id}'
+                    ,now()
+                    ,classfy
+                    ,middle_classfy
+                    ,course_level
+                    ,course_subtitle
+                    ,course_period
+                    ,course_language
+                    ,audit_yn
+                    ,classfy_sub
+                    ,linguistics
+                    ,job_edu_yn
+                    ,ribbon_yn
+                    ,middle_classfy_sub
+                    ,fourth_industry_yn from course_overview_addinfo where course_id = '{source_course_id}'
+            """.format(
+                destination_course_key=destination_course_key
+                , user_id=user_id
+                , org=org
+                , course_number=number
+                , source_course_id=source_course_id
+            )
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)

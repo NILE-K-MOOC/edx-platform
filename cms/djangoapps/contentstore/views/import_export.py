@@ -218,6 +218,48 @@ def _write_chunk(request, courselike_key):
 
         log.info("Course import %s: Upload complete", courselike_key)
 
+        # course_overview_addinfo 테이블에 교수자명 update
+        try:
+
+            with open(temp_filepath, 'rb') as local_file:
+                django_file = File(local_file)
+                storage_path = course_import_export_storage.save(u'olx_import/' + filename, django_file)
+
+                tar = tarfile.open(local_file.name, "r:gz")
+                for member in tar.getmembers():
+                    if str(member.name).startswith('course/course/course.xml'):
+                        from courseware.models import CourseOverview, CourseOverviewAddinfo
+                        import xml.etree.ElementTree as ET
+
+                        f = tar.extractfile(member)
+                        contents = f.read()
+                        xml = ET.fromstring(contents)
+
+                        overview = CourseOverview.objects.get(id=courselike_key)
+                        addinfo = CourseOverviewAddinfo.objects.get(course_id=overview)
+
+                        if 'teacher_name' in xml.attrib:
+                            addinfo.teacher_name = xml.attrib['teacher_name']
+
+                        if 'linguistics' in xml.attrib:
+                            addinfo.linguistics = xml.attrib['linguistics']
+
+                        if 'job_edu_yn' in xml.attrib:
+                            addinfo.job_edu_yn = xml.attrib['job_edu_yn']
+
+                        if 'ribbon_yn' in xml.attrib:
+                            addinfo.ribbon_yn = xml.attrib['ribbon_yn']
+
+                        if 'fourth_industry_yn' in xml.attrib:
+                            addinfo.fourth_industry_yn = xml.attrib['fourth_industry_yn']
+
+                        if 'course_level' in xml.attrib:
+                            addinfo.course_level = xml.attrib['course_level']
+
+                        addinfo.save()
+        except Exception as e:
+            log.info(e.message)
+
         # 자막 파일 생성 로직 추가
         try:
             with open(temp_filepath, 'rb') as local_file:
