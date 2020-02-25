@@ -172,7 +172,7 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
         path = req.path
 
         if path == '/api/courses/v1/course/detail/':
-            service_key = req.GET.get('ServiceKey')
+            service_key = req.GET.get('SG_APIM')
             check_api_key(service_key)
             course_id = req.GET.get('CourseId', '')
             course_id = course_id.replace(' ', '+')
@@ -333,7 +333,7 @@ class CourseListView(DeveloperErrorViewMixin, ListAPIView):
         path = req.path
 
         if path == '/api/courses/v1/course/list/':
-            service_key = req.GET.get('ServiceKey')
+            service_key = req.GET.get('SG_APIM')
             check_api_key(service_key)
 
         form = CourseListGetForm(self.request.query_params, initial={'requesting_user': self.request.user})
