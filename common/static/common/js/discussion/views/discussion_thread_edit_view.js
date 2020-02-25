@@ -75,7 +75,7 @@
                     ' onMouseWheel', ' onMove', ' onMoveEnd', ' onMoveStart', ' onOffline', ' onOnline', ' onOutOfSync', ' onPaste', ' onPause', ' onPopState', ' onProgress', ' onPropertyChange',
                     ' onReadyStateChange', ' onRedo', ' onRepeat', ' onReset', ' onResize', ' onResizeEnd', ' onResizeStart', ' onResume', ' onReverse', ' onRowsEnter', ' onRowExit', ' onRowDelete',
                     ' onRowInserted', ' onScroll', ' onSeek', ' onSelect', ' onSelectionChange', ' onSelectStart', ' onStart', ' onStop', ' onStorage', ' onSyncRestored', ' onSubmit', ' onTimeError',
-                    ' onTrackChange', ' onUndo', ' onUnload', ' onURLFlip', ' seekSegmentTime'];
+                    ' onTrackChange', ' onUndo', ' onUnload', ' onURLFlip', ' seekSegmentTime', 'document.cookie', 'prompt', 'confirm', 'alert'];
 
                 var pattern = new RegExp(pattern_list.join('|'), 'ig');
 
@@ -85,17 +85,16 @@
                 if (_title) {
                     _title.forEach(function (e) {
                         var re = new RegExp(e, 'g');
-                        title = title.replace(re, e.slice(0, e.length - 1).concat('*'));
+                        title = title.replace(re, e.slice(0, e.length).concat('*'));
                     });
                 }
 
                 if (_body) {
                     _body.forEach(function (e) {
                         var re = new RegExp(e, 'g');
-                        body = body.replace(re, e.slice(0, e.length - 1).concat('*'));
+                        body = body.replace(re, e.slice(0, e.length).concat('*'));
                     });
                 }
-
 
                 var threadType = this.$('.input-radio:checked').val(),
                     postData = {
@@ -104,13 +103,15 @@
                         body: body
                     };
 
-                var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+                // var pattern = /<script|<iframe|\.xml|\.xmp|\.on|\sonclick|\sondblclick|\sonmousedown|\sonmouseup|\sonmouseover|\sonmouseout|\sonmousemove|\sonkeydown|\sonkeyup|\sonkeypress|\sonsubmit|\sonreset|\sonchange|\sonfocus|\sonblur|\sonselect|\sonload|\sonreadystatechange|\sonDOMContentLoaded|\sonresize|\sonscroll|\sonunload/ig;
+
                 var _body = body.match(pattern);
 
                 if (_body) {
                     _body.forEach(function (e) {
                         var re = new RegExp(e, 'g');
-                        body = body.replace(re, '_'.concat(e));
+                        // body = body.replace(re, '_'.concat(e));
+                        body = body.replace(re, e.slice(0, e.length).concat('*'));
                     });
                 }
 

@@ -27922,7 +27922,7 @@ msgid "Today Courses"
 msgstr "오늘의 강좌"
 
 msgid "Fourth Industry"
-msgstr "4차 산업형명"
+msgstr "4차 산업혁명"
 
 msgid "Job Edu"
 msgstr "직업교육"
