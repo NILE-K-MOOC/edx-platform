@@ -29,17 +29,15 @@
     % endif
     <div class="main-header">
         <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
+        <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
         <%include file="new_header.html" args="online_help_token=online_help_token"/>
     </div>
     <%include file="navbar-hamburger-menu.html" args="online_help_token=online_help_token"/>
 </header>
 
 
-% if request.path == '/':
-    <%include file="navbar-menu.html" args="online_help_token=online_help_token"/>
-% else:
-    <%include file="navbar-menu-sub.html" args="online_help_token=online_help_token"/>
-% endif
+<%include file="new_nav.html" args="online_help_token=online_help_token"/>
+
 
 % if course:
 <div class="ie-banner" aria-hidden="true">${Text(_('{begin_strong}Warning:{end_strong} Your browser is not fully supported. We strongly recommend using {chrome_link} or {ff_link}.')).format(

@@ -1732,8 +1732,6 @@ article.course.none .kr01-courInfo-bar{
 /* gnb sub */
 .kre02_gnbarea{background:#fff !important; border-bottom: 4px solid #4286c5; border-top: 1px solid #eee;}
 
-.kr02nav {padding: 0 25px;}
-
 .kr02nav a, .kr02nav a:not(.btn), .kr02nav a:visited:not(.btn) {
   display: block;
   padding: 13px 20px;
@@ -2582,7 +2580,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 
 
-/* new index css */
+/* new index css [header] */
 .new-container {
     background: #fff !important;
     max-width: 100%;
@@ -2753,4 +2751,28 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .nn-text {
     flex: 8;
     text-align: left;
+}
+
+
+/* new index css [nav] */
+.new-nav-con {
+    max-width: 100%;
+    background: #fff !important;
+    border-bottom: 1px solid #e7e7e7;
+}
+.new-nav-col {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.new-nav-box {
+    display: flex;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+.new-nav-text {
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 30px;
+    cursor: pointer;
 }
