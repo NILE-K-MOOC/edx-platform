@@ -373,12 +373,60 @@ from student.models import CourseEnrollment
 
 </div>
 
+<style>
+.corona-img {
+    width:50px;
+    height:50px;
+}
+.corona-txt {
+    font-size: 12px;
+    margin-top: 10px;
+    margin-left: 12px;
+}
+.corona-box {
+    display: flex;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.corona-box:hover {
+    color: #0374f4;
+}
+.corona-wrap {
+    float: right; margin-top: -60px;
+}
+.corona-gap {
+    margin-top: 5px;
+}
+@media only screen and (max-width: 992px) {
+  .corona-wrap {
+    display: none;
+  }
+}
+</style>
+
 <main id="main" aria-label="Content" tabindex="-1">
     <div class="dashboard" id="dashboard-main">
       <div class="main-container">
         <div class="my-courses" id="my-courses">
             <header class="wrapper-header-courses">
                 <h2 class="header-courses">${_("Dashboard")}</h2>
+
+                <div class="corona-wrap">
+                    <div class="corona-box" onclick='window.location.replace("/new_dashboard");'>
+                        <img class="corona-img" src="/static/images/kotech_survey/dp01.png">
+                        <div class="corona-txt">
+                            묶음강좌
+                        </div>
+                    </div>
+                    <div class="corona-box corona-gap" onclick='window.location.replace("/cb_course_list");'>
+                        <img class="corona-img" src="/static/images/kotech_survey/dp02.png">
+                        <div class="corona-txt">
+                            학점은행과정
+                        </div>
+                    </div>
+                </div>
+
+
                 <nav class="faq-tab">
                     % if 'status' in request.session:
                     <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
@@ -397,9 +445,6 @@ from student.models import CourseEnrollment
                     </a>
                     <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
                         <h2 class="hidden_head">${_("interest")}</h2>
-                    </a>
-                    <a href="#" data-status="cb" class="${'on' if status_flag == 'cb' else ''} dash-link" title="학점은행과정"><span>학점은행과정</span>
-                        <h2 class="hidden_head">학점은행과정</h2>
                     </a>
                 </nav>
                 <div class="sub-end">

@@ -32,6 +32,7 @@ displayname = get_enterprise_learner_generic_name(request) or username
     <ul class="kr01_Tmenu kr01_Tmenu--toggle" id="settings" style="z-index: 999;">
         <li class="kr01_Tmenu__item"><a href="${reverse('dashboard')}">${_("Dashboard")}</a></li>
         <li class="kr01_Tmenu__item"><a href="/new_dashboard">${_("Series Course")}</a></li>
+        <li class="kr01_Tmenu__item" style="font-size: 10px;"><a href="/cb_course_list">학점은행이수증</a></li>
         <li class="kr01_Tmenu__item"><a href="${reverse('learner_profile', kwargs={'username': username})}">${_("Profile")}</a></li>
         <li class="kr01_Tmenu__item"><a href="${reverse('account_settings')}">${_("Account")}</a></li>
         <li class="kr01_Tmenu__item"><a href="${reverse('logout')}">${_("Sign Out")}</a></li>

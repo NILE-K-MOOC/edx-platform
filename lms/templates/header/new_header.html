@@ -1,0 +1,292 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='../static_content.html'/>
+<%namespace file='../main.html' import="login_query"/>
+<%!
+    from django.urls import reverse
+    from django.utils.translation import ugettext as _
+    from six import text_type
+    from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+    from branding import api as branding_api
+    from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_enabled, released_languages
+
+    from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_image_urls_for_user
+    from openedx.core.djangoapps.user_api.accounts.utils import retrieve_last_sitewide_block_completed
+    from openedx.features.enterprise_support.utils import get_enterprise_learner_generic_name
+%>
+<%
+    mktg_site_enabled = static.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False))
+    courses_are_browsable = settings.FEATURES.get('COURSES_ARE_BROWSABLE')
+    allows_login = not settings.FEATURES['DISABLE_LOGIN_BUTTON'] and not combined_login_and_register
+    can_discover_courses = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+    restrict_enroll_for_course = course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain
+    allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
+
+    self.real_user = getattr(user, 'real_user', user)
+    username = self.real_user.username
+    resume_block = retrieve_last_sitewide_block_completed(username)
+    displayname = get_enterprise_learner_generic_name(request) or username
+%>
+
+
+% if can_discover_courses:
+<section class="kre01_top01area">
+
+    <!-- 기능 : 언어 변경 숨겨진 섹션 -->
+    <section class="courses-container kr01_topTbg01">
+        <section class="highlighted-courses">
+            % if header_language_selector_is_enabled():
+                <% languages = released_languages() %>
+                % if len(languages) > 1:
+                    <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form" hidden>
+                        <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
+                        % if user.is_authenticated:
+                            <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
+                        % else:
+                            <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
+                        % endif
+                        <label>
+                            <span class="sr">${_("Choose Language")}</span>
+                                <select class="input select language-selector" id="settings-language-value" name="language">
+                                % for language in languages:
+                                    % if language[0] == LANGUAGE_CODE:
+                                        <option value="${language[0]}" selected="selected">${language[1]}</option>
+                                    % else:
+                                        <option value="${language[0]}" >${language[1]}</option>
+                                    % endif
+                                % endfor
+                            </select>
+                        </label>
+                    </form>
+                % endif
+            % endif
+        </section>
+    </section>
+
+    <!-- 렌더 : 실질적인 렌더링 래퍼 섹션 -->
+    <section class="new-container">
+        <!-- 렌더 : 1200px 고정 섹션 -->
+        <section class="new-rows">
+            <div class="new-header">
+
+                <!-- 렌더 : 로고 영역 -->
+                <div class="new-logo">
+                    <!-- 렌더 : 메인 로고 -->
+                    <a href="${branding_api.get_home_url()}">
+                        <img class="new-logo-img" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                    </a>
+                    <!-- 렌더 : 기관연계 로고 -->
+                    % if 'multisite_org' in request.session and 'save_path' in request.session:
+                    <a href="/org/${request.session['multisite_org']}">
+                        <img class="new-logo-img" src="${request.session['save_path']}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                    </a>
+                    % endif
+                </div>
+
+                <!-- 렌더 : 검색창 -->
+                <div class="new-rc-search">
+                    <div class="new-search-left">
+                        <div class="new-st">
+                            분류 탐색
+                        </div>
+                        <div class="new-ar">
+                            <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
+                        </div>
+                    </div>
+                    <input type="text" class="new-search-input">
+                    <div class="new-search-right">
+                        <img src="/static/new_index/images/icon_search.png"/>
+                    </div>
+                </div>
+
+                <!-- 렌더 : 우측 래퍼 영역 -->
+                <div class="new-rc">
+                    % if user.is_authenticated:
+                        <!-- 렌더 : 알람, 마이메뉴 -->
+                        <div class="new-rc-sign">
+                            <div class="new-login-memo" onclick='toggle_notice();'>
+                                <img class="mr5" src="/static/new_index/images/icon_notice.png">
+                                0
+                                <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
+                                <div id="new_notice" class="new-dropdown-menu2" style="display: none;">
+                                    <ul class="new-notice-list">
+                                        <li>
+                                            <a class="nn-atag" href="#">
+                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
+                                                <span class="nn-date">2020.02.20</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nn-atag" href="#">
+                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
+                                                <span class="nn-date">2020.02.20</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nn-atag" href="#">
+                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
+                                                <span class="nn-date">2020.02.20</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="new-notice-gab">
+                                        <a href="/memo">알림 목록으로</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="new-login-my" onclick='toggle_my();'>
+                                <img class="mr5" src="/static/new_index/images/icon_user.png">
+                                ${user.username}
+                                <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
+                                <div id="new_my" class="new-dropdown-menu" style="display: none;">
+                                    <ul class="new-menu-list">
+                                        <li>
+                                            <a href="${reverse('dashboard')}">${_("Dashboard")}</a>
+                                        </li>
+                                        <li>
+                                            <a href="/new_dashboard">${_("Series Course")}</a>
+                                        </li>
+                                        <li>
+                                            <a href="/cb_course_list">학점은행이수증</a>
+                                        </li>
+                                        <li>
+                                            <a href="${reverse('learner_profile', kwargs={'username': username})}">${_("Profile")}</a>
+                                        </li>
+                                        <li>
+                                            <a href="${reverse('account_settings')}">${_("Account")}</a>
+                                        </li>
+                                        <li>
+                                            <a href="${reverse('logout')}">${_("Sign Out")}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                Kor
+                            </div>
+                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                            <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                Eng
+                            </div>
+                        </div>
+                    % else:
+                        <!-- 렌더 : 로그인, 회원가입 -->
+                        <div class="new-rc-sign">
+                            <div class="new-btn-signin" onclick='window.location.href = "/login${login_query()}";'>${_("Sign In")}</div>
+                            <div class="new-btn-signup new-blue" onclick='window.location.href = "/register${login_query()}";'>${_("Register")}</div>
+
+                            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                Kor
+                            </div>
+                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                            <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                Eng
+                            </div>
+                        </div>
+                    % endif
+
+
+                    <!-- 렌더 : 언어선택 -->
+                    <div class="new-rc-language">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+</section>
+% endif
+
+
+<script type="text/javascript">
+
+
+function toggle_my(){
+    if($('#new_my').css('display') == 'none'){
+       $('#new_my').show('fast');
+       $('#new_notice').hide('fast');
+    } else {
+       $('#new_my').hide('fast');
+    }
+}
+
+
+function toggle_notice(){
+    if($('#new_notice').css('display') == 'none'){
+       $('#new_notice').show('fast');
+       $('#new_my').hide('fast');
+    } else {
+       $('#new_notice').hide('fast');
+    }
+}
+
+
+var window_W = 0;
+
+$(document).ready(function(){
+
+    window_W = $(window).width();
+    // nav_resize();
+
+    var lang = $('html').attr('lang');
+    $('#' + lang).attr('checked', true);
+
+    $(".language-btn").on('click keypress', function(e){
+        let code;
+        if (e.type === 'keypress') {
+            code = e.charCode || e.keyCode;
+        }
+        if (e.type === 'click' || (code === 32 || code === 13)){
+            var label_id = $(this).attr('for');
+            $('#settings-language-value').val(label_id).trigger('change');
+        }
+    });
+
+    $(".language a").click(function(){
+        var href = $(this).attr("href");
+        href = href + "?next="+document.location.pathname;
+        $(this).attr("href", href);
+    });
+
+    $(".m-gnb").click(function () {
+        console.log($("#gnb").is(':visible'));
+        if (!$("#gnb").is(':visible')){
+            $("#gnb").show();
+        } else {
+            if($(".nav-global-04 ul").is(':visible')){
+                $(".nav-global-04").trigger('click');
+            }
+            $("#gnb").hide();
+        }
+    });
+});
+
+
+/*
+function nav_resize() {
+    window_W = $(window).width();
+    if (window_W<=768) {
+        $(".nav-global-04").toggle(function () {
+            $(".comm_a").children('span').removeAttr('style', 'color');
+            $(this).find("ul").show();
+        }, function (e) {
+            var target = e.target;
+            if (!target.className && target.tagName == 'A') {
+                $(".nav-global-04").off('click');
+                location.href = target.href;
+            } else {
+                $(this).find("ul").hide();
+                $(".comm_a").children('span').css({'color': '#636363'});
+            }
+        });
+    } else {
+        $('.nav-global-04').hover(function() {
+            $(this).children('ul').stop(true, false, true).slideToggle(500);
+        });
+    }
+}
+*/
+</script>

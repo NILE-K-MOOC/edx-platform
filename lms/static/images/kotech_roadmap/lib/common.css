@@ -1,0 +1,88 @@
+.ai-title {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.ai-title-sub {
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #a3a3a3;
+}
+#mynetwork {
+  border-radius: 5px;
+  border: solid 2px #c8c8c8;
+  max-width: 1000px;
+  height: 600px;
+  margin-left :auto;
+  margin-right: auto;
+}
+.net-txt {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.net-nav-color {
+  width: 30px;
+  border-radius: 5px;
+  margin-right: 10px;
+  border: solid 1px #cecece;
+}
+.net-A {
+  background: #c4edff;
+}
+.net-B {
+  background: #ffffff;
+}
+.net-C {
+  background: #fffbd8;
+}
+.net-D {
+  background: #a0ffa2;
+}
+.net-E {
+  background: #ffc107;
+}
+.net-nav-txt {
+  margin-right: 30px;
+}
+.net-nav-box {
+  display: flex;
+}
+.color-nav {
+  display: flex;
+  margin-left: 160px;
+  margin-top: 15px;
+  font-size: 12px;
+  transition: 0.3s;
+}
+.net-back {
+  text-align: right;
+  margin-bottom: 10px;
+  font-size: 12px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.net-back:hover {
+  color: #0b93b9;
+}
+@media only screen and (max-width: 1200px) {
+  .color-nav {
+    margin-left: 110px;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  .color-nav {
+    margin-left: 70px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .color-nav {
+    display: unset;
+  }
+  .net-nav-box {
+    margin-bottom: 10px;
+  }
+}

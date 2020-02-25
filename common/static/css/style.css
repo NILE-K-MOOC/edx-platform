@@ -313,8 +313,35 @@
 }
 
 /** added  **/
+@font-face {
+    font-family: 'Noto Sans KR' !important;
+    font-weight: 400;
+    src: url(/static/new_index/font/NotoSansRegular.eot); /* IE 호환성 보기 */
+    src: url(/static/new_index/font/NotoSansRegular#iefix) format('embedded-opentype'), /* IE 6 ~ 8 */
+         url(/static/new_index/font/NotoSansRegular.woff2) format('woff2'),
+         url(/static/new_index/font/NotoSansRegular.woff) format('woff'),
+         url(/static/new_index/font/NotoSansRegular.svg) format('svg');
+}
 
-* {font-family:"Nanum Gothic","Open Sans";}
+@font-face {
+    font-family: 'Noto Sans KR' !important;
+    font-weight: 500;
+    src: url(/static/new_index/font/NotoSansMedium.eot); /* IE 호환성 보기 */
+    src: url(/static/new_index/font/NotoSansMedium#iefix) format('embedded-opentype'), /* IE 6 ~ 8 */
+         url(/static/new_index/font/NotoSansMedium.woff2) format('woff2'),
+         url(/static/new_index/font/NotoSansMedium.woff) format('woff'),
+         url(/static/new_index/font/NotoSansMedium.svg) format('svg');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR' !important;
+    font-weight: 700;
+    src: url(/static/new_index/font/NotoSansBold.eot); /* IE 호환성 보기 */
+    src: url(/static/new_index/font/NotoSansBold#iefix) format('embedded-opentype'), /* IE 6 ~ 8 */
+         url(/static/new_index/font/NotoSansBold.woff2) format('woff2'),
+         url(/static/new_index/font/NotoSansBold.woff) format('woff'),
+         url(/static/new_index/font/NotoSansBold.svg) format('svg');
+}
 a, span, p {color:inherit;}
 
 .header-global .header-util {

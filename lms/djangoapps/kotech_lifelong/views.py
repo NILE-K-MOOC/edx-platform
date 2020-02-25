@@ -46,6 +46,11 @@ def dictfetchall(cursor):
     ]
 
 
+def cb_course_list(request):
+    context = {}
+    return render_to_response('community/cb_course_list.html', context)
+
+
 def cb_print(request, course_id):
 
     # url 직접 입력 후 접근 시 발생하는 버그 수정
