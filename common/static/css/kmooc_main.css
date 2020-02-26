@@ -2823,7 +2823,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     margin-right: 15px;
 }
 .new-ff-ttt {
-    margin-right: 25px;
+    margin-right: 20px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -2858,9 +2858,6 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .new-ff-app {
     margin-right: 15px;
     cursor: pointer;
-}
-.new-ff-select {
-  color: -internal-light-dark-color(black, white);
 }
 .new-ff-select {width: 300px; padding: 5px; border: 1px solid #fff; background-color: transparent; color: #fff;}
 .new-ff-select option {color: #222;}

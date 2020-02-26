@@ -208,6 +208,25 @@ cookiedata = document.cookie;
 </script>
 
 
+<script>
+    function change_course(type){
+        if (type=='pop') {
+            $('#section_today').hide();
+            $('#section_pop').show();
+            $('#section_new').hide();
+        } else if (type=='new') {
+            $('#section_today').hide();
+            $('#section_pop').hide();
+            $('#section_new').show();
+        } else if (type=='today') {
+            $('#section_today').show();
+            $('#section_pop').hide();
+            $('#section_new').hide();
+        }
+    }
+</script>
+
+
 <style>
     .more {
         color: #222 !important;
@@ -226,6 +245,23 @@ cookiedata = document.cookie;
     }
     .course-item {
         text-decoration:none !important
+    }
+    .el-xbox > a {
+        text-decoration:none !important
+    }
+    .el-xbox {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        transition: 0.3s;
+    }
+    .course-title {
+        font-family: 'Noto Sans KR' !important;
+    }
+    .sub-title {
+        font-family: 'Noto Sans KR' !important;
+    }
+    .csp {
+        cursor: pointer;
     }
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
@@ -253,7 +289,7 @@ cookiedata = document.cookie;
                             <a href="/series/">묶음 강좌</a>
                         </li>
                         <li>
-                            <a href="#">분야별 강좌</a>
+                            <a href="/courses">분야별 강좌</a>
                         </li>
                         <li>
                             <a href="/search">학점은행제</a>
@@ -267,22 +303,22 @@ cookiedata = document.cookie;
     <section class="sec-classify">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-2">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item">4차 산업혁명</a>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item">AI 인공지능</a>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item">이공계 기초과학</a>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item">한국학</a>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item">직업교육</a>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-2">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item">연령별 강좌보기</a>
                 </div>
             </div>
@@ -290,133 +326,171 @@ cookiedata = document.cookie;
     </section>
     <section class="sec-course">
         <div class="container-fluid">
-        <div class="course-top">
-            <h1 class="title">이런 강좌는 어떠세요?</h1>
-            <ul class="tab-group">
-                <li>
-                    <a href="#" class="tab active">인기강좌</a>
-                </li>
-                <li>
-                    <a href="#" class="tab">신규강좌</a>
-                </li>
-                <li>
-                    <a href="#" class="tab">오늘의 강좌</a>
-                </li>
-                <li>
-                    <a href="#" class="tab">수강중인 강좌</a>
-                </li>
-            </ul>
+            <div class="course-top">
+                <h1 class="title">이런 강좌는 어떠세요?</h1>
+                <ul class="tab-group">
+                    <li>
+                        <div onclick="change_course('pop')" class="csp tab active">인기강좌</div>
+                    </li>
+                    <li>
+                        <div onclick="change_course('new')" class="csp tab">신규강좌</div>
+                    </li>
+                    <li>
+                        <div onclick="change_course('today')" class="csp tab">오늘의 강좌</div>
+                    </li>
+                    <!--
+                    <li>
+                        <div onclick="change_course()" class="csp tab">수강중인 강좌</div>
+                    </li>
+                    -->
+                </ul>
+            </div>
+
+            <!-- 인기강좌 -->
+            <div id="section_pop" class="owl-carousel course-carousel owl-loaded owl-drag">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                        % for courses in pop_courses:
+                        <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                            <div class="item">
+                                <a href="${courses.id}" class="course-item">
+                                    <div class="course-thumb">
+                                        <figure>
+                                            <img src="${courses.course_image_url}">
+                                            <span class="more">
+                                                <span>자세히 보기</span>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <h2 class="course-title">${courses.display_name}</h2>
+                                    <div class="course-info">
+                                        <p class="instructor">
+                                            <span>${courses.teachers}</span>
+                                            <span>${courses.org}</span>
+                                        </p>
+                                        <p class="period">
+                                            <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % if courses.status == 'ing':
+                                                <span class="state ing">진행중</span>
+                                            % elif courses.status == 'end':
+                                                <span class="state end">종료</span>
+                                            % else:
+                                                <span class="state ing">${courses.status}</span>
+                                            % endif
+                                            <!--<span class="state soon">개강예정</span>-->
+                                            <!--<span class="state possible">청강가능</span>-->
+                                            <!--<span class="state end">종료</span>-->
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        % endfor
+                    </div>
+                </div>
+            </div>
+
+            <!-- 신규강좌 -->
+            <div id="section_new" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                        % for courses in new_courses:
+                        <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                            <div class="item">
+                                <a href="${courses.id}" class="course-item">
+                                    <div class="course-thumb">
+                                        <figure>
+                                            <img src="${courses.course_image_url}">
+                                            <span class="more">
+                                                <span>자세히 보기</span>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <h2 class="course-title">${courses.display_name}</h2>
+                                    <div class="course-info">
+                                        <p class="instructor">
+                                            <span>${courses.teachers}</span>
+                                            <span>${courses.org}</span>
+                                        </p>
+                                        <p class="period">
+                                            <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % if courses.status == 'ing':
+                                                <span class="state ing">진행중</span>
+                                            % elif courses.status == 'end':
+                                                <span class="state end">종료</span>
+                                            % else:
+                                                <span class="state ing">${courses.status}</span>
+                                            % endif
+                                            <!--<span class="state soon">개강예정</span>-->
+                                            <!--<span class="state possible">청강가능</span>-->
+                                            <!--<span class="state end">종료</span>-->
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        % endfor
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오늘의강좌 -->
+            <div id="section_today" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                        % for courses in today_courses:
+                        <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                            <div class="item">
+                                <a href="${courses.id}" class="course-item">
+                                    <div class="course-thumb">
+                                        <figure>
+                                            <img src="${courses.course_image_url}">
+                                            <span class="more">
+                                                <span>자세히 보기</span>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <h2 class="course-title">${courses.display_name}</h2>
+                                    <div class="course-info">
+                                        <p class="instructor">
+                                            <span>${courses.teachers}</span>
+                                            <span>${courses.org}</span>
+                                        </p>
+                                        <p class="period">
+                                            <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % if courses.status == 'ing':
+                                                <span class="state ing">진행중</span>
+                                            % elif courses.status == 'end':
+                                                <span class="state end">종료</span>
+                                            % else:
+                                                <span class="state ing">${courses.status}</span>
+                                            % endif
+                                            <!--<span class="state soon">개강예정</span>-->
+                                            <!--<span class="state possible">청강가능</span>-->
+                                            <!--<span class="state end">종료</span>-->
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        % endfor
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="owl-carousel course-carousel owl-loaded owl-drag">
-        <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;"><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
-                <a href="#" class="course-item">
-                    <div class="course-thumb">
-                        <figure>
-                            <img src="/static/new_index/images/img_sample_001.png">
-                            <span class="more">
-                                <span>자세히 보기</span>
-                            </span>
-                        </figure>
-                    </div>
-                    <h2 class="course-title">AWS와 텐서플로우 기반 IoT 빅테이터 실습 및 활용</h2>
-                    <div class="course-info">
-                        <p class="instructor">
-                            <span>이종혁 외 1명</span>
-                            <span>대구가톨릭대학교</span>
-                        </p>
-                        <p class="period">
-                            <span class="date">2020/02/17 ~ 2020/03/16</span>
-                            <span class="state ing">진행중</span>
-                        </p>
-                    </div>
-                </a>
-            </div></div><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
-                <a href="#" class="course-item">
-                    <div class="course-thumb">
-                        <figure>
-                            <img src="/static/new_index/images/img_sample_002.png">
-                            <span class="more">
-                                <span>자세히 보기</span>
-                            </span>
-                        </figure>
-                    </div>
-                    <h2 class="course-title">베이비시터 ‘함께키움’의 세상을 만들다</h2>
-                    <div class="course-info">
-                        <p class="instructor">
-                            <span>부산디지털대학교</span>
-                        </p>
-                        <p class="period">
-                            <span class="date">2020/02/17 ~ 2020/03/16</span>
-                            <span class="state soon">개강예정</span>
-                        </p>
-                    </div>
-                </a>
-            </div></div><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
-                <a href="#" class="course-item">
-                    <div class="course-thumb">
-                        <figure>
-                            <img src="/static/new_index/images/img_sample_003.png">
-                            <span class="more">
-                                <span>자세히 보기</span>
-                            </span>
-                        </figure>
-                    </div>
-                    <h2 class="course-title">비전공자를 위한 기초 화학</h2>
-                    <div class="course-info">
-                        <p class="instructor">
-                            <span>한양대학교</span>
-                        </p>
-                        <p class="period">
-                            <span class="date">2020/02/17 ~ 2020/03/16</span>
-                            <span class="state possible">청강가능</span>
-                        </p>
-                    </div>
-                </a>
-            </div></div><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
-                <a href="#" class="course-item">
-                    <div class="course-thumb">
-                        <figure>
-                            <img src="/static/new_index/images/img_sample_004.png">
-                            <span class="more">
-                                <span>자세히 보기</span>
-                            </span>
-                        </figure>
-                    </div>
-                    <h2 class="course-title">한국어를 부탁해: 한국어 중급</h2>
-                    <div class="course-info">
-                        <p class="instructor">
-                            <span>이종혁 외 1명</span>
-                            <span>대구가톨릭대학교</span>
-                        </p>
-                        <p class="period">
-                            <span class="date">2020/02/17 ~ 2020/03/16</span>
-                            <span class="state end">종료</span>
-                        </p>
-                    </div>
-                </a>
-            </div></div><div class="owl-item" style="width: 277.5px; margin-right: 20px;"><div class="item">
-                <a href="#" class="course-item">
-                    <div class="course-thumb">
-                        <figure>
-                            <img src="/static/new_index/images/img_sample_002.png">
-                            <span class="more">
-                                <span>자세히 보기</span>
-                            </span>
-                        </figure>
-                    </div>
-                    <h2 class="course-title">Mathematical Fundamentals for Data Science</h2>
-                    <div class="course-info">
-                        <p class="instructor">
-                            <span>고려대학교</span>
-                        </p>
-                        <p class="period">
-                            <span class="date">2020/02/17 ~ 2020/03/16</span>
-                            <span class="state soon">개강예정</span>
-                        </p>
-                    </div>
-                </a>
-            </div></div></div></div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
+        <div class="owl-nav">
+            <button type="button" role="presentation" class="owl-prev disabled">
+                <span aria-label="Previous">‹</span>
+            </button>
+            <button type="button" role="presentation" class="owl-next">
+                <span aria-label="Next">›</span>
+            </button>
         </div>
+        <div class="owl-dots disabled"></div>
     </section>
     <section class="sec-visual com">
         <div class="container-fluid">
@@ -449,15 +523,15 @@ cookiedata = document.cookie;
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="number-item student">
-                        <h2 class="sub-title">70만명+</h2>
-                        <p class="cont">수강 신청자 70만명 돌파<br>누적 방문자 700만명 돌파</p>
+                        <h2 class="sub-title"><span id="cu-a">110</span>만명+</h2>
+                        <p class="cont">수강 신청자 110만명 돌파<br>누적 방문자 1,000만명 돌파</p>
                         <a href="/register" class="link">회원가입하기</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="number-item course">
-                        <h2 class="sub-title">무료 강좌 500개+</h2>
-                        <p class="cont">온라인 무료 강좌 500개 돌파</p>
+                        <h2 class="sub-title">무료 강좌 700개+</h2>
+                        <p class="cont">온라인 무료 강좌 700개 돌파</p>
                         <a href="/courses" class="link">전체 강좌 보기</a>
                     </div>
                 </div>
