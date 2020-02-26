@@ -208,247 +208,263 @@ cookiedata = document.cookie;
 </script>
 
 
+<style>
+    .more {
+        color: #222 !important;
+    }
+    .quick-link > li > a {
+        color: #222 !important;
+    }
+    .classify-item {
+        color: #222 !important;
+    }
+    .link {
+        color: #222 !important;
+    }
+</style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
-    <section class="kr01">
-        <header>
-            <div class="kr01_outer-wrapper">
-                <section class="courses-container"style="background: none;">
-                    <section class="highlighted-courses">
-                        <div class="kr01_mainslider_area" style="margin: 0 auto; margin-top: 15px;">
-                            <ul class="kr01_mainslider">
-                                % if popzone_list:
-                                    % for pop in popzone_list:
-                                        <li>
-                                            <a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
-                                                <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}" onerror="this.src='/static/images/blank.png'"/>
-                                            </a>
-                                            <div class="kr01_mainslider_captions">
-                                                <span class="slider-txt">${pop['title']}</span>
-                                            </div>
-                                        </li>
-                                    % endfor
-                                % else:
-                                    <li>
-                                        <a href="/about">
-                                            <img src="/static/images/main/ba03.jpg" alt="${_('About Us')}"/>
-                                        </a>
-                                        <div class="kr01_mainslider_captions">
-                                            <span class="slider-txt">${_('About Us')}</span>
-                                        </div>
-                                    </li>
-                                % endif
-                            </ul>
-                        </div>
-                    </section>
-                </section>
+    <section class="sec-visual about">
+        <div class="container-fluid">
+            <div class="visual-row">
+                <div class="visual-col txt">
+                    <h1 class="title" style="text-align: left; color: #222;">K-MOOC 소개</h1>
+                    <p class="content" style="color: #222;">K-MOOC는 온라인을 통해서<br>누구나, 어디서나 원하는 강좌를 무료로 들을 수 있는<br>온라인 공개강좌 서비스로 2015년에 시작된<br>한국형 무크입니다.</p>
+                    <a href="#" class="more">more</a>
+                </div>
+                <div class="visual-col img"></div>
             </div>
-        </header>
-        <h1 class="kr01_explain">5개 메뉴</h1>
-        <section class="courses-container">
-            <section class="highlighted-courses">
-                <div class="kr01_fivemenu ">
-                    <ul class="fivemenarea link_to_courses" id="link_to_courses">
-                        <li class="kr01_f01">
-                            <div>
-                                <a href="#" class="fivemenarea-a" data-facet="fourth_industry_yn" data-term="fourth_industry_y">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Fourth Industry")}</span>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="kmline_all">
-                            <div class="kmline_area">
-                                <i class="kmline"></i>
-                            </div>
-                        </li>
-                        <li class="kr01_f02">
-                            <div>
-                                <a href="/series" class="fivemenarea-a">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Series Course")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kmline_all">
-                            <div class="kmline_area">
-                                <i class="kmline"></i>
-                            </div>
-                        </li>
-                        <li class="kr01_f03">
-                            <div>
-                                <a href="#" class="fivemenarea-a" data-facet="job_edu_yn" data-term="job_edu_y">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Job Edu")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kmline_all">
-                            <div class="kmline_area">
-                                <i class="kmline"></i>
-                            </div>
-                        </li>
-                        <li class="kr01_f05">
-                            <div>
-                                <a href="#" class="fivemenarea-a" data-facet="linguistics" data-term="Y">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Linguistics")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kmline_all">
-                            <div class="kmline_area">
-                                <i class="kmline"></i>
-                            </div>
-                        </li>
-                        <li class="kr01_f04">
-                            <div>
-                                <a href="https://forms.gle/mYsMkFbbGWsgD7cP8" target="_blank" class="fivemenarea-sub">
-                                    <i class="fa fa-book"></i>
-                                    <span>${_("Course Demand Survey")}</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a onclick="show_course_popup();" title="" tabindex="0" class="fivemenarea-sub show-course-data">
-                                    <i class="fa fa-book"></i>
-                                    <span>${_("Updating Course")}</span>
-                                    <!--#<span>${index_submenu['subm_title_2']}</span>-->
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="kr01_fivemenu02 ">
-                    <ul class="fivemenarea link_to_courses">
-                        <li class="kr01_f01">
-                            <div>
-                                <a class="fivemenarea-a" href="#" data-facet="fourth_industry_yn" data-term="fourth_industry_y">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Fourth Industry")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kr01_f02">
-                            <div>
-                                <a class="fivemenarea-a" href="/series">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Series Course")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kr01_f03">
-                            <div>
-                                <a class="fivemenarea-a" href="#" data-facet="job_edu_yn" data-term="job_edu_y">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Job Edu")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kr01_f05">
-                            <div>
-                                <a class="fivemenarea-a" href="#" data-facet="linguistics" data-term="Y">
-                                    <i class="fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Linguistics")}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kr01_f04">
-                            <div>
-                                <a class="fivemenarea-a" target="_blank" href="${index_submenu['subm_link_1']}">
-                                    <i class="fa fa-bullhorn fa-2x fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${index_submenu['subm_title_1']}</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="kr01_f04">
-                            <div>
-                                <a class="fivemenarea-a show-course-data" tabindex="0" title="새창 열림" onclick="show_course_popup();">
-                                    <i class="fa fa-bullhorn fa-2x fivemenarea-icon"></i>
-                                    <span class="fivemenarea-span">${_("Updating Course")}</span>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-        </section>
+        </div>
     </section>
-    <h1 class="kr01_explain">${_("Updates")}</h1>
-        <section class="courses-container kr01_alert">
-            <section class="highlighted-courses">
-                <div class="kr01_alertarea">
-                    <i class="kr01_iconarea" style=" "><img alt="" src="/static/images/main/sp.png"></i>
-                    <span class="kr01_icontTitle">${_("Updates")}</span>
-                    <div class="kr01_alretTxt">
-                        <div class="kr01_alert_slider">
-                            <div class="slider" id="board_slider">
-                                % for list in index_list[:4] :
-                                    % if list['section'] != 'F':
-                                        <article class="slide"><a href="/comm_view/${list['section']}/1/${list['board_id']}"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
-                                    % else:
-                                        <article class="slide"><a href="/comm_tabs/${list['faq_section']}/"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
-                                    % endif
-                                % endfor
-                            </div>
-                            <div class="kr01-Sarrow">
-                                <div class="bxslider-prev"></div>
-                                <div class="bxslider-next"></div>
-                            </div>
-                            <div class="kr01-slider-extend">
-                                <a href="${'/comm_list/' + index_list[0]['section'] if index_list[0]['section'] != 'F' else '/comm_tabs/kmooc_f'}/" id="comm_more" title="${index_list[0]['category']}">
-                                    <span>${_("More")}+</span>
-                                </a>
-                            </div>
-                        </div>
+    <section class="sec-visual lec">
+        <div class="container-fluid">
+            <div class="visual-row">
+                <div class="visual-col img"></div>
+                <div class="visual-col txt">
+                    <h1 class="title" style="text-align: left; color: #222;">강좌찾기</h1>
+                    <p class="content" style="color: #222;">K-MOOC의 다양한 강좌를 통해 목표를 달성해 보세요.</p>
+                    <ul class="quick-link">
+                        <li>
+                            <a href="#">묶음 강좌</a>
+                        </li>
+                        <li>
+                            <a href="#">분야별 강좌</a>
+                        </li>
+                        <li>
+                            <a href="#">학점은행제</a>
+                        </li>
+                    </ul>
+                    <a href="#" class="more">more</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec-classify">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <a href="#" class="classify-item">4차 산업혁명</a>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <a href="#" class="classify-item">AI 인공지능</a>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <a href="#" class="classify-item">이공계 기초과학</a>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <a href="#" class="classify-item">한국학</a>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <a href="#" class="classify-item">직업교육</a>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <a href="#" class="classify-item">연령별 강좌보기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec-course">
+        <div class="container-fluid">
+        <div class="course-top">
+            <h1 class="title">이런 강좌는 어떠세요?</h1>
+            <ul class="tab-group">
+                <li>
+                    <a href="#" class="tab active">인기강좌</a>
+                </li>
+                <li>
+                    <a href="#" class="tab">신규강좌</a>
+                </li>
+                <li>
+                    <a href="#" class="tab">오늘의 강좌</a>
+                </li>
+                <li>
+                    <a href="#" class="tab">수강중인 강좌</a>
+                </li>
+            </ul>
+        </div>
+        <div class="owl-carousel course-carousel owl-loaded owl-drag">
+        <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;"><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
+                <a href="#" class="course-item">
+                    <div class="course-thumb">
+                        <figure>
+                            <img src="images/img_sample_001.png">
+                            <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                        </figure>
                     </div>
-                    <div class="kr01_SnsArea">
-                        <ul>
-                            <li>
-                                <a href="http://www.facebook.com/kmooc" title="Facebook" class="kr01_SnsFace"><img alt="K-MOOC Facebook" src="/static/images/main/sns01.png"></a>
-                            </li>
-                            <li>
-                                <a href="https://www.instagram.com/kmooc_/" title="instagram" class="kr01_SnsInstar"><img alt="K-MOOC instagram" src="/static/images/main/sns02.png"></a>
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/channel/UCaXoWllLNJ4t5d39nmJKyJw" title="Youtube" class="kr01_SnsYoutu"><img alt="K-MOOC Youtube" src="/static/images/main/sns03.png"></a>
-                            </li>
-                            <li>
-                                <a href="http://blog.naver.com/kmooc_kr" title="Naver blog" class="kr01_SnsNblog"><img alt="K-MOOC Naver blog" src="/static/images/main/sns04.png"></a>
-                            </li>
-                        </ul>
+                    <h2 class="course-title">AWS와 텐서플로우 기반 IoT 빅테이터 실습 및 활용</h2>
+                    <div class="course-info">
+                        <p class="instructor">
+                            <span>이종혁 외 1명</span>
+                            <span>대구가톨릭대학교</span>
+                        </p>
+                        <p class="period">
+                            <span class="date">2020/02/17 ~ 2020/03/16</span>
+                            <span class="state ing">진행중</span>
+                        </p>
+                    </div>
+                </a>
+            </div></div><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
+                <a href="#" class="course-item">
+                    <div class="course-thumb">
+                        <figure>
+                            <img src="images/img_sample_002.png">
+                            <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                        </figure>
+                    </div>
+                    <h2 class="course-title">베이비시터 ‘함께키움’의 세상을 만들다</h2>
+                    <div class="course-info">
+                        <p class="instructor">
+                            <span>부산디지털대학교</span>
+                        </p>
+                        <p class="period">
+                            <span class="date">2020/02/17 ~ 2020/03/16</span>
+                            <span class="state soon">개강예정</span>
+                        </p>
+                    </div>
+                </a>
+            </div></div><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
+                <a href="#" class="course-item">
+                    <div class="course-thumb">
+                        <figure>
+                            <img src="images/img_sample_003.png">
+                            <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                        </figure>
+                    </div>
+                    <h2 class="course-title">비전공자를 위한 기초 화학</h2>
+                    <div class="course-info">
+                        <p class="instructor">
+                            <span>한양대학교</span>
+                        </p>
+                        <p class="period">
+                            <span class="date">2020/02/17 ~ 2020/03/16</span>
+                            <span class="state possible">청강가능</span>
+                        </p>
+                    </div>
+                </a>
+            </div></div><div class="owl-item active" style="width: 277.5px; margin-right: 20px;"><div class="item">
+                <a href="#" class="course-item">
+                    <div class="course-thumb">
+                        <figure>
+                            <img src="images/img_sample_004.png">
+                            <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                        </figure>
+                    </div>
+                    <h2 class="course-title">한국어를 부탁해: 한국어 중급</h2>
+                    <div class="course-info">
+                        <p class="instructor">
+                            <span>이종혁 외 1명</span>
+                            <span>대구가톨릭대학교</span>
+                        </p>
+                        <p class="period">
+                            <span class="date">2020/02/17 ~ 2020/03/16</span>
+                            <span class="state end">종료</span>
+                        </p>
+                    </div>
+                </a>
+            </div></div><div class="owl-item" style="width: 277.5px; margin-right: 20px;"><div class="item">
+                <a href="#" class="course-item">
+                    <div class="course-thumb">
+                        <figure>
+                            <img src="images/img_sample_002.png">
+                            <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                        </figure>
+                    </div>
+                    <h2 class="course-title">Mathematical Fundamentals for Data Science</h2>
+                    <div class="course-info">
+                        <p class="instructor">
+                            <span>고려대학교</span>
+                        </p>
+                        <p class="period">
+                            <span class="date">2020/02/17 ~ 2020/03/16</span>
+                            <span class="state soon">개강예정</span>
+                        </p>
+                    </div>
+                </a>
+            </div></div></div></div><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div>
+        </div>
+    </section>
+    <section class="sec-visual com">
+        <div class="container-fluid">
+            <div class="visual-row">
+                <div class="visual-col txt">
+                    <h1 class="title">커뮤니티</h1>
+                    <p class="content">K-MOOC 소식을 전해드립니다.</p>
+                    <ul class="quick-link">
+                        <li>
+                            <a href="#">공지사항</a>
+                        </li>
+                        <li>
+                            <a href="#">새소식</a>
+                        </li>
+                        <li>
+                            <a href="#">자료실</a>
+                        </li>
+                        <li>
+                            <a href="#">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="visual-col img"></div>
+            </div>
+        </div>
+    </section>
+    <section class="sec-number">
+        <div class="container-fluid">
+            <h1 class="title">숫자로 보는 K-MOOC</h1>
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item student">
+                        <h2 class="sub-title">70만명+</h2>
+                        <p class="cont">수강 신청자 70만명 돌파<br>누적 방문자 700만명 돌파</p>
+                        <a href="#" class="link">회원가입하기</a>
                     </div>
                 </div>
-            </section>
-        </section>
-        <section class="kr01 kr01_alert02">
-            <section class="courses-container">
-                <section class="highlighted-courses">
-                    <div class="kr01_alertarea">
-                        <i class="kr01_iconarea kr01-mcls-icon fa fa-hashtag fa-lg"></i>
-                        <span class="kr01_icontTitle">제공분야</span>
-                        <div class="kr01-middle-classfy">
-                            <ul class="link_to_courses kr01-middle-classfy-random">
-                                % for ran in random_classfy:
-                                    <li class="kr01-mid-name"><a href="#" data-facet="middle_classfy" data-term="${ran[0]}">#${ran[1]}</a></li>
-                                % endfor
-                            </ul>
-                            <a id="middle_list_link" href="#" tabindex="-1">
-                                <span class="hidden_head" id="arrow_open">${_("Expand")}</span>
-                                <span tabindex="0" class="kr01-arrow">▼</span>
-                            </a>
-                            <ul id="middle_list" class="kr01-middle-classfy-all link_to_courses">
-                                % for m_classfy in middle_list:
-                                    <li class="kr01-mid-name">
-                                        <a href="#" data-facet="middle_classfy" data-term="${m_classfy[0]}">#${m_classfy[1]}</a>
-                                    </li>
-                                % endfor
-                            </ul>
-                        </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item course">
+                        <h2 class="sub-title">무료 강좌 500개+</h2>
+                        <p class="cont">온라인 무료 강좌 500개 돌파</p>
+                        <a href="#" class="link">전체 강좌 보기</a>
                     </div>
-                </section>
-            </section>
-        </section>
-      <%include file="${courses_list}" />
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item agency">
+                        <h2 class="sub-title">참여기관 100개+</h2>
+                        <p class="cont">대학, 공공기관 및 해외기관</p>
+                        <a href="#" class="link">참여기관 모두 보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 
