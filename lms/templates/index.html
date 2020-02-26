@@ -232,14 +232,23 @@ cookiedata = document.cookie;
             $('#section_today').hide();
             $('#section_pop').show();
             $('#section_new').hide();
+            $('#hack_today').removeClass("active");
+            $('#hack_pop').addClass("active");
+            $('#hack_new').removeClass("active");
         } else if (type=='new') {
             $('#section_today').hide();
             $('#section_pop').hide();
             $('#section_new').show();
+            $('#hack_today').removeClass("active");
+            $('#hack_pop').removeClass("active");
+            $('#hack_new').addClass("active");
         } else if (type=='today') {
             $('#section_today').show();
             $('#section_pop').hide();
             $('#section_new').hide();
+            $('#hack_today').addClass("active");
+            $('#hack_pop').removeClass("active");
+            $('#hack_new').removeClass("active");
         }
     }
 </script>
@@ -248,6 +257,7 @@ cookiedata = document.cookie;
 <style>
     .more {
         color: #222 !important;
+        text-decoration:none !important
     }
     .quick-link > li > a {
         color: #222 !important;
@@ -322,22 +332,22 @@ cookiedata = document.cookie;
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item">4차 산업혁명</a>
+                    <a href="#" class="classify-item inject-h">4차 산업혁명</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item">AI 인공지능</a>
+                    <a href="#" class="classify-item inject-h">AI 인공지능</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item">이공계 기초과학</a>
+                    <a href="#" class="classify-item inject-h">이공계 기초과학</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item">한국학</a>
+                    <a href="#" class="classify-item inject-h">한국학</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item">직업교육</a>
+                    <a href="#" class="classify-item inject-h">직업교육</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item">연령별 강좌보기</a>
+                    <a href="#" class="classify-item inject-h">연령별 강좌보기</a>
                 </div>
             </div>
         </div>
@@ -348,13 +358,13 @@ cookiedata = document.cookie;
                 <h1 class="title">이런 강좌는 어떠세요?</h1>
                 <ul class="tab-group">
                     <li>
-                        <div onclick="change_course('pop')" class="csp tab active">인기강좌</div>
+                        <div onclick="change_course('pop')" id="hack_pop" class="csp tab active">인기강좌</div>
                     </li>
                     <li>
-                        <div onclick="change_course('new')" class="csp tab">신규강좌</div>
+                        <div onclick="change_course('new')" id="hack_new" class="csp tab">신규강좌</div>
                     </li>
                     <li>
-                        <div onclick="change_course('today')" class="csp tab">오늘의 강좌</div>
+                        <div onclick="change_course('today')" id="hack_today" class="csp tab">오늘의 강좌</div>
                     </li>
                     <!--
                     <li>
@@ -375,7 +385,7 @@ cookiedata = document.cookie;
                                 <a href="${courses.id}" class="course-item">
                                     <div class="course-thumb">
                                         <figure>
-                                            <img src="${courses.course_image_url}">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                             <span class="more">
                                                 <span>자세히 보기</span>
                                             </span>
@@ -420,7 +430,7 @@ cookiedata = document.cookie;
                                 <a href="${courses.id}" class="course-item">
                                     <div class="course-thumb">
                                         <figure>
-                                            <img src="${courses.course_image_url}">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                             <span class="more">
                                                 <span>자세히 보기</span>
                                             </span>
@@ -465,7 +475,7 @@ cookiedata = document.cookie;
                                 <a href="${courses.id}" class="course-item">
                                     <div class="course-thumb">
                                         <figure>
-                                            <img src="${courses.course_image_url}">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                             <span class="more">
                                                 <span>자세히 보기</span>
                                             </span>

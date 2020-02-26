@@ -84,7 +84,7 @@
 
                 <!-- 렌더 : 검색창 -->
                 <div class="new-rc-search">
-                    <div class="new-search-left">
+                    <div class="new-search-left" onclick="toggle_ex()">
                         <div class="new-st">
                             분류 탐색
                         </div>
@@ -96,6 +96,44 @@
                     <div class="new-search-right">
                         <img src="/static/new_index/images/icon_search.png"/>
                     </div>
+                    <!-- 분류 탐색 익스플로러 -->
+                    <div id="explore_menu" class="explore-menu open xxx-box" style="display: none;">
+                        <div class="menu-group">
+                            <ul class="menu-items">
+                                <li class="list-item">
+                                    <a href="#">인문</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">자연</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">사회</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">의약</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">교육</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">예체능</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">공학</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">융복합</a>
+                                </li>
+                            </ul>
+                            <div class="menu-link">
+                                <a href="#" class="item">4차 산업혁명</a>
+                                <a href="#" class="item">AI 인공지능</a>
+                            </div>
+                        </div>
+                        <div class="menu-bottom">
+                            <a href="/courses" class="more">전체 강좌 보기 +</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 렌더 : 우측 래퍼 영역 -->
@@ -103,9 +141,12 @@
                     % if user.is_authenticated:
                         <!-- 렌더 : 알람, 마이메뉴 -->
                         <div class="new-rc-sign">
-                            <div class="new-login-memo" onclick='toggle_notice();'>
+                            <div class="new-login-memo inject-h">
+                                <div style="padding-top: 4px;" onclick='window.location.href = "/dashboard";'>내 강의실</div>
+                            </div>
+                            <div class="new-login-memo inject-h" onclick='toggle_notice();'>
                                 <img class="mr5" src="/static/new_index/images/icon_notice.png">
-                                <span id="cnt">-</span>
+                                <span id="cnt">0</span>
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
                                 <div id="new_notice" class="new-dropdown-menu2" style="display: none;">
                                     <ul class="new-notice-list"></ul>
@@ -114,7 +155,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="new-login-my" onclick='toggle_my();'>
+                            <div class="new-login-my inject-h" onclick='toggle_my();'>
                                 <img class="mr5" src="/static/new_index/images/icon_user.png">
                                 ${user.username}
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
@@ -142,14 +183,25 @@
                                 </div>
                             </div>
 
-                            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
-                                Kor
-                            </div>
-                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                            <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
-                                Eng
-                            </div>
+                            % if LANGUAGE_CODE == 'ko-kr':
+                                <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                    Kor
+                                </div>
+                                <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                    Eng
+                                </div>
+                            % else:
+                                <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
+                                    Kor
+                                </div>
+                                <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                <div tabindex="0" for="en" class="language-btn new-lang-eng">
+                                    Eng
+                                </div>
+                            % endif
                         </div>
 
                         <script>
@@ -234,11 +286,21 @@
 
 <script type="text/javascript">
 
+function toggle_ex(){
+    if($('#explore_menu').css('display') == 'none'){
+       $('#explore_menu').show('fast');
+       $('#new_notice').hide('fast');
+       $('#new_my').hide('fast');
+    } else {
+       $('#explore_menu').hide('fast');
+    }
+}
 
 function toggle_my(){
     if($('#new_my').css('display') == 'none'){
        $('#new_my').show('fast');
        $('#new_notice').hide('fast');
+       $('#explore_menu').hide('fast');
     } else {
        $('#new_my').hide('fast');
     }
@@ -249,6 +311,7 @@ function toggle_notice(){
     if($('#new_notice').css('display') == 'none'){
        $('#new_notice').show('fast');
        $('#new_my').hide('fast');
+       $('#explore_menu').hide('fast');
     } else {
        $('#new_notice').hide('fast');
     }
