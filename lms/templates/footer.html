@@ -24,16 +24,16 @@
                     E-mail : kmooc@nile.or.kr
                 </div>
                 <div class="new-ff-sns">
-                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                    <a target='_blank' href="https://www.facebook.com/kmooc" class="new-ff-link-item" title="새창으로 열림">
                         <img src="/static/new_index/images/icon_link_facebook.png" alt="국가평생교육진흥원 페이스북">
                     </a>
-                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                    <a target='_blank' href="https://www.instagram.com/kmooc_" class="new-ff-link-item" title="새창으로 열림">
                         <img src="/static/new_index/images/icon_link_instagram.png" alt="국가평생교육진흥원 인스타그램">
                     </a>
-                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                    <a target='_blank' href="https://www.youtube.com/channel/UCaXoWllLNJ4t5d39nmJKyJw" class="new-ff-link-item" title="새창으로 열림">
                         <img src="/static/new_index/images/icon_link_youtube.png" alt="국가평생교육진흥원 유튜브">
                     </a>
-                    <a href="#" class="new-ff-link-item" title="새창으로 열림">
+                    <a target='_blank' href="https://blog.naver.com/kmooc_kr" class="new-ff-link-item" title="새창으로 열림">
                         <img src="/static/new_index/images/icon_link_blog.png" alt="국가평생교육진흥원 블로그">
                     </a>
                 </div>
@@ -45,20 +45,21 @@
                     패밀리사이트
                 </div>
                 <div>
-                    <select class="new-ff-select">
-                        <option>교육부</option>
-                        <option>국가평생교육진흥원</option>
-                        <option>매치업</option>
-                        <option>늘배움</option>
-                        <option>평생학습계좌제</option>
-                        <option>학점은행제</option>
-                        <option>독학학위제</option>
-                        <option>국가문해교육센터</option>
-                        <option>평생교육사</option>
-                        <option>중앙다문화교육센터</option>
-                        <option>전국학부모지원센터</option>
-                        <option>학점은행제 알리미</option>
-                        <option>대학평생교육활성화</option>
+                    <select class="new-ff-select" id="fam-select">
+                        <option value="">선택</option>
+                        <option value="http://www.moe.go.kr">교육부</option>
+                        <option value="http://www.nile.or.kr">국가평생교육진흥원</option>
+                        <option value="http://www.matchup.kr">매치업</option>
+                        <option value="http://www.lifelongedu.go.kr">늘배움</option>
+                        <option value="http://www.all.go.kr">평생학습계좌제</option>
+                        <option value="http://www.cb.or.kr">학점은행제</option>
+                        <option value="http://bdes.nile.or.kr">독학학위제</option>
+                        <option value="http://www.le.or.kr">국가문해교육센터</option>
+                        <option value="http://lledu.nile.or.kr">평생교육사</option>
+                        <option value="http://nime.or.kr">중앙다문화교육센터</option>
+                        <option value="http://www.parents.go.kr">전국학부모지원센터</option>
+                        <option value="http://www.cbinfo.or.kr">학점은행제 알리미</option>
+                        <option value="http://univ.nile.or.kr">대학평생교육활성화</option>
                     </select>
                 </div>
             </div>
@@ -69,8 +70,8 @@
                     앱 다운로드
                 </div>
                 <div>
-                    <img class="new-ff-app" src="/static/new_index/images/icon_app_android.png">
-                    <img class="new-ff-app" src="/static/new_index/images/icon_app_ios.png">
+                    <img onclick='window.open("https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8", "_blank");' class="new-ff-app" src="/static/new_index/images/icon_app_android.png">
+                    <img onclick='window.open("https://play.google.com/store/apps/details?id=com.nile.kmooc", "_blank");' class="new-ff-app" src="/static/new_index/images/icon_app_ios.png">
                 </div>
             </div>
         </div>
@@ -79,27 +80,30 @@
         <div class="new-ff-two">
             <div class="new-ff-left">
                 <div class="new-ff-item">
-                    <div class="new-ff-ttt new-ff-blue">개인정보처리방침</div>
-                    <div class="new-ff-ttt">이용약관</div>
-                    <div class="new-ff-ttt">저작권보호정책</div>
-                    <div class="new-ff-ttt">이수증 검증</div>
-                    <div class="new-ff-ttt">원격도우미</div>
+                    <div onclick='window.location.href = "/agreement";' class="new-ff-ttt new-ff-blue">${_("Privacy Statement")}</div>
+                    <div onclick='window.location.href = "/Privacy-Policy";' class="new-ff-ttt">${_("Terms of Use")}</div>
+                    <div onclick='window.location.href = "/Copyright-Policy";' class="new-ff-ttt">${_("Copyright Policy")}</div>
+                    <div onclick='window.location.href = "/cert_check";' class="new-ff-ttt">${_("Certificate Id Check")}</div>
+                    <div onclick='window.location.href = "http://367.co.kr/";' class="new-ff-ttt">${_("HelpU")}</div>
+                    <!--
+                    <div onclick='window.location.href = "/about?tab=3";' class="new-ff-ttt">${_("Participating Institutions")}(${_("Contact Us")})</div>
+                    -->
                 </div>
                 <div class="new-ff-copyright">
                     Copyright ⓒ 2020 National Institute for Lifelong Education. All Rights Reserved.
                 </div>
             </div>
             <div class="new-ff-right">
-                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                <a target='_blank' href="https://www.moe.go.kr/" class="new-ff-logo-item" title="새창으로 열림">
                     <img src="/static/new_index/images/logo_moe.png" alt="교육부">
                 </a>
-                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                <a target='_blank' href="http://www.nile.or.kr/" class="new-ff-logo-item" title="새창으로 열림">
                     <img src="/static/new_index/images/logo_nile.png" alt="국가평생교육진흥원">
                 </a>
-                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                <a target='_blank' href="https://www.eprivacy.or.kr/seal/mark.jsp?mark=i&code=2019-R006" class="new-ff-logo-item" title="새창으로 열림">
                     <img src="/static/new_index/images/logo_privacy.png" alt="개인정보보호 인증마크">
                 </a>
-                <a href="#" class="new-ff-logo-item" title="새창으로 열림">
+                <a target='_blank' href="http://wa.or.kr/board/list.asp?BoardID=0006" class="new-ff-logo-item" title="새창으로 열림">
                     <img src="/static/new_index/images/logo_wa.png" alt="웹 접근성 인증마크">
                 </a>
             </div>
@@ -108,6 +112,13 @@
     </div>
 </footer>
 
+<script>
+$('#fam-select').on('change', function() {
+    if (this.value != '') {
+        window.open(this.value, "_blank");
+    }
+});
+</script>
 
 % if include_dependencies:
     <%static:js group='base_vendor'/>
