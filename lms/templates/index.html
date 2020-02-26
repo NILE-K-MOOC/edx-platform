@@ -221,6 +221,12 @@ cookiedata = document.cookie;
     .link {
         color: #222 !important;
     }
+    .instructor {
+        color: #222 !important;
+    }
+    .course-item {
+        text-decoration:none !important
+    }
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="sec-visual about">
@@ -229,7 +235,7 @@ cookiedata = document.cookie;
                 <div class="visual-col txt">
                     <h1 class="title" style="text-align: left; color: #222;">K-MOOC 소개</h1>
                     <p class="content" style="color: #222;">K-MOOC는 온라인을 통해서<br>누구나, 어디서나 원하는 강좌를 무료로 들을 수 있는<br>온라인 공개강좌 서비스로 2015년에 시작된<br>한국형 무크입니다.</p>
-                    <a href="#" class="more">more</a>
+                    <a href="/about" class="more">more</a>
                 </div>
                 <div class="visual-col img"></div>
             </div>
@@ -244,16 +250,16 @@ cookiedata = document.cookie;
                     <p class="content" style="color: #222;">K-MOOC의 다양한 강좌를 통해 목표를 달성해 보세요.</p>
                     <ul class="quick-link">
                         <li>
-                            <a href="#">묶음 강좌</a>
+                            <a href="/series/">묶음 강좌</a>
                         </li>
                         <li>
                             <a href="#">분야별 강좌</a>
                         </li>
                         <li>
-                            <a href="#">학점은행제</a>
+                            <a href="/search">학점은행제</a>
                         </li>
                     </ul>
-                    <a href="#" class="more">more</a>
+                    <a href="/courses" class="more">more</a>
                 </div>
             </div>
         </div>
@@ -306,7 +312,7 @@ cookiedata = document.cookie;
                 <a href="#" class="course-item">
                     <div class="course-thumb">
                         <figure>
-                            <img src="images/img_sample_001.png">
+                            <img src="/static/new_index/images/img_sample_001.png">
                             <span class="more">
                                 <span>자세히 보기</span>
                             </span>
@@ -328,7 +334,7 @@ cookiedata = document.cookie;
                 <a href="#" class="course-item">
                     <div class="course-thumb">
                         <figure>
-                            <img src="images/img_sample_002.png">
+                            <img src="/static/new_index/images/img_sample_002.png">
                             <span class="more">
                                 <span>자세히 보기</span>
                             </span>
@@ -349,7 +355,7 @@ cookiedata = document.cookie;
                 <a href="#" class="course-item">
                     <div class="course-thumb">
                         <figure>
-                            <img src="images/img_sample_003.png">
+                            <img src="/static/new_index/images/img_sample_003.png">
                             <span class="more">
                                 <span>자세히 보기</span>
                             </span>
@@ -370,7 +376,7 @@ cookiedata = document.cookie;
                 <a href="#" class="course-item">
                     <div class="course-thumb">
                         <figure>
-                            <img src="images/img_sample_004.png">
+                            <img src="/static/new_index/images/img_sample_004.png">
                             <span class="more">
                                 <span>자세히 보기</span>
                             </span>
@@ -392,7 +398,7 @@ cookiedata = document.cookie;
                 <a href="#" class="course-item">
                     <div class="course-thumb">
                         <figure>
-                            <img src="images/img_sample_002.png">
+                            <img src="/static/new_index/images/img_sample_002.png">
                             <span class="more">
                                 <span>자세히 보기</span>
                             </span>
@@ -420,16 +426,16 @@ cookiedata = document.cookie;
                     <p class="content">K-MOOC 소식을 전해드립니다.</p>
                     <ul class="quick-link">
                         <li>
-                            <a href="#">공지사항</a>
+                            <a href="/comm_list/N/">공지사항</a>
                         </li>
                         <li>
-                            <a href="#">새소식</a>
+                            <a href="/comm_list/K/">새소식</a>
                         </li>
                         <li>
-                            <a href="#">자료실</a>
+                            <a href="/comm_list/R/">자료실</a>
                         </li>
                         <li>
-                            <a href="#">FAQ</a>
+                            <a href="/comm_tabs/kmooc_f/">FAQ</a>
                         </li>
                     </ul>
                 </div>
@@ -445,21 +451,21 @@ cookiedata = document.cookie;
                     <div class="number-item student">
                         <h2 class="sub-title">70만명+</h2>
                         <p class="cont">수강 신청자 70만명 돌파<br>누적 방문자 700만명 돌파</p>
-                        <a href="#" class="link">회원가입하기</a>
+                        <a href="/register" class="link">회원가입하기</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="number-item course">
                         <h2 class="sub-title">무료 강좌 500개+</h2>
                         <p class="cont">온라인 무료 강좌 500개 돌파</p>
-                        <a href="#" class="link">전체 강좌 보기</a>
+                        <a href="/courses" class="link">전체 강좌 보기</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="number-item agency">
                         <h2 class="sub-title">참여기관 100개+</h2>
                         <p class="cont">대학, 공공기관 및 해외기관</p>
-                        <a href="#" class="link">참여기관 모두 보기</a>
+                        <a href="/about?tab=3" class="link">참여기관 모두 보기</a>
                     </div>
                 </div>
             </div>
