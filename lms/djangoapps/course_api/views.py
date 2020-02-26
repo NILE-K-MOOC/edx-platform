@@ -48,7 +48,8 @@ def check_api_key(service_key=None):
             raise ValidationError('check_api_key API Call Exception (ServiceKey not exists)')
 
         if service_key.strip() != key.strip():
-            raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
+            # raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
+            raise ValidationError('check_api_key API Call Exception (invalid key)')
 
         log.debug('check_api_key key [%s]' % key)
         log.debug('check_api_key SG_APIM [%s]' % key)
