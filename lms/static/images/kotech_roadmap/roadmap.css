@@ -1,0 +1,78 @@
+.v-wrapper {
+    position: relative;
+    width: 100%;
+    max-height: 350px;
+    min-height: 210px;
+    padding: 10% 0;
+    text-align: center;
+}
+.v-block {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-image: none;
+}
+.v-core {
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: visible;
+    width: 100%;
+    height: auto;
+}
+.v-txt {
+    z-index: 500;
+    color: #ffffff;
+    position: relative;
+    text-align: center;
+    font-size: 30px;
+}
+.v-table {
+    width: 100%;
+}
+.v-tac {
+    text-align: center;
+}
+.v-click {
+    transition: 0.3s;
+    cursor: pointer;
+}
+.v-click:hover {
+    background: #d9e8ff !important;
+}
+@media only screen and (max-width: 1200px) {
+  .v-txt {
+    font-size: 25px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .v-txt {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .v-txt {
+    margin-top: 25px;
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .v-txt {
+    margin-top: 30px;
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .v-txt {
+    margin-top: 65px;
+    font-size: 8px;
+  }
+}

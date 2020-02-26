@@ -1,0 +1,27 @@
+---
+metadata:
+    display_name: 선다형 문항
+    markdown: |
+
+        이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 객관식 문제에 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.
+
+        >>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.||문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다. <<
+
+        ( ) 오답
+        (x) 정답
+        ( ) 오답
+
+
+data:   |
+        <problem>
+            <multiplechoiceresponse>
+                <p>이 템플릿은 간단한 편집기 마크 다운 및 OLX 마크 업에 대한 지침으로 객관식 문제에 사용할 수 있습니다. 이 템플릿을 편집하여 원하는 평가로 바꾸십시오.</p>
+                <label>문제의 질문을 여기에 추가하십시오. 이 텍스트는 필수입니다.</label>
+                <description>문항에 관련된 옵션 팁 또는 메모를 이와 같이 추가할 수 있습니다.</description>
+                <choicegroup>
+                    <choice correct="false">오답</choice>
+                    <choice correct="true">정답</choice>
+                    <choice correct="false">오답</choice>
+                </choicegroup>
+            </multiplechoiceresponse>
+        </problem>

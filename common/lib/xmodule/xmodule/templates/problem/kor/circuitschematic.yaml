@@ -1,0 +1,78 @@
+---
+metadata:
+    display_name: 회로도 작성 문제
+    markdown: !!null
+data: |
+      <problem>
+        <p>
+            회로도 작성 문제를 통해 학생들은 대화 형 그리드에 전압 소스, 커패시터, 저항 및 MOSFET과 같은 요소를 배치하여 가상 회로를 만들 수 있습니다. 시스템은 회로의 DC, AC 또는 과도 분석을 평가합니다.
+        </p>
+        <p>
+            자세한 내용은 edX 코스 구축 및 실행 시 <a href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/circuit_schematic_builder.html" target="_blank">회로도 작성 문제</a>를 참조하십시오.
+        </p>
+        <p>
+            문제를 추가 할 때 <strong>설정</strong>을 선택하여 <strong>Display Name</strong>과 다른 값을 지정하십시오.
+        </p>
+        <p>다음 예제 문제를 모델로 사용할 수 있습니다.</p>
+
+        <schematicresponse>
+            <p>제공된 전압을 고르게 분배하는 전압 분배기를 만드십시오.</p>
+            <center>
+                <schematic height="500" width="600" parts="g,r" analyses="dc"
+                initial_value="[[&quot;v&quot;,[168,144,0],{&quot;value&quot;:&quot;dc(1)&quot;,&quot;_json_&quot;:0},[&quot;1&quot;,&quot;0&quot;]],[&quot;r&quot;,[296,120,0],{&quot;r&quot;:&quot;1&quot;,&quot;_json_&quot;:1},[&quot;1&quot;,&quot;output&quot;]],[&quot;L&quot;,[296,168,3],{&quot;label&quot;:&quot;output&quot;,&quot;_json_&quot;:2},[&quot;output&quot;]],[&quot;w&quot;,[296,216,168,216]],[&quot;w&quot;,[168,216,168,192]],[&quot;w&quot;,[168,144,168,120]],[&quot;w&quot;,[168,120,296,120]],[&quot;g&quot;,[168,216,0],{&quot;_json_&quot;:7},[&quot;0&quot;]],[&quot;view&quot;,-67.49999999999994,-78.49999999999994,1.6000000000000003,&quot;50&quot;,&quot;10&quot;,&quot;1G&quot;,null,&quot;100&quot;,&quot;1&quot;,&quot;1000&quot;]]"/>
+            </center>
+      <answer type="loncapa/python">
+      dc_value = "dc analysis not found"
+      for response in submission[0]:
+        if response[0] == 'dc':
+            for node in response[1:]:
+                dc_value = node['output']
+
+      if dc_value == .5:
+        correct = ['correct']
+      else:
+        correct = ['incorrect']
+      </answer>
+            <solution>
+                <div class="detailed-solution">
+                    <p>(설명)</p>
+                    <p>
+                        입력 전압을 동일한 값을 갖는 두 개의 저항으로 균등하게 분배하는 전압 분배기를 구성 할 수 있으며, 측정 전압은 두 저항의 사이 값입니다.
+                    </p>
+                    <p><img src="/static/images/voltage_divider.png" alt=""/></p>
+                </div>
+            </solution>
+        </schematicresponse>
+
+        <schematicresponse>
+            <p>high-pass 필터를 만드세요,</p>
+            <center>
+                <schematic height="500" width="600" parts="g,r,s,c" analyses="ac"
+                submit_analyses="{&quot;ac&quot;:[[&quot;NodeA&quot;,1,9]]}"
+                initial_value="[[&quot;v&quot;,[160,152,0],{&quot;name&quot;:&quot;v1&quot;,&quot;value&quot;:&quot;sin(0,1,1,0,0)&quot;,&quot;_json_&quot;:0},[&quot;1&quot;,&quot;0&quot;]],[&quot;w&quot;,[160,200,240,200]],[&quot;g&quot;,[160,200,0],{&quot;_json_&quot;:2},[&quot;0&quot;]],[&quot;L&quot;,[240,152,3],{&quot;label&quot;:&quot;NodeA&quot;,&quot;_json_&quot;:3},[&quot;NodeA&quot;]],[&quot;s&quot;,[240,152,0],{&quot;color&quot;:&quot;cyan&quot;,&quot;offset&quot;:&quot;0&quot;,&quot;_json_&quot;:4},[&quot;NodeA&quot;]],[&quot;view&quot;,64.55878906250004,54.114697265625054,2.5000000000000004,&quot;50&quot;,&quot;10&quot;,&quot;1G&quot;,null,&quot;100&quot;,&quot;1&quot;,&quot;1000&quot;]]"/>
+            </center>
+      <answer type="loncapa/python">
+      ac_values = None
+      for response in submission[0]:
+        if response[0] == 'ac':
+            for node in response[1:]:
+                ac_values = node['NodeA']
+      print "the ac analysis value:", ac_values
+      if ac_values == None:
+        correct = ['incorrect']
+      elif ac_values[0][1] &lt; ac_values[1][1]:
+        correct = ['correct']
+      else:
+        correct = ['incorrect']
+      </answer>
+            <solution>
+                <div class="detailed-solution">
+                    <p>(설명)</p>
+                    <p>
+                        저항을 콘덴서와 직렬로 연결하여 추가 제약 없이 간단한 high-pass 필터를 구성할 수 있습니다. 이 문제에서 구성 요소의 값들은 실제로 중요하지 않습니다.
+                    </p>
+                    <p><img src="/static/images/high_pass_filter.png" alt=""/></p>
+                </div>
+            </solution>
+        </schematicresponse>
+      </problem>

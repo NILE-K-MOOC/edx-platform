@@ -417,10 +417,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     f1 = {'id__in': new_course}
     log.debug('***** def index time check1.1.1 [%s]' % format(time.time() - start, ".6f"))
-
     f2 = {'id__in': pop_course}
     log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
-
     f3 = {'id__in': today_course}
     log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
 

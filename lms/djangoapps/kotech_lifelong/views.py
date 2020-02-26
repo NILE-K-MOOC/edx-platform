@@ -2,6 +2,10 @@
 import logging
 import urllib
 import json
+import datetime
+import uuid
+import urllib2
+from pytz import timezone
 import branding.api as branding_api
 import courseware.views.views
 import student.views.management
@@ -31,6 +35,196 @@ from bson import ObjectId
 
 
 log = logging.getLogger(__name__)
+
+
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+    ]
+
+
+def cb_course_list(request):
+    context = {}
+    return render_to_response('community/cb_course_list.html', context)
+
+
+def cb_print(request, course_id):
+
+    # url 직접 입력 후 접근 시 발생하는 버그 수정
+    # 정상 "7"
+    # 비정상 "7/images/bg.png"
+    course_id = course_id.replace("/images/bg.png", "")
+
+    # 1. 사용자 아이디 로드 및 이수증 고유번호 생성
+    user_id = request.user.id
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "course_id -> ", course_id
+    print "user_id -> ", user_id
+    print "--------------------------------------------"
+
+    # 2. 로그인 유효성 검증
+    if user_id == None:
+        return redirect('/login')
+
+    # 3. 이름, 생년월일, 본인인증여부, 본인인증데이터 불러오기
+    with connections['default'].cursor() as cur:
+        query = '''
+            select username, b.year_of_birth, 
+            case 
+            when c.id is null
+            then 'N'
+            when c.id is not null
+            then 'Y'
+            end as nice, plain_data
+            from auth_user a
+            join auth_userprofile b
+            on a.id = b.user_id
+            left join auth_user_nicecheck c
+            on a.id = c.user_Id
+            where a.id = '{user_id}';
+        '''.format(user_id=user_id)
+        cur.execute(query)
+        user_data = cur.fetchall()
+
+    try:
+        user_name = user_data[0][0]   # 'kim hangil'
+        user_birth = user_data[0][1]  # '1990'
+        user_nice = user_data[0][2]   # 'N' or 'Y'
+    except BaseException as err:
+        print "user data parsing error detail : ", err
+        return redirect('/dashboard')
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "user_name -> ", user_name
+    print "user_birth-> ", user_birth
+    print "user_nice -> ", user_nice
+    print "--------------------------------------------"
+
+    # 본인인증이 되어있다면 본인인증데이터 불러오기
+    if user_nice == 'Y':
+        try:
+            pd = user_data[0][3]
+            pd = json.loads(pd)
+            user_name = urllib2.unquote(str(pd['UTF8_NAME'])).decode('utf8')
+            pd = pd['BIRTHDATE']
+            pd = pd[0:4] + '.' + pd[4:6] + '.' + pd[6:8]
+            user_birth = pd
+        except BaseException as err:
+            print "user data parsing error (2) detail : ", err
+            return redirect('/dashboard')
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "user_name -> ", user_name
+    print "user_birth-> ", user_birth
+    print "--------------------------------------------"
+
+    # 4. 이수증 출력일시 날짜 포맷 변경
+    # ex) 2019.11.27 16:34:38
+    kst = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d %H:%M:%S')
+    # ex) 2019.11.27
+    kst_short = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    # 개발 디버깅 로그
+    print "--------------------------------------------"
+    print "kst -> ", kst
+    print "kst_short -> ", kst_short
+    print "--------------------------------------------"
+
+    # 5. 강좌 전체 정보
+    with connections['default'].cursor() as cur:
+        query = '''
+            select  y.display_name, 
+                    y.professor_name,
+                    y.org,
+                    y.weeks,
+                    y.credit,
+                    DATE_FORMAT(y.start, '%Y-%m-%d') as start,
+                    DATE_FORMAT(y.end, '%Y-%m-%d') as end,
+                    x.attendance,
+                    x.score,
+                    x.grade,
+                    DATE_FORMAT(x.regist_date, '%Y.%m.%d.') as regist_date,
+                    y.org_image
+            from cb_course_enroll x
+            join cb_course y
+            on x.course_id = y.course_id
+            where x.course_id = '{course_id}'
+            and x.delete_yn = 'N'
+            and y.delete_yn = 'N'
+            and x.user_id = '{user_id}';
+        '''.format(user_id=user_id, course_id=course_id)
+        cur.execute(query)
+        course_data = cur.fetchall()
+
+    if len(course_data) == 0:
+        print "course_data is 0"
+        return redirect('/dashboard')
+    else:
+        course_data = course_data[0]
+
+    context = {}
+    context['user_name'] = user_name
+    context['user_birth'] = str(user_birth) + '.'
+    context['user_nice'] = user_nice
+    context['kst'] = kst
+    context['display_name'] = course_data[0]
+    context['professor_name'] = course_data[1]
+    context['org'] = course_data[2]
+    context['weeks'] = course_data[3]
+    context['credit'] = course_data[4]
+    context['start'] = course_data[5]
+    context['end'] = course_data[6]
+    context['attendance'] = course_data[7]
+    context['score'] = course_data[8]
+    context['grade'] = course_data[9]
+    context['regist_date'] = course_data[10]
+    context['org_image'] = course_data[11]
+    return render_to_response('community/cb_print.html', context)
+
+
+def cb_course(request):
+
+    user_id = request.user.id
+
+    print "--------------------------"
+    print "user_id = ", user_id
+    print "--------------------------"
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            select  x.course_id, 
+                    y.display_name, 
+                    y.course_image,
+                    y.professor_name, 
+                    y.org,
+                    y.major_category,
+                    y.weeks,
+                    y.credit,
+                    Date_format(y.start, '%y.%m.%d. ') as start,
+                    Date_format(y.end, '%y.%m.%d. ') as end,
+                    x.attendance,
+                    x.score
+            from cb_course_enroll x
+            join cb_course y
+            on x.course_id = y.course_id
+            where user_id = '{user_id}'
+            and x.delete_yn = 'N';
+        '''.format(user_id=user_id)
+        cur.execute(query)
+        rows = dictfetchall(cur)
+
+    print "--------------------------"
+    print "rows = ", rows
+    print "--------------------------"
+
+    return JsonResponse({'result': rows})
 
 
 def common_course_status(startDt, endDt):

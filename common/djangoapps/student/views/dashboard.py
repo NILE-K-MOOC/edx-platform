@@ -240,6 +240,8 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, m
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     elif status == 'propose':
         enrollments = CourseEnrollment.enrollments_for_user_propose(user)
+    elif status == 'cb':
+        enrollments = []
     else:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
 
@@ -1288,6 +1290,70 @@ def modi_course_level(request):
                 data = json.dumps('success')
             return HttpResponse(data, 'application/json')
         return HttpResponse('success', 'application/json')
+
+
+@csrf_exempt
+def modi_course_language(request):
+
+    course_language = request.POST.get('course_language')
+    addinfo_course_id = request.POST.get('addinfo_course_id')
+    addinfo_user_id = request.POST.get('addinfo_user_id')
+
+    print "----------------------------------"
+    print "course_language = ", course_language
+    print "addinfo_course_id = ", addinfo_course_id
+    print "addinfo_user_id = ", addinfo_user_id
+    print "----------------------------------"
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            update course_overview_addinfo
+            set course_language = '{course_language}'
+            , modify_id = '{user_id}'
+            where course_id = '{course_id}';
+        '''.format(
+            course_language = course_language,
+            course_id = addinfo_course_id,
+            user_id = addinfo_user_id)
+        try:
+            print query
+            cur.execute(query)
+        except BaseException as err:
+            print "err = ", err
+            return JsonResponse({'result': 500, 'msg': 'An error occurred while saving'})
+    return JsonResponse({'result': 200, 'msg': 'Save Success'})
+
+
+@csrf_exempt
+def modi_subtitle(request):
+
+    subtitle = request.POST.get('subtitle')
+    addinfo_course_id = request.POST.get('addinfo_course_id')
+    addinfo_user_id = request.POST.get('addinfo_user_id')
+
+    print "----------------------------------"
+    print "subtitle = ", subtitle
+    print "addinfo_course_id = ", addinfo_course_id
+    print "addinfo_user_id = ", addinfo_user_id
+    print "----------------------------------"
+
+    with connections['default'].cursor() as cur:
+        query = '''
+            update course_overview_addinfo
+            set course_subtitle = '{subtitle}'
+            , modify_id = '{user_id}'
+            where course_id = '{course_id}';
+        '''.format(
+            subtitle = subtitle,
+            course_id = addinfo_course_id,
+            user_id = addinfo_user_id)
+        try:
+            print query
+            cur.execute(query)
+        except BaseException as err:
+            print "err = ", err
+            return JsonResponse({'result': 500, 'msg': 'An error occurred while saving'})
+    return JsonResponse({'result': 200, 'msg': 'Save Success'})
 
 
 @csrf_exempt

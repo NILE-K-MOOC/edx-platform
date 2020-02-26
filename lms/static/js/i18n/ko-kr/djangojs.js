@@ -2165,7 +2165,7 @@
         "Upload a CSV file": "CSV 파일 업로드",
         "Select Period of Studing": "학습기간 선택",
         "All users on the Exception list who do not yet have a certificate": "예외 목록에있는 사용자 중 아직 이수증이 없는 모든 사용자",
-        "All users on the Exception list": "예외 목록의 모든 사용자",
+        "All users on the Exception list": "예외   목록의 모든 사용자",
         "Certificate exceptions group selection": "인증서 예외 그룹 선택",
         "There are no posts in this topic yet.": "이 주제에는 아직 게시물이 없습니다.",
         "Link Description": "링크 설명",
@@ -2173,7 +2173,15 @@
         "Expand": "확장",
         "Contract": "접기",
 
-
+        // drag_and_drop_v2
+        "You can complete this problem using only your keyboard by following the guidance below:": "아래 지침에 따라 키보드 만 사용하여 이 문제를 완료 할 수 있습니다",
+        "Use only TAB and SHIFT+TAB to navigate between draggable items and drop zones.": "끌어서 놓을 수 있는 항목과 놓기 영역을 탐색하려면 Tab 및 Shift + Tab 만 사용하십시오.",
+        "Press CTRL+M to select a draggable item (effectively picking it up).": "Ctrl + M을 눌러 드래그 가능한 항목을 선택하십시오 (효과적으로 집어 올리십시오).",
+        "Navigate using TAB and SHIFT+TAB to the appropriate dropzone and press CTRL+M once more to drop it here.": "Tab 및 Shift + Tab을 사용하여 적절한 놓기 영역으로 이동 한 후 Ctrl + M을 한 번 더 눌러 여기에 놓으십시오.",
+        "Press ESC if you want to cancel the drop operation (for example, to select a different item).": "놓기 작업을 취소하려면 (예 : 다른 항목을 선택하려면) ESC를 누르십시오.",
+        "TAB back to the list of draggable items and repeat this process until all of the draggable items have been placed on their respective dropzones.": "끌어서 놓을 수 있는 항목 목록으로 돌아가서 끌어서 놓을 수 있는 항목이 모두 해당 놓기 영역에 놓일 때까지 이 과정을 반복하십시오.",
+        "Keyboard Help": "키보드 도움말",
+        "Problem": "문제",
     };
 
     django.gettext = function (msgid) {

@@ -13,79 +13,291 @@ from six import string_types
 %>
 
 <style>
-  .univ-list-top {position:relative;background:url(/static/images/contents/univ_top.jpg) center center no-repeat;background-size:cover;
-      margin-top: 5px;}
-  .univ-list-top-txt {display:table;width:100%;height:100%;text-align:Center;color:#fff;}
-  .univ-list-top-txt > div  {display:table-cell;vertical-align:middle;}
-  .univ-list-top-txt h2 {color:#fff;font-weight:400;border:0;padding-bottom:0;line-height:1em;}
-  .univ-list-top-txt h2 > span {font-size:1.125rem;}
-  .univ-list-top-txt p {line-height:1.8em;}
-
-  .univ-list {list-style:none;margin:0 0 0 -1.5%;padding-top:10px;}
-  .univ-list li {float:left;width:20%;padding-left:1.5%;box-sizing:border-box;margin:20px 0 0 0;}
-  .univ-list li > a {display:block;text-align:center;border:solid 1px #e5e4e4;padding:13px 0;overflow:hidden;}
-  .univ-list li > a img {max-height:60px;width:auto;}
-
-  .univ-list-infotop {background:url(/static/images/contents/univ_top_info.jpg) center center no-repeat;background-size:cover;height:195px;margin-bottom:10px;}
-  .container.univ > h2 {border:0;font-size:2.813rem;}
-  .univ-info {line-height:1.8em;margin-bottom:100px;position:relative;}
-  .univ-info .sns-box {position:absolute;right:0;top:-90px;}
-  div.logo_div {
-      margin: 0 2px 10px; min-height:90px; width: 220px; border: solid 1px #e5e4e4; padding: 13px;
-      display: inline-block;
-  }
-
-  div.logo_phone {
-      text-align: center;
-      font-size: 0.9rem;
-      margin: 2px 0;
-      color: #555;
-  }
-
-  img.logo_img {
-      width: 100%;
-      height: 62px;
-  }
-  .org-intro-text {
-      font-size: 200% !important;
-  }
-  @media (max-width: 730px){
-      .org-intro .org-year {
-          text-align: center;
-      }
-      .org-intro-text {
-          font-size: 150% !important;
-      }
-  }
-  @media (max-width: 450px) {
-      .org-intro-text {
-          font-size: 120% !important;
-      }
-  }
+    .univ-list-top {
+        position: relative;
+        background: url(/static/images/contents/univ_top.jpg) center center no-repeat;
+        background-size: cover;
+        margin-top: 5px;
+    }
+    .univ-list-top-txt {
+        display: table;
+        width: 100%;
+        height: 100%;
+        text-align: Center;
+        color: #fff;
+    }
+    .univ-list-top-txt > div {
+        display: table-cell;
+        vertical-align: middle;
+    }
+    .univ-list-top-txt h2 {
+        color: #fff;
+        font-weight: 400;
+        border: 0;
+        padding-bottom: 0;
+        line-height: 1em;
+    }
+    .univ-list-top-txt h2 > span {
+        font-size: 1.125rem;
+    }
+    .univ-list-top-txt p {
+        line-height: 1.8em;
+    }
+    .school-sb {
+        font-size: 12px;
+        padding: 12px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .school-flex {
+        display: flex;
+        margin-top: 50px;
+        border-bottom: 2px solid #dddddd;
+        margin-bottom: 15px;
+    }
+    .school-box {
+        flex: 1;
+        text-align: center;
+    }
+    .w50p {
+        width: 50%;
+    }
+    .mr5 {
+        margin-right: 5px;
+    }
+    .school-support {
+        font-size: 14px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 20px;
+    }
+    .school-card {
+        border: solid 1px #dddddd;
+        width: 215px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        float: left;
+        margin-right: 8px;
+        margin-left: 8px;
+        cursor: pointer;
+        position: relative;
+        z-index: 100;
+        margin-bottom: 20px;
+    }
+    .school-hover-txt {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background: black;
+        color: #ffffff;
+        padding-top: 50px;
+        padding-left: 25px;
+        font-weight: bold;
+        opacity: 0;
+        transition: 0.3s;
+        z-index: 50;
+    }
+    .school-card:hover .school-hover-txt {
+        opacity: 0.85;
+    }
+    .school-card-img {
+        text-align: center;
+        padding-bottom: 8px;
+    }
+    .school-fix-img {
+        width: 180px;
+        height: 60px;
+    }
+    .school-card-mid {
+        background: #4587c2;
+        color: #ffffff;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .school-card-org {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+    .school-card-phone {
+        font-size: 14px;
+    }
+    .school-hack {
+        border: solid 3px #ffffff;
+        width: 165px;
+        padding: 10px;
+        text-align: center;
+    }
+    .null-txt{
+        text-align: center;
+        padding: 100px;
+        display: none;
+    }
+    @media only screen and (max-width: 1120px) {
+        .school-flex {
+            display: block;
+        }
+    }
+    @media only screen and (max-width: 750px) {
+        .school-card {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .school-hack {
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
 </style>
 
 <script>
     $(document).ready(function(){
-        $.ajax({
-            url: '/schools/',
 
-        }).done(function(data){
-            // csrfmiddlewaretoken: '${ csrf_token }'
-            for(var i=0; i<data.org_list.length; i++){
-                // console.log(data.org_list[i].logo_img);
+        $('#f_name_filter').keyup(function(e){
+            if(e.keyCode == 13)
+            {
+                org_search_send();
+            }
+        });
 
-                if(data.org_list[i].start_year == '2015'){
-                    $('#org_2015').append(data.org_list[i].logo_img);
-                } else if(data.org_list[i].start_year == '2016'){
-                    $('#org_2016').append(data.org_list[i].logo_img);
-                } else if(data.org_list[i].start_year == '2017'){
-                    $('#org_2017').append(data.org_list[i].logo_img);
-                } else {
-                    $('#org_2018').append(data.org_list[i].logo_img);
+        $.post( "/schools_make_filter", {})
+        .done(function( data ) {
+            var org_type = data.result.org_type;
+            var year_list = data.result.year_list;
+            var lang = data.result.lang;
+
+            console.log('org_type = ', org_type);
+            console.log('year_list = ', year_list);
+            console.log('lang = ', lang);
+
+            var year_select = '';
+            if (lang == 'ko-kr') {
+                year_select += '<option value="A">전체</option>';
+            } else {
+                year_select += '<option value="A">ALL</option>';
+            }
+            for (var i=0; i<year_list.length; i++) {
+                year_select += '<option value="' + year_list[i] + '">' + year_list[i] + '</option>'
+            }
+            console.log('year_select = ', year_select);
+            $('#f_year_filter').html(year_select);
+
+            org_select = '';
+            if (lang == 'ko-kr') {
+                org_select += '<option value="A">전체</option>';
+                for (var i=0; i<org_type.length; i++) {
+                    org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][0] + '</option>'
+                }
+            } else {
+                org_select += '<option value="A">ALL</option>';
+                for (var i=0; i<org_type.length; i++) {
+                    org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][2] + '</option>'
                 }
             }
-            $('#org_cnt').text(data.org_list.length + 1);
+            console.log('org_select = ', org_select);
+            $('#f_org_filter').html(org_select);
         });
+
+        org_search_send();
+        function org_search_send(){
+            console.log('====================> click_search');
+
+            // claer area
+            $('#add_school').html('');
+
+            var f_year_filter = $('#f_year_filter').val();
+            var f_org_filter = $('#f_org_filter').val();
+            var f_name_filter = $('#f_name_filter').val();
+            $.post( "/schools_make_item", {
+                'f_year_filter': f_year_filter,
+                'f_org_filter': f_org_filter,
+                'f_name_filter': f_name_filter
+            })
+            .done(function( data ) {
+                console.log('data.result = ', data.result);
+                var result = data.result;
+                var lang = data.lang;
+
+                if (lang == 'ko-kr') {
+                    var part_a = '년 참여';
+                    var part_b = '기관 소개와';
+                    var part_c = '기관 강좌 보기';
+                } else {
+                    var part_a = ' year';
+                    var part_b = 'Introduction &';
+                    var part_c = 'View Course';
+                }
+
+                $('.null-txt').hide();
+                if (result.length == 0) {
+                    $('.null-txt').show();
+                }
+
+                for (var i=0; i<result.length; i++) {
+                    var check_intro = result[i]['check_intro'];
+                    var org_id = result[i]['org_id'];
+                    var start_year = result[i]['start_year'];
+                    var org_phone = result[i]['org_phone'];
+
+                    if (lang == 'ko-kr') {
+                        var univ_name = result[i]['univ_name'];
+                        var logo_img = result[i]['logo_img'];
+                        var org_type = result[i]['org_type'];
+                    } else {
+                        var univ_name = result[i]['univ_name_e'];
+                        var logo_img = result[i]['logo_img_e'];
+                        var org_type_e = result[i]['org_type_e'];
+                    }
+
+                    var template = ''+
+                    '<div class="school-card">'+
+                        '<div class="school-card-img">'+
+                        '    <img onerror="this.src=\'/static/images/blank.png\'" class="school-fix-img" src="' + logo_img + '">'+
+                        '</div>'+
+                        '<div class="school-card-mid">'+
+                        '    ' + start_year + '' + part_a + ' | ' + org_type +
+                        '</div>'+
+                        '<div class="school-card-bot">'+
+                        '    <div class="school-card-org">'+
+                        '        <span class="icon fa fa-university fa-lg" aria-hidden="true" style="margin-left: 10px; float: left;"></span>'+
+                        '<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + univ_name + '</div>'+
+                        '    </div>'+
+                        '    <div class="school-card-phone">'+
+                        '        <span style="margin-right: 5px; float:left; margin-left: 10px;" class="icon fa fa-phone fa-lg" aria-hidden="true"></span>'+
+                        org_phone +
+                        '    </div>'+
+                        '</div>';
+
+                    var hover_template = ''+
+                        '<a href="/school/' + org_id + '"><div class="school-hover-txt">'+
+                        '    <div class="school-hack">'+
+                        '        <div>' + part_b + '</div>'+
+                        '        <div>' + part_c + '</div>'+
+                        '    </div>'+
+                        '</div></a>';
+
+                    if (check_intro == 'Y') {
+                        template += hover_template;
+                    } else {
+                        template += '</div>';
+                    }
+
+                    $('#add_school').append(template);
+                }
+            });
+        }
+
+        $("#xxx_search").click(function() {
+            org_search_send();
+        });
+
     });
 </script>
 
@@ -93,18 +305,43 @@ from six import string_types
     <div class="univ-list-top" style="height: 180px; font-family: 'Open Sans' !important;">
         <div class="univ-list-top-txt">
             <div>
-                <b><p class="org-intro-text">K-MOOC와 함께하는 참여기관을 소개합니다.</p></b>
-                <b><p>K-MOOC는 <span id="org_cnt">89</span>개의 국내외 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다.</p></b>
+                <b><p class="org-intro-text">${_('Introduce the Organization with K-MOOC.')}</p></b>
+                <b><p>${_('K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era.')}</p></b>
             </div>
         </div>
     </div>
-    <section class="container">
-        <!-- [s]  -->
 
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2015~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2015" class="org-year"></div></div>
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2016~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2016" class="org-year"></div></div>
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2017~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2017" class="org-year"></div></div>
-        <div class="org-intro" style="font-size: 140%; margin-top:30px; font-weight:bold; border: solid 0px black"><span>(2018~${_("Present")}) ${_("Participating Institutions")}</span><hr><div id="org_2018" class="org-year"></div></div>
+    <section>
+        <div class="school-flex">
+            <div class="form-group school-box">
+                <div class="mr5" style="margin-bottom: 8px; font-family: 'Open Sans' !important;">${_('Type of Organization')}</div>
+                <select class="form-control w50p" id="f_org_filter">
+                </select>
+            </div>
+            <div class="form-group school-box">
+                <div class="mr5" style="margin-bottom: 8px; font-family: 'Open Sans' !important;">${_('Participation year')}</div>
+                <select class="form-control w50p" id="f_year_filter">
+                </select>
+            </div>
+            <div class="form-group school-box" style="padding-top: 3px;">
+                <div class="mr5" style="margin-bottom: 8px; font-family: 'Open Sans' !important;">${_('Name of Organization')}</div>
+                <input type="text" class="form-control w50p" id="f_name_filter" style="height: 25px; margin-top: -3px;">
+            </div>
+            <div class="form-group school-box">
+                <button id="xxx_search" type="button" class="btn-blue school-sb">${_('Search')}</button>
+            </div>
+        </div>
 
+        <div class="school-support">
+            * ${_('If you select an agency, you will see an introduction to the institution and a course for the registered institution.')}
+        </div>
+
+        <div id="add_school">
+            <!-- add box area -->
+        </div>
+
+        <div class="null-txt">
+            ${_('Organization matching search criteria does not exist')}
+        </div>
     </section>
 </main>

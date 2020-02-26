@@ -71,6 +71,7 @@ from kotech_series import views as kotech_series_views         # Series Course A
 from kotech_memo import views as kotech_memo_views             # Memo APP
 from kotech_community import views as kotech_community_views   # Community APP
 from kotech_lifelong import views as kotech_lifelong_views     # Lifelong APP
+from kotech_roadmap import views as kotech_roadmap_views     # Lifelong APP
 
 LogAction()
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
@@ -98,6 +99,11 @@ urlpatterns = [
     url(r'^api_course_satisfaction_survey/$', kotech_survey_views.api_course_satisfaction_survey, name='api_course_satisfaction_survey'), # api
 
 
+    # AI road map
+    url(r'^roadmap/$', kotech_roadmap_views.roadmap, name='roadmap'),
+    url(r'^roadmap_view/(?P<id>.*?)/$', kotech_roadmap_views.roadmap_view, name='roadmap_view'),
+
+
     # Series
     # made by kotech system
     url(r'^new_dashboard$', kotech_series_views.new_dashboard, name='new_dashboard'),
@@ -114,8 +120,10 @@ urlpatterns = [
     # made by kotech system
     url(r'^memo$', kotech_memo_views.memo, name='memo'),
     url(r'^memo_view/(?P<memo_id>.*?)/$', kotech_memo_views.memo_view, name='memo_view'),
-    url(r'^memo_sync$', kotech_memo_views.memo_sync, name='memo'),
-
+    url(r'^memo_sync$', kotech_memo_views.memo_sync, name='memo_sync'),
+    url(r'^dashboard_memo$', kotech_memo_views.dashboard_memo, name='dashboard_memo'),
+    url(r'^dashboard_memo_read$', kotech_memo_views.dashboard_memo_read, name='dashboard_memo_read'),
+    url(r'^dashboard_memo_detail$', kotech_memo_views.dashboard_memo_detail, name='dashboard_memo_detail'),
 
     # Xinics Login
     # made by kotech system
@@ -145,6 +153,9 @@ urlpatterns = [
     # Lifelong API
     # made by kotech system
     url(r'^api/all_courses$', kotech_lifelong_views.course_api, name="course_api"),
+    url(r'^cb_course_list$', kotech_lifelong_views.cb_course_list, name="cb_course_list"),
+    url(r'^api/cb_course$', kotech_lifelong_views.cb_course, name="cb_course"),
+    url(r'^cb_print/(?P<course_id>.*?)/$', kotech_lifelong_views.cb_print, name='cb_print'),
 
 
     # Self Auth
@@ -190,7 +201,8 @@ urlpatterns = [
 
     # Schools
     # made by kotech system
-    url(r'^schools/?$', courseware_views.schools, name="schools"),
+    url(r'^schools_make_filter/?$', courseware_views.schools_make_filter, name="schools_make_filter"),
+    url(r'^schools_make_item/?$', courseware_views.schools_make_item, name="schools_make_item"),
     url(r'^school/(?P<org>.*?)/view/$', courseware_views.school_view, name="school_view"),
     url(r'^school/(?P<org>.*?)/$', courseware_views.haewoondaex, name="school"),
 

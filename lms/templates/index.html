@@ -2,15 +2,13 @@
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
 <%!
-from django.utils.translation import ugettext as _
-from django.urls import reverse
-from microsite_configuration import microsite
-from openedx.core.djangolib.markup import HTML, Text
+    from django.utils.translation import ugettext as _
+    from django.urls import reverse
+    from microsite_configuration import microsite
+    from openedx.core.djangolib.markup import HTML, Text
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <%include file="header/course-detail-view.html"/>
-<!-- Popup Area
-<div id="layerPopupArea" class="layerPopupArea" style="top:110px !important; left:148px !important; position:fixed !important; display: block;">-->
 <div id="layerPopupArea" class="layerPopupArea">
     % for pop in popup_list:
         % if pop['popup_type'] == 'H' and pop['site_id'] is None:
@@ -21,9 +19,8 @@ from openedx.core.djangolib.markup import HTML, Text
     % endfor
 </div>
 
+
 <script language="Javascript">
-
-
 $( document ).ready(function() {
     $( ".slide_viewer" ).hover(function() {
         $('#arrow_box_left').css("background-color", "#333");
@@ -60,10 +57,10 @@ $( document ).ready(function() {
 });
 
 
-
 function popClose(id){
     $("#" + id).hide();
 }
+
 
 function setCookie( name, value, expiredays ) {
     var todayDate = new Date();
@@ -74,6 +71,7 @@ function setCookie( name, value, expiredays ) {
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
+
 function closeWin(check, id, hidden_day) {
     if ($("#" + check).is(":checked")){
         setCookie( id , "done" , hidden_day);
@@ -81,12 +79,15 @@ function closeWin(check, id, hidden_day) {
     $("#" + id).css("display" , "none");
 }
 
+
 cookiedata = document.cookie;
+
 
 $("#layerPopupArea .pop_content").each(function() {
     var content_id = $(this).attr("id");
     $("#"+content_id).html($("#"+content_id).text());
 });
+
 
 var leng = '${max_pop}';
 leng = Number(leng);
@@ -97,9 +98,9 @@ for (var i = 1; i<=leng; i++) {
         %else:
             $("#" + i).css("display" , "inline-block !important;");
         %endif
-} else {
-    $("#" + i).css("display" , "none");
-}
+    } else {
+        $("#" + i).css("display" , "none");
+    }
 }
 
 
@@ -112,61 +113,136 @@ function setCookie1( name, value, expiredays ) {
 cookiedata = document.cookie;
 </script>
 
+
 <style>
-  .home > header .outer-wrapper {
-    width: 100%;height:100%;box-sizing:border-box;
-/**    padding:250px 0 240px 0;	**/
-	padding:100px 0 0 0; /** 20161215 **/
-}
-  .course-search{
-    width: 300px;
-    float: right;
-    margin-right: 30px;
-  }
+    .home > header .outer-wrapper {
+        width: 100%;height:100%;box-sizing:border-box;
+	    padding:100px 0 0 0;
+    }
+    .course-search{
+        width: 300px;
+        float: right;
+        margin-right: 30px;
+    }
 </style>
-<!--<script src="${static.url('js/script/index_comm.js')}" charset="utf-8"></script>-->
+
 
 %if request.user.id and not request.user.is_active:
-  <script>
+<script>
     setTimeout(function () {
         alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
         document.location.href = "/logout";
     }, 500);
-  </script>
+</script>
 %endif
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // link to courses event
+        $(".link_to_courses [data-term]").each(function(){
+            $(this).click(function(e){
+                e.preventDefault();
+                let form = $("<form>", {action: "/courses", method: "POST"}),
+                csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
+                term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
+                form.append(csrftoken, term);
+                if(form) {
+                    form.appendTo($("body")).submit();
+                }
+            });
+        });
+        var sliderOptions = {
+            mode: 'vertical',
+            slideSelector: '.slider article.slide',
+            minSlides: 1,
+            maxSlides: 1,
+            auto: ($('#board_slider').children().length < 2) ? false : true,
+            autoHover: true,
+            infiniteLoop: true,
+            controls: true,
+            touchEnabled : (navigator.maxTouchPoints > 0),
+            prevSelector: 'div.bxslider-prev',
+            prevText: '<span class="hidden_head">${_("Previous")}</span>',
+            nextSelector: 'div.bxslider-next',
+            nextText: '<span class="hidden_head">${_("Next")}</span>',
+            onSliderLoad: function(currentIndex) {
+                $('.bx-clone').find('a').prop('tabindex', '-1');
+            },
+            onSlideBefore: function($slideElement, oldIndex, newIndex) {
+                var comm_link = $slideElement.find("a").attr("href");
+                var comm_category = $slideElement.find("span.comm-category").text();
+                var comm_link_gbn = comm_link.split('/');
+                var comm_more = '#';
+                if(comm_link_gbn[2] != 'F') {
+                    comm_more = '/comm_list/' + comm_link_gbn[2];
+                }
+                else {
+                    comm_more = '/comm_tabs/kmooc_f/';
+                }
+                $(".kr01-slider-extend").children('a').attr('href', comm_more);
+                $("#comm_more").attr('title', comm_category);
+            },
+            onSlideAfter: function(){
+                $("#board_slider").children("article").each(function(){
+                    if ($(this).attr("aria-hidden") == "false") {
+                        $(this).find("a").prop("tabindex", "0");
+                    } else {
+                        $(this).find("a").prop("tabindex", "-1");
+                    }
+                });
+            }
+        };
+        var board_slider = $('#board_slider').bxSlider(sliderOptions);
+
+        // 접근성 슬라이더 수정
+        $('#board_slider article').focusin(function () {
+            $('#board_slider article').removeClass('focus');
+            $(this).parents('article').addClass('focus');
+            board_slider.stopAuto();
+            if($('#board_slider article:first-child').hasClass('focus')){
+                board_slider.css('transform', 'translate3d(0, 0px, 0px)');
+            }
+        });
+    });
+</script>
+
 
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="kr01">
-      <header>
-        <div class="kr01_outer-wrapper">
-            <section class="courses-container"style="background: none;">
-                <section class="highlighted-courses">
-                    <div class="kr01_mainslider_area" style="margin: 0 auto; margin-top: 15px;">
-                        <ul class="kr01_mainslider">
-                            % if popzone_list:
-                                % for pop in popzone_list:
-                                <li><a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
-                                    <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}" onerror="this.src='/static/images/blank.png'"/>
-                                </a>
-                                    <div class="kr01_mainslider_captions">
-                                        <span class="slider-txt">${pop['title']}</span>
-                                    </div>
-                                </li>
-                                % endfor
-                            % else:
-                            <li><a href="/about"><img src="/static/images/main/ba03.jpg" alt="${_('About Us')}"/></a>
-                                <div class="kr01_mainslider_captions">
-                                    <span class="slider-txt">${_('About Us')}</span>
-                                </div></li>
-                            % endif
-                        </ul>
-                    </div>
+        <header>
+            <div class="kr01_outer-wrapper">
+                <section class="courses-container"style="background: none;">
+                    <section class="highlighted-courses">
+                        <div class="kr01_mainslider_area" style="margin: 0 auto; margin-top: 15px;">
+                            <ul class="kr01_mainslider">
+                                % if popzone_list:
+                                    % for pop in popzone_list:
+                                        <li>
+                                            <a href="${pop['link_url']}" target="${pop['link_target']}" title="${pop['title']}">
+                                                <img src="${pop['image_file']}" alt="${pop['title']}" title="${pop['title']}" onerror="this.src='/static/images/blank.png'"/>
+                                            </a>
+                                            <div class="kr01_mainslider_captions">
+                                                <span class="slider-txt">${pop['title']}</span>
+                                            </div>
+                                        </li>
+                                    % endfor
+                                % else:
+                                    <li>
+                                        <a href="/about">
+                                            <img src="/static/images/main/ba03.jpg" alt="${_('About Us')}"/>
+                                        </a>
+                                        <div class="kr01_mainslider_captions">
+                                            <span class="slider-txt">${_('About Us')}</span>
+                                        </div>
+                                    </li>
+                                % endif
+                            </ul>
+                        </div>
+                    </section>
                 </section>
-            </section>
-
-        </div>
-      </header>
-
+            </div>
+        </header>
         <h1 class="kr01_explain">5개 메뉴</h1>
         <section class="courses-container">
             <section class="highlighted-courses">
@@ -242,7 +318,6 @@ cookiedata = document.cookie;
                         </li>
                     </ul>
                 </div>
-
                 <div class="kr01_fivemenu02 ">
                     <ul class="fivemenarea link_to_courses">
                         <li class="kr01_f01">
@@ -253,7 +328,6 @@ cookiedata = document.cookie;
                                 </a>
                             </div>
                         </li>
-
                         <li class="kr01_f02">
                             <div>
                                 <a class="fivemenarea-a" href="/series">
@@ -291,19 +365,14 @@ cookiedata = document.cookie;
                                 <a class="fivemenarea-a show-course-data" tabindex="0" title="새창 열림" onclick="show_course_popup();">
                                     <i class="fa fa-bullhorn fa-2x fivemenarea-icon"></i>
                                     <span class="fivemenarea-span">${_("Updating Course")}</span>
-                                    <!--#<span class="fivemenarea-span">${index_submenu['subm_title_2']}</span>-->
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </div>
-
             </section>
         </section>
     </section>
-
     <h1 class="kr01_explain">${_("Updates")}</h1>
         <section class="courses-container kr01_alert">
             <section class="highlighted-courses">
@@ -315,9 +384,9 @@ cookiedata = document.cookie;
                             <div class="slider" id="board_slider">
                                 % for list in index_list[:4] :
                                     % if list['section'] != 'F':
-                                    <article class="slide"><a href="/comm_view/${list['section']}/1/${list['board_id']}"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
+                                        <article class="slide"><a href="/comm_view/${list['section']}/1/${list['board_id']}"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
                                     % else:
-                                    <article class="slide"><a href="/comm_tabs/${list['faq_section']}/"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
+                                        <article class="slide"><a href="/comm_tabs/${list['faq_section']}/"><span><b>${list['head_title']}</b> ${list['subject']}</span></a><span class="comm-category" hidden>${list['category']}</span></article>
                                     % endif
                                 % endfor
                             </div>
@@ -331,95 +400,7 @@ cookiedata = document.cookie;
                                 </a>
                             </div>
                         </div>
-
-                        <script type="text/javascript">
-
-                            $(document).ready(function(){
-
-                                // link to courses event
-                                $(".link_to_courses [data-term]").each(function(){
-                                    $(this).click(function(e){
-                                        e.preventDefault();
-                                        let form = $("<form>", {action: "/courses", method: "POST"}),
-                                        csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
-                                        term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
-
-                                        // add csrf token
-                                        form.append(csrftoken, term);
-
-                                        if(form)
-                                            form.appendTo($("body")).submit();
-                                    });
-
-
-                                });
-
-                                /*
-                                if(f){
-                                    alert('submit!');
-                                    f.appendTo($("body")).submit();
-
-                                }else{
-                                    alert('not submit!');
-                                }
-                                */
-
-                                var sliderOptions = {
-                                    mode: 'vertical',
-                                    slideSelector: '.slider article.slide',
-                                    minSlides: 1,
-                                    maxSlides: 1,
-                                    auto: ($('#board_slider').children().length < 2) ? false : true,
-                                    autoHover: true,
-                                    infiniteLoop: true,
-                                    controls: true,
-                                    touchEnabled : (navigator.maxTouchPoints > 0),
-                                    prevSelector: 'div.bxslider-prev',
-                                    prevText: '<span class="hidden_head">${_("Previous")}</span>',
-                                    nextSelector: 'div.bxslider-next',
-                                    nextText: '<span class="hidden_head">${_("Next")}</span>',
-                                    onSliderLoad: function(currentIndex) {
-                                        $('.bx-clone').find('a').prop('tabindex', '-1');
-                                    },
-                                    onSlideBefore: function($slideElement, oldIndex, newIndex) {
-                                        var comm_link = $slideElement.find("a").attr("href");
-                                        var comm_category = $slideElement.find("span.comm-category").text();
-                                        var comm_link_gbn = comm_link.split('/');
-                                        var comm_more = '#';
-                                        if(comm_link_gbn[2] != 'F')
-                                            comm_more = '/comm_list/' + comm_link_gbn[2];
-                                        else comm_more = '/comm_tabs/kmooc_f/';
-                                        $(".kr01-slider-extend").children('a').attr('href', comm_more);
-                                        $("#comm_more").attr('title', comm_category);
-                                    },
-                                    onSlideAfter: function(){
-                                        $("#board_slider").children("article").each(function(){
-                                            if($(this).attr("aria-hidden") == "false"){
-                                                $(this).find("a").prop("tabindex", "0");
-                                            }else{
-                                                $(this).find("a").prop("tabindex", "-1");
-                                        }
-                                        });
-                                    }
-                                };
-
-                                var board_slider = $('#board_slider').bxSlider(sliderOptions);
-
-                                // 접근성 슬라이더 수정
-                                $('#board_slider article').focusin(function () {
-                                    $('#board_slider article').removeClass('focus');
-                                    $(this).parents('article').addClass('focus');
-                                    board_slider.stopAuto();
-                                    if($('#board_slider article:first-child').hasClass('focus')){
-                                        board_slider.css('transform', 'translate3d(0, 0px, 0px)');
-                                    }
-                                });
-
-                            });
-
-                        </script>
                     </div>
-
                     <div class="kr01_SnsArea">
                         <ul>
                             <li>
@@ -436,11 +417,9 @@ cookiedata = document.cookie;
                             </li>
                         </ul>
                     </div>
-
                 </div>
             </section>
         </section>
-
         <section class="kr01 kr01_alert02">
             <section class="courses-container">
                 <section class="highlighted-courses">
@@ -449,40 +428,38 @@ cookiedata = document.cookie;
                         <span class="kr01_icontTitle">제공분야</span>
                         <div class="kr01-middle-classfy">
                             <ul class="link_to_courses kr01-middle-classfy-random">
-                            % for ran in random_classfy:
-                                <li class="kr01-mid-name"><a href="#" data-facet="middle_classfy" data-term="${ran[0]}">#${ran[1]}</a></li>
-                            % endfor
+                                % for ran in random_classfy:
+                                    <li class="kr01-mid-name"><a href="#" data-facet="middle_classfy" data-term="${ran[0]}">#${ran[1]}</a></li>
+                                % endfor
                             </ul>
                             <a id="middle_list_link" href="#" tabindex="-1">
                                 <span class="hidden_head" id="arrow_open">${_("Expand")}</span>
                                 <span tabindex="0" class="kr01-arrow">▼</span>
                             </a>
-                                <ul id="middle_list" class="kr01-middle-classfy-all link_to_courses">
-                                    % for m_classfy in middle_list:
+                            <ul id="middle_list" class="kr01-middle-classfy-all link_to_courses">
+                                % for m_classfy in middle_list:
                                     <li class="kr01-mid-name">
                                         <a href="#" data-facet="middle_classfy" data-term="${m_classfy[0]}">#${m_classfy[1]}</a>
                                     </li>
-                                    % endfor
-                                </ul>
-
+                                % endfor
+                            </ul>
                         </div>
-
                     </div>
                 </section>
             </section>
         </section>
-
       <%include file="${courses_list}" />
-
 </main>
 
+
 % if show_homepage_promo_video:
-  <section id="video-modal" class="modal home-page-video-modal video-modal">
-    <div class="inner-wrapper">
-      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </section>
+    <section id="video-modal" class="modal home-page-video-modal video-modal">
+        <div class="inner-wrapper">
+            <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
 % endif
+
 
 <%block name="js_extra">
    <script type="text/javascript">
@@ -494,10 +471,9 @@ cookiedata = document.cookie;
    </script>
 </%block>
 
+
 % if show_signup_immediately is not UNDEFINED:
-  ## NOTE: This won't work in production, because anonymous views are cached, so it will
-  ## show either with or without this extra js for 3 minutes at a time.
 <script type="text/javascript">
-  $(window).load(function() {$('#signup_action').trigger("click");});
+    $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
 % endif

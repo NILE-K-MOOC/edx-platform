@@ -1,0 +1,1 @@
+from .forumxblock import ForumXBlock

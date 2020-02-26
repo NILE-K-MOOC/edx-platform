@@ -23004,7 +23004,7 @@ msgstr "강좌에 대한 짧은 소개"
 msgid ""
 "Appears on the course catalog page when students roll over the course name. "
 "Limit to ~150 characters"
-msgstr "학습자가 강좌명을 눌러보면 강좌 목록에 나타납니다. 150자 이내로 작성해야 합니다."
+msgstr "홈페이지의 강좌 찾기와 관련 강좌의 검색 기준이 됩니다. 150자 이내로 작성해주세요."
 
 #: cms/templates/settings.html
 msgid "Course Overview"
@@ -25675,6 +25675,11 @@ msgstr "융·복합"
 msgid "major"
 msgstr "분야"
 
+msgid "Subject"
+msgstr "분야"
+
+msgid "Registration Period"
+msgstr "수강 신청 기간"
 
 #: comm_faqrequest.html
 msgid "The inquiry will be sent to the K-MOOC staff members by e-mail."

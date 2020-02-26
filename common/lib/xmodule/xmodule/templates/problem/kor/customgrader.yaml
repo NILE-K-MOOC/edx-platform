@@ -1,0 +1,70 @@
+---
+metadata:
+    display_name: Python 사용자 정의 문제
+    markdown: !!null
+data: |
+      <problem>
+            <p>
+                Python 사용자 정의 문제 ("write-your-own-grader"문제라고도 함)는 Python 스크립트를 사용하여 학습자 응답을 평가하거나 힌트를 제공하기 위해 Python 스크립트를 사용합니다. 숫자 입력 및 텍스트 입력 문제는 가장 일반적인 write-your-own-grader 문제입니다.
+            </p>
+            <p>
+                스크립트 태그 형식이나 응답 태그 형식을 사용하여 문제를 만들 수 있습니다.
+            </p>
+            <p>
+                Python 사용자 정의 문제는 부분 크레딧이나 Python 코드에서 랜덤 변수를 사용하여 작성 수 있습니다. HTML "img"태그를 사용하여 솔루션에 이미지를 추가 할 수도 있습니다. "img"태그는 "solution"태그 안에 있는 "div"태그 사이에 있어야 하며 학습자는 "답변 표시"단추를 클릭 할 때까지 이러한 이미지를 볼 수 없습니다.
+            </p>
+            <p>
+                자세한 내용은 <a href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/custom_python.html" target="_blank">Write-Your-Own-Grader</a> 문제 본인 작성 문제 해결을 참조하십시오.
+            </p>
+            <p>
+                문제를 추가 할 때 <strong>설정</strong>을 선택하여 적용된 <strong>Display Name</strong>과 다른 값을 지정하십시오.
+            </p>
+            <p>다음의 예제 문제를 모델로 사용할 수 있습니다.</p>
+            <hr/>
+
+        <customresponse cfn="test_add_to_ten">
+      <script type="loncapa/python">
+
+      def test_add_to_ten(expect, ans):
+          return test_add(10, ans)
+
+      </script>
+            <label>합계가 10 인 정수 두 개를 입력하십시오.</label>
+            <textline size="40" correct_answer="3" label="첫 번째 숫자를 입력하십시오." /><br/>
+            <textline size="40" correct_answer="7" label="두 번째 숫자를 입력하십시오." />
+            <solution>
+                <div class="detailed-solution">
+                    <p>(설명)</p>
+                    <p>라인의 모든 정수 세트는 y = 10−x  이러한 제약을 만족 시켜야 합니다.</p>
+                </div>
+            </solution>
+        </customresponse>
+
+        <customresponse cfn="test_add" expect="20">
+      <script type="loncapa/python">
+
+      def test_add(expect, ans):
+          try:
+              a1=int(ans[0])
+              a2=int(ans[1])
+              return (a1+a2) == int(expect)
+          except ValueError:
+              return False
+
+      </script>
+            <label>합계가 20 인 정수 두 개를 입력하십시오.</label>
+            <textline size="40" correct_answer="11" label="첫 번째 숫자를 입력하십시오." /><br/>
+            <textline size="40" correct_answer="9" label="두 번째 숫자를 입력하십시오." />
+            <solution>
+                <div class="detailed-solution">
+                    <p>(설명)</p>
+                    <p>라인의 모든 정수 세트 y = 20−x  이러한 제약을 시켜야 합니다.</p>
+                    <p>솔루션에 이미지를 추가하려면 HTML "img"태그를 사용하십시오. 대체 텍스트를 포함해야 합니다.</p>
+                    <img src="/static/images/placeholder-image.png" width="400"
+                    alt="Description of image, with a primary goal of explaining its
+                    relevance to the problem or concept being illustrated for someone
+                    who is unable to see the image."/>
+                </div>
+            </solution>
+        </customresponse>
+      </problem>

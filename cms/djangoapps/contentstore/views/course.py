@@ -1695,8 +1695,6 @@ def settings_handler(request, course_key_string):
                 else:
                     course_lang_tmp.append(lang)
 
-            # request.json['teacher_name'] = teacher_name
-
             settings_context = {
                 'context_course': course_module,
                 'user_edit': edit_check,
