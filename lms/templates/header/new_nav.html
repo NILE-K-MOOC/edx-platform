@@ -25,18 +25,153 @@
 
 <section class="new-nav-con">
     <section class="new-nav-col">
-        <nav>
-            <div class="new-nav-box">
-                <div class="new-nav-text">
-                    K-MOOC 소개
+
+        <nav class="gnb" style="padding-bottom: 0px;">
+            <div class="container-fluid">
+                <div class="one-depth">
+                    <a href="#">K-MOOC 소개</a>
+                    <ul class="two-depth">
+                        <li>
+                            <a href="/about">About K-MOOC</a>
+                        </li>
+                        <li>
+                            <a href="/about">추진체계</a>
+                        </li>
+                        <li>
+                            <a href="/about">참여기관</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="new-nav-text">
-                    강좌
+                <div class="one-depth">
+                    <a href="#">강좌</a>
+                    <ul class="two-depth">
+                        <li>
+                            <a href="/courses">강좌찾기</a>
+                        </li>
+                        <li>
+                            <a href="/series">묶음강좌</a>
+                        </li>
+                        <li>
+                            <a href="https://cb.kmooc.kr/search">학점은행과정</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="new-nav-text">
-                    커뮤니티
+                <div class="one-depth">
+                    <a href="#">커뮤니티</a>
+                    <ul class="two-depth">
+                        <li>
+                            <a href="/comm_list/N">공지사항</a>
+                        </li>
+                        <li>
+                            <a href="/comm_list/K">K-MOOC 뉴스</a>
+                        </li>
+                        <li>
+                            <a href="/comm_list/R">자료실</a>
+                        </li>
+                        <li>
+                            <a href="/comm_tabs/kmooc_f/">FAQ</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
+
     </section>
 </section>
+
+<style>
+    .gnb .one-depth > a, .gnb .one-depth > a:hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    .gnb .one-depth .two-depth li > a, .gnb .one-depth .two-depth li > a:hover {
+        color: black;
+    }
+
+    .gnb > a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.btn):focus {
+        color: black;
+    }
+
+</style>
+
+
+
+<script>
+        $(function(){
+            $('.one-depth').on('click', function() {
+                $('.two-depth').removeClass('active');
+                $(this).children('.two-depth').addClass('active');
+                $('.gnb').css('padding-bottom','45px');
+            });
+
+            $('.gnb').mouseleave(function(e) {
+                if (!$('.two-depth').is(e.target) && $('.two-depth').has(e.target).length == 0) {
+                    $('.two-depth').removeClass('active');
+                    $('.gnb').css('padding-bottom','0');
+                }
+            });
+        });
+
+        $(function(){
+            $('.explore-button').on('click', function() {
+                $('.explore-menu').toggleClass('open');
+            });
+
+            $(document).mouseup(function(e) {
+                var exploreMenu = $('.explore-menu');
+
+                if (!$('.explore-button, .search-input, .search-button').is(e.target) && !exploreMenu.is(e.target) && exploreMenu.has(e.target).length == 0) {
+                    exploreMenu.removeClass('open');
+                }
+            });
+        });
+
+        $(function(){
+            $('.lnb-button').on('click', function() {
+                $('.lnb').removeClass('on');
+                $('.lnb').addClass('on');
+            });
+
+            $('.lnb-close-button').on('click', function() {
+                $('.lnb').removeClass('on');
+            });
+
+            $('.l-one-depth').on('click', function() {
+                $('.l-one-depth').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+
+        $(function(){
+            $('.dropdown').on('click', function() {
+                $('.dropdown').removeClass('open');
+                $(this).addClass('open');
+            });
+
+            $(document).mouseup(function(e) {
+                var utilMenu = $('.dropdown');
+
+                if (!$('.dropdown-menu').is(e.target) && !utilMenu.is(e.target) && utilMenu.has(e.target).length == 0) {
+                    utilMenu.removeClass('open');
+                }
+            });
+        });
+
+        $(function(){
+            $('.owl-carousel').owlCarousel({
+                margin: 20,
+                nav: true,
+                dots: false,
+                responsive:{
+                    0:{
+                        items: 2
+                    },
+
+                    992:{
+                        items: 4
+                    }
+                }
+            })
+        });
+    </script>

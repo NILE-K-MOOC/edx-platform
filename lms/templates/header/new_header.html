@@ -105,29 +105,10 @@
                         <div class="new-rc-sign">
                             <div class="new-login-memo" onclick='toggle_notice();'>
                                 <img class="mr5" src="/static/new_index/images/icon_notice.png">
-                                0
+                                <span id="cnt">-</span>
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
                                 <div id="new_notice" class="new-dropdown-menu2" style="display: none;">
-                                    <ul class="new-notice-list">
-                                        <li>
-                                            <a class="nn-atag" href="#">
-                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
-                                                <span class="nn-date">2020.02.20</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="nn-atag" href="#">
-                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
-                                                <span class="nn-date">2020.02.20</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="nn-atag" href="#">
-                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
-                                                <span class="nn-date">2020.02.20</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <ul class="new-notice-list"></ul>
                                     <div class="new-notice-gab">
                                         <a href="/memo">알림 목록으로</a>
                                     </div>
@@ -170,6 +151,56 @@
                                 Eng
                             </div>
                         </div>
+
+                        <script>
+
+                            function memo_sync(){
+                                let user_id = "${user.id if user.is_authenticated() else ''}";
+
+                                $.ajax({
+                                    url : '/memo_sync',
+                                    type: "POST",
+                                    data : {
+                                        sync_memo : 'sync_memo',
+                                        user_id : user_id
+                                        //csrfmiddlewaretoken: '${ csrf_token }'
+                                    }
+                                }).done(function(data) {
+                                    $('#cnt').html(data.cnt);
+                                    var memo_list = data.memo_list;
+                                    var memo_link = '#';
+
+                                    if(data.cnt > 0){
+                                        for(var i = 0 ; i < memo_list.length ; i++){
+                                            if(memo_list[i].memo_gubun != '1'){
+                                                memo_link = 'http://' + memo_list[i].contents;
+                                            } else {
+                                                memo_link = '/memo_view/'+memo_list[i].memo_id;
+                                            }
+
+                                            let memo_row = '' +
+                                                '<li>' +
+                                                    '<a class="nn-atag" href="'+ memo_link+'" id=link_'+i +'">' +
+                                                        '<span class="nn-text">'+ memo_list[i].title +'</span>' +
+                                                        '<span class="nn-date">'+ memo_list[i].memo_date +'</span>' +
+                                                    '</a>' +
+                                                '</li>';
+
+                                            console.log(memo_row);
+
+                                            $(".new-notice-list").append(memo_row);
+
+                                        }
+                                    }
+
+                                });
+                            }
+                            memo_sync();
+
+
+
+
+                        </script>
                     % else:
                         <!-- 렌더 : 로그인, 회원가입 -->
                         <div class="new-rc-sign">
