@@ -1045,6 +1045,14 @@ class CourseFields(object):
         default='',
     )
 
+    ai_yn = String(
+        display_name=_("ai_yn"),
+        help=_("ai_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
+    )
+
 
 class CourseModule(CourseFields, SequenceModule):  # pylint: disable=abstract-method
     """

@@ -589,6 +589,8 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("ribbon_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("course_level", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+
+        AboutInfo("ai_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
     @classmethod
