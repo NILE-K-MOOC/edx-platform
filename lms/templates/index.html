@@ -297,7 +297,7 @@ cookiedata = document.cookie;
         <div class="container-fluid">
             <div class="visual-row">
                 <div class="visual-col txt">
-                    <h1 class="title" style="text-align: left; color: #222;">K-MOOC 소개</h1>
+                    <h1 class="title" style="text-align: left; color: #222;">K-MOOC ${_("Intro")}</h1>
                     <p class="content" style="color: #222;">K-MOOC는 온라인을 통해서<br>누구나, 어디서나 원하는 강좌를 무료로 들을 수 있는<br>온라인 공개강좌 서비스로 2015년에 시작된<br>한국형 무크입니다.</p>
                     <a href="/about" class="more">more</a>
                 </div>
@@ -310,7 +310,7 @@ cookiedata = document.cookie;
             <div class="visual-row">
                 <div class="visual-col img"></div>
                 <div class="visual-col txt">
-                    <h1 class="title" style="text-align: left; color: #222;">강좌찾기</h1>
+                    <h1 class="title" style="text-align: left; color: #222;">${_("Courses")}</h1>
                     <p class="content" style="color: #222;">K-MOOC의 다양한 강좌를 통해 목표를 달성해 보세요.</p>
                     <ul class="quick-link">
                         <li>
@@ -355,16 +355,16 @@ cookiedata = document.cookie;
     <section class="sec-course">
         <div class="container-fluid">
             <div class="course-top">
-                <h1 class="title">이런 강좌는 어떠세요?</h1>
+                <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <li>
-                        <div onclick="change_course('pop')" id="hack_pop" class="csp tab active">인기강좌</div>
+                        <div onclick="change_course('pop')" id="hack_pop" class="csp tab active">${_("Popular Courses")}</div>
                     </li>
                     <li>
-                        <div onclick="change_course('new')" id="hack_new" class="csp tab">신규강좌</div>
+                        <div onclick="change_course('new')" id="hack_new" class="csp tab">${_("New Courses")}</div>
                     </li>
                     <li>
-                        <div onclick="change_course('today')" id="hack_today" class="csp tab">오늘의 강좌</div>
+                        <div onclick="change_course('today')" id="hack_today" class="csp tab">${_("Today Courses")}</div>
                     </li>
                     <!--
                     <li>
@@ -404,7 +404,7 @@ cookiedata = document.cookie;
                                             % elif courses.status == 'end':
                                                 <span class="state end">종료</span>
                                             % else:
-                                                <span class="state ing">${courses.status}</span>
+                                                <span class="state soon">개강예정</span>
                                             % endif
                                             <!--<span class="state soon">개강예정</span>-->
                                             <!--<span class="state possible">청강가능</span>-->
@@ -449,7 +449,7 @@ cookiedata = document.cookie;
                                             % elif courses.status == 'end':
                                                 <span class="state end">종료</span>
                                             % else:
-                                                <span class="state ing">${courses.status}</span>
+                                                <span class="state soon">개강예정</span>
                                             % endif
                                             <!--<span class="state soon">개강예정</span>-->
                                             <!--<span class="state possible">청강가능</span>-->
@@ -494,7 +494,7 @@ cookiedata = document.cookie;
                                             % elif courses.status == 'end':
                                                 <span class="state end">종료</span>
                                             % else:
-                                                <span class="state ing">${courses.status}</span>
+                                                <span class="state soon">개강예정</span>
                                             % endif
                                             <!--<span class="state soon">개강예정</span>-->
                                             <!--<span class="state possible">청강가능</span>-->
@@ -524,7 +524,7 @@ cookiedata = document.cookie;
         <div class="container-fluid">
             <div class="visual-row">
                 <div class="visual-col txt">
-                    <h1 class="title">커뮤니티</h1>
+                    <h1 class="title">${_("Community")}</h1>
                     <p class="content">K-MOOC 소식을 전해드립니다.</p>
                     <ul class="quick-link">
                         <li>

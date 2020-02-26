@@ -26456,6 +26456,9 @@ msgstr "강의 내용"
 msgid "Lecture Operation"
 msgstr "강의 운영"
 
+msgid "Lecture"
+msgstr "강좌"
+
 msgid "Course Satisfaction"
 msgstr "강좌 만족도"
 
@@ -27762,6 +27765,9 @@ msgstr "문제에 대한 학점을 받으려면 \"내 시험 끝내기\"를 선�
 msgid "More"
 msgstr "더보기"
 
+msgid "Explorer"
+msgstr "분류 탐색"
+
 msgid "Selected Options Agree"
 msgstr "선택한 답변이 일치합니다"
 
@@ -27913,16 +27919,22 @@ msgid "Organization matching search criteria does not exist"
 msgstr "검색 조건에 일치하는 참여기관이 존재하지 않습니다"
 
 msgid "New Courses"
-msgstr "신규 강좌"
+msgstr "신규강좌"
 
 msgid "Popular Courses"
-msgstr "인기 강좌"
+msgstr "인기강좌"
 
 msgid "Today Courses"
 msgstr "오늘의 강좌"
 
 msgid "Fourth Industry"
 msgstr "4차 산업혁명"
+
+msgid "Artificial intelligence"
+msgstr "AI 인공지능"
+
+msgid "View All Course"
+msgstr "전체 강좌 보기"
 
 msgid "Job Edu"
 msgstr "직업교육"
@@ -27932,3 +27944,6 @@ msgstr "한국어(학)"
 
 msgid "Course Demand Survey"
 msgstr "강좌수요조사"
+
+msgid "How about this lecture?"
+msgstr "이런 강좌는 어떠세요?"
