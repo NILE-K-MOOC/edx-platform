@@ -2791,6 +2791,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   margin-left: auto;
   margin-right: auto;
   padding-top: 40px;
+  padding-left: 15px;
 }
 .new-ff-three {
   display: flex;
@@ -2863,3 +2864,23 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-ff-select {width: 300px; padding: 5px; border: 1px solid #fff; background-color: transparent; color: #fff;}
 .new-ff-select option {color: #222;}
+
+@media only screen and (max-width: 1200px) {
+  .new-ff-right {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .new-ff-three {
+    display: unset;
+  }
+  .new-ff-top-1 {
+    margin-bottom: 30px;
+  }
+  .new-ff-top-2 {
+    margin-bottom: 30px;
+  }
+  .new-ff-top-3 {
+    margin-bottom: 30px;
+  }
+}
