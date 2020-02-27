@@ -6,7 +6,7 @@
 **/
 
 @font-face {
-    font-family: 'Noto Sans KR' !important;
+    font-family: 'Noto Sans KR';
     font-weight: 400;
     src: url(/static/new_index/font/NotoSansRegular.eot); /* IE 호환성 보기 */
     src: url(/static/new_index/font/NotoSansRegular#iefix) format('embedded-opentype'), /* IE 6 ~ 8 */
@@ -16,7 +16,7 @@
 }
 
 @font-face {
-    font-family: 'Noto Sans KR' !important;
+    font-family: 'Noto Sans KR';
     font-weight: 500;
     src: url(/static/new_index/font/NotoSansMedium.eot); /* IE 호환성 보기 */
     src: url(/static/new_index/font/NotoSansMedium#iefix) format('embedded-opentype'), /* IE 6 ~ 8 */
@@ -26,7 +26,7 @@
 }
 
 @font-face {
-    font-family: 'Noto Sans KR' !important;
+    font-family: 'Noto Sans KR';
     font-weight: 700;
     src: url(/static/new_index/font/NotoSansBold.eot); /* IE 호환성 보기 */
     src: url(/static/new_index/font/NotoSansBold#iefix) format('embedded-opentype'), /* IE 6 ~ 8 */
