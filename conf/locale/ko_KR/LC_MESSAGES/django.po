@@ -27947,3 +27947,34 @@ msgstr "강좌수요조사"
 
 msgid "How about this lecture?"
 msgstr "이런 강좌는 어떠세요?"
+
+msgid "Basic Science"
+msgstr "이공계 기초과학"
+
+msgid "K-MOOC by the numbers"
+msgstr "숫자로 보는 K-MOOC"
+
+msgid "Universities, public institutions and overseas"
+msgstr "대학, 공공기관 및 해외기관"
+
+msgid "Institutions"
+msgstr "참여기관 모두 보기"
+
+msgid "Related Link"
+msgstr "패밀리사이트"
+
+msgid "business-related"
+msgstr "사업 문의"
+
+msgid "service-related"
+msgstr "서비스 이용 문의"
+
+msgid "Introduce"
+msgstr "K-MOOC 소개"
+
+msgid "Promotion system"
+msgstr "추친체계"
+
+msgid "K-MOOC News"
+msgstr "K-MOOC의 소식을 전해드립니다."
+
