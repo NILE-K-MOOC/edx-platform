@@ -26,8 +26,8 @@ var nodes = [
 
   { id: 17, label: "CoreEssAI 5\nReinforcement Learning", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
 
-  { id: 18, label: "CoreEssAI 6\n002_002_007\n영상 처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: "002_002_007" },
-  { id: 19, label: "CoreEssAI 7\n002_004_006\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: "002_004_006" },
+  { id: 18, label: "CoreEssAI 6\n002_002_007\n영상 처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 9, color: MATCH_COLOR, link: "002_002_007" },
+  { id: 19, label: "CoreEssAI 7\n002_004_006\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 9, color: MATCH_COLOR, link: "002_004_006" },
   { id: 20, label: "CoreElecAdv 4\nSNUk+SNU052_011k\n빅데이터와 인공지능의 응용", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: "SNUk+SNU052_011k" },
 ];
 var edges = [

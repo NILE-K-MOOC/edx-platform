@@ -5,7 +5,19 @@
 .page-title .visual-title {display: inline-block; font-size: 20px; font-weight: 700; vertical-align: middle;}
 .page-title .visual-subtitle {display: block; position: relative; margin-left: 0; padding-left: 0; font-size: 16px; vertical-align: middle;}
 .page-title .visual-subtitle:before {content: ''; display: none; position: absolute; top: 9px; left: 0; width: 1px; height: 15px; background-color: rgba(255, 255, 255, .6);}
-.page-title .visual-back {float: right; position: relative; margin-top: 10px; padding-right: 18px; font-size: 14px;}
+.page-title a.visual-back,
+.page-title a.visual-back:visited:not(.btn):hover,
+.page-title a.visual-back:visited:not(.btn):focus,
+.page-title a.visual-back:not(.btn):hover,
+.page-title a.visual-back:not(.btn):focus{
+    float: right;
+    position: relative;
+    margin-top: 10px;
+    padding-right: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
 .page-title .visual-back:before {content: ''; display: block; position: absolute; top: 50%; right: 5px; width: 6px; height: 6px; margin-top: -3px; border-top: 2px solid #fff; border-right: 2px solid #fff; transform: rotate(45deg); transition: right .2s ease-in-out;}
 .page-title .visual-back:hover:before {right: 0px;}
 
@@ -58,8 +70,8 @@
 .legend-group li ~ li {margin-left: 25px;}
 .legend-group li span {display: inline-block; vertical-align: middle;}
 .legend-group li .box {width: 18px; height: 18px; border: 1px solid transparent; border-radius: 4px;}
-.legend-group li .box.type1 {border-color: #91a7ff; background-color: #dbe4ff;}
-.legend-group li .box.type2 {border-color: #74c0fc; background-color: #d0ebff;}
+.legend-group li .box.type1 {border-color: #74c0fc; background-color: #d0ebff;}
+.legend-group li .box.type2 {border-color: #91a7ff; background-color: #dbe4ff;}
 .legend-group li .box.type3 {border-color: #ffa8a8; background-color: #ffe3e3;}
 .legend-group li .box.type4 {border-color: #bec4ca; background-color: #f1f3f5;}
 .legend-group li .box.type5 {border-color: #8ce99a; background-color: #d3f9d8;}
@@ -68,6 +80,15 @@
 h1, h2, h3 {
     font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
     color: inherit;
+}
+
+#mynetwork {
+    border-radius: 5px;
+    border: solid 2px #c8c8c8;
+    max-width: 1000px;
+    height: 600px;
+    margin-left :auto;
+    margin-right: auto;
 }
 
 /* --------------------------

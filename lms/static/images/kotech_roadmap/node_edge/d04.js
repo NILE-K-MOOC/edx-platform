@@ -9,7 +9,7 @@ var nodes = [
   { id: 6, label: "CoreElecAI 3\nCKUk+CORE_CKU03k\n인격과 로봇\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 1, color: EXIST_COLOR, link: "CKUk+CORE_CKU03k" },
 
   { id: 7, label: "CoreEssCS 1\nHGUk+HGU02\n파이썬 프로그래밍", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "HGUk+HGU02" },
-  { id: 8, label: "CoreEssMath 1\n003_002_009\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "003_002_009" },
+  { id: 8, label: "CoreEssMath 1\n003_002_009\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: MATCH_COLOR, link: "003_002_009" },
 
   { id: 9, label: "CoreElecCS 3\nYeungnamUnivK+YU217001\n객체지향형 프로그래밍과 자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "YeungnamUnivK+YU217001" },
   { id: 10, label: "CoreElecCS 4\nSMUk+SMU2018_01\n자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SMUk+SMU2018_01" },
@@ -32,11 +32,11 @@ var nodes = [
   { id: 22, label: "CoreElecAdv 2\nTopics in Machine Learning", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
   { id: 23, label: "CoreElecAdv 1\nTopics in Artificial Intelligence", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
 
-  { id: 24, label: "CoreEssAI 6\n003_002_038\n딥러닝 영상분석\n(코리아헤럴드)", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: "003_002_038" },
+  { id: 24, label: "CoreEssAI 6\n003_002_038\n딥러닝 영상분석\n(코리아헤럴드)", shape: VIS_SHAPE, level: 9, color: MATCH_COLOR, link: "003_002_038" },
   { id: 25, label: "SpcElecAdv 4\nHuman Intelligence and AI", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
   { id: 26, label: "SpcElecCog 1\nSNUk+SNU047_019k\n인간 뇌의 이해", shape: VIS_SHAPE, level: 9, color: FEED_COLOR, link: "SNUk+SNU047_019k" },
 
-  { id: 27, label: "CoreEssAI 7\n002_004_006\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: "002_004_006" },
+  { id: 27, label: "CoreEssAI 7\n002_004_006\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 10, color: MATCH_COLOR, link: "002_004_006" },
   { id: 28, label: "SpcElecAdv 1\nProbabilistic Graphical\nModels", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
 
   { id: 29, label: "SpcElecCog 4\nComputational Perception", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },

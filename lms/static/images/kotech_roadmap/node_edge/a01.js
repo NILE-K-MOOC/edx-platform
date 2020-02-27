@@ -12,14 +12,14 @@ var nodes = [
 
   { id: 8, label: "SpcElecRB 1\nSNUk+SKP.M2794.000100k\nFun-MOOC\n기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
   { id: 9, label: "CoreEssAI 5\nReinforcement Learning", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: "" },
-  { id: 10, label: "SpcElecAdv 3\n007_001_041\n추론응용 모델링\n(코리아헤럴드)\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 3, color: EXIST_COLOR, link: "007_001_041" },
+  { id: 10, label: "SpcElecAdv 3\n007_001_041\n추론응용 모델링\n(코리아헤럴드)\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 3, color: MATCH_COLOR, link: "007_001_041" },
   { id: 11, label: "SpcElecEcon 1\nJEJUk+KOCW_JEJU01\n계량경제학", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
   { id: 12, label: "SpcElecCog 1\nSNUk+SNU047_019k\n인간 뇌의 이해", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SNU047_019k" },
 
   { id: 13, label: "SpcElecBio 1\nSoongsilUnivK+soongsilmooc03K\n바이오메디컬비전 및 응용", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SoongsilUnivK+soongsilmooc03K" },
   { id: 14, label: "SpcElecRB 2\nSEOULTECHk+SMOOC04k\nMobile Robot Perception and Navigation", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SEOULTECHk+SMOOC04k" },
-  { id: 15, label: "CoreEssAI 6\n003_002_038\n딥러닝 영상분석\n(코리아헤럴드)", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "003_002_038" },
-  { id: 16, label: "CoreEssAI 7\n002_004_006\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "002_004_006" },
+  { id: 15, label: "CoreEssAI 6\n003_002_038\n딥러닝 영상분석\n(코리아헤럴드)", shape: VIS_SHAPE, level: 4, color: MATCH_COLOR, link: "003_002_038" },
+  { id: 16, label: "CoreEssAI 7\n002_004_006\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 4, color: MATCH_COLOR, link: "002_004_006" },
   { id: 17, label: "SpcElecNLP 1\nSNUk+CORE_SNU041_040k\n언어와 인간", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SNUk+CORE_SNU041_040k" },
   { id: 18, label: "SpcElecAdv 1\nProbabilistic Graphical\nModels", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
   { id: 19, label: "SpcElecBsn 1\nArtificial Intelligence\nfor Business", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
@@ -29,7 +29,7 @@ var nodes = [
   { id: 22, label: "SpcElecCV 1\nSMUk+FD_SMU03\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 23, label: "CoreElecAdv 4\nSNUk+SNU052_011k\n빅데이터와 인공지능의 응용", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SNUk+SNU052_011k" },
   { id: 24, label: "SpcElecGame 1\nSejonguniversityK+SJKMOOC04k\n게임인공지능", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SejonguniversityK+SJKMOOC04k" },
-  { id: 25, label: "SpcElecNLP 2\n002_003_008\n음성 인식 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "002_003_008" },
+  { id: 25, label: "SpcElecNLP 2\n002_003_008\n음성 인식 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 5, color: MATCH_COLOR, link: "002_003_008" },
 ];
 var edges = [
   { from: 0, to: 1, color: { opacity: OP_HIGH } },

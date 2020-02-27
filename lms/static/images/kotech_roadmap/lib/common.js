@@ -1,7 +1,8 @@
-var FEED_COLOR = '#d7ffd8';
-var NORMAL_COLOR = '#c4edff';
-var EXIST_COLOR = '#fffbd8';
-var NULL_COLOR = '#ffffff';
+const FEED_COLOR = '#d3f9d8';
+const NORMAL_COLOR = '#d0ebff';
+const EXIST_COLOR = '#ffe3e3';
+const NULL_COLOR = '#f1f3f5';
+const MATCH_COLOR = '#dbe4ff';
 
 var OP_LOW = 0.1;
 var OP_MID = 0.5;

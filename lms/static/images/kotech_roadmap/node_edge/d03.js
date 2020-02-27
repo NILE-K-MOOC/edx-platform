@@ -9,7 +9,7 @@ var nodes = [
   { id: 6, label: "CoreElecAI 3\nCKUk+CORE_CKU03k\n인격과 로봇\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 1, color: EXIST_COLOR, link: "CKUk+CORE_CKU03k" },
 
   { id: 7, label: "CoreEssCS 1\nHGUk+HGU02\n파이썬 프로그래밍", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "HGUk+HGU02" },
-  { id: 8, label: "CoreEssMath 1\n003_002_009\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "003_002_009" },
+  { id: 8, label: "CoreEssMath 1\n003_002_009\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: MATCH_COLOR, link: "003_002_009" },
 
   { id: 9, label: "CoreElecCS 3\nYeungnamUnivK+YU217001\n객체지향형 프로그래밍과 자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "YeungnamUnivK+YU217001" },
   { id: 10, label: "CoreElecCS 4\nSMUk+SMU2018_01\n자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SMUk+SMU2018_01" },
@@ -35,7 +35,7 @@ var nodes = [
   { id: 23, label: "CoreEssAI 5\nReinforcement Learning", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
 
   { id: 24, label: "SpcElecCV 1\nSMUk+FD_SMU03\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 11, color: EXIST_COLOR, link: "SMUk+FD_SMU03" },
-  { id: 25, label: "CoreEssAI 6\n003_002_038\n딥러닝 영상분석\n(코리아헤럴드)", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "003_002_038" },
+  { id: 25, label: "CoreEssAI 6\n003_002_038\n딥러닝 영상분석\n(코리아헤럴드)", shape: VIS_SHAPE, level: 11, color: MATCH_COLOR, link: "003_002_038" },
   { id: 26, label: "SpcElecBio 1\nSoongsilUnivK+soongsilmooc03K\n바이오메디컬비전 및 응용", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "SoongsilUnivK+soongsilmooc03K" },
   { id: 27, label: "CoreElecAdv 4\nKKUk+CK_KKUkbio002\n바이오헬스 빅데이터 마이닝", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "KKUk+CK_KKUkbio002" },
 ];

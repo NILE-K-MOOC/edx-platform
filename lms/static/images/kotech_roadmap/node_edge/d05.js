@@ -9,7 +9,7 @@ var nodes = [
   { id: 6, label: "CoreElecMath 2\nPOSTECHk+MATH311\n알고 보면 쉬운 미적분 이론", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "POSTECHk+MATH311" },
   { id: 7, label: "CoreElecMath 3\nSKKUk+SKKU_2017_01\n선형대수학", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "SKKUk+SKKU_2017_01" },
 
-  { id: 8, label: "CoreEssMath 1\n003_002_009\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "003_002_009" },
+  { id: 8, label: "CoreEssMath 1\n003_002_009\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: MATCH_COLOR, link: "003_002_009" },
 
   { id: 9, label: "CoreElecCS 3\nYeungnamUnivK+YU217001\n객체지향형 프로그래밍과 자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "YeungnamUnivK+YU217001" },
   { id: 10, label: "CoreElecCS 4\nSMUk+SMU2018_01\n자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SMUk+SMU2018_01" },
@@ -35,6 +35,7 @@ var nodes = [
   { id: 24, label: "CoreElecAdv 2\nTopics in Machine Learning", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
 ];
 var edges = [
+  { from: 0, to: 3, color: { opacity: OP_MID } },
   { from: 1, to: 5, color: { opacity: OP_HIGH } },
   { from: 6, to: 5, color: { opacity: OP_HIGH } },
 

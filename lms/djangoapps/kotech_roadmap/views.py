@@ -33,7 +33,7 @@ def roadmap_view(request, id):
             course = course_data.split('+')[1]
             not_date = datetime(2030, 01, 01, tzinfo=utc)
             new_course = CourseOverview.objects.filter(org=org, display_number_with_default=course,
-                                                       catalog_visivility='both')\
+                                                       catalog_visibility='both')\
                 .exclude(start=not_date).order_by('-start').first()
 
             try:
@@ -62,7 +62,7 @@ def roadmap_view(request, id):
     elif id == 'd04':
         title = '인지과학 분야 (AI+X)'
     elif id == 'd05':
-        title = '걍제학 분야 (AI+X)'
+        title = '경제학 분야 (AI+X)'
     elif id == 'f01':
         title = '호기심 차원에서 인공지능(AI)를 공부하려는 일반인'
     elif id == 'e01':
