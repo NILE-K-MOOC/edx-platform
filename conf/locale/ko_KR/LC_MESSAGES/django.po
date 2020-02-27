@@ -27988,7 +27988,7 @@ msgid "Download Apps"
 msgstr "앱 다운로드"
 
 msgid "Age-specific"
-msgstr "연령별 강좌보기"
+msgstr "연령별 강좌"
 
 msgid "Achieve your goals with a variety of K-MOOC courses."
 msgstr "K-MOOC의 다양한 강좌를 통해 목표를 달성해 보세요."
