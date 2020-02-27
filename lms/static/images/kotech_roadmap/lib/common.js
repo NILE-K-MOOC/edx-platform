@@ -135,10 +135,17 @@ function vis_draw(nodes, edges) {
   // 노드 클릭 시 새탭 열기 이벤트 바인딩 (커스텀)
   network.on( 'click', function(properties) {
     var node_id = properties.nodes[0];
+
     if (node_id != null) {
       var link = nodes[node_id]['link'];
-      if (link != '') {
-        window.open(link, "_blank");
+      if(link && link !== ''){
+        $.get('', {data: link}).done(function(d){
+          if(d.url){
+            window.open(d.url, "_blank");
+          } else {
+            swal('error', d.error, 'error');
+          }
+        });
       }
     }
   });

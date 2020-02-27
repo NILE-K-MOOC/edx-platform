@@ -4,15 +4,19 @@ import json
 import logging
 import sys
 import re
-import datetime
+from datetime import datetime
+from pytz import utc
 from django.conf import settings
-from django.http import ( HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest )
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpRequest
 from django.shortcuts import redirect
 from edxmako.shortcuts import render_to_response
 from util.json_request import JsonResponse
 from django.db import models, connections
 from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
+from courseware.models import CourseOverview
+
+log = logging.getLogger(__name__)
 
 
 def roadmap(request):
@@ -22,7 +26,27 @@ def roadmap(request):
 
 
 def roadmap_view(request, id):
+    if request.is_ajax():
+        course_data = request.GET.get('data')
+        if course_data.find('+') != -1:
+            org = course_data.split('+')[0]
+            course = course_data.split('+')[1]
+            not_date = datetime(2030, 01, 01, tzinfo=utc)
+            new_course = CourseOverview.objects.filter(org=org, display_number_with_default=course,
+                                                       catalog_visivility='both')\
+                .exclude(start=not_date).order_by('-start').first()
 
+            try:
+                url = 'http://' + settings.LMS_BASE + '/courses/' + unicode(new_course.id) + '/about'
+            except AttributeError as e:
+                log.error(e)
+                return JsonResponse({'error': '공개된 강좌가 없습니다.'})
+        else:
+            url = 'https://www.matchup.kr/comm/pageView.do?page=biz/field/ai'
+
+        return JsonResponse({'url': url})
+
+    title = ''
     if id == 'a01':
         title = '컴퓨터공학 전공자'
     elif id == 'b01':
