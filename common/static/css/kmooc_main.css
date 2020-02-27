@@ -2613,6 +2613,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     display: flex;
     margin-top: 38px;
     margin-left: 60px;
+    height: 36px;
 }
 .xxx-box {
     z-index: 10;
@@ -2688,6 +2689,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-search-input {
     border: solid 0px #ffffff !important;
+    height: 29px !important;
 }
 .new-login-memo {
     margin-right: 30px;
