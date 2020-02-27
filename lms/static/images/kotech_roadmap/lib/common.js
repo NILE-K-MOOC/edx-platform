@@ -66,7 +66,7 @@ function vis_draw(nodes, edges) {
         to: {
           enabled: true,
           scaleFactor: 0.5,                 // 화살표 크기
-          type: "arrow"
+          type: "circle"
         },
         middle: {
           enabled: false,
@@ -132,6 +132,22 @@ function vis_draw(nodes, edges) {
     }
   };
   network = new vis.Network(container, data, options);
+
+  var networkCanvas = document.getElementById('mynetwork').getElementsByTagName('canvas')[0];
+  function changeCursor(newCursorStyle) {
+    networkCanvas.style.cursor = newCursorStyle;
+  }
+
+  // 마우스 포인터
+  network.on("hoverNode", function(properties) {
+    if(properties.node >= 0 && nodes[properties.node]['link'] && nodes[properties.node]['link'] !== '') {
+      changeCursor('pointer');
+    }
+  });
+
+  network.on("blurNode", function() {
+    changeCursor('default');
+  });
 
   // 노드 클릭 시 새탭 열기 이벤트 바인딩 (커스텀)
   network.on( 'click', function(properties) {
