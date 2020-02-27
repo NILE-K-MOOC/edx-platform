@@ -25698,6 +25698,9 @@ msgid "About sign-in and account"
 msgstr "로그인 및 계정 관련"
 
 msgid "About K-MOOC"
+msgstr "K-MOOC 소개"
+
+msgid "Related to the use of K-MOOC sites"
 msgstr "K-MOOC 사이트 이용 관련"
 
 msgid "About course registration"
@@ -27958,7 +27961,7 @@ msgid "Universities, public institutions and overseas"
 msgstr "대학, 공공기관 및 해외기관"
 
 msgid "Institutions"
-msgstr "참여기관 모두 보기"
+msgstr "참여기관"
 
 msgid "Related Link"
 msgstr "패밀리사이트"
@@ -27978,3 +27981,23 @@ msgstr "추친체계"
 msgid "K-MOOC News"
 msgstr "K-MOOC의 소식을 전해드립니다."
 
+msgid "Downloads"
+msgstr "자료실"
+
+msgid "Download Apps"
+msgstr "앱 다운로드"
+
+msgid "Age-specific"
+msgstr "연령별 강좌보기"
+
+msgid "Achieve your goals with a variety of K-MOOC courses."
+msgstr "K-MOOC의 다양한 강좌를 통해 목표를 달성해 보세요."
+
+msgid "Notify List"
+msgstr "알림 목록으로"
+
+msgid "Departmental Courses"
+msgstr "분아별 강좌"
+
+msgid "Credit Bank Certificate"
+msgstr "학점 은행 이수증"

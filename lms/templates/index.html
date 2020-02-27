@@ -297,8 +297,12 @@ cookiedata = document.cookie;
         <div class="container-fluid">
             <div class="visual-row">
                 <div class="visual-col txt">
-                    <h1 class="title" style="text-align: left; color: #222;">K-MOOC 소개</h1>
+                    <h1 class="title" style="text-align: left; color: #222;">${_("About K-MOOC")}</h1>
+                    % if LANGUAGE_CODE == 'ko-kr':
                     <p class="content" style="color: #222;">K-MOOC는 온라인을 통해서<br>누구나, 어디서나 원하는 강좌를 무료로 들을 수 있는<br>온라인 공개강좌 서비스로 2015년에 시작된<br>한국형 무크입니다.</p>
+                    % else:
+                    <p class="content" style="color: #222;">K-MOOC is a Korean MOOC established in 2015<br>as an open online service to provide free courses<br>to anyone, anywhere.</p>
+                    % endif
                     <a href="/about" class="more">more</a>
                 </div>
                 <div class="visual-col img"></div>
@@ -311,13 +315,13 @@ cookiedata = document.cookie;
                 <div class="visual-col img"></div>
                 <div class="visual-col txt">
                     <h1 class="title" style="text-align: left; color: #222;">${_("Courses")}</h1>
-                    <p class="content" style="color: #222;">K-MOOC의 다양한 강좌를 통해 목표를 달성해 보세요.</p>
+                    <p class="content" style="color: #222;">${_("Achieve your goals with a variety of K-MOOC courses.")}</p>
                     <ul class="quick-link">
                         <li>
                             <a href="/series/">${_("Series Course")}</a>
                         </li>
                         <li>
-                            <a href="/courses">분야별 강좌</a>
+                            <a href="/courses">${_("Departmental Courses")}</a>
                         </li>
                         <li>
                             <a href="/search">${_("Academic Credit Bank System")}</a>
@@ -341,13 +345,13 @@ cookiedata = document.cookie;
                     <a href="#" class="classify-item inject-h">${_("Basic Science")}</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item inject-h">한국학</a>
+                    <a href="#" class="classify-item inject-h">${_("Linguistics")}</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="#" class="classify-item inject-h">${_("Job Edu")}</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="#" class="classify-item inject-h">연령별 강좌보기</a>
+                    <a href="#" class="classify-item inject-h">${_("Age-specific")}</a>
                 </div>
             </div>
         </div>
@@ -387,7 +391,7 @@ cookiedata = document.cookie;
                                         <figure>
                                             <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                             <span class="more">
-                                                <span>자세히 보기</span>
+                                                <span>${_("LEARN MORE")}</span>
                                             </span>
                                         </figure>
                                     </div>
@@ -432,7 +436,7 @@ cookiedata = document.cookie;
                                         <figure>
                                             <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                             <span class="more">
-                                                <span>자세히 보기</span>
+                                                <span>${_("LEARN MORE")}</span>
                                             </span>
                                         </figure>
                                     </div>
@@ -477,7 +481,7 @@ cookiedata = document.cookie;
                                         <figure>
                                             <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                             <span class="more">
-                                                <span>자세히 보기</span>
+                                                <span>${_("LEARN MORE")}</span>
                                             </span>
                                         </figure>
                                     </div>
@@ -534,7 +538,7 @@ cookiedata = document.cookie;
                             <a href="/comm_list/K/">${_("News")}</a>
                         </li>
                         <li>
-                            <a href="/comm_list/R/">자료실</a>
+                            <a href="/comm_list/R/">${_("Downloads")}</a>
                         </li>
                         <li>
                             <a href="/comm_tabs/kmooc_f/">FAQ</a>
@@ -545,9 +549,11 @@ cookiedata = document.cookie;
             </div>
         </div>
     </section>
+
+    % if LANGUAGE_CODE == 'ko-kr':
     <section class="sec-number">
         <div class="container-fluid">
-            <h1 class="title">${_("K-MOOC by the numbers")}</h1>
+            <h1 class="title">숫자로 보는 K-MOOC</h1>
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="number-item student">
@@ -566,13 +572,48 @@ cookiedata = document.cookie;
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="number-item agency">
                         <h2 class="sub-title">참여기관 <span id="cu-c0" data-from="0" data-to="100">100</span>개+</h2>
-                        <p class="cont">${_("Universities, public institutions and overseas")}</p>
-                        <a href="/about?tab=3" class="link">${_("Institutions")}</a>
+                        <p class="cont">대학, 공공기관 및 해외기관</p>
+                        <a href="/about?tab=3" class="link">참여기관 모두 보기</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    % else:
+    <section class="sec-number">
+        <div class="container-fluid">
+            <h1 class="title">K-MOOC by the numbers</h1>
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item student">
+                        <h2 class="sub-title"><span id="cu-a0" data-from="0" data-to="1.1">1.1</span> million</h2>
+                        <p class="cont">
+                            Applicant <span id="cu-a1" data-from="0" data-to="1.1">1.1</span> million
+                            <br>
+                            Accumulated visitor <span id="cu-a2" data-from="0" data-to="11">11</span> million
+                        </p>
+                        <a href="/register" class="link">Register</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item course">
+                        <h2 class="sub-title"><span id="cu-b0" data-from="0" data-to="700">700</span> free courses</h2>
+                        <p class="cont">Over <span id="cu-b1" data-from="0" data-to="700">700</span> free courses</p>
+                        <a href="/courses" class="link">Explore courses</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item agency">
+                        <h2 class="sub-title"><span id="cu-c0" data-from="0" data-to="100">100</span> participating agencies</h2>
+                        <p class="cont">Universities, public institutions and overseas</p>
+                        <a href="/about?tab=3" class="link">institutions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    % endif
+
 </main>
 
 
