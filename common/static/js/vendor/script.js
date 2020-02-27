@@ -54,6 +54,13 @@ var slide_footer = {
 
 
 $(window).load(function () {
+
+    // ai roadmap toggle
+    $('.type-sublist').on('click', function() {
+        $(this).toggleClass('active');
+    });
+
+
     // 웹 접근성 추가
     dropdown_keyboard_access('.nav-community');
 

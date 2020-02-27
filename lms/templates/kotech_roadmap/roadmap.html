@@ -6,88 +6,106 @@
 
 <link rel="stylesheet" href="/static/images/kotech_roadmap/roadmap.css"/>
 
-<div class="v-wrapper">
-    <div class="v-block">
-        <video class="v-core" autoplay="" loop="" muted="">
-            <source src="/static/images/kotech_roadmap/ocean.mp4" type="video/mp4">
-        </video>
+<div id="container">
+  <section class="page-title">
+    <video autoplay="" loop="" muted="">
+      <source src="/static/images/kotech_roadmap/ocean.mp4" type="video/mp4">
+    </video>
+    <div class="container-fluid">
+      <h1 class="visual-title">인공지능(AI) 이수 체계도</h1>
+      <h2 class="visual-subtitle">인공지능 분야의 전체 이수 체계도를 기반으로 개인의 맞춤형 로드맵을 제시합니다.</h2>
     </div>
-    <div class="v-txt">
-        인공지능 분야의 전체 이수 체계도를 기반으로 개인의  맞춤형  로드맵을 제시합니다.
+  </section>
+  <section class="page-cont">
+    <div class="container-fluid">
+      <div class="rdmap-list-group">
+        <div class="rdmap-list-tit">
+          <h3>개인의 기초 지식과 수강목적에 해당하는 대상을 선택해주세요.</h3>
+        </div>
+        <table class="rdmap-list">
+          <colgroup>
+            <col width="60%">
+            <col width="20%">
+            <col width="20%">
+          </colgroup>
+          <thead>
+          <tr>
+            <th>대상</th>
+            <th>기초 지식*</th>
+            <th>수강 목적*</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="type">
+              <span class="number">1</span>
+              <a href="/roadmap_view/f01">호기심 차원에서 인공지능(AI)을 공부하려는 일반인</a>
+            </td>
+            <td>하</td>
+            <td>지식 습득</td>
+          </tr>
+          <tr>
+            <td class="type">
+              <span class="number">2</span>
+              <a href="/roadmap_view/e01">기업에 인공지능(AI) 기술 적용을 결정할 수 있는 경영인</a>
+            </td>
+            <td>중/하</td>
+            <td>의사결정</td>
+          </tr>
+          <tr>
+            <td class="type">
+              <span class="number">3</span>
+              <a href="javascript:void(0)" class="type-sublist">실무에 인공지능(AI) 기술을 적용하고자 하는 직업인(AI+X)</a>
+              <div class="list-down">
+                <ul>
+                  <li>
+                    <a href="/roadmap_view/d02">로보틱스 분야(AI+X)</a>
+                  </li>
+                  <li>
+                    <a href="/roadmap_view/d04">인지과학 분야(AI+X)</a>
+                  </li>
+                  <li>
+                    <a href="/roadmap_view/d01">자율주행 분야(AI+X)</a>
+                  </li>
+                  <li>
+                    <a href="/roadmap_view/d05">경제학 분야(AI+X)</a>
+                  </li>
+                  <li>
+                    <a href="/roadmap_view/d03">의료 및 헬스케어 분야(AI+X)</a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>중/하</td>
+            <td>업무에 활용</td>
+          </tr>
+          <tr>
+            <td class="type">
+              <span class="number">4</span>
+              <a href="/roadmap_view/c01">인문, 사회과학을 비롯한 다양한 학문 전공자</a>
+            </td>
+            <td>하</td>
+            <td>AI 전문가</td>
+          </tr>
+          <tr>
+            <td class="type">
+              <span class="number">5</span>
+              <a href="/roadmap_view/b01">공학, 자연과학 전공자</a>
+            </td>
+            <td>중</td>
+            <td>AI 전문가</td>
+          </tr>
+          <tr>
+            <td class="type">
+              <span class="number">6</span>
+              <a href="/roadmap_view/a01">컴퓨터공학 전공자</a>
+            </td>
+            <td>상</td>
+            <td>AI 전문가</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </section>
 </div>
-
-<section class="container">
-<table class="table v-table" style="font-size: 14px;">
-  <thead>
-    <tr>
-      <td colspan="2" style="text-align: center; font-size: 12px; color: #0059ff;">개인의 기초 지식과 수강목적에 해당하는 대상을  선택해주세요.</td>
-      <th style="text-align: center;" scope="col">기초지식</th>
-      <th style="text-align: center;" scope="col">수강목적</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-        <td style="text-align: center;" >1</td>
-        <td class="v-click" onclick='window.location.href = "/roadmap_view/f01";'>호기심 차원에서 인공지능(AI)를 공부하려는 일반인</td>
-        <td style="text-align: center;" >하</td>
-        <td style="text-align: center;" >지식습득</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" >2</td>
-        <td class="v-click" onclick='window.location.href = "/roadmap_view/e01";'>기업에 인공지능(AI) 기술 적용을 결정할 수 있는 경영인</td>
-        <td style="text-align: center;" >중/하</td>
-        <td style="text-align: center;" >의사결정</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" >3</td>
-        <td>실무에 인공지능(AI) 기술을 적용하고자 하는 직업인 (AI+X)</td>
-        <td style="text-align: center;" >중/하</td>
-        <td style="text-align: center;" >업무에 활용</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" ></td>
-        <td class="v-click" colspan="3" onclick='window.location.href = "/roadmap_view/d02";'>로보틱스 분야 (AI+X)</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" ></td>
-        <td class="v-click" colspan="3" onclick='window.location.href = "/roadmap_view/d04";'>인지과학 분야 (AI+X)</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" ></td>
-        <td class="v-click" colspan="3" onclick='window.location.href = "/roadmap_view/d01";'>자율주행 분야 (AI+X)</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" ></td>
-        <td class="v-click" colspan="3" onclick='window.location.href = "/roadmap_view/d05";'>걍제학 분야 (AI+X)</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" ></td>
-        <td class="v-click" colspan="3" onclick='window.location.href = "/roadmap_view/d03";'>의료 및 헬스케어 분야 (AI+X)</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" >4</td>
-        <td class="v-click" onclick='window.location.href = "/roadmap_view/c01";'>인문, 사회과학을 비롯한 다양한 학문 전공자</td>
-        <td style="text-align: center;" >하</td>
-        <td style="text-align: center;" >AI 전문가</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" >5</td>
-        <td class="v-click" onclick='window.location.href = "/roadmap_view/b01";'>공학, 자연과학 전공자</td>
-        <td style="text-align: center;" >중</td>
-        <td style="text-align: center;" >AI 전문가</td>
-    </tr>
-    <tr>
-        <td style="text-align: center;" >6</td>
-        <td class="v-click" onclick='window.location.href = "/roadmap_view/a01";'>컴퓨터공학 전공자</td>
-        <td style="text-align: center;" >상</td>
-        <td style="text-align: center;" >AI 전문가</td>
-    </tr>
-  </tbody>
-</table>
-</section>
-
-
-<script>
-
-</script>
