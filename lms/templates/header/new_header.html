@@ -84,9 +84,9 @@
 
                 <!-- 렌더 : 검색창 -->
                 <div class="new-rc-search">
-                    <div class="new-search-left">
+                    <div class="new-search-left" onclick="toggle_ex()">
                         <div class="new-st">
-                            분류 탐색
+                            ${_("Explorer")}
                         </div>
                         <div class="new-ar">
                             <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
@@ -96,6 +96,41 @@
                     <div class="new-search-right">
                         <img src="/static/new_index/images/icon_search.png"/>
                     </div>
+                    <!-- 분류 탐색 익스플로러 -->
+                    <div id="explore_menu" class="explore-menu open xxx-box" style="display: none;">
+                        <div class="menu-group">
+                            <ul class="menu-items">
+                                <li class="list-item">
+                                    <a href="#">${_("Humanities")}</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">${_("Natural")}</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">${_("Social")}</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">${_("Medical")}</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">${_("Arts & Physical")}</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">${_("Engineering")}</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="#">${_("Interdisciplinary")}</a>
+                                </li>
+                            </ul>
+                            <div class="menu-link">
+                                <a href="#" class="item">${_("Fourth Industry")}</a>
+                                <a href="#" class="item">${_("Artificial intelligence")}</a>
+                            </div>
+                        </div>
+                        <div class="menu-bottom">
+                            <a href="/courses" class="more">${_("View All Course")} +</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 렌더 : 우측 래퍼 영역 -->
@@ -103,37 +138,21 @@
                     % if user.is_authenticated:
                         <!-- 렌더 : 알람, 마이메뉴 -->
                         <div class="new-rc-sign">
-                            <div class="new-login-memo" onclick='toggle_notice();'>
+                            <div class="new-login-memo inject-h">
+                                <div style="padding-top: 4px;" onclick='window.location.href = "/dashboard";'>${_("Dashboard")}</div>
+                            </div>
+                            <div class="new-login-memo inject-h" onclick='toggle_notice();'>
                                 <img class="mr5" src="/static/new_index/images/icon_notice.png">
-                                0
+                                <span id="cnt">0</span>
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
                                 <div id="new_notice" class="new-dropdown-menu2" style="display: none;">
-                                    <ul class="new-notice-list">
-                                        <li>
-                                            <a class="nn-atag" href="#">
-                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
-                                                <span class="nn-date">2020.02.20</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="nn-atag" href="#">
-                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
-                                                <span class="nn-date">2020.02.20</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="nn-atag" href="#">
-                                                <span class="nn-text">테스트 쪽지 발송입니다.</span>
-                                                <span class="nn-date">2020.02.20</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <ul class="new-notice-list"></ul>
                                     <div class="new-notice-gab">
                                         <a href="/memo">알림 목록으로</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="new-login-my" onclick='toggle_my();'>
+                            <div class="new-login-my inject-h" onclick='toggle_my();'>
                                 <img class="mr5" src="/static/new_index/images/icon_user.png">
                                 ${user.username}
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
@@ -161,15 +180,76 @@
                                 </div>
                             </div>
 
-                            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
-                                Kor
-                            </div>
-                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                            <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
-                                Eng
-                            </div>
+                            % if LANGUAGE_CODE == 'ko-kr':
+                                <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                    Kor
+                                </div>
+                                <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                    Eng
+                                </div>
+                            % else:
+                                <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
+                                    Kor
+                                </div>
+                                <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                <div tabindex="0" for="en" class="language-btn new-lang-eng">
+                                    Eng
+                                </div>
+                            % endif
                         </div>
+
+                        <script>
+
+                            function memo_sync(){
+                                let user_id = "${user.id if user.is_authenticated() else ''}";
+
+                                $.ajax({
+                                    url : '/memo_sync',
+                                    type: "POST",
+                                    data : {
+                                        sync_memo : 'sync_memo',
+                                        user_id : user_id
+                                        //csrfmiddlewaretoken: '${ csrf_token }'
+                                    }
+                                }).done(function(data) {
+                                    $('#cnt').html(data.cnt);
+                                    var memo_list = data.memo_list;
+                                    var memo_link = '#';
+
+                                    if(data.cnt > 0){
+                                        for(var i = 0 ; i < memo_list.length ; i++){
+                                            if(memo_list[i].memo_gubun != '1'){
+                                                memo_link = 'http://' + memo_list[i].contents;
+                                            } else {
+                                                memo_link = '/memo_view/'+memo_list[i].memo_id;
+                                            }
+
+                                            let memo_row = '' +
+                                                '<li>' +
+                                                    '<a class="nn-atag" href="'+ memo_link+'" id=link_'+i +'">' +
+                                                        '<span class="nn-text">'+ memo_list[i].title +'</span>' +
+                                                        '<span class="nn-date">'+ memo_list[i].memo_date +'</span>' +
+                                                    '</a>' +
+                                                '</li>';
+
+                                            console.log(memo_row);
+
+                                            $(".new-notice-list").append(memo_row);
+
+                                        }
+                                    }
+
+                                });
+                            }
+                            memo_sync();
+
+
+
+
+                        </script>
                     % else:
                         <!-- 렌더 : 로그인, 회원가입 -->
                         <div class="new-rc-sign">
@@ -203,11 +283,21 @@
 
 <script type="text/javascript">
 
+function toggle_ex(){
+    if($('#explore_menu').css('display') == 'none'){
+       $('#explore_menu').show('fast');
+       $('#new_notice').hide('fast');
+       $('#new_my').hide('fast');
+    } else {
+       $('#explore_menu').hide('fast');
+    }
+}
 
 function toggle_my(){
     if($('#new_my').css('display') == 'none'){
        $('#new_my').show('fast');
        $('#new_notice').hide('fast');
+       $('#explore_menu').hide('fast');
     } else {
        $('#new_my').hide('fast');
     }
@@ -218,6 +308,7 @@ function toggle_notice(){
     if($('#new_notice').css('display') == 'none'){
        $('#new_notice').show('fast');
        $('#new_my').hide('fast');
+       $('#explore_menu').hide('fast');
     } else {
        $('#new_notice').hide('fast');
     }
