@@ -2642,7 +2642,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     cursor: pointer;
 }
 .language-btn {
-    font-family: 'Noto Sans KR' !important;
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
     cursor: pointer;
     font-size: 17px;
     font-weight: 700;
@@ -2665,7 +2665,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .new-search-left {
     display: flex;
     background: #222;
-    font-family: 'Noto Sans KR' !important;
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
     color: #ffffff;
     cursor: pointer;
 }
@@ -2721,7 +2721,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-menu-list > li > a {
   color: #ffffff !important;
-  font-family: 'Noto Sans KR' !important;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
   font-weight: bold;
 }
 .new-dropdown-menu2 {
@@ -2744,12 +2744,12 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-notice-list > li > a {
   color: #ffffff !important;
-  font-family: 'Noto Sans KR' !important;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
   font-weight: bold;
 }
 .new-dropdown-menu2 > div > a {
   color: #ffffff !important;
-  font-family: 'Noto Sans KR' !important;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
   font-weight: bold;
 }
 .new-notice-gab {
@@ -2860,7 +2860,6 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-ff-bot {
     margin-bottom: 5px;
-    font-weight: bold;
     font-size: 15px;
 }
 .new-ff-sns {
