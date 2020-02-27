@@ -491,6 +491,8 @@ class CourseOverviewAddinfo(models.Model):
     ribbon_yn = models.CharField(max_length=1, blank=True, null=True)
     middle_classfy_sub = models.CharField(max_length=200, blank=True, null=True)
     fourth_industry_yn = models.CharField(max_length=1, blank=True, null=True)
+    ai_yn = models.CharField(max_length=1, blank=True, null=True)
+    basic_science_yn = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
         managed = False

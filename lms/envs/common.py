@@ -320,7 +320,11 @@ COURSE_DISCOVERY_MEANINGS = {
         }
     }
 }
-# Il-Hee, Maeng addition end ---------------------------------
+
+COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level', 'ai_yn',
+                            'basic_science_yn']
+
+COURSE_DISCOVERY_FACETS = {field: {'size': '300'} for field in COURSE_DISCOVERY_FILTERS}
 
 # Features
 FEATURES = {
