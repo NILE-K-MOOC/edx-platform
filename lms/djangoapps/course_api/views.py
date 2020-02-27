@@ -42,20 +42,16 @@ def check_api_key(service_key=None):
             mydir = DIR
             return subprocess.check_output(['java', '-cp', '.:apim-gateway-auth-1.1.jar', 'checkapi', key], cwd=mydir).rstrip()
 
-        key = get_apim_key()
+        # key = get_apim_key()
 
         if not service_key:
             raise ValidationError('check_api_key API Call Exception (ServiceKey not exists)')
 
-        if service_key.strip() != key.strip():
-            # raise ValidationError('check_api_key API Call Exception (invalid key [%s][%s])' % (key, service_key))
-            raise ValidationError('check_api_key API Call Exception (invalid key)')
+        res = check_apim_key(service_key)
 
-        log.debug('check_api_key key [%s]' % key)
-        log.debug('check_api_key SG_APIM [%s]' % key)
-        log.debug('check_api_key check [%s]' % (key.strip() == service_key.strip()))
+        if res != 1:
+            raise ValidationError('check_api_key API Call Exception (ServiceKey invalid)')
 
-        res = check_apim_key(key)
         log.debug('check_api_key Res [%s]' % res)
 
     except OSError as e:
