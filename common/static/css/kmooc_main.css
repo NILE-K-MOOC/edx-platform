@@ -2650,12 +2650,9 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-lang-kor {
     margin-right: 15px;
-    margin-top: 2px;
     margin-left: 40px;
 }
-.new-lang-eng {
-    margin-top: 2px;
-}
+.new-lang-eng { }
 .new-gray {
     color: #b5b5b5;
 }
@@ -2679,7 +2676,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 6px;
-    font-weight: bold;
+    font-weight: 500;
 }
 .new-ar {
     margin-right: 10px;
@@ -2897,8 +2894,11 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     display: unset;
   }
 }
-
-
+@media only screen and (max-width: 1050px) {
+  .new-dash {
+    display :none;
+  }
+}
 
 .explore-menu {z-index: 10; display: none; position: absolute; top: 100%; left: 0;}
 .explore-menu.open {display: block;}
@@ -2922,4 +2922,8 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .menu-bottom > a {
     color: #fff !important;
+}
+
+.fwb {
+  font-weight: bold;
 }
