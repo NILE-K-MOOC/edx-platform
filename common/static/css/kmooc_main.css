@@ -2894,6 +2894,11 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     display: unset;
   }
 }
+@media only screen and (max-width: 1050px) {
+  .new-dash {
+    display :none;
+  }
+}
 
 .explore-menu {z-index: 10; display: none; position: absolute; top: 100%; left: 0;}
 .explore-menu.open {display: block;}
