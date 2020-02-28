@@ -1046,7 +1046,7 @@ class CourseFields(object):
         hidden=True
     )
 
-    fourth_industry_yn = String(
+    basic_science_yn = String(
         display_name=_("basic_science_yn"),
         help=_("basic_science_yn hidden value"),
         scope=Scope.settings,

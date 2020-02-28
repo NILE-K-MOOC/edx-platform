@@ -1233,7 +1233,10 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,job_edu_yn
                     ,ribbon_yn
                     ,middle_classfy_sub
-                    ,fourth_industry_yn)
+                    ,fourth_industry_yn
+                    ,ai_yn
+                    ,basic_science_yn
+                    )
                 select '{destination_course_key}'
                     ,create_type
                     ,date_format(now(), '%Y')
@@ -1257,7 +1260,10 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,job_edu_yn
                     ,ribbon_yn
                     ,middle_classfy_sub
-                    ,fourth_industry_yn from course_overview_addinfo where course_id = '{source_course_id}'
+                    ,fourth_industry_yn 
+                    ,ai_yn 
+                    ,basic_science_yn 
+                    from course_overview_addinfo where course_id = '{source_course_id}'
             """.format(
                 destination_course_key=destination_course_key
                 , user_id=user_id
