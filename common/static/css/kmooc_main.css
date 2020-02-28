@@ -2968,3 +2968,28 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     -webkit-mask-position: -50%;
   }
 }
+@media only screen and (max-width: 1200px) {
+  .ai-move {
+    margin-right: 50px;
+  }
+}
+@media only screen and (max-width: 1150px) {
+  .ai-move {
+    margin-right: 100px;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  .ai-move {
+    margin-right: 150px;
+  }
+}
+@media only screen and (max-width: 1050px) {
+  .ai-move {
+    margin-right: 200px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .ai-move {
+    margin-right: 250px;
+  }
+}
