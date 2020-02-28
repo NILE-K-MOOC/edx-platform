@@ -25,17 +25,18 @@ from django.conf import settings
 from django.urls import reverse
 from django.http import Http404, QueryDict
 from enrollment.api import get_course_enrollment_details
-from edxmako.shortcuts import render_to_string
+from edxmako.shortcuts import render_to_string, render_to_response
 from fs.errors import ResourceNotFound
 from lms.djangoapps.courseware.courseware_access_exception import CoursewareAccessException
 from lms.djangoapps.courseware.exceptions import CourseAccessRedirect
-from opaque_keys.edx.keys import UsageKey
+from opaque_keys.edx.keys import UsageKey, CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from path import Path as path
 from six import text_type
 from static_replace import replace_static_urls
-from student.models import CourseEnrollment
+from student.models import CourseEnrollment, UserProfile
+from student.views.management import index_courses
 from survey.utils import is_survey_required_and_unanswered
 from util.date_utils import strftime_localized
 from xmodule.modulestore.django import modulestore
@@ -122,6 +123,7 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
     check_course_access(course_overview, user, action, check_if_enrolled)
     return course_overview
 
+
 @csrf_exempt
 def course_search_list(request):
     if request.is_ajax():
@@ -144,6 +146,7 @@ def course_search_list(request):
 
             return JsonResponse({'course_search_list': course_list})
     pass
+
 
 def check_course_access(course, user, action, check_if_enrolled=False, check_survey_complete=True):
     """
@@ -188,6 +191,43 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
     if check_survey_complete and action == 'load':
         if is_survey_required_and_unanswered(user, course):
             raise CourseAccessRedirect(reverse('course_survey', args=[unicode(course.id)]))
+
+
+def age_specific_course(request):
+    # CourseEnrollment
+    age_group = {}
+
+    for i in range(1, 6):
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT 
+                    count(*) as cnt, a.course_id
+                FROM
+                    student_courseenrollment a
+                        JOIN
+                    course_overviews_courseoverview b ON a.course_id = b.id
+                        JOIN
+                    (SELECT 
+                        user_id,
+                            (DATE_FORMAT(NOW(), '%Y') - year_of_birth) + 1 AS age
+                    FROM
+                        auth_userprofile
+                    WHERE
+                        year_of_birth IS NOT NULL) c ON a.user_id = c.user_id
+                WHERE
+                    org NOT IN ('NILE' , 'KMOOC', 'edX')
+                        AND age BETWEEN {age}0 AND {age}9
+                GROUP BY a.course_id
+                ORDER BY cnt DESC
+                LIMIT 16;
+            '''.format(age=i)
+            cur.execute(query)
+            course_list = cur.fetchall()
+            courses = [CourseKey.from_string(course[1]) for course in course_list]
+
+            age_group[str(i) + '0'] = index_courses(user=request.user, filter_={'id__in': courses})
+
+    return render_to_response('courseware/age_specific_course.html', {'courses': age_group})
 
 
 def can_self_enroll_in_course(course_key):
