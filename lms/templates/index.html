@@ -429,11 +429,13 @@ cookiedata = document.cookie;
                                             % else:
                                                 <span class="date">0000/00/00 ~ 0000/00/00</span>
                                             % endif
-                                            
+
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
-                                            % elif courses.status == 'end':
+                                            % elif courses.status == 'end' and courses.audit_yn == 'N':
                                                 <span class="state end">종료</span>
+                                            % elif courses.status == 'end' and courses.audit_yn == 'Y':
+                                                <span class="state possible">청강가능</span>
                                             % else:
                                                 <span class="state soon">개강예정</span>
                                             % endif
@@ -482,8 +484,10 @@ cookiedata = document.cookie;
 
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
-                                            % elif courses.status == 'end':
+                                            % elif courses.status == 'end' and courses.audit_yn == 'N':
                                                 <span class="state end">종료</span>
+                                            % elif courses.status == 'end' and courses.audit_yn == 'Y':
+                                                <span class="state possible">청강가능</span>
                                             % else:
                                                 <span class="state soon">개강예정</span>
                                             % endif
@@ -532,8 +536,10 @@ cookiedata = document.cookie;
 
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
-                                            % elif courses.status == 'end':
+                                            % elif courses.status == 'end' and courses.audit_yn == 'N':
                                                 <span class="state end">종료</span>
+                                            % elif courses.status == 'end' and courses.audit_yn == 'Y':
+                                                <span class="state possible">청강가능</span>
                                             % else:
                                                 <span class="state soon">개강예정</span>
                                             % endif
