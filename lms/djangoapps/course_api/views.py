@@ -49,7 +49,9 @@ def check_api_key(service_key=None):
 
         res = check_apim_key(service_key)
 
-        if res != 1:
+        log.info('call_api_key  Res info ============================================> [%s]' % res)
+        if res != str(1):
+            log.info('check_api_key  Res info ============================================> [%s]' % res)
             raise ValidationError('check_api_key API Call Exception (ServiceKey invalid)')
 
         log.debug('check_api_key Res [%s]' % res)
