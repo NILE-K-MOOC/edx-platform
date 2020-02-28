@@ -1,7 +1,8 @@
-var FEED_COLOR = '#d7ffd8';
-var NORMAL_COLOR = '#c4edff';
-var EXIST_COLOR = '#fffbd8';
-var NULL_COLOR = '#ffffff';
+const FEED_COLOR = '#d3f9d8';
+const NORMAL_COLOR = '#d0ebff';
+const EXIST_COLOR = '#ffe3e3';
+const NULL_COLOR = '#f1f3f5';
+const MATCH_COLOR = '#dbe4ff';
 
 var OP_LOW = 0.1;
 var OP_MID = 0.5;
@@ -65,7 +66,7 @@ function vis_draw(nodes, edges) {
         to: {
           enabled: true,
           scaleFactor: 0.5,                 // 화살표 크기
-          type: "arrow"
+          type: "circle"
         },
         middle: {
           enabled: false,
@@ -132,13 +133,36 @@ function vis_draw(nodes, edges) {
   };
   network = new vis.Network(container, data, options);
 
+  var networkCanvas = document.getElementById('mynetwork').getElementsByTagName('canvas')[0];
+  function changeCursor(newCursorStyle) {
+    networkCanvas.style.cursor = newCursorStyle;
+  }
+
+  // 마우스 포인터
+  network.on("hoverNode", function(properties) {
+    if(properties.node >= 0 && nodes[properties.node]['link'] && nodes[properties.node]['link'] !== '') {
+      changeCursor('pointer');
+    }
+  });
+
+  network.on("blurNode", function() {
+    changeCursor('default');
+  });
+
   // 노드 클릭 시 새탭 열기 이벤트 바인딩 (커스텀)
   network.on( 'click', function(properties) {
     var node_id = properties.nodes[0];
+
     if (node_id != null) {
       var link = nodes[node_id]['link'];
-      if (link != '') {
-        window.open(link, "_blank");
+      if(link && link !== ''){
+        $.get('', {data: link}).done(function(d){
+          if(d.url){
+            window.open(d.url, "_blank");
+          } else {
+            swal('error', d.error, 'error');
+          }
+        });
       }
     }
   });

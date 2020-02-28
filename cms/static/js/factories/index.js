@@ -1,43 +1,52 @@
-define(['jquery.form', 'js/index'], function() {
+define(['jquery.form', 'js/index'], function () {
     'use strict';
     return function (courseNames) {
-        var search_data = {"course_tab": courses_list($(".courses .course-title")),
+
+        // for case insensitive
+        $.expr[":"].contains = $.expr.createPseudo(function (arg) {
+            return function (elem) {
+                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+            };
+        });
+
+        var search_data = {
+            "course_tab": courses_list($(".courses .course-title")),
             "archived_tab": courses_list($('.archived-courses .course-title')),
             "libraries_tab": courses_list($('.libraries .course-title'))
         };
         // 검색 자동 완성
-        $("#cms_text").autocomplete({
-            source: function (request, response) {
-                var term = $.ui.autocomplete.escapeRegex(request.term)
-                    , startsWithMatcher = new RegExp("^" + term, "i")
-                    , startsWith = $.grep(search_data["course_tab"], function(value) {
-                    return startsWithMatcher.test(value.label || value.value || value);
-                })
-                    , containsMatcher = new RegExp(term, "i")
-                    , contains = $.grep(search_data["course_tab"], function (value) {
-                    return $.inArray(value, startsWith) < 0 &&
-                        containsMatcher.test(value.label || value.value || value);
-                });
 
-                response(startsWith.concat(contains));
-            },
+        // let title_list = $(".course-title:visible").map(function(){return this.innerText});
+        //
+        // console.log(title_list);
+        //
+        // for(let i=0; title_list.length; i++){
+        //     console.log(title_list[i]);
+        // }
+
+        let titles = $(".course-title:visible").map(function () {
+            return $(this).text()
+        }).get();
+
+        $("#cms_text").autocomplete({
+            source: titles,
             appendTo: '.search_div'
         });
 
-
-        $('#course-index-tabs li').click(function() {
+        $('#course-index-tabs li').click(function () {
             // 탭 아이디
             var clickId = $(this).attr('id');
             // 이전탭 검색 초기화
             $("#cms_text").val('');
             studio_search();
             // search_data에 탭 아이디로 값을 가져와 변경
-            if($(this).hasClass('active')) {
+            if ($(this).hasClass('active')) {
                 $("#cms_text").autocomplete(
-                    "option", {source: function (request, response) {
+                    "option", {
+                        source: function (request, response) {
                             var term = $.ui.autocomplete.escapeRegex(request.term)
                                 , startsWithMatcher = new RegExp("^" + term, "i")
-                                , startsWith = $.grep(search_data[clickId], function(value) {
+                                , startsWith = $.grep(search_data[clickId], function (value) {
                                 return startsWithMatcher.test(value.label || value.value || value);
                             })
                                 , containsMatcher = new RegExp(term, "i")
@@ -47,6 +56,8 @@ define(['jquery.form', 'js/index'], function() {
                             });
 
                             response(startsWith.concat(contains));
+
+
                         },
                         appendTo: '.search_div'
                     }
@@ -56,11 +67,23 @@ define(['jquery.form', 'js/index'], function() {
 
         // 강좌 검색 핵심 함수
         function studio_search() {
+            console.time('studio_search');
+
             var cms_text = $('#cms_text').val();
-            var cnt = $('.course-item').length;
+            // var cnt = $('.course-item').length;
 
-            console.log('cms_text --> ',cms_text );
+            if (cms_text) {
+                $(".course-title:visible").parents('.course-item').hide();
+                $(".course-title:contains(" + cms_text + ")").parents('.course-item').show();
+            } else {
+                $(".course-title").parents('.course-item').show();
+            }
+            setTimeout(function () {
+                $("#cms_text").focus();
+            }, 100);
 
+
+            /*
             for (var i = 0; i < cnt; i++) {
                 $('.course-item').eq(i).show();
             }
@@ -77,6 +100,9 @@ define(['jquery.form', 'js/index'], function() {
                     $('.course-item').eq(i).show();
                 }
             }
+            */
+
+            console.timeEnd('studio_search');
         }
 
         // 강좌 엔터 시 검색 이벤트
@@ -110,11 +136,11 @@ define(['jquery.form', 'js/index'], function() {
                 .toggleClass('current');
         });
 
-        var reloadPage = function() {
+        var reloadPage = function () {
             location.reload();
         };
 
-        var showError = function() {
+        var showError = function () {
             $('#request-coursecreator-submit')
                 .toggleClass('has-error')
                 .find('.label')
@@ -129,7 +155,7 @@ define(['jquery.form', 'js/index'], function() {
             success: reloadPage
         });
 
-        $('#request-coursecreator-submit').click(function(event) {
+        $('#request-coursecreator-submit').click(function (event) {
             $(this)
                 .toggleClass('is-disabled is-submitting')
                 .attr('aria-disabled', $(this).hasClass('is-disabled'))
@@ -139,11 +165,11 @@ define(['jquery.form', 'js/index'], function() {
     };
 });
 
-function courses_list(courseTab){
+function courses_list(courseTab) {
     var course_list = [];
-    for (var i =0; i < courseTab.length; i++){
+    for (var i = 0; i < courseTab.length; i++) {
         var title = [courseTab][0][i].textContent;
-        if($.inArray(title, course_list) === -1) course_list.push(title)
+        if ($.inArray(title, course_list) === -1) course_list.push(title)
     }
 
     return course_list;

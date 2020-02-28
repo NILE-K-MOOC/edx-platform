@@ -1038,6 +1038,22 @@ class CourseFields(object):
         hidden=True
     )
 
+    ai_yn = String(
+        display_name=_("ai_yn"),
+        help=_("ai_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
+    )
+
+    fourth_industry_yn = String(
+        display_name=_("basic_science_yn"),
+        help=_("basic_science_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
+    )
+
     course_level = String(
         display_name=_("course_level"),
         help=_("course_level"),

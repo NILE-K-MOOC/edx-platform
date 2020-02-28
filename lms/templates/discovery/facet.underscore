@@ -1,4 +1,4 @@
-<% if (name != "job_edu_yn" && name != "linguistics"){ %>
+<% if (name != "job_edu_yn" && name != "linguistics" && name != "ai_yn" && name != "basic_science_yn"){ %>
 <h3 class="header-facet" data-name="<%- name %>">
     <%- gettext(displayName) %>
 </h3>
@@ -12,18 +12,18 @@
 
 <% } else if (name == "fourth_industry_yn") { %>
 
-    <ul style="display:block; width:100%" data-facet="<%- name %>" class="facet-list collapse" id="<%- name %>">
+    <ul style="display:block; width:100%" data-facet="<%- name %>" class="facet-list collapse type1" id="<%- name %>">
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </ul>
 
-<% } else if (name == "job_edu_yn" || name == "linguistics") { %>
+<% } else if (name == "job_edu_yn" || name == "linguistics" || name == "ai_yn" || name == "basic_science_yn") { %>
 
-    <ul style="display:block; width:100%" data-facet="<%- name %>" class="facet-list collapse" id="<%- name %>">
+    <ul style="display:block; width:100%" data-facet="<%- name %>" class="facet-list collapse type2" id="<%- name %>">
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </ul>
 
 <% } else { %>
-    <ul style="width:100%" data-facet="<%- name %>" class="facet-list collapse">
+    <ul style="width:100%" data-facet="<%- name %>" class="facet-list collapse type3">
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </ul>
     <% if (listIsHuge) { %>
