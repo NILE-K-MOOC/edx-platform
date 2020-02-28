@@ -5,55 +5,55 @@
 <%block name="header_extras"></%block>
 
 <link rel="stylesheet" href="/static/images/kotech_roadmap/roadmap.css"/>
-<link rel="stylesheet" href="/static/images/kotech_roadmap/lib/common.css"/>
+<!--<link rel="stylesheet" href="/static/images/kotech_roadmap/lib/common.css"/>-->
 <link rel="stylesheet" href="/static/images/kotech_roadmap/lib/vis.css">
 
 <script src="/static/images/kotech_roadmap/lib/vis.js"></script>
 <script src="/static/images/kotech_roadmap/lib/common.js"></script>
 
-<div class="v-wrapper">
-    <div class="v-block">
-        <video class="v-core" autoplay="" loop="" muted="">
+
+<div id="container">
+    <section class="page-title">
+        <video autoplay="" loop="" muted="">
             <source src="/static/images/kotech_roadmap/pp.mp4" type="video/mp4">
         </video>
-    </div>
-    <div class="v-txt">
-        ${title}
-    </div>
+        <div class="container-fluid">
+            <h1 class="visual-title">${title}</h1>
+            <h2 class="visual-subtitle">인공지능(AI) 로드맵</h2>
+            <a href="/roadmap" class="visual-back">로드맵 처음 페이지로</a>
+        </div>
+    </section>
+    <section class="page-cont">
+        <div class="container-fluid">
+            <h3 class="rdmap-guide">K-MOOC 강좌를 선택하시면 해당 강좌로 이동합니다. 마우스로 이동 및 마우스 스크롤을 통해 확대/축소가 가능합니다.</h3>
+            <div id="mynetwork"></div>
+            <div class="legend-group">
+                <ul>
+                    <li>
+                        <span class="box type1"></span>
+                        <span class="text">K-MOOC 강좌</span>
+                    </li>
+                    <li>
+                        <span class="box type2"></span>
+                        <span class="text">Match業 강좌</span>
+                    </li>
+                    <li>
+                        <span class="box type4"></span>
+                        <span class="text">K-MOOC에 없는 강좌</span>
+                    </li>
+                    <li>
+                        <span class="box type5"></span>
+                        <span class="text">복습용 강좌</span>
+                    </li>
+                    <li>
+                        <span class="box type3"></span>
+                        <span class="text">K-MOOC 강좌 학습 후 추가 학습용 강좌</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
 </div>
-
-<section class="container">
-    <div class="net-back" onclick='window.location.href = "/roadmap";'>로드맵 처음 페이지로이동 >></div>
-    <div class="net-txt">K-MOOC 강좌를 선택하시면 해당 강좌로 이동합니다. 마우스로 이동 및 마우스 스크롤을 통해 확대/축소가 가능합니다.</div>
-    <div id="mynetwork"></div>
-
-    <div class="color-nav">
-        <div class="net-nav-box">
-            <div class="net-nav-color net-A"></div>
-            <span class="net-nav-txt">K-MOOC 강좌</span>
-        </div>
-
-        <div class="net-nav-box">
-            <div class="net-nav-color net-B"></div>
-            <span class="net-nav-txt">Match業 강좌</span>
-        </div>
-
-        <div class="net-nav-box">
-            <div class="net-nav-color net-C"></div>
-            <span class="net-nav-txt">K-MOOC 없는 강좌</span>
-        </div>
-
-        <div class="net-nav-box">
-            <div class="net-nav-color net-D"></div>
-            <span class="net-nav-txt">복습용 강좌</span>
-        </div>
-
-        <div class="net-nav-box">
-            <div class="net-nav-color net-E"></div>
-            <span class="net-nav-txt">K-MOOC 강좌 학습 후 추가 학습용 강좌</span>
-        </div>
-    </div>
-</section>
 
 % if id == 'a01':
 <script src="/static/images/kotech_roadmap/node_edge/a01.js"></script>
@@ -77,5 +77,5 @@
 <script src="/static/images/kotech_roadmap/node_edge/f01.js"></script>
 % endif
 <script>
-vis_draw(nodes, edges);
+    vis_draw(nodes, edges);
 </script>

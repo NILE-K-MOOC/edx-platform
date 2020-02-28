@@ -1,37 +1,24 @@
-## mako
-
 <%page expression_filter="h" args="online_help_token, use_cookie_banner=False"/>
-
 <%namespace name='static' file='../static_content.html'/>
 <%namespace file='../main.html' import="login_query"/>
 <%!
-from django.urls import reverse
-from django.utils.translation import ugettext as _
-
-from lms.djangoapps.ccx.overrides import get_current_ccx
-from openedx.core.djangolib.markup import HTML, Text
-
-# App that handles subdomain specific branding
-from branding import api as branding_api
-from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_enabled, released_languages
-
+    from django.urls import reverse
+    from django.utils.translation import ugettext as _
+    from lms.djangoapps.ccx.overrides import get_current_ccx
+    from openedx.core.djangolib.markup import HTML, Text
+    from branding import api as branding_api
+    from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_enabled, released_languages
 %>
-
-## Provide a hook for themes to inject branding on top.
 <%block name="navigation_top" />
-
-## Add UI Toolkit components if using the Pattern Library
 % if uses_pattern_library:
     <%block name="js_extra">
     <%static:require_module module_name="js/header_factory" class_name="HeaderFactory">
-    HeaderFactory();
+        HeaderFactory();
     </%static:require_module>
     </%block>
 % endif
-<script>
 
 
-</script>
 <header class="global-header ${'slim' if course else ''}">
     % if use_cookie_banner:
         ${static.renderReact(
@@ -43,38 +30,22 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     <div class="main-header">
         <script src="${static.url('js/script/index_search.js')}" charset="utf-8"></script>
         <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
-
-        % if user.is_authenticated:
-            <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
-        % else:
-            <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
-        % endif
+        <%include file="new_header.html" args="online_help_token=online_help_token"/>
     </div>
     <%include file="navbar-hamburger-menu.html" args="online_help_token=online_help_token"/>
-    <!--<div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">-->
-            <!--<span class="line"></span>-->
-            <!--<span class="line"></span>-->
-            <!--<span class="line"></span>-->
-            <!--<span class="line"></span>-->
-        <!--</div>-->
-
-    <!--<div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>-->
 </header>
-% if request.path == '/':
-<%include file="navbar-menu.html" args="online_help_token=online_help_token"/>
-% else:
-<%include file="navbar-menu-sub.html" args="online_help_token=online_help_token"/>
-% endif
+
+
+<%include file="new_nav.html" args="online_help_token=online_help_token"/>
+
 
 % if course:
-<!--[if lte IE 9]>
 <div class="ie-banner" aria-hidden="true">${Text(_('{begin_strong}Warning:{end_strong} Your browser is not fully supported. We strongly recommend using {chrome_link} or {ff_link}.')).format(
     begin_strong=HTML('<strong>'),
     end_strong=HTML('</strong>'),
     chrome_link=HTML('<a href="https://www.google.com/chrome" target="_blank">Chrome</a>'),
     ff_link=HTML('<a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a>'),
 )}</div>
-<![endif]-->
 % endif
 
 % if settings.FEATURES.get('ENABLE_COOKIE_CONSENT', False):
