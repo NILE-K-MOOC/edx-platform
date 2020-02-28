@@ -92,8 +92,8 @@
                             <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
                         </div>
                     </div>
-                    <input type="text" class="new-search-input">
-                    <div class="new-search-right">
+                    <input type="text" id="search_me" class="new-search-input">
+                    <div class="new-search-right" onclick="course_search();">
                         <img src="/static/new_index/images/icon_search.png"/>
                     </div>
                     <!-- 분류 탐색 익스플로러 -->
@@ -200,56 +200,6 @@
                                 </div>
                             % endif
                         </div>
-
-                        <script>
-
-                            function memo_sync(){
-                                let user_id = "${user.id if user.is_authenticated() else ''}";
-
-                                $.ajax({
-                                    url : '/memo_sync',
-                                    type: "POST",
-                                    data : {
-                                        sync_memo : 'sync_memo',
-                                        user_id : user_id
-                                        //csrfmiddlewaretoken: '${ csrf_token }'
-                                    }
-                                }).done(function(data) {
-                                    $('#cnt').html(data.cnt);
-                                    var memo_list = data.memo_list;
-                                    var memo_link = '#';
-
-                                    if(data.cnt > 0){
-                                        for(var i = 0 ; i < memo_list.length ; i++){
-                                            if(memo_list[i].memo_gubun != '1'){
-                                                memo_link = 'http://' + memo_list[i].contents;
-                                            } else {
-                                                memo_link = '/memo_view/'+memo_list[i].memo_id;
-                                            }
-
-                                            let memo_row = '' +
-                                                '<li>' +
-                                                    '<a class="nn-atag" href="'+ memo_link+'" id=link_'+i +'">' +
-                                                        '<span class="nn-text">'+ memo_list[i].title +'</span>' +
-                                                        '<span class="nn-date">'+ memo_list[i].memo_date +'</span>' +
-                                                    '</a>' +
-                                                '</li>';
-
-                                            console.log(memo_row);
-
-                                            $(".new-notice-list").append(memo_row);
-
-                                        }
-                                    }
-
-                                });
-                            }
-                            memo_sync();
-
-
-
-
-                        </script>
                     % else:
                         <!-- 렌더 : 로그인, 회원가입 -->
                         <div class="new-rc-sign">
@@ -266,22 +216,64 @@
                             </div>
                         </div>
                     % endif
-
-
                     <!-- 렌더 : 언어선택 -->
                     <div class="new-rc-language">
-
                     </div>
                 </div>
             </div>
         </section>
     </section>
-
 </section>
 % endif
 
-
+<script>
+function memo_sync(){
+    let user_id = "${user.id if user.is_authenticated() else ''}";
+    $.ajax({
+        url : '/memo_sync',
+        type: "POST",
+        data : {
+            sync_memo : 'sync_memo',
+            user_id : user_id
+            //csrfmiddlewaretoken: '${ csrf_token }'
+        }
+    }).done(function(data) {
+        $('#cnt').html(data.cnt);
+        var memo_list = data.memo_list;
+        var memo_link = '#';
+        if(data.cnt > 0){
+            for(var i = 0 ; i < memo_list.length ; i++){
+                if(memo_list[i].memo_gubun != '1'){
+                    memo_link = 'http://' + memo_list[i].contents;
+                } else {
+                    memo_link = '/memo_view/'+memo_list[i].memo_id;
+                }
+                let memo_row = '' +
+                    '<li>' +
+                        '<a class="nn-atag" href="'+ memo_link+'" id=link_'+i +'">' +
+                            '<span class="nn-text">'+ memo_list[i].title +'</span>' +
+                            '<span class="nn-date">'+ memo_list[i].memo_date +'</span>' +
+                        '</a>' +
+                    '</li>';
+                $(".new-notice-list").append(memo_row);
+            }
+        }
+    });
+}
+memo_sync();
+</script>
 <script type="text/javascript">
+
+
+function course_search(){
+    var search_me = $('#search_me').val();
+    if (search_me == '') {
+        $('#search_me').focus();
+    } else {
+        window.location.href = "/courses?search_query=" + search_me;
+    }
+}
+
 
 function toggle_ex(){
     if($('#explore_menu').css('display') == 'none'){
@@ -292,6 +284,7 @@ function toggle_ex(){
        $('#explore_menu').hide('fast');
     }
 }
+
 
 function toggle_my(){
     if($('#new_my').css('display') == 'none'){
