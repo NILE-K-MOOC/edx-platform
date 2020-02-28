@@ -424,7 +424,12 @@ cookiedata = document.cookie;
                                             <span>${courses.org}</span>
                                         </p>
                                         <p class="period">
-                                            <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % if courses.start != None and courses.end != None:
+                                                <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % else:
+                                                <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                            % endif
+                                            
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
                                             % elif courses.status == 'end':
@@ -469,7 +474,12 @@ cookiedata = document.cookie;
                                             <span>${courses.org}</span>
                                         </p>
                                         <p class="period">
-                                            <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % if courses.start != None and courses.end != None:
+                                                <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % else:
+                                                <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                            % endif
+
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
                                             % elif courses.status == 'end':
@@ -514,7 +524,12 @@ cookiedata = document.cookie;
                                             <span>${courses.org}</span>
                                         </p>
                                         <p class="period">
-                                            <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % if courses.start != None and courses.end != None:
+                                                <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % else:
+                                                <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                            % endif
+
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
                                             % elif courses.status == 'end':
@@ -559,6 +574,12 @@ cookiedata = document.cookie;
                                             <span>${courses.org}</span>
                                         </p>
                                         <p class="period">
+                                            % if courses.start != None and courses.end != None:
+                                                <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % else:
+                                                <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                            % endif
+
                                             % if courses.status == 'ing':
                                                 <span class="state ing">진행중</span>
                                             % elif courses.status == 'end':
