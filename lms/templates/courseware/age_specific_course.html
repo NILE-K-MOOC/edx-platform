@@ -18,10 +18,34 @@
     .sec-course {
         padding-top: 0;
     }
+    a.visual-back:not(.btn), a.visual-back:visited:not(.btn) {
+        float: right;
+        position: relative;
+        margin-top: 10px;
+        padding-right: 18px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #4d4b4b;
+    }
+    #main {
+        font-family: 'Noto Sans KR' !important;
+        display: inline-block;
+        border-bottom: none;
+        font-size: 1.875rem;
+        font-weight: 700;
+    }
+    .age-header {
+        border-bottom: solid 1px #e0e0e0;
+        padding-bottom: 1.250rem;
+        margin-bottom: 1.5rem;
+    }
 </style>
 
 <section class="container">
-    <h2 title="${_('Age-specific Courses')}" id="main">${_('Age-specific Courses')}</h2>
+    <div class="age-header">
+        <h2 title="${_('Age-specific Courses')}" id="main">${_('Age-specific Courses')}</h2>
+        <a href="/courses" class="visual-back">더 많은 강좌 찾기 >></a>
+    </div>
     <section class="sec-course">
         <div class="container-fluid">
             % for key, course in sorted(courses.iteritems()):
