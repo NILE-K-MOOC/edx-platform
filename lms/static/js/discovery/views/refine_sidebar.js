@@ -414,7 +414,7 @@
                 let list1 = $("#linguistics li").clone();
                 let list2 = $("#job_edu_yn li").clone();
                 let list3 = $("#ai_yn li").clone();
-                let list4 = $("#basic_sience_yn li").clone();
+                let list4 = $("#basic_science_yn li").clone();
 
                 $("#fourth_industry_yn").append(list1, list2, list3, list4);
 
