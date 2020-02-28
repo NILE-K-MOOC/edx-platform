@@ -198,6 +198,9 @@ urlpatterns = [
     # made by kotech system
     url(r'^course_search_list$', courses.course_search_list, name='course_list'),
 
+    # Age Group Preference
+    url(r'^age_specific/course/$', courses.age_specific_course, name='age_specific_course'),
+
 
     # Schools
     # made by kotech system
