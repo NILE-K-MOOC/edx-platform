@@ -1659,6 +1659,7 @@
         "Visual aids": "\uc2dc\uac01 \ubcf4\uc870\uc790\ub8cc",
         "Volume": "\ubcfc\ub968",
         "Want to confirm your identity later?": "\uc2e0\ubd84\uc99d\uc744 \ub098\uc911\uc5d0 \ud655\uc778\ubc1b\uaca0\uc2b5\ub2c8\uae4c?",
+        "warning": "주의!",
         "Warning": "\uacbd\uace0",
         "Warnings": "\uacbd\uace0!",
         "We couldn't create your account.": "\ud68c\uc6d0\uac00\uc785\uc744 \ud558\uc2e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. ",

@@ -160,7 +160,7 @@ function vis_draw(nodes, edges) {
           if(d.url){
             window.open(d.url, "_blank");
           } else {
-            swal('error', d.error, 'error');
+            swal(gettext('warning'), d.error, 'warning');
           }
         });
       }
