@@ -399,6 +399,20 @@ def index(request, extra_context=None, user=AnonymousUser()):
     # courses = get_courses(user)
     # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
     with connections['default'].cursor() as cur:
+        query = '''
+            select course_id
+            from student_courseenrollment
+            where user_id = {user_id}
+            and is_active = 1
+            order by created desc
+            limit 12;
+        '''.format(user_id=user.id)
+        try:
+            cur.execute(query)
+            my_raw_course = cur.fetchall()
+        except BaseException:
+            my_raw_course = []
+
         # N: new, P: popular, T:today
         query = '''
             SELECT course_division, course_id
@@ -411,6 +425,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
         log.debug('len(main_course) : {}'.format(len(main_course)))
 
+        my_course = [CourseKey.from_string(course[0]) for course in my_raw_course]
         new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
         pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
         today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
@@ -421,10 +436,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
     log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
     f3 = {'id__in': today_course}
     log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
+    f4 = {'id__in': my_course}
+    log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
 
     new_courses = index_courses(user, f1)
     pop_courses = index_courses(user, f2)
     today_courses = index_courses(user, f3)
+    my_courses = index_courses(user, f4)
 
     log.debug('***** def index time check1.3 [%s]' % format(time.time() - start, ".6f"))
 
@@ -434,7 +452,12 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     log.debug('***** def index time check2 [%s]' % format(time.time() - start, ".6f"))
 
-    context = {'new_courses': new_courses, 'pop_courses': pop_courses, 'today_courses': today_courses}
+    context = {
+        'new_courses': new_courses,
+        'pop_courses': pop_courses,
+        'today_courses': today_courses,
+        'my_courses': my_courses
+    }
 
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 

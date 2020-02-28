@@ -228,27 +228,49 @@ cookiedata = document.cookie;
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script>
     function change_course(type){
+        // $('#section_owl').show();
+        $('#section_no').hide();
         if (type=='pop') {
             $('#section_today').hide();
             $('#section_pop').show();
             $('#section_new').hide();
+            $('#section_my').hide();
             $('#hack_today').removeClass("active");
             $('#hack_pop').addClass("active");
             $('#hack_new').removeClass("active");
+            $('#hack_my').removeClass("active");
         } else if (type=='new') {
             $('#section_today').hide();
             $('#section_pop').hide();
             $('#section_new').show();
+            $('#section_my').hide();
             $('#hack_today').removeClass("active");
             $('#hack_pop').removeClass("active");
             $('#hack_new').addClass("active");
+            $('#hack_my').removeClass("active");
         } else if (type=='today') {
             $('#section_today').show();
             $('#section_pop').hide();
             $('#section_new').hide();
+            $('#section_my').hide();
             $('#hack_today').addClass("active");
             $('#hack_pop').removeClass("active");
             $('#hack_new').removeClass("active");
+            $('#hack_my').removeClass("active");
+        } else if (type=='my') {
+            $('#section_today').hide();
+            $('#section_pop').hide();
+            $('#section_new').hide();
+            $('#section_my').show();
+            $('#hack_today').removeClass("active");
+            $('#hack_pop').removeClass("active");
+            $('#hack_new').removeClass("active");
+            $('#hack_my').addClass("active");
+            var my_courses_len = '${len(my_courses)}';
+            if (my_courses_len == '0') {
+                $('#section_no').show();
+                // $('#section_owl').hide();
+            }
         }
     }
 </script>
@@ -370,11 +392,11 @@ cookiedata = document.cookie;
                     <li>
                         <div onclick="change_course('today')" id="hack_today" class="csp tab">${_("Today Courses")}</div>
                     </li>
-                    <!--
+                    % if user.is_authenticated:
                     <li>
-                        <div onclick="change_course()" class="csp tab">수강중인 강좌</div>
+                        <div onclick="change_course('my')" id="hack_my" class="csp tab">수강중인 강좌</div>
                     </li>
-                    -->
+                    % endif
                 </ul>
             </div>
 
@@ -386,7 +408,7 @@ cookiedata = document.cookie;
                         % for courses in pop_courses:
                         <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
                             <div class="item">
-                                <a href="${courses.id}" class="course-item">
+                                <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         <figure>
                                             <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
@@ -431,7 +453,7 @@ cookiedata = document.cookie;
                         % for courses in new_courses:
                         <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
                             <div class="item">
-                                <a href="${courses.id}" class="course-item">
+                                <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         <figure>
                                             <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
@@ -476,7 +498,7 @@ cookiedata = document.cookie;
                         % for courses in today_courses:
                         <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
                             <div class="item">
-                                <a href="${courses.id}" class="course-item">
+                                <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         <figure>
                                             <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
@@ -513,8 +535,55 @@ cookiedata = document.cookie;
                 </div>
             </div>
 
+            <!-- 수강중인 강좌 -->
+            <div id="section_my" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none;">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                        % for courses in my_courses:
+                        <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                            <div class="item">
+                                <a href="/courses/${courses.id}/about" class="course-item">
+                                    <div class="course-thumb">
+                                        <figure>
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <span class="more">
+                                                <span>${_("LEARN MORE")}</span>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <h2 class="course-title">${courses.display_name}</h2>
+                                    <div class="course-info">
+                                        <p class="instructor">
+                                            <span>${courses.teachers}</span>
+                                            <span>${courses.org}</span>
+                                        </p>
+                                        <p class="period">
+                                            % if courses.status == 'ing':
+                                                <span class="state ing">진행중</span>
+                                            % elif courses.status == 'end':
+                                                <span class="state end">종료</span>
+                                            % else:
+                                                <span class="state soon">개강예정</span>
+                                            % endif
+                                            <!--<span class="state soon">개강예정</span>-->
+                                            <!--<span class="state possible">청강가능</span>-->
+                                            <!--<span class="state end">종료</span>-->
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        % endfor
+                    </div>
+                </div>
+            </div>
+            <div class="no-content" style="display: none;" id="section_no">
+                <p>수강중인 강좌가 존재하지 않습니다.</p>
+                <a href="/courses" class="go">강좌 탐색</a>
+            </div>
         </div>
-        <div class="owl-nav">
+        <div class="owl-nav" id="section_owl" style="display: none;">
             <button type="button" role="presentation" class="owl-prev disabled">
                 <span aria-label="Previous">‹</span>
             </button>
