@@ -73,6 +73,10 @@
                         </li>
                     </ul>
                 </div>
+
+                <div class="ai-move" onclick='window.location.href = "/roadmap";'>
+                    인공지능(AI) 이수체계도
+                </div>
             </div>
         </nav>
 
@@ -98,80 +102,80 @@
 
 
 <script>
-        $(function(){
-            $('.one-depth').on('click', function() {
+    $(function(){
+        $('.one-depth').on('click', function() {
+            $('.two-depth').removeClass('active');
+            $(this).children('.two-depth').addClass('active');
+            $('.gnb').css('padding-bottom','45px');
+        });
+
+        $('.gnb').mouseleave(function(e) {
+            if (!$('.two-depth').is(e.target) && $('.two-depth').has(e.target).length == 0) {
                 $('.two-depth').removeClass('active');
-                $(this).children('.two-depth').addClass('active');
-                $('.gnb').css('padding-bottom','45px');
-            });
+                $('.gnb').css('padding-bottom','0');
+            }
+        });
+    });
 
-            $('.gnb').mouseleave(function(e) {
-                if (!$('.two-depth').is(e.target) && $('.two-depth').has(e.target).length == 0) {
-                    $('.two-depth').removeClass('active');
-                    $('.gnb').css('padding-bottom','0');
+    $(function(){
+        $('.explore-button').on('click', function() {
+            $('.explore-menu').toggleClass('open');
+        });
+
+        $(document).mouseup(function(e) {
+            var exploreMenu = $('.explore-menu');
+
+            if (!$('.explore-button, .search-input, .search-button').is(e.target) && !exploreMenu.is(e.target) && exploreMenu.has(e.target).length == 0) {
+                exploreMenu.removeClass('open');
+            }
+        });
+    });
+
+    $(function(){
+        $('.lnb-button').on('click', function() {
+            $('.lnb').removeClass('on');
+            $('.lnb').addClass('on');
+        });
+
+        $('.lnb-close-button').on('click', function() {
+            $('.lnb').removeClass('on');
+        });
+
+        $('.l-one-depth').on('click', function() {
+            $('.l-one-depth').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+
+    $(function(){
+        $('.dropdown').on('click', function() {
+            $('.dropdown').removeClass('open');
+            $(this).addClass('open');
+        });
+
+        $(document).mouseup(function(e) {
+            var utilMenu = $('.dropdown');
+
+            if (!$('.dropdown-menu').is(e.target) && !utilMenu.is(e.target) && utilMenu.has(e.target).length == 0) {
+                utilMenu.removeClass('open');
+            }
+        });
+    });
+
+    $(function(){
+        $('.owl-carousel').owlCarousel({
+            margin: 20,
+            nav: true,
+            dots: false,
+            responsive:{
+                0:{
+                    items: 2
+                },
+
+                992:{
+                    items: 4
                 }
-            });
-        });
-
-        $(function(){
-            $('.explore-button').on('click', function() {
-                $('.explore-menu').toggleClass('open');
-            });
-
-            $(document).mouseup(function(e) {
-                var exploreMenu = $('.explore-menu');
-
-                if (!$('.explore-button, .search-input, .search-button').is(e.target) && !exploreMenu.is(e.target) && exploreMenu.has(e.target).length == 0) {
-                    exploreMenu.removeClass('open');
-                }
-            });
-        });
-
-        $(function(){
-            $('.lnb-button').on('click', function() {
-                $('.lnb').removeClass('on');
-                $('.lnb').addClass('on');
-            });
-
-            $('.lnb-close-button').on('click', function() {
-                $('.lnb').removeClass('on');
-            });
-
-            $('.l-one-depth').on('click', function() {
-                $('.l-one-depth').removeClass('active');
-                $(this).addClass('active');
-            });
-        });
-
-        $(function(){
-            $('.dropdown').on('click', function() {
-                $('.dropdown').removeClass('open');
-                $(this).addClass('open');
-            });
-
-            $(document).mouseup(function(e) {
-                var utilMenu = $('.dropdown');
-
-                if (!$('.dropdown-menu').is(e.target) && !utilMenu.is(e.target) && utilMenu.has(e.target).length == 0) {
-                    utilMenu.removeClass('open');
-                }
-            });
-        });
-
-        $(function(){
-            $('.owl-carousel').owlCarousel({
-                margin: 20,
-                nav: true,
-                dots: false,
-                responsive:{
-                    0:{
-                        items: 2
-                    },
-
-                    992:{
-                        items: 4
-                    }
-                }
-            })
-        });
-    </script>
+            }
+        })
+    });
+</script>

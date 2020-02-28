@@ -2943,3 +2943,28 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .fwb {
   font-weight: bold;
 }
+.ai-move {
+    float: right !important;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 30px;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    transition: 0.3s;
+}
+.ai-move:hover {
+  color: #4277ff;
+  -webkit-mask-image: linear-gradient(-75deg, rgba(227, 230, 255, 0.6) 30%, #57f 50%, rgba(70, 53, 255, 0.6) 70%);
+  -webkit-mask-size: 200%;
+  animation: shine 2s infinite;
+}
+@-webkit-keyframes shine {
+  from {
+    -webkit-mask-position: 150%;
+  }
+
+  to {
+    -webkit-mask-position: -50%;
+  }
+}
