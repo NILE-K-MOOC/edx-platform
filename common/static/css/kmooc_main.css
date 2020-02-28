@@ -2635,11 +2635,18 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     font-weight: 700;
     margin-right: 15px;
     cursor: pointer;
+    transition: 0.3s;
+}
+.new-btn-signin:hover {
+    color: #4d8dc5;
 }
 .new-btn-signup {
     font-size: 17px;
     font-weight: 700;
     cursor: pointer;
+}
+.new-btn-signup:hover {
+    color: #4d8dc5;
 }
 .language-btn {
     font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
@@ -2651,8 +2658,17 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .new-lang-kor {
     margin-right: 15px;
     margin-left: 40px;
+    transition: 0.3s;
 }
-.new-lang-eng { }
+.new-lang-kor:hover {
+    color: #4d8dc5;
+}
+.new-lang-eng {
+    transition: 0.3s;
+}
+.new-lang-eng:hover {
+    color: #4d8dc5;
+}
 .new-gray {
     color: #b5b5b5;
 }
