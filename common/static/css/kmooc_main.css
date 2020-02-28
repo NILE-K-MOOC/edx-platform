@@ -2954,10 +2954,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     transition: 0.3s;
 }
 .ai-move:hover {
-  color: #4277ff;
-  -webkit-mask-image: linear-gradient(-75deg, rgba(227, 230, 255, 0.6) 30%, #57f 50%, rgba(70, 53, 255, 0.6) 70%);
-  -webkit-mask-size: 200%;
-  animation: shine 2s infinite;
+  color: #4d8dc5;
 }
 @-webkit-keyframes shine {
   from {
