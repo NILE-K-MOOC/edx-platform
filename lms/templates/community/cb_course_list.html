@@ -4,17 +4,28 @@
 <%inherit file="../main.html" />
 <%block name="header_extras"></%block>
 
-<section class="container">
 
+<style>
+    .null-card{
+    border: solid #dddddd 2px;
+    color: #4e4e4e;
+    padding: 50px;
+    padding-top: 200px;
+    padding-bottom: 200px;
+    text-align: center;
+    border-radius: 5px;
+}
+</style>
+
+
+<section class="container">
     <div style="font-size: 18px; line-height: 26.64px; margin-bottom: 20px;">
         학점은행 이수증 출력
     </div>
-
     <div id="courses_target">
     </div>
-
-    <div class="empty-dashboard-message" style="padding: 200px;">
-        <p>학점은행 이수한 강좌가 존재하지 않습니다</p>
+    <div id="null-txt" class="null-card" style="display: none;">
+        학점은행 이수한 강좌가 존재하지 않습니다.
     </div>
 </section>
 
@@ -29,7 +40,7 @@
         var status = 'cb';
         if ( status == 'cb' ) {
             // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
-            $('.empty-dashboard-message').hide();
+            $('#null-txt').hide();
 
             $.post( "/api/cb_course", {
 
@@ -122,7 +133,7 @@
                     $('#courses_target').append(box);
                 }
                 if (data.result.length == 0) {
-                    $('.empty-dashboard-message').show();
+                    $('#null-txt').show();
                 }
             });
         } else {

@@ -62,6 +62,11 @@
                 </div>
 
             </div>
+
+            <div id="null-txt" class="null-card" style="display: none;">
+                조건에 해당하는 참여기간이 존재하지 않습니다.
+            </div>
+
         </div>
     </section>
 
@@ -135,9 +140,9 @@ function org_search_send(){
             var part_c = 'View Course';
         }
 
-        $('.null-txt').hide();
+        $('#null-txt').hide();
         if (result.length == 0) {
-            $('.null-txt').show();
+            $('#null-txt').show();
         }
 
         for (var i=0; i<result.length; i++) {
