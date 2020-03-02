@@ -91,6 +91,22 @@ h1, h2, h3 {
     margin-right: auto;
 }
 
+.btn-download {
+    background: transparent;
+    color: #0075b4;
+}
+
+.btn-download:hover:not(:disabled),
+.btn-download:hover {
+    background-image: linear-gradient(to bottom,#0388d7 0%,#026cab 50%,#0268a4 50%,#034f7c 100%);
+}
+
+
+.btn-download:active:not(:disabled),
+.btn-download:active {
+    box-shadow: inset 0 0 5px 0 #fff;
+}
+
 /* --------------------------
  *    media
  * --------------------------

@@ -77,3 +77,11 @@ def roadmap_view(request, id):
     context['id'] = id
     context['title'] = title
     return render_to_response('kotech_roadmap/roadmap_view.html', context)
+
+
+def roadmap_download(request):
+    response = HttpResponse(open('lms/static/images/kotech_roadmap/roadmap_all.jpg', 'rb'),
+                            content_type="image/jpeg")
+    response['Content-Disposition'] = "attachment; filename=전체 AI 이수체계도.jpg"
+
+    return response
