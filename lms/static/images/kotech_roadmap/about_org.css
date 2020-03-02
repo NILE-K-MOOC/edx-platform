@@ -5,6 +5,16 @@
     font-style: normal !important;
 }
 
+.null-card{
+    border: solid #dddddd 2px;
+    color: #4e4e4e;
+    padding: 50px;
+    padding-top: 200px;
+    padding-bottom: 200px;
+    text-align: center;
+    border-radius: 5px;
+}
+
 .page-title {position: relative; overflow: hidden; padding: 40px 0; background: #222 url(/static/new_index/images/bg_roadmap.jpg) no-repeat top 79% center; color: #fff;}
 .page-title video {position: absolute; top: 0; left: 0; width: 100%;}
 .page-title .visual-title {display: inline-block; font-size: 20px; font-weight: 700; vertical-align: middle;}
