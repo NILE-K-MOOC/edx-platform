@@ -74,37 +74,42 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         </article>
     </div>
     % endif
-    <li id="nav1" class="toggle">
-      <a class="menu-link" href="/about">${_("About Us")}</a>
+    <li id="nav4" class="toggle accordion-toggle">
+        <span class="icon-plus"></span>
+        <a class="menu-link" href="#">${_("About K-MOOC")}</a>
     </li>
-    <!-- menu-submenu accordon-content-->
-    <li id="nav2" class="toggle">
-
-      <a class="menu-link" href="${reverse('courses')}">${_("Courses")}</a>
+    <ul class="menu-submenu accordion-content">
+        <li><a class="head" href="/about">${_("Introduce")}</a></li>
+        <li><a class="head" href="/about?tab=2">${_("Promotion system")}</a></li>
+        <li><a class="head" href="/about_org">${_("Institutions")}</a></li>
+    </ul>
+    <li id="nav4" class="toggle accordion-toggle">
+        <span class="icon-plus"></span>
+        <a class="menu-link" href="#">${_("Courses")}</a>
     </li>
+    <ul class="menu-submenu accordion-content">
+        <li><a class="head" href="/comm_list/N">${_("Courses")}</a></li>
+        <li><a class="head" href="/comm_list/K">${_("Series Course")}</a></li>
+        <li><a class="head" href="/comm_list/R">${_("Academic Credit Bank System")}</a></li>
+    </ul>
     <li id="nav5" class="toggle">
-      <a class="menu-link" href="/series">${_("Series Course")}</a>
+        <a class="menu-link" href="/series">${_("Series Course")}</a>
     </li>
-    <!-- menu-submenu accordon-content-->
     <li id="nav3" class="toggle ">
-      <a class="menu-link" href="https://cb.kmooc.kr/search" target="_blank">${_("Academic Credit Bank System")}</a>
+        <a class="menu-link" href="https://cb.kmooc.kr/search" target="_blank">${_("Academic Credit Bank System")}</a>
     </li>
-    <!-- accordion-toggle -->
 
     % if LANGUAGE_CODE != 'en':
-    <!-- menu-submenu accordon-content-->
     <li id="nav4" class="toggle accordion-toggle">
-      <span class="icon-plus"></span>
-      <a class="menu-link" href="#">${_("Community")}</a>
+        <span class="icon-plus"></span>
+        <a class="menu-link" href="#">${_("Community")}</a>
     </li>
-    <!-- accordion-toggle -->
     <ul class="menu-submenu accordion-content">
-      <li><a class="head" href="/comm_list/N">공지사항</a></li>
-      <li><a class="head" href="/comm_list/K">K-MOOC 뉴스</a></li>
-      <li><a class="head" href="/comm_list/R">자료실</a></li>
-      <li><a class="head" href="/comm_tabs/kmooc_f/">FAQ</a></li>
+        <li><a class="head" href="/comm_list/N">${_("Notices")}</a></li>
+        <li><a class="head" href="/comm_list/K">${_("News")}</a></li>
+        <li><a class="head" href="/comm_list/R">${_("Downloads")}</a></li>
+        <li><a class="head" href="/comm_tabs/kmooc_f/">FAQ</a></li>
     </ul>
-    <!-- menu-submenu accordon-content-->
     % endif
 
     <div class="sns_rep">
@@ -125,9 +130,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         </ul>
       </div>
     </div>
-
   </ul>
-  <!-- menu-list accordion-->
 </div>
 
 <script>
