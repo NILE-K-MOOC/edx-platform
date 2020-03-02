@@ -73,7 +73,11 @@
                                         <div class="course-info">
                                             <p class="instructor">
                                                 <span>${c.teacher_name}</span>
-                                                <span>${c.org}</span>
+                                                % if LANGUAGE_CODE == 'ko-kr':
+                                                <span class="kr01_school">${c.org_kname}</span>
+                                                % else:
+                                                <span class="kr01_school">${c.org_ename}</span>
+                                                % endif
                                             </p>
                                             <p class="period">
                                                 <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>

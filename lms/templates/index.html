@@ -421,7 +421,11 @@ cookiedata = document.cookie;
                                     <div class="course-info">
                                         <p class="instructor">
                                             <span>${courses.teacher_name}</span>
-                                            <span>${courses.org}</span>
+                                            % if LANGUAGE_CODE == 'ko-kr':
+                                            <span class="kr01_school">${courses.org_kname}</span>
+                                            % else:
+                                            <span class="kr01_school">${courses.org_ename}</span>
+                                            % endif
                                         </p>
                                         <p class="period">
                                             % if courses.start != None and courses.end != None:
@@ -473,7 +477,11 @@ cookiedata = document.cookie;
                                     <div class="course-info">
                                         <p class="instructor">
                                             <span>${courses.teacher_name}</span>
-                                            <span>${courses.org}</span>
+                                            % if LANGUAGE_CODE == 'ko-kr':
+                                            <span class="kr01_school">${courses.org_kname}</span>
+                                            % else:
+                                            <span class="kr01_school">${courses.org_ename}</span>
+                                            % endif
                                         </p>
                                         <p class="period">
                                             % if courses.start != None and courses.end != None:
@@ -525,7 +533,11 @@ cookiedata = document.cookie;
                                     <div class="course-info">
                                         <p class="instructor">
                                             <span>${courses.teacher_name}</span>
-                                            <span>${courses.org}</span>
+                                            % if LANGUAGE_CODE == 'ko-kr':
+                                            <span class="kr01_school">${courses.org_kname}</span>
+                                            % else:
+                                            <span class="kr01_school">${courses.org_ename}</span>
+                                            % endif
                                         </p>
                                         <p class="period">
                                             % if courses.start != None and courses.end != None:
@@ -577,7 +589,11 @@ cookiedata = document.cookie;
                                     <div class="course-info">
                                         <p class="instructor">
                                             <span>${courses.teacher_name}</span>
-                                            <span>${courses.org}</span>
+                                            % if LANGUAGE_CODE == 'ko-kr':
+                                            <span class="kr01_school">${courses.org_kname}</span>
+                                            % else:
+                                            <span class="kr01_school">${courses.org_ename}</span>
+                                            % endif
                                         </p>
                                         <p class="period">
                                             % if courses.start != None and courses.end != None:

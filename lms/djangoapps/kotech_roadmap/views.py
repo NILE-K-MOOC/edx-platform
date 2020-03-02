@@ -42,7 +42,7 @@ def roadmap_view(request, id):
                 .exclude(start=not_date).order_by('-start').first()
 
             try:
-                url = 'http://' + settings.LMS_BASE + '/courses/' + unicode(new_course.id) + '/about'
+                url = 'http://' + settings.ENV_TOKENS.get('LMS_BASE') + '/courses/' + unicode(new_course.id) + '/about'
             except AttributeError as e:
                 log.error(e)
                 return JsonResponse({'error': '공개된 강좌가 없습니다.'})
