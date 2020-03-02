@@ -128,7 +128,7 @@ function org_search_send(){
         if (lang == 'ko-kr') {
             var part_a = '년 참여';
             var part_b = '기관 소개';
-            var part_c = '기관 보기';
+            var part_c = '강좌 보기';
         } else {
             var part_a = ' year';
             var part_b = 'Introduction';
@@ -160,7 +160,7 @@ function org_search_send(){
 
             if (check_intro == 'Y') {
                 var template = ''+
-                '<div class="org-item">'+
+                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;;">'+
                 '    <div class="item">'+
                 '        <div class="item-img">'+
                 '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
