@@ -137,7 +137,7 @@ from pipeline_mako import render_require_js_path_overrides
   <%include file="widgets/segment-io.html" />
 
   <meta name="path_prefix" content="${EDX_ROOT_URL}">
-  
+
   <% google_site_verification_id = configuration_helpers.get_value('GOOGLE_SITE_VERIFICATION_ID', settings.GOOGLE_SITE_VERIFICATION_ID) %>
   % if google_site_verification_id:
     <meta name="google-site-verification" content="${google_site_verification_id}" />
@@ -235,6 +235,23 @@ function getDocHeight(doc) {
         html.clientHeight, html.scrollHeight, html.offsetHeight );
     return height;
 }
+
+$(document).ready(function(){
+    // main's common ready function
+    // link to courses event
+    $(".link_to_courses [data-term]").each(function(){
+        $(this).click(function(e){
+            e.preventDefault();
+            let form = $("<form>", {action: "/courses", method: "POST"}),
+            csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
+            term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
+            form.append(csrftoken, term);
+            if(form) {
+                form.appendTo($("body")).submit();
+            }
+        });
+    });
+});
 
 </script>
 

@@ -156,19 +156,7 @@ cookiedata = document.cookie;
 
 <script type="text/javascript">
     $(document).ready(function(){
-        // link to courses event
-        $(".link_to_courses [data-term]").each(function(){
-            $(this).click(function(e){
-                e.preventDefault();
-                let form = $("<form>", {action: "/courses", method: "POST"}),
-                csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
-                term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
-                form.append(csrftoken, term);
-                if(form) {
-                    form.appendTo($("body")).submit();
-                }
-            });
-        });
+
         var sliderOptions = {
             mode: 'vertical',
             slideSelector: '.slider article.slide',
