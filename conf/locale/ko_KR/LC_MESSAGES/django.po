@@ -18936,7 +18936,7 @@ msgstr "이 문제에 대해 수행한 작업의 처리 상태를 확인합니�
 #: lms/templates/learner_dashboard/_dashboard_navigation_courses.html
 #: themes/edx.org/lms/templates/dashboard.html
 msgid "My Courses"
-msgstr "내 강좌"
+msgstr "수강중인 강좌"
 
 #: lms/templates/learner_dashboard/_dashboard_navigation_journals.html
 msgid "My Journals"

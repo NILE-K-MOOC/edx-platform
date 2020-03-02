@@ -382,7 +382,7 @@ cookiedata = document.cookie;
                     </li>
                     % if user.is_authenticated:
                     <li>
-                        <div onclick="change_course('my')" id="hack_my" class="csp tab">수강중인 강좌</div>
+                        <div onclick="change_course('my')" id="hack_my" class="csp tab">${_("My Courses")}</div>
                     </li>
                     % endif
                 </ul>
