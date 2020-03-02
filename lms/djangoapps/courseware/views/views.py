@@ -251,7 +251,7 @@ def courses(request):
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
     # course post parameter setting to html
-    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'middle_classfy', 'ai_yn', 'basic_science_yn']
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'classfy', 'middle_classfy', 'ai_yn', 'basic_science_yn']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
 
     return render_to_response(
@@ -333,7 +333,6 @@ def mobile_courses(request):
     # course post parameter setting to html
     parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'middle_classfy']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
-
 
     return render_to_response(
         "mobile_main.html",
@@ -613,7 +612,6 @@ class CourseTabView(EdxFragmentView):
             # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
             if org and encStr:
                 from branding.views import decrypt, login
-
 
                 try:
                     multisite = Multisite.objects.get(site_code=org)
@@ -3094,8 +3092,8 @@ def dictfetchall(cursor):
     "Returns all rows from a cursor as a dict"
     desc = cursor.description
     return [
-            dict(zip([col[0] for col in desc], row))
-            for row in cursor.fetchall()
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
     ]
 
 
@@ -3108,7 +3106,6 @@ def schools(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def schools_make_filter(request):
-
     with connections['default'].cursor() as cur:
         query = '''
             select detail_name, detail_code, detail_ename
@@ -3142,7 +3139,6 @@ def schools_make_filter(request):
 @ensure_csrf_cookie
 @cache_if_anonymous()
 def schools_make_item(request):
-
     f_year_filter = request.POST.get('f_year_filter')
     f_org_filter = request.POST.get('f_org_filter')
     f_name_filter = request.POST.get('f_name_filter')
