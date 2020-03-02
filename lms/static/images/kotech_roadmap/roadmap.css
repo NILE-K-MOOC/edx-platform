@@ -1,15 +1,21 @@
 @charset "UTF-8";
 
-.page-title {position: relative; overflow: hidden; padding: 40px 0; background-color: #000; color: #fff;}
+.page-title {position: relative;
+    overflow: hidden;
+    padding: 40px 0;
+    background: #222 url(/static/new_index/images/bg_roadmap.jpg) no-repeat top 79% center;
+    color: #fff;
+}
 .page-title video {position: absolute; top: 0; left: 0; width: 100%;}
 .page-title .visual-title {display: inline-block; font-size: 20px; font-weight: 700; vertical-align: middle;}
 .page-title .visual-subtitle {display: block; position: relative; margin-left: 0; padding-left: 0; font-size: 16px; vertical-align: middle;}
 .page-title .visual-subtitle:before {content: ''; display: none; position: absolute; top: 9px; left: 0; width: 1px; height: 15px; background-color: rgba(255, 255, 255, .6);}
-.page-title a.visual-back,
-.page-title a.visual-back:visited:not(.btn):hover,
-.page-title a.visual-back:visited:not(.btn):focus,
-.page-title a.visual-back:not(.btn):hover,
-.page-title a.visual-back:not(.btn):focus{
+a.visual-back,
+a.visual-back:not(.btn), a.visual-back:visited:not(.btn),
+a.visual-back:visited:not(.btn):hover,
+a.visual-back:visited:not(.btn):focus,
+a.visual-back:not(.btn):hover,
+a.visual-back:not(.btn):focus{
     float: right;
     position: relative;
     margin-top: 10px;
@@ -18,8 +24,26 @@
     font-weight: 600;
     color: #fff;
 }
-.page-title .visual-back:before {content: ''; display: block; position: absolute; top: 50%; right: 5px; width: 6px; height: 6px; margin-top: -3px; border-top: 2px solid #fff; border-right: 2px solid #fff; transform: rotate(45deg); transition: right .2s ease-in-out;}
-.page-title .visual-back:hover:before {right: 0px;}
+
+.visual-back:before {content: ''; display: block; position: absolute; top: 50%; right: 5px; width: 6px; height: 6px; margin-top: -3px; border-top: 2px solid #fff; border-right: 2px solid #fff; transform: rotate(45deg); transition: right .2s ease-in-out;}
+.visual-back:hover:before {right: 0;}
+
+a.visual-back.roadmap-link:not(.btn),
+a.visual-back.roadmap-link:visited:not(.btn),
+a.visual-back.roadmap-link:visited:not(.btn):hover,
+a.visual-back.roadmap-link:visited:not(.btn):focus,
+a.visual-back.roadmap-link:not(.btn):hover,
+a.visual-back.roadmap-link:not(.btn):focus {
+    color: #000 !important;
+    font-size: 16px;
+}
+
+.visual-back.roadmap-link:before {
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
+    width: 8px;
+    height: 8px;
+}
 
 .page-cont {padding: 30px 0;}
 
