@@ -213,6 +213,10 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
 .footer .footer-bottom .footer-logo .logo-item ~ .logo-item {margin-left: 20px;}
 .footer .footer-bottom .copyright {margin-top: 20px; font-size: 14px; color: #aaa;}
 
+.course-info .details, h2 {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+}
+
 /* --------------------------
  *    keyframes
  * --------------------------

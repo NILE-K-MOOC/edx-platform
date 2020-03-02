@@ -239,8 +239,9 @@ function slide_resize() {
     if ($("#today_slider").size() != 0) {
         today_slider.reloadSlider(slide_option);
     }
-
-    footer_slider.reloadSlider(slide_footer);
+    if($('.kr01-ft-familysite').length){
+        footer_slider.reloadSlider(slide_footer);
+    }
 }
 
 function dropdown_keyboard_access(nav) {
