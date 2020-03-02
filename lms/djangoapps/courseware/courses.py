@@ -29,7 +29,7 @@ from edxmako.shortcuts import render_to_string, render_to_response
 from fs.errors import ResourceNotFound
 from lms.djangoapps.courseware.courseware_access_exception import CoursewareAccessException
 from lms.djangoapps.courseware.exceptions import CourseAccessRedirect
-from opaque_keys.edx.keys import UsageKey
+from opaque_keys.edx.keys import UsageKey, CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from path import Path as path
@@ -193,7 +193,7 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
 
 
 def age_specific_course(request):
-    # CourseEnrollment
+    from student.views.management import index_courses
     age_group = {}
 
     for i in range(1, 6):

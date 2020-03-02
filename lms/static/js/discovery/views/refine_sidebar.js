@@ -457,10 +457,12 @@
                             k = 'linguistics';
                             v = 'Y';
                             t = 'linguistics_y';
+                            break;
                         case 'ai_yn':
                             k = 'ai_yn';
                             v = 'ai_y';
                             t = 'ai_y';
+                            break;
                         case 'basic_science_yn':
                             k = 'basic_science_yn';
                             v = 'basic_science_y';
