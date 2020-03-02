@@ -1,0 +1,263 @@
+@charset "UTF-8";
+
+.label-overwrite {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+    font-style: normal !important;
+}
+
+.page-title {position: relative; overflow: hidden; padding: 40px 0; background: #222 url(/static/new_index/images/bg_roadmap.jpg) no-repeat top 79% center; color: #fff;}
+.page-title video {position: absolute; top: 0; left: 0; width: 100%;}
+.page-title .visual-title {display: inline-block; font-size: 20px; font-weight: 700; vertical-align: middle;}
+.page-title .visual-subtitle {display: block; position: relative; margin-left: 0; padding-left: 0; font-size: 16px; vertical-align: middle;}
+.page-title .visual-subtitle:before {content: ''; display: none; position: absolute; top: 9px; left: 0; width: 1px; height: 15px; background-color: rgba(255, 255, 255, .6);}
+.page-title a.visual-back,
+.page-title a.visual-back:visited:not(.btn):hover,
+.page-title a.visual-back:visited:not(.btn):focus,
+.page-title a.visual-back:not(.btn):hover,
+.page-title a.visual-back:not(.btn):focus{
+    float: right;
+    position: relative;
+    margin-top: 10px;
+    padding-right: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+.page-title .visual-back:before {content: ''; display: block; position: absolute; top: 50%; right: 5px; width: 6px; height: 6px; margin-top: -3px; border-top: 2px solid #fff; border-right: 2px solid #fff; transform: rotate(45deg); transition: right .2s ease-in-out;}
+.page-title .visual-back:hover:before {right: 0px;}
+
+.sec-select .select-row {display: block;}
+.sec-select .select-row .select-col {margin: 16px 0;}
+.sec-select .select-row .select-col label {display: inline-block; vertical-align: middle; margin-right: 10px;}
+.sec-select .select-row .select-col select {display: inline-block; min-width: 100%; margin-top: 6px; padding: 6px 8px; border: 0; border-radius: 4px; background-color: #f0f0f0; font-size: 16px; vertical-align: middle;}
+.sec-select .select-row .select-col select option {background-color: #fff;}
+.sec-select .select-row .select-col .search-input {display: inline-block; padding: 6px 8px; border: 1px solid #ccc; font-size: 15px; vertical-align: middle;}
+.sec-select .select-row .select-col .search-button {display: inline-block; margin-left: 3px; padding: 6px 16px; border-radius: 4px; background-color: #4587c2; vertical-align: middle; color: #fff; transition: background-color .1s ease-in-out; cursor: pointer;}
+.sec-select .select-row .select-col .search-button:hover {background-color: #3779b5;}
+
+.sec-org {padding: 30px 0; background-color: #f0f0f0;}
+.sec-org .org-list {margin-left: -10px; margin-right: -10px;}
+.sec-org .org-list:before, .sec-org .org-list:after {display: table; content: '';}
+.sec-org .org-list:after {clear: both;}
+.sec-org .org-list .org-item {float: left; width: 100%; margin-bottom: 20px; padding-left: 10px; padding-right: 10px;}
+.sec-org .org-list .org-item .item {display: block; position: relative; overflow: hidden; padding: 20px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, .1); background-color: #fff;}
+.sec-org .org-list .org-item .item .item-img {height: 60px; text-align: center;}
+.sec-org .org-list .org-item .item .item-img img {max-width: 178px; height: 100%;}
+.sec-org .org-list .org-item .item .item-subj {margin-bottom: 16px; padding-top: 10px; padding-bottom: 16px; border-bottom: 1px solid #eee; text-align: center;}
+.sec-org .org-list .org-item .item .item-subj span {display: inline-block; font-size: 14px;}
+.sec-org .org-list .org-item .item .item-subj span ~ span {position: relative; margin-left: 8px; padding-left: 12px;}
+.sec-org .org-list .org-item .item .item-subj span ~ span:before {content: ''; display: block; position: absolute; top: 5px; left: 0; width: 1px; height: 12px; background-color: #aaa;}
+.sec-org .org-list .org-item .item .item-info > div {position: relative; padding-left: 28px; font-size: 15px;}
+.sec-org .org-list .org-item .item .item-info > div:before {content: ''; display: block; position: absolute; top: 2px; left: 0; width: 20px; height: 20px; border-radius: 50%; background-color: #eee; background-repeat: no-repeat;}
+.sec-org .org-list .org-item .item .item-info > div ~ div {margin-top: 6px;}
+.sec-org .org-list .org-item .item .item-info .org:before {background-image: url(/static/new_index/images/icon_org_001.png); background-position: top 4px center;}
+.sec-org .org-list .org-item .item .item-info .tel:before {background-image: url(/static/new_index/images/icon_org_002.png); background-position: center;}
+.sec-org .org-list .org-item .item .item-hover {z-index: -1; display: flex; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; align-items: center; justify-content: center;}
+.sec-org .org-list .org-item .item:hover .item-hover {z-index: 2;}
+.sec-org .org-list .org-item .item .item-hover:before {content: ''; display: block; position: absolute; bottom: -40px; right: -40px; width: 40px; height: 40px; border-radius: 50%; background: #7048e8;}
+.sec-org .org-list .org-item .item:hover .item-hover:before {transform: scale(20); transition: all .4s;}
+.sec-org .org-list .org-item .item .item-hover:after {z-index: 2; content: ''; position: absolute; bottom: -40px; left: -40px; width: 40px; height: 40px; border-radius: 50%; background: #4c6ef5;}
+.sec-org .org-list .org-item .item:hover .item-hover:after {transform: scale(20); transition: all .4s; transition-delay: .3s;}
+.sec-org .org-list .org-item .item .item-hover > span {z-index: 3; display: none; position: relative; padding-bottom: 3px; border-bottom: 1px dashed rgba(255, 255, 255, .8); color: #fff;}
+.sec-org .org-list .org-item .item:hover .item-hover > span {display: block; -webkit-animation: fadeIn .5s; animation: fadeIn .5s;}
+
+.page-cont {padding: 30px 0;}
+
+.rdmap-list-group .rdmap-list-tit {margin-bottom: 12px;}
+.rdmap-list-group .rdmap-list-tit > h3 {font-size: 16px; font-weight: 500;}
+.rdmap-list-group .rdmap-list {width: 100%; table-layout: fixed; border-top: 2px solid #222;}
+.rdmap-list-group .rdmap-list thead th {padding: 10px 0; font-size: 14px; font-weight: 500;}
+.rdmap-list-group .rdmap-list tbody td {padding: 15px; border-bottom: 12px solid #fff; background-color: #e9ecf1; font-size: 14px; font-weight: 500; text-align: center;}
+.rdmap-list-group .rdmap-list tbody td.type {text-align: left;}
+.rdmap-list-group .rdmap-list tbody td.type > a,
+.rdmap-list-group .rdmap-list tbody td.type > a:not(.btn),
+.rdmap-list-group .rdmap-list tbody td.type > a:visited:not(.btn){
+    display: inline-block;
+    padding: 0 5px;
+    font-weight: 600;
+    vertical-align: middle;
+    transition: background-color .15s ease-out;
+    color: #222;
+}
+.rdmap-list-group .rdmap-list tbody td.type > a:hover {background-color: #cbe2ff;}
+.rdmap-list-group .rdmap-list tbody td.type .number {display: none; width: 28px; height: 28px; padding: 4px; margin-right: 5px; border-radius: 50%; background-color: #58606f; font-size: 12px; font-weight: 500; text-align: center; vertical-align: middle; color: #fff;}
+.rdmap-list-group .rdmap-list tbody td.type .type-sublist {position: relative;}
+.rdmap-list-group .rdmap-list tbody td.type .type-sublist:before {content: ''; display: block; position: absolute; top: 5px; right: -12px; width: 7px; height: 7px; border-bottom: 2px solid #222; border-left: 2px solid #222; transform: rotate(-45deg);}
+.rdmap-list-group .rdmap-list tbody td.type .type-sublist.active:before {top: 8px; border-bottom: none; border-left: none; border-top: 2px solid #222; border-right: 2px solid #222;}
+.rdmap-list-group .rdmap-list tbody td.type .list-down {height: 0; overflow: hidden;}
+.rdmap-list-group .rdmap-list tbody td.type .type-sublist.active + .list-down {height: 100%;}
+.rdmap-list-group .rdmap-list tbody td.type .list-down ul {display: none; padding-top: 5px; padding-left: 42px;}
+.rdmap-list-group .rdmap-list tbody td.type .type-sublist.active + .list-down ul {display: block;}
+.rdmap-list-group .rdmap-list tbody td.type .list-down ul:before, .rdmap-list-group .rdmap-list tbody td.type .list-down ul:after {display: table; content: '';}
+.rdmap-list-group .rdmap-list tbody td.type .list-down ul:after {clear: both;}
+.rdmap-list-group .rdmap-list tbody td.type .list-down li {float: none; position: relative; width: 50%; margin-top: 8px; padding-left: 6px;}
+.rdmap-list-group .rdmap-list tbody td.type .list-down li:before {content: ''; display: block; position: absolute; top: 50%; left: 0; width: 4px; height: 4px; margin-top: -2px; background-color: #666;}
+.rdmap-list-group .rdmap-list tbody td.type .list-down li > a,
+.rdmap-list-group .rdmap-list tbody td.type .list-down li > a:not(.btn),
+.rdmap-list-group .rdmap-list tbody td.type .list-down li > a:visited:not(.btn){
+    display: inline-block;
+    padding: 0 5px;
+    font-weight: 600;
+    color: #222;
+    transition: background-color .1s ease-in-out;
+}
+.rdmap-list-group .rdmap-list tbody td.type .list-down li > a:hover {background-color: #cbe2ff;}
+
+.rdmap-guide {margin-bottom: 20px; font-size: 14px; text-align: center;}
+
+.legend-group {margin-top: 20px; text-align: center;}
+.legend-group li {display: inline-block;}
+.legend-group li ~ li {margin-left: 25px;}
+.legend-group li span {display: inline-block; vertical-align: middle;}
+.legend-group li .box {width: 18px; height: 18px; border: 1px solid transparent; border-radius: 4px;}
+.legend-group li .box.type1 {border-color: #74c0fc; background-color: #d0ebff;}
+.legend-group li .box.type2 {border-color: #91a7ff; background-color: #dbe4ff;}
+.legend-group li .box.type3 {border-color: #ffa8a8; background-color: #ffe3e3;}
+.legend-group li .box.type4 {border-color: #bec4ca; background-color: #f1f3f5;}
+.legend-group li .box.type5 {border-color: #8ce99a; background-color: #d3f9d8;}
+.legend-group li .text {margin-left: 5px; font-size: 13px;}
+
+h1, h2, h3 {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+    color: inherit;
+}
+
+#mynetwork {
+    border-radius: 5px;
+    border: solid 2px #c8c8c8;
+    max-width: 1000px;
+    height: 600px;
+    margin-left :auto;
+    margin-right: auto;
+}
+
+/* --------------------------
+ *    media
+ * --------------------------
+**/
+
+@media (min-width: 768px) {
+    .rdmap-list-group .rdmap-list tbody td.type .number {
+        display: inline-block;
+    }
+
+    .sec-select .select-row {
+        display: flex;
+        flex-flow: row;
+    }
+
+    .sec-select .select-row .select-col ~ .select-col {
+        margin-left: 20px;
+    }
+
+    .sec-select .select-row .select-col select {
+        min-width: auto;
+        margin-top: 0;
+    }
+
+    .sec-org .org-list .org-item {
+        width: 33.33%;
+    }
+}
+
+@media (min-width: 992px) {
+    .page-title {
+        padding: 80px 0;
+    }
+
+    .page-title .visual-title {
+        font-size: 30px;
+    }
+
+    .page-title .visual-subtitle {
+        display: inline-block;
+        margin-left: 12px;
+        padding-left: 15px;
+        font-size: 20px;
+    }
+
+    .page-title .visual-subtitle:before {
+        display: block;
+    }
+
+    .page-title .visual-back {
+        font-size: 16px;
+    }
+
+    .page-cont {
+        padding: 50px 0;
+    }
+
+    .rdmap-list-group .rdmap-list-tit > h3 {
+        font-size: 20px;
+    }
+
+    .rdmap-list-group .rdmap-list thead th {
+        padding: 15px 0;
+        font-size: 16px;
+    }
+
+    .rdmap-list-group .rdmap-list tbody td {
+        padding: 30px;
+        font-size: 18px;
+    }
+
+    .rdmap-list-group .rdmap-list tbody td.type .number {
+        width: 33px;
+        height: 33px;
+        font-size: 16px;
+    }
+
+    .rdmap-list-group .rdmap-list tbody td.type .type-sublist:before {
+        top: 6px;
+        right: -15px;
+        width: 9px;
+        height: 9px;
+    }
+
+    .rdmap-list-group .rdmap-list tbody td.type .type-sublist.active:before {
+        top: 10px;
+    }
+
+    .rdmap-list-group .rdmap-list tbody td.type .list-down ul {
+        padding-top: 10px;
+        padding-left: 48px;
+    }
+
+    .rdmap-list-group .rdmap-list tbody td.type .list-down li {
+        float: left;
+        padding-left: 12px;
+    }
+
+    .rdmap-guide {
+        font-size: 18px;
+    }
+
+    .legend-group {
+        margin-top: 30px;
+    }
+
+    .legend-group li .box {
+        width: 30px;
+        height: 20px;
+    }
+
+    .legend-group li .text {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .sec-select .select-row .select-col ~ .select-col {
+        margin-left: 40px;
+    }
+
+    .sec-select .select-row .select-col select {
+        min-width: 120px;
+        margin-top: 0;
+    }
+
+    .sec-org .org-list .org-item {
+        width: 20%;
+    }
+}

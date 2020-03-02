@@ -19,6 +19,11 @@ from courseware.models import CourseOverview
 log = logging.getLogger(__name__)
 
 
+def about_org(request):
+    context = {}
+    return render_to_response('kotech_roadmap/about_org.html', context)
+
+
 def roadmap(request):
 
     context = {}
