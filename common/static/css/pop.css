@@ -67,6 +67,7 @@
 	text-align: center;
 	margin: 0;
 	font-size: x-large;
+	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
 }
 
 .popup-area {
@@ -86,7 +87,7 @@
 }
 
 .popup-header {
-	background: #d1eaff8c;
+	background: #e9f5ff;
     border: 1px solid #d1eaff;
 }
 
@@ -120,6 +121,7 @@
 
 .popup-footer-label {
 	padding: 0 10px;
+	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
 }
 
 .popup-footer-day {
