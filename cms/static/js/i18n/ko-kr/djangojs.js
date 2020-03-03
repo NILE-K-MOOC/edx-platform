@@ -2085,7 +2085,7 @@
         "fourth_industry_yn": "4차 산업혁명 여부",
         "job_edu_yn": "직업교육 여부",
         "ai_sector_yn": "AI 인공지능 여부",
-        "basic_science_sectotr_yn": "이공계 기초과학 여부",
+        "basic_science_sector_yn": "이공계 기초과학 여부",
         "linguistics_y": "한국어(학)",
         "fourth_industry_y": "4차 산업혁명",
         "job_edu_y": "직업교육",

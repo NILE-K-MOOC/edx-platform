@@ -103,7 +103,7 @@
                                 term = 'job_edu_y';
                             else if (key == 'ai_sector_yn' && (term == 'Y' || term == 'y'))
                                 term = 'ai_y';
-                            else if (key == 'basic_science_sectotr_yn' && (term == 'Y' || term == 'y'))
+                            else if (key == 'basic_science_sector_yn' && (term == 'Y' || term == 'y'))
                                 term = 'basic_science_y';
 
                             options.add({

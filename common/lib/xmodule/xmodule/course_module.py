@@ -1046,9 +1046,9 @@ class CourseFields(object):
         hidden=True
     )
 
-    basic_science_sectotr_yn = String(
-        display_name=_("basic_science_sectotr_yn"),
-        help=_("basic_science_sectotr_yn hidden value"),
+    basic_science_sector_yn = String(
+        display_name=_("basic_science_sector_yn"),
+        help=_("basic_science_sector_yn hidden value"),
         scope=Scope.settings,
         default='N',
         hidden=True

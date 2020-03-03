@@ -323,7 +323,7 @@ COURSE_DISCOVERY_MEANINGS = {
 }
 
 COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
-                            'ai_sector_yn', 'basic_science_sectotr_yn']
+                            'ai_sector_yn', 'basic_science_sector_yn']
 
 # Features
 FEATURES = {
@@ -572,7 +572,7 @@ FEATURES = {
     # Setting for overriding default filtering facets for Course discovery
     # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
     'COURSE_DISCOVERY_FILTERS': ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
-                                 'ai_sector_yn', 'basic_science_sectotr_yn'],
+                                 'ai_sector_yn', 'basic_science_sector_yn'],
 
     # Software secure fake page feature flag
     'ENABLE_SOFTWARE_SECURE_FAKE': False,

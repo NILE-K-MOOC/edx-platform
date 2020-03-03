@@ -492,7 +492,7 @@ class CourseOverviewAddinfo(models.Model):
     middle_classfy_sub = models.CharField(max_length=200, blank=True, null=True)
     fourth_industry_yn = models.CharField(max_length=1, blank=True, null=True)
     ai_sector_yn = models.CharField(max_length=1, blank=True, null=True)
-    basic_science_sectotr_yn = models.CharField(max_length=1, blank=True, null=True)
+    basic_science_sector_yn = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
         managed = False
