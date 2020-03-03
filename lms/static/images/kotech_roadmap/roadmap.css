@@ -106,6 +106,14 @@ h1, h2, h3 {
     color: inherit;
 }
 
+.roadmap-info {
+    margin-bottom: 20px;
+}
+
+.roadmap-info p+p {
+    margin-top: 0;
+}
+
 #mynetwork {
     border-radius: 5px;
     border: solid 2px #c8c8c8;
