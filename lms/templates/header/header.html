@@ -40,7 +40,7 @@
 
 
 % if course:
-<div class="ie-banner" aria-hidden="true">${Text(_('{begin_strong}Warning:{end_strong} Your browser is not fully supported. We strongly recommend using {chrome_link} or {ff_link}.')).format(
+<div style="display: none;" class="ie-banner" aria-hidden="true">${Text(_('{begin_strong}Warning:{end_strong} Your browser is not fully supported. We strongly recommend using {chrome_link} or {ff_link}.')).format(
     begin_strong=HTML('<strong>'),
     end_strong=HTML('</strong>'),
     chrome_link=HTML('<a href="https://www.google.com/chrome" target="_blank">Chrome</a>'),
