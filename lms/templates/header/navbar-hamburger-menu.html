@@ -74,7 +74,7 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         </article>
     </div>
     % endif
-    <li id="nav4" class="toggle accordion-toggle">
+    <li id="nav4" class="toggle accordion-toggle" style="height: 50px; margin-top: 51px;">
         <span class="icon-plus"></span>
         <a class="menu-link" href="#">${_("About K-MOOC")}</a>
     </li>
@@ -92,12 +92,6 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         <li><a class="head" href="/comm_list/K">${_("Series Course")}</a></li>
         <li><a class="head" href="/comm_list/R">${_("Academic Credit Bank System")}</a></li>
     </ul>
-    <li id="nav5" class="toggle">
-        <a class="menu-link" href="/series">${_("Series Course")}</a>
-    </li>
-    <li id="nav3" class="toggle ">
-        <a class="menu-link" href="https://cb.kmooc.kr/search" target="_blank">${_("Academic Credit Bank System")}</a>
-    </li>
 
     % if LANGUAGE_CODE != 'en':
     <li id="nav4" class="toggle accordion-toggle">
