@@ -256,6 +256,7 @@ ALL_LANGUAGES = (
 )
 
 LANGUAGE_MAP = {'terms': {lang: display for lang, display in ALL_LANGUAGES}, 'name': 'Language'}
+
 COURSE_DISCOVERY_MEANINGS = {
     'org': {
         'name': 'Organization',
@@ -321,10 +322,8 @@ COURSE_DISCOVERY_MEANINGS = {
     }
 }
 
-COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level', 'ai_yn',
-                            'basic_science_yn']
-
-COURSE_DISCOVERY_FACETS = {field: {'size': '300'} for field in COURSE_DISCOVERY_FILTERS}
+COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
+                            'ai_sector_yn', 'basic_science_sectotr_yn']
 
 # Features
 FEATURES = {
@@ -572,8 +571,8 @@ FEATURES = {
 
     # Setting for overriding default filtering facets for Course discovery
     # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
-    'COURSE_DISCOVERY_FILTERS': ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level', 'ai_yn',
-                                 'basic_science_yn'],
+    'COURSE_DISCOVERY_FILTERS': ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
+                                 'ai_sector_yn', 'basic_science_sectotr_yn'],
 
     # Software secure fake page feature flag
     'ENABLE_SOFTWARE_SECURE_FAKE': False,
