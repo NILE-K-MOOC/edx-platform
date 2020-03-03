@@ -20,9 +20,9 @@
 .sec-visual.com .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_003.png);}
 
 .sec-classify {padding: 15px 0; border-bottom: 1px solid #eee;}
-.sec-classify .classify-item {display: block; padding-top: 75px; font-size: 14px; text-align: center; transition: all .15s ease-in-out;}
+.sec-classify .classify-item {word-break: keep-all; display: block; padding-top: 75px; font-size: 14px; text-align: center; transition: all .15s ease-in-out;}
 .sec-classify .classify-item:hover {color: #4d8dc5;}
-.sec-classify .col-sm-4 {margin: 15px 0;}
+.sec-classify .col-sm-4 {margin: 15px 0; padding: 0 25px;}
 .sec-classify .col-sm-4:nth-child(1) .classify-item {background: url(/static/new_index/images/icon_c_001.png) no-repeat top 2px center;}
 .sec-classify .col-sm-4:nth-child(1) .classify-item:hover {background-image: url(/static/new_index/images/icon_c_001_hover.png);}
 .sec-classify .col-sm-4:nth-child(2) .classify-item {background: url(/static/new_index/images/icon_c_002.png) no-repeat top 1px center;}
