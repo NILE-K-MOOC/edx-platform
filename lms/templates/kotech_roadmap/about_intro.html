@@ -4,245 +4,209 @@
 <%inherit file="../main.html" />
 <%block name="header_extras"></%block>
 
-<link rel="stylesheet" href="/static/images/kotech_roadmap/about_org.css"/>
+<link rel="stylesheet" href="/static/images/kotech_roadmap/about_intro.css"/>
 
 <div id="container">
-    <section class="page-title agency-title">
+
+
+    <section class="sec-number bg-white">
         <div class="container-fluid">
-            <h1 class="visual-title">${_('Institutions')}</h1>
-            <h2 class="visual-subtitle">${_('K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era.')}</h2>
+            <h1 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="title">한국형 온라인 공개강좌</h1>
+            <h2 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="sub-title">Colorful K-MOOC, 당신의 미래를 그려보세요.</h2>
+        </div>
+        <div class="h-line-1"></div>
+    </section>
+
+
+    <section class="page-title intro-title" style="height: 250px;">
+        <div class="container-fluid" style="padding-top: 65px;">
+            <div class="kotc-group">
+                <ul>
+                    <li>
+                        <p style="color: #ffffff;" class="text1"><span>K</span>orean</p>
+                        <p style="color: #ffffff;" class="text2">----</p>
+                        <span class="text3">한국형</span>
+                    </li>
+                    <li class="h-line-2"></li>
+                    <li>
+                        <p style="color: #ffffff;" class="text1"><span>M</span>assive</p>
+                        <p style="color: #ffffff;" class="text2">----</p>
+                        <span class="text3">수강인원 무제한</span>
+                    </li>
+                    <li class="h-line-2"></li>
+                    <li>
+                        <p style="color: #ffffff;" class="text1"><span>O</span>pen</p>
+                        <p style="color: #ffffff;" class="text2">----</p>
+                        <span class="text3">모든 사람이 수강 가능<br />무료</span>
+                    </li>
+                    <li class="h-line-2"></li>
+                    <li>
+                        <p style="color: #ffffff;" class="text1"><span>O</span>nline</p>
+                        <p style="color: #ffffff;" class="text2">----</p>
+                        <span class="text3">웹 기반 인터넷 수강</span>
+                    </li>
+                    <li class="h-line-2"></li>
+                    <li>
+                        <p style="color: #ffffff;" class="text1"><span>C</span>ourse</p>
+                        <p style="color: #ffffff;" class="text2">----</p>
+                        <span class="text3">학습목표 달성을 위해<br />구성된 교육 코스</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </section>
 
-    <section class="sec-select">
+
+    <section class="sec-number bg-white">
+        <img src="/static/new_index/images/scroll.png" alt="" class="scroll-btn">
+        <div class="h-line-3"></div>
+         <div class="container-fluid mt20 mw800">
+            <h3 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="sub-text">무크(MOOC)란 Massive, Open, Online, Course의 줄임말로 오픈형 온라인 학습 과정을 뜻합니다.</h3>
+            <h3 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="sub-text">무이 것은 강의실에 수용된 학생만이 강의를 들을 수 있었던 것에서 청강만 가능한 온라인 학습동영상으로 변화하고</h3>
+            <h3 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="sub-text">현재는 질의응답, 토론, 퀴즈, 과제 제출 등 양방향 학습을 할 수 있는 모습으로 완성되었습니다.</h3>
+            <img src="/static/new_index/images/kkuk1.png" alt="" class="kkuk1">
+            <img src="/static/new_index/images/kkuk2.png" alt="" class="kkuk2">
+        </div>
+    </section>
+
+
+    <section class="sec-number mt30">
         <div class="container-fluid">
-            <div class="select-row">
-                <div class="select-col">
-                    <label class="label-overwrite" for="">기관유형</label>
-                    <select id="f_org_filter">
-                        <option value="A">전체</option>
-                    </select>
-                </div>
-                <div class="select-col">
-                    <label class="label-overwrite" for="">참여년도</label>
-                    <select id="f_year_filter">
-                        <option value="A">전체</option>
-                    </select>
-                </div>
-                <div class="select-col">
-                    <label class="label-overwrite" for="" style="margin-top: -6px;">참여기관명</label>
-                    <input id="f_name_filter" type="text" class="search-input">
-                    <button id="xxx_search" class="search-button">검색</button>
+            <h1 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="title mt20">K-MOOC BI</h1>
+
+            <div class="kotc-group mt10">
+                <ul>
+                    <li><img src="/static/new_index/images/icon_1.png" alt="K-MOOC 로고" width="80%"></li>
+                    <li><img src="/static/new_index/images/icon_2.png" alt="K-MOOC 흑백로고" width="80%"></li>
+                </ul>
+            </div>
+
+            <h3 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="sub-text2 mt30">K-MOOC는 신뢰할 수 있는 우수한 고등교육 콘텐츠를 제공하여 평생학습을 실현하고자 합니다.</h3>
+            <h3 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="sub-text2">BI는 이러한 성격을 담은 브랜드 시각 요소인 블루 컬러와 산세리프 계열의 서체를 조합하여 디자인되었습니다.</h3>
+        </div>
+
+
+
+        <div class="down-btn mb30"><a style="color: #ffffff;" href="/comm_file/799">BI 다운로드<span>〉</span></a></div>
+    </section>
+
+
+
+
+    <section class="sec-number bg-vision">
+        <div class="container-fluid mb30">
+            <h1 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="title color-white mt20">Vision</h1>
+            <h2 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="v-sub-title mt20">K-MOOC는 컬러풀한 미래를 꿈꿉니다.</h2>
+            <h4 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="v-sub-text">알려주려는 자와 배우려는 자를 쉽고 한층 가깝게 연결함으로써</h4>
+            <h4 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="v-sub-text">많은 사람들이 어제보다 나은 미래, 새로운 미래, 더 다채로운 미래를 만들 수 있도록 도울 것입니다.</h4>
+        </div>
+    </section>
+
+
+    <section class="sec-number bg-white">
+        <div class="container-fluid">
+            <h1 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="title mt30">Offline K-MOOC</h1>
+            <div class="row">
+                <div class="offline-group">
+                    <ul>
+                        <li class="number-item offline1">
+                            <div class="text-box">
+                                <div class="sbox1"></div>
+                                <p class="pp1">박람회</p>
+                                <p class="pp2">매년 평생학습박람회 참가</p>
+                            </div>
+                        </li>
+
+                        <li class="number-item offline2">
+                            <div class="text-box">
+                                <div class="sbox2"></div>
+                               <p class="pp1">토크콘서트</p>
+                               <p class="pp2">참여대학교수와 학습자가 만나<br />대화하고 다양한 공연이 함께하는<br />토크 콘서트</p>
+                            </div>
+                        </li>
+
+                        <li class="number-item offline3">
+                            <div class="text-box">
+                                <div class="sbox3"></div>
+                               <p class="pp1">특강</p>
+                               <p class="pp2">직접 대학에서 강의를<br />청강할 수 있는 기회 제공</p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="sec-org">
-        <div class="container-fluid">
-            <div class="org-list" id="add_school">
 
-                <div class="org-item">
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://kmooc.kr/static/upload/KHUk.png">
-                        </div>
-                        <div class="item-subj">
-                            <span>국내대학</span>
-                            <span>2015년 참여</span>
-                        </div>
-                        <div class="item-info">
-                            <div class="org">경희대학교</div>
-                            <div class="tel">031-201-3951</div>
-                        </div>
-                        <a href="#" class="item-hover">
-                            <span>기관 소개ㆍ강좌 보기</span>
-                        </a>
+
+    <section class="sec-number mt50">
+        <div class="container-fluid">
+            <h1 style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="title mt30">학습자별 활용방법</h1>
+            <div class="row mt50">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item st-01 pt146">
+                        <dl>청소년</dl>
+                        <ul class="mt10">
+                            <li>온라인 학습자료 활용</li>
+                            <li>미래 진학 및 생애 진로 탐색 활용</li>
+                        </ul>
                     </div>
                 </div>
-
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item st-02 pt146">
+                        <dl>대학(원)생</dl>
+                        <ul class="mt10">
+                            <li>사전수업 준비 및 심화(보충)학습</li>
+                            <li>전과 학생의 선수 학습</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item st-03 pt146">
+                        <dl>일반 성인 학습자</dl>
+                        <ul class="mt10">
+                            <li>적성과 관심사에 따라 수준별 학습<br />(전공심화, 전공기초, 교양)</li>
+                            <li>최신 지식 및 정보습득</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-            <div id="null-txt" class="null-card" style="display: none;">
-                조건에 해당하는 참여기관이 존재하지 않습니다.
+            <div class="row mt50 mb30">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item st-04 pt146">
+                        <dl>구직자ㆍ재직자</dl>
+                        <ul class="mt10">
+                            <li>창업을 위한 개인 역량 강화</li>
+                            <li>창업아이템 발굴 및 정보 활용</li>
+                            <li>직업훈련에 활용</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item st-05 pt146">
+                        <dl>교수</dl>
+                        <ul class="mt10">
+                            <li>플립드러닝(flipped learning)*을<br />통한 수업 활동 다양화</li>
+                        </ul>
+                        <hr>
+                        <dt>플립드러닝(flipped learning)</dt>
+                        <dd>온라인을 통한 사진 학습 후, 오프라인 수업에서는 팀 프로젝트, 트론식 수업 등을 진행하는 '역진행 수업방식'</dd>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="number-item st-06 pt146">
+                        <dl>대학</dl>
+                        <ul class="mt10">
+                            <li>학습 데이터 분석을 통한 교수 학습 전략 개발</li>
+                            <li>거꾸로 학습 등 교수 학습 혁신 촉진</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
         </div>
     </section>
 
+
+
 </div>
-
-<script>
-function org_make_filter(){
-    $.post( "/schools_make_filter", {})
-    .done(function( data ) {
-        var org_type = data.result.org_type;
-        var year_list = data.result.year_list;
-        var lang = data.result.lang;
-
-        console.log('org_type = ', org_type);
-        console.log('year_list = ', year_list);
-        console.log('lang = ', lang);
-
-        var year_select = '';
-        if (lang == 'ko-kr') {
-            year_select += '<option value="A">전체</option>';
-        } else {
-            year_select += '<option value="A">ALL</option>';
-        }
-        for (var i=0; i<year_list.length; i++) {
-            year_select += '<option value="' + year_list[i] + '">' + year_list[i] + '</option>'
-        }
-        console.log('year_select = ', year_select);
-        $('#f_year_filter').html(year_select);
-
-        org_select = '';
-        if (lang == 'ko-kr') {
-            org_select += '<option value="A">전체</option>';
-            for (var i=0; i<org_type.length; i++) {
-                org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][0] + '</option>'
-            }
-        } else {
-            org_select += '<option value="A">ALL</option>';
-            for (var i=0; i<org_type.length; i++) {
-                org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][2] + '</option>'
-            }
-        }
-        console.log('org_select = ', org_select);
-        $('#f_org_filter').html(org_select);
-    });
-}
-
-
-function org_search_send(){
-    $('#add_school').html('');
-
-    var f_year_filter = $('#f_year_filter').val();
-    var f_org_filter = $('#f_org_filter').val();
-    var f_name_filter = $('#f_name_filter').val();
-    $.post( "/schools_make_item", {
-        'f_year_filter': f_year_filter,
-        'f_org_filter': f_org_filter,
-        'f_name_filter': f_name_filter
-    })
-    .done(function( data ) {
-        console.log('data.result = ', data.result);
-        var result = data.result;
-        var lang = data.lang;
-
-        if (lang == 'ko-kr') {
-            var part_a = '년 참여';
-            var part_b = '기관 소개';
-            var part_c = '강좌 보기';
-        } else {
-            var part_a = ' year';
-            var part_b = 'Introduction';
-            var part_c = 'View Course';
-        }
-
-        $('#null-txt').hide();
-        if (result.length == 0) {
-            $('#null-txt').show();
-        }
-
-        for (var i=0; i<result.length; i++) {
-            var check_intro = result[i]['check_intro'];
-            var org_id = result[i]['org_id'];
-            var start_year = result[i]['start_year'];
-            var org_phone = result[i]['org_phone'];
-
-            if (lang == 'ko-kr') {
-                var univ_name = result[i]['univ_name'];
-                var logo_img = result[i]['logo_img'];
-                var org_type = result[i]['org_type'];
-            } else {
-                var univ_name = result[i]['univ_name_e'];
-                var logo_img = result[i]['logo_img_e'];
-                var org_type = result[i]['org_type_e'];
-            }
-
-            console.log('check_intro => ', check_intro);
-
-            if (check_intro == 'Y') {
-                var template = ''+
-                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;;">'+
-                '    <div class="item">'+
-                '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
-                '        </div>'+
-                '        <div class="item-subj">'+
-                '            <span>'+org_type+'</span>'+
-                '            <span>'+start_year+''+part_a+'</span>'+
-                '        </div>'+
-                '        <div class="item-info">'+
-                '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
-                '            <div class="tel">'+org_phone+'</div>'+
-                '        </div>'+
-                '        <a style="text-decoration: none;" href="#" class="item-hover">'+
-                '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
-                '        </a>'+
-                '    </div>'+
-                '</div>';
-            } else {
-                var template = ''+
-                '<div class="org-item">'+
-                '    <div class="item">'+
-                '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
-                '        </div>'+
-                '        <div class="item-subj">'+
-                '            <span>'+org_type+'</span>'+
-                '            <span>'+start_year+''+part_a+'</span>'+
-                '        </div>'+
-                '        <div class="item-info">'+
-                '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
-                '            <div class="tel">'+org_phone+'</div>'+
-                '        </div>'+
-                '        <a style="text-decoration: none;" href="#">'+
-                '        </a>'+
-                '    </div>'+
-                '</div>';
-            }
-
-
-            /*
-            '<div class="school-card">'+
-                '<div class="school-card-img">'+
-                '    <img onerror="this.src=\'/static/images/blank.png\'" class="school-fix-img" src="' + logo_img + '">'+
-                '</div>'+
-                '<div class="school-card-mid">'+
-                '    ' + start_year + '' + part_a + ' | ' + org_type +
-                '</div>'+
-                '<div class="school-card-bot">'+
-                '    <div class="school-card-org">'+
-                '        <span class="icon fa fa-university fa-lg" aria-hidden="true" style="margin-left: 10px; float: left;"></span>'+
-                '<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + univ_name + '</div>'+
-                '    </div>'+
-                '    <div class="school-card-phone">'+
-                '        <span style="margin-right: 5px; float:left; margin-left: 10px;" class="icon fa fa-phone fa-lg" aria-hidden="true"></span>'+
-                org_phone +
-                '    </div>'+
-                '</div>';
-             */
-
-            $('#add_school').append(template);
-        }
-    });
-}
-
-
-$(document).ready(function(){
-    $('#f_name_filter').keyup(function(e){
-        if(e.keyCode == 13)
-        {
-            org_search_send();
-        }
-    });
-    org_make_filter();
-    org_search_send();
-    $("#xxx_search").click(function() {
-        org_search_send();
-    });
-
-});
-</script>
