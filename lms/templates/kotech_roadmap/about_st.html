@@ -1,0 +1,248 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">${_('Institutions')}</%block>
+<%inherit file="../main.html" />
+<%block name="header_extras"></%block>
+
+<link rel="stylesheet" href="/static/images/kotech_roadmap/about_org.css"/>
+
+<div id="container">
+    <section class="page-title agency-title">
+        <div class="container-fluid">
+            <h1 class="visual-title">${_('Institutions')}</h1>
+            <h2 class="visual-subtitle">${_('K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era.')}</h2>
+        </div>
+    </section>
+
+    <section class="sec-select">
+        <div class="container-fluid">
+            <div class="select-row">
+                <div class="select-col">
+                    <label class="label-overwrite" for="">기관유형</label>
+                    <select id="f_org_filter">
+                        <option value="A">전체</option>
+                    </select>
+                </div>
+                <div class="select-col">
+                    <label class="label-overwrite" for="">참여년도</label>
+                    <select id="f_year_filter">
+                        <option value="A">전체</option>
+                    </select>
+                </div>
+                <div class="select-col">
+                    <label class="label-overwrite" for="" style="margin-top: -6px;">참여기관명</label>
+                    <input id="f_name_filter" type="text" class="search-input">
+                    <button id="xxx_search" class="search-button">검색</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec-org">
+        <div class="container-fluid">
+            <div class="org-list" id="add_school">
+
+                <div class="org-item">
+                    <div class="item">
+                        <div class="item-img">
+                            <img src="http://kmooc.kr/static/upload/KHUk.png">
+                        </div>
+                        <div class="item-subj">
+                            <span>국내대학</span>
+                            <span>2015년 참여</span>
+                        </div>
+                        <div class="item-info">
+                            <div class="org">경희대학교</div>
+                            <div class="tel">031-201-3951</div>
+                        </div>
+                        <a href="#" class="item-hover">
+                            <span>기관 소개ㆍ강좌 보기</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="null-txt" class="null-card" style="display: none;">
+                조건에 해당하는 참여기관이 존재하지 않습니다.
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<script>
+function org_make_filter(){
+    $.post( "/schools_make_filter", {})
+    .done(function( data ) {
+        var org_type = data.result.org_type;
+        var year_list = data.result.year_list;
+        var lang = data.result.lang;
+
+        console.log('org_type = ', org_type);
+        console.log('year_list = ', year_list);
+        console.log('lang = ', lang);
+
+        var year_select = '';
+        if (lang == 'ko-kr') {
+            year_select += '<option value="A">전체</option>';
+        } else {
+            year_select += '<option value="A">ALL</option>';
+        }
+        for (var i=0; i<year_list.length; i++) {
+            year_select += '<option value="' + year_list[i] + '">' + year_list[i] + '</option>'
+        }
+        console.log('year_select = ', year_select);
+        $('#f_year_filter').html(year_select);
+
+        org_select = '';
+        if (lang == 'ko-kr') {
+            org_select += '<option value="A">전체</option>';
+            for (var i=0; i<org_type.length; i++) {
+                org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][0] + '</option>'
+            }
+        } else {
+            org_select += '<option value="A">ALL</option>';
+            for (var i=0; i<org_type.length; i++) {
+                org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][2] + '</option>'
+            }
+        }
+        console.log('org_select = ', org_select);
+        $('#f_org_filter').html(org_select);
+    });
+}
+
+
+function org_search_send(){
+    $('#add_school').html('');
+
+    var f_year_filter = $('#f_year_filter').val();
+    var f_org_filter = $('#f_org_filter').val();
+    var f_name_filter = $('#f_name_filter').val();
+    $.post( "/schools_make_item", {
+        'f_year_filter': f_year_filter,
+        'f_org_filter': f_org_filter,
+        'f_name_filter': f_name_filter
+    })
+    .done(function( data ) {
+        console.log('data.result = ', data.result);
+        var result = data.result;
+        var lang = data.lang;
+
+        if (lang == 'ko-kr') {
+            var part_a = '년 참여';
+            var part_b = '기관 소개';
+            var part_c = '강좌 보기';
+        } else {
+            var part_a = ' year';
+            var part_b = 'Introduction';
+            var part_c = 'View Course';
+        }
+
+        $('#null-txt').hide();
+        if (result.length == 0) {
+            $('#null-txt').show();
+        }
+
+        for (var i=0; i<result.length; i++) {
+            var check_intro = result[i]['check_intro'];
+            var org_id = result[i]['org_id'];
+            var start_year = result[i]['start_year'];
+            var org_phone = result[i]['org_phone'];
+
+            if (lang == 'ko-kr') {
+                var univ_name = result[i]['univ_name'];
+                var logo_img = result[i]['logo_img'];
+                var org_type = result[i]['org_type'];
+            } else {
+                var univ_name = result[i]['univ_name_e'];
+                var logo_img = result[i]['logo_img_e'];
+                var org_type = result[i]['org_type_e'];
+            }
+
+            console.log('check_intro => ', check_intro);
+
+            if (check_intro == 'Y') {
+                var template = ''+
+                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;;">'+
+                '    <div class="item">'+
+                '        <div class="item-img">'+
+                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
+                '        </div>'+
+                '        <div class="item-subj">'+
+                '            <span>'+org_type+'</span>'+
+                '            <span>'+start_year+''+part_a+'</span>'+
+                '        </div>'+
+                '        <div class="item-info">'+
+                '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
+                '            <div class="tel">'+org_phone+'</div>'+
+                '        </div>'+
+                '        <a style="text-decoration: none;" href="#" class="item-hover">'+
+                '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
+                '        </a>'+
+                '    </div>'+
+                '</div>';
+            } else {
+                var template = ''+
+                '<div class="org-item">'+
+                '    <div class="item">'+
+                '        <div class="item-img">'+
+                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
+                '        </div>'+
+                '        <div class="item-subj">'+
+                '            <span>'+org_type+'</span>'+
+                '            <span>'+start_year+''+part_a+'</span>'+
+                '        </div>'+
+                '        <div class="item-info">'+
+                '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
+                '            <div class="tel">'+org_phone+'</div>'+
+                '        </div>'+
+                '        <a style="text-decoration: none;" href="#">'+
+                '        </a>'+
+                '    </div>'+
+                '</div>';
+            }
+
+
+            /*
+            '<div class="school-card">'+
+                '<div class="school-card-img">'+
+                '    <img onerror="this.src=\'/static/images/blank.png\'" class="school-fix-img" src="' + logo_img + '">'+
+                '</div>'+
+                '<div class="school-card-mid">'+
+                '    ' + start_year + '' + part_a + ' | ' + org_type +
+                '</div>'+
+                '<div class="school-card-bot">'+
+                '    <div class="school-card-org">'+
+                '        <span class="icon fa fa-university fa-lg" aria-hidden="true" style="margin-left: 10px; float: left;"></span>'+
+                '<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + univ_name + '</div>'+
+                '    </div>'+
+                '    <div class="school-card-phone">'+
+                '        <span style="margin-right: 5px; float:left; margin-left: 10px;" class="icon fa fa-phone fa-lg" aria-hidden="true"></span>'+
+                org_phone +
+                '    </div>'+
+                '</div>';
+             */
+
+            $('#add_school').append(template);
+        }
+    });
+}
+
+
+$(document).ready(function(){
+    $('#f_name_filter').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            org_search_send();
+        }
+    });
+    org_make_filter();
+    org_search_send();
+    $("#xxx_search").click(function() {
+        org_search_send();
+    });
+
+});
+</script>

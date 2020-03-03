@@ -24,6 +24,16 @@ def about_org(request):
     return render_to_response('kotech_roadmap/about_org.html', context)
 
 
+def about_st(request):
+    context = {}
+    return render_to_response('kotech_roadmap/about_org.html', context)
+
+
+def about_intro(request):
+    context = {}
+    return render_to_response('kotech_roadmap/about_intro.html', context)
+
+
 def roadmap(request):
 
     context = {}

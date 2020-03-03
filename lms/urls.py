@@ -103,6 +103,8 @@ urlpatterns = [
     url(r'^roadmap/$', kotech_roadmap_views.roadmap, name='roadmap'),
     url(r'^roadmap/down/$', kotech_roadmap_views.roadmap_download, name='roadmap_download'),
     url(r'^roadmap_view/(?P<id>.*?)/$', kotech_roadmap_views.roadmap_view, name='roadmap_view'),
+    url(r'^about_intro/$', kotech_roadmap_views.about_intro, name='about_intro'),
+    url(r'^about_st/$', kotech_roadmap_views.about_st, name='about_st'),
     url(r'^about_org/$', kotech_roadmap_views.about_org, name='about_org'),
 
 
