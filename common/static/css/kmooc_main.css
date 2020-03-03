@@ -2910,7 +2910,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
     display: unset;
   }
 }
-@media only screen and (max-width: 1050px) {
+@media only screen and (max-width: 1110px) {
   .new-dash {
     display :none;
   }
