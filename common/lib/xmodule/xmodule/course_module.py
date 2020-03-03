@@ -1038,17 +1038,17 @@ class CourseFields(object):
         hidden=True
     )
 
-    ai_sector_yn = String(
-        display_name=_("ai_sector_yn"),
-        help=_("ai_sector_yn hidden value"),
+    ai_sec_yn = String(
+        display_name=_("ai_sec_yn"),
+        help=_("ai_sec_yn hidden value"),
         scope=Scope.settings,
         default='N',
         hidden=True
     )
 
-    basic_science_sector_yn = String(
-        display_name=_("basic_science_sector_yn"),
-        help=_("basic_science_sector_yn hidden value"),
+    basic_science_sec_yn = String(
+        display_name=_("basic_science_sec_yn"),
+        help=_("basic_science_sec_yn hidden value"),
         scope=Scope.settings,
         default='N',
         hidden=True
