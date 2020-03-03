@@ -2916,7 +2916,7 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
   }
 }
 
-.explore-menu {z-index: 10; display: none; position: absolute; top: 100%; left: 0;}
+.explore-menu {z-index: 110; display: none; position: absolute; top: 100%; left: 0;}
 .explore-menu.open {display: block;}
 .explore-menu .menu-group {display: table; padding: 10px 20px 20px; background-color: #eee;}
 .explore-menu .menu-group .menu-items {display: table-cell; width: 50%; vertical-align: top;}
