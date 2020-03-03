@@ -112,6 +112,11 @@
     max-width: 65%;
 }
 
+.new-rc-search ul.ui-autocomplete {
+    left: 0 !important;
+}
+
+
 /* --------------------------
  *    media
  * --------------------------

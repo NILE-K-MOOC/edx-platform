@@ -6,7 +6,7 @@ $(document).ready(function () {
         url: '/course_search_list',
     }).done(function (data) {
       var search_arr = data.course_search_list;
-      main_search('.search-division', '.search-query', '#main_form', search_arr);
+      main_search('.new-rc-search', '#search_me', '', search_arr);
       main_search('.m-search-division', '.m-search-query', '#m_main_form', search_arr);
     });
 });
@@ -45,7 +45,7 @@ function main_search(main_div, main_input, main_form, search_arr){
                     $(this).autocomplete("widget").children('li').css({
                         "margin-top": "10px",
                         "margin-left": "10px",
-                        "font-family": '"Nanum Gothic","Open Sans"',
+                        "font-family": '"Noto Sans KR", "Malgun Gothic", "맑은 고딕", dotum, sans-serif',
                         "color": 'block',
                         //"font-weight": 'bold',
                         "font-style": 'normal',
@@ -80,7 +80,11 @@ function main_search(main_div, main_input, main_form, search_arr){
     $(main_input).on('autocompleteselect', function (e, ui) {
         select_search = ui.item.value;
         $(main_input).val(select_search);
-        $(main_form).submit();
+        if(main_input === '#search_me'){
+            course_search();
+        } else {
+            $(main_form).submit();
+        }
         console.log('You selected: ' + ui.item.value);
     });
 
