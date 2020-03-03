@@ -4,245 +4,230 @@
 <%inherit file="../main.html" />
 <%block name="header_extras"></%block>
 
-<link rel="stylesheet" href="/static/images/kotech_roadmap/about_org.css"/>
+<link rel="stylesheet" href="/static/images/kotech_roadmap/about_st.css"/>
 
 <div id="container">
-    <section class="page-title agency-title">
+    <section class="sec-step1">
         <div class="container-fluid">
-            <h1 class="visual-title">${_('Institutions')}</h1>
-            <h2 class="visual-subtitle">${_('K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era.')}</h2>
-        </div>
-    </section>
-
-    <section class="sec-select">
-        <div class="container-fluid">
-            <div class="select-row">
-                <div class="select-col">
-                    <label class="label-overwrite" for="">기관유형</label>
-                    <select id="f_org_filter">
-                        <option value="A">전체</option>
-                    </select>
+            <p class="sub-title">참여대학의 자율성과 다양성 존중</p>
+            <h1 class="title">관계기관과 대학간의 협력관계 추진</h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="http://www.kmooc.kr/static/images/contents/kmooc03.jpg">
                 </div>
-                <div class="select-col">
-                    <label class="label-overwrite" for="">참여년도</label>
-                    <select id="f_year_filter">
-                        <option value="A">전체</option>
-                    </select>
-                </div>
-                <div class="select-col">
-                    <label class="label-overwrite" for="" style="margin-top: -6px;">참여기관명</label>
-                    <input id="f_name_filter" type="text" class="search-input">
-                    <button id="xxx_search" class="search-button">검색</button>
+                <div class="col-sm-6">
+                    <p class="text">한국형 온라인 공개강좌(K-MOOC)는 교육부와 사업주관기관인 국가평생교육진흥원 외에 4년제 대학, 전문대학, 방송대학, 출연연구기관, 기업, 기업부설연구소, 직업능력개발훈련시설, 공익법인 등 관계기관과 긴밀한 협력을 통해 추진하고 있습니다.</p>
+                    <p class="text">K-MOOC 홈페이지(http://kmooc.kr)에 강좌를 제공하고 운영하는 참여기관은 2018년 기준 87개 기관이며, 매년 개설강좌 수와 참여기관을 확대해 나갈 계획입니다.</p>
+                    <p class="text">참여기관의 자율성을 바탕으로 학습자의 수요가 높은 우수 콘텐츠를 개발‧운영할 수 있도록 추진할 계획입니다.</p>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="sec-org">
+    <section class="sec-step2">
         <div class="container-fluid">
-            <div class="org-list" id="add_school">
-
-                <div class="org-item">
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://kmooc.kr/static/upload/KHUk.png">
+            <h1 class="title">미래를 향해 성장하는 K-MOOC</h1>
+            <div class="kmooc-update">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="updete course">
+                            <div class="left">강좌</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                            <td rowspan="2" class="per">22.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">50,923</td>
+                                            <td class="now">62,485</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="item-subj">
-                            <span>국내대학</span>
-                            <span>2015년 참여</span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="updete univ">
+                            <div class="left">대학</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                            <td rowspan="2" class="per">22.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">50,923</td>
+                                            <td class="now">62,485</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="item-info">
-                            <div class="org">경희대학교</div>
-                            <div class="tel">031-201-3951</div>
-                        </div>
-                        <a href="#" class="item-hover">
-                            <span>기관 소개ㆍ강좌 보기</span>
-                        </a>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="updete appl">
+                            <div class="left">수강생</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                            <td rowspan="2" class="per">22.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">50,923</td>
+                                            <td class="now">62,485</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="updete visitor">
+                            <div class="left">방문자</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                            <td rowspan="2" class="per">22.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">50,923</td>
+                                            <td class="now">62,485</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div id="null-txt" class="null-card" style="display: none;">
-                조건에 해당하는 참여기관이 존재하지 않습니다.
-            </div>
-
         </div>
     </section>
-
+    <section class="sec-step3">
+        <div class="container-fluid">
+            <h1 class="title">추진경과</h1>
+            <div class="kmooc-history">
+                <ul class="step">
+                    <li>
+                        <strong>1</strong>
+                        <span>2015년 ~ 2017년</span>
+                        <p>도입 및 정착</p>
+                    </li>
+                    <li>
+                        <strong>2</strong>
+                        <span>2018년 ~ 2020년</span>
+                        <p>글로벌화 및 부가가치 창출</p>
+                    </li>
+                    <li>
+                        <strong>3</strong>
+                        <span>2021년 이후</span>
+                        <p>열린 고등교육 체제 구축</p>
+                    </li>
+                </ul>
+                <ul class="history">
+                    <li>
+                        <span class="left">2015.02</span>
+                        <span class="right">K-MOOC 시범운영을 위한 기본 계획 수립 및 발표</span>
+                    </li>
+                    <li>
+                        <span class="left">2015.04</span>
+                        <span class="right">K-MOOC 시범운영사업 공고 및 참여대학 선정</span>
+                    </li>
+                    <li>
+                        <span class="left">2015.06 ~ 12</span>
+                        <span class="right">K-MOOC 서비스 운영을 위한 플랫폼 및 인프라 구축<br>※초기 서비스 안정성, 콘텐츠의 국제적 호환성, 개발 기간 등을 고려하여 오픈소스 소프트웨어(Open edX)를 활용한 플랫폼 구축</span>
+                    </li>
+                    <li>
+                        <span class="left">2015.10</span>
+                        <span class="right">한국형 온라인 공개강좌 K-MOOC(www.kmooc.kr) 시범개통</span>
+                    </li>
+                    <li>
+                        <span class="left">2016.02</span>
+                        <span class="right">16년 K-MOOC 운영계획 수립 및 콘텐츠 다양화</span>
+                    </li>
+                    <li>
+                        <span class="left">2016.04 ~ 10</span>
+                        <span class="right">16년 무크대학 추가선정(10개교) 및 강좌 개발(국내 10개 대학)</span>
+                    </li>
+                    <li>
+                        <span class="left">2017</span>
+                        <span class="right">한국형 모델 장착 및 콘텐츠 표준화</span>
+                    </li>
+                    <li>
+                        <span class="left">2018</span>
+                        <span class="right">한국형 모델 확산 및 콘텐츠 국제화</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="kmooc-group" style="margin-top: 870px;">
+                <div class="group">
+                    <p class="group-title">
+                        <span>수요자</span>
+                    </p>
+                    <span class="nation">국민</span>
+                </div>
+                <div class="group">
+                    <p class="group-title">
+                        <span>공급자</span>
+                    </p>
+                    <span class="group-subtitle">참여기관</span>
+                    <div class="list">
+                        <div class="logo">
+                            <img style="max-height: 150px;" src="/static/new_index/images/about_agency.png">
+                        </div>
+                        <div class="more">
+                            <span class="plus">+</span>
+                            <span class="text">참여기관<br>지속 확대</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <p class="group-title">
+                        <span>추진기관</span>
+                    </p>
+                    <div class="top">
+                        <div class="agency">
+                            <div class="agency-title">사업 총괄</div>
+                            <div class="agency-cont">
+                                <img src="/static/new_index/images/about_moe.png">
+                                <span>운영계획 수립, 사업비 교부</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="agency">
+                            <div class="agency-title">참여기관</div>
+                            <div class="agency-cont">
+                                <span>강좌 개발·운영·활용</span>
+                            </div>
+                        </div>
+                        <div class="agency">
+                            <div class="agency-title">사업 주관</div>
+                            <div class="agency-cont">
+                                <img src="/static/new_index/images/about_nile.png">
+                                <span>사업 및 서비스<br>운영·관리 주관</span>
+                            </div>
+                        </div>
+                        <div class="agency">
+                            <div class="agency-title">관계 기관 및 MOU 기관</div>
+                            <div class="agency-cont">
+                                <span>서비스 활용 확산·지원</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-
-<script>
-function org_make_filter(){
-    $.post( "/schools_make_filter", {})
-    .done(function( data ) {
-        var org_type = data.result.org_type;
-        var year_list = data.result.year_list;
-        var lang = data.result.lang;
-
-        console.log('org_type = ', org_type);
-        console.log('year_list = ', year_list);
-        console.log('lang = ', lang);
-
-        var year_select = '';
-        if (lang == 'ko-kr') {
-            year_select += '<option value="A">전체</option>';
-        } else {
-            year_select += '<option value="A">ALL</option>';
-        }
-        for (var i=0; i<year_list.length; i++) {
-            year_select += '<option value="' + year_list[i] + '">' + year_list[i] + '</option>'
-        }
-        console.log('year_select = ', year_select);
-        $('#f_year_filter').html(year_select);
-
-        org_select = '';
-        if (lang == 'ko-kr') {
-            org_select += '<option value="A">전체</option>';
-            for (var i=0; i<org_type.length; i++) {
-                org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][0] + '</option>'
-            }
-        } else {
-            org_select += '<option value="A">ALL</option>';
-            for (var i=0; i<org_type.length; i++) {
-                org_select += '<option value="' + org_type[i][1] + '">' + org_type[i][2] + '</option>'
-            }
-        }
-        console.log('org_select = ', org_select);
-        $('#f_org_filter').html(org_select);
-    });
-}
-
-
-function org_search_send(){
-    $('#add_school').html('');
-
-    var f_year_filter = $('#f_year_filter').val();
-    var f_org_filter = $('#f_org_filter').val();
-    var f_name_filter = $('#f_name_filter').val();
-    $.post( "/schools_make_item", {
-        'f_year_filter': f_year_filter,
-        'f_org_filter': f_org_filter,
-        'f_name_filter': f_name_filter
-    })
-    .done(function( data ) {
-        console.log('data.result = ', data.result);
-        var result = data.result;
-        var lang = data.lang;
-
-        if (lang == 'ko-kr') {
-            var part_a = '년 참여';
-            var part_b = '기관 소개';
-            var part_c = '강좌 보기';
-        } else {
-            var part_a = ' year';
-            var part_b = 'Introduction';
-            var part_c = 'View Course';
-        }
-
-        $('#null-txt').hide();
-        if (result.length == 0) {
-            $('#null-txt').show();
-        }
-
-        for (var i=0; i<result.length; i++) {
-            var check_intro = result[i]['check_intro'];
-            var org_id = result[i]['org_id'];
-            var start_year = result[i]['start_year'];
-            var org_phone = result[i]['org_phone'];
-
-            if (lang == 'ko-kr') {
-                var univ_name = result[i]['univ_name'];
-                var logo_img = result[i]['logo_img'];
-                var org_type = result[i]['org_type'];
-            } else {
-                var univ_name = result[i]['univ_name_e'];
-                var logo_img = result[i]['logo_img_e'];
-                var org_type = result[i]['org_type_e'];
-            }
-
-            console.log('check_intro => ', check_intro);
-
-            if (check_intro == 'Y') {
-                var template = ''+
-                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;;">'+
-                '    <div class="item">'+
-                '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
-                '        </div>'+
-                '        <div class="item-subj">'+
-                '            <span>'+org_type+'</span>'+
-                '            <span>'+start_year+''+part_a+'</span>'+
-                '        </div>'+
-                '        <div class="item-info">'+
-                '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
-                '            <div class="tel">'+org_phone+'</div>'+
-                '        </div>'+
-                '        <a style="text-decoration: none;" href="#" class="item-hover">'+
-                '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
-                '        </a>'+
-                '    </div>'+
-                '</div>';
-            } else {
-                var template = ''+
-                '<div class="org-item">'+
-                '    <div class="item">'+
-                '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
-                '        </div>'+
-                '        <div class="item-subj">'+
-                '            <span>'+org_type+'</span>'+
-                '            <span>'+start_year+''+part_a+'</span>'+
-                '        </div>'+
-                '        <div class="item-info">'+
-                '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
-                '            <div class="tel">'+org_phone+'</div>'+
-                '        </div>'+
-                '        <a style="text-decoration: none;" href="#">'+
-                '        </a>'+
-                '    </div>'+
-                '</div>';
-            }
-
-
-            /*
-            '<div class="school-card">'+
-                '<div class="school-card-img">'+
-                '    <img onerror="this.src=\'/static/images/blank.png\'" class="school-fix-img" src="' + logo_img + '">'+
-                '</div>'+
-                '<div class="school-card-mid">'+
-                '    ' + start_year + '' + part_a + ' | ' + org_type +
-                '</div>'+
-                '<div class="school-card-bot">'+
-                '    <div class="school-card-org">'+
-                '        <span class="icon fa fa-university fa-lg" aria-hidden="true" style="margin-left: 10px; float: left;"></span>'+
-                '<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + univ_name + '</div>'+
-                '    </div>'+
-                '    <div class="school-card-phone">'+
-                '        <span style="margin-right: 5px; float:left; margin-left: 10px;" class="icon fa fa-phone fa-lg" aria-hidden="true"></span>'+
-                org_phone +
-                '    </div>'+
-                '</div>';
-             */
-
-            $('#add_school').append(template);
-        }
-    });
-}
-
-
-$(document).ready(function(){
-    $('#f_name_filter').keyup(function(e){
-        if(e.keyCode == 13)
-        {
-            org_search_send();
-        }
-    });
-    org_make_filter();
-    org_search_send();
-    $("#xxx_search").click(function() {
-        org_search_send();
-    });
-
-});
-</script>
