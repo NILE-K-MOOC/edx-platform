@@ -102,9 +102,9 @@
                             else if (key == 'job_edu_yn' && term == 'Y')
                                 term = 'job_edu_y';
                             else if (key == 'ai_sector_yn' && (term == 'Y' || term == 'y'))
-                                term = 'ai_y';
+                                term = 'ai_sector_y';
                             else if (key == 'basic_science_sector_yn' && (term == 'Y' || term == 'y'))
-                                term = 'basic_science_y';
+                                term = 'basic_science_sector_y';
 
                             options.add({
                                 facet: key,

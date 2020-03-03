@@ -149,9 +149,9 @@
                         } else if (data.facet == 'linguistics' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('linguistics', gettext("linguistics_y"));
                         } else if (data.facet == 'ai_sector_yn' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('ai_sector_yn', gettext("ai_y"));
+                            data.name = this.termName('ai_sector_yn', gettext("ai_sector_y"));
                         } else if (data.facet == 'basic_science_sector_yn' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('basic_science_sector_yn', gettext("basic_science_y"));
+                            data.name = this.termName('basic_science_sector_yn', gettext("basic_science_sector_y"));
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
@@ -460,8 +460,8 @@
                             break;
                         case 'aiai_sector_yn_yn':
                             k = 'ai_sector_yn';
-                            v = 'ai_y';
-                            t = 'ai_y';
+                            v = 'ai_sector_y';
+                            t = 'ai_sector_y';
                             break;
                         case 'basic_science_sector_yn':
                             k = 'basic_science_sector_yn';
