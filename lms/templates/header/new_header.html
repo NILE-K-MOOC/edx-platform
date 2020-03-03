@@ -83,7 +83,8 @@
                 </div>
 
                 <!-- 렌더 : 검색창 -->
-                <div class="new-rc-search">
+                % if 'multisite_org' not in request.session:
+                <div class="new-rc-search" style="max-width: 320px;">
                     <div class="new-search-left" onclick="toggle_ex()">
                         <div class="new-st">
                             ${_("Explorer")}
@@ -92,7 +93,7 @@
                             <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
                         </div>
                     </div>
-                    <input type="text" id="search_me" class="new-search-input">
+                    <input type="text" id="search_me" class="new-search-input"  style="max-width: 170px;">
                     <div class="new-search-right" onclick="course_search();">
                         <img src="/static/new_index/images/icon_search.png"/>
                     </div>
@@ -132,6 +133,7 @@
                         </div>
                     </div>
                 </div>
+                % endif
 
                 <!-- 렌더 : 우측 래퍼 영역 -->
                 <div class="new-rc">
