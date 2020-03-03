@@ -251,7 +251,7 @@ def courses(request):
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
     # course post parameter setting to html
-    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'classfy', 'middle_classfy', 'ai_sector_yn', 'basic_science_sector_yn']
+    parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'ribbon_yn', 'linguistics', 'etc', 'classfy', 'middle_classfy', 'ai_sec_yn', 'basic_science_sec_yn']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
 
     return render_to_response(

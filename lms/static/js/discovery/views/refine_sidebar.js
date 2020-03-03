@@ -140,7 +140,7 @@
                             data.name = this.termName(data.facet, data.term);
                         }
                     }
-                    else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn' || data.facet == 'ai_sector_yn' || data.facet == 'basic_science_sector_yn') {
+                    else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
@@ -148,10 +148,10 @@
                             data.name = this.termName('job_edu_yn', gettext("job_edu_y"));
                         } else if (data.facet == 'linguistics' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('linguistics', gettext("linguistics_y"));
-                        } else if (data.facet == 'ai_sector_yn' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('ai_sector_yn', gettext("ai_y"));
-                        } else if (data.facet == 'basic_science_sector_yn' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('basic_science_sector_yn', gettext("basic_science_y"));
+                        } else if (data.facet == 'ai_sec_yn' && data.term.toUpperCase() == 'Y') {
+                            data.name = this.termName('ai_sec_yn', gettext("ai_sec_y"));
+                        } else if (data.facet == 'basic_science_sec_yn' && data.term.toUpperCase() == 'Y') {
+                            data.name = this.termName('basic_science_sec_yn', gettext("basic_science_sec_y"));
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
@@ -413,8 +413,8 @@
 
                 let list1 = $("#linguistics li").clone();
                 let list2 = $("#job_edu_yn li").clone();
-                let list3 = $("#ai_sector_yn li").clone();
-                let list4 = $("#basic_science_sector_yn li").clone();
+                let list3 = $("#ai_sec_yn li").clone();
+                let list4 = $("#basic_science_sec_yn li").clone();
 
                 $("#fourth_industry_yn").append(list1, list2, list3, list4);
 
@@ -426,7 +426,7 @@
                     }
                 });
 
-                $("#linguistics, #job_edu_yn, #ai_sector_yn, #basic_science_sector_yn").remove();
+                $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").remove();
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
                 let k, v, t;
@@ -458,13 +458,13 @@
                             v = 'Y';
                             t = 'linguistics_y';
                             break;
-                        case 'aiai_sector_yn_yn':
-                            k = 'ai_sector_yn';
-                            v = 'ai_y';
-                            t = 'ai_y';
+                        case 'aiai_sec_yn_yn':
+                            k = 'ai_sec_yn';
+                            v = 'ai_sec_y';
+                            t = 'ai_sec_y';
                             break;
-                        case 'basic_science_sector_yn':
-                            k = 'basic_science_sector_yn';
+                        case 'basic_science_sec_yn':
+                            k = 'basic_science_sec_yn';
                             v = 'basic_science_y';
                             t = 'basic_science_y';
                             break;

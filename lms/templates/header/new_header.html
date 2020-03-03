@@ -83,8 +83,7 @@
                 </div>
 
                 <!-- 렌더 : 검색창 -->
-                % if 'multisite_org' not in request.session:
-                <div class="new-rc-search" style="max-width: 320px;">
+                <div class="new-rc-search">
                     <div class="new-search-left" onclick="toggle_ex()">
                         <div class="new-st">
                             ${_("Explorer")}
@@ -93,7 +92,7 @@
                             <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
                         </div>
                     </div>
-                    <input type="text" id="search_me" class="new-search-input"  style="max-width: 170px;">
+                    <input type="text" id="search_me" class="new-search-input">
                     <div class="new-search-right" onclick="course_search();">
                         <img src="/static/new_index/images/icon_search.png"/>
                     </div>
@@ -125,7 +124,7 @@
                             </ul>
                             <div class="menu-link">
                                 <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="item">${_("Fourth Industry")}</a>
-                                <a data-facet="ai_yn" data-term="ai_y" href="#" class="item">${_("Artificial intelligence")}</a>
+                                <a data-facet="ai_sec_yn" data-term="ai_sec_y" href="#" class="item">${_("Artificial intelligence")}</a>
                             </div>
                         </div>
                         <div class="menu-bottom">
@@ -133,7 +132,6 @@
                         </div>
                     </div>
                 </div>
-                % endif
 
                 <!-- 렌더 : 우측 래퍼 영역 -->
                 <div class="new-rc">
