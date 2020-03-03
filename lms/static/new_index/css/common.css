@@ -65,7 +65,6 @@ a {margin: 0; padding: 0; background: transparent; vertical-align: baseline; tex
 a:hover {color: inherit; text-decoration: none;}
 table {border-collapse: collapse; border-spacing: 0;}
 strong, em {font-style: normal; font-weight: normal;}
-legend, caption {position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: hidden; visibility: hidden; font-size: 0; line-height: 0;}
 input, select {vertical-align: middle;}
 input::-ms-clear {display: none;}
 textarea {resize: none;}
