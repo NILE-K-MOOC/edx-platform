@@ -271,3 +271,8 @@ h1, h2, h3 {
         width: 20%;
     }
 }
+
+.agency-title {
+    background: #222 url(/static/new_index/images/bg_agency.jpg) no-repeat;
+    background-size: cover;
+ }
