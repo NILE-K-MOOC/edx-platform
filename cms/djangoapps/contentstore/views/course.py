@@ -924,7 +924,7 @@ def _create_or_rerun_course(request):
             'fourth_industry_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
-            'ai_sector_yn': 'Y',
+            'ai_sector_yn': 'N',
             'basic_science_sectotr_yn': 'N',
             'course_level': None
         })
