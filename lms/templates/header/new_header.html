@@ -206,6 +206,7 @@
                             <div class="new-btn-signin" onclick='window.location.href = "/login${login_query()}";'>${_("Sign In")}</div>
                             <div class="new-btn-signup new-blue" onclick='window.location.href = "/register${login_query()}";'>${_("Register")}</div>
 
+                            % if LANGUAGE_CODE == 'ko-kr':
                             <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
                             <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
                                 Kor
@@ -214,6 +215,16 @@
                             <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
                                 Eng
                             </div>
+                            % else:
+                            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
+                                Kor
+                            </div>
+                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                            <div tabindex="0" for="en" class="language-btn new-lang-eng">
+                                Eng
+                            </div>
+                            % endif
                         </div>
                     % endif
                     <!-- 렌더 : 언어선택 -->
