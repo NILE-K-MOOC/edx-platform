@@ -342,7 +342,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.ribbon_yn = addinfo.ribbon_yn
                 course_overview.job_edu_yn = addinfo.job_edu_yn
                 course_overview.ai_sector_yn = addinfo.ai_sector_yn
-                course_overview.basic_science_sectotr_yn = addinfo.basic_science_sectotr_yn
+                course_overview.basic_science_sector_yn = addinfo.basic_science_sector_yn
                 course_overview.linguistics = addinfo.linguistics
                 course_overview.classfy_name = CodeDetail.objects.get(group_code='001', detail_code=addinfo.classfy).detail_name
                 course_overview.middle_classfy_name = CodeDetail.objects.get(group_code='002', detail_code=addinfo.middle_classfy).detail_name

@@ -925,7 +925,7 @@ def _create_or_rerun_course(request):
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
             'ai_sector_yn': 'N',
-            'basic_science_sectotr_yn': 'N',
+            'basic_science_sector_yn': 'N',
             'course_level': None
         })
 
@@ -1235,7 +1235,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,middle_classfy_sub
                     ,fourth_industry_yn
                     ,ai_sector_yn
-                    ,basic_science_sectotr_yn
+                    ,basic_science_sector_yn
                     )
                 select '{destination_course_key}'
                     ,create_type
@@ -1262,7 +1262,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,middle_classfy_sub
                     ,fourth_industry_yn 
                     ,ai_sector_yn 
-                    ,basic_science_sectotr_yn 
+                    ,basic_science_sector_yn 
                     from course_overview_addinfo where course_id = '{source_course_id}'
             """.format(
                 destination_course_key=destination_course_key
