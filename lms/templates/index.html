@@ -156,9 +156,6 @@ cookiedata = document.cookie;
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#age_specific_link').click(function(){
-            swal('', '준비중입니다.', 'info');
-        });
 
         var sliderOptions = {
             mode: 'vertical',
@@ -364,8 +361,7 @@ cookiedata = document.cookie;
                     <a data-facet="job_edu_yn" data-term="job_edu_y" href="#" class="classify-item inject-h">${_("Job Edu")}</a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <!--<a href="/age_specific/course/" id="age_specific_link" class="classify-item inject-h">${_("Age-specific")}</a>-->
-                    <a href="#" id="age_specific_link" class="classify-item inject-h">${_("Age-specific")}</a>
+                    <a href="/age_specific/course/" class="classify-item inject-h">${_("Age-specific")}</a>
                 </div>
             </div>
         </div>

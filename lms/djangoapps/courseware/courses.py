@@ -199,14 +199,14 @@ def age_specific_course(request):
     for i in range(1, 6):
         with connections['default'].cursor() as cur:
             query = '''
-                SELECT 
+                SELECT
                     count(*) as cnt, a.course_id
                 FROM
                     student_courseenrollment a
                         JOIN
                     course_overviews_courseoverview b ON a.course_id = b.id
                         JOIN
-                    (SELECT 
+                    (SELECT
                         user_id,
                             (DATE_FORMAT(NOW(), '%Y') - year_of_birth) + 1 AS age
                     FROM
@@ -215,6 +215,7 @@ def age_specific_course(request):
                         year_of_birth IS NOT NULL) c ON a.user_id = c.user_id
                 WHERE
                     org NOT IN ('NILE' , 'KMOOC', 'edX')
+                        AND catalog_visibility = 'both'
                         AND age BETWEEN {age}0 AND {age}9
                 GROUP BY a.course_id
                 ORDER BY cnt DESC
