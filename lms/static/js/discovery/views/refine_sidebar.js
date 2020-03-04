@@ -181,9 +181,6 @@
             render: function () {
                 var i = 0;
                 this.collection.comparator = function (model) {
-                    console.log('for sort: ' + model.get('facet'));
-
-
                     i = 0;
                     switch (model.get('facet')) {
                         case 'classfy':
@@ -193,6 +190,12 @@
                             model.set('odby1', 2);
                             break;
                         case 'fourth_industry_yn':
+                            model.set('odby1', 3);
+                            break;
+                        case 'ai_sec_yn':
+                            model.set('odby1', 3);
+                            break;
+                        case 'basic_science_sec_yn':
                             model.set('odby1', 3);
                             break;
                         case 'course_period':
