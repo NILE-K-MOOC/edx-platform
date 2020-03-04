@@ -181,6 +181,8 @@
             render: function () {
                 var i = 0;
                 this.collection.comparator = function (model) {
+                    console.log('for sort: ' + model.get('facet'));
+
 
                     i = 0;
                     switch (model.get('facet')) {
