@@ -413,3 +413,9 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
         width: 100%;
     }
 }
+
+@media (max-width: 992px) {
+    .index-bottom:nth-child(2) {
+        margin: 40px 0;
+    }
+}
