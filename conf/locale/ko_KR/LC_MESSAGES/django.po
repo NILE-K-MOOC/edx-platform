@@ -28007,3 +28007,6 @@ msgstr "학점 은행 이수증"
 
 msgid "AI Roadmap"
 msgstr "인공지능 이수체계도"
+
+msgid "Blue Ribbon"
+msgstr "블루 리본"
