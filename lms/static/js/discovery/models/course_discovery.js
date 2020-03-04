@@ -97,14 +97,18 @@
                     } else {
                         _(obj.terms).each(function (count, term) {
 
-                            if(key == 'fourth_industry_yn' && term == 'Y')
+                            if(key == 'fourth_industry_yn' && (term == 'Y' || term == 'y'))
                                 term = 'fourth_industry_y';
-                            else if (key == 'job_edu_yn' && term == 'Y')
+                            else if (key == 'job_edu_yn' && (term == 'Y' || term == 'y'))
                                 term = 'job_edu_y';
                             else if (key == 'ai_sec_yn' && (term == 'Y' || term == 'y'))
                                 term = 'ai_sec_y';
                             else if (key == 'basic_science_sec_yn' && (term == 'Y' || term == 'y'))
                                 term = 'basic_science_sec_y';
+                            else if (key == 'ribbon_yn' && (term == 'Y' || term == 'y'))
+                                term = 'ribbon_y';
+                            else if (key == 'ribbon_yn' && (term == 'N' || term == 'n'))
+                                term = 'ribbon_n';
 
                             options.add({
                                 facet: key,
