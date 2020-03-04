@@ -44,7 +44,6 @@ if course is not None:
                     <%
                     tab_is_active = tab.tab_id in (active_page, default_tab)
                     %>
-                    % if tab.name != 'Wiki':
                     <li class="nav-item ${'active' if tab_is_active else ''}">
                         <a href="${tab.link_func(course, reverse)}" class="nav-link">
                             ${_(tab.name)}
@@ -58,7 +57,6 @@ if course is not None:
                             %endif
                         </a>
                     </li>
-                    % endif
                 % endfor
             </ul>
         </nav>

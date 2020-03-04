@@ -50,7 +50,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    console.log('renderOptions check: ' + data.facet + " : " + data.term)
+                    // console.log('renderOptions check: ' + data.facet + " : " + data.term)
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -168,7 +168,7 @@
 
             renderFacet: function (facetKey, options) {
 
-                console.log('facetKey ==> ' + facetKey);
+                // console.log('facetKey ==> ' + facetKey);
 
                 return this.facetTpl({
                     name: facetKey,
@@ -181,7 +181,6 @@
             render: function () {
                 var i = 0;
                 this.collection.comparator = function (model) {
-
                     i = 0;
                     switch (model.get('facet')) {
                         case 'classfy':
@@ -191,6 +190,12 @@
                             model.set('odby1', 2);
                             break;
                         case 'fourth_industry_yn':
+                            model.set('odby1', 3);
+                            break;
+                        case 'ai_sec_yn':
+                            model.set('odby1', 3);
+                            break;
+                        case 'basic_science_sec_yn':
                             model.set('odby1', 3);
                             break;
                         case 'course_period':
@@ -411,10 +416,10 @@
 
                 $("h3[data-name='fourth_industry_yn']").text(gettext('etc'));
 
-                let list1 = $("#linguistics li").clone();
-                let list2 = $("#job_edu_yn li").clone();
-                let list3 = $("#ai_sec_yn li").clone();
-                let list4 = $("#basic_science_sec_yn li").clone();
+                let list1 = $("#ai_sec_yn li").clone();
+                let list2 = $("#basic_science_sec_yn li").clone();
+                let list3 = $("#linguistics li").clone();
+                let list4 = $("#job_edu_yn li").clone();
 
                 $("#fourth_industry_yn").append(list1, list2, list3, list4);
 
@@ -529,15 +534,15 @@
                 v = $target.data('value');
                 t = $target.data('text');
 
-                console.log('selectOption2 check ---- s')
-                console.log(f);
-                console.log(v);
-                console.log(t);
+                // console.log('selectOption2 check ---- s')
+                // console.log(f);
+                // console.log(v);
+                // console.log(t);
 
                 // 한글화 후 표시
                 t = gettext(t);
-                console.log(t);
-                console.log('selectOption2 check ---- e')
+                // console.log(t);
+                // console.log('selectOption2 check ---- e')
 
                 this.trigger(
                     'selectOption', f, v, t

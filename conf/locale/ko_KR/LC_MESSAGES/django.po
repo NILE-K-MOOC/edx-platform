@@ -28000,10 +28000,13 @@ msgid "Notify List"
 msgstr "알림 목록으로"
 
 msgid "Departmental Courses"
-msgstr "분아별 강좌"
+msgstr "분야별 강좌"
 
 msgid "Credit Bank Certificate"
 msgstr "학점 은행 이수증"
 
 msgid "AI Roadmap"
 msgstr "인공지능 이수체계도"
+
+msgid "Blue Ribbon"
+msgstr "블루 리본"
