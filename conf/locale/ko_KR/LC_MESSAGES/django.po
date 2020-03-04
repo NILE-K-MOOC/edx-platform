@@ -27976,7 +27976,7 @@ msgid "Introduce"
 msgstr "K-MOOC 소개"
 
 msgid "Promotion system"
-msgstr "추친체계"
+msgstr "추진체계"
 
 msgid "K-MOOC News"
 msgstr "K-MOOC의 소식을 전해드립니다."

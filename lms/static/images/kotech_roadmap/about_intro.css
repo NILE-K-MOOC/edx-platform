@@ -32,9 +32,9 @@
 .kotc-group li .box.type4 {border-color: #bec4ca; background-color: #f1f3f5;}
 .kotc-group li .box.type5 {border-color: #8ce99a; background-color: #d3f9d8;}
 .kotc-group li .text1 {margin-left: 5px; font-size: 20px;}
-.kotc-group li .text1 span {font-size:27px; vertical-align: unset;}
-.kotc-group li .text2 {margin-left: 5px; font-size: 15px; letter-spacing: -9px;}
-.kotc-group li .text3 {margin-left: 5px; font-size: 13px; vertical-align: top; color: #64b5f5;}
+.kotc-group li .text1 span {font-size:27px; vertical-align: baseline;}
+.kotc-group li .text2 {margin-left: 5px; font-size: 15px; letter-spacing: -1px;}
+.kotc-group li .text3 {margin-left: 5px; font-size: 13px; vertical-align: text-top; color: #64b5f5;}
 
 
 
@@ -48,9 +48,9 @@
 .offline-group li .box.type4 {border-color: #bec4ca; background-color: #f1f3f5;}
 .offline-group li .box.type5 {border-color: #8ce99a; background-color: #d3f9d8;}
 .offline-group li .text1 {margin-left: 5px; font-size: 20px;}
-.offline-group li .text1 span {font-size:27px; vertical-align: unset;}
-.offline-group li .text2 {margin-left: 5px; font-size: 15px; letter-spacing: -9px;}
-.offline-group li .text3 {margin-left: 5px; font-size: 13px; vertical-align: top; color: #64b5f5;}
+.offline-group li .text1 span {font-size:27px; vertical-align: baseline;}
+.offline-group li .text2 {margin-left: 5px; font-size: 15px; letter-spacing: -1px;}
+.offline-group li .text3 {margin-left: 5px; font-size: 13px; vertical-align: text-top; color: #64b5f5;}
 
 
 .intro-title {
