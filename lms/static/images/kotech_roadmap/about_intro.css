@@ -4,7 +4,7 @@
     text-align: center;}
 .sec-number .sub-title {    margin-bottom: 20px;
     margin-top: -15px;
-    font-size: 17px;
+    font-size: 24px;
     font-weight: 500;
     text-align: center;}
 .sec-number .sub-text {
@@ -49,7 +49,7 @@
 .kotc-group li .text1 {margin-left: 5px; font-size: 20px;}
 .kotc-group li .text1 span {font-size:27px; vertical-align: baseline;}
 .kotc-group li .text2 {margin-left: 5px; font-size: 15px; letter-spacing: -1px;}
-.kotc-group li .text3 {margin-left: 5px; font-size: 13px; vertical-align: text-top; color: #64b5f5;}
+.kotc-group li .text3 {margin-left: 5px; font-size: 15px; vertical-align: text-top; color: #64b5f5;}
 
 
 
@@ -277,5 +277,11 @@
     }
     .mmb50 {
         margin-bottom: 50px;
+    }
+    .sec-number .title {
+        font-size: 30px;
+    }
+    .sec-number .sub-title {
+        font-size: 17px;
     }
 }

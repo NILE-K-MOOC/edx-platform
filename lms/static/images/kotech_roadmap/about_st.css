@@ -120,10 +120,10 @@
 .sec-step3 .kmooc-history .step li strong {display: block; margin-bottom: 18px; font-size: 28px; font-weight: 700;}
 .sec-step3 .kmooc-history .step li span {display: block;}
 .sec-step3 .kmooc-history .step li p {font-size: 18px; margin-top: 5px; font-weight: 500;}
-.sec-step3 .kmooc-history .history {width: 1000px; margin: 80px auto 0;}
+.sec-step3 .kmooc-history .history {margin: 80px auto 0;}
 .sec-step3 .kmooc-history .history li {display: table; width: 100%;}
 .sec-step3 .kmooc-history .history li .left {display: table-cell; position: relative; width: 50%; padding-right: 30px; padding-bottom: 50px; font-size: 20px; font-weight: 500; text-align: right;}
-.sec-step3 .kmooc-history .history li .left:before {content: ''; display: block; position: absolute; top: 15px; right: 0; width: 1px; height: 100%; background-color: #3e7ce1;}
+.sec-step3 .kmooc-history .history li .left:before {content: ''; display: block; position: absolute; top: 15px; right: 0; width: 1px; height: 155%; background-color: #3e7ce1;}
 .sec-step3 .kmooc-history .history li .right {display: table-cell; position: relative; width: 50%; padding-left: 30px; padding-bottom: 50px;}
 .sec-step3 .kmooc-history .history li .right:before {content: ''; display: block; position: absolute; top: 9px; left: -8px; width: 7px; height: 7px; border: 4px solid #3e7ce1; border-radius: 50%; background-color: #fff; box-sizing: content-box;}
 .sec-step3 .kmooc-group {margin-top: 80px;}
@@ -137,9 +137,9 @@
 .sec-step3 .kmooc-group .group .group-subtitle:before {left: 0;}
 .sec-step3 .kmooc-group .group .group-subtitle:after {right: 0;}
 .sec-step3 .kmooc-group .group .nation {display: inline-block; width: 200px; height: 200px; padding-top: 125px; border-radius: 50%; background: #3e7ce1 url(/static/new_index/images/about_001.png) no-repeat top 50px center; font-size: 26px; font-weight: 500; color: #fff;}
-.sec-step3 .kmooc-group .group .list {display: table; width: 100%; margin-top: 15px;}
+.sec-step3 .kmooc-group .group .list {display: table; width: 55%; margin: 30px auto 10px;}
 .sec-step3 .kmooc-group .group .list .logo {display: table-cell; width: 70%; text-align: right;}
-.sec-step3 .kmooc-group .group .list .more {display: table-cell; width: 30%; padding-left: 30px; text-align: left;}
+.sec-step3 .kmooc-group .group .list .more {display: table-cell; text-align: left;}
 .sec-step3 .kmooc-group .group .list .more .plus {display: inline-block; vertical-align: middle; font-size: 45px; font-weight: 700;}
 .sec-step3 .kmooc-group .group .list .more .text {display: inline-block; vertical-align: middle; width: 150px; height: 150px; margin-left: 30px; padding: 50px 0; border-radius: 50%; background-color: #fff3bf; font-size: 18px; font-weight: 500; text-align: center;}
 .sec-step3 .kmooc-group .group .agency {display: inline-block; position: relative; min-width: 230px; min-height: 190px; padding: 20px; border: 1px solid #ddd; border-radius: 20px; background-color: #fff; vertical-align: middle;}
@@ -151,6 +151,55 @@
 .sec-step3 .kmooc-group .group .bottom {margin-top: 40px;}
 .sec-step3 .kmooc-group .group .bottom .agency ~ .agency {margin-left: 40px;}
 .sec-step3 .kmooc-group .group .bottom .agency ~ .agency:before {content: ''; display: block; position: absolute; top: 50%; left: -45px; width: 45px; height: 2px; background-color: #bbb;}
+
+.mo-view {
+    display: none;
+}
+
+.bg-custom {
+    background-size: cover;
+    padding: 80px 0 60px;
+}
+
+.pt30 {
+    padding-top: 30px;
+}
+
+.pt20 {
+    padding-top: 20px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mb50 {
+    margin-bottom: 50px;
+}
+
+.sec-step2 .title:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block;
+    margin-left: -9px;
+    width: 18px;
+    height: 2px;
+    background-color: #3e7ce1;
+}
+
+.sec-step3 .title:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block;
+    margin-left: -9px;
+    width: 18px;
+    height: 2px;
+    background-color: #3e7ce1;
+}
 
 /* --------------------------
  *    media
@@ -281,4 +330,119 @@
     .sec-org .org-list .org-item {
         width: 20%;
     }
+}
+
+@media (max-width: 992px) {
+    .sec-step3 .kmooc-group .group .list {
+        width: 80%;
+    }
+    .mmt30 {
+        margin-top: 30px;
+    }
+    .sec-step3 .kmooc-group .group .bottom .agency ~ .agency:before {
+        display: none;
+    }
+}
+
+@media (max-width: 800px){
+    .sec-step3 .kmooc-history .history li .left {
+        width: 33%;
+        padding-right: 15px;
+        font-size: 18px;
+    }
+    .sec-step3 .kmooc-history .history li .right {
+        width: 67%;
+        padding-left: 15px;
+    }
+
+    .sec-step3 .kmooc-group .group .list {
+        width: 90%;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .sec-step3 .kmooc-group .group .list {    display: inline;   margin: 30px auto 10px;}
+
+    .kotc-group li {width: 100px;}
+    .mmt20 {margin-top:20px;}
+    .mmb50 {margin-bottom:50px;}
+    .mpt30 {padding-top:30px;}
+    .mmg20 {margin: 20px 0;}
+    .pc-view {display: none;}
+    .mo-view {display: block !important;}
+    .kotc-group li .text3 {margin-left: 5px; font-size: 12px; vertical-align: text-top; color: #64b5f5; letter-spacing: -1px;}
+    .sec-number .title {font-size: 30px;}
+    .sec-number .sub-title {font-size: 17px;}
+    .wi150 {width: 150px !important}
+
+
+    .sec-step1 .title, .sec-step2 .title, .sec-step3 .title {font-size: 30px;}
+    .sec-step1 .sub-title, .sec-step2 .sub-title, .sec-step3 .sub-title {font-size: 17px;}
+    .wi100p {width: 100%;}
+
+
+    .sec-step2 .kmooc-update .updete {
+        padding: 10px;
+    }
+
+
+    .sec-step2 .kmooc-update .updete .left {
+        float: left;
+        width: 50px;
+        padding-top: 62px;
+        border-radius: 50%;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .sec-step2 .kmooc-update .updete .right table .now {
+        font-size: 22px;
+    }
+
+    .sec-step2 .kmooc-update .updete .right {
+        float: right;
+        padding-left: 10px;width: calc(100% - 50px); padding-top:7px;
+    }
+
+    .sec-step3 .kmooc-history .step li ~ li:before {
+        display: none;
+    }
+
+    .sec-step3 .kmooc-history .step li ~ li {
+        margin-left: 0; margin-top:20px;
+    }
+
+    .sec-step3 .kmooc-history .history {
+        width: 100%;
+        margin: 10px auto 0;
+    }
+
+    .sec-step3 .kmooc-history .history li .left {
+        width: 33%;	    padding-right: 15px;    font-size: 18px;
+    }
+
+
+    .sec-step3 .kmooc-history .history li .right {
+        width: 67%;
+        padding-left: 15px;
+    }
+
+    .sec-step3 .kmooc-group .group .bottom .agency ~ .agency:before {
+        display: none;
+    }
+
+    .sec-step3 .kmooc-group .group .bottom .agency ~ .agency {
+        margin-left: 0;
+    }
+
+    .sec-step3 .kmooc-group .group .agency {
+        width: 100%;
+    }
+
+    .mhauto {min-height: 100px !important;}
+
 }
