@@ -50,7 +50,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    console.log('renderOptions check: ' + data.facet + " : " + data.term)
+                    // console.log('renderOptions check: ' + data.facet + " : " + data.term)
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -168,7 +168,7 @@
 
             renderFacet: function (facetKey, options) {
 
-                console.log('facetKey ==> ' + facetKey);
+                // console.log('facetKey ==> ' + facetKey);
 
                 return this.facetTpl({
                     name: facetKey,
@@ -534,15 +534,15 @@
                 v = $target.data('value');
                 t = $target.data('text');
 
-                console.log('selectOption2 check ---- s')
-                console.log(f);
-                console.log(v);
-                console.log(t);
+                // console.log('selectOption2 check ---- s')
+                // console.log(f);
+                // console.log(v);
+                // console.log(t);
 
                 // 한글화 후 표시
                 t = gettext(t);
-                console.log(t);
-                console.log('selectOption2 check ---- e')
+                // console.log(t);
+                // console.log('selectOption2 check ---- e')
 
                 this.trigger(
                     'selectOption', f, v, t
