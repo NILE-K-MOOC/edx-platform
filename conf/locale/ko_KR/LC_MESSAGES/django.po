@@ -27903,8 +27903,8 @@ msgstr "자막 언어"
 msgid "Introduce the Organization with K-MOOC."
 msgstr "K-MOOC와 함께하는 참여기관을 소개합니다."
 
-msgid "K-MOOC is together with 89 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era."
-msgstr "K-MOOC는 89개의 국내외 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다."
+msgid "K-MOOC is together with 116 leading domestic and international organizations, provides the highest level of mook service to create a life-long learning era."
+msgstr "K-MOOC는 116개의 국내외 유수 기관과 함께 최고 수준의 무크 서비스를 제공하여 평생학습 시대를 만들어 갑니다."
 
 msgid "Type of Organization"
 msgstr "기관유형"
