@@ -34,6 +34,11 @@ Date.prototype.yyyymmdd = function () {
     return rt_date;
 };
 
+// 쪽지 목록으로
+function to_list(){
+    location.href = '/memo';
+}
+
 function search(page_no) {
 
     console.log("----------------> s");
