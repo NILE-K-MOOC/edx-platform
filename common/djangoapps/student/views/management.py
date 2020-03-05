@@ -1403,6 +1403,10 @@ def enrollment_verifi(request):
                          now(),
                          TRUE,
                          'audit')
+                         ON DUPLICATE KEY UPDATE
+                            is_active = TRUE, 
+                            created = now(),
+                            mode = 'audit'
        """.format(user_id, course_id)
     cur.execute(query)
     con.commit()
