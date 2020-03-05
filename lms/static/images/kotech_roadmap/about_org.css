@@ -141,6 +141,12 @@ h1, h2, h3 {
     margin-right: auto;
 }
 
+.sec-course .org-not-content {
+    background-color: #fff;
+    border: 1px solid #888;
+    border-radius: 10px;
+}
+
 /* --------------------------
  *    media
  * --------------------------

@@ -5,18 +5,6 @@
 <%block name="header_extras"></%block>
 
 
-<style>
-    .null-card{
-    border: solid #dddddd 2px;
-    color: #4e4e4e;
-    padding: 50px;
-    padding-top: 200px;
-    padding-bottom: 200px;
-    text-align: center;
-    border-radius: 5px;
-}
-</style>
-
 
 <section class="container">
     <div style="font-size: 18px; line-height: 26.64px; margin-bottom: 20px;">
@@ -24,8 +12,11 @@
     </div>
     <div id="courses_target">
     </div>
-    <div id="null-txt" class="null-card" style="display: none;">
-        학점은행 이수한 강좌가 존재하지 않습니다.
+    <div id="null-txt" class="sec-course" style="display: none;">
+      <div class="no-content">
+        <p>수강중인 강좌가 존재하지 않습니다.</p>
+        <a href="/courses" class="go">강좌 탐색</a>
+      </div>
     </div>
 </section>
 

@@ -206,8 +206,11 @@ from third_party_auth import provider, pipeline
   <div class="package-content">
 
     % if len(packages) == 0:
-    <div class="package-null-info">
-      현재 신청된 묶음 강좌가 없습니다.
+    <div class="sec-course">
+      <div class="no-content">
+        <p>수강중인 강좌가 존재하지 않습니다.</p>
+        <a href="/courses" class="go">강좌 탐색</a>
+      </div>
     </div>
     % endif
 
