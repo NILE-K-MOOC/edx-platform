@@ -8,12 +8,10 @@
     font-weight: 500;
     text-align: center;}
 .sec-number .sub-text {
-    font-size: 15px;
     text-align: center;
     color: #3c3c3c;
     line-height: 1.5;}
 .sec-number .sub-text2 {
-    font-size: 15px;
     text-align: center;
     color: #3c3c3c;
     line-height: 1.5;}
@@ -28,7 +26,7 @@
 .v-title {color:#fff; font-size:25px;}
 .v-sub-title {color:#fff; margin-bottom: 20px; margin-top:-15px; font-size: 17px; font-weight: 500; text-align: center;}
 .v-sub-text {
-    color:#fff; font-size: 15px;
+    color:#fff;
     text-align: center;
     line-height: 1.5;}
 
@@ -121,7 +119,7 @@
 .mw800 {max-width: 800px;}
 
 .down-btn{
-    margin: 3rem auto 0.8rem;
+    margin: 3rem auto 2.5rem;
     width: 160px;
     height: 40px;
     background: #4477cc;
@@ -164,7 +162,7 @@
     padding-top: 20px;
     padding-left: 25px;
     font-weight: 700;}
-.pp2 {font-size: 15px; padding-left:25px;}
+.pp2 {padding-left:25px;}
 
 .pt146 {padding-top: 146px !important;
     max-width: 330px;
@@ -172,24 +170,24 @@
 
 .sec-number .number-item.st-01 {background-image: url(/static/new_index/images/st-ico1.png); background-position: top center;}
 .sec-number .number-item.st-01 dl {font-size:20px; font-weight: 700;}
-.sec-number .number-item.st-01 ul li {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-01 ul li {text-align: left; list-style: disc;margin: 0 45px;}
 .sec-number .number-item.st-02 {background-image: url(/static/new_index/images/st-ico2.png); background-position: top center;}
 .sec-number .number-item.st-02 dl {font-size:20px; font-weight: 700;}
-.sec-number .number-item.st-02 ul li {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-02 ul li {text-align: left; list-style: disc;margin: 0 45px;}
 .sec-number .number-item.st-03 {background-image: url(/static/new_index/images/st-ico3.png); background-position: top center;}
 .sec-number .number-item.st-03 dl {font-size:20px; font-weight: 700;}
-.sec-number .number-item.st-03 ul li {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-03 ul li {text-align: left; list-style: disc;margin: 0 45px;}
 .sec-number .number-item.st-04 {background-image: url(/static/new_index/images/st-ico4.png); background-position: top center;}
 .sec-number .number-item.st-04 dl {font-size:20px; font-weight: 700;}
-.sec-number .number-item.st-04 ul li {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-04 ul li {text-align: left; list-style: disc;margin: 0 45px;}
 .sec-number .number-item.st-05 {background-image: url(/static/new_index/images/st-ico5.png); background-position: top center;}
 .sec-number .number-item.st-05 dl {font-size:20px; font-weight: 700;}
-.sec-number .number-item.st-05 ul li {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-05 ul li {text-align: left; list-style: disc;margin: 0 45px;}
 .sec-number .number-item.st-05 dt {font-weight:700;text-align: left;font-size: 13px;list-style: disc;margin: 0 45px;}
-.sec-number .number-item.st-05 dd {text-align: left;font-size: 13px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-05 dd {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
 .sec-number .number-item.st-06 {background-image: url(/static/new_index/images/st-ico6.png); background-position: top center;}
 .sec-number .number-item.st-06 dl {font-size:20px; font-weight: 700;}
-.sec-number .number-item.st-06 ul li {text-align: left;font-size: 15px;list-style: disc;margin: 0 45px;}
+.sec-number .number-item.st-06 ul li {text-align: left; list-style: disc;margin: 0 45px;}
 
 .mo-view {
     display: none;
