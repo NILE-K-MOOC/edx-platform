@@ -69,6 +69,13 @@ function search(page_no) {
             //for table
             var html = "";
 
+            if(total_cnt === 0){
+                html += "<li class='tbody'>";
+                html += "새로운 알림이 존재하지 않습니다.";
+                html += "</li>";
+
+            }
+
             for (var i = 0; i < data.length; i++) {
 
                 var reg_date = new Date(data[i].regist_date);
