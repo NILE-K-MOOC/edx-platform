@@ -234,6 +234,10 @@
     background-color: #fff;
 }
 
+.kkuk-en {
+    margin-top: 0;
+}
+
 @media (min-width: 992px){
     .page-title {
         padding: 80px 0;

@@ -26,12 +26,18 @@ def about_org(request):
 
 def about_st(request):
     context = {}
-    return render_to_response('kotech_roadmap/about_st.html', context)
+    if request.LANGUAGE_CODE == 'ko-kr':
+        return render_to_response('kotech_roadmap/about_st.html', context)
+    else:
+        return render_to_response('kotech_roadmap/about_st_en.html', context)
 
 
 def about_intro(request):
     context = {}
-    return render_to_response('kotech_roadmap/about_intro.html', context)
+    if request.LANGUAGE_CODE == 'ko-kr':
+        return render_to_response('kotech_roadmap/about_intro.html', context)
+    else:
+        return render_to_response('kotech_roadmap/about_intro_en.html', context)
 
 
 def roadmap(request):

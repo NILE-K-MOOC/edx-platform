@@ -1,0 +1,300 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">${_('Promotion system')}</%block>
+<%inherit file="../main.html" />
+<%block name="header_extras"></%block>
+
+<link rel="stylesheet" href="/static/images/kotech_roadmap/about_st.css"/>
+
+<div id="container">
+    <section class="sec-step1">
+        <div class="container-fluid">
+            <p class="sub-title">Respect the autonomy and diversity of participating universities</p>
+            <h1 class="title mt20"> Promoting cooperation between<br class="mo-view"> related institutions and universities</h1>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <img src="http://www.kmooc.kr/static/images/contents/kmooc03.jpg" class="wi100p">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <p style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="text">Korean Massive Open Online Course(K-MOOC), in addition to the Ministry of Education and business proprietor: National Institute for Life-long Education, is working in close cooperation with related institutions such as four-year universities, professional universities, broadcasting universities, research institutes, companies, affiliated institutes, vocational training facilities and public service organizations.</p>
+                    <p style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="text">The number of participating institutions providing and operating courses on the K-MOOC homepage (http://kmooc.kr) is 87 institutions as of 2018, and there is a plan to expand the number of lectures and participating institutions every year.</p>
+                    <p style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;" class="text">Based on the autonomy of the participating organizations, K_MOOC plans to develop and operate excellent contents with high demand from learners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec-step2">
+        <div class="container-fluid">
+            <h1 class="title">K-MOOC is growing <br class="mo-view">towards the future</h1>
+            <div class="kmooc-update">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="updete course">
+                            <div class="left">Courses</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">7</td>
+                                            <td class="now">1,703</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 mmt30">
+                        <div class="updete univ">
+                            <div class="left">University</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">10</td>
+                                            <td class="now">116</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="updete appl">
+                            <div class="left">Enrollment</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">55,559</td>
+                                            <td class="now">1,168,288</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 mmt30">
+                        <div class="updete visitor">
+                            <div class="left">Visits</div>
+                            <div class="right">
+                                <table>
+                                    <tbody>
+                                        <tr class="year">
+                                            <td>2015</td>
+                                            <td>2019</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="past">446,832</td>
+                                            <td class="now">12,054,483</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec-step3">
+        <div class="container-fluid">
+            <h1 class="title">progress of propulsion</h1>
+            <div class="kmooc-history">
+                <ul class="step">
+                    <li>
+                        <strong>1</strong>
+                        <span>2015 ~ 2017</span>
+                        <p>Introduction and<br>settlement</p>
+                    </li>
+                    <li>
+                        <strong>2</strong>
+                        <span>2018 ~ 2020</span>
+                        <p>Globalization and creation <br>of added value</p>
+                    </li>
+                    <li>
+                        <strong>3</strong>
+                        <span>From 2021</span>
+                        <p>Establishment of the higher <br>education system</p>
+                    </li>
+                </ul>
+                <ul class="history mpt30">
+                    <li>
+                        <span class="left">February 2015</span>
+                        <span class="right">Establishment and announcement of a basic plan for K-MOOC pilot operation</span>
+                    </li>
+                    <li>
+                        <span class="left">April 2015</span>
+                        <span class="right">Announcement of K-MOOC pilot project and selection of participating universities</span>
+                    </li>
+                    <li>
+                        <span class="left">June to December 2015</span>
+                        <span class="right">Development of platform and infrastructure for K-MOOC service operation
+                            <br>※Platform establishment by using open source software (Open edX) considering initial service stability,
+                            international compatibility of contents, development period, etc.</span>
+                    </li>
+                    <li>
+                        <span class="left">October 2015</span>
+                        <span class="right">Pilot launch of Korean Online Open Courses K-MOOC (www.kmooc.kr)</span>
+                    </li>
+                    <li>
+                        <span class="left">February 2016</span>
+                        <span class="right">Establishment of K-MOOC operation plan and diversification of contents</span>
+                    </li>
+                    <li>
+                        <span class="left">April to October 2016</span>
+                        <span class="right">Additional MOOC university selection (10 universities) and course development (Korean universities)</span>
+                    </li>
+                    <li>
+                        <span class="left">2017</span>
+                        <span class="right">Establishment of Korean model and content standardization</span>
+                    </li>
+                    <li>
+                        <span class="left">2018</span>
+                        <span class="right">Expansion of the Korean model and internationalization of contents</span>
+                    </li>
+                    <li>
+                        <span class="left">2019</span>
+                        <span class="right">Operation of Learning Processes in the Academic Credit Bank System(6 Universities, 11 Courses)</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="kmooc-group pc-view">
+                <div class="group">
+                    <p class="group-title">
+                        <span>Customer</span>
+                    </p>
+                    <span class="nation">Learners</span>
+                </div>
+                <div class="group">
+                    <p class="group-title">
+                        <span>Course developing Institutes</span>
+                    </p>
+                    <span class="group-subtitle">Institutional Partners</span>
+                    <div class="list">
+                        <div class="number-item agency">
+                            <img src="/static/new_index/images/icon_n_003.png">
+                            <h2 class="agency-title mt20">100 participating agencies</h2>
+                            <p class="cont">Universities, public institutions and overseas</p>
+                        </div>
+                        <div class="more mmt20">
+                            <span class="plus">+</span>
+                            <span class="text">Continuous<br>enlargement</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <p class="group-title">
+                        <span>Propulsion organization</span>
+                    </p>
+                    <div class="top">
+                        <div class="agency">
+                            <div class="agency-title">project generalization</div>
+                            <div class="agency-cont">
+                                <img src="/static/new_index/images/about_moe.png">
+                                <span>Establishment of operational plan</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="agency">
+                            <div class="agency-title">Participating organizations</div>
+                            <div class="agency-cont">
+                                <span>Course development / Operation / utilization</span>
+                            </div>
+                        </div>
+                        <div class="agency">
+                            <div class="agency-title">Project management</div>
+                            <div class="agency-cont">
+                                <img src="/static/new_index/images/about_nile.png">
+                                <span>Project management<br>organization</span>
+                            </div>
+                        </div>
+                        <div class="agency">
+                            <div class="agency-title">Relevant agencies and MOU agencies</div>
+                            <div class="agency-cont">
+                                <span>Service utilization<br>Diffusion/Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kmooc-group mo-view">
+                <div class="group">
+                    <p class="group-title">
+                        <span>Customer</span>
+                    </p>
+                    <span class="nation">Learners</span>
+                </div>
+                <div class="group">
+                    <p class="group-title">
+                        <span>Course developing Institutes</span>
+                    </p>
+                    <span class="group-subtitle">Institutional Partners</span>
+
+                    <div class="list">
+                        <div class="number-item agency mmg20">
+                            <img src="/static/new_index/images/icon_n_003.png">
+                            <h2 class="agency-title mt20">100 participating agencies</h2>
+                            <p class="cont">Universities, public institutions and overseas</p>
+                        </div>
+                        <div class="more mmt20">
+                            <span class="plus">+</span>
+                            <span class="text">Continuous<br>enlargement</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <p class="group-title">
+                        <span>Propulsion organization</span>
+                    </p>
+                    <div class="top">
+                        <div class="agency">
+                            <div class="agency-title">project generalization</div>
+                            <div class="agency-cont">
+                                <img src="/static/new_index/images/about_moe.png">
+                                <span>Establishment of operational plan</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="agency">
+                            <div class="agency-title">Project management</div>
+                            <div class="agency-cont">
+                                <img src="/static/new_index/images/about_nile.png">
+                                <span>Project management<br>organization</span>
+                            </div>
+                        </div>
+                        <div class="agency mhauto">
+                            <div class="agency-title">Participating organizations</div>
+                            <div class="agency-cont">
+                                <span>Course development / Operation / utilization</span>
+                            </div>
+                        </div>
+                        <div class="agency mhauto">
+                            <div class="agency-title">Relevant agencies and MOU agencies</div>
+                            <div class="agency-cont">
+                                <span>Service utilization<br>Diffusion/Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
