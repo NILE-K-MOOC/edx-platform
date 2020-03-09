@@ -384,13 +384,13 @@ from openedx.core.djangolib.markup import HTML
                     대상: <span id="maked-txt"></span>
                 </div>
                 <div class="im-mb15 im-hover" onclick="im_select_a()">
-                    <input id="check_a" class="im-mr5" type="checkbox" name="riyu" value="1"><span class="im-target-txt">나</span>
+                    <input id="check_a" class="im-mr5" type="checkbox" onclick="im_select_a()" name="riyu" value="1"><span class="im-target-txt">나</span>
                 </div>
                 <div class="im-mb15 im-hover" onclick="im_select_b()">
-                    <input id="check_b" class="im-mr5" type="checkbox" name="riyu" value="2"><span class="im-target-txt">운영팀 및 관리팀</span>
+                    <input id="check_b" class="im-mr5" type="checkbox" onclick="im_select_b()" name="riyu" value="2"><span class="im-target-txt">운영팀 및 관리팀</span>
                 </div>
                 <div class="im-mb15 im-hover" onclick="im_select_c()">
-                    <input id="check_c" class="im-mr5" type="checkbox" name="riyu" value="3"><span class="im-target-txt">전체 학습자</span>
+                    <input id="check_c" class="im-mr5" type="checkbox" onclick="im_select_c()" name="riyu" value="3"><span class="im-target-txt">전체 학습자</span>
                 </div>
                 <div class="im-sub-title">
                     제목:
