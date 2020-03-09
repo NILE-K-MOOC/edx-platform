@@ -167,7 +167,7 @@ def nicecheckplus(request):
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     # enc_data = request.POST.get('EncodeData')
-    enc_data = request.GET.get('EncodeData')
+    enc_data = request.GET.get('EncodeData') if request.GET.get('EncodeData') else request.POST.get('EncodeData')
     nice_command = '{0} DEC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, enc_data)
     plain_data = commands.getoutput(nice_command)
     di_index = plain_data.find("DI64:")
