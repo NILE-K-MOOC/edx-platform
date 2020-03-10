@@ -236,7 +236,7 @@ def age_specific_course(request):
                         course_overviews_courseoverview
                     WHERE
                         DATE_FORMAT(start, '%Y-%m-%d') < '2030-01-01'
-                    ORDER BY created DESC) a
+                    ORDER BY start DESC) a
                 WHERE
                     org IN {org_list}
                         AND display_number_with_default IN {c_list}
