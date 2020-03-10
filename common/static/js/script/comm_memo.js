@@ -34,6 +34,11 @@ Date.prototype.yyyymmdd = function () {
     return rt_date;
 };
 
+// 쪽지 목록으로
+function to_list(){
+    location.href = '/memo';
+}
+
 function search(page_no) {
 
     console.log("----------------> s");
@@ -69,6 +74,13 @@ function search(page_no) {
             //for table
             var html = "";
 
+            if(total_cnt === 0){
+                html += "<li class='tbody'>";
+                html += "새로운 알림이 존재하지 않습니다.";
+                html += "</li>";
+
+            }
+
             for (var i = 0; i < data.length; i++) {
 
                 var reg_date = new Date(data[i].regist_date);
@@ -86,7 +98,7 @@ function search(page_no) {
                 console.log("-------------------> red date e");
 
                 if(data[i].memo_gubun == '1'){
-                    gubun = '단체메일발송';
+                    gubun = '단체';
                 }
                 else if(data[i].memo_gubun == '2') {
                     gubun = '관심강좌개설';
@@ -102,6 +114,9 @@ function search(page_no) {
                 }
                 else if(data[i].memo_gubun == '6') {
                     gubun = '과제제출';
+                }
+                else if(data[i].memo_gubun == '7') {
+                    gubun = '교수자';
                 }
                 else{
                     gubun = '미분류';
