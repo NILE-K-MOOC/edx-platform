@@ -16,6 +16,81 @@ course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
 <script type="text/template" id="${template_name}-tpl">
     <%static:include path="discovery/${template_name}.underscore" />
 </script>
+
+<style>
+    .find-courses .courses-container .mobile-course-search,
+    .courses-filter-container {
+        display: none;
+    }
+
+    #discovery-input-form {
+        z-index: 199; align-items: stretch; display: flex;
+    }
+
+    @media (max-width: 768px) {
+        #discovery-input-form {
+            display: none;
+        }
+
+        .find-courses .courses-container .pc-course-search {
+            display: none;
+        }
+
+        .find-courses .courses-container .mobile-course-search {
+            display: block;
+        }
+        .courses-filter-container {
+            display: block;
+            margin-bottom: 25px;
+        }
+
+        .courses-filter {
+            display: block;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .courses-filter-tag {
+            padding: 0 3px 3px;
+            margin: 0;
+            color: #4185c4;
+            font-weight: bold;
+            border-bottom: 1px solid #4185c4;
+        }
+        .courses-filter-tag i {
+            padding-left: 5px;
+        }
+
+        .find-courses .courses-container .courses-filter-layer {
+            box-shadow: 0 2px 5px 3px #444444;
+            padding: 5px;
+            display: none;
+        }
+        .find-courses .courses-container .courses-filter-layer.active {
+            display: block;
+        }
+        .courses-filter-title {
+            border-bottom: solid 3px #051b4d;
+            display: flex;
+            justify-content: space-between;
+        }
+        .courses-filter-close {
+            z-index: 10;
+            cursor: pointer;
+            display: inline-block;
+            margin: auto 10px;
+        }
+        .courses-filter-bottom {
+            padding: 15px 5px 5px;
+            cursor: pointer;
+        }
+        .courses-filter-bottom span {
+            border-bottom: solid 1px #000;
+            font-size: 12px;
+        }
+    }
+</style>
+
 % endfor
 <%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
 DiscoveryFactory(
@@ -31,18 +106,52 @@ getParameterByName('search_query')
 <main id="main" aria-label="Content" tabindex="-1">
 
     % if parameter_json:
-        % for key, value in parameter_json.items():
-            <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
-        % endfor
+    % for key, value in parameter_json.items():
+    <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
+    % endfor
     % endif
 
     <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
     <section class="find-courses">
         <section class="courses-container">
             % if course_discovery_enabled:
+            <!--모바일 검색 필터 s-->
+            <div class="courses-filter-container">
+                <div class="courses-filter mobile-course-search" onclick="closeFilter()">
+                    <span class="courses-filter-tag">
+                        ${_('Refine Your Search')} <i class="fa fa-filter"></i>
+                    </span>
+                </div>
+                <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu courses-filter-layer">
+                    <div class="courses-filter-title">
+                        <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+                        <div class="courses-filter-close" onclick="closeFilter()">
+                            <i class="fa fa-times"></i>
+                        </div>
+                    </div>
+                    <section class="course-facets-list">
+                        <h3 class="header-facet">${_('Opening Status')}</h3>
+                        <div id="sel_status_mo">
+                            <select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}" label="${_('Opening Status')}">
+                                <option value="">${_('All')}</option>
+                                <option value="i">${_('ing')}</option>
+                                <option value="t">${_('ready')}</option>
+                                <option value="a">${_('end & audit course')}</option>
+                                <option value="e">${_('end')}</option>
+                            </select>
+                        </div>
+                    </section>
+                    <section class="search-facets-lists">
+                    </section>
+                    <div onclick="closeFilter()" class="courses-filter-bottom">
+                        <span>검색 조건 필터 접기</span>
+                    </div>
+                </aside>
+            </div>
+            <!--모바일 검색 필터 e-->
             <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
                 <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
-                <form class="wrapper-search-input" id="discovery-input-form" style="z-index: 199; align-items: stretch; display: flex;">
+                <form class="wrapper-search-input" id="discovery-input-form">
                     <label for="discovery-input" class="sr">${_('Search for a course')}</label>
                     <input id="discovery-input" style="position:  relative; padding-right: 12px;" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
                     <button type="submit" class="button postfix discovery-submit" style="position:  relative;" title="${_('Search')}" data-test="check1">
@@ -74,7 +183,7 @@ getParameterByName('search_query')
                 </ul>
             </div>
             % if course_discovery_enabled:
-            <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
+            <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu pc-course-search">
                 <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
                 <section class="course-facets-list">
                     <h3 class="header-facet">${_('Opening Status')}</h3>
@@ -118,62 +227,62 @@ getParameterByName('search_query')
         }).done(function (data) {
             var search_arr = data.course_search_list;
             var $elem = $("#discovery-input").autocomplete({
-                        source: function (request, response) {
-                            var term = $.ui.autocomplete.escapeRegex(request.term)
-                                    , startsWithMatcher = new RegExp("^" + term, "i")
-                                    , startsWith = $.grep(search_arr, function(value) {
-                                return startsWithMatcher.test(value.label || value.value || value);
-                            })
-                                    , containsMatcher = new RegExp(term, "i")
-                                    , contains = $.grep(search_arr, function (value) {
-                                return $.inArray(value, startsWith) < 0 &&
-                                        containsMatcher.test(value.label || value.value || value);
-                            });
+                    source: function (request, response) {
+                        var term = $.ui.autocomplete.escapeRegex(request.term)
+                            , startsWithMatcher = new RegExp("^" + term, "i")
+                            , startsWith = $.grep(search_arr, function(value) {
+                            return startsWithMatcher.test(value.label || value.value || value);
+                        })
+                            , containsMatcher = new RegExp(term, "i")
+                            , contains = $.grep(search_arr, function (value) {
+                            return $.inArray(value, startsWith) < 0 &&
+                                containsMatcher.test(value.label || value.value || value);
+                        });
 
-                            response(startsWith.concat(contains));
-                        },
-                        sortResults: false,
-                        appendTo: discovery_parent,
-                        matchContains: true,
-                        open: function(event, ui) {
-                            console.log(this);
-                            $(this).autocomplete("widget").css({
-                                "width": "100%",
-                                "position": "absolute",
-                                "z-index": 1001
-                            });
-                            $(this).autocomplete("widget").children('li').css({
-                                "margin-top": "10px",
-                                "margin-left": "10px",
-                                "font-family": '"Nanum Gothic","Open Sans"',
-                                "color": 'block',
-                                //"font-weight": 'bold',
-                                "font-style": 'normal',
-                                "font-size": '15px',
-                                'text-align': '-webkit-match-parent',
-                                'white-space': 'nowrap',
-                                'text-overflow': 'ellipsis',
-                                'max-width': '100%',
-                                'overflow': 'hidden'
+                        response(startsWith.concat(contains));
+                    },
+                    sortResults: false,
+                    appendTo: discovery_parent,
+                    matchContains: true,
+                    open: function(event, ui) {
+                        console.log(this);
+                        $(this).autocomplete("widget").css({
+                            "width": "100%",
+                            "position": "absolute",
+                            "z-index": 1001
+                        });
+                        $(this).autocomplete("widget").children('li').css({
+                            "margin-top": "10px",
+                            "margin-left": "10px",
+                            "font-family": '"Nanum Gothic","Open Sans"',
+                            "color": 'block',
+                            //"font-weight": 'bold',
+                            "font-style": 'normal',
+                            "font-size": '15px',
+                            'text-align': '-webkit-match-parent',
+                            'white-space': 'nowrap',
+                            'text-overflow': 'ellipsis',
+                            'max-width': '100%',
+                            'overflow': 'hidden'
 
-                            });
-                        },
-                        focus: function(event, ui) {
-                            return false;
-                            //event.preventDefault();
-                        }
-                    }),
-                    elemAutocomplete = $elem.data("ui-autocomplete") || $elem.data("autocomplete");
+                        });
+                    },
+                    focus: function(event, ui) {
+                        return false;
+                        //event.preventDefault();
+                    }
+                }),
+                elemAutocomplete = $elem.data("ui-autocomplete") || $elem.data("autocomplete");
             if (elemAutocomplete) {
                 elemAutocomplete._renderItem = function (ul, item) {
                     var newText = String(item.value).replace(
-                            new RegExp(this.term, "gi"),
-                            "<span class='ui-state-highlight' style='border: #4587c2; color: #4587c2; font-weight: 900'>$&</span>");
+                        new RegExp(this.term, "gi"),
+                        "<span class='ui-state-highlight' style='border: #4587c2; color: #4587c2; font-weight: 900'>$&</span>");
 
                     return $("<li></li>")
-                            .data("item.autocomplete", item)
-                            .append("<a>" + newText + "</a>")
-                            .appendTo(ul);
+                        .data("item.autocomplete", item)
+                        .append("<a>" + newText + "</a>")
+                        .appendTo(ul);
                 };
             }
 
@@ -192,6 +301,7 @@ getParameterByName('search_query')
         $(function(){
             if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
                 $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+                $('#sel_status_mo').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
             }
         });
 
@@ -230,9 +340,9 @@ getParameterByName('search_query')
 
     var getTermParameter = function (sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
 
         for (i = 0; i < sURLVariables.length; i++) {
             sParameterName = sURLVariables[i].split('=');
@@ -240,6 +350,14 @@ getParameterByName('search_query')
             if (sParameterName[0] === sParam) {
                 return sParameterName[1] === undefined ? true : sParameterName[1];
             }
+        }
+    }
+
+    function closeFilter(){
+        if($('.courses-filter-layer').hasClass('active')){
+            $('.courses-filter-layer').removeClass('active');
+        } else {
+            $('.courses-filter-layer').addClass('active');
         }
     }
 </script>
