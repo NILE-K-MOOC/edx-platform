@@ -2018,6 +2018,7 @@
         "timed": "\uc2dc\uac04 \uc81c\ud55c",
         "You are taking \"{exam_link}\" as a {exam_type} exam. The timer on the right shows the time remaining in the exam.": "\"{exam_link}\"을(를) {exam_type} 시험으로 응시하고 있습니다. 오른쪽의 타이머는 남은 시간을 나타냅니다.",
         "To receive credit for problems, you must select \"Submit\" for each problem before you select \"End My Exam\".": "문제에 대한 점수를 획득하기 위해 \"시험 종료\"를 클릭하기 전에 각 문제에 대해 \"제출\"을 클릭해야 합니다.",
+        "Are you sure you want to remove this student's exam attempt?": "이 학습자의 시험 기록을 삭제하시겠습니까?",
 
         // Language code
         "English": "\uc601\uc5b4",
