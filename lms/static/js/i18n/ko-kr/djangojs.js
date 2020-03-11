@@ -596,7 +596,7 @@
         "emphasized text": "\uac15\uc870\ub41c \ubb38\uc7a5",
         "Enable Cohorts": "\ud559\uc2b5\uc9d1\ub2e8 \ud65c\uc131\ud654",
         "Encoding": "\uc778\ucf54\ub529",
-        "End My Exam": "\ub0b4 \uc2dc\ud5d8 \uc885\ub8cc",
+        "End My Exam": "\uc2dc\ud5d8 \uc885\ub8cc",
         "End of transcript. Skip to the start.": "\uc790\ub9c9\uc758 \ub05d\u002e \ucc98\uc74c\uc73c\ub85c \uc774\ub3d9",
         "End": "\ub05d",
         "end": "\uc885\ub8cc",
@@ -2014,6 +2014,10 @@
         "No exam results found.": "\uac80\uc0c9 \uacb0\uacfc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4\u002e",
         //"Exam will be visible after due date": "\uacf5\uac1c \uc77c\uc2dc \uc774\ud6c4 \ud45c\uc2dc",
         "": "\uc5c6\uc74c",
+
+        "timed": "\uc2dc\uac04 \uc81c\ud55c",
+        "You are taking \"{exam_link}\" as a {exam_type} exam. The timer on the right shows the time remaining in the exam.": "\"{exam_link}\"을(를) {exam_type} 시험으로 응시하고 있습니다. 오른쪽의 타이머는 남은 시간을 나타냅니다.",
+        "To receive credit for problems, you must select \"Submit\" for each problem before you select \"End My Exam\".": "문제에 대한 점수를 획득하기 위해 \"시험 종료\"를 클릭하기 전에 각 문제에 대해 \"제출\"을 클릭해야 합니다.",
 
         // Language code
         "English": "\uc601\uc5b4",
