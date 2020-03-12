@@ -288,9 +288,14 @@ memo_sync();
 
 
 function course_search(){
-    var search_me = $('#search_me').val();
+    var search_me;
+    if($('.new-rc-search-mobile').css('display') !== 'none') {
+        search_me = $('#search_me_mobile').val();
+    } else {
+        search_me = $('#search_me').val();
+    }
     if (search_me == '') {
-        $('#search_me').focus();
+        search_me.focus();
     } else {
         window.location.href = "/courses?search_query=" + search_me;
     }
@@ -298,12 +303,18 @@ function course_search(){
 
 
 function toggle_ex(){
-    if($('#explore_menu').css('display') == 'none'){
-       $('#explore_menu').show('fast');
+    let $exp_menu;
+    if($('.new-rc-search-mobile').css('display') !== 'none'){
+        $exp_menu = $('#explore_menu_mobile');
+    } else {
+        $exp_menu = $('#explore_menu');
+    }
+    if($exp_menu.css('display') == 'none'){
+       $exp_menu.show('fast');
        $('#new_notice').hide('fast');
        $('#new_my').hide('fast');
     } else {
-       $('#explore_menu').hide('fast');
+       $exp_menu.hide('fast');
     }
 }
 

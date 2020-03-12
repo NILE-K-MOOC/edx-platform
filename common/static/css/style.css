@@ -1730,7 +1730,7 @@ button:hover:not(:disabled) {
 
 
 .textarea, input[type="text"], input[type="url"], input[type="email"], input[type="password"], input[type="tel"]{
-font-style: normal; font-family:"malgun gothic";
+font-style: normal; font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
 }
 
 .courses-container .courses .course.ing{margin-bottom:0;}

@@ -45,11 +45,11 @@ li{
 
 /* mobole logo */
 .kre01_tlogo{display:none !important;}
-.kre01_tlogodepth{display: inline-block; text-align: center; margin: 0 auto; padding: 10px 0px; vertical-align: middle;}
+.kre01_tlogodepth{display: flex; text-align: center; margin: 0 auto; padding: 10px 0px; vertical-align: middle;}
 .kre01_tlogodepth a{display: inline-block!important; width: 134px!important; margin: 0!important;}
 .kre01_tlogodepth a img{width: 100% !important;}
 
-.M_kre01_top02area{display: none;}
+.new-rc-search-mobile{display: none;}
 .kre01_top02areadepth .course-search{border: 3px solid #4185c4; width: 100%; float: inherit;}
 .kre01_top02areadepth .course-search form{display: flex; align-items: stretch; width: 100%;}
 .kre01_top02areadepth .course-search form label{width: 100%; margin-bottom: 0px;}
@@ -1365,15 +1365,48 @@ input[type="radio"].toggle:checked + label {
 
   .global-header .main-header{height: 68px !important;}
   #menu-container{display: block;}
-  .M_kre01_top02area, .M_kre02_top02area{display: block;     position: absolute;
+  .new-rc-search-mobile, .M_kre02_top02area{
+    display: flex;
+    position: absolute;
     z-index: 10;
     width: 100%;
     text-align: center;
-    padding-top: 19px;
-    border-bottom: 0px;
+    padding: 10px;
+    border-bottom: 0;
     box-shadow: none;
   }
 
+  .new-rc-search-mobile .new-rc-search {
+      margin: 2px auto 0;
+      width: 100%;
+      justify-content: space-between;
+      position: relative;
+  }
+
+  .new-rc-search-mobile .new-rc-search .explore-menu {
+    max-width: 100%;
+  }
+
+  .new-rc-search-mobile .new-rc-search .new-search-left {
+    width: 160px;
+    justify-content: space-evenly;
+    font-size: 14px;
+  }
+  .new-rc-search-mobile .new-rc-search .new-search-left .new-ar {
+    margin-right: 5px;
+  }
+  .new-rc-search-mobile .new-rc-search .new-search-left .new-ar-img {
+    margin-top: 16px;
+  }
+
+  .new-rc-search-mobile .new-rc-search .new-search-left .new-st {
+    padding-top: 9px;
+  }
+
+  .new-rc-search-mobile .new-rc-search .new-search-input {
+    width: 100%;
+    padding: 0 8px;
+  }
   .kr01_SnsArea {display: none;}
   .sns_rep .kr01_SnsArea{display: block;}
   .kr01_alretTxt {width: 95%;}

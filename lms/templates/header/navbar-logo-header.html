@@ -51,25 +51,62 @@
   </div>
 % endif
 
-<div class="M_kre01_top02area">
-  <section class="courses-container bg-w">
-    <section class="highlighted-courses">
-      <div class="kre01_top02areadepth">
-        <div class="course-search">
-          <form method="get" action="/courses" id="m_main_form">
-            <div class="m-search-division">
-            <label><span class="sr">${_("Search for a course")}</span>
-              <input class="m-search-query" name="search_query" type="text" placeholder="${_("Search for a course")}">
-            </label>
-            <button class="" type="submit">
-              <span class="icon-search" aria-hidden="true"><img src="/static/images/main/search.png" alt=""></span>
-              <span class="sr">${_("Search")}</span>
-            </button>
-              </div>
-          </form>
-        </div>
+<!-- 렌더 : 검색창 -->
+
+<div class="new-rc-search-mobile">
+% if 'multisite_org' not in request.session:
+<div class="new-rc-search">
+  <div class="new-search-left" onclick="toggle_ex()">
+    <div class="new-st">
+      ${_("Explorer")}
+    </div>
+    <div class="new-ar">
+      <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
+    </div>
+  </div>
+  <input type="text" id="search_me_mobile" class="new-search-input">
+  <div class="new-search-right" onclick="course_search();">
+    <img src="/static/new_index/images/icon_search.png"/>
+  </div>
+  <!-- 분류 탐색 익스플로러 -->
+  <div id="explore_menu_mobile" class="link_to_courses explore-menu open xxx-box" style="display: none;">
+    <div class="menu-group link_to_courses">
+      <ul class="menu-items">
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="hum">${_("Humanities")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="nat">${_("Natural")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="social">${_("Social")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="med">${_("Medical")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="art">${_("Arts & Physical")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="eng">${_("Engineering")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="classfy" data-term="intd">${_("Interdisciplinary")}</a>
+        </li>
+        <li class="list-item">
+          <a href="#" data-facet="ribbon_yn" data-term="ribbon_y">${_("Blue Ribbon")}</a>
+        </li>
+      </ul>
+      <div class="menu-link">
+        <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="item">${_("Fourth Industry")}</a>
+        <a data-facet="ai_sec_yn" data-term="ai_sec_y" href="#" class="item">${_("Artificial intelligence")}</a>
       </div>
-    </section>
-  </section>
+    </div>
+    <div class="menu-bottom">
+      <a href="/courses" class="more">${_("View All Course")} +</a>
+    </div>
+  </div>
+</div>
+% endif
 </div>
 
