@@ -50,7 +50,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    // console.log('renderOptions check: ' + data.facet + " : " + data.term)
+                    console.debug('renderOptions check: ' + data.facet + " : " + data.term)
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -463,7 +463,7 @@
                             v = 'Y';
                             t = 'linguistics_y';
                             break;
-                        case 'aiai_sec_yn_yn':
+                        case 'ai_sec_yn':
                             k = 'ai_sec_yn';
                             v = 'ai_sec_y';
                             t = 'ai_sec_y';
