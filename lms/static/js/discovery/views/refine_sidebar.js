@@ -50,7 +50,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    // console.debug('renderOptions check: ' + data.facet + " : " + data.term);
+                    console.debug('renderOptions check:: ' + data.facet + " : " + data.term);
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -421,15 +421,33 @@
                 let li_list3 = $("#linguistics li").clone();
                 let li_list4 = $("#job_edu_yn li").clone();
 
+                console.debug('li debug ---------------------------------------------- s');
+                console.debug(li_list1);
+                console.debug(li_list2);
+                console.debug(li_list3);
+                console.debug(li_list4);
+                console.debug('li debug ---------------------------------------------- e');
+
                 $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4);
+
+                console.debug('$("#fourth_industry_yn li") : ' + $("#fourth_industry_yn li").size());
 
                 $("#fourth_industry_yn li").each(function () {
                     let v = $(this).find("button").data('value');
+
+                    console.log('#fourth_industry_yn li remove check : ' + v);
 
                     if (v.toUpperCase() == 'N') {
                         $(this).remove();
                     }
                 });
+
+                console.log('size check before remove: ' + $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").size());
+
+                console.log("ai_sec_yn check ---------------------- s");
+                console.log($("#ai_sec_yn").size());
+                console.log($("#ai_sec_yn").html());
+                console.log("ai_sec_yn check ---------------------- e");
 
                 $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").remove();
 
