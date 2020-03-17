@@ -307,7 +307,8 @@ getParameterByName('search_query')
 
         $(document).on('click', '#go1', function(){
             var url= '/courses';
-            var list_val = $('.course-facets-select option:selected').val();
+            var sel_id = $('.pc-course-search').css('display') !== 'none' ? '#course_status' : '#sel_status_mo .course-facets-select';
+            var list_val = $(sel_id + ' option:selected').val();
             if(list_val){
                 url = url + '?range=' + list_val;
                 document.location.href = url;
