@@ -12,9 +12,6 @@
         .courses-listing-item:nth-child(3n+1){
             clear: unset !important;
         }
-        .courses-listing-item:nth-child(4n+1){
-            clear: left !important;
-        }
         .courses-listing-item {
             width: 24% !important;
         }
@@ -49,8 +46,8 @@
         </div>
         <div style="float: right;">
             <label for="discovery-input" class="sr">강좌 찾기</label>
-            <input id="discovery-input" style="position:  relative; padding-right: 12px;" class="discovery-input ui-autocomplete-input" placeholder="강좌 찾기" type="text" autocomplete="off"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-            <button class="button postfix discovery-submit" style="position: relative; height: 35px;" title="검색">
+            <input id="multisite_search" style="position:  relative; padding-right: 12px;" class="discovery-input ui-autocomplete-input" placeholder="강좌 찾기" type="text" autocomplete="off"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+            <button onclick="multisite_search()" class="button postfix discovery-submit" style="position: relative; height: 35px;" title="검색">
                 <img src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="검색" style="width: 20px; margin-top: -3px; height: 20px;">
             </button>
         </div>
@@ -59,7 +56,7 @@
 
 <section>
     <div class="container-fluid" style="font-size: 16px; margin-top: 10px; margin-bottom: -20px;">
-        총 ${len(courses)} 개
+        총 <span id="course_total">${len(courses)}</span> 개
     </div>
 </section>
 
@@ -83,3 +80,26 @@
     % endif
     </section>
 </section>
+
+<script>
+    $("#multisite_search").keydown(function (e) {
+        if (e.keyCode == 13) {
+            multisite_search();
+        }
+    });
+
+    function multisite_search(){
+        $('.courses-listing-item').show();
+        var multisite_search = $('#multisite_search').val();
+        var cnt = $('.courses-listing-item').length;
+        var total = cnt;
+        for (var i=0; i<cnt; i++) {
+            var course_title = $('.courses-listing-item').eq(i).find(".course-title").html();
+            if (course_title.search(multisite_search) == -1) {
+                $('.courses-listing-item').eq(i).hide();
+                total -= 1;
+            }
+        }
+        $('#course_total').html(total);
+    }
+</script>
