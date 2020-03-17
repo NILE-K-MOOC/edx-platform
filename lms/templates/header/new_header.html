@@ -70,12 +70,18 @@
 
                 <!-- 렌더 : 로고 영역 -->
                 <div class="new-logo">
+                    % if 'multisite_org' not in request.session:
                     <!-- 렌더 : 메인 로고 -->
                     <a href="${branding_api.get_home_url()}">
                         <img class="new-logo-img" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
+                    % endif
                     <!-- 렌더 : 기관연계 로고 -->
                     % if 'multisite_org' in request.session and 'save_path' in request.session:
+                    <!-- 렌더 : 메인 로고 -->
+                    <a href="/org/${request.session['multisite_org']}">
+                        <img class="new-logo-img" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                    </a>
                     <a href="/org/${request.session['multisite_org']}">
                         <img class="new-logo-img" src="${request.session['save_path']}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
                     </a>
@@ -166,12 +172,14 @@
                                         <li>
                                             <a href="${reverse('dashboard')}">${_("Dashboard")}</a>
                                         </li>
+                                        % if 'multisite_org' not in request.session:
                                         <li>
                                             <a href="/new_dashboard">${_("Series Course")}</a>
                                         </li>
                                         <li>
                                             <a href="/cb_course_list">${_("Credit Bank Certificate")}</a>
                                         </li>
+                                        % endif
                                         <li>
                                             <a href="${reverse('learner_profile', kwargs={'username': username})}">${_("Profile")}</a>
                                         </li>
@@ -185,23 +193,31 @@
                                 </div>
                             </div>
 
-                            % if LANGUAGE_CODE == 'ko-kr':
-                                <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
-                                    Kor
-                                </div>
-                                <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                                <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
-                                    Eng
-                                </div>
+                            % if 'multisite_org' not in request.session:
+                                % if LANGUAGE_CODE == 'ko-kr':
+                                    <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                    <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                        Kor
+                                    </div>
+                                    <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                    <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                        Eng
+                                    </div>
+                                % else:
+                                    <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                    <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
+                                        Kor
+                                    </div>
+                                    <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                    <div tabindex="0" for="en" class="language-btn new-lang-eng">
+                                        Eng
+                                    </div>
+                                % endif
                             % else:
-                                <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
-                                    Kor
-                                </div>
-                                <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                                <div tabindex="0" for="en" class="language-btn new-lang-eng">
-                                    Eng
+                                <div style="margin-left: 20px;">
+                                    <a href="/">
+                                        K-MOOC 홈페이지
+                                    </a>
                                 </div>
                             % endif
                         </div>

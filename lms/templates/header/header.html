@@ -19,7 +19,7 @@
 % endif
 
 
-<header class="global-header ${'slim' if course else ''}">
+<header class="${'slim' if course else ''}">
     % if use_cookie_banner:
         ${static.renderReact(
             component="CookiePolicyBanner",
