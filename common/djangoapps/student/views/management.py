@@ -220,7 +220,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     # multisite - get site code query
     with connections['default'].cursor() as cur:
         query = '''
-                SELECT site_id
+                SELECT site_id, course_select_type
                 FROM   edxapp.multisite
                 WHERE  site_code = '{0}'
             '''.format(site_code)
@@ -228,6 +228,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         rows = cur.fetchall()
     try:
         site_id = rows[0][0]
+        course_select_type = rows[0][1]
     except BaseException:
         return redirect('/multisite_error?error=error001')
 
@@ -352,6 +353,76 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         cur.execute(query)
         max_pop = cur.fetchone()
 
+    # ----------------------------------------------------------------
+    if course_select_type == 'A':
+        start = time.time()
+        user = request.user
+        with connections['default'].cursor() as cur:
+            query = '''
+                    select course_id
+                    from student_courseenrollment
+                    where user_id = {user_id}
+                    and is_active = 1
+                    order by created desc
+                    limit 12;
+                '''.format(user_id=user.id)
+            try:
+                cur.execute(query)
+                my_raw_course = cur.fetchall()
+            except BaseException:
+                my_raw_course = []
+
+            # N: new, P: popular, T:today
+            query = '''
+                    SELECT course_division, course_id
+                      FROM tb_main_course
+                     WHERE course_division in ('N', 'P', 'T') 
+                      ;
+                '''
+            cur.execute(query)
+            main_course = cur.fetchall()
+
+            log.debug('len(main_course) : {}'.format(len(main_course)))
+
+            my_course = [CourseKey.from_string(course[0]) for course in my_raw_course]
+            new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
+            pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
+            today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
+
+        f1 = {'id__in': new_course}
+        log.debug('***** def index time check1.1.1 [%s]' % format(time.time() - start, ".6f"))
+        f2 = {'id__in': pop_course}
+        log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
+        f3 = {'id__in': today_course}
+        log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
+        f4 = {'id__in': my_course}
+        log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
+
+        new_courses = index_courses(user, f1)
+        pop_courses = index_courses(user, f2)
+        today_courses = index_courses(user, f3)
+        my_courses = index_courses(user, f4)
+
+        log.debug('***** def index time check1.3 [%s]' % format(time.time() - start, ".6f"))
+
+        log.debug(u'len(new_courses) ::: %s', len(new_courses))
+        log.debug(u'len(pop_courses) ::: %s', len(pop_courses))
+        log.debug(u'len(today_courses) ::: %s', len(today_courses))
+
+        log.debug('***** def index time check2 [%s]' % format(time.time() - start, ".6f"))
+
+        context['new_courses'] = new_courses
+        context['pop_courses'] = pop_courses
+        context['today_courses'] = today_courses
+        context['my_courses'] = my_courses
+    else:
+        context['new_courses'] = []
+        context['pop_courses'] = []
+        context['today_courses'] = []
+        context['my_courses'] = []
+    # ----------------------------------------------------------------
+
+    context['course_select_type'] = course_select_type
     context['max_pop'] = max_pop[0]
     context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
     context['popup_image_base'] = theming_helpers.get_template_path('popup_image_base.html')

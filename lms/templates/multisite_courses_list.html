@@ -3,6 +3,76 @@
 <%! from django.utils.translation import ugettext as _ %>
 
 <style>
+    .txt-lol {
+        text-align: center;
+        font-size: 20px;
+    }
+    .btn-lol {
+        text-align: center;
+        background: #3F51B5;
+        max-width: 230px;
+        border-radius: 6px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: #ffffff;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        margin-bottom: 100px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-lol:hover {
+        border: solid 1px #3F51B5;
+        background: #ffffff;
+        color: #3F51B5;
+    }
+    @media screen and (max-width: 600px) {
+        .txt-lol {
+            font-size: 12px;
+        }
+    }
+
+
+    .more {
+        color: #222 !important;
+        text-decoration:none !important
+    }
+    .quick-link > li > a {
+        color: #222 !important;
+    }
+    .classify-item {
+        color: #222 !important;
+    }
+    .link {
+        color: #222 !important;
+    }
+    .instructor {
+        color: #222 !important;
+    }
+    .course-item {
+        text-decoration:none !important
+    }
+    .el-xbox > a {
+        text-decoration:none !important
+    }
+    .el-xbox {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        transition: 0.3s;
+    }
+    .course-title {
+        font-family: 'Noto Sans KR' !important;
+        color: #222 !important;
+    }
+    .sub-title {
+        font-family: 'Noto Sans KR' !important;
+    }
+    .csp {
+        cursor: pointer;
+    }
+</style>
+<style>
     @media screen and (max-width: 979px) and (min-width: 769px) {
         .courses {
             width: 100% !important;
@@ -27,6 +97,8 @@
     }
 </style>
 <link rel="stylesheet" type="text/css" href="/static/images/kotech_roadmap/about_org.css">
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css">
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css">
 
 <section class="page-title agency-title" style="margin-top: 20px;">
     <div class="container-fluid">
@@ -39,6 +111,281 @@
     </div>
 </section>
 
+% if course_select_type == 'A':
+<section class="sec-course">
+    <div class="container-fluid">
+        <div class="course-top">
+            <h1 class="title">${_("How about this lecture?")}</h1>
+            <ul class="tab-group">
+                <li>
+                    <div onclick="change_course('pop')" id="hack_pop" class="csp tab active">${_("Popular Courses")}</div>
+                </li>
+                <li>
+                    <div onclick="change_course('new')" id="hack_new" class="csp tab">${_("New Courses")}</div>
+                </li>
+                <li>
+                    <div onclick="change_course('today')" id="hack_today" class="csp tab">${_("Today Courses")}</div>
+                </li>
+                % if user.is_authenticated:
+                <li>
+                    <div onclick="change_course('my')" id="hack_my" class="csp tab">${_("My Courses")}</div>
+                </li>
+                % endif
+            </ul>
+        </div>
+
+        <!-- 인기강좌 -->
+        <div id="section_pop" class="owl-carousel course-carousel owl-loaded owl-drag">
+            <div class="owl-stage-outer">
+                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                    % for c in pop_courses:
+                    <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                        <div class="item">
+                            <a href="/courses/${c.id}/about" class="course-item">
+                                <div class="course-thumb">
+                                    <figure>
+                                        <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                        <span class="more">
+                                            <span>${_("LEARN MORE")}</span>
+                                        </span>
+                                    </figure>
+                                </div>
+                                <h2 class="course-title">${c.display_name}</h2>
+                                <div class="course-info">
+                                    <p class="instructor">
+                                        <span class="course-instructor">${c.teacher_name}</span>
+                                        % if LANGUAGE_CODE == 'ko-kr':
+                                        <span class="kr01_school">${c.org_kname}</span>
+                                        % else:
+                                        <span class="kr01_school">${c.org_ename}</span>
+                                        % endif
+                                    </p>
+                                    <p class="period">
+                                        % if c.start != None and c.end != None:
+                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        % else:
+                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        % endif
+
+                                        % if c.status == 'ing':
+                                            <span class="state ing">진행중</span>
+                                        % elif c.status == 'end' and c.audit_yn == 'N':
+                                            <span class="state end">종료</span>
+                                        % elif c.status == 'end' and c.audit_yn == 'Y':
+                                            <span class="state possible">청강가능</span>
+                                        % else:
+                                            <span class="state soon">개강예정</span>
+                                        % endif
+                                        <!--<span class="state soon">개강예정</span>-->
+                                        <!--<span class="state possible">청강가능</span>-->
+                                        <!--<span class="state end">종료</span>-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    % endfor
+                </div>
+            </div>
+        </div>
+
+        <!-- 신규강좌 -->
+        <div id="section_new" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+            <div class="owl-stage-outer">
+                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                    % for c in new_courses:
+                    <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                        <div class="item">
+                            <a href="/courses/${c.id}/about" class="course-item">
+                                <div class="course-thumb">
+                                    <figure>
+                                        <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                        <span class="more">
+                                            <span>${_("LEARN MORE")}</span>
+                                        </span>
+                                    </figure>
+                                </div>
+                                <h2 class="course-title">${c.display_name}</h2>
+                                <div class="course-info">
+                                    <p class="instructor">
+                                        <span class="course-instructor">${c.teacher_name}</span>
+                                        % if LANGUAGE_CODE == 'ko-kr':
+                                        <span class="kr01_school">${c.org_kname}</span>
+                                        % else:
+                                        <span class="kr01_school">${c.org_ename}</span>
+                                        % endif
+                                    </p>
+                                    <p class="period">
+                                        % if c.start != None and c.end != None:
+                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        % else:
+                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        % endif
+
+                                        % if c.status == 'ing':
+                                            <span class="state ing">진행중</span>
+                                        % elif c.status == 'end' and c.audit_yn == 'N':
+                                            <span class="state end">종료</span>
+                                        % elif c.status == 'end' and c.audit_yn == 'Y':
+                                            <span class="state possible">청강가능</span>
+                                        % else:
+                                            <span class="state soon">개강예정</span>
+                                        % endif
+                                        <!--<span class="state soon">개강예정</span>-->
+                                        <!--<span class="state possible">청강가능</span>-->
+                                        <!--<span class="state end">종료</span>-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    % endfor
+                </div>
+            </div>
+        </div>
+
+        <!-- 오늘의강좌 -->
+        <div id="section_today" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+            <div class="owl-stage-outer">
+                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                    % for c in today_courses:
+                    <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                        <div class="item">
+                            <a href="/courses/${c.id}/about" class="course-item">
+                                <div class="course-thumb">
+                                    <figure>
+                                        <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                        <span class="more">
+                                            <span>${_("LEARN MORE")}</span>
+                                        </span>
+                                    </figure>
+                                </div>
+                                <h2 class="course-title">${c.display_name}</h2>
+                                <div class="course-info">
+                                    <p class="instructor">
+                                        <span class="course-instructor">${c.teacher_name}</span>
+                                        % if LANGUAGE_CODE == 'ko-kr':
+                                        <span class="kr01_school">${c.org_kname}</span>
+                                        % else:
+                                        <span class="kr01_school">${c.org_ename}</span>
+                                        % endif
+                                    </p>
+                                    <p class="period">
+                                        % if c.start != None and c.end != None:
+                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        % else:
+                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        % endif
+
+                                        % if c.status == 'ing':
+                                            <span class="state ing">진행중</span>
+                                        % elif c.status == 'end' and c.audit_yn == 'N':
+                                            <span class="state end">종료</span>
+                                        % elif c.status == 'end' and c.audit_yn == 'Y':
+                                            <span class="state possible">청강가능</span>
+                                        % else:
+                                            <span class="state soon">개강예정</span>
+                                        % endif
+                                        <!--<span class="state soon">개강예정</span>-->
+                                        <!--<span class="state possible">청강가능</span>-->
+                                        <!--<span class="state end">종료</span>-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    % endfor
+                </div>
+            </div>
+        </div>
+
+        <!-- 수강중인 강좌 -->
+        <div id="section_my" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none;">
+            <div class="owl-stage-outer">
+                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                    % for c in my_courses:
+                    <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                        <div class="item">
+                            <a href="/courses/${c.id}/about" class="course-item">
+                                <div class="course-thumb">
+                                    <figure>
+                                        <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                        <span class="more">
+                                            <span>${_("LEARN MORE")}</span>
+                                        </span>
+                                    </figure>
+                                </div>
+                                <h2 class="course-title">${c.display_name}</h2>
+                                <div class="course-info">
+                                    <p class="instructor">
+                                        <span class="course-instructor">${c.teacher_name}</span>
+                                        % if LANGUAGE_CODE == 'ko-kr':
+                                        <span class="kr01_school">${c.org_kname}</span>
+                                        % else:
+                                        <span class="kr01_school">${c.org_ename}</span>
+                                        % endif
+                                    </p>
+                                    <p class="period">
+                                        % if c.start != None and c.end != None:
+                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        % else:
+                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        % endif
+
+                                        % if c.status == 'ing':
+                                            <span class="state ing">진행중</span>
+                                        % elif c.status == 'end':
+                                            <span class="state end">종료</span>
+                                        % else:
+                                            <span class="state soon">개강예정</span>
+                                        % endif
+                                        <!--<span class="state soon">개강예정</span>-->
+                                        <!--<span class="state possible">청강가능</span>-->
+                                        <!--<span class="state end">종료</span>-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    % endfor
+                </div>
+            </div>
+        </div>
+        <div class="no-content" style="display: none;" id="section_no">
+            <p>수강중인 강좌가 존재하지 않습니다.</p>
+            <a href="/courses" class="go">강좌 탐색</a>
+        </div>
+    </div>
+    <div class="owl-nav" id="section_owl" style="display: none;">
+        <button type="button" role="presentation" class="owl-prev disabled">
+            <span aria-label="Previous">‹</span>
+        </button>
+        <button type="button" role="presentation" class="owl-next">
+            <span aria-label="Next">›</span>
+        </button>
+    </div>
+    <div class="owl-dots disabled"></div>
+</section>
+
+<section>
+    <div class="container-fluid">
+        <div class="txt-lol">
+            해당 기관은 강좌 전체를 탐색하여 수강하실 수 있습니다.<br>
+            K-MOOC 홈페이지에서 더 많은 강좌를 찾아보시겠습니까?
+        </div>
+
+        <div class="btn-lol">
+             K-MOOC 강좌 전체 보기 >>
+        </div>
+    </div>
+</section>
+% endif
+
+% if course_select_type == 'C':
 <section>
     <div class="container-fluid" style="margin-top: 20px; border-bottom: 1px solid #dddddd; padding-bottom: 18px;">
         <div style="float: left; font-size: 20px;">
@@ -66,21 +413,20 @@
 
         <div class="courses">
             <ul class="courses-listing">
-                %for course in courses:
+                % for course in courses:
                     <li class="courses-listing-item">
                         <%include file="course.html" args="course=course" />
                     </li>
-                %endfor
+                % endfor
             </ul>
         </div>
-
-        ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
-        % if settings.HOMEPAGE_COURSE_MAX and len(courses) > settings.HOMEPAGE_COURSE_MAX:
-        % endif
     % endif
     </section>
 </section>
+% endif
 
+
+<script type="text/javascript" src="/static/new_index/js/owl.carousel.js"></script>
 <script>
     $("#multisite_search").keydown(function (e) {
         if (e.keyCode == 13) {
@@ -101,5 +447,52 @@
             }
         }
         $('#course_total').html(total);
+    }
+
+    function change_course(type){
+        // $('#section_owl').show();
+        $('#section_no').hide();
+        if (type=='pop') {
+            $('#section_today').hide();
+            $('#section_pop').show();
+            $('#section_new').hide();
+            $('#section_my').hide();
+            $('#hack_today').removeClass("active");
+            $('#hack_pop').addClass("active");
+            $('#hack_new').removeClass("active");
+            $('#hack_my').removeClass("active");
+        } else if (type=='new') {
+            $('#section_today').hide();
+            $('#section_pop').hide();
+            $('#section_new').show();
+            $('#section_my').hide();
+            $('#hack_today').removeClass("active");
+            $('#hack_pop').removeClass("active");
+            $('#hack_new').addClass("active");
+            $('#hack_my').removeClass("active");
+        } else if (type=='today') {
+            $('#section_today').show();
+            $('#section_pop').hide();
+            $('#section_new').hide();
+            $('#section_my').hide();
+            $('#hack_today').addClass("active");
+            $('#hack_pop').removeClass("active");
+            $('#hack_new').removeClass("active");
+            $('#hack_my').removeClass("active");
+        } else if (type=='my') {
+            $('#section_today').hide();
+            $('#section_pop').hide();
+            $('#section_new').hide();
+            $('#section_my').show();
+            $('#hack_today').removeClass("active");
+            $('#hack_pop').removeClass("active");
+            $('#hack_new').removeClass("active");
+            $('#hack_my').addClass("active");
+            var my_courses_len = '${len(my_courses)}';
+            if (my_courses_len == '0') {
+                $('#section_no').show();
+                // $('#section_owl').hide();
+            }
+        }
     }
 </script>
