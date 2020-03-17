@@ -32,8 +32,6 @@
             font-size: 12px;
         }
     }
-
-
     .more {
         color: #222 !important;
         text-decoration:none !important
@@ -71,8 +69,6 @@
     .csp {
         cursor: pointer;
     }
-</style>
-<style>
     @media screen and (max-width: 979px) and (min-width: 769px) {
         .courses {
             width: 100% !important;
@@ -97,8 +93,10 @@
     }
 </style>
 <link rel="stylesheet" type="text/css" href="/static/images/kotech_roadmap/about_org.css">
-<link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css">
-<link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css" />
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css" />
+<script type="text/javascript" src="/static/new_index/js/owl.carousel.js"></script>
 
 <section class="page-title agency-title" style="margin-top: 20px;">
     <div class="container-fluid">
@@ -378,7 +376,7 @@
             K-MOOC 홈페이지에서 더 많은 강좌를 찾아보시겠습니까?
         </div>
 
-        <div class="btn-lol">
+        <div class="btn-lol" onclick='window.location.href = "/courses";'>
              K-MOOC 강좌 전체 보기 >>
         </div>
     </div>
@@ -426,7 +424,6 @@
 % endif
 
 
-<script type="text/javascript" src="/static/new_index/js/owl.carousel.js"></script>
 <script>
     $("#multisite_search").keydown(function (e) {
         if (e.keyCode == 13) {
