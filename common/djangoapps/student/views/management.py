@@ -238,54 +238,51 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
         with connections['default'].cursor() as cur:
             query = '''
-                SELECT 
-                    course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name
-                FROM
-                    (SELECT 
-                        a.course_id,
-                            c.audit_yn,
-                            IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
-                            IFNULL(CASE
-                                        WHEN INSTR(c.teacher_name, ',') = 0 THEN c.teacher_name
-                                        ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1),
-                                                ' 외 ',
-                                                LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')),
-                                                '명')
-                                    END, '') AS teacher_name,
-                            CASE
-                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) THEN 1
-                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) THEN 2
-                                WHEN
-                                    ADDDATE(end, INTERVAL 9 HOUR) < NOW()
-                                        AND c.audit_yn = 'Y'
-                                THEN
-                                    3
+                SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
+                FROM (
+                        SELECT  a.course_id,
+                                c.audit_yn,
+                                IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
+                                IFNULL(
+                                    CASE
+                                    WHEN INSTR(c.teacher_name, ',') = 0 
+                                    THEN c.teacher_name
+                                    ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1), ' 외 ', LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')), '명')
+                                    END, ''
+                                ) AS teacher_name,
+                                CASE
+                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) 
+                                THEN 1
+                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) 
+                                THEN 2
+                                WHEN ADDDATE(end, INTERVAL 9 HOUR) < NOW() AND c.audit_yn = 'Y'
+                                THEN 3
                                 ELSE 4
-                            END AS order1,
-                            id,
-                            org,
-                            display_number_with_default,
-                            created,
-                            display_name,
-                            start,
-                            end,
-                            enrollment_start,
-                            enrollment_end
-                    FROM
-                        multisite_course a
-                    JOIN (SELECT 
-                        *
-                    FROM
-                        course_overviews_courseoverview
-                    WHERE
-                        LOWER(id) NOT LIKE '%demo%'
+                                END AS order1,
+                                id,
+                                org,
+                                display_number_with_default,
+                                created,
+                                display_name,
+                                start,
+                                end,
+                                enrollment_start,
+                                enrollment_end
+                        FROM multisite_course a
+                        JOIN (
+                            SELECT  *
+                            FROM course_overviews_courseoverview
+                            WHERE LOWER(id) NOT LIKE '%demo%'
                             AND LOWER(id) NOT LIKE '%nile%'
-                            AND LOWER(id) NOT LIKE '%test%') b ON b.id = a.course_id
-                    JOIN course_overview_addinfo c ON a.course_id = c.course_id
-                    WHERE 1=1
+                            AND LOWER(id) NOT LIKE '%test%'
+                        ) b 
+                        ON b.id = a.course_id
+                        JOIN course_overview_addinfo c ON a.course_id = c.course_id
+                        WHERE 1=1
                         and start < date('2030/01/01') 
                         and site_id = '{site_id}'
-                    ORDER BY created DESC) mc
+                        ORDER BY created DESC
+                ) mc
                 GROUP BY org , display_number_with_default
                 ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name;
             '''.format(site_id=site_id)

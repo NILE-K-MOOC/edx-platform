@@ -3,9 +3,31 @@
 <%! from django.utils.translation import ugettext as _ %>
 
 <style>
-  .kr01-area .content-wrapper{
-      max-width: 1500px;
-  }
+    @media screen and (max-width: 979px) and (min-width: 769px) {
+        .courses {
+            width: 100% !important;
+        }
+    }
+    @media screen and (min-width: 980px) {
+        .courses-listing-item:nth-child(3n+1){
+            clear: unset !important;
+        }
+        .courses-listing-item:nth-child(4n+1){
+            clear: left !important;
+        }
+        .courses-listing-item {
+            width: 24% !important;
+        }
+        .courses-listing-item:nth-child(3n) {
+            margin-right: 10px !important;
+        }
+        .courses-listing-item:nth-child(4n) {
+            margin-right: 0px !important;
+        }
+        .courses {
+            width: 100% !important;
+        }
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="/static/images/kotech_roadmap/about_org.css">
 
@@ -20,19 +42,23 @@
     </div>
 </section>
 
-<section class="courses-container bg-w">
+<section class="find-courses">
+    <section class="courses-container">
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-      <section class="courses" style="padding: 70px; padding-left: 50px;">
-        <ul>
-          %for course in courses:
-          <li class="courses-listing-item" style="width: 300px; float: left; margin-left: 10px;">
-              <%include file="course.html" args="course=course" />
-          </li>
-          %endfor
-        </ul>
-      </section>
+
+        <div class="courses">
+            <ul class="courses-listing">
+                %for course in courses:
+                    <li class="courses-listing-item">
+                        <%include file="course.html" args="course=course" />
+                    </li>
+                %endfor
+            </ul>
+        </div>
+
         ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
         % if settings.HOMEPAGE_COURSE_MAX and len(courses) > settings.HOMEPAGE_COURSE_MAX:
         % endif
     % endif
+    </section>
 </section>
