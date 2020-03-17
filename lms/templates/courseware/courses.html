@@ -116,38 +116,38 @@ getParameterByName('search_query')
         <section class="courses-container">
             % if course_discovery_enabled:
             <!--모바일 검색 필터 s-->
-            <div class="courses-filter-container">
-                <div class="courses-filter mobile-course-search" onclick="closeFilter()">
-                    <span class="courses-filter-tag">
-                        ${_('Refine Your Search')} <i class="fa fa-filter"></i>
-                    </span>
-                </div>
-                <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu courses-filter-layer">
-                    <div class="courses-filter-title">
-                        <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
-                        <div class="courses-filter-close" onclick="closeFilter()">
-                            <i class="fa fa-times"></i>
-                        </div>
-                    </div>
-                    <section class="course-facets-list">
-                        <h3 class="header-facet">${_('Opening Status')}</h3>
-                        <div id="sel_status_mo">
-                            <select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}" label="${_('Opening Status')}">
-                                <option value="">${_('All')}</option>
-                                <option value="i">${_('ing')}</option>
-                                <option value="t">${_('ready')}</option>
-                                <option value="a">${_('end & audit course')}</option>
-                                <option value="e">${_('end')}</option>
-                            </select>
-                        </div>
-                    </section>
-                    <section class="search-facets-lists">
-                    </section>
-                    <div onclick="closeFilter()" class="courses-filter-bottom">
-                        <span>검색 조건 필터 접기</span>
-                    </div>
-                </aside>
-            </div>
+            <!--<div class="courses-filter-container">-->
+                <!--<div class="courses-filter mobile-course-search" onclick="closeFilter()">-->
+                    <!--<span class="courses-filter-tag">-->
+                        <!--${_('Refine Your Search')} <i class="fa fa-filter"></i>-->
+                    <!--</span>-->
+                <!--</div>-->
+                <!--<aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu courses-filter-layer">-->
+                    <!--<div class="courses-filter-title">-->
+                        <!--<h2 class="header-search-facets">${_('Refine Your Search')}</h2>-->
+                        <!--<div class="courses-filter-close" onclick="closeFilter()">-->
+                            <!--<i class="fa fa-times"></i>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<section class="course-facets-list course-facets-mobile">-->
+                        <!--<h3 class="header-facet">${_('Opening Status')}</h3>-->
+                        <!--<div id="sel_status_mo">-->
+                            <!--<select style="width:100%" class="course-facets-select" style="margin-bottom: 10px;" title="${_('Opening Status')}" label="${_('Opening Status')}">-->
+                                <!--<option value="">${_('All')}</option>-->
+                                <!--<option value="i">${_('ing')}</option>-->
+                                <!--<option value="t">${_('ready')}</option>-->
+                                <!--<option value="a">${_('end & audit course')}</option>-->
+                                <!--<option value="e">${_('end')}</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</section>-->
+                    <!--<section class="search-facets-lists">-->
+                    <!--</section>-->
+                    <!--<div onclick="closeFilter()" class="courses-filter-bottom">-->
+                        <!--<span>검색 조건 필터 접기</span>-->
+                    <!--</div>-->
+                <!--</aside>-->
+            <!--</div>-->
             <!--모바일 검색 필터 e-->
             <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
                 <div id="discovery-message" class="search-status-label" title="강좌 갯수"></div>
