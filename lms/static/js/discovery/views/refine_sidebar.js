@@ -50,7 +50,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    console.debug('renderOptions check: ' + data.facet + " : " + data.term)
+                    // console.debug('renderOptions check: ' + data.facet + " : " + data.term);
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -416,12 +416,12 @@
 
                 $("h3[data-name='fourth_industry_yn']").text(gettext('etc'));
 
-                let list1 = $("#ai_sec_yn li").clone();
-                let list2 = $("#basic_science_sec_yn li").clone();
-                let list3 = $("#linguistics li").clone();
-                let list4 = $("#job_edu_yn li").clone();
+                let li_list1 = $("#ai_sec_yn li").clone();
+                let li_list2 = $("#basic_science_sec_yn li").clone();
+                let li_list3 = $("#linguistics li").clone();
+                let li_list4 = $("#job_edu_yn li").clone();
 
-                $("#fourth_industry_yn").append(list1, list2, list3, list4);
+                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4);
 
                 $("#fourth_industry_yn li").each(function () {
                     let v = $(this).find("button").data('value');
