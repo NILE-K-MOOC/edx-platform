@@ -444,6 +444,11 @@
 
                 console.log('size check before remove: ' + $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").size());
 
+                console.log("ai_sec_yn check ---------------------- s");
+                console.log($("#ai_sec_yn").size());
+                console.log($("#ai_sec_yn").html());
+                console.log("ai_sec_yn check ---------------------- e");
+
                 $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").remove();
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
