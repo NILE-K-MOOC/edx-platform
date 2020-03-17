@@ -19,7 +19,7 @@
 % endif
 
 
-<header class="global-header ${'slim' if course else ''}">
+<header class="${'slim' if course else ''}">
     % if use_cookie_banner:
         ${static.renderReact(
             component="CookiePolicyBanner",
@@ -36,7 +36,9 @@
 </header>
 
 
-<%include file="new_nav.html" args="online_help_token=online_help_token"/>
+% if 'multisite_org' not in request.session:
+    <%include file="new_nav.html" args="online_help_token=online_help_token"/>
+% endif
 
 
 % if course:

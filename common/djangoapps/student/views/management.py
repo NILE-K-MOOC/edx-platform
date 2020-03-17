@@ -220,7 +220,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     # multisite - get site code query
     with connections['default'].cursor() as cur:
         query = '''
-                SELECT site_id
+                SELECT site_id, course_select_type
                 FROM   edxapp.multisite
                 WHERE  site_code = '{0}'
             '''.format(site_code)
@@ -228,6 +228,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         rows = cur.fetchall()
     try:
         site_id = rows[0][0]
+        course_select_type = rows[0][1]
     except BaseException:
         return redirect('/multisite_error?error=error001')
 
@@ -238,54 +239,51 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
         with connections['default'].cursor() as cur:
             query = '''
-                SELECT 
-                    course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name
-                FROM
-                    (SELECT 
-                        a.course_id,
-                            c.audit_yn,
-                            IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
-                            IFNULL(CASE
-                                        WHEN INSTR(c.teacher_name, ',') = 0 THEN c.teacher_name
-                                        ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1),
-                                                ' 외 ',
-                                                LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')),
-                                                '명')
-                                    END, '') AS teacher_name,
-                            CASE
-                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) THEN 1
-                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) THEN 2
-                                WHEN
-                                    ADDDATE(end, INTERVAL 9 HOUR) < NOW()
-                                        AND c.audit_yn = 'Y'
-                                THEN
-                                    3
+                SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
+                FROM (
+                        SELECT  a.course_id,
+                                c.audit_yn,
+                                IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
+                                IFNULL(
+                                    CASE
+                                    WHEN INSTR(c.teacher_name, ',') = 0 
+                                    THEN c.teacher_name
+                                    ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1), ' 외 ', LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')), '명')
+                                    END, ''
+                                ) AS teacher_name,
+                                CASE
+                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) 
+                                THEN 1
+                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) 
+                                THEN 2
+                                WHEN ADDDATE(end, INTERVAL 9 HOUR) < NOW() AND c.audit_yn = 'Y'
+                                THEN 3
                                 ELSE 4
-                            END AS order1,
-                            id,
-                            org,
-                            display_number_with_default,
-                            created,
-                            display_name,
-                            start,
-                            end,
-                            enrollment_start,
-                            enrollment_end
-                    FROM
-                        multisite_course a
-                    JOIN (SELECT 
-                        *
-                    FROM
-                        course_overviews_courseoverview
-                    WHERE
-                        LOWER(id) NOT LIKE '%demo%'
+                                END AS order1,
+                                id,
+                                org,
+                                display_number_with_default,
+                                created,
+                                display_name,
+                                start,
+                                end,
+                                enrollment_start,
+                                enrollment_end
+                        FROM multisite_course a
+                        JOIN (
+                            SELECT  *
+                            FROM course_overviews_courseoverview
+                            WHERE LOWER(id) NOT LIKE '%demo%'
                             AND LOWER(id) NOT LIKE '%nile%'
-                            AND LOWER(id) NOT LIKE '%test%') b ON b.id = a.course_id
-                    JOIN course_overview_addinfo c ON a.course_id = c.course_id
-                    WHERE 1=1
+                            AND LOWER(id) NOT LIKE '%test%'
+                        ) b 
+                        ON b.id = a.course_id
+                        JOIN course_overview_addinfo c ON a.course_id = c.course_id
+                        WHERE 1=1
                         and start < date('2030/01/01') 
                         and site_id = '{site_id}'
-                    ORDER BY created DESC) mc
+                        ORDER BY created DESC
+                ) mc
                 GROUP BY org , display_number_with_default
                 ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name;
             '''.format(site_id=site_id)
@@ -355,6 +353,76 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         cur.execute(query)
         max_pop = cur.fetchone()
 
+    # ----------------------------------------------------------------
+    if course_select_type == 'A':
+        start = time.time()
+        user = request.user
+        with connections['default'].cursor() as cur:
+            query = '''
+                    select course_id
+                    from student_courseenrollment
+                    where user_id = {user_id}
+                    and is_active = 1
+                    order by created desc
+                    limit 12;
+                '''.format(user_id=user.id)
+            try:
+                cur.execute(query)
+                my_raw_course = cur.fetchall()
+            except BaseException:
+                my_raw_course = []
+
+            # N: new, P: popular, T:today
+            query = '''
+                    SELECT course_division, course_id
+                      FROM tb_main_course
+                     WHERE course_division in ('N', 'P', 'T') 
+                      ;
+                '''
+            cur.execute(query)
+            main_course = cur.fetchall()
+
+            log.debug('len(main_course) : {}'.format(len(main_course)))
+
+            my_course = [CourseKey.from_string(course[0]) for course in my_raw_course]
+            new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
+            pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
+            today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
+
+        f1 = {'id__in': new_course}
+        log.debug('***** def index time check1.1.1 [%s]' % format(time.time() - start, ".6f"))
+        f2 = {'id__in': pop_course}
+        log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
+        f3 = {'id__in': today_course}
+        log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
+        f4 = {'id__in': my_course}
+        log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
+
+        new_courses = index_courses(user, f1)
+        pop_courses = index_courses(user, f2)
+        today_courses = index_courses(user, f3)
+        my_courses = index_courses(user, f4)
+
+        log.debug('***** def index time check1.3 [%s]' % format(time.time() - start, ".6f"))
+
+        log.debug(u'len(new_courses) ::: %s', len(new_courses))
+        log.debug(u'len(pop_courses) ::: %s', len(pop_courses))
+        log.debug(u'len(today_courses) ::: %s', len(today_courses))
+
+        log.debug('***** def index time check2 [%s]' % format(time.time() - start, ".6f"))
+
+        context['new_courses'] = new_courses
+        context['pop_courses'] = pop_courses
+        context['today_courses'] = today_courses
+        context['my_courses'] = my_courses
+    else:
+        context['new_courses'] = []
+        context['pop_courses'] = []
+        context['today_courses'] = []
+        context['my_courses'] = []
+    # ----------------------------------------------------------------
+
+    context['course_select_type'] = course_select_type
     context['max_pop'] = max_pop[0]
     context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
     context['popup_image_base'] = theming_helpers.get_template_path('popup_image_base.html')

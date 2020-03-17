@@ -1,12 +1,16 @@
 <%def name="online_help_token()"><% return "course" %></%def>
 <%namespace name='static' file='static_content.html'/>
 <%!
-from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
+    from django.utils.translation import ugettext as _
+    from django.core.urlresolvers import reverse
 %>
 <%page args="course" expression_filter="h"/>
+
+
 <div hidden>${course.audit_yn}</div>
 <div hidden>${course.status}</div>
+
+
 % if course.audit_yn == 'Y':
     <article class="course ${course.status} audit main-course-card" tabindex="0" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
 % elif course.audit_yn == 'N':
@@ -50,12 +54,14 @@ from django.core.urlresolvers import reverse
 
             <div class="course-date kr01_moviesubtit" aria-hidden="true">
                 <span class="kr01_professor">${course.teacher_name}</span>
-
               % if LANGUAGE_CODE == 'ko-kr':
                 <span class="kr01_school">${course.org_kname}</span>
               % else:
                 <span class="kr01_school">${course.org_ename}</span>
               % endif
+            </div>
+            <div class="course-date kr01_moviesubtit" aria-hidden="true">
+                <span class="date">${course.start.strftime("%Y/%m/%d")} ~ ${course.end.strftime("%Y/%m/%d")}</span>
             </div>
 
         </div>
