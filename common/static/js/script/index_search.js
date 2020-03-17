@@ -6,7 +6,8 @@ $(document).ready(function () {
         url: '/course_search_list',
     }).done(function (data) {
       var search_arr = data.course_search_list;
-      main_search('.new-rc-search', '#search_me', '', search_arr);
+      main_search('#new_search_div', '#search_me', '', search_arr);
+      main_search('#new_search_mobile', '#search_me_mobile', '', search_arr);
       main_search('.m-search-division', '.m-search-query', '#m_main_form', search_arr);
     });
 });
@@ -80,7 +81,7 @@ function main_search(main_div, main_input, main_form, search_arr){
     $(main_input).on('autocompleteselect', function (e, ui) {
         select_search = ui.item.value;
         $(main_input).val(select_search);
-        if(main_input === '#search_me'){
+        if(main_input === '#search_me' || main_input === '#search_me_mobile'){
             course_search();
         } else {
             $(main_form).submit();

@@ -200,7 +200,7 @@ def age_specific_course(request):
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT
-                    count(*) as cnt, a.course_id
+                    count(*) as cnt, b.org, b.display_number_with_default
                 FROM
                     student_courseenrollment a
                         JOIN
@@ -223,7 +223,31 @@ def age_specific_course(request):
             '''.format(age=i)
             cur.execute(query)
             course_list = cur.fetchall()
-            courses = [CourseKey.from_string(course[1]) for course in course_list]
+            org_list = tuple(str(course[1]) for course in course_list)
+            c_list = tuple(str(course[2]) for course in course_list)
+
+            query2 = '''
+                SELECT 
+                    id
+                FROM
+                    (SELECT 
+                        id, org, display_number_with_default
+                    FROM
+                        course_overviews_courseoverview
+                    WHERE
+                        DATE_FORMAT(start, '%Y-%m-%d') < '2030-01-01'
+                    ORDER BY start DESC) a
+                WHERE
+                    org IN {org_list}
+                        AND display_number_with_default IN {c_list}
+                GROUP BY org , display_number_with_default
+                LIMIT 16;
+            '''.format(org_list=org_list, c_list=c_list)
+
+            cur.execute(query2)
+            new_course = cur.fetchall()
+
+            courses = [CourseKey.from_string(course[0]) for course in new_course]
 
             age_group[str(i) + '0'] = index_courses(user=request.user, filter_={'id__in': courses})
 

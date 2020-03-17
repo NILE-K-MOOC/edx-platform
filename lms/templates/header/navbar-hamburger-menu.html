@@ -88,9 +88,9 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         <a class="menu-link" href="#">${_("Courses")}</a>
     </li>
     <ul class="menu-submenu accordion-content">
-        <li><a class="head" href="/comm_list/N">${_("Departmental Courses")}</a></li>
-        <li><a class="head" href="/comm_list/K">${_("Series Course")}</a></li>
-        <li><a class="head" href="/comm_list/R">${_("Academic Credit Bank System")}</a></li>
+        <li><a class="head" href="/courses">${_("Departmental Courses")}</a></li>
+        <li><a class="head" href="/series">${_("Series Course")}</a></li>
+        <li><a class="head" target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a></li>
     </ul>
 
     % if LANGUAGE_CODE != 'en':

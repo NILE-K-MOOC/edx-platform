@@ -144,8 +144,8 @@ def dashboard_memo(request):
             select id as user_id
             from auth_user
             where id = '{user_id}'
-        '''.format(user_id = user_id)
-    if check_b == 'true':
+        '''.format(user_id=user_id)
+    if check_c == 'true':
         sql += '''
             union
             select user_id
@@ -153,13 +153,12 @@ def dashboard_memo(request):
             where course_id = '{course_id}'
             and is_active = 1
         '''.format(user_id=user_id, course_id=course_id)
-    if check_c == 'true':
+    if check_b == 'true':
         sql += '''
             union
             select user_id
             from student_courseaccessrole
             where course_id = '{course_id}'
-            group by user_id
         '''.format(user_id=user_id, course_id=course_id)
     try:
         with connections['default'].cursor() as cur:
@@ -174,17 +173,19 @@ def dashboard_memo(request):
                     now() as regist_date,
                     null as modify_date
                 from (
-                    select '1' as user_id
+                    select '{user_id}' as user_id
                     {sql}
-                ) w;
+                ) w
+                group by user_id;
             '''.format(sql=sql, title=title, content=content, user_id=user_id)
             frame2 = '''
                         select  user_id
                         from (
-                            select '1' as user_id
+                            select '{user_id}' as user_id
                             {sql}
-                        ) w;
-                    '''.format(sql=sql)
+                        ) w
+                        group by user_id;
+                    '''.format(sql=sql, user_id=user_id)
             cur.execute(frame)
             cur.execute(frame2)
             rows = list(cur.fetchall())

@@ -565,6 +565,17 @@ $("#audit_mode").click(function(event) {
         font-size: 10px;
         margin-left: 10px;
     }
+
+    .item-status.end {
+        background-color: #245f94;
+    }
+    .item-status.ready {
+        background-color: #f5c42d;
+    }
+    .item-status.ing {
+        background-color: #118714;
+    }
+
     .item-title {
         font-weight: bold;
         padding-top: 2px;
@@ -589,6 +600,17 @@ $("#audit_mode").click(function(event) {
     .item-greenline {
         border: solid 1px #008800;
     }
+
+    .item-greenline.end {
+        border: solid 1px #245f94;
+    }
+    .item-greenline.ready {
+        border: solid 1px #f5c42d;
+    }
+    .item-greenline.ing {
+        border: solid 1px #118714;
+    }
+
     .similar-none{
         padding-left: 20px;
     }
@@ -741,8 +763,8 @@ $("#audit_mode").click(function(event) {
                                         <div class='item-img'>
                                             <img class='item-img-size' alt="${item['display_name']}" src='${item["image_url"]}'>
                                         </div>
-                                        <div class='item-status'>
-                                            <div class='item-status-text'>진행중</div>
+                                        <div class='item-status ${item["sim_status"]}'>
+                                            <div class='item-status-text'>${_(item['sim_status'])}</div>
                                         </div>
                                         <div class='item-title'>
                                             ${item['display_name']}
@@ -753,7 +775,7 @@ $("#audit_mode").click(function(event) {
                                         <div class='item-org'>
                                             ${item['org']}
                                         </div>
-                                        <div class='item-greenline'>
+                                        <div class='item-greenline ${item["sim_status"]}'>
                                         </div>
                                     </div>
                                 </a>
@@ -944,6 +966,7 @@ $("#audit_mode").click(function(event) {
                         </li>
                     % endif
 
+                    % if course_language != '-':
                     <li class="important-dates-item">
                         <div class="side-about">
                             <div class="about-side-title">
@@ -955,7 +978,9 @@ $("#audit_mode").click(function(event) {
                             </span>
                         </div>
                     </li>
+                    % endif
 
+                    % if course_subtitle != '-':
                     <li class="important-dates-item">
                         <div class="side-about">
                             <div class="about-side-title">
@@ -967,6 +992,7 @@ $("#audit_mode").click(function(event) {
                             </span>
                         </div>
                     </li>
+                    % endif
 
                 </ol>
             </div>
