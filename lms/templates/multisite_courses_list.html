@@ -425,6 +425,22 @@
 
 
 <script>
+    $(function(){
+        $('.owl-carousel').owlCarousel({
+            margin: 20,
+            nav: true,
+            dots: false,
+            responsive:{
+                0:{
+                    items: 2
+                },
+
+                992:{
+                    items: 4
+                }
+            }
+        })
+    });
     $("#multisite_search").keydown(function (e) {
         if (e.keyCode == 13) {
             multisite_search();
