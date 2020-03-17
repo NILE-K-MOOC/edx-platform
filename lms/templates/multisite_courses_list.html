@@ -42,6 +42,27 @@
     </div>
 </section>
 
+<section>
+    <div class="container-fluid" style="margin-top: 20px; border-bottom: 1px solid #dddddd; padding-bottom: 18px;">
+        <div style="float: left; font-size: 20px;">
+            강좌보기
+        </div>
+        <div style="float: right;">
+            <label for="discovery-input" class="sr">강좌 찾기</label>
+            <input id="discovery-input" style="position:  relative; padding-right: 12px;" class="discovery-input ui-autocomplete-input" placeholder="강좌 찾기" type="text" autocomplete="off"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+            <button class="button postfix discovery-submit" style="position: relative; height: 35px;" title="검색">
+                <img src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="검색" style="width: 20px; margin-top: -3px; height: 20px;">
+            </button>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container-fluid" style="font-size: 16px; margin-top: 10px; margin-bottom: -20px;">
+        총 ${len(courses)} 개
+    </div>
+</section>
+
 <section class="find-courses">
     <section class="courses-container">
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
