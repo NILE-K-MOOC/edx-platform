@@ -77,7 +77,7 @@ username = get_enterprise_learner_generic_name(request) or student.username
                                 </div>
                                 <div class="msg-actions">
                                     %if certificate_data.cert_web_view_url:
-                                    <a class="btn" href="/cert_survey?hello=${certificate_data.cert_web_view_url}&course_id=${course.id}&user_id=${request.user.id}" target="_blank">${_("View Certificate")} <span class="sr">${_("Opens in a new browser window")}</span></a>
+                                    <a class="btn" href="/course_satisfaction_survey?cert_id=${certificate_data.cert_web_view_url}&course_id=${course.id}" target="_blank">${_("View Certificate")} <span class="sr">${_("Opens in a new browser window")}</span></a>
                                     %elif certificate_data.cert_status == CertificateStatuses.downloadable and certificate_data.download_url:
                                     <a class="btn" href="${certificate_data.download_url}" target="_blank">${_("Download Your Certificate")} <span class="sr">${_("Opens in a new browser window")}</span></a>
                                     %elif certificate_data.cert_status == CertificateStatuses.requesting:
