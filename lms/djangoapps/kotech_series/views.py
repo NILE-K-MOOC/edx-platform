@@ -380,7 +380,7 @@ def series_print(request, id):
     # 6. 이름, 생년월일, 본인인증여부, 본인인증데이터 불러오기
     with connections['default'].cursor() as cur:
         query = '''
-            select username, b.year_of_birth, 
+            select b.name, b.year_of_birth, 
             case 
             when c.id is null
             then 'N'
