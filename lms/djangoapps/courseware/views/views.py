@@ -3245,7 +3245,7 @@ def haewoondaex(request, org):
                      WHERE     use_yn = TRUE) d
                       ON (case when '{lang}' = 'ko-kr' then a.intro_subtitle else ifnull(a.intro_subtitle_e, a.intro_subtitle) end) = d.id
                    JOIN code_detail c ON a.org_id = c.detail_code AND group_code = '003'
-             WHERE org_id = '{org}' AND a.delete_yn = FALSE AND a.use_yn = TRUE;
+             WHERE org_id = '{org}' AND a.use_yn = TRUE;
         '''.format(lang=lang, lang_org_name=lang_org_name, org=org)
 
         print query
