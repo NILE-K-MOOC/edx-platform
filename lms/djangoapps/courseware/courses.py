@@ -196,58 +196,14 @@ def age_specific_course(request):
     from student.views.management import index_courses
     age_group = {}
 
-    for i in range(1, 6):
-        with connections['default'].cursor() as cur:
-            query = '''
-                SELECT
-                    count(*) as cnt, b.org, b.display_number_with_default
-                FROM
-                    student_courseenrollment a
-                        JOIN
-                    course_overviews_courseoverview b ON a.course_id = b.id
-                        JOIN
-                    (SELECT
-                        user_id,
-                            (DATE_FORMAT(NOW(), '%Y') - year_of_birth) + 1 AS age
-                    FROM
-                        auth_userprofile
-                    WHERE
-                        year_of_birth IS NOT NULL) c ON a.user_id = c.user_id
-                WHERE
-                    org NOT IN ('NILE' , 'KMOOC', 'edX')
-                        AND catalog_visibility = 'both'
-                        AND age BETWEEN {age}0 AND {age}9
-                GROUP BY a.course_id
-                ORDER BY cnt DESC
-                LIMIT 16;
-            '''.format(age=i)
-            cur.execute(query)
-            course_list = cur.fetchall()
-            org_list = tuple(str(course[1]) for course in course_list)
-            c_list = tuple(str(course[2]) for course in course_list)
+    with connections['default'].cursor() as cur:
+        query2 = 'select course_id, course_division from tb_main_course where course_division like "%0s";'
 
-            query2 = '''
-                SELECT 
-                    id
-                FROM
-                    (SELECT 
-                        id, org, display_number_with_default
-                    FROM
-                        course_overviews_courseoverview
-                    WHERE
-                        DATE_FORMAT(start, '%Y-%m-%d') < '2030-01-01'
-                    ORDER BY start DESC) a
-                WHERE
-                    org IN {org_list}
-                        AND display_number_with_default IN {c_list}
-                GROUP BY org , display_number_with_default
-                LIMIT 16;
-            '''.format(org_list=org_list, c_list=c_list)
+        cur.execute(query2)
+        new_course = cur.fetchall()
 
-            cur.execute(query2)
-            new_course = cur.fetchall()
-
-            courses = [CourseKey.from_string(course[0]) for course in new_course]
+        for i in range(1, 6):
+            courses = [CourseKey.from_string(course[0]) for course in new_course if course[1] == str(i) + '0s']
 
             age_group[str(i) + '0'] = index_courses(user=request.user, filter_={'id__in': courses})
 
