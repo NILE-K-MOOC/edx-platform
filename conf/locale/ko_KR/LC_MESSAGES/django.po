@@ -28010,3 +28010,6 @@ msgstr "인공지능 이수체계도"
 
 msgid "Blue Ribbon"
 msgstr "블루 리본"
+
+msgid "Korean Culture"
+msgstr "한국문화"
