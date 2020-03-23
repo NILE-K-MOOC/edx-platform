@@ -202,6 +202,14 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
     font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
 }
 
+/* dashboard css */
+.dashboard .main-container .my-courses .wrapper-header-courses {position: relative;}
+.dashboard .main-container .my-courses .wrapper-header-courses .header-courses {margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: solid 1px #e0e0e0; font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif; font-size: 1.875rem; font-weight: 700;}
+.package-title{
+  margin-bottom: 1.5rem; padding-bottom: 1.250rem; border-bottom: solid 1px #e0e0e0; font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif; font-size: 1.875rem; font-weight: 700;
+}
+/* dashboard */
+
 /* --------------------------
  *    keyframes
  * --------------------------
