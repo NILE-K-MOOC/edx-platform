@@ -62,6 +62,11 @@
                                 <div class="item">
                                     <a href="/courses/${c.id}/about" class="course-item">
                                         <div class="course-thumb">
+                                            % if c.ribbon_yn == 'Y':
+                                            <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                                <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                            </i>
+                                            % endif
                                             <figure>
                                                 <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                                 <span class="more">

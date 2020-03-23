@@ -98,14 +98,14 @@
 <link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css" />
 <script type="text/javascript" src="/static/new_index/js/owl.carousel.js"></script>
 
-<section class="page-title agency-title" style="margin-top: 20px;">
+<section class="multi-visual">
     <div class="container-fluid">
         % if 'multisite_org' in request.session:
-        <h1 class="visual-title" style="margin-bottom: 0px;">${request.session['multisite_org']}</h1>
+        <h1 class="visual-title">${request.session['multisite_org']}</h1>
         % else:
-        <h1 class="visual-title" style="margin-bottom: 0px;">연계사이트</h1>
+        <h1 class="visual-title">연계사이트</h1>
         % endif
-        <h2 class="visual-subtitle" style="margin-bottom: 0px;">K-MOOC의 다양한 강좌를 통해 당신의 미래를 그려보세요</h2>
+        <h2 class="visual-subtitle">K-MOOC의 다양한 강좌를 통해 당신의 미래를 그려보세요</h2>
     </div>
 </section>
 
@@ -142,6 +142,11 @@
                         <div class="item">
                             <a href="/courses/${c.id}/about" class="course-item">
                                 <div class="course-thumb">
+                                    % if c.ribbon_yn == 'Y':
+                                    <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                    </i>
+                                    % endif
                                     <figure>
                                         <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                         <span class="more">
@@ -198,6 +203,11 @@
                         <div class="item">
                             <a href="/courses/${c.id}/about" class="course-item">
                                 <div class="course-thumb">
+                                    % if c.ribbon_yn == 'Y':
+                                    <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                    </i>
+                                    % endif
                                     <figure>
                                         <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                         <span class="more">
@@ -254,6 +264,11 @@
                         <div class="item">
                             <a href="/courses/${c.id}/about" class="course-item">
                                 <div class="course-thumb">
+                                    % if c.ribbon_yn == 'Y':
+                                    <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                    </i>
+                                    % endif
                                     <figure>
                                         <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                         <span class="more">
@@ -310,6 +325,11 @@
                         <div class="item">
                             <a href="/courses/${c.id}/about" class="course-item">
                                 <div class="course-thumb">
+                                    % if c.ribbon_yn == 'Y':
+                                    <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                    </i>
+                                    % endif
                                     <figure>
                                         <img src="${c.course_image_url}" onerror="this.src='/static/images/blank.png'">
                                         <span class="more">
