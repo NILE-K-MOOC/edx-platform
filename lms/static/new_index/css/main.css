@@ -5,7 +5,7 @@
 .sec-visual .visual-row .visual-col.img {width: 40%; background-size: cover; background-position: center;}
 .sec-visual .visual-row .visual-col .title {margin-bottom: 10px; font-size: 20px; font-weight: 700;}
 .sec-visual .visual-row .visual-col .content {font-size: 14px;}
-.sec-visual .visual-row .visual-col .quick-link {margin-top: 10px;}
+.sec-visual .visual-row .visual-col .quick-link {margin-top: 10px; margin-left: 0;}
 .sec-visual .visual-row .visual-col .quick-link li ~ li {margin-top: 3px;}
 .sec-visual .visual-row .visual-col .quick-link li > a {font-size: 14px; font-weight: 700;}
 .sec-visual .visual-row .visual-col .quick-link li > a:hover {text-decoration: underline;}
