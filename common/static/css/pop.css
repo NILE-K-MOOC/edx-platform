@@ -4,9 +4,9 @@
 .pop-wrap{ position:absolute; z-index:10; font-family:"malgun gothic"; min-width: 400px; min-height: 400px;}
 
 .pop-area{-webkit-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
-			-moz-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
-			box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
- background:#fff;}
+	-moz-box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+	box-shadow: 6px 11px 22px -6px rgba(0,0,0,0.75);
+	background:#fff;}
 .pop-top-area{min-width:400px; background:#2391d7;}
 
 .pop_imgbg{text-align:center;}
@@ -64,37 +64,32 @@
 }
 
 .popup-title {
-	text-align: center;
 	margin: 0;
-	font-size: x-large;
+	padding-bottom: 15px;
+	border-bottom: 1px dashed #ddd;
 	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
 }
 
 .popup-area {
-	float: left;
 	z-index: 99999;
+	float: left;
 	position: relative;
 	max-width: 97%;
-	margin: 0 5px 5px 5px;
-	-webkit-box-shadow: 0 2px 5px 3px #444444;
-	-moz-box-shadow: 0 2px 5px 3px #444444;
-	box-shadow: 0 2px 5px 3px #444444;
 	background: #fff;
-}
-
-.popup-main {
-	padding: 0 0 10px 0;
+	border: 1px solid #222;
 }
 
 .popup-header {
-	background: #e9f5ff;
-    border: 1px solid #d1eaff;
+	padding: 20px;
+	padding-bottom: 0;
 }
 
 .popup-contents {
-	margin: 10px;
-	/*width: 100%;*/
 	height: 100%;
+	padding: 10px;
 }
 
 .popup-image-area {
@@ -111,24 +106,32 @@
 }
 
 .popup-footer {
-	text-align: right;
-	width: 100%;
-	z-index: 9999;
+	display: table;
 	position: relative;
-	background-color: #fff;
-	/*border-top: 1px solid #e5e5e5;*/
+	width: 100%;
 }
 
 .popup-footer-label {
-	padding: 0 10px;
+	display: table-cell;
+	width: 50%;
+	padding: 10px;
 	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+	font-size: 14px !important;
+	font-style: normal;
+	text-align: center;
+	text-shadow: none;
+	color: #fff;
 }
 
 .popup-footer-day {
-	font-style:normal;
-	font-size:13px;
+	background-color: #222;
 }
 
 .popup-footer-close {
-	padding-right: 10px;
+	border-top: 1px solid #222;
+	color: #222 !important;
+}
+
+.popup-footer-close:hover {
+	text-decoration: none !important;
 }

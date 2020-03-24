@@ -19,13 +19,10 @@ from django.urls import reverse
       </div>
 
     <div class="popup-footer">
-      <label class="popup-footer-label" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">
-        <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox">
-        <span class="popup-footer-day"><b style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;">${pop['pop_hidden_day'][1]}</b></span>
+      <label class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">
+        <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
       </label>
-      <span class="popup-footer-day popup-footer-close">
-        <a href="javascript:popClose('${pop['pop_id']}');" title="닫기"><b>[ 닫기 ]</b></a>
-      </span>
+      <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title="닫기">닫기</a>
     </div>
   </div>
 </div>
