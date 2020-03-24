@@ -6,92 +6,88 @@
 <%block name="header_extras"></%block>
 
 <style>
-.series_img{
-    width: 230px;
-    height: 130px;
-}
-.section_frame_outer {
-    padding-top: 20px;
-    display: inline-block;
-    width: 100%;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 20px;
-}
-.section_frame_inner{
-    display: inline-block;
-    width: 100%;
-}
-.section_a{
-    float:left;
-
-}
-.section_b{
-    float:left;
-
-    padding: 20px;
-}
-
-.series_target{
-    margin-bottom:6px;
-    font-size:80%;
-}
-.series_goal{
-    font-size:80%;
-}
-.section_container{
-    padding-top: 40px;
-    padding-bottom: 100px;
-    padding-right: 10%;
-    padding-left: 10%;
-}
-.pagerLink {
-    text-decoration: none !important;
-}
-.real_main_title{
-    font-size:180%;
-    margin-top:20px;
-    border-bottom: solid 1px #DDDDDD;
-    padding-bottom: 40px;
-    font-weight: bold;
-}
-.section_frame_outer:list-child {border-bottom:0px;}
-
-@media screen and (max-width: 770px) and (min-width: 0px) {
     .series_img{
-        margin-left: 25%;
+        width: 230px;
+        height: 130px;
     }
-}
-@media screen and (max-width: 770px) and (min-width: 0px) {
-    .series_title{
-        font-size:100%;
-        text-align:center;
-        margin-bottom:20px;
+    .section_frame_outer {
+        padding-top: 20px;
+        display: inline-block;
+        width: 100%;
+        border-bottom: 1px dashed #ccc;
+        padding-bottom: 20px;
     }
-}
-@media screen and (max-width: 770px) and (min-width: 601px) {
+    .section_frame_inner{
+        display: inline-block;
+        width: 100%;
+    }
+    .section_a{
+        float:left;
+
+    }
     .section_b{
-        margin-left:60px;
+        float:left;
+
+        padding: 20px;
     }
-}
-@media screen and (max-width: 600px) and (min-width: 0px) {
-    .section_b{
+
+    .series_target{
+        margin-bottom:6px;
+        font-size:80%;
     }
-}
+    .series_goal{
+        font-size:80%;
+    }
+    .section_container{
+        padding-top: 40px;
+        padding-bottom: 100px;
+        padding-right: 10%;
+        padding-left: 10%;
+    }
+    .pagerLink {
+        text-decoration: none !important;
+    }
+    .real_main_title{
+        font-size:180%;
+        margin-top:20px;
+        border-bottom: solid 1px #DDDDDD;
+        padding-bottom: 40px;
+        font-weight: bold;
+    }
+    .section_frame_outer:list-child {border-bottom:0px;}
+
+    @media screen and (max-width: 770px) and (min-width: 0px) {
+        .series_img{
+            margin-left: 25%;
+        }
+    }
+    @media screen and (max-width: 770px) and (min-width: 0px) {
+        .series_title{
+            font-size:100%;
+            text-align:center;
+            margin-bottom:20px;
+        }
+    }
+    @media screen and (max-width: 770px) and (min-width: 601px) {
+        .section_b{
+            margin-left:60px;
+        }
+    }
+    @media screen and (max-width: 600px) and (min-width: 0px) {
+        .section_b{
+        }
+    }
 </style>
 
-<div>
-    <div class="series_bg_area">
-        <div class="series_bg_space" id="main">
-      <span  class="series_bg_title">
-      <h3>${_('About Series Course')}</h3>
-      <h6>K-MOOC 묶음강좌란 특정 분야에 대한 보다 심도있는 학습기회를
-          <br>제공하기 위해 복수의 강좌로 구성된 커리큘럼입니다.</h6>
-      </span>
+<link rel="stylesheet" href="/static/images/kotech_roadmap/about_org.css"/>
+<div id="container">
+    <section class="page-title agency-title">
+        <div class="container-fluid">
+            <h1 class="visual-title">${_('About Series Course')}</h1>
+            <h2 class="visual-subtitle">K-MOOC 묶음강좌란 특정 분야에 대한 보다 심도있는 학습기회를 제공하기 위해 복수의 강좌로 구성된 커리큘럼입니다.</h2>
         </div>
-
-    </div>
+    </section>
 </div>
-
 <section class="container">
 
     % for item in series_list:
@@ -99,7 +95,7 @@
         <div class="section_frame_inner">
             <div class="float_left section_a1">
                 <a class="pagerLink" href="/series_view/${item['series_seq']}">
-                <img class="series_imges" src="${item['save_path']}" alt="${item['series_name']}" onerror="this.src='/static/images/blank.png'"/>
+                    <img class="series_imges" src="${item['save_path']}" alt="${item['series_name']}" onerror="this.src='/static/images/blank.png'"/>
                 </a>
             </div>
             <div class="float_left section_a2">
