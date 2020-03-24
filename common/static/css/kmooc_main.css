@@ -1728,7 +1728,7 @@ article.course.none .kr01-courInfo-bar{
 
 /* 리본 */
 .kr01-ribbonArea{position: absolute; right: 0; top: 125px;
-  z-index: 1000;}
+  z-index: 100;}
 
 .kr01-ribbonArea img {
   /*max-height: 56px;*/
