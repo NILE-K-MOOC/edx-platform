@@ -411,7 +411,7 @@ COURSE_DISCOVERY_MEANINGS = {
         }
     },
     'linguistics': {
-        'name': 'Section',
+        'name': 'linguistics',
         'terms': {
             'linguistics': 'linguistics'
         }

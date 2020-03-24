@@ -26,10 +26,7 @@
             },
 
             facetName: function (key) {
-                if (key == 'classfy') {
-                    return gettext("Classified by");
-                }
-                else if (key == 'middle_classfy') {
+                if (key == 'middle_classfy') {
                     return gettext("Sub classified by");
                 }
                 else if (key == 'course_period') {
@@ -140,14 +137,12 @@
                             data.name = this.termName(data.facet, data.term);
                         }
                     }
-                    else if (data.facet == 'fourth_industry_yn' || data.facet == 'linguistics' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn') {
+                    else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
                         } else if (data.facet == 'job_edu_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('job_edu_yn', gettext("job_edu_y"));
-                        } else if (data.facet == 'linguistics' && data.term.toUpperCase() == 'Y') {
-                            data.name = this.termName('linguistics', gettext("linguistics_y"));
                         } else if (data.facet == 'ai_sec_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('ai_sec_yn', gettext("ai_sec_y"));
                         } else if (data.facet == 'basic_science_sec_yn' && data.term.toUpperCase() == 'Y') {
@@ -168,7 +163,7 @@
 
             renderFacet: function (facetKey, options) {
 
-                // console.log('facetKey ==> ' + facetKey);
+                console.log('facetKey ==> ' + facetKey);
 
                 return this.facetTpl({
                     name: facetKey,
@@ -189,27 +184,30 @@
                         case 'middle_classfy':
                             model.set('odby1', 2);
                             break;
+                        case 'linguistics':
+                            model.set('odby1', 3);
+                            break;
                         case 'fourth_industry_yn':
-                            model.set('odby1', 3);
-                            break;
-                        case 'ai_sec_yn':
-                            model.set('odby1', 3);
-                            break;
-                        case 'basic_science_sec_yn':
-                            model.set('odby1', 3);
-                            break;
-                        case 'course_period':
                             model.set('odby1', 4);
                             break;
-                        case 'language':
+                        case 'ai_sec_yn':
+                            model.set('odby1', 4);
+                            break;
+                        case 'basic_science_sec_yn':
+                            model.set('odby1', 4);
+                            break;
+                        case 'course_period':
                             model.set('odby1', 5);
                             break;
-                        case 'course_level':
+                        case 'language':
                             model.set('odby1', 6);
+                            break;
+                        case 'course_level':
+                            model.set('odby1', 7);
                             break;
 
                         default:
-                            model.set('odby1', 7);
+                            model.set('odby1', 8);
                     }
 
                     switch (model.get('term')) {
@@ -418,19 +416,9 @@
 
                 let li_list1 = $("#ai_sec_yn li").clone();
                 let li_list2 = $("#basic_science_sec_yn li").clone();
-                let li_list3 = $("#linguistics li").clone();
-                let li_list4 = $("#job_edu_yn li").clone();
+                let li_list3 = $("#job_edu_yn li").clone();
 
-                console.debug('li debug ---------------------------------------------- s');
-                console.debug(li_list1);
-                console.debug(li_list2);
-                console.debug(li_list3);
-                console.debug(li_list4);
-                console.debug('li debug ---------------------------------------------- e');
-
-                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4);
-
-                console.debug('$("#fourth_industry_yn li") : ' + $("#fourth_industry_yn li").size());
+                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3);
 
                 $("#fourth_industry_yn li").each(function () {
                     let v = $(this).find("button").data('value');
@@ -442,14 +430,7 @@
                     }
                 });
 
-                console.log('size check before remove: ' + $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").size());
-
-                console.log("ai_sec_yn check ---------------------- s");
-                console.log($("#ai_sec_yn").size());
-                console.log($("#ai_sec_yn").html());
-                console.log("ai_sec_yn check ---------------------- e");
-
-                $("#linguistics, #job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").remove();
+                $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").remove();
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
                 let k, v, t;
@@ -475,11 +456,6 @@
                             k = 'job_edu_yn'
                             v = 'job_edu_y';
                             t = 'job_edu_y';
-                            break;
-                        case 'linguistics':
-                            k = 'linguistics';
-                            v = 'Y';
-                            t = 'linguistics_y';
                             break;
                         case 'ai_sec_yn':
                             k = 'ai_sec_yn';
