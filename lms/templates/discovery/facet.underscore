@@ -1,5 +1,5 @@
-<% if (name != "job_edu_yn" && name != "linguistics" && name != "ai_sec_yn" && name != "basic_science_sec_yn"){ %>
-<h3 class="header-facet" data-name="<%- name %>">
+<% if (name != "job_edu_yn" && name != "ai_sec_yn" && name != "basic_science_sec_yn"){ %>
+<h3 class="header-facet" data-name="<%- name %>" data-check="<%- displayName%>">
     <%- gettext(displayName) %>
 </h3>
 <% } %>
@@ -16,7 +16,7 @@
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </ul>
 
-<% } else if (name == "job_edu_yn" || name == "linguistics" || name == "ai_sec_yn" || name == "basic_science_sec_yn") { %>
+<% } else if (name == "job_edu_yn" || name == "ai_sec_yn" || name == "basic_science_sec_yn") { %>
 
     <ul style="display:block; width:100%" data-facet="<%- name %>" class="facet-list collapse type2" id="<%- name %>">
         <%= HtmlUtils.ensureHtml(optionsHtml) %>

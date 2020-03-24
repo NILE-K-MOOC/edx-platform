@@ -909,7 +909,7 @@ def _create_or_rerun_course(request):
         classfysub = request.json.get('classfysub')
         middle_classfy = request.json.get('middle_classfy')
         middle_classfysub = request.json.get('middle_classfysub')
-        linguistics = request.json.get('linguistics', 'N')
+        linguistics = request.json.get('linguistics')
         course_period = request.json.get('course_period')
         teacher_name = request.json.get('teacher_name')
 
@@ -918,7 +918,6 @@ def _create_or_rerun_course(request):
             'classfysub': classfysub,
             'middle_classfy': middle_classfy,
             'middle_classfysub': middle_classfysub,
-            'linguistics': linguistics,
             'course_period': course_period,
             'teacher_name': teacher_name,
             'fourth_industry_yn': 'N',
@@ -928,6 +927,11 @@ def _create_or_rerun_course(request):
             'basic_science_sec_yn': 'N',
             'course_level': None
         })
+
+        if linguistics:
+            fields.update({
+                'linguistics': linguistics
+            })
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
 
