@@ -121,7 +121,7 @@
 	max-width:75rem;
 }
 
-.courses-container .courses .course {border-bottom-width:4px;box-shadow:none;background:#fff;}
+.courses-container .courses .course {border-bottom-width:4px;box-shadow:none;background:#fff; overflow: visible;}
 .highlighted-courses .courses {padding-top:20px;position:relative;}
 .highlighted-courses .courses .course {border-left:0;border-top:0;border-right:0;}
 .courses-container .courses .course.ready {border-color:#f4c300;}
@@ -837,7 +837,8 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 
 .w50p {width:50%;}
 
-.container > h2 {font-size:1.875rem;font-weight:700;font-family:"Nanum Gothic";border-bottom:solid 1px #e0e0e0;padding-bottom:1.250rem;margin-bottom:1.5rem;}
+.container > h2 {font-size:1.875rem;font-weight:700;font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif !important;
+	border-bottom:solid 1px #e0e0e0;padding-bottom:1.250rem;margin-bottom:1.5rem;}
 
 .faq-list dt, .faq-list dd {position:relative;margin:0;}
 .faq-list dt {border-bottom:solid 1px #eeeeee;}
@@ -1420,7 +1421,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 
 
 .find-courses .wrapper-search-context .search-status-label{
-	font-family: "Nanum Gothic" !important;
+	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif; font-size: 1.875rem; font-weight: 700;
 }
 
 /** 20170104 **/
@@ -1453,7 +1454,7 @@ section.wiki .wiki-wrapper > header {height:auto;padding:15px 0 10px 0;}
 	border: 2px solid blue !important;
 }
 .courses-listing-item a:focus{
-	outline: 4px dashed blue;
+	/*outline: 4px dashed blue;*/
 }
 a:focus, img:focus {
 

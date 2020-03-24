@@ -102,11 +102,19 @@ from branding.api import get_footer
 
             <div class="new-ff-right">
                 <a target='_blank' href="https://www.moe.go.kr/" class="new-ff-logo-item" title="새창으로 열림">
+                    % if LANGUAGE_CODE == 'ko-kr':
                     <img src="/static/new_index/images/logo_moe.png" alt="교육부">
+                    % else:
+                    <img src="/static/new_index/images/logo_moe_en.png" alt="교육부">
+                    % endif
                 </a>
 
                 <a target='_blank' href="http://www.nile.or.kr/" class="new-ff-logo-item" title="새창으로 열림">
+                    % if LANGUAGE_CODE == 'ko-kr':
                     <img src="/static/new_index/images/logo_nile.png" alt="국가평생교육진흥원">
+                    % else:
+                    <img src="/static/new_index/images/logo_nile_en.png" alt="국가평생교육진흥원">
+                    % endif
                 </a>
 
                 <a href="javascript:markPopupE('2019-R013');void(0)" class="new-ff-logo-item" title="새창으로 열림">

@@ -1727,11 +1727,11 @@ article.course.none .kr01-courInfo-bar{
 }
 
 /* 리본 */
-.kr01-ribbonArea{position: absolute; right: 2px; top: 170px;
+.kr01-ribbonArea{position: absolute; right: 0; top: 125px;
   z-index: 1000;}
 
 .kr01-ribbonArea img {
-  max-height: 56px;
+  /*max-height: 56px;*/
 }
 
 .M_kre02_top02area{display: none;}
@@ -2314,11 +2314,11 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 .kr01-ribbonArea:hover .ribbon-tooltip-text {
     display: block;
     top: 64px;
-    right: 3px;
-    opacity: 0.5;
+    right: 0;
+    opacity: 1;
 }
 
-
+.sec-course .course-carousel .course-item .course-thumb {padding-right: 5px;}
 
 /* 강좌 만족도 별점 관련 */
 
@@ -2735,8 +2735,11 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-search-input {
     border: solid 0px #ffffff !important;
-    height: 35px !important;
+    height: 98% !important;
+    box-shadow: none;
 }
+.new-search-input:focus {outline: 2px solid rgba(77, 144, 254,.5); outline-offset: 1px;}
+
 .new-login-memo {
     margin-right: 30px;
     cursor: pointer;
