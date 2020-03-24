@@ -1058,6 +1058,7 @@ def student_dashboard(request):
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
         'status_flag': status,
+        'multisite_status': multisiteStatus
     }
 
     if ecommerce_service.is_enabled(request.user):

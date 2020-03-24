@@ -413,7 +413,7 @@ from student.models import CourseEnrollment
         <div class="my-courses" id="my-courses">
             <header class="wrapper-header-courses">
                 <h2 class="header-courses">${_("Dashboard")}</h2>
-
+                %if multisite_status is not True:
                 <div class="corona-wrap">
                     <div class="corona-box" onclick='window.location.replace("/new_dashboard");'>
                         <img class="corona-img" src="/static/images/kotech_survey/dp01.png">
@@ -428,6 +428,7 @@ from student.models import CourseEnrollment
                         </div>
                     </div>
                 </div>
+                % endif
 
 
                 <nav class="faq-tab">
