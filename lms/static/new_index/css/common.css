@@ -210,6 +210,10 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
 }
 /* dashboard */
 
+.go-kmooc {display: inline-block; margin-top: -5px; padding: 5px 12px 6px; border-radius: 50em; background-color: #5b97e1; color: #fff !important;}
+.go-kmooc:hover {background-color: #4d8dc5 !important; text-decoration: none !important;}
+
+
 /* --------------------------
  *    keyframes
  * --------------------------

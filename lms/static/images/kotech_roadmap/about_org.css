@@ -151,8 +151,6 @@ h1, h2, h3 {
 .multi-visual .visual-title {margin-bottom: 10px; font-size: 36px; font-weight: 700; text-align: left; color: #618deb;}
 .multi-visual .visual-subtitle {font-size: 24px; font-weight: 500; color: #555;}
 
-.go-kmooc {display: inline-block; margin-top: -5px; padding: 5px 12px 6px; border-radius: 50em; background-color: #5b97e1; color: #fff !important;}
-.go-kmooc:hover {background-color: #4d8dc5 !important; text-decoration: none !important;}
 
 /* --------------------------
  *    media

@@ -69,6 +69,25 @@
     .csp {
         cursor: pointer;
     }
+
+    .multi-course-cnt {
+        font-size: 1.25em;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .find-courses.multi-search {
+        width: 250px; float: right; padding-bottom: 0;
+    }
+
+    .find-courses.multi-search .discovery-input {
+        height: 35px; position: relative; padding-right: 12px; width: 195px;
+    }
+
+    .find-courses.multi-search .discovery-submit {
+        position: relative; margin-left: -7px; height: 35px;
+    }
+
     @media screen and (max-width: 979px) and (min-width: 769px) {
         .courses {
             width: 100% !important;
@@ -94,7 +113,7 @@
 </style>
 <link rel="stylesheet" type="text/css" href="/static/images/kotech_roadmap/about_org.css">
 <link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css" />
-<link rel="stylesheet" type="text/css" href="/static/new_index/css/common.css" />
+<!--<link rel="stylesheet" type="text/css" href="/static/new_index/css/common.css" />-->
 <link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css" />
 <script type="text/javascript" src="/static/new_index/js/owl.carousel.js"></script>
 
@@ -166,19 +185,19 @@
                                     </p>
                                     <p class="period">
                                         % if c.start != None and c.end != None:
-                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
                                         % else:
-                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        <span class="date">0000/00/00 ~ 0000/00/00</span>
                                         % endif
 
                                         % if c.status == 'ing':
-                                            <span class="state ing">진행중</span>
+                                        <span class="state ing">진행중</span>
                                         % elif c.status == 'end' and c.audit_yn == 'N':
-                                            <span class="state end">종료</span>
+                                        <span class="state end">종료</span>
                                         % elif c.status == 'end' and c.audit_yn == 'Y':
-                                            <span class="state possible">청강가능</span>
+                                        <span class="state possible">청강가능</span>
                                         % else:
-                                            <span class="state soon">개강예정</span>
+                                        <span class="state soon">개강예정</span>
                                         % endif
                                         <!--<span class="state soon">개강예정</span>-->
                                         <!--<span class="state possible">청강가능</span>-->
@@ -227,19 +246,19 @@
                                     </p>
                                     <p class="period">
                                         % if c.start != None and c.end != None:
-                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
                                         % else:
-                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        <span class="date">0000/00/00 ~ 0000/00/00</span>
                                         % endif
 
                                         % if c.status == 'ing':
-                                            <span class="state ing">진행중</span>
+                                        <span class="state ing">진행중</span>
                                         % elif c.status == 'end' and c.audit_yn == 'N':
-                                            <span class="state end">종료</span>
+                                        <span class="state end">종료</span>
                                         % elif c.status == 'end' and c.audit_yn == 'Y':
-                                            <span class="state possible">청강가능</span>
+                                        <span class="state possible">청강가능</span>
                                         % else:
-                                            <span class="state soon">개강예정</span>
+                                        <span class="state soon">개강예정</span>
                                         % endif
                                         <!--<span class="state soon">개강예정</span>-->
                                         <!--<span class="state possible">청강가능</span>-->
@@ -288,19 +307,19 @@
                                     </p>
                                     <p class="period">
                                         % if c.start != None and c.end != None:
-                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
                                         % else:
-                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        <span class="date">0000/00/00 ~ 0000/00/00</span>
                                         % endif
 
                                         % if c.status == 'ing':
-                                            <span class="state ing">진행중</span>
+                                        <span class="state ing">진행중</span>
                                         % elif c.status == 'end' and c.audit_yn == 'N':
-                                            <span class="state end">종료</span>
+                                        <span class="state end">종료</span>
                                         % elif c.status == 'end' and c.audit_yn == 'Y':
-                                            <span class="state possible">청강가능</span>
+                                        <span class="state possible">청강가능</span>
                                         % else:
-                                            <span class="state soon">개강예정</span>
+                                        <span class="state soon">개강예정</span>
                                         % endif
                                         <!--<span class="state soon">개강예정</span>-->
                                         <!--<span class="state possible">청강가능</span>-->
@@ -349,17 +368,17 @@
                                     </p>
                                     <p class="period">
                                         % if c.start != None and c.end != None:
-                                            <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
+                                        <span class="date">${c.start.strftime("%Y/%m/%d")} ~ ${c.end.strftime("%Y/%m/%d")}</span>
                                         % else:
-                                            <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                        <span class="date">0000/00/00 ~ 0000/00/00</span>
                                         % endif
 
                                         % if c.status == 'ing':
-                                            <span class="state ing">진행중</span>
+                                        <span class="state ing">진행중</span>
                                         % elif c.status == 'end':
-                                            <span class="state end">종료</span>
+                                        <span class="state end">종료</span>
                                         % else:
-                                            <span class="state soon">개강예정</span>
+                                        <span class="state soon">개강예정</span>
                                         % endif
                                         <!--<span class="state soon">개강예정</span>-->
                                         <!--<span class="state possible">청강가능</span>-->
@@ -397,7 +416,7 @@
         </div>
 
         <div class="btn-lol" onclick='window.location.href = "/courses";'>
-             K-MOOC 강좌 전체 보기 >>
+            K-MOOC 강좌 전체 보기 >>
         </div>
     </div>
 </section>
@@ -405,40 +424,40 @@
 
 % if course_select_type == 'C':
 <section>
-    <div class="container-fluid" style="margin-top: 20px; border-bottom: 1px solid #dddddd; padding-bottom: 18px;">
-        <div style="float: left; font-size: 20px;">
-            강좌보기
+    <div class="container-fluid">
+        <div class="package-title">
+            강좌찾기
         </div>
-        <div style="float: right;">
-            <label for="discovery-input" class="sr">강좌 찾기</label>
-            <input id="multisite_search" style="position:  relative; padding-right: 12px;" class="discovery-input ui-autocomplete-input" placeholder="강좌 찾기" type="text" autocomplete="off"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-            <button onclick="multisite_search()" class="button postfix discovery-submit" style="position: relative; height: 35px;" title="검색">
-                <img src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="검색" style="width: 20px; margin-top: -3px; height: 20px;">
-            </button>
-        </div>
+
     </div>
 </section>
 
-<section>
-    <div class="container-fluid" style="font-size: 16px; margin-top: 10px; margin-bottom: -20px;">
+<div class="container-fluid">
+    <div class="multi-course-cnt">
         총 <span id="course_total">${len(courses)}</span> 개
     </div>
-</section>
+    <div class="find-courses multi-search">
+        <input id="multisite_search" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
+        <button type="button" onclick="multisite_search()" class="button postfix discovery-submit" title="${_('Search')}">
+            <img style="width: 23px;" src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="${_('Search')}" />
+        </button>
+    </div>
+</div>
 
 <section class="find-courses">
     <section class="courses-container">
-    % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+        % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
 
         <div class="courses">
             <ul class="courses-listing">
                 % for course in courses:
-                    <li class="courses-listing-item">
-                        <%include file="course.html" args="course=course" />
-                    </li>
+                <li class="courses-listing-item">
+                    <%include file="course.html" args="course=course" />
+                </li>
                 % endfor
             </ul>
         </div>
-    % endif
+        % endif
     </section>
 </section>
 % endif
