@@ -2735,10 +2735,9 @@ html[lang='en'] .kr01_Tmenu__item a[href='/new_dashboard'] {
 }
 .new-search-input {
     border: solid 0px #ffffff !important;
-    height: 98% !important;
-    box-shadow: none;
+    height: 100% !important; box-shadow: none !important;
 }
-.new-search-input:focus {outline: 2px solid rgba(77, 144, 254,.5); outline-offset: 1px;}
+.new-search-input:focus {outline: 2px solid rgba(77, 144, 254,.5); outline-offset: -1px;}
 
 .new-login-memo {
     margin-right: 30px;
