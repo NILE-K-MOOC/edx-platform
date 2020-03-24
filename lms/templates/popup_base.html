@@ -7,7 +7,7 @@ from django.urls import reverse
 %>
 <%page args="pop" expression_filter="h"/>
 
-<div id="${pop['pop_id']}" class="popup-area" style="width: ${pop['pop_width']}px;">
+<div id="${pop['pop_id']}" class="popup-area" style="display: none; width: ${pop['pop_width']}px;">
 
   <div class="popup-main">
       <div class="popup-header">

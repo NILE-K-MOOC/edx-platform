@@ -111,12 +111,12 @@ leng = Number(leng);
 for (var i = 1; i<=leng; i++) {
     if (cookiedata.indexOf(i +"=done") < 0) {
         %if LANG == 'en':
-            $("#" + i).css("display" , "none");
+            $("#" + i).hide();
         %else:
-            $("#" + i).css("display" , "inline-block !important;");
+            $("#" + i).show();
         %endif
     } else {
-        $("#" + i).css("display" , "none");
+        $("#" + i).hide();
     }
 }
 

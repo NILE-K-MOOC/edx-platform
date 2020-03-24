@@ -7,7 +7,7 @@ from django.urls import reverse
 %>
 <%page args="pop" expression_filter="h"/>
 
-<div id="${pop['pop_id']}" class="popup-area">
+<div id="${pop['pop_id']}" class="popup-area" style="display: none;">
   <div class="popup-main">
     <div class="popup-image-area" style="max-width: ${pop['pop_width']}px;">
       <a href="${pop['link_url']}" title="${pop['pop_title']}" target="${pop['link_target']}">
@@ -15,16 +15,6 @@ from django.urls import reverse
       </a>
     </div>
 
-    <!--<div class="popup-footer">-->
-      <!--<label class="popup-footer-label" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">-->
-        <!--<input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox">-->
-        <!--<span class="popup-footer-day"><b>${pop['pop_hidden_day'][1]}</b></span>-->
-      <!--</label>-->
-      <!--<span class="popup-footer-day popup-footer-close">-->
-        <!--<a href="javascript:popClose('${pop['pop_id']}');" title="닫기"><b>[ 닫기 ]</b></a>-->
-      <!--</span>-->
-    <!--</div>-->
-    <!---->
     <div class="popup-footer">
       <label class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">
         <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
