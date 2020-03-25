@@ -356,6 +356,9 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
     .footer .footer-bottom .footer-menu li ~ li {
         margin-left: 20px;
     }
+
+    .main-line {
+        display: none;}
 }
 
 @media (min-width: 1200px) {
@@ -413,7 +416,19 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
 }
 
 @media (max-width: 992px) {
-    .index-bottom:nth-child(2) {
-        margin: 40px 0;
+    .sec-number .col-sm-4 ~ .col-sm-4 {
+        border-left: none;
     }
+    .index-bottom:nth-of-type(1) {
+        margin-bottom: 30px;
+    }
+    .index-bottom:nth-of-type(2) {
+        margin: 30px 0;
+    }
+    .index-bottom:last-child {
+        margin-top: 30px;
+    }
+
+
+    .main-line {border: 0.5px solid #ccc; width: 90%; margin: auto; }
 }
