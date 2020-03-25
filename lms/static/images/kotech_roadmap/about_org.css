@@ -151,6 +151,9 @@ h1, h2, h3 {
 .multi-visual .visual-title {margin-bottom: 10px; font-size: 36px; font-weight: 700; text-align: left; color: #618deb;}
 .multi-visual .visual-subtitle {font-size: 24px; font-weight: 500; color: #555;}
 
+.group-title {background: #222 url(/static/new_index/images/bg_group.jpg) no-repeat; background-size: cover;}
+.page-title .visual-title {margin-bottom: 0;}
+.page-title .visual-subtitle {margin-bottom: 0;}
 
 /* --------------------------
  *    media
