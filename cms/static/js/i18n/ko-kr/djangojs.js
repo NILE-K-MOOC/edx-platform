@@ -849,7 +849,7 @@
         "KYUNGNAMUNIVk": "\uacbd\ub0a8\ub300\ud559\uad50",
         "KonkukK": "\uAC74\uAD6D\uB300\uD559\uAD50",
         "KSUk": "\uACBD\uC131\uB300\uD559\uAD50",
-        "Language": "\uc5b8\uc5b4",
+        "Language": "강의 언어",
         "Large": "large",
         "Last Edited:": "\ub9c8\uc9c0\ub9c9 \ud3b8\uc9d1 \uc2dc\uac04:",
         "Last published %(last_published_date)s by %(publish_username)s": "%(publish_username)s\uac00 \ub9c8\uc9c0\ub9c9\uc73c\ub85c \uac8c\uc2dc\ud55c \ub0a0\uc9dc: %(last_published_date)s ",
