@@ -430,6 +430,9 @@
                     }
                 });
 
+                // 블루 리본의 옵션중 ribbon_n 의 내용 삭제
+                $("button[data-text='ribbon_n']").parents("li").remove();
+
                 $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn").remove();
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제

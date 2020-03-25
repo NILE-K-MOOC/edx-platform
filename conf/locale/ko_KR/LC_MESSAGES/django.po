@@ -6569,7 +6569,7 @@ msgstr "이메일"
 #: lms/djangoapps/instructor/views/api.py
 #: lms/djangoapps/instructor_task/tasks_helper/enrollments.py
 msgid "Language"
-msgstr "언어"
+msgstr "강의 언어"
 
 #: lms/djangoapps/instructor/views/api.py
 msgid "Location"
@@ -27943,7 +27943,7 @@ msgid "Job Edu"
 msgstr "직업교육"
 
 msgid "Linguistics"
-msgstr "한국어(학)"
+msgstr "한국학"
 
 msgid "Course Demand Survey"
 msgstr "강좌수요조사"
