@@ -204,17 +204,14 @@ $(document).ready(function(){
 });
 </script>
 % if main_list:
-<div>
-    <div class="series_bg_area series_about">
-        <div class="series_bg_space series_view">
-      <span class="series_bg_title series_about">
-      <a href="/series">
-          <h6>← 묶음강좌 목록으로 돌아가기</h6>
-      </a>
-          <h3 class="series_title">${main_list[0]}</h3>
-      </span>
+<link rel="stylesheet" href="/static/images/kotech_roadmap/about_org.css"/>
+<div id="container">
+    <section class="page-title group-title">
+        <div class="container-fluid">
+            <h1 class="visual-title">${main_list[0]}</h1>
+            <a href="/series" class="visual-back">묶음강좌 목록으로 돌아가기</a>
         </div>
-    </div>
+    </section>
 </div>
 
 <section class="container" id="printArea">
