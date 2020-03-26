@@ -7,7 +7,7 @@ if certificate_data and certificate_data.get('course_title', ''):
 course_mode_class = course_mode if course_mode else ''
 if accomplishment_course_title.find('(') == -1 :
     accomplishment_course_title = accomplishment_course_title + '(' + accomplishment_course_title
-accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
+accomplishment_course_title = accomplishment_course_title.replace(')','').replace("'", "\\'").split('(')
 %>
 <script type="text/javascript">
     if( $('#action-print-view').size() == 1) {
