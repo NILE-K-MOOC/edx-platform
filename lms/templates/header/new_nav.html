@@ -56,6 +56,8 @@
                         </li>
                     </ul>
                 </div>
+
+                % if LANGUAGE_CODE == 'ko-kr':
                 <div class="one-depth">
                     <a href="#" class="inject-h">${_("Community")}</a>
                     <ul class="two-depth">
@@ -71,8 +73,12 @@
                         <li>
                             <a href="/comm_tabs/kmooc_f/">FAQ</a>
                         </li>
+                        <li>
+                            <a href="/comm_hope_request">K-MOOC 에 바라는점</a>
+                        </li>
                     </ul>
                 </div>
+                % endif
 
                 <!--
                 <div class="ai-move" onclick='window.location.href = "/roadmap";'>

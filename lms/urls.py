@@ -148,6 +148,7 @@ urlpatterns = [
     url(r'^comm_mobile_view/(?P<board_id>.*?)/$', kotech_community_views.comm_mobile_view, name='comm_mobile_view'),
     url(r'^comm_faq/(?P<head_title>.*?)/$', kotech_community_views.comm_faq, name='comm_faq'),
     url(r'^comm_faqrequest/$', kotech_community_views.comm_faqrequest, name='comm_faqrequest'),
+    url(r'^comm_hope_request/$', kotech_community_views.comm_hope_request, name='comm_hope_request'),
     url(r'^comm_faqrequest/(?P<head_title>.*?)/$', kotech_community_views.comm_faqrequest, name='comm_faqrequest'),
     url(r'^comm_k_news$', kotech_community_views.comm_k_news, name='comm_k_news'),
     url(r'^comm_k_news_view/(?P<board_id>.*?)/$', kotech_community_views.comm_k_news_view, name='comm_k_news_view'),

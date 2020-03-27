@@ -1,0 +1,194 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">K-MOOC 에 바라는 점</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+<!-- <script src="${static.url('js/script/faq_request.js')}" charset="utf-8"></script> -->
+<script>
+    $(document).ready(function () {
+        $("#agree_yn").click(function () {
+            if ($(this).is(":checked")) {
+                $("#submit").prop("disabled", false);
+            } else {
+                $("#submit").prop("disabled", true);
+            }
+        });
+
+        $("#sel_email").change(function () {
+            if ($(this).val() == "direct") {
+                $("#email_domain").val("");
+                $("#email_domain").prop("readonly", false);
+            } else {
+                $("#email_domain").val($(this).val());
+                $("#email_domain").prop("readonly", true);
+            }
+        });
+
+    });
+
+    function validate() {
+        let bool = true;
+
+        $(".email_qarea input, .email_qarea select,  .email_qarea textarea").each(function () {
+            let id = $(this).prop("id");
+            let tagName = $(this).prop("tagName");
+            let v = $(this).val();
+            console.log(tagName + ":" + v);
+
+            // 연락처는 pass
+            if (id === "phone")
+                return true;
+
+            if (!v) {
+                let t = $.trim($(this).parents("td").prev().text());
+                let action = tagName == "SELECT" ? "선택" : "입력";
+                let that = this;
+                swal(t + " 값을 " + action + "하세요.", "", "info").then(function () {
+                    setTimeout(function () {
+                        $(that).focus();
+                    }, 50);
+                });
+
+                bool = false;
+                return false;
+            }
+        });
+        // $("input, select").each();
+
+        return bool;
+    }
+
+    function submit() {
+        // 유효성이 false 이면 중지
+        if (!validate())
+            return;
+
+        $.post(
+            "/comm_hope_request/",
+            {
+                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                type: $("#type").val(),
+                name: $("#name").val(),
+                phone: $("#phone").val(),
+                email: $("#email").val(),
+                content: $("textarea#content").val()
+            },
+            function (data) {
+                console.log(data);
+                swal("소중한 의견 감사합니다.", "보다 나은 K-MOOC가 되기 위해 노력하겠습니다.", "success");
+            }
+        );
+    }
+
+</script>
+<style>
+    .board-write dd input[type='text'] {
+        background: none;
+    }
+</style>
+<section class="container">
+    <!-- [s] board write -->
+    <h2 id="main">K-MOOC 에 바라는 점</h2>
+
+    <ul>
+        <li>K-MOOC에 바라는 점은 듣고 싶은 강좌나 만나고 싶은 교수자 등 다양한 의견을 공유하는 공간입니다.</li>
+        <li>보다 나은 K-MOOC가 되기 위해 노력하겠습니다.</li>
+    </ul>
+
+    <section class="board-view" style="padding-top: 20px !important;">
+
+        <div class="board-write">
+
+            <table class="email_qarea">
+
+                <colgroup>
+                    <col width="15%"/>
+                    <col width="35%"/>
+                    <col width="15%"/>
+                    <col width="35%"/>
+                </colgroup>
+
+                <tbody>
+
+                <tr>
+                    <td class="email_q_title">
+                        <span>구분</span>
+                    </td>
+                    <td colspan="3">
+                        <select id="type" title="구분 옵션">
+                            <option value="">선택하세요</option>
+                            <option value="course">듣고 싶은 강좌</option>
+                            <option value="teacher">만나고 싶은 교수자 추천</option>
+                            <option value="etc">기타</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="email_q_title">
+                        <span>이름</span>
+                    </td>
+                    <td>
+                        <span class="name_span">
+                        <input type="text" id="name" value="${ name | h }" placeholder='홍길동' aria-label="이름 입력" title="이름 입력">
+                        </span>
+                    </td>
+
+                    <td class="email_q_title">
+                        <span>연락처</span>
+                    </td>
+                    <td>
+                        <span class="phone_span">
+                        <input type="text" id="phone" placeholder='000-0000-0000' aria-label="연락처 입력" title="연락처 입력" onKeyup="this.value=this.value.replace(/[^0-9|-]/g,'');"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email_q_title">
+                        <span>${_("Email")}</span>
+                    </td>
+                    <td colspan="3">
+                        <span class="email_span">
+                        <input type="text" id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력">
+                        <input type="text" style="" id="email_domain" aria-label="이메일 도메인 입력" title="이메일 도메인 입력" readonly>
+                        <select id="sel_email" style="" title="이메일 선택">
+                            <option value="">${_("Please select an email")}</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="direct">직접입력</option>
+                            <!--<option id="email"></option>
+                            <option id="email"></option>-->
+                        </select>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email_q_title">
+                        <span>내용</span>
+                    </td>
+                    <td colspan="3">
+                        <textarea id="content" title="내용"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+            <input type="checkbox" class="faq-yn" id="agree_yn">
+            <label for="agree_yn">개인정보 수집 및 이용 동의</label> <a href="/Privacy-Policy#no1 ">약관보기(자세히 알아보기)</a>
+            </dl>
+            <div class="comment-submit">
+                <input type="button" value="의견 공유 하기" id="submit" disabled onclick="submit();"/>
+                <input type="button" value="취소" id="cancel" class="btn-gray" onclick="history.back();"/>
+            </div>
+        </div>
+    </section>
+    <!-- [e] board write -->
+</section>
+
+
+
+
+

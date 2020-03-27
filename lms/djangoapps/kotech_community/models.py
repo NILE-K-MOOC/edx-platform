@@ -62,3 +62,22 @@ class TbBoardAttach(models.Model):
         managed = False
         db_table = 'tb_board_attach'
         app_label = 'kotech_community'
+
+
+class TbHope(models.Model):
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=13)
+    email = models.CharField(max_length=100)
+    content = models.TextField(blank=True, null=True)
+    reg_id = models.IntegerField(blank=True)
+    reg_date = models.DateTimeField(auto_now_add=True)
+    mod_id = models.IntegerField(blank=True)
+    mod_date = models.DateTimeField(auto_now_add=True)
+    use_yn = models.CharField(max_length=1, default='Y')
+
+    class Meta:
+        managed = False
+        db_table = 'tb_hope'
+        app_label = 'kotech_community'

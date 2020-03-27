@@ -85,9 +85,10 @@ $(window).load(function () {
     window_W = $(window).width();
     var agent = navigator.userAgent.toLowerCase();
 
-    console.log("script.js :: document.ready !!!");
-    console.log('browser ::' + navigator.userAgent);
-    console.log('kr01_mainslider size check:::  ' + $('.kr01_mainslider').size());
+    // console.log("script.js :: document.ready !!!");
+    // console.log('browser ::' + navigator.userAgent);
+    // console.log('kr01_mainslider size check:::  ' + $('.kr01_mainslider').size());
+
     var mainSlider = $('.kr01_mainslider').bxSlider({
         mode: 'horizontal',
         auto: true,

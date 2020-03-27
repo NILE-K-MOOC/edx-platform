@@ -21,7 +21,7 @@ from django.db.models import Q
 from django.db import connections
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser
-from .models import TbBoard, TbAttach
+from .models import TbBoard, TbAttach, TbHope
 
 import mimetypes
 import urllib
@@ -33,8 +33,6 @@ def replace_all(string):
     string = string.replace('"', '&quot;');
     string = string.replace("'", "&#39;");
     return string
-
-
 
 
 @ensure_csrf_cookie
@@ -437,7 +435,7 @@ def mobile_comm_tabs(request):
                 Q(subject__icontains=search_str) | Q(content__icontains=search_str)).order_by('odby', '-reg_date')
         else:
             comm_list = TbBoard.objects.filter(section='F', use_yn='Y').order_by('odby',
-                                                                                                        '-reg_date')
+                                                                                 '-reg_date')
 
         return JsonResponse([model_to_dict(o) for o in comm_list])
     else:
@@ -893,6 +891,32 @@ def comm_faqrequest(request, head_title=None):
         return HttpResponse(data, 'application/json')
 
     return render_to_response('community/comm_faqrequest.html', {'head_title': head_title})
+
+
+@ensure_csrf_cookie
+def comm_hope_request(request):
+    if request.is_ajax():
+        TbHope.objects.create(
+            type=request.POST.get('type'),
+            name=request.POST.get('name'),
+            phone=request.POST.get('phone'),
+            email=request.POST.get('email'),
+            content=request.POST.get('content')
+        )
+        return JsonResponse({"result": "success"})
+
+    context = {}
+
+    user = request.user
+
+    # mako 템플릿에서 None 처리가 안되어 기본값을 셋팅..
+    if user.is_authenticated:
+        email = user.email
+        context.update(name=user.profile.name, email=email.split('@')[0], email_domain=email.split('@')[1], username=user.username)
+    else:
+        context.update(name='', email='', email_domain='', username='')
+
+    return render_to_response('community/comm_hope_request.html', context)
 
 
 @ensure_csrf_cookie
