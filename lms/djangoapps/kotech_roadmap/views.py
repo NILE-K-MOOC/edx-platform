@@ -49,7 +49,7 @@ def roadmap(request):
 def roadmap_view(request, id):
     if request.is_ajax():
         course_data = request.GET.get('data')
-        if course_data.find('+') != -1:
+        if course_data.find('http') == -1:
             org = course_data.split('+')[0]
             course = course_data.split('+')[1]
             not_date = datetime(2030, 01, 01, tzinfo=utc)
@@ -63,7 +63,7 @@ def roadmap_view(request, id):
                 log.error(e)
                 return JsonResponse({'error': '공개된 강좌가 없습니다.'})
         else:
-            url = 'https://www.matchup.kr/comm/pageView.do?page=biz/field/ai'
+            url = course_data
 
         return JsonResponse({'url': url})
 

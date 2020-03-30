@@ -1,15 +1,15 @@
 var nodes = [
-  { id: 0, label: "Introduction Programming for Everyone\n(프로그래밍 개론)\nPython 프로그래밍 기초", shape: VIS_SHAPE, level: 0, color: FEED_COLOR, link: "010_008_029" },
+  { id: 0, label: "Introduction Programming for Everyone\n(프로그래밍 개론)\nPython 프로그래밍 기초", shape: VIS_SHAPE, level: 0, color: FEED_COLOR, link: "http://www.dataedu.kr/course/1%ea%b3%bc%eb%aa%a9-python-%ed%94%84%eb%a1%9c%ea%b7%b8%eb%9e%98%eb%b0%8d-%ea%b8%b0%ec%b4%88/" },
   { id: 1, label: "Basic(Highschool)\nMathematics(기초 수학)\n매칭강좌없음", shape: VIS_SHAPE, level: 0, color: FEED_COLOR, link: "" },
 
   { id: 2, label: "Introduction to Statistics\n(통계학 개론)\n통계학의 이해 I", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "SookmyungK+SM_sta_004k" },
-  { id: 3, label: "Probability and Discrete Mathematics\n(확률과 이산수학)\nAI 기초수학Ⅱ(확률 및 통계)\n(전남대학교)", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "002_002_002" },
+  { id: 3, label: "Probability and Discrete Mathematics\n(확률과 이산수학)\nAI 기초수학Ⅱ(확률 및 통계)\n(전남대학교)", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "https://sleonline.jnu.ac.kr/Course/Course100.aspx" },
   { id: 4, label: "Calculus(미적분학)\n알고 보면 쉬운 미적분 이론", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "POSTECHk+MATH311" },
   { id: 5, label: "Linear Algebra(선형대수)\n선형대수학", shape: VIS_SHAPE, level: 1, color: FEED_COLOR, link: "SKKUk+SKKU_2017_01" },
   { id: 6, label: "AI Ethics(인공지능 윤리)\n인격과 로봇(일부 유사 강좌)", shape: VIS_SHAPE, level: 1, color: EXIST_COLOR, link: "CKUk+CORE_CKU03k" },
 
   { id: 7, label: "Introduction to CS and Programming\n(컴퓨터과학 개론 및 프로그래밍)\n파이썬 프로그래밍", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "HGUk+HGU02" },
-  { id: 8, label: "Math for Artificial Intelligence\n(인공지능을 위한 수학)\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: MATCH_COLOR, link: "003_002_009" },
+  { id: 8, label: "Math for Artificial Intelligence\n(인공지능을 위한 수학)\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 2, color: MATCH_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/1/is/4" },
 
   { id: 9, label: "Foundations of Data Science\n(데이터사이언스의 기초)\nR 데이터 분석 입문", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "DKUK+DKUK0003" },
 
@@ -33,7 +33,7 @@ var nodes = [
   { id: 22, label: "Topics in Machine Learning\n(기계학습 연구)\n매칭강좌없음", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
 
   { id: 23, label: "Reinforcement Learning\n(강화학습)\n해당강좌없음", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
-  { id: 24, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(코리아헤럴드)", shape: VIS_SHAPE, level: 10, color: MATCH_COLOR, link: "003_002_038" },
+  { id: 24, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(코리아헤럴드)", shape: VIS_SHAPE, level: 10, color: MATCH_COLOR, link: "http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6" },
 
   { id: 25, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 26, label: "Artificial Intelligence for Robotics\n(로봇공학을 위한 인공지능)\nMobile Robot Perception and Navigation", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "SEOULTECHk+SMOOC04k" },
