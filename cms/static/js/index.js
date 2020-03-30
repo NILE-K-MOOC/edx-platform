@@ -24,7 +24,6 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             middle_classfy_sub1: '.new-course-middle-classfy-sub1',
             middle_classfy_sub2: '.new-course-middle-classfy-sub2',
             middle_classfy_sub3: '.new-course-middle-classfy-sub3',
-            linguistics: '.new-course-linguistics',
             course_period: '.new-course-period'
             // Il-Hee, Maeng update end --------------------------
         }, {
@@ -99,7 +98,6 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfysub += ","+msub2;
             if(msub3 != null && msub3 != "" && msub3 != "null")
                 middle_classfysub += ","+msub3;
-            var linguistics = $newCourseForm.find(".new-course-linguistics").val();
             var period = $newCourseForm.find(".new-course-period").val();
 
             var course_info = {
@@ -115,7 +113,6 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfy: middle_classfy,
                 middle_classfysub: middle_classfysub,
                 difficult_degree: difficult_degree,
-                linguistics: linguistics,
                 period: period
             };
 
@@ -124,13 +121,10 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             if (!middle_classfy || middle_classfy == "null")
                 $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
 
-            if (!linguistics)
-                $("span[id='tip-new-course-linguistics']").css({"color": "#b20610"});
-
             if (!period)
                 $("span[id='tip-new-course-period']").css({"color": "#b20610"});
 
-            if (!classfy || !middle_classfy || middle_classfy == "null" || !linguistics || !period){
+            if (!classfy || !middle_classfy || middle_classfy == "null" || !period){
                 //console.log(classfy);
                 //console.log(classfysub);
                 //console.log(middle_classfy);
@@ -140,7 +134,6 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 //console.log(period);
                 return;
             }
-            // Il-Hee, Maeng update end --------------------------
             analytics.track('Created a Course', course_info);
             CreateCourseUtils.create(course_info, function (errorMessage) {
                 $('.create-course .wrap-error').addClass('is-shown');
