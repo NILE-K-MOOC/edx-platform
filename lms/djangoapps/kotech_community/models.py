@@ -67,6 +67,7 @@ class TbBoardAttach(models.Model):
 class TbHope(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=50, blank=True, null=True)
+    username = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     phone = models.CharField(max_length=13)
     email = models.CharField(max_length=100)

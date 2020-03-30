@@ -896,8 +896,16 @@ def comm_faqrequest(request, head_title=None):
 @ensure_csrf_cookie
 def comm_hope_request(request):
     if request.is_ajax():
+
+        username = ''
+
+        user = request.user;
+        if user.is_authenticated:
+            username = user.username
+
         TbHope.objects.create(
             type=request.POST.get('type'),
+            username=username,
             name=request.POST.get('name'),
             phone=request.POST.get('phone'),
             email=request.POST.get('email'),
