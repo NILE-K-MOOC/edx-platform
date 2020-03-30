@@ -1,6 +1,6 @@
 var nodes = [
   { id: 0, label: "Introduction to CS and Programming\n(컴퓨터과학 개론 및 프로그래밍)\n파이썬 프로그래밍", shape: VIS_SHAPE, level: 0, color: NORMAL_COLOR, link: "HGUk+HGU02" },
-  { id: 1, label: "Math for Artificial Intelligence\n(인공지능을 위한 수학)\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 0, color: FEED_COLOR, link: "003_002_009" },
+  { id: 1, label: "Math for Artificial Intelligence\n(인공지능을 위한 수학)\n머신 러닝을 위한 기초 수학 및 통계\n(코리아헤럴드)", shape: VIS_SHAPE, level: 0, color: FEED_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/1/is/4" },
   { id: 2, label: "AI Ethics(인공지능 윤리)\n인격과 로봇(일부 유사 강좌)", shape: VIS_SHAPE, level: 0, color: EXIST_COLOR, link: "CKUk+CORE_CKU03k" },
 
   { id: 3, label: "Object-Oriented Programming\n(객체지향프로그래밍)\n객체지향형 프로그래밍과 자료구조", shape: VIS_SHAPE, level: 1, color: NORMAL_COLOR, link: "YeungnamUnivK+YU217001" },
@@ -27,7 +27,7 @@ var nodes = [
   { id: 17, label: "Reinforcement Learning\n(강화학습) 해당강좌없음", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
 
   { id: 18, label: "Computer Vision\n(컴퓨터비전)\n영상 처리 및 실습(전남대학교)", shape: VIS_SHAPE, level: 9, color: MATCH_COLOR, link: "002_002_007" },
-  { id: 19, label: "Natural Language Processing\n(자연어처리)\n자연어처리 및 실습(전남대학교)", shape: VIS_SHAPE, level: 9, color: MATCH_COLOR, link: "002_004_006" },
+  { id: 19, label: "Natural Language Processing\n(자연어처리)\n자연어처리 및 실습(전남대학교)", shape: VIS_SHAPE, level: 9, color: MATCH_COLOR, link: "https://sleonline.jnu.ac.kr/Course/Course100.aspx" },
   { id: 20, label: "Applied Artificial Intelligence\n(인공지능 응용)\n빅데이터와 인공지능의 응용", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: "SNUk+SNU052_011k" },
 ];
 var edges = [

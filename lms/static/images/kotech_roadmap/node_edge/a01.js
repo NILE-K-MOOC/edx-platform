@@ -12,14 +12,14 @@ var nodes = [
 
   { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
   { id: 9, label: "Reinforcement Learning\n(강화학습) 해당강좌없음", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: "" },
-  { id: 10, label: "SpcElecAdv 3\n007_001_041\n추론응용 모델링\n(코리아헤럴드)\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 3, color: MATCH_COLOR, link: "007_001_041" },
+  { id: 10, label: "SpcElecAdv 3\n007_001_041\n추론응용 모델링\n(코리아헤럴드)\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 3, color: MATCH_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/7/is/16" },
   { id: 11, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
   { id: 12, label: "Introduction to Cognitive\nScience(인지과학 개론)\n인간 뇌의 이해", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SNU047_019k" },
 
   { id: 13, label: "Biomedical Computing\n(생의학 컴퓨팅)\n바이오메디컬비전 및 응용", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SoongsilUnivK+soongsilmooc03K" },
   { id: 14, label: "Artificial Intelligence for Robotics\n(로봇공학을 위한 인공지능)\nMobile Robot Perception and Navigation", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SEOULTECHk+SMOOC04k" },
-  { id: 15, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(코리아헤럴드)", shape: VIS_SHAPE, level: 4, color: MATCH_COLOR, link: "003_002_038" },
-  { id: 16, label: "Natural Language Processing\n(자연어처리)\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 4, color: MATCH_COLOR, link: "002_004_006" },
+  { id: 15, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(코리아헤럴드)", shape: VIS_SHAPE, level: 4, color: MATCH_COLOR, link: "http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6" },
+  { id: 16, label: "Natural Language Processing\n(자연어처리)\n자연어처리 및 실습\n(전남대학교)", shape: VIS_SHAPE, level: 4, color: MATCH_COLOR, link: "https://sleonline.jnu.ac.kr/Course/Course100.aspx" },
   { id: 17, label: "Linguistics(언어학)\n언어와 인간", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SNUk+CORE_SNU041_040k" },
   { id: 18, label: "Probabilistic Graphical Models\n(확률적 그래픽 모델)\n매칭강좌없음", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
   { id: 19, label: "Artificial Intelligence for Business\n(비즈니스를 위한 인공지능)\n매칭강좌없음", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
@@ -29,7 +29,7 @@ var nodes = [
   { id: 22, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 23, label: "Applied Artificial Intelligence\n(인공지능 응용)\n빅데이터와 인공지능의 응용", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SNUk+SNU052_011k" },
   { id: 24, label: "Game AI(게임인공지능)\n게임인공지능", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SejonguniversityK+SJKMOOC04k" },
-  { id: 25, label: "Speech Recognition(음성 인식)\n음성 인식 및 실습 (전남대학교)", shape: VIS_SHAPE, level: 5, color: MATCH_COLOR, link: "002_003_008" },
+  { id: 25, label: "Speech Recognition(음성 인식)\n음성 인식 및 실습 (전남대학교)", shape: VIS_SHAPE, level: 5, color: MATCH_COLOR, link: "https://sleonline.jnu.ac.kr/Course/Course100.aspx" },
 ];
 var edges = [
   { from: 0, to: 1, color: { opacity: OP_HIGH } },
