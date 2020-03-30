@@ -33,8 +33,7 @@
         $(".email_qarea input, .email_qarea select,  .email_qarea textarea").each(function () {
             let id = $(this).prop("id");
             let tagName = $(this).prop("tagName");
-            let v = $(this).val();
-            console.log(tagName + ":" + v);
+            let v = $.trim($(this).val());
 
             // 연락처는 pass
             if (id === "phone")
@@ -76,7 +75,9 @@
             },
             function (data) {
                 console.log(data);
-                swal("소중한 의견 감사합니다.", "보다 나은 K-MOOC가 되기 위해 노력하겠습니다.", "success");
+                swal("소중한 의견 감사합니다.", "보다 나은 K-MOOC가 되기 위해 노력하겠습니다.", "success").then(function(){
+                    location.href = '/';
+                });
             }
         );
     }
@@ -113,7 +114,8 @@
 
                 <tr>
                     <td class="email_q_title">
-                        <span>구분</span>
+                        <span>구분*</span>
+                    </td>
                     </td>
                     <td colspan="3">
                         <select id="type" title="구분 옵션">
@@ -127,7 +129,7 @@
 
                 <tr>
                     <td class="email_q_title">
-                        <span>이름</span>
+                        <span>이름* </span>
                     </td>
                     <td>
                         <span class="name_span">
@@ -145,7 +147,7 @@
                 </tr>
                 <tr>
                     <td class="email_q_title">
-                        <span>${_("Email")}</span>
+                        <span>${_("Email")}*</span>
                     </td>
                     <td colspan="3">
                         <span class="email_span">
@@ -168,7 +170,7 @@
                 </tr>
                 <tr>
                     <td class="email_q_title">
-                        <span>내용</span>
+                        <span>내용*</span>
                     </td>
                     <td colspan="3">
                         <textarea id="content" title="내용"></textarea>
@@ -182,7 +184,9 @@
             </dl>
             <div class="comment-submit">
                 <input type="button" value="의견 공유 하기" id="submit" disabled onclick="submit();"/>
+                <!--
                 <input type="button" value="취소" id="cancel" class="btn-gray" onclick="history.back();"/>
+                -->
             </div>
         </div>
     </section>
