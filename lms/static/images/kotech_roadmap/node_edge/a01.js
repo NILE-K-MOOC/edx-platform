@@ -12,7 +12,7 @@ var nodes = [
 
   { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
   { id: 9, label: "Reinforcement Learning\n(강화학습) 해당강좌없음", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: "" },
-  { id: 10, label: "SpcElecAdv 3\n007_001_041\n추론응용 모델링\n(코리아헤럴드)\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 3, color: MATCH_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/7/is/16" },
+  { id: 10, label: "Knowledge-Based AI(지식기반 인공지능)\n추론응용 모델링 (코리아헤럴드)\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 3, color: MATCH_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/7/is/16" },
   { id: 11, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
   { id: 12, label: "Introduction to Cognitive\nScience(인지과학 개론)\n인간 뇌의 이해", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SNU047_019k" },
 
@@ -25,7 +25,7 @@ var nodes = [
   { id: 19, label: "Artificial Intelligence for Business\n(비즈니스를 위한 인공지능)\n매칭강좌없음", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
   { id: 20, label: "Computational Cognitive Science\n(전산 인지과학)\n매칭강좌없음", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
 
-  { id: 21, label: "SpcElecAdv 2\nSMUk+FD_SMU03\n영상처리와 패턴인식\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 5, color: EXIST_COLOR, link: "SMUk+FD_SMU03" },
+  { id: 21, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식\n(일부 유사 강좌)", shape: VIS_SHAPE, level: 5, color: EXIST_COLOR, link: "SMUk+FD_SMU03" },
   { id: 22, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 23, label: "Applied Artificial Intelligence\n(인공지능 응용)\n빅데이터와 인공지능의 응용", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SNUk+SNU052_011k" },
   { id: 24, label: "Game AI(게임인공지능)\n게임인공지능", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SejonguniversityK+SJKMOOC04k" },
