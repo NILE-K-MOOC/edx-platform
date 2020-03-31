@@ -120,7 +120,7 @@
 <section class="multi-visual">
     <div class="container-fluid">
         % if 'multisite_org' in request.session:
-        <h1 class="visual-title">${request.session['multisite_org']}</h1>
+        <h1 class="visual-title">${multisite_name}</h1>
         % else:
         <h1 class="visual-title">연계사이트</h1>
         % endif
