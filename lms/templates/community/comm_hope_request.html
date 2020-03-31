@@ -104,10 +104,8 @@
             <table class="email_qarea">
 
                 <colgroup>
-                    <col width="15%"/>
-                    <col width="35%"/>
-                    <col width="15%"/>
-                    <col width="35%"/>
+                    <col width="30%"/>
+                    <col width="*"/>
                 </colgroup>
 
                 <tbody>
@@ -117,7 +115,7 @@
                         <span>구분*</span>
                     </td>
                     </td>
-                    <td colspan="3">
+                    <td>
                         <select id="type" title="구분 옵션">
                             <option value="">선택하세요</option>
                             <option value="course">듣고 싶은 강좌</option>
@@ -136,7 +134,8 @@
                         <input type="text" id="name" value="${ name | h }" placeholder='홍길동' aria-label="이름 입력" title="이름 입력">
                         </span>
                     </td>
-
+                <tr/>
+                <tr>
                     <td class="email_q_title">
                         <span>연락처</span>
                     </td>
@@ -149,7 +148,7 @@
                     <td class="email_q_title">
                         <span>${_("Email")}*</span>
                     </td>
-                    <td colspan="3">
+                    <td>
                         <span class="email_span">
                         <input type="text" id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력"
                                onKeyup="this.value=this.value.replace(/[^0-9a-zA-Z-_\.]/ig,'');"/>
@@ -173,7 +172,7 @@
                     <td class="email_q_title">
                         <span>내용*</span>
                     </td>
-                    <td colspan="3">
+                    <td>
                         <textarea id="content" title="내용"></textarea>
                     </td>
                 </tr>
