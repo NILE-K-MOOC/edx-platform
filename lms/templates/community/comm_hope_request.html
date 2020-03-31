@@ -70,12 +70,12 @@
                 type: $("#type").val(),
                 name: $("#name").val(),
                 phone: $("#phone").val(),
-                email: $("#email").val(),
+                email: $("#email").val() + '@' + $("#email_domain").val(),
                 content: $("textarea#content").val()
             },
             function (data) {
                 console.log(data);
-                swal("소중한 의견 감사합니다.", "보다 나은 K-MOOC가 되기 위해 노력하겠습니다.", "success").then(function(){
+                swal("소중한 의견 감사합니다.", "보다 나은 K-MOOC가 되기 위해 노력하겠습니다.", "success").then(function () {
                     location.href = '/';
                 });
             }
@@ -151,9 +151,10 @@
                     </td>
                     <td colspan="3">
                         <span class="email_span">
-                        <input type="text" id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력" />
+                        <input type="text" id="email" placeholder='${_("Email to respond")}' aria-label="이메일 입력" title="이메일 입력"
+                               onKeyup="this.value=this.value.replace(/[^0-9a-zA-Z-_\.]/ig,'');"/>
                             <span style="padding: 3px 3px 0px 0px;">@</span>
-                        <input type="text" style="" id="email_domain" aria-label="이메일 도메인 입력" title="이메일 도메인 입력" readonly />
+                        <input type="text" style="" id="email_domain" aria-label="이메일 도메인 입력" title="이메일 도메인 입력" readonly/>
                         <select id="sel_email" style="" title="이메일 선택">
                             <option value="">${_("Please select an email")}</option>
                             <option value="naver.com">naver.com</option>
