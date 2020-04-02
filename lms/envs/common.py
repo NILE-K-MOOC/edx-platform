@@ -322,8 +322,8 @@ COURSE_DISCOVERY_MEANINGS = {
     }
 }
 
-COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
-                            'ai_sec_yn', 'basic_science_sec_yn', 'ribbon_yn']
+COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'linguistics_yn ', 'range', 'etc',
+                            'course_level', 'ai_sec_yn', 'basic_science_sec_yn', 'ribbon_yn']
 
 # Features
 FEATURES = {

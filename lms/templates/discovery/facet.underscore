@@ -1,4 +1,4 @@
-<% if (name != "job_edu_yn" && name != "ai_sec_yn" && name != "basic_science_sec_yn"){ %>
+<% if (name != "job_edu_yn" && name != "ai_sec_yn" && name != "basic_science_sec_yn" && name != "linguistics_yn"){ %>
 <h3 class="header-facet" data-name="<%- name %>" data-check="<%- displayName%>">
     <%- gettext(displayName) %>
 </h3>
