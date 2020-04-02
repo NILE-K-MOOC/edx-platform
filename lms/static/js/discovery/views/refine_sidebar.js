@@ -147,7 +147,7 @@
                             data.name = this.termName('ai_sec_yn', gettext("ai_sec_y"));
                         } else if (data.facet == 'basic_science_sec_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('basic_science_sec_yn', gettext("basic_science_sec_y"));
-                        } else if (data.facet == 'basic_science_sec_yn' && data.term.toUpperCase() == 'Y') {
+                        } else if (data.facet == 'linguistics_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('linguistics_yn', gettext("linguistics_y"));
                         } else {
                             data.name = this.termName(data.facet, data.term);
