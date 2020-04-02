@@ -473,6 +473,11 @@
                             v = 'basic_science_y';
                             t = 'basic_science_y';
                             break;
+                        case 'linguistics_yn':
+                            k = 'linguistics_yn';
+                            v = 'y';
+                            t = 'linguistics_y';
+                            break;
                     }
 
                     if ($("button[data-facet='" + k + "'][data-value='" + v + "']").size() > 0) {
