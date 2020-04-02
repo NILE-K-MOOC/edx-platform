@@ -322,8 +322,25 @@ COURSE_DISCOVERY_MEANINGS = {
     }
 }
 
-COURSE_DISCOVERY_FILTERS = ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
-                            'ai_sec_yn', 'basic_science_sec_yn', 'ribbon_yn']
+COURSE_DISCOVERY_FILTERS = [
+    'org',
+    'language',
+    'modes',
+    'classfy',
+    'middle_classfy',
+    'linguistics_yn',
+    'linguistics',
+    'course_period',
+    'fourth_industry_yn',
+    'job_edu_yn',
+    'linguistics_yn ',
+    'range',
+    'etc',
+    'course_level',
+    'ai_sec_yn',
+    'basic_science_sec_yn',
+    'ribbon_yn'
+]
 
 # Features
 FEATURES = {
@@ -568,11 +585,6 @@ FEATURES = {
 
     # Course discovery feature
     'ENABLE_COURSE_DISCOVERY': True,
-
-    # Setting for overriding default filtering facets for Course discovery
-    # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
-    'COURSE_DISCOVERY_FILTERS': ['org', 'language', 'modes', 'classfy', 'middle_classfy', 'linguistics', 'course_period', 'fourth_industry_yn', 'job_edu_yn', 'range', 'etc', 'course_level',
-                                 'ai_sec_yn', 'basic_science_sec_yn'],
 
     # Software secure fake page feature flag
     'ENABLE_SOFTWARE_SECURE_FAKE': False,

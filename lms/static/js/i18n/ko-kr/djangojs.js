@@ -2095,6 +2095,7 @@
         "ai_sec_yn": "AI 인공지능 여부",
         "basic_science_sec_yn": "이공계 기초과학 여부",
         "linguistics": "한국학",
+        "linguistics_y": "한국학",
         "Korean": "한국어",
         "Korean Culture": "한국문화",
         "fourth_industry_y": "4차 산업혁명",
