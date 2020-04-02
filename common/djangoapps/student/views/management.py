@@ -438,6 +438,17 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context['courses_list'] = theming_helpers.get_template_path('multisite_courses_list.html')
     context.update(extra_context)
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
+
+    # multisite name
+    with connections['default'].cursor() as cur:
+        query = '''
+            select site_name from multisite where site_code = '{site_code}';
+        '''.format(site_code=site_code)
+
+        cur.execute(query)
+        multi_name = cur.fetchone()
+
+    context['multisite_name'] = multi_name[0] if multi_name is not None else site_code
     return render_to_response('multisite_index.html', context)
 
 
