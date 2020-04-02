@@ -153,17 +153,52 @@ function vis_draw(nodes, edges) {
   network.on( 'click', function(properties) {
     var node_id = properties.nodes[0];
 
-    if (node_id != null) {
-      var link = nodes[node_id]['link'];
-      if(link && link !== ''){
-        $.get('', {data: link}).done(function(d){
-          if(d.url){
-            window.open(d.url, "_blank");
-          } else {
-            swal('', d.error, 'info');
-          }
-        });
+    if(node_id != null){
+      var sNodeLabel = this.body.nodes[node_id].options.link;
+    } else {
+      $('#roadmap_pop').hide();
+    }
+
+    if($.type(sNodeLabel) === 'array'){
+      var canvasPosition = $('.vis-network').position();
+
+      var layer_div = $('#roadmap_pop');
+
+      var clickX = properties.pointer.DOM.x + canvasPosition.top - 40;
+      var clickY = properties.pointer.DOM.y + canvasPosition.left + 10;
+      if ($('.other-cont p.ctxt').length) {
+          $('.other-cont').empty();
       }
+      for(let i=0; i < sNodeLabel.length; i++){
+        // sNodeLabel[i][0] : 강좌명
+        // sNodeLabel[i][1] : 링크
+        $('div.other-cont').append('<a href="javascript: roadmapLink(\'' + encodeURIComponent(sNodeLabel[i][1]) + '\')"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+
+      }
+
+        layer_div.css('top', clickY).css('left', clickX).show();
+
+    } else if (node_id != null) {
+      roadmapLink(nodes[node_id]['link']);
+    } else {
+      roadmapLink();
     }
   });
+}
+
+function roadmapClose(){
+  $('.other-cont').empty();
+  $('#roadmap_pop').hide();
+}
+
+function roadmapLink(link){
+  if(link && link !== ''){
+      $.get('', {data: link}).done(function(d){
+          if(d.url){
+              window.open(d.url, "_blank");
+          } else {
+              swal('', d.error, 'info');
+          }
+      });
+  }
 }

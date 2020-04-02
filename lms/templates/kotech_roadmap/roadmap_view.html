@@ -11,6 +11,54 @@
 <script src="/static/images/kotech_roadmap/lib/vis.js"></script>
 <script src="/static/images/kotech_roadmap/lib/common.js"></script>
 
+<style>
+    .pop-layer .pop-container {
+        padding: 20px 25px;
+    }
+
+    .pop-layer p.ctxt {
+        color: #666;
+        line-height: 25px;
+        margin-bottom: 5px;
+    }
+
+    .pop-layer .btn-r {
+        width: 100%;
+        margin: 10px 0 0;
+        padding-top: 10px;
+        border-top: 1px solid #DDD;
+        text-align: right;
+    }
+
+    .pop-layer {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 410px;
+        height: auto;
+        background-color: #fff;
+        border: 5px solid #3571B5;
+        z-index: 10;
+    }
+    a.btn-layerClose {
+        display: inline-block;
+        height: 25px;
+        padding: 0 14px 0;
+        border: 1px solid #304a8a;
+        background-color: #3f5a9d;
+        font-size: 13px;
+        color: #fff !important;
+        line-height: 25px;
+    }
+
+    a.btn-layerClose:hover {
+        border: 1px solid #091940;
+        background-color: #1f326a;
+        color: #fff ;
+    }
+
+</style>
 
 <div id="container">
     <section class="page-title">
@@ -50,6 +98,20 @@
             </div>
         </div>
     </section>
+    <div id="roadmap_pop" class="pop-layer" style="display: none;">
+        <div class="pop-container">
+            <div class="pop-conts">
+                <!--content //-->
+                <div class="other-cont">
+
+                </div>
+                <div class="btn-r">
+                    <a href="javascript: roadmapClose();" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
 </div>
 
 % if id == 'a01':
