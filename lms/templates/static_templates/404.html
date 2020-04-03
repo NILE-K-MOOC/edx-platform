@@ -9,11 +9,12 @@ from openedx.core.djangolib.markup import HTML, Text
 <%block name="pagetitle">${_("Page Not Found")}</%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="outside-app">
-        <h1>
+    <section class="outside-app" style="padding: 100px 0; text-align: center;">
+         <i style="display: inline-block; width: 80px; height: 80px; margin-bottom: 30px; border: 5px solid #ddd; border-radius: 50%; font-size: 45px; font-weight: bold; font-style: normal; text-align: center; color: #ccc;">!</i>
+        <h1 style="margin-bottom: 30px; font: bold 28px/1.5 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;">
             <%block name="pageheader">${page_header or _("Page not found")}</%block>
         </h1>
-        <p>
+        <p style="max-width: 100%; font: normal 1rem/1.5 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;">
             <%block name="pagecontent">
                 % if page_content:
                     ${page_content}
