@@ -2103,6 +2103,7 @@
         "ai_sec_y": "AI 인공지능",
         "basic_science_sec_y": "이공계 기초과학",
         "etc": "기타 분류",
+        "Category of interest": "관심 분류",
         "course_level": "난이도",
         "1": "교양",
         "2": "전공기초",
