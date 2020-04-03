@@ -1,6 +1,6 @@
 var nodes = [
   { id: 0, label: "Understanding Artificial Intelligence\n(인공지능의 이해)\nICBM+AI개론(일부 유사 강좌)", shape: VIS_SHAPE, level: 0, color: NULL_COLOR, link: "" },
-  { id: 1, label: "AI Ethics(인공지능 윤리)\n인격과 로봇(일부 유사 강좌)", shape: VIS_SHAPE, level: 0, color: EXIST_COLOR, link: "CKUk+CORE_CKU03k" },
+  { id: 1, label: "AI Ethics(인공지능 윤리)\n인격과 로봇(일부 유사 강좌) 외 1건", shape: VIS_SHAPE, level: 0, color: EXIST_COLOR, link: [['인격과 로봇', 'CKUk+CORE_CKU03k'], ['포스트휴먼 인문학', 'EwhaK+CORE_EW17002C']] },
 
   { id: 2, label: "Introduction to Artificial Intelligence\n(인공지능 개론)\n인공지능의 기초", shape: VIS_SHAPE, level: 1, color: NORMAL_COLOR, link: "SNUk+SNU048_011k" },
   { id: 3, label: "Economics(경제학 개론)\n경제학원론-미시경제학", shape: VIS_SHAPE, level: 1, color: NORMAL_COLOR, link: "SNUk+SNU200_105k" },
