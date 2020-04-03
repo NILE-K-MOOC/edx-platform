@@ -186,16 +186,10 @@
                         case 'middle_classfy':
                             model.set('odby1', 2);
                             break;
-                        case 'linguistics':
+                        case 'fourth_industry_yn':
                             model.set('odby1', 3);
                             break;
-                        case 'fourth_industry_yn':
-                            model.set('odby1', 4);
-                            break;
-                        case 'ai_sec_yn':
-                            model.set('odby1', 4);
-                            break;
-                        case 'basic_science_sec_yn':
+                        case 'linguistics':
                             model.set('odby1', 4);
                             break;
                         case 'course_period':
@@ -414,7 +408,7 @@
                 );
                 HtmlUtils.setHtml(this.$container, htmlSnippet);
 
-                $("h3[data-name='fourth_industry_yn']").text(gettext('etc'));
+                $("h3[data-name='fourth_industry_yn']").text(gettext('Category of interest'));
 
                 let li_list1 = $("#ai_sec_yn li").clone();
                 let li_list2 = $("#basic_science_sec_yn li").clone();
