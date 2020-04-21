@@ -604,82 +604,83 @@ class CourseTabView(EdxFragmentView):
         """
         course_key = CourseKey.from_string(course_id)
 
-        if not request.user.is_authenticated:
+        encStr = request.GET.get('encStr')
+        org = request.GET.get('org')
 
-            encStr = request.GET.get('encStr')
-            org = request.GET.get('org')
+        # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
+        if org and encStr:
+            from branding.views import decrypt, login
 
-            # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
-            if org and encStr:
-                from branding.views import decrypt, login
+            try:
+                multisite = Multisite.objects.get(site_code=org)
+                key = multisite.encryption_key
+                logo_img_id = multisite.logo_img
 
                 try:
-                    multisite = Multisite.objects.get(site_code=org)
-                    key = multisite.encryption_key
-                    logo_img_id = multisite.logo_img
+                    raw_data = decrypt(key, key, encStr)
+                except Exception as e:
+                    raw_data = None
+                    log.info(traceback.format_exc(e))
+
+                if raw_data:
+                    user_id = None
+                    params = parse_qs(raw_data)
+
+                    site_id = multisite.site_id
+                    org_user_id = params.get('userid')
+
+                    # parse_qs 자체는 value 를 리스트로 변환하여 반환하기 때문에 다음의 코드가 필요
+                    if org_user_id:
+                        org_user_id = org_user_id[0]
+
+                    # org 와 기관내 사번으로 등록된 사용자가 있는지 확인하여 없다면 등록을 위해 세션에 정보 저장
+
+                    if org:
+                        request.session['multisite_org'] = org
+
+                    if org_user_id:
+                        request.session['multisite_userid'] = org_user_id
 
                     try:
-                        raw_data = decrypt(key, key, encStr)
-                    except Exception as e:
-                        raw_data = None
-                        log.info(traceback.format_exc(e))
+                        # multisite_member 에 사번과 동일한 사용자가 있는지 확인. params.get('user_id') 의 값은 기관의 사번
+                        multisite_member = MultisiteMember.objects.get(site_id=site_id, org_user_id=org_user_id)
+                        user_id = multisite_member.user_id
 
-                    if raw_data:
-                        user_id = None
-                        params = parse_qs(raw_data)
+                    except ObjectDoesNotExist as e3:
+                        # 데이터가 없다면 세션에 정보를 저장
+                        log.info('CourseTabView ObjectDoesNotExist [%s]' % e3.message)
 
-                        site_id = multisite.site_id
-                        org_user_id = params.get('userid')
 
-                        # parse_qs 자체는 value 를 리스트로 변환하여 반환하기 때문에 다음의 코드가 필요
-                        if org_user_id:
-                            org_user_id = org_user_id[0]
 
-                        # org 와 기관내 사번으로 등록된 사용자가 있는지 확인하여 없다면 등록을 위해 세션에 정보 저장
-                        try:
-                            # multisite_member 에 사번과 동일한 사용자가 있는지 확인. params.get('user_id') 의 값은 기관의 사번
-                            multisite_member = MultisiteMember.objects.get(site_id=site_id, org_user_id=org_user_id)
-                            user_id = multisite_member.user_id
+                        # save_path 도 세션에 저장
+                        # '/static/images/no_images_large.png'
 
-                        except ObjectDoesNotExist as e3:
-                            # 데이터가 없다면 세션에 정보를 저장
-                            log.info('CourseTabView ObjectDoesNotExist [%s]' % e3.message)
+                        # 로그인 화면으로 리다이렉트
+                        from student.helpers import get_next_url_for_login_page
 
-                            if org:
-                                request.session['multisite_org'] = org
+                        redirect_url = get_next_url_for_login_page(request)
 
-                            if org_user_id:
-                                request.session['multisite_userid'] = org_user_id
+                        path = str(request.path)
+                        # return redirect('/login?next=' + urllib.urlencode(path))
+                        enc_path = urllib.quote_plus(path)
+                        return redirect('/login?next=' + enc_path)
 
-                            # save_path 도 세션에 저장
-                            # '/static/images/no_images_large.png'
+                        # traceback.format_exc(e)
 
-                            # 로그인 화면으로 리다이렉트
-                            from student.helpers import get_next_url_for_login_page
+                    except Exception as e4:
+                        log.info('CourseTabView Exception [%s]' % e4.message)
 
-                            redirect_url = get_next_url_for_login_page(request)
+                    if user_id and not request.user.is_authenticated:
+                        user = User.objects.get(pk=user_id)
+                        user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                        login(request, user)
 
-                            path = str(request.path)
-                            # return redirect('/login?next=' + urllib.urlencode(path))
-                            enc_path = urllib.quote_plus(path)
-                            return redirect('/login?next=' + enc_path)
-
-                            # traceback.format_exc(e)
-
-                        except Exception as e4:
-                            log.info('CourseTabView Exception [%s]' % e4.message)
-
-                        if user_id:
-                            user = User.objects.get(pk=user_id)
-                            user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
-                            login(request, user)
-
-                        pass
-
-                except ObjectDoesNotExist as e:
                     pass
-                except Exception as e1:
-                    pass
+
+            except ObjectDoesNotExist as e:
+                pass
+            except Exception as e1:
+                pass
 
         with modulestore().bulk_operations(course_key):
             course = get_course_with_access(request.user, 'load', course_key)
