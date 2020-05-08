@@ -240,3 +240,15 @@ class UnregisteredLearnerCohortAssignments(DeletableByUserValue, models.Model):
     course_user_group = models.ForeignKey(CourseUserGroup, on_delete=models.CASCADE)
     email = models.CharField(blank=True, max_length=255, db_index=True)
     course_id = CourseKeyField(max_length=255)
+
+class CourseGroupsAddinfo(models.Model):
+    group_id = models.IntegerField()
+    content = models.CharField(max_length=45, blank=True, null=True)
+    regist_id = models.CharField(max_length=45, blank=True, null=True)
+    regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    modify_id = models.CharField(max_length=45, blank=True, null=True)
+    modify_date = models.DateTimeField(blank=True, null=True, auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'course_groups_addinfo'

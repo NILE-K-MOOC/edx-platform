@@ -391,7 +391,6 @@ def add_cohort(course_key, name, assignment_type):
         course_id=course.id,
         assignment_type=assignment_type
     ).course_user_group
-
     tracker.emit(
         "edx.cohort.creation_requested",
         {"cohort_name": cohort.name, "cohort_id": cohort.id}

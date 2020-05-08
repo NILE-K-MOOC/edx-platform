@@ -4,7 +4,7 @@ Views related to course groups functionality.
 
 import logging
 import re
-
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -34,6 +34,7 @@ from student.auth import has_course_author_access
 from . import api, cohorts
 from .models import CourseUserGroup, CourseUserGroupPartitionGroup
 from .serializers import CohortUsersAPISerializer
+from models import CourseGroupsAddinfo
 
 MAX_PAGE_SIZE = 100
 
@@ -170,7 +171,6 @@ def cohort_handler(request, course_key_string, cohort_id=None):
         raise Http404('The requesting user does not have course author permissions.')
 
     course = get_course(course_key)
-
     if request.method == 'GET':
         if not cohort_id:
             all_cohorts = [
@@ -206,6 +206,11 @@ def cohort_handler(request, course_key_string, cohort_id=None):
         else:
             try:
                 cohort = cohorts.add_cohort(course_key, name, assignment_type)
+                try:
+                    CourseGroupsAddinfo.objects.create(group_id=cohort.id, regist_id=request.user,
+                                                       modify_id=request.user)
+                except:
+                    print("course_group_add_info_error")
             except ValueError as err:
                 return JsonResponse({"error": unicode(err)}, 400)
 
@@ -224,6 +229,17 @@ def cohort_handler(request, course_key_string, cohort_id=None):
         else:
             # If group_id was specified as None, unlink the cohort if it previously was associated with a group.
             existing_group_id, _ = cohorts.get_group_info_for_cohort(cohort)
+            if request.method == 'PATCH':
+                aaa = _get_cohort_representation(cohort, course)
+                try:
+                    with transaction.atomic():
+                        tttt = CourseGroupsAddinfo.objects.filter(group_id=aaa['id']).get()
+                        vv = request.user
+                        tttt.modify_id = str(vv)
+                        tttt.save()
+                except:
+                    print("course_group_add_info_update_error")
+
             if existing_group_id is not None:
                 unlink_cohort_partition_group(cohort)
 
@@ -500,6 +516,7 @@ class CohortHandler(DeveloperErrorViewMixin, APIPermissions):
             * user_partition_id: The integer identified of the UserPartition.
             * group_id: The integer identified of the specific group in the partition.
     """
+
     def get(self, request, course_key_string, cohort_id=None):
         """
         Endpoint to get either one or all cohorts.
