@@ -150,7 +150,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         courses = sort_by_announcement(courses)
 
     context = {'courses': courses}
-
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
     # This appears to be an unused context parameter, at least for the master templates...
@@ -182,8 +181,8 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # TODO: Course Listing Plugin required
     context['journal_info'] = get_journals_context(request)
-
-    return render_to_response('index.html', context)
+    print("contextcontextcontext",context)
+    return render_to_response('new_index.html', context)
 
 
 def compose_and_send_activation_email(user, profile, user_registration=None):

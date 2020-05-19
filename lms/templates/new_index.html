@@ -1,0 +1,219 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+<script type="text/javascript" src="/static/js/kotech_js/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/kotech_css/main.css">
+<link rel="stylesheet" type="text/css" href="/static/css/kotech_css/bootstrap.css">
+<script>
+    $(function(){
+        $('.dropdown').on('click', function() {
+            $('.dropdown').removeClass('open');
+            $(this).addClass('open');
+        });
+
+        $(document).mouseup(function(e) {
+            var utilMenu = $('.dropdown');
+
+            if (!$('.dropdown-menu').is(e.target) && !utilMenu.is(e.target) && utilMenu.has(e.target).length == 0) {
+                utilMenu.removeClass('open');
+            }
+        });
+    });
+
+    $(function(){
+            $('.lnb-btn').on('click', function() {
+                $('.lnb').removeClass('on');
+                $('.lnb').addClass('on');
+            });
+
+            $('.lnb-close-btn').on('click', function() {
+                $('.lnb').removeClass('on');
+            });
+
+            $('.l-one-depth').on('click', function() {
+                $('.l-one-depth').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+
+    $(function(){
+        var noticeNews = function(){
+            setTimeout(function(){
+                $('#noticeNews li:first').animate({marginTop: '-24px'}, 500, function(){
+                    $(this).detach().appendTo('ul#noticeNews').removeAttr('style');
+                });
+                noticeNews();
+            }, 3000);
+        };
+        noticeNews();
+    });
+
+    $(function(){
+        var libraryNews = function(){
+            setTimeout(function(){
+                $('#libraryNews li:first').animate({marginTop: '-24px'}, 500, function(){
+                    $(this).detach().appendTo('ul#libraryNews').removeAttr('style');
+                });
+                libraryNews();
+            }, 3000);
+        };
+        libraryNews();
+    });
+    </script>
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+        <header>
+            <section class="sec-visual">
+                <div class="container-fluid">
+                    <h1 class="visual-tit">최신 교육의 기술에서 가능한 경계를 넓힙니다.</h1>
+                    <h2 class="visual-stit">Push the boundaries of what’s possible in learning technology.</h2>
+                </div>
+            </section>
+            <section class="sec-category">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
+                            <a href="" class="cate-box">
+                                <span class="cate-ico"></span>
+                                <span class="cate-tit">컴퓨터과학</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
+                            <a href="" class="cate-box">
+                                <span class="cate-ico"></span>
+                                <span class="cate-tit">공학</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
+                            <a href="" class="cate-box">
+                                <span class="cate-ico"></span>
+                                <span class="cate-tit">경영관리</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
+                            <a href="" class="cate-box">
+                                <span class="cate-ico"></span>
+                                <span class="cate-tit">언어</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
+                            <a href="" class="cate-box">
+                                <span class="cate-ico"></span>
+                                <span class="cate-tit">인문학</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
+                            <a href="" class="cate-box">
+                                <span class="cate-ico"></span>
+                                <span class="cate-tit">데이터과학</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <section class="sec-board">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 col-pd-10">
+                            <div class="board-wrap">
+                                <strong>공지</strong>
+                                <ul id="noticeNews" class="board-list">
+
+
+                                    <li style="">
+                                        <a href="" class="titlee">구글 유튜브의 익스플로러 지원 중단 안내 (3.1~)</a>
+                                        <span class="date">2020.03.12</span>
+                                    </li>
+                                    <li style="">
+                                        <a href="" class="titlee">서비스 일시 중단 안내 / 3월3일(화) 12시~14시</a>
+                                        <span class="date">2020.03.02</span>
+                                    </li>
+                                    <li style="">
+                                        <a href="" class="titlee">로그인 및 회원가입 페이지 접속 장애 조치 완료</a>
+                                        <span class="date">2020.02.28</span>
+                                    </li>
+                                    <li style="">
+                                        <a href="" class="titlee">신학기 개인정보 보호 및 유·노출 예방 안내</a>
+                                        <span class="date">2020.02.10</span>
+                                    </li>
+                                    <li style="margin-top: -6.02178px;">
+                                        <a href="" class="titlee">재택근무 실시에 따른 학습자 지원 안내</a>
+                                        <span class="date">2020.03.09</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-pd-10">
+                            <div class="board-wrap">
+                                <strong>자료</strong>
+                                <ul id="libraryNews" class="board-list">
+
+                                    <li style="">
+                                        <a href="" class="titlee">평가 관련 플랫폼 이용 가이드</a>
+                                        <span class="date">2020.05.01</span>
+                                    </li>
+                                    <li style="">
+                                        <a href="" class="titlee">모바일앱 사용자매뉴얼 v2.0</a>
+                                        <span class="date">2020.02.20</span>
+                                    </li>
+                                    <li>
+                                        <a href="" class="titlee">강좌 연계 활용 신청서 양식</a>
+                                        <span class="date">2020.02.17</span>
+                                    </li>
+                                    <li>
+                                        <a href="" class="titlee">하반기 강좌 운영계획 알림</a>
+                                        <span class="date">2020.02.04</span>
+                                    </li>
+                                    <li style="margin-top: -6.02178px;">
+                                        <a href="" class="titlee">함께하는 청렴실천! 믿음가는 평생교육! 반부패·청렴, 주요활동 및 시책 사례 공유</a>
+                                        <span class="date">2020.03.16</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </header>
+        <%include file="${courses_list}" />
+
+    </section>
+</main>
+
+% if show_homepage_promo_video:
+<section id="video-modal" class="modal home-page-video-modal video-modal">
+    <div class="inner-wrapper">
+        <iframe title="YouTube Video" width="640" height="360"
+                src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0"
+                allowfullscreen></iframe>
+    </div>
+</section>
+% endif
+
+<%block name="js_extra">
+<script type="text/javascript">
+
+    $(window).load(function () {
+        if (getParameterByName('next')) {
+            $('#login').trigger("click");
+        }
+    })
+</script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+## NOTE: This won't work in production, because anonymous views are cached, so it will
+## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+    $(window).load(function () {
+        $('#signup_action').trigger("click");
+    });
+</script>
+% endif
