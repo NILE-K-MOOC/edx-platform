@@ -20,6 +20,7 @@ from six import text_type
           </figure>
       </div>
     <div class="caption" aria-hidden="true">
+        <p class="title">${course.display_name}</p>
         <!--
       <h2 class="course-name">
         <span class="course-organization">${course.display_org_with_default}</span>
@@ -43,7 +44,7 @@ from six import text_type
       % else:
         <div class="info">
             <p>
-                <span>임희정 외 2명</span>
+                <span>${course}</span>
                 <span>${course.org}</span>
             </p>
             <p class="period">${course_start}~${course_end}</p>
