@@ -140,7 +140,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
         extra_context = {}
 
     courses = get_courses(user)
-
     if configuration_helpers.get_value(
             "ENABLE_COURSE_SORTING_BY_START_DATE",
             settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
@@ -150,6 +149,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
         courses = sort_by_announcement(courses)
 
     context = {'courses': courses}
+
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
     # This appears to be an unused context parameter, at least for the master templates...
@@ -181,7 +181,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # TODO: Course Listing Plugin required
     context['journal_info'] = get_journals_context(request)
-    print("contextcontextcontext",context)
     return render_to_response('new_index.html', context)
 
 
@@ -607,7 +606,7 @@ def activate_account(request, key):
                 extra_tags='account-activation aa-icon',
             )
 
-    return redirect('dashboard')
+    return redirect('index')
 
 
 @ensure_csrf_cookie

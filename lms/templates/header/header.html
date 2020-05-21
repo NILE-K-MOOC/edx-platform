@@ -53,7 +53,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 <script type="text/javascript" src="../../static/js/kotech_js/bootstrap.js"></script>
 <link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/main.css">
 <link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/bootstrap.css">
-<header class="global-header ${'slim' if course else ''}" style="padding-bottom: 0px; overflow: unset;">
+<header class="global-header ${'slim' if course else ''}" style="padding-bottom: 20px; overflow: unset;">
     % if use_cookie_banner:
         ${static.renderReact(
             component="CookiePolicyBanner",
@@ -71,10 +71,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         </div>
         % if user.is_authenticated:
             <!--navbar-authenticated.html-->
+    <%include file="new_navbar.html" args="online_help_token=online_help_token"/>
         % else:
             <!--navbar-not-authenticated.html -->
+    <%include file="new_navbar.html" args="online_help_token=online_help_token"/>
         % endif
-        <%include file="new_navbar.html" args="online_help_token=online_help_token"/>
+
+
     </div>
     <div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>
 </header>

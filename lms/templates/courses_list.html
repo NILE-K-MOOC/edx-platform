@@ -1,13 +1,14 @@
 <%page expression_filter="h"/>
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
-
-<section class="courses-container">
-  <section class="highlighted-courses">
+<script type="text/javascript" src="../../static/js/kotech_js/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/main.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/bootstrap.css">
+<section class="sec-course">
+  <div class="container-fluid">
 
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-      <section class="courses">
-        <ul class="journal-list">
+
           % for bundle in journal_info.get('journal_bundles'):
           <li class="courses-listing-item">
             <%include file="journals/bundle_card.html" args="bundle=bundle"/>
@@ -21,15 +22,14 @@
           </li>
           %endfor
         </ul>
-        <ul class="courses-listing">
+      <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-          %for course in courses[:homepage_course_max]:
-          <li class="courses-listing-item">
-              <%include file="course.html" args="course=course" />
-          </li>
-        %endfor
-        </ul>
-      </section>
+          <div class="row">
+              %for course in courses[:homepage_course_max]:
+                <%include file="course.html" args="course=course" />
+              %endfor
+          </div>
+      </ul>
     ## in case there are courses that are not shown on the homepage, a 'View all Courses' link should appear
       % if homepage_course_max and len(courses) > homepage_course_max:
       <div class="courses-more">
@@ -38,5 +38,5 @@
     % endif
     % endif
 
-  </section>
+    </div>
 </section>

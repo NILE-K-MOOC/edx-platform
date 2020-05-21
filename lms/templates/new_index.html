@@ -11,60 +11,7 @@ from openedx.core.djangolib.markup import HTML, Text
 <link rel="stylesheet" type="text/css" href="/static/css/kotech_css/main.css">
 <link rel="stylesheet" type="text/css" href="/static/css/kotech_css/bootstrap.css">
 <script>
-    $(function(){
-        $('.dropdown').on('click', function() {
-            $('.dropdown').removeClass('open');
-            $(this).addClass('open');
-        });
 
-        $(document).mouseup(function(e) {
-            var utilMenu = $('.dropdown');
-
-            if (!$('.dropdown-menu').is(e.target) && !utilMenu.is(e.target) && utilMenu.has(e.target).length == 0) {
-                utilMenu.removeClass('open');
-            }
-        });
-    });
-
-    $(function(){
-            $('.lnb-btn').on('click', function() {
-                $('.lnb').removeClass('on');
-                $('.lnb').addClass('on');
-            });
-
-            $('.lnb-close-btn').on('click', function() {
-                $('.lnb').removeClass('on');
-            });
-
-            $('.l-one-depth').on('click', function() {
-                $('.l-one-depth').removeClass('active');
-                $(this).addClass('active');
-            });
-        });
-
-    $(function(){
-        var noticeNews = function(){
-            setTimeout(function(){
-                $('#noticeNews li:first').animate({marginTop: '-24px'}, 500, function(){
-                    $(this).detach().appendTo('ul#noticeNews').removeAttr('style');
-                });
-                noticeNews();
-            }, 3000);
-        };
-        noticeNews();
-    });
-
-    $(function(){
-        var libraryNews = function(){
-            setTimeout(function(){
-                $('#libraryNews li:first').animate({marginTop: '-24px'}, 500, function(){
-                    $(this).detach().appendTo('ul#libraryNews').removeAttr('style');
-                });
-                libraryNews();
-            }, 3000);
-        };
-        libraryNews();
-    });
     </script>
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">

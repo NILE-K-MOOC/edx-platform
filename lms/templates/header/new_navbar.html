@@ -24,6 +24,7 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 <link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/main.css">
 <link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/bootstrap.css">
 
+
 <header class="header">
     <div class="container-fluid">
         <h1 class="h-logo">
@@ -47,36 +48,36 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 
             % if user.is_authenticated:
 
-                <div class="type member">
-                    <ul>
-                        <li>
-                            <a href="/dashboard">나의 강의실</a>
-                        </li>
-                        <li>
-                            <div class="dropdown">
-                                <a href="#" class="user">heyclova</a>
-                                <div class="dropdown-menu">
-                                    <ul>
-                                        <li>
-                                            <a href="">계정</a>
-                                        </li>
-                                        <li>
-                                            <a href="">프로필</a>
-                                        </li>
-                                        <li>
-                                            <a href="/logout">로그아웃</a>
-                                        </li>
-                                    </ul>
-                                </div>
+            <div class="type member">
+                <ul>
+                    <li>
+                        <a href="/dashboard">나의 강의실</a>
+                    </li>
+                    <li>
+                        <div class="dropdown">
+                            <a href="#" class="user">heyclova</a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="">계정</a>
+                                    </li>
+                                    <li>
+                                        <a href="">프로필</a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout">로그아웃</a>
+                                    </li>
+                                </ul>
                             </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             %else:
             <div class="type welcome">
                 <ul>
                     <li>
-                        <a href="/login${login_query()}">${_("Login")}</a>
+                        <a href="/login${login_query()}">${_("Sign in")}</a>
                     </li>
                     <li>
                         <a href="/register${login_query()}">${_("Register")}</a>
@@ -106,7 +107,15 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 
                         <button class="btn-login">로그인</button>
                         <button class="btn-join">회원가입</button>
-                        <a href="" class="btn-lang">KOR</a>
+                        % if LANGUAGE_CODE == 'ko-kr':
+                        <div class="lang" style="cursor: pointer">
+                            <a onclick="change_lang('en')">KOR</a>
+                        </div>
+                        % else:
+                        <div class="lang" style="cursor: pointer">
+                            <a onclick="change_lang('ko-kr')">ENG</a>
+                        </div>
+                        % endif
                     </div>
                     <div class="lnb-login-menu">
                         <ul>
@@ -153,24 +162,24 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 
 <div hidden>
     % if allows_login:
-        % if restrict_enroll_for_course:
-            <div class="mobile-nav-item hidden-mobile nav-item">
-                <a class="register-btn btn" href="${reverse('course-specific-register', args=[text_type(course.id)])}">${_("Register")}</a>
-            </div>
-            <div class="mobile-nav-item hidden-mobile nav-item">
-                <a class="sign-in-btn btn"
-                   href="${reverse('course-specific-login', args=[text_type(course.id)])}${login_query()}">${_("Sign in")}</a>
-            </div>
-        % else:
-            % if allow_public_account_creation:
-                <div class="mobile-nav-item hidden-mobile nav-item">
-                    <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a>
-                </div>
-            % endif
-        <div class="mobile-nav-item hidden-mobile nav-item">
-            <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
-        </div>
-        % endif
+    % if restrict_enroll_for_course:
+    <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="register-btn btn" href="${reverse('course-specific-register', args=[text_type(course.id)])}">${_("Register")}</a>
+    </div>
+    <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="sign-in-btn btn"
+           href="${reverse('course-specific-login', args=[text_type(course.id)])}${login_query()}">${_("Sign in")}</a>
+    </div>
+    % else:
+    % if allow_public_account_creation:
+    <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a>
+    </div>
+    % endif
+    <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
+    </div>
+    % endif
 
     % endif
 </div>
