@@ -4,6 +4,7 @@ from config_models.admin import ConfigurationModelAdmin, KeyedConfigurationModel
 
 from courseware import models
 
+admin.site.register(models.TbIndexImage)
 admin.site.register(models.DynamicUpgradeDeadlineConfiguration, ConfigurationModelAdmin)
 admin.site.register(models.OfflineComputedGrade)
 admin.site.register(models.OfflineComputedGradeLog)

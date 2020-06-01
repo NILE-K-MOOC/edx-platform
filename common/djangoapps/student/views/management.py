@@ -85,6 +85,7 @@ from student.models import (
     UserStanding,
     create_comments_service_user,
     email_exists_or_retired,
+    TbIndexImage
 )
 from student.signals import REFUND_ORDER
 from student.tasks import send_activation_email
@@ -181,6 +182,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     # TODO: Course Listing Plugin required
     context['journal_info'] = get_journals_context(request)
+
     return render_to_response('new_index.html', context)
 
 
