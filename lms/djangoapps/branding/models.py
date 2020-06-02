@@ -60,3 +60,4 @@ class BrandingApiConfig(ConfigurationModel):
     """
     class Meta(ConfigurationModel.Meta):
         app_label = "branding"
+

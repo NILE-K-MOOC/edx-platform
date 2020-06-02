@@ -238,7 +238,6 @@ def courses(request):
             courses_list = sort_by_announcement(courses_list)
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
-
     return render_to_response(
         "courseware/courses.html",
         {

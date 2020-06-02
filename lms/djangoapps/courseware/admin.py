@@ -4,7 +4,13 @@ from config_models.admin import ConfigurationModelAdmin, KeyedConfigurationModel
 
 from courseware import models
 
-admin.site.register(models.TbIndexImage)
+
+class IndexAdmin(admin.ModelAdmin):
+    list_display = ['id', 'logo_img', 'section_1', 'section_2', 'section_3', 'section_4', 'section_5', 'section_6',
+                    'regist_date', 'modify_date']
+
+
+admin.site.register(models.TbIndexImage, IndexAdmin)
 admin.site.register(models.DynamicUpgradeDeadlineConfiguration, ConfigurationModelAdmin)
 admin.site.register(models.OfflineComputedGrade)
 admin.site.register(models.OfflineComputedGradeLog)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Student Views
 """
@@ -6,7 +7,7 @@ import datetime
 import logging
 import uuid
 from collections import namedtuple
-
+from courseware.models import TbIndexImage
 from bulk_email.models import Optout
 from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date
 from django.conf import settings
@@ -84,8 +85,7 @@ from student.models import (
     UserSignupSource,
     UserStanding,
     create_comments_service_user,
-    email_exists_or_retired,
-    TbIndexImage
+    email_exists_or_retired
 )
 from student.signals import REFUND_ORDER
 from student.tasks import send_activation_email
@@ -123,7 +123,7 @@ def csrf_token(context):
     if token == 'NOTPROVIDED':
         return ''
     return (HTML(u'<div style="display:none"><input type="hidden"'
-            ' name="csrfmiddlewaretoken" value="{}" /></div>').format(token))
+                 ' name="csrfmiddlewaretoken" value="{}" /></div>').format(token))
 
 
 # NOTE: This view is not linked to directly--it is called from
@@ -141,9 +141,10 @@ def index(request, extra_context=None, user=AnonymousUser()):
         extra_context = {}
 
     courses = get_courses(user)
+
     if configuration_helpers.get_value(
-            "ENABLE_COURSE_SORTING_BY_START_DATE",
-            settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
+        "ENABLE_COURSE_SORTING_BY_START_DATE",
+        settings.FEATURES["ENABLE_COURSE_SORTING_BY_START_DATE"],
     ):
         courses = sort_by_start_date(courses)
     else:
@@ -181,7 +182,13 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
 
     # TODO: Course Listing Plugin required
+
     context['journal_info'] = get_journals_context(request)
+    # logo 이미지 메인으로 전송
+    t = TbIndexImage.objects.order_by('-id')[0]
+    context['test'] = t
+
+    print context['test']
 
     return render_to_response('new_index.html', context)
 
@@ -693,7 +700,6 @@ def password_change_request_handler(request):
             # no user associated with the email
             if configuration_helpers.get_value('ENABLE_PASSWORD_RESET_FAILURE_EMAIL',
                                                settings.FEATURES['ENABLE_PASSWORD_RESET_FAILURE_EMAIL']):
-
                 site = get_current_site()
                 message_context = get_base_template_context(site)
 
@@ -1251,7 +1257,7 @@ def confirm_email_change(request, key):  # pylint: disable=unused-argument
                 message,
                 configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
             )
-        except Exception:    # pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             log.warning('Unable to send confirmation email to old address', exc_info=True)
             response = render_to_response("email_change_failed.html", {'email': user.email})
             transaction.set_rollback(True)

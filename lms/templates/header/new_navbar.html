@@ -29,7 +29,12 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
     <div class="container-fluid">
         <h1 class="h-logo">
             <a href="/">
-                <img src="../../static/images/kotech_img/logo.png"/>
+                <!--<img src="../../static/images/kotech_img/logo.png"/>-->
+                % if test:
+                    <img src="${test.logo_img.url}">
+                % else:
+                    <img src="${test.logo_img.url}">
+                % endif
             </a>
         </h1>
 

@@ -23,7 +23,6 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from six import text_type
-
 import coursewarehistoryextended
 from opaque_keys.edx.django.models import BlockTypeKeyField, CourseKeyField, UsageKeyField
 
@@ -458,7 +457,13 @@ class OrgDynamicUpgradeDeadlineConfiguration(OptOutDynamicUpgradeDeadlineMixin, 
 
 class TbIndexImage(models.Model):
     id = models.IntegerField(primary_key=True)
-    img = models.ImageField(max_length=255, blank=True, null=True, upload_to='logo')
+    logo_img = models.ImageField(max_length=255, blank=True, null=True, upload_to='logo', default='default/test_logo.png')
+    section_1 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
+    section_2 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
+    section_3 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
+    section_4 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
+    section_5 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
+    section_6 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
     # regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     regist_date = models.DateTimeField(blank=True, null=True)
     # modify_date = models.DateTimeField(blank=True, null=True, auto_now=True)

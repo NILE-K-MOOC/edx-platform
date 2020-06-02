@@ -2745,14 +2745,3 @@ class AccountRecovery(models.Model):
 
     objects = AccountRecoveryManager()
 
-class TbIndexImage(models.Model):
-    id = models.IntegerField(primary_key=True)
-    img = models.ImageField(max_length=255, blank=True, null=True, upload_to='logo')
-    # regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    regist_date = models.DateTimeField(blank=True, null=True)
-    # modify_date = models.DateTimeField(blank=True, null=True, auto_now=True)
-    modify_date = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'tb_index_image'
