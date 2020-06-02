@@ -51,8 +51,11 @@ class Template(object):
         if isinstance(context, Context):
             context_dictionary.update(context.flatten())
         elif context is not None:
+            from courseware.models import TbIndexImage
+            t = TbIndexImage.objects.order_by('-id')[0]
+            context['test'] = t
             context_dictionary.update(context)
-
+            
         self._add_core_context(context_dictionary)
         self._evaluate_lazy_csrf_tokens(context_dictionary)
 

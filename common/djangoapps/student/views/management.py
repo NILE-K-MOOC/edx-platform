@@ -188,8 +188,6 @@ def index(request, extra_context=None, user=AnonymousUser()):
     t = TbIndexImage.objects.order_by('-id')[0]
     context['test'] = t
 
-    print context['test']
-
     return render_to_response('new_index.html', context)
 
 

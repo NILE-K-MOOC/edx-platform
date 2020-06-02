@@ -6,7 +6,7 @@ from courseware import models
 
 
 class IndexAdmin(admin.ModelAdmin):
-    list_display = ['id', 'logo_img', 'section_1', 'section_2', 'section_3', 'section_4', 'section_5', 'section_6',
+    list_display = ['id', 'main_logo_img', 'section_1', 'section_2', 'section_3', 'section_4', 'section_5', 'section_6',
                     'regist_date', 'modify_date']
 
 

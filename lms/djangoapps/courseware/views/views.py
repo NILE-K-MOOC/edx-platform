@@ -55,7 +55,7 @@ from courseware.courses import (
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
-from courseware.models import BaseStudentModuleHistory, StudentModule
+from courseware.models import BaseStudentModuleHistory, StudentModule, TbIndexImage
 from courseware.url_helpers import get_redirect_url
 from courseware.user_state_client import DjangoXBlockUserStateClient
 from edxmako.shortcuts import marketing_link, render_to_response, render_to_string
@@ -238,6 +238,9 @@ def courses(request):
             courses_list = sort_by_announcement(courses_list)
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
+    t = TbIndexImage.objects.order_by('-id')[0]
+    # context = {}
+    # context['test'] = t
     return render_to_response(
         "courseware/courses.html",
         {
@@ -245,6 +248,7 @@ def courses(request):
             'course_discovery_meanings': course_discovery_meanings,
             'programs_list': programs_list,
             'journal_info': get_journals_context(request),  # TODO: Course Listing Plugin required
+            'test':t
         }
     )
 

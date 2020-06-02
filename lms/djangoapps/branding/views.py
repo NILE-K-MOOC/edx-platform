@@ -13,7 +13,7 @@ from django.utils import translation
 from django.utils.translation.trans_real import get_supported_language_variant
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
-
+from courseware.models import TbIndexImage
 import branding.api as branding_api
 import courseware.views.views
 import student.views
