@@ -457,13 +457,20 @@ class OrgDynamicUpgradeDeadlineConfiguration(OptOutDynamicUpgradeDeadlineMixin, 
 
 class TbIndexImage(models.Model):
     id = models.IntegerField(primary_key=True)
-    main_logo_img = models.ImageField(max_length=255, blank=True, null=True, upload_to='logo', default='default/test_logo.png')
-    section_1 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
-    section_2 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
-    section_3 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
-    section_4 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
-    section_5 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
-    section_6 = models.ImageField(max_length=255, blank=True, null=True, upload_to='section')
+    main_logo_img = models.ImageField(max_length=100, blank=True, null=True, upload_to='logo',
+                                      default='default/test_logo.png')
+    section_1_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_1_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_2_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_2_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_3_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_3_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_4_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_4_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_5_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_5_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_6_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_6_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
     # regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     regist_date = models.DateTimeField(blank=True, null=True)
     # modify_date = models.DateTimeField(blank=True, null=True, auto_now=True)
@@ -472,3 +479,25 @@ class TbIndexImage(models.Model):
     class Meta:
         managed = False
         db_table = 'tb_index_image'
+
+
+class TbSectionCourses(models.Model):
+    course_id = models.CharField(max_length=255)
+    section = models.ForeignKey('TbSections', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_section_courses'
+        unique_together = (('course_id', 'section'),)
+
+
+class TbSections(models.Model):
+    section_logo_large = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_logo_large_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_logo_small = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    section_name = models.CharField(unique=True, max_length=100)
+    order_no = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tb_sections'

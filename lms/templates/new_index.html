@@ -19,7 +19,6 @@ from openedx.core.djangolib.markup import HTML, Text
             <section class="sec-visual">
                 <div class="container-fluid">
                     <h1 class="visual-tit">최신 교육의 기술에서 가능한 경계를 넓힙니다.</h1>
-
                     <h2 class="visual-stit">Push the boundaries of what’s possible in learning technology.</h2>
                 </div>
             </section>
@@ -27,6 +26,19 @@ from openedx.core.djangolib.markup import HTML, Text
             <section class="sec-category">
                 <div class="container-fluid">
                     <div class="row">
+                        % if section :
+                            % for i in section:
+                                <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10" onclick="fnMove('section_${i.section_name}')">
+                                    <a class="cate-box" >
+                                        <span class="cate-ico">
+                                            <img src="${i.section_logo_large.url}"/>
+                                        </span>
+                                        <span class="cate-tit">${i.section_name}</span>
+                                    </a>
+                                </div>
+                            % endfor
+                        % endif
+                        <!--
                         <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10">
                             <a href="" class="cate-box">
                                 <span class="cate-ico"></span>
@@ -63,6 +75,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <span class="cate-tit">데이터과학</span>
                             </a>
                         </div>
+                        -->
                     </div>
                 </div>
 
@@ -148,6 +161,11 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <%block name="js_extra">
 <script type="text/javascript">
+function fnMove(sec_name){
+        console.log(sec_name)
+        var offset = $("#"+sec_name).offset();
+        $('html, body').animate({scrollTop : offset.top}, 400);
+    }
 
     $(window).load(function () {
         if (getParameterByName('next')) {
@@ -164,5 +182,6 @@ from openedx.core.djangolib.markup import HTML, Text
     $(window).load(function () {
         $('#signup_action').trigger("click");
     });
+
 </script>
 % endif

@@ -7,7 +7,7 @@ import datetime
 import logging
 import uuid
 from collections import namedtuple
-from courseware.models import TbIndexImage
+from courseware.models import TbIndexImage, TbSectionCourses, TbSections
 from bulk_email.models import Optout
 from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date
 from django.conf import settings
@@ -94,6 +94,7 @@ from util.request_rate_limiter import BadRequestRateLimiter, PasswordResetEmailR
 from util.db import outer_atomic
 from util.json_request import JsonResponse
 from util.password_policy_validators import normalize_password, validate_password
+from django.db.models import Q
 
 log = logging.getLogger("edx.student")
 
@@ -149,9 +150,24 @@ def index(request, extra_context=None, user=AnonymousUser()):
         courses = sort_by_start_date(courses)
     else:
         courses = sort_by_announcement(courses)
-
     context = {'courses': courses}
+    sections = TbSections.objects.order_by('order_no')
+    context['sections'] = sections
 
+    for section in sections:
+        s = 'courses_by_%s' % section
+        # section 별로 등로된 강좌를 확인하여 강좌 리스트를 추가하고 강좌를 구성되도록 함.
+        course_list_base = TbSectionCourses.objects.filter(section=section.id).values_list('course_id', flat=True)
+
+        # 강좌명 정렬
+        course_list_section = [course for course in courses if str(course.id) in course_list_base]
+        print '-->', course_list_section
+        print '--sss>', s
+        # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
+
+        if course_list_section:
+            context[s] = course_list_section
+        print '===>', context
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
     # This appears to be an unused context parameter, at least for the master templates...
@@ -186,7 +202,19 @@ def index(request, extra_context=None, user=AnonymousUser()):
     context['journal_info'] = get_journals_context(request)
     # logo 이미지 메인으로 전송
     t = TbIndexImage.objects.order_by('-id')[0]
-    context['test'] = t
+    context['logo'] = t
+
+    # section tab
+    section_cnt = TbSections.objects.all().count()
+    section_course = dict()
+    if section_cnt != 0:
+        section = TbSections.objects.order_by('order_no')
+        context['section'] = section
+    for i in section:
+        a = TbSectionCourses.objects.filter(section_id=i.id)
+        if a.count() != 0:
+            section_course.update({str(i.section_name): a})
+    context['section_course'] = section_course
 
     return render_to_response('new_index.html', context)
 

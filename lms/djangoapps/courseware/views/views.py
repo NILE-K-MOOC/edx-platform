@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Courseware views functions
 """
@@ -55,7 +56,7 @@ from courseware.courses import (
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
-from courseware.models import BaseStudentModuleHistory, StudentModule, TbIndexImage
+from courseware.models import BaseStudentModuleHistory, StudentModule, TbIndexImage, TbSections, TbSectionCourses
 from courseware.url_helpers import get_redirect_url
 from courseware.user_state_client import DjangoXBlockUserStateClient
 from edxmako.shortcuts import marketing_link, render_to_response, render_to_string
@@ -226,6 +227,7 @@ def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
     """
+    print('--> coursesessss',request)
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
     if not settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
@@ -239,18 +241,29 @@ def courses(request):
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
     t = TbIndexImage.objects.order_by('-id')[0]
-    # context = {}
-    # context['test'] = t
-    return render_to_response(
-        "courseware/courses.html",
-        {
-            'courses': courses_list,
-            'course_discovery_meanings': course_discovery_meanings,
-            'programs_list': programs_list,
-            'journal_info': get_journals_context(request),  # TODO: Course Listing Plugin required
-            'test':t
-        }
-    )
+
+    context = {
+        'courses': courses_list,
+        'course_discovery_meanings': course_discovery_meanings,
+        'programs_list': programs_list,
+        'journal_info': get_journals_context(request),  # TODO: Course Listing Plugin required
+    }
+    sections = TbSections.objects.order_by('order_no')
+    context['sections'] = sections
+
+    for section in sections:
+        s = 'courses_by_%s' % section
+        # section 별로 등로된 강좌를 확인하여 강좌 리스트를 추가하고 강좌를 구성되도록 함.
+        course_list_base = TbSectionCourses.objects.filter(section=section.id).values_list('course_id', flat=True)
+
+        # 강좌명 정렬
+        course_list_section = [course for course in courses_list if str(course.id) in course_list_base]
+        # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
+        print 'ssssss',s
+        if course_list_section:
+            context[s] = course_list_section
+
+    return render_to_response("courseware/courses.html", context)
 
 
 @ensure_csrf_cookie
