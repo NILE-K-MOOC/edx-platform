@@ -20,11 +20,10 @@ can_discover_courses = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
 restrict_enroll_for_course = course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain
 allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
 %>
+
 <script type="text/javascript" src="../../static/js/kotech_js/bootstrap.js"></script>
 <link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/main.css">
 <link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/bootstrap.css">
-
-
 <header class="header">
     <div class="container-fluid">
         <h1 class="h-logo">
@@ -36,16 +35,10 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 
         <div class="h-search">
 
-              <div class="course-search">
-                <form method="get" action="/courses">
-                  <label><span class="sr">${_("Search for a course")}</span>
-                    <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
-                  </label>
-                  <button class="search-button" type="submit">
-                    <span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>
-                  </button>
-                </form>
-              </div>
+            <form class="search-form" method="get" action="/courses">
+                <input type="text" class="search-input" name="search_query" placeholder="배우고 싶은 지식을 검색하세요.">
+                <button type="submit" class="search-btn"></button>
+            </form>
 
         </div>
         <div class="h-right">

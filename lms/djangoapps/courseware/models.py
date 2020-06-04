@@ -501,3 +501,6 @@ class TbSections(models.Model):
     class Meta:
         managed = False
         db_table = 'tb_sections'
+
+    def __unicode__(self):
+        return self.section_name

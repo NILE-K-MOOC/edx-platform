@@ -50,10 +50,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     catch(e){window.attachEvent("onload", $buo_f)}
   </script>
 % endif
-<script type="text/javascript" src="../../static/js/kotech_js/bootstrap.js"></script>
-<link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/main.css">
-<link rel="stylesheet" type="text/css" href="../../static/css/kotech_css/bootstrap.css">
-<header class="global-header ${'slim' if course else ''}" style="padding-bottom: 20px; overflow: unset;">
+<header class="global-header ${'' if course else ''}" style=" overflow: unset; border-bottom: none; box-shadow: none;">
     % if use_cookie_banner:
         ${static.renderReact(
             component="CookiePolicyBanner",
