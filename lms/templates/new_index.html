@@ -31,7 +31,7 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <div class="col-xs-6 col-md-4 col-lg-2 col-pd-10" onclick="fnMove('section_${i.section_name}')">
                                     <a class="cate-box" >
                                         <span class="cate-ico">
-                                            <img src="${i.section_logo_large.url}"/>
+                                            <img onmouseover="${i.section_logo_large_hover.url}"  src="${i.section_logo_large.url}" onmouseout="${i.section_logo_large.url}" onerror="${i.section_logo_large.url}" />
                                         </span>
                                         <span class="cate-tit">${i.section_name}</span>
                                     </a>

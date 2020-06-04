@@ -33,7 +33,7 @@
                     <section class="courses ${s}">
                       % if s in context.keys():
                           <div id="section_${section.section_name}" style="background-color: #e7e7e7; border-radius: 5px; font-family: 'Noto Sans' !important; font-weight: 500; padding: 5px 20px; color: #0072c6; margin-bottom: 5px;">
-                              <h2>${section.section_name}</h2>
+                              <h2> <img src="${section.section_logo_small.url}"/> ${section.section_name}</h2>
                           </div>
                             <div id="section_body" style="display: flow-root;">
                               %for course in context[s]:
