@@ -466,6 +466,7 @@ def _accessible_courses_summary_iter(request, org=None):
         courses_summary = modulestore().get_course_summaries()
     courses_summary = six.moves.filter(course_filter, courses_summary)
     in_process_course_actions = get_in_process_course_actions(request)
+
     return courses_summary, in_process_course_actions
 
 
@@ -565,10 +566,12 @@ def _accessible_libraries_iter(user, org=None):
         string will result in no libraries, and otherwise only libraries with the
         specified org will be returned. The default value is None.
     """
+
     if org is not None:
         libraries = [] if org == '' else modulestore().get_libraries(org=org)
     else:
         libraries = modulestore().get_library_summaries()
+
     # No need to worry about ErrorDescriptors - split's get_libraries() never returns them.
     return (lib for lib in libraries if has_studio_read_access(user, lib.location.library_key))
 
@@ -583,6 +586,7 @@ def course_listing(request):
                            WaffleSwitchNamespace(name=WAFFLE_NAMESPACE).is_enabled(u'enable_global_staff_optimization')
 
     org = request.GET.get('org', '') if optimization_enabled else None
+
     courses_iter, in_process_course_actions = get_courses_accessible_to_user(request, org)
     user = request.user
     libraries = _accessible_libraries_iter(request.user, org) if LIBRARIES_ENABLED else []
@@ -591,6 +595,7 @@ def course_listing(request):
         """
         Return a dict of the data which the view requires for each unsucceeded course
         """
+
         return {
             u'display_name': uca.display_name,
             u'course_key': unicode(uca.course_key),
@@ -801,6 +806,30 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
         """
         Return a dict of the data which the view requires for each course
         """
+        try:
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT 
+                        code.detail_name
+                    FROM
+                        course_overviews_courseoverview AS course
+                            LEFT OUTER JOIN
+                        code_detail AS code ON course.display_org_with_default = code.detail_code
+                    WHERE
+                        course.id = '{course_id}';           
+                """.format(course_id=course.id)
+                cur.execute(query)
+
+                row = cur.fetchone()[0]
+
+                org_kname = row
+
+                if org_kname is None:
+                    org_kname = course.display_org_with_default
+
+        except Exception as e:
+            print e
+
         return {
             'display_name': course.display_name,
             'course_key': unicode(course.location.course_key),
@@ -808,7 +837,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             'lms_link': get_lms_link_for_item(course.location),
             'rerun_link': _get_rerun_link_for_item(course.id),
             'org': course.display_org_with_default,
-            'org_kname': None,
+            'org_kname': org_kname,
             'org_ename': None,
             'teacher_name': None,
             'number': course.display_number_with_default,
@@ -822,7 +851,6 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
     for course in courses_iter:
         if isinstance(course, ErrorDescriptor) or (course.id in in_process_action_course_keys):
             continue
-
         formatted_course = format_course_for_view(course)
         if split_archived and course.has_ended():
             archived_courses.append(formatted_course)

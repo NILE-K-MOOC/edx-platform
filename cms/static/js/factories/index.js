@@ -1,3 +1,41 @@
+$("#cms_text").focus(function () {
+
+    var cms_search_radio = $('input:radio[name="search_radio"]:checked').val();
+
+    var search_text = ''
+
+    if(cms_search_radio == 'course_name'){
+        search_text = $(".course-title:visible").map(function () {
+            return $(this).text()
+        }).get();
+    }else if(cms_search_radio == 'university_name'){
+        search_text = $(".course-org-name>.value:visible,.course-org>.value:visible").map(function () {
+                        return $(this).text()
+                    }).get();
+    }
+
+    if($("#libraries_tab").hasClass('active') === true){
+        $(".search_label").hide()
+        $(".search_div").width("450px")
+
+        search_text = $(".course-title:visible").map(function () {
+            return $(this).text()
+        }).get();
+    }else {
+        $(".search_label").show()
+        $(".search_div").width("550px")
+    }
+
+    $("#cms_text").autocomplete({
+        source: search_text,
+        appendTo: '.search_div'
+    });
+})
+
+$("#course-index-tabs>li>a").click(function () {
+    $("#cms_text").blur()
+})
+
 define(['jquery.form', 'js/index'], function () {
     'use strict';
     return function (courseNames) {
@@ -24,12 +62,14 @@ define(['jquery.form', 'js/index'], function () {
         //     console.log(title_list[i]);
         // }
 
-        let titles = $(".course-title:visible").map(function () {
-            return $(this).text()
-        }).get();
+        // var autocomplete_data = titles+","+org_knam
+
+        let search_text = $(".course-title:visible").map(function () {
+                                return $(this).text()
+                            }).get();
 
         $("#cms_text").autocomplete({
-            source: titles,
+            source: search_text,
             appendTo: '.search_div'
         });
 
@@ -70,18 +110,33 @@ define(['jquery.form', 'js/index'], function () {
             console.time('studio_search');
 
             var cms_text = $('#cms_text').val();
+            var cms_search_radio = $('input:radio[name="search_radio"]:checked').val();
+
             // var cnt = $('.course-item').length;
-
-            if (cms_text) {
-                $(".course-title:visible").parents('.course-item').hide();
-                $(".course-title:contains(" + cms_text + ")").parents('.course-item').show();
-            } else {
-                $(".course-title").parents('.course-item').show();
+            if(cms_search_radio == 'course_name') {
+                if (cms_text) {
+                    $(".course-title:visible").parents('.course-item').hide();
+                    $(".course-title:contains(" + cms_text + ")").parents('.course-item').show();
+                } else {
+                    $(".course-title").parents('.course-item').show();
+                }
+                setTimeout(function () {
+                    $("#cms_text").focus();
+                }, 100);
+            }else if(cms_search_radio == 'university_name'){
+                if (cms_text) {
+                    $(".course-org-name>.value:visible").parents('.course-item').hide();
+                    $(".course-org>.value:visible").parents('.course-item').hide();
+                    $(".course-org-name>.value:contains(" + cms_text + ")").parents('.course-item').show();
+                    $(".course-org>.value:contains(" + cms_text + ")").parents('.course-item').show();
+                } else {
+                    $(".course-org-name").parents('.course-item').show();
+                    $(".course-org").parents('.course-item').show();
+                }
+                setTimeout(function () {
+                    $("#cms_text").focus();
+                }, 100);
             }
-            setTimeout(function () {
-                $("#cms_text").focus();
-            }, 100);
-
 
             /*
             for (var i = 0; i < cnt; i++) {
@@ -122,6 +177,7 @@ define(['jquery.form', 'js/index'], function () {
 
         $("#cms_text").on('autocompleteselect', function (e, ui) {
             $("#cms_text").val(ui.item.value);
+            console.log($("#cms_text").val(ui.item.value))
             studio_search();
             console.log('You selected: ' + ui.item.value);
         });

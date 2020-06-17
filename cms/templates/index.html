@@ -68,6 +68,12 @@ from openedx.core.djangolib.js_utils import (
   color: #4c4c4c;
 }
 
+.search_label{
+    width: 60px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="/static/studio/css/pop.css">
@@ -937,6 +943,7 @@ for (var i = 1; i<=leng; i++) {
       <div class="courses courses-processing">
           <h3 class="title">${_("Courses Being Processed")}</h3>
 
+          <!-- course _ listing ------------------------->
           <ul class="list-courses">
             %for course_info in sorted(in_process_course_actions, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
             <!-- STATE: re-run is processing -->
@@ -947,7 +954,7 @@ for (var i = 1; i<=leng; i++) {
                   <h3 class="course-title">${course_info['display_name']}</h3>
 
                   <div class="course-metadata">
-                    <span class="course-org metadata-item">
+                    <span class="course-org metadata-item namseonwoo">
                       <span class="label">${_("Organization:")}</span> <span class="value">${course_info['org']}</span>
                     </span>
                     <span class="course-num metadata-item">
@@ -993,7 +1000,7 @@ for (var i = 1; i<=leng; i++) {
                   <h3 class="course-title">${course_info['display_name']}</h3>
 
                   <div class="course-metadata">
-                    <span class="course-org metadata-item">
+                    <span class="course-org metadata-item namseonwoo2">
                       <span class="label">${_("Organization:")}</span> <span class="value">${course_info['org']}</span>
                     </span>
                     <span class="course-num metadata-item">
@@ -1051,9 +1058,11 @@ for (var i = 1; i<=leng; i++) {
       % endif
 
       <div style="width: 100%;">
-        <div class="search_div" style="margin:10px 10px 10px 0; width: 450px;">
-          <input type="text" id="cms_text" style="width: 81%;">
-          <button class="btn btn-primary" id="cms_search" type="button"
+          <div class="search_div" style="margin:10px 10px 10px 0; width: 550px; display: flex">
+              <label class="search_label"><input class="search_radio" type="radio" value="course_name" name="search_radio" checked="checked">강좌명</label>
+              <label class="search_label"><input class="search_radio" type="radio" value="university_name" name="search_radio">대학명</label>
+              <input type="text" id="cms_text" style="width: 81%; margin-right: 4px;">
+              <button class="btn btn-primary" id="cms_search" type="button"
                   style="height:33px;
                          width:80px;
                          border-radius:5px;
