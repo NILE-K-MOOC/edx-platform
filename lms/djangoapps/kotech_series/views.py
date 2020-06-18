@@ -182,7 +182,9 @@ def new_dashboard(request):
             sql3 = '''
                 select count(*)
                 from series_course
-                where series_seq = '{series_seq}';
+                where series_seq = '{series_seq}'
+                  and delete_yn = 'N'
+                ;
             '''.format(series_seq=temp[0], user_id=user_id)
 
             print sql3
