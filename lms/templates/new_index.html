@@ -13,12 +13,24 @@ from openedx.core.djangolib.markup import HTML, Text
 <script>
 
     </script>
+<style>
+    .sec-visual {
+    height: 250px;
+
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    color: #2e4257;
+}
+    textarea, input[type="text"], input[type="url"], input[type="email"], input[type="password"], input[type="tel"] {
+    {#font-family: 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;#}
+}
+</style>
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
         <header>
             <section class="sec-visual">
                 <div class="container-fluid">
-                    <h1 class="visual-tit">최신 교육의 기술에서 가능한 경계를 넓힙니다.</h1>
+                    <h2 class="visual-tit" style="font-weight: bold;">최신 교육의 기술에서 가능한 경계를 넓힙니다.</h2>
                     <h2 class="visual-stit">Push the boundaries of what’s possible in learning technology.</h2>
                 </div>
             </section>
@@ -162,8 +174,8 @@ from openedx.core.djangolib.markup import HTML, Text
 <%block name="js_extra">
 <script type="text/javascript">
 function fnMove(sec_name){
-        console.log(sec_name)
-        var offset = $("#"+sedec_name).offset();
+
+        var offset = $("#"+sec_name).offset();
         $('html, body').animate({scrollTop : offset.top}, 400);
     }
 
