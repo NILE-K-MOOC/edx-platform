@@ -1,0 +1,901 @@
+@charset "UTF-8";
+
+/* --------------------------
+ *    font
+ * --------------------------
+**/
+
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    /*src: url(font/NotoSansBold.eot); !* IE 호환성 보기 *!*/
+    /*src: url(font/NotoSansBold#iefix) format('embedded-opentype'), !* IE 6 ~ 8 *!*/
+    /*     url(font/NotoSansBold.woff2) format('woff2'),*/
+    /*     url(font/NotoSansBold.woff) format('woff'),*/
+    /*     url(font/NotoSansBold.svg) format('svg');*/
+}
+
+/* --------------------------
+ *    reset
+ * --------------------------
+**/
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, button,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.5;
+}
+
+ul, ol, li {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+img {
+    vertical-align: middle;
+}
+
+a {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    vertical-align: baseline;
+    text-decoration: none;
+    color: black;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+strong, em {
+    font-style: normal;
+    font-weight: normal;
+}
+
+legend, caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    font-size: 0;
+    line-height: 0;
+}
+
+input, select {
+    vertical-align: middle;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+textarea {
+    resize: none;
+}
+
+body {
+    font-family: 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.5;
+    letter-spacing: -.04em;
+    color: #292a2b;
+}
+
+input, select, button {
+    font-family: 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+    letter-spacing: -.04em;
+}
+
+a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.col-pd-10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.header {
+    height: 70px;
+}
+
+.header .h-logo {
+    float: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-top: 13px;
+    margin-left: -65px;
+}
+
+.header .h-logo > a {
+    display: inline-block;
+    width: 130px;
+}
+
+.header .h-logo > a > img {
+    width: 100%;
+    height: 100%;
+}
+
+.header .h-search {
+    float: left;
+    display: none;
+    margin-top: 30px;
+    margin-left: 70px;
+}
+
+.header .h-search .search-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 450px;
+    background-color: #eaeeef;
+}
+
+.header .h-search .search-form .search-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 15px;
+    border: none;
+    background-color: transparent;
+}
+
+.header .h-search .search-form .search-btn {
+    width: 60px;
+    height: 46px;
+    background: transparent url(../../images/kotech_img/btn_search.png) no-repeat top 12px center;
+}
+
+.header .h-right {
+    float: right;
+    display: none;
+    margin-top: 42px;
+    font-size: 14px;
+    color: #4d5256;
+}
+
+.header .h-right a {
+    transition: all .1s ease-out;
+}
+
+.header .h-right a:hover {
+    color: #5472e5;
+}
+
+.header .h-right .board {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.header .h-right .board > span {
+    font-weight: bold;
+}
+
+.header .h-right .type {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.header .h-right .type > ul > li {
+    display: inline-block;
+    position: relative;
+}
+
+.header .h-right .type > ul > li ~ li {
+    padding-left: 20px;
+}
+
+.header .h-right .type > ul > li ~ li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    width: 1px;
+    height: 12px;
+    background-color: #ced3d6;
+}
+
+.header .h-right .type.member .user {
+    padding-left: 18px;
+    background-image: url(../../images/kotech_img/icon_user.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.header .h-right .type.member .user:hover {
+    background-image: url(../../images/kotech_img/icon_user_hover.png);
+}
+
+.header .h-right .type.member .dropdown.open {
+    display: block;
+}
+
+.header .h-right .type.member .dropdown .dropdown-menu {
+    margin-top: 10px;
+    padding: 1rem;
+}
+
+.header .h-right .type.member .dropdown .dropdown-menu li ~ li {
+    margin-top: 6px;
+}
+
+.header .h-right .lang {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.header .h-right .lang > a {
+    display: inline-block;
+    position: relative;
+    padding-left: 32px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.header .h-right .lang > a:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background: url(../../images/kotech_img/icon_lang.png);
+    transition: background .1s ease-out;
+}
+
+.header .h-right .lang > a:hover:before {
+    background: url(../../images/kotech_img/icon_lang_hover.png);
+}
+
+.sec-visual {
+    height: 250px;
+    background: url(../../images/kotech_img/bg_visual.png) no-repeat;
+    font-family: 'Noto Sans KR';
+    font-weight: bold;
+    color: #2e4257;
+}
+
+.sec-visual .visual-tit {
+    margin-top: 50px;
+    font-size: 30px;
+}
+
+.sec-visual .visual-stit {
+    margin-top: 8px;
+    font-size: 17px;
+    letter-spacing: -.02em;
+}
+
+.sec-category {
+    padding: 40px 0 20px;
+    background-color: white;
+}
+
+.sec-category .cate-box {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 30px 0 28px;
+    border-top: 4px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    background-color: #fff;
+    text-align: center;
+    transition: background .1s ease-out;
+}
+
+.sec-category .col-xs-6:nth-child(1) .cate-box {
+    border-top-color: #f3d9fa;
+}
+
+.sec-category .col-xs-6:nth-child(2) .cate-box {
+    border-top-color: #e5dbff;
+}
+
+.sec-category .col-xs-6:nth-child(3) .cate-box {
+    border-top-color: #dbe4ff;
+}
+
+.sec-category .col-xs-6:nth-child(4) .cate-box {
+    border-top-color: #d0ebff;
+}
+
+.sec-category .col-xs-6:nth-child(5) .cate-box {
+    border-top-color: #c5f6fa;
+}
+
+.sec-category .col-xs-6:nth-child(6) .cate-box {
+    border-top-color: #c3fae8;
+}
+
+.sec-category .col-xs-6:nth-child(1) .cate-box:hover {
+    background-color: #f8f0fc;
+}
+
+.sec-category .col-xs-6:nth-child(2) .cate-box:hover {
+    background-color: #f3f0ff;
+}
+
+.sec-category .col-xs-6:nth-child(3) .cate-box:hover {
+    background-color: #edf2ff;
+}
+
+.sec-category .col-xs-6:nth-child(4) .cate-box:hover {
+    background-color: #e7f5ff;
+}
+
+.sec-category .col-xs-6:nth-child(5) .cate-box:hover {
+    background-color: #e3fafc;
+}
+
+.sec-category .col-xs-6:nth-child(6) .cate-box:hover {
+    background-color: #e6fcf5;
+}
+
+.sec-category .cate-box .cate-ico {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95px;
+    height: 95px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    transition: background .15s ease-out;
+}
+
+.sec-category .col-xs-6:nth-child(1) .cate-ico {
+    background-color: #f8f0fc; /*background-image: url(../images/icon_cate_001.png); background-position: top 28px center;*/
+}
+
+.sec-category .col-xs-6:nth-child(2) .cate-ico {
+    background-color: #f3f0ff; /*background-image: url(../images/icon_cate_002.png); background-position: top 27px center;*/
+}
+
+.sec-category .col-xs-6:nth-child(3) .cate-ico {
+    background-color: #edf2ff; /*background-image: url(../images/icon_cate_003.png); background-position: top 25px center;*/
+}
+
+.sec-category .col-xs-6:nth-child(4) .cate-ico {
+    background-color: #e7f5ff; /*background-image: url(../images/icon_cate_004.png); background-position: top 26px left 23px;*/
+}
+
+.sec-category .col-xs-6:nth-child(5) .cate-ico {
+    background-color: #e3fafc; /*background-image: url(../images/icon_cate_005.png); background-position: top 25px center;*/
+}
+
+.sec-category .col-xs-6:nth-child(6) .cate-ico {
+    background-color: #e6fcf5; /*background-image: url(../images/icon_cate_006.png); background-position: top 22px center;*/
+}
+
+.sec-category .cate-box:hover .cate-ico {
+    background-color: #fff;
+}
+
+.sec-category .cate-box .cate-ico > img {
+    max-width: 55px
+}
+
+.sec-board {
+    padding: 40px 0 20px;
+    background-color: #f8fafb;
+}
+
+.sec-board .board-wrap {
+    width: 100%;
+    height: 24px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.sec-board .board-wrap:before, .sec-board .board-wrap:after {
+    display: table;
+    content: '';
+}
+
+.sec-board .board-wrap:after {
+    clear: both;
+}
+
+.sec-board .board-wrap strong {
+    float: left;
+    display: block;
+    width: 45px;
+    padding-top: 2px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sec-board .board-wrap .board-list {
+    float: left;
+    width: calc(100% - 45px);
+}
+
+.sec-board .board-wrap .board-list li {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.sec-board .board-wrap .board-list li .title {
+    display: table-cell;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sec-board .board-wrap .board-list li .title:hover {
+    text-decoration: underline;
+}
+
+.sec-board .board-wrap .board-list li .date {
+    display: table-cell;
+    width: 20%;
+    font-size: 15px;
+    text-align: right;
+    color: #878d91;
+}
+
+.sec-board .col-md-6.col-pd-10 ~ .col-md-6.col-pd-10:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: -1px;
+    width: 2px;
+    height: 16px;
+    background-color: #ddd;
+}
+
+.sec-board .col-md-6.col-pd-10:nth-child(1) .board-wrap {
+    padding-right: 0;
+}
+
+.sec-board .col-md-6.col-pd-10:nth-child(2) .board-wrap {
+    padding-left: 0;
+}
+
+.sec-course {
+    padding: 40px 0 30px;
+}
+
+.sec-course .course-item {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #eaeeef;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    background-color: #fff;
+}
+
+.sec-course .course-item .thumb figure {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 170px;
+}
+
+.sec-course .course-item .thumb figure img {
+    width: 100%;
+    height: 100%;
+}
+
+.sec-course .course-item .thumb figure .more {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    background-color: rgba(84, 114, 229, .95);
+    text-align: center;
+    color: #fff;
+    transition: all .2s;
+}
+
+.sec-course .course-item:hover .thumb figure .more {
+    height: 100%;
+    visibility: visible;
+}
+
+.sec-course .course-item .thumb figure .more span {
+    opacity: 0;
+    display: block;
+    position: relative;
+    top: -20px;
+    margin-top: 45px;
+    transition: all .3s .2s;
+}
+
+.sec-course .course-item .thumb figure .more span:after {
+    content: '';
+    display: block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 10px auto 0;
+    border-radius: 50%;
+    background: #fff url(../../images/kotech_img/icon_course_view.png) no-repeat center;
+}
+
+.sec-course .course-item:hover .thumb figure .more span {
+    opacity: 1;
+    top: 0;
+}
+
+.sec-course .course-item .caption {
+    padding: 1rem;
+}
+
+.sec-course .course-item .caption .title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: 48px;
+    overflow: hidden;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.sec-course .course-item:hover .caption .title {
+    text-decoration: underline;
+}
+
+.sec-course .course-item .caption .info {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #495057;
+}
+
+.sec-course .course-item .caption .info p span {
+    display: inline-block;
+    position: relative;
+}
+
+.sec-course .course-item .caption .info p span ~ span {
+    margin-left: 8px;
+    padding-left: 10px;
+}
+
+.sec-course .course-item .caption .info p span ~ span:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 1px;
+    height: 10px;
+    background-color: #ced3d6;
+}
+
+.sec-course .course-item .caption .info .period {
+    margin-top: 5px;
+}
+
+.footer {
+    padding: 20px 0;
+    border-top: 1px solid #e1e4e6;
+}
+
+.footer .copyright {
+    font-size: 14px;
+    color: #878d91;
+}
+
+.lnb {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+}
+
+.lnb .lnb-btn {
+    position: relative;
+    width: 25px;
+    height: 20px;
+}
+
+.lnb .lnb-btn > span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 50em;
+    background-color: #222;
+}
+
+.lnb .lnb-btn > span:before, .lnb .lnb-btn > span:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 2px;
+    border-radius: 50em;
+    background-color: #222;
+}
+
+.lnb .lnb-btn > span:before {
+    top: 0;
+}
+
+.lnb .lnb-btn > span:after {
+    bottom: 0;
+}
+
+.lnb .lnb-wrap {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: background-color .3s, height 0s .3s;
+    transition: background-color .3s, height 0s .3s;
+}
+
+.lnb.on .lnb-wrap {
+    bottom: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .8);
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+}
+
+.lnb .lnb-wrap .lnb-area {
+    z-index: 101;
+    position: absolute;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    padding: 20px 15px;
+    background-color: #fff;
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+.lnb.on .lnb-wrap .lnb-area {
+    right: 0;
+}
+
+.lnb .lnb-wrap .lnb-close-btn {
+    display: none;
+    position: absolute;
+    left: -40px;
+    top: 22px;
+    width: 25px;
+    height: 25px;
+}
+
+.lnb .lnb-wrap .lnb-close-btn:before, .lnb .lnb-wrap .lnb-close-btn:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 11px;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    border-radius: 50em;
+    background-color: #fff;
+}
+
+.lnb.on .lnb-wrap .lnb-close-btn {
+    display: block;
+}
+
+.lnb .lnb-wrap .lnb-close-btn:before {
+    transform: rotate(135deg);
+}
+
+.lnb .lnb-wrap .lnb-close-btn:after {
+    transform: rotate(-135deg);
+}
+
+.lnb .lnb-wrap .lnb-top {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.lnb .lnb-wrap .lnb-top button {
+    display: inline-block;
+    width: 80px;
+    padding: 5px 10px;
+    border: 1px solid #292a2b;
+    border-radius: 50em;
+    font-size: 14px;
+}
+
+.lnb .lnb-wrap .lnb-top .btn-login {
+    background-color: #292a2b;
+    color: #fff;
+}
+
+.lnb .lnb-wrap .lnb-top .btn-join {
+    margin-left: 2px;
+    background-color: #fff;
+    color: #292a2b;
+}
+
+.lnb .lnb-wrap .lnb-top .btn-lang {
+    float: right;
+    display: inline-block;
+    position: relative;
+    margin-top: 5px;
+    padding-left: 32px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.lnb .lnb-wrap .lnb-top .btn-lang:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background: url(../../images/kotech_img/icon_lang.png);
+    transition: background .1s ease-out;
+}
+
+.lnb .lnb-wrap .lnb-login-menu {
+    padding: 15px;
+    background-color: #f1f3f5;
+}
+
+.lnb .lnb-wrap .lnb-login-menu li ~ li {
+    margin-top: 8px;
+}
+
+.lnb .lnb-wrap .lnb-login-menu li .dashboard {
+    font-weight: bold;
+    color: #5472e5;
+}
+
+.lnb .lnb-wrap .lnb-menu li {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e1e4e6;
+}
+
+/* --------------------------
+ *    media
+ * --------------------------
+**/
+
+@media (max-width: 767px) {
+
+}
+
+@media (min-width: 768px) {
+    .sec-visual {
+        height: 300px;
+    }
+
+    .sec-visual .visual-tit {
+        margin-top: 112px;
+    }
+}
+
+@media (min-width: 992px) {
+    .sec-board .col-md-6.col-pd-10:nth-child(1) .board-wrap {
+        padding-right: 15px;
+    }
+
+    .sec-board .col-md-6.col-pd-10:nth-child(2) .board-wrap {
+        padding-left: 15px;
+    }
+}
+
+@media (min-width: 1200px) {
+    @media (min-width: 1200px) {
+        .container-fluid {
+            width: 1200px;
+        }
+        .wrapper-footer{
+            width: 100%;
+        }
+        .container-fluid footer{
+            width: 1200px;
+        }
+        .header {
+            height: 108px;
+        }
+
+        .header .h-logo {
+            float: left;
+            position: relative;
+            top: 0;
+            left: 0;
+            margin-top: 30px;
+            margin-left: 0;
+        }
+
+        .header .h-search {
+            display: block;
+        }
+
+        .header .h-right {
+            display: block;
+        }
+
+        .lnb {
+            display: none;
+        }
+    }
+}
+
+a:not(.btn), a:visited:not(.btn) {
+    color: black;
+}

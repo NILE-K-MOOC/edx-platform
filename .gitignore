@@ -96,7 +96,9 @@ bin/
 
 ### Static assets pipeline artifacts
 *.scssc
-lms/static/css/
+### jhy ----------- fix
+###lms/static/css/
+### jhy ----------- fix
 lms/static/certificates/css/
 cms/static/css/
 common/static/common/js/vendor/
