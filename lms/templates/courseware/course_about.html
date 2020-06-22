@@ -199,15 +199,15 @@ from six import string_types
       </section>
       % if get_course_about_section(request, course, "video"):
       <a href="#video-modal" class="media" rel="leanModal">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
+        <div class="hero" style="max-height: 50%;">
+          <img src="${course_image_urls['large']}" alt="" style="max-height: 217px;"/>
           <div class="play-intro"></div>
         </div>
       </a>
       %else:
       <div class="media">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
+        <div class="hero" style="max-height: 50%;">
+          <img src="${course_image_urls['large']}" alt="" style="max-height: 217px;"/>
         </div>
       </div>
       % endif

@@ -15,6 +15,19 @@ from openedx.core.djangolib.markup import HTML, Text
 <%
 course_sections = blocks.get('children')
 %>
+<style>
+    .course-sidebar .section h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+    .date-summary-container .date-summary .heading {
+    font-size: 1.5rem;
+    font: -apple-system-body;
+    line-height: 1;
+    font-weight: 700;
+    color: #313131;
+}
+</style>
 <main role="main" class="course-outline" id="main" tabindex="-1">
     % if course_sections is not None:
         <button class="btn btn-primary"
@@ -37,7 +50,7 @@ course_sections = blocks.get('children')
                             aria-controls="${ section['id'] }_contents"
                             id="${ section['id'] }">
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
-                        <h3 class="section-title">${ section['display_name'] }</h3>
+                        <h3 class="section-title" style="font-size: 2.1rem;">${ section['display_name'] }</h3>
             % if section.get('complete'):
                             <span class="complete-checkmark fa fa-check"></span>
             % endif
@@ -77,7 +90,7 @@ course_sections = blocks.get('children')
                                             aria-controls="${ subsection['id'] }_contents">
                                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if subsection_is_auto_opened else '' }"
                                               aria-hidden="true"></span>
-                                        <h4 class="subsection-title">
+                                        <h4 class="subsection-title" style="font-weight: 500;">
                                             ${ subsection['display_name'] }
                                         </h4>
                     % if subsection.get('complete'):
@@ -160,7 +173,7 @@ course_sections = blocks.get('children')
                                             % endif
                                             id="${ vertical['id'] }">
                                             <div class="vertical-details">
-                                              <div class="vertical-title">
+                                              <div class="vertical-title" style="font-weight: 400;">
                                                 ${ vertical['display_name'] }
                                               </div>
                                             </div>

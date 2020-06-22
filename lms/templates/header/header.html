@@ -60,12 +60,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     % endif
     <div class="main-header">
         <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
-        <div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
+       <!--<div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
-        </div>
+        </div>-->
         % if user.is_authenticated:
             <!--navbar-authenticated.html-->
     <%include file="new_navbar.html" args="online_help_token=online_help_token"/>
