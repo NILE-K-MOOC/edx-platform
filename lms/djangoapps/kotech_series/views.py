@@ -115,6 +115,7 @@ def new_dashboard(request):
                     select org, display_number_with_default
                     from series_course
                     where series_seq = '{series_seq}'
+                      and delete_yn = 'N'
                 ) x
                 left join (
                     select a.org, a.display_number_with_default, b.status
@@ -147,6 +148,7 @@ def new_dashboard(request):
                           select org, display_number_with_default
                           from series_course
                           where series_seq = '{series_seq}'
+                            and delete_yn = 'N'
                     ) t1
                     left join (
                       select *
@@ -252,6 +254,7 @@ def series_print(request, id):
                 select org, display_number_with_default
                 from series_course
                 where series_seq = '{series_seq}'
+                  and delete_yn = 'N'
             ) x
             left join (
                 select a.org, a.display_number_with_default, b.status
@@ -277,7 +280,9 @@ def series_print(request, id):
         sql2 = '''
             select count(*)
             from series_course
-            where series_seq = '{series_seq}';
+            where series_seq = '{series_seq}'
+              and delete_yn = 'N'
+            ;
         '''.format(series_seq=id, user_id=user_id)
         cur.execute(sql2)
         try:
