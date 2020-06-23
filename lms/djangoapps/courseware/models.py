@@ -456,25 +456,25 @@ class OrgDynamicUpgradeDeadlineConfiguration(OptOutDynamicUpgradeDeadlineMixin, 
 
 
 class TbIndexImage(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     main_logo_img = models.ImageField(max_length=100, blank=True, null=True, upload_to='logo',
-                                      default='default/test_logo.png')
-    section_1_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_1_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_2_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_2_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_3_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_3_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_4_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_4_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_5_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_5_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_6_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    section_6_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
-    # regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    regist_date = models.DateTimeField(blank=True, null=True)
-    # modify_date = models.DateTimeField(blank=True, null=True, auto_now=True)
-    modify_date = models.DateTimeField(blank=True, null=True)
+                                      default='default/default_edx.png')
+    # section_1_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_1_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_2_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_2_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_3_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_3_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_4_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_4_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_5_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_5_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_6_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    # section_6_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
+    regist_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    # regist_date = models.DateTimeField(blank=True, null=True)
+    modify_date = models.DateTimeField(blank=True, null=True, auto_now=True)
+    # modify_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False

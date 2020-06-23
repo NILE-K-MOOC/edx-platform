@@ -788,7 +788,7 @@ a:hover, a:focus {
     color: #292a2b;
 }
 
-.lnb .lnb-wrap .lnb-top .btn-lang {
+.lnb .lnb-wrap .lnb-top .lang {
     float: right;
     display: inline-block;
     position: relative;
@@ -798,7 +798,7 @@ a:hover, a:focus {
     font-weight: bold;
 }
 
-.lnb .lnb-wrap .lnb-top .btn-lang:before {
+.lnb .lnb-wrap .lnb-top .lang:before {
     content: '';
     display: block;
     position: absolute;
