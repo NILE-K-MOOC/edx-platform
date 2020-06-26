@@ -227,7 +227,7 @@ def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
     """
-    print('--> coursesessss',request)
+    # print('--> coursesessss',request)
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
     if not settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
@@ -259,7 +259,7 @@ def courses(request):
         # 강좌명 정렬
         course_list_section = [course for course in courses_list if str(course.id) in course_list_base]
         # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
-        print 'ssssss',s
+        # print 'ssssss',s
         if course_list_section:
             context[s] = course_list_section
 

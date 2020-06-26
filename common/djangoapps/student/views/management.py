@@ -158,19 +158,19 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     for section in sections:
         s = 'courses_by_%s' % section
-        print 'sssssssssss',s
+        # print 'sssssssssss',s
         # section 별로 등로된 강좌를 확인하여 강좌 리스트를 추가하고 강좌를 구성되도록 함.
         course_list_base = TbSectionCourses.objects.filter(section=section.id).values_list('course_id', flat=True)
 
         # 강좌명 정렬
         course_list_section = [course for course in courses if str(course.id) in course_list_base]
-        print '-->', course_list_section
-        print '--sss>', s
+        # print '-->', course_list_section
+        # print '--sss>', s
         # context[s] = sorted(course_list_section, key=lambda course: course.display_name)
 
         if course_list_section:
             context[s] = course_list_section
-    print '===>', context
+    # print '===>', context
     context['homepage_overlay_html'] = configuration_helpers.get_value('homepage_overlay_html')
 
     # This appears to be an unused context parameter, at least for the master templates...
