@@ -939,6 +939,7 @@ def _create_or_rerun_course(request):
         middle_classfysub = request.json.get('middle_classfysub')
         course_period = request.json.get('course_period')
         teacher_name = request.json.get('teacher_name')
+        classfy_plus = request.json.get('classfy_plus')
 
         fields.update({
             'classfy': classfy,
@@ -947,6 +948,7 @@ def _create_or_rerun_course(request):
             'middle_classfysub': middle_classfysub,
             'course_period': course_period,
             'teacher_name': teacher_name,
+            'classfy_plus': classfy_plus,
             'fourth_industry_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
@@ -1036,7 +1038,6 @@ def _create_or_rerun_course(request):
             "ErrMsg": _("Unable to create course '{name}'.\n\n{err}").format(name=display_name, err=text_type(error))}
         )
 
-
 def create_new_course(user, org, number, run, fields):
     """
     Create a new course run.
@@ -1086,6 +1087,8 @@ def create_new_course(user, org, number, run, fields):
 
         classfy = fields['classfy']
 
+        classfy_plus = fields['classfy_plus']
+
         with connections['default'].cursor() as cur:
             query = """
                 INSERT INTO course_overview_addinfo(course_id,
@@ -1095,7 +1098,9 @@ def create_new_course(user, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy)
+                                                    classfy,
+                                                    classfy_plus
+                                                    )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1106,8 +1111,10 @@ def create_new_course(user, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}');
-            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org)
+                             '{classfy}',
+                             '{classfy_plus}'
+                             );
+            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,classfy_plus=classfy_plus)
 
             cur.execute(query)
 
@@ -1262,6 +1269,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,fourth_industry_yn
                     ,ai_sec_yn
                     ,basic_science_sec_yn
+                    ,classfy_plus
                     )
                 select '{destination_course_key}'
                     ,create_type
@@ -1289,6 +1297,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,fourth_industry_yn 
                     ,ai_sec_yn 
                     ,basic_science_sec_yn 
+                    ,classfy_plus
                     from course_overview_addinfo where course_id = '{source_course_id}'
             """.format(
                 destination_course_key=destination_course_key
@@ -1379,6 +1388,7 @@ def _rerun_course(request, org, number, run, fields):
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy
         fields['classfysub'] = source_course.classfysub
+        fields['classfyplus'] = source_course.classfyplus
         fields['middle_classfy'] = source_course.middle_classfy
         fields['middle_classfysub'] = source_course.middle_classfysub
         fields['linguistics'] = source_course.linguistics
@@ -1444,6 +1454,7 @@ def _rerun_course(request, org, number, run, fields):
         user_id = request.user.id
         middle_classfy = fields['middle_classfy']
         classfy = fields['classfy']
+        classfy_plus = fields['classfy_plus']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1454,7 +1465,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy)
+                                                    classfy,
+                                                    classfy_plus)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1465,8 +1477,9 @@ def _rerun_course(request, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
+                             '{classfy}'
+                             '{classfy_plus}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -1958,10 +1971,11 @@ def _refresh_course_tabs(request, course_module):
     user_id = request.user.id
     old_classfy = u''
     old_middle_classfy = u''
+    classfy_plus = course_module.classfy_plus
 
     with connections['default'].cursor() as cur:
         query = """
-                SELECT classfy, middle_classfy
+                SELECT classfy, middle_classfy, classfy_plus
                   FROM course_overview_addinfo
                  WHERE course_id = '{course_id}';
             """.format(course_id=course_id)
@@ -1975,6 +1989,7 @@ def _refresh_course_tabs(request, course_module):
         if len(old_classfy_data) != 0:
             old_classfy = old_classfy_data[0][0]
             old_middle_classfy = old_classfy_data[0][1]
+            old_classfy_plus = old_classfy_data[0][2]
             print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
 
     with connections['default'].cursor() as cur:
@@ -1984,9 +1999,10 @@ def _refresh_course_tabs(request, course_module):
                        SET middle_classfy = '{middle_classfy}',
                            classfy = '{classfy}',
                            modify_id = '{user_id}',
+                           classfy_plus = '{classfy_plus}',
                            modify_date = now()
                      WHERE course_id = '{course_id}';
-                """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id)
+                """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id, classfy_plus=classfy_plus)
 
             print 'advanced addinfo update --------- ', query2
             cur.execute(query2)

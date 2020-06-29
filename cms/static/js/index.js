@@ -81,6 +81,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             var msub1 = $newCourseForm.find(".new-course-middle-classfy-sub1").val();
             var msub2 = $newCourseForm.find(".new-course-middle-classfy-sub2").val();
             var msub3 = $newCourseForm.find(".new-course-middle-classfy-sub3").val();
+            var classfy_plus = $newCourseForm.find(".classfy_add").val();
 
             var classfysub = "";
             var middle_classfysub = "";
@@ -113,7 +114,8 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfy: middle_classfy,
                 middle_classfysub: middle_classfysub,
                 difficult_degree: difficult_degree,
-                period: period
+                period: period,
+                classfy_plus: classfy_plus
             };
 
             $("span.tip").css({"color": "#ccc"});
@@ -121,10 +123,13 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             if (!middle_classfy || middle_classfy == "null")
                 $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
 
+            if (!classfy_plus || classfy_plus == "null")
+                $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
+
             if (!period)
                 $("span[id='tip-new-course-period']").css({"color": "#b20610"});
 
-            if (!classfy || !middle_classfy || middle_classfy == "null" || !period){
+            if (!classfy || !middle_classfy || middle_classfy == "null" || !period || !classfy_plus || classfy_plus=="nulll"){
                 //console.log(classfy);
                 //console.log(classfysub);
                 //console.log(middle_classfy);

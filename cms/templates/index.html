@@ -548,6 +548,15 @@ for (var i = 1; i<=leng; i++) {
                         <option value="intd">${_("Fusion & Convergence")}</option>
                     </select>
 
+                    <select class="classfy_add">
+                        <option value="">대분류 추가 선택</option>
+                        <option value="hum_and_social">인문사회</option>
+                        <option value="natural_science">자연과학</option>
+                        <option value="engineering">공학</option>
+                        <option value="entertainment">예체능</option>
+                        <option value="medicine">의약</option>
+                    </select>
+
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
 
                     <select class="new-course-middle-classfy" id="new-course-middle-classfy" name="new-course-middle-classfy" onchange="middle_classfy_sub(1)">
@@ -599,6 +608,7 @@ for (var i = 1; i<=leng; i++) {
                     <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
+
                     <input class="new-course-org" id="new-course-classfy-sub" type="hidden" name=new-course-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <input class="new-course-org" id="new-course-middle-classfy-sub" type="hidden" name=new-course-middle-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <span class="tip" id="tip-new-course-classfy">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
