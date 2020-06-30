@@ -130,7 +130,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             if (!period)
                 $("span[id='tip-new-course-period']").css({"color": "#b20610"});
 
-            if (!classfy || !middle_classfy || middle_classfy == "null" || !period || !classfy_plus || classfy_plus=="nulll"){
+            if (!classfy || !middle_classfy || middle_classfy == "null" || !period || !classfy_plus || classfy_plus=="null"){
                 //console.log(classfy);
                 //console.log(classfysub);
                 //console.log(middle_classfy);
