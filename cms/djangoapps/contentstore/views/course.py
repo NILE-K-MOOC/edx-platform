@@ -344,7 +344,11 @@ def course_rerun_handler(request, course_key_string):
                 'display_name': course_module.display_name,
                 'user': request.user,
                 'course_creator_status': _get_course_creator_status(request.user),
-                'allow_unicode_course_id': settings.FEATURES.get('ALLOW_UNICODE_COURSE_ID', False)
+                'allow_unicode_course_id': settings.FEATURES.get('ALLOW_UNICODE_COURSE_ID', False),
+                'classfy': course_module.classfy,
+                'classfy_plus': course_module.classfy_plus,
+                'middle_classfy': course_module.middle_classfy,
+                'teacher_name': course_module.teacher_name
             })
 
 
@@ -1215,6 +1219,8 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
     args = [unicode(source_course_key), unicode(destination_course_key), user.id, json_fields]
 
+    print 'args:-->',args
+
     if async:
         rerun_status = rerun_course_task.delay(*args)
     else:
@@ -1993,7 +1999,7 @@ def _refresh_course_tabs(request, course_module):
             print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
 
     with connections['default'].cursor() as cur:
-        if classfy != old_classfy or middle_classfy != old_middle_classfy:
+        if classfy != old_classfy or middle_classfy != old_middle_classfy or classfy_plus != old_classfy_plus:
             query2 = """
                     UPDATE course_overview_addinfo
                        SET middle_classfy = '{middle_classfy}',

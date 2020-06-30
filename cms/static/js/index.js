@@ -24,7 +24,8 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             middle_classfy_sub1: '.new-course-middle-classfy-sub1',
             middle_classfy_sub2: '.new-course-middle-classfy-sub2',
             middle_classfy_sub3: '.new-course-middle-classfy-sub3',
-            course_period: '.new-course-period'
+            course_period: '.new-course-period',
+            classfy_plus: '.classfy_plus'
             // Il-Hee, Maeng update end --------------------------
         }, {
             shown: 'is-shown',
