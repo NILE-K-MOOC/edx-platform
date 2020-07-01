@@ -344,7 +344,11 @@ def course_rerun_handler(request, course_key_string):
                 'display_name': course_module.display_name,
                 'user': request.user,
                 'course_creator_status': _get_course_creator_status(request.user),
-                'allow_unicode_course_id': settings.FEATURES.get('ALLOW_UNICODE_COURSE_ID', False)
+                'allow_unicode_course_id': settings.FEATURES.get('ALLOW_UNICODE_COURSE_ID', False),
+                'classfy': course_module.classfy,
+                'classfy_plus': course_module.classfy_plus,
+                'middle_classfy': course_module.middle_classfy,
+                'teacher_name': course_module.teacher_name
             })
 
 
@@ -466,6 +470,7 @@ def _accessible_courses_summary_iter(request, org=None):
         courses_summary = modulestore().get_course_summaries()
     courses_summary = six.moves.filter(course_filter, courses_summary)
     in_process_course_actions = get_in_process_course_actions(request)
+
     return courses_summary, in_process_course_actions
 
 
@@ -565,10 +570,12 @@ def _accessible_libraries_iter(user, org=None):
         string will result in no libraries, and otherwise only libraries with the
         specified org will be returned. The default value is None.
     """
+
     if org is not None:
         libraries = [] if org == '' else modulestore().get_libraries(org=org)
     else:
         libraries = modulestore().get_library_summaries()
+
     # No need to worry about ErrorDescriptors - split's get_libraries() never returns them.
     return (lib for lib in libraries if has_studio_read_access(user, lib.location.library_key))
 
@@ -583,6 +590,7 @@ def course_listing(request):
                            WaffleSwitchNamespace(name=WAFFLE_NAMESPACE).is_enabled(u'enable_global_staff_optimization')
 
     org = request.GET.get('org', '') if optimization_enabled else None
+
     courses_iter, in_process_course_actions = get_courses_accessible_to_user(request, org)
     user = request.user
     libraries = _accessible_libraries_iter(request.user, org) if LIBRARIES_ENABLED else []
@@ -591,6 +599,7 @@ def course_listing(request):
         """
         Return a dict of the data which the view requires for each unsucceeded course
         """
+
         return {
             u'display_name': uca.display_name,
             u'course_key': unicode(uca.course_key),
@@ -801,6 +810,30 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
         """
         Return a dict of the data which the view requires for each course
         """
+        try:
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT 
+                        code.detail_name
+                    FROM
+                        course_overviews_courseoverview AS course
+                            LEFT OUTER JOIN
+                        code_detail AS code ON course.display_org_with_default = code.detail_code
+                    WHERE
+                        course.id = '{course_id}';           
+                """.format(course_id=course.id)
+                cur.execute(query)
+
+                row = cur.fetchone()[0]
+
+                org_kname = row
+
+                if org_kname is None:
+                    org_kname = course.display_org_with_default
+
+        except Exception as e:
+            print e
+
         return {
             'display_name': course.display_name,
             'course_key': unicode(course.location.course_key),
@@ -808,7 +841,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             'lms_link': get_lms_link_for_item(course.location),
             'rerun_link': _get_rerun_link_for_item(course.id),
             'org': course.display_org_with_default,
-            'org_kname': None,
+            'org_kname': org_kname,
             'org_ename': None,
             'teacher_name': None,
             'number': course.display_number_with_default,
@@ -822,7 +855,6 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
     for course in courses_iter:
         if isinstance(course, ErrorDescriptor) or (course.id in in_process_action_course_keys):
             continue
-
         formatted_course = format_course_for_view(course)
         if split_archived and course.has_ended():
             archived_courses.append(formatted_course)
@@ -911,6 +943,7 @@ def _create_or_rerun_course(request):
         middle_classfysub = request.json.get('middle_classfysub')
         course_period = request.json.get('course_period')
         teacher_name = request.json.get('teacher_name')
+        classfy_plus = request.json.get('classfy_plus')
 
         fields.update({
             'classfy': classfy,
@@ -919,6 +952,7 @@ def _create_or_rerun_course(request):
             'middle_classfysub': middle_classfysub,
             'course_period': course_period,
             'teacher_name': teacher_name,
+            'classfy_plus': classfy_plus,
             'fourth_industry_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
@@ -1008,7 +1042,6 @@ def _create_or_rerun_course(request):
             "ErrMsg": _("Unable to create course '{name}'.\n\n{err}").format(name=display_name, err=text_type(error))}
         )
 
-
 def create_new_course(user, org, number, run, fields):
     """
     Create a new course run.
@@ -1058,6 +1091,8 @@ def create_new_course(user, org, number, run, fields):
 
         classfy = fields['classfy']
 
+        classfy_plus = fields['classfy_plus']
+
         with connections['default'].cursor() as cur:
             query = """
                 INSERT INTO course_overview_addinfo(course_id,
@@ -1067,7 +1102,9 @@ def create_new_course(user, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy)
+                                                    classfy,
+                                                    classfy_plus
+                                                    )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1078,8 +1115,10 @@ def create_new_course(user, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}');
-            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org)
+                             '{classfy}',
+                             '{classfy_plus}'
+                             );
+            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,classfy_plus=classfy_plus)
 
             cur.execute(query)
 
@@ -1180,6 +1219,8 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
     args = [unicode(source_course_key), unicode(destination_course_key), user.id, json_fields]
 
+    print 'args:-->',args
+
     if async:
         rerun_status = rerun_course_task.delay(*args)
     else:
@@ -1234,6 +1275,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,fourth_industry_yn
                     ,ai_sec_yn
                     ,basic_science_sec_yn
+                    ,classfy_plus
                     )
                 select '{destination_course_key}'
                     ,create_type
@@ -1261,6 +1303,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,fourth_industry_yn 
                     ,ai_sec_yn 
                     ,basic_science_sec_yn 
+                    ,classfy_plus
                     from course_overview_addinfo where course_id = '{source_course_id}'
             """.format(
                 destination_course_key=destination_course_key
@@ -1351,6 +1394,7 @@ def _rerun_course(request, org, number, run, fields):
         source_course = modulestore().get_course(source_course_key)
         fields['classfy'] = source_course.classfy
         fields['classfysub'] = source_course.classfysub
+        fields['classfyplus'] = source_course.classfyplus
         fields['middle_classfy'] = source_course.middle_classfy
         fields['middle_classfysub'] = source_course.middle_classfysub
         fields['linguistics'] = source_course.linguistics
@@ -1416,6 +1460,7 @@ def _rerun_course(request, org, number, run, fields):
         user_id = request.user.id
         middle_classfy = fields['middle_classfy']
         classfy = fields['classfy']
+        classfy_plus = fields['classfy_plus']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1426,7 +1471,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     regist_date,
                                                     modify_id,
                                                     middle_classfy,
-                                                    classfy)
+                                                    classfy,
+                                                    classfy_plus)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1437,8 +1483,9 @@ def _rerun_course(request, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org)
+                             '{classfy}'
+                             '{classfy_plus}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -1930,10 +1977,11 @@ def _refresh_course_tabs(request, course_module):
     user_id = request.user.id
     old_classfy = u''
     old_middle_classfy = u''
+    classfy_plus = course_module.classfy_plus
 
     with connections['default'].cursor() as cur:
         query = """
-                SELECT classfy, middle_classfy
+                SELECT classfy, middle_classfy, classfy_plus
                   FROM course_overview_addinfo
                  WHERE course_id = '{course_id}';
             """.format(course_id=course_id)
@@ -1947,18 +1995,20 @@ def _refresh_course_tabs(request, course_module):
         if len(old_classfy_data) != 0:
             old_classfy = old_classfy_data[0][0]
             old_middle_classfy = old_classfy_data[0][1]
+            old_classfy_plus = old_classfy_data[0][2]
             print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
 
     with connections['default'].cursor() as cur:
-        if classfy != old_classfy or middle_classfy != old_middle_classfy:
+        if classfy != old_classfy or middle_classfy != old_middle_classfy or classfy_plus != old_classfy_plus:
             query2 = """
                     UPDATE course_overview_addinfo
                        SET middle_classfy = '{middle_classfy}',
                            classfy = '{classfy}',
                            modify_id = '{user_id}',
+                           classfy_plus = '{classfy_plus}',
                            modify_date = now()
                      WHERE course_id = '{course_id}';
-                """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id)
+                """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id, classfy_plus=classfy_plus)
 
             print 'advanced addinfo update --------- ', query2
             cur.execute(query2)

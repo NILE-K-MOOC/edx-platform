@@ -958,6 +958,13 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
+    classfy_plus = String(
+        help=_("Select Section name"),
+        default="all",
+        display_name=_("classfy_plus"),
+        scope=Scope.settings
+    )
+
     middle_classfy = String(
         help=_("Select Section name"),
         default="all",

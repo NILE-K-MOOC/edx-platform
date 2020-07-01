@@ -83,6 +83,7 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     teachers = serializers.CharField()
     classfy = serializers.CharField()
     middle_classfy = serializers.CharField()
+    classfy_plus = serializers.CharField()
     level = serializers.CharField()
     passing_grade = serializers.CharField()
     audit_yn = serializers.CharField()
