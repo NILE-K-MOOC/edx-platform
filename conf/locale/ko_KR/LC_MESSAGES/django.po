@@ -11,7 +11,7 @@
 # jeon <bluerespect@nate.com>, 2014
 # Jong-Dae Park <jdpark7@gmail.com>, 2013
 # JunGu Kang <chr0m3.kr@gmail.com>, 2015
-# Gu Hong Min <placidmoon1@gmail.com>, 2015
+# Gu Hong Min <placidmoon1@gmail.com>, 2015 account and personal data is
 # eddie94 <myeddie@naver.com>, 2018
 # 맹일희 <ilheeclick@knou.ac.kr>, 2018
 # NICK <nigitm@gmail.com>, 2017
