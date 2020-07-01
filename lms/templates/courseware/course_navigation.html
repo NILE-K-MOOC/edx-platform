@@ -22,7 +22,12 @@ if course is not None:
     (course.enable_proctored_exams or course.enable_timed_exams)
     )
 %>
-
+<style>
+    .header .h-search .search-form .search-btn {
+    width: 60px;
+    height: 29px;
+    }
+</style>
 % if include_special_exams is not UNDEFINED and include_special_exams:
     <%static:js group='proctoring'/>
     % for template_name in ["proctored-exam-status"]:
@@ -38,7 +43,7 @@ if course is not None:
     tab_list = get_course_tab_list(request, course)
     %>
     % if uses_bootstrap:
-        <nav class="navbar course-tabs pb-0 navbar-expand" aria-label="${_('Course')}" style="max-width: 1200px;">
+        <nav class="navbar course-tabs pb-0 navbar-expand" aria-label="${_('Course')}" >
             <ul class="navbar-nav mr-auto">
                 % for tab in tab_list:
                     <%
