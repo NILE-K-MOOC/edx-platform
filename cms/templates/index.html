@@ -536,7 +536,7 @@ for (var i = 1; i<=leng; i++) {
                 </li>
                 <li class="field select required" id="field-classfy">
                     <label for="new-course-classfy">${_("Classification")}</label>
-                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
+                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy" style="margin-bottom: 10px" onchange="middle_classfy(0)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -546,15 +546,6 @@ for (var i = 1; i<=leng; i++) {
                         <option value="med">${_("Medical Sciences & Pharmacy")}</option>
                         <option value="art">${_("Arts & Physical Education")}</option>
                         <option value="intd">${_("Fusion & Convergence")}</option>
-                    </select>
-
-                    <select class="classfy_add">
-                        <option value="">대분류 추가 선택</option>
-                        <option value="hum_and_social">인문사회</option>
-                        <option value="natural_science">자연과학</option>
-                        <option value="engineering">공학</option>
-                        <option value="entertainment">예체능</option>
-                        <option value="medicine">의약</option>
                     </select>
 
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-classfy"></span>
@@ -563,7 +554,7 @@ for (var i = 1; i<=leng; i++) {
                         <option value="">${_("Select sub category")}</option>
                     </select>
                     <br>
-                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
+                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden; display: none"  onchange="middle_classfy(1)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -575,11 +566,11 @@ for (var i = 1; i<=leng; i++) {
                         <option value="intd">${_("Fusion & Convergence")}</option>
                     </select>
 
-                    <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
+                    <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden; display: none" onchange="middle_classfy_sub(2)">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
 
-                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
+                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden; display: none" onchange="middle_classfy(2)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -590,11 +581,11 @@ for (var i = 1; i<=leng; i++) {
                         <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
-                    <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
+                    <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden; display: none" onchange="middle_classfy_sub(3)">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
 
-                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
+                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden; display: none" onchange="middle_classfy(3)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -605,8 +596,18 @@ for (var i = 1; i<=leng; i++) {
                         <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
-                    <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
+                    <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden; display: none">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
+                    </select>
+
+                    <label>asdasddasads</label>
+                    <select class="classfy_add" style="">
+                        <option value="">대분류 추가 선택</option>
+                        <option value="hum_and_social">인문사회</option>
+                        <option value="natural_science">자연과학</option>
+                        <option value="engineering">공학</option>
+                        <option value="entertainment">예체능</option>
+                        <option value="medicine">의약</option>
                     </select>
 
                     <input class="new-course-org" id="new-course-classfy-sub" type="hidden" name=new-course-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
@@ -615,7 +616,6 @@ for (var i = 1; i<=leng; i++) {
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
 
                 </li>
-
 
                 <li class="field select required" id="field-category" style="display: none;">
                     <label for="new-course-">${_("Linguistics")}</label>
