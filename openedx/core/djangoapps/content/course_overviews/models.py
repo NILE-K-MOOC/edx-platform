@@ -334,6 +334,7 @@ class CourseOverview(TimeStampedModel):
 
                 course_overview.teachers = addinfo.teacher_name
                 course_overview.classfy = addinfo.classfy
+                course_overview.classfy_plus = addinfo.classfy_plus
                 course_overview.middle_classfy = addinfo.middle_classfy
                 course_overview.level = addinfo.course_level
                 course_overview.passing_grade = course_overview.lowest_passing_grade
@@ -748,6 +749,7 @@ class CourseOverview(TimeStampedModel):
         course_overviews = course_overviews.annotate(
             teachers=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('')),
             classfy=Coalesce(F('courseoverviewaddinfo__classfy'), V('')),
+            classfy_plus=Coalesce(F('courseoverviewaddinfo__classfy_plus'), V('')),
             middle_classfy=Coalesce(F('courseoverviewaddinfo__middle_classfy'), V('')),
             level=Coalesce(F('courseoverviewaddinfo__course_level'), V('')),
             passing_grade=Coalesce(F('lowest_passing_grade'), V('')),
