@@ -457,8 +457,7 @@ class OrgDynamicUpgradeDeadlineConfiguration(OptOutDynamicUpgradeDeadlineMixin, 
 
 class TbIndexImage(models.Model):
     id = models.AutoField(primary_key=True)
-    main_logo_img = models.ImageField(max_length=100, blank=True, null=True, upload_to='logo',
-                                      default='default/default_edx.png')
+    main_logo_img = models.ImageField(max_length=100, blank=True, null=True, upload_to='logo')
     # section_1_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
     # section_1_hover = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
     # section_2_before = models.ImageField(max_length=100, blank=True, null=True, upload_to='section')
