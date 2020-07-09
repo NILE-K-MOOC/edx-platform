@@ -164,9 +164,11 @@ allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION'
 <div class="main">
     % if allows_login:
     % if can_discover_courses:
+    <!--
     <div class="mobile-nav-item hidden-mobile nav-item">
         <a href="/courses">${_('Explore courses')}</a>
     </div>
+    -->
     %endif
     % endif
 </div>
