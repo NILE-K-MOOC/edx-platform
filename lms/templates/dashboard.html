@@ -91,6 +91,7 @@ from student.models import CourseEnrollment
 
                 })
                 .done(function( data ) {
+                  alert(data.result.length);
                     for (var i=0; i<data.result.length; i++) {
                         var d = data.result[i];
                         var attendance = d.attendance;
@@ -190,6 +191,31 @@ from student.models import CourseEnrollment
         }
 
     $(document).ready(function () {
+      console.log(${total_end_cnt})
+      var status_ = $(location).attr('href')
+      status_.split('=')
+      $(window).scroll(function () {
+
+        if ($(document).height() <= $(window).scrollTop() + $(window).height()) {
+          //console.log(status_.split('=')[1])
+          //console.log($('.course-item').length)
+
+          $.ajax({
+            url: '/dashboard',
+            type: "POST",
+            dataType:'html',
+            data: {
+              now_length: $('.course-item').length,
+              status_: status_.split('=')[1],
+              csrfmiddlewaretoken: '${ csrf_token }'
+            }
+          }).done(function (data) {
+            $('.listing-courses').append(data);
+          });
+        }
+
+      });
+
         cb_course();
 
         edx.dashboard.legacy.init({
@@ -202,12 +228,21 @@ from student.models import CourseEnrollment
         $(".faq-tab a").click(function (e) {
             document.location.href = "dashboard?status=" + $(this).data("status");
         });
-
+        if (status_.split('=')[1] =='end'){
+          $(".faq-tab a").each(function(){
+          if($(this).hasClass('on')){
+            $(this).children('span').append('[${total_end_cnt}]');
+          }
+        });
+        }
+        else {
         $(".faq-tab a").each(function(){
           if($(this).hasClass('on')){
             $(this).children('span').append('[${len(course_entitlements + course_enrollments)}]');
           }
         });
+        }
+
 
         /*
         var xhr;
@@ -440,11 +475,11 @@ from student.models import CourseEnrollment
                     <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
                         <h2 class="hidden_head">${_("ing course")}</h2>
                     </a>
-                    <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
+                    <a href="#" data-status="audit" hellll ='qweqwe' class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
                         <h2 class="hidden_head">${_("Audit Course")}</h2>
                     </a>
                     % endif
-                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
+                    <a href="#" data-status="end" hellll ='qweqwe' class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
                         <h2 class="hidden_head">${_("complete/end Course")}</h2>
                     </a>
                     <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
