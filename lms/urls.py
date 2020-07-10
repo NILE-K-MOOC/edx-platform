@@ -253,6 +253,9 @@ urlpatterns = [
     # Event tracking endpoints
     url(r'', include('track.urls')),
 
+    # Dashboard append url
+    url(r'^call_dashboard$', student_views.call_dashboard, name='call_dashboard'),
+
     # Static template view endpoints like blog, faq, etc.
     url(r'', include('static_template_view.urls')),
 

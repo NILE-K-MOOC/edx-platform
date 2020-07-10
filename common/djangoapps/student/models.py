@@ -1592,7 +1592,7 @@ class CourseEnrollment(models.Model):
             raise
 
     @classmethod
-    def enrollments_for_user_audit(cls, user):
+    def enrollments_for_user_audit(cls, user,now_length=None):
         return cls.objects.raw('''
                   SELECT a.*
                     FROM student_courseenrollment a
@@ -1728,7 +1728,7 @@ class CourseEnrollment(models.Model):
             ''', [user.id])
 
     @classmethod
-    def enrollments_for_user_end(cls, user):
+    def enrollments_for_user_end(cls, user,start_length):
         return cls.objects.raw('''
                       SELECT a.*
                         FROM student_courseenrollment a
@@ -1740,11 +1740,12 @@ class CourseEnrollment(models.Model):
                              course_overviews_courseoverview b
                        WHERE     a.course_id = b.id
                              AND now() > adddate(b.end, INTERVAL 9 HOUR)
-                             AND a.user_id = %s
+                             AND a.user_id = '{user_id}'
                              AND a.is_active = 1
                              AND a.mode != 'audit'
-                    ORDER BY if(c.status = 'downloadable', 1, 2), c.created_date DESC, a.created DESC;
-            ''', [user.id])
+                    ORDER BY if(c.status = 'downloadable', 1, 2), c.created_date DESC, a.created DESC
+                    limit {start_length},10
+            '''.format(user_id =user.id,start_length=start_length))
 
     @classmethod
     def enrollments_for_user_audit(cls, user):
