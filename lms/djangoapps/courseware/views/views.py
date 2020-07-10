@@ -236,6 +236,7 @@ def courses(request):
     Render "find courses" page.  The course selection work is done in courseware.courses.
     수정시 mobile_courses도 함께 수정
     """
+    # print 'geeee'
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
     if not settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):

@@ -696,8 +696,6 @@ def student_dashboard(request):
     except:
         total_end_cnt = 0
 
-    print 'total_end_cnt',total_end_cnt
-
     if request.POST:
         start_length = request.POST.get('now_length')
 
@@ -1054,7 +1052,7 @@ def student_dashboard(request):
         c.survey_valid = dashboard_survey_valid(c) if c.is_active is True and c.mode == 'honor' else {5, '응답시기가 아닙니다.'}
 
     con.close()
-    print 'total_end_cnttotal_end_cnt',total_end_cnt
+
     context = {
         'jhy_test':'dddeded',
         'urls': urls,
@@ -1130,8 +1128,6 @@ def student_dashboard(request):
     set_user_info_cookie(response, request)
 
 
-    print 'course_enrollments-----',course_enrollments
-
     if request.POST:
         append_response = render_to_response('dashboard_append.html', context)
         return append_response
@@ -1163,11 +1159,10 @@ def call_dashboard(request):
         """.format(user_id=user.id)
         cur.execute(query)
         qqqqqq = cur.fetchall()
-    print 'qqqqqq',qqqqqq[0][0]
+
 
 
     if request.POST:
-        print 'testtesttest',request.POST.get('now_length')
         start_length = request.POST.get('now_length')
 
     return JsonResponse({"a":"b"})
