@@ -216,7 +216,12 @@ def _create_recent_enrollment_message(course_enrollments, course_modes):  # pyli
         )
 
 
-def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, multisiteStatus=None):
+def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, start_length=0,multisiteStatus=None):
+
+    if start_length == None:
+        start_length=0
+    else:
+        pass
     """
     Given a user, return a filtered set of his or her course enrollments.
 
@@ -233,7 +238,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, m
     if not status:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
     elif status == 'end':
-        enrollments = CourseEnrollment.enrollments_for_user_end(user)
+        enrollments = CourseEnrollment.enrollments_for_user_end(user,start_length)
     elif status == 'audit':
         enrollments = CourseEnrollment.enrollments_for_user_audit(user)
     elif status == 'interest':
@@ -577,7 +582,7 @@ def _get_urls_for_resume_buttons(user, enrollments):
 
 
 @login_required
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
 @add_maintenance_banner
 def student_dashboard(request):
     show_only_org_course = True
@@ -595,6 +600,7 @@ def student_dashboard(request):
         The dashboard response.
 
     """
+
     user = request.user
     if not UserProfile.objects.filter(user=user).exists():
         return redirect(reverse('account_settings'))
@@ -622,7 +628,8 @@ def student_dashboard(request):
 
     # Get the org whitelist or the org blacklist for the current site
     site_org_whitelist, site_org_blacklist = get_org_black_and_whitelist_for_site()
-    course_enrollments = list(get_course_enrollments(user, site_org_whitelist, site_org_blacklist))
+    start_length=0
+    course_enrollments = list(get_course_enrollments(user, site_org_whitelist, site_org_blacklist,start_length))
 
     # Get the entitlements for the user and a mapping to all available sessions for that entitlement
     # If an entitlement has no available sessions, pass through a mock course overview object
@@ -663,8 +670,46 @@ def student_dashboard(request):
     print "multisiteStatus = ", multisiteStatus
 
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
+    # 종료강좌 대상으로 전체갯수조회
+
+    try:
+        with connections['default'].cursor() as cur:
+            query = """
+                SELECT count(*)
+                            FROM student_courseenrollment a
+                                 LEFT JOIN certificates_generatedcertificate c
+                                    ON     a.user_id = c.user_id
+                                       AND a.course_id = c.course_id
+                                       AND c.status = 'downloadable'
+                                 JOIN course_overview_addinfo d ON a.course_id = d.course_id,
+                                 course_overviews_courseoverview b
+                           WHERE     a.course_id = b.id
+                                 AND now() > adddate(b.end, INTERVAL 9 HOUR)
+                                 AND a.user_id = '{user_id}'
+                                 AND a.is_active = 1
+                                 AND a.mode != 'audit'
+                        ORDER BY if(c.status = 'downloadable', 1, 2), c.created_date DESC, a.created DESC;
+            """.format(user_id=user.id)
+            cur.execute(query)
+            total_end_cnt = cur.fetchall()
+            total_end_cnt = total_end_cnt[0][0]
+    except:
+        total_end_cnt = 0
+
+    print 'total_end_cnt',total_end_cnt
+
+    if request.POST:
+        start_length = request.POST.get('now_length')
+
+
     status = request.GET.get('status')
-    course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
+    status_ = request.POST.get('status_')
+
+    # 이수/종료강좌 분기
+    if status_ =='end':
+        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status_, start_length))
+    else:
+        course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
 
     # 멀티사이트 이용중에는 기관의 강좌만 표시되도록 함.
 
@@ -1009,8 +1054,9 @@ def student_dashboard(request):
         c.survey_valid = dashboard_survey_valid(c) if c.is_active is True and c.mode == 'honor' else {5, '응답시기가 아닙니다.'}
 
     con.close()
-
+    print 'total_end_cnttotal_end_cnt',total_end_cnt
     context = {
+        'jhy_test':'dddeded',
         'urls': urls,
         'programs_data': programs_data,
         'enterprise_message': enterprise_message,
@@ -1058,7 +1104,8 @@ def student_dashboard(request):
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
         'status_flag': status,
-        'multisite_status': multisiteStatus
+        'multisite_status': multisiteStatus,
+        'total_end_cnt': total_end_cnt
     }
 
     if ecommerce_service.is_enabled(request.user):
@@ -1081,12 +1128,49 @@ def student_dashboard(request):
 
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
+
+
+    print 'course_enrollments-----',course_enrollments
+
+    if request.POST:
+        append_response = render_to_response('dashboard_append.html', context)
+        return append_response
+        # return JsonResponse({"return":context})
     # if request.is_ajax():
     #     print "dashboard_ajax-----------ok"
     #     return render_to_response('dashboard_ajax.html', context)
 
     return response
 
+def call_dashboard(request):
+    user = request.user
+    with connections['default'].cursor() as cur:
+        query = """
+            SELECT count(*)
+                        FROM student_courseenrollment a
+                             LEFT JOIN certificates_generatedcertificate c
+                                ON     a.user_id = c.user_id
+                                   AND a.course_id = c.course_id
+                                   AND c.status = 'downloadable'
+                             JOIN course_overview_addinfo d ON a.course_id = d.course_id,
+                             course_overviews_courseoverview b
+                       WHERE     a.course_id = b.id
+                             AND now() > adddate(b.end, INTERVAL 9 HOUR)
+                             AND a.user_id = '{user_id}'
+                             AND a.is_active = 1
+                             AND a.mode != 'audit'
+                    ORDER BY if(c.status = 'downloadable', 1, 2), c.created_date DESC, a.created DESC;
+        """.format(user_id=user.id)
+        cur.execute(query)
+        qqqqqq = cur.fetchall()
+    print 'qqqqqq',qqqqqq[0][0]
+
+
+    if request.POST:
+        print 'testtesttest',request.POST.get('now_length')
+        start_length = request.POST.get('now_length')
+
+    return JsonResponse({"a":"b"})
 
 # dashboard survey
 def dashboard_survey_valid(user_enroll):
