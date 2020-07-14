@@ -3529,3 +3529,8 @@ def cert_check_id(request):
     else:
         url = rows[0][0]
         return JsonResponse({'result': 200, 'url': url})
+
+
+def save_search_term(request):
+
+    return JsonResponse({'a':'b'})
