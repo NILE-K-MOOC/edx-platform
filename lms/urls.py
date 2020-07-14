@@ -241,7 +241,8 @@ urlpatterns = [
     url(r'^agreement/?$', courseware_views.agreement, name="agreement"),
     url(r'^Copyright-Policy/?$', courseware_views.copyright, name="copyright"),
 
-
+    # save_search_term (검색어 저장)
+    url(r'^save_search_term/?$', courseware_views.save_search_term, name="save_search_term"),
 
 
     url(r'', include('student.urls')),

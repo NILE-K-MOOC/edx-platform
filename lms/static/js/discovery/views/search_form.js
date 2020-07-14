@@ -27,6 +27,7 @@
                 } else {
                     term = this.$searchField.val();
                 }
+                //alert($.trim(term));
                 this.trigger('search', $.trim(term));
             },
 

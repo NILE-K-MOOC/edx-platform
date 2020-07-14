@@ -236,7 +236,6 @@ def courses(request):
     Render "find courses" page.  The course selection work is done in courseware.courses.
     수정시 mobile_courses도 함께 수정
     """
-    # print 'geeee'
     courses_list = []
     course_discovery_meanings = getattr(settings, 'COURSE_DISCOVERY_MEANINGS', {})
     if not settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
@@ -3530,3 +3529,8 @@ def cert_check_id(request):
     else:
         url = rows[0][0]
         return JsonResponse({'result': 200, 'url': url})
+
+
+def save_search_term(request):
+
+    return JsonResponse({'a':'b'})

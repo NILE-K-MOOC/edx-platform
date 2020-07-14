@@ -315,6 +315,7 @@ function course_search(){
     if (search_me == '') {
         search_me.focus();
     } else {
+        console.log('here is header search box');
         window.location.href = "/courses?search_query=" + search_me;
     }
 }

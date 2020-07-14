@@ -191,19 +191,20 @@ from student.models import CourseEnrollment
         }
 
     $(document).ready(function () {
-      console.log(${total_end_cnt})
+
       var status_ = $(location).attr('href')
       status_.split('=')
+      //console.log(${total_end_cnt})
+      var isVisible = false;
       $(window).scroll(function () {
-
-        if ($(document).height() <= $(window).scrollTop() + $(window).height()) {
+        if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <=1.3 && !isVisible) {
           //console.log(status_.split('=')[1])
           //console.log($('.course-item').length)
-
+          isVisible = true;
           $.ajax({
             url: '/dashboard',
             type: "POST",
-            dataType:'html',
+            dataType: 'html',
             data: {
               now_length: $('.course-item').length,
               status_: status_.split('=')[1],
@@ -211,11 +212,45 @@ from student.models import CourseEnrollment
             }
           }).done(function (data) {
             $('.listing-courses').append(data);
+            isVisible = false;
           });
-        }
 
+        }
       });
 
+
+      /*
+      // footer보이일때 로드
+      $(window).on('scroll', function () {
+        if (checkVisible($('.new-footer')) && !isVisible) {
+          isVisible = true;
+          $.ajax({
+            url: '/dashboard',
+            type: "POST",
+            dataType: 'html',
+            data: {
+              now_length: $('.course-item').length,
+              status_: status_.split('=')[1],
+              csrfmiddlewaretoken: '${ csrf_token }'
+            }
+          }).done(function (data) {
+            $('.listing-courses').append(data);
+            isVisible = false;
+          });
+
+        }
+      });
+        */
+      function checkVisible(elm, eval) {
+        eval = eval || "object visible";
+        var viewportHeight = $(window).height(), // Viewport Height
+          scrolltop = $(window).scrollTop(), // Scroll Top
+          y = $(elm).offset().top,
+          elementHeight = $(elm).height();
+
+        if (eval == "object visible") return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
+        if (eval == "above") return ((y < (viewportHeight + scrolltop)));
+      }
         cb_course();
 
         edx.dashboard.legacy.init({
