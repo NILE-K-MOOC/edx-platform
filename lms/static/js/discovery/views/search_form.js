@@ -1,7 +1,9 @@
 (function(define) {
     define(['jquery', 'backbone', 'gettext'], function($, Backbone, gettext) {
         'use strict';
-
+        let cnt =''
+        let from_header = false;
+        let tmp ='x'
         return Backbone.View.extend({
 
             el: '#discovery-form',
@@ -14,6 +16,12 @@
                 this.$searchButton = this.$el.find('button');
                 this.$message = this.$el.find('#discovery-message');
                 this.$loadingIndicator = this.$el.find('#loading-indicator');
+
+                console.log("initialize1 --- sss");
+                tmp ='o'
+                console.log('tmptmptmptmptmptmptmp',tmp)
+                console.log("initialize1 --- eee");
+
             },
 
             submitForm: function(event) {
@@ -21,16 +29,45 @@
                 this.doSearch();
             },
 
-            doSearch: function(term) {
+            doSearch: function (term) {
+
+                console.log("term:::::" + term);
+
                 if (term !== undefined) {
                     this.$searchField.val(term);
                 } else {
                     term = this.$searchField.val();
                 }
-                //alert($.trim(term));
+
+
                 this.trigger('search', $.trim(term));
             },
+            save_search_data:function(term,total){
+                // alert($.trim(term));
+                //console.log('tmptm11111111',tmp)
+                if (term != '') {
+                    var status_ = $(location).attr('href');
+                    status_.split('=')
 
+                    $.ajax({
+                        url: '/save_search_term',
+                        type: "POST",
+                        data: {
+                            term: $.trim(term),
+                            count: total,
+                            status:status_.split('=')[1],
+                            tmp:tmp,
+                            csrfmiddlewaretoken: $.cookie('csrftoken')
+                        }
+                    }).done(function (data) {
+                        //console.log('-----------------------------',data.return)
+                        tmp ='x'
+                        //console.log('tmptmptmptmp222222',tmp)
+
+                    });
+                }
+                //console.log('aaaaaaa',term,'bbbbbbbb',total)
+            },
             clearSearch: function() {
                 this.$searchField.val('');
             },
@@ -44,12 +81,16 @@
             },
 
             showFoundMessage: function(count) {
+                console.log('11111',count)
+                cnt= count
                 var msg = ngettext(
                 'Viewing %s course',
                 'Viewing %s courses',
                 count
             );
                 this.$message.html(interpolate(msg, [count]));
+                console.log('22222',msg)
+                console.log('33333',[count])
             },
 
             showNotFoundMessage: function(term) {
@@ -64,6 +105,7 @@
             showErrorMessage: function (error) {
                 this.$message.text(gettext(error || 'There was an error, try searching again.'));
             }
+
 
         });
     });
