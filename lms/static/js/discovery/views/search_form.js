@@ -17,10 +17,10 @@
                 this.$message = this.$el.find('#discovery-message');
                 this.$loadingIndicator = this.$el.find('#loading-indicator');
 
-                console.log("initialize1 --- sss");
+                //console.log("initialize1 --- sss");
                 tmp ='o'
-                console.log('tmptmptmptmptmptmptmp',tmp)
-                console.log("initialize1 --- eee");
+                //console.log('tmptmptmptmptmptmptmp',tmp)
+                //console.log("initialize1 --- eee");
 
             },
 
@@ -31,7 +31,7 @@
 
             doSearch: function (term) {
 
-                console.log("term:::::" + term);
+                //console.log("term:::::" + term);
 
                 if (term !== undefined) {
                     this.$searchField.val(term);
