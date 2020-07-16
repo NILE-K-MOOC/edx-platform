@@ -1124,10 +1124,6 @@ def student_dashboard(request):
     if not context.get('save_path'):
         context.update(save_path=None)
 
-    response = render_to_response('dashboard.html', context)
-    set_user_info_cookie(response, request)
-
-
     if request.POST:
         append_response = render_to_response('dashboard_append.html', context)
         return append_response
@@ -1135,7 +1131,8 @@ def student_dashboard(request):
     # if request.is_ajax():
     #     print "dashboard_ajax-----------ok"
     #     return render_to_response('dashboard_ajax.html', context)
-
+    response = render_to_response('dashboard.html', context)
+    set_user_info_cookie(response, request)
     return response
 
 def call_dashboard(request):
