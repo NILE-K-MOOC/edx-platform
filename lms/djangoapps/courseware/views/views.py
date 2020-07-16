@@ -3529,3 +3529,47 @@ def cert_check_id(request):
     else:
         url = rows[0][0]
         return JsonResponse({'result': 200, 'url': url})
+
+
+def save_search_term(request):
+    term = request.POST.get('term')
+    status = request.POST.get('status')
+    count = request.POST.get('count')
+    tmp = request.POST.get('tmp')
+
+    # print '----------', status
+    # aaa =urllib.unquote(status)
+    # print type(aaa)
+    # bbb = aaa.encode("utf-8")
+    # # print unicode(aaa, "UTF-8")
+    # print bbb.encode("utf-8")
+    # print bbb.decode("utf-8")
+    # print urllib.unquote(status)
+    # print urllib.unquote(status).encode('utf8')
+    # print urllib.unquote(status).decode('utf8')
+    # print urllib.quote(status)
+    # print urllib.quote(status).encode('utf8')
+    # print urllib.quote(status).decode('utf8')
+    # print urllib.unquote(urllib.unquote(status))
+    # print status
+    # print term
+
+    # print 'tmptmp',tmp
+
+    try:
+        if tmp == 'o':
+            location = 'header'
+        else:
+            location = 'discovery'
+    except:
+        location = 'bug'
+    user = request.user
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            INSERT INTO tb_search_result(search_word,search_location,search_count,regist_id)
+            VALUES('{term}','{location}','{count}','{user}')
+        '''.format(term=term, user=user.id, count=count, location=location)
+        cur.execute(sql)
+
+    return JsonResponse({'return': 'ok'})
