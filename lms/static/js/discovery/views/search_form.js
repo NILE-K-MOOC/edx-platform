@@ -16,11 +16,7 @@
                 this.$searchButton = this.$el.find('button');
                 this.$message = this.$el.find('#discovery-message');
                 this.$loadingIndicator = this.$el.find('#loading-indicator');
-
-                //console.log("initialize1 --- sss");
                 tmp ='o'
-                //console.log('tmptmptmptmptmptmptmp',tmp)
-                //console.log("initialize1 --- eee");
 
             },
 
@@ -30,8 +26,6 @@
             },
 
             doSearch: function (term) {
-
-                //console.log("term:::::" + term);
 
                 if (term !== undefined) {
                     this.$searchField.val(term);
@@ -43,8 +37,7 @@
                 this.trigger('search', $.trim(term));
             },
             save_search_data:function(term,total){
-                // alert($.trim(term));
-                //console.log('tmptm11111111',tmp)
+
                 if (term != '') {
                     var status_ = $(location).attr('href');
                     status_.split('=')
@@ -60,13 +53,10 @@
                             csrfmiddlewaretoken: $.cookie('csrftoken')
                         }
                     }).done(function (data) {
-                        //console.log('-----------------------------',data.return)
                         tmp ='x'
-                        //console.log('tmptmptmptmp222222',tmp)
 
                     });
                 }
-                //console.log('aaaaaaa',term,'bbbbbbbb',total)
             },
             clearSearch: function() {
                 this.$searchField.val('');

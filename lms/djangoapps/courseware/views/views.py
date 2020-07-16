@@ -3567,7 +3567,7 @@ def save_search_term(request):
 
     with connections['default'].cursor() as cur:
         sql = '''
-            INSERT INTO tb_search_result(search_word,search_location,search_count,regist_id)
+            INSERT INTO tb_search_result(search_word,search_from,search_count,regist_id)
             VALUES('{term}','{location}','{count}','{user}')
         '''.format(term=term, user=user.id, count=count, location=location)
         cur.execute(sql)
