@@ -398,7 +398,11 @@ cookiedata = document.cookie;
                             <div class="item">
                                 <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
-                                        % if courses.ribbon_yn == 'Y':
+                                        % if courses.ribbon_yn == 'Y' and courses.ribbon_year != '':
+                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
+                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                        </i>
+                                        % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
                                         <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>

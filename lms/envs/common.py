@@ -339,7 +339,8 @@ COURSE_DISCOVERY_FILTERS = [
     'course_level',
     'ai_sec_yn',
     'basic_science_sec_yn',
-    'ribbon_yn'
+    'ribbon_yn',
+    'ribbon_year'
 ]
 
 # Features

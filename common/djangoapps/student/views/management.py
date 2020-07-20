@@ -290,7 +290,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
 
             cur.execute(query)
             result_table = cur.fetchall()
-
             # print "result_table -> ", result_table
             # print "====================================> 강좌 상태값 연산 시작"
 
@@ -342,7 +341,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 c.status = status
 
             context = {'courses': course_list}
-
     # multisite popup
     context['popup_list'] = popup_contents(site_code)
 

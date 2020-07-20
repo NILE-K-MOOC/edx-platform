@@ -341,6 +341,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.audit_yn = addinfo.audit_yn
                 course_overview.fourth_industry_yn = addinfo.fourth_industry_yn
                 course_overview.ribbon_yn = addinfo.ribbon_yn
+                course_overview.ribbon_year = addinfo.ribbon_year
                 course_overview.job_edu_yn = addinfo.job_edu_yn
                 course_overview.ai_sec_yn = addinfo.ai_sec_yn
                 course_overview.basic_science_sec_yn = addinfo.basic_science_sec_yn
@@ -367,6 +368,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.audit_yn = ''
                 course_overview.fourth_industry_yn = ''
                 course_overview.ribbon_yn = ''
+                course_overview.ribbon_year = ''
                 course_overview.job_edu_yn = ''
                 course_overview.linguistics = ''
                 course_overview.classfy_name = ''
@@ -756,6 +758,7 @@ class CourseOverview(TimeStampedModel):
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
             fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
             ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
+            ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
             linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
         )

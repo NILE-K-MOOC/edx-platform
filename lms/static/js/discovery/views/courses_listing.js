@@ -34,8 +34,14 @@
                 /* eslint no-param-reassign: [2, { "props": true }] */
                 var latest = this.model.latest();
                 var items = latest.map(function(result) {
+
+                    if(result.attributes.id == 'course-v1:KMOOC+SNIS+939')
+                        result.attributes.ribbon_yn = 'Y';
+
+                    console.log('resultresultresult',result.attributes.ribbon_yn);
                     result.userPreferences = this.model.userPreferences;
                     var item = new CourseCardView({model: result});
+                    console.log('itemitem',item);
                     return item.render().el;
                 }, this);
                 this.$list.append(items);

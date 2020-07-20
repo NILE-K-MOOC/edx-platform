@@ -109,7 +109,6 @@
                                 term = 'ribbon_y';
                             else if (key == 'ribbon_yn' && (term == 'N' || term == 'n'))
                                 term = 'ribbon_n';
-
                             options.add({
                                 facet: key,
                                 term: term,
