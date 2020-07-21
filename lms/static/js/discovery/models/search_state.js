@@ -93,9 +93,9 @@
                     page_size: this.pageSize,
                     page_index: pageIndex
                 };
-                console.log('buildQuery --- s');
-                console.log(this.terms);
-                console.log('buildQuery --- e');
+                // console.log('buildQuery --- s');
+                // console.log(this.terms);
+                // console.log('buildQuery --- e');
                 _.extend(data, this.terms);
 
                 /* 대분류 검사 */

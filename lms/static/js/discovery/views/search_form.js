@@ -71,7 +71,7 @@
             },
 
             showFoundMessage: function(count) {
-                console.log('11111',count)
+                // console.log('11111',count)
                 cnt= count
                 var msg = ngettext(
                 'Viewing %s course',
@@ -79,8 +79,8 @@
                 count
             );
                 this.$message.html(interpolate(msg, [count]));
-                console.log('22222',msg)
-                console.log('33333',[count])
+                // console.log('22222',msg)
+                // console.log('33333',[count])
             },
 
             showNotFoundMessage: function(term) {

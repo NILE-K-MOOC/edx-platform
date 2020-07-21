@@ -24,6 +24,7 @@
                 status: '',
                 audit_yn: '',
                 ribbon_yn: '',
+                ribbon_year:''
             }
         });
     });

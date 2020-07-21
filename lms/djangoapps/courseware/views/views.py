@@ -3573,3 +3573,21 @@ def save_search_term(request):
         cur.execute(sql)
 
     return JsonResponse({'return': 'ok'})
+
+
+def blue_ribbon_year(request):
+    with connections['default'].cursor() as cur:
+        sql = '''
+           select course_id, ribbon_year from course_overview_addinfo where ribbon_yn  ='Y'
+        '''
+        cur.execute(sql)
+        rows = cur.fetchall()
+
+    data = dict()
+    for row in rows:
+        try:
+            data[row[0]] = row[1]
+        except:
+            pass
+
+    return JsonResponse(data)

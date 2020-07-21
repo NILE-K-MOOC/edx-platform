@@ -631,7 +631,6 @@ class CourseAboutSearchIndexer(object):
 
         except Exception as e:
             print e
-
         course_info = {
             'id': course_id,
             'course': course_id,
