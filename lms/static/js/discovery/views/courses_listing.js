@@ -25,7 +25,6 @@
                     }
                 }).done(function (data) {
                     ribbon_list = data
-                    // console.log(ribbon_list)
                 })
             },
 
@@ -45,26 +44,9 @@
                 var latest = this.model.latest();
                 var items = latest.map(function (result) {
 
-                    // if (result.attributes.id == 'course-v1:KMOOC+SNIS+939') {
-                    //     result.attributes.ribbon_yn = 'Y';
-                    //     result.attributes.ribbon_year = '2020';
-                    // };
-                    // console.log(ribbon_list)
                     if (result.attributes.id in ribbon_list){
-                        // console.log('----------',result.attributes.id)
-                        // console.log('==========',ribbon_list[result.attributes.id])
                         result.attributes.ribbon_year = ribbon_list[result.attributes.id]
                     }
-                    // for(let key in ribbon_list){
-                    //     console.log(key)
-                    // };
-
-                    // for(let i=0; i<ribbon_list.length; i++){
-                    //     console.log('-------',ribbon_list[i])
-                    //     if(result.attributes.id == ribbon_list.keys()){
-                    //         result.attributes.ribbon_year = ribbon_list[i][result.attributes.id];
-                    //     };
-                    // };
                     // console.log('resultresultresult', result.attributes.ribbon_yn);
                     result.userPreferences = this.model.userPreferences;
                     var item = new CourseCardView({model: result});
