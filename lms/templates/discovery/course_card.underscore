@@ -2,7 +2,7 @@
     <a href="/courses/<%- course %>/about">
         <header class="course-image">
             <% if (ribbon_yn == 'Y'){ %>
-            <i class="kr01-ribbonArea"><img class="ribbonImg" src="/static/images/main/ribbon.png">
+            <i class="kr01-ribbonArea"><img class="ribbonImg" src="/static/images/main/ribbon_<%- ribbon_year %>.png">
                 <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
             </i>
 

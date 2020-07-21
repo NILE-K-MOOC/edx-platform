@@ -244,6 +244,9 @@ urlpatterns = [
     # save_search_term (검색어 저장)
     url(r'^save_search_term/?$', courseware_views.save_search_term, name="save_search_term"),
 
+    # blue ribbon filter
+    url(r'^blue_ribbon_year/?$', courseware_views.blue_ribbon_year, name="blue_ribbon_year"),
+
 
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
