@@ -21,7 +21,7 @@ export function CourseOrLibraryListing(props) {
                 <div className="course-metadata">
                   <span className="course-org-name metadata-item">
                     <span className="label">{gettext('Organization_kname:')}</span>
-                    <span className="value">{item.org_name_k}</span>
+                    <span className="value">{item.org_kname}</span>
                   </span>
                   <span className="course-org metadata-item">
                     <span className="label">{gettext('Organization:')}</span>
