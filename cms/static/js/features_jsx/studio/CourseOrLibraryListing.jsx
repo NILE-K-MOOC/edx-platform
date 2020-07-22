@@ -19,6 +19,10 @@ export function CourseOrLibraryListing(props) {
               <a className={linkClass} href={item.url}>
                 <h3 className="course-title" id={`title-${idBase}-${i}`}>{item.display_name}</h3>
                 <div className="course-metadata">
+                  <span className="course-org-name metadata-item">
+                    <span className="label">{gettext('Organization_kname:')}</span>
+                    <span className="value">{item.org_name_k}</span>
+                  </span>
                   <span className="course-org metadata-item">
                     <span className="label">{gettext('Organization:')}</span>
                     <span className="value">{item.org}</span>
