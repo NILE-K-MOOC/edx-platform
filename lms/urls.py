@@ -191,6 +191,7 @@ urlpatterns = [
     # made by kotech system
     url(r'^org/(?P<org>.*?)$', branding_views.multisite_index, name="multisite_index"),
     url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
+    url(r'^qwe$', branding_views.qwe, name="qwe123"),
 
 
     # Index Course Detail
