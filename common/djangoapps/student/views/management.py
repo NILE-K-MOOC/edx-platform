@@ -2781,7 +2781,6 @@ def multi_cnt(site_id):
         cur.execute(query)
         total_cnt = cur.fetchall()
 
-
     return len(total_cnt)
 
 def multi_search(site_id, now_length, search_word):
