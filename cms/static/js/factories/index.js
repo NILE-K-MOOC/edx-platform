@@ -2,38 +2,44 @@ $("#cms_text").focus(function () {
 
     var cms_search_radio = $('input:radio[name="search_radio"]:checked').val();
 
-    var search_text = ''
+    var search_text = '';
 
     if(cms_search_radio == 'course_name'){
         search_text = $(".course-title:visible").map(function () {
-            return $(this).text()
+            return $(this).text();
         }).get();
     }else if(cms_search_radio == 'university_name'){
         search_text = $(".course-org-name>.value:visible,.course-org>.value:visible").map(function () {
-                        return $(this).text()
+                        return $(this).text();
                     }).get();
     }
 
     if($("#libraries_tab").hasClass('active') === true){
-        $(".search_label").hide()
-        $(".search_div").width("450px")
+        $(".search_label").hide();
+        $(".search_div").width("450px");
 
         search_text = $(".course-title:visible").map(function () {
-            return $(this).text()
+            return $(this).text();
         }).get();
     }else {
-        $(".search_label").show()
-        $(".search_div").width("550px")
+        $(".search_label").show();
+        $(".search_div").width("550px");
     }
 
+    let deduplication_text = []
+
+    $.each(search_text, function(key, value){
+        if($.inArray(value, deduplication_text) === -1) deduplication_text.push(value);
+    });
+
     $("#cms_text").autocomplete({
-        source: search_text,
+        source: deduplication_text,
         appendTo: '.search_div'
     });
 })
 
 $("#course-index-tabs>li>a").click(function () {
-    $("#cms_text").blur()
+    $("#cms_text").blur();
 })
 
 define(['jquery.form', 'js/index'], function () {
@@ -68,8 +74,14 @@ define(['jquery.form', 'js/index'], function () {
                                 return $(this).text()
                             }).get();
 
+        let deduplication_text = []
+
+        $.each(search_text, function(key, value){
+            if($.inArray(value, deduplication_text) === -1) deduplication_text.push(value);
+        });
+
         $("#cms_text").autocomplete({
-            source: search_text,
+            source: deduplication_text,
             appendTo: '.search_div'
         });
 
