@@ -479,7 +479,9 @@
 
 <script>
     let search_word = ''
-    $('#course_total').html(${total_cnt});
+    let search_cnt =10
+    let total_count = ${total_cnt}
+    $('#course_total').html(total_count);
     var isVisible = false;
     var status_ = $(location).attr('href')
 
@@ -488,7 +490,7 @@
       if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
 
 
-        if (${total_cnt} >$('.courses-listing-item').size()){
+        if (total_count >$('.courses-listing-item').size()){
           //$('.find-courses').append("<div class=\"loader\"></div>");
           isVisible = true;
           search_ajax();
@@ -507,12 +509,14 @@
             data: {
               now_length: $('.courses-listing-item').size(),
               search_word :search_word,
+              search_cnt :search_cnt,
               csrfmiddlewaretoken: $.cookie('csrftoken')
             }
           }).done(function (data) {
             //$('.loader').remove();
             $('.courses-listing').append(data);
-            $('#course_total').html(${total_cnt});
+            $('#course_total').html(total_count);
+            search_cnt = search_cnt+10
             isVisible = false;
           });
     }
@@ -549,6 +553,7 @@
 
         $('.courses-listing-item').remove();
         search_word = $('#multisite_search').val();
+        search_cnt = 0
         search_ajax();
     };
     /*

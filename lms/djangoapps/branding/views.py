@@ -458,16 +458,10 @@ def multisite_index(request, org):
     if domain and 'edge.edx.org' in domain:
         return redirect(reverse("signin_user"))
 
-    if request.POST:
-        print 'qwelkjqwelkjqwelkqjwelkjqwlekjqlwekwqlekj'
-        print request.POST.get('qqq')
-
-    else:
-        print 'asdasdasdasdasdasdasdasdasdasd'
     return student.views.management.multisite_index(request, user=request.user)
 
 def qwe(request):
-    print 'qwelkjqwelkjqwelkqjwelkjqwlekjqlwekwqlekj'
+    # print 'qwelkjqwelkjqwelkqjwelkjqwlekjqlwekwqlekj'
     return JsonResponse({'a':'b'})
 
 def get_multisite_list(request):

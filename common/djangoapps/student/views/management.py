@@ -234,21 +234,26 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     search_word = ''
     if site_id != None:
         now_length=0
+
         course_list = []
         module_store = modulestore()
-        total_cnt = multi_cnt(site_id)
+
+
         search_word=''
+
         if request.POST:
+            search_cnt = int(request.POST.get('search_cnt'))
             now_length = request.POST.get('now_length')
             search_word = request.POST.get('search_word')
         else:
+            search_cnt = 0
             pass
 
         if search_word != '':
-            # multi_search(site_id, now_length, search_word)
+
             with connections['default'].cursor() as cur:
                 query = '''
-                    SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
+                        SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
                         FROM (
                                 SELECT  a.course_id,
                                         c.audit_yn,
@@ -289,7 +294,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                                 ON b.id = a.course_id
                                 JOIN course_overview_addinfo c ON a.course_id = c.course_id
                                 WHERE 1=1
-                                and start < date('2030/01/01') 
+                                and start < date('2030/01/01')
                                 and site_id = '{site_id}'
                                 and display_name like '%{search_word}%'
                                 ORDER BY created DESC
@@ -297,11 +302,13 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                         GROUP BY org , display_number_with_default
                         ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name
                         limit {now_length},10
-                    '''.format(site_id=site_id, now_length=now_length, search_word=search_word)
+                    '''.format(site_id=site_id, now_length=search_cnt, search_word=search_word)
 
                 cur.execute(query)
                 result_table = cur.fetchall()
+                total_cnt = multi_search_count(site_id, org_names, org_dict, module_store, search_word)
         else:
+            total_cnt = multi_cnt(site_id, org_names, org_dict, module_store)
             with connections['default'].cursor() as cur:
                 query = '''
                     SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
@@ -352,7 +359,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     GROUP BY org , display_number_with_default
                     ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name
                     limit {now_length},10
-                '''.format(site_id=site_id, now_length=now_length)
+                '''.format(site_id=site_id, now_length=search_cnt)
 
                 cur.execute(query)
                 result_table = cur.fetchall()
@@ -363,7 +370,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
         # print  'result_tableresult_table',result_table
         for item in result_table:
-            # print  'itemitemitemitemitem', item
             course_lock = 0
             ci = item[0]
             ci = ci.split(':')
@@ -385,7 +391,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                         if block.get('fields').get('catalog_visibility'):
                             if block.get('fields').get('catalog_visibility') == 'none':
                                 course_lock = 1
-
             if course_lock == 0:
                 multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                 course_overviews = CourseOverview.objects.get(id=multi_course_id)
@@ -399,7 +404,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     if course_overviews.org in org_dict else course_overviews.display_org_with_default
                 course_overviews.org_ename = org_dict[course_overviews.org]['org_ename'] \
                     if course_overviews.org in org_dict else course_overviews.display_org_with_default
-
+                # print 'course_overviews',course_overviews
                 course_list.append(course_overviews)
 
         # 강좌에 상태 값 부여
@@ -408,6 +413,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
             c.status = status
 
         context = {'courses': course_list}
+
     # multisite popup
     context['popup_list'] = popup_contents(site_code)
 
@@ -2726,7 +2732,8 @@ def guide_download(request):
         raise IOError(down_name + '파일을 찾을 수 없습니다.')
 
 
-def multi_cnt(site_id):
+def multi_cnt(site_id,org_names,org_dict,module_store):
+    course_list = []
     with connections['default'].cursor() as cur:
         query = '''
             SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
@@ -2779,11 +2786,58 @@ def multi_cnt(site_id):
         '''.format(site_id=site_id)
 
         cur.execute(query)
-        total_cnt = cur.fetchall()
+        result_table = cur.fetchall()
 
-    return len(total_cnt)
+        client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+        # print  'result_tableresult_table',result_table
+        for item in result_table:
+            course_lock = 0
+            ci = item[0]
+            ci = ci.split(':')
+            data_ci = ci[1]
+            data_ci = data_ci.split('+')
+            c_org = data_ci[0]
+            c_course = data_ci[1]
+            c_name = data_ci[2]
 
-def multi_search(site_id, now_length, search_word):
+            db = client["edxapp"]
+            cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
+            pb = cursor.get('versions').get('published-branch')
+            cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+            blocks = cursor.get('blocks')
+            for block in blocks:
+                if block.get('block_type') and block.get('block_id'):
+                    if block.get('block_type') == 'course' and block.get('block_id') == 'course':
+                        if block.get('fields').get('catalog_visibility'):
+                            if block.get('fields').get('catalog_visibility') == 'none':
+                                course_lock = 1
+            if course_lock == 0:
+                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                course_overviews = CourseOverview.objects.get(id=multi_course_id)
+
+                course_overviews.audit_yn = item[1]
+                course_overviews.ribbon_yn = item[2]
+                course_overviews.teacher_name = item[3]
+
+                # 강좌별 기관명 추가
+                course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
+                    if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                course_overviews.org_ename = org_dict[course_overviews.org]['org_ename'] \
+                    if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                # print 'course_overviews',course_overviews
+                course_list.append(course_overviews)
+
+        # 강좌에 상태 값 부여
+        for c in course_list:
+            status = common_course_status(c.start, c.end)
+            c.status = status
+
+
+    return len(course_list)
+
+def multi_search_count(site_id,org_names,org_dict,module_store,search_word):
+    course_list = []
     with connections['default'].cursor() as cur:
         query = '''
             SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
@@ -2834,10 +2888,56 @@ def multi_search(site_id, now_length, search_word):
                 ) mc
                 GROUP BY org , display_number_with_default
                 ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name
-                limit {now_length},10
-            '''.format(site_id=site_id, now_length=now_length,search_word=search_word)
+            '''.format(site_id=site_id,search_word=search_word)
 
         cur.execute(query)
         result_table = cur.fetchall()
 
-    return result_table
+        client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+        # print  'result_tableresult_table',result_table
+        for item in result_table:
+            course_lock = 0
+            ci = item[0]
+            ci = ci.split(':')
+            data_ci = ci[1]
+            data_ci = data_ci.split('+')
+            c_org = data_ci[0]
+            c_course = data_ci[1]
+            c_name = data_ci[2]
+
+            db = client["edxapp"]
+            cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
+            pb = cursor.get('versions').get('published-branch')
+            cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+
+            blocks = cursor.get('blocks')
+            for block in blocks:
+                if block.get('block_type') and block.get('block_id'):
+                    if block.get('block_type') == 'course' and block.get('block_id') == 'course':
+                        if block.get('fields').get('catalog_visibility'):
+                            if block.get('fields').get('catalog_visibility') == 'none':
+                                course_lock = 1
+            if course_lock == 0:
+                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                course_overviews = CourseOverview.objects.get(id=multi_course_id)
+
+                course_overviews.audit_yn = item[1]
+                course_overviews.ribbon_yn = item[2]
+                course_overviews.teacher_name = item[3]
+
+                # 강좌별 기관명 추가
+                course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
+                    if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                course_overviews.org_ename = org_dict[course_overviews.org]['org_ename'] \
+                    if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                # print 'course_overviews',course_overviews
+                course_list.append(course_overviews)
+
+        # 강좌에 상태 값 부여
+        for c in course_list:
+            status = common_course_status(c.start, c.end)
+            c.status = status
+
+    return len(course_list)
+
+
