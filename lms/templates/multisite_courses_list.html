@@ -448,7 +448,7 @@
 
 <div class="container-fluid">
     <div class="multi-course-cnt">
-        총 <span id="course_total">${len(courses)}</span> 개
+        총 <span id="course_total"></span> 개
     </div>
     <div class="find-courses multi-search">
         <input id="multisite_search" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
@@ -480,12 +480,14 @@
 <script>
     let search_word = ''
     let search_cnt =10
-    let total_count = ${total_cnt}
-    $('#course_total').html(total_count);
+
+    let total_count = 0
+
     var isVisible = false;
     var status_ = $(location).attr('href')
 
   $(document).ready(function () {
+    search_count();
     $(window).scroll(function () {
       if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
 
@@ -554,7 +556,24 @@
         $('.courses-listing-item').remove();
         search_word = $('#multisite_search').val();
         search_cnt = 0
+        search_count();
         search_ajax();
+    };
+
+    function search_count(){
+      $.ajax({
+            url: '/multi_index_count/'+status_.split('/').reverse()[0],
+            type: "POST",
+            dataType: 'JSON',
+            data: {
+              search_word :search_word,
+              csrfmiddlewaretoken: $.cookie('csrftoken')
+            }
+          }).done(function (data) {
+            //$('#course_total').html(total_count);
+            total_count = data.a
+            $('#course_total').html(data.a);
+          });
     };
     /*
     function multisite_search(){
