@@ -142,7 +142,7 @@ def course_search_list(request):
             for course in course_tup:
                 course_list.append(course[0])
             # print "-----courseware------",course_list
-
+            print 'course_listcourse_listcourse_list',course_list
             return JsonResponse({'course_search_list': course_list})
     pass
 

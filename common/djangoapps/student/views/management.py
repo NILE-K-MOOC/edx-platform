@@ -231,116 +231,187 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         course_select_type = rows[0][1]
     except BaseException:
         return redirect('/multisite_error?error=error001')
-
+    search_word = ''
     if site_id != None:
+        now_length=0
 
         course_list = []
         module_store = modulestore()
 
-        with connections['default'].cursor() as cur:
-            query = '''
-                SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
-                FROM (
-                        SELECT  a.course_id,
-                                c.audit_yn,
-                                IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
-                                IFNULL(
+
+        search_word=''
+
+        if request.POST:
+            search_cnt = int(request.POST.get('search_cnt'))
+            now_length = request.POST.get('now_length')
+            search_word = request.POST.get('search_word')
+        else:
+            search_cnt = 0
+            pass
+
+        if search_word != '':
+
+            with connections['default'].cursor() as cur:
+                query = '''
+                        SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
+                        FROM (
+                                SELECT  a.course_id,
+                                        c.audit_yn,
+                                        IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
+                                        IFNULL(
+                                            CASE
+                                            WHEN INSTR(c.teacher_name, ',') = 0 
+                                            THEN c.teacher_name
+                                            ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1), ' 외 ', LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')), '명')
+                                            END, ''
+                                        ) AS teacher_name,
+                                        CASE
+                                        WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) 
+                                        THEN 1
+                                        WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) 
+                                        THEN 2
+                                        WHEN ADDDATE(end, INTERVAL 9 HOUR) < NOW() AND c.audit_yn = 'Y'
+                                        THEN 3
+                                        ELSE 4
+                                        END AS order1,
+                                        id,
+                                        org,
+                                        display_number_with_default,
+                                        created,
+                                        display_name,
+                                        start,
+                                        end,
+                                        enrollment_start,
+                                        enrollment_end
+                                FROM multisite_course a
+                                JOIN (
+                                    SELECT  *
+                                    FROM course_overviews_courseoverview
+                                    WHERE LOWER(id) NOT LIKE '%demo%'
+                                    AND LOWER(id) NOT LIKE '%nile%'
+                                    AND LOWER(id) NOT LIKE '%test%'
+                                ) b 
+                                ON b.id = a.course_id
+                                JOIN course_overview_addinfo c ON a.course_id = c.course_id
+                                WHERE 1=1
+                                and start < date('2030/01/01')
+                                and site_id = '{site_id}'
+                                and display_name like '%{search_word}%'
+                                ORDER BY created DESC
+                        ) mc
+                        GROUP BY org , display_number_with_default
+                        ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name
+                        limit {now_length},10
+                    '''.format(site_id=site_id, now_length=search_cnt, search_word=search_word)
+
+                cur.execute(query)
+                result_table = cur.fetchall()
+        else:
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
+                    FROM (
+                            SELECT  a.course_id,
+                                    c.audit_yn,
+                                    IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
+                                    IFNULL(
+                                        CASE
+                                        WHEN INSTR(c.teacher_name, ',') = 0 
+                                        THEN c.teacher_name
+                                        ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1), ' 외 ', LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')), '명')
+                                        END, ''
+                                    ) AS teacher_name,
                                     CASE
-                                    WHEN INSTR(c.teacher_name, ',') = 0 
-                                    THEN c.teacher_name
-                                    ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1), ' 외 ', LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')), '명')
-                                    END, ''
-                                ) AS teacher_name,
-                                CASE
-                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) 
-                                THEN 1
-                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) 
-                                THEN 2
-                                WHEN ADDDATE(end, INTERVAL 9 HOUR) < NOW() AND c.audit_yn = 'Y'
-                                THEN 3
-                                ELSE 4
-                                END AS order1,
-                                id,
-                                org,
-                                display_number_with_default,
-                                created,
-                                display_name,
-                                start,
-                                end,
-                                enrollment_start,
-                                enrollment_end
-                        FROM multisite_course a
-                        JOIN (
-                            SELECT  *
-                            FROM course_overviews_courseoverview
-                            WHERE LOWER(id) NOT LIKE '%demo%'
-                            AND LOWER(id) NOT LIKE '%nile%'
-                            AND LOWER(id) NOT LIKE '%test%'
-                        ) b 
-                        ON b.id = a.course_id
-                        JOIN course_overview_addinfo c ON a.course_id = c.course_id
-                        WHERE 1=1
-                        and start < date('2030/01/01') 
-                        and site_id = '{site_id}'
-                        ORDER BY created DESC
-                ) mc
-                GROUP BY org , display_number_with_default
-                ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name;
-            '''.format(site_id=site_id)
+                                    WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) 
+                                    THEN 1
+                                    WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) 
+                                    THEN 2
+                                    WHEN ADDDATE(end, INTERVAL 9 HOUR) < NOW() AND c.audit_yn = 'Y'
+                                    THEN 3
+                                    ELSE 4
+                                    END AS order1,
+                                    id,
+                                    org,
+                                    display_number_with_default,
+                                    created,
+                                    display_name,
+                                    start,
+                                    end,
+                                    enrollment_start,
+                                    enrollment_end
+                            FROM multisite_course a
+                            JOIN (
+                                SELECT  *
+                                FROM course_overviews_courseoverview
+                                WHERE LOWER(id) NOT LIKE '%demo%'
+                                AND LOWER(id) NOT LIKE '%nile%'
+                                AND LOWER(id) NOT LIKE '%test%'
+                            ) b 
+                            ON b.id = a.course_id
+                            JOIN course_overview_addinfo c ON a.course_id = c.course_id
+                            WHERE 1=1
+                            and start < date('2030/01/01') 
+                            and site_id = '{site_id}'
+                            ORDER BY created DESC
+                    ) mc
+                    GROUP BY org , display_number_with_default
+                    ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name
+                    limit {now_length},10
+                '''.format(site_id=site_id, now_length=search_cnt)
 
-            cur.execute(query)
-            result_table = cur.fetchall()
-            # print "result_table -> ", result_table
-            # print "====================================> 강좌 상태값 연산 시작"
+                cur.execute(query)
+                result_table = cur.fetchall()
+        # print "result_table -> ", result_table
+        # print "====================================> 강좌 상태값 연산 시작"
 
-            # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
-            client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+        # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
+        client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+        # print  'result_tableresult_table',result_table
+        for item in result_table:
+            course_lock = 0
+            ci = item[0]
+            ci = ci.split(':')
+            data_ci = ci[1]
+            data_ci = data_ci.split('+')
+            c_org = data_ci[0]
+            c_course = data_ci[1]
+            c_name = data_ci[2]
 
-            for item in result_table:
-                course_lock = 0
-                ci = item[0]
-                ci = ci.split(':')
-                data_ci = ci[1]
-                data_ci = data_ci.split('+')
-                c_org = data_ci[0]
-                c_course = data_ci[1]
-                c_name = data_ci[2]
+            db = client["edxapp"]
+            cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
+            pb = cursor.get('versions').get('published-branch')
+            cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
 
-                db = client["edxapp"]
-                cursor = db.modulestore.active_versions.find_one({'org': c_org, 'course': c_course, 'run': c_name})
-                pb = cursor.get('versions').get('published-branch')
-                cursor = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
+            blocks = cursor.get('blocks')
+            for block in blocks:
+                if block.get('block_type') and block.get('block_id'):
+                    if block.get('block_type') == 'course' and block.get('block_id') == 'course':
+                        if block.get('fields').get('catalog_visibility'):
+                            if block.get('fields').get('catalog_visibility') == 'none':
+                                course_lock = 1
+            if course_lock == 0:
+                multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
+                course_overviews = CourseOverview.objects.get(id=multi_course_id)
 
-                blocks = cursor.get('blocks')
-                for block in blocks:
-                    if block.get('block_type') and block.get('block_id'):
-                        if block.get('block_type') == 'course' and block.get('block_id') == 'course':
-                            if block.get('fields').get('catalog_visibility'):
-                                if block.get('fields').get('catalog_visibility') == 'none':
-                                    course_lock = 1
+                course_overviews.audit_yn = item[1]
+                course_overviews.ribbon_yn = item[2]
+                course_overviews.teacher_name = item[3]
 
-                if course_lock == 0:
-                    multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
-                    course_overviews = CourseOverview.objects.get(id=multi_course_id)
+                # 강좌별 기관명 추가
+                course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
+                    if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                course_overviews.org_ename = org_dict[course_overviews.org]['org_ename'] \
+                    if course_overviews.org in org_dict else course_overviews.display_org_with_default
+                # print 'course_overviews',course_overviews
+                course_list.append(course_overviews)
 
-                    course_overviews.audit_yn = item[1]
-                    course_overviews.ribbon_yn = item[2]
-                    course_overviews.teacher_name = item[3]
+        # 강좌에 상태 값 부여
+        for c in course_list:
+            status = common_course_status(c.start, c.end)
+            c.status = status
 
-                    # 강좌별 기관명 추가
-                    course_overviews.org_kname = org_dict[course_overviews.org]['org_kname'] \
-                        if course_overviews.org in org_dict else course_overviews.display_org_with_default
-                    course_overviews.org_ename = org_dict[course_overviews.org]['org_ename'] \
-                        if course_overviews.org in org_dict else course_overviews.display_org_with_default
+        context = {'courses': course_list}
 
-                    course_list.append(course_overviews)
-
-            # 강좌에 상태 값 부여
-            for c in course_list:
-                status = common_course_status(c.start, c.end)
-                c.status = status
-
-            context = {'courses': course_list}
     # multisite popup
     context['popup_list'] = popup_contents(site_code)
 
@@ -447,6 +518,12 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         multi_name = cur.fetchone()
 
     context['multisite_name'] = multi_name[0] if multi_name is not None else site_code
+
+    if request.POST:
+
+        return render_to_response('multisite_append.html', context)
+
+
     return render_to_response('multisite_index.html', context)
 
 
