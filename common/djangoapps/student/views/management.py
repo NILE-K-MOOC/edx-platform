@@ -404,7 +404,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     if course_overviews.org in org_dict else course_overviews.display_org_with_default
                 # print 'course_overviews',course_overviews
                 course_list.append(course_overviews)
-
+        course_list = list(set(course_list))
         # 강좌에 상태 값 부여
         for c in course_list:
             status = common_course_status(c.start, c.end)
