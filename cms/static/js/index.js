@@ -121,25 +121,25 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
 
             $("span.tip").css({"color": "#ccc"});
 
-            if (!middle_classfy || middle_classfy == "null")
-                $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
-
-            if (!classfy_plus || classfy_plus == "null")
-                $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
-
-            if (!period)
-                $("span[id='tip-new-course-period']").css({"color": "#b20610"});
-
-            if (!classfy || !middle_classfy || middle_classfy == "null" || !period || !classfy_plus || classfy_plus=="null"){
-                //console.log(classfy);
-                //console.log(classfysub);
-                //console.log(middle_classfy);
-                //console.log(middle_classfysub);
-                //console.log(difficult_degree);
-                //console.log(linguistics);
-                //console.log(period);
-                return;
-            }
+            // if (!middle_classfy || middle_classfy == "null")
+            //     $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
+            //
+            // if (!classfy_plus || classfy_plus == "null")
+            //     $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
+            //
+            // if (!period)
+            //     $("span[id='tip-new-course-period']").css({"color": "#b20610"});
+            //
+            // if (!classfy || !middle_classfy || middle_classfy == "null" || !period || !classfy_plus || classfy_plus=="null"){
+            //     //console.log(classfy);
+            //     //console.log(classfysub);
+            //     //console.log(middle_classfy);
+            //     //console.log(middle_classfysub);
+            //     //console.log(difficult_degree);
+            //     //console.log(linguistics);
+            //     //console.log(period);
+            //     return;
+            // }
             analytics.track('Created a Course', course_info);
             CreateCourseUtils.create(course_info, function (errorMessage) {
                 $('.create-course .wrap-error').addClass('is-shown');
