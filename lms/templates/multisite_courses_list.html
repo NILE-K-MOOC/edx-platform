@@ -486,94 +486,94 @@
     var isVisible = false;
     var status_ = $(location).attr('href')
 
-  $(document).ready(function () {
-    search_count();
-    $(window).scroll(function () {
-      if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
-
-
-        if (total_count >$('.courses-listing-item').size()){
-          //$('.find-courses').append("<div class=\"loader\"></div>");
-          isVisible = true;
-          search_ajax();
+    $(document).ready(function () {
+      search_count();
+      $(window).scroll(function () {
+        if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
+          if ($('#course_total').text() > $('.courses-listing-item').size()) {
+            //$('.find-courses').append("<div class=\"loader\"></div>");
+            isVisible = true;
+            search_ajax();
+          }
         }
-      }
-
+      });
 
     });
 
-  });
-    function search_ajax(){
+    function search_ajax() {
       $.ajax({
-            url: '/org/'+status_.split('/').reverse()[0],
-            type: "POST",
-            dataType: 'html',
-            data: {
-              now_length: $('.courses-listing-item').size(),
-              search_word :search_word,
-              search_cnt :search_cnt,
-              csrfmiddlewaretoken: $.cookie('csrftoken')
-            }
-          }).done(function (data) {
-            //$('.loader').remove();
-            $('.courses-listing').append(data);
-
-            search_cnt = search_cnt+10
-            isVisible = false;
-          });
-    }
-    $(function(){
-
-        $('.owl-carousel').owlCarousel({
-            margin: 20,
-            nav: true,
-            dots: false,
-            responsive:{
-                0:{
-                    items: 1
-                },
-                443:{
-                    items: 2
-                },
-
-                768:{
-                    items: 3
-                },
-
-                992:{
-                    items: 4
-                }
-            }
-        })
-    });
-    $("#multisite_search").keydown(function (e) {
-        if (e.keyCode == 13) {
-            multisite_search();
+        url: '/org/' + status_.split('/').reverse()[0],
+        type: "POST",
+        dataType: 'html',
+        data: {
+          now_length: $('.courses-listing-item').size(),
+          search_word: search_word,
+          search_cnt: search_cnt,
+          csrfmiddlewaretoken: $.cookie('csrftoken')
         }
-    });
-    function multisite_search(){
-
-        $('.courses-listing-item').remove();
-        search_word = $('#multisite_search').val();
-        search_cnt = 0
-        search_count();
-        search_ajax();
+      }).done(function (data) {
+        //$('.loader').remove();
+        $('.courses-listing').append(data);
+        search_cnt = search_cnt + 10
+        isVisible = false;
+      });
     };
 
-    function search_count(){
+    $(function () {
+
+      $('.owl-carousel').owlCarousel({
+        margin: 20,
+        nav: true,
+        dots: false,
+        responsive: {
+          0: {
+            items: 1
+          },
+          443: {
+            items: 2
+          },
+
+          768: {
+            items: 3
+          },
+
+          992: {
+            items: 4
+          }
+        }
+      })
+    });
+    $("#multisite_search").keydown(function (e) {
+      if (e.keyCode == 13) {
+        multisite_search();
+
+      }
+    });
+
+    function multisite_search() {
+      $('.courses-listing-item').remove();
+
+      search_word = $('#multisite_search').val();
+      search_cnt = 0
+      search_count();
+      $('.courses-listing-item').remove();
+      search_ajax();
+    };
+
+    function search_count() {
       $.ajax({
-            url: '/multi_index_count/'+status_.split('/').reverse()[0],
-            type: "POST",
-            dataType: 'JSON',
-            data: {
-              search_word :search_word,
-              csrfmiddlewaretoken: $.cookie('csrftoken')
-            }
-          }).done(function (data) {
-            //$('#course_total').html(total_count);
-            total_count = data.a
-            $('#course_total').html(data.a);
-          });
+        url: '/multi_index_count/' + status_.split('/').reverse()[0],
+        type: "POST",
+        dataType: 'JSON',
+        data: {
+          search_word: search_word,
+          csrfmiddlewaretoken: $.cookie('csrftoken')
+        }
+      }).done(function (data) {
+        //$('#course_total').html(total_count);
+        total_count = data.a
+        $('#course_total').html(data.a);
+      });
     };
     /*
     function multisite_search(){

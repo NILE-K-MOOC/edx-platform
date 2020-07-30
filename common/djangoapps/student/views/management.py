@@ -409,7 +409,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         for c in course_list:
             status = common_course_status(c.start, c.end)
             c.status = status
-
+        # print len(course_list)
         context = {'courses': course_list}
 
     # multisite popup
