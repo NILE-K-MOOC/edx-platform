@@ -24,6 +24,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             middle_classfy_sub1: '.new-course-middle-classfy-sub1',
             middle_classfy_sub2: '.new-course-middle-classfy-sub2',
             middle_classfy_sub3: '.new-course-middle-classfy-sub3',
+            linguistics: '.new-course-linguistics',
             course_period: '.new-course-period',
             classfy_plus: '.classfy_plus'
             // Il-Hee, Maeng update end --------------------------
@@ -100,6 +101,8 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfysub += ","+msub2;
             if(msub3 != null && msub3 != "" && msub3 != "null")
                 middle_classfysub += ","+msub3;
+
+            var linguistics = $newCourseForm.find(".new-course-linguistics").val();
             var period = $newCourseForm.find(".new-course-period").val();
 
             var course_info = {
@@ -115,6 +118,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfy: middle_classfy,
                 middle_classfysub: middle_classfysub,
                 difficult_degree: difficult_degree,
+                linguistics: linguistics,
                 period: period,
                 classfy_plus: classfy_plus
             };
