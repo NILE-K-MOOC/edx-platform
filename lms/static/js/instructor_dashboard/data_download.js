@@ -1,22 +1,22 @@
 /* globals _ */
 
-(function() {
+(function () {
     'use strict';
     var DataDownload, DataDownloadCertificate, PendingInstructorTasks, ReportDownloads, statusAjaxError;
 
-    statusAjaxError = function() {
+    statusAjaxError = function () {
         return window.InstructorDashboard.util.statusAjaxError.apply(this, arguments);
     };
 
-    PendingInstructorTasks = function() {
+    PendingInstructorTasks = function () {
         return window.InstructorDashboard.util.PendingInstructorTasks;
     };
 
-    ReportDownloads = function() {
+    ReportDownloads = function () {
         return window.InstructorDashboard.util.ReportDownloads;
     };
 
-    DataDownloadCertificate = (function() {
+    DataDownloadCertificate = (function () {
         function InstructorDashboardDataDownloadCertificate($container) {
             var dataDownloadCert = this;
             this.$container = $container;
@@ -24,14 +24,14 @@
             this.$list_issued_certificate_csv_btn = this.$container.find("input[name='issued-certificates-csv']");
             this.$certificate_display_table = this.$container.find('.certificate-data-display-table');
             this.$certificates_request_err = this.$container.find('.issued-certificates-error.request-response-error');
-            this.$list_issued_certificate_table_btn.click(function() {
+            this.$list_issued_certificate_table_btn.click(function () {
                 var url = dataDownloadCert.$list_issued_certificate_table_btn.data('endpoint');
                 dataDownloadCert.clear_ui();
                 dataDownloadCert.$certificate_display_table.text(gettext('Loading data...'));
                 return $.ajax({
                     type: 'POST',
                     url: url,
-                    error: function() {
+                    error: function () {
                         dataDownloadCert.clear_ui();
                         dataDownloadCert.$certificates_request_err.text(
                             gettext('Error getting issued certificates list.')
@@ -40,7 +40,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         var $tablePlaceholder, columns, feature, gridData, options;
                         dataDownloadCert.clear_ui();
                         options = {
@@ -49,7 +49,7 @@
                             forceFitColumns: true,
                             rowHeight: 35
                         };
-                        columns = (function() {
+                        columns = (function () {
                             var i, len, ref, results;
                             ref = data.queried_features;
                             results = [];
@@ -72,13 +72,13 @@
                     }
                 });
             });
-            this.$list_issued_certificate_csv_btn.click(function() {
+            this.$list_issued_certificate_csv_btn.click(function () {
                 dataDownloadCert.clear_ui();
                 location.href = dataDownloadCert.$list_issued_certificate_csv_btn.data('endpoint') + '?csv=true';
             });
         }
 
-        InstructorDashboardDataDownloadCertificate.prototype.clear_ui = function() {
+        InstructorDashboardDataDownloadCertificate.prototype.clear_ui = function () {
             this.$certificate_display_table.empty();
             this.$certificates_request_err.empty();
             return $('.issued-certificates-error.msg-error').css({
@@ -89,8 +89,14 @@
         return InstructorDashboardDataDownloadCertificate;
     }());
 
-    DataDownload = (function() {
+    DataDownload = (function () {
         function InstructorDashboardDataDownload($section) {
+
+            var jQueryScript = document.createElement('script');
+            jQueryScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js');
+            document.head.appendChild(jQueryScript);
+
+
             var dataDownloadObj = this;
             this.$section = $section;
             this.$section.data('wrapper', this);
@@ -119,23 +125,23 @@
             this.report_downloads = new (ReportDownloads())(this.$section);
             this.instructor_tasks = new (PendingInstructorTasks())(this.$section);
             this.clear_display();
-            this.$list_anon_btn.click(function() {
+            this.$list_anon_btn.click(function () {
                 location.href = dataDownloadObj.$list_anon_btn.data('endpoint');
             });
-            this.$list_contents_stat_btn.click(function() {
+            this.$list_contents_stat_btn.click(function () {
                 location.href = dataDownloadObj.$list_contents_stat_btn.data('endpoint');
             });
-            this.$list_contents_view_btn.click(function() {
+            this.$list_contents_view_btn.click(function () {
                 location.href = dataDownloadObj.$list_contents_view_btn.data('endpoint');
             });
-            this.$proctored_exam_csv_btn.click(function() {
+            this.$proctored_exam_csv_btn.click(function () {
                 var url = dataDownloadObj.$proctored_exam_csv_btn.data('endpoint');
                 var errorMessage = gettext('Error generating proctored exam results. Please try again.');
                 return $.ajax({
                     type: 'POST',
                     dataType: 'json',
                     url: url,
-                    error: function(error) {
+                    error: function (error) {
                         if (error.responseText) {
                             errorMessage = JSON.parse(error.responseText);
                         }
@@ -145,7 +151,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         dataDownloadObj.clear_display();
                         dataDownloadObj.$reports_request_response.text(data.status);
                         return $('.msg-confirm').css({
@@ -154,14 +160,14 @@
                     }
                 });
             });
-            this.$survey_results_csv_btn.click(function() {
+            this.$survey_results_csv_btn.click(function () {
                 var url = dataDownloadObj.$survey_results_csv_btn.data('endpoint');
                 var errorMessage = gettext('Error generating survey results. Please try again.');
                 return $.ajax({
                     type: 'POST',
                     dataType: 'json',
                     url: url,
-                    error: function(error) {
+                    error: function (error) {
                         if (error.responseText) {
                             errorMessage = JSON.parse(error.responseText);
                         }
@@ -171,7 +177,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         dataDownloadObj.clear_display();
                         dataDownloadObj.$reports_request_response.text(data.status);
                         return $('.msg-confirm').css({
@@ -180,32 +186,58 @@
                     }
                 });
             });
-            this.$list_studs_csv_btn.click(function() {
-                var url = dataDownloadObj.$list_studs_csv_btn.data('endpoint') + '/csv';
-                var errorMessage = gettext('Error generating student profile information. Please try again.');
-                dataDownloadObj.clear_display();
-                return $.ajax({
-                    type: 'POST',
-                    dataType: 'json',
-                    url: url,
-                    error: function(error) {
-                        if (error.responseText) {
-                            errorMessage = JSON.parse(error.responseText);
-                        }
-                        dataDownloadObj.$reports_request_response_error.text(errorMessage);
-                        return dataDownloadObj.$reports_request_response_error.css({
-                            display: 'block'
+            this.$list_studs_csv_btn.click(function () {
+
+                let input_text = '';
+                swal({
+                    content: {
+                        element: "input",
+                        attributes: {
+                            placeholder: "사유 입력",
+                            type: "text",
+                        },
+                    }
+                }).then((input) => {
+
+                    if (input) {
+                        input_text = input;
+
+                        // 생성 사유가 있다면 파일 생성
+                        var url = dataDownloadObj.$list_studs_csv_btn.data('endpoint') + '/csv';
+                        var errorMessage = gettext('Error generating student profile information. Please try again.');
+                        dataDownloadObj.clear_display();
+                        return $.ajax({
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'input_text': input_text
+                            },
+                            url: url,
+                            error: function (error) {
+                                if (error.responseText) {
+                                    errorMessage = JSON.parse(error.responseText);
+                                }
+                                dataDownloadObj.$reports_request_response_error.text(errorMessage);
+                                return dataDownloadObj.$reports_request_response_error.css({
+                                    display: 'block'
+                                });
+                            },
+                            success: function (data) {
+                                dataDownloadObj.$reports_request_response.text(data.status);
+                                return $('.msg-confirm').css({
+                                    display: 'block'
+                                });
+                            }
                         });
-                    },
-                    success: function(data) {
-                        dataDownloadObj.$reports_request_response.text(data.status);
-                        return $('.msg-confirm').css({
-                            display: 'block'
-                        });
+
+                    } else {
+                        swal("", "사유를 입력하여야 파일 생성이 가능합니다.", "warning");
                     }
                 });
+
+
             });
-            this.$list_studs_btn.click(function() {
+            this.$list_studs_btn.click(function () {
                 var url = dataDownloadObj.$list_studs_btn.data('endpoint');
                 dataDownloadObj.clear_display();
                 dataDownloadObj.$download_display_table.text(gettext('Loading'));
@@ -213,7 +245,7 @@
                     type: 'POST',
                     dataType: 'json',
                     url: url,
-                    error: function() {
+                    error: function () {
                         dataDownloadObj.clear_display();
                         dataDownloadObj.$download_request_response_error.text(
                             gettext('Error getting student list.')
@@ -222,7 +254,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         var $tablePlaceholder, columns, feature, gridData, options;
                         dataDownloadObj.clear_display();
                         options = {
@@ -231,7 +263,7 @@
                             forceFitColumns: true,
                             rowHeight: 35
                         };
-                        columns = (function() {
+                        columns = (function () {
                             var i, len, ref, results;
                             ref = data.queried_features;
                             results = [];
@@ -254,7 +286,7 @@
                     }
                 });
             });
-            this.$list_problem_responses_csv_btn.click(function() {
+            this.$list_problem_responses_csv_btn.click(function () {
                 var url = dataDownloadObj.$list_problem_responses_csv_btn.data('endpoint');
                 dataDownloadObj.clear_display();
                 return $.ajax({
@@ -264,7 +296,7 @@
                     data: {
                         problem_location: dataDownloadObj.$list_problem_responses_csv_input.val()
                     },
-                    error: function(error) {
+                    error: function (error) {
                         dataDownloadObj.$reports_request_response_error.text(
                             JSON.parse(error.responseText)
                         );
@@ -272,7 +304,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         dataDownloadObj.$reports_request_response.text(data.status);
                         return $('.msg-confirm').css({
                             display: 'block'
@@ -280,7 +312,7 @@
                     }
                 });
             });
-            this.$list_may_enroll_csv_btn.click(function() {
+            this.$list_may_enroll_csv_btn.click(function () {
                 var url = dataDownloadObj.$list_may_enroll_csv_btn.data('endpoint');
                 var errorMessage = gettext('Error generating list of students who may enroll. Please try again.');
                 dataDownloadObj.clear_display();
@@ -288,7 +320,7 @@
                     type: 'POST',
                     dataType: 'json',
                     url: url,
-                    error: function(error) {
+                    error: function (error) {
                         if (error.responseText) {
                             errorMessage = JSON.parse(error.responseText);
                         }
@@ -297,7 +329,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         dataDownloadObj.$reports_request_response.text(data.status);
                         return $('.msg-confirm').css({
                             display: 'block'
@@ -305,13 +337,13 @@
                     }
                 });
             });
-            this.$grade_config_btn.click(function() {
+            this.$grade_config_btn.click(function () {
                 var url = dataDownloadObj.$grade_config_btn.data('endpoint');
                 return $.ajax({
                     type: 'POST',
                     dataType: 'json',
                     url: url,
-                    error: function() {
+                    error: function () {
                         dataDownloadObj.clear_display();
                         dataDownloadObj.$download_request_response_error.text(
                             gettext('Error retrieving grading configuration.')
@@ -320,14 +352,14 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         dataDownloadObj.clear_display();
                         return edx.HtmlUtils.setHtml(
                             dataDownloadObj.$download_display_text, edx.HtmlUtils.HTML(data.grading_config_summary));
                     }
                 });
             });
-            this.$async_report_btn.click(function(e) {
+            this.$async_report_btn.click(function (e) {
                 var url = $(e.target).data('endpoint');
                 var errorMessage = '';
                 dataDownloadObj.clear_display();
@@ -335,7 +367,7 @@
                     type: 'POST',
                     dataType: 'json',
                     url: url,
-                    error: function(error) {
+                    error: function (error) {
                         if (error.responseText) {
                             errorMessage = JSON.parse(error.responseText);
                         } else if (e.target.name === 'calculate-grades-csv') {
@@ -350,7 +382,7 @@
                             display: 'block'
                         });
                     },
-                    success: function(data) {
+                    success: function (data) {
                         dataDownloadObj.$reports_request_response.text(data.status);
                         return $('.msg-confirm').css({
                             display: 'block'
@@ -360,18 +392,18 @@
             });
         }
 
-        InstructorDashboardDataDownload.prototype.onClickTitle = function() {
+        InstructorDashboardDataDownload.prototype.onClickTitle = function () {
             this.clear_display();
             this.instructor_tasks.task_poller.start();
             return this.report_downloads.downloads_poller.start();
         };
 
-        InstructorDashboardDataDownload.prototype.onExit = function() {
+        InstructorDashboardDataDownload.prototype.onExit = function () {
             this.instructor_tasks.task_poller.stop();
             return this.report_downloads.downloads_poller.stop();
         };
 
-        InstructorDashboardDataDownload.prototype.clear_display = function() {
+        InstructorDashboardDataDownload.prototype.clear_display = function () {
             this.$download_display_text.empty();
             this.$download_display_table.empty();
             this.$download_request_response_error.empty();
