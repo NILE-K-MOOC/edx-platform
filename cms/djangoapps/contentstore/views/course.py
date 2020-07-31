@@ -944,6 +944,7 @@ def _create_or_rerun_course(request):
         course_period = request.json.get('course_period')
         teacher_name = request.json.get('teacher_name')
         classfy_plus = request.json.get('classfy_plus')
+        linguistics = request.json.get('linguistics')
 
         fields.update({
             'classfy': classfy,
@@ -953,6 +954,7 @@ def _create_or_rerun_course(request):
             'course_period': course_period,
             'teacher_name': teacher_name,
             'classfy_plus': classfy_plus,
+            'linguistics': linguistics,
             'fourth_industry_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
@@ -1093,6 +1095,8 @@ def create_new_course(user, org, number, run, fields):
 
         classfy_plus = fields['classfy_plus']
 
+        linguistics = fields['linguistics']
+
         with connections['default'].cursor() as cur:
             query = """
                 INSERT INTO course_overview_addinfo(course_id,
@@ -1103,7 +1107,8 @@ def create_new_course(user, org, number, run, fields):
                                                     modify_id,
                                                     middle_classfy,
                                                     classfy,
-                                                    classfy_plus
+                                                    classfy_plus,
+                                                    linguistics
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1116,9 +1121,12 @@ def create_new_course(user, org, number, run, fields):
                              '{user_id}',
                              '{middle_classfy}',
                              '{classfy}',
-                             '{classfy_plus}'
+                             '{classfy_plus}',
+                             '{linguistics}'
                              );
-            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,classfy_plus=classfy_plus)
+            """.format(course_id=course_id, user_id=user_id,
+                       middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,
+                       classfy_plus=classfy_plus, linguistics=linguistics)
 
             cur.execute(query)
 
