@@ -96,7 +96,6 @@
             jQueryScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js');
             document.head.appendChild(jQueryScript);
 
-
             var dataDownloadObj = this;
             this.$section = $section;
             this.$section.data('wrapper', this);
@@ -187,8 +186,6 @@
                 });
             });
             this.$list_studs_csv_btn.click(function () {
-
-                let input_text = '';
                 swal({
                     content: {
                         element: "input",
@@ -197,11 +194,10 @@
                             type: "text",
                         },
                     }
-                }).then((input) => {
+                }).then(function (input) {
+                    console.log('input: ' + input);
 
                     if (input) {
-                        input_text = input;
-
                         // 생성 사유가 있다면 파일 생성
                         var url = dataDownloadObj.$list_studs_csv_btn.data('endpoint') + '/csv';
                         var errorMessage = gettext('Error generating student profile information. Please try again.');
@@ -210,7 +206,7 @@
                             type: 'POST',
                             dataType: 'json',
                             data: {
-                                'input_text': input_text
+                                'input_text': input
                             },
                             url: url,
                             error: function (error) {
