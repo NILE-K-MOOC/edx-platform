@@ -96,7 +96,6 @@
             jQueryScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js');
             document.head.appendChild(jQueryScript);
 
-
             var dataDownloadObj = this;
             this.$section = $section;
             this.$section.data('wrapper', this);
@@ -197,7 +196,9 @@
                             type: "text",
                         },
                     }
-                }).then((input) => {
+                }).then(function (input) {
+
+                    console.log('input: ' + input);
 
                     if (input) {
                         input_text = input;
