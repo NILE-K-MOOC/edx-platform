@@ -366,6 +366,8 @@ def rerun_course(source_course_key_string, destination_course_key_string, user_i
     """
     # import here, at top level this import prevents the celery workers from starting up correctly
     from edxval.api import copy_course_videos
+    from pymongo import MongoClient
+    from bson import ObjectId
 
     source_course_key = CourseKey.from_string(source_course_key_string)
     destination_course_key = CourseKey.from_string(destination_course_key_string)
@@ -376,8 +378,33 @@ def rerun_course(source_course_key_string, destination_course_key_string, user_i
         # use the split modulestore as the store for the rerun course,
         # as the Mongo modulestore doesn't support multiple runs of the same course.
         store = modulestore()
+
+        #### this ----rerun copy
         with store.default_store('split'):
             store.clone_course(source_course_key, destination_course_key, user_id, fields=fields)
+
+        ## -----jhy(2020.08.06) / rerun-course /course start date mongo update
+        try:
+            new_course_id = str(destination_course_key)
+            m_host = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host')
+            m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
+            client = MongoClient(m_host, m_port)
+            mdb = client.get_database('edxapp')
+            orgv = new_course_id.split('+')[0][10:]
+            cidv = new_course_id.split('+')[1]
+            runv = new_course_id.split('+')[2]
+            collection = mdb.get_collection('modulestore.active_versions').find({"org": orgv, "run": runv, "course": cidv})
+
+            publish_version = ''
+            for i in collection:
+                publish_version = i['versions']['published-branch']
+
+            mdb.get_collection('modulestore.structures').update(
+                {"_id": ObjectId(publish_version), "blocks.block_type": "course"}, {"$set":{
+                "blocks.$.fields.start": datetime(2030, 1, 1)}})
+        except Exception as e:
+            print "rerun-course mongou update error :",e
+            pass
 
         # set initial permissions for the user to access the course.
         initialize_permissions(destination_course_key, User.objects.get(id=user_id))

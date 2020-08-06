@@ -273,8 +273,6 @@ def nicecheckplus_error(request):
 @csrf_exempt
 def parent_agree(request):
     url = 'http://'+request.get_host()+'/agree'
-    from django.template import *
-    # request.META['HTTP_REFERER'] = 'http://example.com:8000/login'
 
     referer = request.META.get('HTTP_REFERER','')
     if not referer == url:
@@ -284,14 +282,7 @@ def parent_agree(request):
         return render_to_response('student_account/registration_gubn.html')
     else:
         pass
-    # print request.META.get('HTTP_REFERER')
-    # print requests.get(url+'/parent_agree', headers={'referer': url+'/agree'})
-    # print requests.get(url+'/parent_agree')
-    # try:
-    #     if request.session['agreeYN'] != 'Y' and referer != url:
-    #         return render_to_response('student_account/agree.html')
-    # except:
-    #     return render_to_response('student_account/registration_gubn.html')
+    
     nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
     nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'

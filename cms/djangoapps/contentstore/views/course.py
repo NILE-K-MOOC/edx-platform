@@ -1168,7 +1168,6 @@ def create_new_course_in_store(store, user, org, number, run, fields):
 
     # Initialize permissions for user in the new course
     initialize_permissions(new_course.id, user)
-
     return new_course
 
 
@@ -1489,7 +1488,6 @@ def _rerun_course(request, org, number, run, fields):
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
-
 
     except Exception as e:
         print e
