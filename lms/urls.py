@@ -520,6 +520,13 @@ urlpatterns += [
     ),
 
     url(
+        r'^courses/{}/about/$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        courseware_views.course_about,
+    ),
+
+    url(
         r'^courses/{}/enroll_staff$'.format(
             settings.COURSE_ID_PATTERN,
         ),
