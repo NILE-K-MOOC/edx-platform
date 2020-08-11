@@ -282,7 +282,7 @@ def parent_agree(request):
         return render_to_response('student_account/registration_gubn.html')
     else:
         pass
-    
+
     nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
     nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
@@ -1149,47 +1149,49 @@ def remove_account_view(request):
 @login_required
 def remove_account(request):
     if request.user.is_authenticated():
+        if request.session['passwdcheck'] =='Y':
+            try:
+                set_has_profile_image(request.user.username, False)
+                profile_image_names = get_profile_image_names(request.user.username)
+                remove_profile_images(profile_image_names)
+                account_privacy_setting = {u'account_privacy': u'private'}
+                update_user_preferences(request.user, account_privacy_setting, request.user.username)
+                find_user = User.objects.get(id=request.user.id)
+                ts = datetime.today().strftime("%Y%m%d%H%M%S")
+                user_profile = UserProfile.objects.get(user_id=request.user.id)
 
-        try:
-            set_has_profile_image(request.user.username, False)
-            profile_image_names = get_profile_image_names(request.user.username)
-            remove_profile_images(profile_image_names)
-            account_privacy_setting = {u'account_privacy': u'private'}
-            update_user_preferences(request.user, account_privacy_setting, request.user.username)
-            find_user = User.objects.get(id=request.user.id)
-            ts = datetime.today().strftime("%Y%m%d%H%M%S")
-            user_profile = UserProfile.objects.get(user_id=request.user.id)
-
-            # third_party_auth 설정 후 아래 커멘트를 열어준다.
-            user_socialauth = UserSocialAuth.objects.filter(user_id=request.user.id)
-            uid = request.user.id
-            find_user.first_name = str(uid)
-            find_user.last_name = str(uid)
-            find_user.email = 'delete_' + str(uid) + '@delete.' + ts
-            find_user.set_password(ts)
-            find_user.is_staff = False
-            find_user.is_active = False
-            find_user.is_superuser = False
-            user_profile.name = str(uid)
-            user_profile.language = ''
-            user_profile.location = ''
-            user_profile.meta = ''
-            user_profile.courseware = ''
-            user_profile.gender = None
-            user_profile.mailing_address = None
-            user_profile.year_of_birth = None
-            user_profile.level_of_education = None
-            user_profile.goals = None
-            user_profile.country = None
-            user_profile.city = None
-            user_profile.bio = None
-            user_profile.profile_image_uploaded_at = None
-            find_user.save()
-            user_profile.save()
-            user_socialauth.delete()
-            logout(request)
-        except Exception as e:
-            print e
-            pass
+                # third_party_auth 설정 후 아래 커멘트를 열어준다.
+                user_socialauth = UserSocialAuth.objects.filter(user_id=request.user.id)
+                uid = request.user.id
+                find_user.first_name = str(uid)
+                find_user.last_name = str(uid)
+                find_user.email = 'delete_' + str(uid) + '@delete.' + ts
+                find_user.set_password(ts)
+                find_user.is_staff = False
+                find_user.is_active = False
+                find_user.is_superuser = False
+                user_profile.name = str(uid)
+                user_profile.language = ''
+                user_profile.location = ''
+                user_profile.meta = ''
+                user_profile.courseware = ''
+                user_profile.gender = None
+                user_profile.mailing_address = None
+                user_profile.year_of_birth = None
+                user_profile.level_of_education = None
+                user_profile.goals = None
+                user_profile.country = None
+                user_profile.city = None
+                user_profile.bio = None
+                user_profile.profile_image_uploaded_at = None
+                find_user.save()
+                user_profile.save()
+                user_socialauth.delete()
+                logout(request)
+            except Exception as e:
+                print e
+                pass
+        else:
+            return remove_account_view(request)
 
     return redirect('/')

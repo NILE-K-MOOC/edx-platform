@@ -400,10 +400,10 @@ def rerun_course(source_course_key_string, destination_course_key_string, user_i
                 publish_version = i['versions']['published-branch']
 
             mdb.get_collection('modulestore.structures').update(
-                {"_id": ObjectId(publish_version), "blocks.block_type": "course"}, {"$set":{
+                {"_id": ObjectId(publish_version), "blocks.block_type": "course"}, {"$set": {
                 "blocks.$.fields.start": datetime(2030, 1, 1)}})
         except Exception as e:
-            print "rerun-course mongou update error :",e
+            print "rerun-course mongou update error :", e
             pass
 
         # set initial permissions for the user to access the course.
