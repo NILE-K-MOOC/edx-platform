@@ -92,6 +92,8 @@ urlpatterns = [
     # made by kotech system
     url(r'^api/get_org_value$', kotech_common_views.get_org_value, name='get_org_value'),
 
+    # Drmt
+    url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),
 
     # Course Satisfaction Survey
     # made by kotech system
