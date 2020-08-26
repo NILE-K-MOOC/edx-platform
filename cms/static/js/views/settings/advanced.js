@@ -56,11 +56,11 @@ define(['js/views/validation',
                 }
 
                 var policyValues1= listEle$.find('.json');
-                //console.log("policyValues1:" + policyValues1.length + ":" + policyValues1 );
+                // console.log("policyValues1:" + policyValues1.length + ":" + policyValues1 );
                 _.each(policyValues1, this.attachJSONEditor, this);
 
                 var policyValues2 = listEle$.find('.select');
-                //console.log("policyValues2:" + policyValues2.length + ":" + policyValues2 );
+                // console.log("policyValues2:" + policyValues2.length + ":" + policyValues2.valueOf() );
                 _.each(policyValues2, this.attachJSONInput, this);
 
                 return this;

@@ -24,7 +24,8 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             middle_classfy_sub1: '.new-course-middle-classfy-sub1',
             middle_classfy_sub2: '.new-course-middle-classfy-sub2',
             middle_classfy_sub3: '.new-course-middle-classfy-sub3',
-            course_period: '.new-course-period'
+            course_period: '.new-course-period',
+            classfy_plus: '.classfy_plus'
             // Il-Hee, Maeng update end --------------------------
         }, {
             shown: 'is-shown',
@@ -81,6 +82,7 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             var msub1 = $newCourseForm.find(".new-course-middle-classfy-sub1").val();
             var msub2 = $newCourseForm.find(".new-course-middle-classfy-sub2").val();
             var msub3 = $newCourseForm.find(".new-course-middle-classfy-sub3").val();
+            var classfy_plus = $newCourseForm.find(".classfy_add").val();
 
             var classfysub = "";
             var middle_classfysub = "";
@@ -113,27 +115,31 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
                 middle_classfy: middle_classfy,
                 middle_classfysub: middle_classfysub,
                 difficult_degree: difficult_degree,
-                period: period
+                period: period,
+                classfy_plus: classfy_plus
             };
 
             $("span.tip").css({"color": "#ccc"});
 
-            if (!middle_classfy || middle_classfy == "null")
-                $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
-
-            if (!period)
-                $("span[id='tip-new-course-period']").css({"color": "#b20610"});
-
-            if (!classfy || !middle_classfy || middle_classfy == "null" || !period){
-                //console.log(classfy);
-                //console.log(classfysub);
-                //console.log(middle_classfy);
-                //console.log(middle_classfysub);
-                //console.log(difficult_degree);
-                //console.log(linguistics);
-                //console.log(period);
-                return;
-            }
+            // if (!middle_classfy || middle_classfy == "null")
+            //     $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
+            //
+            // if (!classfy_plus || classfy_plus == "null")
+            //     $("span[id='tip-new-course-classfy']").css({"color": "#b20610"});
+            //
+            // if (!period)
+            //     $("span[id='tip-new-course-period']").css({"color": "#b20610"});
+            //
+            // if (!classfy || !middle_classfy || middle_classfy == "null" || !period || !classfy_plus || classfy_plus=="null"){
+            //     //console.log(classfy);
+            //     //console.log(classfysub);
+            //     //console.log(middle_classfy);
+            //     //console.log(middle_classfysub);
+            //     //console.log(difficult_degree);
+            //     //console.log(linguistics);
+            //     //console.log(period);
+            //     return;
+            // }
             analytics.track('Created a Course', course_info);
             CreateCourseUtils.create(course_info, function (errorMessage) {
                 $('.create-course .wrap-error').addClass('is-shown');

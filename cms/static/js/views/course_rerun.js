@@ -10,7 +10,11 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
             errorMessage: '#course_rerun_error',
             tipError: 'span.tip-error',
             error: '.error',
-            allowUnicode: '.allow-unicode-course-id'
+            allowUnicode: '.allow-unicode-course-id',
+            classfy: '.rerun-course-classfy',
+            classfy_plus: '.classfy_plus',
+            middle_classfy: '.middle_classfy',
+            teacher_name: '.teacher_name',
         }, {
             shown: 'is-shown',
             showing: 'is-showing',
@@ -31,13 +35,23 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
             var org = $newCourseForm.find('.rerun-course-org').val();
             var number = $newCourseForm.find('.rerun-course-number').val();
             var run = $newCourseForm.find('.rerun-course-run').val();
+            var classfy = $newCourseForm.find('.rerun-course-classfy').val()
+            var classfy_plus = $newCourseForm.find('.rerun-course-classfy_plus').val()
+            var middle_classfy = $newCourseForm.find('.rerun-course-middle_classfy').val()
+            var teacher_name = $newCourseForm.find('.rerun-course-teacher_name').val()
+            var course_period = $newCourseForm.find('.rerun-course-course_period').val()
 
             course_info = {
                 source_course_key: source_course_key,
                 org: org,
                 number: number,
                 display_name: display_name,
-                run: run
+                run: run,
+                classfy: classfy,
+                classfy_plus: classfy_plus,
+                middle_classfy: middle_classfy,
+                teacher_name: teacher_name,
+                course_period: course_period
             };
 
             analytics.track('Reran a Course', course_info);

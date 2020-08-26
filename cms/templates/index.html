@@ -68,6 +68,12 @@ from openedx.core.djangolib.js_utils import (
   color: #4c4c4c;
 }
 
+.search_label{
+    width: 60px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="/static/studio/css/pop.css">
@@ -530,7 +536,7 @@ for (var i = 1; i<=leng; i++) {
                 </li>
                 <li class="field select required" id="field-classfy">
                     <label for="new-course-classfy">${_("Classification")}</label>
-                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy"  onchange="middle_classfy(0)">
+                    <select class="new-course-classfy" id="new-course-classfy" name="new-course-classfy" style="margin-bottom: 10px" onchange="middle_classfy(0)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -548,7 +554,7 @@ for (var i = 1; i<=leng; i++) {
                         <option value="">${_("Select sub category")}</option>
                     </select>
                     <br>
-                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden"  onchange="middle_classfy(1)">
+                    <select class="new-course-classfy-sub1" id="new-course-classfy-sub1" name="new-course-classfy-sub1" style="visibility: hidden; display: none"  onchange="middle_classfy(1)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -560,11 +566,11 @@ for (var i = 1; i<=leng; i++) {
                         <option value="intd">${_("Fusion & Convergence")}</option>
                     </select>
 
-                    <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden" onchange="middle_classfy_sub(2)">
+                    <select class="new-course-middle-classfy-sub1" id="new-course-middle-classfy-sub1" name="new-course-middle-classfy-sub1" style="visibility: hidden; display: none" onchange="middle_classfy_sub(2)">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
 
-                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden" onchange="middle_classfy(2)">
+                    <select class="new-course-classfy-sub2" id="new-course-classfy-sub2" name="new-course-classfy-sub2" style="visibility: hidden; display: none" onchange="middle_classfy(2)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -575,11 +581,11 @@ for (var i = 1; i<=leng; i++) {
                         <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
-                    <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden" onchange="middle_classfy_sub(3)">
+                    <select class="new-course-middle-classfy-sub2" id="new-course-middle-classfy-sub2" name="new-course-middle-classfy-sub2" style="visibility: hidden; display: none" onchange="middle_classfy_sub(3)">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
 
-                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden" onchange="middle_classfy(3)">
+                    <select class="new-course-classfy-sub3" id="new-course-classfy-sub3" name="new-course-classfy-sub3" style="visibility: hidden; display: none" onchange="middle_classfy(3)">
                         <option value="">${_("Select main category")}</option>
                         <option value="hum">${_("Humanities")}</option>
                         <option value="social">${_("Social")}</option>
@@ -590,16 +596,26 @@ for (var i = 1; i<=leng; i++) {
                         <option value="art">${_("Arts & Physical Education")}</option>
                     </select>
 
-                    <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden">
+                    <select class="new-course-middle-classfy-sub3" id="new-course-middle-classfy-sub3" name="new-course-middle-classfy-sub3" style="visibility: hidden; display: none">
                         <option value="">${_("Select Fusion & Convergence category")}</option>
                     </select>
+
+                    <label>대학정보공시에 따른 5대 전공분류</label>
+                    <select class="classfy_add" style="">
+                        <option value="">5대 전공분류</option>
+                        <option value="hum_and_social">인문사회</option>
+                        <option value="natural_science">자연과학</option>
+                        <option value="engineering">공학</option>
+                        <option value="entertainment">예체능</option>
+                        <option value="medicine">의약</option>
+                    </select>
+
                     <input class="new-course-org" id="new-course-classfy-sub" type="hidden" name=new-course-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <input class="new-course-org" id="new-course-middle-classfy-sub" type="hidden" name=new-course-middle-classfy-sub" aria-describedby="tip-new-course-org tip-error-new-course-org" />
                     <span class="tip" id="tip-new-course-classfy">선정평가 시 사업계획서에 기재한 전공을 선택하여 주시기 바랍니다. 선택한 전공은 이후 변경할 수 없습니다.</span>
                     <span class="tip tip-error is-hiding" id="tip-error-new-course-category"></span>
 
                 </li>
-
 
                 <li class="field select required" id="field-category" style="display: none;">
                     <label for="new-course-">${_("Linguistics")}</label>
@@ -937,6 +953,7 @@ for (var i = 1; i<=leng; i++) {
       <div class="courses courses-processing">
           <h3 class="title">${_("Courses Being Processed")}</h3>
 
+          <!-- course _ listing ------------------------->
           <ul class="list-courses">
             %for course_info in sorted(in_process_course_actions, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
             <!-- STATE: re-run is processing -->
@@ -947,7 +964,7 @@ for (var i = 1; i<=leng; i++) {
                   <h3 class="course-title">${course_info['display_name']}</h3>
 
                   <div class="course-metadata">
-                    <span class="course-org metadata-item">
+                    <span class="course-org metadata-item namseonwoo">
                       <span class="label">${_("Organization:")}</span> <span class="value">${course_info['org']}</span>
                     </span>
                     <span class="course-num metadata-item">
@@ -993,7 +1010,7 @@ for (var i = 1; i<=leng; i++) {
                   <h3 class="course-title">${course_info['display_name']}</h3>
 
                   <div class="course-metadata">
-                    <span class="course-org metadata-item">
+                    <span class="course-org metadata-item namseonwoo2">
                       <span class="label">${_("Organization:")}</span> <span class="value">${course_info['org']}</span>
                     </span>
                     <span class="course-num metadata-item">
@@ -1051,9 +1068,11 @@ for (var i = 1; i<=leng; i++) {
       % endif
 
       <div style="width: 100%;">
-        <div class="search_div" style="margin:10px 10px 10px 0; width: 450px;">
-          <input type="text" id="cms_text" style="width: 81%;">
-          <button class="btn btn-primary" id="cms_search" type="button"
+          <div class="search_div" style="margin:10px 10px 10px 0; width: 550px; display: flex">
+              <label class="search_label"><input class="search_radio" type="radio" value="course_name" name="search_radio" checked="checked">강좌명</label>
+              <label class="search_label"><input class="search_radio" type="radio" value="university_name" name="search_radio">대학명</label>
+              <input type="text" id="cms_text" style="width: 81%; margin-right: 4px;">
+              <button class="btn btn-primary" id="cms_search" type="button"
                   style="height:33px;
                          width:80px;
                          border-radius:5px;
