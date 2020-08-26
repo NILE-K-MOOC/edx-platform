@@ -348,7 +348,8 @@ def course_rerun_handler(request, course_key_string):
                 'classfy': course_module.classfy,
                 'classfy_plus': course_module.classfy_plus,
                 'middle_classfy': course_module.middle_classfy,
-                'teacher_name': course_module.teacher_name
+                'teacher_name': course_module.teacher_name,
+                'course_period': course_module.course_period
             })
 
 
@@ -1468,6 +1469,7 @@ def _rerun_course(request, org, number, run, fields):
         middle_classfy = fields['middle_classfy']
         classfy = fields['classfy']
         classfy_plus = fields['classfy_plus']
+        course_period = fields['course_period']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1479,7 +1481,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     modify_id,
                                                     middle_classfy,
                                                     classfy,
-                                                    classfy_plus)
+                                                    classfy_plus,
+                                                    course_period)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1490,9 +1493,12 @@ def _rerun_course(request, org, number, run, fields):
                              now(),
                              '{user_id}',
                              '{middle_classfy}',
-                             '{classfy}'
-                             '{classfy_plus}');
-            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus)
+                             '{classfy}',
+                             '{classfy_plus}',
+                             '{course_period}');
+            """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy,
+                       classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
+                       course_period=course_period)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -1984,10 +1990,11 @@ def _refresh_course_tabs(request, course_module):
     old_classfy = u''
     old_middle_classfy = u''
     classfy_plus = course_module.classfy_plus
+    course_period = course_module.course_period
 
     with connections['default'].cursor() as cur:
         query = """
-                SELECT classfy, middle_classfy, classfy_plus
+                SELECT classfy, middle_classfy, classfy_plus, course_period
                   FROM course_overview_addinfo
                  WHERE course_id = '{course_id}';
             """.format(course_id=course_id)
@@ -2002,19 +2009,22 @@ def _refresh_course_tabs(request, course_module):
             old_classfy = old_classfy_data[0][0]
             old_middle_classfy = old_classfy_data[0][1]
             old_classfy_plus = old_classfy_data[0][2]
+            old_course_period = old_classfy_data[0][3]
             print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
 
     with connections['default'].cursor() as cur:
-        if classfy != old_classfy or middle_classfy != old_middle_classfy or classfy_plus != old_classfy_plus:
+        if classfy != old_classfy or middle_classfy != old_middle_classfy or classfy_plus != old_classfy_plus or course_period != old_course_period:
             query2 = """
                     UPDATE course_overview_addinfo
                        SET middle_classfy = '{middle_classfy}',
                            classfy = '{classfy}',
                            modify_id = '{user_id}',
                            classfy_plus = '{classfy_plus}',
+                           course_period = '{course_period}',
                            modify_date = now()
                      WHERE course_id = '{course_id}';
-                """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id, classfy_plus=classfy_plus)
+                """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id,
+                           classfy_plus=classfy_plus, course_period=course_period)
 
             print 'advanced addinfo update --------- ', query2
             cur.execute(query2)

@@ -265,6 +265,9 @@ def _write_chunk(request, courselike_key):
                         if 'middle_classfy' in xml.attrib:
                             addinfo.middle_classfy = xml.attrib['middle_classfy']
 
+                        if 'course_period' in xml.attrib:
+                            addinfo.course_period = xml.attrib['course_period']
+
                         addinfo.save()
         except Exception as e:
             log.info(e.message)
