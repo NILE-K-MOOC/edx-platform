@@ -21,6 +21,17 @@ if course is not None:
 
 <script>
     $(".focus").first().focus();
+    var link = document.location.href;
+    console.log(link);
+    console.log(link.split('/'));
+    let aa = link.split('/')
+    aa[5]='video'
+    console.log(aa);
+    var uurl = "/".join(aa)
+    console.log(uurl);
+
+
+
 </script>
 
 % if include_special_exams is not UNDEFINED and include_special_exams:
@@ -58,6 +69,11 @@ if course is not None:
                         </a>
                     </li>
                 % endfor
+                <li class="nav-item ${'active' if tab_is_active else ''}">
+                        <a href="${tab}" class="nav-link">
+                            강의영상1
+                        </a>
+                    </li>
             </ul>
         </nav>
     % else:

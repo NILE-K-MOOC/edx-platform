@@ -329,7 +329,6 @@ def get_course_tab_list(request, course):
                 not bool(user and has_access(user, 'staff', course, course.id)):
             continue
         course_tab_list.append(tab)
-
     # Add in any dynamic tabs, i.e. those that are not persisted
     course_tab_list += _get_dynamic_tabs(course, user)
     return course_tab_list

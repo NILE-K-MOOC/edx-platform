@@ -1226,9 +1226,12 @@ def course_about(request, course_id):
         # - Course is already full
         # - Student cannot enroll in course
         active_reg_button = not (registered or is_course_full or not can_enroll)
-
+        print 'registered',registered
+        print 'is_course_full',is_course_full
+        print 'can_enroll',can_enroll
+        print 'active_reg_button',active_reg_button
         is_shib_course = uses_shib(course)
-
+        print 'is_shib_course',is_shib_course
         # get prerequisite courses display names
         pre_requisite_courses = get_prerequisite_courses_display(course)
 

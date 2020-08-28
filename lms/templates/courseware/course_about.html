@@ -1025,6 +1025,7 @@ $("#audit_mode").click(function(event) {
 </section>
 
 %if active_reg_button or is_shib_course:
+
 <div style="display: none;">
     <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
         <fieldset class="enroll_fieldset">
