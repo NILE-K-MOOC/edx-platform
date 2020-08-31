@@ -1043,6 +1043,84 @@ def course_interest(request):
 @ensure_valid_course_key
 @cache_if_anonymous()
 def course_about(request, course_id):
+    # 현대자동차의 로그인 연동을 위한 소스 추가
+    encStr = request.GET.get('encStr')
+    org = request.GET.get('org')
+
+    # encStr 이 있을 경우 멀티사이트에서 온것으로 보고, 멀티사이트 복호화를 수행하고, 로그인 처리를 하도록 함
+    if org and encStr:
+        from branding.views import decrypt, login
+
+        try:
+            multisite = Multisite.objects.get(site_code=org)
+            key = multisite.encryption_key
+            logo_img_id = multisite.logo_img
+
+            try:
+                raw_data = decrypt(key, key, encStr)
+            except Exception as e:
+                raw_data = None
+                log.info(traceback.format_exc(e))
+
+            if raw_data:
+                user_id = None
+                params = parse_qs(raw_data)
+
+                site_id = multisite.site_id
+                org_user_id = params.get('userid')
+
+                # parse_qs 자체는 value 를 리스트로 변환하여 반환하기 때문에 다음의 코드가 필요
+                if org_user_id:
+                    org_user_id = org_user_id[0]
+
+                # org 와 기관내 사번으로 등록된 사용자가 있는지 확인하여 없다면 등록을 위해 세션에 정보 저장
+
+                if org:
+                    request.session['multisite_org'] = org
+
+                if org_user_id:
+                    request.session['multisite_userid'] = org_user_id
+
+                try:
+                    # multisite_member 에 사번과 동일한 사용자가 있는지 확인. params.get('user_id') 의 값은 기관의 사번
+                    multisite_member = MultisiteMember.objects.get(site_id=site_id, org_user_id=org_user_id)
+                    user_id = multisite_member.user_id
+
+                except ObjectDoesNotExist as e3:
+                    # 데이터가 없다면 세션에 정보를 저장
+                    log.info('CourseTabView ObjectDoesNotExist [%s]' % e3.message)
+
+                    # save_path 도 세션에 저장
+                    # '/static/images/no_images_large.png'
+
+                    # 로그인 화면으로 리다이렉트
+                    from student.helpers import get_next_url_for_login_page
+
+                    redirect_url = get_next_url_for_login_page(request)
+
+                    path = str(request.path)
+                    # return redirect('/login?next=' + urllib.urlencode(path))
+                    enc_path = urllib.quote_plus(path)
+                    return redirect('/login?next=' + enc_path)
+
+                    # traceback.format_exc(e)
+
+                except Exception as e4:
+                    log.info('CourseTabView Exception [%s]' % e4.message)
+
+                if user_id and not request.user.is_authenticated:
+                    user = User.objects.get(pk=user_id)
+                    user.backend = 'ratelimitbackend.backends.RateLimitModelBackend'
+                    login(request, user)
+
+                pass
+
+        except ObjectDoesNotExist as e:
+            pass
+        except Exception as e1:
+            pass
+
+
     """
     Display the course's about page.
     수정시 mobile_course_about도 함께 수정
@@ -1070,6 +1148,7 @@ def course_about(request, course_id):
 
     print "course_org", course_org
     print "course_number", course_number
+
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
     if not can_self_enroll_in_course(course_key):
@@ -3529,3 +3608,65 @@ def cert_check_id(request):
     else:
         url = rows[0][0]
         return JsonResponse({'result': 200, 'url': url})
+
+
+def save_search_term(request):
+    term = request.POST.get('term')
+    status = request.POST.get('status')
+    count = request.POST.get('count')
+    tmp = request.POST.get('tmp')
+
+    # print '----------', status
+    # aaa =urllib.unquote(status)
+    # print type(aaa)
+    # bbb = aaa.encode("utf-8")
+    # # print unicode(aaa, "UTF-8")
+    # print bbb.encode("utf-8")
+    # print bbb.decode("utf-8")
+    # print urllib.unquote(status)
+    # print urllib.unquote(status).encode('utf8')
+    # print urllib.unquote(status).decode('utf8')
+    # print urllib.quote(status)
+    # print urllib.quote(status).encode('utf8')
+    # print urllib.quote(status).decode('utf8')
+    # print urllib.unquote(urllib.unquote(status))
+    # print status
+    # print term
+
+    # print 'tmptmp',tmp
+
+    try:
+        if tmp == 'o':
+            location = 'header'
+        else:
+            location = 'discovery'
+    except:
+        location = 'bug'
+    user = request.user
+
+    with connections['default'].cursor() as cur:
+        sql = '''
+            INSERT INTO tb_search_result(search_word,search_from,search_count,regist_id)
+            VALUES('{term}','{location}','{count}','{user}')
+        '''.format(term=term, user=user.id, count=count, location=location)
+        cur.execute(sql)
+
+    return JsonResponse({'return': 'ok'})
+
+
+def blue_ribbon_year(request):
+    with connections['default'].cursor() as cur:
+        sql = '''
+           select course_id, ribbon_year from course_overview_addinfo where ribbon_yn  ='Y'
+        '''
+        cur.execute(sql)
+        rows = cur.fetchall()
+
+    data = dict()
+    for row in rows:
+        try:
+            data[row[0]] = row[1]
+        except:
+            pass
+
+    return JsonResponse(data)

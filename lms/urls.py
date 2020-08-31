@@ -92,6 +92,8 @@ urlpatterns = [
     # made by kotech system
     url(r'^api/get_org_value$', kotech_common_views.get_org_value, name='get_org_value'),
 
+    # Drmt
+    url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),
 
     # Course Satisfaction Survey
     # made by kotech system
@@ -191,6 +193,7 @@ urlpatterns = [
     # made by kotech system
     url(r'^org/(?P<org>.*?)$', branding_views.multisite_index, name="multisite_index"),
     url(r'^multisite_error/$', branding_views.multisite_error, name="multisite_error"),
+    url(r'^multi_index_count/(?P<org>.*?)$', branding_views.multi_index_count, name="multi_index_count"),
 
 
     # Index Course Detail
@@ -241,7 +244,11 @@ urlpatterns = [
     url(r'^agreement/?$', courseware_views.agreement, name="agreement"),
     url(r'^Copyright-Policy/?$', courseware_views.copyright, name="copyright"),
 
+    # save_search_term (검색어 저장)
+    url(r'^save_search_term/?$', courseware_views.save_search_term, name="save_search_term"),
 
+    # blue ribbon filter
+    url(r'^blue_ribbon_year/?$', courseware_views.blue_ribbon_year, name="blue_ribbon_year"),
 
 
     url(r'', include('student.urls')),
@@ -252,6 +259,9 @@ urlpatterns = [
     url(r'^enrollment_verifi$', student_views.enrollment_verifi, name='enrollment_verifi'),
     # Event tracking endpoints
     url(r'', include('track.urls')),
+
+    # Dashboard append url
+    url(r'^call_dashboard$', student_views.call_dashboard, name='call_dashboard'),
 
     # Static template view endpoints like blog, faq, etc.
     url(r'', include('static_template_view.urls')),
@@ -509,6 +519,13 @@ urlpatterns += [
         ),
         courseware_views.course_about,
         name='about_course',
+    ),
+
+    url(
+        r'^courses/{}/about/$'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        courseware_views.course_about,
     ),
 
     url(

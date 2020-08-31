@@ -24,9 +24,10 @@ import calendar
       var d = new Date();
       var year = d.getFullYear();
 
+      /*
       %if request.session['division'] != 'Y':
         console.log($("#register-year_of_birth").find("option").val());
-          $("#register-year_of_birth").find("option").each(function(){LogistrationFactory
+          $("#register-year_of_birth").find("option").each(function(){
               if($(this).val() != "" && eval(year - $(this).val()) > 14)
                   $(this).remove();
           });
@@ -38,6 +39,7 @@ import calendar
                   $(this).remove();
           });
       %endif
+      */
 
     });
 

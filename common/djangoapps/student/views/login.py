@@ -75,6 +75,8 @@ from util.json_request import JsonResponse
 import math
 import pytz
 
+from django.db import connections
+import MySQLdb as mdb
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
 
@@ -152,8 +154,10 @@ def _get_user_by_email(request):
         raise AuthFailedError(_('There was an error receiving your login information. Please email us.'))
 
     email = request.POST['email']
+    password = request.POST['password']
 
     try:
+
         return User.objects.get(email=email)
     except User.DoesNotExist:
         if settings.FEATURES['SQUELCH_PII_IN_LOGS']:
@@ -499,6 +503,28 @@ def login_user(request):
                 return HttpResponse(e.value, content_type="text/plain", status=403)
         else:
             email_user = _get_user_by_email(request)
+
+            #####  drmt check =====jhy
+            email = request.POST['email']
+            con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
+                              settings.DATABASES.get('default').get('USER'),
+                              settings.DATABASES.get('default').get('PASSWORD'),
+                              settings.DATABASES.get('default').get('NAME'),
+                              charset='utf8')
+            cur = con.cursor()
+            query = '''
+                                  SELECT email, dormant_mail_cd, dormant_yn
+                                    FROM auth_user
+                                  where email= %s
+                                '''
+            cur.execute(query, [email])
+            row = cur.fetchone()
+
+            context = {
+                'active_account_url': '/active_account/%s' % email
+            }
+            if row[2] != None and row[2] == 'Y':
+                return render_to_response("drmt_login.html", context)
 
         _check_shib_redirect(email_user)
         _check_excessive_login_attempts(email_user)
@@ -855,3 +881,62 @@ class LogoutView(TemplateView):
         })
 
         return context
+
+## drmt active -----------------
+@csrf_exempt
+def active_account(request, email):
+
+    user = User.objects.get(email=email)
+
+    with connections['default'].cursor() as cur:
+        query = """
+            UPDATE auth_user a
+                   INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+               SET a.username = b.username,
+                   a.first_name = b.first_name,
+                   a.last_name = b.last_name,
+                   a.email = b.email,
+                   a.password = b.password,
+                   a.dormant_yn = 'N'
+             WHERE a.id = %s;
+        """
+
+        cur.execute(query, [user.id])
+
+        query = """
+            UPDATE auth_userprofile a
+                   INNER JOIN drmt_auth_userprofile b
+                      ON b.dormant_yn = 'Y' AND a.id = b.id
+               SET a.name = b.name,
+                   a.language = b.language,
+                   a.location = b.location,
+                   a.meta = b.meta,
+                   a.gender = b.gender,
+                   a.mailing_address = b.mailing_address,
+                   a.year_of_birth = b.year_of_birth,
+                   a.level_of_education = b.level_of_education,
+                   a.goals = b.goals,
+                   a.country = b.country,
+                   a.city = b.city,
+                   a.bio = b.bio
+             WHERE a.id = %s;
+        """
+
+        cur.execute(query, [user.id])
+
+        query = """
+            UPDATE drmt_auth_user
+               SET dormant_yn = 'N'
+             WHERE dormant_yn = 'Y' AND id = %s;
+        """
+        cur.execute(query, [user.id])
+
+
+        query = """
+            UPDATE drmt_auth_userprofile
+               SET dormant_yn = 'N'
+             WHERE dormant_yn = 'Y' AND id = %s;
+        """
+        cur.execute(query, [user.id])
+
+    return redirect('/login')

@@ -334,12 +334,14 @@ class CourseOverview(TimeStampedModel):
 
                 course_overview.teachers = addinfo.teacher_name
                 course_overview.classfy = addinfo.classfy
+                course_overview.classfy_plus = addinfo.classfy_plus
                 course_overview.middle_classfy = addinfo.middle_classfy
                 course_overview.level = addinfo.course_level
                 course_overview.passing_grade = course_overview.lowest_passing_grade
                 course_overview.audit_yn = addinfo.audit_yn
                 course_overview.fourth_industry_yn = addinfo.fourth_industry_yn
                 course_overview.ribbon_yn = addinfo.ribbon_yn
+                course_overview.ribbon_year = addinfo.ribbon_year
                 course_overview.job_edu_yn = addinfo.job_edu_yn
                 course_overview.ai_sec_yn = addinfo.ai_sec_yn
                 course_overview.basic_science_sec_yn = addinfo.basic_science_sec_yn
@@ -366,6 +368,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.audit_yn = ''
                 course_overview.fourth_industry_yn = ''
                 course_overview.ribbon_yn = ''
+                course_overview.ribbon_year = ''
                 course_overview.job_edu_yn = ''
                 course_overview.linguistics = ''
                 course_overview.classfy_name = ''
@@ -748,12 +751,14 @@ class CourseOverview(TimeStampedModel):
         course_overviews = course_overviews.annotate(
             teachers=Coalesce(F('courseoverviewaddinfo__teacher_name'), V('')),
             classfy=Coalesce(F('courseoverviewaddinfo__classfy'), V('')),
+            classfy_plus=Coalesce(F('courseoverviewaddinfo__classfy_plus'), V('')),
             middle_classfy=Coalesce(F('courseoverviewaddinfo__middle_classfy'), V('')),
             level=Coalesce(F('courseoverviewaddinfo__course_level'), V('')),
             passing_grade=Coalesce(F('lowest_passing_grade'), V('')),
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
             fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
             ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
+            ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
             linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
         )
