@@ -77,6 +77,7 @@ import pytz
 
 from django.db import connections
 import MySQLdb as mdb
+
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
 
@@ -523,7 +524,8 @@ def login_user(request):
             context = {
                 'active_account_url': '/active_account/%s' % email
             }
-            if row[2] != None and row[2] == 'Y':
+
+            if row and row[2] != None and row[2] == 'Y':
                 return render_to_response("drmt_login.html", context)
 
         _check_shib_redirect(email_user)
@@ -882,10 +884,10 @@ class LogoutView(TemplateView):
 
         return context
 
+
 ## drmt active -----------------
 @csrf_exempt
 def active_account(request, email):
-
     user = User.objects.get(email=email)
 
     with connections['default'].cursor() as cur:
@@ -930,7 +932,6 @@ def active_account(request, email):
              WHERE dormant_yn = 'Y' AND id = %s;
         """
         cur.execute(query, [user.id])
-
 
         query = """
             UPDATE drmt_auth_userprofile
