@@ -93,6 +93,7 @@ class CourseTab(object):
 
     @property
     def link_func(self):
+
         """
         Returns a function that takes a course and reverse function and will
         compute the course URL for this tab.
@@ -305,6 +306,7 @@ class StaticTab(CourseTab):
     def __init__(self, tab_dict=None, name=None, url_slug=None):
         def link_func(course, reverse_func):
             """ Returns a function that returns the static tab's URL. """
+            print 'check 6'
             return reverse_func(self.type, args=[text_type(course.id), self.url_slug])
 
         self.url_slug = tab_dict.get('url_slug') if tab_dict else url_slug

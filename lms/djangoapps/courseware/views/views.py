@@ -650,8 +650,6 @@ class CourseTabView(EdxFragmentView):
                         # 데이터가 없다면 세션에 정보를 저장
                         log.info('CourseTabView ObjectDoesNotExist [%s]' % e3.message)
 
-
-
                         # save_path 도 세션에 저장
                         # '/static/images/no_images_large.png'
 
@@ -1119,7 +1117,6 @@ def course_about(request, course_id):
             pass
         except Exception as e1:
             pass
-
 
     """
     Display the course's about page.
@@ -2362,6 +2359,44 @@ def program_marketing(request, program_uuid):
     context['uses_bootstrap'] = True
 
     return render_to_response('courseware/program_marketing.html', context)
+
+
+from lms.djangoapps.courseware.views.views import CourseTabView
+
+@transaction.non_atomic_requests
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@ensure_valid_course_key
+@data_sharing_consent_required
+def video(request, course_id):
+    print 'video called'
+
+    """ Display the progress page. """
+    course_key = CourseKey.from_string(course_id)
+
+    course = get_course_with_access(request.user, 'load', course_key)
+    tab_type = 'video'
+    kwargs = {}
+    self = CourseTabView
+
+    try:
+        # Render the page
+        tab = CourseTabList.get_tab_by_type(course.tabs, tab_type)
+        page_context = self.create_page_context(request, course=course, tab=tab, **kwargs)
+
+        # Show warnings if the user has limited access
+        # Must come after masquerading on creation of page context
+        self.register_user_access_warning_messages(request, course_key)
+
+        set_custom_metrics_for_course_key(course_key)
+        return super(CourseTabView, self).get(request, course=course, page_context=page_context, **kwargs)
+    except Exception as exception:  # pylint: disable=broad-except
+        return CourseTabView.handle_exceptions(request, course, exception)
+
+    context = {
+        'course': course
+    }
+
+    return render_to_response('courseware/video.html', context)
 
 
 @transaction.non_atomic_requests
