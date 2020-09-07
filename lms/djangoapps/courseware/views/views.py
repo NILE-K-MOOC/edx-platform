@@ -116,6 +116,8 @@ from pytz import timezone
 from urlparse import urlparse, parse_qs
 import traceback
 from django.core.exceptions import ObjectDoesNotExist
+from pymongo import MongoClient
+from bson import ObjectId
 
 log = logging.getLogger("edx.courseware")
 
@@ -2363,6 +2365,7 @@ def program_marketing(request, program_uuid):
 
 from lms.djangoapps.courseware.views.views import CourseTabView
 
+
 @transaction.non_atomic_requests
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @ensure_valid_course_key
@@ -2374,26 +2377,204 @@ def video(request, course_id):
     course_key = CourseKey.from_string(course_id)
 
     course = get_course_with_access(request.user, 'load', course_key)
-    tab_type = 'video'
-    kwargs = {}
-    self = CourseTabView
 
-    try:
-        # Render the page
-        tab = CourseTabList.get_tab_by_type(course.tabs, tab_type)
-        page_context = self.create_page_context(request, course=course, tab=tab, **kwargs)
+    # 강좌의 영상목록 생성 --- s
 
-        # Show warnings if the user has limited access
-        # Must come after masquerading on creation of page context
-        self.register_user_access_warning_messages(request, course_key)
+    client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+    db = client.edxapp
 
-        set_custom_metrics_for_course_key(course_key)
-        return super(CourseTabView, self).get(request, course=course, page_context=page_context, **kwargs)
-    except Exception as exception:  # pylint: disable=broad-except
-        return CourseTabView.handle_exceptions(request, course, exception)
+    o = course_id.split('+')[0].replace('course-v1:', '')
+    c = course_id.split('+')[1]
+    r = course_id.split('+')[2]
+
+    active_versions = db.modulestore.active_versions.find({"org": o, "course": c, "run": r})
+
+    temp_list = []
+
+    for active_version in active_versions:
+        pb = active_version.get('versions').get('published-branch')
+        wiki_slug = active_version.get('search_targets').get('wiki_slug')
+
+        if wiki_slug and pb:
+            print 'published-branch is [%s]' % pb
+
+            structure = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_type": "course"}}})
+            block = structure.get('blocks')[0]
+
+            course_fields = block.get('fields')
+            chapters = course_fields.get('children')
+
+            for chapter_type, chapter_id in chapters:
+                # print block_type, block_id
+                chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": chapter_id}}})
+                chapter_fields = chapter['blocks'][0].get('fields')
+
+                if not chapter_fields:
+                    continue
+
+                chapter_name = chapter_fields.get('display_name')
+                sequentials = chapter_fields.get('children')
+
+                for sequential_type, sequential_id in sequentials:
+                    sequential = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": sequential_id}}})
+                    sequential_fields = sequential['blocks'][0].get('fields')
+
+                    if not sequential_fields:
+                        continue
+
+                    sequential_name = sequential_fields.get('display_name')
+                    verticals = sequential_fields.get('children')
+
+                    for vertical_type, vertical_id in verticals:
+                        vertical = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": vertical_id}}})
+                        vertical_fields = vertical['blocks'][0].get('fields')
+
+                        if not vertical_fields:
+                            continue
+
+                        xblocks = vertical_fields.get('children')
+
+                        for xblock_type, xblock_id in xblocks:
+
+                            if xblock_type != 'video':
+                                continue
+
+                            xblock = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": xblock_id}}})
+                            xblock_fields = xblock['blocks'][0].get('fields')
+
+                            if not xblock_fields:
+                                continue
+
+                            vertical_name = xblock_fields.get('display_name')
+                            html5_sources = xblock_fields.get('html5_sources')
+
+                            if not html5_sources:
+                                continue
+
+                            for html5_source in html5_sources:
+                                # print org_name, classfy_name, middle_classfy_name, teacher_name, display_name, chapter_name, sequential_name, enrollment_start, enrollment_end, start, end, short_description, html5_source
+
+                                if html5_source == '':
+                                    continue
+
+                                temp_dict = {
+                                    'chapter_name': chapter_name,
+                                    'chapter_id': chapter_id,
+                                    'sequential_name': sequential_name,
+                                    'sequential_id': sequential_id,
+                                    'vertical_name': vertical_name,
+                                    'vertical_id': vertical_id,
+                                    'html5_source': html5_source
+                                }
+
+                                temp_list.append(temp_dict)
+
+                                print chapter_id, chapter_name, sequential_id, sequential_name, vertical_id,vertical_name, html5_source
+
+    video_tree = {}
+
+    _chapter_name1 = None
+    _chapter_name2 = None
+    _sequential_name1 = None
+    _sequential_name2 = None
+    _vertical_name1 = None
+    _vertical_name2 = None
+    _html5_source1 = None
+    _html5_source2 = None
+    chapter_list = []
+    print 'video_tree check -------------------------------------------------------------->'
+
+    # 주제
+    for temp1 in temp_list:
+
+        if True:
+            _chapter_name1 = temp1['chapter_name']
+            _chapter_id = temp1['chapter_id']
+
+            if not _chapter_name2:
+                _chapter_name2 = temp1['chapter_name']
+            elif _chapter_name1 and _chapter_name2 and _chapter_name1 == _chapter_name2:
+                continue
+            else:
+                _chapter_name2 = temp1['chapter_name']
+
+            # print _chapter_name2
+
+            _sequential_name1 = None
+            _sequential_name2 = None
+
+            sequential_list = list()
+            for temp2 in temp_list:
+                if _chapter_name1 == temp2['chapter_name']:
+
+                    _sequential_name1 = temp2['sequential_name']
+                    _sequential_id = temp2['sequential_id']
+
+                    if not _sequential_name2:
+                        _sequential_name2 = temp2['sequential_name']
+                    elif _sequential_name1 and _sequential_name2 and _sequential_name1 == _sequential_name2:
+                        continue
+                    else:
+                        _sequential_name2 = temp2['sequential_name']
+
+                    # print '\t', _sequential_name1
+
+                    _html5_source1 = None
+                    _html5_source2 = None
+
+                    vertical_list = list()
+                    for temp3 in temp_list:
+                        if _chapter_name1 == temp3['chapter_name'] and _sequential_name1 == temp3['sequential_name']:
+
+                            _html5_source1 = temp3['html5_source']
+
+                            if not _html5_source2:
+                                _html5_source2 = temp3['html5_source']
+                            elif _html5_source1 and _html5_source2 and _html5_source1 == _html5_source2:
+                                continue
+                            else:
+                                _html5_source2 = temp3['html5_source']
+
+                            _vertical_name1 = temp3['vertical_name']
+                            _vertical_id = temp3['vertical_id']
+
+                            jump_url = 'http://{domain}/courses/{course_id}/jump_to/block-v1:{course}+type@vertical+block@{vertical_id}'.format(
+                                domain=request.META.get('HTTP_HOST'),
+                                course_id=course_id,
+                                course=course_id.replace('course-v1:', ''),
+                                vertical_id=_vertical_id
+                            )
+
+                            # print '\t\t', _vertical_name1, _html5_source2, jump_url
+
+                            vertical_list.append({
+                                'vertical_id': _vertical_id,
+                                'vertical_name': _vertical_name1,
+                                'video_url': _html5_source2,
+                                'jump_url': jump_url
+                            })
+
+                    sequential_list.append({
+                        'sequential_id': _sequential_id,
+                        'sequential_name': _sequential_name1,
+                        'vertical_list': vertical_list
+                    })
+
+            chapter_list.append({
+                'chapter_id': _chapter_id,
+                'chapter_name': _chapter_name1,
+                'sequential_list': sequential_list
+            })
+
+    # 강좌의 영상목록 생성 --- e
+
+    print 'chapter_list ------------------------- s'
+    print chapter_list
+    print 'chapter_list ------------------------- e'
 
     context = {
-        'course': course
+        'course': course,
+        'chapter_list': chapter_list
     }
 
     return render_to_response('courseware/video.html', context)

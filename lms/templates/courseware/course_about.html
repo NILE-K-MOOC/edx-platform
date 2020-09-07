@@ -680,7 +680,7 @@ $("#audit_mode").click(function(event) {
                                     % if enroll_audit:
                                         <strong class="audit">${_("View Audit Course")}</strong>
                                     % else:
-                                        <strong>${_("View Course")}</strong>
+                                        <strong data-type="case 3">${_("View Course")}</strong>
                                     % endif
                                 </a>
                             % endif
@@ -711,7 +711,7 @@ $("#audit_mode").click(function(event) {
                                     reg_href = ecommerce_checkout_link
                                     reg_element_id = ""
                                 %>
-                                <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
+                                <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}" data-type="case 2">
                                     ${_("Add {course_name} to Cart <span>({price} USD)</span>")\
                                     .format(course_name=course.display_number_with_default, price=course_price)}
                                 </a>
@@ -727,8 +727,12 @@ $("#audit_mode").click(function(event) {
                                     else:
                                         href_class = "register"
                                 %>
-                            <a href="${reg_href}" class="${href_class}">
+                            <a href="${reg_href}" class="${href_class}" data-type="enroll case 1" style="float: left;">
                                 ${_("Enrollment")}
+                            </a>
+
+                            <a href="${reg_href}" class="${href_class}" data-type="enroll case 2" style="float: right;">
+                                학습하기
                             </a>
                             <div id="register_error"></div>
                             %endif

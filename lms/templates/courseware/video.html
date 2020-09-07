@@ -18,12 +18,8 @@ from openedx.features.enterprise_support.utils import get_enterprise_learner_gen
 <%block name="bodyclass">view-in-course view-progress</%block>
 
 <%block name="headextra">
-<%static:css group='style-course-vendor'/>
 <%static:css group='style-course'/>
 </%block>
-
-
-<%namespace name="progress_graph" file="/courseware/progress_graph.js"/>
 
 <%block name="pagetitle">video</%block>
 
@@ -31,12 +27,126 @@ from openedx.features.enterprise_support.utils import get_enterprise_learner_gen
 
 <%include file="/courseware/course_navigation.html" args="active_page='video'" />
 
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap/lms-main.css" media="all"/>
+
+<style>
+    .global-header {
+        border-bottom: none;
+    }
+
+    .course-tabs {
+        overflow-x: hidden !important;
+    }
+
+    .accordion-trigger {
+        background: #fff !important;
+        box-shadow: none !important;
+    }
+
+    .accordion-trigger:focus {
+        outline: 0px solid blue !important;
+    }
+
+    .page-header .page-header-main .page-title {
+        margin-top: 8px !important;
+    }
+
+    .no-padding {
+        padding: 0px !important;
+    }
+
+    .vertical-details {
+        width: 100%;
+    }
+</style>
+
 <main id="main" aria-label="Content" tabindex="-1">
     <div class="container">
         <div class="profile-wrapper">
-            <section class="course-info" id="course-video">
+            <section class="course-info no-padding" id="course-video">
                 <!-- content ---s -->
-                content
+                <div class="course-view page-content-container" id="course-container">
+
+                    <header class="page-header has-secondary">
+                        <div class="page-header-main">
+                            <nav aria-label="강좌 개요" class="sr-is-focusable" tabindex="-1">
+                                <h2 class="hd hd-3 page-title"><b>${course.display_name}</b></h2>
+                            </nav>
+                        </div>
+                    </header>
+
+                    <div class="page-content">
+                        <div class="page-content-main">
+
+                            <main role="main" class="course-outline" id="main" tabindex="-1">
+                                <button class="btn btn-primary" id="expand-collapse-outline-all-button" aria-expanded="false" aria-controls="course-outline-block-tree">
+                                    <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">모두 펼치기</span>
+                                </button>
+
+
+                                <!-- chapter -->
+                                <ol class="block-tree accordion is_hidden" id="course-outline-block-tree" aria-labelledby="expand-collapse-outline-all-button">
+                                    % for chapter in chapter_list:
+                                    <li class="outline-item section">
+                                        <button class="section-name accordion-trigger" aria-expanded="false" aria-controls="${chapter['chapter_id']}">
+                                            <span class="fa fa-chevron-right ${'fa-rotate-90' if loop.index == 0 else ''}" aria-hidden="true"></span>
+                                            <h3 class="section-title">${chapter['chapter_name']}</h3>
+                                        </button>
+
+                                        <!-- sequential -->
+                                        <ol class="outline-item accordion-panel ${'' if loop.index == 0 else 'is-hidden'}" id="${chapter['chapter_id']}">
+
+                                            % for sequential in chapter['sequential_list']:
+                                            <li class="subsection accordion current">
+                                                <button class="subsection-text accordion-trigger is_hidden" aria-expanded="false" aria-controls="${sequential['sequential_id']}">
+                                                    <span class="fa fa-chevron-right fa-rotate-90" aria-hidden="true"></span>
+                                                    <h4 class="subsection-title">${sequential['sequential_name']}</h4>
+                                                </button> <!-- /subsection-text -->
+
+                                                <!-- vertical -->
+                                                <ol class="outline-item accordion-panel is_hidden" id="${sequential['sequential_id']}">
+                                                    % for vertical in sequential['vertical_list']:
+                                                    <li class="vertical outline-item focusable">
+                                                        <a class="outline-item focusable" target="_blank" href="${vertical['jump_url']}">
+                                                            <div class="vertical-details">
+                                                                <div class="vertical-title">
+                                                                    ${vertical['vertical_name']}
+                                                                    <button class="btn btn-primary btn-sm float-right">시청</button>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    % endfor
+                                                </ol>
+                                            </li>
+                                            % endfor
+                                        </ol>
+                                    </li>
+                                    % endfor
+                                </ol>
+                            </main>
+
+                            <script type="text/javascript">
+                                (function (require) {
+                                    (function (require) {
+                                        require(['js/dateutil_factory'], function (DateUtilFactory) {
+
+                                            DateUtilFactory.transform('.localized-datetime');
+
+                                        });
+                                    }).call(this, require || RequireJS.require);
+                                }).call(this, require || RequireJS.require);
+                            </script>
+
+
+                            <script type="text/javascript" src="/static/bundles/CourseOutline.js"></script>
+                            <script type="text/javascript">
+                                new CourseOutline();
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- content ---e -->
             </section>
         </div>

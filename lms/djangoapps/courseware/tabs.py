@@ -351,9 +351,9 @@ def get_course_tab_list(request, course):
             u'name': u'course_video'
         }
         video_tab.tab_id = 'video'
-        video_tab.view_name = 'video'
-        video_tab.name = 'video'
-        video_tab.title = 'video'
+        video_tab.view_name = 'Course Video'
+        video_tab.name = 'Course Video'
+        video_tab.title = 'Course Video'
         video_tab.type = 'video'
 
         course_tab_list.append(video_tab)
