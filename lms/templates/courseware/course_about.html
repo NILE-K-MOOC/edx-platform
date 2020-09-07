@@ -697,7 +697,7 @@ $("#audit_mode").click(function(event) {
                             % elif not is_shib_course and not can_enroll and audit_flag == 'N':
                                 <span class="register disabled">${_("Enrollment is Closed")}</span>
                             % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-                                <a class="audit register" id="audit_mode" style="float: right">${_("Audit Enrollment")}</a>
+                                <a class="register" id="audit_mode" style="float: right; background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);">${_("Audit Enrollment")}</a>
                             %elif can_add_course_to_cart:
                                 <%
                                     if user.is_authenticated:
@@ -731,28 +731,12 @@ $("#audit_mode").click(function(event) {
                                 <a href="${reg_href}" class="${href_class}" style="width: 90%;">${_("Enrollment")}</a>
                             </div>
                             <div class="box2" style="float: right; width: 35%;">
-                                <a href='video' class="" style="width: 100%;     border: 1px solid #000663;
-    border-bottom: 1px solid #00003a;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 0 0 #2592c0;
-    color: #fff;
-    display: inline-block;
-    font-size: inherit;
-    font-weight: bold;
-    background-color: #0075b4;
-    background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
-    background-image: linear-gradient(to bottom,#0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
-    padding: 7px 18px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 -1px 1px #000042;
-    box-sizing: border-box;
-    border-radius: 3px;
-    display: block;
-    float: left;
-    letter-spacing: 1px;
-    padding: 10px 0;
-    text-align: center;">${_("Course View")}</a>
+                                <a href='video' class="" style="width: 100%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
+                                    border-radius: 5px; box-shadow: inset 0 1px 0 0 #2592c0; color: #fff; display: inline-block; font-size: inherit;font-weight: bold;
+                                    background-color: #0075b4;background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
+                                    background-image: linear-gradient(to bottom,#0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%); padding: 7px 18px; text-align: center;
+                                    text-decoration: none;text-shadow: 0 -1px 1px #000042;box-sizing: border-box;border-radius: 3px;
+                                    display: block;float: left;letter-spacing: 1px; padding: 10px 0; text-align: center;">${_("Course View")}</a>
                             </div>
 
                             <div id="register_error"></div>
