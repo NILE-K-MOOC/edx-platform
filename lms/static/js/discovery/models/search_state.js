@@ -23,6 +23,9 @@
             },
             performSearch: function (searchTerm, otherTerms) {
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
+
+                //console.log("searchTerm:::::" + searchTerm);
+
                 let k, v, t;
                 $("#main input[name='default_term']").each(function () {
                     k = $(this).data('key');
@@ -90,9 +93,9 @@
                     page_size: this.pageSize,
                     page_index: pageIndex
                 };
-                console.log('buildQuery --- s');
-                console.log(this.terms);
-                console.log('buildQuery --- e');
+                // console.log('buildQuery --- s');
+                // console.log(this.terms);
+                // console.log('buildQuery --- e');
                 _.extend(data, this.terms);
 
                 /* 대분류 검사 */
@@ -175,6 +178,9 @@
                                 }
                             }
                         }, this);
+
+                        //alert('this.searchTerm:' + this.searchTerm);
+
                         this.trigger('search', this.searchTerm, total);
                     }
                 } else {

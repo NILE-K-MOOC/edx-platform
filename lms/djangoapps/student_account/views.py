@@ -73,7 +73,6 @@ from openedx.core.djangoapps.profile_images.images import remove_profile_images
 from openedx.core.djangoapps.user_api.preferences.api import update_user_preferences
 from django.contrib.auth.models import User
 
-
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
 User = get_user_model()  # pylint:disable=invalid-name
@@ -162,8 +161,8 @@ def nicecheckplus(request):
             return render_to_response('student_account/nicecheckplus.html')
 
     # encode data
-    nice_sitecode = 'AD521'             # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd = 'z0lWlstxnw0u'    # NICE로부터 부여받은 사이트 패스워드
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     # enc_data = request.POST.get('EncodeData')
@@ -273,15 +272,15 @@ def nicecheckplus_error(request):
 
 @csrf_exempt
 def parent_agree(request):
-    nice_sitecode = 'AD521'                                         # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd = 'z0lWlstxnw0u'                                # NICE로부터 부여받은 사이트 패스워드
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
 
-    nice_authtype = ''                                              # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
-    nice_popgubun = 'N'                                             # Y : 취소버튼 있음 / N : 취소버튼 없음
-    nice_customize = ''                                             # 없으면 기본 웹페이지 / Mobile : 모바일페이지
-    nice_gender = ''                                                # 없으면 기본 선택화면, 0: 여자, 1: 남자
-    nice_reqseq = 'REQ0000000001'                                   # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+    nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun = 'N'  # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
@@ -301,15 +300,15 @@ def parent_agree(request):
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
     enc_data = commands.getoutput(nice_command)
-    context = { 'enc_data': enc_data }
+    context = {'enc_data': enc_data}
     return render_to_response('student_account/parent_agree.html', context)
 
 
 @csrf_exempt
 def parent_agree_done(request):
     # encode data
-    nice_sitecode = 'AD521'             # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd = 'z0lWlstxnw0u'    # NICE로부터 부여받은 사이트 패스워드
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
 
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
     enc_data = request.GET.get('EncodeData') if request.GET.get('EncodeData') else request.POST.get('EncodeData')
@@ -343,7 +342,7 @@ def parent_agree_done(request):
 def agree(request):
     if request.method == 'POST' and request.POST['division']:
         request.session['division'] = request.POST['division']
-        context = { 'division': request.session['division'] }
+        context = {'division': request.session['division']}
         return render_to_response('student_account/agree.html', context)
     else:
         return render_to_response('student_account/registration_gubn.html')
@@ -372,6 +371,15 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # 로그인중이거나 oauth2 인증이 되어있으면 화면전환을 건너뜀
     if initial_mode == "login" or provider_info['currentProvider']:
+
+        if 'division' in request.session:
+            del request.session['division']
+
+        if 'agreeYN' in request.session:
+            del request.session['agreeYN']
+
+        if 'auth' in request.session:
+            del request.session['auth']
 
         # 로그인 버튼을 눌렀을 경우 회원가입의 세션 정보를 지운다.
         if 'private_info_use_yn' in request.session and 'event_join_yn' in request.session:
@@ -941,18 +949,18 @@ def account_settings_context(request):
         dict
 
     """
-    nice_sitecode = 'AD521'                                         # NICE로부터 부여받은 사이트 코드
-    nice_sitepasswd = 'z0lWlstxnw0u'                                # NICE로부터 부여받은 사이트 패스워드
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
     nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
-    nice_authtype = ''                                              # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
-    nice_popgubun = 'N'                                             # Y : 취소버튼 있음 / N : 취소버튼 없음
-    nice_customize = ''                                             # 없으면 기본 웹페이지 / Mobile : 모바일페이지
-    nice_gender = ''                                                # 없으면 기본 선택화면, 0: 여자, 1: 남자
-    nice_reqseq = 'REQ0000000001'                                   # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+    nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun = 'N'  # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)        # 성공시 이동될 URL
-    nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)   # 실패시 이동될 URL
+    nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
 
     plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
@@ -1045,11 +1053,11 @@ def account_settings_context(request):
     [countries_list.insert(0, (code, name)) if code == 'KR' else countries_list.append((code, name)) for code, name in countries]
 
     context = {
-        'user_gender': user_gender,         # context -> nice data
-        'user_birthday': user_birthday,     # context -> nice data
-        'user_name': user_name,             # context -> nice data
-        'nice_check': nice_check,           # context -> nice data
-        'enc_data': enc_data,               # context -> nice data
+        'user_gender': user_gender,  # context -> nice data
+        'user_birthday': user_birthday,  # context -> nice data
+        'user_name': user_name,  # context -> nice data
+        'nice_check': nice_check,  # context -> nice data
+        'enc_data': enc_data,  # context -> nice data
         'auth': {},
         'duplicate_provider': None,
         'nav_hidden': True,

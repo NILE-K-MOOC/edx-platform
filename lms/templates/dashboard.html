@@ -64,7 +64,20 @@ from student.models import CourseEnrollment
     nav.faq-tab > a:focus {
         outline: none;
     }
+    .loader {
+      border: 16px solid #f3f3f3; /* Light grey */
+      border-top: 16px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+        margin-left:45%;
+    }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 <%block name="header_extras">
 % for template_name in ["donation"]:
@@ -91,6 +104,7 @@ from student.models import CourseEnrollment
 
                 })
                 .done(function( data ) {
+                  alert(data.result.length);
                     for (var i=0; i<data.result.length; i++) {
                         var d = data.result[i];
                         var attendance = d.attendance;
@@ -190,6 +204,74 @@ from student.models import CourseEnrollment
         }
 
     $(document).ready(function () {
+
+      var status_ = $(location).attr('href')
+      status_.split('=')
+      var isVisible = false;
+      if (status_.split('=')[1] == 'end') {
+        $(window).scroll(function () {
+          if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.8 && !isVisible) {
+            //console.log(($(document).height()) / ($(window).scrollTop() + $(window).height()))
+            //console.log(status_.split('=')[1])
+            //console.log($('.course-item').length)
+            if (${total_end_cnt} > $('.course-item').length) {
+              $('.listing-courses').append("<div class=\"loader\"></div>");
+              isVisible = true;
+              $.ajax({
+                url: '/dashboard',
+                type: "POST",
+                dataType: 'html',
+                data: {
+                  now_length: $('.course-item').length,
+                  status_: status_.split('=')[1],
+                  csrfmiddlewaretoken: '${ csrf_token }'
+                }
+              }).done(function (data) {
+                $('.loader').remove();
+                $('.listing-courses').append(data);
+
+                isVisible = false;
+              });
+            }
+
+          }
+        });
+      }
+
+
+
+      /*
+      // footer보이일때 로드
+      $(window).on('scroll', function () {
+        if (checkVisible($('.new-footer')) && !isVisible) {
+          isVisible = true;
+          $.ajax({
+            url: '/dashboard',
+            type: "POST",
+            dataType: 'html',
+            data: {
+              now_length: $('.course-item').length,
+              status_: status_.split('=')[1],
+              csrfmiddlewaretoken: '${ csrf_token }'
+            }
+          }).done(function (data) {
+            $('.listing-courses').append(data);
+            isVisible = false;
+          });
+
+        }
+      });
+        */
+      function checkVisible(elm, eval) {
+        eval = eval || "object visible";
+        var viewportHeight = $(window).height(), // Viewport Height
+          scrolltop = $(window).scrollTop(), // Scroll Top
+          y = $(elm).offset().top,
+          elementHeight = $(elm).height();
+
+        if (eval == "object visible") return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
+        if (eval == "above") return ((y < (viewportHeight + scrolltop)));
+      }
         cb_course();
 
         edx.dashboard.legacy.init({
@@ -202,12 +284,21 @@ from student.models import CourseEnrollment
         $(".faq-tab a").click(function (e) {
             document.location.href = "dashboard?status=" + $(this).data("status");
         });
-
+        if (status_.split('=')[1] =='end'){
+          $(".faq-tab a").each(function(){
+          if($(this).hasClass('on')){
+            $(this).children('span').append('[${total_end_cnt}]');
+          }
+        });
+        }
+        else {
         $(".faq-tab a").each(function(){
           if($(this).hasClass('on')){
             $(this).children('span').append('[${len(course_entitlements + course_enrollments)}]');
           }
         });
+        }
+
 
         /*
         var xhr;
@@ -440,11 +531,11 @@ from student.models import CourseEnrollment
                     <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
                         <h2 class="hidden_head">${_("ing course")}</h2>
                     </a>
-                    <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
+                    <a href="#" data-status="audit" hellll ='qweqwe' class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
                         <h2 class="hidden_head">${_("Audit Course")}</h2>
                     </a>
                     % endif
-                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
+                    <a href="#" data-status="end" hellll ='qweqwe' class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
                         <h2 class="hidden_head">${_("complete/end Course")}</h2>
                     </a>
                     <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>

@@ -110,6 +110,20 @@
             width: 100% !important;
         }
     }
+    .loader {
+      border: 16px solid #f3f3f3; /* Light grey */
+      border-top: 16px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+        margin-left:45%;
+    }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 <link rel="stylesheet" type="text/css" href="/static/images/kotech_roadmap/about_org.css">
 <link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css" />
@@ -434,7 +448,7 @@
 
 <div class="container-fluid">
     <div class="multi-course-cnt">
-        총 <span id="course_total">${len(courses)}</span> 개
+        총 <span id="course_total"></span> 개
     </div>
     <div class="find-courses multi-search">
         <input id="multisite_search" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
@@ -464,7 +478,52 @@
 
 
 <script>
+    let search_word = ''
+    let search_cnt =10
+
+    let total_count = 0
+
+    var isVisible = false;
+    var status_ = $(location).attr('href')
+
+  $(document).ready(function () {
+    search_count();
+    $(window).scroll(function () {
+      if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
+
+
+        if (total_count >$('.courses-listing-item').size()){
+          //$('.find-courses').append("<div class=\"loader\"></div>");
+          isVisible = true;
+          search_ajax();
+        }
+      }
+
+
+    });
+
+  });
+    function search_ajax(){
+      $.ajax({
+            url: '/org/'+status_.split('/').reverse()[0],
+            type: "POST",
+            dataType: 'html',
+            data: {
+              now_length: $('.courses-listing-item').size(),
+              search_word :search_word,
+              search_cnt :search_cnt,
+              csrfmiddlewaretoken: $.cookie('csrftoken')
+            }
+          }).done(function (data) {
+            //$('.loader').remove();
+            $('.courses-listing').append(data);
+            $('#course_total').html(total_count);
+            search_cnt = search_cnt+10
+            isVisible = false;
+          });
+    }
     $(function(){
+
         $('.owl-carousel').owlCarousel({
             margin: 20,
             nav: true,
@@ -492,21 +551,46 @@
             multisite_search();
         }
     });
+    function multisite_search(){
 
+        $('.courses-listing-item').remove();
+        search_word = $('#multisite_search').val();
+        search_cnt = 0
+        search_count();
+        search_ajax();
+    };
+
+    function search_count(){
+      $.ajax({
+            url: '/multi_index_count/'+status_.split('/').reverse()[0],
+            type: "POST",
+            dataType: 'JSON',
+            data: {
+              search_word :search_word,
+              csrfmiddlewaretoken: $.cookie('csrftoken')
+            }
+          }).done(function (data) {
+            //$('#course_total').html(total_count);
+            total_count = data.a
+            $('#course_total').html(data.a);
+          });
+    };
+    /*
     function multisite_search(){
         $('.courses-listing-item').show();
         var multisite_search = $('#multisite_search').val();
         var cnt = $('.courses-listing-item').length;
         var total = cnt;
-        for (var i=0; i<cnt; i++) {
+        for (var i=0; i<cnt; i++){
             var course_title = $('.courses-listing-item').eq(i).find(".course-title").html();
             if (course_title.search(multisite_search) == -1) {
                 $('.courses-listing-item').eq(i).hide();
                 total -= 1;
             }
         }
-        $('#course_total').html(total);
+        //$('#course_total').html(total);
     }
+    */
 
     function change_course(type){
         // $('#section_owl').show();
@@ -554,4 +638,5 @@
             }
         }
     }
+
 </script>

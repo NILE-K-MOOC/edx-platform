@@ -59,8 +59,12 @@
                 });
 
                 dispatcher.listenTo(search, 'search', function(query, total) {
+
+                    //alert("검색종료. 검색어 및 검색 결과값["+total+"] 저장.");
+
                     if (total > 0) {
                         form.showFoundMessage(total);
+
                         if (query) {
                             filters.add(
                                 {type: 'search_query', query: query, name: quote(query)},
@@ -71,6 +75,13 @@
                         form.showNotFoundMessage(query);
                         filters.reset();
                     }
+                    // here is save_search_data --------jhy
+                    //console.log('searchQuery',searchQuery)
+                    //console.log('query',query)
+                    //console.log('total',total)
+                    form.save_search_data(query,total);
+                    // here is save_search_data --------jhy
+
                     form.hideLoadingIndicator();
                     listing.render();
                     refineSidebar.render();

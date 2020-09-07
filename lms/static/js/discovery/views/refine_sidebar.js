@@ -47,7 +47,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    console.debug('renderOptions check:: ' + data.facet + " : " + data.term);
+                    // console.debug('renderOptions check:: ' + data.facet + " : " + data.term);
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -165,7 +165,7 @@
 
             renderFacet: function (facetKey, options) {
 
-                console.log('facetKey ==> ' + facetKey);
+                // console.log('facetKey ==> ' + facetKey);
 
                 return this.facetTpl({
                     name: facetKey,
@@ -420,7 +420,7 @@
                 $("#fourth_industry_yn li").each(function () {
                     let v = $(this).find("button").data('value');
 
-                    console.log('#fourth_industry_yn li remove check : ' + v);
+                    // console.log('#fourth_industry_yn li remove check : ' + v);
 
                     if (v.toUpperCase() == 'N') {
                         $(this).remove();

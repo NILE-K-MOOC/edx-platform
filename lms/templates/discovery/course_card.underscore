@@ -1,12 +1,18 @@
 <article class="course <%- status  %> <% if (audit_yn == 'Y') { %> audit<% } %>" role="region" aria-label="<%- content.display_name %>">
     <a href="/courses/<%- course %>/about">
         <header class="course-image">
-            <% if (ribbon_yn == 'Y'){ %>
+            <% if (ribbon_yn == 'Y' && ribbon_year !=''){ %>
+
+            <i class="kr01-ribbonArea"><img class="ribbonImg" src="/static/images/main/ribbon_<%- ribbon_year %>.png">
+                <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+            </i>
+            <% } else if (ribbon_yn == 'Y' && ribbon_year ==''){%>
+
             <i class="kr01-ribbonArea"><img class="ribbonImg" src="/static/images/main/ribbon.png">
                 <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
             </i>
-
             <% } %>
+
             <div class="cover-image">
                 <span class="univ-logo">
                     <!--
