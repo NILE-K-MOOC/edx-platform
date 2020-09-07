@@ -58,7 +58,6 @@ class CourseOutlineFragmentView(EdxFragmentView):
 
         context['gated_content'] = gated_content
         context['xblock_display_names'] = xblock_display_names
-
         html = render_to_string('course_experience/course-outline-fragment.html', context)
         return Fragment(html)
 
