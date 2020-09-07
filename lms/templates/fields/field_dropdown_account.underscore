@@ -20,13 +20,14 @@
         <% var nice_check = $('#nice_check').text() %>
         <select name="select" id="u-field-select-<%- id %>" aria-describedby="u-field-help-message-<%- id %>">
             <% _.each(groupOptions, function(groupOption) { %>
-                <% if (showBlankOption) { %>
+                <% if (showBlankOption && id != 'gender' && id != 'year_of_birth' ) { %>
                     <% if (groupOption.nullValueOptionLabel) { %>
                         <option value=""><%- groupOption.nullValueOptionLabel %></option>
                     <% } else { %>
                         <option value=""></option>
                     <% } %>
                 <% } %>
+
                     <% if (groupOption.groupTitle != null) { %>
                         <optgroup label="<%- groupOption.groupTitle %>">
                     <% } %>

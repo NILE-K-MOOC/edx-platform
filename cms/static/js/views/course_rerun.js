@@ -39,6 +39,7 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
             var classfy_plus = $newCourseForm.find('.rerun-course-classfy_plus').val()
             var middle_classfy = $newCourseForm.find('.rerun-course-middle_classfy').val()
             var teacher_name = $newCourseForm.find('.rerun-course-teacher_name').val()
+            var course_period = $newCourseForm.find('.rerun-course-course_period').val()
 
             course_info = {
                 source_course_key: source_course_key,
@@ -49,7 +50,8 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
                 classfy: classfy,
                 classfy_plus: classfy_plus,
                 middle_classfy: middle_classfy,
-                teacher_name: teacher_name
+                teacher_name: teacher_name,
+                course_period: course_period
             };
 
             analytics.track('Reran a Course', course_info);
