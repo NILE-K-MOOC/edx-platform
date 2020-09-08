@@ -1685,11 +1685,12 @@ def change_enrollment(request, check_access=True):
             return HttpResponse(
                 reverse("course_modes_choose", kwargs={'course_id': text_type(course_id)})
             )
-
         # Otherwise, there is only one mode available (the default)
+
         return HttpResponse()
     elif action == "unenroll":
         enrollment = CourseEnrollment.get_enrollment(user, course_id)
+
         if not enrollment:
             return HttpResponseBadRequest(_("You are not enrolled in this course"))
 
@@ -1698,6 +1699,17 @@ def change_enrollment(request, check_access=True):
             return HttpResponseBadRequest(_("Your certificate prevents you from unenrolling from this course"))
 
         CourseEnrollment.unenroll(user, course_id)
+        try:
+            with connections['default'].cursor() as cur:
+                sql = '''
+                      UPDATE tb_enroll_addinfo 
+                      SET use_yn = 'N'
+                      WHERE (student_no = '{id}' and course_id = '{course_id}')
+                   '''.format(course_id=course_id, student_no=user.id)
+                cur.execute(sql)
+        except:
+            print 'not recognition'
+            pass
         REFUND_ORDER.send(sender=None, course_enrollment=enrollment)
         return HttpResponse()
     else:

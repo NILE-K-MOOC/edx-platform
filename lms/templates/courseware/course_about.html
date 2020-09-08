@@ -20,104 +20,146 @@
     <meta property="og:description" content="${get_course_about_section(request, course, 'short_description')}" />
 </%block>
 <style>
-    .acbs-wrap {
-    z-index: 10;
-    #position: absolute;
-    top: 100%;
-    left: 0;
-    width: 380px;
-    margin-top: 10px;
-}
-    .acbs-wrap .type {
-    display: flex;
-    padding: 15px 10px;
-    border: 1px solid #ccc;
-    border-radius: .25rem;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
-    background-color: #fff;
-}
-    .acbs-wrap .acbs-group {
-    margin-top: 10px;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: .25rem;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
-    background-color: #fff;
-    font-size: 15px;
-}
-    .acbs-wrap .type .type-btn:nth-child(1) {
-    background-image: linear-gradient(to right, #7474BF 0%, #598dca 51%, #7474BF 100%);
-}
-    .acbs-wrap .type .type-btn:nth-child(2) {
-    background-image: linear-gradient(to right, #4ca2cd 0%, #67B26F 51%, #4ca2cd 100%);
-}
-    .acbs-wrap .acbs-group .acbs-btn {
-    width: 100%;
-    padding: 12px 0;
-    border: none;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-    background-image: linear-gradient(to right, #4ca2cd 0%, #67B26F 51%, #4ca2cd 100%);
-    background-size: 200% auto;
-    text-shadow: none;
-    font-size: 15px;
-    font-weight: bold;
-    letter-spacing: -0.03em;
-    color: #fff;
-    transition: all .2s ease;
-    cursor: pointer;
-}
-    .acbs-wrap .type .type-btn {
-    flex: 1;
-    margin: 0 5px;
-    padding: 12px 0;
-    border: none;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-    background-size: 200% auto;
-    text-shadow: none;
-    font-size: 15px;
-    font-weight: bold;
-    letter-spacing: -0.03em;
-    color: #fff;
-    transition: all .2s ease;
-    cursor: pointer;
-}
-    acbs-wrap .type .type-btn:nth-child(2) {
-    background-image: linear-gradient(to right, #4ca2cd 0%, #67B26F 51%, #4ca2cd 100%);
-}
-    .acbs-wrap .acbs-group .form-group {
-    display: flex;
-    margin-bottom: 1rem;
-}
+    /* --------------------------
+     *    학점인정 수강신청
+     * --------------------------
+    **/
 
-.acbs-wrap .acbs-group .pa-group {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background-color: #f4f4f4;
-    font-size: 13px;
-    text-align: center;
-}
-    .acbs-wrap .acbs-group .pa-group .pa-text {
-    margin-top: 0;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e4e4e4;
-}
-    p {
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-    .acbs-wrap .acbs-group .pa-group .radio-inline label {
-    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
-    font-size: 13px;
-    font-weight: normal;
-    font-style: normal;
-}
+    .course-info header.course-profile {
+        overflow: visible;
+    }
+
+    .course-info header.course-profile .intro-inner-wrapper .intro .main-cta {
+        position: relative;
+    }
+
+    .acbs-wrap {
+        z-index: 10;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 380px;
+        margin-top: 10px;
+    }
+
+    .acbs-wrap .type {
+        display: flex;
+        padding: 15px 10px;
+        border: 1px solid #ccc;
+        border-radius: .25rem;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
+        background-color: #fff;
+
+    }
+
+    .acbs-wrap .type .type-btn {
+        flex: 1;
+        margin: 0 5px;
+        padding: 12px 0;
+        border: none;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+        background-size: 200% auto;
+        text-shadow: none;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: -0.03em;
+        color: #fff;
+        transition: all .2s ease;
+        cursor: pointer;
+    }
+
+    .acbs-wrap .type .type-btn:nth-child(1) {
+        background-image: linear-gradient(to right, #7474BF 0%, #598dca 51%, #7474BF 100%);
+    }
+
+    .acbs-wrap .type .type-btn:nth-child(2) {
+        background-image: linear-gradient(to right, #4ca2cd 0%, #67B26F 51%, #4ca2cd 100%);
+    }
+
+    .acbs-wrap .type .type-btn:hover {
+        background-position: right center;
+    }
+
+    .acbs-wrap .acbs-group {
+        margin-top: 10px;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: .25rem;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, .12);
+        background-color: #fff;
+        font-size: 15px;
+    }
+
     .acbs-wrap .acbs-group .form-group {
-    display: flex;
-    margin-bottom: 1rem;
-}
+        display: flex;
+        margin-bottom: 1rem;
+    }
+
+    .acbs-wrap .acbs-group .form-group .label-control {
+        margin-right: 15px;
+        padding-top: 6px;
+    }
+
+    .acbs-wrap .acbs-group .form-group .form-control {
+        flex: 1;
+        height: 35px;
+        padding: .25rem .5rem;
+        border: 1px solid #cecece;
+        border-radius: .25rem;
+        box-shadow: none;
+        font-size: 15px;
+        font-weight: normal;
+    }
+
+    .acbs-wrap .acbs-group .pa-group {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: #f4f4f4;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .acbs-wrap .acbs-group .pa-group .pa-text {
+        margin-top: 0;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e4e4e4;
+    }
+
+    .acbs-wrap .acbs-group .pa-group .radio-inline {
+        display: inline-block;
+    }
+
+    .acbs-wrap .acbs-group .pa-group .radio-inline ~ .radio-inline {
+        margin-left: 10px;
+    }
+
+    .acbs-wrap .acbs-group .pa-group .radio-inline label {
+        font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
+        font-size: 13px;
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .acbs-wrap .acbs-group .acbs-btn {
+        width: 100%;
+        padding: 12px 0;
+        border: none;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+        background-image: linear-gradient(to right, #4ca2cd 0%, #67B26F 51%, #4ca2cd 100%);
+        background-size: 200% auto;
+        text-shadow: none;
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: -0.03em;
+        color: #fff;
+        transition: all .2s ease;
+        cursor: pointer;
+    }
+
+    .acbs-wrap .acbs-group .acbs-btn:hover {
+        background-position: right center;
+    }
 </style>
 <%block name="js_extra">
 <script type="text/javascript">
@@ -838,8 +880,8 @@ $("#audit_mode").click(function(event) {
                                     else:
                                         href_class = "register"
                                 %>
-                            <div class="box1" style="float: left; width: 65%;">
-                                <a href="${reg_href}" class="${href_class}" style="width: 90%;">${_("Enrollment")}</a>
+                            <div class="box1" style="float: left; width: 65%;" id="enroll_0">
+                                <button id="enroll_1" style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
                             </div>
 
                             <div class="box2" style="float: right; width: 35%;">
@@ -850,7 +892,50 @@ $("#audit_mode").click(function(event) {
                                     text-decoration: none; box-sizing: border-box;border-radius: 3px;
                                     display: block;     font: normal 1.2rem/1.6rem 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; float: left;letter-spacing: 1px; padding: 10px 0; text-align: center; ">${_("Course View")}</a>
                             </div>
+                            <div class="box1" style="float: left; width: 100%;" hidden id="recog_divv_0">
+                                <div class="acbs-wrap"  id="recog_divv_1">
+                                    <div class="type">
+                                        <button href="${reg_href}" class="type-btn ${href_class}" id="real_enroll">
+                                            일반수강
+                                        </button>
+                                        <button class="type-btn" id="recognition">학점인정</button>
+                                    </div>
+                                    <div class="acbs-group" id="recognition_div" hidden>
+                                        <div class="form-group">
+                                            <span class="label-control">대학</span>
+                                            <select class="form-control" id="recog_org">
+                                                <option selected="">선택하세요</option>
+                                                %for code, name in recog_org :
+                                                <option value="${code}">${name}(${code})</option>
+                                                %endfor
 
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="label-control">학번</span>
+                                            <input type="text" class="form-control" placeholder="20201234"
+                                                   id="recog_num">
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="label-control">이메일</span>
+                                            <input type="email" class="form-control" placeholder="kmooc@kmooc.com"
+                                                   id="recog_mail">
+                                        </div>
+                                        <div class="pa-group">
+                                            <p class="pa-text">학점인정 수강신청을 위한<br>대학, 학번, 이메일의 정보 활용에 동의합니다.</p>
+                                            <div class="radio-inline">
+                                                <input type="radio" name="pa" id="paAg" checked="">
+                                                <label for="paAg">동의함</label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <input type="radio" name="pa" id="paDis">
+                                                <label for="paDis">동의하지 않음</label>
+                                            </div>
+                                        </div>
+                                        <button class="acbs-btn" id="active_recognition">학점인정 수강신청하기</button>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="register_error"></div>
 
                             %endif
@@ -862,6 +947,68 @@ $("#audit_mode").click(function(event) {
         </header>
     </%block>
 <script>
+  let param = 0;
+  $("#recognition").click(function () {
+    //$('#recognition_div').show()
+    if($("#recognition_div").css("display") == "none"){
+        $("#recognition_div").show();
+    } else {
+        $("#recognition_div").hide();
+    }
+
+  });
+  $("#enroll_1").click(function () {
+    if($("#recog_divv_0").css("display") == "none"){
+        $("#recog_divv_0").show();
+    } else {
+        $("#recog_divv_0").hide();
+    }
+  });
+
+  $("#active_recognition").click(function () {
+    let check_agree = $('input:radio[id=paAg]').is(':checked');
+
+    if ($('#recog_org').val().length < 1) {
+      swal('Warning', '학교를 선택해 주세요.', 'warning');
+    }
+    if ($('#recog_mail').val().length < 1) {
+      swal('Warning', '메일을 입력해 주세요.', 'warning');
+    }
+    if ($('#recog_num').val().length < 1) {
+      swal('Warning', '학점을 입력해 주세요.', 'warning');
+    }
+    if ($('#recog_mail').val().indexOf('@') == -1) {
+      swal('Warning', '올바른 이메일 형식을 입력해 주세요.', 'warning');
+    }
+
+    if (check_agree == true && $('#recog_num').val().length > 1 && $('#recog_mail').val().length > 1) {
+      param = 1;
+    } else if (check_agree == false) {
+      swal('Warning', '정보 활용에 동의해주세요.', 'warning');
+    }
+    if (param == 1) {
+      $.ajax({
+        url: '/recognition',
+        type: "POST",
+        data: {
+          csrfmiddlewaretoken: $.cookie('csrftoken'),
+          univ: $('#recog_org').val(),
+          student_no: $('#recog_num').val(),
+          email: $('#recog_mail').val(),
+          course_id:'${course.id}',
+          user:'${user.id}'
+        }
+      }).done(function (data) {
+        if (data.return =='success'){
+            $("#real_enroll").trigger("click");
+            swal('success', '학점인정 수강신청이 완료되었습니다.', 'success');
+        }
+        else{
+          swal('Warning', '다시 시도해주세요', 'warning');
+        }
+      });
+    }
+  });
 
 </script>
     <div class="container">

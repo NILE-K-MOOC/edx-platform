@@ -1727,7 +1727,17 @@ def course_about(request, course_id):
 
         enroll_audit = True if enroll_mode == 'audit' and enroll_active == True else False
 
-        print "later_start", start
+        # print "later_start", start
+        with connections['default'].cursor() as cur:
+            query = """
+                    select detail_code, detail_name
+                    from code_detail 
+                    where group_code = 220 and use_yn = 'Y' and delete_yn='N'
+                """.format(course_id=course_id, course_org=course_org, course_number=course_number)
+            cur.execute(query)
+            recog_org = cur.fetchall()
+
+
         context = {
             'similar_course': similar_course,  # 유사강좌
             'course': course,
@@ -1790,7 +1800,8 @@ def course_about(request, course_id):
             'start': start,
             'end': end,
             'enroll_audit': enroll_audit,
-            'course_survey_data': course_survey_data
+            'course_survey_data': course_survey_data,
+            'recog_org':recog_org
         }
 
         return render_to_response('courseware/course_about.html', context)
@@ -3673,3 +3684,24 @@ def blue_ribbon_year(request):
             pass
 
     return JsonResponse(data)
+
+
+def recognition(request):
+    univ = request.POST.get('univ')
+    student_no = request.POST.get('student_no')
+    email = request.POST.get('email')
+    course_id = request.POST.get('course_id')
+    user = request.user.id
+    try:
+        with connections['default'].cursor() as cur:
+            sql = '''
+                  INSERT INTO tb_enroll_addinfo(course_id, org, student_no, email, regist_id) 
+                  VALUES ('{course_id}','{univ}','{student_no}','{email}','{regist_id}');
+    
+               '''.format(course_id=course_id, univ=univ, student_no=student_no, email=email, regist_id=user)
+            cur.execute(sql)
+            return JsonResponse({"return": "success"})
+    except:
+        return JsonResponse({"return": "fail"})
+
+
