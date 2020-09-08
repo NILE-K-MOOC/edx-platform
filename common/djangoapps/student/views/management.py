@@ -1712,8 +1712,7 @@ def change_enrollment(request, check_access=True):
                 cur.execute(sql)
 
         except Exception as e:
-            print 'eeeeeeee',e
-            print 'not recognition'
+            print 'not recognition',e
             pass
         REFUND_ORDER.send(sender=None, course_enrollment=enrollment)
         return HttpResponse()
