@@ -1225,12 +1225,12 @@ def course_about(request, course_id):
         # - Course is already full
         # - Student cannot enroll in course
         active_reg_button = not (registered or is_course_full or not can_enroll)
-        print 'registered',registered
-        print 'is_course_full',is_course_full
-        print 'can_enroll',can_enroll
-        print 'active_reg_button',active_reg_button
+        print 'registered', registered
+        print 'is_course_full', is_course_full
+        print 'can_enroll', can_enroll
+        print 'active_reg_button', active_reg_button
         is_shib_course = uses_shib(course)
-        print 'is_shib_course',is_shib_course
+        print 'is_shib_course', is_shib_course
         # get prerequisite courses display names
         pre_requisite_courses = get_prerequisite_courses_display(course)
 
@@ -2409,27 +2409,41 @@ def video(request, course_id):
 
             for chapter_type, chapter_id in chapters:
                 # print block_type, block_id
-                chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": chapter_id}}})
+                chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": chapter_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                if not 'blocks' in chapter:
+                    continue
+
                 chapter_fields = chapter['blocks'][0].get('fields')
 
                 if not chapter_fields:
                     continue
 
                 chapter_name = chapter_fields.get('display_name')
+                chapter_start = chapter_fields.get('start')
                 sequentials = chapter_fields.get('children')
 
                 for sequential_type, sequential_id in sequentials:
-                    sequential = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": sequential_id}}})
+                    sequential = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": sequential_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                    if not 'blocks' in sequential:
+                        continue
+
                     sequential_fields = sequential['blocks'][0].get('fields')
 
                     if not sequential_fields:
                         continue
 
                     sequential_name = sequential_fields.get('display_name')
+                    sequential_start = sequential_fields.get('start')
                     verticals = sequential_fields.get('children')
 
                     for vertical_type, vertical_id in verticals:
-                        vertical = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": vertical_id}}})
+                        vertical = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": vertical_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                        if not 'blocks' in vertical:
+                            continue
+
                         vertical_fields = vertical['blocks'][0].get('fields')
 
                         if not vertical_fields:
@@ -2449,6 +2463,7 @@ def video(request, course_id):
                                 continue
 
                             vertical_name = xblock_fields.get('display_name')
+
                             html5_sources = xblock_fields.get('html5_sources')
 
                             if not html5_sources:
@@ -2463,8 +2478,10 @@ def video(request, course_id):
                                 temp_dict = {
                                     'chapter_name': chapter_name,
                                     'chapter_id': chapter_id,
+                                    'chapter_start': chapter_start,
                                     'sequential_name': sequential_name,
                                     'sequential_id': sequential_id,
+                                    'sequential_start': sequential_start,
                                     'vertical_name': vertical_name,
                                     'vertical_id': vertical_id,
                                     'html5_source': html5_source
@@ -2472,7 +2489,9 @@ def video(request, course_id):
 
                                 temp_list.append(temp_dict)
 
-                                print chapter_id, chapter_name, sequential_id, sequential_name, vertical_id,vertical_name, html5_source
+                                # print '----------------------------------------------------------- s'
+                                # print chapter_name, chapter_start, sequential_name, sequential_start, vertical_name, html5_source
+                                # print '----------------------------------------------------------- e'
 
     video_tree = {}
 
@@ -2493,6 +2512,10 @@ def video(request, course_id):
         if True:
             _chapter_name1 = temp1['chapter_name']
             _chapter_id = temp1['chapter_id']
+            _chapter_start = temp1['chapter_start']
+
+            if _chapter_start and _chapter_start > datetime.utcnow():
+                continue
 
             if not _chapter_name2:
                 _chapter_name2 = temp1['chapter_name']
@@ -2505,6 +2528,7 @@ def video(request, course_id):
 
             _sequential_name1 = None
             _sequential_name2 = None
+            _sequential_start = None
 
             sequential_list = list()
             for temp2 in temp_list:
@@ -2512,6 +2536,10 @@ def video(request, course_id):
 
                     _sequential_name1 = temp2['sequential_name']
                     _sequential_id = temp2['sequential_id']
+                    _sequential_start = temp2['sequential_start']
+
+                    if _sequential_start and _sequential_start > datetime.utcnow():
+                        continue
 
                     if not _sequential_name2:
                         _sequential_name2 = temp2['sequential_name']
@@ -2571,9 +2599,9 @@ def video(request, course_id):
 
     # 강좌의 영상목록 생성 --- e
 
-    print 'chapter_list ------------------------- s'
-    print chapter_list
-    print 'chapter_list ------------------------- e'
+    # print 'chapter_list ------------------------- s'
+    # print chapter_list
+    # print 'chapter_list ------------------------- e'
 
     context = {
         'course': course,
