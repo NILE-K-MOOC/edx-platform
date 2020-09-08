@@ -249,6 +249,68 @@ def courses(request):
         else:
             courses_list = sort_by_announcement(courses_list)
 
+    import time
+    try:
+        from urllib import urlencode
+    except ImportError:
+        CourseDescriptorWithMixins
+
+    from elasticsearch.exceptions import ConnectionError
+    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
+
+    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
+
+        print '##### perform_request called 111'
+        log.info('##### perform_request called 111')
+
+        url = self.url_prefix + url
+        if 'size' in params:
+            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
+
+        if params:
+            url = '%s?%s' % (url, urlencode(params or {}))
+        full_url = self.host + url
+
+        start = time.time()
+
+        if body:
+
+            log.info('##### body ------------------------------------------------------- s1')
+            log.info(body)
+            log.info('##### body ------------------------------------------------------- e1')
+
+            if '{"term": {"org": "SMUk"}}' in body:
+                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
+
+            if '{"term": {"linguistics": "all"}' in body:
+                body = body.replace('{"term": {"linguistics": "all"}', '{"terms": {"linguistics": ["Korean", "Korean Culture"]}')
+
+            log.info('##### body ------------------------------------------------------- s2')
+            log.info(body)
+            log.info('##### body ------------------------------------------------------- e2')
+
+        try:
+            kw = {}
+            if timeout:
+                kw['timeout'] = timeout
+            response = self.pool.urlopen(method, url, body, **kw)
+            duration = time.time() - start
+            raw_data = response.data.decode('utf-8')
+        except Exception as e:
+            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
+            raise ConnectionError('N/A', str(e), e)
+
+        if not (200 <= response.status < 300) and response.status not in ignore:
+            self.log_request_fail(method, url, body, duration, response.status)
+            self._raise_error(response.status, raw_data)
+
+        self.log_request_success(method, full_url, url, body, response.status,
+                                 raw_data, duration)
+
+        return response.status, response.getheaders(), raw_data
+
+    Urllib3HttpConnection.perform_request = perform_request
+
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
@@ -293,10 +355,12 @@ def mobile_courses(request):
     from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
 
     def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
+
+        print '##### perform_request called 2'
+
         url = self.url_prefix + url
         if 'size' in params:
-            params[
-                'sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
+            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
 
         if params:
             url = '%s?%s' % (url, urlencode(params or {}))
