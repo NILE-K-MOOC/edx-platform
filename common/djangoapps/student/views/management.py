@@ -1700,14 +1700,19 @@ def change_enrollment(request, check_access=True):
 
         CourseEnrollment.unenroll(user, course_id)
         try:
+            print 'course_id',course_id
+            print 'user.id',user.id
             with connections['default'].cursor() as cur:
                 sql = '''
                       UPDATE tb_enroll_addinfo 
                       SET use_yn = 'N'
-                      WHERE (student_no = '{id}' and course_id = '{course_id}')
-                   '''.format(course_id=course_id, student_no=user.id)
+                      WHERE (regist_id = '{regist_id}' and course_id = '{course_id}' and use_yn ='Y')
+                   '''.format(course_id=course_id, regist_id=user.id)
+                print sql
                 cur.execute(sql)
-        except:
+
+        except Exception as e:
+            print 'eeeeeeee',e
             print 'not recognition'
             pass
         REFUND_ORDER.send(sender=None, course_enrollment=enrollment)

@@ -904,7 +904,7 @@ $("#audit_mode").click(function(event) {
                                         <div class="form-group">
                                             <span class="label-control">대학</span>
                                             <select class="form-control" id="recog_org">
-                                                <option selected="">선택하세요</option>
+                                                <option selected="" value="">선택하세요</option>
                                                 %for code, name in recog_org :
                                                 <option value="${code}">${name}(${code})</option>
                                                 %endfor
@@ -968,7 +968,7 @@ $("#audit_mode").click(function(event) {
   $("#active_recognition").click(function () {
     let check_agree = $('input:radio[id=paAg]').is(':checked');
 
-    if ($('#recog_org').val().length < 1) {
+    if ($('#recog_org').val() == "") {
       swal('Warning', '학교를 선택해 주세요.', 'warning');
     }
     if ($('#recog_mail').val().length < 1) {
