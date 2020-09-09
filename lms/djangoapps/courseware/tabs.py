@@ -355,7 +355,7 @@ def get_course_tab_list(request, course):
         video_tab.title = 'Course Video'
         video_tab.type = 'video'
 
-        course_tab_list.append(video_tab)
+        course_tab_list.insert(1, video_tab)
 
     return course_tab_list
 
