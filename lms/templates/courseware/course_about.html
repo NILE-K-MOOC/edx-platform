@@ -1001,6 +1001,7 @@ $("#audit_mode").click(function(event) {
       }).done(function (data) {
         if (data.return =='success'){
             $("#real_enroll").trigger("click");
+            $('#recog_divv_0').hide();
             swal('success', '학점인정 수강신청이 완료되었습니다.', 'success');
         }
         else{
