@@ -2667,6 +2667,8 @@ def video(request, course_id):
     # print chapter_list
     # print 'chapter_list ------------------------- e'
 
+    CourseTabView.register_user_access_warning_messages(request, course_key)
+
     context = {
         'course': course,
         'chapter_list': chapter_list

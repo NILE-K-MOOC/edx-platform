@@ -59,7 +59,29 @@ from openedx.features.enterprise_support.utils import get_enterprise_learner_gen
     .vertical-details {
         width: 100%;
     }
+
+    .alert-warning {
+        border-top: 0.125rem solid #fdbc56 !important;
+
+    }
+
+    .alert {
+        background-color: #fcfcfc !important;
+        border: 0.0625rem solid #cdd7db;
+        border-radius: 0.3125rem;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding: 1.25rem 1.25rem;
+        overflow: auto;
+        box-shadow: 0 0.125rem 0.125rem 0 #eef1f2;
+    }
+
+    }
 </style>
+<script type="text/javascript" src="/static/bundles/Enrollment.js"></script>
+<script type="text/javascript">
+    new CourseEnrollment('.enroll-btn', '${course.id}');
+</script>
 
 <main id="main" aria-label="Content" tabindex="-1">
     <div class="container">
