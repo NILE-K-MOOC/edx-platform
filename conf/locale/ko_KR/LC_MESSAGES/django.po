@@ -5780,6 +5780,9 @@ msgstr "강좌 계획"
 msgid "Progress"
 msgstr "진도"
 
+msgid "Course Video"
+msgstr "강의 영상"
+
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: 'Textbooks' refers to the tab in the course that leads to the
 #. course' textbooks

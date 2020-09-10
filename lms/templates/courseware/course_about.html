@@ -164,6 +164,9 @@
 <%block name="js_extra">
 <script type="text/javascript">
 (function() {
+    let course_video_url = document.location.href;
+    $(".course_video").prop("href", course_video_url.replace('about', 'video'));
+
     $(".youtubewrap").bind('contextmenu', function (e) {
         return false;
     });
@@ -821,7 +824,7 @@ $("#audit_mode").click(function(event) {
                                     % if enroll_audit:
                                         <strong class="audit">${_("View Audit Course")}</strong>
                                     % else:
-                                        <strong>${_("View Course")}</strong>
+                                        <strong data-type="case 3">${_("View Course")}</strong>
                                     % endif
                                 </a>
                             % endif
@@ -864,7 +867,7 @@ $("#audit_mode").click(function(event) {
                                     reg_href = ecommerce_checkout_link
                                     reg_element_id = ""
                                 %>
-                                <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}">
+                                <a href="${reg_href}" class="add-to-cart" id="${reg_element_id}" data-type="case 2">
                                     ${_("Add {course_name} to Cart <span>({price} USD)</span>")\
                                     .format(course_name=course.display_number_with_default, price=course_price)}
                                 </a>

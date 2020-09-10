@@ -17,10 +17,11 @@ class EnrolledTab(CourseTab):
     """
     A base class for any view types that require a user to be enrolled.
     """
+
     @classmethod
     def is_enabled(cls, course, user=None):
         return user and user.is_authenticated and \
-            bool(CourseEnrollment.is_enrolled(user, course.id) or has_access(user, 'staff', course, course.id))
+               bool(CourseEnrollment.is_enrolled(user, course.id) or has_access(user, 'staff', course, course.id))
 
 
 class CoursewareTab(EnrolledTab):
@@ -51,7 +52,7 @@ class CoursewareTab(EnrolledTab):
         Returns a function that takes a course and reverse function and will
         compute the course URL for this tab.
         """
-        reverse_name_func = lambda course: default_course_url_name(course.id)
+        reverse_name_func = lambda course: default_course_url_name(course.id, self.type)
         return course_reverse_func_from_name_func(reverse_name_func)
 
 
@@ -268,7 +269,7 @@ class ExternalLinkCourseTab(LinkTab):
     """
     type = 'external_link'
     priority = None
-    is_default = False    # An external link tab is not added to a course by default
+    is_default = False  # An external link tab is not added to a course by default
     allow_multiple = True
 
     @classmethod
@@ -303,6 +304,8 @@ class SingleTextbookTab(CourseTab):
         raise NotImplementedError('SingleTextbookTab should not be serialized.')
 
 
+import copy
+
 def get_course_tab_list(request, course):
     """
     Retrieves the course tab list from xmodule.tabs and manipulates the set as necessary
@@ -315,7 +318,14 @@ def get_course_tab_list(request, course):
     # "Courseware" tab. The tab is then renamed as "Entrance Exam".
     course_tab_list = []
     must_complete_ee = not user_can_skip_entrance_exam(user, course)
+
+    video_tab = None
+
     for tab in xmodule_tab_list:
+
+        if tab.type == 'courseware':
+            video_tab = copy.copy(tab)
+
         if must_complete_ee:
             # Hide all of the tabs except for 'Courseware'
             # Rename 'Courseware' tab to 'Entrance Exam'
@@ -324,13 +334,29 @@ def get_course_tab_list(request, course):
             tab.name = _("Entrance Exam")
         # TODO: LEARNER-611 - once the course_info tab is removed, remove this code
         if UNIFIED_COURSE_TAB_FLAG.is_enabled(course.id) and tab.type == 'course_info':
-                continue
+            continue
         if tab.type == 'static_tab' and tab.course_staff_only and \
                 not bool(user and has_access(user, 'staff', course, course.id)):
             continue
         course_tab_list.append(tab)
     # Add in any dynamic tabs, i.e. those that are not persisted
     course_tab_list += _get_dynamic_tabs(course, user)
+
+    # Add tab for video list
+    if video_tab:
+        video_tab.tab_dict = {
+            u'course_staff_only': False,
+            u'type': u'course_video',
+            u'name': u'course_video'
+        }
+        video_tab.tab_id = 'video'
+        video_tab.view_name = 'Course Video'
+        video_tab.name = 'Course Video'
+        video_tab.title = 'Course Video'
+        video_tab.type = 'video'
+
+        course_tab_list.insert(1, video_tab)
+
     return course_tab_list
 
 

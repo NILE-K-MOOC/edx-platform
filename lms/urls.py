@@ -670,6 +670,14 @@ urlpatterns += [
         name='progress',
     ),
 
+    url(
+        r'^courses/{}/video'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        courseware_views.video,
+        name='video',
+    ),
+
     # Takes optional student_id for instructor use--shows profile as that student sees it.
     url(
         r'^courses/{}/progress/(?P<student_id>[^/]*)/$'.format(

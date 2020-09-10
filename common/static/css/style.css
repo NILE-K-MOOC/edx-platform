@@ -1460,7 +1460,7 @@ a:focus, img:focus {
 
 }
 input:focus, button:focus, textarea:focus {
- outline: 1px solid blue;
+	outline: 1px solid blue !important;
 }
 
 
@@ -2329,3 +2329,6 @@ button#intro_shot {
 .kr01_mainslider a:focus img{
 	border: solid 2px blue;
 }
+
+
+.nav

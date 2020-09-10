@@ -116,6 +116,8 @@ from pytz import timezone
 from urlparse import urlparse, parse_qs
 import traceback
 from django.core.exceptions import ObjectDoesNotExist
+from pymongo import MongoClient
+from bson import ObjectId
 
 log = logging.getLogger("edx.courseware")
 
@@ -247,6 +249,68 @@ def courses(request):
         else:
             courses_list = sort_by_announcement(courses_list)
 
+    import time
+    try:
+        from urllib import urlencode
+    except ImportError:
+        CourseDescriptorWithMixins
+
+    from elasticsearch.exceptions import ConnectionError
+    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
+
+    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
+
+        print '##### perform_request called 111'
+        log.info('##### perform_request called 111')
+
+        url = self.url_prefix + url
+        if 'size' in params:
+            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
+
+        if params:
+            url = '%s?%s' % (url, urlencode(params or {}))
+        full_url = self.host + url
+
+        start = time.time()
+
+        if body:
+
+            log.info('##### body ------------------------------------------------------- s1')
+            log.info(body)
+            log.info('##### body ------------------------------------------------------- e1')
+
+            if '{"term": {"org": "SMUk"}}' in body:
+                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
+
+            if '{"term": {"linguistics": "all"}' in body:
+                body = body.replace('{"term": {"linguistics": "all"}', '{"terms": {"linguistics": ["Korean", "Korean Culture"]}')
+
+            log.info('##### body ------------------------------------------------------- s2')
+            log.info(body)
+            log.info('##### body ------------------------------------------------------- e2')
+
+        try:
+            kw = {}
+            if timeout:
+                kw['timeout'] = timeout
+            response = self.pool.urlopen(method, url, body, **kw)
+            duration = time.time() - start
+            raw_data = response.data.decode('utf-8')
+        except Exception as e:
+            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
+            raise ConnectionError('N/A', str(e), e)
+
+        if not (200 <= response.status < 300) and response.status not in ignore:
+            self.log_request_fail(method, url, body, duration, response.status)
+            self._raise_error(response.status, raw_data)
+
+        self.log_request_success(method, full_url, url, body, response.status,
+                                 raw_data, duration)
+
+        return response.status, response.getheaders(), raw_data
+
+    Urllib3HttpConnection.perform_request = perform_request
+
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
@@ -291,10 +355,12 @@ def mobile_courses(request):
     from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
 
     def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
+
+        print '##### perform_request called 2'
+
         url = self.url_prefix + url
         if 'size' in params:
-            params[
-                'sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
+            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
 
         if params:
             url = '%s?%s' % (url, urlencode(params or {}))
@@ -649,8 +715,6 @@ class CourseTabView(EdxFragmentView):
                     except ObjectDoesNotExist as e3:
                         # 데이터가 없다면 세션에 정보를 저장
                         log.info('CourseTabView ObjectDoesNotExist [%s]' % e3.message)
-
-
 
                         # save_path 도 세션에 저장
                         # '/static/images/no_images_large.png'
@@ -1120,7 +1184,6 @@ def course_about(request, course_id):
         except Exception as e1:
             pass
 
-
     """
     Display the course's about page.
     수정시 mobile_course_about도 함께 수정
@@ -1226,12 +1289,12 @@ def course_about(request, course_id):
         # - Course is already full
         # - Student cannot enroll in course
         active_reg_button = not (registered or is_course_full or not can_enroll)
-        print 'registered',registered
-        print 'is_course_full',is_course_full
-        print 'can_enroll',can_enroll
-        print 'active_reg_button',active_reg_button
+        print 'registered', registered
+        print 'is_course_full', is_course_full
+        print 'can_enroll', can_enroll
+        print 'active_reg_button', active_reg_button
         is_shib_course = uses_shib(course)
-        print 'is_shib_course',is_shib_course
+        print 'is_shib_course', is_shib_course
         # get prerequisite courses display names
         pre_requisite_courses = get_prerequisite_courses_display(course)
 
@@ -2376,6 +2439,251 @@ def program_marketing(request, program_uuid):
     context['uses_bootstrap'] = True
 
     return render_to_response('courseware/program_marketing.html', context)
+
+
+from lms.djangoapps.courseware.views.views import CourseTabView
+
+
+@transaction.non_atomic_requests
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@ensure_valid_course_key
+@data_sharing_consent_required
+def video(request, course_id):
+    print 'video called'
+
+    """ Display the progress page. """
+    course_key = CourseKey.from_string(course_id)
+
+    course = get_course_with_access(request.user, 'load', course_key)
+
+    # 강좌의 영상목록 생성 --- s
+
+    client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'), settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+    db = client.edxapp
+
+    o = course_id.split('+')[0].replace('course-v1:', '')
+    c = course_id.split('+')[1]
+    r = course_id.split('+')[2]
+
+    active_versions = db.modulestore.active_versions.find({"org": o, "course": c, "run": r})
+
+    temp_list = []
+
+    for active_version in active_versions:
+        pb = active_version.get('versions').get('published-branch')
+        wiki_slug = active_version.get('search_targets').get('wiki_slug')
+
+        if wiki_slug and pb:
+            print 'published-branch is [%s]' % pb
+
+            structure = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_type": "course"}}})
+            block = structure.get('blocks')[0]
+
+            course_fields = block.get('fields')
+            chapters = course_fields.get('children')
+
+            for chapter_type, chapter_id in chapters:
+                # print block_type, block_id
+                chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": chapter_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                if not 'blocks' in chapter:
+                    continue
+
+                chapter_fields = chapter['blocks'][0].get('fields')
+
+                if not chapter_fields:
+                    continue
+
+                chapter_name = chapter_fields.get('display_name')
+                chapter_start = chapter_fields.get('start')
+                sequentials = chapter_fields.get('children')
+
+                for sequential_type, sequential_id in sequentials:
+                    sequential = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": sequential_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                    if not 'blocks' in sequential:
+                        continue
+
+                    sequential_fields = sequential['blocks'][0].get('fields')
+
+                    if not sequential_fields:
+                        continue
+
+                    sequential_name = sequential_fields.get('display_name')
+                    sequential_start = sequential_fields.get('start')
+                    verticals = sequential_fields.get('children')
+
+                    for vertical_type, vertical_id in verticals:
+                        vertical = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": vertical_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                        if not 'blocks' in vertical:
+                            continue
+
+                        vertical_fields = vertical['blocks'][0].get('fields')
+
+                        if not vertical_fields:
+                            continue
+
+                        xblocks = vertical_fields.get('children')
+
+                        for xblock_type, xblock_id in xblocks:
+
+                            if xblock_type != 'video':
+                                continue
+
+                            xblock = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {"$elemMatch": {"block_id": xblock_id}}})
+                            xblock_fields = xblock['blocks'][0].get('fields')
+
+                            if not xblock_fields:
+                                continue
+
+                            vertical_name = xblock_fields.get('display_name')
+
+                            html5_sources = xblock_fields.get('html5_sources')
+
+                            if not html5_sources:
+                                continue
+
+                            for html5_source in html5_sources:
+                                # print org_name, classfy_name, middle_classfy_name, teacher_name, display_name, chapter_name, sequential_name, enrollment_start, enrollment_end, start, end, short_description, html5_source
+
+                                if html5_source == '':
+                                    continue
+
+                                temp_dict = {
+                                    'chapter_name': chapter_name,
+                                    'chapter_id': chapter_id,
+                                    'chapter_start': chapter_start,
+                                    'sequential_name': sequential_name,
+                                    'sequential_id': sequential_id,
+                                    'sequential_start': sequential_start,
+                                    'vertical_name': vertical_name,
+                                    'vertical_id': vertical_id,
+                                    'html5_source': html5_source
+                                }
+
+                                temp_list.append(temp_dict)
+
+                                # print '----------------------------------------------------------- s'
+                                # print chapter_name, chapter_start, sequential_name, sequential_start, vertical_name, html5_source
+                                # print '----------------------------------------------------------- e'
+
+    video_tree = {}
+
+    _chapter_name1 = None
+    _chapter_name2 = None
+    _sequential_name1 = None
+    _sequential_name2 = None
+    _vertical_name1 = None
+    _vertical_name2 = None
+    _html5_source1 = None
+    _html5_source2 = None
+    chapter_list = []
+    print 'video_tree check -------------------------------------------------------------->'
+
+    # 주제
+    for temp1 in temp_list:
+
+        if True:
+            _chapter_name1 = temp1['chapter_name']
+            _chapter_id = temp1['chapter_id']
+            _chapter_start = temp1['chapter_start']
+
+            if _chapter_start and _chapter_start > datetime.utcnow():
+                continue
+
+            if not _chapter_name2:
+                _chapter_name2 = temp1['chapter_name']
+            elif _chapter_name1 and _chapter_name2 and _chapter_name1 == _chapter_name2:
+                continue
+            else:
+                _chapter_name2 = temp1['chapter_name']
+
+            # print _chapter_name2
+
+            _sequential_name1 = None
+            _sequential_name2 = None
+            _sequential_start = None
+
+            sequential_list = list()
+            for temp2 in temp_list:
+                if _chapter_name1 == temp2['chapter_name']:
+
+                    _sequential_name1 = temp2['sequential_name']
+                    _sequential_id = temp2['sequential_id']
+                    _sequential_start = temp2['sequential_start']
+
+                    if _sequential_start and _sequential_start > datetime.utcnow():
+                        continue
+
+                    if not _sequential_name2:
+                        _sequential_name2 = temp2['sequential_name']
+                    elif _sequential_name1 and _sequential_name2 and _sequential_name1 == _sequential_name2:
+                        continue
+                    else:
+                        _sequential_name2 = temp2['sequential_name']
+
+                    # print '\t', _sequential_name1
+
+                    _html5_source1 = None
+                    _html5_source2 = None
+
+                    vertical_list = list()
+                    for temp3 in temp_list:
+                        if _chapter_name1 == temp3['chapter_name'] and _sequential_name1 == temp3['sequential_name']:
+
+                            _html5_source1 = temp3['html5_source']
+
+                            if not _html5_source2:
+                                _html5_source2 = temp3['html5_source']
+                            elif _html5_source1 and _html5_source2 and _html5_source1 == _html5_source2:
+                                continue
+                            else:
+                                _html5_source2 = temp3['html5_source']
+
+                            _vertical_name1 = temp3['vertical_name']
+                            _vertical_id = temp3['vertical_id']
+
+                            jump_url = 'http://{domain}/courses/{course_id}/jump_to/block-v1:{course}+type@vertical+block@{vertical_id}'.format(
+                                domain=request.META.get('HTTP_HOST'),
+                                course_id=course_id,
+                                course=course_id.replace('course-v1:', ''),
+                                vertical_id=_vertical_id
+                            )
+
+                            # print '\t\t', _vertical_name1, _html5_source2, jump_url
+
+                            vertical_list.append({
+                                'vertical_id': _vertical_id,
+                                'vertical_name': _vertical_name1,
+                                'video_url': _html5_source2,
+                                'jump_url': jump_url
+                            })
+
+                    sequential_list.append({
+                        'sequential_id': _sequential_id,
+                        'sequential_name': _sequential_name1,
+                        'vertical_list': vertical_list
+                    })
+
+            chapter_list.append({
+                'chapter_id': _chapter_id,
+                'chapter_name': _chapter_name1,
+                'sequential_list': sequential_list
+            })
+
+    # 강좌의 영상목록 생성 --- e
+
+    # print 'chapter_list ------------------------- s'
+    # print chapter_list
+    # print 'chapter_list ------------------------- e'
+
+    context = {
+        'course': course,
+        'chapter_list': chapter_list
+    }
+
+    return render_to_response('courseware/video.html', context)
 
 
 @transaction.non_atomic_requests
