@@ -5588,7 +5588,7 @@ msgstr "강좌 시작"
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "Don't forget to add a calendar reminder!"
-msgstr "행사 알람설정 추가 잊지 마세요!"
+msgstr "강좌가 시작되면 학습이 가능합니다."
 
 #: lms/djangoapps/courseware/date_summary.py
 #, python-brace-format
