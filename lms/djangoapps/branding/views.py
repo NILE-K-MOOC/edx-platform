@@ -607,19 +607,12 @@ def index(request):
     수정시 mobile_index도 함께 수정해야함
     """
 
-    # 멀티사이트 인덱스에서 더럽혀진 영혼을 정화하는 구간입니다.
-    # 치유의 빛이 흐릿하게 빛나며 더럽혀진 영혼이 정화됩니다.
-    if request.session.get('multisite_mode'):
-        del request.session['multisite_mode']
-
-    if request.session.get('multisite_org'):
-        del request.session['multisite_org']
-
-    if request.session.get('save_path'):
-        del request.session['save_path']
-
-    if request.session.get('multisite_addinfo'):
-        del request.session['multisite_addinfo']
+    # 멀티사이트 이용중 홈페이지로 이동했을경우 session 을 클리어
+    if 'multisite_org' in request.session:
+        log.info('clear request.session ------------------------ s')
+        for key in request.session.keys():
+            del request.session[key]
+        log.info('clear request.session ------------------------ e')
 
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has
