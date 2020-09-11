@@ -94,6 +94,8 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     linguistics = serializers.CharField()
     created = serializers.DateTimeField()
     modified = serializers.DateTimeField()
+    ai_sec_yn = serializers.CharField()
+    basic_science_sec_yn = serializers.CharField()
 
     # 추가 항목 (EXTRA)
     org_name = serializers.CharField()
