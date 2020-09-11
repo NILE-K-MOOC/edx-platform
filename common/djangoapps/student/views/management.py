@@ -215,7 +215,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     org_dict = {org.detail_code: {'org_kname': org.detail_name, 'org_ename': org.detail_ename} for org in org_names}
 
     # DEBUG
-    print "site_code -> ", site_code
+    log.info("site_code -> [%s]" % site_code)
 
     # multisite - get site code query
     with connections['default'].cursor() as cur:
@@ -423,6 +423,9 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         max_pop = cur.fetchone()
 
     # ----------------------------------------------------------------
+
+    log.info("management.multisite_index step 2")
+
     if course_select_type == 'A':
         start = time.time()
         user = request.user
@@ -484,11 +487,17 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         context['pop_courses'] = pop_courses
         context['today_courses'] = today_courses
         context['my_courses'] = my_courses
+
+        log.info("management.multisite_index step 3")
+
     else:
         context['new_courses'] = []
         context['pop_courses'] = []
         context['today_courses'] = []
         context['my_courses'] = []
+
+        log.info("management.multisite_index step 4")
+
     # ----------------------------------------------------------------
 
     context['course_select_type'] = course_select_type
@@ -508,6 +517,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
 
+    log.info("management.multisite_index step 5")
+
     # multisite name
     with connections['default'].cursor() as cur:
         query = '''
@@ -520,10 +531,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context['multisite_name'] = multi_name[0] if multi_name is not None else site_code
 
     if request.POST:
-
+        log.info("management.multisite_index step 6")
         return render_to_response('multisite_append.html', context)
 
-
+    log.info("management.multisite_index step 7")
     return render_to_response('multisite_index.html', context)
 
 
