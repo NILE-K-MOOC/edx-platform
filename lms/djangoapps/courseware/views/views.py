@@ -3515,7 +3515,7 @@ def schools_make_filter(request):
 
     year_list = []
     current_year = int(datetime.now().year)
-    for year in range(2015, current_year):
+    for year in range(2015, current_year+1):
         year_list.append(year)
 
     print 'current_year = ', current_year
