@@ -2678,6 +2678,8 @@ def video(request, course_id):
     # print chapter_list
     # print 'chapter_list ------------------------- e'
 
+    CourseTabView.register_user_access_warning_messages(request, course_key)
+
     context = {
         'course': course,
         'chapter_list': chapter_list
@@ -3524,7 +3526,7 @@ def schools_make_filter(request):
 
     year_list = []
     current_year = int(datetime.now().year)
-    for year in range(2015, current_year):
+    for year in range(2015, current_year+1):
         year_list.append(year)
 
     print 'current_year = ', current_year
