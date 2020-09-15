@@ -506,7 +506,7 @@ def login_user(request):
             email_user = _get_user_by_email(request)
 
             #####  drmt check =====jhy
-
+            email = request.POST['email']
             with connections['default'].cursor() as cur:
                 query = '''
                   SELECT email, dormant_mail_cd, dormant_yn
