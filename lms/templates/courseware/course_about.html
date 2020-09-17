@@ -883,8 +883,14 @@ $("#audit_mode").click(function(event) {
                                     else:
                                         href_class = "register"
                                 %>
+                            <!--
                             <div class="box1" style="float: left; width: 65%;" id="enroll_0">
-                                <button id="enroll_1" style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
+                                <button id="enroll_1" style="width: 90%; height: 46px; color: white;" >${_("Enrollment")}</button>
+                            </div>
+                            -->
+
+                            <div class="box1" style="float: left; width: 65%;" id="enroll_0">
+                                <button href="${reg_href}" class="type-btn ${href_class}"  style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
                             </div>
 
                             <div class="box2" style="float: right; width: 35%;">

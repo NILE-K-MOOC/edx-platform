@@ -9,7 +9,7 @@ from web_fragments.fragment import Fragment
 
 from courseware.courses import get_course_date_blocks, get_course_with_access
 from openedx.core.djangoapps.plugin_api.views import EdxFragmentView
-
+import datetime
 
 class CourseDatesFragmentView(EdxFragmentView):
     """
@@ -25,9 +25,24 @@ class CourseDatesFragmentView(EdxFragmentView):
         course = get_course_with_access(request.user, 'load', course_key, check_if_enrolled=False)
         course_date_blocks = get_course_date_blocks(course, request.user)
 
-        context = {
-            'course_date_blocks': course_date_blocks
-        }
+        try:
+            if course_date_blocks[1].date.strftime('%H:%M:%S') == '15:00:00':
+                # course_date_blocks[1].date = course_date_blocks[1].date - datetime.timedelta(minutes=1)
+                context = {
+                    'course_date_blocks': course_date_blocks,
+                    'aaaaaaaa': course_date_blocks[1].date - datetime.timedelta(minutes=1)
+                }
+            else:
+                context = {
+                    'course_date_blocks': course_date_blocks
+                }
+
+        except Exception as e:
+            print 'datetime_change error',e
+            context = {
+                'course_date_blocks': course_date_blocks
+            }
+
         html = render_to_string(self.template_name, context)
         dates_fragment = Fragment(html)
         self.add_fragment_resource_urls(dates_fragment)
