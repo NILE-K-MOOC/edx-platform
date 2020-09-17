@@ -381,6 +381,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.week = ''
                 course_overview.video_time = ''
                 course_overview.learning_time = ''
+                course_overview.ai_sec_yn = ''
+                course_overview.basic_science_sec_yn = ''
 
                 log.debug('CourseOverview get_from_id e.message [%s]' % e.message)
 
@@ -764,6 +766,8 @@ class CourseOverview(TimeStampedModel):
             ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
             linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
+            ai_sec_yn=Coalesce(F('courseoverviewaddinfo__ai_sec_yn'), V('N')),
+            basic_science_sec_yn=Coalesce(F('courseoverviewaddinfo__basic_science_sec_yn'), V('N')),
         )
 
         # 표시 항목 추가 (EXTRA)

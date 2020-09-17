@@ -12,7 +12,7 @@ import json
 import crum
 import pytz
 from collections import OrderedDict, namedtuple
-from datetime import datetime, date
+from datetime import datetime, date,timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
@@ -1770,15 +1770,22 @@ def course_about(request, course_id):
             user_tz = timezone('Asia/Seoul')
 
         utc_dt_start = datetime(int(s1), int(s2), int(s3), int(s4), int(s5), int(s6), tzinfo=utc)
+        print 'utc_dt_start',utc_dt_start
         utc_dt_end = datetime(int(e1), int(e2), int(e3), int(e4), int(e5), int(e6), tzinfo=utc) if course_details.end_date is not None else None
         utc_dt_enroll_start = datetime(int(rs1), int(rs2), int(rs3), int(rs4), int(rs5), int(rs6), tzinfo=utc) if course_details.enrollment_start is not None else None
         utc_dt_enroll_end = datetime(int(re1), int(re2), int(re3), int(re4), int(re5), int(re6), tzinfo=utc) if course_details.enrollment_end is not None else None
         # fmt = '%Y-%m-%d %H:%M:%S %Z%z'
         fmt = '%Y.%m.%d'
+        fmt2 = '%H:%M:%S'
         loc_dt_start = utc_dt_start.astimezone(user_tz)
         loc_dt_end = utc_dt_end.astimezone(user_tz) if utc_dt_end is not None else None
         utc_dt_enroll_start = utc_dt_enroll_start.astimezone(user_tz) if utc_dt_enroll_start is not None else None
         utc_dt_enroll_end = utc_dt_enroll_end.astimezone(user_tz) if utc_dt_enroll_end is not None else None
+
+        if loc_dt_end.strftime(fmt2) == '00:00:00':
+            loc_dt_end = loc_dt_end - timedelta(minutes=1)
+        if utc_dt_enroll_end.strftime(fmt2) == '00:00:00':
+            utc_dt_enroll_end = utc_dt_enroll_end - timedelta(minutes=1)
 
         start = loc_dt_start.strftime(fmt)
         end = loc_dt_end.strftime(fmt) if loc_dt_end is not None else None
