@@ -250,6 +250,9 @@ urlpatterns = [
     # blue ribbon filter
     url(r'^blue_ribbon_year/?$', courseware_views.blue_ribbon_year, name="blue_ribbon_year"),
 
+    # 학점인정 수강신청
+    url(r'^recognition/?$', courseware_views.recognition, name="recognition"),
+
 
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
