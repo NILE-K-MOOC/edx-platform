@@ -883,15 +883,16 @@ $("#audit_mode").click(function(event) {
                                     else:
                                         href_class = "register"
                                 %>
-                            <!--
+
                             <div class="box1" style="float: left; width: 65%;" id="enroll_0">
                                 <button id="enroll_1" style="width: 90%; height: 46px; color: white;" >${_("Enrollment")}</button>
                             </div>
-                            -->
 
+                            <!--
                             <div class="box1" style="float: left; width: 65%;" id="enroll_0">
                                 <button href="${reg_href}" class="type-btn ${href_class}"  style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
                             </div>
+                            -->
 
                             <div class="box2" style="float: right; width: 35%;">
                                 <a href='video' class="" id="poppppp" style="width: 100%; border: 1px solid #000b0d; border-bottom: 1px solid #00003a;
@@ -914,8 +915,8 @@ $("#audit_mode").click(function(event) {
                                             <span class="label-control">대학</span>
                                             <select class="form-control" id="recog_org">
                                                 <option selected="" value="">선택하세요</option>
-                                                %for code, name in recog_org :
-                                                <option value="${code}">${name}(${code})</option>
+                                                %for org,org_namee ,org_type in recog_org :
+                                                <option value="${org},${org_namee},${org_type}">${org_namee}(${org_type})</option>
                                                 %endfor
 
                                             </select>
@@ -1001,7 +1002,7 @@ $("#audit_mode").click(function(event) {
         type: "POST",
         data: {
           csrfmiddlewaretoken: $.cookie('csrftoken'),
-          univ: $('#recog_org').val(),
+          org: $('#recog_org').val(),
           student_no: $('#recog_num').val(),
           email: $('#recog_mail').val(),
           course_id:'${course.id}',

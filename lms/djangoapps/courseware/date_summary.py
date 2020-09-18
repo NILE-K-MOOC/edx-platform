@@ -275,6 +275,7 @@ class CourseEndDate(DateSummary):
 
     @property
     def description(self):
+        # certs_api.cert_generation_enabled(course.id)
         if self.current_time <= self.date:
             mode, is_active = CourseEnrollment.enrollment_mode_for_user(self.user, self.course_id)
             if is_active and CourseMode.is_eligible_for_certificate(mode):

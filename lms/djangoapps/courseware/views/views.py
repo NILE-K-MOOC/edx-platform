@@ -1800,13 +1800,12 @@ def course_about(request, course_id):
         # print "later_start", start
         with connections['default'].cursor() as cur:
             query = """
-                    select detail_code, detail_name
-                    from code_detail 
-                    where group_code = 220 and use_yn = 'Y' and delete_yn='N'
-                """.format(course_id=course_id, course_org=course_org, course_number=course_number)
+                    select org, org_name, org_type
+                    from tb_enroll_org 
+                    where use_yn = 'Y' order by org_name
+                """
             cur.execute(query)
             recog_org = cur.fetchall()
-
 
         context = {
             'similar_course': similar_course,  # 유사강좌
@@ -4004,21 +4003,21 @@ def blue_ribbon_year(request):
 
 
 def recognition(request):
-    univ = request.POST.get('univ')
+    org_info = request.POST.get('org')
     student_no = request.POST.get('student_no')
     email = request.POST.get('email')
     course_id = request.POST.get('course_id')
     user = request.user.id
+    org_info = org_info.split(',')
     try:
         with connections['default'].cursor() as cur:
             sql = '''
-                  INSERT INTO tb_enroll_addinfo(course_id, org, student_no, email, regist_id) 
-                  VALUES ('{course_id}','{univ}','{student_no}','{email}','{regist_id}');
+                  INSERT INTO tb_enroll_addinfo(course_id, org, org_name,org_type,student_no, email, regist_id) 
+                  VALUES ('{course_id}','{org}','{org_name}','{org_type}','{student_no}','{email}','{regist_id}');
     
-               '''.format(course_id=course_id, univ=univ, student_no=student_no, email=email, regist_id=user)
+               '''.format(course_id=course_id, org=org_info[0], org_name=org_info[1], org_type=org_info[2],
+                          student_no=student_no, email=email, regist_id=user)
             cur.execute(sql)
             return JsonResponse({"return": "success"})
     except:
         return JsonResponse({"return": "fail"})
-
-
