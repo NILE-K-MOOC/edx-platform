@@ -296,16 +296,22 @@ class CourseEndDate(DateSummary):
             return
         days_until_end = (course.end - self.current_time).days
         if course.end > self.current_time and days_until_end <= settings.COURSE_MESSAGE_ALERT_DURATION_IN_DAYS:
+
             if days_until_end > 0:
+                aa = self.long_date_html
+                aa=aa.replace("15:00:00","14:59:00")
                 CourseHomeMessages.register_info_message(
                     request,
                     Text(self.description),
+
                     title=Text(_('This course is ending in {time_remaining_string} on {course_end_date}.')).format(
                         time_remaining_string=self.time_remaining_string,
-                        course_end_date=self.long_date_html,
+                        course_end_date=aa
                     )
                 )
             else:
+                aa = self.short_time_html
+                aa = aa.replace("15:00:00", "14:59:00")
                 CourseHomeMessages.register_info_message(
                     request,
                     Text(self.description),

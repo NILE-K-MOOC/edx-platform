@@ -38,7 +38,7 @@ class CourseDatesFragmentView(EdxFragmentView):
                 }
 
         except Exception as e:
-            print 'datetime_change error',e
+            print 'datetime_change error', e
             context = {
                 'course_date_blocks': course_date_blocks
             }
