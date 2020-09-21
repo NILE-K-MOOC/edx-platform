@@ -284,7 +284,8 @@ class CourseEndDate(DateSummary):
                 if view_cert == True:
                     return _('To earn a certificate, you must complete all requirements before this date.')
                 else:
-                    return _('This course has not been activated certificate.')
+                    # return _('This course has not been activated certificate.')
+                    return _('')
             else:
                 return _('After this date, course content will be archived.')
         return _('This course is archived, which means you can review course content but it is no longer active.')

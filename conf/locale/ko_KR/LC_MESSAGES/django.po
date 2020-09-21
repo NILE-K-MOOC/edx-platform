@@ -5612,7 +5612,7 @@ msgstr "강좌종강일 전에 이수기준 점수 이상을 획득하셔야 이
 #: lms/djangoapps/courseware/date_summary.py
 msgid ""
 "This course has not been activated certificate."
-msgstr "이 강좌는 이수증이 발급되지 않습니다."
+msgstr "이 강좌는 이수증이 활성화 되지 않았습니다."
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "After this date, course content will be archived."
