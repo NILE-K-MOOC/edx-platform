@@ -275,11 +275,16 @@ class CourseEndDate(DateSummary):
 
     @property
     def description(self):
-        # certs_api.cert_generation_enabled(course.id)
+        from lms.djangoapps.certificates import api as certs_api
+        # jhy
+        view_cert = certs_api.cert_generation_enabled(self.course_id)
         if self.current_time <= self.date:
             mode, is_active = CourseEnrollment.enrollment_mode_for_user(self.user, self.course_id)
             if is_active and CourseMode.is_eligible_for_certificate(mode):
-                return _('To earn a certificate, you must complete all requirements before this date.')
+                if view_cert == True:
+                    return _('To earn a certificate, you must complete all requirements before this date.')
+                else:
+                    return _('This course has not been activated certificate.')
             else:
                 return _('After this date, course content will be archived.')
         return _('This course is archived, which means you can review course content but it is no longer active.')
