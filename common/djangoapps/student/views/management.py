@@ -1717,7 +1717,7 @@ def change_enrollment(request, check_access=True):
                 sql = '''
                       UPDATE tb_enroll_addinfo 
                       SET use_yn = 'N'
-                      WHERE (regist_id = '{regist_id}' and course_id = '{course_id}' and use_yn ='Y')
+                      WHERE (regist_id = '{regist_id}' and course_id = '{course_id}' and use_yn ='Y')   
                    '''.format(course_id=course_id, regist_id=user.id)
 
                 cur.execute(sql)
