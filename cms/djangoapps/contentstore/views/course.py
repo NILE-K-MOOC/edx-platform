@@ -1759,6 +1759,19 @@ def settings_handler(request, course_key_string):
                     pass
                 else:
                     course_lang_tmp.append(lang)
+            try:
+                # 분류
+                with connections['default'].cursor() as cur:
+                    query = '''
+                        select IFNULL(a.classfy,"TBD"),IFNULL(a.middle_classfy,"TBD"),IFNULL(a.classfy_plus ,"TBD")
+                        from course_overview_addinfo a
+                        where a.course_id = '{course_id}'
+                        '''.format(course_id=course_id)
+                    cur.execute(query)
+                    datas = cur.fetchall()
+                    classfy = [data for data in datas]
+            except:
+                classfy = [("TBD","TBD","TBD")]
 
             settings_context = {
                 'context_course': course_module,
@@ -1785,6 +1798,7 @@ def settings_handler(request, course_key_string):
                 'difficult_degree_list': difficult_degree_list,
                 'teacher_name': teacher_name,
                 'user_edit': edit_check,
+                'classfy':classfy
             }
 
             if is_prerequisite_courses_enabled():

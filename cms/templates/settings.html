@@ -69,22 +69,37 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
           </header>
 
           <ol class="list-input">
-            <li class="field text is-not-editable" id="field-course-organization">
+            <li class="field text is-not-editable" id="field-course-organization"style="width: 17%;">
               <label for="course-organization">${_("Organization")}</label>
               <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
                      class="long" id="course-organization" readonly />
             </li>
 
-            <li class="field text is-not-editable" id="field-course-number">
+            <li class="field text is-not-editable" id="field-course-number"style="width: 20%;">
               <label for="course-number">${_("Course Number")}</label>
               <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
                      class="short" id="course-number" readonly>
             </li>
 
-            <li class="field text is-not-editable" id="field-course-name">
+            <li class="field text is-not-editable" id="field-course-name" style="width: 20%;">
               <label for="course-name">${_("Course Run")}</label>
               <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
                      class="long" id="course-name" readonly />
+            </li>
+              <li class="field text is-not-editable" id="field-course-number"style="width: 10%;">
+              <label for="course-number">${_("5대분류")}</label>
+              <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                     class="short" id="course-number" value='${_(classfy[0][2])}' readonly>
+            </li>
+              <li class="field text is-not-editable" id="field-course-number"style="width: 10%;">
+              <label for="course-number">${_("classfy")}</label>
+              <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                     class="short" id="course-number" value='${_(classfy[0][0])}' readonly>
+            </li>
+              <li class="field text is-not-editable" id="field-course-number"style="width: 10%;">
+              <label for="course-number">${_("middle_classfy")}</label>
+              <input title="${_('This field is disabled: this information cannot be changed.')}" type="text"
+                     class="short" id="course-number"  value='${_(classfy[0][1])}'readonly>
             </li>
           </ol>
 
