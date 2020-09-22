@@ -1771,7 +1771,7 @@ def settings_handler(request, course_key_string):
                     datas = cur.fetchall()
                     classfy = [data for data in datas]
             except:
-                classfy = [("TBD","TBD","TBD")]
+                classfy = [("TBD", "TBD", "TBD")]
 
             settings_context = {
                 'context_course': course_module,

@@ -7,13 +7,14 @@
 <%block name="js_extra">
     <script>
         $(document).ready(function(){
+            account_nicecheck();
             %if correct == None:
                 $("#enterpwd").show();
             %else:
                 $("#incorrect").show();
             %endif
 
-            $("#check").attr("href", "javascript:password_check();");
+            $("#check").attr("href", "javascript:account_nicecheck();");
 
 
 
@@ -23,6 +24,7 @@
                     password_check();
 
             });
+
         });
 
         function password_check(){
@@ -32,6 +34,7 @@
                 $("#password").focus();
                 return;
             }
+
 
             $.post("/account/settings_confirm_check",
                     {passwd: passwd},
@@ -47,17 +50,27 @@
                         }
             },"json");
         }
-
+        function account_nicecheck(){
+            window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+            document.form2.target = "popupNICE";
+            document.form2.submit();
+        }
     </script>
 </%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
+
+    <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+        <input type="hidden" name="m" value="checkplusSerivce">
+        <input type="hidden" name="EncodeData" value="${enc_data}">
+    </form>
     <section class="container rule">
 
-        <h2>${_("Confirm your password")}</h2>
+        <h2>${_(" 본 인 인 증 ")}</h2>
+        <!--<h2>${_("Confirm your password")}</h2>-->
 
         <dl>
-            <dt>${_("We check password for your privacy.")}<br></dt>
+            <!--<dt>${_("We check password for your privacy.")}<br></dt>
             <dt>${_("Please be careful your password.")}<br></dt>
 
 
@@ -71,8 +84,10 @@
                     <li id="enterpwd" style="display:none;"><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Please enter a password")}</b></li>
                 </ul>
             </dd>
-            <br/>
-            <a href="#" id="check"><input type="button" id="button" value="${_('Confirmation')}"/></a>
+            <br/>-->
+            <a href="#" id="check"><input type="button" id="button" value="${_('인증하기')}"/></a>
+            <!--<a href="#" id="check"><input type="button" id="button" value="${_('Confirmation')}"/></a>-->
+
         </dl>
 
         <br/><br/><br/><br/><br/><br/><br/>
