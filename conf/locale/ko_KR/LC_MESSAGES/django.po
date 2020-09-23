@@ -5588,7 +5588,7 @@ msgstr "강좌 시작"
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "Don't forget to add a calendar reminder!"
-msgstr "행사 알람설정 추가 잊지 마세요!"
+msgstr "강좌가 시작되면 학습이 가능합니다."
 
 #: lms/djangoapps/courseware/date_summary.py
 #, python-brace-format
@@ -5608,6 +5608,11 @@ msgstr "강좌 종료"
 msgid ""
 "To earn a certificate, you must complete all requirements before this date."
 msgstr "강좌종강일 전에 이수기준 점수 이상을 획득하셔야 이수증을 받을 수 있습니다."
+
+#: lms/djangoapps/courseware/date_summary.py
+msgid ""
+"This course has not been activated certificate."
+msgstr "이 강좌는 이수증이 활성화 되지 않았습니다."
 
 #: lms/djangoapps/courseware/date_summary.py
 msgid "After this date, course content will be archived."
@@ -5779,6 +5784,9 @@ msgstr "강좌 계획"
 #: lms/templates/ux/reference/bootstrap/course-skeleton.html
 msgid "Progress"
 msgstr "진도"
+
+msgid "Course Video"
+msgstr "강의 영상"
 
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: 'Textbooks' refers to the tab in the course that leads to the
@@ -19685,7 +19693,7 @@ msgstr ""
 
 #: lms/templates/static_templates/server-error.html
 msgid "There has been a 500 error on the {platform_name} servers"
-msgstr "{platform_name}  500 오류"
+msgstr "{platform_name} 이용에 불편을 드려 죄송합니다."
 
 #: lms/templates/static_templates/server-error.html
 msgid ""
@@ -28013,3 +28021,136 @@ msgstr "블루 리본"
 
 msgid "Korean Culture"
 msgstr "한국문화"
+
+# 5대 분류
+msgid "hum_and_social"
+msgstr "인문사회"
+
+msgid "natural_science"
+msgstr "자연과학"
+
+msgid "engineering"
+msgstr "공학"
+
+msgid "entertainment"
+msgstr "예체능"
+
+msgid "medicine"
+msgstr "의약"
+
+# 중분류
+
+msgid "agri"
+msgstr "농림ㆍ수산"
+
+msgid "appl"
+msgstr "응용예술"
+
+msgid "bio"
+msgstr "생물ㆍ화학ㆍ환경"
+
+msgid "busn"
+msgstr "경영ㆍ경제"
+
+msgid "cami"
+msgstr "화공"
+
+msgid "civi"
+msgstr "토목ㆍ도시"
+
+msgid "comp"
+msgstr "컴퓨터ㆍ통신"
+
+msgid "cons"
+msgstr "건축"
+
+msgid "danc"
+msgstr "무용ㆍ체육"
+
+msgid "deta"
+msgstr "정밀ㆍ에너지"
+
+msgid "dsgn"
+msgstr "디자인"
+
+msgid "ekid"
+msgstr "유아교육"
+
+msgid "elec"
+msgstr "전기ㆍ전자"
+
+msgid "elmt"
+msgstr "의약"
+
+msgid "초등교육"
+msgstr "의약"
+
+msgid "emdd"
+msgstr "중등교육"
+
+msgid"enor"
+msgstr "교육일반"
+
+msgid"espc"
+msgstr "특수교육"
+
+msgid "form"
+msgstr "미술ㆍ조형"
+
+msgid "heal"
+msgstr "치료ㆍ보건"
+
+msgid "husc"
+msgstr "인문과학"
+
+msgid "indu"
+msgstr "산업"
+
+msgid "intd_m"
+msgstr "융ㆍ복합"
+
+msgid "lang"
+msgstr "언어ㆍ문학"
+
+msgid "law"
+msgstr "법률"
+
+msgid "life"
+msgstr "생활과학"
+
+msgid "mach"
+msgstr "기계ㆍ금속"
+
+msgid "math"
+msgstr "수학ㆍ물리ㆍ천문ㆍ지리"
+
+msgid "matr"
+msgstr "소재ㆍ재료"
+
+msgid "metr"
+msgstr "의료"
+
+msgid "musc"
+msgstr "음악"
+
+msgid "nurs"
+msgstr "간호"
+
+msgid "phar"
+msgstr "약학"
+
+msgid "play"
+msgstr "연극ㆍ영화"
+
+msgid "scsc"
+msgstr "사회과학"
+
+msgid "traf"
+msgstr "교통ㆍ운송"
+
+msgid "classfy"
+msgstr "대분류"
+
+msgid "middle_classfy"
+msgstr "중분류"
+

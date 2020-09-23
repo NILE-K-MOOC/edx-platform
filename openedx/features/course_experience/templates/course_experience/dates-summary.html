@@ -12,7 +12,11 @@ from django.utils.translation import ugettext as _
             % endif
         % endif
         % if course_date.date and course_date.title != 'current_datetime':
-            <p class="hd hd-6 date localized-datetime" data-format="shortDate" data-datetime="${course_date.date}" data-timezone="${user_timezone}" data-language="${user_language}" data-string="${_(course_date.relative_datestring)}"></p>
+            % if aaaaaaaa:
+                <p class="hd hd-6 date localized-datetime" id="fix_date" data-format="shortDate" data-datetime="${aaaaaaaa}" data-timezone="${user_timezone}" data-language="${user_language}" data-string="${_(course_date.relative_datestring)}"></p>
+            % else:
+                <p class="hd hd-6 date localized-datetime" id="fix_date" data-format="shortDate" data-datetime="${course_date.date}" data-timezone="${user_timezone}" data-language="${user_language}" data-string="${_(course_date.relative_datestring)}"></p>
+            % endif
         % endif
         % if course_date.description:
             <p class="description">${course_date.description}</p>

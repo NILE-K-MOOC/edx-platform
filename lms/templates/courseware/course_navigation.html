@@ -21,6 +21,17 @@ if course is not None:
 
 <script>
     $(".focus").first().focus();
+    var link = document.location.href;
+    console.log(link);
+    console.log(link.split('/'));
+    let aa = link.split('/')
+    aa[5]='video'
+    console.log(aa);
+    var uurl = "/".join(aa)
+    console.log(uurl);
+
+
+
 </script>
 
 % if include_special_exams is not UNDEFINED and include_special_exams:

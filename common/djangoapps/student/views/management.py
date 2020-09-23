@@ -215,7 +215,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     org_dict = {org.detail_code: {'org_kname': org.detail_name, 'org_ename': org.detail_ename} for org in org_names}
 
     # DEBUG
-    print "site_code -> ", site_code
+    log.info("site_code -> [%s]" % site_code)
 
     # multisite - get site code query
     with connections['default'].cursor() as cur:
@@ -404,12 +404,12 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                     if course_overviews.org in org_dict else course_overviews.display_org_with_default
                 # print 'course_overviews',course_overviews
                 course_list.append(course_overviews)
-
+        course_list = list(set(course_list))
         # 강좌에 상태 값 부여
         for c in course_list:
             status = common_course_status(c.start, c.end)
             c.status = status
-
+        # print len(course_list)
         context = {'courses': course_list}
 
     # multisite popup
@@ -423,6 +423,9 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         max_pop = cur.fetchone()
 
     # ----------------------------------------------------------------
+
+    log.info("management.multisite_index step 2")
+
     if course_select_type == 'A':
         start = time.time()
         user = request.user
@@ -484,11 +487,17 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         context['pop_courses'] = pop_courses
         context['today_courses'] = today_courses
         context['my_courses'] = my_courses
+
+        log.info("management.multisite_index step 3")
+
     else:
         context['new_courses'] = []
         context['pop_courses'] = []
         context['today_courses'] = []
         context['my_courses'] = []
+
+        log.info("management.multisite_index step 4")
+
     # ----------------------------------------------------------------
 
     context['course_select_type'] = course_select_type
@@ -508,6 +517,8 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context.update(extra_context)
     context['programs_list'] = get_programs_with_type(request.site, include_hidden=False)
 
+    log.info("management.multisite_index step 5")
+
     # multisite name
     with connections['default'].cursor() as cur:
         query = '''
@@ -520,10 +531,10 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
     context['multisite_name'] = multi_name[0] if multi_name is not None else site_code
 
     if request.POST:
-
+        log.info("management.multisite_index step 6")
         return render_to_response('multisite_append.html', context)
 
-
+    log.info("management.multisite_index step 7")
     return render_to_response('multisite_index.html', context)
 
 
@@ -1685,11 +1696,12 @@ def change_enrollment(request, check_access=True):
             return HttpResponse(
                 reverse("course_modes_choose", kwargs={'course_id': text_type(course_id)})
             )
-
         # Otherwise, there is only one mode available (the default)
+
         return HttpResponse()
     elif action == "unenroll":
         enrollment = CourseEnrollment.get_enrollment(user, course_id)
+
         if not enrollment:
             return HttpResponseBadRequest(_("You are not enrolled in this course"))
 
@@ -1698,6 +1710,21 @@ def change_enrollment(request, check_access=True):
             return HttpResponseBadRequest(_("Your certificate prevents you from unenrolling from this course"))
 
         CourseEnrollment.unenroll(user, course_id)
+        try:
+            # print 'course_id',course_id
+            # print 'user.id',user.id
+            with connections['default'].cursor() as cur:
+                sql = '''
+                      UPDATE tb_enroll_addinfo 
+                      SET use_yn = 'N'
+                      WHERE (regist_id = '{regist_id}' and course_id = '{course_id}' and use_yn ='Y')   
+                   '''.format(course_id=course_id, regist_id=user.id)
+
+                cur.execute(sql)
+
+        except Exception as e:
+            print 'not recognition',e
+            pass
         REFUND_ORDER.send(sender=None, course_enrollment=enrollment)
         return HttpResponse()
     else:

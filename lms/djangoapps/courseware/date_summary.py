@@ -275,10 +275,17 @@ class CourseEndDate(DateSummary):
 
     @property
     def description(self):
+        from lms.djangoapps.certificates import api as certs_api
+        # jhy
+        view_cert = certs_api.cert_generation_enabled(self.course_id)
         if self.current_time <= self.date:
             mode, is_active = CourseEnrollment.enrollment_mode_for_user(self.user, self.course_id)
             if is_active and CourseMode.is_eligible_for_certificate(mode):
-                return _('To earn a certificate, you must complete all requirements before this date.')
+                if view_cert == True:
+                    return _('To earn a certificate, you must complete all requirements before this date.')
+                else:
+                    # return _('This course has not been activated certificate.')
+                    return _('')
             else:
                 return _('After this date, course content will be archived.')
         return _('This course is archived, which means you can review course content but it is no longer active.')
@@ -296,16 +303,22 @@ class CourseEndDate(DateSummary):
             return
         days_until_end = (course.end - self.current_time).days
         if course.end > self.current_time and days_until_end <= settings.COURSE_MESSAGE_ALERT_DURATION_IN_DAYS:
+
             if days_until_end > 0:
+                aa = self.long_date_html
+                aa=aa.replace("15:00:00","14:59:00")
                 CourseHomeMessages.register_info_message(
                     request,
                     Text(self.description),
+
                     title=Text(_('This course is ending in {time_remaining_string} on {course_end_date}.')).format(
                         time_remaining_string=self.time_remaining_string,
-                        course_end_date=self.long_date_html,
+                        course_end_date=aa
                     )
                 )
             else:
+                aa = self.short_time_html
+                aa = aa.replace("15:00:00", "14:59:00")
                 CourseHomeMessages.register_info_message(
                     request,
                     Text(self.description),

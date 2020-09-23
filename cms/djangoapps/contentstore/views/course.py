@@ -945,6 +945,7 @@ def _create_or_rerun_course(request):
         course_period = request.json.get('course_period')
         teacher_name = request.json.get('teacher_name')
         classfy_plus = request.json.get('classfy_plus')
+        linguistics = request.json.get('linguistics')
 
         fields.update({
             'classfy': classfy,
@@ -954,6 +955,7 @@ def _create_or_rerun_course(request):
             'course_period': course_period,
             'teacher_name': teacher_name,
             'classfy_plus': classfy_plus,
+            'linguistics': linguistics,
             'fourth_industry_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
@@ -1094,6 +1096,8 @@ def create_new_course(user, org, number, run, fields):
 
         classfy_plus = fields['classfy_plus']
 
+        linguistics = fields['linguistics']
+
         with connections['default'].cursor() as cur:
             query = """
                 INSERT INTO course_overview_addinfo(course_id,
@@ -1104,7 +1108,8 @@ def create_new_course(user, org, number, run, fields):
                                                     modify_id,
                                                     middle_classfy,
                                                     classfy,
-                                                    classfy_plus
+                                                    classfy_plus,
+                                                    linguistics
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1117,9 +1122,12 @@ def create_new_course(user, org, number, run, fields):
                              '{user_id}',
                              '{middle_classfy}',
                              '{classfy}',
-                             '{classfy_plus}'
+                             '{classfy_plus}',
+                             '{linguistics}'
                              );
-            """.format(course_id=course_id, user_id=user_id, middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,classfy_plus=classfy_plus)
+            """.format(course_id=course_id, user_id=user_id,
+                       middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,
+                       classfy_plus=classfy_plus, linguistics=linguistics)
 
             cur.execute(query)
 
@@ -1169,7 +1177,6 @@ def create_new_course_in_store(store, user, org, number, run, fields):
 
     # Initialize permissions for user in the new course
     initialize_permissions(new_course.id, user)
-
     return new_course
 
 
@@ -1496,7 +1503,6 @@ def _rerun_course(request, org, number, run, fields):
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
 
-
     except Exception as e:
         print e
 
@@ -1753,6 +1759,19 @@ def settings_handler(request, course_key_string):
                     pass
                 else:
                     course_lang_tmp.append(lang)
+            try:
+                # 분류
+                with connections['default'].cursor() as cur:
+                    query = '''
+                        select IFNULL(a.classfy,"TBD"),IFNULL(a.middle_classfy,"TBD"),IFNULL(a.classfy_plus ,"TBD")
+                        from course_overview_addinfo a
+                        where a.course_id = '{course_id}'
+                        '''.format(course_id=course_id)
+                    cur.execute(query)
+                    datas = cur.fetchall()
+                    classfy = [data for data in datas]
+            except:
+                classfy = [("TBD", "TBD", "TBD")]
 
             settings_context = {
                 'context_course': course_module,
@@ -1779,6 +1798,7 @@ def settings_handler(request, course_key_string):
                 'difficult_degree_list': difficult_degree_list,
                 'teacher_name': teacher_name,
                 'user_edit': edit_check,
+                'classfy':classfy
             }
 
             if is_prerequisite_courses_enabled():

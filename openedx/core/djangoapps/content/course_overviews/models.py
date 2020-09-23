@@ -336,6 +336,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.classfy = addinfo.classfy
                 course_overview.classfy_plus = addinfo.classfy_plus
                 course_overview.middle_classfy = addinfo.middle_classfy
+                course_overview.course_period = addinfo.course_period
                 course_overview.level = addinfo.course_level
                 course_overview.passing_grade = course_overview.lowest_passing_grade
                 course_overview.audit_yn = addinfo.audit_yn
@@ -364,6 +365,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.teachers = ''
                 course_overview.classfy = ''
                 course_overview.middle_classfy = ''
+                course_overview.course_period = ''
                 course_overview.level = ''
                 course_overview.audit_yn = ''
                 course_overview.fourth_industry_yn = ''
@@ -379,6 +381,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.week = ''
                 course_overview.video_time = ''
                 course_overview.learning_time = ''
+                course_overview.ai_sec_yn = ''
+                course_overview.basic_science_sec_yn = ''
 
                 log.debug('CourseOverview get_from_id e.message [%s]' % e.message)
 
@@ -753,6 +757,7 @@ class CourseOverview(TimeStampedModel):
             classfy=Coalesce(F('courseoverviewaddinfo__classfy'), V('')),
             classfy_plus=Coalesce(F('courseoverviewaddinfo__classfy_plus'), V('')),
             middle_classfy=Coalesce(F('courseoverviewaddinfo__middle_classfy'), V('')),
+            course_period=Coalesce(F('courseoverviewaddinfo__course_period'), V('')),
             level=Coalesce(F('courseoverviewaddinfo__course_level'), V('')),
             passing_grade=Coalesce(F('lowest_passing_grade'), V('')),
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
@@ -761,6 +766,8 @@ class CourseOverview(TimeStampedModel):
             ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
             linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
+            ai_sec_yn=Coalesce(F('courseoverviewaddinfo__ai_sec_yn'), V('N')),
+            basic_science_sec_yn=Coalesce(F('courseoverviewaddinfo__basic_science_sec_yn'), V('N')),
         )
 
         # 표시 항목 추가 (EXTRA)
@@ -1135,3 +1142,4 @@ class CourseOverviewImageConfig(ConfigurationModel):
         return u"CourseOverviewImageConfig(enabled={}, small={}, large={})".format(
             self.enabled, self.small, self.large
         )
+

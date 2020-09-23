@@ -92,6 +92,8 @@ urlpatterns = [
     # made by kotech system
     url(r'^api/get_org_value$', kotech_common_views.get_org_value, name='get_org_value'),
 
+    # Drmt
+    url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),
 
     # Course Satisfaction Survey
     # made by kotech system
@@ -172,6 +174,7 @@ urlpatterns = [
     url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
     url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
     url(r'^org_check', student_account_views.org_check, name="org_check"),
+    url(r'^account_nice_check$', student_account_views.account_nice_check, name="account_nice_check"),
 
 
     # Remove Account
@@ -247,6 +250,9 @@ urlpatterns = [
 
     # blue ribbon filter
     url(r'^blue_ribbon_year/?$', courseware_views.blue_ribbon_year, name="blue_ribbon_year"),
+
+    # 학점인정 수강신청
+    url(r'^recognition/?$', courseware_views.recognition, name="recognition"),
 
 
     url(r'', include('student.urls')),
@@ -663,6 +669,14 @@ urlpatterns += [
         ),
         courseware_views.progress,
         name='progress',
+    ),
+
+    url(
+        r'^courses/{}/video'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        courseware_views.video,
+        name='video',
     ),
 
     # Takes optional student_id for instructor use--shows profile as that student sees it.
