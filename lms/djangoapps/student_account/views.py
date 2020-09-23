@@ -874,8 +874,8 @@ def account_settings(request):
 
         # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
         lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-        nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
-        nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+        nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base="0.0.0.0:18000")  # 성공시 이동될 URL
+        nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base="0.0.0.0:18000")  # 실패시 이동될 URL
         nice_returnMsg = ''
 
         plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
