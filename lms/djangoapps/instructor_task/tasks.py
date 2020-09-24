@@ -178,6 +178,8 @@ def calculate_grades_csv(entry_id, xmodule_instance_args):
     """
     # Translators: This is a past-tense verb that is inserted into task progress messages as {action}.
     action_name = ugettext_noop('graded')
+    print 'entry_id',entry_id
+    print 'action_name',action_name
     TASK_LOG.info(
         u"Task: %s, InstructorTask ID: %s, Task type: %s, Preparing for task execution",
         xmodule_instance_args.get('task_id'), entry_id, action_name
