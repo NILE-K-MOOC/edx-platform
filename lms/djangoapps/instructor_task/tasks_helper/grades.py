@@ -443,8 +443,8 @@ class CourseGradeReport(object):
                     # An empty gradeset means we failed to grade a student.
                     error_rows.append([user.id, user.username, text_type(error)])
                 else:
-                    with connections['default'].cursor() as cur:
-                        query = '''
+                    # with connections['default'].cursor() as cur:
+                        # query = '''
                             # SELECT
                             #     CASE
                             #         WHEN IFNULL(a.gender, '-') = 'm' THEN 'male'
