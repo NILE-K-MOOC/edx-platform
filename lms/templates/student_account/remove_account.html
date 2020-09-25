@@ -33,7 +33,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 $("#password").focus();
                 return;
             }
-            $.post("/account/settings_confirm_check",
+            $.post("/account/account_settings2_confirm_check",
                     {passwd: passwd},
                     function(data){
                         if(data.success){

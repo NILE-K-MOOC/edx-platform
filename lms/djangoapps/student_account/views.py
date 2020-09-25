@@ -860,6 +860,7 @@ def account_settings(request):
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
         # encode data
+
         del request.session['passwdcheck']
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
 
@@ -875,7 +876,9 @@ def account_settings(request):
         nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
         # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-
+        # if lms_base != 'www.kmooc.kr':
+        #     lms_base = '0.0.0.0:18000'
+        # www.kmooc.kr
         nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
         nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
         nice_returnMsg = ''
@@ -962,6 +965,38 @@ def account_settings_confirm_check(request):
 
     request.session['passwdcheck'] = 'Y'
     return render_to_response('student_account/account_check.html')
+
+@csrf_exempt
+@login_required
+def account_settings2_confirm_check(request):
+    """Render the current user's account settings page.
+
+    Args:
+        request (HttpRequest)
+
+    Returns:
+        HttpResponse: 200 if the page was sent successfully
+        HttpResponse: 302 if not logged in (redirect to login page)
+        HttpResponse: 405 if using an unsupported HTTP method
+
+    Example usage:
+
+        GET /account/settings
+
+    """
+    user = authenticate(username=request.user.username, password=request.POST['passwd'], request=request)
+
+    if user is None:
+        request.session['passwdcheck'] = 'N'
+        return JsonResponse({
+            "success": False,
+        })
+    else:
+        request.session['passwdcheck'] = 'Y'
+        return JsonResponse({
+            "success": True,
+        })
+
 
 @login_required
 @require_http_methods(['GET'])

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Functionality for generating grade reports.
 """
@@ -228,14 +229,15 @@ class CourseGradeReport(object):
         Returns a list of all applicable column headers for this grade report.
         """
         return (
-            ["Student ID", "Email", "Username"] +
-            self._grades_header(context) +
-            (['Cohort Name'] if context.cohorts_enabled else []) +
-            [u'Experiment Group ({})'.format(partition.name) for partition in context.course_experiments] +
-            (['Team Name'] if context.teams_enabled else []) +
-            ['Enrollment Track', 'Verification Status'] +
-            ['Certificate Eligible', 'Certificate Delivered', 'Certificate Type'] +
-            ['Enrollment Status']
+                ["Student ID", "Email", "Username"] +
+                # ["Student ID", "Email", "Gender", "Birth", "Level Of Education", "Username"] +
+                self._grades_header(context) +
+                (['Cohort Name'] if context.cohorts_enabled else []) +
+                [u'Experiment Group ({})'.format(partition.name) for partition in context.course_experiments] +
+                (['Team Name'] if context.teams_enabled else []) +
+                ['Enrollment Track', 'Verification Status'] +
+                ['Certificate Eligible', 'Certificate Delivered', 'Certificate Type'] +
+                ['Enrollment Status']
         )
 
     def _error_headers(self):
@@ -430,7 +432,7 @@ class CourseGradeReport(object):
         """
         with modulestore().bulk_operations(context.course_id):
             bulk_context = _CourseGradeBulkContext(context, users)
-
+            from django.db import connections
             success_rows, error_rows = [], []
             for user, course_grade, error in CourseGradeFactory().iter(
                 users,
@@ -442,8 +444,37 @@ class CourseGradeReport(object):
                     # An empty gradeset means we failed to grade a student.
                     error_rows.append([user.id, user.username, text_type(error)])
                 else:
+                    # with connections['default'].cursor() as cur:
+                    #     query = '''
+                    #         SELECT
+                    #             CASE
+                    #                 WHEN IFNULL(gender, '-') = 'm' THEN 'male'
+                    #                 WHEN IFNULL(gender, '-') = 'f' THEN 'female'
+                    #                 WHEN IFNULL(gender, '-') = 'empty' THEN 'Not entered'
+                    #                 WHEN IFNULL(gender, '-') = 'o' THEN 'etc'
+                    #             END as gender,
+                    #             IFNULL(year_of_birth, '-') as yof,
+                    #             CASE
+                    #                 WHEN IFNULL(level_of_education, '-') = 'a' THEN '전문학사'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'b' THEN '학사'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'el' THEN '초등학교 졸업'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'empty' THEN '미 입력'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'hs' THEN '고등학교 졸업'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'jhs' THEN '중학교 졸업'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'm' THEN '석사'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'none' THEN '미교육'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'other' THEN '기타교육'
+                    #                 WHEN IFNULL(level_of_education, '-') = 'p' THEN '박사'
+                    #                 WHEN IFNULL(level_of_education, '-') = '-' then '-'
+                    #             END as level
+                    #             from auth_userprofile
+                    #         where user_id = '{user_id}'
+                    #         '''.format(user_id=user.id)
+                    #     cur.execute(query)
+                    #     result_table = cur.fetchall()
                     success_rows.append(
                         [user.id, user.email, user.username] +
+                        # [user.id, user.email,result_table[0][0],result_table[0][1],result_table[0][2] ,user.username] +
                         self._user_grades(course_grade, context) +
                         self._user_cohort_group_names(user, context) +
                         self._user_experiment_group_names(user, context) +
