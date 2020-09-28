@@ -966,6 +966,62 @@ def account_settings_confirm_check(request):
     request.session['passwdcheck'] = 'Y'
     return render_to_response('student_account/account_check.html')
 
+
+@login_required
+def remove_account_view(request):
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+    nice_sitecode = 'AD521'  # NICE로부터 부여받은 사이트 코드
+    nice_sitepasswd = 'z0lWlstxnw0u'  # NICE로부터 부여받은 사이트 패스워드
+    nice_cb_encode_path = '/edx/app/edxapp/edx-platform/CPClient'
+
+    nice_authtype = ''  # 없으면 기본 선택화면, X: 공인인증서, M: 핸드폰, C: 카드
+    nice_popgubun = 'N'  # Y : 취소버튼 있음 / N : 취소버튼 없음
+    nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
+    nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
+    nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
+
+    # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
+    if lms_base != 'www.kmooc.kr':
+        lms_base = '0.0.0.0:18000'
+    # www.kmooc.kr
+    nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+    nice_returnMsg = ''
+
+    plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
+        .format(len(nice_reqseq), nice_reqseq,
+                len(nice_sitecode), nice_sitecode,
+                len(nice_authtype), nice_authtype,
+                len(nice_returnurl), nice_returnurl,
+                len(nice_errorurl), nice_errorurl,
+                len(nice_popgubun), nice_popgubun,
+                len(nice_customize), nice_customize,
+                len(nice_gender), nice_gender)
+
+    nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
+    enc_data = commands.getoutput(nice_command)
+    try:
+        if request.session['passwdcheck'] == 'N':
+            check = 'N'
+        elif request.session['passwdcheck'] == 'Y':
+            check = 'Y'
+        else:
+            check = 'x'
+    except:
+        check = 'x'
+    print 'check',check
+    context = {'enc_data': enc_data, 'correct': None, 'check': check}
+    return render_to_response('student_account/remove_account.html', context)
+
+@csrf_exempt
+@login_required
+def remove_account_delsession(request):
+    try:
+        del request.session['passwdcheck']
+    except:
+        pass
+    return JsonResponse({"success": True})
+
 @csrf_exempt
 @login_required
 def account_settings2_confirm_check(request):
@@ -984,17 +1040,19 @@ def account_settings2_confirm_check(request):
         GET /account/settings
 
     """
-    user = authenticate(username=request.user.username, password=request.POST['passwd'], request=request)
+    # user = authenticate(username=request.user.username, request=request)
 
-    if user is None:
-        request.session['passwdcheck'] = 'N'
+    if request.session['passwdcheck'] == 'N':
         return JsonResponse({
             "success": False,
         })
-    else:
-        request.session['passwdcheck'] = 'Y'
+    elif request.session['passwdcheck'] == 'Y':
         return JsonResponse({
             "success": True,
+        })
+    else:
+        return JsonResponse({
+            "success": False,
         })
 
 
@@ -1221,11 +1279,6 @@ def account_settings_context(request):
         } for state in auth_states if state.provider.display_for_login or state.has_account]
 
     return context
-
-
-@login_required
-def remove_account_view(request):
-    return render_to_response('student_account/remove_account.html')
 
 
 @login_required
