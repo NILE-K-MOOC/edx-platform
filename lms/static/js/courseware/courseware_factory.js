@@ -17,6 +17,26 @@
                             target_url: event.currentTarget.href
                         });
                 });
+
+                // svg 의 문항 내용을 input 의 title 로 지정
+                setTimeout(function(){
+                    console.log("field size: " + $(".field:has('svg')").size());
+
+                    $(".field:has('svg')").each(function(){
+                        let i = $(this).find("input");
+                        let t = $(this).find(".MJX_Assistive_MathML").text();
+
+                        if(t){
+                            i.prop('title', t);
+                            console.log(i.prop('title'));
+                        }else{
+                            console.log('pass:' + i.prop('name'));
+                        }
+                    });
+
+                }, 1000);
+
+
             };
         }
     );

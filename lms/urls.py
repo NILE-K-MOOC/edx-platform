@@ -94,6 +94,8 @@ urlpatterns = [
 
     # Drmt
     url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),
+    url(r'^del_drmt_url/(?P<email>.*?)$', student_views.del_drmt_url, name='del_drmt_url'),
+
 
     # Course Satisfaction Survey
     # made by kotech system
