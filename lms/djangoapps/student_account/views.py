@@ -272,7 +272,7 @@ def nicecheckplus_error(request):
 
 @csrf_exempt
 def parent_agree(request):
-    url = 'http://'+request.get_host()+'/agree'
+    url = 'https://'+request.get_host()+'/agree'
 
     referer = request.META.get('HTTP_REFERER','')
     if not referer == url:
