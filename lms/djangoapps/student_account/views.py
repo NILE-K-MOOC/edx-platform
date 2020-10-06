@@ -272,13 +272,11 @@ def nicecheckplus_error(request):
 
 @csrf_exempt
 def parent_agree(request):
-    url = 'http://'+request.get_host()+'/agree'
-
-    referer = request.META.get('HTTP_REFERER','')
-    if not referer == url:
-        if request.session['agreeYN'] == 'Y':
+    referer = request.META.get('HTTP_REFERER', '')
+    if not str(referer).endswith('/agree'):
+        if 'agreeYN' in request.session:
             del request.session['agreeYN']
-            return render_to_response('student_account/registration_gubn.html')
+
         return render_to_response('student_account/registration_gubn.html')
     else:
         pass
@@ -821,7 +819,6 @@ def get_user_orders(user):
     return user_orders
 
 
-
 @login_required
 @require_http_methods(['GET'])
 def account_settings(request):
@@ -840,7 +837,6 @@ def account_settings(request):
         GET /account/settings
 
     """
-
 
     # if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
     #     # encode data
@@ -895,9 +891,10 @@ def account_settings(request):
 
         nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
         enc_data = commands.getoutput(nice_command)
-        context = {'enc_data': enc_data,'correct': None}
+        context = {'enc_data': enc_data, 'correct': None}
 
         return render_to_response('student_account/account_settings_confirm.html', context)
+
 
 @csrf_exempt
 @require_http_methods(['GET'])
@@ -905,6 +902,7 @@ def account_settings(request):
 def account_nice_check(request):
     request.session['passwdcheck'] = 'Y'
     return render_to_response('student_account/account_check.html')
+
 
 @login_required
 @require_http_methods(['GET'])
@@ -930,6 +928,7 @@ def account_settings_confirm(request):
     }
 
     return render_to_response('student_account/account_settings_confirm.html', context)
+
 
 @csrf_exempt
 @require_http_methods(['GET'])
@@ -1009,9 +1008,10 @@ def remove_account_view(request):
             check = 'x'
     except:
         check = 'x'
-    print 'check',check
+    print 'check', check
     context = {'enc_data': enc_data, 'correct': None, 'check': check}
     return render_to_response('student_account/remove_account.html', context)
+
 
 @csrf_exempt
 @login_required
@@ -1021,6 +1021,7 @@ def remove_account_delsession(request):
     except:
         pass
     return JsonResponse({"success": True})
+
 
 @csrf_exempt
 @login_required
@@ -1284,7 +1285,7 @@ def account_settings_context(request):
 @login_required
 def remove_account(request):
     if request.user.is_authenticated():
-        if request.session['passwdcheck'] =='Y':
+        if request.session['passwdcheck'] == 'Y':
             try:
                 set_has_profile_image(request.user.username, False)
                 profile_image_names = get_profile_image_names(request.user.username)
