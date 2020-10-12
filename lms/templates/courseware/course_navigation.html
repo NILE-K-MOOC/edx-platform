@@ -19,21 +19,6 @@ if course is not None:
     include_special_exams = settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and (course.enable_proctored_exams or course.enable_timed_exams)
 %>
 
-<script>
-    $(".focus").first().focus();
-    var link = document.location.href;
-    console.log(link);
-    console.log(link.split('/'));
-    let aa = link.split('/')
-    aa[5]='video'
-    console.log(aa);
-    var uurl = "/".join(aa)
-    console.log(uurl);
-
-
-
-</script>
-
 % if include_special_exams is not UNDEFINED and include_special_exams:
     <%static:js group='proctoring'/>
     % for template_name in ["proctored-exam-status"]:
