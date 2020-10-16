@@ -509,7 +509,7 @@ def login_user(request):
             email = request.POST['email']
             with connections['default'].cursor() as cur:
                 query = '''
-                  SELECT email, dormant_mail_cd, dormant_yn
+                  SELECT email, dormant_mail_cd, dormant_yn,last_login
                     FROM auth_user
                   where email= %s
                 '''
@@ -517,10 +517,21 @@ def login_user(request):
                 row = cur.fetchone()
 
             if row and row[2] != None and row[2] == 'Y':
-                context = {
-                    'active_account_url': '/active_account/%s' % email
-                }
-                return render_to_response("drmt_login.html", context)
+                now_date = datetime.datetime.now()
+                last_login = row[3]
+                del_login = last_login + datetime.timedelta(days=760)
+                del_check = now_date >= del_login
+                if del_check == True:
+
+                    context = {
+                        'del_drmt_url': '/del_drmt_url/%s' % email
+                    }
+                    return render_to_response("drmt_delete_login.html", context)
+                else:
+                    context = {
+                        'active_account_url': '/active_account/%s' % email
+                    }
+                    return render_to_response("drmt_login.html", context)
 
         _check_shib_redirect(email_user)
         _check_excessive_login_attempts(email_user)
@@ -935,3 +946,31 @@ def active_account(request, email):
         cur.execute(query, [user.id])
 
     return redirect('/login')
+
+## drmt delete -----------------
+@csrf_exempt
+def del_drmt_url(request, email):
+    user = User.objects.get(email=email)
+    try:
+        with connections['default'].cursor() as cur:
+
+            query = """
+                        UPDATE auth_user a
+                               INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+                           SET a.username = b.username,
+                               a.email = concat(b.username,'@delete.com')
+                         WHERE a.id = %s;
+                    """
+            cur.execute(query, [user.id])
+    except:
+        with connections['default'].cursor() as cur:
+            query = """
+                            UPDATE auth_user a
+                                   INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+                               SET 
+                                   a.email = concat(b.username,'@delete.com')
+                             WHERE a.id = %s;
+                        """
+            cur.execute(query, [user.id])
+
+    return redirect('/register')
