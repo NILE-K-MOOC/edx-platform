@@ -164,6 +164,7 @@
 <%block name="js_extra">
 <script type="text/javascript">
 (function() {
+
     let course_video_url = document.location.href;
     $(".course_video").prop("href", course_video_url.replace('about', 'video'));
 
@@ -247,6 +248,10 @@
         });
     %endif
 })(this)
+
+function click_syllabus_label(){
+    $("#toggle").click();
+}
 
 $("#audit_mode").click(function(event) {
     event.preventDefault();
