@@ -172,7 +172,6 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
-
 @csrf_exempt
 def multisite_index(request, org):
     # 중앙교육연수원의 추가 정보 입력을 위한 변수
@@ -183,6 +182,12 @@ def multisite_index(request, org):
     if 'multistie_success' in request.session:
         if request.session['multistie_success'] == 1 and request.user.is_authenticated and 'multisite_org' in request.session:
             return student.views.management.multisite_index(request, user=request.user)
+
+    # 로그인 상태라면 로그아웃 처리
+
+    if request.user and request.user.is_authenticated:
+        from django.contrib.auth import logout
+        logout(request)
 
     # 멀티사이트에 온 것을 환영합니다
     request.session['multisite_mode'] = 1
