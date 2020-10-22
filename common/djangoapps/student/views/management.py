@@ -499,7 +499,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         log.info("management.multisite_index step 4")
 
     # ----------------------------------------------------------------
-
     context['course_select_type'] = course_select_type
     context['max_pop'] = max_pop[0]
     context['popup_base'] = theming_helpers.get_template_path('popup_base.html')

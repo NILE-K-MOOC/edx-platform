@@ -29,7 +29,6 @@ from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson import ObjectId
 
-
 log = logging.getLogger(__name__)
 
 
@@ -56,3 +55,18 @@ def get_org_value(request):
             org_user_id = 'social'
 
     return JsonResponse({'result': org_user_id})
+
+
+@csrf_exempt
+def sidebar(request):
+    with connections['default'].cursor() as cur:
+        sql = '''
+            select a.title,a.url,b.save_path from tb_sidebar a 
+            join tb_attach b on a.icon_url = b.id  
+            where a.use_yn = 'Y' 
+            order by order_by asc
+        '''
+        cur.execute(sql)
+        data = cur.fetchall()
+
+    return JsonResponse({'data': data})
