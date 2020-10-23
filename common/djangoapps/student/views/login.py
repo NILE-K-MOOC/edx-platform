@@ -963,13 +963,14 @@ def del_drmt_url(request, email):
                     """
             cur.execute(query, [user.id])
     except:
-        query = """
-                        UPDATE auth_user a
-                               INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
-                           SET 
-                               a.email = concat(b.username,'@delete.com')
-                         WHERE a.id = %s;
-                    """
-        cur.execute(query, [user.id])
+        with connections['default'].cursor() as cur:
+            query = """
+                            UPDATE auth_user a
+                                   INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+                               SET 
+                                   a.email = concat(b.username,'@delete.com')
+                             WHERE a.id = %s;
+                        """
+            cur.execute(query, [user.id])
 
     return redirect('/register')

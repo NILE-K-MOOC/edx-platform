@@ -28154,3 +28154,6 @@ msgstr "대분류"
 msgid "middle_classfy"
 msgstr "중분류"
 
+msgid "K-MOOC recommends using the chrome browser."
+msgstr "K-MOOC는 chrome 브라우저 사용을 권장합니다."
+

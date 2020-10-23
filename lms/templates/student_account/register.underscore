@@ -54,6 +54,12 @@
         </label>
     </div>
 
+    <div class="section-title lines">
+        <h3>
+            <span class="text"><%- gettext("K-MOOC는 chrome 브라우저 사용을 권장합니다.") %></span>
+        </h3>
+    </div>
+
     <button type="submit" class="action action-primary action-update js-register register-button" style="width: 100%;">
     	<% if ( context.registerFormSubmitButtonText ) { %><%- context.registerFormSubmitButtonText %><% } else { %><%- gettext("Create Account") %><% } %>
     </button>

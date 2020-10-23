@@ -120,6 +120,29 @@ table caption{display: none}
   content:"강좌계획표 펼치기"
 }
 
+#toggle + a {
+  position:relative;
+  cursor:pointer;
+  padding:10px;
+  background: rgba(27, 114, 204, 0.8);
+  border-radius: 3px;
+  padding: 8px 10px;
+  color: #FFF;
+  line-height:20px;
+  font-size:12px;
+  text-align:center;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  transition:all 500ms ease;
+  display:block;
+  font-family:"Helvetica Neue", Helvetica, Sans-serif;
+  font-style: normal;
+  overflow: hidden;
+}
+#toggle + a:after {
+  content:"강좌계획표 펼치기"
+}
+
 #toggle:checked ~ .syllabus_table {
 
   top: 0;
@@ -129,9 +152,16 @@ table caption{display: none}
 
 }
 
+#toggle:checked + a {
+  background:#aaa;
+}
 
 #toggle:checked + label {
   background:#aaa;
+}
+
+#toggle:checked + a:after {
+  content:"강좌계획표 닫기"
 }
 
 #toggle:checked + label:after {
