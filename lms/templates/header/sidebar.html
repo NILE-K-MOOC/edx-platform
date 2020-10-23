@@ -1,9 +1,8 @@
 <div class="quick-menu" id='sidebar'>
     <a href="#" class="link"><img src="../../static/images/icon_quick_001.png" class="icon" style="width:32px; height: 32px;"onclick="top_">위로</a>
-    <!--
-    <a href="#" class="link"><img src="/static/file_upload/eff9cabd04bf4e0593a8283c2143c726" class="icon">공지사항</a>
-    <a href="#" class="link"><img src="_%20K-MOOC_files/icon_quick_001.png" class="icon">이용가이드</a>
-    <a href="#" class="link"><img src="_%20K-MOOC_files/icon_quick_002.png" class="icon">공식 블로그</a>-->
+
+    <!--<a href="#" class="link"><img src="_%20K-MOOC_files/icon_quick_002.png" class="icon">공식 블로그</a>-->
+    <!--<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>-->
 </div>
 <style>
     .gnb {
@@ -102,7 +101,7 @@
   }).done(function (data) {
     for (let i = 0; i < data.data.length; i++) {
       let box = '<a href="' + data.data[i][1] + '" class="link"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon">' + data.data[i][0] + '</a>'
-      $('#sidebar').append(box);
+      $('#sidebar').prepend(box);
     }
 
   });
