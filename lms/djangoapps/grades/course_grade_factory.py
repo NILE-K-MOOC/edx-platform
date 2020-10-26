@@ -211,5 +211,5 @@ class CourseGradeFactory(object):
             u'Grades: Update, %s, User: %s, %s, persisted: %s',
             course_data.full_string(), user.id, course_grade, should_persist,
         )
-
+        print 'course_grade',course_grade
         return course_grade

@@ -276,12 +276,44 @@ class CourseEndDate(DateSummary):
     @property
     def description(self):
         from lms.djangoapps.certificates import api as certs_api
+        from pymongo import MongoClient
+        from bson import ObjectId
+        import json
+        from bson.json_util import dumps
         # jhy
-        view_cert = certs_api.cert_generation_enabled(self.course_id)
+        # view_cert = certs_api.cert_generation_enabled(self.course_id)
+        m_password = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('password')
+        m_host = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host')
+        m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
+
+        client = MongoClient(m_host, m_port)
+
+        client.admin.authenticate('edxapp', m_password, mechanism='SCRAM-SHA-1', source='edxapp')
+
+        db = client.edxapp
+
+        course_id = str(self.course_id)
+        org = course_id.split('+')[0][10:]
+        cid = course_id.split('+')[1]
+        run = course_id.split('+')[2]
+
+        cursor_active_versions = db.modulestore.active_versions.find_one({'course': cid, 'run': run, 'org': org})
+        pb = cursor_active_versions.get('versions').get('published-branch')
+        structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)},
+                                                             {"blocks": {"$elemMatch": {"block_id": "course"}}})
+        cert_data = json.loads(dumps(structures_data))
+        cert_check = 'x'
+        try:
+            if cert_data['blocks'][0]['fields']['certificates']['certificates'][0]['is_active'] == True:
+                cert_check = 'o'
+        except Exception as e:
+            cert_check = 'x'
+            print e
+
         if self.current_time <= self.date:
             mode, is_active = CourseEnrollment.enrollment_mode_for_user(self.user, self.course_id)
             if is_active and CourseMode.is_eligible_for_certificate(mode):
-                if view_cert == True:
+                if cert_check == 'o':
                     return _('To earn a certificate, you must complete all requirements before this date.')
                 else:
                     # return _('This course has not been activated certificate.')

@@ -1279,6 +1279,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,linguistics
                     ,job_edu_yn
                     ,ribbon_yn
+                    ,ribbon_year
                     ,middle_classfy_sub
                     ,fourth_industry_yn
                     ,ai_sec_yn
@@ -1307,6 +1308,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,linguistics
                     ,job_edu_yn
                     ,ribbon_yn
+                    ,ribbon_year
                     ,middle_classfy_sub
                     ,fourth_industry_yn 
                     ,ai_sec_yn 

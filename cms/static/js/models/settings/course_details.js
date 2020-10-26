@@ -34,6 +34,7 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                 instructor_info: {},
                 self_paced: null,
                 need_lock: 0,
+                teacher_name:null
             },
 
             validate: function (newattrs) {
@@ -207,7 +208,10 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
                         errors.entrance_exam_minimum_score_pct = interpolate(gettext("Please enter an integer between %(min)s and %(max)s."), range, true);
                     }
                 }
-
+                if ($("#teacher_name").val() == ''){
+                    $("#teacher_name").focus();
+                    errors.teacher_name = gettext("교수자명은 필수값 입니다.");
+                }
                 if (!_.isEmpty(errors)) {
                     return errors;
                 }
@@ -246,3 +250,10 @@ define(['backbone', 'underscore', 'gettext', 'js/models/validation_helpers', 'js
 
         return CourseDetails;
     }); // end define()
+
+/*
+if ($("#teacher_name").val() == ''){
+    $("#teacher_name").focus();
+    errors.effort = gettext("교수자명은 필수값 입니다.");
+}
+*/

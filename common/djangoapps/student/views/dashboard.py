@@ -1037,7 +1037,6 @@ def student_dashboard(request):
         final_day = cur.fetchall()
 
         cur.close()
-
         info_dict = dashboard_course_addinfo(c.course_overview)
         c.teacher_name = info_dict['teacher_name']
         c.course_level = info_dict['course_level']
@@ -1052,9 +1051,7 @@ def student_dashboard(request):
         c.survey_valid = dashboard_survey_valid(c) if c.is_active is True and c.mode == 'honor' else {5, '응답시기가 아닙니다.'}
 
     con.close()
-
     context = {
-        'jhy_test':'dddeded',
         'urls': urls,
         'programs_data': programs_data,
         'enterprise_message': enterprise_message,
@@ -1286,6 +1283,8 @@ def dashboard_course_addinfo(course_overview):
 
         c_start = course_overview.start.strftime('`%y.%m.%d.')
         c_end = course_overview.end.strftime('`%y.%m.%d.') if course_overview.end else ''
+        # if course_overview.end.strftime('%H:%M:%S') == '15:00:00':
+        #     c_end
 
         # 강좌운영기간
         info_dict['course_date'] = str(c_start) + ' ~ ' + str(c_end)

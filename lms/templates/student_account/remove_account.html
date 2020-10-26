@@ -9,37 +9,45 @@ from openedx.core.djangolib.markup import HTML, Text
 %>
 <%block name="js_extra">
     <script>
+        var confirm = '';
         $(document).ready(function(){
             $("#agreeBox").click(function(){
                 if($("#agreeBox").is(":checked")){
-                    $("#intro").slideDown(200);
-                }else{
-                    $("#intro").slideUp(300);
+                    account_nicecheck();
+                }
+                else {
+                    password_check_del();
                 }
             });
+            %if check == 'Y':
+                $('input:checkbox[id="agreeBox"]').attr("checked", true);
+            %endif
 
         });
-
-
+        function account_nicecheck(){
+            window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+            document.form2.target = "popupNICE";
+            document.form2.submit();
+        }
+        function password_check_del() {
+          $.post("/account/remove_account_delsession",
+                    function(data){
+                        if(data.success){
+                            alert('${_("동의가 취소되었습니다.")}');
+                        }else if(!data.success){
+                            alert('${_("동의가 취소되었습니다.")}');
+                        }else{
+                            alert('${_("동의가 취소되었습니다.")}');
+                        }
+            },"json");
+        }
         function password_check(){
-            var passwd = $("#password").val();
-            if(passwd == "" || passwd == null){
-                if($("#password").is(":visible")){
-                    alert('${_("Please enter a password")}');
-                }else{
-                    alert('${_("You have to agree to the instructions.")}');
-                }
-
-                $("#password").focus();
-                return;
-            }
-            $.post("/account/settings_confirm_check",
-                    {passwd: passwd},
+            $.post("/account/account_settings2_confirm_check",
                     function(data){
                         if(data.success){
                             document.location.href = "/remove_account";
                         }else if(!data.success){
-                            alert('${_("The password is incorrect.")}');
+                            alert('${_("안내동의 이후 본인인증을 해주세요")}');
                         }else{
                             alert('${_("Access path is abnormal.")}\n${_("Move the home")}');
                             document.location.href = "/";
@@ -52,6 +60,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <%block name="pagetitle">${_("Certificate Id Check")}</%block>
 <section class="container rule">
+    <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+        <input type="hidden" name="m" value="checkplusSerivce">
+        <input type="hidden" name="EncodeData" value="${enc_data}">
+    </form>
     <section class="container">
         <!-- [s] -->
         <h2>${_("Withdrawal guidance")}</h2>

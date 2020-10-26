@@ -26,11 +26,11 @@ class CourseDatesFragmentView(EdxFragmentView):
         course_date_blocks = get_course_date_blocks(course, request.user)
 
         try:
-            if course_date_blocks[1].date.strftime('%H:%M:%S') == '15:00:00':
+            if course_date_blocks[2].date.strftime('%H:%M:%S') == '15:00:00':
                 # course_date_blocks[1].date = course_date_blocks[1].date - datetime.timedelta(minutes=1)
                 context = {
                     'course_date_blocks': course_date_blocks,
-                    'aaaaaaaa': course_date_blocks[1].date - datetime.timedelta(minutes=1)
+                    'aaaaaaaa': course_date_blocks[2].date - datetime.timedelta(minutes=1)
                 }
             else:
                 context = {
