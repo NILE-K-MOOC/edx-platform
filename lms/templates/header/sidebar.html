@@ -1,6 +1,6 @@
 <div class="quick-menu" id='sidebar'>
-    <a href="#" class="link"><img src="../../static/images/icon_quick_001.png" class="icon" style="width:32px; height: 32px;"onclick="top_">위로</a>
-
+    <!--<a href="#" class="link"><img src="../../static/images/icon_quick_001.png" class="icon" style="width:32px; height: 32px;" onclick="top_">위로</a>-->
+    <a href="#" class="btn-top"><span class="circle"></span><span class="txt">TOP</span></a>
     <!--<a href="#" class="link"><img src="_%20K-MOOC_files/icon_quick_002.png" class="icon">공식 블로그</a>-->
     <!--<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>-->
 </div>
@@ -49,6 +49,16 @@
         color: #3984d2 !important;
     }
 
+    .quick-menu .link ~ .link {
+        border-top: 1px solid #eee;
+    }
+
+    .quick-menu .link > img {
+        position: absolute;
+        top: 28px;
+        left: 30px;
+    }
+
     .quick-menu .link:before {
         z-index: -2;
         content: '';
@@ -92,6 +102,35 @@
         position: absolute;
         top: 28px;
         left: 30px;
+    }
+
+    .quick-menu .btn-top {
+        display: block;
+        padding: 12px 0 8px;
+        background-color: #3b88d9;
+        text-align: center;
+    }
+
+    .quick-menu .btn-top:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .quick-menu .btn-top .circle {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        background: url(../../static/images/icon_arrow_top_w.png) no-repeat center;
+
+    }
+
+    .quick-menu .btn-top .txt {
+        display: block;
+        font-size: 13px;
+        letter-spacing: .5px;
+        color: #fff;
     }
 </style>
 <script>
