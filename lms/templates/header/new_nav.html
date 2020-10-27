@@ -86,6 +86,11 @@
                 </div>
                 -->
             </div>
+            <!-- 사이드바 -->
+            % if 'multisite_org' not in request.session:
+                <%include file="sidebar.html" args="online_help_token=online_help_token"/>
+            % endif
+            <!-- // 사이드바 -->
         </nav>
 
     </section>
