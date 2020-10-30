@@ -142,6 +142,24 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
 
+    # 특수분야 직무 이수증 여부
+    with connections['default'].cursor() as cur:
+        query = '''
+            select addinfo 
+            from multisite_member 
+            where user_id = '{user_id}';
+        '''.format(user_id=context['accomplishment_user_id'])
+        cur.execute(query)
+        mul_mem = cur.fetchall()
+    try:
+        mul_mem = json.loads(mul_mem[0][0])
+        # neisId
+        print 'neisId',mul_mem['neisId']
+        context['mul_mem'] = mul_mem
+    except:
+
+        context['mul_mem'] = 'x'
+
     with connections['default'].cursor() as cur:
         query = '''
             select site_code, site_name
@@ -1045,6 +1063,8 @@ def _render_valid_certificate(request, context, custom_template=None):
             encoding_errors='replace',
         )
         context = RequestContext(request, context)
+        print 'context 1',context
         return HttpResponse(template.render(context))
     else:
+        print 'context 2', context
         return render_to_response("certificates/valid.html", context)
