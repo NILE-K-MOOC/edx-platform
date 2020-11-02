@@ -139,7 +139,7 @@
     url: '/sidebar',
   }).done(function (data) {
     for (let i = 0; i < data.data.length; i++) {
-      let box = '<a href="' + data.data[i][1] + '" class="link"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon">' + data.data[i][0] + '</a>'
+      let box = '<a href="' + data.data[i][1] + '" class="link" target = "'+data.data[i][3]+'"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon">' + data.data[i][0] + '</a>'
       $('#sidebar').prepend(box);
     }
 

@@ -61,7 +61,12 @@ def get_org_value(request):
 def sidebar(request):
     with connections['default'].cursor() as cur:
         sql = '''
-            select a.title,a.url,b.save_path from tb_sidebar a 
+            select a.title,a.url,b.save_path,
+                case 
+                    when a.open = 'Y'  then '_blank'
+                    when a.open = 'N' then '_self'
+                end as open 
+            from tb_sidebar a 
             join tb_attach b on a.icon_url = b.id  
             where a.use_yn = 'Y' 
             order by order_by asc
