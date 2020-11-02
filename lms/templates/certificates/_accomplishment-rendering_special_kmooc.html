@@ -1,0 +1,481 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+<%
+accomplishment_course_title =  accomplishment_copy_course_name
+##if certificate_data and certificate_data.get('course_title', ''):
+##    accomplishment_course_title =  certificate_data.get('course_title', '')
+course_mode_class = course_mode if course_mode else ''
+if accomplishment_course_title.find('(') == -1 :
+    accomplishment_course_title = accomplishment_course_title + '(' + accomplishment_course_title
+accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
+%>
+<style>
+    .ce-txt-second{
+        max-width: 540px;
+    }
+    body {
+        width: 100%!important;
+        height: 100%!important;
+        margin: 0!important;
+        padding: 0!important;
+        background-color: #ddd!important;
+        font-family:'malgun gothic', 맑은 고딕 !important;
+    }
+    h1, h2, h3, h4, h5, .hd-1, .hd-2, .accomplishment-rendering .accomplishment-statement-lead, .hd-3, .hd-4, .hd-5, .hd-6{
+        line-height: inherit !important;
+    }
+    h1, h2, h3, h4, h5 {
+
+    }
+    h6 {
+        font-size: 12px!important;
+        margin-bottom: 2px!important;
+        margin-top: 0px!important;
+        font-weight: normal!important;
+    }
+    * {
+        box-sizing: border-box!important;
+        -moz-box-sizing: border-box!important;
+    }
+    ul{
+        border-left: 3px solid #333!important;
+        padding-left: 15px!important;
+        font-size:14px!important;
+    }
+    ul li{
+        list-style:none!important;
+    }
+    .paper {
+        width: 230mm;
+        min-height: 297mm;
+        padding: 6.5mm!important;
+        margin: 10mm auto!important;
+        background: #fff!important;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)!important;
+        position:relative!important;
+    }
+    ul, .list-bulleted{
+        margin-left: 0px !important;
+    }
+    .content {
+        padding: 25px!important;
+        border: 4px solid #6c6f73!important;
+        height: 90%!important;
+        width: 100%!important;
+        position:relative!important;
+    }
+    @page {
+        size: A4!important;
+        margin: 0!important;
+    }
+    @media print {
+        html, body {
+            width: 100%!important;
+            height: 100%!important;
+            background: #fff!important;
+        }
+        .page {
+            margin: 0;
+            border: initial;
+            border-radius: initial;
+            width: initial;
+            min-height: initial;
+            box-shadow: initial;
+            background: initial;
+            page-break-after: always;
+        }
+    }
+    .ribbon{
+        display: inline-block!important;
+        position: absolute!important;
+        right: 110px!important;
+        z-index: 10!important;
+        top: 0px!important;
+    }
+    h5{margin:0!important;}
+    .t-center{
+        display:inline-block!important;
+        margin-left: 20px!important;
+        width:160px!important;
+        float: left!important;
+    }
+    .t-center_empty {
+        width: 0px !important;
+        margin: 0px !important;
+    }
+    .t-sign{
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #333;
+    }
+    .t-center:first-child{
+        margin-left:3px;
+    }
+    .t-center h5{
+        text-align:center!important;
+        font-size:11px!important;
+    }
+    .ce-bg{
+        background:url(${static_url}/static/images/certi_bg2.png) no-repeat!important;
+        width: 643px!important;
+        height: 232px!important;
+        display: inline-block!important;
+        position: absolute!important;
+        top: 393px!important;
+        left: 100px!important;
+    }
+    .ce-t-gray{
+        color:#959595!important;
+        font-size:15px!important;
+    }
+    .content .k_h1 {
+        font-size:50px!important;
+        margin-bottom: 46.5px!important;
+        margin-top: 36.5px!important;
+    }
+    .content .e_h1 {
+        font-size:43px!important;
+        margin-bottom: 55px!important;
+        margin-top: 45px!important;
+    }
+    .content h2 {
+        font-size:20px!important;
+    }
+    .ce-txt-second {
+        margin-top: 0px!important;
+        font-size: 20px!important;
+    }
+    .ce-center-txt1{
+        text-align: center!important;
+        margin: 0 auto!important;
+        margin-bottom: 20px!important;
+        margin-top: -10px!important;
+    }
+    .ce-center-txt2{
+        text-align:center!important;
+        margin-bottom: 35px!important;
+        font-size: 20px;
+    }
+    .sign-area{
+        display:inline-block!important;
+        width:100%!important;
+        margin-bottom: -80px;
+    }
+    .sign-area-depth1, .sign-area-depth2, .sign-area-depth0{
+        display:block!important;
+        height:70px!important;
+        width: 100%!important;
+        float: left!important;
+        margin-top: 10px;
+    }
+    .sign-area-depth2{
+        margin-bottom: 10px;
+    }
+    .sign-none{
+        display:inline-block!important;
+        text-indent:-9999px!important;
+        overflow:hidden!important;
+    }
+    .ce-logo-area{
+        display:inline-block!important;
+        width:100%!important;
+    }
+    .ce-logo1{
+        float:right!important;
+        font-size: 25px!important;
+    }
+    .ce-logo2{
+        float:left!important;
+        margin-top: 21px!important;
+    }
+    #k_box1{
+        visibility: hidden;
+        margin-bottom: 0px!important;
+    }
+    #e_box1{
+        visibility: hidden;
+        margin-bottom: 0px!important;
+    }
+    .t-sign {
+        height: 34px!important;
+        width: 160px!important;
+    }
+    .ce-logo1 {
+        height: 60px!important;
+        width: auto!important;
+        margin-top: 20px!important;
+    }
+    .check_img {
+        height: 20px!important;
+        width: 14px!important;
+    }
+    .certifi_index {
+        font-size:14px!important;
+    }
+    .e_name_text {
+        margin-top: 0px!important;
+    }
+    .helloworld{
+      margin-top: -15px;
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #8a8585;
+    }
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<main id="printArea_K" class="accomplishment accomplishment-main"
+      style="display: block;">
+    <body>
+
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+
+            <div class="ribbon">
+                <!--<img src="${static_url}/static/images/ribbon.png"/>-->
+            </div>
+
+            <div class="content">
+
+                <h5>발급번호 : ${certificate_id_number}</h5>
+                <h5>출력일시 : ${created_date}</h5>
+
+                <h1 class="k_h1">이 수 증</h1>
+
+                <h5 class="ce-t-gray">성명</h5>
+                % if nice_check_flag == 0:
+                <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
+                %else:
+                <h4 class="ce-txt-second"><p class="k_name_text">${user_name}(${birth_date}) <span class="certifi_index">( <img class="check_img" src="${static_url}/static/images/correct-icon.png"> 본인인증됨)</span></p></h4>
+                %endif
+
+                <div class="helloworld"></div>
+
+                <h5 class="ce-t-gray">강좌명</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[0]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>강 좌 번 호 : ${course_id}</li>
+                        <%
+                            start_date_index = start_date.split(' ')
+                            end_date_index = end_date.split(' ')
+                        %>
+                        <li>운 영 기 간 : ${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~ ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}</li>
+                        <li id="k_box3" >총 주차 : ${course_week} 주</li>
+                        <li id="k_box4" >학습인정시간 : ${course_effort_h}시간 ${course_effort_m}분</li>
+                        <li id="k_box2" >총 동영상시간 : ${Play_h}시간 ${Play_m}분</li>
+                    </ul>
+
+                </blockquote>
+                <div id="k_box1" style="">
+                <h5 class="ce-t-gray">성적</h5>
+                <h4 class="ce-txt-second">${grade}</h4>
+                </div>
+                <h2 class="ce-center-txt1">위 과정을 성실히 이수하여<br> 이 증서를 수여 합니다.</h2>
+                <h5 class="ce-center-txt2">${certificate_date_issued2}</h5>
+
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+
+                <div class="sign-area">
+                    % if certificate_data:
+                    <div class="sign-area-depth2">
+                            <% cnt = 0 %>
+                            % for i in range(0, 10):
+                                <% cnt = cnt + 1%>
+                                %if i < 10 - len(certificate_data.get('signatories', [])):
+                                <div class="t-center_empty">
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                </div>
+                                    %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                    %endif
+                                %elif i >= 10 - len(certificate_data.get('signatories', [])):
+                                    %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                    %elif cnt == 9:
+                                    </div>
+                                    <div class="sign-area-depth0">
+                                    %endif
+                                    <%
+                                    signatory_index = len(certificate_data.get('signatories', [])) - (10-i)
+                                    signatory = certificate_data.get('signatories', [])[signatory_index]
+                                    teacher = signatory['name']
+                                    if teacher.find('(') == -1 :
+                                        teacher = teacher +'('+ teacher
+                                    teacher = teacher.split('(')
+
+                                    title_k = signatory['title']
+                                    if title_k.find('(') == -1 :
+                                        title_k = title_k +'('+ title_k
+                                    title_k = title_k.split('(')
+
+                                    organization_k = signatory['organization']
+                                    if organization_k.find('(') == -1 :
+                                        organization_k = organization_k +'('+ organization_k
+                                    organization_k = organization_k.split('(')
+                                    %>
+                                    <div class="t-center">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
+                                        <h5>${teacher[0]} ${title_k[0]}</h5>
+                                        <h5>${organization_k[0]}</h5>
+                                        <!--<h5>${classfy_k}</h5>-->
+                                    </div>
+                                %endif
+                            %endfor
+                        </div>
+                    % endif
+                </div>
+                <!-- 로고 -->
+                <div class="ce-logo-area">
+                    <img class="ce-logo1" src="${static_url}${logo_kor}" alt="${org_name_k}">
+                    <!--<div class="ce-logo2"><img src="${static_url}/static/images/logo2.png" alt="국가평생교육진흥원"></div>-->
+                </div>
+            </div>
+            <h6>※ 학습인정시간: 본 강좌 이수자에게 인정되는 학습시간으로 해당 강좌의 동영상, 과제, 시험, 퀴즈, 토론 등의 시간을 포함</h6>
+            <h6>※ 총 동영상시간 : 강의내용과 관련된 동영상 재생시간</h6>
+            <!--<h6>※ 주간 학습 권장시간 : 주별 강좌 내 동영상 시청, 과제 및 시험 제출, 토론 참여 등 학습활동 전반을 이행하는데 필요한 시간</h6>-->
+        </div>
+    </div>
+    </body>
+</main>
+
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+
+
+## <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
+<main id="printArea_E" class="accomplishment accomplishment-main" style="display: none">
+    <body>
+    <div>
+        <div class="paper">
+            <div class="ce-bg"></div>
+
+            <div class="ribbon">
+                <img src="${static_url}/static/images/e_ribbon.png"/>
+            </div>
+
+            <div class="content">
+
+                <h5>Certificate no. : ${certificate_id_number}</h5>
+                <h5>Printed on : ${created_date}</h5>
+
+                <h1 class="e_h1">Certificate of Completion</h1>
+
+                <h5 class="ce-t-gray">NAME</h5>
+
+                % if nice_check_flag == 0:
+                <h4 class="ce-txt-second"><p class="e_name_text">${accomplishment_copy_name}</p></h4>
+                %else:
+                <h4 class="ce-txt-second"><p class="e_name_text">${user_name}(Born in ${birth_date}) <span class="certifi_index">( <img class="check_img" src="${static_url}/static/images/correct-icon.png"> ID confirmed)</span></p></h4>
+                %endif
+
+                <div class="helloworld"></div>
+
+                <h5 class="ce-t-gray">Course Title</h5>
+                <h4 class="ce-txt-second">${accomplishment_course_title[1]}</h4>
+                <blockquote>
+                    <ul>
+                        <li>Course no. : ${course_id}</li>
+                        <li>Course dates : ${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~ ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}</li>
+                        <li id="e_box3">Total no. of weeks : ${course_week} weeks</li>
+                        <li id="e_box4">Recommended weekly commitment : ${course_effort_h} hours ${course_effort_m} minutes</li>
+                        <li id="e_box2">Total hours of video instruction : ${Play_h} hours ${Play_m} minutes</li>
+                    </ul>
+                </blockquote>
+                <div id="e_box1">
+                <h5 class="ce-t-gray">SCORE</h5>
+                <h4 class="ce-txt-second">${grade}</h4>
+                </div>
+                % if nice_check_flag == 0:
+                <h2 class="ce-center-txt1">This is to certify that <span class="e_name_text">${accomplishment_copy_name}</span><br>successfully completed the course.</h2>
+                %else:
+                <h2 class="ce-center-txt1">This is to certify that <span class="e_name_text">${user_name}</span><br>successfully completed the course.</h2>
+                %endif
+                <h5 class="ce-center-txt2">${certificate_date_issued}</h5>
+
+                <div class="sign-none" style="display:none;">사인이 없을때</div>
+
+                <div class="sign-area">
+                    % if certificate_data:
+                    <div class="sign-area-depth2">
+                            <% cnt = 0 %>
+                            % for i in range(0, 10):
+                                <% cnt = cnt + 1%>
+                                %if i < 10 - len(certificate_data.get('signatories', [])):
+                                <div class="t-center_empty">
+                                    <h5></h5>
+                                    <h5></h5>
+                                    <h5></h5>
+                                </div>
+                                    %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                    %endif
+                                %elif i >= 10 - len(certificate_data.get('signatories', [])):
+                                    %if cnt == 5:
+                                    </div>
+                                    <div class="sign-area-depth1">
+                                    %elif cnt == 9:
+                                    </div>
+                                    <div class="sign-area-depth0">
+                                    %endif
+                                    <%
+                                    signatory_index = len(certificate_data.get('signatories', [])) - (10-i)
+                                    signatory = certificate_data.get('signatories', [])[signatory_index]
+                                    teacher = signatory['name']
+                                    if teacher.find('(') == -1 :
+                                        teacher = teacher +'('+ teacher
+                                    teacher = teacher.split('(')
+
+                                    title_k = signatory['title']
+                                    if title_k.find('(') == -1 :
+                                        title_k = title_k +'('+ title_k
+                                    title_k = title_k.split('(')
+
+                                    organization_k = signatory['organization']
+                                    if organization_k.find('(') == -1 :
+                                        organization_k = organization_k +'('+ organization_k
+                                    organization_k = organization_k.split('(')
+                                    %>
+                                    <div class="t-center">
+                                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
+                                        <h5>${teacher[1].replace(')','')} ${title_k[1].replace(')','')}</h5>
+                                        <h5>${organization_k[1].replace(')','')}</h5>
+                                        <!--<h5>${classfy_e}</h5>-->
+                                    </div>
+                                %endif
+                            %endfor
+                        </div>
+                    % endif
+                </div>
+                <!— 로고 —>
+                <div class="ce-logo-area">
+                    <img class="ce-logo1" src="${static_url}${logo_eng}" alt="${org_name_e}">
+                    <!--<div class="ce-logo2"><img src="${static_url}/static/images/e_logo2.png" alt="NILE"></div>-->
+                </div>
+            </div>
+            <h6>※ Accredited learning time: The accredited amount of time students are actively involved in the learning process.</h6>
+            <h6>※ Total hours of video instruction: Total video duration related with course contents</h6>
+        </div>
+    </div>
+    </body>
+</main>
+<script>
+    $("img").error(function () {
+        var alt_index = $(this).attr("alt")
+        var class_index = $(this).attr("class")
+        $(this).replaceWith("<b><p class="+class_index+">" + alt_index + "</p></b>");
+    });
+    $("img").error(function () {
+        var alt_index = $(this).attr("alt")
+        var class_index = $(this).attr("class")
+        $(this).replaceWith("<b><p class="+class_index+">" + alt_index + "</p></b>");
+    });
+</script>

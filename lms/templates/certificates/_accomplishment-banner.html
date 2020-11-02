@@ -44,6 +44,12 @@ from django.template.defaultfilters import escapejs
               $('#e_name').css("display","inline-block");
           }
       }
+      function normal_cert() {
+         $(location).attr('href',"/certificates/${certificate_id_number}");
+      }
+      function special_cert() {
+
+      }
 
   </script>
 </%block>
@@ -105,7 +111,12 @@ from django.template.defaultfilters import escapejs
                         <span class="action-label">${_("Add to LinkedIn Profile")}</span>
                     </button>
                     %endif
+                    %if neisId:
+                    <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
+                    <input type="radio" name="radio2" checked="checked" value="nc" onclick="normal_cert()"> 일반 이수증
+                    <input type="radio" name="radio2" value="sc" onclick="special_cert()"> 특수분야 이수증<br>
 
+                    %endif
                     <div style="margin-bottom: 10px;">
                       <span style="margin-right: 55px;">연계기관</span>
                       <select name="multisite" style="color: #000000;" onchange="changeEventHandler(event);">

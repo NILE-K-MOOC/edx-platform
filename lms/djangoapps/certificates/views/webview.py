@@ -153,12 +153,12 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         mul_mem = cur.fetchall()
     try:
         mul_mem = json.loads(mul_mem[0][0])
-        # neisId
-        print 'neisId',mul_mem['neisId']
-        context['mul_mem'] = mul_mem
-    except:
 
-        context['mul_mem'] = 'x'
+        context['instNm'] = mul_mem['instNm']
+        context['neisId'] = mul_mem['neisId']
+        context['mbrNm'] = mul_mem['mbrNm']
+    except:
+        pass
 
     with connections['default'].cursor() as cur:
         query = '''
