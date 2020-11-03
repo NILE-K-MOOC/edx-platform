@@ -44,11 +44,13 @@ from django.template.defaultfilters import escapejs
               $('#e_name').css("display","inline-block");
           }
       }
-      function normal_cert() {
-         $(location).attr('href',"/certificates/${certificate_id_number}");
-      }
-      function special_cert() {
 
+      function normal_cert() {
+        $(location).attr('href', "/certificates/${certificate_id_number}");
+      }
+
+      function special_cert() {
+        $(location).attr('href', "/certificates/${certificate_id_number}/special");
       }
 
   </script>

@@ -865,13 +865,32 @@ def render_cert_by_uuid(request, certificate_uuid):
     except GeneratedCertificate.DoesNotExist:
         raise Http404
 
+def render_cert_by_uuid_special(request, certificate_uuid):
+    """
+    create by 92hoy
+
+    This public view generates an HTML representation of the specified certificate
+    """
+    try:
+        certificate = GeneratedCertificate.eligible_certificates.get(
+            verify_uuid=certificate_uuid,
+            status=CertificateStatuses.downloadable
+        )
+        special = 'Y'
+        return render_html_view(request, certificate.user.id, unicode(certificate.course_id),special)
+    except GeneratedCertificate.DoesNotExist:
+        raise Http404
+
 
 @handle_500(
     template_path="certificates/server-error.html",
     test_func=lambda request: request.GET.get('preview', None)
 )
-def render_html_view(request, user_id, course_id):
+def render_html_view(request, user_id, course_id, special=None):
     """
+    modify by 92hoy
+     - special : 특수분야 이수증 param
+
     This public view generates an HTML representation of the specified user and course
     If a certificate is not available, we display a "Sorry!" screen instead
     """
@@ -880,6 +899,7 @@ def render_html_view(request, user_id, course_id):
     except ValueError:
         raise Http404
 
+    print 'speicalspeicalspeicalspeical',special
     preview_mode = request.GET.get('preview', None)
     platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
     configuration = CertificateHtmlViewConfiguration.get_config()
@@ -957,7 +977,7 @@ def render_html_view(request, user_id, course_id):
     with translation.override(certificate_language):
         context = {'user_language': user_language}
 
-        _update_context_with_basic_info(context, course_id, platform_name, configuration,user_id,preview_mode)
+        _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id, preview_mode)
 
         context['certificate_data'] = active_configuration
 
@@ -999,7 +1019,7 @@ def render_html_view(request, user_id, course_id):
         _track_certificate_events(request, context, course, user, user_certificate)
 
         # Render the certificate
-        return _render_valid_certificate(request, context, custom_template)
+        return _render_valid_certificate(request, context, custom_template, special)
 
 
 def _get_catalog_data_for_course(course_key):
@@ -1053,7 +1073,7 @@ def _render_invalid_certificate(course_id, platform_name, configuration, user_id
     return render_to_response(INVALID_CERTIFICATE_TEMPLATE_PATH, context)
 
 
-def _render_valid_certificate(request, context, custom_template=None):
+def _render_valid_certificate(request, context, custom_template=None, special=None):
     if custom_template:
         template = Template(
             custom_template.template,
@@ -1063,8 +1083,10 @@ def _render_valid_certificate(request, context, custom_template=None):
             encoding_errors='replace',
         )
         context = RequestContext(request, context)
-        print 'context 1',context
+        print 'context 1', context
         return HttpResponse(template.render(context))
     else:
         print 'context 2', context
+        print 'special', special
+        context['special'] = special
         return render_to_response("certificates/valid.html", context)

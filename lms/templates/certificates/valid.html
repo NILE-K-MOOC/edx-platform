@@ -7,8 +7,11 @@
 % endif
 <%include file="_accomplishment-introduction.html" />
 <div id="certifi_print">
-    ##<%include file="_accomplishment-rendering_kmooc_N.html" />
-    <%include file="_accomplishment-rendering_special_kmooc.html" />
+    % if special =='Y':
+        <%include file="_accomplishment-rendering_special_kmooc.html" />
+    % else:
+        <%include file="_accomplishment-rendering_kmooc_N.html" />
+    % endif
 </div>
 ##<%include file="_accomplishment-rendering.html" />
 
