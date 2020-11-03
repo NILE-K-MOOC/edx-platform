@@ -153,14 +153,24 @@
 
     function sidebar() {
       if ($(window).scrollTop() > scrollHeight) {
-        let top = $(window).scrollTop() - scrollHeight + 20;
-        document.getElementById('sidebar').style.top = top + 'px';
-      } else {
+        if($('.new-footer').parent().outerHeight()-$('.new-footer').outerHeight()-550 >$(window).scrollTop() ){
+          let top = $(window).scrollTop() - scrollHeight + 10;
+            document.getElementById('sidebar').style.top = top + 'px';
+        }
+
+      }else if ($(".agency-title").length) {
+
+        document.getElementById('sidebar').style.top = '159px';
+
+    } else {
         document.getElementById('sidebar').style.top = '20px';
       }
     }
 
+
     sidebar();
+    $('.new-footer').parent().outerHeight()-$('.new-footer').outerHeight();
+
 
     $(window).scroll(function () {
       sidebar();
