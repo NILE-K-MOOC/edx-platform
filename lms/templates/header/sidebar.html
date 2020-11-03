@@ -23,7 +23,6 @@
     }
 
     .quick-menu:after {
-        content: '';
         display: block;
         position: absolute;
         top: 50%;
@@ -61,7 +60,6 @@
 
     .quick-menu .link:before {
         z-index: -2;
-        content: '';
         display: block;
         position: absolute;
         top: 15px;
@@ -74,7 +72,6 @@
 
     .quick-menu .link:after {
         z-index: -1;
-        content: '';
         display: block;
         position: absolute;
         top: 15px;
@@ -165,7 +162,7 @@
 
     sidebar();
 
-    $(window).scroll(() => {
+    $(window).scroll(function () {
       sidebar();
     });
 
