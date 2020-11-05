@@ -337,6 +337,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
+        
         context['birth_date'] = birth_date[0:4]
         """
 
